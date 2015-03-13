@@ -1,6 +1,6 @@
 # check if a new version of the app is available
 class VersionChecker
-  KReleasePageUrl = 'https://github.com/Epix37/Hearthstone-Deck-Tracker/releases'
+  KReleasePageUrl = 'https://github.com/bmichotte/HSTracker/releases'
 
   def self.check
     AFMotion::HTTP.get(KReleasePageUrl) do |result|
