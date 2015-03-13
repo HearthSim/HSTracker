@@ -1,6 +1,8 @@
 class DatabaseGenerator
   include CDQ
 
+  Log = Motion::Log
+
   def self.init_database
     DatabaseGenerator.new
   end
@@ -20,7 +22,7 @@ class DatabaseGenerator
     ]
 
     langs.each do |lang|
-      puts lang, "cards/cardsDB.#{lang}.json".resource_path
+      Log.verbose lang, "cards/cardsDB.#{lang}.json".resource_path
       data  = NSData.read_from "cards/cardsDB.#{lang}.json".resource_path
       cards = JSON.parse data
 

@@ -1,7 +1,9 @@
 class Importer
 
+  Log = Motion::Log
+
   def self.load(url, &block)
-    puts "Loading deck from #{url}"
+    Log.debug "Loading deck from #{url}"
     AFMotion::HTTP.get(url) do |result|
 
       if result.nil? or result.body.nil?
@@ -9,7 +11,7 @@ class Importer
         next
       end
 
-      puts 'Loading : OK'
+      Log.verbose 'Loading : OK'
       doc = Wakizashi::HTML(result.body)
 
       if /hearthpwn\.com\/decks/i =~ url
@@ -21,7 +23,7 @@ class Importer
       elsif /hearthstone-decks\.com/i =~ url
         deck, clazz, title = self.hearthstone_decks(doc)
       else
-        puts "unknown url #{url}"
+        Log.warn "unknown url #{url}"
         block.call(nil, nil, nil) if block
         next
       end
@@ -112,7 +114,7 @@ class Importer
 
       card = Card.by_french_name(card_name)
       if card.nil?
-        puts "CARD : #{card_name} is nil"
+        Log.warn "CARD : #{card_name} is nil"
         next
       end
       card.count = count
@@ -174,10 +176,10 @@ class Importer
       count     = /\d+/.match td_children[0].stringValue
       card_name = td_children[2].stringValue
 
-      puts "#{card_name} x #{count[0].to_i}"
+      Log.verbose "#{card_name} x #{count[0].to_i}"
       card = Card.by_french_name(card_name)
       if card.nil?
-        puts "CARD : #{card_name} is nil"
+        Log.warn "CARD : #{card_name} is nil"
         next
       end
       card.count = count[0].to_i

@@ -1,6 +1,8 @@
 # The player tracker window
 class PlayerTracker < NSWindowController
 
+  Log = Motion::Log
+
   attr_accessor :cards
 
   def cards=(cards)
@@ -77,10 +79,9 @@ class PlayerTracker < NSWindowController
 
   # game events
   def reset_cards
-    puts 'Player reset card'
+    Log.verbose 'Player reset card'
     @playing_cards.each do |card|
       card.count = @cards[card.card_id]
-      puts "reset #{card.card_id} to #{@cards[card.card_id]} -> #{card.count}"
       card.hand_count = 0
     end
 
@@ -102,7 +103,7 @@ class PlayerTracker < NSWindowController
         card.hand_count += 1
         card.count      -= 1 unless card.count.zero?
 
-        puts "******** draw #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
+        Log.verbose "******** draw #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
       end
     end
     @table_view.reloadData
@@ -112,7 +113,7 @@ class PlayerTracker < NSWindowController
     @playing_cards.each do |card|
       if card.card_id == card_id
         card.hand_count -= 1 unless card.hand_count.zero?
-        puts "******** play #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
+        Log.verbose "******** play #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
       end
     end
     @table_view.reloadData
@@ -124,7 +125,7 @@ class PlayerTracker < NSWindowController
         card.count      += 1
         card.hand_count -= 1 unless card.hand_count.zero?
 
-        puts "******** restore #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
+        Log.verbose "******** restore #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
       end
     end
     @table_view.reloadData

@@ -1,4 +1,5 @@
 class LogObserver
+
   def initialize
     super.tap do
       @last_read_position = 0
@@ -39,7 +40,7 @@ class LogObserver
 
     Dispatch::Queue.main.async do
       data                = file_handle.readDataToEndOfFile
-      lines_str           = NSString.alloc.initWithData(data, encoding:NSUTF8StringEncoding)
+      lines_str           = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
       size                = @last_read_position
       @last_read_position = file_size(path)
 

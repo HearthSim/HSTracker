@@ -1,5 +1,7 @@
 class Hearthstone
 
+  Log = Motion::Log
+
   def self.instance
     Dispatch.once { @instance ||= new }
     @instance
@@ -163,7 +165,7 @@ class Hearthstone
 
     # coin
     @log_analyzer.on_coin do |player|
-      puts "Player #{player} got the coin"
+      Log.verbose "Player #{player} got the coin"
     end
 
     # cards
@@ -180,7 +182,7 @@ class Hearthstone
     end
 
     @log_analyzer.on_card(:discard_card) do |player, card_id|
-      puts "Player #{player} discard card #{card_id}"
+      Log.verbose "Player #{player} discard card #{card_id}"
       listeners(player).each do |listener|
         listener.discard_card card_id if listener.respond_to?('discard_card')
       end
@@ -193,7 +195,7 @@ class Hearthstone
     end
 
     @log_analyzer.on_card(:return_hand_card) do |player, card_id|
-      puts "Player #{player} return card #{card_id}"
+      Log.verbose "Player #{player} return card #{card_id}"
     end
 
     @log_observer.on_read_line do |line|

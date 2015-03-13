@@ -1,13 +1,26 @@
 class AppDelegate
   include CDQ
 
+  Log = Motion::Log
+
   def applicationDidFinishLaunching(notification)
     cdq.setup
 
+    # load cards into database if needed
     DatabaseGenerator.init_database
 
+    # init logs
+    Log.level = :debug
+
+    Log.addLogger DDTTYLogger.sharedInstance
+
+    file_logger = DDFileLogger.new
+    file_logger.rollingFrequency = 60 * 60 * 12
+    file_logger.logFileManager.maximumNumberOfLogFiles = 7
+    Log.addLogger file_logger
+
     Hearthstone.instance.on(:app_running) do |is_running|
-      puts "Hearthstone is running? #{is_running}"
+      Log.info "Hearthstone is running? #{is_running}"
     end
 
     NSApp.mainMenu = MainMenu.new.menu
@@ -50,7 +63,7 @@ class AppDelegate
   def import(_)
     @import = DeckImport.alloc.init
     @import.on_deck_loaded do |cards, clazz, name|
-      puts "#{clazz} / #{name}"
+      Log.debug "#{clazz} / #{name}"
 
       if cards
         @player.cards = cards

@@ -1,6 +1,8 @@
 # The opponent tracker window
 class OpponentTracker < NSWindowController
 
+  Log = Motion::Log
+
   def init
     super.tap do
       @layout              = OpponentTrackerLayout.new
@@ -63,7 +65,7 @@ class OpponentTracker < NSWindowController
 
   # game events
   def reset_cards
-    puts 'Opponent reset card'
+    Log.verbose 'Opponent reset card'
     @cards = []
     @table_view.reloadData
     self.window.setTitle 'HSTracker'
