@@ -37,3 +37,7 @@
 "Paladin" = "Paladin";
 "Priest" = "Priest";
 "Rogue" = "Rogue";
+
+/* update */
+"Update" = "Update";
+"A new version of HSTracker is available, click OK to download it." = "A new version of HSTracker is available, click OK to download it.";

@@ -13,7 +13,8 @@ Motion::Project::App.setup do |app|
   app.copyright = 'Copyright © 2015 Benjamin Michotte. All rights reserved.'
 
   app.short_version = '0.1'
-  app.version       = '0'
+  app.version       = `git rev-list HEAD --count`.strip
+  App.info 'Building version', "#{app.short_version}.#{app.version}"
 
   app.identifier = 'be.michotte.hstracker'
 

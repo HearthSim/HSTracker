@@ -25,8 +25,8 @@ Version 0.1 : To add a new deck, copy the complete url from http://www.hearthpwn
 - translate in more languages
 - test ;) 
 
-## Version
-#### 0.1 - Initial release
+## Versions
+#### 0.1 - Initial release (2015-03-13)
 - Import decks from http://www.hearthpwn.com/decks (english)
 - Import decks from http://www.hearthpwn.com/deckbuilder (english)
 - Import decks from http://www.hearthstone-decks.com (french)

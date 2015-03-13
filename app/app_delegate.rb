@@ -32,6 +32,8 @@ class AppDelegate
       Hearthstone.instance.start
     end
 
+    VersionChecker.check
+
     # TODO deck import from netdeck to be activated on deck creation will be available
     #check_clipboad_net_deck
   end
