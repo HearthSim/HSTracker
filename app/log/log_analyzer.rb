@@ -78,8 +78,11 @@ class LogAnalyzer
 
       elsif from =~ /OPPOSING HAND/
         # opponent played a card
-        Log.debug "opponent play #{card_id} (#{card})"
-        @on_cards[:play_card].call(:opponent, card_id) if @on_cards[:play_card]
+
+        if card_id != '' # card_id is '' -> opponent played a secret
+          Log.debug "opponent play #{card_id} (#{card})"
+          @on_cards[:play_card].call(:opponent, card_id) if @on_cards[:play_card]
+        end
 
       elsif from =~ /OPPOSING SECRET/ and to =~ /OPPOSING GRAVEYARD/
         # opponent secret is revelead
