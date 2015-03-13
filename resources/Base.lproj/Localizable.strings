@@ -1,0 +1,39 @@
+/* import */
+"OK" = "OK";
+"Error" = "Error";
+"Error while loading deck" = "Error while loading deck";
+"Empty deck url" = "Empty deck url";
+"Import Deck" = "Import Deck";
+"Deck URL" = "Deck URL";
+"Import" = "Import";
+"Cancel" = "Cancel";
+"Loading" = "Loading";
+
+/* menu */
+"File" = "File";
+"Edit" = "Edit";
+"Cut" = "Cut";
+"Copy" = "Copy";
+"Paste" = "Paste";
+"Select All" = "Select All";
+"About HSTracker" = "About HSTracker";
+"Preferences" = "Preferences";
+"Hide HSTracker" = "Hide HSTracker";
+"Hide Others" = "Hide Others";
+"Show All" = "Show All";
+"Quit HSTracker" = "Quit HSTracker";
+
+/* preferences */
+"General" = "General";
+"Game language" = "Game language";
+
+/* classes */
+"Shaman" = "Shaman";
+"Hunter" = "Hunter";
+"Warlock" = "Warlock";
+"Druid" = "Druid";
+"Warrior" = "Warrior";
+"Mage" = "Mage";
+"Paladin" = "Paladin";
+"Priest" = "Priest";
+"Rogue" = "Rogue";

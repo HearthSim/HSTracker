@@ -1,0 +1,73 @@
+class AppDelegate
+  include CDQ
+
+  def applicationDidFinishLaunching(notification)
+    cdq.setup
+
+    DatabaseGenerator.init_database
+
+    Hearthstone.instance.on(:app_running) do |is_running|
+      puts "Hearthstone is running? #{is_running}"
+    end
+
+    NSApp.mainMenu = MainMenu.new.menu
+
+    @player = PlayerTracker.alloc.init
+    @player.showWindow(self)
+    @player.window.orderFrontRegardless
+
+    @opponent = OpponentTracker.alloc.init
+    @opponent.showWindow(self)
+    @opponent.window.orderFrontRegardless
+
+    if Configuration.locale.nil?
+      openPreferences(nil)
+      return
+    end
+
+    Hearthstone.instance.listen(@player, :player)
+    Hearthstone.instance.listen(@opponent, :opponent)
+
+    if Hearthstone.instance.is_hearthstone_running?
+      Hearthstone.instance.start
+    end
+
+    # TODO deck import from netdeck to be activated on deck creation will be available
+    #check_clipboad_net_deck
+  end
+
+  def check_clipboad_net_deck
+    Importer.netdeck
+
+    Dispatch::Queue.main.after(2) do
+      check_clipboad_net_deck
+    end
+  end
+
+  # respond to the Import deck menu
+  def import(_)
+    @import = DeckImport.alloc.init
+    @import.on_deck_loaded do |cards, clazz, name|
+      puts "#{clazz} / #{name}"
+
+      if cards
+        @player.cards = cards
+      end
+    end
+
+    @player.window.beginSheet(@import.window, completionHandler: nil)
+  end
+
+  # preferences
+  def preferences
+    @preferences ||= begin
+      general      = GeneralPreferences.alloc.init
+      @preferences = MASPreferencesWindowController.alloc.initWithViewControllers([general], title: 'Preferences'._)
+      @preferences
+    end
+  end
+
+  def openPreferences(_)
+    preferences.showWindow(nil)
+  end
+end
