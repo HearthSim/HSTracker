@@ -182,7 +182,7 @@ class LogAnalyzer
     end
 
     # game end
-    match = /\[Asset\\].*name=(victory|defeat)_screen_start/.match(line)
+    match = /\[Asset\].*name=(victory|defeat)_screen_start/.match(line)
     if match
       status = match[1]
 
