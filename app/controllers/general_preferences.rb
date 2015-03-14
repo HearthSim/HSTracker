@@ -32,8 +32,8 @@ class GeneralPreferences < NSViewController
 
   def init_locales
 
-    current_locale = Configuration.locale || 'enUS'
-    @locale_popup = @layout.get(:locale)
+    current_locale = Configuration.locale
+    @locale_popup  = @layout.get(:locale)
     KHearthstoneLocales.each do |hs_locale, osx_locale|
       locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
       display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
@@ -44,6 +44,10 @@ class GeneralPreferences < NSViewController
       if current_locale == hs_locale
         @locale_popup.selectItem item
       end
+    end
+
+    if current_locale.nil?
+      @locale_popup.selectItemAtIndex -1
     end
 
     @locale_popup.setAction 'locale_changed:'

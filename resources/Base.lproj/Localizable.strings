@@ -8,6 +8,7 @@
 "Import" = "Import";
 "Cancel" = "Cancel";
 "Loading" = "Loading";
+"You have not selected a language from the preferences, please choose a language before importing a deck" = "You have not selected a language from the preferences, please choose a language before importing a deck";
 
 /* menu */
 "File" = "File";

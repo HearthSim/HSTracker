@@ -18,8 +18,8 @@ class Importer
         deck, clazz, title = self.hearthpwn_deck(doc)
       elsif /hearthpwn\.com\/deckbuilder/i =~ url
         deck, clazz, title = self.hearthpwn_deckbuilder(url, doc)
-      #elsif /hearthstone\.judgehype\.com/i =~ url
-      #  deck, clazz, title = self.judgehype(doc)
+        #elsif /hearthstone\.judgehype\.com/i =~ url
+        #  deck, clazz, title = self.judgehype(doc)
       elsif /hearthstone-decks\.com/i =~ url
         deck, clazz, title = self.hearthstone_decks(doc)
       else
@@ -40,7 +40,7 @@ class Importer
 
   def self.netdeck()
     pasteboard = NSPasteboard.generalPasteboard
-    paste = pasteboard.stringForType NSPasteboardTypeString
+    paste      = pasteboard.stringForType NSPasteboardTypeString
     if paste and /^netdeckimport/ =~ paste
       lines = paste.split('\n')
 
@@ -227,7 +227,8 @@ class Importer
 
       count = /\d+/.match node.children.lastObject.stringValue
 
-      card       = Card.by_english_name(card_name)
+      card = Card.by_english_name(card_name)
+      Log.verbose "card #{card_name} is #{card}"
       card.count = count[0].to_i
       deck << card
     end
