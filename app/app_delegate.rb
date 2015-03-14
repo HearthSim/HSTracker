@@ -97,12 +97,24 @@ class AppDelegate
   # deck manager
   def deck_manager
     @deck_manager ||= begin
-      DeckManager.alloc.init
-
+      manager                 = DeckManager.alloc.init
+      manager.window.delegate = self
+      manager
     end
   end
 
-  def openDeckManager(_)
+  def open_deck_manager(_)
+    # change windows level
+    @player.window.setLevel NSNormalWindowLevel
+    @opponent.window.setLevel NSNormalWindowLevel
+
     deck_manager.showWindow(nil)
+  end
+
+  # nswindowdelegate
+  def windowWillClose(notification)
+    # change windows level back
+    @player.window.setLevel NSScreenSaverWindowLevel
+    @opponent.window.setLevel NSScreenSaverWindowLevel
   end
 end

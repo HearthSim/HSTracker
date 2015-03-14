@@ -42,3 +42,7 @@
 /* update */
 "Update" = "Update";
 "A new version of HSTracker is available, click OK to download it." = "A new version of HSTracker is available, click OK to download it.";
+
+/* deck manager */
+"Deck Manager" = "Deck Manager";
+"New Deck" = "New Deck";
