@@ -52,6 +52,7 @@ class OpponentTracker < NSWindowController
 
     cell                 ||= CardCellView.new
     cell.card            = card
+    cell.side            = :opponent
     #cell.delegate = self
     @cells[card.card_id] = cell
 

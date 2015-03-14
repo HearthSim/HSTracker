@@ -1,5 +1,5 @@
 class CardCellView < NSTableCellView
-  attr_accessor :card
+  attr_accessor :card, :side
 
   # path of the bundle images path
   def absolute_path
@@ -19,7 +19,10 @@ class CardCellView < NSTableCellView
 
   def drawRect(rect)
     super.tap do
-      alpha = (card.count <= 0 and card.hand_count <= 0) ? 0.4 : 1.0
+      alpha = 1.0
+      if side == :player
+        alpha = (card.count <= 0 and card.hand_count <= 0) ? 0.4 : 1.0
+      end
 
       # draw the card image
       image = NSImage.alloc.initWithContentsOfFile(image_path)
@@ -37,7 +40,7 @@ class CardCellView < NSTableCellView
 
       stroke_color = :black.nscolor(alpha)
       foreground = :white.nscolor(alpha)
-      if card.hand_count > 0
+      if card.hand_count > 0 and side == :player
         foreground = [113.0, 210.0, 207.0].nscolor(alpha)
       end
 

@@ -66,6 +66,7 @@ class PlayerTracker < NSWindowController
 
     cell                 ||= CardCellView.new
     cell.card            = card
+    cell.side            = :player
     #cell.delegate = self
     @cells[card.card_id] = cell
 
@@ -81,7 +82,7 @@ class PlayerTracker < NSWindowController
   def reset_cards
     Log.verbose 'Player reset card'
     @playing_cards.each do |card|
-      card.count = @cards[card.card_id]
+      card.count      = @cards[card.card_id]
       card.hand_count = 0
     end
 
