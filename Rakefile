@@ -16,6 +16,8 @@ Motion::Project::App.setup do |app|
   app.version       = `git rev-list HEAD --count`.strip
   App.info 'Building version', "#{app.short_version}.#{app.version}"
 
+  app.deployment_target = '10.9'
+
   app.identifier = 'be.michotte.hstracker'
 
   app.icon = 'Icon.icns'

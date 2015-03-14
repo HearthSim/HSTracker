@@ -6,18 +6,18 @@ class AppDelegate
   def applicationDidFinishLaunching(notification)
     cdq.setup
 
-    # load cards into database if needed
-    DatabaseGenerator.init_database
-
     # init logs
     Log.level = :debug
 
     Log.addLogger DDTTYLogger.sharedInstance
 
-    file_logger = DDFileLogger.new
-    file_logger.rollingFrequency = 60 * 60 * 12
+    file_logger                                        = DDFileLogger.new
+    file_logger.rollingFrequency                       = 60 * 60 * 12
     file_logger.logFileManager.maximumNumberOfLogFiles = 7
     Log.addLogger file_logger
+
+    # load cards into database if needed
+    DatabaseGenerator.init_database
 
     Hearthstone.instance.on(:app_running) do |is_running|
       Log.info "Hearthstone is running? #{is_running}"

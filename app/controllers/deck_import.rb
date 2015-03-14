@@ -22,12 +22,25 @@ class DeckImport < NSWindowController
   end
 
   def import(_)
+    if Configuration.locale.nil?
+      alert = NSAlert.alloc.init
+      alert.addButtonWithTitle('OK'._)
+      alert.setMessageText('Error'._)
+      alert.setInformativeText('You have not selected a language from the preferences, please choose a language before importing a deck'._)
+      alert.setAlertStyle(NSCriticalAlertStyle)
+      alert.beginSheetModalForWindow(self.window,
+                                     modalDelegate:  self,
+                                     didEndSelector: nil,
+                                     contextInfo:    nil)
+      return
+    end
+
     indicator = @layout.get(:indicator)
-    status        = @layout.get(:status)
+    status    = @layout.get(:status)
 
     deck_id = @layout.get(:deck_id)
 
-    deck    = deck_id.stringValue
+    deck = deck_id.stringValue
 
     @import.enabled = false
     deck_id.enabled = false

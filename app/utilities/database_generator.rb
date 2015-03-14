@@ -4,7 +4,9 @@ class DatabaseGenerator
   Log = Motion::Log
 
   def self.init_database
-    DatabaseGenerator.new
+    Dispatch::Queue.main.async do
+      DatabaseGenerator.new
+    end
   end
 
   # save all cards if Card model is empty
@@ -32,7 +34,7 @@ class DatabaseGenerator
           cost = card['cost']
           # "fake" the coin... in the game files, Coin cost is empty
           # so we set it to 0
-          if  card['id'] == 'GAME_005'
+          if card['id'] == 'GAME_005'
             cost = 0
           end
 
