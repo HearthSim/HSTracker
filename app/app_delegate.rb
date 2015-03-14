@@ -6,6 +6,8 @@ class AppDelegate
   def applicationDidFinishLaunching(notification)
     cdq.setup
 
+    show_splash_screen
+
     # init logs
     Log.level = :debug
 
@@ -17,38 +19,40 @@ class AppDelegate
     Log.addLogger file_logger
 
     # load cards into database if needed
-    DatabaseGenerator.init_database
+    DatabaseGenerator.init_database do
+      @splash.window.orderOut(self)
 
-    Hearthstone.instance.on(:app_running) do |is_running|
-      Log.info "Hearthstone is running? #{is_running}"
+      Hearthstone.instance.on(:app_running) do |is_running|
+        Log.info "Hearthstone is running? #{is_running}"
+      end
+
+      NSApp.mainMenu = MainMenu.new.menu
+
+      @player = PlayerTracker.alloc.init
+      @player.showWindow(self)
+      @player.window.orderFrontRegardless
+
+      @opponent = OpponentTracker.alloc.init
+      @opponent.showWindow(self)
+      @opponent.window.orderFrontRegardless
+
+      if Configuration.locale.nil?
+        openPreferences(nil)
+        return
+      end
+
+      Hearthstone.instance.listen(@player, :player)
+      Hearthstone.instance.listen(@opponent, :opponent)
+
+      if Hearthstone.instance.is_hearthstone_running?
+        Hearthstone.instance.start
+      end
+
+      VersionChecker.check
+
+      # TODO deck import from netdeck to be activated on deck creation will be available
+      #check_clipboad_net_deck
     end
-
-    NSApp.mainMenu = MainMenu.new.menu
-
-    @player = PlayerTracker.alloc.init
-    @player.showWindow(self)
-    @player.window.orderFrontRegardless
-
-    @opponent = OpponentTracker.alloc.init
-    @opponent.showWindow(self)
-    @opponent.window.orderFrontRegardless
-
-    if Configuration.locale.nil?
-      openPreferences(nil)
-      return
-    end
-
-    Hearthstone.instance.listen(@player, :player)
-    Hearthstone.instance.listen(@opponent, :opponent)
-
-    if Hearthstone.instance.is_hearthstone_running?
-      Hearthstone.instance.start
-    end
-
-    VersionChecker.check
-
-    # TODO deck import from netdeck to be activated on deck creation will be available
-    #check_clipboad_net_deck
   end
 
   def check_clipboad_net_deck
@@ -73,16 +77,32 @@ class AppDelegate
     @player.window.beginSheet(@import.window, completionHandler: nil)
   end
 
+  def show_splash_screen
+    @splash = LoadingScreen.alloc.init
+    @splash.showWindow(nil)
+  end
+
   # preferences
   def preferences
     @preferences ||= begin
-      general      = GeneralPreferences.alloc.init
-      @preferences = MASPreferencesWindowController.alloc.initWithViewControllers([general], title: 'Preferences'._)
-      @preferences
+      general = GeneralPreferences.alloc.init
+      MASPreferencesWindowController.alloc.initWithViewControllers([general], title: 'Preferences'._)
     end
   end
 
   def openPreferences(_)
     preferences.showWindow(nil)
+  end
+
+  # deck manager
+  def deck_manager
+    @deck_manager ||= begin
+      DeckManager.alloc.init
+
+    end
+  end
+
+  def openDeckManager(_)
+    deck_manager.showWindow(nil)
   end
 end
