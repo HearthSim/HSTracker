@@ -94,15 +94,4 @@ class AppDelegate
     preferences.showWindow(nil)
   end
 
-  # deck manager
-  def deck_manager
-    @deck_manager ||= begin
-      DeckManager.alloc.init
-
-    end
-  end
-
-  def openDeckManager(_)
-    deck_manager.showWindow(nil)
-  end
 end
