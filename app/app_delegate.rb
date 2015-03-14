@@ -36,9 +36,10 @@ class AppDelegate
       @opponent.showWindow(self)
       @opponent.window.orderFrontRegardless
 
+      # test if locale is set
       if Configuration.locale.nil?
         openPreferences(nil)
-        return
+        next
       end
 
       Hearthstone.instance.listen(@player, :player)
