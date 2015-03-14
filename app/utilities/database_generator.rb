@@ -3,14 +3,17 @@ class DatabaseGenerator
 
   Log = Motion::Log
 
-  def self.init_database
+  def self.init_database(&block)
     Dispatch::Queue.main.async do
-      DatabaseGenerator.new
+      database = DatabaseGenerator.new
+      database.load
+
+      block.call if block
     end
   end
 
   # save all cards if Card model is empty
-  def initialize
+  def load
     return unless Card.count.zero?
 
     langs          = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
