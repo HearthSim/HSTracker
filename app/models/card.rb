@@ -4,11 +4,16 @@ class Card < CDQManagedObject
   attr_accessor :count, :hand_count
 
   # scope to skip hero and uncollectible cards
-  scope :playable, where(:collectible => true).and(cdq(:card_type).not_equal('Hero'))
+  scope :playable, where(:collectible => true)
+                       .and(cdq(:card_type).not_equal('Hero'))
+                       .and(cdq(:card_type).not_equal('Hero Power'))
+
+  # scope to get only the current locale
+  scope :per_lang, where(:lang => Configuration.locale)
 
   # get a card by its id
   def self.by_id(card_id)
-    query = self.where(:card_id => card_id, :lang => Configuration.locale)
+    query = self.where(:card_id => card_id).per_lang
 
     # Coin
     unless card_id == 'GAME_005'
@@ -30,7 +35,7 @@ class Card < CDQManagedObject
 
   # get a hero by its ID
   def self.hero(card_id)
-    self.where(:card_id => card_id, :lang => Configuration.locale).first
+    self.where(:card_id => card_id).per_lang.first
   end
 
   # get the us name of this card
@@ -60,6 +65,6 @@ class Card < CDQManagedObject
     if Configuration.locale == locale
       return card
     end
-    self.where(:card_id => card.card_id, :lang => Configuration.locale).playable.first
+    self.where(:card_id => card.card_id).per_lang.playable.first
   end
 end

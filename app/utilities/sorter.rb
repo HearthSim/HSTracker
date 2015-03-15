@@ -5,7 +5,7 @@ class Sorter
   # 1) card cost
   # 2) card type (spell, minion, ...)
   # 3) card name
-  def self.sort_deck(deck)
+  def self.sort_cards(deck)
     deck = deck.sort do |a, b|
       if a.cost != b.cost
         a.cost <=> b.cost

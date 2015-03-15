@@ -7,52 +7,43 @@ class DeckManagerLayout < MK::WindowLayout
     frame [[0, 0], [frame_width, frame_height]], 'HSTrackerDeckManager'
     title 'Deck Manager'._
 
-    toolbar = NSToolbar.new
-    toolbar toolbar
-
-    item = NSToolbarItem.alloc.initWithItemIdentifier 'import'
-    item.label = 'Import Deck'._
-    toolbar.insertItemWithItemIdentifier item, atIndex: 0
-
-    add NSView, :left do
+    add NSTabView, :tab_view do
       constraints do
-        height.equals(:superview)
-        top_left.equals x: 0, y: 0
-        width.equals(:superview).minus(130)
+        height.equals(:superview).minus(20)
+        top_left.equals x: 10, y: 10
+        right.equals(:right, :left).minus(10)
       end
     end
 
     add NSView, :right do
       constraints do
-        width.equals(250)
+        width.equals(235)
         top_right.equals x: 0, y: 0
         height.equals(:superview)
       end
     end
+
+  end
+
+  def tab_view_style
+    classes = %w(Shaman Hunter Warlock Druid Warrior Mage Paladin Priest Rogue Neutral)
+    classes.each do |clazz|
+      tab = NSTabViewItem.alloc.initWithIdentifier "#{clazz}"
+      tab.label = clazz._
+      addTabViewItem tab
+    end
   end
 
   def right_style
-
-    add NSButton, :new_deck do
-      title 'New Deck'._
-      bezelStyle NSTexturedRoundedBezelStyle
-
-      constraints do
-        bottom.equals(:superview, :bottom).minus(10)
-        right.equals(:superview).minus(10)
-        left.equals(:superview).minus(10)
-      end
-    end
-
     add NSScrollView, :table_scroll_view do
+      drawsBackground false
       autoresizing_mask NSViewWidthSizable | NSViewHeightSizable
 
       document_view add NSTableView, :table_view
       has_vertical_scroller true
 
       constraints do
-        top.equals(0)
-        bottom.equals(:new_deck, :top).minus(10)
+        height.equals(:superview)
         right.equals(:superview)
         left.equals(:superview)
       end
@@ -63,9 +54,13 @@ class DeckManagerLayout < MK::WindowLayout
     row_height 37
     intercellSpacing [0, 0]
 
-    background_color :black.nscolor(0.1)
+    background_color :clear.nscolor
     parent_bounds = v.superview.bounds
-    frame parent_bounds
+
+    constraints do
+      height.equals(:superview)
+      width.equals(:superview)
+    end
 
     add_column 'cards_or_decks' do
       width parent_bounds.size.width

@@ -1,0 +1,3 @@
+class DeckCard < CDQManagedObject
+
+end

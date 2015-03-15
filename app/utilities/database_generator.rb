@@ -70,4 +70,5 @@ class DatabaseGenerator
 
     cdq.save
   end
+
 end
