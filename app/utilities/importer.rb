@@ -32,7 +32,7 @@ class Importer
         block.call(nil, nil, nil) if block
       end
 
-      deck = Sorter.sort_deck(deck)
+      deck = Sorter.sort_cards(deck)
 
       block.call(deck, clazz, title) if block
     end

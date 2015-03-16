@@ -14,7 +14,7 @@ class MainMenu < MK::MenuLayout
     end
 
     add 'File'._ do
-      add 'Import Deck'._, action: 'import:', key: 'i'
+      add 'Deck Manager'._, action: 'open_deck_manager:', key: 'm'
     end
 
     add 'Edit'._ do

@@ -9,7 +9,7 @@ class PlayerTrackerLayout < MK::WindowLayout
   end
 
   def layout
-    frame_width  = 220
+    frame_width  = 235
     frame_height = 700
 
     h = CGRectGetMidY(NSScreen.mainScreen.frame)
@@ -49,11 +49,15 @@ class PlayerTrackerLayout < MK::WindowLayout
 
     background_color :black.nscolor(0.1)
     parent_bounds = v.superview.bounds
-    frame parent_bounds
 
     add_column 'cards' do
       width parent_bounds.size.width
       resizingMask NSTableColumnAutoresizingMask
+    end
+
+    constraints do
+      height.equals(:superview)
+      width.equals(:superview)
     end
   end
 end

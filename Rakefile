@@ -26,6 +26,7 @@ Motion::Project::App.setup do |app|
   app.pods do
     pod 'GDataXML-HTML'
     pod 'MASPreferences'
+    pod 'JNWCollectionView'
   end
 end
 task :run => :'schema:build'

@@ -38,7 +38,21 @@
 "Paladin" = "Paladin";
 "Priest" = "Prêtre";
 "Rogue" = "Voleur";
+"Neutral" = "Neutre";
 
 /* update */
 "Update" = "Mise à jour";
 "A new version of HSTracker is available, click OK to download it." = "Une nouvelle version de HSTracker est disponible, cliquez sur OK pour la télécharger.";
+
+/* deck manager */
+"Deck Manager" = "Deck Manager";
+"New" = "Nouveau";
+"Save" = "Enregistrer";
+"Delete" = "Supprimer";
+"You are currently in a deck edition and you changes have not been saved." = "Vous êtes en mode édition de deck et vos modifications n'ont pas été sauvegardées.";
+"Deck name" = "Nom du deck";
+"Are you sure you want to delete this deck ?" = "Êtes-vous sur de vouloir supprimer ce deck ?";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "Êtes-vous sur de vouloir fermer ce deck ? Vos modifications ne seront pas sauvegardées.";
+"Your deck don't have 30 cards, are you sure you want to continue ?" = "Votre deck ne contient pas 30 cartes, êtes-vous sur de vouloir continuer ?";
+"Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Votre deck n'est pas sauvegardé, êtes-vous sur de vouloir continuer, vous perdrez vos modifications.";
+"Deck saved" = "Deck enregistré";

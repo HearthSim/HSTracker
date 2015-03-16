@@ -52,6 +52,7 @@ class OpponentTracker < NSWindowController
 
     cell                 ||= CardCellView.new
     cell.card            = card
+    cell.side            = :opponent
     #cell.delegate = self
     @cells[card.card_id] = cell
 
@@ -97,7 +98,7 @@ class OpponentTracker < NSWindowController
 
     unless found
       @cards << Card.by_id(card_id)
-      @cards = Sorter.sort_deck @cards
+      @cards = Sorter.sort_cards @cards
     end
     @table_view.reloadData
   end
