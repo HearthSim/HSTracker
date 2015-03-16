@@ -9,7 +9,7 @@ rescue LoadError
 end
 
 Motion::Project::App.setup do |app|
-  app.name = 'HSTracker'
+  app.name      = 'HSTracker'
   app.copyright = 'Copyright © 2015 Benjamin Michotte. All rights reserved.'
 
   app.short_version = '0.3'
@@ -20,7 +20,7 @@ Motion::Project::App.setup do |app|
 
   app.identifier = 'be.michotte.hstracker'
 
-  app.icon = 'Icon.icns'
+  app.icon                                  = 'Icon.icns'
   app.info_plist['ATSApplicationFontsPath'] = 'resources/'
 
   app.pods do
