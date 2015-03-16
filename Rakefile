@@ -12,7 +12,7 @@ Motion::Project::App.setup do |app|
   app.name = 'HSTracker'
   app.copyright = 'Copyright © 2015 Benjamin Michotte. All rights reserved.'
 
-  app.short_version = '0.2'
+  app.short_version = '0.3'
   app.version       = `git rev-list HEAD --count`.strip
   App.info 'Building version', "#{app.short_version}.#{app.version}"
 
