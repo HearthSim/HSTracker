@@ -64,20 +64,6 @@ class AppDelegate
     end
   end
 
-  # respond to the Import deck menu
-  def import(_)
-    @import = DeckImport.alloc.init
-    @import.on_deck_loaded do |cards, clazz, name|
-      Log.debug "#{clazz} / #{name}"
-
-      if cards
-        @player.cards = cards
-      end
-    end
-
-    @player.window.beginSheet(@import.window, completionHandler: nil)
-  end
-
   def show_splash_screen
     @splash = LoadingScreen.alloc.init
     @splash.showWindow(nil)
@@ -95,4 +81,32 @@ class AppDelegate
     preferences.showWindow(nil)
   end
 
+  # deck manager
+  def deck_manager
+    @deck_manager ||= begin
+      manager                 = DeckManager.alloc.init
+      manager.window.delegate = self
+      manager
+    end
+  end
+
+  def open_deck_manager(_)
+    # change windows level
+    @player.window.setLevel NSNormalWindowLevel
+    @opponent.window.setLevel NSNormalWindowLevel
+
+    deck_manager.showWindow(nil)
+    deck_manager.player_view = @player
+  end
+
+  # nswindowdelegate
+  def windowShouldClose(sender)
+    deck_manager.check_is_saved_on_close
+  end
+
+  def windowWillClose(notification)
+    # change windows level back
+    @player.window.setLevel NSScreenSaverWindowLevel
+    @opponent.window.setLevel NSScreenSaverWindowLevel
+  end
 end

@@ -17,7 +17,7 @@ class VersionChecker
         dict = NSBundle.mainBundle.infoDictionary
         local_version = "#{dict['CFBundleShortVersionString']}.#{dict['CFBundleVersion']}"
 
-        if release_version.compare(local_version, options: NSNumericSearch) != NSOrderedAscending
+        if release_version.compare(local_version, options: NSNumericSearch) == NSOrderedDescending
           alert = NSAlert.alloc.init
           alert.addButtonWithTitle('OK'._)
           alert.addButtonWithTitle('Cancel'._)

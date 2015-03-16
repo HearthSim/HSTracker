@@ -98,7 +98,7 @@ class OpponentTracker < NSWindowController
 
     unless found
       @cards << Card.by_id(card_id)
-      @cards = Sorter.sort_deck @cards
+      @cards = Sorter.sort_cards @cards
     end
     @table_view.reloadData
   end
