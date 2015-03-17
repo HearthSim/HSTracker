@@ -14,6 +14,7 @@ Motion::Project::App.setup do |app|
 
   app.short_version = '0.3'
   app.version       = `git rev-list HEAD --count`.strip
+  app.info_plist['CFBundleVersion'] = app.version
   App.info 'Building version', "#{app.short_version}.#{app.version}"
 
   app.deployment_target = '10.9'
