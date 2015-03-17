@@ -40,18 +40,6 @@ class PlayerTracker < NSWindowController
     window.setLevel(NSScreenSaverWindowLevel)
   end
 
-=begin
-      #window.styleMask = NSBorderlessWindowMask
-
-  def canBecomeKeyWindow
-    true
-  end
-
-  def canBecomeMainWindow
-    true
-  end
-=end
-
   ## table datasource
   def numberOfRowsInTableView(_)
     @playing_cards.count

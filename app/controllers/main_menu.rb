@@ -18,10 +18,14 @@ class MainMenu < MK::MenuLayout
     end
 
     add 'Edit'._ do
-      add item('Cut'._, action: 'cut:', keyEquivalent: 'x')
-      add item('Copy'._, action: 'copy:', keyEquivalent: 'c')
-      add item('Paste'._, action: 'paste:', keyEquivalent: 'v')
-      add item('Select All'._, action: 'selectAll:', keyEquivalent: 'a')
+      add item('Cut'._, action: 'cut:', key: 'x')
+      add item('Copy'._, action: 'copy:', key: 'c')
+      add item('Paste'._, action: 'paste:', key: 'v')
+      add item('Select All'._, action: 'selectAll:', key: 'a')
+    end
+
+    add 'Window'._ do
+      add item('Lock Windows'._, action: 'lock_windows:', key: '')
     end
   end
 

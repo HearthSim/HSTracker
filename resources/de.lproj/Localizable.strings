@@ -23,6 +23,9 @@
 "Hide Others" = "Andere ausblenden";
 "Show All" = "Alle einblenden";
 "Quit HSTracker" = "HSTracker beenden";
+"Window" = "Window";
+"Lock Windows" = "Lock Windows";
+"Unlock Windows" = "Unlock Windows";
 
 /* preferences */
 "General" = "Allgemein";
