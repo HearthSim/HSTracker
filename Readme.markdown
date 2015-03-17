@@ -3,6 +3,12 @@
 HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for Mac OsX.
 HSTracker is released under the [MIT license](LICENSE).
 
+### Deck Tracker
+![Deck Tracker](https://github.com/bmichotte/HSTracker/blob/master/hstracker.jpg)
+
+### Deck Manager
+![Deck Manager](https://github.com/bmichotte/HSTracker/blob/master/manager.png)
+
 Is Blizzard okay with this?
 [Yes](https://twitter.com/bdbrode/status/511151446038179840)
 
@@ -11,21 +17,27 @@ Is Blizzard okay with this?
 - extract the archive
 - move _HSTracker.app_ to your _Applications_ directory
 - launch !
-
-Version 0.1 : To add a new deck, copy the complete url from http://www.hearthpwn.com/decks, http://www.hearthpwn.com/deckbuilder or http://www.hearthstone-decks.com
-
-*please note* that atm, you can't save your decks in HSTracker, it will come soon.
-
-*pro tip* : save the urls in a text file ;)
-
+- create a new deck from the Deck Manager or import it from www.hearthpwn.com (deck and deckbuilder) or www.hearthstone-decks.com or using [Netdeck](https://chrome.google.com/webstore/detail/netdeck/lpdbiakcpmcppnpchohihcbdnojlgeel)
 
 ## TODO
-- deck creation
 - statistics
 - translate in more languages
 - test ;) 
 
 ## Versions
+#### 0.3
+- Deck manager ! Enjoy creating and editing deck directly from the app
+- Correct a bug where the app keep asking about update
+- Some corrections & optimisations
+- German translation
+- Netdeck import
+
+#### 0.2
+- Loading screen
+- Force the language detection
+- HSTracker on 10.9
+- Bugfixes
+
 #### 0.1 - Initial release (2015-03-13)
 - Import decks from http://www.hearthpwn.com/decks (english)
 - Import decks from http://www.hearthpwn.com/deckbuilder (english)
