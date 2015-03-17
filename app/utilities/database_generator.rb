@@ -1,6 +1,9 @@
 class DatabaseGenerator
   include CDQ
 
+  # usefull if we need to force reloading of database
+  DATABASE_VERSION = 1
+
   Log = Motion::Log
 
   def self.init_database(&block)
@@ -12,9 +15,23 @@ class DatabaseGenerator
     end
   end
 
+  def database_need_genaration
+    if Card.count.zero?
+      return true
+    end
+
+    database_version = NSUserDefaults.standardUserDefaults.objectForKey 'database_version'
+    return true if database_version.nil? or database_version.to_i < DATABASE_VERSION
+
+    false
+  end
+
   # save all cards if Card model is empty
   def load
-    return unless Card.count.zero?
+    return unless database_need_genaration
+
+    Card.destroy_all
+    Mechanic.destroy_all
 
     langs          = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
     valid_card_set = [
@@ -68,6 +85,7 @@ class DatabaseGenerator
       end
     end
 
+    NSUserDefaults.standardUserDefaults.setObject(DATABASE_VERSION, forKey: 'database_version')
     cdq.save
   end
 
