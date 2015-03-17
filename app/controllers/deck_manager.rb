@@ -322,6 +322,8 @@ class DeckManager < NSWindowController
         view        = NSSearchField.alloc.initWithFrame(NSZeroRect)
         view.target = self
         view.action = 'search:'
+        view.cell.cancelButtonCell.target = self
+        view.cell.cancelButtonCell.action = 'cancel_search:'
         view.frame  = [[0, 0], [200, 0]]
         item.view   = view
     end
@@ -539,13 +541,25 @@ class DeckManager < NSWindowController
 
   def search(sender)
     str    = sender.stringValue
+
+    class_name = @current_class == 'Neutral' ? nil : @current_class
+
     @cards = Card.per_lang.playable
                  .and(
                      cdq(:name).contains(str, NSCaseInsensitivePredicateOption)
                          .or(:text).contains(str, NSCaseInsensitivePredicateOption)
-                         .or(:rarity).contains(str, NSCaseInsensitivePredicateOption))
+                         .or(:rarity).contains(str, NSCaseInsensitivePredicateOption)
+                         .or(:card_type).contains(str, NSCaseInsensitivePredicateOption)
+                 ).and(:player_class).eq(class_name)
                  .sort_by(:cost)
                  .sort_by(:name)
+    @cards_view.reloadData
+  end
+
+  def cancel_search(sender)
+    sender.stringValue = ''
+    sender.resignFirstResponder
+    @cards = nil
     @cards_view.reloadData
   end
 

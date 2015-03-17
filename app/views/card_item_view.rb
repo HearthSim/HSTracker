@@ -28,10 +28,12 @@ class CardItemView < JNWCollectionViewCell
   end
 
   def mouseEntered(_)
+    NSCursor.pointingHandCursor.set
     self.delegate.hover(self)
   end
 
   def mouseExited(_)
+    NSCursor.arrowCursor.set
     self.delegate.out(self)
   end
 

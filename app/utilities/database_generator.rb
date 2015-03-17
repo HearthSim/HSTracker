@@ -58,14 +58,24 @@ class DatabaseGenerator
             cost = 0
           end
 
+          rarity = card['rarity']
+          unless rarity.nil?
+            rarity = rarity._
+          end
+
+          type = card['type']
+          unless type.nil?
+            type = type._
+          end
+
           c = Card.create(
               :lang         => lang,
               :name         => card['name'],
               :card_id      => card['id'],
-              :card_type    => card['type'],
+              :card_type    => type,
               :text         => card['text'],
               :player_class => card['playerClass'],
-              :rarity       => card['rarity'],
+              :rarity       => rarity,
               :faction      => card['faction'],
               :flavor       => card['flavor'],
               :how_to_get   => card['howToGet'],

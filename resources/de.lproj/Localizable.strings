@@ -40,6 +40,17 @@
 "Rogue" = "Schurke";
 "Neutral" = "Neutral";
 
+/* cards */
+"Free" = "Basis";
+"Common" = "Gewöhnlich";
+"Rare" = "Selten";
+"Epic" = "Episch";
+"Legendary" = "Legendär";
+
+"Minion" = "Diener";
+"Spell" = "Zauber";
+"Weapon" = "Waffe";
+
 /* update */
 "Update" = "Aktualisierung";
 "A new version of HSTracker is available, click OK to download it." = "Eine neue Version von HSTracker ist verfügbar, klicken Sie OK um diese herunterzuladen.";
