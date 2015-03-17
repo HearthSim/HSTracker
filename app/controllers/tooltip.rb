@@ -32,7 +32,18 @@ class Tooltip < NSWindowController
 
       text += NSAttributedString.alloc
                   .initWithData("<br><br>#{card_text}".dataUsingEncoding(NSUnicodeStringEncoding), options: options, documentAttributes: nil, error: nil)
-                 .font('FranklinGothic-Book'.nsfont(15))
+                  .font('FranklinGothic-Book'.nsfont(15))
+    end
+
+    if card.flavor
+
+      paragraph = NSMutableParagraphStyle.alloc.init
+      paragraph.setAlignment NSCenterTextAlignment
+      line = ''.attrd.paragraph_style(paragraph).font('TypeEmbellishmentsOneLetPlain'.nsfont(24))
+
+      text += "\n".attrd + line + "\n".attrd
+      text += card.flavor.attrd
+                  .font('FranklinGothic-BookItalic'.nsfont(14))
     end
 
     @card_label.textStorage.setAttributedString text

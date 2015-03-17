@@ -153,7 +153,7 @@ class DeckManager < NSWindowController
 
     rect          = self.window.contentView.convertRect(cell.bounds, fromView: cell)
     point         = rect.origin
-    point.x       += CGRectGetWidth(cell.frame) + 80
+    point.x       += CGRectGetWidth(cell.frame) + 130
     point.y       += 100
     @tooltip      ||= Tooltip.new
     @tooltip.card = cell.card
