@@ -50,17 +50,6 @@ class AppDelegate
       end
 
       VersionChecker.check
-
-      # TODO deck import from netdeck to be activated on deck creation will be available
-      #check_clipboad_net_deck
-    end
-  end
-
-  def check_clipboad_net_deck
-    Importer.netdeck
-
-    Dispatch::Queue.main.after(2) do
-      check_clipboad_net_deck
     end
   end
 

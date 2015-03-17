@@ -56,6 +56,8 @@ class DeckManager < NSWindowController
       @toolbar.displayMode = NSToolbarDisplayModeIconOnly
       @toolbar.delegate    = self
       self.window.toolbar  = @toolbar
+
+      check_clipboad_net_deck
     end
   end
 
@@ -502,7 +504,7 @@ class DeckManager < NSWindowController
     cdq.save
 
     @saved = true
-    alert = NSAlert.alloc.init
+    alert  = NSAlert.alloc.init
     alert.addButtonWithTitle('OK'._)
     alert.setMessageText('Save'._)
     alert.setInformativeText("Deck saved"._)
@@ -545,6 +547,15 @@ class DeckManager < NSWindowController
                  .sort_by(:cost)
                  .sort_by(:name)
     @cards_view.reloadData
+  end
+
+  def check_clipboad_net_deck
+    Importer.netdeck do |deck, clazz, name|
+      unless @in_edition
+        @saved = false
+        show_deck(deck, clazz, name)
+      end
+    end
   end
 
 end

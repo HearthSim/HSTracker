@@ -38,30 +38,56 @@ class Importer
     end
   end
 
-  def self.netdeck()
+  def self.netdeck(&block)
     pasteboard = NSPasteboard.generalPasteboard
     paste      = pasteboard.stringForType NSPasteboardTypeString
-    if paste and /^netdeckimport/ =~ paste
-      lines = paste.split('\n')
 
-      deck = []
-      lines.each do |line|
+    if paste and /^(trackerimport|netdeckimport)/ =~ paste
+      lines = paste.split("\n")
+
+      deck      = []
+      deck_name = ''
+      lines.drop(1).each do |line|
         if /^name:/ =~ line
+          deck_name = line.split(':').last
+          Log.verbose "found deck name '#{deck_name}'"
           next
         end
 
-        if /^url:/ =~ line
+        if /^url:/ =~ line or /^arena:/ =~ line
+          # futur work
           next
         end
 
-        name = line.split(':').last
-        card = Card.by_english_name name
+        card = Card.by_english_name line
+        next if card.nil?
+        Log.verbose "found card #{line}"
         if deck.include? card
+          deck.each do |c|
+            if c.card_id == card.card_id
+              card.count += 1
+            end
+          end
         else
           card.count = 1
           deck << card
         end
       end
+
+      clazz = nil
+      deck.each do |card|
+        unless card.player_class.nil?
+          clazz = card.player_class
+          next
+        end
+      end
+
+      Log.verbose "found deck #{deck_name} for class #{clazz}"
+      block.call(deck, clazz, deck_name) if block
+    end
+
+    Dispatch::Queue.main.after(1) do
+      netdeck(&block)
     end
   end
 

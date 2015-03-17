@@ -62,6 +62,8 @@ class Card < CDQManagedObject
   # search a card by a name and locale and return the card in your locale
   def self.by_name_and_locale(name, locale)
     card = self.playable.where(:name => name, :lang => locale).first
+    return nil if card.nil?
+
     if Configuration.locale == locale
       return card
     end
