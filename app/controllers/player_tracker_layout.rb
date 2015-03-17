@@ -9,7 +9,7 @@ class PlayerTrackerLayout < MK::WindowLayout
   end
 
   def layout
-    frame_width  = 235
+    frame_width  = 220
     frame_height = 700
 
     h = CGRectGetMidY(NSScreen.mainScreen.frame)
@@ -38,9 +38,14 @@ class PlayerTrackerLayout < MK::WindowLayout
   end
 
   def table_scroll_view_style
-    frame v.superview.bounds
+    #frame v.superview.bounds
     background_color :clear.nscolor
-    autoresizing_mask NSViewWidthSizable | NSViewHeightSizable
+    #autoresizing_mask NSViewWidthSizable | NSViewHeightSizable
+
+    constraints do
+      width.equals(:superview)
+      height.equals(:superview)
+    end
   end
 
   def table_view_style
@@ -51,7 +56,7 @@ class PlayerTrackerLayout < MK::WindowLayout
     parent_bounds = v.superview.bounds
 
     add_column 'cards' do
-      width parent_bounds.size.width
+      #width parent_bounds.size.width
       resizingMask NSTableColumnAutoresizingMask
     end
 

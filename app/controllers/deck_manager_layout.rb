@@ -17,7 +17,7 @@ class DeckManagerLayout < MK::WindowLayout
 
     add NSView, :right do
       constraints do
-        width.equals(235)
+        width.equals(220)
         top_right.equals x: 0, y: 0
         height.equals(:superview)
       end
