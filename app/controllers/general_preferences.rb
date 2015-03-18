@@ -17,12 +17,18 @@ class GeneralPreferences < NSViewController
       'zhTW' => 'zh_TW'
   }
 
+  KOnCardPlayedChoices = {
+      :fade   => 'Fade',
+      :remove => 'Remove'
+  }
+
   def init
     super.tap do
       @layout   = GeneralPreferencesLayout.new
       self.view = @layout.view
 
       init_locales
+      init_card_played
     end
   end
 
@@ -63,6 +69,33 @@ class GeneralPreferences < NSViewController
 
       if choosen == display
         Configuration.locale = hs_locale
+      end
+    end
+  end
+
+  def init_card_played
+
+    current_choice     = Configuration.on_card_played
+    @card_played_popup = @layout.get(:card_played)
+    KOnCardPlayedChoices.each do |value, label|
+      item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
+      @card_played_popup.menu.addItem item
+
+      if current_choice == value
+        @card_played_popup.selectItem item
+      end
+    end
+
+    @card_played_popup.setAction 'card_played_changed:'
+    @card_played_popup.setTarget self
+  end
+
+  def card_played_changed(_)
+    choosen = @card_played_popup.selectedItem.title
+
+    KOnCardPlayedChoices.each do |value, label|
+      if choosen == label
+        Configuration.on_card_played = value
       end
     end
   end

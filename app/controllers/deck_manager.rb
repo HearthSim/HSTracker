@@ -1,6 +1,11 @@
 class DeckManager < NSWindowController
   include CDQ
 
+  KMaxCardOccurence = {
+      :arena       => 30,
+      :constructed => 2
+  }
+
   attr_accessor :player_view
 
   Log = Motion::Log
@@ -17,7 +22,6 @@ class DeckManager < NSWindowController
 
       # preparation for arena
       @current_deck_mode  = :constructed
-      @max_card_occurence = 2
 
       show_decks
 
@@ -131,7 +135,7 @@ class DeckManager < NSWindowController
       if card.card_id == c.card_id
         card.hand_count = 0
 
-        if card.count + 1 > @max_card_occurence
+        if card.count + 1 > KMaxCardOccurence[@current_deck_mode]
           return
         end
 
@@ -318,14 +322,14 @@ class DeckManager < NSWindowController
         item.action = 'delete_deck:'
 
       when 'search'
-        item.label  = 'Search'
-        view        = NSSearchField.alloc.initWithFrame(NSZeroRect)
-        view.target = self
-        view.action = 'search:'
+        item.label                        = 'Search'
+        view                              = NSSearchField.alloc.initWithFrame(NSZeroRect)
+        view.target                       = self
+        view.action                       = 'search:'
         view.cell.cancelButtonCell.target = self
         view.cell.cancelButtonCell.action = 'cancel_search:'
-        view.frame  = [[0, 0], [200, 0]]
-        item.view   = view
+        view.frame                        = [[0, 0], [200, 0]]
+        item.view                         = view
     end
     item
   end
@@ -409,6 +413,10 @@ class DeckManager < NSWindowController
     @tab_view.selectTabViewItem(tab_view_item)
     tab_view_item.view = @cards_view
     @cards             = nil
+
+    #table_scroll_view = @layout.get(:table_scroll_view)
+    #height = @decks_or_cards.count * 37
+    #@table_view.frame = [[0, 0], [table_scroll_view.contentSize.width, height]]
 
     @cards_view.reloadData
     @table_view.reloadData
@@ -540,7 +548,7 @@ class DeckManager < NSWindowController
   end
 
   def search(sender)
-    str    = sender.stringValue
+    str = sender.stringValue
 
     class_name = @current_class == 'Neutral' ? nil : @current_class
 

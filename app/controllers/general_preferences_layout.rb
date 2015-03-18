@@ -28,6 +28,32 @@ class GeneralPreferencesLayout < MK::Layout
         right.equals(:superview).minus(20)
       end
     end
+
+    add NSTextField, :card_played_label do
+      stringValue 'Card played'._
+      editable false
+      bezeled false
+      draws_background false
+
+      constraints do
+        height 17
+
+        top.equals(:locale, :bottom).plus(10)
+        left.equals(:superview).plus(20)
+        right.equals(:superview).minus(20)
+      end
+    end
+
+    add NSPopUpButton, :card_played do
+
+      constraints do
+        height 26
+
+        top.equals(:card_played_label, :bottom).plus(10)
+        left.equals(:superview).plus(20)
+        right.equals(:superview).minus(20)
+      end
+    end
   end
 
 end

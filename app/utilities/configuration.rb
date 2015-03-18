@@ -10,4 +10,16 @@ class Configuration
     NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'hearthstone_locale')
   end
 
+  def self.on_card_played
+    played = NSUserDefaults.standardUserDefaults.objectForKey 'card_played'
+    if played
+      return played.to_sym
+    end
+    :fade
+  end
+
+  def self.on_card_played=(value)
+    NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'card_played')
+  end
+
 end

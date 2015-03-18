@@ -30,6 +30,9 @@
 /* preferences */
 "General" = "Général";
 "Game language" = "Langue du jeu";
+"Card played" = "Carte jouée";
+"Fade" = "Transparence";
+"Remove" = "Enlever";
 
 /* classes */
 "Shaman" = "Chaman";

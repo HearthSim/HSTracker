@@ -69,9 +69,12 @@ class PlayerTracker < NSWindowController
   # game events
   def reset_cards
     Log.verbose 'Player reset card'
-    @playing_cards.each do |card|
-      card.count      = @cards[card.card_id]
+    @playing_cards = []
+    @cards.each do |card_id, count|
+      card = Card.by_id card_id
       card.hand_count = 0
+      card.count = count
+      @playing_cards << card
     end
 
     Dispatch::Queue.main.after(1) do
@@ -103,6 +106,10 @@ class PlayerTracker < NSWindowController
       if card.card_id == card_id
         card.hand_count -= 1 unless card.hand_count.zero?
         Log.verbose "******** play #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
+
+        if card.hand_count.zero? and card.count.zero? and Configuration.on_card_played == :remove
+          @playing_cards.delete card
+        end
       end
     end
     @table_view.reloadData
