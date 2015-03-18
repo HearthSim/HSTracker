@@ -83,6 +83,7 @@ class Importer
       end
 
       Log.verbose "found deck #{deck_name} for class #{clazz}"
+      deck = Sorter.sort_cards(deck)
       block.call(deck, clazz, deck_name) if block
     end
 
