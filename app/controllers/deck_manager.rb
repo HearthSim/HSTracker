@@ -234,7 +234,7 @@ class DeckManager < NSWindowController
   # enable / disable items
   def validateToolbarItem(item)
     case item.itemIdentifier
-      when 'save', 'delete', 'close', 'play'
+      when 'save', 'delete', 'close', 'play', 'export'
         @in_edition
       when 'new', 'import'
         !@in_edition
@@ -244,13 +244,13 @@ class DeckManager < NSWindowController
   end
 
   def toolbarAllowedItemIdentifiers(toolbar)
-    ['new', 'import', 'save', 'search', 'close', 'delete', 'play',
+    ['new', 'import', 'save', 'search', 'close', 'delete', 'play', 'export',
      NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier]
   end
 
   def toolbarDefaultItemIdentifiers(toolbar)
     ['new', 'import', NSToolbarSeparatorItemIdentifier,
-     'save', 'delete', 'close', 'play',
+     'save', 'delete', 'close', 'play', 'export',
      NSToolbarFlexibleSpaceItemIdentifier, 'search']
   end
 
@@ -302,6 +302,15 @@ class DeckManager < NSWindowController
         item.image  = image
         item.target = self
         item.action = 'save_deck:'
+
+      when 'export'
+        item.label   = 'Export'._
+        item.toolTip = 'Export'._
+        image        = 'export'.nsimage
+        image.setTemplate true
+        item.image  = image
+        item.target = self
+        item.action = 'export_deck:'
 
       when 'play'
         item.label   = 'Play'._
@@ -562,6 +571,28 @@ class DeckManager < NSWindowController
                  .sort_by(:cost)
                  .sort_by(:name)
     @cards_view.reloadData
+  end
+
+  def export_deck(_)
+    panel = NSSavePanel.savePanel
+    panel.allowedFileTypes = %w(txt)
+    panel.canCreateDirectories = true
+    panel.nameFieldStringValue = "#{@deck_name}.txt"
+    panel.title = 'Export Deck'._
+
+    result = panel.runModal
+    if result == NSOKButton
+      path = panel.URL.path
+
+      content = []
+      @decks_or_cards.each do |card|
+        (0...card.count).each do
+          content << card.name
+        end
+      end
+
+      content.sort.join("\n").nsdata.write_to(path)
+    end
   end
 
   def cancel_search(sender)
