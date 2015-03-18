@@ -42,11 +42,7 @@ class DeckManagerLayout < MK::WindowLayout
       document_view add NSTableView, :table_view
       has_vertical_scroller true
 
-      constraints do
-        height.equals(:superview)
-        right.equals(:superview)
-        left.equals(:superview)
-      end
+      frame v.superview.bounds
     end
   end
 
@@ -56,11 +52,7 @@ class DeckManagerLayout < MK::WindowLayout
 
     background_color :clear.nscolor
     parent_bounds = v.superview.bounds
-
-    constraints do
-      height.equals(:superview)
-      width.equals(:superview)
-    end
+    frame parent_bounds
 
     add_column 'cards_or_decks' do
       width parent_bounds.size.width
