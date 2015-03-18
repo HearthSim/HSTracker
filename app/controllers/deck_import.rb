@@ -23,15 +23,13 @@ class DeckImport < NSWindowController
 
   def import(_)
     if Configuration.locale.nil?
-      alert = NSAlert.alloc.init
-      alert.addButtonWithTitle('OK'._)
-      alert.setMessageText('Error'._)
-      alert.setInformativeText('You have not selected a language from the preferences, please choose a language before importing a deck'._)
-      alert.setAlertStyle(NSCriticalAlertStyle)
-      alert.beginSheetModalForWindow(self.window,
-                                     modalDelegate:  self,
-                                     didEndSelector: nil,
-                                     contextInfo:    nil)
+      NSAlert.alert('Error'._,
+                    :buttons     => ['OK'._],
+                    :informative => 'You have not selected a language from the preferences, please choose a language before importing a deck'._,
+                    :style       => NSCriticalAlertStyle,
+                    :window      => self.window,
+                    :delegate    => self
+      )
       return
     end
 
@@ -46,15 +44,13 @@ class DeckImport < NSWindowController
     deck_id.enabled = false
 
     if deck == ''
-      alert = NSAlert.alloc.init
-      alert.addButtonWithTitle('OK'._)
-      alert.setMessageText('Error'._)
-      alert.setInformativeText('Empty deck url'._)
-      alert.setAlertStyle(NSCriticalAlertStyle)
-      alert.beginSheetModalForWindow(self.window,
-                                     modalDelegate:  self,
-                                     didEndSelector: nil,
-                                     contextInfo:    nil)
+      NSAlert.alert('Error'._,
+                    :buttons     => ['OK'._],
+                    :informative => 'Empty deck url'._,
+                    :style       => NSCriticalAlertStyle,
+                    :window      => self.window,
+                    :delegate    => self
+      )
 
       @import.enabled = true
       deck_id.enabled = true
@@ -73,15 +69,13 @@ class DeckImport < NSWindowController
         @deck_loaded_block.call(cards, clazz, name) if @deck_loaded_block
         self.window.sheetParent.endSheet(self.window, returnCode: NSModalResponseOK)
       else
-        alert = NSAlert.alloc.init
-        alert.addButtonWithTitle('OK'._)
-        alert.setMessageText('Error'._)
-        alert.setInformativeText('Error while loading deck'._)
-        alert.setAlertStyle(NSCriticalAlertStyle)
-        alert.beginSheetModalForWindow(self.window,
-                                       modalDelegate:  self,
-                                       didEndSelector: nil,
-                                       contextInfo:    nil)
+        NSAlert.alert('Error'._,
+                      :buttons     => ['OK'._],
+                      :informative => 'Error while loading deck'._,
+                      :style       => NSCriticalAlertStyle,
+                      :window      => self.window,
+                      :delegate    => self
+        )
 
         @import.enabled = true
         deck_id.enabled = true

@@ -16,12 +16,12 @@ class DeckManager < NSWindowController
       self.window          = @layout.window
       self.window.delegate = self
 
-      @saved              = true
-      @in_edition         = false
-      @max_cards_in_deck  = 30
+      @saved             = true
+      @in_edition        = false
+      @max_cards_in_deck = 30
 
       # preparation for arena
-      @current_deck_mode  = :constructed
+      @current_deck_mode = :constructed
 
       show_decks
 
@@ -69,13 +69,11 @@ class DeckManager < NSWindowController
     close = @saved
 
     unless @saved
-      alert = NSAlert.alloc.init
-      alert.addButtonWithTitle('OK'._)
-      alert.addButtonWithTitle('Cancel'._)
-      alert.setMessageText('Delete'._)
-      alert.setInformativeText('Are you sure you want to close this deck ? Your changes will not be saved.'._)
-      alert.setAlertStyle(NSInformationalAlertStyle)
-      response = alert.runModal
+      response = NSAlert.alert('Delete'._,
+                               :buttons     => ['OK'._, 'Cancel'._],
+                               :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._,
+                               :style       => NSInformationalAlertStyle
+      )
 
       if response == NSAlertFirstButtonReturn
         close = true
@@ -346,15 +344,13 @@ class DeckManager < NSWindowController
   # actions
   def import_deck(_)
     if @in_edition and !@saved
-      alert = NSAlert.alloc.init
-      alert.addButtonWithTitle('OK'._)
-      alert.setMessageText('Error'._)
-      alert.setInformativeText('You are currently in a deck edition and you changes have not been saved.'._)
-      alert.setAlertStyle(NSCriticalAlertStyle)
-      alert.beginSheetModalForWindow(self.window,
-                                     modalDelegate:  self,
-                                     didEndSelector: nil,
-                                     contextInfo:    nil)
+      NSAlert.alert('Error'._,
+                    :buttons     => ['OK'._],
+                    :informative => 'You are currently in a deck edition and you changes have not been saved.'._,
+                    :style       => NSCriticalAlertStyle,
+                    :window      => self.window,
+                    :delegate    => self
+      )
       return
     end
 
@@ -372,19 +368,11 @@ class DeckManager < NSWindowController
 
   def play_deck(_)
     unless @saved
-      alert = NSAlert.alloc.init
-      alert.addButtonWithTitle('OK'._)
-      alert.addButtonWithTitle('Cancel'._)
-      alert.setMessageText('Save'._)
-      alert.setInformativeText('You are currently in a deck edition and you changes have not been saved.'._)
-      alert.setAlertStyle(NSInformationalAlertStyle)
-      alert = NSAlert.alloc.init
-      alert.addButtonWithTitle('OK'._)
-      alert.addButtonWithTitle('Cancel'._)
-      alert.setMessageText('Delete'._)
-      alert.setInformativeText('Your deck is not saved, are you sure you want to continue, you will lose all changes.'._)
-      alert.setAlertStyle(NSInformationalAlertStyle)
-      response = alert.runModal
+      response = NSAlert.alert('Play'._,
+                               :buttons     => ['OK'._, 'Cancel'._],
+                               :informative => 'Your deck is not saved, are you sure you want to continue, you will lose all changes.'._,
+                               :style       => NSInformationalAlertStyle
+      )
 
       if response == NSAlertSecondButtonReturn
         return
@@ -450,13 +438,11 @@ class DeckManager < NSWindowController
   end
 
   def delete_deck(_)
-    alert = NSAlert.alloc.init
-    alert.addButtonWithTitle('OK'._)
-    alert.addButtonWithTitle('Cancel'._)
-    alert.setMessageText('Delete'._)
-    alert.setInformativeText('Are you sure you want to delete this deck ?'._)
-    alert.setAlertStyle(NSInformationalAlertStyle)
-    response = alert.runModal
+    response = NSAlert.alert('Delete'._,
+                             :buttons     => ['OK'._, 'Cancel'._],
+                             :informative => 'Are you sure you want to delete this deck ?'._,
+                             :style       => NSInformationalAlertStyle
+    )
 
     if response == NSAlertFirstButtonReturn
       @current_deck.destroy
@@ -474,32 +460,30 @@ class DeckManager < NSWindowController
     card_count = @decks_or_cards.map(&:count).inject(0, :+)
 
     if card_count < @max_cards_in_deck
-      alert = NSAlert.alloc.init
-      alert.addButtonWithTitle('OK'._)
-      alert.addButtonWithTitle('Cancel'._)
-      alert.setMessageText('Save'._)
-      alert.setInformativeText("Your deck don't have 30 cards, are you sure you want to continue ?"._)
-      alert.setAlertStyle(NSInformationalAlertStyle)
-      response = alert.runModal
+      response = NSAlert.alert('Save'._,
+                               :buttons     => ['OK'._, 'Cancel'._],
+                               :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._,
+                               :style       => NSInformationalAlertStyle
+      )
 
       if response == NSAlertFirstButtonReturn
         return
       end
     end
 
-    alert = NSAlert.alloc.init
-    alert.addButtonWithTitle('OK'._)
-    alert.addButtonWithTitle('Cancel'._)
-    alert.setMessageText('Deck name'._)
-
     deck_name_input = NSTextField.alloc.initWithFrame [[0, 0], [220, 24]]
     if @deck_name
       deck_name_input.stringValue = @deck_name
     end
-    alert.accessoryView = deck_name_input
 
-    button = alert.runModal
-    if button == NSAlertSecondButtonReturn
+    response = NSAlert.alert('Deck name'._,
+                             :buttons     => ['OK'._, 'Cancel'._],
+                             :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._,
+                             :style       => NSInformationalAlertStyle,
+                             :view        => deck_name_input
+    )
+
+    if response == NSAlertSecondButtonReturn
       return
     end
 
@@ -523,25 +507,23 @@ class DeckManager < NSWindowController
     cdq.save
 
     @saved = true
-    alert  = NSAlert.alloc.init
-    alert.addButtonWithTitle('OK'._)
-    alert.setMessageText('Save'._)
-    alert.setInformativeText("Deck saved"._)
-    alert.setAlertStyle(NSInformationalAlertStyle)
-    alert.runModal
+
+    NSAlert.alert('Save'._,
+                  :buttons     => ['OK'._],
+                  :informative => 'Deck saved'._,
+                  :style       => NSInformationalAlertStyle
+    )
   end
 
   def close_deck(_)
     close = @saved
 
     unless @saved
-      alert = NSAlert.alloc.init
-      alert.addButtonWithTitle('OK'._)
-      alert.addButtonWithTitle('Cancel'._)
-      alert.setMessageText('Delete'._)
-      alert.setInformativeText('Are you sure you want to close this deck ? Your changes will not be saved.'._)
-      alert.setAlertStyle(NSInformationalAlertStyle)
-      response = alert.runModal
+      response = NSAlert.alert('Close'._,
+                    :buttons     => ['OK'._, 'Cancel'._],
+                    :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._,
+                    :style       => NSInformationalAlertStyle
+      )
 
       if response == NSAlertFirstButtonReturn
         close = true
@@ -574,11 +556,11 @@ class DeckManager < NSWindowController
   end
 
   def export_deck(_)
-    panel = NSSavePanel.savePanel
-    panel.allowedFileTypes = %w(txt)
+    panel                      = NSSavePanel.savePanel
+    panel.allowedFileTypes     = %w(txt)
     panel.canCreateDirectories = true
     panel.nameFieldStringValue = "#{@deck_name}.txt"
-    panel.title = 'Export Deck'._
+    panel.title                = 'Export Deck'._
 
     result = panel.runModal
     if result == NSOKButton
