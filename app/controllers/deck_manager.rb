@@ -234,7 +234,7 @@ class DeckManager < NSWindowController
     case item.itemIdentifier
       when 'save', 'delete', 'close', 'play', 'export'
         @in_edition
-      when 'new', 'import'
+      when 'new', 'import', 'arena'
         !@in_edition
       else
         true
@@ -242,12 +242,12 @@ class DeckManager < NSWindowController
   end
 
   def toolbarAllowedItemIdentifiers(toolbar)
-    ['new', 'import', 'save', 'search', 'close', 'delete', 'play', 'export',
+    ['new', 'arena', 'import', 'save', 'search', 'close', 'delete', 'play', 'export',
      NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier]
   end
 
   def toolbarDefaultItemIdentifiers(toolbar)
-    ['new', 'import', NSToolbarSeparatorItemIdentifier,
+    ['new', 'arena', 'import', NSToolbarSeparatorItemIdentifier,
      'save', 'delete', 'close', 'play', 'export',
      NSToolbarFlexibleSpaceItemIdentifier, 'search']
   end
@@ -264,16 +264,19 @@ class DeckManager < NSWindowController
         item.target = self
         item.action = 'import_deck:'
 
-      when 'new'
-        item.label = 'New'._
+      when 'new', 'arena'
+        label = (identifier == 'new') ? 'New'._ : 'Arena Deck'._
+        action = (identifier == 'new') ? 'add_deck:' : 'add_area_deck:'
 
-        menu      = NSMenu.alloc.initWithTitle 'new'
-        menu_item = NSMenuItem.alloc.initWithTitle('New'._, action: nil, keyEquivalent: '')
+        item.label = label
+
+        menu      = NSMenu.alloc.initWithTitle identifier
+        menu_item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
         menu.addItem menu_item
 
         classes = %w(Shaman Hunter Warlock Druid Warrior Mage Paladin Priest Rogue)
         classes.each do |clazz|
-          menu_item            = NSMenuItem.alloc.initWithTitle(clazz._, action: 'add_deck:', keyEquivalent: '')
+          menu_item            = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
           menu_item.identifier = clazz
           menu.addItem menu_item
         end
@@ -419,7 +422,17 @@ class DeckManager < NSWindowController
     @table_view.reloadData
   end
 
+  def add_area_deck(sender)
+    @current_deck_mode = :arena
+    start_new_deck(sender)
+  end
+
   def add_deck(sender)
+    @current_deck_mode = :constructed
+    start_new_deck(sender)
+  end
+
+  def start_new_deck(sender)
     clazz = sender.identifier
 
     @in_edition     = true
