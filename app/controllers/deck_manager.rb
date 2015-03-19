@@ -71,8 +71,7 @@ class DeckManager < NSWindowController
     unless @saved
       response = NSAlert.alert('Delete'._,
                                :buttons     => ['OK'._, 'Cancel'._],
-                               :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._,
-                               :style       => NSInformationalAlertStyle
+                               :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._
       )
 
       if response == NSAlertFirstButtonReturn
@@ -453,8 +452,7 @@ class DeckManager < NSWindowController
   def delete_deck(_)
     response = NSAlert.alert('Delete'._,
                              :buttons     => ['OK'._, 'Cancel'._],
-                             :informative => 'Are you sure you want to delete this deck ?'._,
-                             :style       => NSInformationalAlertStyle
+                             :informative => 'Are you sure you want to delete this deck ?'._
     )
 
     if response == NSAlertFirstButtonReturn
@@ -475,8 +473,7 @@ class DeckManager < NSWindowController
     if card_count < @max_cards_in_deck
       response = NSAlert.alert('Save'._,
                                :buttons     => ['OK'._, 'Cancel'._],
-                               :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._,
-                               :style       => NSInformationalAlertStyle
+                               :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._
       )
 
       if response == NSAlertFirstButtonReturn
@@ -492,7 +489,6 @@ class DeckManager < NSWindowController
     response = NSAlert.alert('Deck name'._,
                              :buttons     => ['OK'._, 'Cancel'._],
                              :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._,
-                             :style       => NSInformationalAlertStyle,
                              :view        => deck_name_input
     )
 
@@ -534,8 +530,7 @@ class DeckManager < NSWindowController
     unless @saved
       response = NSAlert.alert('Close'._,
                     :buttons     => ['OK'._, 'Cancel'._],
-                    :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._,
-                    :style       => NSInformationalAlertStyle
+                    :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._
       )
 
       if response == NSAlertFirstButtonReturn

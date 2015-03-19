@@ -9,24 +9,21 @@ class VersionChecker
         next
       end
 
-      doc = Wakizashi::HTML(result.body)
+      doc      = Wakizashi::HTML(result.body)
       releases = doc.xpath("//ul[contains(@class,'tag-references')]//span[contains(@class,'css-truncate-target')]")
       unless releases.nil? or releases.size.zero?
         release_version = releases.first.stringValue
 
-        dict = NSBundle.mainBundle.infoDictionary
+        dict          = NSBundle.mainBundle.infoDictionary
         local_version = "#{dict['CFBundleShortVersionString']}.#{dict['CFBundleVersion']}"
 
         Motion::Log.verbose "last release is #{release_version} -> local is #{local_version}"
 
         if release_version.compare(local_version, options: NSNumericSearch) == NSOrderedDescending
-          alert = NSAlert.alloc.init
-          alert.addButtonWithTitle('OK'._)
-          alert.addButtonWithTitle('Cancel'._)
-          alert.setMessageText('Update'._)
-          alert.setInformativeText('A new version of HSTracker is available, click OK to download it.'._)
-          alert.setAlertStyle(NSInformationalAlertStyle)
-          response = alert.runModal
+          response = NSAlert.alert('Update'._,
+                                   :buttons     => ['OK'._, 'Cancel'._],
+                                   :informative => 'A new version of HSTracker is available, click OK to download it.'._
+          )
 
           if response == NSAlertFirstButtonReturn
             NSWorkspace.sharedWorkspace.openURL(KReleasePageUrl.nsurl)
