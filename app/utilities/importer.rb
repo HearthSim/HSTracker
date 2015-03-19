@@ -14,18 +14,21 @@ class Importer
       Log.verbose 'Loading : OK'
       doc = Wakizashi::HTML(result.body)
 
-      if /hearthpwn\.com\/decks/i =~ url
-        deck, clazz, title = self.hearthpwn_deck(doc)
-      elsif /hearthpwn\.com\/deckbuilder/i =~ url
-        deck, clazz, title = self.hearthpwn_deckbuilder(url, doc)
-        #elsif /hearthstone\.judgehype\.com/i =~ url
+      case url
+        when /hearthpwn\.com\/decks/i
+          deck, clazz, title = self.hearthpwn_deck(doc)
+        when /hearthpwn\.com\/deckbuilder/i
+          deck, clazz, title = self.hearthpwn_deckbuilder(url, doc)
+        #when /hearthstone\.judgehype\.com/i
         #  deck, clazz, title = self.judgehype(doc)
-      elsif /hearthstone-decks\.com/i =~ url
-        deck, clazz, title = self.hearthstone_decks(doc)
-      else
-        Log.warn "unknown url #{url}"
-        block.call(nil, nil, nil) if block
-        next
+        when /hearthstone-decks\.com/i
+          deck, clazz, title = self.hearthstone_decks(doc)
+        when /hearthstats\.net/i
+          deck, clazz, title = self.hearthstats(doc)
+        else
+          Log.warn "unknown url #{url}"
+          block.call(nil, nil, nil) if block
+          next
       end
 
       if deck.nil?
@@ -255,6 +258,10 @@ class Importer
       count = /\d+/.match node.children.lastObject.stringValue
 
       card = Card.by_english_name(card_name)
+      if card.nil?
+        Log.warn "CARD : #{card_name} is nil"
+        next
+      end
       Log.verbose "card #{card_name} is #{card}"
       card.count = count[0].to_i
       deck << card
@@ -283,11 +290,71 @@ class Importer
       card_name = node.first.stringValue
 
       card       = Card.by_english_name(card_name)
+      if card.nil?
+        Log.warn "CARD : #{card_name} is nil"
+        next
+      end
       card.count = count.to_i
       deck << card
     end
 
     return deck, clazz, nil
+  end
+
+  # fetch and parse a deck from http://www.hearthstats.net/decks/
+  def self.hearthstats(doc)
+    title       = nil
+    clazz       = nil
+
+    # search for class
+    clazz_nodes = doc.xpath("//div[contains(@class,'win-count')]//img")
+    unless clazz_nodes.nil? or clazz_nodes.size.zero?
+      clazz_nodes.each do |clazz_node|
+        match = /\/assets\/Icons\/Classes\/(\w+)_Icon\.gif/.match clazz_node['src']
+        if match
+          clazz = match[1].downcase
+          next
+        end
+      end
+    end
+
+    # search for title
+    title_nodes = doc.xpath("//h1[contains(@class,'page-title')]")
+    unless title_nodes.nil? or title_nodes.size.zero?
+      title_node = title_nodes.first
+      small = title_node.elementsForName 'small'
+      if small
+        title_node.removeChild small.first
+      end
+      title      = title_node.stringValue
+    end
+
+    # search for cards
+    card_nodes = doc.xpath("//div[contains(@class,'cardWrapper')]")
+    if card_nodes.nil? or card_nodes.size.zero?
+      return nil, nil, nil
+    end
+
+    deck = []
+    card_nodes.each do |node|
+      next if node.children.count < 5
+
+      card_name = node.children[1].stringValue
+      count = node.children[2].stringValue.to_i
+
+      next if card_name.nil? || count.nil?
+
+      card = Card.by_english_name(card_name)
+      if card.nil?
+        Log.warn "CARD : #{card_name} is nil"
+        next
+      end
+      Log.verbose "card #{card_name} is #{card}"
+      card.count = count
+      deck << card
+    end
+
+    return deck, clazz, title
   end
 
 end
