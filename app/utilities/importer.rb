@@ -25,18 +25,20 @@ class Importer
           deck, clazz, title = self.hearthstone_decks(doc)
         when /hearthstats\.net/i
           deck, clazz, title = self.hearthstats(doc)
+        when /hearthhead\.com\/deck=/
+          deck, clazz, title = self.hearthhead_deck(url, doc)
         else
           Log.warn "unknown url #{url}"
           block.call(nil, nil, nil) if block
           next
       end
 
-      if deck.nil?
+      if deck.nil? or deck.count.zero?
         block.call(nil, nil, nil) if block
+        next
       end
 
       deck = Sorter.sort_cards(deck)
-
       block.call(deck, clazz, title) if block
     end
   end
@@ -289,7 +291,7 @@ class Importer
       next if node.nil? or node.size.zero?
       card_name = node.first.stringValue
 
-      card       = Card.by_english_name(card_name)
+      card = Card.by_english_name(card_name)
       if card.nil?
         Log.warn "CARD : #{card_name} is nil"
         next
@@ -322,11 +324,11 @@ class Importer
     title_nodes = doc.xpath("//h1[contains(@class,'page-title')]")
     unless title_nodes.nil? or title_nodes.size.zero?
       title_node = title_nodes.first
-      small = title_node.elementsForName 'small'
+      small      = title_node.elementsForName 'small'
       if small
         title_node.removeChild small.first
       end
-      title      = title_node.stringValue
+      title = title_node.stringValue
     end
 
     # search for cards
@@ -340,11 +342,91 @@ class Importer
       next if node.children.count < 5
 
       card_name = node.children[1].stringValue
-      count = node.children[2].stringValue.to_i
+      count     = node.children[2].stringValue.to_i
 
       next if card_name.nil? || count.nil?
 
       card = Card.by_english_name(card_name)
+      if card.nil?
+        Log.warn "CARD : #{card_name} is nil"
+        next
+      end
+      Log.verbose "card #{card_name} is #{card}"
+      card.count = count
+      deck << card
+    end
+
+    return deck, clazz, title
+  end
+
+  # fetch and parse a deck from http://www.hearthhead.net/deck=
+  def self.hearthhead_deck(url, doc)
+    title       = nil
+    clazz       = nil
+
+    locale = case url
+               when /de\.hearthhead\.com/
+                 'deDE'
+               when /es\.hearthhead\.com/
+                 'esES'
+               when /fr\.hearthhead\.com/
+                 'frFR'
+               when /pt\.hearthhead\.com/
+                 'ptPT'
+               when /ru\.hearthhead\.com/
+                 'ruRU'
+               else
+                 'enUS'
+    end
+
+    # search for class
+    clazz_nodes = doc.xpath("//div[@class='deckguide-hero']")
+    unless clazz_nodes.nil? or clazz_nodes.size.zero?
+      clazz_node = clazz_nodes.first
+      classes    = {
+          1  => 'Warrior',
+          2  => 'Paladin',
+          3  => 'Hunter',
+          4  => 'Rogue',
+          5  => 'Priest',
+          # 6 => 'Death-Knight'
+          7  => 'Shaman',
+          8  => 'Mage',
+          9  => 'Warlock',
+          11 => 'Druid'
+      }
+      clazz = classes[clazz_node['data-class'].to_i]
+    end
+
+    # search for title
+    title_nodes = doc.xpath("//h1[@id='deckguide-name']")
+    unless title_nodes.nil? or title_nodes.size.zero?
+      title_node = title_nodes.first
+      title = title_node.stringValue
+    end
+
+    # search for cards
+    card_nodes = doc.xpath("//div[contains(@class,'deckguide-cards-type')]/ul/li")
+    if card_nodes.nil? or card_nodes.size.zero?
+      return nil, nil, nil
+    end
+
+    deck = []
+    card_nodes.each do |node|
+      card_node = node.children.first
+      card_name = card_node.stringValue
+      node.removeChild card_node
+
+      count = /\d+/.match node.stringValue
+      if count.nil?
+        count = 1
+      else
+        count = count[0].to_i
+      end
+
+      next if card_name.nil? || count.nil?
+
+      card = Card.by_name_and_locale(card_name, locale)
       if card.nil?
         Log.warn "CARD : #{card_name} is nil"
         next
