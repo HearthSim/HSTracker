@@ -17,7 +17,7 @@ Is Blizzard okay with this?
 - extract the archive
 - move _HSTracker.app_ to your _Applications_ directory
 - launch !
-- create a new deck from the Deck Manager or import it from www.hearthpwn.com (deck and deckbuilder) or www.hearthstone-decks.com or using [Netdeck](https://chrome.google.com/webstore/detail/netdeck/lpdbiakcpmcppnpchohihcbdnojlgeel)
+- create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com) (deck and deckbuilder), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthstats](https://hearthstats.net), [Hearthhead](http://www.hearthhead.com/) (all languages) or using [Netdeck](https://chrome.google.com/webstore/detail/netdeck/lpdbiakcpmcppnpchohihcbdnojlgeel)
 
 ## TODO
 - statistics

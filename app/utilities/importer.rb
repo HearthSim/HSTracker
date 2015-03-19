@@ -27,6 +27,8 @@ class Importer
           deck, clazz, title = self.hearthstats(doc)
         when /hearthhead\.com\/deck=/
           deck, clazz, title = self.hearthhead_deck(url, doc)
+        when /hearthnews\.fr/
+          deck, clazz, title = self.hearthnews(doc)
         else
           Log.warn "unknown url #{url}"
           block.call(nil, nil, nil) if block
@@ -361,23 +363,23 @@ class Importer
 
   # fetch and parse a deck from http://www.hearthhead.net/deck=
   def self.hearthhead_deck(url, doc)
-    title       = nil
-    clazz       = nil
+    title = nil
+    clazz = nil
 
-    locale = case url
-               when /de\.hearthhead\.com/
-                 'deDE'
-               when /es\.hearthhead\.com/
-                 'esES'
-               when /fr\.hearthhead\.com/
-                 'frFR'
-               when /pt\.hearthhead\.com/
-                 'ptPT'
-               when /ru\.hearthhead\.com/
-                 'ruRU'
-               else
-                 'enUS'
-    end
+    locale      = case url
+                    when /de\.hearthhead\.com/
+                      'deDE'
+                    when /es\.hearthhead\.com/
+                      'esES'
+                    when /fr\.hearthhead\.com/
+                      'frFR'
+                    when /pt\.hearthhead\.com/
+                      'ptPT'
+                    when /ru\.hearthhead\.com/
+                      'ruRU'
+                    else
+                      'enUS'
+                  end
 
     # search for class
     clazz_nodes = doc.xpath("//div[@class='deckguide-hero']")
@@ -395,14 +397,14 @@ class Importer
           9  => 'Warlock',
           11 => 'Druid'
       }
-      clazz = classes[clazz_node['data-class'].to_i]
+      clazz      = classes[clazz_node['data-class'].to_i]
     end
 
     # search for title
     title_nodes = doc.xpath("//h1[@id='deckguide-name']")
     unless title_nodes.nil? or title_nodes.size.zero?
       title_node = title_nodes.first
-      title = title_node.stringValue
+      title      = title_node.stringValue
     end
 
     # search for cards
@@ -432,6 +434,51 @@ class Importer
         next
       end
       Log.verbose "card #{card_name} is #{card}"
+      card.count = count
+      deck << card
+    end
+
+    return deck, clazz, title
+  end
+
+  # fetch and parse a deck from http://www.hearthnews.fr
+  def self.hearthnews(doc)
+    title       = nil
+    clazz       = nil
+
+    # search for class
+    clazz_nodes = doc.xpath('//div[@hero_class]')
+    unless clazz_nodes.nil? or clazz_nodes.size.zero?
+      clazz_node = clazz_nodes.first
+      clazz      = clazz_node['hero_class'].downcase
+    end
+
+    # search for title
+    title_nodes = doc.xpath("//div[@class='block_deck_content_deck_name']")
+    unless title_nodes.nil? or title_nodes.size.zero?
+      title_node = title_nodes.first
+      title      = title_node.stringValue.strip
+    end
+
+    # search for cards
+    card_nodes = doc.xpath("//a[@class='real_id']")
+    if card_nodes.nil? or card_nodes.size.zero?
+      return nil, nil, nil
+    end
+
+    deck = []
+    card_nodes.each do |node|
+      card_id = node['real_id']
+      count = node['nb_card'].to_i
+
+      next if card_id.nil? || count.nil?
+
+      card = Card.by_id(card_id)
+      if card.nil?
+        Log.warn "CARD : #{card_id} is nil"
+        next
+      end
+      Log.verbose "card #{card_id} is #{card}"
       card.count = count
       deck << card
     end
