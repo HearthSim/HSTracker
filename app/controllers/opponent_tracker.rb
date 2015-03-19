@@ -69,7 +69,7 @@ class OpponentTracker < NSWindowController
     Log.verbose 'Opponent reset card'
     @cards = []
     @table_view.reloadData
-    self.window.setTitle 'HSTracker'
+    self.window.title = 'HSTracker'
   end
 
   def set_hero(player, hero_id)

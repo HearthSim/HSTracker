@@ -4,4 +4,8 @@ class OpponentTrackerLayout < PlayerTrackerLayout
     0
   end
 
+  def window_name
+    'HSTrakckerOpponent'
+  end
+
 end

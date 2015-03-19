@@ -5,6 +5,10 @@ class PlayerTracker < NSWindowController
 
   attr_accessor :cards
 
+  def title=(value)
+    self.window.title = value
+  end
+
   def cards=(cards)
     @cells = {}
     @cards = {}

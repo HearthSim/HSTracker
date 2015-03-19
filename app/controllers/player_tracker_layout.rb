@@ -8,13 +8,19 @@ class PlayerTrackerLayout < MK::WindowLayout
     w - frame_width - 20
   end
 
+  # get the window name
+  # allow to extends
+  def window_name
+    'HSTrakckerPlayer'
+  end
+
   def layout
     frame_width  = 220
     frame_height = 700
 
     h = CGRectGetMidY(NSScreen.mainScreen.frame)
 
-    frame [[origin_x(frame_width), h - frame_height / 2], [frame_width, frame_height]], 'HSTracker'
+    frame [[origin_x(frame_width), h - frame_height / 2], [frame_width, frame_height]], window_name
     title 'HSTracker'
 
     content_min_size [frame_width, 200]

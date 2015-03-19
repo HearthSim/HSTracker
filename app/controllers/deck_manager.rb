@@ -264,7 +264,7 @@ class DeckManager < NSWindowController
         item.action = 'import_deck:'
 
       when 'new', 'arena'
-        label = (identifier == 'new') ? 'New'._ : 'Arena Deck'._
+        label  = (identifier == 'new') ? 'New'._ : 'Arena Deck'._
         action = (identifier == 'new') ? 'add_deck:' : 'add_area_deck:'
 
         item.label = label
@@ -382,6 +382,7 @@ class DeckManager < NSWindowController
     end
 
     player_view.cards = @decks_or_cards if player_view
+    player_view.title = @deck_name || 'HSTracker'
   end
 
   def show_deck(deck, clazz=nil, name=nil)
@@ -412,10 +413,6 @@ class DeckManager < NSWindowController
     @tab_view.selectTabViewItem(tab_view_item)
     tab_view_item.view = @cards_view
     @cards             = nil
-
-    #table_scroll_view = @layout.get(:table_scroll_view)
-    #height = @decks_or_cards.count * 37
-    #@table_view.frame = [[0, 0], [table_scroll_view.contentSize.width, height]]
 
     @cards_view.reloadData
     @table_view.reloadData
@@ -529,8 +526,8 @@ class DeckManager < NSWindowController
 
     unless @saved
       response = NSAlert.alert('Close'._,
-                    :buttons     => ['OK'._, 'Cancel'._],
-                    :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._
+                               :buttons     => ['OK'._, 'Cancel'._],
+                               :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._
       )
 
       if response == NSAlertFirstButtonReturn
@@ -539,8 +536,9 @@ class DeckManager < NSWindowController
     end
 
     if close
-      @in_edition = false
-      @saved      = true
+      @in_edition   = false
+      @saved        = true
+      @current_deck = nil
       show_decks
       @table_view.reloadData
     end
