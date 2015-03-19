@@ -40,8 +40,6 @@ class DeckManagerLayout < MK::WindowLayout
       autoresizing_mask NSViewWidthSizable | NSViewHeightSizable
 
       document_view add NSTableView, :table_view
-      has_vertical_scroller true
-
       frame v.superview.bounds
     end
   end

@@ -33,7 +33,6 @@ class PlayerTrackerLayout < MK::WindowLayout
     add NSScrollView, :table_scroll_view do
       drawsBackground false
       document_view add NSTableView, :table_view
-      has_vertical_scroller true
     end
   end
 
