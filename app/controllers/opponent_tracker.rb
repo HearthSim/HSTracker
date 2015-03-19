@@ -26,18 +26,6 @@ class OpponentTracker < NSWindowController
     window.setLevel(NSScreenSaverWindowLevel)
   end
 
-=begin
-      #window.styleMask = NSBorderlessWindowMask
-
-  def canBecomeKeyWindow
-    true
-  end
-
-  def canBecomeMainWindow
-    true
-  end
-=end
-
   ## table datasource
   def numberOfRowsInTableView(_)
     @cards.count
@@ -97,7 +85,10 @@ class OpponentTracker < NSWindowController
     end
 
     unless found
-      @cards << Card.by_id(card_id)
+      card            = Card.by_id(card_id)
+      card.count      = 1
+      card.hand_count = 0
+      @cards << card
       @cards = Sorter.sort_cards @cards
     end
     @table_view.reloadData
