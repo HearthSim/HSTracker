@@ -83,7 +83,7 @@ class DeckManager < NSWindowController
 
   def show_decks
     @decks_or_cards = []
-    Deck.all.sort_by(:name).each do |deck|
+    Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
       @decks_or_cards << deck
     end
   end
