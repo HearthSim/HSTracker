@@ -17,7 +17,7 @@ Motion::Project::App.setup do |app|
   app.info_plist['CFBundleVersion'] = app.version
   App.info 'Building version', "#{app.short_version}.#{app.version}"
 
-  app.deployment_target = '10.9'
+  app.deployment_target = '10.8'
 
   app.identifier = 'be.michotte.hstracker'
 
