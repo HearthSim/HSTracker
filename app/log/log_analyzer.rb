@@ -8,6 +8,11 @@ class LogAnalyzer
     @on_cards[event] = block.respond_to?('weak!') ? block.weak! : block
   end
 
+  # player names
+  def on_player_name(&block)
+    @on_player_name = block.respond_to?('weak!') ? block.weak! : block
+  end
+
   # game status
   def on_game_start(&block)
     @on_game_start = block.respond_to?('weak!') ? block.weak! : block
@@ -27,9 +32,44 @@ class LogAnalyzer
     @on_coin = block.respond_to?('weak!') ? block.weak! : block
   end
 
+  def entity(id, name, value)
+    unless @entities[id]
+      @entities[id] = {}
+    end
+
+    @entities[id][name] = value
+  end
+
+  def entity_with_value(name, value)
+    entity = nil
+    @entities.each do |key, values|
+      if values[name] and values[name] == value
+        entity = key
+      end
+    end
+    entity
+  end
+
   def analyze(line)
     return if line.strip.size.zero?
     return if /^\(Filename:/ =~ line
+
+    match = /FULL_ENTITY - Creating ID=(\d+) CardID=(\w*)/.match(line)
+    if match
+      id      = match[1]
+      card_id = match[2]
+
+      entity(id, :card_id, card_id)
+    end
+
+    # players
+    match = /Player EntityID=(\d+) PlayerID=(\d+) GameAccountId=(.+)/.match(line)
+    if match
+      entity    = match[1]
+      player_id = match[2].to_i
+
+      entity(entity, :player_id, player_id)
+    end
 
     # cards play
     match = /ProcessChanges.*\[.*id=(\d+).*cardId=(\w+|).*\].*zone from (.*) -> (.*)/i.match(line)
@@ -105,7 +145,6 @@ class LogAnalyzer
 
       elsif from =~ /FRIENDLY DECK/ and to == ''
         # display card from tracking ?
-        @tracking_cards ||= []
         Log.debug "player show card #{card_id} (#{card})"
         @tracking_cards << card_id
 
@@ -130,17 +169,17 @@ class LogAnalyzer
         end
 
       else
-        #Log.verbose "from '#{from}' to '#{to}' -> #{card_id} (#{card})"
+        #Log.verbose "*** from '#{from}' to '#{to}' -> #{card_id} (#{card})"
       end
 
     end
 
     # Turn Info
-    if line =~ /change=powerTask.*tag=NEXT_STEP value=MAIN_ACTION/
+    if line =~ /change=powerTask.*tag=NEXT_STEP value=MAIN_ACTION/ and @game_started
       @current_turn   += 1
 
       # be sure to "reset" cards from tracking
-      @tracking_cards = [] if @tracking_cards
+      @tracking_cards = []
 
       Log.debug 'next turn'
     end
@@ -152,9 +191,17 @@ class LogAnalyzer
 
       if to =~ /FRIENDLY HAND/
         Log.debug 'coin for player'
+
+        @players[:player][:coin]   = true
+        @players[:opponent][:coin] = false
+
         @on_coin.call(:player) if @on_coin
       elsif to =~ /OPPOSING HAND/
         Log.debug 'coin for opponent'
+
+        @players[:player][:coin]   = false
+        @players[:opponent][:coin] = true
+
         @on_coin.call(:opponent) if @on_coin
       end
     end
@@ -163,22 +210,23 @@ class LogAnalyzer
     match = /ProcessChanges.*TRANSITIONING card \[name=(.*).*zone=PLAY.*cardId=(.*).*player=(\d)\] to (.*) \(Hero\)/i.match(line)
     if match
 
-      unless @game_started
-        @game_started = true
-        @current_turn = 0
-
-        Log.debug '----- Game Started -----'
-        @on_game_start.call if @on_game_start
-      end
+      start_game
 
       card_id = match[2].strip
       to      = match[4]
 
       if to =~ /FRIENDLY PLAY/
+        @players[:player][:hero] = card_id
         @on_hero.call(:player, card_id) if @on_hero
       else
+        @players[:opponent][:hero] = card_id
         @on_hero.call(:opponent, card_id) if @on_hero
       end
+    end
+
+    # game start
+    if line =~ /CREATE_GAME/
+      start_game
     end
 
     # game end
@@ -186,21 +234,182 @@ class LogAnalyzer
     if match
       status = match[1]
 
-      Log.debug '----- Game End -----'
-
       case status.downcase
         when 'victory'
-          Log.debug 'Victory!'
-          @on_game_end.call(:opponent)
+          end_game(:player)
         when 'defeat'
-          Log.debug 'Defeat'
-          @on_game_end.call(:player)
+          end_game(:opponent)
         else
       end
-
-      @game_started = false
     end
 
+    # get rank
+    match = /\[Asset\].*Medal_Ranked_(\d+)/.match(line)
+    if match
+      rank = match[1].to_i
+      Log.debug "You are rank #{rank}"
+    end
+
+    # gold tracking
+    match = /(\d)\/3 wins towards 10 gold/.match(line)
+    if match
+      victories = match[1]
+      Log.debug "#{victories} / 3 -> 10 gold"
+    end
+
+    # game mode
+    match = /\[Bob\] ---(\w+)---/.match(line)
+    if match
+      _game_mode = match[1]
+
+      case _game_mode
+        when 'RegisterScreenPractice'
+          @game_mode = :adventures
+        when 'RegisterScreenTourneys'
+          @game_mode = :casual
+        when 'RegisterScreenForge'
+          @game_mode = :arena
+        when 'RegisterScreenFriendly'
+          @game_mode = :friendly
+        else
+          Log.warn "unknown game mode #{_game_mode}"
+      end
+
+      Log.debug "Player in game mode #{@game_mode}"
+    end
+
+    if line =~ /name=rank_window/
+      @game_mode = :ranked
+      Log.debug "Player in game mode #{@game_mode}"
+    end
+
+    if line =~ /\[Power\].*Begin Spectating/
+      @spectating = true
+    end
+
+    match = /TAG_CHANGE Entity=(\w+) tag=PLAYER_ID value=(\d)/.match(line)
+    if match
+      name  = match[1]
+      value = match[2].to_i
+
+      if value == 1
+        @players[:player][:name] = name
+        @on_player_name.call(:player, name) if @on_player_name
+        Log.debug "Player's name is #{name}"
+      elsif value == 2
+        @players[:opponent][:name] = name
+        @on_player_name.call(:opponent, name) if @on_player_name
+        Log.debug "Opponent's name is #{name}"
+      end
+    end
+
+    match = /TAG_CHANGE Entity=(.+) tag=(\w+) value=(\w+)/.match(line)
+    if match
+      entity = match[1]
+      tag    = match[2]
+      value  = match[3]
+
+      # game end
+      if tag == 'PLAYSTATE'
+        game_ended = false
+        winner     = nil
+
+        case value
+
+          # player concede
+          when 'QUIT'
+            game_ended = true
+            winner     = :opponent
+          when 'WON'
+            game_ended = true
+            winner     = :player
+          when 'LOST'
+            game_ended = true
+            winner     = :opponent
+          #when 'TIED'
+          #game_ended = true
+        end
+
+        if game_ended and winner
+          end_game(winner)
+        end
+
+      elsif tag == 'ZONE'
+        #Log.debug "****** entity : #{entity}, tag : #{tag}, value : #{value}"
+
+      # check players
+      elsif tag == 'CONTROLLER'
+        unless @players[:player][:id]
+          player_1 = entity_with_value(:player_id, 1)
+          player_2 = entity_with_value(:player_id, 2)
+
+          value = value.to_i
+
+          if player_1
+            entity(player_1, :is_player, value == 1)
+          end
+          if player_2
+            entity(player_2, :is_player, value != 1)
+          end
+
+          @players[:player][:id]   = value
+          @players[:opponent][:id] = value == 1 ? 2 : 1
+        end
+      end
+
+      if @game_mode == :arena
+        match = /\[Rachelle\].*somehow the card def for (\w+_\w+) was already in the cache\.\.\./.match(line)
+        if match
+          card_id = match[1]
+          Log.verbose "possible arena card draft : #{card_id} ?"
+        end
+
+        match = /\[Asset\].*unloading name=(\w+_\w+) family=CardPrefab persistent=False/.match(line)
+        if match
+          card_id = match[1]
+          Log.verbose "possible arena card draft : #{card_id} ?"
+        end
+      end
+    end
+
+  end
+
+  def reset_data
+    @current_turn   = 0
+    @tracking_cards = []
+    @entities       = {}
+
+    @spectating = true
+
+    @players = {
+        :player   => {},
+        :opponent => {}
+    }
+  end
+
+  def start_game
+    return if @game_started
+
+    @game_started = true
+    reset_data
+
+    Log.debug '----- Game Started -----'
+    @on_game_start.call if @on_game_start
+  end
+
+  def end_game(winner)
+    return unless @game_started
+
+    @game_started = false
+
+    if winner == :player
+      Log.debug 'You win \o/'
+    else
+      Log.debug 'You loose :('
+    end
+
+    Log.debug '----- Game End -----'
+    @on_game_end.call(winner)
   end
 
 end
