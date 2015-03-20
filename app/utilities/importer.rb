@@ -4,15 +4,15 @@ class Importer
 
   def self.load(url, &block)
     Log.debug "Loading deck from #{url}"
-    AFMotion::HTTP.get(url) do |result|
+    Web.get(url) do |result|
 
-      if result.nil? or result.body.nil?
+      if result.nil?
         block.call(nil, nil, nil) if block
         next
       end
 
       Log.verbose 'Loading : OK'
-      doc = Wakizashi::HTML(result.body)
+      doc = Wakizashi::HTML(result)
 
       case url
         when /hearthpwn\.com\/decks/i

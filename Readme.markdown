@@ -1,6 +1,7 @@
 # HSTracker
 
-HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for Mac OsX.
+HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for Mac OsX 10.8+.
+
 HSTracker is released under the [MIT license](LICENSE).
 
 ### Deck Tracker
@@ -17,7 +18,7 @@ Is Blizzard okay with this?
 - extract the archive
 - move _HSTracker.app_ to your _Applications_ directory
 - launch !
-- create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com) (deck and deckbuilder), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthstats](https://hearthstats.net), [Hearthhead](http://www.hearthhead.com/) (all languages) or using [Netdeck](https://chrome.google.com/webstore/detail/netdeck/lpdbiakcpmcppnpchohihcbdnojlgeel)
+- create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com) (deck and deckbuilder), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthstats](https://hearthstats.net), [Hearthhead](http://www.hearthhead.com/) (all languages), [Hearthnews](http://www.hearthnews.fr/) or using [Netdeck](https://chrome.google.com/webstore/detail/netdeck/lpdbiakcpmcppnpchohihcbdnojlgeel)
 
 ## TODO
 - statistics
@@ -50,7 +51,8 @@ Is Blizzard okay with this?
 ## Contribution
 Feel free to fork and pull-request, as well as filling [new issues](https://github.com/bmichotte/HSTracker/issues)
 
-HSTracker is written in Ruby, using [Rubymotion](http://www.rubymotion.com/). You will need a valid Rubymotion license.
+HSTracker is written in Ruby, using [Rubymotion](http://www.rubymotion.com/). You will need a valid Rubymotion license to build it.
+
 To compile/run
 ```
 bundle
@@ -60,7 +62,9 @@ rake pod:install
 ## Thanks
 
 I took some inspiration/copy-paste from [Hearthstone-Deck-Tracker-Mac](https://github.com/Jeswang/Hearthstone-Deck-Tracker-Mac).
+
 The base of the log analyser came from [hearthstone-tracker-osx](https://github.com/hellozimi/hearthstone-tracker-osx).
+
 And the resources came from [Hearthstone-Deck-Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker).
 
 ## Donations

@@ -3,13 +3,13 @@ class VersionChecker
   KReleasePageUrl = 'https://github.com/bmichotte/HSTracker/releases'
 
   def self.check
-    AFMotion::HTTP.get(KReleasePageUrl) do |result|
+    Web.get(KReleasePageUrl) do |result|
 
-      if result.nil? or result.body.nil?
+      if result.nil?
         next
       end
 
-      doc      = Wakizashi::HTML(result.body)
+      doc      = Wakizashi::HTML(result)#.body)
       releases = doc.xpath("//ul[contains(@class,'tag-references')]//span[contains(@class,'css-truncate-target')]")
       unless releases.nil? or releases.size.zero?
         release_version = releases.first.stringValue

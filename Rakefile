@@ -25,6 +25,7 @@ Motion::Project::App.setup do |app|
   app.info_plist['ATSApplicationFontsPath'] = 'resources/'
 
   app.pods do
+    pod 'AFNetworking', '~> 2.0'
     pod 'GDataXML-HTML'
     pod 'MASPreferences'
     pod 'JNWCollectionView'
