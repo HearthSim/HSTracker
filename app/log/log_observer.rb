@@ -38,7 +38,7 @@ class LogObserver
     file_handle = NSFileHandle.fileHandleForReadingAtPath(path)
     file_handle.seekToFileOffset(@last_read_position)
 
-    Dispatch::Queue.main.async do
+    Dispatch::Queue.concurrent.async do
       data                = file_handle.readDataToEndOfFile
       lines_str           = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
       size                = @last_read_position
