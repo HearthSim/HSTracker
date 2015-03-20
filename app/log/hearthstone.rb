@@ -1,5 +1,8 @@
 class Hearthstone
 
+  # used when debugging from actual log file
+  KDebugFromFile = false
+
   Log = Motion::Log
 
   def self.instance
@@ -30,7 +33,12 @@ class Hearthstone
       end
     end
 
-    false
+    # debugging from actual log file, fake HS is running
+    if KDebugFromFile
+      true
+    else
+      false
+    end
   end
 
   # register events

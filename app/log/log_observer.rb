@@ -11,9 +11,12 @@ class LogObserver
 
     path = Hearthstone.log_path
 
-    if path.file_exists?
-      # if the file exists, we start reading at the end
-      @last_read_position = file_size(path)
+    # if we are in full debug mode, we skip this
+    unless Hearthstone::KDebugFromFile
+      if path.file_exists?
+        # if the file exists, we start reading at the end
+        @last_read_position = file_size(path)
+      end
     end
     changes_in_file
   end
