@@ -28,7 +28,7 @@ Is Blizzard okay with this?
 ## Versions
 #### 0.4
 - Support for OS X 10.8
-- Better start and end game
+- Better start and end game detection
 - Support for arena decks !
 - Add an option to remove cards instead of fade them (when you play the last)
 - Export decks to text files
