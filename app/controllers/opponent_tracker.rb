@@ -85,7 +85,7 @@ class OpponentTracker < NSWindowController
     end
 
     unless found
-      card            = Card.by_id(card_id)
+      card            = PlayCard.from_card(Card.by_id(card_id))
       card.count      = 1
       card.hand_count = 0
       @cards << card

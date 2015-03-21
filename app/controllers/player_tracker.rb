@@ -10,12 +10,13 @@ class PlayerTracker < NSWindowController
   end
 
   def cards=(cards)
-    @cells = {}
-    @cards = {}
+    @cells         = {}
+    @cards         = {}
+    @playing_cards = []
     cards.each do |card|
       @cards[card.card_id] = card.count
+      @playing_cards << PlayCard.from_card(card)
     end
-    @playing_cards = cards
 
     @table_view.reloadData
   end
@@ -73,12 +74,9 @@ class PlayerTracker < NSWindowController
   # game events
   def reset_cards
     Log.verbose 'Player reset card'
-    @playing_cards = []
-    @cards.each do |card_id, count|
-      card = Card.by_id card_id
+    @playing_cards.each do |card|
+      card.count = @cards[card.card_id]
       card.hand_count = 0
-      card.count = count
-      @playing_cards << card
     end
 
     Dispatch::Queue.main.after(1) do

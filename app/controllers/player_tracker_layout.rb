@@ -44,7 +44,11 @@ class PlayerTrackerLayout < MK::WindowLayout
 
   def table_scroll_view_style
     background_color :clear.nscolor
-    frame v.superview.bounds
+
+    constraints do
+      height.equals(:superview)
+      width.equals(:superview)
+    end
   end
 
   def table_view_style
@@ -55,6 +59,7 @@ class PlayerTrackerLayout < MK::WindowLayout
 
     parent_bounds = v.superview.bounds
     frame parent_bounds
+    autoresizingMask NSViewWidthSizable | NSViewHeightSizable
 
     add_column 'cards' do
       width parent_bounds.size.width
