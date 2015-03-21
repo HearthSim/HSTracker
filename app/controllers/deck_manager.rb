@@ -485,7 +485,6 @@ class DeckManager < NSWindowController
 
     response = NSAlert.alert('Deck name'._,
                              :buttons     => ['OK'._, 'Cancel'._],
-                             :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._,
                              :view        => deck_name_input
     )
 
