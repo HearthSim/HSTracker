@@ -473,7 +473,7 @@ class DeckManager < NSWindowController
                                :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._
       )
 
-      if response == NSAlertFirstButtonReturn
+      if response == NSAlertSecondButtonReturn
         return
       end
     end
@@ -481,16 +481,6 @@ class DeckManager < NSWindowController
     deck_name_input = NSTextField.alloc.initWithFrame [[0, 0], [220, 24]]
     if @deck_name
       deck_name_input.stringValue = @deck_name
-    end
-
-    response = NSAlert.alert('Deck name'._,
-                             :buttons     => ['OK'._, 'Cancel'._],
-                             :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._,
-                             :view        => deck_name_input
-    )
-
-    if response == NSAlertSecondButtonReturn
-      return
     end
 
     deck_name_input.validateEditing
