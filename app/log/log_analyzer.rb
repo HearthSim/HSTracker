@@ -236,8 +236,10 @@ class LogAnalyzer
 
       case status.downcase
         when 'victory'
+          Log.verbose 'victory_screen_start'
           end_game(:player)
         when 'defeat'
+          Log.verbose 'defeat_screen_start'
           end_game(:opponent)
         else
       end
@@ -314,6 +316,8 @@ class LogAnalyzer
         game_ended = false
         winner     = nil
 
+        player = player(entity)
+
         case value
 
           # player concede
@@ -322,10 +326,10 @@ class LogAnalyzer
             winner     = :opponent
           when 'WON'
             game_ended = true
-            winner     = :player
+            winner     = player
           when 'LOST'
             game_ended = true
-            winner     = :opponent
+            winner     = (player == :opponent) ? :player : :opponent
           #when 'TIED'
           #game_ended = true
         end
@@ -337,7 +341,7 @@ class LogAnalyzer
       elsif tag == 'ZONE'
         #Log.debug "****** entity : #{entity}, tag : #{tag}, value : #{value}"
 
-      # check players
+        # check players
       elsif tag == 'CONTROLLER'
         unless @players[:player][:id]
           player_1 = entity_with_value(:player_id, 1)
@@ -372,6 +376,11 @@ class LogAnalyzer
       end
     end
 
+  end
+
+  def player(name)
+    return :player if @players[:player][:name] == name
+    :opponent
   end
 
   def reset_data
