@@ -26,6 +26,19 @@ Is Blizzard okay with this?
 - test ;) 
 
 ## Versions
+#### 0.4
+- Support for OS X 10.8
+- Better start and end game
+- Support for arena decks !
+- Add an option to remove cards instead of fade them (when you play the last)
+- Export decks to text files
+- Better language detection
+- Import from [Hearthstats](https://hearthstats.net/)
+- Import from [Hearthhead](http://www.hearthhead.com/) (all languages available)
+- Import from [Hearthnews](https://hearthnews.fr/)
+- Cards import optimizations
+- Remove scrollbars
+
 #### 0.3
 - Deck manager ! Enjoy creating and editing deck directly from the app
 - Correct a bug where the app keep asking about update
