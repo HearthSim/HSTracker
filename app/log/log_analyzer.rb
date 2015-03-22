@@ -62,15 +62,6 @@ class LogAnalyzer
       entity(id, :card_id, card_id)
     end
 
-    # players
-    match = /Player EntityID=(\d+) PlayerID=(\d+) GameAccountId=(.+)/.match(line)
-    if match
-      entity    = match[1]
-      player_id = match[2].to_i
-
-      entity(entity, :player_id, player_id)
-    end
-
     # cards play
     match = /ProcessChanges.*\[.*id=(\d+).*cardId=(\w+|).*\].*zone from (.*) -> (.*)/i.match(line)
     if match
@@ -289,20 +280,29 @@ class LogAnalyzer
       @spectating = true
     end
 
+    # players
+    match = /Player EntityID=(\d+) PlayerID=(\d+) GameAccountId=(.+)/.match(line)
+    if match
+      entity    = match[1]
+      player_id = match[2].to_i
+
+      entity(entity, :player_id, player_id)
+    end
+
     match = /TAG_CHANGE Entity=(\w+) tag=PLAYER_ID value=(\d)/.match(line)
     if match
       name  = match[1]
       value = match[2].to_i
 
-      if value == 1
-        @players[:player][:name] = name
-        @on_player_name.call(:player, name) if @on_player_name
-        Log.debug "Player's name is #{name}"
-      elsif value == 2
-        @players[:opponent][:name] = name
-        @on_player_name.call(:opponent, name) if @on_player_name
-        Log.debug "Opponent's name is #{name}"
+      if @players[:player][:coin]
+        player = (value == 1) ? :player : :opponent
+      else
+        player = (value == 1) ? :opponent : :player
       end
+
+      Log.debug "#{player}'s name is #{name}"
+      @players[player][:name] = name
+      @on_player_name.call(player, name) if @on_player_name
     end
 
     match = /TAG_CHANGE Entity=(.+) tag=(\w+) value=(\w+)/.match(line)
