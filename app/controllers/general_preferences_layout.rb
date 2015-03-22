@@ -54,6 +54,21 @@ class GeneralPreferencesLayout < MK::Layout
         right.equals(:superview).minus(20)
       end
     end
+
+    add NSButton, :lock_windows do
+      button_type NSSwitchButton
+      title 'Lock Windows'._
+
+      constraints do
+        height 18
+
+        top.equals(:card_played, :bottom).plus(10)
+        left.equals(:superview).plus(20)
+        right.equals(:superview).minus(20)
+      end
+    end
+
+
   end
 
 end

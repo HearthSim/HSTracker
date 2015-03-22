@@ -92,19 +92,4 @@ class AppDelegate
     @player.window.setLevel NSScreenSaverWindowLevel
     @opponent.window.setLevel NSScreenSaverWindowLevel
   end
-
-  # lock / unlock windows
-  def lock_windows(menu_item)
-    if menu_item.title == 'Lock Windows'._
-      ignore_mouse    = true
-      menu_item.title = 'Unlock Windows'._
-    else
-      ignore_mouse    = false
-      menu_item.title = 'Lock Windows'._
-    end
-
-    [@player.window, @opponent.window].each do |window|
-      window.setIgnoresMouseEvents ignore_mouse
-    end
-  end
 end

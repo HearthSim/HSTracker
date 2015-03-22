@@ -29,6 +29,9 @@ class GeneralPreferences < NSViewController
 
       init_locales
       init_card_played
+      @lock_windows = @layout.get(:lock_windows)
+      @lock_windows.setAction 'lock_windows:'
+      @lock_windows.setTarget self
     end
   end
 
@@ -98,6 +101,11 @@ class GeneralPreferences < NSViewController
         Configuration.on_card_played = value
       end
     end
+  end
+
+  def lock_windows(_)
+    Configuration.lock_windows = (@lock_windows.state == NSOnState)
+    NSNotificationCenter.defaultCenter.post('lock_windows', Configuration.lock_windows)
   end
 
   # MASPreferencesViewController
