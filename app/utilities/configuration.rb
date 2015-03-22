@@ -56,6 +56,14 @@ class Configuration
       NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'windows_locked')
     end
 
+    def window_transparency
+      NSUserDefaults.standardUserDefaults.objectForKey('window_transparency') || 0.1
+    end
+
+    def window_transparency=(value)
+      NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'window_transparency')
+    end
+
   end
 
 end

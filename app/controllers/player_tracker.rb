@@ -121,4 +121,8 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
+  def window_transparency
+    @table_view.backgroundColor = :black.nscolor(Configuration.window_transparency)
+  end
+
 end

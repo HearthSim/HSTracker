@@ -34,7 +34,14 @@ class TrackerLayout < MK::WindowLayout
     has_shadow false
     background_color :clear.nscolor
 
-    style_mask NSTitledWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask|NSBorderlessWindowMask
+    locked = Configuration.lock_windows
+
+    if locked
+      mask = NSBorderlessWindowMask
+    else
+      mask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
+    end
+    style_mask mask
     level NSScreenSaverWindowLevel
 
     add NSScrollView, :table_scroll_view do
@@ -56,7 +63,7 @@ class TrackerLayout < MK::WindowLayout
     row_height 37
     intercellSpacing [0, 0]
 
-    background_color :black.nscolor(0.1)
+    background_color :black.nscolor(Configuration.window_transparency)
 
     parent_bounds = v.superview.bounds
     frame parent_bounds

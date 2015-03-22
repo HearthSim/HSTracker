@@ -24,7 +24,6 @@
 "Show All" = "Tout afficher";
 "Quit HSTracker" = "Quitter HSTracker";
 "Window" = "Fenêtre";
-"Lock Windows" = "Verrouiller les fenêtres";
 
 /* preferences */
 "General" = "Général";
@@ -32,6 +31,9 @@
 "Card played" = "Carte jouée";
 "Fade" = "Transparence";
 "Remove" = "Enlever";
+"Lock Windows" = "Verrouiller les fenêtres";
+"Windows Transparency" = "Transparence des fenêtres";
+"Interface" = "Interface";
 
 /* classes */
 "Shaman" = "Chaman";

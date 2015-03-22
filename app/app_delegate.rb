@@ -55,8 +55,12 @@ class AppDelegate
   # preferences
   def preferences
     @preferences ||= begin
-      general = GeneralPreferences.alloc.init
-      MASPreferencesWindowController.alloc.initWithViewControllers([general], title: 'Preferences'._)
+      MASPreferencesWindowController.alloc.initWithViewControllers(
+          [
+              GeneralPreferences.alloc.init,
+              InterfacePreferences.alloc.init
+          ],
+          title: 'Preferences'._)
     end
   end
 

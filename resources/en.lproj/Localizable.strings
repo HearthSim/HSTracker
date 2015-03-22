@@ -24,7 +24,6 @@
 "Show All" = "Show All";
 "Quit HSTracker" = "Quit HSTracker";
 "Window" = "Window";
-"Lock Windows" = "Lock Windows";
 
 /* preferences */
 "General" = "General";
@@ -32,6 +31,9 @@
 "Card played" = "Card played";
 "Fade" = "Fade";
 "Remove" = "Remove";
+"Lock Windows" = "Lock Windows";
+"Windows Transparency" = "Windows Transparency";
+"Interface" = "Interface";
 
 /* classes */
 "Shaman" = "Shaman";

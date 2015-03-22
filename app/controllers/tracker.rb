@@ -32,18 +32,23 @@ class Tracker < NSWindowController
     self.window.setStyleMask mask
   end
 
+  def window_transparency
+  end
+
   def showWindow(sender)
     # trigger when loading the window
-    window_locks
-
     super.tap do
       @option_changed = NSNotificationCenter.defaultCenter.observe 'lock_windows' do |notification|
         window_locks
+      end
+      @transparency_changed = NSNotificationCenter.defaultCenter.observe 'window_transparency' do |notification|
+        window_transparency
       end
     end
   end
 
   def windowWillClose(_)
     NSNotificationCenter.defaultCenter.unobserve(@option_changed)
+    NSNotificationCenter.defaultCenter.unobserve(@transparency_changed)
   end
 end
