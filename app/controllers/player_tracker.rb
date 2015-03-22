@@ -1,5 +1,5 @@
 # The player tracker window
-class PlayerTracker < NSWindowController
+class PlayerTracker < Tracker
 
   Log = Motion::Log
 
@@ -35,14 +35,6 @@ class PlayerTracker < NSWindowController
       @table_view.delegate   = self
       @table_view.dataSource = self
     end
-  end
-
-  def windowWillMiniaturize(_)
-    window.setLevel(NSNormalWindowLevel)
-  end
-
-  def windowDidMiniaturize(_)
-    window.setLevel(NSScreenSaverWindowLevel)
   end
 
   ## table datasource

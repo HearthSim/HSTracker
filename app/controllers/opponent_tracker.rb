@@ -1,5 +1,5 @@
 # The opponent tracker window
-class OpponentTracker < NSWindowController
+class OpponentTracker < Tracker
 
   Log = Motion::Log
 
@@ -16,14 +16,6 @@ class OpponentTracker < NSWindowController
       @table_view.delegate   = self
       @table_view.dataSource = self
     end
-  end
-
-  def windowWillMiniaturize(_)
-    window.setLevel(NSNormalWindowLevel)
-  end
-
-  def windowDidMiniaturize(_)
-    window.setLevel(NSScreenSaverWindowLevel)
   end
 
   ## table datasource

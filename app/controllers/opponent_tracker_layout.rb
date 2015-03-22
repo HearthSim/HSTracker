@@ -1,11 +1,15 @@
-class OpponentTrackerLayout < PlayerTrackerLayout
+class OpponentTrackerLayout < TrackerLayout
 
-  def origin_x(frame_width)
-    0
+  # get the window frame
+  def window_frame
+    h = CGRectGetMidY(NSScreen.mainScreen.frame)
+
+    [[0, h - TrackerLayout::KFrameHeight / 2],
+     [TrackerLayout::KFrameWidth, TrackerLayout::KFrameHeight]]
   end
 
   def window_name
-    'HSTrakckerOpponent'
+    'HSTrackerOpponent'
   end
 
 end
