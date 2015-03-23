@@ -75,18 +75,24 @@ class LogAnalyzer
         card = card.name
       end
 
-      if from =~ /(FRIENDLY DECK|)/ and to =~ /FRIENDLY HAND/
+      if from =~ /(DECK|)/ and to =~ /(FRIENDLY|OPPOSING) HAND/
         # player or opponent draw
-        # ignore if opponent as we have no clue which card is it
-        Log.debug "draw #{card_id} (#{card})"
-        @on_cards[:draw_card].call(:player, card_id) if @on_cards[:draw_card]
+        if to =~ /FRIENDLY/
+          Log.debug "player draw #{card_id} (#{card})"
+          @on_cards[:draw_card].call(:player, card_id) if @on_cards[:draw_card]
+        elsif to =~ /OPPOSING/
+          Log.debug 'opponent draw'
+          @on_cards[:draw_card].call(:opponent, card_id) if @on_cards[:draw_card]
+        end
 
       elsif from =~ /HAND/ and to =~ /DECK/
         # player or opponent mulligan
-        # ignore if opponent as we have no clue which card is it
         if to =~ /FRIENDLY/
-          Log.debug "mulligan #{card_id} (#{card})"
+          Log.debug "player mulligan #{card_id} (#{card})"
           @on_cards[:return_deck_card].call(:player, card_id) if @on_cards[:return_deck_card]
+        elsif to =~ /OPPOSING/
+          Log.debug 'opponent mulligan'
+          @on_cards[:return_deck_card].call(:opponent, nil) if @on_cards[:return_deck_card]
         end
 
       elsif from =~ /HAND/ and to =~ /GRAVEYARD/
@@ -113,12 +119,15 @@ class LogAnalyzer
         if card_id != '' # card_id is '' -> opponent played a secret
           Log.debug "opponent play #{card_id} (#{card})"
           @on_cards[:play_card].call(:opponent, card_id) if @on_cards[:play_card]
+        else
+          Log.debug 'opponent play a secret'
+          @on_cards[:play_secret].call if @on_cards[:play_secret]
         end
 
       elsif from =~ /OPPOSING SECRET/ and to =~ /OPPOSING GRAVEYARD/
         # opponent secret is revelead
         Log.debug "opponent secret is revelead #{card_id} (#{card})"
-        @on_cards[:play_card].call(:opponent, card_id) if @on_cards[:play_card]
+        @on_cards[:secret_revealed].call(:opponent, card_id) if @on_cards[:secret_revealed]
 
       elsif from =~ /DECK/ and to =~ /FRIENDLY SECRET/
         # player secret arrived (mad scientist, stuff like this)
@@ -294,11 +303,7 @@ class LogAnalyzer
       name  = match[1]
       value = match[2].to_i
 
-      if @players[:player][:coin]
-        player = (value == 1) ? :player : :opponent
-      else
-        player = (value == 1) ? :opponent : :player
-      end
+      player = (value == 1) ? :player : :opponent
 
       Log.debug "#{player}'s name is #{name}"
       @players[player][:name] = name
@@ -384,6 +389,7 @@ class LogAnalyzer
   end
 
   def reset_data
+    @coin_set       = false
     @current_turn   = 0
     @tracking_cards = []
     @entities       = {}

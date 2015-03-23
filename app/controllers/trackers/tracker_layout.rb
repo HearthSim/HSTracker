@@ -5,8 +5,7 @@ class TrackerLayout < MK::WindowLayout
 
   # get the window frame
   def window_frame
-    h = CGRectGetMidY(NSScreen.mainScreen.frame)
-    [[0, h - KFrameHeight / 2], [KFrameWidth, KFrameHeight]]
+    [[0, 0], [0, 0]]
   end
 
   # get the window name

@@ -66,6 +66,11 @@ class OpponentTracker < Tracker
     play_card(card_id)
   end
 
+  def secret_revealed(card_id)
+    # for the opponent, consider he played the card
+    play_card(card_id)
+  end
+
   def play_card(card_id)
     found = false
     @cards.each do |card|

@@ -17,6 +17,7 @@ class Tracker < NSWindowController
   end
 
   def save_frame
+    return if Configuration.lock_windows
     NSUserDefaults.standardUserDefaults.setObject(NSStringFromRect(self.window.frame),
                                                   forKey: self.window.identifier)
   end
@@ -27,7 +28,7 @@ class Tracker < NSWindowController
     if locked
       mask = NSBorderlessWindowMask
     else
-      mask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
+      mask = NSTitledWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
     end
     self.window.setStyleMask mask
   end

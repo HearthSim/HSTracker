@@ -10,6 +10,12 @@ class Hearthstone
     @instance
   end
 
+  def is_started
+    @is_started ||= false
+
+    @is_started
+  end
+
   # get the path to the log.config
   def self.config_path
     '/Library/Preferences/Blizzard/Hearthstone/log.config'.home_path
@@ -65,10 +71,7 @@ class Hearthstone
 
   # start the analysis if HS is running
   def start
-    @is_started ||= false
-
-    if is_hearthstone_running? and !@is_started
-      @is_started = true
+    if is_hearthstone_running?
       start_tracking
     end
   end
@@ -147,13 +150,16 @@ class Hearthstone
 
   # start analysis and dispatch events
   def start_tracking
+    return if is_started
+    @is_started = true
+
     @log_observer = LogObserver.new
     @log_analyzer = LogAnalyzer.new
 
     # game finish
     @log_analyzer.on_game_end do |player|
       listeners.each do |listener|
-        #listener.reset_cards if listener.respond_to?('reset_cards')
+        listener.game_end if listener.respond_to?('game_end')
       end
     end
 
@@ -173,7 +179,9 @@ class Hearthstone
 
     # coin
     @log_analyzer.on_coin do |player|
-
+      listeners(player).each do |listener|
+        listener.get_coin(player) if listener.respond_to?('get_coin')
+      end
     end
 
     # cards
@@ -192,6 +200,18 @@ class Hearthstone
     @log_analyzer.on_card(:discard_card) do |player, card_id|
       listeners(player).each do |listener|
         listener.discard_card card_id if listener.respond_to?('discard_card')
+      end
+    end
+
+    @log_analyzer.on_card(:play_secret) do
+      listeners(:opponent).each do |listener|
+        listener.play_secret if listener.respond_to?('play_secret')
+      end
+    end
+
+    @log_analyzer.on_card(:secret_revealed) do |player, card_id|
+      listeners(player).each do |listener|
+        listener.secret_revealed(card_id) if listener.respond_to?('secret_revealed')
       end
     end
 

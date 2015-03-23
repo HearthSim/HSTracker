@@ -36,7 +36,17 @@ class AppDelegate
       @opponent.showWindow(self)
       @opponent.window.orderFrontRegardless
 
+      @card_count_player = CardCountHud.alloc.initWithPlayer :player
+      @card_count_player.showWindow(self)
+      @card_count_player.window.orderFrontRegardless
+
+      @card_count_opponent = CardCountHud.alloc.initWithPlayer :opponent
+      @card_count_opponent.showWindow(self)
+      @card_count_opponent.window.orderFrontRegardless
+
       Hearthstone.instance.listen(@player, :player)
+      Hearthstone.instance.listen(@card_count_player, :player)
+      Hearthstone.instance.listen(@card_count_opponent, :opponent)
       Hearthstone.instance.listen(@opponent, :opponent)
 
       if Hearthstone.instance.is_hearthstone_running?

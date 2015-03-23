@@ -79,3 +79,9 @@
 "Your deck don't have 30 cards, are you sure you want to continue ?" = "Your deck don't have 30 cards, are you sure you want to continue ?";
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Your deck is not saved, are you sure you want to continue, you will lose all changes.";
 "Deck saved" = "Deck saved";
+
+/* huds */
+"Player Card Count" = "Player Card Count";
+"Opponent Card Count" = "Opponent Card Count";
+"Hand : " = "Hand : ";
+"Deck : " = "Deck : ";
