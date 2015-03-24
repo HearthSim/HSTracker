@@ -11,7 +11,6 @@ class InterfacePreferencesLayout < PreferencesLayout
             },
             :changed => -> (elem) {
               Configuration.lock_windows = (elem.state == NSOnState)
-              NSNotificationCenter.defaultCenter.post('lock_windows')
             }
         },
         :window_transparency => {
@@ -24,7 +23,6 @@ class InterfacePreferencesLayout < PreferencesLayout
             },
             :changed => -> (elem) {
               Configuration.window_transparency = elem.floatValue
-              NSNotificationCenter.defaultCenter.post('window_transparency')
             }
         }
     }

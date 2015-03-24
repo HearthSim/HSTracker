@@ -106,4 +106,11 @@ class AppDelegate
     @player.window.setLevel NSScreenSaverWindowLevel
     @opponent.window.setLevel NSScreenSaverWindowLevel
   end
+
+  # lock / unlock windows
+  def lock_windows(menu_item)
+    Configuration.lock_windows ? menu_item.title = 'Lock Windows'._ : menu_item.title = 'Unlock Windows'._
+
+    Configuration.lock_windows = !Configuration.lock_windows
+  end
 end

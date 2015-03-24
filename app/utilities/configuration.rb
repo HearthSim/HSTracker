@@ -54,6 +54,7 @@ class Configuration
 
     def lock_windows=(value)
       NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'windows_locked')
+      NSNotificationCenter.defaultCenter.post('lock_windows')
     end
 
     def window_transparency
@@ -62,6 +63,7 @@ class Configuration
 
     def window_transparency=(value)
       NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'window_transparency')
+      NSNotificationCenter.defaultCenter.post('window_transparency')
     end
 
   end

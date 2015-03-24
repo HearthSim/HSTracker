@@ -24,6 +24,10 @@ class MainMenu < MK::MenuLayout
       add item('Select All'._, action: 'selectAll:', key: 'a')
     end
 
+    add 'Window'._ do
+      label = Configuration.lock_windows ? 'Unlock Windows'._ : 'Lock Windows'._
+      add item(label, action: 'lock_windows:', key: '')
+    end
   end
 
 end
