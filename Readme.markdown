@@ -32,6 +32,7 @@ Is Blizzard okay with this?
 - *New* : transparency of the windows can be set in the settings
 - *New* : player and opponent card count windows
 - *New* : card draw chance on deck hover
+- *New* : deck manager images available in de, en, es, fr, pt and ru
 
 #### 0.4
 - *New* : support for OS X 10.8
