@@ -86,7 +86,11 @@ I took some inspiration/copy-paste from [Hearthstone-Deck-Tracker-Mac](https://g
 
 The base of the log analyser came from [hearthstone-tracker-osx](https://github.com/hellozimi/hearthstone-tracker-osx).
 
-And the resources came from [Hearthstone-Deck-Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker).
+Lot of resources came from [Hearthstone-Deck-Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker).
+
+Cards came from [Hearthhead](http://www.hearthhead.com/).
+
+JSON data came from [Hearthstone JSON](http://hearthstonejson.com/).
 
 ## Donations
 Donations are always appreciated 

@@ -23,7 +23,7 @@ Motion::Project::App.setup do |app|
   app.identifier = 'be.michotte.hstracker'
 
   app.icon                                  = 'Icon.icns'
-  app.info_plist['ATSApplicationFontsPath'] = 'resources/'
+  app.info_plist['ATSApplicationFontsPath'] = 'fonts/'
 
   app.pods do
     pod 'AFNetworking', '~> 2.0'

@@ -32,7 +32,7 @@ class CardCellView < NSTableCellView
 
       # draw the frame
       frame_name = frame_width == 220 ? 'frame' : 'frame_small'
-      frame      = NSImage.alloc.initWithContentsOfFile(png_path_with_name(frame_name))
+      frame      = NSImage.alloc.initWithContentsOfFile(png_path_with_name("frames/#{frame_name}"))
       frame.drawInRect([[1, 0], [218, 35]],
                        fromRect:  NSZeroRect,
                        operation: NSCompositeSourceOver,
@@ -67,7 +67,7 @@ class CardCellView < NSTableCellView
         extra_info_x    = (frame_width == 220) ? 194 : 185
 
         # add the background of the card count
-        frame_count_box = NSImage.alloc.initWithContentsOfFile(png_path_with_name('frame_countbox'))
+        frame_count_box = NSImage.alloc.initWithContentsOfFile(png_path_with_name('frames/frame_countbox'))
         frame_count_box.drawInRect([[frame_count_x, 5], [25, 24]],
                                    fromRect:  NSZeroRect,
                                    operation: NSCompositeSourceOver,
@@ -75,14 +75,14 @@ class CardCellView < NSTableCellView
 
         if card.count >= 2 && card.count <= 9
           # the card count
-          extra_info = NSImage.alloc.initWithContentsOfFile(png_path_with_name("frame_#{card.count}"))
+          extra_info = NSImage.alloc.initWithContentsOfFile(png_path_with_name("frames/frame_#{card.count}"))
           extra_info.drawInRect([[extra_info_x, 8], [18, 21]],
                                 fromRect:  NSZeroRect,
                                 operation: NSCompositeSourceOver,
                                 fraction:  alpha)
         else
           # card is legendary (or count > 10)
-          extra_info = NSImage.alloc.initWithContentsOfFile(png_path_with_name('frame_legendary'))
+          extra_info = NSImage.alloc.initWithContentsOfFile(png_path_with_name('frames/frame_legendary'))
           extra_info.drawInRect([[extra_info_x, 8], [18, 21]],
                                 fromRect:  NSZeroRect,
                                 operation: NSCompositeSourceOver,

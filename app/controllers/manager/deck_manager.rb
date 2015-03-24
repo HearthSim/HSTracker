@@ -6,6 +6,8 @@ class DeckManager < NSWindowController
       :constructed => 2
   }
 
+  KClasses = %w(Shaman Hunter Warlock Druid Warrior Mage Paladin Priest Rogue Neutral)
+
   attr_accessor :player_view
 
   Log = Motion::Log
@@ -23,38 +25,44 @@ class DeckManager < NSWindowController
       # preparation for arena
       @current_deck_mode = :constructed
 
+      # load decks
       show_decks
 
-      @table_view = @layout.get(:table_view)
+      # init tabs
+      @tabs = @layout.get(:tabs)
+      @tabs.setAction 'tab_changed:'
+      @tabs.setTarget self
+      @tabs.setSegmentCount KClasses.size
+
+      KClasses.each_with_index do |clazz, idx|
+        @tabs.setLabel(clazz._, forSegment: idx)
+      end
+
+      @tabs.setSelected(true, forSegment: 0)
+      @current_class = KClasses[0]
+
+      # init table
+      @table_view    = @layout.get(:table_view)
       @table_view.setHeaderView nil
+      @table_view.doubleAction = 'double_click:'
       @table_view.delegate     = self
       @table_view.dataSource   = self
-      @table_view.doubleAction = 'double_click:'
 
-      @cards_view                  = JNWCollectionView.alloc.initWithFrame CGRectZero
-      @cards_view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable
-      @cards_view.dataSource       = self
-      @cards_view.delegate         = self
-      @cards_view.backgroundColor  = :clear.nscolor
-      @cards_view.drawsBackground  = false
+      # init card view
+      @cards_view              = @layout.get(:cards_view)
+      @cards_view.dataSource   = self
+      @cards_view.delegate     = self
 
       grid_layout                      = JNWCollectionViewGridLayout.alloc.initWithCollectionView(@cards_view)
       grid_layout.delegate             = self
       grid_layout.itemSize             = [191, 260]
       @cards_view.collectionViewLayout = grid_layout
-
       @cards_view.registerClass(CardItemView, forCellWithReuseIdentifier: 'card_item')
 
-      @tab_view          = @layout.get(:tab_view)
-      @tab_view.delegate = self
-      @tab_view.selectFirstTabViewItem(self)
-      tab_view_item      = @tab_view.tabViewItems.first
-      @current_class     = tab_view_item.identifier
-      tab_view_item.view = @cards_view
-      @cards             = nil
+      @cards = nil
       @cards_view.reloadData
 
-      @left = @layout.get(:left)
+      @left  = @layout.get(:left)
 
       @toolbar             = NSToolbar.alloc.initWithIdentifier 'toolbar'
       @toolbar.displayMode = NSToolbarDisplayModeIconOnly
@@ -86,6 +94,10 @@ class DeckManager < NSWindowController
     Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
       @decks_or_cards << deck
     end
+
+    KClasses.each_with_index do |_, index|
+      @tabs.setEnabled(true, forSegment: index)
+    end if @tabs
   end
 
   def cards
@@ -116,7 +128,8 @@ class DeckManager < NSWindowController
   end
 
   def collectionView(collectionView, numberOfItemsInSection: section)
-    cards.count
+    return cards.count if cards
+    0
   end
 
   def collectionView(collectionView, mouseUpInItemAtIndexPath: indexPath)
@@ -151,7 +164,6 @@ class DeckManager < NSWindowController
 
   # CardItemView delegate
   def hover(cell)
-
     rect          = self.window.contentView.convertRect(cell.bounds, fromView: cell)
     point         = rect.origin
     point.x       += CGRectGetWidth(cell.frame) + 130
@@ -168,18 +180,18 @@ class DeckManager < NSWindowController
     @tooltip.window.orderOut(self) if @tooltip
   end
 
-  # tab delegate
-  def tabView(tabView, didSelectTabViewItem: tabViewItem)
-    @current_class   = tabViewItem.identifier
-    tabViewItem.view = @cards_view
-    @cards           = nil
+  # nssegmentedcontrol
+  def tab_changed(_)
+    @current_class = KClasses[@tabs.selectedSegment]
+    @cards         = nil
 
     @cards_view.reloadData
   end
 
   # tables stuff
   def numberOfRowsInTableView(tableView)
-    @decks_or_cards.count
+    return @decks_or_cards.count if @decks_or_cards
+    0
   end
 
   ## table delegate
@@ -221,13 +233,6 @@ class DeckManager < NSWindowController
   end
 
   # toolbar stuff
-
-  # disable tabs in edition except for the current deck class and neutral cards
-  def tabView(tabView, shouldSelectTabViewItem: tabViewItem)
-    return true unless @in_edition
-    tabViewItem.identifier =~ /#{@deck_class}|Neutral/i
-  end
-
   # enable / disable items
   def validateToolbarItem(item)
     case item.itemIdentifier
@@ -409,10 +414,13 @@ class DeckManager < NSWindowController
     end
     @current_class = @deck_class
 
-    tab_view_item = @tab_view.tabViewItems[@tab_view.indexOfTabViewItemWithIdentifier(@current_class)]
-    @tab_view.selectTabViewItem(tab_view_item)
-    tab_view_item.view = @cards_view
-    @cards             = nil
+    selected_class = KClasses.index(@current_class)
+    KClasses.each_with_index do |claz, index|
+      enabled = selected_class == index || claz == 'Neutral'
+      @tabs.setEnabled(enabled, forSegment: index)
+      @tabs.setSelected(selected_class == index, forSegment: index)
+    end
+    @cards = nil
 
     @cards_view.reloadData
     @table_view.reloadData
@@ -484,8 +492,8 @@ class DeckManager < NSWindowController
     end
 
     response = NSAlert.alert('Deck name'._,
-                             :buttons     => ['OK'._, 'Cancel'._],
-                             :view        => deck_name_input
+                             :buttons => ['OK'._, 'Cancel'._],
+                             :view    => deck_name_input
     )
 
     if response == NSAlertSecondButtonReturn

@@ -7,10 +7,29 @@ class DeckManagerLayout < MK::WindowLayout
     frame [[0, 0], [frame_width, frame_height]], 'HSTrackerDeckManager'
     title 'Deck Manager'._
 
-    add NSTabView, :tab_view do
+    add NSView do
+
+      add NSSegmentedControl, :tabs do
+        segment_style NSSegmentStyleCapsule
+
+        constraints do
+          height.is 23
+          top.equals(:superview).plus(10)
+          center_x.equals(:superview)
+        end
+      end
+
+      add JNWCollectionView, :cards_view do
+        constraints do
+          top.equals(:tabs, :bottom).plus(10)
+          bottom.equals(:superview)
+          width.equals(:superview)
+        end
+      end
+
       constraints do
-        height.equals(:superview).minus(20)
-        top_left.equals x: 10, y: 10
+        height.equals(:superview)
+        left.is 0
         right.equals(:right, :left).minus(10)
       end
     end
@@ -23,15 +42,6 @@ class DeckManagerLayout < MK::WindowLayout
       end
     end
 
-  end
-
-  def tab_view_style
-    classes = %w(Shaman Hunter Warlock Druid Warrior Mage Paladin Priest Rogue Neutral)
-    classes.each do |clazz|
-      tab = NSTabViewItem.alloc.initWithIdentifier "#{clazz}"
-      tab.label = clazz._
-      addTabViewItem tab
-    end
   end
 
   def right_style
