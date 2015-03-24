@@ -34,6 +34,9 @@ class PlayerTracker < Tracker
       @table_view.setHeaderView nil
       @table_view.delegate   = self
       @table_view.dataSource = self
+
+      @card_hover = CardHover.new
+      @card_hover.showWindow(self.window)
     end
   end
 
@@ -52,7 +55,7 @@ class PlayerTracker < Tracker
     cell                 ||= CardCellView.new
     cell.card            = card
     cell.side            = :player
-    #cell.delegate = self
+    cell.delegate        = self
     @cells[card.card_id] = cell
 
     cell
@@ -67,7 +70,7 @@ class PlayerTracker < Tracker
   def reset_cards
     Log.verbose 'Player reset card'
     @playing_cards.each do |card|
-      card.count = @cards[card.card_id]
+      card.count      = @cards[card.card_id]
       card.hand_count = 0
     end
 
@@ -123,6 +126,18 @@ class PlayerTracker < Tracker
 
   def window_transparency
     @table_view.backgroundColor = :black.nscolor(Configuration.window_transparency)
+  end
+
+  # card hover
+  def hover(cell)
+    card_count = @playing_cards.map(&:count).inject(0, :+)
+    card       = cell.card
+
+    @card_hover.show_stats(card.count, card_count)
+  end
+
+  def out(_)
+    @card_hover.clear
   end
 
 end

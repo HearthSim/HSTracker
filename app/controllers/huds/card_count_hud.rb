@@ -1,4 +1,4 @@
-class CardCountHud < Tracker
+class CardCountHud < Hud
 
   attr_accessor :deck_count, :hand_count, :has_coin
 
@@ -60,16 +60,5 @@ class CardCountHud < Tracker
     text += ("#{'Deck : '._} #{self.deck_count}")
 
     @label.text = text
-  end
-
-  def window_locks
-    super.tap do
-      locked = Configuration.lock_windows
-      self.window.ignoresMouseEvents = locked
-    end
-  end
-
-  def window_transparency
-    self.window.backgroundColor = :black.nscolor(Configuration.window_transparency)
   end
 end

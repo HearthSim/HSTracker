@@ -1,5 +1,6 @@
 class CardCellView < NSTableCellView
-  attr_accessor :card, :side
+
+  attr_accessor :card, :side, :delegate
 
   # path of the bundle images path
   def absolute_path
@@ -27,7 +28,7 @@ class CardCellView < NSTableCellView
       end
 
       # draw the card image
-      image = NSImage.alloc.initWithContentsOfFile(image_path)
+      image       = NSImage.alloc.initWithContentsOfFile(image_path)
       image_width = frame_width == 220 ? 110 : 96
       image.drawInRect([[104, 1], [image_width, 34]],
                        fromRect:  NSZeroRect,
@@ -36,7 +37,7 @@ class CardCellView < NSTableCellView
 
       # draw the frame
       frame_name = frame_width == 220 ? 'frame' : 'frame_small'
-      frame = NSImage.alloc.initWithContentsOfFile(png_path_with_name(frame_name))
+      frame      = NSImage.alloc.initWithContentsOfFile(png_path_with_name(frame_name))
       frame.drawInRect([[1, 0], [218, 35]],
                        fromRect:  NSZeroRect,
                        operation: NSCompositeSourceOver,
@@ -57,11 +58,11 @@ class CardCellView < NSTableCellView
       cost.drawInRect [[2, 1], [34, 37]]
 
       # print the card name
-      name = card.name.attrd
-                 .font('Belwe Bd BT'.nsfont(15))
-                 .stroke_width(-1.5)
-                 .stroke_color(stroke_color)
-                 .foreground_color(foreground)
+      name       = card.name.attrd
+                       .font('Belwe Bd BT'.nsfont(15))
+                       .stroke_width(-1.5)
+                       .stroke_color(stroke_color)
+                       .foreground_color(foreground)
       name_width = (frame_width == 220) ? 184 : 178
       name.drawInRect [[37, 2], [name_width, 30]]
 
@@ -94,5 +95,32 @@ class CardCellView < NSTableCellView
         end
       end
     end
+  end
+
+  # check mouse hover
+  def ensureTrackingArea
+    if @tracking_area.nil?
+      @tracking_area = NSTrackingArea.alloc.initWithRect(NSZeroRect, options: NSTrackingInVisibleRect | NSTrackingActiveAlways | NSTrackingMouseEnteredAndExited, owner: self, userInfo: nil)
+    end
+  end
+
+  def updateTrackingAreas
+    super.tap do
+      ensureTrackingArea
+      unless trackingAreas.include?(@tracking_area)
+        addTrackingArea(@tracking_area)
+      end
+    end
+  end
+
+  def mouseEntered(_)
+    return if card.count.zero?
+
+    self.delegate.hover(self) if self.delegate
+  end
+
+  def mouseExited(_)
+    return if card.count.zero?
+    self.delegate.out(self) if self.delegate
   end
 end
