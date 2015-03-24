@@ -2,20 +2,15 @@ class CardCellView < NSTableCellView
 
   attr_accessor :card, :side, :delegate
 
-  # path of the bundle images path
-  def absolute_path
-    'images/'.resource_path
-  end
-
   # get the card image path
   def image_path
     image = self.card.english_name.downcase.gsub(/[ ']/, '-').gsub(/[:.!]/, '')
-    "#{absolute_path}/#{image}.png"
+    png_path_with_name("small/#{image}")
   end
 
   # shortcut method
   def png_path_with_name(file_name)
-    "#{absolute_path}/#{file_name}.png"
+    "#{'images/'.resource_path}/#{file_name}.png"
   end
 
   def drawRect(rect)
