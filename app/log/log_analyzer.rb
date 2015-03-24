@@ -171,7 +171,6 @@ class LogAnalyzer
       else
         #Log.verbose "*** from '#{from}' to '#{to}' -> #{card_id} (#{card})"
       end
-
     end
 
     # Turn Info
@@ -298,86 +297,88 @@ class LogAnalyzer
       entity(entity, :player_id, player_id)
     end
 
-    match = /TAG_CHANGE Entity=(\w+) tag=PLAYER_ID value=(\d)/.match(line)
-    if match
-      name  = match[1]
-      value = match[2].to_i
-
-      player = (value == 1) ? :player : :opponent
-
-      Log.debug "#{player}'s name is #{name}"
-      @players[player][:name] = name
-      @on_player_name.call(player, name) if @on_player_name
-    end
-
     match = /TAG_CHANGE Entity=(.+) tag=(\w+) value=(\w+)/.match(line)
     if match
       entity = match[1]
       tag    = match[2]
       value  = match[3]
 
-      # game end
-      if tag == 'PLAYSTATE'
-        game_ended = false
-        winner     = nil
-
-        player = player(entity)
-
-        case value
-
-          # player concede
-          when 'QUIT'
-            game_ended = true
-            winner     = :opponent
-          when 'WON'
-            game_ended = true
-            winner     = player
-          when 'LOST'
-            game_ended = true
-            winner     = (player == :opponent) ? :player : :opponent
-          #when 'TIED'
-          #game_ended = true
-        end
-
-        if game_ended and winner
-          end_game(winner)
-        end
-
-      elsif tag == 'ZONE'
-        #Log.debug "****** entity : #{entity}, tag : #{tag}, value : #{value}"
-
-        # check players
-      elsif tag == 'CONTROLLER'
-        unless @players[:player][:id]
-          player_1 = entity_with_value(:player_id, 1)
-          player_2 = entity_with_value(:player_id, 2)
-
+      # player names
+      case tag
+        when 'PLAYER_ID'
           value = value.to_i
 
-          if player_1
-            entity(player_1, :is_player, value == 1)
-          end
-          if player_2
-            entity(player_2, :is_player, value != 1)
+          player = (value == 1) ? :player : :opponent
+
+          Log.debug "#{player}'s name is #{entity}"
+          @players[player][:name] = entity
+          @on_player_name.call(player, entity) if @on_player_name
+
+        # game end
+        when 'PLAYSTATE'
+          game_ended = false
+          winner     = nil
+
+          player = player(entity)
+
+          case value
+
+            # player concede
+            when 'QUIT'
+              game_ended = true
+              winner     = :opponent
+            when 'WON'
+              game_ended = true
+              winner     = player
+            when 'LOST'
+              game_ended = true
+              winner     = (player == :opponent) ? :player : :opponent
+            else
+              #Log.debug "****** entity : #{entity}, tag : #{tag}, value : #{value}"
           end
 
-          @players[:player][:id]   = value
-          @players[:opponent][:id] = value == 1 ? 2 : 1
-        end
+          if game_ended and winner
+            end_game(winner)
+          end
+
+        when 'ZONE'
+
+          # check players
+        when 'CONTROLLER'
+          unless @players[:player][:id]
+            player_1 = entity_with_value(:player_id, 1)
+            player_2 = entity_with_value(:player_id, 2)
+
+            value = value.to_i
+
+            if player_1
+              entity(player_1, :is_player, value == 1)
+            end
+            if player_2
+              entity(player_2, :is_player, value != 1)
+            end
+
+            @players[:player][:id]   = value
+            @players[:opponent][:id] = value == 1 ? 2 : 1
+          end
+
+        else
+          #Log.debug "****** entity : #{entity}, tag : #{tag}, value : #{value}"
+
+      end
+    end
+
+    if @game_mode == :arena
+      match = /\[Rachelle\].*somehow the card def for (\w+_\w+) was already in the cache\.\.\./.match(line)
+      if match
+        card_id = match[1]
+        Log.verbose "possible arena card draft : #{card_id} ?"
       end
 
-      if @game_mode == :arena
-        match = /\[Rachelle\].*somehow the card def for (\w+_\w+) was already in the cache\.\.\./.match(line)
-        if match
-          card_id = match[1]
-          Log.verbose "possible arena card draft : #{card_id} ?"
-        end
-
-        match = /\[Asset\].*unloading name=(\w+_\w+) family=CardPrefab persistent=False/.match(line)
-        if match
-          card_id = match[1]
-          Log.verbose "possible arena card draft : #{card_id} ?"
-        end
+      match = /\[Asset\].*unloading name=(\w+_\w+) family=CardPrefab persistent=False/.match(line)
+      if match
+        card_id = match[1]
+        Log.verbose "possible arena card draft : #{card_id} ?"
       end
     end
 

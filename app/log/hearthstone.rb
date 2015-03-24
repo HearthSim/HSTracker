@@ -12,8 +12,6 @@ class Hearthstone
 
   def is_started
     @is_started ||= false
-
-    @is_started
   end
 
   # get the path to the log.config
@@ -159,14 +157,14 @@ class Hearthstone
     # game finish
     @log_analyzer.on_game_end do |player|
       listeners.each do |listener|
-        listener.game_end if listener.respond_to?('game_end')
+        listener.game_end(player) if listener.respond_to?('game_end')
       end
     end
 
     # game start
     @log_analyzer.on_game_start do
       listeners.each do |listener|
-        listener.reset_cards if listener.respond_to?('reset_cards')
+        listener.game_start if listener.respond_to?('game_start')
       end
     end
 

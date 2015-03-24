@@ -67,7 +67,7 @@ class PlayerTracker < Tracker
   end
 
   # game events
-  def reset_cards
+  def game_start
     Log.verbose 'Player reset card'
     @playing_cards.each do |card|
       card.count      = @cards[card.card_id]

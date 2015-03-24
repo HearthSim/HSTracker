@@ -12,15 +12,15 @@ class CardCountHud < Hud
       self.window.delegate = self
 
       @label = @layout.get(:label)
-      reset_cards
+      game_start
     end
   end
 
-  def game_end
+  def game_end(_)
     @label.text = nil
   end
 
-  def reset_cards
+  def game_start
     self.has_coin = false
     self.hand_count = 0
     self.deck_count = 30

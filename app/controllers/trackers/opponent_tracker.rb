@@ -44,7 +44,7 @@ class OpponentTracker < Tracker
   end
 
   # game events
-  def reset_cards
+  def game_start
     Log.verbose 'Opponent reset card'
     @cards = []
     @table_view.reloadData

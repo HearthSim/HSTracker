@@ -28,11 +28,11 @@ class AppDelegate
 
       NSApp.mainMenu = MainMenu.new.menu
 
-      @player = PlayerTracker.alloc.init
+      @player = PlayerTracker.new
       @player.showWindow(self)
       @player.window.orderFrontRegardless
 
-      @opponent = OpponentTracker.alloc.init
+      @opponent = OpponentTracker.new
       @opponent.showWindow(self)
       @opponent.window.orderFrontRegardless
 
