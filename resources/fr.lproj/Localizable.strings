@@ -35,6 +35,8 @@
 "Windows Transparency" = "Transparence des fenêtres";
 "Interface" = "Interface";
 "Unlock Windows" = "Déverrouiller les fenêtres";
+"Flash color" = "Couleur flash";
+"Fixed window names" = "Nom des fenêtres fixe";
 
 /* classes */
 "Shaman" = "Chaman";
@@ -88,3 +90,6 @@
 "Deck : " = "Deck : ";
 "Draw chance : " = "Chance de pioche : ";
 "Draw Chance" = "Chance de pioche";
+
+"Player" = "Joueur";
+"Opponent" = "Opposant";

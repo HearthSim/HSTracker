@@ -36,7 +36,17 @@ class InterfacePreferencesLayout < PreferencesLayout
             :changed => -> (elem) {
               Configuration.flash_color = elem.color
             }
-
+        },
+        :window_names        => {
+            :type    => NSButton,
+            :title   => 'Fixed window names'._,
+            :init    => -> (elem) {
+              elem.buttonType = NSSwitchButton
+              elem.state      = (Configuration.fixed_window_names ? NSOnState : NSOffState)
+            },
+            :changed => -> (elem) {
+              Configuration.fixed_window_names = (elem.state == NSOnState)
+            }
         }
     }
   end

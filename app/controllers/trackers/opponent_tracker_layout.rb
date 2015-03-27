@@ -12,4 +12,8 @@ class OpponentTrackerLayout < TrackerLayout
     'HSTrackerOpponent'
   end
 
+  def window_title
+    'Opponent'._
+  end
+
 end

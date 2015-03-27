@@ -6,7 +6,9 @@ class PlayerTracker < Tracker
   attr_accessor :cards
 
   def title=(value)
-    self.window.title = value
+    unless Configuration.fixed_window_names
+      self.window.title = value
+    end
   end
 
   def cards=(cards)

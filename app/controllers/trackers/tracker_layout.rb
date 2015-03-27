@@ -14,6 +14,10 @@ class TrackerLayout < MK::WindowLayout
     'HSTracker'
   end
 
+  def window_title
+    'HSTracker'
+  end
+
   def layout
     wframe = window_frame
     frame = NSUserDefaults.standardUserDefaults.objectForKey window_name
@@ -23,7 +27,7 @@ class TrackerLayout < MK::WindowLayout
 
     frame(wframe)
     identifier window_name
-    title 'HSTracker'
+    title window_title
 
     content_min_size [KFrameWidth, 200]
     content_max_size [KFrameWidth, CGRectGetHeight(NSScreen.mainScreen.frame)]

@@ -79,6 +79,14 @@ class Configuration
       NSNotificationCenter.defaultCenter.post('flash_color')
     end
 
+    def fixed_window_names
+      NSUserDefaults.standardUserDefaults.objectForKey('fixed_window_names')
+    end
+
+    def fixed_window_names=(value)
+      NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'fixed_window_names')
+    end
+
   end
 
 end

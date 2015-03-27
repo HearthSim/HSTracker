@@ -35,6 +35,8 @@
 "Lock Windows" = "Lock Windows";
 "Windows Transparency" = "Windows Transparency";
 "Interface" = "Interface";
+"Flash color" = "Flash color";
+"Fixed window names" = "Fixed window names";
 
 /* classes */
 "Shaman" = "Shaman";
@@ -88,3 +90,6 @@
 "Deck : " = "Deck : ";
 "Draw chance : " = "Draw chance : ";
 "Draw Chance" = "Draw Chance";
+
+"Player" = "Player";
+"Opponent" = "Opponent";

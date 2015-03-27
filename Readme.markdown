@@ -28,6 +28,7 @@ Is Blizzard okay with this?
 #### 0.6
 - *New* : flash the cards on draw (color editable in prefs)
 - *New* : better font for asian and cyrillic languages
+- *New* : name of the windows can now be fixed
 
 #### 0.5
 - Correction of the message when you save a deck

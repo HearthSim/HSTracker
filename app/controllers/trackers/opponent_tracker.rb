@@ -48,14 +48,16 @@ class OpponentTracker < Tracker
     Log.verbose 'Opponent reset card'
     @cards = []
     @table_view.reloadData
-    self.window.title = 'HSTracker'
+    unless Configuration.fixed_window_names
+      self.window.title = 'HSTracker'
+    end
   end
 
   def set_hero(player, hero_id)
     return if player == :player
 
     hero = Card.hero(hero_id)
-    if hero
+    if hero and !Configuration.fixed_window_names
       self.window.setTitle hero.player_class._
     end
   end

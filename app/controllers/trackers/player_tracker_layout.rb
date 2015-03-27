@@ -14,4 +14,9 @@ class PlayerTrackerLayout < TrackerLayout
   def window_name
     'HSTrackerPlayer'
   end
+
+  def window_title
+    'Player'._
+  end
+
 end
