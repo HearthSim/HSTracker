@@ -36,6 +36,10 @@ class Configuration
       NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'hearthstone_locale')
     end
 
+    def is_cyrillic_or_asian
+      locale =~ /^(zh|ko|ru)/
+    end
+
     def on_card_played
       played = NSUserDefaults.standardUserDefaults.objectForKey 'card_played'
       if played
@@ -74,6 +78,7 @@ class Configuration
       NSUserDefaults.standardUserDefaults.setObject(value.hex, forKey: 'flash_color')
       NSNotificationCenter.defaultCenter.post('flash_color')
     end
+
   end
 
 end

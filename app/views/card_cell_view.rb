@@ -89,10 +89,18 @@ class CardCellView < NSTableCellView
 
     # print the card cost
     cost               = "<center>#{card.cost}</center>".attributed_html
-                             .font('Belwe Bd BT'.nsfont(22))
-                             .stroke_width(-1.5)
-                             .stroke_color(stroke_color)
                              .foreground_color(foreground)
+    if Configuration.is_cyrillic_or_asian
+      cost = cost
+                 .font('GBJenLei-Medium'.nsfont(28))
+                 .foreground_color(foreground)
+    else
+      cost = cost
+                 .font('Belwe Bd BT'.nsfont(22))
+                 .stroke_width(-1.5)
+                 .stroke_color(stroke_color)
+    end
+
     card.cost > 9 ? x = 7 : x = 13
     @cost_layer.frame  = [[x, -4], [34, 37]]
     @cost_layer.string = cost
