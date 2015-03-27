@@ -5,29 +5,11 @@ class CardItemView < JNWCollectionViewCell
   def card=(card)
     @card = card
 
-    path = 'images/cards'.resource_path
-
-    # match languages
-    lang = card.lang
-    if lang == 'enGB'
-      lang = 'enUS'
-    elsif lang == 'esMX'
-      lang = 'esES'
-    elsif lang == 'ptPT'
-      lang = 'ptBR'
-    end
-
-    image_path = "#{path}/#{lang}/#{card.card_id}.jpg"
-    unless File.exists? image_path
-      image_path = "#{path}/enUS/#{card.card_id}.jpg"
-    end
-
-    image                = NSImage.alloc.initWithContentsOfFile(image_path)
-    self.backgroundImage = image
+    self.backgroundImage = ImageCache.card_image(card)
   end
 
   # check mouse hover
-  def ensureTrackingArea
+  def ensure_tracking_area
     if @tracking_area.nil?
       @tracking_area = NSTrackingArea.alloc.initWithRect(NSZeroRect,
                                                          options: NSTrackingInVisibleRect | NSTrackingActiveAlways | NSTrackingMouseEnteredAndExited,
@@ -38,7 +20,7 @@ class CardItemView < JNWCollectionViewCell
 
   def updateTrackingAreas
     super.tap do
-      ensureTrackingArea
+      ensure_tracking_area
       unless trackingAreas.include?(@tracking_area)
         addTrackingArea(@tracking_area)
       end

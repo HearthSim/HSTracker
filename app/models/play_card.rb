@@ -2,7 +2,7 @@
 class PlayCard
 
   attr_accessor :count, :hand_count, :card_id, :name, :english_name, :cost,
-                :health, :player_class, :rarity, :card_type
+                :health, :player_class, :rarity, :card_type, :has_changed
 
   def self.from_card(card)
     c              = self.new
@@ -16,6 +16,7 @@ class PlayCard
     c.player_class = card.player_class
     c.rarity       = card.rarity
     c.card_type    = card.card_type
+    c.has_changed  = false
 
     c
   end

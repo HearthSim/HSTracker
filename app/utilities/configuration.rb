@@ -66,6 +66,14 @@ class Configuration
       NSNotificationCenter.defaultCenter.post('window_transparency')
     end
 
+    def flash_color
+      (NSUserDefaults.standardUserDefaults.objectForKey('flash_color') || [55, 189, 223]).nscolor
+    end
+
+    def flash_color=(value)
+      NSUserDefaults.standardUserDefaults.setObject(value.hex, forKey: 'flash_color')
+      NSNotificationCenter.defaultCenter.post('flash_color')
+    end
   end
 
 end

@@ -25,6 +25,9 @@ Is Blizzard okay with this?
 - test ;) 
 
 ## Versions
+#### 0.6
+- *New* : flash the cards on draw (color editable in prefs)
+
 #### 0.5
 - Correction of the message when you save a deck
 - Better end game detection

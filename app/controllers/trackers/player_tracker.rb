@@ -52,10 +52,16 @@ class PlayerTracker < Tracker
     @cells ||= {}
     cell   = @cells[card.card_id] if @cells[card.card_id]
 
-    cell                 ||= CardCellView.new
-    cell.card            = card
-    cell.side            = :player
-    cell.delegate        = self
+    cell          ||= CardCellView.new
+    cell.card     = card
+    cell.side     = :player
+    cell.delegate = self
+
+    if card.has_changed
+      card.has_changed = false
+      cell.flash
+    end
+
     @cells[card.card_id] = cell
 
     cell
@@ -89,8 +95,9 @@ class PlayerTracker < Tracker
   def draw_card(card_id)
     @playing_cards.each do |card|
       if card.card_id == card_id
-        card.hand_count += 1
-        card.count      -= 1 unless card.count.zero?
+        card.hand_count  += 1
+        card.count       -= 1 unless card.count.zero?
+        card.has_changed = true
 
         Log.verbose "******** draw #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
       end
@@ -138,6 +145,21 @@ class PlayerTracker < Tracker
 
   def out(_)
     @card_hover.clear
+  end
+
+  # window
+  def showWindow(sender)
+    super.tap do
+      @color_changed = NSNotificationCenter.defaultCenter.observe 'flash_color' do |notification|
+        @table_view.reloadData if @table_view
+      end
+    end
+  end
+
+  def windowWillClose(_)
+    super.tap do
+      NSNotificationCenter.defaultCenter.unobserve(@color_changed)
+    end
   end
 
 end
