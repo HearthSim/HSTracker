@@ -16,6 +16,7 @@ Motion::Project::App.setup do |app|
   app.version       = `git rev-list HEAD --count`.strip
   App.info 'Building version', "#{app.short_version}.#{app.version}"
   # workaround to force the new version to be written in plist
+  # see https://github.com/HipByte/RubyMotion/issues/201
   system 'touch Rakefile'
 
   app.deployment_target = '10.8'
