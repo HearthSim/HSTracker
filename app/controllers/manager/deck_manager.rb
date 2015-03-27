@@ -445,9 +445,12 @@ class DeckManager < NSWindowController
     @current_class  = @deck_class
     @decks_or_cards = []
 
-    tab_view_item = @tab_view.tabViewItems[@tab_view.indexOfTabViewItemWithIdentifier(@current_class)]
-    @tab_view.selectTabViewItem(tab_view_item)
-    tab_view_item.view = @cards_view
+    selected_class = KClasses.index(@current_class)
+    KClasses.each_with_index do |claz, index|
+      enabled = selected_class == index || claz == 'Neutral'
+      @tabs.setEnabled(enabled, forSegment: index)
+      @tabs.setSelected(selected_class == index, forSegment: index)
+    end
     @cards             = nil
 
     @cards_view.reloadData
