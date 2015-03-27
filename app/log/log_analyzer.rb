@@ -33,6 +33,9 @@ class LogAnalyzer
   end
 
   def entity(id, name, value)
+    # can be null if started after the beginning of a game
+    @entities ||= {}
+
     unless @entities[id]
       @entities[id] = {}
     end
@@ -385,6 +388,7 @@ class LogAnalyzer
   end
 
   def player(name)
+    return nil if @players.nil?
     return :player if @players[:player][:name] == name
     :opponent
   end
