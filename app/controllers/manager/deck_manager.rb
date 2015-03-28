@@ -362,12 +362,12 @@ class DeckManager < NSWindowController
     end
 
     @import = DeckImport.alloc.init
-    @import.on_deck_loaded do |cards, clazz, name|
-      Log.debug "#{clazz} / #{name}"
+    @import.on_deck_loaded do |cards, clazz, name, arena|
+      Log.debug "#{clazz} / #{name} / #{arena}"
 
       if cards
         @saved = false
-        show_deck(cards, clazz, name)
+        show_deck(cards, clazz, name, arena)
       end
     end
     self.window.beginSheet(@import.window, completionHandler: nil)
@@ -390,11 +390,13 @@ class DeckManager < NSWindowController
     player_view.title = @deck_name || 'HSTracker'
   end
 
-  def show_deck(deck, clazz=nil, name=nil)
+  def show_deck(deck, clazz=nil, name=nil, arena=false)
     @in_edition = true
 
     if deck.is_a? Deck
       @current_deck   = deck
+
+      @current_deck.arena ? @current_deck_mode = :arena : @current_deck_mode = :constructed
       @decks_or_cards = []
       deck.cards.each do |deck_card|
         card = Card.by_id deck_card.card_id
@@ -407,6 +409,7 @@ class DeckManager < NSWindowController
       @deck_name  = deck.name
       @deck_class = deck.player_class
     else
+      arena ? @current_deck_mode = :arena : @current_deck_mode = :constructed
       @current_deck   = nil
       @decks_or_cards = deck
       @deck_name      = name
@@ -510,6 +513,7 @@ class DeckManager < NSWindowController
       @current_deck = Deck.create(:player_class => @deck_class)
     end
 
+    @current_deck.arena = @current_deck_mode == :arena
     @current_deck.name = deck_name
 
     @current_deck.cards.each do |c|
@@ -601,10 +605,10 @@ class DeckManager < NSWindowController
   end
 
   def check_clipboad_net_deck
-    Importer.netdeck do |deck, clazz, name|
+    Importer.netdeck do |deck, clazz, name, arena|
       unless @in_edition
         @saved = false
-        show_deck(deck, clazz, name)
+        show_deck(deck, clazz, name, arena)
       end
     end
   end

@@ -9,10 +9,21 @@ class VersionChecker
         next
       end
 
-      doc      = Wakizashi::HTML(result)#.body)
-      releases = doc.xpath("//ul[contains(@class,'tag-references')]//span[contains(@class,'css-truncate-target')]")
-      unless releases.nil? or releases.size.zero?
-        release_version = releases.first.stringValue
+      error = Pointer.new(:id)
+      doc   = GDataXMLDocument.alloc.initWithHTMLString(result, error: error)
+      if error[0]
+        Log.error error[0].description
+        next
+      end
+
+      release_version = doc.firstNodeForXPath("//ul[contains(@class,'tag-references')]//span[contains(@class,'css-truncate-target')]",
+                                              error: error)
+      if error[0]
+        Log.error error[0].description
+        next
+      end
+      unless release_version.nil?
+        release_version = release_version.stringValue
 
         dict          = NSBundle.mainBundle.infoDictionary
         local_version = "#{dict['CFBundleShortVersionString']}.#{dict['CFBundleVersion']}"

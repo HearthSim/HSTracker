@@ -58,8 +58,6 @@ GEM
       builder (~> 3.2)
       plist (~> 3.1)
     sugarcube (3.3.4)
-    wakizashi (0.1.1)
-      motion-cocoapods (>= 1.0.1)
     xcodeproj (0.23.0)
       activesupport (>= 3)
       colored (~> 1.2)
@@ -74,4 +72,3 @@ DEPENDENCIES
   motion-logger
   rake
   sugarcube
-  wakizashi

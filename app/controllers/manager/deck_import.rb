@@ -61,12 +61,12 @@ class DeckImport < NSWindowController
     indicator.startAnimation(self)
     status.hidden = false
 
-    Importer.load deck do |cards, clazz, name|
+    Importer.load deck do |cards, clazz, name, arena|
       indicator.stopAnimation(self)
       status.hidden = false
 
       if cards
-        @deck_loaded_block.call(cards, clazz, name) if @deck_loaded_block
+        @deck_loaded_block.call(cards, clazz, name, arena) if @deck_loaded_block
         self.window.sheetParent.endSheet(self.window, returnCode: NSModalResponseOK)
       else
         NSAlert.alert('Error'._,
