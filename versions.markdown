@@ -3,6 +3,8 @@
 - *New* : better font for asian and cyrillic languages
 - *New* : name of the windows can now be fixed
 - *New* : import from [HearthArena](http://www.heartharena.com)
+- Better error handling in import decks
+- *New* : cardcount for current deck in the Deck Manager
 
 #### 0.5
 - Correction of the message when you save a deck

@@ -70,6 +70,8 @@ class DeckManager < NSWindowController
       self.window.toolbar  = @toolbar
 
       check_clipboad_net_deck
+
+      @card_count = @layout.get(:card_count)
     end
   end
 
@@ -136,6 +138,8 @@ class DeckManager < NSWindowController
     return unless @in_edition
     card_count = @decks_or_cards.map(&:count).inject(0, :+)
     return if card_count >= @max_cards_in_deck
+
+    @card_count.stringValue = "#{card_count + 1} / #{@max_cards_in_deck}"
 
     cell = collectionView.cellForItemAtIndexPath(indexPath)
     c    = cell.card
@@ -226,6 +230,9 @@ class DeckManager < NSWindowController
       else
         deck_or_card.count -= 1
       end
+
+      card_count = @decks_or_cards.map(&:count).inject(0, :+)
+      @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
 
       @saved = false
       @table_view.reloadData
@@ -425,6 +432,9 @@ class DeckManager < NSWindowController
     end
     @cards = nil
 
+    card_count = @decks_or_cards.map(&:count).inject(0, :+)
+    @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
+
     @cards_view.reloadData
     @table_view.reloadData
   end
@@ -447,6 +457,8 @@ class DeckManager < NSWindowController
     @deck_class     = clazz.sub(/^(\w)/) { |s| s.capitalize }
     @current_class  = @deck_class
     @decks_or_cards = []
+
+    @card_count.stringValue = "0 / #{@max_cards_in_deck}"
 
     selected_class = KClasses.index(@current_class)
     KClasses.each_with_index do |claz, index|
@@ -554,6 +566,7 @@ class DeckManager < NSWindowController
       @saved        = true
       @current_deck = nil
       show_decks
+      @card_count.stringValue = ""
       @table_view.reloadData
     end
   end

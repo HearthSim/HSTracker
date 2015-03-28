@@ -9,6 +9,7 @@ class DeckManagerLayout < MK::WindowLayout
 
     add NSView do
 
+      # classes tabs
       add NSSegmentedControl, :tabs do
         segment_style NSSegmentStyleCapsule
 
@@ -19,6 +20,7 @@ class DeckManagerLayout < MK::WindowLayout
         end
       end
 
+      # cards view
       add JNWCollectionView, :cards_view do
         constraints do
           top.equals(:tabs, :bottom).plus(10)
@@ -35,6 +37,54 @@ class DeckManagerLayout < MK::WindowLayout
     end
 
     add NSView, :right do
+      add NSView, :infos do
+
+        # number of cards in deck
+        add NSTextField, :card_count do
+          stringValue ''
+          editable false
+          bezeled false
+          draws_background false
+          alignment NSCenterTextAlignment
+
+          constraints do
+            height.equals(:superview)
+            width.equals(:superview)
+          end
+        end
+
+        constraints do
+          width.equals(:superview)
+          top.is 0
+          height.is 30
+        end
+      end
+
+      # cards or decks
+      add NSScrollView, :table_scroll_view do
+        drawsBackground false
+        autoresizing_mask NSViewWidthSizable | NSViewHeightSizable
+
+        table = add NSTableView, :table_view do
+          row_height 37
+          intercellSpacing [0, 0]
+
+          background_color :clear.nscolor
+          parent_bounds = v.superview.bounds
+          frame parent_bounds
+
+          add_column 'cards_or_decks' do
+            width parent_bounds.size.width
+            resizingMask NSTableColumnAutoresizingMask
+          end
+        end
+
+        document_view table
+        frame             = v.superview.bounds
+        frame.size.height -= 50
+        frame(frame)
+      end
+
       constraints do
         width.equals(220)
         top_right.equals x: 0, y: 0
@@ -42,30 +92,6 @@ class DeckManagerLayout < MK::WindowLayout
       end
     end
 
-  end
-
-  def right_style
-    add NSScrollView, :table_scroll_view do
-      drawsBackground false
-      autoresizing_mask NSViewWidthSizable | NSViewHeightSizable
-
-      document_view add NSTableView, :table_view
-      frame v.superview.bounds
-    end
-  end
-
-  def table_view_style
-    row_height 37
-    intercellSpacing [0, 0]
-
-    background_color :clear.nscolor
-    parent_bounds = v.superview.bounds
-    frame parent_bounds
-
-    add_column 'cards_or_decks' do
-      width parent_bounds.size.width
-      resizingMask NSTableColumnAutoresizingMask
-    end
   end
 
 end
