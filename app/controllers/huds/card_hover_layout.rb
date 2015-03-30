@@ -16,7 +16,7 @@ class CardHoverLayout < MK::WindowLayout
     has_shadow false
     background_color :black.nscolor(Configuration.window_transparency)
 
-    locked = Configuration.lock_windows
+    locked = Configuration.windows_locked
 
     if locked
       mask = NSBorderlessWindowMask

@@ -1,6 +1,52 @@
 class Configuration
 
   class << self
+
+    def is_cyrillic_or_asian
+      locale =~ /^(zh|ko|ru)/
+    end
+
+    KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency flash_color fixed_window_names one_line_count)
+
+    KDefaults = {
+        :flash_color => [55, 189, 223],
+        :window_transparency => 0.1,
+        :card_played => :fade
+    }
+
+    def method_missing(symbol, *args)
+      is_add = symbol =~ /.+=$/
+      method = symbol.gsub(/=$/, '')
+
+      unless KValidOptions.include? method
+        raise "#{symbol} is not a valid option"
+      end
+
+      if is_add
+        value = args[0]
+        NSUserDefaults.standardUserDefaults.setObject(value, forKey: method)
+
+        # always post an event with this key...
+        # we don't care if nobody is listening
+        NSNotificationCenter.defaultCenter.post(method)
+      else
+        value = NSUserDefaults.standardUserDefaults.objectForKey(method)
+        if KDefaults[method.to_sym] and value.nil?
+          value = KDefaults[method.to_sym]
+        end
+
+        # special cases
+        case method
+          when 'flash_color'
+            value = value.nscolor
+          when 'card_played'
+            value = value.to_sym
+        end
+
+        value
+      end
+    end
+
     # get the HS locale
     def locale
       locale = NSUserDefaults.standardUserDefaults.objectForKey 'hearthstone_locale'
@@ -30,63 +76,6 @@ class Configuration
           'enUS'
       end
     end
-
-    # set the HS locale
-    def locale=(value)
-      NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'hearthstone_locale')
-    end
-
-    def is_cyrillic_or_asian
-      locale =~ /^(zh|ko|ru)/
-    end
-
-    def on_card_played
-      played = NSUserDefaults.standardUserDefaults.objectForKey 'card_played'
-      if played
-        return played.to_sym
-      end
-      :fade
-    end
-
-    def on_card_played=(value)
-      NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'card_played')
-    end
-
-    def lock_windows
-      NSUserDefaults.standardUserDefaults.objectForKey('windows_locked')
-    end
-
-    def lock_windows=(value)
-      NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'windows_locked')
-      NSNotificationCenter.defaultCenter.post('lock_windows')
-    end
-
-    def window_transparency
-      NSUserDefaults.standardUserDefaults.objectForKey('window_transparency') || 0.1
-    end
-
-    def window_transparency=(value)
-      NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'window_transparency')
-      NSNotificationCenter.defaultCenter.post('window_transparency')
-    end
-
-    def flash_color
-      (NSUserDefaults.standardUserDefaults.objectForKey('flash_color') || [55, 189, 223]).nscolor
-    end
-
-    def flash_color=(value)
-      NSUserDefaults.standardUserDefaults.setObject(value.hex, forKey: 'flash_color')
-      NSNotificationCenter.defaultCenter.post('flash_color')
-    end
-
-    def fixed_window_names
-      NSUserDefaults.standardUserDefaults.objectForKey('fixed_window_names')
-    end
-
-    def fixed_window_names=(value)
-      NSUserDefaults.standardUserDefaults.setObject(value, forKey: 'fixed_window_names')
-    end
-
   end
 
 end

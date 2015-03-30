@@ -9,10 +9,10 @@ class InterfacePreferencesLayout < PreferencesLayout
             :title   => 'Lock Windows'._,
             :init    => -> (elem) {
               elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.lock_windows ? NSOnState : NSOffState)
+              elem.state      = (Configuration.windows_locked ? NSOnState : NSOffState)
             },
             :changed => -> (elem) {
-              Configuration.lock_windows = (elem.state == NSOnState)
+              Configuration.windows_locked = (elem.state == NSOnState)
             }
         },
         :window_transparency => {
@@ -46,6 +46,17 @@ class InterfacePreferencesLayout < PreferencesLayout
             },
             :changed => -> (elem) {
               Configuration.fixed_window_names = (elem.state == NSOnState)
+            }
+        },
+        :one_line_count        => {
+            :type    => NSButton,
+            :title   => 'Card count on one line'._,
+            :init    => -> (elem) {
+              elem.buttonType = NSSwitchButton
+              elem.state      = (Configuration.one_line_count ? NSOnState : NSOffState)
+            },
+            :changed => -> (elem) {
+              Configuration.one_line_count = (elem.state == NSOnState)
             }
         }
     }

@@ -37,7 +37,7 @@ class TrackerLayout < MK::WindowLayout
     has_shadow false
     background_color :clear.nscolor
 
-    locked = Configuration.lock_windows
+    locked = Configuration.windows_locked
 
     if locked
       mask = NSBorderlessWindowMask

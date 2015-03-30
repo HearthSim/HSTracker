@@ -113,9 +113,9 @@ class AppDelegate
 
   # lock / unlock windows
   def lock_windows(menu_item)
-    Configuration.lock_windows ? menu_item.title = 'Lock Windows'._ : menu_item.title = 'Unlock Windows'._
+    Configuration.windows_locked ? menu_item.title = 'Lock Windows'._ : menu_item.title = 'Unlock Windows'._
 
-    Configuration.lock_windows = !Configuration.lock_windows
+    Configuration.windows_locked = !Configuration.windows_locked
   end
 
   # open a deck

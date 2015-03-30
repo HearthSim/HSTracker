@@ -63,7 +63,7 @@ class GeneralPreferencesLayout < PreferencesLayout
             :label => 'Card played'._,
             :type  => NSPopUpButton,
             :init => -> (elem) {
-              current_choice     = Configuration.on_card_played
+              current_choice     = Configuration.card_played
 
               KOnCardPlayedChoices.each do |value, label|
                 item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
@@ -79,7 +79,7 @@ class GeneralPreferencesLayout < PreferencesLayout
 
               KOnCardPlayedChoices.each do |value, label|
                 if choosen == label
-                  Configuration.on_card_played = value
+                  Configuration.card_played = value
                 end
               end
             }

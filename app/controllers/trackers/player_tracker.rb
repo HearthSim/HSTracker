@@ -118,7 +118,7 @@ class PlayerTracker < Tracker
         card.hand_count -= 1 unless card.hand_count.zero?
         Log.verbose "******** play #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
 
-        if card.hand_count.zero? and card.count.zero? and Configuration.on_card_played == :remove
+        if card.hand_count.zero? and card.count.zero? and Configuration.card_played == :remove
           @playing_cards.delete card
         end
       end

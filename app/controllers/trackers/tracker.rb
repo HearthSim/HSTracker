@@ -17,13 +17,13 @@ class Tracker < NSWindowController
   end
 
   def save_frame
-    return if Configuration.lock_windows
+    return if Configuration.windows_locked
     NSUserDefaults.standardUserDefaults.setObject(NSStringFromRect(self.window.frame),
                                                   forKey: self.window.identifier)
   end
 
   def window_locks
-    locked = Configuration.lock_windows
+    locked = Configuration.windows_locked
 
     if locked
       mask = NSBorderlessWindowMask
@@ -39,7 +39,7 @@ class Tracker < NSWindowController
   def showWindow(sender)
     # trigger when loading the window
     super.tap do
-      @option_changed = NSNotificationCenter.defaultCenter.observe 'lock_windows' do |notification|
+      @option_changed = NSNotificationCenter.defaultCenter.observe 'windows_locked' do |notification|
         window_locks
       end
       @transparency_changed = NSNotificationCenter.defaultCenter.observe 'window_transparency' do |notification|

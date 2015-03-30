@@ -56,8 +56,13 @@ class CardCountHud < Hud
   end
 
   def print
-    text = ("#{'Hand : '._} #{self.hand_count}\n")
-    text += ("#{'Deck : '._} #{self.deck_count}")
+    text = ("#{'Hand : '._} #{self.hand_count}")
+    if Configuration.one_line_count
+      text << ' / '
+    else
+      text << "\n"
+    end
+    text << ("#{'Deck : '._} #{self.deck_count}")
 
     @label.text = text
   end
