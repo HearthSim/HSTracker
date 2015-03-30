@@ -5,6 +5,7 @@
 - *New* : import from [HearthArena](http://www.heartharena.com)
 - Better error handling in import decks
 - *New* : cardcount for current deck in the Deck Manager
+- *New* : shortcut to lock/unlock windows (⌘l)
 
 #### 0.5
 - Correction of the message when you save a deck
