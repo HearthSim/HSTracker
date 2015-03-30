@@ -62,7 +62,7 @@ class DeckManager < NSWindowController
       @cards = nil
       @cards_view.reloadData
 
-      @left  = @layout.get(:left)
+      @left = @layout.get(:left)
 
       @toolbar             = NSToolbar.alloc.initWithIdentifier 'toolbar'
       @toolbar.displayMode = NSToolbarDisplayModeIconOnly
@@ -231,7 +231,7 @@ class DeckManager < NSWindowController
         deck_or_card.count -= 1
       end
 
-      card_count = @decks_or_cards.count_cards
+      card_count              = @decks_or_cards.count_cards
       @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
 
       @saved = false
@@ -393,28 +393,19 @@ class DeckManager < NSWindowController
       end
     end
 
-    player_view.cards = @decks_or_cards if player_view
-    player_view.title = @deck_name || 'HSTracker'
+    player_view.show_deck(@decks_or_cards, @deck_name) if player_view
   end
 
   def show_deck(deck, clazz=nil, name=nil, arena=false)
     @in_edition = true
 
     if deck.is_a? Deck
-      @current_deck   = deck
+      @current_deck = deck
 
       @current_deck.arena ? @current_deck_mode = :arena : @current_deck_mode = :constructed
-      @decks_or_cards = []
-      deck.cards.each do |deck_card|
-        card = Card.by_id deck_card.card_id
-        if card
-          card.count = deck_card.count
-          @decks_or_cards << card
-        end
-        @decks_or_cards = Sorter.sort_cards(@decks_or_cards)
-      end
-      @deck_name  = deck.name
-      @deck_class = deck.player_class
+      @decks_or_cards = @current_deck.playable_cards
+      @deck_name      = deck.name
+      @deck_class     = deck.player_class
     else
       arena ? @current_deck_mode = :arena : @current_deck_mode = :constructed
       @current_deck   = nil
@@ -432,7 +423,7 @@ class DeckManager < NSWindowController
     end
     @cards = nil
 
-    card_count = @decks_or_cards.count_cards
+    card_count              = @decks_or_cards.count_cards
     @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
 
     @cards_view.reloadData
@@ -466,7 +457,7 @@ class DeckManager < NSWindowController
       @tabs.setEnabled(enabled, forSegment: index)
       @tabs.setSelected(selected_class == index, forSegment: index)
     end
-    @cards             = nil
+    @cards = nil
 
     @cards_view.reloadData
     @table_view.reloadData
@@ -486,6 +477,7 @@ class DeckManager < NSWindowController
       @in_edition = false
       @saved      = true
       show_decks
+      NSNotificationCenter.defaultCenter.post('deck_change')
       @table_view.reloadData
     end
   end
@@ -526,7 +518,7 @@ class DeckManager < NSWindowController
     end
 
     @current_deck.arena = @current_deck_mode == :arena
-    @current_deck.name = deck_name
+    @current_deck.name  = deck_name
 
     @current_deck.cards.each do |c|
       c.destroy
@@ -539,6 +531,7 @@ class DeckManager < NSWindowController
     cdq.save
 
     @saved = true
+    NSNotificationCenter.defaultCenter.post('deck_change')
 
     NSAlert.alert('Save'._,
                   :buttons     => ['OK'._],

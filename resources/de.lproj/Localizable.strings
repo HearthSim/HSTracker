@@ -25,6 +25,8 @@
 "Quit HSTracker" = "HSTracker beenden";
 "Window" = "Window";
 "Unlock Windows" = "Unlock Windows";
+"Decks" = "Decks";
+"Reset" = "Reset";
 
 /* preferences */
 "General" = "Allgemein";

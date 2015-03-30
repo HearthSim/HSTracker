@@ -24,6 +24,8 @@
 "Show All" = "Tout afficher";
 "Quit HSTracker" = "Quitter HSTracker";
 "Window" = "Fenêtre";
+"Decks" = "Decks";
+"Reset" = "Reset";
 
 /* preferences */
 "General" = "Général";

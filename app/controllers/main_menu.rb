@@ -24,6 +24,15 @@ class MainMenu < MK::MenuLayout
       add item('Select All'._, action: 'selectAll:', key: 'a')
     end
 
+    add 'Decks'._ do
+      add item('Reset'._, action: 'reset:', key: 'r')
+      add separator_item
+
+      Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
+        add item(deck.name, action: 'open_deck:')
+      end
+    end
+
     add 'Window'._ do
       label = Configuration.lock_windows ? 'Unlock Windows'._ : 'Lock Windows'._
       add item(label, action: 'lock_windows:', key: 'l')

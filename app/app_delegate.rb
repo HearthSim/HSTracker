@@ -49,6 +49,10 @@ class AppDelegate
       Hearthstone.instance.listen(@card_count_opponent, :opponent)
       Hearthstone.instance.listen(@opponent, :opponent)
 
+      NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|
+        reload_deck_menu
+      end
+
       if Hearthstone.instance.is_hearthstone_running?
         Hearthstone.instance.start
       end
@@ -112,5 +116,31 @@ class AppDelegate
     Configuration.lock_windows ? menu_item.title = 'Lock Windows'._ : menu_item.title = 'Unlock Windows'._
 
     Configuration.lock_windows = !Configuration.lock_windows
+  end
+
+  # open a deck
+  def open_deck(menu_item)
+    deck = Deck.by_name(menu_item.title)
+    @player.show_deck(deck.playable_cards, deck.name)
+  end
+
+  # reset the trackers
+  def reset(_)
+    @player.game_start
+    @opponent.game_start
+  end
+
+  def reload_deck_menu
+    deck_menu = NSApp.mainMenu.itemWithTitle 'Decks'._
+    deck_menu.submenu.removeAllItems
+
+    item = NSMenuItem.alloc.initWithTitle('Reset'._, action: 'reset:', keyEquivalent: 'r')
+    deck_menu.submenu.addItem item
+    deck_menu.submenu.addItem NSMenuItem.separatorItem
+
+    Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
+      item = NSMenuItem.alloc.initWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
+      deck_menu.submenu.addItem item
+    end
   end
 end

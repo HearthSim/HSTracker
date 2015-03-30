@@ -6,6 +6,7 @@
 - Better error handling in import decks
 - *New* : cardcount for current deck in the Deck Manager
 - *New* : shortcut to lock/unlock windows (⌘l)
+- *New* : open a deck from the menu, as well as reset trackers (⌘r)
 
 #### 0.5
 - Correction of the message when you save a deck
