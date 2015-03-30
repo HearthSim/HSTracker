@@ -80,9 +80,12 @@ class DeckManagerLayout < MK::WindowLayout
         end
 
         document_view table
-        frame             = v.superview.bounds
-        frame.size.height -= 50
-        frame(frame)
+
+        constraints do
+          width.equals(:superview)
+          top.equals(:infos, :bottom)
+          bottom.is 0
+        end
       end
 
       constraints do
