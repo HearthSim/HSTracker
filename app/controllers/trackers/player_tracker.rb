@@ -80,6 +80,12 @@ class PlayerTracker < Tracker
   end
 
   # game events
+  def game_end(_)
+    if Configuration.reset_on_end
+      game_start
+    end
+  end
+
   def game_start
     Log.verbose 'Player reset card'
     @playing_cards.each do |card|

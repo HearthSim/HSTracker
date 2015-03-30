@@ -40,6 +40,7 @@
 "Unlock Windows" = "Déverrouiller les fenêtres";
 "Flash color" = "Couleur flash";
 "Fixed window names" = "Nom des fenêtres fixe";
+"Reset trackers on game end" = "Nettoie les trackers en fin de partie";
 
 /* classes */
 "Shaman" = "Chaman";

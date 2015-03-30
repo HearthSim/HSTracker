@@ -8,6 +8,7 @@
 - *New* : shortcut to lock/unlock windows (⌘l)
 - *New* : open a deck from the menu, as well as reset trackers (⌘r)
 - *New* : option to show card count on a single line
+- *New* : option to reset trackers on game end
 
 #### 0.5
 - Correction of the message when you save a deck

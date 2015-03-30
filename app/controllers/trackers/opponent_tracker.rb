@@ -44,6 +44,12 @@ class OpponentTracker < Tracker
   end
 
   # game events
+  def game_end(_)
+    if Configuration.reset_on_end
+      game_start
+    end
+  end
+
   def game_start
     Log.verbose 'Opponent reset card'
     @cards = []

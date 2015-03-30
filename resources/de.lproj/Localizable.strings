@@ -40,6 +40,7 @@
 "Interface" = "Interface";
 "Flash color" = "Flash color";
 "Fixed window names" = "Fixed window names";
+"Reset trackers on game end" = "Reset trackers on game end";
 
 /* classes */
 "Shaman" = "Shamane";

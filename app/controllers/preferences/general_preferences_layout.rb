@@ -58,7 +58,7 @@ class GeneralPreferencesLayout < PreferencesLayout
                 end
               end
             }
-        } ,
+        },
         :card_played => {
             :label => 'Card played'._,
             :type  => NSPopUpButton,
@@ -82,6 +82,17 @@ class GeneralPreferencesLayout < PreferencesLayout
                   Configuration.card_played = value
                 end
               end
+            }
+        },
+        :reset_on_end        => {
+            :type    => NSButton,
+            :title   => 'Reset trackers on game end'._,
+            :init    => -> (elem) {
+              elem.buttonType = NSSwitchButton
+              elem.state      = (Configuration.reset_on_end ? NSOnState : NSOffState)
+            },
+            :changed => -> (elem) {
+              Configuration.reset_on_end = (elem.state == NSOnState)
             }
         }
     }
