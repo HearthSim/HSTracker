@@ -109,7 +109,6 @@ class CardCellView < NSTableCellView
       # add the background of the card count
       @frame_count_box.contents = ImageCache.frame_countbox
       @frame_count_box.frame    = [[189, 5], [25, 24]]
-      @frame_count_box.opacity  = alpha
 
       if card.count.between?(2, 9)
         # the card count
@@ -118,9 +117,13 @@ class CardCellView < NSTableCellView
         # card is legendary (or count > 10)
         @extra_info.contents = ImageCache.frame_legendary
       end
-      @extra_info.frame   = [[194, 8], [18, 21]]
-      @extra_info.opacity = alpha
+      @extra_info.frame = [[194, 8], [18, 21]]
+    else
+      @extra_info.contents      = nil
+      @frame_count_box.contents = nil
     end
+    @frame_count_box.opacity = alpha
+    @extra_info.opacity      = alpha
 
     @flash_layer.frame = self.bounds
     @mask_layer.frame  = frame_rect
