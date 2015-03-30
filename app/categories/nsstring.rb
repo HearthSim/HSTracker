@@ -9,4 +9,8 @@ class NSString
     @@sugarcube_home.stringByAppendingPathComponent(self)
   end
 
+  # capitalize the first letter of a word
+  def ucfirst
+    self.sub(/^(\w)/) { |s| s.capitalize }
+  end
 end

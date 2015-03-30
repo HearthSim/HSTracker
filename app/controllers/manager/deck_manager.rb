@@ -136,7 +136,7 @@ class DeckManager < NSWindowController
 
   def collectionView(collectionView, mouseUpInItemAtIndexPath: indexPath)
     return unless @in_edition
-    card_count = @decks_or_cards.map(&:count).inject(0, :+)
+    card_count = @decks_or_cards.count_cards
     return if card_count >= @max_cards_in_deck
 
     @card_count.stringValue = "#{card_count + 1} / #{@max_cards_in_deck}"
@@ -231,7 +231,7 @@ class DeckManager < NSWindowController
         deck_or_card.count -= 1
       end
 
-      card_count = @decks_or_cards.map(&:count).inject(0, :+)
+      card_count = @decks_or_cards.count_cards
       @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
 
       @saved = false
@@ -420,7 +420,7 @@ class DeckManager < NSWindowController
       @current_deck   = nil
       @decks_or_cards = deck
       @deck_name      = name
-      @deck_class     = clazz.sub(/^(\w)/) { |s| s.capitalize }
+      @deck_class     = clazz
     end
     @current_class = @deck_class
 
@@ -432,7 +432,7 @@ class DeckManager < NSWindowController
     end
     @cards = nil
 
-    card_count = @decks_or_cards.map(&:count).inject(0, :+)
+    card_count = @decks_or_cards.count_cards
     @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
 
     @cards_view.reloadData
@@ -491,7 +491,7 @@ class DeckManager < NSWindowController
   end
 
   def save_deck(_)
-    card_count = @decks_or_cards.map(&:count).inject(0, :+)
+    card_count = @decks_or_cards.count_cards
 
     if card_count < @max_cards_in_deck
       response = NSAlert.alert('Save'._,

@@ -148,15 +148,15 @@ class Importer
         clazz = clazz_node.attributeForName('value').stringValue
         if clazz
           classes = {
-              'Chaman'    => 'shaman',
-              'Chasseur'  => 'hunter',
-              'Démoniste' => 'warlock',
-              'Druide'    => 'druid',
-              'Guerrier'  => 'warrior',
-              'Mage'      => 'mage',
-              'Paladin'   => 'paladin',
-              'Prêtre'    => 'priest',
-              'Voleur'    => 'rogue'
+              'Chaman'    => 'Shaman',
+              'Chasseur'  => 'Hunter',
+              'Démoniste' => 'Warlock',
+              'Druide'    => 'Druid',
+              'Guerrier'  => 'Warrior',
+              'Mage'      => 'Mage',
+              'Paladin'   => 'Paladin',
+              'Prêtre'    => 'Priest',
+              'Voleur'    => 'Rogue'
           }
           clazz   = classes[clazz]
         end
@@ -267,7 +267,7 @@ class Importer
       unless clazz_node.nil?
         match = /class-(\w+)/.match clazz_node.XMLString
         unless match.nil?
-          clazz = match[1]
+          clazz = match[1].ucfirst
         end
       end
 
@@ -319,7 +319,7 @@ class Importer
       deck  = []
 
       # search for class
-      clazz = url.partition('#').first.split('/').last
+      clazz = url.partition('#').first.split('/').last.ucfirst
 
       # search for cards
       cards = url.partition('#').last.split(';').map { |x| x.split ':' }
@@ -363,7 +363,7 @@ class Importer
       unless clazz_node.nil?
         match = /\/assets\/Icons\/Classes\/(\w+)_Icon\.gif/.match clazz_node.attributeForName('src').stringValue
         if match
-          clazz = match[1].downcase
+          clazz = match[1].downcase.ucfirst
         end
       end
 
@@ -524,7 +524,7 @@ class Importer
         return nil, nil, nil
       end
       unless clazz_node.nil?
-        clazz = clazz_node.attributeForName('hero_class').stringValue.downcase
+        clazz = clazz_node.attributeForName('hero_class').stringValue.downcase.ucfirst
       end
 
       # search for title
@@ -581,8 +581,7 @@ class Importer
       end
 
       unless clazz_node.nil?
-        title = clazz_node.stringValue.sub('/', '').strip
-        clazz = title.downcase
+        clazz = clazz_node.stringValue.sub('/', '').strip.downcase.ucfirst
       end
 
       # search for cards
