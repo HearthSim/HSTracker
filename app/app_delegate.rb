@@ -58,6 +58,18 @@ class AppDelegate
       end
 
       VersionChecker.check
+
+      NSNotificationCenter.defaultCenter.observe 'AppleLanguages_changed' do |_|
+        response = NSAlert.alert('Language change'._,
+                                 :buttons     => ['OK'._, 'Cancel'._],
+                                 :informative => 'You must restart HSTracker for the language change to take effect'._)
+        if response == NSAlertFirstButtonReturn
+          @app_will_restart = true
+
+          NSApplication.sharedApplication.terminate(nil)
+          exit(0)
+        end
+      end
     end
   end
 
@@ -141,6 +153,17 @@ class AppDelegate
     Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
       item = NSMenuItem.alloc.initWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
       deck_menu.submenu.addItem item
+    end
+  end
+
+  # restart HSTracker
+  def applicationWillTerminate(_)
+    if @app_will_restart
+      app_path = NSBundle.mainBundle.bundlePath
+      task     = NSTask.new
+      task.setLaunchPath '/usr/bin/open'
+      task.setArguments [app_path]
+      task.launch
     end
   end
 end

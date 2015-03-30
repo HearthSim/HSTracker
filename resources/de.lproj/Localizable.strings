@@ -41,6 +41,9 @@
 "Flash color" = "Flash color";
 "Fixed window names" = "Fixed window names";
 "Reset trackers on game end" = "Reset trackers on game end";
+"HSTracker language" = "HSTracker language";
+"Language change" = "Language change";
+"You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
 
 /* classes */
 "Shaman" = "Shamane";

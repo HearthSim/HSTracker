@@ -17,6 +17,8 @@ class GeneralPreferencesLayout < PreferencesLayout
       'zhTW' => 'zh_TW'
   }
 
+  KHSTrackerLocales = %w(de en fr)
+
   KOnCardPlayedChoices = {
       :fade   => 'Fade',
       :remove => 'Remove'
@@ -24,6 +26,43 @@ class GeneralPreferencesLayout < PreferencesLayout
 
   def options
     {
+        :app_language => {
+            :label => 'HSTracker language'._,
+            :type  => NSPopUpButton,
+            :init => -> (elem) {
+              langs = NSUserDefaults.standardUserDefaults.objectForKey('AppleLanguages')
+              current_locale = langs[0]
+
+              KHSTrackerLocales.each do |loc|
+                locale  = NSLocale.alloc.initWithLocaleIdentifier loc
+                display = locale.displayNameForKey(NSLocaleIdentifier, value: loc)
+
+                item = NSMenuItem.alloc.initWithTitle(display, action: nil, keyEquivalent: '')
+                elem.menu.addItem item
+
+                if current_locale == loc
+                  elem.selectItem item
+                end
+              end
+
+              if current_locale.nil?
+                elem.selectItemAtIndex -1
+              end
+            },
+            :changed => -> (elem) {
+              choosen = elem.selectedItem.title
+
+              KHSTrackerLocales.each do |loc|
+                locale  = NSLocale.alloc.initWithLocaleIdentifier loc
+                display = locale.displayNameForKey(NSLocaleIdentifier, value: loc)
+
+                if choosen == display
+                  NSUserDefaults.standardUserDefaults.setObject([loc], forKey: 'AppleLanguages')
+                  NSNotificationCenter.defaultCenter.post('AppleLanguages_changed')
+                end
+              end
+            }
+        },
         :locale => {
             :label => 'Game language'._,
             :type  => NSPopUpButton,
