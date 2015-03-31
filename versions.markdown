@@ -11,6 +11,7 @@
 - *New* : option to reset trackers on game end
 - *New* : option to change HSTracker language
 - Handle correctly steal, discard, tracking
+- *New* : deck manager can now be close with ⌘w
 
 #### 0.5
 - Correction of the message when you save a deck

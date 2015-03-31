@@ -110,6 +110,8 @@ class AppDelegate
 
     deck_manager.showWindow(nil)
     deck_manager.player_view = @player
+
+    close_window_menu true
   end
 
   # nswindowdelegate
@@ -121,6 +123,8 @@ class AppDelegate
     # change windows level back
     @player.window.setLevel NSScreenSaverWindowLevel
     @opponent.window.setLevel NSScreenSaverWindowLevel
+
+    close_window_menu false
   end
 
   # lock / unlock windows
@@ -157,6 +161,18 @@ class AppDelegate
     end
   end
 
+  def close_window_menu(enabled)
+    window_menu          = NSApp.mainMenu.itemWithTitle 'Window'._
+    close_window         = window_menu.submenu.itemWithTitle 'Close'._
+    close_window.enabled = enabled
+  end
+
+  def performClose(_)
+    if deck_manager
+      deck_manager.window.performClose nil
+    end
+  end
+
   # restart HSTracker
   def applicationWillTerminate(_)
     if @app_will_restart
@@ -167,4 +183,18 @@ class AppDelegate
       task.launch
     end
   end
+
+  def applicationShouldTerminate(_)
+    response = NSTerminateNow
+
+    if deck_manager
+      can_close = deck_manager.check_is_saved_on_close
+      unless can_close
+        response = NSTerminateCancel
+      end
+    end
+
+    response
+  end
+
 end
