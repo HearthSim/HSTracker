@@ -2,7 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 1
+  DATABASE_VERSION = 2
 
   Log = Motion::Log
 
@@ -41,8 +41,10 @@ class DatabaseGenerator
           'Reward',
           'Promotion',
           'Curse of Naxxramas',
-          'Goblins vs Gnomes'
+          'Goblins vs Gnomes',
+          'Blackrock Mountain'
       ]
+      invalid_cards = %w(EX1_tk34 EX1_tk29 EX1_tk28 EX1_tk11 EX1_598 NEW1_032 NEW1_033 NEW1_034 NEW1_009 CS2_052 CS2_082 CS2_051 CS2_050 CS2_152 skele11 skele21 GAME DREAM NEW1_006 NAX FP1_006 PART BRMA)
 
       langs.each do |lang|
         Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
@@ -51,6 +53,16 @@ class DatabaseGenerator
 
         valid_card_set.each do |card_set|
           cards[card_set].each do |card|
+
+            invalid_card = false
+            # check for invalid card
+            invalid_cards.each do |invalid|
+              if card['id'] =~ /^#{invalid}/
+                invalid_card = true
+                next
+              end
+            end
+            next if invalid_card
 
             cost = card['cost']
             # "fake" the coin... in the game files, Coin cost is empty
