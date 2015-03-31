@@ -1,6 +1,6 @@
 class CardCellView < NSTableCellView
 
-  attr_accessor :card, :side, :delegate
+  attr_accessor :card, :side, :delegate, :card_size
 
   def init
     super.tap do
@@ -61,7 +61,11 @@ class CardCellView < NSTableCellView
       alpha = (card.count <= 0 and card.hand_count <= 0) ? 0.4 : 1.0
     end
 
-    case Configuration.card_layout
+    layout = Configuration.card_layout
+    if card_size
+      layout = card_size
+    end
+    case layout
       when :small
         ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
       when :medium
@@ -72,23 +76,23 @@ class CardCellView < NSTableCellView
 
     # draw the card art
     @card_layer.contents  = ImageCache.small_card_image(card)
-    x = 104.0 / ratio
-    y = 1.0 / ratio
-    width = 110.0 / ratio
-    height = 34.0 / ratio
+    x                     = 104.0 / ratio
+    y                     = 1.0 / ratio
+    width                 = 110.0 / ratio
+    height                = 34.0 / ratio
     @card_layer.frame     = [[x, y], [width, height]]
     @card_layer.opacity   = alpha
 
     # draw the frame
     @frame_layer.contents = ImageCache.frame_image
 
-    x = 1.0 / ratio
-    y = 0.0 / ratio
-    width = 218.0 / ratio
-    height = 35.0 / ratio
-    frame_rect            = [[x, y], [width, height]]
-    @frame_layer.frame    = frame_rect
-    @frame_layer.opacity  = alpha
+    x                    = 1.0 / ratio
+    y                    = 0.0 / ratio
+    width                = 218.0 / ratio
+    height               = 35.0 / ratio
+    frame_rect           = [[x, y], [width, height]]
+    @frame_layer.frame   = frame_rect
+    @frame_layer.opacity = alpha
 
     stroke_color = :black.nscolor(alpha)
     foreground   = :white.nscolor(alpha)
@@ -102,10 +106,10 @@ class CardCellView < NSTableCellView
                              .stroke_width(-2)
                              .stroke_color(stroke_color)
                              .foreground_color(foreground)
-    x = 38.0 / ratio
-    y = -3.0 / ratio
-    width = 174.0 / ratio
-    height = 30.0 / ratio
+    x                  = 38.0 / ratio
+    y                  = -3.0 / ratio
+    width              = 174.0 / ratio
+    height             = 30.0 / ratio
     @text_layer.frame  = [[x, y], [width, height]]
     @text_layer.string = name
 
@@ -124,19 +128,19 @@ class CardCellView < NSTableCellView
     end
 
     card.cost > 9 ? x = (7.0 / ratio) : x = 13.0 / ratio
-    y = -4.0 / ratio
-    width = 34.0 / ratio
-    height = 37.0 / ratio
+    y                  = -4.0 / ratio
+    width              = 34.0 / ratio
+    height             = 37.0 / ratio
     @cost_layer.frame  = [[x, y], [width, height]]
     @cost_layer.string = cost
 
     if card.count >= 2 or card.rarity == 'Legendary'._
       # add the background of the card count
       @frame_count_box.contents = ImageCache.frame_countbox
-      x = 189.0 / ratio
-      y = 5.0 / ratio
-      width = 25.0 / ratio
-      height = 24.0 / ratio
+      x                         = 189.0 / ratio
+      y                         = 5.0 / ratio
+      width                     = 25.0 / ratio
+      height                    = 24.0 / ratio
       @frame_count_box.frame    = [[x, y], [width, height]]
 
       if card.count.between?(2, 9)
@@ -146,10 +150,10 @@ class CardCellView < NSTableCellView
         # card is legendary (or count > 10)
         @extra_info.contents = ImageCache.frame_legendary
       end
-      x = 194.0 / ratio
-      y = 8.0 / ratio
-      width = 18.0 / ratio
-      height = 21.0 / ratio
+      x                 = 194.0 / ratio
+      y                 = 8.0 / ratio
+      width             = 18.0 / ratio
+      height            = 21.0 / ratio
       @extra_info.frame = [[x, y], [width, height]]
     else
       @extra_info.contents      = nil

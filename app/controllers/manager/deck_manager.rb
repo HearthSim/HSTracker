@@ -204,6 +204,7 @@ class DeckManager < NSWindowController
 
     if deck_or_card.is_a? Card
       cell      = CardCellView.new
+      cell.card_size = :big
       cell.side = :opponent
       cell.card = deck_or_card
     else

@@ -21,6 +21,7 @@ class AppDelegate
     # load cards into database if needed
     DatabaseGenerator.init_database do
       @splash.window.orderOut(self)
+      @splash = nil
 
       Hearthstone.instance.on(:app_running) do |is_running|
         Log.info "Hearthstone is running? #{is_running}"
@@ -74,7 +75,7 @@ class AppDelegate
   end
 
   def show_splash_screen
-    @splash = LoadingScreen.alloc.init
+    @splash = LoadingScreen.new
     @splash.showWindow(nil)
   end
 
@@ -97,7 +98,7 @@ class AppDelegate
   # deck manager
   def deck_manager
     @deck_manager ||= begin
-      manager                 = DeckManager.alloc.init
+      manager                 = DeckManager.new
       manager.window.delegate = self
       manager
     end
@@ -115,16 +116,17 @@ class AppDelegate
   end
 
   # nswindowdelegate
-  def windowShouldClose(sender)
+  def windowShouldClose(_)
     deck_manager.check_is_saved_on_close
   end
 
-  def windowWillClose(notification)
+  def windowWillClose(_)
     # change windows level back
     @player.window.setLevel NSScreenSaverWindowLevel
     @opponent.window.setLevel NSScreenSaverWindowLevel
 
     close_window_menu false
+    @deck_manager = nil
   end
 
   # lock / unlock windows

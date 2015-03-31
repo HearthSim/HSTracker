@@ -12,7 +12,7 @@ class LoadingScreenLayout < MK::WindowLayout
     background_color :clear.nscolor
 
     add NSImageView do
-      image NSImage.alloc.initByReferencingFile "#{'images/'.resource_path}/loading.png"
+      image NSImage.alloc.initByReferencingFile "#{'images/assets/'.resource_path}/loading.png"
 
       constraints do
         width.equals(:superview)
