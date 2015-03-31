@@ -21,7 +21,7 @@ class CardCountHud < Hud
   end
 
   def game_start
-    self.has_coin = false
+    self.has_coin   = false
     self.hand_count = 0
     self.deck_count = 30
   end
@@ -33,6 +33,16 @@ class CardCountHud < Hud
   end
 
   def play_secret
+    self.hand_count -= 1 unless self.hand_count.zero?
+    print
+  end
+
+  def card_stolen(_)
+    self.hand_count += 1
+    print
+  end
+
+  def discard_card(_)
     self.hand_count -= 1 unless self.hand_count.zero?
     print
   end
@@ -51,7 +61,7 @@ class CardCountHud < Hud
   def get_coin(_)
     # increment deck_count by 1 because we decrement it when the
     # coin has been drawned
-    self.has_coin = true
+    self.has_coin   = true
     self.deck_count += 1
   end
 

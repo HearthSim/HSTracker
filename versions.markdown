@@ -10,6 +10,7 @@
 - *New* : option to show card count on a single line
 - *New* : option to reset trackers on game end
 - *New* : option to change HSTracker language
+- Handle correctly steal, discard, tracking
 
 #### 0.5
 - Correction of the message when you save a deck

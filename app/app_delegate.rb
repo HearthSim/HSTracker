@@ -140,6 +140,7 @@ class AppDelegate
   def reset(_)
     @player.game_start
     @opponent.game_start
+    Hearthstone.instance.reset
   end
 
   def reload_deck_menu

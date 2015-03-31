@@ -118,6 +118,11 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
+  def discard_card(card_id)
+    # card discarded, consider we played the card
+    play_card(card_id)
+  end
+
   def play_card(card_id)
     @playing_cards.each do |card|
       if card.card_id == card_id

@@ -45,6 +45,10 @@ class Hearthstone
     end
   end
 
+  def reset
+    @log_analyzer.reset_data
+  end
+
   # register events
   def on(event, &block)
     @listeners[event] ||= []
@@ -200,6 +204,12 @@ class Hearthstone
         listener.discard_card card_id if listener.respond_to?('discard_card')
       end
     end
+
+    @log_analyzer.on_card(:card_stolen) do |player, card_id|
+      listeners(player).each do |listener|
+        listener.card_stolen card_id if listener.respond_to?('card_stolen')
+      end
+      end
 
     @log_analyzer.on_card(:play_secret) do
       listeners(:opponent).each do |listener|

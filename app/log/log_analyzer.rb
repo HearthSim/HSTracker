@@ -80,7 +80,30 @@ class LogAnalyzer
 
       if from =~ /(DECK|)/ and to =~ /(FRIENDLY|OPPOSING) HAND/
         # player or opponent draw
-        if to =~ /FRIENDLY/
+        if from == '' and @mulligan_done
+          # is this the card choosen from tracking ?
+          if @tracking_cards and @tracking_cards.size == 3
+
+            # consider player have played the discard cards
+            @tracking_cards.each do |tracking_card|
+
+              # draw this card
+              if tracking_card == card_id
+                Log.debug "draw from tracking #{card_id} (#{card})"
+                @on_cards[:draw_card].call(:player, card_id) if @on_cards[:draw_card]
+              else
+                Log.debug "discard from tracking -> consider drawned and played #{tracking_card} (#{Card.by_id(tracking_card).name})"
+                @on_cards[:draw_card].call(:player, tracking_card) if @on_cards[:draw_card]
+                @on_cards[:play_card].call(:player, tracking_card) if @on_cards[:play_card]
+              end
+            end
+
+            @tracking_cards = []
+          elsif card_id != ''
+            Log.verbose "#{card_id} #{card} is stolen"
+            @on_cards[:card_stolen].call(:player, card_id) if @on_cards[:card_stolen]
+          end
+        elsif to =~ /FRIENDLY/
           Log.debug "player draw #{card_id} (#{card})"
           @on_cards[:draw_card].call(:player, card_id) if @on_cards[:draw_card]
         elsif to =~ /OPPOSING/
@@ -89,6 +112,8 @@ class LogAnalyzer
         end
 
       elsif from =~ /HAND/ and to =~ /DECK/
+        @mulligan_done  = true
+
         # player or opponent mulligan
         if to =~ /FRIENDLY/
           Log.debug "player mulligan #{card_id} (#{card})"
@@ -150,26 +175,6 @@ class LogAnalyzer
         # display card from tracking ?
         Log.debug "player show card #{card_id} (#{card})"
         @tracking_cards << card_id
-
-      elsif from == '' and to =~ /FRIENDLY HAND/
-        # is this the card choosen from tracking ?
-        if @tracking_cards and @tracking_cards.size == 3
-
-          # consider player have played the discard cards
-          @tracking_cards.each do |tracking_card|
-
-            # draw this card
-            if tracking_card == card_id
-              Log.debug "draw from tracking #{card_id} (#{card})"
-              @on_cards[:draw_card].call(:player, card_id) if @on_cards[:draw_card]
-            else
-              Log.debug "discard from tracking -> consider played #{tracking_card} (#{Card.by_id(tracking_card).name})"
-              @on_cards[:play_card].call(:player, card_id) if @on_cards[:play_card]
-            end
-          end
-
-          @tracking_cards = []
-        end
 
       else
         #Log.verbose "*** from '#{from}' to '#{to}' -> #{card_id} (#{card})"
@@ -398,6 +403,7 @@ class LogAnalyzer
     @current_turn   = 0
     @tracking_cards = []
     @entities       = {}
+    @mulligan_done  = false
 
     @spectating = true
 

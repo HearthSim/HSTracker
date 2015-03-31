@@ -69,7 +69,7 @@ class OpponentTracker < Tracker
   end
 
   def discard_card(card_id)
-    # for the opponent, consider he played the card
+    # card discarded, consider he played the card
     play_card(card_id)
   end
 
