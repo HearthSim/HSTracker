@@ -149,7 +149,7 @@ class DeckManager < NSWindowController
       if card.card_id == c.card_id
         card.hand_count = 0
 
-        if card.count + 1 > KMaxCardOccurence[@current_deck_mode]
+        if card.count + 1 > KMaxCardOccurence[@current_deck_mode] or card.rarity == 'Legendary'._
           return
         end
 
@@ -474,10 +474,15 @@ class DeckManager < NSWindowController
 
       cdq.save
 
+      @current_deck = nil
+      @deck_name    = nil
+      @deck_class   = nil
       @in_edition = false
       @saved      = true
       show_decks
+
       NSNotificationCenter.defaultCenter.post('deck_change')
+      @card_count.stringValue = ""
       @table_view.reloadData
     end
   end
@@ -558,6 +563,8 @@ class DeckManager < NSWindowController
       @in_edition   = false
       @saved        = true
       @current_deck = nil
+      @deck_name    = nil
+      @deck_class   = nil
       show_decks
       @card_count.stringValue = ""
       @table_view.reloadData
