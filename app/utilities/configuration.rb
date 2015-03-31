@@ -6,12 +6,14 @@ class Configuration
       locale =~ /^(zh|ko|ru)/
     end
 
-    KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency flash_color fixed_window_names one_line_count reset_on_end)
+    KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency
+                  flash_color fixed_window_names one_line_count reset_on_end card_layout)
 
     KDefaults = {
-        :flash_color => [55, 189, 223],
+        :flash_color         => [55, 189, 223],
         :window_transparency => 0.1,
-        :card_played => :fade
+        :card_played         => :fade,
+        :card_layout         => :big
     }
 
     def method_missing(symbol, *args)
@@ -39,8 +41,8 @@ class Configuration
         case method
           when 'flash_color'
             value = value.nscolor
-          when 'card_played'
-            value = value.to_sym
+          when 'card_played', 'card_layout'
+            value = value.to_sym unless value.is_a? Symbol
         end
 
         value

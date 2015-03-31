@@ -1,7 +1,14 @@
 class TrackerLayout < MK::WindowLayout
 
-  KFrameWidth  = 220
-  KFrameHeight = 700
+  KFrameWidth  = 220.0
+  KFrameHeight = 700.0
+  KRowHeight   = 37.0
+
+  KMediumRowHeight  = 29.0
+  KMediumFrameWidth = KFrameWidth / KRowHeight * KMediumRowHeight
+
+  KSmallRowHeight  = 23.0
+  KSmallFrameWidth = KFrameWidth / KRowHeight * KSmallRowHeight
 
   # get the window frame
   def window_frame
@@ -20,7 +27,7 @@ class TrackerLayout < MK::WindowLayout
 
   def layout
     wframe = window_frame
-    frame = NSUserDefaults.standardUserDefaults.objectForKey window_name
+    frame  = NSUserDefaults.standardUserDefaults.objectForKey window_name
     if frame
       wframe = NSRectFromString(frame)
     end
@@ -29,8 +36,17 @@ class TrackerLayout < MK::WindowLayout
     identifier window_name
     title window_title
 
-    content_min_size [KFrameWidth, 200]
-    content_max_size [KFrameWidth, CGRectGetHeight(NSScreen.mainScreen.frame)]
+    case Configuration.card_layout
+      when :small
+        width = KSmallFrameWidth
+      when :medium
+        width = KMediumFrameWidth
+      else
+        width = KFrameWidth
+    end
+
+    content_min_size [width, 200]
+    content_max_size [width, CGRectGetHeight(NSScreen.mainScreen.frame)]
 
     # transparent all the things \o|
     opaque false
@@ -63,7 +79,16 @@ class TrackerLayout < MK::WindowLayout
   end
 
   def table_view_style
-    row_height 37
+    case Configuration.card_layout
+      when :small
+        height = KSmallRowHeight
+      when :medium
+        height = KMediumRowHeight
+      else
+        height = KRowHeight
+    end
+
+    row_height height
     intercellSpacing [0, 0]
 
     background_color :black.nscolor(Configuration.window_transparency)

@@ -61,14 +61,32 @@ class CardCellView < NSTableCellView
       alpha = (card.count <= 0 and card.hand_count <= 0) ? 0.4 : 1.0
     end
 
+    case Configuration.card_layout
+      when :small
+        ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
+      when :medium
+        ratio = TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
+      else
+        ratio = 1.0
+    end
+
     # draw the card art
     @card_layer.contents  = ImageCache.small_card_image(card)
-    @card_layer.frame     = [[104, 1], [110, 34]]
+    x = 104.0 / ratio
+    y = 1.0 / ratio
+    width = 110.0 / ratio
+    height = 34.0 / ratio
+    @card_layer.frame     = [[x, y], [width, height]]
     @card_layer.opacity   = alpha
 
     # draw the frame
     @frame_layer.contents = ImageCache.frame_image
-    frame_rect            = [[1, 0], [218, 35]]
+
+    x = 1.0 / ratio
+    y = 0.0 / ratio
+    width = 218.0 / ratio
+    height = 35.0 / ratio
+    frame_rect            = [[x, y], [width, height]]
     @frame_layer.frame    = frame_rect
     @frame_layer.opacity  = alpha
 
@@ -80,11 +98,15 @@ class CardCellView < NSTableCellView
 
     # print the card name
     name               = card.name.attrd
-                             .font('Belwe Bd BT'.nsfont(15))
+                             .font('Belwe Bd BT'.nsfont((15.0 / ratio).round))
                              .stroke_width(-2)
                              .stroke_color(stroke_color)
                              .foreground_color(foreground)
-    @text_layer.frame  = [[38, -3], [174, 30]]
+    x = 38.0 / ratio
+    y = -3.0 / ratio
+    width = 174.0 / ratio
+    height = 30.0 / ratio
+    @text_layer.frame  = [[x, y], [width, height]]
     @text_layer.string = name
 
     # print the card cost
@@ -92,23 +114,30 @@ class CardCellView < NSTableCellView
                              .foreground_color(foreground)
     if Configuration.is_cyrillic_or_asian
       cost = cost
-                 .font('GBJenLei-Medium'.nsfont(28))
+                 .font('GBJenLei-Medium'.nsfont((28.0 / ratio).round))
                  .foreground_color(foreground)
     else
       cost = cost
-                 .font('Belwe Bd BT'.nsfont(22))
+                 .font('Belwe Bd BT'.nsfont((22.0 / ratio).round))
                  .stroke_width(-1.5)
                  .stroke_color(stroke_color)
     end
 
-    card.cost > 9 ? x = 7 : x = 13
-    @cost_layer.frame  = [[x, -4], [34, 37]]
+    card.cost > 9 ? x = (7.0 / ratio) : x = 13.0 / ratio
+    y = -4.0 / ratio
+    width = 34.0 / ratio
+    height = 37.0 / ratio
+    @cost_layer.frame  = [[x, y], [width, height]]
     @cost_layer.string = cost
 
     if card.count >= 2 or card.rarity == 'Legendary'._
       # add the background of the card count
       @frame_count_box.contents = ImageCache.frame_countbox
-      @frame_count_box.frame    = [[189, 5], [25, 24]]
+      x = 189.0 / ratio
+      y = 5.0 / ratio
+      width = 25.0 / ratio
+      height = 24.0 / ratio
+      @frame_count_box.frame    = [[x, y], [width, height]]
 
       if card.count.between?(2, 9)
         # the card count
@@ -117,7 +146,11 @@ class CardCellView < NSTableCellView
         # card is legendary (or count > 10)
         @extra_info.contents = ImageCache.frame_legendary
       end
-      @extra_info.frame = [[194, 8], [18, 21]]
+      x = 194.0 / ratio
+      y = 8.0 / ratio
+      width = 18.0 / ratio
+      height = 21.0 / ratio
+      @extra_info.frame = [[x, y], [width, height]]
     else
       @extra_info.contents      = nil
       @frame_count_box.contents = nil

@@ -20,8 +20,8 @@ class GeneralPreferencesLayout < PreferencesLayout
   KHSTrackerLocales = %w(de en fr)
 
   KOnCardPlayedChoices = {
-      :fade   => 'Fade',
-      :remove => 'Remove'
+      :fade   => 'Fade'._,
+      :remove => 'Remove'._
   }
 
   def options

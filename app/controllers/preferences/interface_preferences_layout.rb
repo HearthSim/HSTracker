@@ -1,5 +1,15 @@
 class InterfacePreferencesLayout < PreferencesLayout
 
+  def frame_size
+    [[0, 0], [300, 300]]
+  end
+
+  KOnCardLayoutChoices = {
+      :big    => 'Big'._,
+      :medium => 'Medium'._,
+      :small  => 'Small'._
+  }
+
   def options
     NSColorPanel.sharedColorPanel.continuous = false
 
@@ -48,7 +58,7 @@ class InterfacePreferencesLayout < PreferencesLayout
               Configuration.fixed_window_names = (elem.state == NSOnState)
             }
         },
-        :one_line_count        => {
+        :one_line_count      => {
             :type    => NSButton,
             :title   => 'Card count on one line'._,
             :init    => -> (elem) {
@@ -57,6 +67,31 @@ class InterfacePreferencesLayout < PreferencesLayout
             },
             :changed => -> (elem) {
               Configuration.one_line_count = (elem.state == NSOnState)
+            }
+        },
+        :card_layout         => {
+            :label   => 'Card size'._,
+            :type    => NSPopUpButton,
+            :init    => -> (elem) {
+              current_choice = Configuration.card_layout
+
+              KOnCardLayoutChoices.each do |value, label|
+                item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
+                elem.menu.addItem item
+
+                if current_choice == value
+                  elem.selectItem item
+                end
+              end
+            },
+            :changed => -> (elem) {
+              choosen = elem.selectedItem.title
+
+              KOnCardLayoutChoices.each do |value, label|
+                if choosen == label
+                  Configuration.card_layout = value
+                end
+              end
             }
         }
     }

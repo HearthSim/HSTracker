@@ -12,6 +12,7 @@
 - *New* : option to change HSTracker language
 - Handle correctly steal, discard, tracking
 - *New* : deck manager can now be close with ⌘w
+- *New* : add an option to change trackers size (small, medium or big)
 
 #### 0.5
 - Correction of the message when you save a deck

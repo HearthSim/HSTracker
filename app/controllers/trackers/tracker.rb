@@ -36,14 +36,43 @@ class Tracker < NSWindowController
   def window_transparency
   end
 
+  def card_layout
+    return if @table_view.nil?
+
+    case Configuration.card_layout
+      when :small
+        row_height = TrackerLayout::KSmallRowHeight
+        width      = TrackerLayout::KSmallFrameWidth
+      when :medium
+        row_height = TrackerLayout::KMediumRowHeight
+        width      = TrackerLayout::KMediumFrameWidth
+      else
+        row_height = TrackerLayout::KRowHeight
+        width      = TrackerLayout::KFrameWidth
+    end
+
+    frame            = self.window.frame
+    frame.size.width = width
+
+    self.window.setFrame(frame, display: true)
+    self.window.contentMinSize = [width, 200]
+    self.window.contentMaxSize = [width, CGRectGetHeight(NSScreen.mainScreen.frame)]
+
+    @table_view.rowHeight = row_height
+    @table_view.reloadData
+  end
+
   def showWindow(sender)
     # trigger when loading the window
     super.tap do
-      @option_changed = NSNotificationCenter.defaultCenter.observe 'windows_locked' do |notification|
+      @option_changed       = NSNotificationCenter.defaultCenter.observe 'windows_locked' do |notification|
         window_locks
       end
       @transparency_changed = NSNotificationCenter.defaultCenter.observe 'window_transparency' do |notification|
         window_transparency
+      end
+      @card_layout          = NSNotificationCenter.defaultCenter.observe 'card_layout' do |notification|
+        card_layout
       end
     end
   end
@@ -51,5 +80,6 @@ class Tracker < NSWindowController
   def windowWillClose(_)
     NSNotificationCenter.defaultCenter.unobserve(@option_changed)
     NSNotificationCenter.defaultCenter.unobserve(@transparency_changed)
+    NSNotificationCenter.defaultCenter.unobserve(@card_layout)
   end
 end

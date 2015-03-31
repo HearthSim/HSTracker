@@ -3,8 +3,12 @@ class PreferencesLayout < MK::Layout
     {}
   end
 
+  def frame_size
+    [[0, 0], [300, 250]]
+  end
+
   def layout
-    frame [[0, 0], [300, 250]]
+    frame frame_size
 
     prev = :superview
     options.each do |key, opts|

@@ -44,6 +44,10 @@
 "HSTracker language" = "HSTracker language";
 "Language change" = "Language change";
 "You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
+"Card size" = "Card size";
+"Big" = "Big";
+"Medium" = "Medium";
+"Small" = "Small";
 
 /* classes */
 "Shaman" = "Shamane";
