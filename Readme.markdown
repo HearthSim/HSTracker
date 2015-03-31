@@ -19,6 +19,8 @@ Is Blizzard okay with this?
 - Create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com) (deck and deckbuilder), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthstats](https://hearthstats.net), [Hearthhead](http://www.hearthhead.com/) (all languages), [Hearthnews](http://www.hearthnews.fr/) or using [Netdeck](https://chrome.google.com/webstore/detail/netdeck/lpdbiakcpmcppnpchohihcbdnojlgeel)
 - Starting of version 0.5, you can move/resize your windows and then lock them through the preferences panel. You can also change the transparency of the windows in the preferences.
 
+[![Build Status](https://travis-ci.org/bmichotte/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
+
 ## TODO
 - statistics
 - translate in more languages
