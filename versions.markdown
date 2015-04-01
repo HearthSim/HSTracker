@@ -1,4 +1,5 @@
 #### 0.6
+- *New* : **Full support for Blackrock Mountain**
 - *New* : flash the cards on draw (color editable in prefs)
 - *New* : better font for asian and cyrillic languages
 - *New* : name of the windows can now be fixed

@@ -57,7 +57,7 @@ class DatabaseGenerator
             invalid_card = false
             # check for invalid card
             invalid_cards.each do |invalid|
-              if card['id'] =~ /^#{invalid}/
+              if card['id'] =~ /^#{invalid}/ and card['id'] != 'GAME_005'
                 invalid_card = true
                 next
               end
