@@ -4,19 +4,21 @@ class AppDelegate
   Log = Motion::Log
 
   def applicationDidFinishLaunching(notification)
-    cdq.setup
-
-    show_splash_screen
-
     # init logs
     Log.level = :debug
 
     Log.addLogger DDTTYLogger.sharedInstance
 
+    return true if RUBYMOTION_ENV == 'test'
+
     file_logger                                        = DDFileLogger.new
     file_logger.rollingFrequency                       = 60 * 60 * 12
     file_logger.logFileManager.maximumNumberOfLogFiles = 7
     Log.addLogger file_logger
+
+    cdq.setup
+
+    show_splash_screen
 
     # load cards into database if needed
     DatabaseGenerator.init_database do

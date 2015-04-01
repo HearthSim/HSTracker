@@ -11,7 +11,9 @@ class DatabaseGenerator
     database.load(&block)
   end
 
-  def database_need_genaration
+  def database_need_generation
+    return true if RUBYMOTION_ENV == 'test'
+
     if Card.count.zero?
       return true
     end
@@ -24,17 +26,21 @@ class DatabaseGenerator
 
   # save all cards if Card model is empty
   def load(&block)
-     unless database_need_genaration
-       block.call if block
-       return
-     end
+    unless database_need_generation
+      block.call if block
+      return
+    end
 
     Card.destroy_all
     Mechanic.destroy_all
 
     # do all the creation in background
     cdq.background do
-      langs          = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
+      if RUBYMOTION_ENV == 'test'
+        langs = %w(deDE enUS frFR)
+      else
+        langs = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
+      end
       valid_card_set = [
           'Basic',
           'Classic',
@@ -44,7 +50,7 @@ class DatabaseGenerator
           'Goblins vs Gnomes',
           'Blackrock Mountain'
       ]
-      invalid_cards = %w(EX1_tk34 EX1_tk29 EX1_tk28 EX1_tk11 EX1_598 NEW1_032 NEW1_033 NEW1_034 NEW1_009 CS2_052 CS2_082 CS2_051 CS2_050 CS2_152 skele11 skele21 GAME DREAM NEW1_006 NAX FP1_006 PART BRMA)
+      invalid_cards  = %w(EX1_tk34 EX1_tk29 EX1_tk28 EX1_tk11 EX1_598 NEW1_032 NEW1_033 NEW1_034 NEW1_009 CS2_052 CS2_082 CS2_051 CS2_050 CS2_152 skele11 skele21 GAME DREAM NEW1_006 NAX FP1_006 PART BRMA)
 
       langs.each do |lang|
         Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"

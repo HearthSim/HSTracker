@@ -8,7 +8,15 @@ describe 'Cards' do
     cdq.setup
   end
 
-  after do
+  it 'should just init the database' do
+    # init database
+    wait_max 1000 do
+      Card.count.should > 0
+    end
+    DatabaseGenerator.init_database do
+      true.should == true
+      resume
+    end
   end
 
   it 'should find a card by its english name' do
