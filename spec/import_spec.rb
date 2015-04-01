@@ -43,7 +43,8 @@ describe 'Import decks from the web' do
   end
 
   it 'should import from hearthpwn.com/decks' do
-    wait @sleep_before {}
+    wait @sleep_before do
+    end
     Importer.load 'http://www.hearthpwn.com/decks/215134-s12-legend-control-warrior' do |deck, clazz, title, arena|
       @deck  = deck
       @clazz = clazz
@@ -64,7 +65,8 @@ describe 'Import decks from the web' do
   end
 
   it 'should import from hearthpwn.com/deckbuilder' do
-    wait @sleep_before {}
+    wait @sleep_before do
+    end
     Importer.load 'http://www.hearthpwn.com/deckbuilder/warlock#43:2;73:1;94:2;122:2;153:2;264:2;360:2;372:2;482:1;500:1;503:1;542:2;573:1;673:1;683:1;7746:1;7749:2;12182:1;12227:2;12299:1' do |deck, clazz, title, arena|
       @deck  = deck
       @clazz = clazz
@@ -85,7 +87,8 @@ describe 'Import decks from the web' do
   end
 
   it 'should import from hearthstats.net' do
-    wait @sleep_before {}
+    wait @sleep_before do
+    end
     Importer.load 'http://hearthstats.net/decks/hstracker-test-import' do |deck, clazz, title, arena|
       @deck  = deck
       @clazz = clazz
@@ -106,7 +109,8 @@ describe 'Import decks from the web' do
   end
 
   it 'should import from hearthhead.com/deck' do
-    wait @sleep_before {}
+    wait @sleep_before do
+    end
     Importer.load 'http://www.hearthhead.com/deck=81740/handlock-mechanization' do |deck, clazz, title, arena|
       @deck  = deck
       @clazz = clazz
@@ -127,7 +131,8 @@ describe 'Import decks from the web' do
   end
 
   it 'should import from hearthnews.fr' do
-    wait @sleep_before {}
+    wait @sleep_before do
+    end
     Importer.load 'http://www.hearthnews.fr/decks/4096' do |deck, clazz, title, arena|
       @deck  = deck
       @clazz = clazz
@@ -148,7 +153,8 @@ describe 'Import decks from the web' do
   end
 
   it 'should import from heartharena.com' do
-    wait @sleep_before {}
+    wait @sleep_before do
+    end
     Importer.load 'http://www.heartharena.com/arena-run/260979' do |deck, clazz, title, arena|
       @deck  = deck
       @clazz = clazz
@@ -169,7 +175,8 @@ describe 'Import decks from the web' do
   end
 
   it 'should not import from www.google.be' do
-    wait @sleep_before {}
+    wait @sleep_before do
+    end
     Importer.load 'https://www.google.be/?q=hearthstone+tracker+mac' do |deck, clazz, title, arena|
       @deck  = deck
       @clazz = clazz
