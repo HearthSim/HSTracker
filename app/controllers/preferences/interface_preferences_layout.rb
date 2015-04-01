@@ -4,10 +4,11 @@ class InterfacePreferencesLayout < PreferencesLayout
     [[0, 0], [300, 300]]
   end
 
-  KOnCardLayoutChoices = {
-      :big    => 'Big'._,
-      :medium => 'Medium'._,
-      :small  => 'Small'._
+  KCardCountChoices = {
+      :window          => 'Windowed'._,
+      :window_one_line => 'Windowed / one line'._,
+      :on_trackers     => 'On trackers'._,
+      :hidden          => 'Hidden'._
   }
 
   def options
@@ -25,6 +26,31 @@ class InterfacePreferencesLayout < PreferencesLayout
               Configuration.windows_locked = (elem.state == NSOnState)
             }
         },
+        :one_line_count      => {
+            :label   => 'Card count'._,
+            :type    => NSPopUpButton,
+            :init    => -> (elem) {
+              current_choice = Configuration.one_line_count
+
+              KCardCountChoices.each do |value, label|
+                item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
+                elem.menu.addItem item
+
+                if current_choice == value
+                  elem.selectItem item
+                end
+              end
+            },
+            :changed => -> (elem) {
+              choosen = elem.selectedItem.title
+
+              KCardCountChoices.each do |value, label|
+                if choosen == label
+                  Configuration.one_line_count = value
+                end
+              end
+            }
+        },
         :window_transparency => {
             :label   => 'Windows Transparency'._,
             :type    => NSSlider,
@@ -35,16 +61,6 @@ class InterfacePreferencesLayout < PreferencesLayout
             },
             :changed => -> (elem) {
               Configuration.window_transparency = elem.floatValue
-            }
-        },
-        :flash_color         => {
-            :label   => 'Flash color'._,
-            :type    => NSColorWell,
-            :init    => -> (elem) {
-              elem.color = Configuration.flash_color
-            },
-            :changed => -> (elem) {
-              Configuration.flash_color = elem.color
             }
         },
         :window_names        => {
@@ -58,42 +74,6 @@ class InterfacePreferencesLayout < PreferencesLayout
               Configuration.fixed_window_names = (elem.state == NSOnState)
             }
         },
-        :one_line_count      => {
-            :type    => NSButton,
-            :title   => 'Card count on one line'._,
-            :init    => -> (elem) {
-              elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.one_line_count ? NSOnState : NSOffState)
-            },
-            :changed => -> (elem) {
-              Configuration.one_line_count = (elem.state == NSOnState)
-            }
-        },
-        :card_layout         => {
-            :label   => 'Card size'._,
-            :type    => NSPopUpButton,
-            :init    => -> (elem) {
-              current_choice = Configuration.card_layout
-
-              KOnCardLayoutChoices.each do |value, label|
-                item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
-                elem.menu.addItem item
-
-                if current_choice == value
-                  elem.selectItem item
-                end
-              end
-            },
-            :changed => -> (elem) {
-              choosen = elem.selectedItem.title
-
-              KOnCardLayoutChoices.each do |value, label|
-                if choosen == label
-                  Configuration.card_layout = value
-                end
-              end
-            }
-        }
     }
   end
 

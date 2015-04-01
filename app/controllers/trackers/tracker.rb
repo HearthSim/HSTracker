@@ -65,14 +65,20 @@ class Tracker < NSWindowController
   def showWindow(sender)
     # trigger when loading the window
     super.tap do
-      @option_changed       = NSNotificationCenter.defaultCenter.observe 'windows_locked' do |notification|
+      @option_changed = NSNotificationCenter.defaultCenter.observe 'windows_locked' do |_|
         window_locks
       end
-      @transparency_changed = NSNotificationCenter.defaultCenter.observe 'window_transparency' do |notification|
+
+      @transparency_changed = NSNotificationCenter.defaultCenter.observe 'window_transparency' do |_|
         window_transparency
       end
-      @card_layout          = NSNotificationCenter.defaultCenter.observe 'card_layout' do |notification|
+
+      @card_layout = NSNotificationCenter.defaultCenter.observe 'card_layout' do |_|
         card_layout
+      end
+
+      @one_line_count = NSNotificationCenter.defaultCenter.observe 'one_line_count' do |_|
+        @table_view.reloadData if @table_view
       end
     end
   end
@@ -81,5 +87,6 @@ class Tracker < NSWindowController
     NSNotificationCenter.defaultCenter.unobserve(@option_changed)
     NSNotificationCenter.defaultCenter.unobserve(@transparency_changed)
     NSNotificationCenter.defaultCenter.unobserve(@card_layout)
+    NSNotificationCenter.defaultCenter.unobserve(@one_line_count)
   end
 end

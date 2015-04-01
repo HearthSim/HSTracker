@@ -14,6 +14,7 @@
 - Handle correctly steal, discard, tracking
 - *New* : deck manager can now be close with ⌘w
 - *New* : add an option to change trackers size (small, medium or big)
+- *New* : add an option to toggle card count style
 
 #### 0.5
 - Correction of the message when you save a deck

@@ -1,8 +1,8 @@
-class InterfacePreferences < NSViewController
+class ColorPreferences < NSViewController
 
   def init
     super.tap do
-      @layout   = InterfacePreferencesLayout.new
+      @layout   = ColorPreferencesLayout.new
       self.view = @layout.view
     end
   end
@@ -13,14 +13,14 @@ class InterfacePreferences < NSViewController
 
   # MASPreferencesViewController
   def identifier
-    'InterfacePreferences'
+    'ColorsPreferences'
   end
 
   def toolbarItemImage
-    NSImage.imageNamed(NSImageNameColorPanel)
+    NSImage.imageNamed(NSImageNameAdvanced)
   end
 
   def toolbarItemLabel
-    'Interface'._
+    'Colors'._
   end
 end

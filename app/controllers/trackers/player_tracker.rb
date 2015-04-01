@@ -5,6 +5,9 @@ class PlayerTracker < Tracker
 
   attr_accessor :cards
 
+  # accessors used by Configuration.one_line_count == :on_trackers
+  attr_accessor :deck_count, :hand_count, :has_coin
+
   def show_deck(deck, name)
     self.cards = deck
     self.title = name
@@ -36,6 +39,7 @@ class PlayerTracker < Tracker
 
       @cards         = {}
       @playing_cards = []
+      @count_text    = ''
 
       @table_view = @layout.get(:table_view)
       @table_view.setHeaderView nil
@@ -49,27 +53,37 @@ class PlayerTracker < Tracker
 
   ## table datasource
   def numberOfRowsInTableView(_)
-    @playing_cards.count
+    count = @playing_cards.count
+    if Configuration.one_line_count == :on_trackers
+      count += 1
+    end
+
+    count
   end
 
   ## table delegate
   def tableView(tableView, viewForTableColumn: tableColumn, row: row)
     card = @playing_cards[row]
 
-    @cells ||= {}
-    cell   = @cells[card.card_id] if @cells[card.card_id]
+    if card
+      @cells ||= {}
+      cell   = @cells[card.card_id] if @cells[card.card_id]
 
-    cell          ||= CardCellView.new
-    cell.card     = card
-    cell.side     = :player
-    cell.delegate = self
+      cell          ||= CardCellView.new
+      cell.card     = card
+      cell.side     = :player
+      cell.delegate = self
 
-    if card.has_changed
-      card.has_changed = false
-      cell.flash
+      if card.has_changed
+        card.has_changed = false
+        cell.flash
+      end
+
+      @cells[card.card_id] = cell
+    elsif Configuration.one_line_count == :on_trackers
+      cell      = CountTextCellView.new
+      cell.text = @count_text
     end
-
-    @cells[card.card_id] = cell
 
     cell
   end
@@ -82,6 +96,7 @@ class PlayerTracker < Tracker
   # game events
   def game_end(_)
     if Configuration.reset_on_end
+    @count_text = nil
       game_start
     end
   end
@@ -92,6 +107,11 @@ class PlayerTracker < Tracker
       card.count      = @cards[card.card_id]
       card.hand_count = 0
     end
+
+    self.has_coin   = false
+    self.hand_count = 0
+    self.deck_count = 30
+    display_count
 
     Dispatch::Queue.main.after(1) do
       @table_view.beginUpdates
@@ -115,12 +135,30 @@ class PlayerTracker < Tracker
         Log.verbose "******** draw #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
       end
     end
+
+    self.hand_count += 1
+    self.deck_count -= 1 unless self.deck_count.zero?
+    display_count
+
     @table_view.reloadData
+  end
+
+  def play_secret
+    self.hand_count -= 1 unless self.hand_count.zero?
+    display_count
+  end
+
+  def card_stolen(_)
+    self.hand_count += 1
+    display_count
   end
 
   def discard_card(card_id)
     # card discarded, consider we played the card
     play_card(card_id)
+
+    self.hand_count -= 1 unless self.hand_count.zero?
+    display_count
   end
 
   def play_card(card_id)
@@ -134,7 +172,9 @@ class PlayerTracker < Tracker
         end
       end
     end
-    @table_view.reloadData
+
+    self.hand_count -= 1 unless self.hand_count.zero?
+    display_count
   end
 
   def restore_card(card_id)
@@ -146,7 +186,30 @@ class PlayerTracker < Tracker
         Log.verbose "******** restore #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
       end
     end
-    @table_view.reloadData
+
+    self.deck_count += 1
+    self.hand_count -= 1 unless self.hand_count.zero?
+    display_count
+  end
+
+  def get_coin(_)
+    # increment deck_count by 1 because we decrement it when the
+    # coin has been drawned
+    self.has_coin   = true
+    self.deck_count += 1
+    display_count
+  end
+
+  def display_count
+    if Configuration.one_line_count == :on_trackers
+      text = ("#{'Hand : '._} #{self.hand_count}")
+      text << ' / '
+      text << ("#{'Deck : '._} #{self.deck_count}")
+
+      @count_text = text
+
+      @table_view.reloadData
+    end
   end
 
   def window_transparency

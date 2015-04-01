@@ -13,7 +13,8 @@ class Configuration
         :flash_color         => [55, 189, 223],
         :window_transparency => 0.1,
         :card_played         => :fade,
-        :card_layout         => :big
+        :card_layout         => :big,
+        :one_line_count      => :window_one_line
     }
 
     def method_missing(symbol, *args)
@@ -41,7 +42,7 @@ class Configuration
         case method
           when 'flash_color'
             value = value.nscolor
-          when 'card_played', 'card_layout'
+          when 'card_played', 'card_layout', 'one_line_count'
             value = value.to_sym unless value.is_a? Symbol
         end
 

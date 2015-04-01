@@ -19,11 +19,6 @@ class GeneralPreferencesLayout < PreferencesLayout
 
   KHSTrackerLocales = %w(de en fr)
 
-  KOnCardPlayedChoices = {
-      :fade   => 'Fade'._,
-      :remove => 'Remove'._
-  }
-
   def options
     {
         :app_language => {
@@ -94,31 +89,6 @@ class GeneralPreferencesLayout < PreferencesLayout
 
                 if choosen == display
                   Configuration.locale = hs_locale
-                end
-              end
-            }
-        },
-        :card_played => {
-            :label => 'Card played'._,
-            :type  => NSPopUpButton,
-            :init => -> (elem) {
-              current_choice     = Configuration.card_played
-
-              KOnCardPlayedChoices.each do |value, label|
-                item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
-                elem.menu.addItem item
-
-                if current_choice == value
-                  elem.selectItem item
-                end
-              end
-            },
-            :changed => -> (elem) {
-              choosen = elem.selectedItem.title
-
-              KOnCardPlayedChoices.each do |value, label|
-                if choosen == label
-                  Configuration.card_played = value
                 end
               end
             }

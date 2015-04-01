@@ -24,6 +24,7 @@ class CardCountHud < Hud
     self.has_coin   = false
     self.hand_count = 0
     self.deck_count = 30
+    print
   end
 
   def draw_card(_)

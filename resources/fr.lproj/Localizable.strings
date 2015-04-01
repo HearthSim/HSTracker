@@ -26,7 +26,6 @@
 "Window" = "Fenêtre";
 "Decks" = "Decks";
 "Reset" = "Reset";
-"Card count on one line" = "Comptage des cartes sur une ligne";
 
 /* preferences */
 "General" = "Général";
@@ -48,6 +47,12 @@
 "Big" = "Grand";
 "Medium" = "Moyen";
 "Small" = "Petit";
+"Colors" = "Couleurs";
+"Card count" = "Comptage des cartes";
+"Windowed" = "Fenêtré";
+"Windowed / one line" = "Fenêtré / sur une ligne";
+"On trackers" = "Dans les trackers";
+"Hidden" = "Caché";
 
 /* classes */
 "Shaman" = "Chaman";
