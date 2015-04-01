@@ -27,6 +27,12 @@ class Configuration
 
       if is_add
         value = args[0]
+        # special cases
+        case method
+          when 'flash_color'
+            value = value.hex
+        end
+
         NSUserDefaults.standardUserDefaults.setObject(value, forKey: method)
 
         # always post an event with this key...
