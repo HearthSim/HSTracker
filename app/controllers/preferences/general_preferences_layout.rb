@@ -21,11 +21,11 @@ class GeneralPreferencesLayout < PreferencesLayout
 
   def options
     {
-        :app_language => {
-            :label => 'HSTracker language'._,
-            :type  => NSPopUpButton,
-            :init => -> (elem) {
-              langs = NSUserDefaults.standardUserDefaults.objectForKey('AppleLanguages')
+        :app_language       => {
+            :label   => 'HSTracker language'._,
+            :type    => NSPopUpButton,
+            :init    => -> (elem) {
+              langs          = NSUserDefaults.standardUserDefaults.objectForKey('AppleLanguages')
               current_locale = langs[0]
 
               KHSTrackerLocales.each do |loc|
@@ -58,11 +58,11 @@ class GeneralPreferencesLayout < PreferencesLayout
               end
             }
         },
-        :locale => {
-            :label => 'Game language'._,
-            :type  => NSPopUpButton,
-            :init => -> (elem) {
-              current_locale = Configuration.locale
+        :hearthstone_locale => {
+            :label   => 'Game language'._,
+            :type    => NSPopUpButton,
+            :init    => -> (elem) {
+              current_locale = Configuration.hearthstone_locale
 
               KHearthstoneLocales.each do |hs_locale, osx_locale|
                 locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
@@ -88,12 +88,12 @@ class GeneralPreferencesLayout < PreferencesLayout
                 display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
 
                 if choosen == display
-                  Configuration.locale = hs_locale
+                  Configuration.hearthstone_locale = hs_locale
                 end
               end
             }
         },
-        :reset_on_end        => {
+        :reset_on_end       => {
             :type    => NSButton,
             :title   => 'Reset trackers on game end'._,
             :init    => -> (elem) {

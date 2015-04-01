@@ -22,7 +22,7 @@ class DeckImport < NSWindowController
   end
 
   def import(_)
-    if Configuration.locale.nil?
+    if Configuration.hearthstone_locale.nil?
       NSAlert.alert('Error'._,
                     :buttons     => ['OK'._],
                     :informative => 'You have not selected a language from the preferences, please choose a language before importing a deck'._,

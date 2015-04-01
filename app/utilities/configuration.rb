@@ -2,8 +2,13 @@ class Configuration
 
   class << self
 
+    def reset
+      domain = NSBundle.mainBundle.bundleIdentifier
+      NSUserDefaults.standardUserDefaults.removePersistentDomainForName(domain)
+    end
+
     def is_cyrillic_or_asian
-      locale =~ /^(zh|ko|ru)/
+      hearthstone_locale =~ /^(zh|ko|ru)/
     end
 
     KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency
@@ -14,7 +19,10 @@ class Configuration
         :window_transparency => 0.1,
         :card_played         => :fade,
         :card_layout         => :big,
-        :one_line_count      => :window_one_line
+        :one_line_count      => :window_one_line,
+        :windows_locked      => false,
+        :fixed_window_names  => false,
+        :reset_on_end        => false
     }
 
     def method_missing(symbol, *args)
@@ -22,7 +30,7 @@ class Configuration
       method = symbol.gsub(/=$/, '')
 
       unless KValidOptions.include? method
-        raise "#{symbol} is not a valid option"
+        raise ArgumentError, "#{symbol} is not a valid option", caller
       end
 
       if is_add
@@ -34,14 +42,16 @@ class Configuration
         end
 
         NSUserDefaults.standardUserDefaults.setObject(value, forKey: method)
+        NSUserDefaults.standardUserDefaults.synchronize
 
         # always post an event with this key...
         # we don't care if nobody is listening
         NSNotificationCenter.defaultCenter.post(method)
       else
         value = NSUserDefaults.standardUserDefaults.objectForKey(method)
-        if KDefaults[method.to_sym] and value.nil?
-          value = KDefaults[method.to_sym]
+
+        if KDefaults.has_key?(method.to_sym) and value.nil?
+          value = KDefaults.fetch(method.to_sym)
         end
 
         # special cases
@@ -57,7 +67,7 @@ class Configuration
     end
 
     # get the HS locale
-    def locale
+    def hearthstone_locale
       locale = NSUserDefaults.standardUserDefaults.objectForKey 'hearthstone_locale'
       return locale unless locale.nil?
 

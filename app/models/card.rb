@@ -9,7 +9,7 @@ class Card < CDQManagedObject
                        .and(cdq(:card_type).not_equal('Hero Power'))
 
   # scope to get only the current locale
-  scope :per_lang, where(:lang => Configuration.locale)
+  scope :per_lang, where(:lang => Configuration.hearthstone_locale)
 
   # get a card by its id
   def self.by_id(card_id)
@@ -64,7 +64,7 @@ class Card < CDQManagedObject
     card = self.playable.where(:name => name, :lang => locale).first
     return nil if card.nil?
 
-    if Configuration.locale == locale
+    if Configuration.hearthstone_locale == locale
       return card
     end
     self.where(:card_id => card.card_id).per_lang.playable.first
