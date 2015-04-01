@@ -96,7 +96,7 @@ class PlayerTracker < Tracker
   # game events
   def game_end(_)
     if Configuration.reset_on_end
-    @count_text = nil
+      @count_text = nil
       game_start
     end
   end
@@ -113,11 +113,7 @@ class PlayerTracker < Tracker
     self.deck_count = 30
     display_count
 
-    Dispatch::Queue.main.after(1) do
-      @table_view.beginUpdates
-      @table_view.reloadData
-      @table_view.endUpdates
-    end
+    @table_view.reloadData
   end
 
   def set_hero(player, hero_id)
@@ -146,11 +142,15 @@ class PlayerTracker < Tracker
   def play_secret
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
+
+    @table_view.reloadData
   end
 
   def card_stolen(_)
     self.hand_count += 1
     display_count
+
+    @table_view.reloadData
   end
 
   def discard_card(card_id)
@@ -159,6 +159,8 @@ class PlayerTracker < Tracker
 
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
+
+    @table_view.reloadData
   end
 
   def play_card(card_id)
@@ -175,6 +177,8 @@ class PlayerTracker < Tracker
 
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
+
+    @table_view.reloadData
   end
 
   def restore_card(card_id)
@@ -190,6 +194,8 @@ class PlayerTracker < Tracker
     self.deck_count += 1
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
+
+    @table_view.reloadData
   end
 
   def get_coin(_)
@@ -198,6 +204,8 @@ class PlayerTracker < Tracker
     self.has_coin   = true
     self.deck_count += 1
     display_count
+
+    @table_view.reloadData
   end
 
   def display_count
@@ -207,8 +215,6 @@ class PlayerTracker < Tracker
       text << ("#{'Deck : '._} #{self.deck_count}")
 
       @count_text = text
-
-      @table_view.reloadData
     end
   end
 

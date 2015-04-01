@@ -68,7 +68,7 @@ class OpponentTracker < Tracker
   def game_start
     Log.verbose 'Opponent reset card'
     @cards = []
-    @table_view.reloadData
+
     unless Configuration.fixed_window_names
       self.window.title = 'HSTracker'
     end
@@ -77,6 +77,7 @@ class OpponentTracker < Tracker
     self.hand_count = 0
     self.deck_count = 30
     display_count
+    @table_view.reloadData
   end
 
   def set_hero(player, hero_id)
@@ -92,16 +93,19 @@ class OpponentTracker < Tracker
     self.hand_count += 1
     self.deck_count -= 1 unless self.deck_count.zero?
     display_count
+    @table_view.reloadData
   end
 
   def play_secret
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
+    @table_view.reloadData
   end
 
   def card_stolen(_)
     self.hand_count += 1
     display_count
+    @table_view.reloadData
   end
 
   def discard_card(card_id)
@@ -110,6 +114,7 @@ class OpponentTracker < Tracker
 
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
+    @table_view.reloadData
   end
 
   def secret_revealed(card_id)
@@ -137,12 +142,14 @@ class OpponentTracker < Tracker
 
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
+    @table_view.reloadData
   end
 
   def restore_card(_)
     self.deck_count += 1
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
+    @table_view.reloadData
   end
 
   def get_coin(_)
@@ -151,6 +158,7 @@ class OpponentTracker < Tracker
     self.has_coin   = true
     self.deck_count += 1
     display_count
+    @table_view.reloadData
   end
 
   def display_count
@@ -161,7 +169,6 @@ class OpponentTracker < Tracker
 
       @count_text = text
 
-      @table_view.reloadData
     end
   end
 
