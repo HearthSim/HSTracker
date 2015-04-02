@@ -58,15 +58,6 @@ describe 'Configuration' do
     value.should == true
   end
 
-  it 'should accept a "one_line_count" option' do
-    value = Configuration.one_line_count
-    value.should == :window_one_line
-
-    should.not.raise(ArgumentError) { Configuration.one_line_count = :on_trackers }
-    value = Configuration.one_line_count
-    value.should == :on_trackers
-  end
-
   it 'should accept a "reset_on_end" option' do
     value = Configuration.reset_on_end
     value.should == false

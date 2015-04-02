@@ -1,7 +1,7 @@
 # The opponent tracker window
 class OpponentTracker < Tracker
 
-  # accessors used by Configuration.one_line_count == :on_trackers
+  # accessors used by card count
   attr_accessor :deck_count, :hand_count, :has_coin
 
   Log = Motion::Log
@@ -24,12 +24,7 @@ class OpponentTracker < Tracker
 
   ## table datasource
   def numberOfRowsInTableView(_)
-    count = @cards.count
-    if Configuration.one_line_count == :on_trackers
-      count += 1
-    end
-
-    count
+    @cards.count + 1
   end
 
   ## table delegate
@@ -44,7 +39,7 @@ class OpponentTracker < Tracker
       cell.card            = card
       cell.side            = :opponent
       @cells[card.card_id] = cell
-    elsif Configuration.one_line_count == :on_trackers
+    else
       cell      = CountTextCellView.new
       cell.text = @count_text
     end
@@ -162,14 +157,11 @@ class OpponentTracker < Tracker
   end
 
   def display_count
-    if Configuration.one_line_count == :on_trackers
-      text = ("#{'Hand : '._} #{self.hand_count}")
-      text << ' / '
-      text << ("#{'Deck : '._} #{self.deck_count}")
+    text = ("#{'Hand : '._} #{self.hand_count}")
+    text << ' / '
+    text << ("#{'Deck : '._} #{self.deck_count}")
 
-      @count_text = text
-
-    end
+    @count_text = text
   end
 
   def window_transparency

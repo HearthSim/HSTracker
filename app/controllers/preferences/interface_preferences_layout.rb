@@ -4,13 +4,6 @@ class InterfacePreferencesLayout < PreferencesLayout
     [[0, 0], [300, 300]]
   end
 
-  KCardCountChoices = {
-      :window          => 'Windowed'._,
-      :window_one_line => 'Windowed / one line'._,
-      :on_trackers     => 'On trackers'._,
-      :hidden          => 'Hidden'._
-  }
-
   def options
     NSColorPanel.sharedColorPanel.continuous = false
 
@@ -24,31 +17,6 @@ class InterfacePreferencesLayout < PreferencesLayout
             },
             :changed => -> (elem) {
               Configuration.windows_locked = (elem.state == NSOnState)
-            }
-        },
-        :one_line_count      => {
-            :label   => 'Card count'._,
-            :type    => NSPopUpButton,
-            :init    => -> (elem) {
-              current_choice = Configuration.one_line_count
-
-              KCardCountChoices.each do |value, label|
-                item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
-                elem.menu.addItem item
-
-                if current_choice == value
-                  elem.selectItem item
-                end
-              end
-            },
-            :changed => -> (elem) {
-              choosen = elem.selectedItem.title
-
-              KCardCountChoices.each do |value, label|
-                if choosen == label
-                  Configuration.one_line_count = value
-                end
-              end
             }
         },
         :window_transparency => {

@@ -48,11 +48,6 @@
 "Medium" = "Moyen";
 "Small" = "Petit";
 "Colors" = "Couleurs";
-"Card count" = "Comptage des cartes";
-"Windowed" = "Fenêtré";
-"Windowed / one line" = "Fenêtré / sur une ligne";
-"On trackers" = "Dans les trackers";
-"Hidden" = "Caché";
 
 /* classes */
 "Shaman" = "Chaman";
@@ -99,13 +94,9 @@
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Votre deck n'est pas sauvegardé, êtes-vous sur de vouloir continuer, vous perdrez vos modifications.";
 "Deck saved" = "Deck enregistré";
 
-/* huds */
-"Player Card Count" = "Cartes Joueur";
-"Opponent Card Count" = "Cartes Opposant";
 "Hand : " = "Main : ";
 "Deck : " = "Deck : ";
-"Draw chance : " = "Chance de pioche : ";
-"Draw Chance" = "Chance de pioche";
+"Draw : " = "Pioche : ";
 
 "Player" = "Joueur";
 "Opponent" = "Opposant";

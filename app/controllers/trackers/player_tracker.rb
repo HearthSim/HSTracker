@@ -5,8 +5,29 @@ class PlayerTracker < Tracker
 
   attr_accessor :cards
 
-  # accessors used by Configuration.one_line_count == :on_trackers
+  # accessors used by card count
   attr_accessor :deck_count, :hand_count, :has_coin
+
+  def init
+    super.tap do
+      @layout              = PlayerTrackerLayout.new
+      self.window          = @layout.window
+      self.window.delegate = self
+
+      @cards         = {}
+      @playing_cards = []
+      @count_text    = ''
+
+      self.has_coin   = false
+      self.hand_count = 0
+      self.deck_count = 30
+
+      @table_view = @layout.get(:table_view)
+      @table_view.setHeaderView nil
+      @table_view.delegate   = self
+      @table_view.dataSource = self
+    end
+  end
 
   def show_deck(deck, name)
     self.cards = deck
@@ -31,34 +52,9 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
-  def init
-    super.tap do
-      @layout              = PlayerTrackerLayout.new
-      self.window          = @layout.window
-      self.window.delegate = self
-
-      @cards         = {}
-      @playing_cards = []
-      @count_text    = ''
-
-      @table_view = @layout.get(:table_view)
-      @table_view.setHeaderView nil
-      @table_view.delegate   = self
-      @table_view.dataSource = self
-
-      @card_hover = CardHover.new
-      @card_hover.showWindow(self.window)
-    end
-  end
-
   ## table datasource
   def numberOfRowsInTableView(_)
-    count = @playing_cards.count
-    if Configuration.one_line_count == :on_trackers
-      count += 1
-    end
-
-    count
+    @playing_cards.count + 1
   end
 
   ## table delegate
@@ -80,7 +76,7 @@ class PlayerTracker < Tracker
       end
 
       @cells[card.card_id] = cell
-    elsif Configuration.one_line_count == :on_trackers
+    else
       cell      = CountTextCellView.new
       cell.text = @count_text
     end
@@ -209,13 +205,11 @@ class PlayerTracker < Tracker
   end
 
   def display_count
-    if Configuration.one_line_count == :on_trackers
-      text = ("#{'Hand : '._} #{self.hand_count}")
-      text << ' / '
-      text << ("#{'Deck : '._} #{self.deck_count}")
+    text = ("#{'Hand : '._} #{self.hand_count}")
+    text << ' / '
+    text << ("#{'Deck : '._} #{self.deck_count}")
 
-      @count_text = text
-    end
+    @count_text = text
   end
 
   def window_transparency
@@ -227,11 +221,16 @@ class PlayerTracker < Tracker
     card_count = @playing_cards.map(&:count).inject(0, :+)
     card       = cell.card
 
-    @card_hover.show_stats(card.count, card_count)
+    percent = (card.count * 100.0) / card_count
+    @count_text = "#{'Draw : '._}#{percent.round(2)}%"
+    @table_view.reloadDataForRowIndexes([@playing_cards.count].nsindexset,
+                                        columnIndexes: [0].nsindexset)
   end
 
   def out(_)
-    @card_hover.clear
+    display_count
+    @table_view.reloadDataForRowIndexes([@playing_cards.count].nsindexset,
+                                        columnIndexes: [0].nsindexset)
   end
 
   # window

@@ -76,10 +76,6 @@ class Tracker < NSWindowController
       @card_layout = NSNotificationCenter.defaultCenter.observe 'card_layout' do |_|
         card_layout
       end
-
-      @one_line_count = NSNotificationCenter.defaultCenter.observe 'one_line_count' do |_|
-        @table_view.reloadData if @table_view
-      end
     end
   end
 
@@ -87,6 +83,5 @@ class Tracker < NSWindowController
     NSNotificationCenter.defaultCenter.unobserve(@option_changed)
     NSNotificationCenter.defaultCenter.unobserve(@transparency_changed)
     NSNotificationCenter.defaultCenter.unobserve(@card_layout)
-    NSNotificationCenter.defaultCenter.unobserve(@one_line_count)
   end
 end

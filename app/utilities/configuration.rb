@@ -12,14 +12,13 @@ class Configuration
     end
 
     KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency
-                  flash_color fixed_window_names one_line_count reset_on_end card_layout)
+                  flash_color fixed_window_names reset_on_end card_layout)
 
     KDefaults = {
         :flash_color         => [55, 189, 223],
         :window_transparency => 0.1,
         :card_played         => :fade,
         :card_layout         => :big,
-        :one_line_count      => :window_one_line,
         :windows_locked      => false,
         :fixed_window_names  => false,
         :reset_on_end        => false

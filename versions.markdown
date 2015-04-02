@@ -1,3 +1,6 @@
+#### 0.7
+- Card count, draw chance are now only available on trackers
+
 #### 0.6
 - *New* : **Full support for Blackrock Mountain**
 - *New* : flash the cards on draw (color editable in prefs)

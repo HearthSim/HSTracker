@@ -42,24 +42,8 @@ class AppDelegate
       Hearthstone.instance.listen(@player, :player)
       Hearthstone.instance.listen(@opponent, :opponent)
 
-      if Configuration.one_line_count == :window or Configuration.one_line_count == :window_one_line
-        show_card_counts
-      end
-
       NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|
         reload_deck_menu
-      end
-
-      NSNotificationCenter.defaultCenter.observe 'one_line_count' do |_|
-        if Configuration.one_line_count == :window or Configuration.one_line_count == :window_one_line
-          show_card_counts
-        else
-          @card_count_player.close if @card_count_player
-          @card_count_player = nil
-
-          @card_count_opponent.close if @card_count_opponent
-          @card_count_opponent = nil
-        end
       end
 
       if Hearthstone.instance.is_hearthstone_running?
@@ -80,19 +64,6 @@ class AppDelegate
         end
       end
     end
-  end
-
-  def show_card_counts
-    @card_count_player = CardCountHud.alloc.initWithPlayer :player
-    @card_count_player.showWindow(self)
-    @card_count_player.window.orderFrontRegardless
-
-    @card_count_opponent = CardCountHud.alloc.initWithPlayer :opponent
-    @card_count_opponent.showWindow(self)
-    @card_count_opponent.window.orderFrontRegardless
-
-    Hearthstone.instance.listen(@card_count_opponent, :opponent)
-    Hearthstone.instance.listen(@card_count_player, :player)
   end
 
   def show_splash_screen
