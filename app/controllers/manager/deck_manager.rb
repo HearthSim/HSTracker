@@ -254,14 +254,14 @@ class DeckManager < NSWindowController
   end
 
   def toolbarAllowedItemIdentifiers(toolbar)
-    ['new', 'arena', 'import', 'save', 'search', 'close', 'delete', 'play', 'export',
+    ['new', 'arena', 'import', 'save', 'search', 'close', 'delete', 'play', 'export', 'donate',
      NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier]
   end
 
   def toolbarDefaultItemIdentifiers(toolbar)
     ['new', 'arena', 'import', NSToolbarSeparatorItemIdentifier,
      'save', 'delete', 'close', 'play', 'export',
-     NSToolbarFlexibleSpaceItemIdentifier, 'search']
+     NSToolbarFlexibleSpaceItemIdentifier, 'search', 'donate']
   end
 
   def toolbar(toolbar, itemForItemIdentifier: identifier, willBeInsertedIntoToolbar: flag)
@@ -286,7 +286,7 @@ class DeckManager < NSWindowController
         menu_item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
         menu.addItem menu_item
 
-        classes = %w(Shaman Hunter Warlock Druid Warrior Mage Paladin Priest Rogue)
+        classes = KClasses[0...-1]
         classes.each do |clazz|
           menu_item            = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
           menu_item.identifier = clazz
@@ -342,6 +342,14 @@ class DeckManager < NSWindowController
         item.image  = image
         item.target = self
         item.action = 'delete_deck:'
+
+      when 'donate'
+        item.label   = 'Donate'._
+        item.toolTip = 'Donate'._
+        image        = 'donate'.nsimage
+        item.image  = image
+        item.target = self
+        item.action = 'donate:'
 
       when 'search'
         item.label                        = 'Search'
@@ -625,6 +633,10 @@ class DeckManager < NSWindowController
         show_deck(deck, clazz, name, arena)
       end
     end
+  end
+
+  def donate(_)
+    NSWorkspace.sharedWorkspace.openURL 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted'.nsurl
   end
 
 end
