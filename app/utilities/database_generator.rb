@@ -2,7 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 3
+  DATABASE_VERSION = 4
 
   Log = Motion::Log
 
@@ -50,7 +50,6 @@ class DatabaseGenerator
           'Goblins vs Gnomes',
           'Blackrock Mountain'
       ]
-      invalid_cards  = %w(BRMA)
 
       langs.each do |lang|
         Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
@@ -59,16 +58,6 @@ class DatabaseGenerator
 
         valid_card_set.each do |card_set|
           cards[card_set].each do |card|
-
-            invalid_card = false
-            # check for invalid card
-            invalid_cards.each do |invalid|
-              if card['id'] =~ /^#{invalid}/
-                invalid_card = true
-                next
-              end
-            end
-            next if invalid_card
 
             cost = card['cost']
             # "fake" the coin... in the game files, Coin cost is empty
