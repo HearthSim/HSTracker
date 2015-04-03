@@ -1,5 +1,5 @@
 #### 0.7
-- Card count, draw chance are now only available on trackers
+- Card count, draw chance are now only available on trackers, also change color is available
 - Gang Up is supported, added a green frame for this kind of cards
 
 #### 0.6
