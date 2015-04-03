@@ -1,6 +1,7 @@
 #### 0.7
 - Card count, draw chance are now only available on trackers, also change color is available
 - Gang Up is supported, added a green frame for this kind of cards
+- Cards reset when "remove" option is selected
 
 #### 0.6
 - *New* : **Full support for Blackrock Mountain**

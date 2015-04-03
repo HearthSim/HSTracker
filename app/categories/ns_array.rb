@@ -4,6 +4,11 @@ class NSArray
     self.map(&:count).inject(0, :+)
   end
 
+  # sort a deck
+  # sort by
+  # 1) card cost
+  # 2) card type (spell, minion, ...)
+  # 3) card name
   def sort_cards!
     sort! do |a, b|
       if a.cost != b.cost
