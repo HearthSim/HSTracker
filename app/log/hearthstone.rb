@@ -46,7 +46,7 @@ class Hearthstone
   end
 
   def reset
-    @log_analyzer.reset_data
+    @log_analyzer.reset_data if @log_analyzer
   end
 
   # register events
@@ -190,6 +190,12 @@ class Hearthstone
     @log_analyzer.on_card(:draw_card) do |player, card_id|
       listeners(player).each do |listener|
         listener.draw_card card_id if listener.respond_to?('draw_card')
+      end
+    end
+
+    @log_analyzer.on_card(:copy_card) do |player, card_id|
+      listeners(player).each do |listener|
+        listener.copy_card card_id if listener.respond_to?('copy_card')
       end
     end
 

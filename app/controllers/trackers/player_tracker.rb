@@ -99,10 +99,18 @@ class PlayerTracker < Tracker
 
   def game_start
     Log.verbose 'Player reset card'
-    @playing_cards.each do |card|
-      card.count      = @cards[card.card_id]
-      card.hand_count = 0
+    @playing_cards = []
+    @cards.each_key do |card_id|
+      real_card = Card.by_id(card_id)
+      if real_card
+        card            = PlayCard.from_card(real_card)
+        card.hand_count = 0
+        card.count      = @cards[card_id]
+        @playing_cards << card
+      end
     end
+
+    @playing_cards.sort_cards!
 
     self.has_coin   = false
     self.hand_count = 0
@@ -132,6 +140,36 @@ class PlayerTracker < Tracker
     self.deck_count -= 1 unless self.deck_count.zero?
     display_count
 
+    @table_view.reloadData
+  end
+
+  def copy_card(card_id)
+    found = false
+    Log.verbose "******** copy #{card.name}"
+    @playing_cards.each do |card|
+      if card.card_id == card_id
+        card.count       += 1
+        card.has_changed = true
+        found            = true
+      end
+    end
+
+    unless found
+      real_card = Card.by_id(card_id)
+      if real_card
+        card             = PlayCard.from_card(real_card)
+        card.hand_count  = 0
+        card.count       = 1
+        card.has_changed = true
+        card.in_deck     = true
+        @playing_cards << card
+      end
+
+      @playing_cards.sort_cards!
+    end
+
+    self.deck_count += 1
+    display_count
     @table_view.reloadData
   end
 
@@ -221,7 +259,7 @@ class PlayerTracker < Tracker
     card_count = @playing_cards.map(&:count).inject(0, :+)
     card       = cell.card
 
-    percent = (card.count * 100.0) / card_count
+    percent     = (card.count * 100.0) / card_count
     @count_text = "#{'Draw : '._}#{percent.round(2)}%"
     @table_view.reloadDataForRowIndexes([@playing_cards.count].nsindexset,
                                         columnIndexes: [0].nsindexset)

@@ -160,7 +160,7 @@ class DeckManager < NSWindowController
 
     unless found
       @decks_or_cards << c
-      @decks_or_cards = Sorter.sort_cards @decks_or_cards
+      @decks_or_cards.sort_cards!
     end
     @table_view.reloadData
     @saved = false

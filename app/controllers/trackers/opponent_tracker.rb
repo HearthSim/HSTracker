@@ -4,6 +4,14 @@ class OpponentTracker < Tracker
   # accessors used by card count
   attr_accessor :deck_count, :hand_count, :has_coin
 
+  def deck_count
+    @deck_count ||= 30
+  end
+
+  def hand_count
+    @hand_count ||= 0
+  end
+
   Log = Motion::Log
 
   def init
@@ -128,14 +136,48 @@ class OpponentTracker < Tracker
     end
 
     unless found
-      card            = PlayCard.from_card(Card.by_id(card_id))
-      card.count      = 1
-      card.hand_count = 0
-      @cards << card
-      @cards = Sorter.sort_cards @cards
+      real_card = Card.by_id(card_id)
+      if real_card
+        card            = PlayCard.from_card(real_card)
+        card.count      = 1
+        card.hand_count = 0
+        @cards << card
+        @cards.sort_cards!
+      end
     end
 
     self.hand_count -= 1 unless self.hand_count.zero?
+    display_count
+    @table_view.reloadData
+  end
+
+  def copy_card(card_id)
+    found = false
+    Log.verbose "******** copy #{card.name}"
+
+    @cards.each do |card|
+      if card.card_id == card_id and card.in_deck
+        card.count       += 1
+        card.has_changed = true
+        found            = true
+      end
+    end
+
+    unless found
+      real_card = Card.by_id(card_id)
+      if real_card
+        card             = PlayCard.from_card(real_card)
+        card.hand_count  = 0
+        card.count       = 1
+        card.in_deck     = true
+        card.has_changed = true
+        @cards << card
+      end
+
+      @cards.sort_cards!
+    end
+
+    self.deck_count += 1
     display_count
     @table_view.reloadData
   end

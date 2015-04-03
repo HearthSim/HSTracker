@@ -65,6 +65,30 @@ class LogAnalyzer
       entity(id, :card_id, card_id)
     end
 
+    match = /.*ACTION_START.*(cardId=(\w*)).*SubType=POWER.*Target=(.+)/i.match(line)
+    if match
+      id         = match[2]
+      target     = match[3]
+      to_card_id = nil
+
+      Log.verbose "#{@current_player} action start #{id} -> #{target}"
+      if id == 'BRM_007' # Gang Up
+        target_match = /\[.*cardId=(\w*) .*/.match(target)
+        if target_match
+          to_card_id = target_match[1]
+
+          (0...3).each do |_|
+            Log.debug "#{@current_player} copy #{to_card_id}"
+            @on_cards[:copy_card].call(@current_player, to_card_id) if @on_cards[:copy_card]
+          end
+        end
+      elsif id == 'GVG_056' # Iron Juggernaut
+        to_card_id = 'GVG_056t'
+        Log.debug "#{@current_player} copy #{to_card_id}"
+        @on_cards[:copy_card].call(@current_player, to_card_id) if @on_cards[:copy_card]
+      end
+    end
+
     # cards play
     match = /ProcessChanges.*\[.*id=(\d+).*cardId=(\w+|).*\].*zone from (.*) -> (.*)/i.match(line)
     if match
@@ -112,7 +136,7 @@ class LogAnalyzer
         end
 
       elsif from =~ /HAND/ and to =~ /DECK/
-        @mulligan_done  = true
+        @mulligan_done = true
 
         # player or opponent mulligan
         if to =~ /FRIENDLY/
@@ -179,16 +203,6 @@ class LogAnalyzer
       else
         #Log.verbose "*** from '#{from}' to '#{to}' -> #{card_id} (#{card})"
       end
-    end
-
-    # Turn Info
-    if line =~ /change=powerTask.*tag=NEXT_STEP value=MAIN_ACTION/ and @game_started
-      @current_turn   += 1
-
-      # be sure to "reset" cards from tracking
-      @tracking_cards = []
-
-      Log.debug 'next turn'
     end
 
     # coin
@@ -370,8 +384,21 @@ class LogAnalyzer
             @players[:opponent][:id] = value == 1 ? 2 : 1
           end
 
+        when 'CURRENT_PLAYER'
+          if value.to_i == 1
+            @current_turn   += 1
+
+            # be sure to "reset" cards from tracking
+            @tracking_cards = []
+
+            Log.debug 'next turn'
+            @current_player = player(entity)
+          end
+        #else if(tag == GAME_TAG.CURRENT_PLAYER && value == 1)
+        #       _gameHandler.TurnStart(Game.Entities[id].IsPlayer ? ActivePlayer.Player : ActivePlayer.Opponent, GetTurnNumber());
         else
           #Log.debug "****** entity : #{entity}, tag : #{tag}, value : #{value}"
+
 
       end
     end

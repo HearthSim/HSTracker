@@ -13,6 +13,6 @@ class Deck < CDQManagedObject
       end
 
     end
-    Sorter.sort_cards(_cards)
+    _cards.sort_cards!
   end
 end

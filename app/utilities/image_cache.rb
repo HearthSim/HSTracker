@@ -29,12 +29,20 @@ class ImageCache
       image_named 'frames/frame.png'
     end
 
+    def frame_deck_image
+      image_named 'frames/frame_deck.png'
+    end
+
     def frame_image_mask
       image_named 'frames/frame_mask.png'
     end
 
     def frame_countbox
       image_named 'frames/frame_countbox.png'
+    end
+
+    def frame_countbox_deck
+      image_named 'frames/frame_countbox_deck.png'
     end
 
     def frame_count(count)
@@ -52,7 +60,7 @@ class ImageCache
         return @images[name]
       end
 
-      path = "#{'images/'.resource_path}/#{name}"
+      path          = "#{'images/'.resource_path}/#{name}"
       image         = NSImage.alloc.initWithContentsOfFile(path)
       @images[name] = image
 

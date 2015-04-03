@@ -84,7 +84,11 @@ class CardCellView < NSTableCellView
     @card_layer.opacity   = alpha
 
     # draw the frame
-    @frame_layer.contents = ImageCache.frame_image
+    if card.in_deck
+      @frame_layer.contents = ImageCache.frame_deck_image
+    else
+      @frame_layer.contents = ImageCache.frame_image
+    end
 
     x                    = 1.0 / ratio
     y                    = 0.0 / ratio
@@ -136,7 +140,11 @@ class CardCellView < NSTableCellView
 
     if card.count >= 2 or card.rarity == 'Legendary'._
       # add the background of the card count
+      if card.in_deck
+        @frame_count_box.contents = ImageCache.frame_countbox_deck
+        else
       @frame_count_box.contents = ImageCache.frame_countbox
+      end
       x                         = 189.0 / ratio
       y                         = 5.0 / ratio
       width                     = 25.0 / ratio
