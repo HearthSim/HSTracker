@@ -153,10 +153,10 @@ class OpponentTracker < Tracker
 
   def copy_card(card_id)
     found = false
-    Log.verbose "******** copy #{card.name}"
 
     @cards.each do |card|
       if card.card_id == card_id and card.in_deck
+        Log.verbose "******** copy #{card.name}"
         card.count       += 1
         card.has_changed = true
         found            = true
@@ -167,6 +167,7 @@ class OpponentTracker < Tracker
       real_card = Card.by_id(card_id)
       if real_card
         card             = PlayCard.from_card(real_card)
+        Log.verbose "******** copy #{card.name}"
         card.hand_count  = 0
         card.count       = 1
         card.in_deck     = true
