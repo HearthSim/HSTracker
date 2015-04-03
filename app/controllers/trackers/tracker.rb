@@ -76,6 +76,14 @@ class Tracker < NSWindowController
       @card_layout = NSNotificationCenter.defaultCenter.observe 'card_layout' do |_|
         card_layout
       end
+
+      @count_color = NSNotificationCenter.defaultCenter.observe 'count_color' do |_|
+        @table_view.reloadData if @table_view
+      end
+
+      @count_color_border = NSNotificationCenter.defaultCenter.observe 'count_color_border' do |_|
+        @table_view.reloadData if @table_view
+      end
     end
   end
 
@@ -83,5 +91,7 @@ class Tracker < NSWindowController
     NSNotificationCenter.defaultCenter.unobserve(@option_changed)
     NSNotificationCenter.defaultCenter.unobserve(@transparency_changed)
     NSNotificationCenter.defaultCenter.unobserve(@card_layout)
+    NSNotificationCenter.defaultCenter.unobserve(@count_color)
+    NSNotificationCenter.defaultCenter.unobserve(@count_color_border)
   end
 end

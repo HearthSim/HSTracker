@@ -12,10 +12,13 @@ class Configuration
     end
 
     KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency
-                  flash_color fixed_window_names reset_on_end card_layout)
+                  flash_color fixed_window_names reset_on_end card_layout count_color
+                  count_color_border)
 
     KDefaults = {
         :flash_color         => [55, 189, 223],
+        :count_color         => [255, 255, 255],
+        :count_color_border  => [0, 0, 0],
         :window_transparency => 0.1,
         :card_played         => :fade,
         :card_layout         => :big,
@@ -36,7 +39,7 @@ class Configuration
         value = args[0]
         # special cases
         case method
-          when 'flash_color'
+          when 'flash_color', 'count_color', 'count_color_border'
             value = value.hex
         end
 
@@ -55,7 +58,7 @@ class Configuration
 
         # special cases
         case method
-          when 'flash_color'
+          when 'flash_color', 'count_color', 'count_color_border'
             value = value.nscolor
           when 'card_played', 'card_layout', 'one_line_count'
             value = value.to_sym unless value.is_a? Symbol

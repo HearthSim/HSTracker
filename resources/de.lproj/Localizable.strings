@@ -48,6 +48,8 @@
 "Medium" = "Medium";
 "Small" = "Small";
 "Colors" = "Colors";
+"Draw / Count color" = "Draw / Count color";
+"Draw / Count border color" = "Draw / Count border color";
 
 /* classes */
 "Shaman" = "Shamane";

@@ -48,6 +48,8 @@
 "Medium" = "Moyen";
 "Small" = "Petit";
 "Colors" = "Couleurs";
+"Draw / Count color" = "Comptage / Pioche couleur";
+"Draw / Count border color" = "Comptage / Pioche couleur bord";
 
 /* classes */
 "Shaman" = "Chaman";

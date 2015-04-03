@@ -49,6 +49,24 @@ describe 'Configuration' do
     value.should == '#FFFFFF'.nscolor
   end
 
+  it 'should accept a "count_color" option' do
+    value = Configuration.count_color
+    value.should == [255, 255, 255].nscolor
+
+    should.not.raise(ArgumentError) { Configuration.count_color = '#FF00FF'.nscolor }
+    value = Configuration.count_color
+    value.should == '#FF00FF'.nscolor
+  end
+
+  it 'should accept a "count_color_border" option' do
+    value = Configuration.count_color_border
+    value.should == [0, 0, 0].nscolor
+
+    should.not.raise(ArgumentError) { Configuration.count_color_border = '#FF00FF'.nscolor }
+    value = Configuration.count_color_border
+    value.should == '#FF00FF'.nscolor
+  end
+
   it 'should accept a "fixed_window_names" option' do
     value = Configuration.fixed_window_names
     value.should == false

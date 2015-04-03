@@ -236,7 +236,7 @@ class PlayerTracker < Tracker
   # window
   def showWindow(sender)
     super.tap do
-      @color_changed = NSNotificationCenter.defaultCenter.observe 'flash_color' do |notification|
+      @color_changed = NSNotificationCenter.defaultCenter.observe 'flash_color' do |_|
         @table_view.reloadData if @table_view
       end
     end

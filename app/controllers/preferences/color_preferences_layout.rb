@@ -1,7 +1,7 @@
 class ColorPreferencesLayout < PreferencesLayout
 
   def frame_size
-    [[0, 0], [300, 300]]
+    [[0, 0], [300, 350]]
   end
 
   KOnCardLayoutChoices = {
@@ -18,10 +18,10 @@ class ColorPreferencesLayout < PreferencesLayout
   def options
     {
         :card_played => {
-            :label => 'Card played'._,
-            :type  => NSPopUpButton,
-            :init => -> (elem) {
-              current_choice     = Configuration.card_played
+            :label   => 'Card played'._,
+            :type    => NSPopUpButton,
+            :init    => -> (elem) {
+              current_choice = Configuration.card_played
 
               KOnCardPlayedChoices.each do |value, label|
                 item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
@@ -42,7 +42,7 @@ class ColorPreferencesLayout < PreferencesLayout
               end
             }
         },
-        :flash_color         => {
+        :flash_color => {
             :label   => 'Flash color'._,
             :type    => NSColorWell,
             :init    => -> (elem) {
@@ -52,7 +52,27 @@ class ColorPreferencesLayout < PreferencesLayout
               Configuration.flash_color = elem.color
             }
         },
-        :card_layout         => {
+        :count_color => {
+            :label   => 'Draw / Count color'._,
+            :type    => NSColorWell,
+            :init    => -> (elem) {
+              elem.color = Configuration.count_color
+            },
+            :changed => -> (elem) {
+              Configuration.count_color = elem.color
+            }
+        },
+        :count_color_border => {
+            :label   => 'Draw / Count border color'._,
+            :type    => NSColorWell,
+            :init    => -> (elem) {
+              elem.color = Configuration.count_color_border
+            },
+            :changed => -> (elem) {
+              Configuration.count_color_border = elem.color
+            }
+        },
+        :card_layout => {
             :label   => 'Card size'._,
             :type    => NSPopUpButton,
             :init    => -> (elem) {

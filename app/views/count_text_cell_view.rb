@@ -20,8 +20,8 @@ class CountTextCellView < NSTableCellView
       name = text.attrd
                  .font('Belwe Bd BT'.nsfont((14.0 / ratio).round))
                  .stroke_width(-1.5)
-                 .stroke_color(:black.nscolor)
-                 .foreground_color(:white.nscolor)
+                 .stroke_color(Configuration.count_color_border)
+                 .foreground_color(Configuration.count_color)
       x                  = 10.0 / ratio
       y                  = -3.0 / ratio
       width              = 174.0 / ratio
