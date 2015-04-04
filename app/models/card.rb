@@ -58,6 +58,10 @@ class Card < CDQManagedObject
     @hand_count ||= 0
   end
 
+  def in_deck
+    false
+  end
+
   private
   # search a card by a name and locale and return the card in your locale
   def self.by_name_and_locale(name, locale)
