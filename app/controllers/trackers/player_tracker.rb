@@ -6,7 +6,7 @@ class PlayerTracker < Tracker
   attr_accessor :cards
 
   # accessors used by card count
-  attr_accessor :deck_count, :hand_count, :has_coin
+  attr_accessor :deck_count, :hand_count
 
   def init
     super.tap do
@@ -18,7 +18,6 @@ class PlayerTracker < Tracker
       @playing_cards = []
       @count_text    = ''
 
-      self.has_coin   = false
       self.hand_count = 0
       self.deck_count = 30
 
@@ -90,7 +89,7 @@ class PlayerTracker < Tracker
   end
 
   # game events
-  def game_end(_)
+  def game_end
     if Configuration.reset_on_end
       @count_text = nil
       game_start
@@ -100,6 +99,7 @@ class PlayerTracker < Tracker
   def game_start
     Log.verbose 'Player reset card'
     @playing_cards = []
+
     @cards.each_key do |card_id|
       real_card = Card.by_id(card_id)
       if real_card
@@ -112,53 +112,99 @@ class PlayerTracker < Tracker
 
     @playing_cards.sort_cards!
 
-    self.has_coin   = false
     self.hand_count = 0
     self.deck_count = 30
-    display_count
 
+    display_count
     @table_view.reloadData
   end
 
-  def set_hero(player, hero_id)
-    return if player == :opponent
+  def set_hero(hero_id)
     # todo warn if the player don't match with the current deck ?
   end
 
-  def draw_card(card_id)
-    @playing_cards.each do |card|
-      if card.card_id == card_id
-        card.hand_count  += 1
-        card.count       -= 1 unless card.count.zero?
-        card.has_changed = true
-
-        Log.verbose "******** draw #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
-      end
-    end
-
+  def draw(card_id)
     self.hand_count += 1
-    self.deck_count -= 1 unless self.deck_count.zero?
+
+    return if card_id.nil? or card_id.empty?
+
+    card = @playing_cards.select { |c| c.card_id == card_id }.first
+    return if card.nil?
+
+    card.count       -= 1
+    card.hand_count  += 1
+    card.has_changed = true
+
+    self.deck_count  -= 1 unless self.deck_count.zero?
+
     display_count
 
     @table_view.reloadData
   end
 
-  def copy_card(card_id)
-    found = false
-    @playing_cards.each do |card|
-      if card.card_id == card_id
-        Log.verbose "******** copy #{card.name}"
-        card.count       += 1
-        card.has_changed = true
-        found            = true
+  def deck_discard(card_id)
+    return if card_id.nil? or card_id.empty?
+
+    card = @playing_cards.select { |c| c.card_id == card_id }.first
+    return if card.nil?
+    card.count       -= 1
+    card.has_changed = true
+
+    self.deck_count  -= 1 unless self.deck_count.zero?
+    display_count
+
+    @table_view.reloadData
+  end
+
+  def hand_discard(card_id)
+    play(card_id)
+  end
+
+  def play(card_id)
+    self.hand_count -= 1
+
+    card = @playing_cards.select { |c| c.card_id == card_id }.first
+    unless card.nil?
+      card.hand_count -= 1
+
+      if card.hand_count.zero? and card.count.zero? and Configuration.card_played == :remove
+        @playing_cards.delete card
       end
     end
 
-    unless found
+    display_count
+    @table_view.reloadData
+  end
+
+  def mulligan(card_id)
+    self.hand_count -= 1
+
+    return if card_id.nil? or card_id.empty?
+
+    card = @playing_cards.select { |c| c.card_id == card_id }.first
+    if card
+      card.count       += 1
+      card.hand_count  -= 1
+    end
+    self.deck_count += 1
+
+    display_count
+    @table_view.reloadData
+  end
+
+  def play_to_deck(card_id)
+    Log.verbose "***** PLAYER PLAY TO DECK #{card_id}"
+  end
+
+  def get_to_deck(card_id)
+    card = @playing_cards.select { |c| c.card_id == card_id }.first
+    if card
+      card.count       += 1
+      card.has_changed = true
+    else
       real_card = Card.by_id(card_id)
       if real_card
-        card = PlayCard.from_card(real_card)
-        Log.verbose "******** copy #{card.name}"
+        card             = PlayCard.from_card(real_card)
         card.hand_count  = 0
         card.count       = 1
         card.has_changed = true
@@ -174,41 +220,38 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
-  def play_secret
-    self.hand_count -= 1 unless self.hand_count.zero?
-    display_count
+  def get(card_id, turn)
+    if card_id == 'GAME_005' and turn == 0
+      self.hand_count += 1
+      return
+    end
 
-    @table_view.reloadData
-  end
+    card = @playing_cards.select { |c| c.card_id == card_id }.first
+    if card
+      card.hand_count += 1
+    else
+      real_card = Card.by_id(card_id)
+      if real_card
+        card             = PlayCard.from_card(real_card)
+        card.hand_count  = 1
+        card.count       = 0
+        card.has_changed = true
+        card.in_deck     = true
+        @playing_cards << card
+      end
 
-  def card_stolen(_)
+      @playing_cards.sort_cards!
+    end
     self.hand_count += 1
-    display_count
 
+    display_count
     @table_view.reloadData
   end
 
+=begin
   def discard_card(card_id)
     # card discarded, consider we played the card
     play_card(card_id)
-
-    self.hand_count -= 1 unless self.hand_count.zero?
-    display_count
-
-    @table_view.reloadData
-  end
-
-  def play_card(card_id)
-    @playing_cards.each do |card|
-      if card.card_id == card_id
-        card.hand_count -= 1 unless card.hand_count.zero?
-        Log.verbose "******** play #{card.name} -> count : #{card.count}, hand : #{card.hand_count}"
-
-        if card.hand_count.zero? and card.count.zero? and Configuration.card_played == :remove
-          @playing_cards.delete card
-        end
-      end
-    end
 
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
@@ -233,16 +276,7 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
-  def get_coin(_)
-    # increment deck_count by 1 because we decrement it when the
-    # coin has been drawned
-    self.has_coin   = true
-    self.deck_count += 1
-    display_count
-
-    @table_view.reloadData
-  end
-
+=end
   def display_count
     text = ("#{'Hand : '._} #{self.hand_count}")
     text << ' / '

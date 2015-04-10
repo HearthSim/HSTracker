@@ -46,7 +46,7 @@ class Hearthstone
   end
 
   def reset
-    @log_analyzer.reset_data if @log_analyzer
+    @log_observer.reset_data if @log_observer
   end
 
   # register events
@@ -150,103 +150,20 @@ class Hearthstone
     end
   end
 
+
+      end
+    end
+
+
+      end
+    end
+
   # start analysis and dispatch events
   def start_tracking
     return if is_started
     @is_started = true
 
     @log_observer = LogObserver.new
-    @log_analyzer = LogAnalyzer.new
-
-    # game finish
-    @log_analyzer.on_game_end do |player|
-      listeners.each do |listener|
-        listener.game_end(player) if listener.respond_to?('game_end')
-      end
-    end
-
-    # game start
-    @log_analyzer.on_game_start do
-      listeners.each do |listener|
-        listener.game_start if listener.respond_to?('game_start')
-      end
-    end
-
-    # hero
-    @log_analyzer.on_hero do |player, hero_id|
-      listeners(player).each do |listener|
-        listener.set_hero(player, hero_id) if listener.respond_to?('set_hero')
-      end
-    end
-
-    # coin
-    @log_analyzer.on_coin do |player|
-      listeners(player).each do |listener|
-        listener.get_coin(player) if listener.respond_to?('get_coin')
-      end
-    end
-
-    # cards
-    @log_analyzer.on_card(:draw_card) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.draw_card card_id if listener.respond_to?('draw_card')
-      end
-    end
-
-    @log_analyzer.on_card(:copy_card) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.copy_card card_id if listener.respond_to?('copy_card')
-      end
-    end
-
-    @log_analyzer.on_card(:return_deck_card) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.restore_card card_id if listener.respond_to?('restore_card')
-      end
-    end
-
-    @log_analyzer.on_card(:discard_card) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.discard_card card_id if listener.respond_to?('discard_card')
-      end
-    end
-
-    @log_analyzer.on_card(:card_stolen) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.card_stolen card_id if listener.respond_to?('card_stolen')
-      end
-      end
-
-    @log_analyzer.on_card(:play_secret) do
-      listeners(:opponent).each do |listener|
-        listener.play_secret if listener.respond_to?('play_secret')
-      end
-    end
-
-    @log_analyzer.on_card(:secret_revealed) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.secret_revealed(card_id) if listener.respond_to?('secret_revealed')
-      end
-    end
-
-    @log_analyzer.on_card(:play_card) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.play_card card_id if listener.respond_to?('play_card')
-      end
-    end
-
-    @log_analyzer.on_card(:return_hand_card) do |player, card_id|
-
-    end
-
-    @log_analyzer.on_player_name do |player, name|
-
-    end
-
-    @log_observer.on_read_line do |line|
-      @log_analyzer.analyze(line)
-    end
-
     @log_observer.start
   end
 

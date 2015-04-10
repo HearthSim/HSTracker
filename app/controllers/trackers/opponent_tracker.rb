@@ -61,7 +61,7 @@ class OpponentTracker < Tracker
   end
 
   # game events
-  def game_end(_)
+  def game_end
     if Configuration.reset_on_end
       @count_text = nil
       game_start
@@ -83,22 +83,125 @@ class OpponentTracker < Tracker
     @table_view.reloadData
   end
 
-  def set_hero(player, hero_id)
-    return if player == :player
-
+  def set_hero(hero_id)
     hero = Card.hero(hero_id)
     if hero and !Configuration.fixed_window_names
       self.window.setTitle hero.player_class._
     end
   end
 
-  def draw_card(_)
+  def get_to_deck(card_id, turn)
+    Log.verbose "##### OPPONENT GET TO DECK #{card_id}"
+  end
+
+  def draw(turn)
     self.hand_count += 1
-    self.deck_count -= 1 unless self.deck_count.zero?
+    if turn == 0 and self.hand_count == 5
+      Log.verbose 'opponent get the coin'
+    else
+      self.deck_count -= 1 unless self.deck_count.zero?
+    end
+
     display_count
     @table_view.reloadData
   end
 
+  def deck_discard(card_id, turn)
+    card = @cards.select { |c| c.card_id == card_id }.first
+    if card
+      card.hand_count = 0
+      card.count      += 1
+    else
+      real_card = Card.by_id(card_id)
+      if real_card
+        card            = PlayCard.from_card(real_card)
+        card.count      = 1
+        card.hand_count = 0
+        @cards << card
+        @cards.sort_cards!
+      end
+    end
+
+    self.deck_count -= 1
+
+    display_count
+    @table_view.reloadData
+  end
+
+  def play(card_id, turn)
+
+    if card_id
+      card = @cards.select { |c| c.card_id == card_id }.first
+      if card
+        card.count += 1
+      else
+        real_card = Card.by_id(card_id)
+        if real_card
+          card             = PlayCard.from_card(real_card)
+          card.count       = 1
+          card.hand_count  = 0
+          card.has_changed = true
+          @cards << card
+          @cards.sort_cards!
+        end
+      end
+    end
+
+    self.hand_count -= 1 unless self.hand_count.zero?
+    display_count
+    @table_view.reloadData
+  end
+
+  def mulligan
+    self.hand_count -= 1
+    self.deck_count += 1
+
+    display_count
+    @table_view.reloadData
+  end
+
+  def play_to_hand(card_id, turn, id)
+    self.hand_count -= 1
+    card = @cards.select { |c| c.card_id == card_id }.first
+    if card
+      card.count -= 1
+    end
+
+    display_count
+    @table_view.reloadData
+  end
+
+  def play_to_deck(card_id, id)
+    Log.verbose "##### OPPONENT PLAY TO DECK #{card_id} #{id}"
+  end
+
+  def secret_trigger(card_id, turn, id)
+    return if card_id.nil? or card_id.empty?
+
+    card = @cards.select { |c| c.card_id == card_id }.first
+    if card
+      card.count += 1
+    else
+      real_card = Card.by_id(card_id)
+      if real_card
+        card             = PlayCard.from_card(real_card)
+        card.count       = 1
+        card.hand_count  = 0
+        card.has_changed = true
+        @cards << card
+        @cards.sort_cards!
+      end
+    end
+
+    display_count
+    @table_view.reloadData
+  end
+
+  def get(turn, id)
+    Log.verbose "##### OPPONENT GET #{id}"
+  end
+
+=begin
   def play_secret
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
@@ -111,44 +214,9 @@ class OpponentTracker < Tracker
     @table_view.reloadData
   end
 
-  def discard_card(card_id)
-    # card discarded, consider he played the card
-    play_card(card_id)
-
-    self.hand_count -= 1 unless self.hand_count.zero?
-    display_count
-    @table_view.reloadData
-  end
-
   def secret_revealed(card_id)
     # for the opponent, consider he played the card
     play_card(card_id)
-  end
-
-  def play_card(card_id)
-    found = false
-    @cards.each do |card|
-      if card.card_id == card_id
-        card.hand_count = 0
-        card.count      += 1
-        found           = true
-      end
-    end
-
-    unless found
-      real_card = Card.by_id(card_id)
-      if real_card
-        card            = PlayCard.from_card(real_card)
-        card.count      = 1
-        card.hand_count = 0
-        @cards << card
-        @cards.sort_cards!
-      end
-    end
-
-    self.hand_count -= 1 unless self.hand_count.zero?
-    display_count
-    @table_view.reloadData
   end
 
   def copy_card(card_id)
@@ -198,7 +266,7 @@ class OpponentTracker < Tracker
     display_count
     @table_view.reloadData
   end
-
+=end
   def display_count
     text = ("#{'Hand : '._} #{self.hand_count}")
     text << ' / '

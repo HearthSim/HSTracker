@@ -39,8 +39,8 @@ class AppDelegate
       @opponent.showWindow(self)
       @opponent.window.orderFrontRegardless
 
-      Hearthstone.instance.listen(@player, :player)
-      Hearthstone.instance.listen(@opponent, :opponent)
+      Game.instance.player_tracker = @player
+      Game.instance.opponent_tracker = @opponent
 
       NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|
         reload_deck_menu

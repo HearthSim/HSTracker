@@ -13,14 +13,7 @@ class Card < CDQManagedObject
 
   # get a card by its id
   def self.by_id(card_id)
-    query = self.where(:card_id => card_id).per_lang
-
-    # Coin
-    unless card_id == 'GAME_005'
-      query.playable
-    end
-
-    query.first
+    self.where(:card_id => card_id).per_lang.first
   end
 
   # shortcut to by_name_and_locale for us cards
