@@ -10,11 +10,11 @@ class Hearthstone
     @instance
   end
 
-  def is_started
+  def is_started?
     @is_started ||= false
   end
 
-  def is_active
+  def is_active?
     @is_active ||= false
   end
 
@@ -186,7 +186,7 @@ class Hearthstone
 
   # start analysis and dispatch events
   def start_tracking
-    return if is_started
+    return if is_started?
     @is_started = true
 
     @log_observer = LogObserver.new

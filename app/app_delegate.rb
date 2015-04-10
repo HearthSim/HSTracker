@@ -126,8 +126,10 @@ class AppDelegate
 
   def windowWillClose(_)
     # change windows level back
-    @player.window.setLevel NSScreenSaverWindowLevel
-    @opponent.window.setLevel NSScreenSaverWindowLevel
+    if Hearthstone.instance.is_active?
+      @player.window.setLevel NSScreenSaverWindowLevel
+      @opponent.window.setLevel NSScreenSaverWindowLevel
+    end
 
     close_window_menu false
     @deck_manager = nil

@@ -61,7 +61,9 @@ class TrackerLayout < MK::WindowLayout
       mask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
     end
     style_mask mask
-    level NSScreenSaverWindowLevel
+    if Hearthstone.instance.is_active?
+      level NSScreenSaverWindowLevel
+    end
 
     add NSScrollView, :table_scroll_view do
       drawsBackground false
