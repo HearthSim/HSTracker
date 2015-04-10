@@ -25,10 +25,6 @@ class AppDelegate
       @splash.window.orderOut(self)
       @splash = nil
 
-      Hearthstone.instance.on(:app_running) do |is_running|
-        Log.info "Hearthstone is running? #{is_running}"
-      end
-
       NSApp.mainMenu = MainMenu.new.menu
 
       @player = PlayerTracker.new
@@ -41,6 +37,21 @@ class AppDelegate
 
       Game.instance.player_tracker = @player
       Game.instance.opponent_tracker = @opponent
+
+      Hearthstone.instance.on(:app_running) do |is_running|
+        Log.info "Hearthstone is running? #{is_running}"
+      end
+
+      Hearthstone.instance.on(:app_activated) do |is_active|
+        Log.info "Hearthstone is active? #{is_active}"
+        if is_active
+          @player.window.setLevel NSScreenSaverWindowLevel
+          @opponent.window.setLevel NSScreenSaverWindowLevel
+        else
+          @player.window.setLevel NSNormalWindowLevel
+          @opponent.window.setLevel NSNormalWindowLevel
+        end
+      end
 
       NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|
         reload_deck_menu

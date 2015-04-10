@@ -14,6 +14,10 @@ class Hearthstone
     @is_started ||= false
   end
 
+  def is_active
+    @is_active ||= false
+  end
+
   # get the path to the log.config
   def self.config_path
     '/Library/Preferences/Blizzard/Hearthstone/log.config'.home_path
@@ -116,12 +120,14 @@ class Hearthstone
 
   # observe for HS starting/leaving
   def listener
-    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'workspaceDidLaunchApplication:', name: NSWorkspaceDidLaunchApplicationNotification, object: nil)
-    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'workspaceDidTerminateApplication:', name: NSWorkspaceDidTerminateApplicationNotification, object: nil)
+    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'app_launched:', name: NSWorkspaceDidLaunchApplicationNotification, object: nil)
+    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'app_terminated:', name: NSWorkspaceDidTerminateApplicationNotification, object: nil)
+    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'app_activated:', name: NSWorkspaceDidActivateApplicationNotification, object: nil)
+    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'app_deactivated:', name: NSWorkspaceDidDeactivateApplicationNotification, object: nil)
   end
 
   # check if the app launched is HS
-  def workspaceDidLaunchApplication(notification)
+  def app_launched(notification)
     application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
     if application && application.localizedName == 'Hearthstone'
@@ -135,8 +141,8 @@ class Hearthstone
     end
   end
 
-  # chec if the app terminated is HS
-  def workspaceDidTerminateApplication(notification)
+  # check if the app terminated is HS
+  def app_terminated(notification)
     application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
     if application && application.localizedName == 'Hearthstone'
@@ -150,13 +156,33 @@ class Hearthstone
     end
   end
 
+  # check if the activated app is HS
+  def app_activated(notification)
+    application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
+    if application && application.localizedName == 'Hearthstone'
+      @is_active = true
+      if @listeners[:app_activated]
+        @listeners[:app_activated].each do |block|
+          block.call(true) if block
+        end
       end
     end
+  end
 
+  # check if the deactivated app is HS
+  def app_deactivated(notification)
+    application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
+    if application && application.localizedName == 'Hearthstone'
+      @is_active = false
+      if @listeners[:app_activated]
+        @listeners[:app_activated].each do |block|
+          block.call(false) if block
+        end
       end
     end
+  end
 
   # start analysis and dispatch events
   def start_tracking
