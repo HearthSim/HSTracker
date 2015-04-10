@@ -1,3 +1,7 @@
+#### 0.8
+- Complete rewrite of the log analysis using the code base from [Hearthstone-Deck-Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker)
+- HSTracker now listen for Hearthstone to be active and set its "modality" according.
+
 #### 0.7
 - Card count, draw chance are now only available on trackers, also change color is available
 - Gang Up is supported, added a green frame for this kind of cards
