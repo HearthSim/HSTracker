@@ -140,7 +140,11 @@ class Game
   end
 
   def opponent_hero(hero_id)
-    log(:opponent, "hero is #{hero_id} (#{Card.hero(hero_id).name})")
+    hero = Card.hero(hero_id)
+    if  hero
+      hero = hero.name
+    end
+    log(:opponent, "hero is #{hero_id} (#{hero})")
     opponent_tracker.set_hero(hero_id)
   end
 

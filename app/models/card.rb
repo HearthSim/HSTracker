@@ -51,7 +51,7 @@ class Card < CDQManagedObject
     @hand_count ||= 0
   end
 
-  def in_deck
+  def is_stolen
     false
   end
 

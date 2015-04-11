@@ -56,9 +56,10 @@ class CardCellView < NSTableCellView
 
   # drawing
   def updateLayer
-    alpha = 1.0
     if side == :player
       alpha = (card.count <= 0 and card.hand_count <= 0) ? 0.4 : 1.0
+    else
+      alpha = (card.count <= 0) ? 0.4 : 1.0
     end
 
     layout = Configuration.card_layout
@@ -75,16 +76,16 @@ class CardCellView < NSTableCellView
     end
 
     # draw the card art
-    @card_layer.contents  = ImageCache.small_card_image(card)
-    x                     = 104.0 / ratio
-    y                     = 1.0 / ratio
-    width                 = 110.0 / ratio
-    height                = 34.0 / ratio
-    @card_layer.frame     = [[x, y], [width, height]]
-    @card_layer.opacity   = alpha
+    @card_layer.contents = ImageCache.small_card_image(card)
+    x                    = 104.0 / ratio
+    y                    = 1.0 / ratio
+    width                = 110.0 / ratio
+    height               = 34.0 / ratio
+    @card_layer.frame    = [[x, y], [width, height]]
+    @card_layer.opacity  = alpha
 
     # draw the frame
-    if card.in_deck
+    if card.is_stolen
       @frame_layer.contents = ImageCache.frame_deck_image
     else
       @frame_layer.contents = ImageCache.frame_image
@@ -140,16 +141,16 @@ class CardCellView < NSTableCellView
 
     if card.count >= 2 or card.rarity == 'Legendary'._
       # add the background of the card count
-      if card.in_deck
+      if card.is_stolen
         @frame_count_box.contents = ImageCache.frame_countbox_deck
-        else
-      @frame_count_box.contents = ImageCache.frame_countbox
+      else
+        @frame_count_box.contents = ImageCache.frame_countbox
       end
-      x                         = 189.0 / ratio
-      y                         = 5.0 / ratio
-      width                     = 25.0 / ratio
-      height                    = 24.0 / ratio
-      @frame_count_box.frame    = [[x, y], [width, height]]
+      x                      = 189.0 / ratio
+      y                      = 5.0 / ratio
+      width                  = 25.0 / ratio
+      height                 = 24.0 / ratio
+      @frame_count_box.frame = [[x, y], [width, height]]
 
       if card.count.between?(2, 9)
         # the card count

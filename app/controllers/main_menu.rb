@@ -34,8 +34,12 @@ class MainMenu < MK::MenuLayout
       setAutoenablesItems false
       label = Configuration.windows_locked ? 'Unlock Windows'._ : 'Lock Windows'._
       add label, action: 'lock_windows:', key: 'l'
-      close = add close_item('Close'._)
+      close         = add close_item('Close'._)
       close.enabled = false
+
+      if RUBYMOTION_ENV == 'development'
+        add 'Debugger', action: 'debug:', key: ''
+      end
     end
   end
 

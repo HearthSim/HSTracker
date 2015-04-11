@@ -23,6 +23,15 @@ class LogObserver
     changes_in_file
   end
 
+  def debug(text)
+    lines = text.split "\n"
+    if lines.count > 0
+      lines.each do |line|
+        analyze(line)
+      end
+    end
+  end
+
   def stop
     @should_run = false
   end
@@ -221,14 +230,20 @@ class LogObserver
         @spectating = true
         #game_end
 
-      elsif (match = /.*ACTION_START.*(cardId=(\w*)).*SubType=POWER.*Target=(.+)/i.match(line))
-        id     = match[2]
-        target = match[3]
+      elsif (match = /.*ACTION_START.*id=(\w*).*cardId=(\w*).*SubType=POWER.*Target=(.+)/i.match(line))
+        id       = match[1]
+        local_id = match[2]
+        target   = match[3]
+        #Log.verbose "ACTION START id : '#{id}', local_id : '#{local_id}', target : '#{target}', line : #{line}"
+        player   = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @player_id }.values.first
+        opponent = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @opponent_id }.values.first
 
-        player   = @entities.select { |_, val| val.has_tag?('PLAYER_ID') and val.tag('PLAYER_ID').to_i == @player_id }.values.first
-        opponent = @entities.select { |_, val| val.has_tag?('PLAYER_ID') and val.tag('PLAYER_ID').to_i == @opponent_id }.values.first
+        if local_id.nil? or local_id.empty? and id
+          entity   = @entities[id.to_i]
+          local_id = entity.card_id
+        end
 
-        if id == 'BRM_007' # Gang Up
+        if local_id == 'BRM_007' # Gang Up
           card_id = nil
           if target =~ /^\[/ and is_entity?(target)
             if (card_id_match = /cardId=(\w+)/.match(target))
@@ -236,7 +251,7 @@ class LogObserver
             end
           end
 
-          if !player.nil? and player.tag('CURRENT_PLAYER').to_i == 1
+          if !player.nil? and player.tag(GameTag::CURRENT_PLAYER).to_i == 1
             if card_id
               (0...3).each do |_|
                 Game.instance.player_get_to_deck(card_id, turn_number)
@@ -248,18 +263,18 @@ class LogObserver
             end
           end
 
-        elsif id == 'GVG_056' # Iron Juggernaut
+        elsif local_id == 'GVG_056' # Iron Juggernaut
 
-          if !player.nil? and player.tag('CURRENT_PLAYER').to_i == 1
+          if !player.nil? and player.tag(GameTag::CURRENT_PLAYER).to_i == 1
             Game.instance.opponent_get_to_deck('GVG_056t', turn_number)
           else
             Game.instance.player_get_to_deck('GVG_056t', turn_number)
           end
 
-        elsif (player and player.tag('CURRENT_PLAYER').to_i == 1 and !@player_used_hero_power) or (opponent and opponent.tag('CURRENT_PLAYER').to_i == 1 and !@opponent_used_hero_power)
-          card = Card.by_id(id)
+        elsif (player and player.tag(GameTag::CURRENT_PLAYER).to_i == 1 and !@player_used_hero_power) or (opponent and opponent.tag(GameTag::CURRENT_PLAYER).to_i == 1 and !@opponent_used_hero_power)
+          card = Card.by_id(local_id)
           if card and card.card_type == 'Hero Power'
-            if player and player.tag('CURRENT_PLAYER').to_i == 1
+            if player and player.tag(GameTag::CURRENT_PLAYER).to_i == 1
               @player_used_hero_power = true
               Log.verbose 'player use hero power'
             elsif opponent
@@ -369,8 +384,6 @@ class LogObserver
       player_1 = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == 1 }.values.first
       player_2 = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == 2 }.values.first
 
-      value = value.to_i
-
       if @current_entity_has_card_id
         player_1.is_player = (value == 1) if player_1
         player_2.is_player = (value != 1) if player_2
@@ -392,6 +405,10 @@ class LogObserver
 
     controller = @entities[id].tag(GameTag::CONTROLLER).to_i
     card_id    = @entities[id].card_id
+
+    if card_id == 'GVG_035' or card_id == 'CS2_147' or card_id == 'BRM_007'
+      #Log.verbose "tag : #{GameTag.values.key(tag)}, prev_zone : #{Zone.values.key(prev_zone)}, value : #{Zone.values.key(value)}"
+    end
 
     if tag == GameTag::ZONE
       if (value == Zone::HAND || (value == Zone::PLAY) && is_mulligan_done) && @wait_controller.nil?
@@ -625,10 +642,8 @@ class LogObserver
       value = PlayState.parse(raw_value)
     elsif tag == GameTag::CARDTYPE
       value = CardType.parse(raw_value)
-    elsif raw_value.is_i?
+    elsif raw_value.is_a? String and raw_value.is_i?
       value = raw_value.to_i
-    else
-      value = 0
     end
     value
   end

@@ -91,7 +91,10 @@ class OpponentTracker < Tracker
   end
 
   def get_to_deck(card_id, turn)
-    Log.verbose "##### OPPONENT GET TO DECK #{card_id}"
+    self.deck_count += 1
+
+    display_count
+    @table_view.reloadData
   end
 
   def draw(turn)
@@ -108,9 +111,21 @@ class OpponentTracker < Tracker
 
   def deck_discard(card_id, turn)
     card = @cards.select { |c| c.card_id == card_id }.first
+
+    card_is_discarded = true
     if card
+      if card_id == 'GVG_035' # Malorne
+        if card.count > 0
+          card.count -= 1
+
+          card_is_discarded = false
+        end
+      end
+
       card.hand_count = 0
-      card.count      += 1
+      if card_is_discarded
+        card.count += 1
+      end
     else
       real_card = Card.by_id(card_id)
       if real_card
@@ -122,7 +137,11 @@ class OpponentTracker < Tracker
       end
     end
 
-    self.deck_count -= 1
+    if card_is_discarded
+      self.deck_count -= 1
+    else
+      self.deck_count == 1
+    end
 
     display_count
     @table_view.reloadData
@@ -162,7 +181,7 @@ class OpponentTracker < Tracker
 
   def play_to_hand(card_id, turn, id)
     self.hand_count -= 1
-    card = @cards.select { |c| c.card_id == card_id }.first
+    card            = @cards.select { |c| c.card_id == card_id }.first
     if card
       card.count -= 1
     end
@@ -172,7 +191,10 @@ class OpponentTracker < Tracker
   end
 
   def play_to_deck(card_id, id)
-    Log.verbose "##### OPPONENT PLAY TO DECK #{card_id} #{id}"
+    self.deck_count += 1
+
+    display_count
+    @table_view.reloadData
   end
 
   def secret_trigger(card_id, turn, id)
@@ -198,75 +220,11 @@ class OpponentTracker < Tracker
   end
 
   def get(turn, id)
-    Log.verbose "##### OPPONENT GET #{id}"
-  end
-
-=begin
-  def play_secret
-    self.hand_count -= 1 unless self.hand_count.zero?
-    display_count
-    @table_view.reloadData
-  end
-
-  def card_stolen(_)
     self.hand_count += 1
     display_count
     @table_view.reloadData
   end
 
-  def secret_revealed(card_id)
-    # for the opponent, consider he played the card
-    play_card(card_id)
-  end
-
-  def copy_card(card_id)
-    found = false
-
-    @cards.each do |card|
-      if card.card_id == card_id and card.in_deck
-        Log.verbose "******** copy #{card.name}"
-        card.count       += 1
-        card.has_changed = true
-        found            = true
-      end
-    end
-
-    unless found
-      real_card = Card.by_id(card_id)
-      if real_card
-        card             = PlayCard.from_card(real_card)
-        Log.verbose "******** copy #{card.name}"
-        card.hand_count  = 0
-        card.count       = 1
-        card.in_deck     = true
-        card.has_changed = true
-        @cards << card
-      end
-
-      @cards.sort_cards!
-    end
-
-    self.deck_count += 1
-    display_count
-    @table_view.reloadData
-  end
-
-  def restore_card(_)
-    self.deck_count += 1
-    self.hand_count -= 1 unless self.hand_count.zero?
-    display_count
-    @table_view.reloadData
-  end
-
-  def get_coin(_)
-    # increment deck_count by 1 because we decrement it when the
-    # coin has been drawned
-    self.has_coin   = true
-    self.deck_count += 1
-    display_count
-    @table_view.reloadData
-  end
-=end
   def display_count
     text = ("#{'Hand : '._} #{self.hand_count}")
     text << ' / '

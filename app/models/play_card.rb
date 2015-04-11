@@ -3,7 +3,7 @@ class PlayCard
 
   attr_accessor :count, :hand_count, :card_id, :name, :english_name, :cost,
                 :health, :player_class, :rarity, :card_type, :has_changed,
-                :in_deck
+                :is_stolen
 
   def self.from_card(card)
     c              = self.new
@@ -22,9 +22,8 @@ class PlayCard
     c
   end
 
-  # only use for opponent
-  def in_deck
-    @in_deck ||= false
+  def is_stolen
+    @is_stolen ||= false
   end
 
   # the number of this card we have in our deck

@@ -159,6 +159,8 @@ class AppDelegate
     deck_menu = NSApp.mainMenu.itemWithTitle 'Decks'._
     deck_menu.submenu.removeAllItems
 
+    item = NSMenuItem.alloc.initWithTitle('Deck Manager'._, action: 'open_deck_manager:', keyEquivalent: 'm')
+    deck_menu.submenu.addItem item
     item = NSMenuItem.alloc.initWithTitle('Reset'._, action: 'reset:', keyEquivalent: 'r')
     deck_menu.submenu.addItem item
     deck_menu.submenu.addItem NSMenuItem.separatorItem
@@ -203,6 +205,11 @@ class AppDelegate
     end
 
     response
+  end
+
+  def debug(_)
+    @debugger ||= Debugger.new
+    @debugger.showWindow(nil)
   end
 
 end

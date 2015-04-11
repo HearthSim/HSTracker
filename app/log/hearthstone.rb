@@ -82,6 +82,10 @@ class Hearthstone
     end
   end
 
+  def start_from_debugger(text)
+    start_tracking(text)
+  end
+
   private
   def initialize
     super.tap do
@@ -185,12 +189,15 @@ class Hearthstone
   end
 
   # start analysis and dispatch events
-  def start_tracking
+  def start_tracking(text=nil)
     return if is_started?
     @is_started = true
 
     @log_observer = LogObserver.new
     @log_observer.start
+    if text
+      @log_observer.debug(text)
+    end
   end
 
   # stop analysis
