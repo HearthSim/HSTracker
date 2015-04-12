@@ -6,9 +6,9 @@ class DatabaseGenerator
 
   Log = Motion::Log
 
-  def self.init_database(&block)
+  def self.init_database(splash, &block)
     database = DatabaseGenerator.new
-    database.load(&block)
+    database.load(splash, &block)
   end
 
   def database_need_generation
@@ -25,7 +25,7 @@ class DatabaseGenerator
   end
 
   # save all cards if Card model is empty
-  def load(&block)
+  def load(splash, &block)
     unless database_need_generation
       block.call if block
       return
@@ -34,22 +34,24 @@ class DatabaseGenerator
     Card.destroy_all
     Mechanic.destroy_all
 
+    if RUBYMOTION_ENV == 'test'
+      langs = %w(deDE enUS frFR)
+    else
+      langs = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
+    end
+    valid_card_set = [
+        'Basic',
+        'Classic',
+        'Reward',
+        'Promotion',
+        'Curse of Naxxramas',
+        'Goblins vs Gnomes',
+        'Blackrock Mountain'
+    ]
+    splash.max(langs.size)
+
     # do all the creation in background
     cdq.background do
-      if RUBYMOTION_ENV == 'test'
-        langs = %w(deDE enUS frFR)
-      else
-        langs = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
-      end
-      valid_card_set = [
-          'Basic',
-          'Classic',
-          'Reward',
-          'Promotion',
-          'Curse of Naxxramas',
-          'Goblins vs Gnomes',
-          'Blackrock Mountain'
-      ]
 
       langs.each do |lang|
         Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
@@ -102,6 +104,10 @@ class DatabaseGenerator
           end
         end
         cdq.save(always_wait: true)
+
+        Dispatch::Queue.main.async do
+          splash.progress
+        end
       end
 
       Dispatch::Queue.main.async do

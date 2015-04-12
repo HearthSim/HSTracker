@@ -103,3 +103,5 @@
 
 "Player" = "Joueur";
 "Opponent" = "Opposant";
+
+"You must restart Hearthstone for logs to be used" = "Vous devez redémarrer Hearthstone pour qu'il commence à logger";

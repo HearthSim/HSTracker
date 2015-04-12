@@ -21,7 +21,7 @@ class AppDelegate
     show_splash_screen
 
     # load cards into database if needed
-    DatabaseGenerator.init_database do
+    DatabaseGenerator.init_database(@splash) do
       @splash.window.orderOut(self)
       @splash = nil
 

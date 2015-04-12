@@ -119,6 +119,13 @@ class Hearthstone
 
       NSFileManager.defaultManager.createDirectoryAtPath(dir, withIntermediateDirectories: true, attributes: nil, error: nil)
       File.open(Hearthstone.config_path, 'w') { |file| file.write(content) }
+
+      if is_hearthstone_running?
+        NSAlert.alert('Alert'._,
+                      :buttons     => ['OK'._],
+                      :informative => 'You must restart Hearthstone for logs to be used'._)
+
+      end
     end
   end
 
