@@ -18,7 +18,7 @@ class Game
   end
 
   def concede
-    Log.debug 'You concede :('
+    Log.debug 'Game has been conceded :('
   end
 
   def win

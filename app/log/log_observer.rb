@@ -532,8 +532,6 @@ class LogObserver
 
     elsif tag == GameTag::PLAYSTATE
       if value == PlayState::QUIT
-        # concede
-        @game_started = false
         Game.instance.concede
       end
       if @game_started
