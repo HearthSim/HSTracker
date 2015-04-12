@@ -190,7 +190,7 @@ class Game
 
   def opponent_play_to_deck(card_id, turn)
     log(:opponent, "play to deck #{card_id} (#{card(card_id)})", turn)
-    opponent_tracker.play_to_deck(card_id, id)
+    opponent_tracker.play_to_deck(card_id, turn)
   end
 
   def opponent_secret_trigger(card_id, turn, id)

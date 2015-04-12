@@ -190,7 +190,7 @@ class OpponentTracker < Tracker
     @table_view.reloadData
   end
 
-  def play_to_deck(card_id, id)
+  def play_to_deck(card_id, turn)
     self.deck_count += 1
 
     display_count
