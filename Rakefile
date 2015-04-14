@@ -19,7 +19,13 @@ Motion::Project::App.setup do |app|
   # see https://github.com/HipByte/RubyMotion/issues/201
   system 'touch Rakefile'
 
-  app.deployment_target = '10.8'
+  app.release do
+    app.deployment_target = '10.8'
+  end
+  app.development do
+    app.deployment_target = '10.9'
+  end
+  App.info 'Building for target', app.deployment_target
 
   app.identifier = 'be.michotte.hstracker'
 
