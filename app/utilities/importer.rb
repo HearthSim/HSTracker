@@ -80,7 +80,7 @@ class Importer
           end
 
           if /^arena:/ =~ line
-            arena = false
+            arena = true
             next
           end
 
