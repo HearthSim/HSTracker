@@ -258,7 +258,7 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
-  def get(card_id, turn)
+  def get(card_id, from_play, turn)
     if card_id == 'GAME_005' and turn == 0
       self.hand_count += 1
       return
@@ -267,7 +267,7 @@ class PlayerTracker < Tracker
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     if card
       card.hand_count += 1
-    else
+    elsif !from_play
       real_card = Card.by_id(card_id)
       if real_card
         card             = PlayCard.from_card(real_card)

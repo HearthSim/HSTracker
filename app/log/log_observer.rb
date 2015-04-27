@@ -524,6 +524,14 @@ class LogObserver
             when Zone::HAND
               if controller == @player_id
                 Game.instance.player_get(card_id, turn_number)
+                if @entities[id].has_tag?(GameTag::LINKEDCARD)
+                  linked_card = @entities[id].tag(GameTag::LINKEDCARD)
+                  to_remove = @entities[linked_card]
+                  if to_remove and to_remove.is_in_zone?(Zone::HAND)
+                    Game.instance.player_hand_discard(to_remove.card_id, turn_number)
+                  end
+
+                end
               elsif controller == @opponent_id
                 Game.instance.opponent_get(turn_number, id)
               end

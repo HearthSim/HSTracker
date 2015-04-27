@@ -28,6 +28,7 @@ Motion::Project::App.setup do |app|
   App.info 'Building for target', app.deployment_target
 
   app.identifier = 'be.michotte.hstracker'
+  app.codesign_for_release = false
 
   app.icon                                  = 'Icon.icns'
   app.info_plist['ATSApplicationFontsPath'] = 'fonts/'

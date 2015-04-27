@@ -108,7 +108,7 @@ class Game
     log(:player, "card back to hand #{card_id} (#{card(card_id)})", turn)
     return if card_id.nil? or card_id.empty?
 
-    player_tracker.get(card_id, turn)
+    player_tracker.get(card_id, true, turn)
   end
 
   def player_play_to_deck(card_id, turn)
@@ -122,7 +122,7 @@ class Game
     log(:player, "get #{card_id} (#{card(card_id)})", turn)
     return if card_id.nil? or card_id.empty?
 
-    player_tracker.get(card_id, turn)
+    player_tracker.get(card_id, false, turn)
   end
 
   def player_fatigue(value)
