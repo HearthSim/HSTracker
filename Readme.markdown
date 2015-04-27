@@ -15,7 +15,7 @@ Is Blizzard okay with this?
 - Download the last version from [the releases page](https://github.com/bmichotte/HSTracker/releases)
 - Extract the archive
 - Move _HSTracker.app_ to your _Applications_ directory
-- Launch !
+- Launch (make sure Hearthstone is not running when you first launch HSTracker) !
 - Create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com) (deck and deckbuilder), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthstats](https://hearthstats.net), [Hearthhead](http://www.hearthhead.com/) (all languages), [Hearthnews](http://www.hearthnews.fr/) or using [Netdeck](https://chrome.google.com/webstore/detail/netdeck/lpdbiakcpmcppnpchohihcbdnojlgeel)
 - Starting of version 0.5, you can move/resize your windows and then lock them through the preferences panel. You can also change the transparency of the windows in the preferences.
 
