@@ -106,11 +106,20 @@ class CardCellView < NSTableCellView
     end
 
     # print the card name
-    name               = card.name.attrd
-                             .font('Belwe Bd BT'.nsfont((15.0 / ratio).round))
-                             .stroke_width(-2)
-                             .stroke_color(stroke_color)
-                             .foreground_color(foreground)
+    if Configuration.is_cyrillic_or_asian
+      font = 'NanumGothic'.nsfont((18.0 / ratio).round)
+    else
+      font = 'Belwe Bd BT'.nsfont((15.0 / ratio).round)
+    end
+
+    name = card.name.attrd
+               .font(font)
+               .foreground_color(foreground)
+
+    unless Configuration.is_cyrillic_or_asian
+      name = name.stroke_width(-2)
+                 .stroke_color(stroke_color)
+    end
     x                  = 38.0 / ratio
     y                  = -3.0 / ratio
     width              = 174.0 / ratio
@@ -121,16 +130,9 @@ class CardCellView < NSTableCellView
     # print the card cost
     cost               = "<center>#{card.cost}</center>".attributed_html
                              .foreground_color(foreground)
-    if Configuration.is_cyrillic_or_asian
-      cost = cost
-                 .font('GBJenLei-Medium'.nsfont((28.0 / ratio).round))
-                 .foreground_color(foreground)
-    else
-      cost = cost
-                 .font('Belwe Bd BT'.nsfont((22.0 / ratio).round))
-                 .stroke_width(-1.5)
-                 .stroke_color(stroke_color)
-    end
+                             .font('Belwe Bd BT'.nsfont((22.0 / ratio).round))
+                             .stroke_width(-1.5)
+                             .stroke_color(stroke_color)
 
     card.cost > 9 ? x = (7.0 / ratio) : x = 13.0 / ratio
     y                  = -4.0 / ratio
