@@ -36,6 +36,9 @@ class Tracker < NSWindowController
   def window_transparency
   end
 
+  def hand_count_window_changed
+  end
+
   def card_layout
     return if @table_view.nil?
 
@@ -85,6 +88,10 @@ class Tracker < NSWindowController
 
       @events << NSNotificationCenter.defaultCenter.observe('count_color_border') do |_|
         @table_view.reloadData if @table_view
+      end
+
+      @events << NSNotificationCenter.defaultCenter.observe('hand_count_window') do |_|
+        hand_count_window_changed
       end
     end
   end

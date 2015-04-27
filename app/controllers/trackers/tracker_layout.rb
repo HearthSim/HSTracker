@@ -90,7 +90,6 @@ class TrackerLayout < MK::WindowLayout
         height = KRowHeight
     end
 
-    row_height height
     intercellSpacing [0, 0]
 
     background_color :black.nscolor(Configuration.window_transparency)

@@ -50,6 +50,13 @@
 "Colors" = "Colors";
 "Draw / Count color" = "Draw / Count color";
 "Draw / Count border color" = "Draw / Count border color";
+"Card count / Draw chance" = "Card count / Draw chance";
+"Hidden" = "Hidden";
+"On trackers" = "On trackers";
+"Detached windows" = "Detached windows";
+"Player Card Count" = "Player Card Count";
+"Opponent Card Count" = "Opponent Card Count";
+"Show stolen cards" = "Show stolen cards";
 
 /* classes */
 "Shaman" = "Shaman";

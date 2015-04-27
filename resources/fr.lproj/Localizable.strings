@@ -50,6 +50,13 @@
 "Colors" = "Couleurs";
 "Draw / Count color" = "Comptage / Pioche couleur";
 "Draw / Count border color" = "Comptage / Pioche couleur bord";
+"Card count / Draw chance" = "Comptage / Chance de pioche";
+"Hidden" = "Caché";
+"On trackers" = "Dans les trackers";
+"Detached windows" = "Fenêtres séparées";
+"Player Card Count" = "Cartes joueur";
+"Opponent Card Count" = "Cartes opposant";
+"Show stolen cards" = "Voir les cartes volées";
 
 /* classes */
 "Shaman" = "Chaman";

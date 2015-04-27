@@ -35,7 +35,7 @@ class AppDelegate
       @opponent.showWindow(self)
       @opponent.window.orderFrontRegardless
 
-      Game.instance.player_tracker = @player
+      Game.instance.player_tracker   = @player
       Game.instance.opponent_tracker = @opponent
 
       Hearthstone.instance.on(:app_running) do |is_running|
@@ -45,11 +45,11 @@ class AppDelegate
       Hearthstone.instance.on(:app_activated) do |is_active|
         Log.info "Hearthstone is active? #{is_active}"
         if is_active
-          @player.window.setLevel NSScreenSaverWindowLevel
-          @opponent.window.setLevel NSScreenSaverWindowLevel
+          @player.set_level NSScreenSaverWindowLevel
+          @opponent.set_level NSScreenSaverWindowLevel
         else
-          @player.window.setLevel NSNormalWindowLevel
-          @opponent.window.setLevel NSNormalWindowLevel
+          @player.set_level NSNormalWindowLevel
+          @opponent.set_level NSNormalWindowLevel
         end
       end
 
@@ -110,8 +110,8 @@ class AppDelegate
 
   def open_deck_manager(_)
     # change windows level
-    @player.window.setLevel NSNormalWindowLevel
-    @opponent.window.setLevel NSNormalWindowLevel
+    @player.set_level NSNormalWindowLevel
+    @opponent.set_level NSNormalWindowLevel
 
     deck_manager.showWindow(nil)
     deck_manager.player_view = @player
@@ -127,8 +127,8 @@ class AppDelegate
   def windowWillClose(_)
     # change windows level back
     if Hearthstone.instance.is_active?
-      @player.window.setLevel NSScreenSaverWindowLevel
-      @opponent.window.setLevel NSScreenSaverWindowLevel
+      @player.set_level NSScreenSaverWindowLevel
+      @opponent.set_level NSScreenSaverWindowLevel
     end
 
     close_window_menu false
@@ -211,5 +211,4 @@ class AppDelegate
     @debugger ||= Debugger.new
     @debugger.showWindow(nil)
   end
-
 end

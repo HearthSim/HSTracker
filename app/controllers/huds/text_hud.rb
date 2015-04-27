@@ -15,19 +15,26 @@ class TextHud < NSView
     super.tap do
       return if text.nil?
 
-      text.attrd
-          .bold(font_size)
-          .stroke_width(-2.0)
-          .stroke_color(:black.nscolor)
-          .foreground_color(:white.nscolor)
-          .drawInRect(self.bounds)
+      case Configuration.card_layout
+        when :small
+          ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
+        when :medium
+          ratio = TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
+        else
+          ratio = 1.0
+      end
 
-      text.attrd
-          .font(NSFont.systemFontOfSize(font_size))
-          .stroke_width(1.0)
-          .stroke_color(:black.nscolor)
-          .foreground_color(:white.nscolor)
-          .drawInRect(self.bounds)
+      font_size       = (14.0 / ratio).round
+      style           = NSMutableParagraphStyle.new
+      style.alignment = NSCenterTextAlignment
+      name            = text.attrd.paragraph_style(style)
+                            .font('Belwe Bd BT'.nsfont(font_size))
+                            .stroke_width(-1.5)
+                            .stroke_color(Configuration.count_color_border)
+                            .foreground_color(Configuration.count_color)
+      name.drawInRect self.bounds,
+                      options: NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesDeviceMetrics
+
     end
   end
 end

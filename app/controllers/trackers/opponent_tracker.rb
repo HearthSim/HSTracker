@@ -27,12 +27,23 @@ class OpponentTracker < Tracker
       @table_view.setHeaderView nil
       @table_view.delegate   = self
       @table_view.dataSource = self
+
+      if Configuration.hand_count_window == :window
+        @count_window = CardCountHud.alloc.initWithPlayer(:opponent)
+        @count_window.showWindow(self)
+      end
     end
   end
 
   ## table datasource
   def numberOfRowsInTableView(_)
-    @cards.count + 1
+    count = @cards.count
+
+    if Configuration.hand_count_window == :tracker
+      count += 1
+    end
+
+    count
   end
 
   ## table delegate
@@ -225,16 +236,65 @@ class OpponentTracker < Tracker
     @table_view.reloadData
   end
 
+  def tableView(tableView, heightOfRow: row)
+    if Configuration.hand_count_window == :tracker and row >= @cards.count
+      case Configuration.card_layout
+        when :small
+          ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
+        when :medium
+          ratio = TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
+        else
+          ratio = 1.0
+      end
+      50.0 / ratio
+    else
+      case Configuration.card_layout
+        when :small
+          TrackerLayout::KSmallRowHeight
+        when :medium
+          TrackerLayout::KMediumRowHeight
+        else
+          TrackerLayout::KRowHeight
+      end
+    end
+  end
+
   def display_count
     text = ("#{'Hand : '._} #{self.hand_count}")
     text << ' / '
     text << ("#{'Deck : '._} #{self.deck_count}")
 
-    @count_text = text
+    if Configuration.hand_count_window == :tracker
+      @count_text = text
+    elsif Configuration.hand_count_window == :window
+      @count_window.text = text
+    end
   end
 
   def window_transparency
     @table_view.backgroundColor = :black.nscolor(Configuration.window_transparency)
   end
 
+  def hand_count_window_changed
+    if @count_window
+      @count_window.window.orderOut(self)
+      @count_window = nil
+    end
+    @table_view.reloadData if @table_view
+
+    if Configuration.hand_count_window == :window
+      @count_window = CardCountHud.alloc.initWithPlayer(:opponent)
+      @count_window.showWindow(self)
+    end
+
+    display_count
+    @table_view.reloadData if @table_view
+  end
+
+  def set_level(level)
+    window.setLevel level
+    if @count_window
+      @count_window.window.setLevel level
+    end
+  end
 end

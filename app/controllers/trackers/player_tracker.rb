@@ -25,6 +25,11 @@ class PlayerTracker < Tracker
       @table_view.setHeaderView nil
       @table_view.delegate   = self
       @table_view.dataSource = self
+
+      if Configuration.hand_count_window == :window
+        @count_window = CardCountHud.alloc.initWithPlayer(:player)
+        @count_window.showWindow(self)
+      end
     end
   end
 
@@ -54,7 +59,13 @@ class PlayerTracker < Tracker
 
   ## table datasource
   def numberOfRowsInTableView(_)
-    @playing_cards.count + 1
+    count = @playing_cards.count
+
+    if Configuration.hand_count_window == :tracker
+      count += 1
+    end
+
+    count
   end
 
   ## table delegate
@@ -102,7 +113,7 @@ class PlayerTracker < Tracker
   end
 
   def reset
-    @count_text = nil
+    @count_text    = nil
     @playing_cards = []
 
     @cards.each_key do |card_id|
@@ -264,10 +275,11 @@ class PlayerTracker < Tracker
       return
     end
 
+    Log.verbose "get from_play : #{from_play}"
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     if card
       card.hand_count += 1
-    elsif !from_play
+    elsif !from_play and Configuration.show_get_cards
       real_card = Card.by_id(card_id)
       if real_card
         card             = PlayCard.from_card(real_card)
@@ -290,8 +302,45 @@ class PlayerTracker < Tracker
     text = ("#{'Hand : '._} #{self.hand_count}")
     text << ' / '
     text << ("#{'Deck : '._} #{self.deck_count}")
+    text << "\n"
 
-    @count_text = text
+    card_count = @playing_cards.map(&:count).inject(0, :+)
+    if card_count > 0
+      percent = (1 * 100.0) / card_count
+      text << ("[1] : #{percent.round(2)}%")
+      text << ' / '
+      percent = (2 * 100.0) / card_count
+      text << ("[2] : #{percent.round(2)}%")
+    end
+
+    if Configuration.hand_count_window == :tracker
+      @count_text = text
+    elsif Configuration.hand_count_window == :window
+      @count_window.text = text
+    end
+  end
+
+  def tableView(tableView, heightOfRow: row)
+    if Configuration.hand_count_window == :tracker and row >= @playing_cards.count
+      case Configuration.card_layout
+        when :small
+          ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
+        when :medium
+          ratio = TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
+        else
+          ratio = 1.0
+      end
+      50.0 / ratio
+    else
+      case Configuration.card_layout
+        when :small
+          TrackerLayout::KSmallRowHeight
+        when :medium
+          TrackerLayout::KMediumRowHeight
+        else
+          TrackerLayout::KRowHeight
+      end
+    end
   end
 
   def window_transparency
@@ -300,19 +349,10 @@ class PlayerTracker < Tracker
 
   # card hover
   def hover(cell)
-    card_count = @playing_cards.map(&:count).inject(0, :+)
-    card       = cell.card
-
-    percent     = (card.count * 100.0) / card_count
-    @count_text = "#{'Draw : '._}#{percent.round(2)}%"
-    @table_view.reloadDataForRowIndexes([@playing_cards.count].nsindexset,
-                                        columnIndexes: [0].nsindexset)
+    #card       = cell.card
   end
 
   def out(_)
-    display_count
-    @table_view.reloadDataForRowIndexes([@playing_cards.count].nsindexset,
-                                        columnIndexes: [0].nsindexset)
   end
 
   # window
@@ -327,6 +367,28 @@ class PlayerTracker < Tracker
   def windowWillClose(_)
     super.tap do
       NSNotificationCenter.defaultCenter.unobserve(@color_changed)
+    end
+  end
+
+  def hand_count_window_changed
+    if @count_window
+      @count_window.window.orderOut(self)
+      @count_window = nil
+    end
+
+    if Configuration.hand_count_window == :window
+      @count_window = CardCountHud.alloc.initWithPlayer(:player)
+      @count_window.showWindow(self)
+    end
+
+    display_count
+    @table_view.reloadData if @table_view
+  end
+
+  def set_level(level)
+    window.setLevel level
+    if @count_window
+      @count_window.window.setLevel level
     end
   end
 

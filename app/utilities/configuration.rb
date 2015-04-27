@@ -13,7 +13,7 @@ class Configuration
 
     KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency
                   flash_color fixed_window_names reset_on_end card_layout count_color
-                  count_color_border)
+                  count_color_border hand_count_window show_get_cards)
 
     KDefaults = {
         :flash_color         => [55, 189, 223],
@@ -24,7 +24,9 @@ class Configuration
         :card_layout         => :big,
         :windows_locked      => false,
         :fixed_window_names  => false,
-        :reset_on_end        => false
+        :reset_on_end        => false,
+        :show_get_cards      => false,
+        :hand_count_window   => :tracker,
     }
 
     def method_missing(symbol, *args)
@@ -60,7 +62,7 @@ class Configuration
         case method
           when 'flash_color', 'count_color', 'count_color_border'
             value = value.nscolor
-          when 'card_played', 'card_layout', 'one_line_count'
+          when 'card_played', 'card_layout', 'one_line_count', 'hand_count_window'
             value = value.to_sym unless value.is_a? Symbol
         end
 

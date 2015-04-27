@@ -1,3 +1,8 @@
+#### 0.9
+- Better font for asian languages
+- *New*: new options for card count and draw chance
+- Gnomish inventor transformed card is now "discarded"
+
 #### 0.8
 - Complete rewrite of the log analysis using the code base from [Hearthstone-Deck-Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker)
 - HSTracker now listen for Hearthstone to be active and set its "modality" according.
