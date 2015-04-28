@@ -1,3 +1,6 @@
+#### 0.10
+- *New*: Display mana curve on the deck manager
+
 #### 0.9
 - Better font for asian languages
 - *New*: Option for card count and draw chance

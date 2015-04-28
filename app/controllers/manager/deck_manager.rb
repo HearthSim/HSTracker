@@ -74,6 +74,7 @@ class DeckManager < NSWindowController
       check_clipboad_net_deck
 
       @card_count = @layout.get(:card_count)
+      @curve_view = @layout.get(:curve_view)
     end
   end
 
@@ -169,6 +170,7 @@ class DeckManager < NSWindowController
       @decks_or_cards << c
       @decks_or_cards.sort_cards!
     end
+    @curves.cards = @decks_or_cards if @curves
     @table_view.reloadData
     @saved = false
   end
@@ -241,7 +243,7 @@ class DeckManager < NSWindowController
 
       card_count              = @decks_or_cards.count_cards
       @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
-
+      @curves.cards = @decks_or_cards if @curves
       @saved = false
       @table_view.reloadData
     end
@@ -444,6 +446,17 @@ class DeckManager < NSWindowController
 
     @cards_view.reloadData
     @table_view.reloadData
+
+    show_curve
+  end
+
+  def show_curve
+    unless @curves
+      @curves = CurveView.new
+    end
+    @curves.frame = @curve_view.bounds
+    @curve_view << @curves
+    @curves.cards = @decks_or_cards
   end
 
   def add_area_deck(sender)
@@ -477,6 +490,8 @@ class DeckManager < NSWindowController
 
     @cards_view.reloadData
     @table_view.reloadData
+
+    show_curve
   end
 
   def delete_deck(_)
@@ -498,8 +513,9 @@ class DeckManager < NSWindowController
       show_decks
 
       NSNotificationCenter.defaultCenter.post('deck_change')
-      @card_count.stringValue = ""
+      @card_count.stringValue = ''
       @table_view.reloadData
+      @curve_view.subviews = []
     end
   end
 
@@ -582,8 +598,10 @@ class DeckManager < NSWindowController
       @deck_name    = nil
       @deck_class   = nil
       show_decks
-      @card_count.stringValue = ""
+      @card_count.stringValue = ''
       @table_view.reloadData
+
+      @curve_view.subviews = []
     end
   end
 
