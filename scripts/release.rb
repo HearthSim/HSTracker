@@ -47,7 +47,7 @@ json = {
     :name             => "#{version}",
     :body             => "#{changelog.join("\n")}",
     :draft            => true,
-    :prerelease       => true
+    :prerelease       => false
 }.to_json
 
 puts "Creating release #{version}"
