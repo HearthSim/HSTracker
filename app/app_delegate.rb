@@ -74,6 +74,10 @@ class AppDelegate
           exit(0)
         end
       end
+
+      unless ImageCache.dir_exists?
+        ask_download_images(nil)
+      end
     end
   end
 
@@ -210,5 +214,56 @@ class AppDelegate
   def debug(_)
     @debugger ||= Debugger.new
     @debugger.showWindow(nil)
+  end
+
+  def ask_download_images(_)
+    current_locale = Configuration.hearthstone_locale
+
+    popup = NSPopUpButton.new
+    popup.frame = [[0, 0], [299, 24]]
+
+    GeneralPreferencesLayout::KHearthstoneLocales.each do |hs_locale, osx_locale|
+      locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
+      display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
+
+      item = NSMenuItem.alloc.initWithTitle(display, action: nil, keyEquivalent: '')
+      popup.menu.addItem item
+
+      if current_locale == hs_locale
+        popup.selectItem item
+      end
+    end
+
+    if current_locale.nil?
+      popup.selectItemAtIndex -1
+    end
+
+    rep = NSAlert.alert('Images'._,
+                        :buttons     => ['OK'._],
+                        :informative => 'Cards images are not found. Please confirm the Hearthstone language then click OK to download them.'._,
+                        :view        => popup)
+    if rep
+      choosen = popup.selectedItem.title
+
+      GeneralPreferencesLayout::KHearthstoneLocales.each do |hs_locale, osx_locale|
+        locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
+        display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
+
+        if choosen == display
+          Configuration.hearthstone_locale = hs_locale
+        end
+      end
+
+      download_images
+    end
+  end
+
+  def download_images
+    @downloader = Downloader.new
+    @downloader.showWindow(nil)
+    @downloader.download do
+      @downloader.close
+      @downloader = nil
+    end
   end
 end

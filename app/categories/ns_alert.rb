@@ -7,8 +7,10 @@ class NSAlert
 
     alert = NSAlert.alloc.init
 
-    buttons.each do |button|
-      alert.addButtonWithTitle(button)
+    if buttons
+      buttons.each do |button|
+        alert.addButtonWithTitle(button)
+      end
     end
 
     alert.setMessageText(message)

@@ -5,15 +5,19 @@ class CardItemView < JNWCollectionViewCell
   def card=(card)
     @card = card
 
-    self.backgroundImage = ImageCache.card_image(card)
+    image                = ImageCache.card_image(card)
+    self.backgroundImage = image
+    if image.nil?
+      self.delegate.missing_image(card)
+    end
   end
 
   # check mouse hover
   def ensure_tracking_area
     if @tracking_area.nil?
       @tracking_area = NSTrackingArea.alloc.initWithRect(NSZeroRect,
-                                                         options: NSTrackingInVisibleRect | NSTrackingActiveAlways | NSTrackingMouseEnteredAndExited,
-                                                         owner: self,
+                                                         options:  NSTrackingInVisibleRect | NSTrackingActiveAlways | NSTrackingMouseEnteredAndExited,
+                                                         owner:    self,
                                                          userInfo: nil)
     end
   end

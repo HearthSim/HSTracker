@@ -1,6 +1,8 @@
 class DeckManager < NSWindowController
   include CDQ
 
+  Log = Motion::Log
+
   KMaxCardOccurence = {
       :arena       => 30,
       :constructed => 2
@@ -125,6 +127,11 @@ class DeckManager < NSWindowController
     cell
   end
 
+  # todo make something with this ?
+  def missing_image(card)
+    Log.warn "image for #{card.card_id} is missing"
+  end
+
   def numberOfSections
     1
   end
@@ -203,10 +210,10 @@ class DeckManager < NSWindowController
     deck_or_card = @decks_or_cards[row]
 
     if deck_or_card.is_a? Card
-      cell      = CardCellView.new
+      cell           = CardCellView.new
       cell.card_size = :big
-      cell.side = :opponent
-      cell.card = deck_or_card
+      cell.side      = :opponent
+      cell.card      = deck_or_card
     else
       cell      = DeckCellView.new
       cell.deck = deck_or_card
@@ -347,9 +354,9 @@ class DeckManager < NSWindowController
         item.label   = 'Donate'._
         item.toolTip = 'Donate'._
         image        = 'donate'.nsimage
-        item.image  = image
-        item.target = self
-        item.action = 'donate:'
+        item.image   = image
+        item.target  = self
+        item.action  = 'donate:'
 
       when 'search'
         item.label                        = 'Search'
@@ -486,8 +493,8 @@ class DeckManager < NSWindowController
       @current_deck = nil
       @deck_name    = nil
       @deck_class   = nil
-      @in_edition = false
-      @saved      = true
+      @in_edition   = false
+      @saved        = true
       show_decks
 
       NSNotificationCenter.defaultCenter.post('deck_change')

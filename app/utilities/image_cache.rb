@@ -1,23 +1,19 @@
 class ImageCache
   class << self
 
+    def dir_exists?
+      File.exists? image_path(Configuration.hearthstone_locale)
+    end
+
     def card_image(card)
-      # match languages
       lang = card.lang
-      if lang == 'enGB'
-        lang = 'enUS'
-      elsif lang == 'esMX'
-        lang = 'esES'
-      elsif lang == 'ptPT'
-        lang = 'ptBR'
+
+      image_path = "#{image_path(lang)}/#{card.card_id}.png"
+      if File.exists? image_path
+        return image_named image_path, false
       end
 
-      image_path = "cards/#{lang}/#{card.card_id}.jpg"
-      unless File.exists? "#{'images/'.resource_path}/#{image_path}"
-        image_path = "cards/enUS/#{card.card_id}.jpg"
-      end
-
-      image_named image_path
+      nil
     end
 
     def small_card_image(card)
@@ -53,17 +49,26 @@ class ImageCache
       image_named 'frames/frame_legendary.png'
     end
 
+    def image_path(lang)
+      "be.michotte.hstracker/cards/#{lang}".app_support_path
+    end
+
     private
-    def image_named(name)
+    def image_named(name, bundle_path=true)
       @images ||= {}
       if @images[name]
         return @images[name]
       end
 
-      path          = "#{'images/'.resource_path}/#{name}"
-      image         = NSImage.alloc.initWithContentsOfFile(path)
-      @images[name] = image
-
+      if bundle_path
+        path = "#{'images/'.resource_path}/#{name}"
+      else
+        path = name
+      end
+      image = NSImage.alloc.initWithContentsOfFile(path)
+      if image
+        @images[name] = image
+      end
       image
     end
 

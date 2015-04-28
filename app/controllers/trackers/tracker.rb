@@ -102,4 +102,48 @@ class Tracker < NSWindowController
     end
   end
 
+  # card hover
+  def hover(cell)
+    return unless Configuration.show_card_on_hover
+    card = cell.card
+
+    return if card.nil?
+
+    if @card_hover.nil?
+      @card_hover = CardHover.new
+    end
+
+    @card_hover.card = card
+    @card_hover.showWindow(self.window)
+    @card_hover.window.setFrameTopLeftPoint(get_point(cell))
+  end
+
+  def out(_)
+    return unless Configuration.show_card_on_hover
+
+    @card_hover.close if @card_hover
+  end
+
+  def get_point(cell)
+    row  = @table_view.rowForView(cell)
+    rect = @table_view.frameOfCellAtColumn(0, row: row)
+
+    offset = rect.origin.y - @table_view.enclosingScrollView.documentVisibleRect.origin.y
+
+    window_rect = self.window.frame
+
+    if window_rect.origin.x < @card_hover.window.frame.size.width
+      x = window_rect.origin.x + window_rect.size.width
+    else
+      x = window_rect.origin.x - @card_hover.window.frame.size.width
+    end
+
+    y = window_rect.origin.y + window_rect.size.height - offset - 30
+    if y < @card_hover.window.frame.size.height
+      y = @card_hover.window.frame.size.height
+    end
+
+    [x, y]
+  end
+
 end

@@ -48,6 +48,17 @@ class InterfacePreferencesLayout < PreferencesLayout
               Configuration.show_get_cards = (elem.state == NSOnState)
             }
         },
+        :show_card_on_hover  => {
+            :type    => NSButton,
+            :title   => 'Show card on hover'._,
+            :init    => -> (elem) {
+              elem.buttonType = NSSwitchButton
+              elem.state      = (Configuration.show_card_on_hover ? NSOnState : NSOffState)
+            },
+            :changed => -> (elem) {
+              Configuration.show_card_on_hover = (elem.state == NSOnState)
+            }
+        },
         :window_names        => {
             :type    => NSButton,
             :title   => 'Fixed window names'._,

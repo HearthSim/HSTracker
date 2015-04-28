@@ -4,6 +4,7 @@ class MainMenu < MK::MenuLayout
 
     add 'HSTracker' do
       add about_item 'About HSTracker'._
+      add 'Download images'._, action: 'ask_download_images:', key: ''
       add separator_item
       add preferences_item 'Preferences'._
       add separator_item

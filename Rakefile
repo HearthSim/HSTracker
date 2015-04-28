@@ -42,18 +42,11 @@ Motion::Project::App.setup do |app|
 end
 task :run => :'schema:build'
 
-task :publish do
+task :publish => :'build:release' do
   desc 'Generate HSTracker.dmg and release to Github'
   config = Motion::Project::App.config
 
   Motion::Project::App.info 'Building', 'archive'
-  begin
-    Rake::Task[:archive].invoke
-  rescue Exception => e
-    # "exit" is raise with the "ERROR! Cannot find any Mac Developer certificate in the keychain."
-    raise e unless e.message == 'exit'
-  end
-
   Motion::Project::App.info 'Releasing', "version #{config.short_version}"
   sh "./scripts/release.rb #{config.deployment_target} #{config.short_version}.#{config.version}"
 end

@@ -347,14 +347,6 @@ class PlayerTracker < Tracker
     @table_view.backgroundColor = :black.nscolor(Configuration.window_transparency)
   end
 
-  # card hover
-  def hover(cell)
-    #card       = cell.card
-  end
-
-  def out(_)
-  end
-
   # window
   def showWindow(sender)
     super.tap do

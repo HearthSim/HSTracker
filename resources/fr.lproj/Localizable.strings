@@ -57,6 +57,7 @@
 "Player Card Count" = "Cartes joueur";
 "Opponent Card Count" = "Cartes opposant";
 "Show stolen cards" = "Voir les cartes volées";
+"Show card on hover" = "Voir les cartes au survol";
 
 /* classes */
 "Shaman" = "Chaman";
@@ -112,3 +113,8 @@
 "Opponent" = "Opposant";
 
 "You must restart Hearthstone for logs to be used" = "Vous devez redémarrer Hearthstone pour qu'il commence à logger";
+"Cards images are not found. Please confirm the Hearthstone language then click OK to download them." = "Les images des cartes sont introuvables.\nMerci de confirmer la langue de Hearthstone puis de cliquer sur OK pour les télécharger.";
+"Images" = "Images";
+"Download images" = "Téléchargement des images";
+"Missing images" = "Images manquantes";
+"Some images are missing, force a download from HSTracker menu -> Download images" = "Certaines images sont manquantes, forcez un téléchargement depuis le menu HSTracker -> Téléchargement des images";

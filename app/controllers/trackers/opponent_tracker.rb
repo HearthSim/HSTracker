@@ -54,9 +54,11 @@ class OpponentTracker < Tracker
       @cells ||= {}
       cell   = @cells[card.card_id] if @cells[card.card_id]
 
-      cell                 ||= CardCellView.new
-      cell.card            = card
-      cell.side            = :opponent
+      cell          ||= CardCellView.new
+      cell.card     = card
+      cell.side     = :opponent
+      cell.delegate = self
+
       @cells[card.card_id] = cell
     else
       cell      = CountTextCellView.new

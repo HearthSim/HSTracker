@@ -12,10 +12,11 @@ valid_card_set = [
     'Reward',
     'Promotion',
     'Curse of Naxxramas',
-    'Goblins vs Gnomes'
+    'Goblins vs Gnomes',
+    'Blackrock Mountain'
 ]
 
-resource_dir = '../resources/'
+resource_dir = "#{File.dirname(__FILE__)}/../resources/"
 
 MiniMagick.configure do |config|
   config.debug = false
@@ -37,7 +38,7 @@ File.open("#{resource_dir}/cards/cardsDB.enUS.json", 'r') do |file|
           Dir.mkdir lang_dir
         end
 
-        image_path = "#{lang_dir}#{card['id']}.jpg"
+        image_path = "#{lang_dir}#{card['id']}.png"
         unless File.exist? image_path
           url = "http://wow.zamimg.com/images/hearthstone/cards/#{lang.downcase}/medium/#{card['id']}.png"
 
@@ -46,9 +47,7 @@ File.open("#{resource_dir}/cards/cardsDB.enUS.json", 'r') do |file|
           image = MiniMagick::Image.open(url)
           image.trim
           image.resize '181x250'
-          image.background 'white'
-          image.alpha 'remove'
-          image.format 'jpg'
+          image.format 'png'
           image.write image_path
         end
       end
