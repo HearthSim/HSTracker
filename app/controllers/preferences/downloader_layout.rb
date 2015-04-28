@@ -1,0 +1,2 @@
+class DownloaderLayout
+end
