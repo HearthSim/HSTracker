@@ -1,10 +1,21 @@
 class Hearthstone
 
+  # used when debugging from actual log file
+  KDebugFromFile = false
+
   Log = Motion::Log
 
   def self.instance
     Dispatch.once { @instance ||= new }
     @instance
+  end
+
+  def is_started?
+    @is_started ||= false
+  end
+
+  def is_active?
+    @is_active ||= false
   end
 
   # get the path to the log.config
@@ -30,7 +41,16 @@ class Hearthstone
       end
     end
 
-    false
+    # debugging from actual log file, fake HS is running
+    if KDebugFromFile
+      true
+    else
+      false
+    end
+  end
+
+  def reset
+    @log_observer.reset_data if @log_observer
   end
 
   # register events
@@ -57,12 +77,13 @@ class Hearthstone
 
   # start the analysis if HS is running
   def start
-    @is_started ||= false
-
-    if is_hearthstone_running? and !@is_started
-      @is_started = true
+    if is_hearthstone_running?
       start_tracking
     end
+  end
+
+  def start_from_debugger(text)
+    start_tracking(text)
   end
 
   private
@@ -98,17 +119,26 @@ class Hearthstone
 
       NSFileManager.defaultManager.createDirectoryAtPath(dir, withIntermediateDirectories: true, attributes: nil, error: nil)
       File.open(Hearthstone.config_path, 'w') { |file| file.write(content) }
+
+      if is_hearthstone_running?
+        NSAlert.alert('Alert'._,
+                      :buttons     => ['OK'._],
+                      :informative => 'You must restart Hearthstone for logs to be used'._)
+
+      end
     end
   end
 
   # observe for HS starting/leaving
   def listener
-    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'workspaceDidLaunchApplication:', name: NSWorkspaceDidLaunchApplicationNotification, object: nil)
-    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'workspaceDidTerminateApplication:', name: NSWorkspaceDidTerminateApplicationNotification, object: nil)
+    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'app_launched:', name: NSWorkspaceDidLaunchApplicationNotification, object: nil)
+    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'app_terminated:', name: NSWorkspaceDidTerminateApplicationNotification, object: nil)
+    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'app_activated:', name: NSWorkspaceDidActivateApplicationNotification, object: nil)
+    NSWorkspace.sharedWorkspace.notificationCenter.addObserver(self, selector: 'app_deactivated:', name: NSWorkspaceDidDeactivateApplicationNotification, object: nil)
   end
 
   # check if the app launched is HS
-  def workspaceDidLaunchApplication(notification)
+  def app_launched(notification)
     application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
     if application && application.localizedName == 'Hearthstone'
@@ -122,8 +152,8 @@ class Hearthstone
     end
   end
 
-  # chec if the app terminated is HS
-  def workspaceDidTerminateApplication(notification)
+  # check if the app terminated is HS
+  def app_terminated(notification)
     application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
     if application && application.localizedName == 'Hearthstone'
@@ -137,72 +167,44 @@ class Hearthstone
     end
   end
 
+  # check if the activated app is HS
+  def app_activated(notification)
+    application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
+
+    if application && application.localizedName == 'Hearthstone'
+      @is_active = true
+      if @listeners[:app_activated]
+        @listeners[:app_activated].each do |block|
+          block.call(true) if block
+        end
+      end
+    end
+  end
+
+  # check if the deactivated app is HS
+  def app_deactivated(notification)
+    application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
+
+    if application && application.localizedName == 'Hearthstone'
+      @is_active = false
+      if @listeners[:app_activated]
+        @listeners[:app_activated].each do |block|
+          block.call(false) if block
+        end
+      end
+    end
+  end
+
   # start analysis and dispatch events
-  def start_tracking
+  def start_tracking(text=nil)
+    return if is_started?
+    @is_started = true
+
     @log_observer = LogObserver.new
-    @log_analyzer = LogAnalyzer.new
-
-    # game finish
-    @log_analyzer.on_game_end do |player|
-      listeners.each do |listener|
-        listener.reset_cards if listener.respond_to?('reset_cards')
-      end
-    end
-
-    # game start
-    @log_analyzer.on_game_start do
-      listeners.each do |listener|
-        listener.reset_cards if listener.respond_to?('reset_cards')
-      end
-    end
-
-    # hero
-    @log_analyzer.on_hero do |player, hero_id|
-      listeners(player).each do |listener|
-        listener.set_hero(player, hero_id) if listener.respond_to?('set_hero')
-      end
-    end
-
-    # coin
-    @log_analyzer.on_coin do |player|
-      Log.verbose "Player #{player} got the coin"
-    end
-
-    # cards
-    @log_analyzer.on_card(:draw_card) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.draw_card card_id if listener.respond_to?('draw_card')
-      end
-    end
-
-    @log_analyzer.on_card(:return_deck_card) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.restore_card card_id if listener.respond_to?('restore_card')
-      end
-    end
-
-    @log_analyzer.on_card(:discard_card) do |player, card_id|
-      Log.verbose "Player #{player} discard card #{card_id}"
-      listeners(player).each do |listener|
-        listener.discard_card card_id if listener.respond_to?('discard_card')
-      end
-    end
-
-    @log_analyzer.on_card(:play_card) do |player, card_id|
-      listeners(player).each do |listener|
-        listener.play_card card_id if listener.respond_to?('play_card')
-      end
-    end
-
-    @log_analyzer.on_card(:return_hand_card) do |player, card_id|
-      Log.verbose "Player #{player} return card #{card_id}"
-    end
-
-    @log_observer.on_read_line do |line|
-      @log_analyzer.analyze(line)
-    end
-
     @log_observer.start
+    if text
+      @log_observer.debug(text)
+    end
   end
 
   # stop analysis

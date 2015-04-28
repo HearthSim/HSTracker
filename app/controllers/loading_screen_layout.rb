@@ -12,11 +12,24 @@ class LoadingScreenLayout < MK::WindowLayout
     background_color :clear.nscolor
 
     add NSImageView do
-      image NSImage.alloc.initByReferencingFile "#{'images/'.resource_path}/loading.png"
+      image NSImage.alloc.initByReferencingFile "#{'images/assets/'.resource_path}/loading.png"
 
       constraints do
         width.equals(:superview)
         height.equals(:superview)
+      end
+    end
+
+    add NSProgressIndicator, :progress do
+      indeterminate false
+      style NSProgressIndicatorBarStyle
+
+      constraints do
+        height 20
+
+        bottom.equals(:superview).minus(80)
+        left.equals(:superview).plus(90)
+        right.equals(:superview).minus(110)
       end
     end
   end

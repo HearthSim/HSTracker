@@ -1,0 +1,120 @@
+/* import */
+"OK" = "OK";
+"Error" = "Fehler";
+"Error while loading deck" = "Fehler beim Laden des Decks";
+"Empty deck url" = "Keine Deck URL";
+"Import Deck" = "Deck importieren";
+"Deck URL" = "Deck URL";
+"Import" = "Import";
+"Cancel" = "Abbrechen";
+"Loading" = "Laden";
+"You have not selected a language from the preferences, please choose a language before importing a deck" = "Sie haben keine Sprache in den Einstellungen ausgewählt, bitte wählen Sie eine Sprache, bevor Sie das Deck importieren.";
+
+/* menu */
+"File" = "Ablage";
+"Edit" = "Bearbeiten";
+"Cut" = "Ausschneiden";
+"Copy" = "Kopieren";
+"Paste" = "Einsetzen";
+"Select All" = "Alles auswählen";
+"About HSTracker" = "Über HSTracker";
+"Preferences" = "Einstellungen ...";
+"Hide HSTracker" = "HSTracker ausblenden";
+"Hide Others" = "Andere ausblenden";
+"Show All" = "Alle einblenden";
+"Quit HSTracker" = "HSTracker beenden";
+"Window" = "Window";
+"Unlock Windows" = "Unlock Windows";
+"Decks" = "Decks";
+"Reset" = "Reset";
+
+/* preferences */
+"General" = "Allgemein";
+"Game language" = "Spielsprache";
+"Card played" = "Card played";
+"Fade" = "Fade";
+"Remove" = "Remove";
+"Lock Windows" = "Lock Windows";
+"Windows Transparency" = "Windows Transparency";
+"Interface" = "Interface";
+"Flash color" = "Flash color";
+"Fixed window names" = "Fixed window names";
+"Reset trackers on game end" = "Reset trackers on game end";
+"HSTracker language" = "HSTracker language";
+"Language change" = "Language change";
+"You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
+"Card size" = "Card size";
+"Big" = "Big";
+"Medium" = "Medium";
+"Small" = "Small";
+"Colors" = "Colors";
+"Draw / Count color" = "Draw / Count color";
+"Draw / Count border color" = "Draw / Count border color";
+"Card count / Draw chance" = "Card count / Draw chance";
+"Hidden" = "Hidden";
+"On trackers" = "On trackers";
+"Detached windows" = "Detached windows";
+"Player Card Count" = "Player Card Count";
+"Opponent Card Count" = "Opponent Card Count";
+"Show stolen cards" = "Show stolen cards";
+"Show card on hover" = "Show card on hover";
+
+/* classes */
+"Shaman" = "Shamane";
+"Hunter" = "Jäger";
+"Warlock" = "Hexenmeister";
+"Druid" = "Druide";
+"Warrior" = "Krieger";
+"Mage" = "Magier";
+"Paladin" = "Paladin";
+"Priest" = "Priester";
+"Rogue" = "Schurke";
+"Neutral" = "Neutral";
+
+/* cards */
+"Free" = "Basis";
+"Common" = "Gewöhnlich";
+"Rare" = "Selten";
+"Epic" = "Episch";
+"Legendary" = "Legendär";
+
+"Minion" = "Diener";
+"Spell" = "Zauber";
+"Weapon" = "Waffe";
+
+/* update */
+"Update" = "Aktualisierung";
+"A new version of HSTracker is available, click OK to download it." = "Eine neue Version von HSTracker ist verfügbar, klicken Sie OK um diese herunterzuladen.";
+
+/* deck manager */
+"Deck Manager" = "Deck Manager";
+"New" = "Neu";
+"Save" = "Sichern";
+"Delete" = "Löschen";
+"Close" = "Close";
+"Play" = "Play";
+"Export" = "Export";
+"Export Deck" = "Export Deck";
+"Arena Deck" = "Arena Deck";
+"Donate" = "Donate";
+"You are currently in a deck edition and you changes have not been saved." = "Sie sind momentan in der Deckerstellung und Änderungen wurden noch nicht gesichert.";
+"Deck name" = "Deckname";
+"Are you sure you want to delete this deck ?" = "Sind Sie sicher, dass Sie dieses Deck löschen möchten?";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "Sind Sie sicher, dass Sie dieses Deck schließen möchten? Die Änderungen werden nicht gesichert.";
+"Your deck don't have 30 cards, are you sure you want to continue ?" = "Ihr Deck besteht nicht aus 30 Karten, sind Sie sicher, dass Sie fortfahren möchten?";
+"Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Ihr Deck ist nicht gesichert, sind Sie sicher, dass Sie fortfahren möchten, alle Änderungen gehen verloren.";
+"Deck saved" = "Deck gesichert";
+
+"Hand : " = "Hand : ";
+"Deck : " = "Deck : ";
+"Draw : " = "Draw : ";
+
+"Player" = "Player";
+"Opponent" = "Opponent";
+
+"You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+"Cards images are not found. Please confirm the Hearthstone language then click OK to download them." = "Cards images are not found.\nPlease confirm the Hearthstone language then click OK to download them.";
+"Images" = "Images";
+"Download images" = "Download images";
+"Missing images" = "Missing images";
+"Some images are missing, force a download from HSTracker menu -> Download images" = "Some images are missing, force a download from HSTracker menu -> Download images";

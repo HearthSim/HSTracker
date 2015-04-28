@@ -23,10 +23,41 @@
 "Hide Others" = "Hide Others";
 "Show All" = "Show All";
 "Quit HSTracker" = "Quit HSTracker";
+"Window" = "Window";
+"Unlock Windows" = "Unlock Windows";
+"Decks" = "Decks";
+"Reset" = "Reset";
 
 /* preferences */
 "General" = "General";
 "Game language" = "Game language";
+"Card played" = "Card played";
+"Fade" = "Fade";
+"Remove" = "Remove";
+"Lock Windows" = "Lock Windows";
+"Windows Transparency" = "Windows Transparency";
+"Interface" = "Interface";
+"Flash color" = "Flash color";
+"Fixed window names" = "Fixed window names";
+"Reset trackers on game end" = "Reset trackers on game end";
+"HSTracker language" = "HSTracker language";
+"Language change" = "Language change";
+"You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
+"Card size" = "Card size";
+"Big" = "Big";
+"Medium" = "Medium";
+"Small" = "Small";
+"Colors" = "Colors";
+"Draw / Count color" = "Draw / Count color";
+"Draw / Count border color" = "Draw / Count border color";
+"Card count / Draw chance" = "Card count / Draw chance";
+"Hidden" = "Hidden";
+"On trackers" = "On trackers";
+"Detached windows" = "Detached windows";
+"Player Card Count" = "Player Card Count";
+"Opponent Card Count" = "Opponent Card Count";
+"Show stolen cards" = "Show stolen cards";
+"Show card on hover" = "Show card on hover";
 
 /* classes */
 "Shaman" = "Shaman";
@@ -40,6 +71,17 @@
 "Rogue" = "Rogue";
 "Neutral" = "Neutral";
 
+/* cards */
+"Free" = "Free";
+"Common" = "Common";
+"Rare" = "Rare";
+"Epic" = "Epic";
+"Legendary" = "Legendary";
+
+"Minion" = "Minion";
+"Spell" = "Spell";
+"Weapon" = "Weapon";
+
 /* update */
 "Update" = "Update";
 "A new version of HSTracker is available, click OK to download it." = "A new version of HSTracker is available, click OK to download it.";
@@ -49,6 +91,12 @@
 "New" = "New";
 "Save" = "Save";
 "Delete" = "Delete";
+"Close" = "Close";
+"Play" = "Play";
+"Export" = "Export";
+"Export Deck" = "Export Deck";
+"Arena Deck" = "Arena Deck";
+"Donate" = "Donate";
 "You are currently in a deck edition and you changes have not been saved." = "You are currently in a deck edition and you changes have not been saved.";
 "Deck name" = "Deck name";
 "Are you sure you want to delete this deck ?" = "Are you sure you want to delete this deck ?";
@@ -56,3 +104,18 @@
 "Your deck don't have 30 cards, are you sure you want to continue ?" = "Your deck don't have 30 cards, are you sure you want to continue ?";
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Your deck is not saved, are you sure you want to continue, you will lose all changes.";
 "Deck saved" = "Deck saved";
+
+"Hand : " = "Hand : ";
+"Deck : " = "Deck : ";
+"Draw : " = "Draw : ";
+"Draw Chance" = "Draw Chance";
+
+"Player" = "Player";
+"Opponent" = "Opponent";
+
+"You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+"Cards images are not found. Please confirm the Hearthstone language then click OK to download them." = "Cards images are not found.\nPlease confirm the Hearthstone language then click OK to download them.";
+"Images" = "Images";
+"Download images" = "Download images";
+"Missing images" = "Missing images";
+"Some images are missing, force a download from HSTracker menu -> Download images" = "Some images are missing, force a download from HSTracker menu -> Download images";

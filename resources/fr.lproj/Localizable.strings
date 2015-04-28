@@ -23,10 +23,41 @@
 "Hide Others" = "Masquer les autres";
 "Show All" = "Tout afficher";
 "Quit HSTracker" = "Quitter HSTracker";
+"Window" = "Fenêtre";
+"Decks" = "Decks";
+"Reset" = "Reset";
 
 /* preferences */
 "General" = "Général";
 "Game language" = "Langue du jeu";
+"Card played" = "Carte jouée";
+"Fade" = "Transparence";
+"Remove" = "Enlever";
+"Lock Windows" = "Verrouiller les fenêtres";
+"Windows Transparency" = "Transparence des fenêtres";
+"Interface" = "Interface";
+"Unlock Windows" = "Déverrouiller les fenêtres";
+"Flash color" = "Couleur flash";
+"Fixed window names" = "Nom des fenêtres fixe";
+"Reset trackers on game end" = "Nettoie les trackers en fin de partie";
+"HSTracker language" = "Langue de HSTracker";
+"Language change" = "Changement de langue";
+"You must restart HSTracker for the language change to take effect" = "Vous devez redémarrer HSTracker pour que le changement de langue soit effectif";
+"Card size" = "Taille des Cartes";
+"Big" = "Grand";
+"Medium" = "Moyen";
+"Small" = "Petit";
+"Colors" = "Couleurs";
+"Draw / Count color" = "Comptage / Pioche couleur";
+"Draw / Count border color" = "Comptage / Pioche couleur bord";
+"Card count / Draw chance" = "Comptage / Chance de pioche";
+"Hidden" = "Caché";
+"On trackers" = "Dans les trackers";
+"Detached windows" = "Fenêtres séparées";
+"Player Card Count" = "Cartes joueur";
+"Opponent Card Count" = "Cartes opposant";
+"Show stolen cards" = "Voir les cartes volées";
+"Show card on hover" = "Voir les cartes au survol";
 
 /* classes */
 "Shaman" = "Chaman";
@@ -40,6 +71,17 @@
 "Rogue" = "Voleur";
 "Neutral" = "Neutre";
 
+/* cards */
+"Free" = "Libre";
+"Common" = "Commune";
+"Rare" = "Rare";
+"Epic" = "Épique";
+"Legendary" = "Légendaire";
+
+"Minion" = "Serviteur";
+"Spell" = "Sort";
+"Weapon" = "Arme";
+
 /* update */
 "Update" = "Mise à jour";
 "A new version of HSTracker is available, click OK to download it." = "Une nouvelle version de HSTracker est disponible, cliquez sur OK pour la télécharger.";
@@ -49,6 +91,12 @@
 "New" = "Nouveau";
 "Save" = "Enregistrer";
 "Delete" = "Supprimer";
+"Close" = "Fermer";
+"Play" = "Jouer";
+"Export" = "Exporter";
+"Export Deck" = "Exporter Deck";
+"Arena Deck" = "Deck Arène";
+"Donate" = "Donate";
 "You are currently in a deck edition and you changes have not been saved." = "Vous êtes en mode édition de deck et vos modifications n'ont pas été sauvegardées.";
 "Deck name" = "Nom du deck";
 "Are you sure you want to delete this deck ?" = "Êtes-vous sur de vouloir supprimer ce deck ?";
@@ -56,3 +104,17 @@
 "Your deck don't have 30 cards, are you sure you want to continue ?" = "Votre deck ne contient pas 30 cartes, êtes-vous sur de vouloir continuer ?";
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Votre deck n'est pas sauvegardé, êtes-vous sur de vouloir continuer, vous perdrez vos modifications.";
 "Deck saved" = "Deck enregistré";
+
+"Hand : " = "Main : ";
+"Deck : " = "Deck : ";
+"Draw : " = "Pioche : ";
+
+"Player" = "Joueur";
+"Opponent" = "Opposant";
+
+"You must restart Hearthstone for logs to be used" = "Vous devez redémarrer Hearthstone pour qu'il commence à logger";
+"Cards images are not found. Please confirm the Hearthstone language then click OK to download them." = "Les images des cartes sont introuvables.\nMerci de confirmer la langue de Hearthstone puis de cliquer sur OK pour les télécharger.";
+"Images" = "Images";
+"Download images" = "Téléchargement des images";
+"Missing images" = "Images manquantes";
+"Some images are missing, force a download from HSTracker menu -> Download images" = "Certaines images sont manquantes, forcez un téléchargement depuis le menu HSTracker -> Téléchargement des images";

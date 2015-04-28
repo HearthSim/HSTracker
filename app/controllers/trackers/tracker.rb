@@ -1,0 +1,149 @@
+class Tracker < NSWindowController
+
+  def windowWillMiniaturize(_)
+    window.setLevel(NSNormalWindowLevel)
+  end
+
+  def windowDidMiniaturize(_)
+    window.setLevel(NSScreenSaverWindowLevel)
+  end
+
+  def windowDidMove(_)
+    save_frame
+  end
+
+  def windowDidResize(_)
+    save_frame
+  end
+
+  def save_frame
+    return if Configuration.windows_locked
+    NSUserDefaults.standardUserDefaults.setObject(NSStringFromRect(self.window.frame),
+                                                  forKey: self.window.identifier)
+  end
+
+  def window_locks
+    locked = Configuration.windows_locked
+
+    if locked
+      mask = NSBorderlessWindowMask
+    else
+      mask = NSTitledWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
+    end
+    self.window.setStyleMask mask
+  end
+
+  def window_transparency
+  end
+
+  def hand_count_window_changed
+  end
+
+  def card_layout
+    return if @table_view.nil?
+
+    case Configuration.card_layout
+      when :small
+        row_height = TrackerLayout::KSmallRowHeight
+        width      = TrackerLayout::KSmallFrameWidth
+      when :medium
+        row_height = TrackerLayout::KMediumRowHeight
+        width      = TrackerLayout::KMediumFrameWidth
+      else
+        row_height = TrackerLayout::KRowHeight
+        width      = TrackerLayout::KFrameWidth
+    end
+
+    frame            = self.window.frame
+    frame.size.width = width
+
+    self.window.setFrame(frame, display: true)
+    self.window.contentMinSize = [width, 200]
+    self.window.contentMaxSize = [width, CGRectGetHeight(NSScreen.mainScreen.frame)]
+
+    @table_view.rowHeight = row_height
+    @table_view.reloadData
+  end
+
+  def showWindow(sender)
+    # trigger when loading the window
+    super.tap do
+      @events = []
+      # options
+      @events << NSNotificationCenter.defaultCenter.observe('windows_locked') do |_|
+        window_locks
+      end
+
+      @events << NSNotificationCenter.defaultCenter.observe('window_transparency') do |_|
+        window_transparency
+      end
+
+      @events << NSNotificationCenter.defaultCenter.observe('card_layout') do |_|
+        card_layout
+      end
+
+      @events << NSNotificationCenter.defaultCenter.observe('count_color') do |_|
+        @table_view.reloadData if @table_view
+      end
+
+      @events << NSNotificationCenter.defaultCenter.observe('count_color_border') do |_|
+        @table_view.reloadData if @table_view
+      end
+
+      @events << NSNotificationCenter.defaultCenter.observe('hand_count_window') do |_|
+        hand_count_window_changed
+      end
+    end
+  end
+
+  def windowWillClose(_)
+    @events.each do |event|
+      NSNotificationCenter.defaultCenter.unobserve(event)
+    end
+  end
+
+  # card hover
+  def hover(cell)
+    return unless Configuration.show_card_on_hover
+    card = cell.card
+
+    return if card.nil?
+
+    if @card_hover.nil?
+      @card_hover = CardHover.new
+    end
+
+    @card_hover.card = card
+    @card_hover.showWindow(self.window)
+    @card_hover.window.setFrameTopLeftPoint(get_point(cell))
+  end
+
+  def out(_)
+    return unless Configuration.show_card_on_hover
+
+    @card_hover.close if @card_hover
+  end
+
+  def get_point(cell)
+    row  = @table_view.rowForView(cell)
+    rect = @table_view.frameOfCellAtColumn(0, row: row)
+
+    offset = rect.origin.y - @table_view.enclosingScrollView.documentVisibleRect.origin.y
+
+    window_rect = self.window.frame
+
+    if window_rect.origin.x < @card_hover.window.frame.size.width
+      x = window_rect.origin.x + window_rect.size.width
+    else
+      x = window_rect.origin.x - @card_hover.window.frame.size.width
+    end
+
+    y = window_rect.origin.y + window_rect.size.height - offset - 30
+    if y < @card_hover.window.frame.size.height
+      y = @card_hover.window.frame.size.height
+    end
+
+    [x, y]
+  end
+
+end

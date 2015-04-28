@@ -9,4 +9,14 @@ class NSString
     @@sugarcube_home.stringByAppendingPathComponent(self)
   end
 
+  # capitalize the first letter of a word
+  def ucfirst
+    self.sub(/^(\w)/) { |s| s.capitalize }
+  end
+
+  # check if the string is a number
+  def is_i?
+    !!(self =~ /\A[-+]?[0-9]+\z/)
+  end
+
 end

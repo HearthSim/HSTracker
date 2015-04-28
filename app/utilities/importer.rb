@@ -1,266 +1,619 @@
 class Importer
 
-  Log = Motion::Log
+  class << self
 
-  def self.load(url, &block)
-    Log.debug "Loading deck from #{url}"
-    AFMotion::HTTP.get(url) do |result|
+    Log = Motion::Log
 
-      if result.nil? or result.body.nil?
-        block.call(nil, nil, nil) if block
-        next
+    def load(url, &block)
+      Log.debug "Loading deck from #{url}"
+      Web.get(url) do |result|
+
+        if result.nil?
+          block.call(nil, nil, nil) if block
+          next
+        end
+
+        Log.verbose 'Loading : OK'
+        error = Pointer.new(:id)
+        doc   = GDataXMLDocument.alloc.initWithHTMLString(result, error: error)
+        if error[0]
+          Log.error error[0].description
+          block.call(nil, nil, nil, nil) if block
+          next
+        end
+
+        arena = false
+        case url
+          when /hearthpwn\.com\/decks/i
+            deck, clazz, title = hearthpwn_deck(doc)
+          when /hearthpwn\.com\/deckbuilder/i
+            deck, clazz, title = hearthpwn_deckbuilder(url, doc)
+          #when /hearthstone\.judgehype\.com/i
+          #  deck, clazz, title = judgehype(doc)
+          when /hearthstone-decks\.com/i
+            deck, clazz, title = hearthstone_decks(doc)
+          when /hearthstats\.net/i
+            deck, clazz, title = hearthstats(doc)
+          when /hearthhead\.com\/deck=/
+            deck, clazz, title = hearthhead_deck(url, doc)
+          when /hearthnews\.fr/
+            deck, clazz, title = hearthnews(doc)
+          when /heartharena\.com/
+            arena              = true
+            deck, clazz, title = heartharena(doc)
+          else
+            Log.warn "unknown url #{url}"
+            block.call(nil, nil, nil, nil) if block
+            next
+        end
+
+        if deck.nil? or deck.count.zero?
+          block.call(nil, nil, nil, nil) if block
+          next
+        end
+
+        deck.sort_cards!
+        block.call(deck, clazz, title, arena) if block
       end
-
-      Log.verbose 'Loading : OK'
-      doc = Wakizashi::HTML(result.body)
-
-      if /hearthpwn\.com\/decks/i =~ url
-        deck, clazz, title = self.hearthpwn_deck(doc)
-      elsif /hearthpwn\.com\/deckbuilder/i =~ url
-        deck, clazz, title = self.hearthpwn_deckbuilder(url, doc)
-        #elsif /hearthstone\.judgehype\.com/i =~ url
-        #  deck, clazz, title = self.judgehype(doc)
-      elsif /hearthstone-decks\.com/i =~ url
-        deck, clazz, title = self.hearthstone_decks(doc)
-      else
-        Log.warn "unknown url #{url}"
-        block.call(nil, nil, nil) if block
-        next
-      end
-
-      if deck.nil?
-        block.call(nil, nil, nil) if block
-      end
-
-      deck = Sorter.sort_cards(deck)
-
-      block.call(deck, clazz, title) if block
     end
-  end
 
-  def self.netdeck()
-    pasteboard = NSPasteboard.generalPasteboard
-    paste      = pasteboard.stringForType NSPasteboardTypeString
-    if paste and /^netdeckimport/ =~ paste
-      lines = paste.split('\n')
+    def netdeck(&block)
+      pasteboard = NSPasteboard.generalPasteboard
+      paste      = pasteboard.stringForType NSPasteboardTypeString
+
+      if paste and /^(trackerimport|netdeckimport)/ =~ paste
+        lines = paste.split("\n")
+
+        arena     = false
+        deck      = []
+        deck_name = ''
+        lines.drop(1).each do |line|
+          if /^name:/ =~ line
+            deck_name = line.split(':').last
+            Log.verbose "found deck name '#{deck_name}'"
+            next
+          end
+
+          if /^url:/ =~ line
+            # futur work
+            next
+          end
+
+          if /^arena:/ =~ line
+            arena = true
+            next
+          end
+
+          card = Card.by_english_name line
+          next if card.nil?
+          Log.verbose "found card #{line}"
+          if deck.include? card
+            deck.each do |c|
+              if c.card_id == card.card_id
+                card.count += 1
+              end
+            end
+          else
+            card.count = 1
+            deck << card
+          end
+        end
+
+        clazz = nil
+        deck.each do |card|
+          unless card.player_class.nil?
+            clazz = card.player_class
+            next
+          end
+        end
+
+        Log.verbose "found deck #{deck_name} for class #{clazz}"
+        deck.sort_cards!
+        block.call(deck, clazz, deck_name, arena) if block
+      end
+
+      Dispatch::Queue.main.after(1) do
+        netdeck(&block)
+      end
+    end
+
+    private
+    # import deck from http://www.hearthstone-decks.com
+    # accepted urls :
+    # http://www.hearthstone-decks.com/deck/voir/yu-gi-oh-rogue-5215
+    def hearthstone_decks(doc)
+      deck = []
+
+      title       = nil
+      clazz       = nil
+
+      # search for title
+      error      = Pointer.new(:id)
+      title_node = doc.firstNodeForXPath("//div[@id='content']//h3", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless title_node.nil?
+        title      = title_node.children.last.stringValue.strip
+      end
+
+      # search for clazz
+      clazz_node = doc.firstNodeForXPath("//input[@id='classe_nom']", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless clazz_node.nil?
+        clazz = clazz_node.attributeForName('value').stringValue
+        if clazz
+          classes = {
+              'Chaman'    => 'Shaman',
+              'Chasseur'  => 'Hunter',
+              'Démoniste' => 'Warlock',
+              'Druide'    => 'Druid',
+              'Guerrier'  => 'Warrior',
+              'Mage'      => 'Mage',
+              'Paladin'   => 'Paladin',
+              'Prêtre'    => 'Priest',
+              'Voleur'    => 'Rogue'
+          }
+          clazz   = classes[clazz]
+        end
+      end
+
+      # search for cards
+      cards_nodes = doc.nodesForXPath("//table[contains(@class,'tabcartes')]//tbody//tr", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      cards_nodes.each do |card_node|
+        count     = card_node.childAtIndex(0).stringValue.to_i
+        card_name = card_node.childAtIndex(1).stringValue.strip
+
+        card = Card.by_french_name(card_name)
+        if card.nil?
+          Log.warn "CARD : #{card_name} is nil"
+          next
+        end
+        card.count = count
+        deck << card
+      end
+
+      return deck, clazz, title
+    end
+
+    # import deck from http://hearthstone.judgehype.com
+    # accepted urls :
+    # http://hearthstone.judgehype.com/deck/12411/
+    # FIXME : will be maybe added if judgehype correct their cards
+=begin
+    def judgehype(doc)
+      deck = []
+
+      title       = nil
+      clazz       = nil
+
+      # search for title
+      title_nodes = doc.xpath("//div[@id='contenu-titre']//h1")
+      unless title_nodes.nil? or title_nodes.size.zero?
+        title_node = title_nodes.first
+        title      = title_node.children.last.stringValue.strip
+      end
+
+      # search for clazz
+      clazz_nodes = doc.xpath("//div[@id='contenu']//img")
+      unless clazz_nodes.nil? or clazz_nodes.size.zero?
+        clazz_node = clazz_nodes.first
+
+        match = /select-(\w+)\.png/.match clazz_node.XMLString
+        unless match.nil?
+          classes = {
+              'chaman'    => 'shaman',
+              'chasseur'  => 'hunter',
+              'demoniste' => 'warlock',
+              'druide'    => 'druid',
+              'guerrier'  => 'warrior',
+              'mage'      => 'mage',
+              'paladin'   => 'paladin',
+              'pretre'    => 'priest',
+              'voleur'    => 'rogue'
+          }
+          clazz   = classes[match[1]]
+        end
+      end
+
+      # search for cards
+      cards_nodes = doc.xpath("//table[contains(@class,'contenu')][1]//tr")
+      cards_nodes.each do |card_node|
+        children = card_node.children
+
+        next unless children.size >= 3
+        td_node = children[3]
+        next if td_node.nil?
+
+        td_children = td_node.children
+        next unless td_children.size == 3
+        count     = /\d+/.match td_children[0].stringValue
+        card_name = td_children[2].stringValue
+
+        Log.verbose "#{card_name} x #{count[0].to_i}"
+        card = Card.by_french_name(card_name)
+        if card.nil?
+          Log.warn "CARD : #{card_name} is nil"
+          next
+        end
+        card.count = count[0].to_i
+        deck << card
+      end
+
+      return deck, clazz, title
+    end
+=end
+
+    # fetch and parse a deck from http://www.hearthpwn.com/decks/
+    def hearthpwn_deck(doc)
+      title      = nil
+      clazz      = nil
+
+      # search for class
+      error      = Pointer.new(:id)
+      clazz_node = doc.firstNodeForXPath("//span[contains(@class,'class')]", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless clazz_node.nil?
+        match = /class-(\w+)/.match clazz_node.XMLString
+        unless match.nil?
+          clazz = match[1].ucfirst
+        end
+      end
+
+      # search for title
+      title_node = doc.firstNodeForXPath("//h2[contains(@class,'t-deck-title')]", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless title_node.nil?
+        title = title_node.stringValue
+      end
+
+      # search for cards
+      card_nodes = doc.nodesForXPath("//td[contains(@class,'col-name')]", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      if card_nodes.nil? or card_nodes.size.zero?
+        return nil, nil, nil
+      end
 
       deck = []
-      lines.each do |line|
-        if /^name:/ =~ line
+      card_nodes.each do |node|
+        card_name = node.elementsForName 'b'
+
+        next if card_name.nil?
+
+        card_name = card_name.first.stringValue
+
+        count = /\d+/.match node.children.lastObject.stringValue
+
+        card = Card.by_english_name(card_name)
+        if card.nil?
+          Log.warn "CARD : #{card_name} is nil"
           next
         end
+        Log.verbose "card #{card_name} is #{card}"
+        card.count = count[0].to_i
+        deck << card
+      end
 
-        if /^url:/ =~ line
+      return deck, clazz, title
+    end
+
+    # fetch and parse a deck from http://www.hearthpwn.com/deckbuilder
+    def hearthpwn_deckbuilder(url, doc)
+      deck  = []
+
+      # search for class
+      clazz = url.partition('#').first.split('/').last.ucfirst
+
+      # search for cards
+      cards = url.partition('#').last.split(';').map { |x| x.split ':' }
+      cards.each do |card_id_arr|
+        card_id = card_id_arr[0]
+        count   = card_id_arr[1]
+
+        error = Pointer.new(:id)
+        node  = doc.firstNodeForXPath("//tr[@data-id='#{card_id}']/td[1]/b", error: error)
+        if error[0]
+          Log.error error[0].description
           next
         end
+        next if node.nil?
+        card_name = node.stringValue
 
-        name = line.split(':').last
-        card = Card.by_english_name name
-        if deck.include? card
+        card = Card.by_english_name(card_name)
+        if card.nil?
+          Log.warn "CARD : #{card_name} is nil"
+          next
+        end
+        card.count = count.to_i
+        deck << card
+      end
+
+      return deck, clazz, nil
+    end
+
+    # fetch and parse a deck from http://www.hearthstats.net/decks/
+    def hearthstats(doc)
+      title      = nil
+      clazz      = nil
+
+      # search for class
+      error      = Pointer.new(:id)
+      clazz_node = doc.firstNodeForXPath("//div[contains(@class,'win-count')]//img", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless clazz_node.nil?
+        match = /\/assets\/Icons\/Classes\/(\w+)_Icon\.gif/.match clazz_node.attributeForName('src').stringValue
+        if match
+          clazz = match[1].downcase.ucfirst
+        end
+      end
+
+      # search for title
+      title_node = doc.firstNodeForXPath("//h1[contains(@class,'page-title')]", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless title_node.nil?
+        small = title_node.elementsForName 'small'
+        if small
+          title_node.removeChild small.first
+        end
+        title = title_node.stringValue
+      end
+
+      # search for cards
+      card_nodes = doc.nodesForXPath("//div[contains(@class,'cardWrapper')]", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      if card_nodes.nil? or card_nodes.size.zero?
+        return nil, nil, nil
+      end
+
+      deck = []
+      card_nodes.each do |node|
+        next if node.childCount < 5
+
+        card_name = node.firstNodeForXPath("div[@class='name']", error: error)
+        if error[0]
+          Log.error error[0].description
+          next
+        end
+        card_name = card_name.stringValue
+
+        count = node.firstNodeForXPath("div[@class='qty']", error: error)
+        if error[0]
+          Log.error error[0].description
+          next
+        end
+        count = count.stringValue.to_i
+
+        next if card_name.nil? || count.nil?
+
+        card = Card.by_english_name(card_name)
+        if card.nil?
+          Log.warn "CARD : #{card_name} is nil"
+          next
+        end
+        Log.verbose "card #{card_name} is #{card}"
+        card.count = count
+        deck << card
+      end
+
+      return deck, clazz, title
+    end
+
+    # fetch and parse a deck from http://www.hearthhead.com/deck=
+    def hearthhead_deck(url, doc)
+      title = nil
+      clazz = nil
+
+      locale     = case url
+                     when /de\.hearthhead\.com/
+                       'deDE'
+                     when /es\.hearthhead\.com/
+                       'esES'
+                     when /fr\.hearthhead\.com/
+                       'frFR'
+                     when /pt\.hearthhead\.com/
+                       'ptPT'
+                     when /ru\.hearthhead\.com/
+                       'ruRU'
+                     else
+                       'enUS'
+                   end
+
+      # search for class
+      error      = Pointer.new(:id)
+      clazz_node = doc.firstNodeForXPath("//div[@class='deckguide-hero']", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless clazz_node.nil?
+        classes = {
+            1  => 'Warrior',
+            2  => 'Paladin',
+            3  => 'Hunter',
+            4  => 'Rogue',
+            5  => 'Priest',
+            # 6 => 'Death-Knight'
+            7  => 'Shaman',
+            8  => 'Mage',
+            9  => 'Warlock',
+            11 => 'Druid'
+        }
+        clazz   = classes[clazz_node.attributeForName('data-class').stringValue.to_i]
+      end
+
+      # search for title
+      title_node = doc.firstNodeForXPath("//h1[@id='deckguide-name']", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless title_node.nil?
+        title = title_node.stringValue
+      end
+
+      # search for cards
+      card_nodes = doc.nodesForXPath("//div[contains(@class,'deckguide-cards-type')]/ul/li", error: error)
+      if card_nodes.nil? or card_nodes.size.zero?
+        return nil, nil, nil
+      end
+
+      deck = []
+      card_nodes.each do |node|
+        card_node = node.childAtIndex 0
+        card_name = card_node.stringValue
+        node.removeChild card_node
+
+        count = /\d+/.match node.stringValue
+        if count.nil?
+          count = 1
         else
-          card.count = 1
-          deck << card
+          count = count[0].to_i
         end
+
+        next if card_name.nil? || count.nil?
+
+        card = Card.by_name_and_locale(card_name, locale)
+        if card.nil?
+          Log.warn "CARD : #{card_name} is nil"
+          next
+        end
+        Log.verbose "card #{card_name} is #{card}"
+        card.count = count
+        deck << card
       end
+
+      return deck, clazz, title
+    end
+
+    # fetch and parse a deck from http://www.hearthnews.fr
+    def hearthnews(doc)
+      title      = nil
+      clazz      = nil
+
+      # search for class
+      error      = Pointer.new(:id)
+      clazz_node = doc.firstNodeForXPath('//div[@hero_class]', error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless clazz_node.nil?
+        clazz = clazz_node.attributeForName('hero_class').stringValue.downcase.ucfirst
+      end
+
+      # search for title
+      title_node = doc.firstNodeForXPath("//div[@class='block_deck_content_deck_name']", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      unless title_node.nil?
+        title = title_node.stringValue.strip
+      end
+
+      # search for cards
+      card_nodes = doc.nodesForXPath("//a[@class='real_id']", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      if card_nodes.nil? or card_nodes.size.zero?
+        return nil, nil, nil
+      end
+
+      deck = []
+      card_nodes.each do |node|
+        card_id = node.attributeForName('real_id').stringValue
+        count   = node.attributeForName('nb_card').stringValue.to_i
+
+        next if card_id.nil? || count.nil?
+
+        card = Card.by_id(card_id)
+        if card.nil?
+          Log.warn "CARD : #{card_id} is nil"
+          next
+        end
+        Log.verbose "card #{card_id} is #{card}"
+        card.count = count
+        deck << card
+      end
+
+      return deck, clazz, title
+    end
+
+    # fetch and parse a deck from http://www.heartharena.com
+    def heartharena(doc)
+      title      = nil
+      clazz      = nil
+
+      # search for class
+      error      = Pointer.new(:id)
+      clazz_node = doc.firstNodeForXPath('//h1[@class="class"]', error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+
+      unless clazz_node.nil?
+        clazz = clazz_node.stringValue.sub('/', '').strip.downcase.ucfirst
+      end
+
+      # search for cards
+      card_nodes = doc.nodesForXPath("//ul[@class='deckList']/li", error: error)
+      if error[0]
+        Log.error error[0].description
+        return nil, nil, nil
+      end
+      if card_nodes.nil? or card_nodes.size.zero?
+        return nil, nil, nil
+      end
+
+      deck = []
+      card_nodes.each do |node|
+        card_name = node.attributeForName('data-name').stringValue
+
+        count = node.firstNodeForXPath("span[@class='quantity']",
+                                       error: nil).stringValue.to_i
+
+        next if card_name.nil? || count.nil?
+
+        card = Card.by_english_name(card_name)
+        if card.nil?
+          Log.warn "CARD : #{card_name} is nil"
+          next
+        end
+        Log.verbose "card #{card_name} is #{card}"
+        card.count = count
+        deck << card
+      end
+
+      return deck, clazz, title
     end
   end
-
-  private
-  # import deck from http://www.hearthstone-decks.com
-  # accepted urls :
-  # http://www.hearthstone-decks.com/deck/voir/yu-gi-oh-rogue-5215
-  def self.hearthstone_decks(doc)
-    deck = []
-
-    title       = nil
-    clazz       = nil
-
-    # search for title
-    title_nodes = doc.xpath("//div[@id='content']//h3")
-    unless title_nodes.nil? or title_nodes.size.zero?
-      title_node = title_nodes.first
-      title      = title_node.children.last.stringValue.strip
-    end
-
-    # search for clazz
-    clazz_nodes = doc.xpath("//input[@id='classe_nom']")
-    unless clazz_nodes.nil? or clazz_nodes.size.zero?
-      clazz_node = clazz_nodes.first
-
-      clazz = clazz_node['value']
-      if clazz
-        classes = {
-            'Chaman'    => 'shaman',
-            'Chasseur'  => 'hunter',
-            'Démoniste' => 'warlock',
-            'Druide'    => 'druid',
-            'Guerrier'  => 'warrior',
-            'Mage'      => 'mage',
-            'Paladin'   => 'paladin',
-            'Prêtre'    => 'priest',
-            'Voleur'    => 'rogue'
-        }
-        clazz   = classes[clazz]
-      end
-    end
-
-    # search for cards
-    cards_nodes = doc.xpath("//table[contains(@class,'tabcartes')]//tbody//tr")
-    cards_nodes.each do |card_node|
-      children = card_node.children
-
-      count     = children[0].stringValue.to_i
-      card_name = children[1].stringValue.strip
-
-      card = Card.by_french_name(card_name)
-      if card.nil?
-        Log.warn "CARD : #{card_name} is nil"
-        next
-      end
-      card.count = count
-      deck << card
-    end
-
-    return deck, clazz, title
-  end
-
-  # import deck from http://hearthstone.judgehype.com
-  # accepted urls :
-  # http://hearthstone.judgehype.com/deck/12411/
-  def self.judgehype(doc)
-    deck = []
-
-    title       = nil
-    clazz       = nil
-
-    # search for title
-    title_nodes = doc.xpath("//div[@id='contenu-titre']//h1")
-    unless title_nodes.nil? or title_nodes.size.zero?
-      title_node = title_nodes.first
-      title      = title_node.children.last.stringValue.strip
-    end
-
-    # search for clazz
-    clazz_nodes = doc.xpath("//div[@id='contenu']//img")
-    unless clazz_nodes.nil? or clazz_nodes.size.zero?
-      clazz_node = clazz_nodes.first
-
-      match = /select-(\w+)\.png/.match clazz_node.XMLString
-      unless match.nil?
-        classes = {
-            'chaman'    => 'shaman',
-            'chasseur'  => 'hunter',
-            'demoniste' => 'warlock',
-            'druide'    => 'druid',
-            'guerrier'  => 'warrior',
-            'mage'      => 'mage',
-            'paladin'   => 'paladin',
-            'pretre'    => 'priest',
-            'voleur'    => 'rogue'
-        }
-        clazz   = classes[match[1]]
-      end
-    end
-
-    # search for cards
-    cards_nodes = doc.xpath("//table[contains(@class,'contenu')][1]//tr")
-    cards_nodes.each do |card_node|
-      children = card_node.children
-
-      next unless children.size >= 3
-      td_node = children[3]
-      next if td_node.nil?
-
-      td_children = td_node.children
-      next unless td_children.size == 3
-      count     = /\d+/.match td_children[0].stringValue
-      card_name = td_children[2].stringValue
-
-      Log.verbose "#{card_name} x #{count[0].to_i}"
-      card = Card.by_french_name(card_name)
-      if card.nil?
-        Log.warn "CARD : #{card_name} is nil"
-        next
-      end
-      card.count = count[0].to_i
-      deck << card
-    end
-
-    return deck, clazz, title
-  end
-
-  # fetch and parse a deck from http://www.hearthpwn.com/decks/
-  def self.hearthpwn_deck(doc)
-    title       = nil
-    clazz       = nil
-
-    # search for class
-    clazz_nodes = doc.xpath("//span[contains(@class,'class')]")
-    unless clazz_nodes.nil? or clazz_nodes.size.zero?
-      clazz_node = clazz_nodes.first
-      match      = /class-(\w+)/.match clazz_node.XMLString
-      unless match.nil?
-        clazz = match[1]
-      end
-    end
-
-    # search for title
-    title_nodes = doc.xpath("//h2[contains(@class,'t-deck-title')]")
-    unless title_nodes.nil? or title_nodes.size.zero?
-      title_node = title_nodes.first
-      title      = title_node.stringValue
-    end
-
-    # search for cards
-    card_nodes = doc.xpath("//td[contains(@class,'col-name')]")
-    if card_nodes.nil? or card_nodes.size.zero?
-      return nil, nil, nil
-    end
-
-    deck = []
-    card_nodes.each do |node|
-      card_name = node.elementsForName 'b'
-
-      next if card_name.nil?
-
-      card_name = card_name.first.stringValue
-
-      count = /\d+/.match node.children.lastObject.stringValue
-
-      card = Card.by_english_name(card_name)
-      Log.verbose "card #{card_name} is #{card}"
-      card.count = count[0].to_i
-      deck << card
-    end
-
-    return deck, clazz, title
-  end
-
-  # fetch and parse a deck from http://www.hearthpwn.com/deckbuilder
-  def self.hearthpwn_deckbuilder(url, doc)
-    deck  = []
-
-    # search for class
-    clazz = url.partition('#').first.split('/').last
-
-    # search for cards
-    cards = url.partition('#').last.split(';').map { |x| x.split ':' }
-    cards.each do |card_id_arr|
-      card_id = card_id_arr[0]
-      count   = card_id_arr[1]
-
-      path = "//tr[@data-id='#{card_id}']/td[1]/b"
-
-      node = doc.xpath(path)
-      next if node.nil? or node.size.zero?
-      card_name = node.first.stringValue
-
-      card       = Card.by_english_name(card_name)
-      card.count = count.to_i
-      deck << card
-    end
-
-    return deck, clazz, nil
-  end
-
 end
