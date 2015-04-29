@@ -11,6 +11,8 @@ class CardHoverLayout < MK::WindowLayout
 
     style_mask NSBorderlessWindowMask
 
+    level NSScreenSaverWindowLevel
+
     add NSImageView, :image_view do
       constraints do
         width.equals(:superview)
