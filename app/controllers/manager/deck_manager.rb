@@ -197,6 +197,14 @@ class DeckManager < NSWindowController
     @cards         = nil
 
     @cards_view.reloadData
+
+    # Reapply search filter after changing tabs
+    for id in @toolbar.items
+        if id.itemIdentifier == "search"
+            search(id.view)
+        end
+    end
+
   end
 
   # tables stuff
