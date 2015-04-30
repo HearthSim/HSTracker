@@ -1,12 +1,12 @@
 class ImageCache
-  class << self
+  # usefull if we need to force reloading of images
+  IMAGES_VERSION = 1
 
-    # usefull if we need to force reloading of images
-    IMAGES_VERSION = 1
+  class << self
 
     def need_download?
       images_version = NSUserDefaults.standardUserDefaults.objectForKey 'image_version'
-      !dir_exists? or images_version.nil? or images_version.to_i < IMAGES_VERSION
+      !dir_exists? or images_version.nil? or images_version.to_i < ImageCache::IMAGES_VERSION
     end
 
     def dir_exists?

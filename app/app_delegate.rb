@@ -262,6 +262,8 @@ class AppDelegate
     @downloader = Downloader.new
     @downloader.showWindow(nil)
     @downloader.download do
+      NSUserDefaults.standardUserDefaults.setObject(ImageCache::IMAGES_VERSION, forKey: 'image_version')
+
       @downloader.close
       @downloader = nil
     end
