@@ -596,7 +596,11 @@ class DeckManager < NSWindowController
   def search(sender)
     str = sender.stringValue
 
-    search_card(str)
+    if str and !str.empty?
+      search_card(str)
+    else
+      cancel_search(sender)
+    end
   end
 
   def search_card(str)
