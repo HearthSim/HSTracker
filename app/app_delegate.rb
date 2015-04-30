@@ -75,7 +75,7 @@ class AppDelegate
         end
       end
 
-      unless ImageCache.dir_exists?
+      if ImageCache.need_download?
         ask_download_images(nil)
       end
     end

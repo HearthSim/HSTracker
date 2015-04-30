@@ -1,6 +1,14 @@
 class ImageCache
   class << self
 
+    # usefull if we need to force reloading of images
+    IMAGES_VERSION = 1
+
+    def need_download?
+      images_version = NSUserDefaults.standardUserDefaults.objectForKey 'image_version'
+      !dir_exists? or images_version.nil? or images_version.to_i < IMAGES_VERSION
+    end
+
     def dir_exists?
       File.exists? image_path(Configuration.hearthstone_locale)
     end
