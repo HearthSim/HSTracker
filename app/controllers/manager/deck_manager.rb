@@ -196,7 +196,12 @@ class DeckManager < NSWindowController
     @current_class = KClasses[@tabs.selectedSegment]
     @cards         = nil
 
-    @cards_view.reloadData
+    str = @search_field.stringValue
+    if str and !str.empty?
+      search_card(str)
+    else
+      @cards_view.reloadData
+    end
   end
 
   # tables stuff
@@ -359,14 +364,15 @@ class DeckManager < NSWindowController
         item.action  = 'donate:'
 
       when 'search'
-        item.label                        = 'Search'
-        view                              = NSSearchField.alloc.initWithFrame(NSZeroRect)
-        view.target                       = self
-        view.action                       = 'search:'
-        view.cell.cancelButtonCell.target = self
-        view.cell.cancelButtonCell.action = 'cancel_search:'
-        view.frame                        = [[0, 0], [200, 0]]
-        item.view                         = view
+        item.label = 'Search'
+
+        @search_field                              = NSSearchField.alloc.initWithFrame(NSZeroRect)
+        @search_field.target                       = self
+        @search_field.action                       = 'search:'
+        @search_field.cell.cancelButtonCell.target = self
+        @search_field.cell.cancelButtonCell.action = 'cancel_search:'
+        @search_field.frame                        = [[0, 0], [200, 0]]
+        item.view                                  = @search_field
     end
     item
   end
@@ -590,6 +596,10 @@ class DeckManager < NSWindowController
   def search(sender)
     str = sender.stringValue
 
+    search_card(str)
+  end
+
+  def search_card(str)
     class_name = @current_class == 'Neutral' ? nil : @current_class
 
     @cards = Card.per_lang.playable
