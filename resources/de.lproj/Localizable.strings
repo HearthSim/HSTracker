@@ -44,19 +44,19 @@
 "Language change" = "Language change";
 "You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
 "Card size" = "Card size";
-"Big" = "Big";
-"Medium" = "Medium";
-"Small" = "Small";
-"Colors" = "Colors";
+"Big" = "groß";
+"Medium" = "mittel";
+"Small" = "kleinl";
+"Colors" = "Farben";
 "Draw / Count color" = "Draw / Count color";
 "Draw / Count border color" = "Draw / Count border color";
 "Card count / Draw chance" = "Card count / Draw chance";
-"Hidden" = "Hidden";
-"On trackers" = "On trackers";
-"Detached windows" = "Detached windows";
+"Hidden" = "versteckt";
+"On trackers" = "Auf Trackers";
+"Detached windows" = "gelöste Fenster";
 "Player Card Count" = "Player Card Count";
 "Opponent Card Count" = "Opponent Card Count";
-"Show stolen cards" = "Show stolen cards";
+"Show stolen cards" = "zeige geklaute Karten";
 "Show card on hover" = "Show card on hover";
 
 /* classes */
@@ -109,8 +109,8 @@
 "Deck : " = "Deck : ";
 "Draw : " = "Draw : ";
 
-"Player" = "Player";
-"Opponent" = "Opponent";
+"Player" = "Spieler";
+"Opponent" = "Gegener";
 
 "You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
 "Cards images are not found. Please confirm the Hearthstone language then click OK to download them." = "Cards images are not found.\nPlease confirm the Hearthstone language then click OK to download them.";
