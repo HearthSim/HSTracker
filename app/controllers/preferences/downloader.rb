@@ -19,6 +19,8 @@ class Downloader < NSWindowController
     cards.each do |card|
       card_ids << { :id => card.card_id, :name => card.name }
     end
+    card = Card.by_id 'GAME_005'
+    card_ids << { :id => card.card_id, :name => card.name }
 
     langs = %w(deDE enUS esES frFR ptBR ruRU)
 
