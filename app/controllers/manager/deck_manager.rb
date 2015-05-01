@@ -248,8 +248,8 @@ class DeckManager < NSWindowController
 
       card_count              = @decks_or_cards.count_cards
       @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
-      @curves.cards = @decks_or_cards if @curves
-      @saved = false
+      @curves.cards           = @decks_or_cards if @curves
+      @saved                  = false
       @table_view.reloadData
     end
   end
@@ -286,9 +286,26 @@ class DeckManager < NSWindowController
         item.toolTip = 'Import'._
         image        = 'import'.nsimage
         image.setTemplate true
-        item.image  = image
-        item.target = self
-        item.action = 'import_deck:'
+
+        menu            = NSMenu.alloc.initWithTitle identifier
+        menu_item       = NSMenuItem.alloc.initWithTitle('', action: nil, keyEquivalent: '')
+        menu_item.image = image
+        menu.addItem menu_item
+
+        menu_item            = NSMenuItem.alloc.initWithTitle('From Web'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item.identifier = 'web'
+        menu.addItem menu_item
+
+        menu_item            = NSMenuItem.alloc.initWithTitle('From File'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item.identifier = 'file'
+        menu.addItem menu_item
+
+        popup                    = NSPopUpButton.alloc.initWithFrame [[0, 0], [50, 32]]
+        popup.cell.arrowPosition = NSPopUpNoArrow
+        popup.bordered           = false
+        popup.pullsDown          = true
+        popup.menu               = menu
+        item.view                = popup
 
       when 'new', 'arena'
         label  = (identifier == 'new') ? 'New'._ : 'Arena Deck'._
@@ -380,7 +397,7 @@ class DeckManager < NSWindowController
   end
 
   # actions
-  def import_deck(_)
+  def import_deck(sender)
     if @in_edition and !@saved
       NSAlert.alert('Error'._,
                     :buttons     => ['OK'._],
@@ -392,16 +409,37 @@ class DeckManager < NSWindowController
       return
     end
 
-    @import = DeckImport.alloc.init
-    @import.on_deck_loaded do |cards, clazz, name, arena|
-      Log.debug "#{clazz} / #{name} / #{arena}"
+    if sender.identifier == 'web'
+      @import = DeckImport.alloc.init
 
-      if cards
-        @saved = false
-        show_deck(cards, clazz, name, arena)
+      @import.on_deck_loaded do |cards, clazz, name, arena|
+        Log.debug "#{clazz} / #{name} / #{arena}"
+
+        if cards
+          @saved = false
+          show_deck(cards, clazz, name, arena)
+        end
+      end
+      self.window.beginSheet(@import.window, completionHandler: nil)
+    else
+      panel                         = NSOpenPanel.openPanel
+      panel.canChooseFiles          = true
+      panel.canChooseDirectories    = false
+      panel.allowsMultipleSelection = false
+      panel.allowedFileTypes = ['txt']
+
+      if panel.runModal == NSFileHandlingPanelOKButton
+        filename = panel.filenames.first
+        Importer.import_from_file(filename) do |cards, clazz, name, arena|
+          Log.debug "#{clazz} / #{name} / #{arena}"
+
+          if cards
+            @saved = false
+            show_deck(cards, clazz, name, arena)
+          end
+        end
       end
     end
-    self.window.beginSheet(@import.window, completionHandler: nil)
   end
 
   def play_deck(_)

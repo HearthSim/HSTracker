@@ -119,3 +119,6 @@
 "Download images" = "Download images";
 "Missing images" = "Missing images";
 "Some images are missing, force a download from HSTracker menu -> Download images" = "Some images are missing, force a download from HSTracker menu -> Download images";
+
+"From Web" = "From Web";
+"From File" = "From File";

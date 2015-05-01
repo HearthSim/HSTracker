@@ -118,3 +118,6 @@
 "Download images" = "Téléchargement des images";
 "Missing images" = "Images manquantes";
 "Some images are missing, force a download from HSTracker menu -> Download images" = "Certaines images sont manquantes, forcez un téléchargement depuis le menu HSTracker -> Téléchargement des images";
+
+"From Web" = "From Web";
+"From File" = "From File";

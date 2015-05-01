@@ -57,6 +57,64 @@ class Importer
       end
     end
 
+    def import_from_file(filename, &block)
+      Log.verbose "Import file : #{filename}"
+
+      locale = Configuration.hearthstone_locale
+      arena = false
+      clazz = nil
+      cards = []
+      title = File.basename(filename)
+
+      File.readlines(filename).each do |line|
+
+        # match "2xMirror Image" as well as "2 Mirror Image" or "2 GVG_002"
+        if (match = /(\d)(\s|x)?([\w\s'\.:!-]+)/.match(line))
+          count = match[1].to_i
+          if count > 2
+            arena = true
+          end
+
+          card_name = match[3].strip
+          Log.verbose "Searching for #{card_name}"
+
+          # let's try by english name
+          card = Card.by_english_name card_name
+
+          # give a try to user locale
+          unless card
+            card = Card.by_name_and_locale card_name, locale
+          end
+
+          # finally, give a try to card_id
+          unless card
+            card = Card.by_id card_name
+          end
+
+          unless card
+            next
+          end
+
+          if !card.player_class.nil? and clazz.nil?
+            clazz = card.player_class
+            Log.verbose "Found class as #{clazz}"
+          end
+
+          Log.verbose "Adding card #{card.name}"
+          card.count = count
+          cards << card
+        end
+      end
+
+      if cards.count.zero?
+        block.call(nil, nil, nil, nil) if block
+        return
+      end
+
+      cards.sort_cards!
+      block.call(cards, clazz, title, arena) if block
+    end
+
     def netdeck(&block)
       pasteboard = NSPasteboard.generalPasteboard
       paste      = pasteboard.stringForType NSPasteboardTypeString

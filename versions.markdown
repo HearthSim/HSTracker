@@ -1,5 +1,6 @@
 #### 0.10
 - *New*: Display mana curve on the deck manager
+- *New*: Import decks from txt files. The deck must have the following format : "2 Mirror Image" or "2xMirror Image" or "2 CS2_027". You can also have the card name if your hearthstone locale. Caution, make sure to have only one card per line.
 
 #### 0.9
 - Better font for asian languages
