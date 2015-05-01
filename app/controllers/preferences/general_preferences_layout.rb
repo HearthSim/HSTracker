@@ -93,17 +93,7 @@ class GeneralPreferencesLayout < PreferencesLayout
               end
             }
         },
-        :reset_on_end       => {
-            :type    => NSButton,
-            :title   => 'Reset trackers on game end'._,
-            :init    => -> (elem) {
-              elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.reset_on_end ? NSOnState : NSOffState)
-            },
-            :changed => -> (elem) {
-              Configuration.reset_on_end = (elem.state == NSOnState)
-            }
-        }
+        :reset_on_end       => 'Reset trackers on game end'._
     }
   end
 
