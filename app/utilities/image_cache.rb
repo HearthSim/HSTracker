@@ -29,6 +29,10 @@ class ImageCache
       image_named "small/#{image}.png"
     end
 
+    def asset(asset)
+      image_named "assets/#{asset}.png"
+    end
+
     def frame_image
       image_named 'frames/frame.png'
     end

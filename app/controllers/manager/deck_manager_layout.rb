@@ -84,6 +84,14 @@ class DeckManagerLayout < MK::WindowLayout
         constraints do
           width.equals(:superview)
           top.equals(:infos, :bottom)
+          bottom.equals(:curve_view, :top)
+        end
+      end
+
+      add NSView, :curve_view do
+        constraints do
+          width.equals(:superview)
+          height.is 150
           bottom.is 0
         end
       end
