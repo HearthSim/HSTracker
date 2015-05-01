@@ -7,7 +7,7 @@ class InterfacePreferencesLayout < PreferencesLayout
   }
 
   def frame_size
-    [[0, 0], [300, 300]]
+    [[0, 0], [300, 320]]
   end
 
   def options
@@ -54,7 +54,8 @@ class InterfacePreferencesLayout < PreferencesLayout
                 end
               end
             }
-        }
+        },
+        :in_hand_as_played => 'Consider in-hand as played'._
     }
   end
 
