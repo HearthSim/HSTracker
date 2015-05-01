@@ -61,6 +61,10 @@ class ImageCache
       image_named 'frames/frame_legendary.png'
     end
 
+    def button
+      image_named 'frames/button.png'
+    end
+
     def image_path(lang)
       "be.michotte.hstracker/cards/#{lang}".app_support_path
     end

@@ -12,8 +12,6 @@ class DeckManager < NSWindowController
 
   attr_accessor :player_view
 
-  Log = Motion::Log
-
   def init
     super.tap do
       @layout              = DeckManagerLayout.new
@@ -76,6 +74,26 @@ class DeckManager < NSWindowController
       @card_count = @layout.get(:card_count)
       @curve_view = @layout.get(:curve_view)
     end
+  end
+
+  def import(data)
+    return if data.nil?
+
+    ignore_cards = [
+        'GAME_005'
+    ]
+
+    @saved = false
+    cards = []
+    data[:cards].each do |card|
+      next if ignore_cards.include? card.card_id or !card.collectible
+
+      r_card = Card.by_id card.card_id
+      r_card.count = card.count
+      cards << r_card
+    end
+
+    show_deck(cards, data[:class])
   end
 
   def check_is_saved_on_close

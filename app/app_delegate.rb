@@ -75,6 +75,10 @@ class AppDelegate
         end
       end
 
+      NSNotificationCenter.defaultCenter.observe 'open_deck_manager' do |notif|
+        open_deck_manager notif.userInfo
+      end
+
       if ImageCache.need_download?
         ask_download_images(nil)
       end
@@ -112,10 +116,14 @@ class AppDelegate
     end
   end
 
-  def open_deck_manager(_)
+  def open_deck_manager(data)
     # change windows level
     @player.set_level NSNormalWindowLevel
     @opponent.set_level NSNormalWindowLevel
+
+    if data.is_a? Hash
+      deck_manager.import(data)
+    end
 
     deck_manager.showWindow(nil)
     deck_manager.player_view = @player

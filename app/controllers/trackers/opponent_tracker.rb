@@ -22,11 +22,15 @@ class OpponentTracker < Tracker
 
       @cards      = []
       @count_text = ''
+      @game_ended = false
 
       @table_view = @layout.get(:table_view)
       @table_view.setHeaderView nil
       @table_view.delegate   = self
       @table_view.dataSource = self
+
+      @table_view.setAction 'clicked:'
+      @table_view.setTarget self
 
       if Configuration.hand_count_window == :window
         @count_window = CardCountHud.alloc.initWithPlayer(:opponent)
@@ -35,9 +39,24 @@ class OpponentTracker < Tracker
     end
   end
 
+  def clicked(_)
+    return if !@game_ended or @table_view.clickedRow != 0
+
+    NSNotificationCenter.defaultCenter.post('open_deck_manager',
+                                            nil,
+                                            {
+                                                :cards => @cards,
+                                                :class => @hero.player_class
+                                            })
+  end
+
   ## table datasource
   def numberOfRowsInTableView(_)
     count = @cards.count
+
+    if @game_ended
+      count += 1
+    end
 
     if Configuration.hand_count_window == :tracker
       count += 1
@@ -48,21 +67,36 @@ class OpponentTracker < Tracker
 
   ## table delegate
   def tableView(tableView, viewForTableColumn: tableColumn, row: row)
-    card = @cards[row]
+    cell = nil
 
-    if card
-      @cells ||= {}
-      cell   = @cells[card.card_id] if @cells[card.card_id]
+    if @game_ended
+      if row == 0
+        cell          = ButtonCellView.new
+        cell.delegate = self
+        cell.setNeedsDisplay true
+      end
+    end
 
-      cell          ||= CardCellView.new
-      cell.card     = card
-      cell.side     = :opponent
-      cell.delegate = self
+    if cell.nil?
+      if @game_ended
+        row -= 1
+      end
+      card = @cards[row]
 
-      @cells[card.card_id] = cell
-    else
-      cell      = CountTextCellView.new
-      cell.text = @count_text
+      if card
+        @cells ||= {}
+        cell   = @cells[card.card_id] if @cells[card.card_id]
+
+        cell          ||= CardCellView.new
+        cell.card     = card
+        cell.side     = :opponent
+        cell.delegate = self
+
+        @cells[card.card_id] = cell
+      else
+        cell      = CountTextCellView.new
+        cell.text = @count_text
+      end
     end
 
     cell
@@ -75,13 +109,17 @@ class OpponentTracker < Tracker
 
   # game events
   def game_end
+    @game_ended = true
     if Configuration.reset_on_end
       @count_text = nil
       game_start
+    else
+      @table_view.reloadData
     end
   end
 
   def game_start
+    @game_ended = false
     Log.verbose 'Opponent reset card'
     @cards = []
 
@@ -97,9 +135,9 @@ class OpponentTracker < Tracker
   end
 
   def set_hero(hero_id)
-    hero = Card.hero(hero_id)
-    if hero and !Configuration.fixed_window_names
-      self.window.setTitle hero.player_class._
+    @hero = Card.hero(hero_id)
+    if @hero and !Configuration.fixed_window_names
+      self.window.setTitle @hero.player_class._
     end
   end
 
@@ -239,15 +277,18 @@ class OpponentTracker < Tracker
   end
 
   def tableView(tableView, heightOfRow: row)
-    if Configuration.hand_count_window == :tracker and row >= @cards.count
-      case Configuration.card_layout
-        when :small
-          ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
-        when :medium
-          ratio = TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
-        else
-          ratio = 1.0
-      end
+    case Configuration.card_layout
+      when :small
+        ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
+      when :medium
+        ratio = TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
+      else
+        ratio = 1.0
+    end
+
+    if @game_end and row == 0
+      35.0 / ratio
+    elsif Configuration.hand_count_window == :tracker and numberOfRowsInTableView(@table_view) - 1 == row
       50.0 / ratio
     else
       case Configuration.card_layout
