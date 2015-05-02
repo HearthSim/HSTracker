@@ -406,10 +406,6 @@ class LogObserver
     controller = @entities[id].tag(GameTag::CONTROLLER).to_i
     card_id    = @entities[id].card_id
 
-    if card_id == 'GVG_035' or card_id == 'CS2_147' or card_id == 'BRM_007'
-      #Log.verbose "tag : #{GameTag.values.key(tag)}, prev_zone : #{Zone.values.key(prev_zone)}, value : #{Zone.values.key(value)}"
-    end
-
     if tag == GameTag::ZONE
       if (value == Zone::HAND || (value == Zone::PLAY) && is_mulligan_done) && @wait_controller.nil?
         unless is_mulligan_done
