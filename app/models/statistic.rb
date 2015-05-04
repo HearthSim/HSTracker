@@ -1,0 +1,2 @@
+class Statistic < CDQManagedObject
+end

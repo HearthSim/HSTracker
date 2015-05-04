@@ -45,6 +45,7 @@ class DeckManager < NSWindowController
       @table_view    = @layout.get(:table_view)
       @table_view.setHeaderView nil
       @table_view.doubleAction = 'double_click:'
+      @table_view.action       = 'click:'
       @table_view.delegate     = self
       @table_view.dataSource   = self
 
@@ -84,11 +85,11 @@ class DeckManager < NSWindowController
     ]
 
     @saved = false
-    cards = []
+    cards  = []
     data[:cards].each do |card|
       next if ignore_cards.include? card.card_id or !card.collectible
 
-      r_card = Card.by_id card.card_id
+      r_card       = Card.by_id card.card_id
       r_card.count = card.count
       cards << r_card
     end
@@ -114,7 +115,7 @@ class DeckManager < NSWindowController
 
   def show_decks
     @decks_or_cards = []
-    Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
+    Deck.active.all.sort_by(:name, :case_insensitive => true).each do |deck|
       @decks_or_cards << deck
     end
 
@@ -252,7 +253,15 @@ class DeckManager < NSWindowController
     false
   end
 
-  def double_click(cell)
+  def click(_)
+    deck_or_card = @decks_or_cards[@table_view.clickedRow]
+
+    if deck_or_card.is_a? Deck
+      show_deck_stats(deck_or_card)
+    end
+  end
+
+  def double_click(_)
     deck_or_card = @decks_or_cards[@table_view.clickedRow]
 
     if deck_or_card.is_a? Deck
@@ -444,7 +453,7 @@ class DeckManager < NSWindowController
       panel.canChooseFiles          = true
       panel.canChooseDirectories    = false
       panel.allowsMultipleSelection = false
-      panel.allowedFileTypes = ['txt']
+      panel.allowedFileTypes        = ['txt']
 
       if panel.runModal == NSFileHandlingPanelOKButton
         filename = panel.filenames.first
@@ -474,6 +483,7 @@ class DeckManager < NSWindowController
     end
 
     player_view.show_deck(@decks_or_cards, @deck_name) if player_view
+    Game.instance.with_deck(@current_deck)
   end
 
   def show_deck(deck, clazz=nil, name=nil, arena=false)
@@ -512,7 +522,19 @@ class DeckManager < NSWindowController
     show_curve
   end
 
+  def show_deck_stats(deck)
+    @curve_view.subviews = []
+
+    unless @deck_stats
+      @deck_stats = DeckStatsView.new
+    end
+    @deck_stats.frame = @curve_view.bounds
+    @curve_view << @deck_stats
+    @deck_stats.deck = deck
+  end
+
   def show_curve
+    @curve_view.subviews = []
     unless @curves
       @curves = CurveView.new
     end
@@ -600,24 +622,54 @@ class DeckManager < NSWindowController
       deck_name_input.stringValue = @deck_name
     end
 
+    buttons = ['Save'._, 'Cancel'._]
+    unless @current_deck.nil?
+      buttons = ['Save'._, 'New version'._, 'Cancel'._]
+    end
+
     response = NSAlert.alert('Deck name'._,
-                             :buttons => ['OK'._, 'Cancel'._],
+                             :buttons => buttons,
                              :view    => deck_name_input
     )
 
-    if response == NSAlertSecondButtonReturn
+    if response == NSAlertThirdButtonReturn
       return
     end
 
     deck_name_input.validateEditing
     deck_name = deck_name_input.stringValue
 
-    if @current_deck.nil?
-      @current_deck = Deck.create(:player_class => @deck_class)
-    end
+    if response == NSAlertFirstButtonReturn
+      if @current_deck.nil?
+        @current_deck = Deck.create(
+            :player_class => @deck_class,
+            :version      => 0,
+            :is_active    => true)
+      elsif @current_deck.version.nil?
+        # update the old deck to new system
+        @current_deck.version   = 0
+        @current_deck.is_active = true
+      end
+      @current_deck.arena = @current_deck_mode == :arena
+      @current_deck.name  = deck_name
 
-    @current_deck.arena = @current_deck_mode == :arena
-    @current_deck.name  = deck_name
+    else
+      @current_deck.is_active = false
+      if @current_deck.version.nil?
+        # update the old deck to new system
+        @current_deck.version = 0
+      end
+
+      new_deck      = Deck.create(
+          :player_class => @deck_class,
+          :version      => @current_deck.version + 1,
+          :is_active    => true,
+          :arena        => @current_deck.arena,
+          :name         => deck_name,
+          :deck         => @current_deck
+      )
+      @current_deck = new_deck
+    end
 
     @current_deck.cards.each do |c|
       c.destroy

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="0004 stats" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+  <entity name="DeckCard" syncable="YES" representedClassName="DeckCard">
+    <attribute optional="YES" syncable="YES" attributeType="String" name="card_id"/>
+    <attribute optional="YES" syncable="YES" attributeType="Integer 64" name="count" defaultValueString="0"/>
+    <relationship optional="YES" deletionRule="Nullify" syncable="YES" name="deck" inverseEntity="Deck" destinationEntity="Deck" inverseName="cards" maxCount="1"/>
+  </entity>
+  <entity name="Deck" syncable="YES" representedClassName="Deck">
+    <attribute optional="YES" syncable="YES" attributeType="String" name="name"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="player_class"/>
+    <attribute optional="YES" syncable="YES" attributeType="Boolean" name="arena" defaultValueString="NO"/>
+    <attribute optional="YES" syncable="YES" attributeType="Integer 64" name="version" defaultValueString="0"/>
+    <attribute optional="YES" syncable="YES" attributeType="Boolean" name="is_active" defaultValueString="YES"/>
+    <relationship optional="YES" deletionRule="Nullify" syncable="YES" name="deck" inverseEntity="Deck" destinationEntity="Deck" inverseName="deck" maxCount="1" minCount="0"/>
+    <relationship optional="YES" deletionRule="Nullify" syncable="YES" name="cards" inverseEntity="DeckCard" destinationEntity="DeckCard" inverseName="deck" toMany="YES"/>
+    <relationship optional="YES" deletionRule="Nullify" syncable="YES" name="statistics" inverseEntity="Statistic" destinationEntity="Statistic" inverseName="deck" toMany="YES"/>
+  </entity>
+  <entity name="Statistic" syncable="YES" representedClassName="Statistic">
+    <attribute optional="YES" syncable="YES" attributeType="String" name="opponent_class"/>
+    <attribute optional="YES" syncable="YES" attributeType="Boolean" name="win"/>
+    <relationship optional="YES" deletionRule="Nullify" syncable="YES" name="deck" inverseEntity="Deck" destinationEntity="Deck" inverseName="statistics" maxCount="1"/>
+  </entity>
+  <entity name="Mechanic" syncable="YES" representedClassName="Mechanic">
+    <attribute optional="YES" syncable="YES" attributeType="String" name="value"/>
+    <relationship optional="YES" deletionRule="Nullify" syncable="YES" name="cards" inverseEntity="Card" destinationEntity="Card" inverseName="mechanics" toMany="YES"/>
+  </entity>
+  <entity name="Card" syncable="YES" representedClassName="Card">
+    <attribute optional="YES" syncable="YES" attributeType="Integer 64" name="cost" defaultValueString="0"/>
+    <attribute optional="YES" syncable="YES" attributeType="Integer 64" name="health" defaultValueString="0"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="flavor"/>
+    <attribute optional="YES" syncable="YES" attributeType="Boolean" name="collectible"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="how_to_get"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="artist"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="card_id"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="player_class"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="rarity"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="name"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="text"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="card_type"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="faction"/>
+    <attribute optional="YES" syncable="YES" attributeType="String" name="lang"/>
+    <relationship optional="YES" deletionRule="Nullify" syncable="YES" name="mechanics" inverseEntity="Mechanic" destinationEntity="Mechanic" inverseName="cards" toMany="YES"/>
+  </entity>
+</model>

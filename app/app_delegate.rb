@@ -158,6 +158,7 @@ class AppDelegate
   def open_deck(menu_item)
     deck = Deck.by_name(menu_item.title)
     @player.show_deck(deck.playable_cards, deck.name)
+    Game.instance.with_deck(deck)
   end
 
   # reset the trackers

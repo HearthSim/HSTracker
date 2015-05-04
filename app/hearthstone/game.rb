@@ -1,4 +1,5 @@
 class Game
+  include CDQ
 
   Log = Motion::Log
 
@@ -9,12 +10,45 @@ class Game
     @instance
   end
 
+  def with_deck(current_deck)
+    @current_deck = current_deck
+  end
+
+  def save_stats
+    return if @game_saved or @game_result_win.nil? or @current_deck.nil? or @current_opponent.nil? or @game_mode != :ranked
+    Log.verbose "stats : #{@game_result_win}, against : #{@current_opponent.player_class}, with deck : #{@current_deck.name}"
+
+    Statistic.create :opponent_class => @current_opponent.player_class,
+                     :win            => (@game_result_win == :win),
+                     :deck           => @current_deck
+    cdq.save
+    @game_saved = true
+  end
+
   ## game events
+
+  def game_mode(game_mode)
+    Log.debug "Player in game mode #{game_mode}"
+    @game_mode = game_mode
+
+    save_stats
+  end
+
+  def player_rank(rank)
+    Log.debug "You are rank #{rank}"
+    @current_rank = rank
+
+    save_stats
+  end
 
   def game_start
     Log.debug '----- Game Started -----'
     player_tracker.game_start
     opponent_tracker.game_start
+
+    @game_saved = false
+    @game_result_win  = nil
+    @current_opponent = nil
   end
 
   def concede
@@ -23,10 +57,12 @@ class Game
 
   def win
     Log.debug 'You win ¯\_(ツ)_/¯'
+    @game_result_win = :win
   end
 
   def loss
     Log.debug 'You loose :('
+    @game_result_win = :loss
   end
 
   def tied
@@ -35,6 +71,8 @@ class Game
 
   def game_end
     Log.debug '----- Game End -----'
+    save_stats
+
     player_tracker.game_end
     opponent_tracker.game_end
   end
@@ -140,12 +178,12 @@ class Game
   end
 
   def opponent_hero(hero_id)
-    hero = Card.hero(hero_id)
-    if  hero
-      hero = hero.name
+    @current_opponent = Card.hero(hero_id)
+    if @current_opponent
+      hero = @current_opponent.name
+      log(:opponent, "hero is #{hero_id} (#{hero})")
+      opponent_tracker.set_hero(hero_id)
     end
-    log(:opponent, "hero is #{hero_id} (#{hero})")
-    opponent_tracker.set_hero(hero_id)
   end
 
   def opponent_draw(turn)

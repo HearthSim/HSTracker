@@ -203,13 +203,10 @@ class CardCellView < NSTableCellView
   end
 
   def mouseEntered(_)
-    return if card.count.zero?
-
     self.delegate.hover(self) if self.delegate
   end
 
   def mouseExited(_)
-    return if card.count.zero?
     self.delegate.out(self) if self.delegate
   end
 
