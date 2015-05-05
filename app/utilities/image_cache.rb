@@ -65,6 +65,10 @@ class ImageCache
       image_named 'frames/button.png'
     end
 
+    def hero(clazz)
+      image_named "heroes/#{clazz.downcase}_small.png"
+    end
+
     def image_path(lang)
       "be.michotte.hstracker/cards/#{lang}".app_support_path
     end

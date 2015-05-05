@@ -8,8 +8,6 @@ class DeckManager < NSWindowController
       :constructed => 2
   }
 
-  KClasses = %w(Shaman Hunter Warlock Druid Warrior Mage Paladin Priest Rogue Neutral)
-
   attr_accessor :player_view
 
   def init
@@ -32,14 +30,14 @@ class DeckManager < NSWindowController
       @tabs = @layout.get(:tabs)
       @tabs.setAction 'tab_changed:'
       @tabs.setTarget self
-      @tabs.setSegmentCount KClasses.size
+      @tabs.setSegmentCount ClassesData::KClasses.size
 
-      KClasses.each_with_index do |clazz, idx|
+      ClassesData::KClasses.each_with_index do |clazz, idx|
         @tabs.setLabel(clazz._, forSegment: idx)
       end
 
       @tabs.setSelected(true, forSegment: 0)
-      @current_class = KClasses[0]
+      @current_class = ClassesData::KClasses[0]
 
       # init table
       @table_view    = @layout.get(:table_view)
@@ -74,6 +72,10 @@ class DeckManager < NSWindowController
 
       @card_count = @layout.get(:card_count)
       @curve_view = @layout.get(:curve_view)
+
+      @show_stats = @layout.get(:show_stats)
+      @show_stats.setTarget self
+      @show_stats.setAction 'show_stats:'
     end
   end
 
@@ -119,7 +121,7 @@ class DeckManager < NSWindowController
       @decks_or_cards << deck
     end
 
-    KClasses.each_with_index do |_, index|
+    ClassesData::KClasses.each_with_index do |_, index|
       @tabs.setEnabled(true, forSegment: index)
     end if @tabs
   end
@@ -214,7 +216,7 @@ class DeckManager < NSWindowController
 
   # nssegmentedcontrol
   def tab_changed(_)
-    @current_class = KClasses[@tabs.selectedSegment]
+    @current_class = ClassesData::KClasses[@tabs.selectedSegment]
     @cards         = nil
 
     str = @search_field.stringValue
@@ -344,7 +346,7 @@ class DeckManager < NSWindowController
         menu_item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
         menu.addItem menu_item
 
-        classes = KClasses[0...-1]
+        classes = ClassesData::KClasses[0...-1]
         classes.each do |clazz|
           menu_item            = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
           menu_item.identifier = clazz
@@ -488,6 +490,7 @@ class DeckManager < NSWindowController
 
   def show_deck(deck, clazz=nil, name=nil, arena=false)
     @in_edition = true
+    @show_stats.enabled = true
 
     if deck.is_a? Deck
       @current_deck = deck
@@ -505,8 +508,8 @@ class DeckManager < NSWindowController
     end
     @current_class = @deck_class
 
-    selected_class = KClasses.index(@current_class)
-    KClasses.each_with_index do |claz, index|
+    selected_class = ClassesData::KClasses.index(@current_class)
+    ClassesData::KClasses.each_with_index do |claz, index|
       enabled = selected_class == index || claz == 'Neutral'
       @tabs.setEnabled(enabled, forSegment: index)
       @tabs.setSelected(selected_class == index, forSegment: index)
@@ -564,8 +567,8 @@ class DeckManager < NSWindowController
 
     @card_count.stringValue = "0 / #{@max_cards_in_deck}"
 
-    selected_class = KClasses.index(@current_class)
-    KClasses.each_with_index do |claz, index|
+    selected_class = ClassesData::KClasses.index(@current_class)
+    ClassesData::KClasses.each_with_index do |claz, index|
       enabled = selected_class == index || claz == 'Neutral'
       @tabs.setEnabled(enabled, forSegment: index)
       @tabs.setSelected(selected_class == index, forSegment: index)
@@ -716,6 +719,7 @@ class DeckManager < NSWindowController
       @table_view.reloadData
 
       @curve_view.subviews = []
+      @show_stats.enabled = false
     end
   end
 
@@ -784,6 +788,17 @@ class DeckManager < NSWindowController
 
   def donate(_)
     NSWorkspace.sharedWorkspace.openURL 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted'.nsurl
+  end
+
+  def show_stats(_)
+    @stats_panel ||= StatisticPanel.new
+    @stats_panel.deck = @current_deck
+
+    NSApp.beginSheet(@stats_panel.window,
+                     modalForWindow: self.window,
+                     modalDelegate:  nil,
+                     didEndSelector: nil,
+                     contextInfo:    nil)
   end
 
 end
