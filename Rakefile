@@ -38,7 +38,6 @@ Motion::Project::App.setup do |app|
     pod 'GDataXML-HTML'
     pod 'MASPreferences'
     pod 'JNWCollectionView'
-    pod 'CorePlot'
   end
 end
 task :run => :'schema:build'

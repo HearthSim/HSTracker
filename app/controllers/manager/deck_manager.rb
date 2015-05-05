@@ -296,15 +296,15 @@ class DeckManager < NSWindowController
     end
   end
 
-  def toolbarAllowedItemIdentifiers(toolbar)
-    ['new', 'arena', 'import', 'save', 'search', 'close', 'delete', 'play', 'export', 'donate',
+  def toolbarAllowedItemIdentifiers(_)
+    ['new', 'arena', 'import', 'save', 'search', 'close', 'delete', 'play', 'export', 'donate', 'twitter',
      NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier]
   end
 
-  def toolbarDefaultItemIdentifiers(toolbar)
+  def toolbarDefaultItemIdentifiers(_)
     ['new', 'arena', 'import', NSToolbarSeparatorItemIdentifier,
      'save', 'delete', 'close', 'play', 'export',
-     NSToolbarFlexibleSpaceItemIdentifier, 'search', 'donate']
+     NSToolbarFlexibleSpaceItemIdentifier, 'search', 'donate', 'twitter']
   end
 
   def toolbar(toolbar, itemForItemIdentifier: identifier, willBeInsertedIntoToolbar: flag)
@@ -410,6 +410,14 @@ class DeckManager < NSWindowController
         item.image   = image
         item.target  = self
         item.action  = 'donate:'
+
+      when 'twitter'
+        item.label   = 'Twitter'
+        item.toolTip = 'Twitter'
+        image        = 'twitter'.nsimage
+        item.image   = image
+        item.target  = self
+        item.action  = 'twitter:'
 
       when 'search'
         item.label = 'Search'
@@ -788,6 +796,10 @@ class DeckManager < NSWindowController
 
   def donate(_)
     NSWorkspace.sharedWorkspace.openURL 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted'.nsurl
+  end
+
+  def twitter(_)
+    NSWorkspace.sharedWorkspace.openURL 'https://twitter.com/hstracker_mac'.nsurl
   end
 
   def show_stats(_)
