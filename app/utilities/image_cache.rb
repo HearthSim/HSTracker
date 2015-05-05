@@ -6,7 +6,22 @@ class ImageCache
 
     def need_download?
       images_version = NSUserDefaults.standardUserDefaults.objectForKey 'image_version'
-      !dir_exists? or images_version.nil? or images_version.to_i < ImageCache::IMAGES_VERSION
+      return true unless dir_exists?
+      return true if images_version.nil? or images_version.to_i < ImageCache::IMAGES_VERSION
+
+      return_value = false
+      path = image_path(Configuration.hearthstone_locale)
+      Dir.glob(File.join(path, '*.png')).each do |file|
+        size = File.size(file)
+
+        # all files are ± 80K, check if images are less than 40K to be sure
+        if size < 40960
+          return_value = true
+          File.delete(file)
+        end
+      end
+
+      return_value
     end
 
     def dir_exists?
