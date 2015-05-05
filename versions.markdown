@@ -1,8 +1,8 @@
 #### 0.10
 - *New*: Display mana curve on the deck manager
 - *New*: Import decks from txt files. The deck must have the following format : **2 Mirror Image** or **2xMirror Image** or **2 CS2_027**. You can also have the card name if your hearthstone locale. Caution, make sure to have only one card per line.
-- *New*: Add an option to don't display in-hand cards. As soon as you draw a card, HSTracker consider it is not anymore in your deck and fade or remove the card from tracker (if no more in deck).
-- *New*: Add a button at the end of a game to save your opponent's deck. Of course, it will only save the cards your opponent played.
+- *New*: Add an option to do not display in-hand cards. As soon as you draw a card, HSTracker consider it is not anymore in your deck and fade or remove the card from tracker, if no more in deck.
+- *New*: Add a button at the end of a game to save your opponent s deck. Of course, it will only save the cards your opponent played.
 - *New* __beta__: Deck now can have multiple versions. Also, win/loss statistics are now saved and displayed in the deck manager.
 - Correction of the arena tag from netdeck
 
