@@ -26,7 +26,7 @@ class MainMenu < MK::MenuLayout
       add 'Reset'._, action: 'reset:', key: 'r'
       add separator_item
 
-      Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
+      Deck.where(:is_active => true).or(:is_active).eq(nil).sort_by(:name, :case_insensitive => true).each do |deck|
         add deck.name, action: 'open_deck:'
       end
     end

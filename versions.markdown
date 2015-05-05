@@ -1,3 +1,6 @@
+#### 0.10.2
+- Fix duplicate deck on menu
+
 #### 0.10.1
 - Correct a crash in 0.10
 - Add Twitter link

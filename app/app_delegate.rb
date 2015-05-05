@@ -178,7 +178,7 @@ class AppDelegate
     deck_menu.submenu.addItem item
     deck_menu.submenu.addItem NSMenuItem.separatorItem
 
-    Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
+    Deck.where(:is_active => true).or(:is_active).eq(nil).sort_by(:name, :case_insensitive => true).each do |deck|
       item = NSMenuItem.alloc.initWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
       deck_menu.submenu.addItem item
     end
