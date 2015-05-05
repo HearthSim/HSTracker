@@ -112,15 +112,18 @@ class OpponentTracker < Tracker
     @game_ended = true
     if Configuration.reset_on_end
       @count_text = nil
-      game_start
+      reset
     else
       @table_view.reloadData
     end
   end
 
   def game_start
-    @game_ended = false
     Log.verbose 'Opponent reset card'
+    @game_ended = false
+  end
+
+  def reset
     @cards = []
 
     unless Configuration.fixed_window_names
@@ -132,6 +135,10 @@ class OpponentTracker < Tracker
     self.deck_count = 30
     display_count
     @table_view.reloadData
+
+    if Configuration.show_card_on_hover
+      @card_hover.close if @card_hover
+    end
   end
 
   def set_hero(hero_id)

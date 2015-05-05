@@ -104,6 +104,7 @@
 "Your deck don't have 30 cards, are you sure you want to continue ?" = "Votre deck ne contient pas 30 cartes, êtes-vous sur de vouloir continuer ?";
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Votre deck n'est pas sauvegardé, êtes-vous sur de vouloir continuer, vous perdrez vos modifications.";
 "Deck saved" = "Deck enregistré";
+"New version" = "Nouvelle version";
 
 "Hand : " = "Main : ";
 "Deck : " = "Deck : ";

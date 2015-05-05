@@ -104,6 +104,7 @@
 "Your deck don't have 30 cards, are you sure you want to continue ?" = "Ihr Deck besteht nicht aus 30 Karten, sind Sie sicher, dass Sie fortfahren möchten?";
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Ihr Deck ist nicht gesichert, sind Sie sicher, dass Sie fortfahren möchten, alle Änderungen gehen verloren.";
 "Deck saved" = "Deck gesichert";
+"New version" = "New version";
 
 "Hand : " = "Hand : ";
 "Deck : " = "Deck : ";

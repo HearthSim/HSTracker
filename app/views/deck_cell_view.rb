@@ -13,7 +13,7 @@ class DeckCellView < NSTableCellView
       image.drawInRect(rect)
 
       # draw the class image
-      image = NSImage.alloc.initWithContentsOfFile("#{absolute_path}/heroes/#{deck.player_class.downcase}_small.png")
+      image = ImageCache.hero(deck.player_class)
       image.drawInRect([[2, 2], [32, 32]])
 
       stroke_color = :black.nscolor

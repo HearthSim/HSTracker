@@ -286,34 +286,26 @@ class LogObserver
       end
 
     elsif line =~ /^\[Asset\]/
-      # game end
-      if (match = /\[Asset\].*Medal_Ranked_(\d+)/.match(line))
+      if (match = /Medal_Ranked_(\d+)/.match(line))
         rank = match[1].to_i
-        Log.debug "You are rank #{rank}"
+        Game.instance.player_rank(rank)
 
       elsif line =~ /name=rank_window/
         @game_mode = :ranked
-        Log.debug "Player in game mode #{@game_mode}"
+        Game.instance.game_mode(@game_mode)
       end
 
-    elsif (match = /\[Bob\] ---(\w+)---/.match(line))
-      # game mode
-      _game_mode = match[1]
+    elsif line.start_with?('[Bob] ---RegisterScreenPractice---')
+      Game.instance.game_mode(:practice)
 
-      case _game_mode
-        when 'RegisterScreenPractice'
-          @game_mode = :adventures
-        when 'RegisterScreenTourneys'
-          @game_mode = :casual
-        when 'RegisterScreenForge'
-          @game_mode = :arena
-        when 'RegisterScreenFriendly'
-          @game_mode = :friendly
-        else
-          Log.warn "unknown game mode #{_game_mode}"
-      end
+    elsif line.start_with?('[Bob] ---RegisterScreenTourneys---')
+      Game.instance.game_mode(:casual)
 
-      Log.debug "Player in game mode #{@game_mode}"
+    elsif line.start_with?('[Bob] ---RegisterScreenForge---')
+      Game.instance.game_mode(:arena)
+
+    elsif line.start_with?('[Bob] ---RegisterScreenFriendly---')
+      Game.instance.game_mode(:friendly)
 
     elsif line =~ /^\[Rachelle\]/
 
@@ -405,10 +397,6 @@ class LogObserver
 
     controller = @entities[id].tag(GameTag::CONTROLLER).to_i
     card_id    = @entities[id].card_id
-
-    if card_id == 'GVG_035' or card_id == 'CS2_147' or card_id == 'BRM_007'
-      #Log.verbose "tag : #{GameTag.values.key(tag)}, prev_zone : #{Zone.values.key(prev_zone)}, value : #{Zone.values.key(value)}"
-    end
 
     if tag == GameTag::ZONE
       if (value == Zone::HAND || (value == Zone::PLAY) && is_mulligan_done) && @wait_controller.nil?
@@ -526,7 +514,7 @@ class LogObserver
                 Game.instance.player_get(card_id, turn_number)
                 if @entities[id].has_tag?(GameTag::LINKEDCARD)
                   linked_card = @entities[id].tag(GameTag::LINKEDCARD)
-                  to_remove = @entities[linked_card]
+                  to_remove   = @entities[linked_card]
                   if to_remove and to_remove.is_in_zone?(Zone::HAND)
                     Game.instance.player_hand_discard(to_remove.card_id, turn_number)
                   end
