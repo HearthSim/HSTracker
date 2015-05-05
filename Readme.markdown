@@ -1,6 +1,7 @@
 # HSTracker
 
 HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for Mac OsX 10.8+.
+Don't forget to follow [@hstracker_mac](https://twitter.com/hstracker_mac) for updates / questions :)
 
 ### Deck Tracker
 ![Deck Tracker](https://github.com/bmichotte/HSTracker/blob/master/hstracker.jpg)
