@@ -121,6 +121,7 @@ class OpponentTracker < Tracker
   def game_start
     Log.verbose 'Opponent reset card'
     @game_ended = false
+    reset
   end
 
   def reset
