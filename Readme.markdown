@@ -8,8 +8,11 @@ HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for M
 ### Deck Manager
 ![Deck Manager](https://github.com/bmichotte/HSTracker/blob/master/manager.png)
 
-Is Blizzard okay with this?
+Is Blizzard okay with this ?
 [Yes](https://twitter.com/bdbrode/status/511151446038179840)
+
+Is it against the TOS ?
+[No](https://twitter.com/CM_Zeriyah/status/589171381381672960)
 
 ## Installation
 - Download the last version from [the releases page](https://github.com/bmichotte/HSTracker/releases)
@@ -22,7 +25,6 @@ Is Blizzard okay with this?
 [![Build Status](https://travis-ci.org/bmichotte/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
 
 ## TODO
-- statistics
 - translate in more languages
 - test ;) 
 
