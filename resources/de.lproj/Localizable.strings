@@ -5,6 +5,8 @@
 "Empty deck url" = "Keine Deck URL";
 "Import Deck" = "Deck importieren";
 "Deck URL" = "Deck URL";
+"You can import decks from %@" = "You can import decks from %@";
+' and ' = ' and ';
 "Import" = "Import";
 "Cancel" = "Abbrechen";
 "Loading" = "Laden";

@@ -2,7 +2,7 @@ class DeckImportLayout < MK::WindowLayout
 
   def layout
     frame_width  = 390
-    frame_height = 150
+    frame_height = 200
 
     frame [[0, 0], [frame_width, frame_height]]
     title 'Import Deck'._
@@ -22,9 +22,22 @@ class DeckImportLayout < MK::WindowLayout
       end
     end
 
-    add NSTextField, :deck_id do
+    add NSTextField, :deck_label_info do
+      stringValue Importer.supported_sites
+      editable false
+      bezeled false
+      draws_background false
+
       constraints do
         top.equals(:deck_label, :bottom).plus(10)
+        left.equals(:superview).plus(20)
+        right.equals(:superview).minus(20)
+      end
+    end
+
+    add NSTextField, :deck_id do
+      constraints do
+        top.equals(:deck_label_info, :bottom).plus(10)
         left.equals(:superview).plus(20)
         right.equals(:superview).minus(20)
       end
