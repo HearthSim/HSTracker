@@ -27,6 +27,11 @@
 "Quit HSTracker" = "Quitter HSTracker";
 "Window" = "Fenêtre";
 "Decks" = "Decks";
+"Save all" = "Tout enregistrer";
+"Reset all data" = "Supprimer toutes les données";
+"Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible." = "Êtes-vous sur de vouloir supprimer toutes les données ?\nCeci supprimera vos decks et statistiques.\nCette operation est irréversible.";
+"All deck have been saved" = "Tous les decks ont été enregistrés";
+"All data have been deleted" = "Toutes les données ont été supprimées";
 "Reset" = "Reset";
 
 /* preferences */

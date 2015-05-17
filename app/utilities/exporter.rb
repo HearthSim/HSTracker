@@ -1,11 +1,11 @@
 class Exporter
 
   # export all decks to files
-  def self.export_to_files
+  def self.export_to_files(dir)
     Deck.where(:is_active => true).or(:is_active).eq(nil).each do |deck|
       name = deck.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
-
-      File.open "/Desktop/#{name}.txt".home_path, 'w' do |file|
+      puts "Saving #{deck.name} to #{dir}/#{name}.txt"
+      File.open "#{dir}/#{name}.txt", 'w' do |file|
         text = ''
         deck.cards.each do |card|
           c = Card.by_id(card.card_id)
@@ -17,5 +17,10 @@ class Exporter
         file.write text
       end
     end
+
+    NSAlert.alert('Save'._,
+                  :buttons     => ['OK'._],
+                  :informative => 'All deck have been saved'._
+    )
   end
 end

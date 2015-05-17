@@ -5,6 +5,7 @@ class MainMenu < MK::MenuLayout
     add 'HSTracker' do
       add about_item 'About HSTracker'._
       add 'Download images'._, action: 'ask_download_images:', key: ''
+      add 'Reset all data'._, action: 'reset_all_data:', key: ''
       add separator_item
       add preferences_item 'Preferences'._
       add separator_item
@@ -24,6 +25,7 @@ class MainMenu < MK::MenuLayout
     add 'Decks'._ do
       add 'Deck Manager'._, action: 'open_deck_manager:', key: 'm'
       add 'Reset'._, action: 'reset:', key: 'r'
+      add 'Save all'._, action: 'save_decks:', key: ''
       add separator_item
 
       Deck.where(:is_active => true).or(:is_active).eq(nil).sort_by(:name, :case_insensitive => true).each do |deck|

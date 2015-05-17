@@ -28,6 +28,11 @@
 "Window" = "Window";
 "Unlock Windows" = "Unlock Windows";
 "Decks" = "Decks";
+"Save all" = "Save all";
+"Reset all data" = "Reset all data";
+"Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible." = "Are you sure you want to delete all data ?\nThis will delete your decks and statistics.\nThis operation is irreversible.";
+"All deck have been saved" = "All deck have been saved";
+"All data have been deleted" = "All data have been deleted";
 "Reset" = "Reset";
 
 /* preferences */

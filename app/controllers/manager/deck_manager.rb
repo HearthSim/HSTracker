@@ -462,17 +462,18 @@ class DeckManager < NSWindowController
       panel                         = NSOpenPanel.openPanel
       panel.canChooseFiles          = true
       panel.canChooseDirectories    = false
-      panel.allowsMultipleSelection = false
+      panel.allowsMultipleSelection = true
       panel.allowedFileTypes        = ['txt']
 
       if panel.runModal == NSFileHandlingPanelOKButton
-        filename = panel.filenames.first
-        Importer.import_from_file(filename) do |cards, clazz, name, arena|
-          Log.debug "#{clazz} / #{name} / #{arena}"
+        panel.filenames.each do |filename|
+          Importer.import_from_file(filename) do |cards, clazz, name, arena|
+            Log.debug "#{clazz} / #{name} / #{arena}"
 
-          if cards
-            @saved = false
-            show_deck(cards, clazz, name, arena)
+            if cards
+              show_deck(cards, clazz, name, arena)
+              save_deck(nil)
+            end
           end
         end
       end
@@ -497,7 +498,7 @@ class DeckManager < NSWindowController
   end
 
   def show_deck(deck, clazz=nil, name=nil, arena=false)
-    @in_edition = true
+    @in_edition         = true
     @show_stats.enabled = true
 
     if deck.is_a? Deck
@@ -727,7 +728,7 @@ class DeckManager < NSWindowController
       @table_view.reloadData
 
       @curve_view.subviews = []
-      @show_stats.enabled = false
+      @show_stats.enabled  = false
     end
   end
 
@@ -803,7 +804,7 @@ class DeckManager < NSWindowController
   end
 
   def show_stats(_)
-    @stats_panel ||= StatisticPanel.new
+    @stats_panel      ||= StatisticPanel.new
     @stats_panel.deck = @current_deck
 
     NSApp.beginSheet(@stats_panel.window,

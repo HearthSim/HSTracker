@@ -68,7 +68,7 @@ class Importer
       arena = false
       clazz = nil
       cards = []
-      title = File.basename(filename)
+      title = File.basename(filename).gsub(/\.txt$/, '')
 
       File.readlines(filename).each do |line|
 

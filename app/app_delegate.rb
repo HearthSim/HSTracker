@@ -176,6 +176,8 @@ class AppDelegate
     deck_menu.submenu.addItem item
     item = NSMenuItem.alloc.initWithTitle('Reset'._, action: 'reset:', keyEquivalent: 'r')
     deck_menu.submenu.addItem item
+    item = NSMenuItem.alloc.initWithTitle('Save all'._, action: 'save_decks:', keyEquivalent: '')
+    deck_menu.submenu.addItem item
     deck_menu.submenu.addItem NSMenuItem.separatorItem
 
     Deck.where(:is_active => true).or(:is_active).eq(nil).sort_by(:name, :case_insensitive => true).each do |deck|
@@ -228,7 +230,7 @@ class AppDelegate
   def ask_download_images(_)
     current_locale = Configuration.hearthstone_locale
 
-    popup = NSPopUpButton.new
+    popup       = NSPopUpButton.new
     popup.frame = [[0, 0], [299, 24]]
 
     GeneralPreferencesLayout::KHearthstoneLocales.each do |hs_locale, osx_locale|
@@ -275,6 +277,41 @@ class AppDelegate
 
       @downloader.close
       @downloader = nil
+    end
+  end
+
+  def save_decks(_)
+    panel                         = NSOpenPanel.savePanel
+    panel.canChooseFiles          = false
+    panel.canChooseDirectories    = true
+    panel.allowsMultipleSelection = false
+    panel.canCreateDirectories    = true
+    panel.prompt                  = 'Save'._
+
+    if panel.runModal == NSFileHandlingPanelOKButton
+      Exporter.export_to_files(panel.directoryURL.path)
+    end
+  end
+
+  def reset_all_data(_)
+    response = NSAlert.alert('Reset all data'._,
+                             :buttons     => ['OK'._, 'Cancel'._],
+                             :informative => 'Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible.'._
+    )
+
+    if response == NSAlertFirstButtonReturn
+      # since 0.11, cascade is set on deletion rule
+      # but before that version, when you deleted a deck, all cards
+      # where kept, this is why we force the deletion here
+      Deck.destroy_all!
+      DeckCard.destroy_all!
+      Statistic.destroy_all!
+
+      reload_deck_menu
+      NSAlert.alert('Reset all data'._,
+                    :buttons     => ['OK'._],
+                    :informative => 'All data have been deleted'._
+      )
     end
   end
 end

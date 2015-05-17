@@ -1,3 +1,8 @@
+#### 0.11
+- You can now import multiple files at the same time
+- Choose **Decks** -> **Save all** to export all your decks
+- Add an option to reset all data. **WARNING** this operation is irreversible, save your decks before !!! (Statistics will be lost)
+
 #### 0.10.2
 - Fix duplicate deck on menu
 - Fix opponent tracker reset
