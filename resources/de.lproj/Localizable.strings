@@ -6,7 +6,7 @@
 "Import Deck" = "Deck importieren";
 "Deck URL" = "Deck URL";
 "You can import decks from %@" = "You can import decks from %@";
-' and ' = ' and ';
+"and" = "and";
 "Import" = "Import";
 "Cancel" = "Abbrechen";
 "Loading" = "Laden";
@@ -51,19 +51,19 @@
 "Language change" = "Language change";
 "You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
 "Card size" = "Card size";
-"Big" = "groß";
-"Medium" = "mittel";
-"Small" = "klein";
+"Big" = "Groß";
+"Medium" = "Mittel";
+"Small" = "Klein";
 "Colors" = "Farben";
 "Draw / Count color" = "Draw / Count color";
 "Draw / Count border color" = "Draw / Count border color";
 "Card count / Draw chance" = "Card count / Draw chance";
-"Hidden" = "versteckt";
+"Hidden" = "Versteckt";
 "On trackers" = "Auf Trackers";
-"Detached windows" = "gelöste Fenster";
+"Detached windows" = "Gelöste Fenster";
 "Player Card Count" = "Player Card Count";
 "Opponent Card Count" = "Opponent Card Count";
-"Show stolen cards" = "zeige geklaute Karten";
+"Show stolen cards" = "Zeige geklaute Karten";
 "Show card on hover" = "Show card on hover";
 
 /* classes */

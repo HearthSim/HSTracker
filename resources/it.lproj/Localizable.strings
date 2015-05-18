@@ -1,0 +1,133 @@
+/* import */
+"OK" = "OK";
+"Error" = "Errore";
+"Error while loading deck" = "Errore durante il caricamento del mazzo";
+"Empty deck url" = "Indirizzo del mazzo non valido";
+"Import Deck" = "Importa mazzo";
+"Deck URL" = "Indirizzo mazzo";
+"You can import decks from %@" = "Puoi importare mazzi da %@";
+"and" = "e";
+"Import" = "Importa";
+"Cancel" = "Annulla";
+"Loading" = "Caricamento";
+"You have not selected a language from the preferences, please choose a language before importing a deck" = "Non hai selezionato una lingua dalle preferenze, imposta una lingua prima di importare un mazzo";
+
+/* menu */
+"File" = "File";
+"Edit" = "Modifica";
+"Cut" = "Taglia";
+"Copy" = "Copia";
+"Paste" = "Incolla";
+"Select All" = "Seleziona tutto";
+"About HSTracker" = "Informazioni su HSTracker";
+"Preferences" = "Preferenze";
+"Hide HSTracker" = "Nascondi HSTracker";
+"Hide Others" = "Nascondi altre";
+"Show All" = "Mostra tutto";
+"Quit HSTracker" = "Chiudi HSTracker";
+"Window" = "Finestra";
+"Unlock Windows" = "Sblocca finestre";
+"Decks" = "Mazzi";
+"Save all" = "Salva tutto";
+"Reset all data" = "Ripristina tutti i dati";
+"Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible." = "Sicuro di voler cancellare tutti i dati, inclusi i mazzi e le statistiche ?\nQuesta operazione è irreversibile.";
+"All deck have been saved" = "Tutti i mazzi sono stati salvati";
+"All data have been deleted" = "Tutti i dati cancellati";
+"Reset" = "Ripristina";
+
+/* preferences */
+"General" = "Generale";
+"Game language" = "Lingua del gioco";
+"Card played" = "Carte giocate";
+"Fade" = "Dissolvenza";
+"Remove" = "Rimuovi";
+"Lock Windows" = "Blocca finestre";
+"Windows Transparency" = "Trasparenza finestre";
+"Interface" = "Interfaccia";
+"Flash color" = "Carte pescate";
+"Fixed window names" = "Fixed window names";
+"Reset trackers on game end" = "Svuota le liste alla fine della partita";
+"HSTracker language" = "Lingua di HSTracker";
+"Language change" = "Cambio lingua";
+"You must restart HSTracker for the language change to take effect" = "Riavvia HSTracker per rendere le modifiche effettive";
+"Card size" = "Grandezza carte";
+"Big" = "Grandi";
+"Medium" = "Medie";
+"Small" = "Piccole";
+"Colors" = "Colori";
+"Draw / Count color" = "Colore pescate / statistiche";
+"Draw / Count border color" = "Bordo pescate / statistiche";
+"Card count / Draw chance" = "Conteggio carte / Probabilità di pescata";
+"Hidden" = "Nascosto";
+"On trackers" = "Nella stessa finestra ";
+"Detached windows" = "Finestre separate";
+"Player Card Count" = "Conteggio carte";
+"Opponent Card Count" = "Conteggio carte avversario";
+"Show stolen cards" = "Mostra le carte rubate";
+"Show card on hover" = "Mostra le carte al passaggio del mouse";
+
+/* classes */
+"Shaman" = "Sciamano";
+"Hunter" = "Cacciatore";
+"Warlock" = "Stregone";
+"Druid" = "Druido";
+"Warrior" = "Guerriero";
+"Mage" = "Mago";
+"Paladin" = "Paladino";
+"Priest" = "Sacerdote";
+"Rogue" = "Ladro";
+"Neutral" = "Neutrali";
+
+/* cards */
+"Free" = "Base";
+"Common" = "Comune";
+"Rare" = "Rara";
+"Epic" = "Epica";
+"Legendary" = "Leggendaria";
+
+"Minion" = "Servitore";
+"Spell" = "Magia";
+"Weapon" = "Arma";
+
+/* update */
+"Update" = "Update";
+"A new version of HSTracker is available, click OK to download it." = "Una nuova veriosne di HSTracker è disponibile, premi OK per scaricarla.";
+
+/* deck manager */
+"Deck Manager" = "Gestore dei mazzi";
+"New" = "Nuovo";
+"Save" = "Salva";
+"Delete" = "Cancella";
+"Close" = "Chiudi";
+"Play" = "Gioca";
+"Export" = "Esporta";
+"Export Deck" = "Esporta mazzo";
+"Arena Deck" = "Mazzo Arena";
+"Donate" = "Dona";
+"You are currently in a deck edition and you changes have not been saved." = "Stai modificando un mazzo e le modifiche non sono state salvate.";
+"Deck name" = "Nome del mazzo";
+"Are you sure you want to delete this deck ?" = "Sicuro di voler cancellare il mazzo ?";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "Sicuro di voler chiudere il gestore ? Le modifiche non verranno salvate.";
+"Your deck don't have 30 cards, are you sure you want to continue ?" = "Il tuo mazzo non ha 30 carte, continuare ugualmente ?";
+"Your deck is not saved, are you sure you want to continue, you will lose all changes." = "YIl mazzo non è salvato, se continui perderai tutte le modifiche.";
+"Deck saved" = "Mazzo salvato";
+"New version" = "Nuova versione";
+
+"Hand : " = "In mano : ";
+"Deck : " = "Nel mazzo : ";
+"Draw : " = "Pescate : ";
+
+"Player" = "Giocatore";
+"Opponent" = "Avversario";
+
+"You must restart Hearthstone for logs to be used" = "Riavvia Hearthstone affinché i log vengano usati";
+"Cards images are not found. Please confirm the Hearthstone language then click OK to download them." = "Immagini non trovate.\nConferma la lingua del gioco dopo premi OK.";
+"Images" = "Immagini";
+"Download images" = "Scarica immagini";
+"Missing images" = "Immagini mancanti";
+"Some images are missing, force a download from HSTracker menu -> Download images" = "Alcune immagini non sono state scaricate, forza lo scaricamento da HSTracker menu -> Scarica immagini";
+
+"From Web" = "Dal Web";
+"From File" = "Da un File";
+
+"Consider in-hand as played" = "Considera le carte in mano come giocate";
