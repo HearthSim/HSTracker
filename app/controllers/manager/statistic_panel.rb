@@ -19,8 +19,7 @@ class StatisticPanel < NSWindowController
   end
 
   def close_panel(_)
-    NSApp.endSheet(self.window)
-    self.window.orderOut(@close)
+    self.window.end_sheet(NSModalResponseOK)
   end
 
   def deck=(value)

@@ -457,7 +457,7 @@ class DeckManager < NSWindowController
           show_deck(cards, clazz, name, arena)
         end
       end
-      self.window.beginSheet(@import.window, completionHandler: nil)
+      self.window.show_sheet(@import.window)
     else
       panel                         = NSOpenPanel.openPanel
       panel.canChooseFiles          = true
@@ -807,11 +807,7 @@ class DeckManager < NSWindowController
     @stats_panel      ||= StatisticPanel.new
     @stats_panel.deck = @current_deck
 
-    NSApp.beginSheet(@stats_panel.window,
-                     modalForWindow: self.window,
-                     modalDelegate:  nil,
-                     didEndSelector: nil,
-                     contextInfo:    nil)
+    self.window.show_sheet(@stats_panel.window)
   end
 
 end
