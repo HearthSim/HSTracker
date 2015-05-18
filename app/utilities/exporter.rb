@@ -10,8 +10,7 @@ class Exporter
         deck.cards.each do |card|
           c = Card.by_id(card.card_id)
 
-          text << "#{card.count} #{c.english_name}"
-          text << "\n"
+          text << "#{card.count} #{c.english_name}\n"
         end
 
         file.write text

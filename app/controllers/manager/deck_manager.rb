@@ -768,14 +768,13 @@ class DeckManager < NSWindowController
     if result == NSOKButton
       path = panel.URL.path
 
-      content = []
+      content = ''
       @decks_or_cards.each do |card|
-        (0...card.count).each do
-          content << card.name
-        end
+        c = Card.by_id(card.card_id)
+        content << "#{card.count} #{c.english_name}\n"
       end
 
-      content.sort.join("\n").nsdata.write_to(path)
+      content.nsdata.write_to(path)
     end
   end
 
