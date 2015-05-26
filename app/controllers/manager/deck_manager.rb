@@ -76,6 +76,46 @@ class DeckManager < NSWindowController
       @show_stats = @layout.get(:show_stats)
       @show_stats.setTarget self
       @show_stats.setAction 'show_stats:'
+
+
+      NSEvent.addLocalMonitorForEventsMatchingMask(NSKeyDownMask,
+                                                   handler: -> (event) {
+                                                     is_cmd   = (event.modifierFlags & NSCommandKeyMask == NSCommandKeyMask)
+                                                     is_shift = (event.modifierFlags & NSShiftKeyMask == NSShiftKeyMask)
+                                                     unless is_cmd
+                                                       return event
+                                                     end
+
+                                                     case event.keyCode
+                                                       when 35
+                                                         if @in_edition
+                                                           play_deck(nil)
+                                                           event = nil
+                                                         end
+
+                                                       # close window
+                                                       when 6
+                                                         if is_shift
+                                                           self.window.performClose(nil)
+                                                         elsif @in_edition
+                                                           close_deck(nil)
+                                                         end
+                                                         event = nil
+
+                                                       # cmd-f
+                                                       when 3
+                                                         @search_field.becomeFirstResponder
+                                                         event = nil
+
+                                                       # cmd-s
+                                                       when 1
+                                                         if @in_edition and !@saved
+                                                           save_deck(nil)
+                                                           event = nil
+                                                         end
+                                                     end
+                                                     return event
+                                                   })
     end
   end
 
