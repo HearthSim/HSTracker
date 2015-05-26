@@ -450,9 +450,8 @@ class DeckManager < NSWindowController
       @import = DeckImport.alloc.init
 
       @import.on_deck_loaded do |cards, clazz, name, arena|
-        Log.debug "#{clazz} / #{name} / #{arena}"
-
         if cards
+          Log.debug "#{clazz} / #{name} / #{arena}"
           @saved = false
           show_deck(cards, clazz, name, arena)
         end

@@ -10,11 +10,11 @@ class DeckCellView < NSTableCellView
     super.tap do
       # draw the class image
       image = NSImage.alloc.initWithContentsOfFile("#{absolute_path}/frames/card_bottom.png")
-      image.drawInRect(rect)
+      image.drawInRect(rect, fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
 
       # draw the class image
       image = ImageCache.hero(deck.player_class)
-      image.drawInRect([[2, 2], [32, 32]])
+      image.drawInRect([[2, 2], [32, 32]], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
 
       stroke_color = :black.nscolor
       foreground   = :white.nscolor
@@ -25,7 +25,8 @@ class DeckCellView < NSTableCellView
                          .stroke_width(-1.5)
                          .stroke_color(stroke_color)
                          .foreground_color(foreground)
-      name.drawInRect [[38, 4], [184, 30]]
+
+      name.drawInRect([[38, 4], [184, 30]], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
     end
   end
 end

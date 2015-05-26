@@ -18,7 +18,7 @@ class ButtonCellView < NSTableCellView
       x                    = CGRectGetMidX(rect) - (width / 2)
       y                    = CGRectGetMidY(rect) - (height / 2)
       image = ImageCache.button
-      image.drawInRect [[x, y], [width, height]]
+      image.drawInRect([[x, y], [width, height]], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
 
       font_size       = (16.0 / ratio).round
       style           = NSMutableParagraphStyle.new

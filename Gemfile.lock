@@ -70,3 +70,6 @@ DEPENDENCIES
   motion-logger
   rake
   sugarcube
+
+BUNDLED WITH
+   1.10.0.rc

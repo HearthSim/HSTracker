@@ -7,7 +7,7 @@ class CardHoverLayout < MK::WindowLayout
     # transparent all the things \o|
     opaque false
     has_shadow false
-    background_color :black.nscolor(Configuration.window_transparency)
+    background_color :clear.nscolor(0.0)
 
     style_mask NSBorderlessWindowMask
 
