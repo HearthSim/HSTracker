@@ -40,6 +40,8 @@ class MainMenu < MK::MenuLayout
       close         = add close_item('Close'._)
       close.enabled = false
 
+      add separator_item
+      add 'Show debug files'._, action: 'open_debug:', key: ''
       if RUBYMOTION_ENV == 'development'
         add 'Debugger', action: 'debug:', key: ''
       end

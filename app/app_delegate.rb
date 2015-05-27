@@ -314,4 +314,8 @@ class AppDelegate
       )
     end
   end
+
+  def open_debug(_)
+    NSWorkspace.sharedWorkspace.activateFileViewerSelectingURLs ['/Library/Logs/HSTracker'.home_path.fileurl]
+  end
 end
