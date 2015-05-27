@@ -5,6 +5,8 @@
 "Empty deck url" = "Empty deck url";
 "Import Deck" = "Import Deck";
 "Deck URL" = "Deck URL";
+"You can import decks from %@" = "You can import decks from %@";
+"and" = "and";
 "Import" = "Import";
 "Cancel" = "Cancel";
 "Loading" = "Loading";
@@ -26,6 +28,11 @@
 "Window" = "Window";
 "Unlock Windows" = "Unlock Windows";
 "Decks" = "Decks";
+"Save all" = "Save all";
+"Reset all data" = "Reset all data";
+"Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible." = "Are you sure you want to delete all data ?\nThis will delete your decks and statistics.\nThis operation is irreversible.";
+"All deck have been saved" = "All deck have been saved";
+"All data have been deleted" = "All data have been deleted";
 "Reset" = "Reset";
 
 /* preferences */
@@ -104,11 +111,11 @@
 "Your deck don't have 30 cards, are you sure you want to continue ?" = "Your deck don't have 30 cards, are you sure you want to continue ?";
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Your deck is not saved, are you sure you want to continue, you will lose all changes.";
 "Deck saved" = "Deck saved";
+"New version" = "New version";
 
 "Hand : " = "Hand : ";
 "Deck : " = "Deck : ";
 "Draw : " = "Draw : ";
-"Draw Chance" = "Draw Chance";
 
 "Player" = "Player";
 "Opponent" = "Opponent";
@@ -119,3 +126,9 @@
 "Download images" = "Download images";
 "Missing images" = "Missing images";
 "Some images are missing, force a download from HSTracker menu -> Download images" = "Some images are missing, force a download from HSTracker menu -> Download images";
+
+"From Web" = "From Web";
+"From File" = "From File";
+
+"Consider in-hand as played" = "Consider in-hand as played";
+"Show debug files" = "Show debug files";

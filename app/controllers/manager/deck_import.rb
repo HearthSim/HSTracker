@@ -67,7 +67,7 @@ class DeckImport < NSWindowController
 
       if cards
         @deck_loaded_block.call(cards, clazz, name, arena) if @deck_loaded_block
-        self.window.sheetParent.endSheet(self.window, returnCode: NSModalResponseOK)
+        self.window.end_sheet(NSModalResponseOK)
       else
         NSAlert.alert('Error'._,
                       :buttons     => ['OK'._],
@@ -84,7 +84,7 @@ class DeckImport < NSWindowController
   end
 
   def cancel(_)
-    self.window.sheetParent.endSheet(self.window, returnCode: NSModalResponseCancel)
+    self.window.end_sheet(NSModalResponseCancel)
   end
 
 end

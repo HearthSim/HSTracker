@@ -75,7 +75,11 @@ class AppDelegate
         end
       end
 
-      unless ImageCache.dir_exists?
+      NSNotificationCenter.defaultCenter.observe 'open_deck_manager' do |notif|
+        open_deck_manager notif.userInfo
+      end
+
+      if ImageCache.need_download?
         ask_download_images(nil)
       end
     end
@@ -112,10 +116,14 @@ class AppDelegate
     end
   end
 
-  def open_deck_manager(_)
+  def open_deck_manager(data)
     # change windows level
     @player.set_level NSNormalWindowLevel
     @opponent.set_level NSNormalWindowLevel
+
+    if data.is_a? Hash
+      deck_manager.import(data)
+    end
 
     deck_manager.showWindow(nil)
     deck_manager.player_view = @player
@@ -150,6 +158,7 @@ class AppDelegate
   def open_deck(menu_item)
     deck = Deck.by_name(menu_item.title)
     @player.show_deck(deck.playable_cards, deck.name)
+    Game.instance.with_deck(deck)
   end
 
   # reset the trackers
@@ -167,9 +176,11 @@ class AppDelegate
     deck_menu.submenu.addItem item
     item = NSMenuItem.alloc.initWithTitle('Reset'._, action: 'reset:', keyEquivalent: 'r')
     deck_menu.submenu.addItem item
+    item = NSMenuItem.alloc.initWithTitle('Save all'._, action: 'save_decks:', keyEquivalent: '')
+    deck_menu.submenu.addItem item
     deck_menu.submenu.addItem NSMenuItem.separatorItem
 
-    Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
+    Deck.where(:is_active => true).or(:is_active).eq(nil).sort_by(:name, :case_insensitive => true).each do |deck|
       item = NSMenuItem.alloc.initWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
       deck_menu.submenu.addItem item
     end
@@ -219,7 +230,7 @@ class AppDelegate
   def ask_download_images(_)
     current_locale = Configuration.hearthstone_locale
 
-    popup = NSPopUpButton.new
+    popup       = NSPopUpButton.new
     popup.frame = [[0, 0], [299, 24]]
 
     GeneralPreferencesLayout::KHearthstoneLocales.each do |hs_locale, osx_locale|
@@ -262,8 +273,49 @@ class AppDelegate
     @downloader = Downloader.new
     @downloader.showWindow(nil)
     @downloader.download do
+      NSUserDefaults.standardUserDefaults.setObject(ImageCache::IMAGES_VERSION, forKey: 'image_version')
+
       @downloader.close
       @downloader = nil
     end
+  end
+
+  def save_decks(_)
+    panel                         = NSOpenPanel.savePanel
+    panel.canChooseFiles          = false
+    panel.canChooseDirectories    = true
+    panel.allowsMultipleSelection = false
+    panel.canCreateDirectories    = true
+    panel.prompt                  = 'Save'._
+
+    if panel.runModal == NSFileHandlingPanelOKButton
+      Exporter.export_to_files(panel.directoryURL.path)
+    end
+  end
+
+  def reset_all_data(_)
+    response = NSAlert.alert('Reset all data'._,
+                             :buttons     => ['OK'._, 'Cancel'._],
+                             :informative => 'Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible.'._
+    )
+
+    if response == NSAlertFirstButtonReturn
+      # since 0.11, cascade is set on deletion rule
+      # but before that version, when you deleted a deck, all cards
+      # where kept, this is why we force the deletion here
+      Deck.destroy_all!
+      DeckCard.destroy_all!
+      Statistic.destroy_all!
+
+      reload_deck_menu
+      NSAlert.alert('Reset all data'._,
+                    :buttons     => ['OK'._],
+                    :informative => 'All data have been deleted'._
+      )
+    end
+  end
+
+  def open_debug(_)
+    NSWorkspace.sharedWorkspace.activateFileViewerSelectingURLs ['/Library/Logs/HSTracker'.home_path.fileurl]
   end
 end

@@ -22,17 +22,33 @@ class Web
                 })
   end
 
-  def self.download(card_id, locale, path, &block)
+  def self.download(cards_id, locale, path, options={}, &block)
     unless File.exists?(path)
       NSFileManager.defaultManager.createDirectoryAtPath(path,
                                                          withIntermediateDirectories: true,
                                                          attributes:                  nil,
                                                          error:                       nil)
     end
-    full_path = path.stringByAppendingPathComponent("#{card_id}.png")
-    if File.exists? full_path
-      # skip
+    _download(cards_id, locale, path, options, block)
+  end
+
+  private
+  def self._download(cards_id, locale, path, options={}, block)
+    if cards_id.empty?
       block.call if block
+      return
+    end
+
+    card    = cards_id.pop
+    card_id = card[:id]
+    name    = card[:name]
+
+    increment = options.fetch(:increment, nil)
+
+    full_path = File.join(path, "#{card_id}.png")
+    if File.exists? full_path
+      increment.call(name)
+      _download(cards_id, locale, path, options, block)
       return
     end
 
@@ -40,10 +56,12 @@ class Web
     operation = AFHTTPRequestOperation.alloc.initWithRequest(request)
     operation.setOutputStream(NSOutputStream.outputStreamToFileAtPath(full_path, append: false))
     operation.setCompletionBlockWithSuccess(-> (_, _) {
-      block.call if block
+      increment.call(name)
+      _download(cards_id, locale, path, options, block)
     }, failure: -> (_, error) {
        Motion::Log error.localizedDescription
-       block.call if block
+       increment.call(name)
+       _download(cards_id, locale, path, options, block)
      })
 
     operation.start

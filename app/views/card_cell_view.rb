@@ -57,7 +57,12 @@ class CardCellView < NSTableCellView
   # drawing
   def updateLayer
     if side == :player
-      alpha = (card.count <= 0 and card.hand_count <= 0) ? 0.4 : 1.0
+      alpha = (card.count <= 0)
+      unless Configuration.in_hand_as_played
+        alpha = alpha && card.hand_count <= 0
+      end
+
+      alpha = (alpha) ? 0.4 : 1.0
     else
       alpha = (card.count <= 0) ? 0.4 : 1.0
     end
@@ -198,13 +203,10 @@ class CardCellView < NSTableCellView
   end
 
   def mouseEntered(_)
-    return if card.count.zero?
-
     self.delegate.hover(self) if self.delegate
   end
 
   def mouseExited(_)
-    return if card.count.zero?
     self.delegate.out(self) if self.delegate
   end
 

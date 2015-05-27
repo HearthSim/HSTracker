@@ -19,6 +19,8 @@ class Downloader < NSWindowController
     cards.each do |card|
       card_ids << { :id => card.card_id, :name => card.name }
     end
+    card = Card.by_id 'GAME_005'
+    card_ids << { :id => card.card_id, :name => card.name }
 
     langs = %w(deDE enUS esES frFR ptBR ruRU)
 
@@ -38,20 +40,14 @@ class Downloader < NSWindowController
 
     @progress_bar.indeterminate = false
 
-    Dispatch::Queue.concurrent.async do
-      card_ids.each_with_index do |card, index|
-
-        Web.download(card[:id], locale, path) do
-          Dispatch::Queue.main.async do
-            @message.stringValue = card[:name]
-            @progress_bar.incrementBy 1.0
-
-            if index == count - 1
-              block.call if block
-            end
-          end
-        end
-      end
+    Web.download(card_ids, locale, path,
+                 increment: -> (name) {
+                   Dispatch::Queue.main.async do
+                     @message.stringValue = name
+                     @progress_bar.incrementBy 1.0
+                   end
+                 }) do
+      block.call if block
     end
   end
 end

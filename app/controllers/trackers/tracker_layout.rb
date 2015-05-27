@@ -81,15 +81,6 @@ class TrackerLayout < MK::WindowLayout
   end
 
   def table_view_style
-    case Configuration.card_layout
-      when :small
-        height = KSmallRowHeight
-      when :medium
-        height = KMediumRowHeight
-      else
-        height = KRowHeight
-    end
-
     intercellSpacing [0, 0]
 
     background_color :black.nscolor(Configuration.window_transparency)

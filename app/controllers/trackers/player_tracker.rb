@@ -133,6 +133,10 @@ class PlayerTracker < Tracker
 
     display_count
     @table_view.reloadData
+
+    if Configuration.show_card_on_hover
+      @card_hover.close if @card_hover
+    end
   end
 
   def set_hero(hero_id)

@@ -1,5 +1,28 @@
 class ImageCache
+  # usefull if we need to force reloading of images
+  IMAGES_VERSION = 1
+
   class << self
+
+    def need_download?
+      images_version = NSUserDefaults.standardUserDefaults.objectForKey 'image_version'
+      return true unless dir_exists?
+      return true if images_version.nil? or images_version.to_i < ImageCache::IMAGES_VERSION
+
+      return_value = false
+      path = image_path(Configuration.hearthstone_locale)
+      Dir.glob(File.join(path, '*.png')).each do |file|
+        size = File.size(file)
+
+        # all files are ± 80K, check if images are less than 40K to be sure
+        if size < 40960
+          return_value = true
+          File.delete(file)
+        end
+      end
+
+      return_value
+    end
 
     def dir_exists?
       File.exists? image_path(Configuration.hearthstone_locale)
@@ -51,6 +74,14 @@ class ImageCache
 
     def frame_legendary
       image_named 'frames/frame_legendary.png'
+    end
+
+    def button
+      image_named 'frames/button.png'
+    end
+
+    def hero(clazz)
+      image_named "heroes/#{clazz.downcase}_small.png"
     end
 
     def image_path(lang)

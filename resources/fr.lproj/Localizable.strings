@@ -5,6 +5,8 @@
 "Empty deck url" = "URL du deck vide";
 "Import Deck" = "Importer Deck";
 "Deck URL" = "URL du Deck";
+"You can import decks from %@" = "Vous pouvez importer des decks depuis %@";
+"and" = "et";
 "Import" = "Importer";
 "Cancel" = "Annuler";
 "Loading" = "Chargement";
@@ -24,8 +26,14 @@
 "Show All" = "Tout afficher";
 "Quit HSTracker" = "Quitter HSTracker";
 "Window" = "Fenêtre";
+"Unlock Windows" = "Déverrouiller les fenêtres";
 "Decks" = "Decks";
-"Reset" = "Reset";
+"Save all" = "Tout enregistrer";
+"Reset all data" = "Supprimer toutes les données";
+"Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible." = "Êtes-vous sur de vouloir supprimer toutes les données ?\nCeci supprimera vos decks et statistiques.\nCette operation est irréversible.";
+"All deck have been saved" = "Tous les decks ont été enregistrés";
+"All data have been deleted" = "Toutes les données ont été supprimées";
+"Reset" = "Réinitialiser";
 
 /* preferences */
 "General" = "Général";
@@ -36,7 +44,6 @@
 "Lock Windows" = "Verrouiller les fenêtres";
 "Windows Transparency" = "Transparence des fenêtres";
 "Interface" = "Interface";
-"Unlock Windows" = "Déverrouiller les fenêtres";
 "Flash color" = "Couleur flash";
 "Fixed window names" = "Nom des fenêtres fixe";
 "Reset trackers on game end" = "Nettoie les trackers en fin de partie";
@@ -96,7 +103,7 @@
 "Export" = "Exporter";
 "Export Deck" = "Exporter Deck";
 "Arena Deck" = "Deck Arène";
-"Donate" = "Donate";
+"Donate" = "Donation";
 "You are currently in a deck edition and you changes have not been saved." = "Vous êtes en mode édition de deck et vos modifications n'ont pas été sauvegardées.";
 "Deck name" = "Nom du deck";
 "Are you sure you want to delete this deck ?" = "Êtes-vous sur de vouloir supprimer ce deck ?";
@@ -104,6 +111,7 @@
 "Your deck don't have 30 cards, are you sure you want to continue ?" = "Votre deck ne contient pas 30 cartes, êtes-vous sur de vouloir continuer ?";
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Votre deck n'est pas sauvegardé, êtes-vous sur de vouloir continuer, vous perdrez vos modifications.";
 "Deck saved" = "Deck enregistré";
+"New version" = "Nouvelle version";
 
 "Hand : " = "Main : ";
 "Deck : " = "Deck : ";
@@ -118,3 +126,9 @@
 "Download images" = "Téléchargement des images";
 "Missing images" = "Images manquantes";
 "Some images are missing, force a download from HSTracker menu -> Download images" = "Certaines images sont manquantes, forcez un téléchargement depuis le menu HSTracker -> Téléchargement des images";
+
+"From Web" = "Depuis le Web";
+"From File" = "Depuis un fichier";
+
+"Consider in-hand as played" = "Considère les cartes en main comme jouées";
+"Show debug files" = "Voir les fichiers de debug";

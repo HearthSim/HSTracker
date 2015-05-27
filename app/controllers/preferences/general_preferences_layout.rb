@@ -17,7 +17,7 @@ class GeneralPreferencesLayout < PreferencesLayout
       'zhTW' => 'zh_TW'
   }
 
-  KHSTrackerLocales = %w(de en fr)
+  KHSTrackerLocales = %w(de en fr it)
 
   def options
     {
@@ -32,7 +32,7 @@ class GeneralPreferencesLayout < PreferencesLayout
                 locale  = NSLocale.alloc.initWithLocaleIdentifier loc
                 display = locale.displayNameForKey(NSLocaleIdentifier, value: loc)
 
-                item = NSMenuItem.alloc.initWithTitle(display, action: nil, keyEquivalent: '')
+                item = NSMenuItem.alloc.initWithTitle(display.capitalize, action: nil, keyEquivalent: '')
                 elem.menu.addItem item
 
                 if current_locale == loc
@@ -51,7 +51,7 @@ class GeneralPreferencesLayout < PreferencesLayout
                 locale  = NSLocale.alloc.initWithLocaleIdentifier loc
                 display = locale.displayNameForKey(NSLocaleIdentifier, value: loc)
 
-                if choosen == display
+                if choosen == display.capitalize
                   NSUserDefaults.standardUserDefaults.setObject([loc], forKey: 'AppleLanguages')
                   NSNotificationCenter.defaultCenter.post('AppleLanguages_changed')
                 end
@@ -68,7 +68,7 @@ class GeneralPreferencesLayout < PreferencesLayout
                 locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
                 display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
 
-                item = NSMenuItem.alloc.initWithTitle(display, action: nil, keyEquivalent: '')
+                item = NSMenuItem.alloc.initWithTitle(display.capitalize, action: nil, keyEquivalent: '')
                 elem.menu.addItem item
 
                 if current_locale == hs_locale
@@ -87,23 +87,13 @@ class GeneralPreferencesLayout < PreferencesLayout
                 locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
                 display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
 
-                if choosen == display
+                if choosen == display.capitalize
                   Configuration.hearthstone_locale = hs_locale
                 end
               end
             }
         },
-        :reset_on_end       => {
-            :type    => NSButton,
-            :title   => 'Reset trackers on game end'._,
-            :init    => -> (elem) {
-              elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.reset_on_end ? NSOnState : NSOffState)
-            },
-            :changed => -> (elem) {
-              Configuration.reset_on_end = (elem.state == NSOnState)
-            }
-        }
+        :reset_on_end       => 'Reset trackers on game end'._
     }
   end
 

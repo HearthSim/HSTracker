@@ -8,11 +8,7 @@ class DeckManager < NSWindowController
       :constructed => 2
   }
 
-  KClasses = %w(Shaman Hunter Warlock Druid Warrior Mage Paladin Priest Rogue Neutral)
-
   attr_accessor :player_view
-
-  Log = Motion::Log
 
   def init
     super.tap do
@@ -34,19 +30,20 @@ class DeckManager < NSWindowController
       @tabs = @layout.get(:tabs)
       @tabs.setAction 'tab_changed:'
       @tabs.setTarget self
-      @tabs.setSegmentCount KClasses.size
+      @tabs.setSegmentCount ClassesData::KClasses.size
 
-      KClasses.each_with_index do |clazz, idx|
+      ClassesData::KClasses.each_with_index do |clazz, idx|
         @tabs.setLabel(clazz._, forSegment: idx)
       end
 
       @tabs.setSelected(true, forSegment: 0)
-      @current_class = KClasses[0]
+      @current_class = ClassesData::KClasses[0]
 
       # init table
       @table_view    = @layout.get(:table_view)
       @table_view.setHeaderView nil
       @table_view.doubleAction = 'double_click:'
+      @table_view.action       = 'click:'
       @table_view.delegate     = self
       @table_view.dataSource   = self
 
@@ -75,7 +72,71 @@ class DeckManager < NSWindowController
 
       @card_count = @layout.get(:card_count)
       @curve_view = @layout.get(:curve_view)
+
+      @show_stats = @layout.get(:show_stats)
+      @show_stats.setTarget self
+      @show_stats.setAction 'show_stats:'
+
+
+      NSEvent.addLocalMonitorForEventsMatchingMask(NSKeyDownMask,
+                                                   handler: -> (event) {
+                                                     is_cmd   = (event.modifierFlags & NSCommandKeyMask == NSCommandKeyMask)
+                                                     is_shift = (event.modifierFlags & NSShiftKeyMask == NSShiftKeyMask)
+                                                     unless is_cmd
+                                                       return event
+                                                     end
+
+                                                     case event.keyCode
+                                                       when 35
+                                                         if @in_edition
+                                                           play_deck(nil)
+                                                           event = nil
+                                                         end
+
+                                                       # close window
+                                                       when 6
+                                                         if is_shift
+                                                           self.window.performClose(nil)
+                                                         elsif @in_edition
+                                                           close_deck(nil)
+                                                         end
+                                                         event = nil
+
+                                                       # cmd-f
+                                                       when 3
+                                                         @search_field.becomeFirstResponder
+                                                         event = nil
+
+                                                       # cmd-s
+                                                       when 1
+                                                         if @in_edition and !@saved
+                                                           save_deck(nil)
+                                                           event = nil
+                                                         end
+                                                     end
+                                                     return event
+                                                   })
     end
+  end
+
+  def import(data)
+    return if data.nil?
+
+    ignore_cards = [
+        'GAME_005'
+    ]
+
+    @saved = false
+    cards  = []
+    data[:cards].each do |card|
+      next if ignore_cards.include? card.card_id or !card.collectible
+
+      r_card       = Card.by_id card.card_id
+      r_card.count = card.count
+      cards << r_card
+    end
+
+    show_deck(cards, data[:class])
   end
 
   def check_is_saved_on_close
@@ -96,11 +157,11 @@ class DeckManager < NSWindowController
 
   def show_decks
     @decks_or_cards = []
-    Deck.all.sort_by(:name, :case_insensitive => true).each do |deck|
+    Deck.active.all.sort_by(:name, :case_insensitive => true).each do |deck|
       @decks_or_cards << deck
     end
 
-    KClasses.each_with_index do |_, index|
+    ClassesData::KClasses.each_with_index do |_, index|
       @tabs.setEnabled(true, forSegment: index)
     end if @tabs
   end
@@ -195,7 +256,7 @@ class DeckManager < NSWindowController
 
   # nssegmentedcontrol
   def tab_changed(_)
-    @current_class = KClasses[@tabs.selectedSegment]
+    @current_class = ClassesData::KClasses[@tabs.selectedSegment]
     @cards         = nil
 
     str = @search_field.stringValue
@@ -234,7 +295,15 @@ class DeckManager < NSWindowController
     false
   end
 
-  def double_click(cell)
+  def click(_)
+    deck_or_card = @decks_or_cards[@table_view.clickedRow]
+
+    if deck_or_card.is_a? Deck
+      show_deck_stats(deck_or_card)
+    end
+  end
+
+  def double_click(_)
     deck_or_card = @decks_or_cards[@table_view.clickedRow]
 
     if deck_or_card.is_a? Deck
@@ -248,8 +317,8 @@ class DeckManager < NSWindowController
 
       card_count              = @decks_or_cards.count_cards
       @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
-      @curves.cards = @decks_or_cards if @curves
-      @saved = false
+      @curves.cards           = @decks_or_cards if @curves
+      @saved                  = false
       @table_view.reloadData
     end
   end
@@ -267,15 +336,15 @@ class DeckManager < NSWindowController
     end
   end
 
-  def toolbarAllowedItemIdentifiers(toolbar)
-    ['new', 'arena', 'import', 'save', 'search', 'close', 'delete', 'play', 'export', 'donate',
+  def toolbarAllowedItemIdentifiers(_)
+    ['new', 'arena', 'import', 'save', 'search', 'close', 'delete', 'play', 'export', 'donate', 'twitter',
      NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier]
   end
 
-  def toolbarDefaultItemIdentifiers(toolbar)
+  def toolbarDefaultItemIdentifiers(_)
     ['new', 'arena', 'import', NSToolbarSeparatorItemIdentifier,
      'save', 'delete', 'close', 'play', 'export',
-     NSToolbarFlexibleSpaceItemIdentifier, 'search', 'donate']
+     NSToolbarFlexibleSpaceItemIdentifier, 'search', 'donate', 'twitter']
   end
 
   def toolbar(toolbar, itemForItemIdentifier: identifier, willBeInsertedIntoToolbar: flag)
@@ -286,9 +355,26 @@ class DeckManager < NSWindowController
         item.toolTip = 'Import'._
         image        = 'import'.nsimage
         image.setTemplate true
-        item.image  = image
-        item.target = self
-        item.action = 'import_deck:'
+
+        menu            = NSMenu.alloc.initWithTitle identifier
+        menu_item       = NSMenuItem.alloc.initWithTitle('', action: nil, keyEquivalent: '')
+        menu_item.image = image
+        menu.addItem menu_item
+
+        menu_item            = NSMenuItem.alloc.initWithTitle('From Web'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item.identifier = 'web'
+        menu.addItem menu_item
+
+        menu_item            = NSMenuItem.alloc.initWithTitle('From File'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item.identifier = 'file'
+        menu.addItem menu_item
+
+        popup                    = NSPopUpButton.alloc.initWithFrame [[0, 0], [50, 32]]
+        popup.cell.arrowPosition = NSPopUpNoArrow
+        popup.bordered           = false
+        popup.pullsDown          = true
+        popup.menu               = menu
+        item.view                = popup
 
       when 'new', 'arena'
         label  = (identifier == 'new') ? 'New'._ : 'Arena Deck'._
@@ -300,7 +386,7 @@ class DeckManager < NSWindowController
         menu_item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
         menu.addItem menu_item
 
-        classes = KClasses[0...-1]
+        classes = ClassesData::KClasses[0...-1]
         classes.each do |clazz|
           menu_item            = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
           menu_item.identifier = clazz
@@ -365,6 +451,14 @@ class DeckManager < NSWindowController
         item.target  = self
         item.action  = 'donate:'
 
+      when 'twitter'
+        item.label   = 'Twitter'
+        item.toolTip = 'Twitter'
+        image        = 'twitter'.nsimage
+        item.image   = image
+        item.target  = self
+        item.action  = 'twitter:'
+
       when 'search'
         item.label = 'Search'
 
@@ -380,7 +474,7 @@ class DeckManager < NSWindowController
   end
 
   # actions
-  def import_deck(_)
+  def import_deck(sender)
     if @in_edition and !@saved
       NSAlert.alert('Error'._,
                     :buttons     => ['OK'._],
@@ -392,16 +486,37 @@ class DeckManager < NSWindowController
       return
     end
 
-    @import = DeckImport.alloc.init
-    @import.on_deck_loaded do |cards, clazz, name, arena|
-      Log.debug "#{clazz} / #{name} / #{arena}"
+    if sender.identifier == 'web'
+      @import = DeckImport.alloc.init
 
-      if cards
-        @saved = false
-        show_deck(cards, clazz, name, arena)
+      @import.on_deck_loaded do |cards, clazz, name, arena|
+        if cards
+          Log.debug "#{clazz} / #{name} / #{arena}"
+          @saved = false
+          show_deck(cards, clazz, name, arena)
+        end
+      end
+      self.window.show_sheet(@import.window)
+    else
+      panel                         = NSOpenPanel.openPanel
+      panel.canChooseFiles          = true
+      panel.canChooseDirectories    = false
+      panel.allowsMultipleSelection = true
+      panel.allowedFileTypes        = ['txt']
+
+      if panel.runModal == NSFileHandlingPanelOKButton
+        panel.filenames.each do |filename|
+          Importer.import_from_file(filename) do |cards, clazz, name, arena|
+            Log.debug "#{clazz} / #{name} / #{arena}"
+
+            if cards
+              show_deck(cards, clazz, name, arena)
+              save_deck(nil)
+            end
+          end
+        end
       end
     end
-    self.window.beginSheet(@import.window, completionHandler: nil)
   end
 
   def play_deck(_)
@@ -418,10 +533,12 @@ class DeckManager < NSWindowController
     end
 
     player_view.show_deck(@decks_or_cards, @deck_name) if player_view
+    Game.instance.with_deck(@current_deck)
   end
 
   def show_deck(deck, clazz=nil, name=nil, arena=false)
-    @in_edition = true
+    @in_edition         = true
+    @show_stats.enabled = true
 
     if deck.is_a? Deck
       @current_deck = deck
@@ -439,8 +556,8 @@ class DeckManager < NSWindowController
     end
     @current_class = @deck_class
 
-    selected_class = KClasses.index(@current_class)
-    KClasses.each_with_index do |claz, index|
+    selected_class = ClassesData::KClasses.index(@current_class)
+    ClassesData::KClasses.each_with_index do |claz, index|
       enabled = selected_class == index || claz == 'Neutral'
       @tabs.setEnabled(enabled, forSegment: index)
       @tabs.setSelected(selected_class == index, forSegment: index)
@@ -456,7 +573,19 @@ class DeckManager < NSWindowController
     show_curve
   end
 
+  def show_deck_stats(deck)
+    @curve_view.subviews = []
+
+    unless @deck_stats
+      @deck_stats = DeckStatsView.new
+    end
+    @deck_stats.frame = @curve_view.bounds
+    @curve_view << @deck_stats
+    @deck_stats.deck = deck
+  end
+
   def show_curve
+    @curve_view.subviews = []
     unless @curves
       @curves = CurveView.new
     end
@@ -486,8 +615,8 @@ class DeckManager < NSWindowController
 
     @card_count.stringValue = "0 / #{@max_cards_in_deck}"
 
-    selected_class = KClasses.index(@current_class)
-    KClasses.each_with_index do |claz, index|
+    selected_class = ClassesData::KClasses.index(@current_class)
+    ClassesData::KClasses.each_with_index do |claz, index|
       enabled = selected_class == index || claz == 'Neutral'
       @tabs.setEnabled(enabled, forSegment: index)
       @tabs.setSelected(selected_class == index, forSegment: index)
@@ -544,24 +673,54 @@ class DeckManager < NSWindowController
       deck_name_input.stringValue = @deck_name
     end
 
+    buttons = ['Save'._, 'Cancel'._]
+    unless @current_deck.nil?
+      buttons = ['Save'._, 'New version'._, 'Cancel'._]
+    end
+
     response = NSAlert.alert('Deck name'._,
-                             :buttons => ['OK'._, 'Cancel'._],
+                             :buttons => buttons,
                              :view    => deck_name_input
     )
 
-    if response == NSAlertSecondButtonReturn
+    if response == NSAlertThirdButtonReturn
       return
     end
 
     deck_name_input.validateEditing
     deck_name = deck_name_input.stringValue
 
-    if @current_deck.nil?
-      @current_deck = Deck.create(:player_class => @deck_class)
-    end
+    if response == NSAlertFirstButtonReturn
+      if @current_deck.nil?
+        @current_deck = Deck.create(
+            :player_class => @deck_class,
+            :version      => 0,
+            :is_active    => true)
+      elsif @current_deck.version.nil?
+        # update the old deck to new system
+        @current_deck.version   = 0
+        @current_deck.is_active = true
+      end
+      @current_deck.arena = @current_deck_mode == :arena
+      @current_deck.name  = deck_name
 
-    @current_deck.arena = @current_deck_mode == :arena
-    @current_deck.name  = deck_name
+    else
+      @current_deck.is_active = false
+      if @current_deck.version.nil?
+        # update the old deck to new system
+        @current_deck.version = 0
+      end
+
+      new_deck      = Deck.create(
+          :player_class => @deck_class,
+          :version      => @current_deck.version + 1,
+          :is_active    => true,
+          :arena        => @current_deck.arena,
+          :name         => deck_name,
+          :deck         => @current_deck
+      )
+      @current_deck = new_deck
+    end
 
     @current_deck.cards.each do |c|
       c.destroy
@@ -608,13 +767,18 @@ class DeckManager < NSWindowController
       @table_view.reloadData
 
       @curve_view.subviews = []
+      @show_stats.enabled  = false
     end
   end
 
   def search(sender)
     str = sender.stringValue
 
-    search_card(str)
+    if str and !str.empty?
+      search_card(str)
+    else
+      cancel_search(sender)
+    end
   end
 
   def search_card(str)
@@ -643,14 +807,13 @@ class DeckManager < NSWindowController
     if result == NSOKButton
       path = panel.URL.path
 
-      content = []
+      content = ''
       @decks_or_cards.each do |card|
-        (0...card.count).each do
-          content << card.name
-        end
+        c = Card.by_id(card.card_id)
+        content << "#{card.count} #{c.english_name}\n"
       end
 
-      content.sort.join("\n").nsdata.write_to(path)
+      content.nsdata.write_to(path)
     end
   end
 
@@ -672,6 +835,17 @@ class DeckManager < NSWindowController
 
   def donate(_)
     NSWorkspace.sharedWorkspace.openURL 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted'.nsurl
+  end
+
+  def twitter(_)
+    NSWorkspace.sharedWorkspace.openURL 'https://twitter.com/hstracker_mac'.nsurl
+  end
+
+  def show_stats(_)
+    @stats_panel      ||= StatisticPanel.new
+    @stats_panel.deck = @current_deck
+
+    self.window.show_sheet(@stats_panel.window)
   end
 
 end

@@ -5,6 +5,8 @@
 "Empty deck url" = "Keine Deck URL";
 "Import Deck" = "Deck importieren";
 "Deck URL" = "Deck URL";
+"You can import decks from %@" = "You can import decks from %@";
+"and" = "and";
 "Import" = "Import";
 "Cancel" = "Abbrechen";
 "Loading" = "Laden";
@@ -26,6 +28,11 @@
 "Window" = "Window";
 "Unlock Windows" = "Unlock Windows";
 "Decks" = "Decks";
+"Save all" = "Save all";
+"Reset all data" = "Reset all data";
+"Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible." = "Are you sure you want to delete all data ?\nThis will delete your decks and statistics.\nThis operation is irreversible.";
+"All deck have been saved" = "All deck have been saved";
+"All data have been deleted" = "All data have been deleted";
 "Reset" = "Reset";
 
 /* preferences */
@@ -44,19 +51,19 @@
 "Language change" = "Language change";
 "You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
 "Card size" = "Card size";
-"Big" = "Big";
-"Medium" = "Medium";
-"Small" = "Small";
-"Colors" = "Colors";
+"Big" = "Groß";
+"Medium" = "Mittel";
+"Small" = "Klein";
+"Colors" = "Farben";
 "Draw / Count color" = "Draw / Count color";
 "Draw / Count border color" = "Draw / Count border color";
 "Card count / Draw chance" = "Card count / Draw chance";
-"Hidden" = "Hidden";
-"On trackers" = "On trackers";
-"Detached windows" = "Detached windows";
+"Hidden" = "Versteckt";
+"On trackers" = "Auf Trackers";
+"Detached windows" = "Gelöste Fenster";
 "Player Card Count" = "Player Card Count";
 "Opponent Card Count" = "Opponent Card Count";
-"Show stolen cards" = "Show stolen cards";
+"Show stolen cards" = "Zeige geklaute Karten";
 "Show card on hover" = "Show card on hover";
 
 /* classes */
@@ -104,13 +111,14 @@
 "Your deck don't have 30 cards, are you sure you want to continue ?" = "Ihr Deck besteht nicht aus 30 Karten, sind Sie sicher, dass Sie fortfahren möchten?";
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "Ihr Deck ist nicht gesichert, sind Sie sicher, dass Sie fortfahren möchten, alle Änderungen gehen verloren.";
 "Deck saved" = "Deck gesichert";
+"New version" = "New version";
 
 "Hand : " = "Hand : ";
 "Deck : " = "Deck : ";
 "Draw : " = "Draw : ";
 
-"Player" = "Player";
-"Opponent" = "Opponent";
+"Player" = "Spieler";
+"Opponent" = "Gegener";
 
 "You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
 "Cards images are not found. Please confirm the Hearthstone language then click OK to download them." = "Cards images are not found.\nPlease confirm the Hearthstone language then click OK to download them.";
@@ -118,3 +126,9 @@
 "Download images" = "Download images";
 "Missing images" = "Missing images";
 "Some images are missing, force a download from HSTracker menu -> Download images" = "Some images are missing, force a download from HSTracker menu -> Download images";
+
+"From Web" = "From Web";
+"From File" = "From File";
+
+"Consider in-hand as played" = "Consider in-hand as played";
+"Show debug files" = "Show debug files";

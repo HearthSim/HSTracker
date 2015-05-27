@@ -7,24 +7,14 @@ class InterfacePreferencesLayout < PreferencesLayout
   }
 
   def frame_size
-    [[0, 0], [300, 300]]
+    [[0, 0], [300, 320]]
   end
 
   def options
     NSColorPanel.sharedColorPanel.continuous = false
 
     {
-        :lock_windows        => {
-            :type    => NSButton,
-            :title   => 'Lock Windows'._,
-            :init    => -> (elem) {
-              elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.windows_locked ? NSOnState : NSOffState)
-            },
-            :changed => -> (elem) {
-              Configuration.windows_locked = (elem.state == NSOnState)
-            }
-        },
+        :windows_locked      => 'Lock Windows'._,
         :window_transparency => {
             :label   => 'Windows Transparency'._,
             :type    => NSSlider,
@@ -37,39 +27,9 @@ class InterfacePreferencesLayout < PreferencesLayout
               Configuration.window_transparency = elem.floatValue
             }
         },
-        :show_get_cards      => {
-            :type    => NSButton,
-            :title   => 'Show stolen cards'._,
-            :init    => -> (elem) {
-              elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.show_get_cards ? NSOnState : NSOffState)
-            },
-            :changed => -> (elem) {
-              Configuration.show_get_cards = (elem.state == NSOnState)
-            }
-        },
-        :show_card_on_hover  => {
-            :type    => NSButton,
-            :title   => 'Show card on hover'._,
-            :init    => -> (elem) {
-              elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.show_card_on_hover ? NSOnState : NSOffState)
-            },
-            :changed => -> (elem) {
-              Configuration.show_card_on_hover = (elem.state == NSOnState)
-            }
-        },
-        :window_names        => {
-            :type    => NSButton,
-            :title   => 'Fixed window names'._,
-            :init    => -> (elem) {
-              elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.fixed_window_names ? NSOnState : NSOffState)
-            },
-            :changed => -> (elem) {
-              Configuration.fixed_window_names = (elem.state == NSOnState)
-            }
-        },
+        :show_get_cards      => 'Show stolen cards'._,
+        :show_card_on_hover  => 'Show card on hover'._,
+        :fixed_window_names  => 'Fixed window names'._,
         :hand_count_window   => {
             :label   => 'Card count / Draw chance'._,
             :type    => NSPopUpButton,
@@ -94,7 +54,8 @@ class InterfacePreferencesLayout < PreferencesLayout
                 end
               end
             }
-        }
+        },
+        :in_hand_as_played => 'Consider in-hand as played'._
     }
   end
 

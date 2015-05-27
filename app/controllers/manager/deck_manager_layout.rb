@@ -48,8 +48,21 @@ class DeckManagerLayout < MK::WindowLayout
           alignment NSCenterTextAlignment
 
           constraints do
+            bottom_left.equals x: 2, y: 5
             height.equals(:superview)
-            width.equals(:superview)
+            width.is 50
+          end
+        end
+
+        add NSButton, :show_stats do
+          image 'stats'.nsimage
+          bordered false
+          enabled false
+
+          constraints do
+            height.is 32
+            width.is 32
+            left.equals(:card_count, :right).plus(5)
           end
         end
 

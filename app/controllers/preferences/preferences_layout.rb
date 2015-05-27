@@ -11,7 +11,7 @@ class PreferencesLayout < MK::Layout
     frame frame_size
 
     prev = :superview
-    options.each do |key, opts|
+    normalized_options.each do |key, opts|
 
       if opts[:label]
         add NSTextField, :"#{key}_label" do
@@ -73,11 +73,35 @@ class PreferencesLayout < MK::Layout
       identifier = identifier.to_sym
     end
 
-    opts = options[identifier]
+    opts = normalized_options[identifier]
     return if opts.nil?
 
     if opts[:changed]
       opts[:changed].call(sender)
     end
+  end
+
+  private
+  def normalized_options
+    normalized = {}
+    options.each do |key, opts|
+      if opts.is_a? String
+        normalized[key] = {
+            :type    => NSButton,
+            :title   => opts,
+            :init    => -> (elem) {
+              elem.buttonType = NSSwitchButton
+              elem.state      = (Configuration.send(key.to_s) ? NSOnState : NSOffState)
+            },
+            :changed => -> (elem) {
+              Configuration.send("#{key.to_s}=", (elem.state == NSOnState))
+            }
+        }
+      else
+        normalized[key] = opts
+      end
+    end
+
+    normalized
   end
 end

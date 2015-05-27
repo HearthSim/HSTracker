@@ -1,5 +1,22 @@
-#### 0.10
+#### 0.11
+- You can now import multiple files at the same time
+- Choose **Decks** -> **Save all** to export all your decks
+- Add an option to reset all data. **WARNING** this operation is irreversible, save your decks before !!! (Statistics will be lost)
+- Deck manager : ⌘-f to search, ⌘-s to save your deck, ⌘-w to close the deck and ⇧⌘-w to close the manager
+
+#### 0.10.2
+- Fix duplicate deck on menu
+- Fix opponent tracker reset
+
+#### 0.10.1
+- Correct a crash in 0.10
+- Add Twitter link
 - *New*: Display mana curve on the deck manager
+- *New*: Import decks from txt files. The deck must have the following format : **2 Mirror Image** or **2xMirror Image** or **2 CS2_027**. You can also have the card name if your hearthstone locale. Caution, make sure to have only one card per line.
+- *New*: Add an option to do not display in-hand cards. As soon as you draw a card, HSTracker consider it is not anymore in your deck and fade or remove the card from tracker, if no more in deck.
+- *New*: Add a button at the end of a game to save your opponent s deck. Of course, it will only save the cards your opponent played.
+- *New* __beta__: Deck now can have multiple versions. Also, win/loss statistics are now saved and displayed in the deck manager.
+- Correction of the arena tag from netdeck
 
 #### 0.9
 - Better font for asian languages

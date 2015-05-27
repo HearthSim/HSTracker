@@ -1,7 +1,11 @@
 class Deck < CDQManagedObject
+
   def self.by_name(name)
     Deck.where(:name => name).first
   end
+
+  # scope to get only the active decks
+  scope :active, where(:is_active => true).or(:version).eq(nil)
 
   def playable_cards
     _cards = []
