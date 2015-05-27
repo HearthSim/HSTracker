@@ -21,7 +21,7 @@ class StatisticPanelLayout < MK::WindowLayout
           header_view = NSTableHeaderView.alloc.initWithFrame [[0, 0], [table_width, 35]]
           setHeaderView header_view
 
-          row_height 20
+          row_height 40
           intercellSpacing [0, 0]
 
           frame frame

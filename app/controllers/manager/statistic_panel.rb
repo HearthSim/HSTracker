@@ -46,7 +46,10 @@ class StatisticPanel < NSWindowController
 
         version[clazz][:win]     += 1 if stat.win.to_bool
         version[clazz][:total]   += 1
-        version[clazz][:percent] = "#{(version[clazz][:win].to_f / version[clazz][:total] * 100.0).round(2)}%"
+
+        win = version[clazz][:win]
+        loss = version[clazz][:total] - win
+        version[clazz][:percent] = "#{(version[clazz][:win].to_f / version[clazz][:total] * 100.0).round(2)}%\n#{win} - #{loss}"
 
       end
 
