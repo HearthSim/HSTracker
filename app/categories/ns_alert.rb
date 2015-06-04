@@ -25,6 +25,11 @@ class NSAlert
       alert.accessoryView = view
     end
 
+    if options.fetch(:force_top, false)
+      NSRunningApplication.currentApplication.activateWithOptions(NSApplicationActivateIgnoringOtherApps|NSApplicationActivateAllWindows)
+      NSApplication.sharedApplication.activateIgnoringOtherApps(true)
+    end
+
     window = options.fetch(:window, nil)
     if window
       delegate = options.fetch(:delegate, nil)

@@ -49,6 +49,26 @@ class LogObserver
     @opponent_id = nil
   end
 
+  def detect_mode(timeout_sec, &block)
+    Log.verbose 'waiting for mode'
+    Dispatch::Queue.concurrent.async do
+      @awaiting_ranked_detection      = true
+      @waiting_for_first_asset_unload = true
+      @found_ranked                   = false
+      @last_asset_unload              = NSDate.new.timeIntervalSince1970
+
+      timeout = timeout_sec.seconds.after(NSDate.now).timeIntervalSince1970
+      while @waiting_for_first_asset_unload or (NSDate.now.timeIntervalSince1970 - @last_asset_unload) < timeout
+        NSThread.sleepForTimeInterval(0.1)
+        break if @found_ranked
+      end
+
+      Dispatch::Queue.main.async do
+        block.call(@found_ranked) if block
+      end
+    end
+  end
+
   private
   def file_size(path)
     File.stat(path).size
@@ -286,12 +306,18 @@ class LogObserver
       end
 
     elsif line =~ /^\[Asset\]/
+      if @awaiting_ranked_detection
+        @last_asset_unload         = NSDate.new.timeIntervalSince1970
+        @awaiting_ranked_detection = false
+      end
+
       if (match = /Medal_Ranked_(\d+)/.match(line))
         rank = match[1].to_i
         Game.instance.player_rank(rank)
 
-      elsif line =~ /name=rank_window/
-        @game_mode = :ranked
+      elsif line.include? 'rank_window'
+        @found_ranked = true
+        @game_mode    = :ranked
         Game.instance.game_mode(@game_mode)
       end
 

@@ -65,6 +65,27 @@
 "Opponent Card Count" = "Opponent Card Count";
 "Show stolen cards" = "Show stolen cards";
 "Show card on hover" = "Show card on hover";
+"User Accounts" = "User Accounts";
+"Configure Hearthstats" = "Configure Hearthstats";
+"Login" = "Email";
+"Password" = "Password";
+"Connect" = "Connect";
+"Deck save" = "Deck save";
+"Your deck is not saved on HearthStats. Do you want to save it now ?" = "Your deck is not saved on HearthStats.\nDo you want to save it now ?";
+"Do you want to delete this deck on HearthStats ?" = "Do you want to delete this deck on HearthStats ?";
+"Do you want to save this deck on HearthStats ?" = "Do you want to save this deck on HearthStats ?";
+"No account yet ?" = "No account yet ?";
+"From HearthStats" = "From HearthStats";
+"No new deck to import" = "No new deck to import";
+"%@ decks have been imported" = "%@ decks have been imported";
+"Login successfully" = "Login successfully";
+"Login Error" = "Login Error";
+"Confirm password" = "Confirm password";
+"Confirm login" = "Confirm email";
+"Register" = "Register";
+"Login are not the same" = "Login are not the same";
+"Password are not the same" = "Password are not the same";
+"Registration successfully completed" = "Registration successfully completed";
 
 /* classes */
 "Shaman" = "Shaman";

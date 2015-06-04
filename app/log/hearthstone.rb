@@ -1,5 +1,7 @@
 class Hearthstone
 
+  attr_accessor :log_observer, :hearthstats_token
+
   # used when debugging from actual log file
   KDebugFromFile = false
 
@@ -213,7 +215,6 @@ class Hearthstone
 
     @log_observer.stop
     @log_observer = nil
-    @log_analyzer = nil
   end
 
 end

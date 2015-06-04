@@ -369,6 +369,10 @@ class DeckManager < NSWindowController
         menu_item.identifier = 'file'
         menu.addItem menu_item
 
+        menu_item            = NSMenuItem.alloc.initWithTitle('From HearthStats'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item.identifier = 'hearthstats'
+        menu.addItem menu_item
+
         popup                    = NSPopUpButton.alloc.initWithFrame [[0, 0], [50, 32]]
         popup.cell.arrowPosition = NSPopUpNoArrow
         popup.bordered           = false
@@ -497,6 +501,61 @@ class DeckManager < NSWindowController
         end
       end
       self.window.show_sheet(@import.window)
+    elsif sender.identifier == 'hearthstats'
+
+      classes = {
+          1 => 'Druid',
+          2 => 'Hunter',
+          3 => 'Mage',
+          4 => 'Paladin',
+          5 => 'Priest',
+          6 => 'Rogue',
+          7 => 'Shaman',
+          8 => 'Warlock',
+          9 => 'Warrior'
+      }
+
+      HearthStatsAPI.get_decks do |data|
+        data.each do |json_deck|
+          deck_id    = json_deck['deck']['id']
+          deck_name  = json_deck['deck']['name']
+          deck_class = classes[json_deck['deck']['klass_id']]
+
+          # search for a deck with the same id
+          deck       = Deck.where(:hearthstats_id => deck_id).first
+
+          if deck.nil?
+            deck = Deck.create :name                   => deck_name,
+                               :player_class           => deck_class,
+                               :arena                  => false,
+                               :version                => json_deck['current_version'].to_i,
+                               :is_active              => true,
+                               :hearthstats_id         => deck_id,
+                               :hearthstats_version_id => json_deck['versions']
+                                                              .select { |d| d['version'] == json_deck['current_version'] }
+                                                              .first['deck_version_id']
+
+          end
+
+          deck.cards.each do |c|
+            c.destroy
+          end
+          json_deck['cards'].each do |json_card|
+            deck.cards.create(:card_id => json_card['id'], :count => json_card['count'].to_i)
+          end
+        end
+
+        if data.count.zero?
+          message = 'No new deck to import'._
+        else
+          message = NSString.stringWithFormat('%@ decks have been imported'._)
+        end
+        NSAlert.alert(message, :buttons => ['OK'._])
+
+        # reload decks
+        show_decks
+        @table_view.reloadData
+      end
     else
       panel                         = NSOpenPanel.openPanel
       panel.canChooseFiles          = true
@@ -636,6 +695,17 @@ class DeckManager < NSWindowController
     )
 
     if response == NSAlertFirstButtonReturn
+
+      if Configuration.use_hearthstats and !@current_deck.hearthstats_id.zero?
+        response = NSAlert.alert('Delete'._,
+                                 :buttons     => ['OK'._, 'Cancel'._],
+                                 :informative => 'Do you want to delete this deck on HearthStats ?'._,
+                                 :force_top   => true)
+        if response == NSAlertFirstButtonReturn
+          HearthStatsAPI.delete_deck(@current_deck)
+        end
+      end
+
       @current_deck.destroy
 
       cdq.save
@@ -691,6 +761,7 @@ class DeckManager < NSWindowController
     deck_name = deck_name_input.stringValue
 
     if response == NSAlertFirstButtonReturn
+      is_new_deck = true
       if @current_deck.nil?
         @current_deck = Deck.create(
             :player_class => @deck_class,
@@ -705,6 +776,7 @@ class DeckManager < NSWindowController
       @current_deck.name  = deck_name
 
     else
+      is_new_deck             = false
       @current_deck.is_active = false
       if @current_deck.version.nil?
         # update the old deck to new system
@@ -712,12 +784,14 @@ class DeckManager < NSWindowController
       end
 
       new_deck      = Deck.create(
-          :player_class => @deck_class,
-          :version      => @current_deck.version + 1,
-          :is_active    => true,
-          :arena        => @current_deck.arena,
-          :name         => deck_name,
-          :deck         => @current_deck
+          :player_class           => @deck_class,
+          :version                => @current_deck.version + 1,
+          :is_active              => true,
+          :arena                  => @current_deck.arena,
+          :name                   => deck_name,
+          :deck                   => @current_deck,
+          :hearthstats_id         => @current_deck.hearthstats_id,
+          :hearthstats_version_id => @current_deck.hearthstats_version_id
       )
       @current_deck = new_deck
     end
@@ -731,6 +805,24 @@ class DeckManager < NSWindowController
     end
 
     cdq.save
+
+    if Configuration.use_hearthstats
+      response = NSAlert.alert('Deck save'._,
+                               :buttons     => ['OK'._, 'Cancel'._],
+                               :informative => 'Do you want to save this deck on HearthStats ?'._,
+                               :force_top   => true)
+      if response == NSAlertFirstButtonReturn
+        if is_new_deck
+          if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
+            HearthStatsAPI.post_deck(@current_deck)
+          else
+            HearthStatsAPI.update_deck(@current_deck)
+          end
+        else
+          HearthStatsAPI.post_deck_version(@current_deck)
+        end
+      end
+    end
 
     @saved = true
     NSNotificationCenter.defaultCenter.post('deck_change')

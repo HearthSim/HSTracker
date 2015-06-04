@@ -18,6 +18,8 @@ class AppDelegate
 
     cdq.setup
 
+    #AFNetworkActivityLogger.sharedLogger.startLogging
+
     show_splash_screen
 
     # load cards into database if needed
@@ -51,6 +53,11 @@ class AppDelegate
           @player.set_level NSNormalWindowLevel
           @opponent.set_level NSNormalWindowLevel
         end
+      end
+
+      Configuration.use_hearthstats = !Configuration.hearthstats_token.nil?
+      NSNotificationCenter.defaultCenter.observe('use_hearthstats') do |_|
+        configure_hearthstats
       end
 
       NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|
@@ -97,13 +104,15 @@ class AppDelegate
           [
               GeneralPreferences.new,
               InterfacePreferences.new,
-              ColorPreferences.new
+              ColorPreferences.new,
+              SyncPreferences.new
           ],
           title: 'Preferences'._)
     end
   end
 
   def openPreferences(_)
+    Configuration.use_hearthstats = !Configuration.hearthstats_token.nil?
     preferences.showWindow(nil)
   end
 
@@ -317,5 +326,16 @@ class AppDelegate
 
   def open_debug(_)
     NSWorkspace.sharedWorkspace.activateFileViewerSelectingURLs ['/Library/Logs/HSTracker'.home_path.fileurl]
+  end
+
+  def configure_hearthstats
+    if Configuration.use_hearthstats
+      @config                 = HearthStatsLogin.new
+      @config.window.delegate = self
+      @config.showWindow(nil)
+    else
+      # we forgot token
+      Configuration.hearthstats_token = nil
+    end
   end
 end

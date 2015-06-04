@@ -22,6 +22,59 @@ class Web
                 })
   end
 
+  def self.json_post(url, data, &block)
+    log('post', url, data)
+    json_manager.POST(url,
+                parameters: data,
+                success:    -> (_, response) {
+                  block.call(response, nil) if block
+                },
+                failure:    -> (_, error) {
+                  Motion::Log.error(error.localizedDescription)
+                  block.call(nil, error) if block
+                })
+  end
+
+  def self.json_put(url, data, &block)
+    log('put', url, data)
+    json_manager.PUT(url,
+                      parameters: data,
+                      success:    -> (_, response) {
+                        block.call(response, nil) if block
+                      },
+                      failure:    -> (_, error) {
+                        Motion::Log.error(error.localizedDescription)
+                        block.call(nil, error) if block
+                      })
+  end
+
+  def self.json_delete(url, data, &block)
+    log('delete', url, data)
+    json_manager.DELETE(url,
+                     parameters: data,
+                     success:    -> (_, response) {
+                       block.call(response, nil) if block
+                     },
+                     failure:    -> (_, error) {
+                       Motion::Log.error(error.localizedDescription)
+                       block.call(nil, error) if block
+                     })
+  end
+
+  def self.json_get(url, data, &block)
+    log('get', url, data)
+    puts "will get to #{url} with #{data.inspect}"
+    json_manager.GET(url,
+                 parameters: data,
+                 success:    -> (_, response) {
+                   block.call(response, nil) if block
+                 },
+                 failure:    -> (_, error) {
+                   Motion::Log.error(error.localizedDescription)
+                   block.call(nil, error) if block
+                 })
+  end
+
   def self.download(cards_id, locale, path, options={}, &block)
     unless File.exists?(path)
       NSFileManager.defaultManager.createDirectoryAtPath(path,
@@ -65,5 +118,28 @@ class Web
      })
 
     operation.start
+  end
+
+  def self.json_manager
+    if defined?(NSURLSession) == 'constant' and NSURLSession.class == Class
+      manager = AFHTTPSessionManager.manager
+    else
+      manager = AFHTTPRequestOperationManager.manager
+    end
+
+    manager.requestSerializer = AFJSONRequestSerializer.serializer
+
+    manager
+  end
+
+  def self.log(verb, url, data)
+    _data = data.dup
+
+    if _data and _data[:password]
+      _data[:password] = '¯\_(ツ)_/¯'
+    end
+    _url = url.gsub /auth_token=(.+)$/, 'auth_token=¯\_(ツ)_/¯'
+
+    Motion::Log.verbose("will #{verb} to #{_url} with #{_data.inspect}")
   end
 end

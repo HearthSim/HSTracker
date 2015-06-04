@@ -35,6 +35,7 @@ Motion::Project::App.setup do |app|
 
   app.pods do
     pod 'AFNetworking', '2.5.3'
+    pod 'AFNetworkActivityLogger'
     pod 'GDataXML-HTML'
     pod 'MASPreferences'
     pod 'JNWCollectionView'

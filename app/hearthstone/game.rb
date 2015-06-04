@@ -3,7 +3,7 @@ class Game
 
   Log = Motion::Log
 
-  attr_accessor :player_tracker, :opponent_tracker
+  attr_accessor :player_tracker, :opponent_tracker, :start_date, :end_date
 
   def self.instance
     Dispatch.once { @instance ||= new }
@@ -14,41 +14,140 @@ class Game
     @current_deck = current_deck
   end
 
-  def save_stats
-    return if @game_saved or @game_result_win.nil? or @current_deck.nil? or @current_opponent.nil? or @game_mode != :ranked
-    Log.verbose "stats : #{@game_result_win}, against : #{@current_opponent.player_class}, with deck : #{@current_deck.name}"
+  def handle_end_game
+    if @current_deck.nil?
+      Log.verbose 'No current deck, ignore game'
+      return
+    end
 
-    Statistic.create :opponent_class => @current_opponent.player_class,
-                     :win            => (@game_result_win == :win),
-                     :deck           => @current_deck
-    cdq.save
-    @game_saved = true
+    if @game_mode != :ranked
+      Hearthstone.instance.log_observer.detect_mode(3) do |found|
+        if found
+          Log.verbose 'Game mode detected as ranked'
+          handle_end_game
+        end
+      end
+    end
+
+    if @game_mode == :ranked and @current_rank.nil?
+      wait_rank(5) do |found|
+        if found
+          Log.verbose "Game ranked, get rank #{@current_rank}"
+          handle_end_game
+        end
+      end
+    end
+
+    if @game_mode == :ranked && @current_rank
+      if Configuration.use_hearthstats
+        game_result = case @game_result_win
+                        when :win
+                          'Win'
+                        when :loss
+                          'Loss'
+                        when :draw
+                          'Draw'
+                        else
+                          'None'
+                      end
+        game_mode   = case @game_mode
+                        when :ranked
+                          'Ranked'
+                        when :arena
+                          'Arena'
+                        else
+                          'Casual'
+                      end
+        data        = { :class           => @current_deck.player_class,
+                        :mode            => game_mode,
+                        :result          => game_result,
+                        :coin            => @has_coin.to_s,
+                        :numturns        => @current_turn,
+                        :duration        => ((@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970) * 1000).to_i,
+                        :deck_id         => @current_deck.hearthstats_id,
+                        :deck_version_id => @current_deck.hearthstats_version_id,
+                        :oppclass        => @current_opponent.player_class,
+                        :oppname         => @opponent_name || nil,
+                        :notes           => nil,
+                        :ranklvl         => @current_rank,
+                        :oppcards        => @opponent_cards.map { |card| { id: card.card_id, count: card.count } },
+                        :created_at      => @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", :unicode => true)
+        }
+
+        if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
+          response = NSAlert.alert('Deck save'._,
+                                   :buttons     => ['OK'._, 'Cancel'._],
+                                   :informative => 'Your deck is not saved on HearthStats. Do you want to save it now ?'._,
+                                   :force_top   => true)
+          if response == NSAlertFirstButtonReturn
+            HearthStatsAPI.post_deck(@current_deck) do |status|
+              if status
+                data[:deck_id]         = @current_deck.hearthstats_id
+                data[:deck_version_id] = @current_deck.hearthstats_version_id
+                HearthStatsAPI.post_game_result(data)
+              else
+                Log.error "Error while posting deck #{@current_deck.name}"
+              end
+            end
+          end
+        else
+          HearthStatsAPI.post_game_result(data)
+        end
+      end
+
+      # stats have a game_mode... it will be supported in a future version
+      Log.verbose "stats : #{@game_result_win}, against : #{@current_opponent.player_class}, with deck : #{@current_deck.name}"
+      Statistic.create :opponent_class => @current_opponent.player_class,
+                       :opponent_name  => @opponent_name,
+                       :win            => (@game_result_win == :win),
+                       :deck           => @current_deck,
+                       :rank           => @current_rank,
+                       :game_mode      => @game_mode.to_s
+      cdq.save
+      @game_saved = true
+    end
+  end
+
+  def wait_rank(timeout_sec, &block)
+    Log.verbose 'waiting for rank'
+    Dispatch::Queue.concurrent.async do
+      @found_rank = false
+
+      timeout = timeout_sec.seconds.after(NSDate.now).timeIntervalSince1970
+      while (NSDate.now.timeIntervalSince1970 - @last_asset_unload) < timeout
+        NSThread.sleepForTimeInterval(0.1)
+        break if @found_rank
+      end
+
+      Dispatch::Queue.main.async do
+        block.call(@found_rank) if block
+      end
+    end
   end
 
   ## game events
-
   def game_mode(game_mode)
     Log.debug "Player in game mode #{game_mode}"
     @game_mode = game_mode
-
-    save_stats
   end
 
   def player_rank(rank)
     Log.debug "You are rank #{rank}"
     @current_rank = rank
-
-    save_stats
   end
 
   def game_start
     Log.debug '----- Game Started -----'
+    @start_date = NSDate.new
     player_tracker.game_start
     opponent_tracker.game_start
 
-    @game_saved = false
+    @game_saved       = false
     @game_result_win  = nil
     @current_opponent = nil
+    @current_turn     = 0
+    @opponent_cards   = nil
+    @has_coin         = false
   end
 
   def concede
@@ -67,11 +166,15 @@ class Game
 
   def tied
     Log.debug 'You loose / game tied:('
+    @game_result_win = :draw
   end
 
   def game_end
     Log.debug '----- Game End -----'
-    save_stats
+    @end_date = NSDate.new
+    handle_end_game
+
+    @opponent_cards = opponent_tracker.cards
 
     player_tracker.game_end
     opponent_tracker.game_end
@@ -79,6 +182,7 @@ class Game
 
   def turn_start(player, turn)
     log(player, "turn : #{turn}")
+    @current_turn = turn
   end
 
   ## player events
@@ -103,6 +207,7 @@ class Game
     return if card_id.nil? or card_id.empty?
 
     if card_id == 'GAME_005'
+      @has_coin = true
       player_get(card_id, turn)
     else
       player_tracker.draw(card_id)
@@ -170,6 +275,7 @@ class Game
   ## opponent events
   def opponent_name(name)
     log(:opponent, "name is #{name}")
+    @opponent_name = name
   end
 
   def opponent_get_to_deck(card_id, turn)
@@ -263,4 +369,5 @@ class Game
   def notify(event, args={})
     NSNotificationCenter.defaultCenter.post(event, self, args)
   end
+
 end

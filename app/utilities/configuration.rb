@@ -14,7 +14,7 @@ class Configuration
     KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency
                   flash_color fixed_window_names reset_on_end card_layout count_color
                   count_color_border hand_count_window show_get_cards show_card_on_hover
-                  in_hand_as_played)
+                  in_hand_as_played use_hearthstats hearthstats_token)
 
     KDefaults = {
         :flash_color         => [55, 189, 223],
@@ -29,7 +29,8 @@ class Configuration
         :show_get_cards      => false,
         :hand_count_window   => :tracker,
         :show_card_on_hover  => true,
-        :in_hand_as_played   => false
+        :in_hand_as_played   => false,
+        :use_hearthstats     => false
     }
 
     def method_missing(symbol, *args)
@@ -102,6 +103,7 @@ class Configuration
           'enUS'
       end
     end
+
   end
 
 end
