@@ -100,7 +100,7 @@ class Game
       end
 
       # stats have a game_mode... it will be supported in a future version
-      Log.verbose "stats : #{@game_result_win}, against : #{@current_opponent.player_class}, with deck : #{@current_deck.name}"
+      Log.verbose "stats : #{@game_result_win} against : #{@current_opponent.player_class} with deck : #{@current_deck.name} at rank : #{@current_rank}"
       Statistic.create :opponent_class => @current_opponent.player_class,
                        :opponent_name  => @opponent_name,
                        :win            => (@game_result_win == :win),
