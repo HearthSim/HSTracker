@@ -133,6 +133,7 @@
 "Login are not the same" = "Login are not the same";
 "Password are not the same" = "Password are not the same";
 "Registration successfully completed" = "Registration successfully completed";
+"HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue" = "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue";
 
 "Hand : " = "In mano : ";
 "Deck : " = "Nel mazzo : ";

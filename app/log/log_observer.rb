@@ -79,6 +79,13 @@ class LogObserver
     path = Hearthstone.log_path
 
     file_handle = NSFileHandle.fileHandleForReadingAtPath(path)
+    if file_handle.nil?
+      NSAlert.alert('Error',
+                    :informative => "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
+                    :style       => NSCriticalAlertStyle
+      )
+      return
+    end
     file_handle.seekToFileOffset(@last_read_position)
 
     Dispatch::Queue.concurrent.async do

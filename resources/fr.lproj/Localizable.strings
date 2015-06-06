@@ -86,6 +86,7 @@
 "Login are not the same" = "Les emails ne correspondent pas";
 "Password are not the same" = "Les mots de passe ne correspondent pas";
 "Registration successfully completed" = "Création de compte finie avec succès";
+"HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue" = "HSTracker n'arrive pas à lire le fichier de log. Merci de relancer HSTracker et Hearthstone pour corriger cette erreur.";
 
 /* classes */
 "Shaman" = "Chaman";
