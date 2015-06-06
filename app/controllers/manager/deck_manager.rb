@@ -548,9 +548,11 @@ class DeckManager < NSWindowController
         if data.count.zero?
           message = 'No new deck to import'._
         else
-          message = NSString.stringWithFormat('%@ decks have been imported'._)
+          message = NSString.stringWithFormat('%@ decks have been imported'._, data.count)
         end
         NSAlert.alert(message, :buttons => ['OK'._])
+
+        cdq.save
 
         # reload decks
         show_decks
@@ -696,7 +698,7 @@ class DeckManager < NSWindowController
 
     if response == NSAlertFirstButtonReturn
 
-      if Configuration.use_hearthstats and !@current_deck.hearthstats_id.zero?
+      if Configuration.use_hearthstats and !@current_deck.hearthstats_id.nil? and !@current_deck.hearthstats_id.zero?
         response = NSAlert.alert('Delete'._,
                                  :buttons     => ['OK'._, 'Cancel'._],
                                  :informative => 'Do you want to delete this deck on HearthStats ?'._,
