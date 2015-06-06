@@ -58,20 +58,24 @@ class Game
                         else
                           'Casual'
                       end
-        data        = { :class           => @current_deck.player_class,
-                        :mode            => game_mode,
-                        :result          => game_result,
-                        :coin            => @has_coin.to_s,
-                        :numturns        => @current_turn,
-                        :duration        => ((@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970) * 1000).to_i,
-                        :deck_id         => @current_deck.hearthstats_id,
-                        :deck_version_id => @current_deck.hearthstats_version_id,
-                        :oppclass        => @current_opponent.player_class,
-                        :oppname         => @opponent_name || nil,
-                        :notes           => nil,
-                        :ranklvl         => @current_rank,
-                        :oppcards        => @opponent_cards.map { |card| { id: card.card_id, count: card.count } },
-                        :created_at      => @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", :unicode => true)
+        cards       = nil
+        if @opponent_cards
+          cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
+        end
+        data = { :class           => @current_deck.player_class,
+                 :mode            => game_mode,
+                 :result          => game_result,
+                 :coin            => @has_coin.to_s,
+                 :numturns        => @current_turn,
+                 :duration        => ((@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970) * 1000).to_i,
+                 :deck_id         => @current_deck.hearthstats_id,
+                 :deck_version_id => @current_deck.hearthstats_version_id,
+                 :oppclass        => @current_opponent.player_class,
+                 :oppname         => @opponent_name || nil,
+                 :notes           => nil,
+                 :ranklvl         => @current_rank,
+                 :oppcards        => cards,
+                 :created_at      => @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", :unicode => true)
         }
 
         if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
@@ -172,9 +176,9 @@ class Game
   def game_end
     Log.debug '----- Game End -----'
     @end_date = NSDate.new
-    handle_end_game
 
     @opponent_cards = opponent_tracker.cards
+    handle_end_game
 
     player_tracker.game_end
     opponent_tracker.game_end
