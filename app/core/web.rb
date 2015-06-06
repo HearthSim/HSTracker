@@ -143,6 +143,5 @@ class Web
     _data = Marshal.load(Marshal.dump(data))
 
     Motion::Log.verbose("will #{verb} to #{_url} with #{_data.delete_if(&p).inspect}")
-    mp data
   end
 end
