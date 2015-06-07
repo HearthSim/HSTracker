@@ -154,3 +154,11 @@
 
 "Consider in-hand as played" = "Considera le carte in mano come giocate";
 "Show debug files" = "Show debug files";
+
+"Your deck has been saved" = "Your deck has been saved";
+"Your deck has been exported" = "Your deck has been exported";
+"Results for this game has been saved on HearthStats" = "Results for this game has been saved on HearthStats";
+"Save match" = "Save match";
+"An error has occured while saving results for this game on HearthStats" = "An error has occured while saving results for this game on HearthStats";
+"Delete Deck" = "Delete Deck";
+"Your deck has been deleted" = "Your deck has been deleted";

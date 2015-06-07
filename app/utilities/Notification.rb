@@ -4,7 +4,7 @@ class Notification
     notification = NSUserNotification.new
     notification.title = title
     notification.informativeText = message
-    notification.soundName = NSUserNotificationDefaultSoundName
+    notification.soundName = nil
 
     NSUserNotificationCenter.defaultUserNotificationCenter.deliverNotification(notification)
   end

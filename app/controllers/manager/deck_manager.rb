@@ -723,6 +723,8 @@ class DeckManager < NSWindowController
       @card_count.stringValue = ''
       @table_view.reloadData
       @curve_view.subviews = []
+
+      Notification.post('Delete Deck'._, 'Your deck has been deleted'._)
     end
   end
 
@@ -829,11 +831,7 @@ class DeckManager < NSWindowController
     @saved = true
     NSNotificationCenter.defaultCenter.post('deck_change')
 
-    NSAlert.alert('Save'._,
-                  :buttons     => ['OK'._],
-                  :informative => 'Deck saved'._,
-                  :style       => NSInformationalAlertStyle
-    )
+    Notification.post('Deck saved'._, 'Your deck has been saved'._)
   end
 
   def close_deck(_)
@@ -908,6 +906,7 @@ class DeckManager < NSWindowController
       end
 
       content.nsdata.write_to(path)
+      Notification.post('Export Deck'._, 'Your deck has been exported'._)
     end
   end
 
