@@ -185,6 +185,17 @@ class DeckManager < NSWindowController
     card          = cards[indexPath.jnw_item]
     cell.delegate = self
     cell.card     = card
+    cell.mode     = @current_deck_mode
+
+    count = 0
+    if @in_edition
+      @decks_or_cards.each do |c|
+        if card.card_id == c.card_id
+          count = c.count
+        end
+      end
+    end
+    cell.count = count
 
     cell
   end
@@ -208,8 +219,6 @@ class DeckManager < NSWindowController
     card_count = @decks_or_cards.count_cards
     return if card_count >= @max_cards_in_deck
 
-    @card_count.stringValue = "#{card_count + 1} / #{@max_cards_in_deck}"
-
     cell = collectionView.cellForItemAtIndexPath(indexPath)
     c    = cell.card
 
@@ -231,8 +240,12 @@ class DeckManager < NSWindowController
       @decks_or_cards << c
       @decks_or_cards.sort_cards!
     end
+
+    @card_count.stringValue = "#{card_count + 1} / #{@max_cards_in_deck}"
+
     @curves.cards = @decks_or_cards if @curves
     @table_view.reloadData
+    @cards_view.reloadData
     @saved = false
   end
 
@@ -320,6 +333,7 @@ class DeckManager < NSWindowController
       @curves.cards           = @decks_or_cards if @curves
       @saved                  = false
       @table_view.reloadData
+      @cards_view.reloadData
     end
   end
 
@@ -604,7 +618,7 @@ class DeckManager < NSWindowController
     if deck.is_a? Deck
       @current_deck = deck
 
-      @current_deck.arena ? @current_deck_mode = :arena : @current_deck_mode = :constructed
+      @current_deck.arena.to_bool ? @current_deck_mode = :arena : @current_deck_mode = :constructed
       @decks_or_cards = @current_deck.playable_cards
       @deck_name      = deck.name
       @deck_class     = deck.player_class

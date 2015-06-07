@@ -1,6 +1,6 @@
 class CardItemView < JNWCollectionViewCell
 
-  attr_accessor :card, :delegate
+  attr_accessor :card, :count, :delegate, :mode
 
   def card=(card)
     @card = card
@@ -10,6 +10,16 @@ class CardItemView < JNWCollectionViewCell
     if image.nil?
       self.delegate.missing_image(card)
     end
+  end
+
+  def count=(count)
+    @count = count
+
+    alpha = 1.0
+    if card.count == DeckManager::KMaxCardOccurence[mode] or card.rarity == 'Legendary'._
+      alpha = 0.5
+    end
+    self.layer.opacity = alpha
   end
 
   # check mouse hover
