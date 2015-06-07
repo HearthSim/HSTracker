@@ -93,7 +93,8 @@ class GeneralPreferencesLayout < PreferencesLayout
               end
             }
         },
-        :reset_on_end       => 'Reset trackers on game end'._
+        :reset_on_end       => 'Reset trackers on game end'._,
+        :show_notifications => 'Show notifications'._
     }
   end
 
