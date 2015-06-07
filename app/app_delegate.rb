@@ -40,6 +40,18 @@ class AppDelegate
       Game.instance.player_tracker   = @player
       Game.instance.opponent_tracker = @opponent
 
+      if Configuration.remember_last_deck
+        last_deck_played = Configuration.last_deck_played
+        unless last_deck_played.nil?
+          name, version = last_deck_played.split('#')
+          deck = Deck.where(:name => name).and(:version).eq(version).first
+          if deck
+            @player.show_deck(deck.playable_cards, deck.name)
+            Game.instance.with_deck(deck)
+          end
+        end
+      end
+
       Hearthstone.instance.on(:app_running) do |is_running|
         Log.info "Hearthstone is running? #{is_running}"
       end
@@ -168,6 +180,9 @@ class AppDelegate
     deck = Deck.by_name(menu_item.title)
     @player.show_deck(deck.playable_cards, deck.name)
     Game.instance.with_deck(deck)
+    if Configuration.remember_last_deck
+      Configuration.last_deck_played = "#{deck.name}##{deck.version}"
+    end
   end
 
   # reset the trackers

@@ -243,7 +243,7 @@ class DeckManager < NSWindowController
 
     @card_count.stringValue = "#{card_count + 1} / #{@max_cards_in_deck}"
 
-    @curves.cards = @decks_or_cards if @curves
+    @curves.cards           = @decks_or_cards if @curves
     @table_view.reloadData
     @cards_view.reloadData
     @saved = false
@@ -609,6 +609,10 @@ class DeckManager < NSWindowController
 
     player_view.show_deck(@decks_or_cards, @deck_name) if player_view
     Game.instance.with_deck(@current_deck)
+
+    if Configuration.remember_last_deck
+      Configuration.last_deck_played = "#{@current_deck.name}##{@current_deck.version}"
+    end
   end
 
   def show_deck(deck, clazz=nil, name=nil, arena=false)

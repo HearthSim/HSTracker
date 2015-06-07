@@ -16,8 +16,18 @@ class LogObserver
     # if we are in full debug mode, we skip this
     unless Hearthstone::KDebugFromFile
       if path.file_exists?
-        # if the file exists, we start reading at the end
-        @last_read_position = file_size(path)
+        # if the file exists, we start reading at from the last started game
+        path = Hearthstone.log_path
+
+        file_handle = NSFileHandle.fileHandleForReadingAtPath(path)
+        if file_handle.nil?
+          NSAlert.alert('Error',
+                        :informative => "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
+                        :style       => NSCriticalAlertStyle
+          )
+          return
+        end
+        @last_read_position = find_last_game_start(file_handle)
       end
     end
     changes_in_file
@@ -112,6 +122,44 @@ class LogObserver
         end
       end
     end
+  end
+
+  def find_last_game_start(file_handle)
+    offset                = 0
+    temp_offset           = 0
+    found_spectator_start = false
+
+    file_handle.seekToFileOffset(0)
+    data = file_handle.readDataToEndOfFile
+
+    lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
+    lines     = lines_str.split "\n"
+    lines.each do |line|
+      if line.include? 'Begin Spectating' or line.include? 'Start Spectator'
+        offset                = temp_offset
+        found_spectator_start = true
+      elsif line.include? 'End Spectator'
+        offset = temp_offset
+      elsif line.include? 'CREATE_GAME'
+        if found_spectator_start
+          found_spectator_start = false
+          next
+        end
+        offset = temp_offset
+        next
+      end
+
+      temp_offset += line.length + 1
+      if line =~ /^\[Bob\] legend rank/
+        if found_spectator_start
+          found_spectator_start = false
+          next
+        end
+        offset = temp_offset
+      end
+    end
+
+    offset
   end
 
   ## analyze
