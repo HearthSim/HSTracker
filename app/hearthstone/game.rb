@@ -58,7 +58,7 @@ class Game
                         else
                           'Casual'
                       end
-        cards       = nil
+        cards       = []
         if @opponent_cards
           cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
         end
@@ -88,14 +88,20 @@ class Game
               if status
                 data[:deck_id]         = @current_deck.hearthstats_id
                 data[:deck_version_id] = @current_deck.hearthstats_version_id
-                HearthStatsAPI.post_game_result(data)
+                HearthStatsAPI.post_game_result(data) do |success|
+                  # save for later
+                  save_match(data, cards) unless success
+                end
               else
                 Log.error "Error while posting deck #{@current_deck.name}"
               end
             end
           end
         else
-          HearthStatsAPI.post_game_result(data)
+          HearthStatsAPI.post_game_result(data) do |success|
+            # save for later
+            save_match(data, cards) unless success
+          end
         end
       end
 
@@ -110,6 +116,24 @@ class Game
       cdq.save
       @game_saved = true
     end
+  end
+
+  def save_match(data, cards)
+    return
+
+    data[:player_class] = data[:class]
+    data.delete_if {|key, _| key == :class }
+
+    mp :data => data, :cards => cards
+    match = HearthstatsMatch.create data
+
+    cards.each do |c|
+      HearthstatsMatchCard.create :card_id           => c[:id],
+                                  :count             => c[:count],
+                                  :hearthstats_match => match
+    end
+
+    cdq.save
   end
 
   def wait_rank(timeout_sec, &block)
