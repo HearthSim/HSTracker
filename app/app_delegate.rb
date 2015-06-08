@@ -68,9 +68,6 @@ class AppDelegate
       end
 
       Configuration.use_hearthstats = !Configuration.hearthstats_token.nil?
-      NSNotificationCenter.defaultCenter.observe('use_hearthstats') do |_|
-        configure_hearthstats
-      end
 
       NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|
         reload_deck_menu
@@ -343,14 +340,4 @@ class AppDelegate
     NSWorkspace.sharedWorkspace.activateFileViewerSelectingURLs ['/Library/Logs/HSTracker'.home_path.fileurl]
   end
 
-  def configure_hearthstats
-    if Configuration.use_hearthstats
-      @config                 = HearthStatsLogin.new
-      @config.window.delegate = self
-      @config.showWindow(nil)
-    else
-      # we forgot token
-      Configuration.hearthstats_token = nil
-    end
-  end
 end

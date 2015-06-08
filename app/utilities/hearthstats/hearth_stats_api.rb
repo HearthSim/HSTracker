@@ -161,11 +161,13 @@ class HearthStatsAPI
       # will do something more usefull in the future
       # maybe save in a temporary table and post later ?
       if response and response['status']
+        success = true
         Notification.post('Save match'._, 'Results for this game has been saved on HearthStats'._)
       else
+        success = false
         Notification.post('Save match'._, 'An error has occured while saving results for this game on HearthStats'._)
       end
-      block.call(response['status'] == 200) if block
+      block.call(success) if block
     end
   end
 
