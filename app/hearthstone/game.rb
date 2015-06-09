@@ -112,7 +112,11 @@ class Game
                        :win            => (@game_result_win == :win),
                        :deck           => @current_deck,
                        :rank           => @current_rank,
-                       :game_mode      => @game_mode.to_s
+                       :game_mode      => @game_mode.to_s,
+                       :duration       => (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
+                       :turns          => @current_turn,
+                       :has_coin       => @has_coin,
+                       :created_at     => @start_date
       cdq.save
       @game_saved = true
     end
@@ -122,7 +126,7 @@ class Game
     return
 
     data[:player_class] = data[:class]
-    data.delete_if {|key, _| key == :class }
+    data.delete_if { |key, _| key == :class }
 
     mp :data => data, :cards => cards
     match = HearthstatsMatch.create data
