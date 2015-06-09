@@ -739,6 +739,7 @@ class DeckManager < NSWindowController
       NSNotificationCenter.defaultCenter.post('deck_change')
       @card_count.stringValue = ''
       @table_view.reloadData
+      @cards_view.reloadData
       @curve_view.subviews = []
 
       Notification.post('Delete Deck'._, 'Your deck has been deleted'._)
@@ -874,6 +875,7 @@ class DeckManager < NSWindowController
       show_decks
       @card_count.stringValue = ''
       @table_view.reloadData
+      @cards_view.reloadData
 
       @curve_view.subviews = []
       @show_stats.enabled  = false
