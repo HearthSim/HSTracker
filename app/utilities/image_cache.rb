@@ -80,8 +80,12 @@ class ImageCache
       image_named 'frames/button.png'
     end
 
-    def hero(clazz)
-      image_named "heroes/#{Configuration.skin}/#{clazz.downcase}.png"
+    def hero(clazz, options={})
+      image = image_named "heroes/#{Configuration.skin}/#{clazz.downcase}.png"
+      if options.has_key? :size
+        image.size = options[:size]
+      end
+      image
     end
 
     def hero_frame

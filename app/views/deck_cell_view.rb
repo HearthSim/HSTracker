@@ -20,12 +20,13 @@ class DeckCellView < NSTableCellView
 
       # print the deck name
       name = deck.name.attrd
-                 .font('Belwe Bd BT'.nsfont(16))
 
       if Configuration.skin == :hearthstats
-        name.foreground_color :black.nscolor
+        name.foreground_color(:black.nscolor)
+            .font('Lato-Regular'.nsfont(16))
       else
-        name.stroke_width(-1.5)
+        name.font('Belwe Bd BT'.nsfont(16))
+            .stroke_width(-1.5)
             .stroke_color(:black.nscolor)
             .foreground_color(:white.nscolor)
       end

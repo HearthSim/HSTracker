@@ -33,7 +33,11 @@ class DeckManager < NSWindowController
       @tabs.setSegmentCount ClassesData::KClasses.size
 
       ClassesData::KClasses.each_with_index do |clazz, idx|
-        @tabs.setLabel(clazz._, forSegment: idx)
+        if Configuration.skin == :default || clazz == 'Neutral'
+          @tabs.setLabel(clazz._, forSegment: idx)
+        else
+          @tabs.setImage(ImageCache.hero(clazz, :size => [20, 20]), forSegment: idx)
+        end
       end
 
       @tabs.setSelected(true, forSegment: 0)
@@ -47,10 +51,23 @@ class DeckManager < NSWindowController
       @table_view.delegate     = self
       @table_view.dataSource   = self
 
+      @table_menu          = NSMenu.alloc.initWithTitle 'table_identifier'
+      menu_item            = NSMenuItem.alloc.initWithTitle('Play'._, action: 'play_deck:', keyEquivalent: '')
+      menu_item.identifier = 'table_identifier'
+      @table_menu.addItem menu_item
+      @table_menu.addItem NSMenuItem.separatorItem
+      menu_item            = NSMenuItem.alloc.initWithTitle('Export'._, action: 'export_deck:', keyEquivalent: '')
+      menu_item.identifier = 'table_identifier'
+      @table_menu.addItem menu_item
+      menu_item = NSMenuItem.alloc.initWithTitle('Delete'._, action: 'delete_deck:', keyEquivalent: '')
+      @table_menu.addItem menu_item
+      menu_item.identifier   = 'table_identifier'
+      @table_view.menu       = @table_menu
+
       # init card view
-      @cards_view              = @layout.get(:cards_view)
-      @cards_view.dataSource   = self
-      @cards_view.delegate     = self
+      @cards_view            = @layout.get(:cards_view)
+      @cards_view.dataSource = self
+      @cards_view.delegate   = self
 
       grid_layout                      = JNWCollectionViewGridLayout.alloc.initWithCollectionView(@cards_view)
       grid_layout.delegate             = self
@@ -80,6 +97,15 @@ class DeckManager < NSWindowController
       NSNotificationCenter.defaultCenter.observe('skin') do |_|
         unless @in_edition
           @table_view.reloadData
+        end
+        ClassesData::KClasses.each_with_index do |clazz, idx|
+          if Configuration.skin == :default || clazz == 'Neutral'
+            @tabs.setLabel(clazz._, forSegment: idx)
+            @tabs.setImage(nil, forSegment: idx)
+          else
+            @tabs.setLabel(nil, forSegment: idx)
+            @tabs.setImage(ImageCache.hero(clazz, :size => [20, 20]), forSegment: idx)
+          end
         end
       end
 
@@ -169,6 +195,8 @@ class DeckManager < NSWindowController
     ClassesData::KClasses.each_with_index do |_, index|
       @tabs.setEnabled(true, forSegment: index)
     end if @tabs
+
+    @table_view.menu = @table_menu if @table_view
   end
 
   def cards
@@ -317,7 +345,7 @@ class DeckManager < NSWindowController
     deck_or_card = @decks_or_cards[@table_view.clickedRow]
 
     if deck_or_card.is_a? Deck
-      show_deck_stats(deck_or_card)
+      show_curve(deck_or_card)
     end
   end
 
@@ -412,6 +440,7 @@ class DeckManager < NSWindowController
         classes = ClassesData::KClasses[0...-1]
         classes.each do |clazz|
           menu_item            = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
+          menu_item.image      = ImageCache.hero(clazz)
           menu_item.identifier = clazz
           menu.addItem menu_item
         end
@@ -599,7 +628,18 @@ class DeckManager < NSWindowController
     end
   end
 
-  def play_deck(_)
+  def play_deck(sender)
+    if sender and sender.identifier == 'table_identifier'
+      row   = @table_view.clickedRow
+      deck  = @decks_or_cards[row]
+      name  = deck.name
+      cards = deck.playable_cards
+    else
+      name  = @deck_name
+      cards = @decks_or_cards
+      deck  = @current_deck
+    end
+
     unless @saved
       response = NSAlert.alert('Play'._,
                                :buttons     => ['OK'._, 'Cancel'._],
@@ -612,14 +652,16 @@ class DeckManager < NSWindowController
       end
     end
 
-    player_view.show_deck(@decks_or_cards, @deck_name) if player_view
-    Game.instance.with_deck(@current_deck)
+    player_view.show_deck(cards, name) if player_view
+    Game.instance.with_deck(deck)
     if Configuration.remember_last_deck
-      Configuration.last_deck_played = "#{@current_deck.name}##{@current_deck.version}"
+      Configuration.last_deck_played = "#{deck.name}##{deck.version}"
     end
   end
 
   def show_deck(deck, clazz=nil, name=nil, arena=false)
+    @table_view.menu = nil
+
     @in_edition         = true
     @show_stats.enabled = true
 
@@ -667,14 +709,14 @@ class DeckManager < NSWindowController
     @deck_stats.deck = deck
   end
 
-  def show_curve
+  def show_curve(deck=nil)
     @curve_view.subviews = []
     unless @curves
       @curves = CurveView.new
     end
     @curves.frame = @curve_view.bounds
     @curve_view << @curves
-    @curves.cards = @decks_or_cards
+    @curves.cards = deck.nil? ? @decks_or_cards : deck.playable_cards
   end
 
   def add_area_deck(sender)
@@ -712,7 +754,18 @@ class DeckManager < NSWindowController
     show_curve
   end
 
-  def delete_deck(_)
+  def delete_deck(sender)
+    if sender and sender.identifier == 'table_identifier'
+      row   = @table_view.clickedRow
+      deck  = @decks_or_cards[row]
+      name  = deck.name
+      cards = deck.playable_cards
+    else
+      name  = @deck_name
+      cards = @decks_or_cards
+      deck  = @current_deck
+    end
+
     response = NSAlert.alert('Delete'._,
                              :buttons     => ['OK'._, 'Cancel'._],
                              :informative => 'Are you sure you want to delete this deck ?'._
@@ -720,17 +773,17 @@ class DeckManager < NSWindowController
 
     if response == NSAlertFirstButtonReturn
 
-      if Configuration.use_hearthstats and !@current_deck.hearthstats_id.nil? and !@current_deck.hearthstats_id.zero?
+      if Configuration.use_hearthstats and !deck.hearthstats_id.nil? and !deck.hearthstats_id.zero?
         response = NSAlert.alert('Delete'._,
                                  :buttons     => ['OK'._, 'Cancel'._],
                                  :informative => 'Do you want to delete this deck on HearthStats ?'._,
                                  :force_top   => true)
         if response == NSAlertFirstButtonReturn
-          HearthStatsAPI.delete_deck(@current_deck)
+          HearthStatsAPI.delete_deck(deck)
         end
       end
 
-      @current_deck.destroy
+      deck.destroy
 
       cdq.save
 
@@ -912,11 +965,23 @@ class DeckManager < NSWindowController
     @cards_view.reloadData
   end
 
-  def export_deck(_)
+  def export_deck(sender)
+    if sender and sender.identifier == 'table_identifier'
+      row   = @table_view.clickedRow
+      deck  = @decks_or_cards[row]
+      name  = deck.name
+      cards = deck.playable_cards
+      mp :deck => deck,
+         :name => name
+    else
+      name  = @deck_name
+      cards = @decks_or_cards
+    end
+
     panel                      = NSSavePanel.savePanel
     panel.allowedFileTypes     = %w(txt)
     panel.canCreateDirectories = true
-    panel.nameFieldStringValue = "#{@deck_name}.txt"
+    panel.nameFieldStringValue = "#{name}.txt"
     panel.title                = 'Export Deck'._
 
     result = panel.runModal
@@ -924,7 +989,7 @@ class DeckManager < NSWindowController
       path = panel.URL.path
 
       content = ''
-      @decks_or_cards.each do |card|
+      cards.each do |card|
         c = Card.by_id(card.card_id)
         content << "#{card.count} #{c.english_name}\n"
       end

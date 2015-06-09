@@ -80,7 +80,6 @@ class CurveView < NSView
                      .stroke_color(:black.nscolor)
                      .stroke_width(-1.5)
                      .bold(22)
-          #.font('Belwe Bd BT'.nsfont(20.0))
           cost.drawInRect [[x + 5, padding + 3], [mana_height, mana_height + 2]]
         end
 
