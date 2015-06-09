@@ -48,13 +48,17 @@ class DatabaseGenerator
         'Goblins vs Gnomes',
         'Blackrock Mountain'
     ]
-    splash.max(langs.size)
+    splash.max(langs.size) if splash
 
     # do all the creation in background
     cdq.background do
 
       langs.each do |lang|
-        Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
+        if RUBYMOTION_ENV == 'test'
+          puts "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
+        else
+          Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
+        end
         data  = NSData.read_from "cards/cardsDB.#{lang}.json".resource_path
         cards = JSON.parse data
 
@@ -107,7 +111,7 @@ class DatabaseGenerator
 
         Dispatch::Queue.main.async do
           splash.progress
-        end
+        end if splash
       end
 
       Dispatch::Queue.main.async do
