@@ -67,7 +67,7 @@ class Game
                  :result          => game_result,
                  :coin            => @has_coin.to_s,
                  :numturns        => @current_turn,
-                 :duration        => ((@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970) * 1000).to_i,
+                 :duration        => (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
                  :deck_id         => @current_deck.hearthstats_id,
                  :deck_version_id => @current_deck.hearthstats_version_id,
                  :oppclass        => @current_opponent.player_class,
