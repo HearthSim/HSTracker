@@ -1,31 +1,34 @@
 class DeckCellView < NSTableCellView
   attr_accessor :deck
 
-  # path of the bundle images path
-  def absolute_path
-    'images/'.resource_path
-  end
-
   def drawRect(rect)
+    if Configuration.skin == :hearthstats
+      ClassesData::KClassesColor[deck.player_class.downcase.to_sym].set
+      NSRectFill rect
+    end
+
     super.tap do
-      # draw the class image
-      image = NSImage.alloc.initWithContentsOfFile("#{absolute_path}/frames/card_bottom.png")
-      image.drawInRect(rect, fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
+      if Configuration.skin == :default
+        # draw the class image
+        image = ImageCache.hero_frame
+        image.drawInRect(rect, fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
+      end
 
       # draw the class image
       image = ImageCache.hero(deck.player_class)
       image.drawInRect([[2, 2], [32, 32]], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
 
-      stroke_color = :black.nscolor
-      foreground   = :white.nscolor
-
       # print the deck name
-      name         = deck.name.attrd
-                         .font('Belwe Bd BT'.nsfont(16))
-                         .stroke_width(-1.5)
-                         .stroke_color(stroke_color)
-                         .foreground_color(foreground)
+      name = deck.name.attrd
+                 .font('Belwe Bd BT'.nsfont(16))
 
+      if Configuration.skin == :hearthstats
+        name.foreground_color :black.nscolor
+      else
+        name.stroke_width(-1.5)
+            .stroke_color(:black.nscolor)
+            .foreground_color(:white.nscolor)
+      end
       name.drawInRect([[38, 4], [184, 30]], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
     end
   end

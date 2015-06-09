@@ -81,7 +81,11 @@ class ImageCache
     end
 
     def hero(clazz)
-      image_named "heroes/#{clazz.downcase}_small.png"
+      image_named "heroes/#{Configuration.skin}/#{clazz.downcase}.png"
+    end
+
+    def hero_frame
+      image_named 'frames/card_bottom.png'
     end
 
     def image_path(lang)

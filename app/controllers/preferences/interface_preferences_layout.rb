@@ -6,8 +6,13 @@ class InterfacePreferencesLayout < PreferencesLayout
       :window  => 'Detached windows'._
   }
 
+  KSkinOptions = {
+      :default     => 'Default'._,
+      :hearthstats => 'HearthStats'
+  }
+
   def frame_size
-    [[0, 0], [300, 320]]
+    [[0, 0], [400, 350]]
   end
 
   def options
@@ -55,7 +60,32 @@ class InterfacePreferencesLayout < PreferencesLayout
               end
             }
         },
-        :in_hand_as_played => 'Consider in-hand as played'._
+        :in_hand_as_played   => 'Consider in-hand as played'._,
+        :skin                => {
+            :label   => 'Skin'._,
+            :type    => NSPopUpButton,
+            :init    => -> (elem) {
+              current_choice = Configuration.skin
+
+              KSkinOptions.each do |value, label|
+                item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
+                elem.menu.addItem item
+
+                if current_choice == value
+                  elem.selectItem item
+                end
+              end
+            },
+            :changed => -> (elem) {
+              choosen = elem.selectedItem.title
+
+              KSkinOptions.each do |value, label|
+                if choosen == label
+                  Configuration.skin = value
+                end
+              end
+            }
+        },
     }
   end
 

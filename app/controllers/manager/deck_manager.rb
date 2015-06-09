@@ -77,6 +77,11 @@ class DeckManager < NSWindowController
       @show_stats.setTarget self
       @show_stats.setAction 'show_stats:'
 
+      NSNotificationCenter.defaultCenter.observe('skin') do |_|
+        unless @in_edition
+          @table_view.reloadData
+        end
+      end
 
       NSEvent.addLocalMonitorForEventsMatchingMask(NSKeyDownMask,
                                                    handler: -> (event) {
