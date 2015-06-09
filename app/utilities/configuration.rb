@@ -34,7 +34,7 @@ class Configuration
         :use_hearthstats     => false,
         :show_notifications  => true,
         :remember_last_deck  => true,
-        :skin                => :default
+        :skin                => :hearthstats
     }
 
     def method_missing(symbol, *args)
