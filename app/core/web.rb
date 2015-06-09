@@ -59,7 +59,7 @@ class Web
       increment.call(name)
       _download(cards_id, locale, path, options, block)
     }, failure: -> (_, error) {
-       Motion::Log error.localizedDescription
+       Motion::Log.error error.localizedDescription
        increment.call(name)
        _download(cards_id, locale, path, options, block)
      })
