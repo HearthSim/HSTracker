@@ -191,7 +191,7 @@ class Importer
 
       # search for title
       error      = Pointer.new(:id)
-      title_node = doc.firstNodeForXPath("//div[@id='content']//h3", error: error)
+      title_node = doc.firstNodeForXPath("//div[@id='content']//h1", error: error)
       if error[0]
         Log.error error[0].description
         return nil, nil, nil

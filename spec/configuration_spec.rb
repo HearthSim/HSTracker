@@ -98,4 +98,59 @@ describe 'Configuration' do
     should.raise(ArgumentError) { Configuration.bmichotte_is_the_best = true }
     should.raise(ArgumentError) { value = Configuration.bmichotte_is_the_best }
   end
+
+  it 'should accept a "count_color" option' do
+    value = Configuration.count_color
+    value.should == [255, 255, 255].nscolor
+
+    should.not.raise(ArgumentError) { Configuration.count_color = '#FF00FF'.nscolor }
+    value = Configuration.count_color
+    value.should == '#FF00FF'.nscolor
+  end
+
+  it 'should accept a "count_color_border" option' do
+    value = Configuration.count_color_border
+    value.should == [0, 0, 0].nscolor
+
+    should.not.raise(ArgumentError) { Configuration.count_color_border = '#FF00FF'.nscolor }
+    value = Configuration.count_color_border
+    value.should == '#FF00FF'.nscolor
+  end
+
+  it 'should accept a "hand_count_window" option' do
+    value = Configuration.hand_count_window
+    value.should == :tracker
+
+    should.not.raise(ArgumentError) { Configuration.hand_count_window = :window }
+    value = Configuration.hand_count_window
+    value.should == :window
+  end
+
+  it 'should accept a "show_get_cards" option' do
+    value = Configuration.show_get_cards
+    value.should == false
+
+    should.not.raise(ArgumentError) { Configuration.show_get_cards = true }
+    value = Configuration.show_get_cards
+    value.should == true
+  end
+
+  it 'should accept a "show_card_on_hover" option' do
+    value = Configuration.show_card_on_hover
+    value.should == true
+
+    should.not.raise(ArgumentError) { Configuration.show_card_on_hover = false }
+    value = Configuration.show_card_on_hover
+    value.should == false
+  end
+
+  it 'should accept a "in_hand_as_played" option' do
+    value = Configuration.in_hand_as_played
+    value.should == false
+
+    should.not.raise(ArgumentError) { Configuration.in_hand_as_played = true }
+    value = Configuration.in_hand_as_played
+    value.should == true
+  end
+
 end

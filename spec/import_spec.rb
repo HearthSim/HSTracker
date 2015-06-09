@@ -16,7 +16,7 @@ describe 'Import decks from the web' do
     wait_max 1000 do
       Card.count.should > 0
     end
-    DatabaseGenerator.init_database do
+    DatabaseGenerator.init_database(nil) do
       true.should == true
       resume
     end
