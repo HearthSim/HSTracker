@@ -6,20 +6,16 @@ class NSWindow
       NSApp.beginSheet(window,
                        modalForWindow: self,
                        modalDelegate:  self,
-                       didEndSelector: 'sheetDidEnd:returnCode:contextInfo:',
+                       didEndSelector: nil,
                        contextInfo:    nil)
     end
-  end
-
-  def sheetDidEnd(sheet, returnCode: _, contextInfo: _)
-    sheet.orderOut self
   end
 
   def end_sheet(return_code)
     if self.respond_to? 'sheetParent'
       self.sheetParent.endSheet(self, returnCode: return_code)
     else
-      NSApp.endSheet(self)
+      NSApp.endSheet(self, returnCode: NSModalResponseContinue)
       self.orderOut(nil)
     end
   end

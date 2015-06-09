@@ -36,7 +36,7 @@ Motion::Project::App.setup do |app|
   app.frameworks = %w(AppKit Foundation CoreGraphics CoreServices CoreData WebKit Cocoa QuartzCore Security SystemConfiguration)
 
   app.pods do
-    pod 'AFNetworking', '2.5.3'
+    pod 'AFNetworking', '~> 2.0'
     pod 'GDataXML-HTML'
     pod 'MASPreferences'
     pod 'JNWCollectionView'
