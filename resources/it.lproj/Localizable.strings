@@ -123,6 +123,7 @@
 "Deck saved" = "Mazzo salvato";
 "New version" = "Nuova versione";
 "From HearthStats" = "From HearthStats";
+"From HearthStats (force)" = "From HearthStats (force)";
 "No new deck to import" = "No new deck to import";
 "%@ decks have been imported" = "%@ decks have been imported";
 "Login successfully" = "Login successfully";

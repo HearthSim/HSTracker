@@ -76,6 +76,7 @@
 "Do you want to save this deck on HearthStats ?" = "Voulez-vous enregistrer ce deck sur HearthStats ?";
 "No account yet ?" = "Pas encore de compte ?";
 "From HearthStats" = "Depuis HearthStats";
+"From HearthStats (force)" = "Depuis HearthStats (force)";
 "No new deck to import" = "No new deck to import";
 "%@ decks have been imported" = "%@ decks have been imported";
 "Login successfully" = "Connecté avec succès";

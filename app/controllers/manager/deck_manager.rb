@@ -423,6 +423,10 @@ class DeckManager < NSWindowController
         menu_item.identifier = 'hearthstats'
         menu.addItem menu_item
 
+        menu_item            = NSMenuItem.alloc.initWithTitle('From HearthStats (force)'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item.identifier = 'hearthstats_force'
+        menu.addItem menu_item
+
         popup                    = NSPopUpButton.alloc.initWithFrame [[0, 0], [50, 32]]
         popup.cell.arrowPosition = NSPopUpNoArrow
         popup.bordered           = false
@@ -560,7 +564,12 @@ class DeckManager < NSWindowController
         end
       end
       self.window.show_sheet(@import.window)
-    elsif sender.identifier == 'hearthstats'
+    elsif sender.identifier == 'hearthstats' or sender.identifier == 'hearthstats_force'
+
+      if sender.identifier == 'hearthstats_force'
+        key       = 'hearthstats_last_get_decks'
+        NSUserDefaults.standardUserDefaults.setObject(0, forKey: key)
+      end
 
       classes = {
           1 => 'Druid',
