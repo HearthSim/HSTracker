@@ -208,7 +208,8 @@ class DeckManager < NSWindowController
       Card.per_lang.playable
           .where(:player_class => clazz)
           .sort_by(:cost)
-          .sort_by(:name)
+          .sort_by(:card_type, :order =>  :desc)
+          .sort_by(:name, :case_insensitive => true)
     end
   end
 
