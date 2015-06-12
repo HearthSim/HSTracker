@@ -3,7 +3,7 @@
 - HSTracker is now the official HearthStats uploader of OsX !
 - Import, save your decks and matches in HearthStats through HSTracker
 
-#### New / Bugfixes
+##### New / Bugfixes
 - Card font should be better on retina display
 - Better rank / mode handling for stats / HearthStats
 - Added some notifications through Notification Center

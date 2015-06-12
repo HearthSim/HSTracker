@@ -8,6 +8,10 @@ access_token      = ENV['HSTRACKER_GITHUB_TOKEN']
 repo              = 'repos/bmichotte/HSTracker'
 dmg_file          = 'HSTracker.dmg'
 
+if File.exists? dmg_file
+  File.delete dmg_file
+end
+
 puts "Creating #{dmg_file}"
 `rsync -a build/MacOSX-#{deployment_target}-Release/HSTracker.app build/Release`
 `ln -sf /Applications build/Release`
@@ -21,12 +25,12 @@ version   = nil
 File.open './versions.markdown', 'r' do |file|
   started = false
   file.each_line do |line|
-    if line =~ /####/
+    if line =~ /^####\s/
       if started
         break
       else
         version = line.gsub(/(#|\s)/, '')
-        puts "#{version}"
+        puts "new #{version}"
         started = true
         next
       end
