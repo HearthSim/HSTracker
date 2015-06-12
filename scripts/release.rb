@@ -8,8 +8,8 @@ access_token      = ENV['HSTRACKER_GITHUB_TOKEN']
 repo              = 'repos/bmichotte/HSTracker'
 dmg_file          = 'HSTracker.dmg'
 
-if File.exists? dmg_file
-  File.delete dmg_file
+if File.exists? "build/#{dmg_file}"
+  File.delete "build/#{dmg_file}"
 end
 
 puts "Creating #{dmg_file}"
@@ -35,7 +35,7 @@ File.open './versions.markdown', 'r' do |file|
         next
       end
     else
-      changelog << line.strip unless line.strip.empty?
+      changelog << line.strip
     end
   end
 end
@@ -44,6 +44,9 @@ if changelog.empty?
   puts 'empty changelog'
   exit(1)
 end
+
+puts 'Changelog'
+puts changelog
 
 json = {
     :tag_name         => "#{tag}",
@@ -55,8 +58,7 @@ json = {
 }.to_json
 
 puts "Creating release #{version}"
-response = `curl --data '#{json}' \
-              https://api.github.com/#{repo}/releases?access_token=#{access_token}`
+response = `curl --data '#{json}' https://api.github.com/#{repo}/releases?access_token=#{access_token}`
 
 data = JSON.parse response
 id   = data['id']

@@ -7,7 +7,7 @@
 - Card font should be better on retina display
 - Better rank / mode handling for stats / HearthStats
 - Added some notifications through Notification Center
-- Fade cards in the deck manager when you can't add it anymore in your deck
+- Fade cards in the deck manager when you can not add it anymore in your deck
 - Added an option to save/restore the last played deck. This allow the log reader to restart your game correctly when HSTracker crashed or you forgot to start it
 - Added a HearthStats skin
 - Mana curve is now visible when you click on a deck
