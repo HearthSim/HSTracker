@@ -36,7 +36,7 @@ class Importer
           #  deck, clazz, title = judgehype(doc)
           when /hearthstone-decks\.com/i
             deck, clazz, title = hearthstone_decks(doc)
-          when /hearthstats\.net/i
+          when /(hearthstats\.net|hss\.io)/i
             deck, clazz, title = hearthstats(doc)
           when /hearthhead\.com\/deck=/
             deck, clazz, title = hearthhead_deck(url, doc)

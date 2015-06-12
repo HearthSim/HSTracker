@@ -30,7 +30,7 @@
 "Decks" = "Mazzi";
 "Save all" = "Salva tutto";
 "Reset all data" = "Ripristina tutti i dati";
-"Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible." = "Sicuro di voler cancellare tutti i dati, inclusi i mazzi e le statistiche ?\nQuesta operazione è irreversibile.";
+"Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible." = "Cancella TUTTI i dati, inclusi i mazzi e le statistiche .\nQuesta operazione è irreversibile.";
 "All deck have been saved" = "Tutti i mazzi sono stati salvati";
 "All data have been deleted" = "Tutti i dati cancellati";
 "Reset" = "Ripristina";
@@ -65,6 +65,16 @@
 "Opponent Card Count" = "Conteggio carte avversario";
 "Show stolen cards" = "Mostra le carte rubate";
 "Show card on hover" = "Mostra le carte al passaggio del mouse";
+"User Accounts" = "Account utente";
+"Configure Hearthstats" = "Configura Hearthstats";
+"Login" = "Email";
+"Password" = "Password";
+"Connect" = "Connetti";
+"Deck save" = "Salva mazzo";
+"Your deck is not saved on HearthStats. Do you want to save it now ?" = "Mazzo non presente su Hearthstats.\nVuoi salvarlo adesso?";
+"Do you want to delete this deck on HearthStats ?" = "Cancellare questo mazzo da HearthStats ?";
+"Do you want to save this deck on HearthStats ?" = "Salvare questo mazzo su HearthStats ?";
+"No account yet ?" = "No account yet ?";
 
 /* classes */
 "Shaman" = "Sciamano";
@@ -112,6 +122,19 @@
 "Your deck is not saved, are you sure you want to continue, you will lose all changes." = "YIl mazzo non è salvato, se continui perderai tutte le modifiche.";
 "Deck saved" = "Mazzo salvato";
 "New version" = "Nuova versione";
+"From HearthStats" = "Da HearthStats";
+"From HearthStats (force)" = "Da HearthStats (force)";
+"No new deck to import" = "Nessun nuovo mazzo da importare";
+"%@ decks have been imported" = "%@ mazzi sono stati importati";
+"Login successfully" = "Accesso eseguito";
+"Login Error" = "Errore di accesso";
+"Confirm password" = "Conferma password";
+"Confirm login" = "Conferma email";
+"Register" = "Registrati";
+"Login are not the same" = "Le email non corrispondono";
+"Password are not the same" = "Le password non corrispondono";
+"Registration successfully completed" = "Registrazione completata con successo";
+"HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue" = "HSTracker non riesce a leggere il file di log. Riavvia HSTracker ed Hearthstone per risolvere il problema";
 
 "Hand : " = "In mano : ";
 "Deck : " = "Nel mazzo : ";
@@ -131,4 +154,16 @@
 "From File" = "Da un File";
 
 "Consider in-hand as played" = "Considera le carte in mano come giocate";
-"Show debug files" = "Show debug files";
+"Show debug files" = "Mostra dile di debug";
+
+"Your deck has been saved" = "Mazzo salvato";
+"Your deck has been exported" = "Mazzo esportato";
+"Results for this game has been saved on HearthStats" = "Il risultato di questa partita è stato salvato su Hearthstats";
+"Save match" = "Salva partita";
+"An error has occured while saving results for this game on HearthStats" = "Si è verificato un errore mentre salvavo questa partita su HearthStats";
+"Delete Deck" = "Cancella mazzo";
+"Your deck has been deleted" = "Mazzo salvato";
+"Show notifications" = "Mostra notifiche";
+"Remember last played deck" = "Ricorda l'ultimo mazzo giocato";
+"Default" = "Default";
+"Skin" = "Skin";

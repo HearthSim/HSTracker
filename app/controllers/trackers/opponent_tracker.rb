@@ -2,7 +2,7 @@
 class OpponentTracker < Tracker
 
   # accessors used by card count
-  attr_accessor :deck_count, :hand_count, :has_coin
+  attr_accessor :deck_count, :hand_count, :has_coin, :cards
 
   def deck_count
     @deck_count ||= 30

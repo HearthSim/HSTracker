@@ -4,7 +4,7 @@ class PreferencesLayout < MK::Layout
   end
 
   def frame_size
-    [[0, 0], [300, 250]]
+    [[0, 0], [400, 250]]
   end
 
   def layout
@@ -12,6 +12,7 @@ class PreferencesLayout < MK::Layout
 
     prev = :superview
     normalized_options.each do |key, opts|
+      left_prev = :superview
 
       if opts[:label]
         add NSTextField, :"#{key}_label" do
@@ -30,10 +31,9 @@ class PreferencesLayout < MK::Layout
               top.equals(prev, :bottom).plus(10)
             end
             left.equals(:superview).plus(20)
-            right.equals(:superview).minus(20)
           end
         end
-        prev = :"#{key}_label"
+        left_prev = :"#{key}_label"
       end
 
       elem = add opts[:type], :"#{key}" do
@@ -44,12 +44,20 @@ class PreferencesLayout < MK::Layout
         constraints do
           height 26
 
+          if opts[:type] == NSColorWell
+            width.equals 50
+          end
+
           if prev == :superview
             top.equals(prev).plus(10)
           else
-            top.equals(prev, :bottom).plus(10)
+            top.equals(prev, :bottom).plus(5)
           end
-          left.equals(:superview).plus(20)
+          if left_prev == :superview
+            left.equals(:superview).plus(20)
+          else
+            left.equals(left_prev, :right).plus(10)
+          end
           right.equals(:superview).minus(20)
         end
       end

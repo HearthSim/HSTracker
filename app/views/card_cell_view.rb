@@ -17,9 +17,11 @@ class CardCellView < NSTableCellView
       self.layer << @frame_layer
 
       @cost_layer = CATextLayer.layer
+      @cost_layer.contentsScale = NSScreen.mainScreen.backingScaleFactor
       self.layer << @cost_layer
 
       @text_layer = CATextLayer.layer
+      @text_layer.contentsScale = NSScreen.mainScreen.backingScaleFactor
       self.layer << @text_layer
 
       @frame_count_box = CALayer.layer

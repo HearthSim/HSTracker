@@ -27,17 +27,23 @@ Motion::Project::App.setup do |app|
   end
   App.info 'Building for target', app.deployment_target
 
-  app.identifier = 'be.michotte.hstracker'
+  app.identifier           = 'be.michotte.hstracker'
   app.codesign_for_release = false
 
   app.icon                                  = 'Icon.icns'
   app.info_plist['ATSApplicationFontsPath'] = 'fonts/'
 
+  app.frameworks = %w(AppKit Foundation CoreGraphics CoreServices CoreData WebKit Cocoa QuartzCore Security SystemConfiguration)
+
   app.pods do
-    pod 'AFNetworking', '2.5.3'
+    pod 'AFNetworking', '~> 2.0'
     pod 'GDataXML-HTML'
     pod 'MASPreferences'
     pod 'JNWCollectionView'
+
+    if app.development?
+      pod 'AFNetworkActivityLogger'
+    end
   end
 end
 task :run => :'schema:build'

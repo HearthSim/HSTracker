@@ -18,6 +18,8 @@ class AppDelegate
 
     cdq.setup
 
+    #AFNetworkActivityLogger.sharedLogger.startLogging
+
     show_splash_screen
 
     # load cards into database if needed
@@ -38,6 +40,18 @@ class AppDelegate
       Game.instance.player_tracker   = @player
       Game.instance.opponent_tracker = @opponent
 
+      if Configuration.remember_last_deck
+        last_deck_played = Configuration.last_deck_played
+        unless last_deck_played.nil?
+          name, version = last_deck_played.split('#')
+          deck = Deck.where(:name => name).and(:version).eq(version).first
+          if deck
+            @player.show_deck(deck.playable_cards, deck.name)
+            Game.instance.with_deck(deck)
+          end
+        end
+      end
+
       Hearthstone.instance.on(:app_running) do |is_running|
         Log.info "Hearthstone is running? #{is_running}"
       end
@@ -52,6 +66,8 @@ class AppDelegate
           @opponent.set_level NSNormalWindowLevel
         end
       end
+
+      Configuration.use_hearthstats = !Configuration.hearthstats_token.nil?
 
       NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|
         reload_deck_menu
@@ -97,13 +113,15 @@ class AppDelegate
           [
               GeneralPreferences.new,
               InterfacePreferences.new,
-              ColorPreferences.new
+              ColorPreferences.new,
+              SyncPreferences.new
           ],
           title: 'Preferences'._)
     end
   end
 
   def openPreferences(_)
+    Configuration.use_hearthstats = !Configuration.hearthstats_token.nil?
     preferences.showWindow(nil)
   end
 
@@ -159,6 +177,9 @@ class AppDelegate
     deck = Deck.by_name(menu_item.title)
     @player.show_deck(deck.playable_cards, deck.name)
     Game.instance.with_deck(deck)
+    if Configuration.remember_last_deck
+      Configuration.last_deck_played = "#{deck.name}##{deck.version}"
+    end
   end
 
   # reset the trackers
@@ -318,4 +339,5 @@ class AppDelegate
   def open_debug(_)
     NSWorkspace.sharedWorkspace.activateFileViewerSelectingURLs ['/Library/Logs/HSTracker'.home_path.fileurl]
   end
+
 end

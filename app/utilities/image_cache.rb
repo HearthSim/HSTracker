@@ -80,8 +80,16 @@ class ImageCache
       image_named 'frames/button.png'
     end
 
-    def hero(clazz)
-      image_named "heroes/#{clazz.downcase}_small.png"
+    def hero(clazz, options={})
+      image = image_named "heroes/#{Configuration.skin}/#{clazz.downcase}.png"
+      if options.has_key? :size
+        image.size = options[:size]
+      end
+      image
+    end
+
+    def hero_frame
+      image_named 'frames/card_bottom.png'
     end
 
     def image_path(lang)

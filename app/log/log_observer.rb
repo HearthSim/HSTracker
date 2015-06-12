@@ -16,8 +16,18 @@ class LogObserver
     # if we are in full debug mode, we skip this
     unless Hearthstone::KDebugFromFile
       if path.file_exists?
-        # if the file exists, we start reading at the end
-        @last_read_position = file_size(path)
+        # if the file exists, we start reading at from the last started game
+        path = Hearthstone.log_path
+
+        file_handle = NSFileHandle.fileHandleForReadingAtPath(path)
+        if file_handle.nil?
+          NSAlert.alert('Error',
+                        :informative => "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
+                        :style       => NSCriticalAlertStyle
+          )
+          return
+        end
+        @last_read_position = find_last_game_start(file_handle)
       end
     end
     changes_in_file
@@ -49,6 +59,26 @@ class LogObserver
     @opponent_id = nil
   end
 
+  def detect_mode(timeout_sec, &block)
+    Log.verbose 'waiting for mode'
+    Dispatch::Queue.concurrent.async do
+      @awaiting_ranked_detection      = true
+      @waiting_for_first_asset_unload = true
+      @found_ranked                   = false
+      @last_asset_unload              = NSDate.new.timeIntervalSince1970
+
+      timeout = timeout_sec.seconds.after(NSDate.now).timeIntervalSince1970
+      while @waiting_for_first_asset_unload or (NSDate.now.timeIntervalSince1970 - @last_asset_unload) < timeout
+        NSThread.sleepForTimeInterval(0.1)
+        break if @found_ranked
+      end
+
+      Dispatch::Queue.main.async do
+        block.call(@found_ranked) if block
+      end
+    end
+  end
+
   private
   def file_size(path)
     File.stat(path).size
@@ -59,6 +89,13 @@ class LogObserver
     path = Hearthstone.log_path
 
     file_handle = NSFileHandle.fileHandleForReadingAtPath(path)
+    if file_handle.nil?
+      NSAlert.alert('Error',
+                    :informative => "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
+                    :style       => NSCriticalAlertStyle
+      )
+      return
+    end
     file_handle.seekToFileOffset(@last_read_position)
 
     Dispatch::Queue.concurrent.async do
@@ -85,6 +122,44 @@ class LogObserver
         end
       end
     end
+  end
+
+  def find_last_game_start(file_handle)
+    offset                = 0
+    temp_offset           = 0
+    found_spectator_start = false
+
+    file_handle.seekToFileOffset(0)
+    data = file_handle.readDataToEndOfFile
+
+    lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
+    lines     = lines_str.split "\n"
+    lines.each do |line|
+      if line.include? 'Begin Spectating' or line.include? 'Start Spectator'
+        offset                = temp_offset
+        found_spectator_start = true
+      elsif line.include? 'End Spectator'
+        offset = temp_offset
+      elsif line.include? 'CREATE_GAME'
+        if found_spectator_start
+          found_spectator_start = false
+          next
+        end
+        offset = temp_offset
+        next
+      end
+
+      temp_offset += line.length + 1
+      if line =~ /^\[Bob\] legend rank/
+        if found_spectator_start
+          found_spectator_start = false
+          next
+        end
+        offset = temp_offset
+      end
+    end
+
+    offset
   end
 
   ## analyze
@@ -286,12 +361,18 @@ class LogObserver
       end
 
     elsif line =~ /^\[Asset\]/
+      if @awaiting_ranked_detection
+        @last_asset_unload         = NSDate.new.timeIntervalSince1970
+        @awaiting_ranked_detection = false
+      end
+
       if (match = /Medal_Ranked_(\d+)/.match(line))
         rank = match[1].to_i
         Game.instance.player_rank(rank)
 
-      elsif line =~ /name=rank_window/
-        @game_mode = :ranked
+      elsif line.include? 'rank_window'
+        @found_ranked = true
+        @game_mode    = :ranked
         Game.instance.game_mode(@game_mode)
       end
 
