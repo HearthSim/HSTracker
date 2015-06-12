@@ -123,8 +123,6 @@ class Game
   end
 
   def save_match(data, cards)
-    return
-
     data[:player_class] = data[:class]
     data.delete_if { |key, _| key == :class }
 
