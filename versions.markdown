@@ -1,3 +1,18 @@
+#### 0.11
+##### HearthStats support
+- HSTracker is now the official HearthStats uploader of OsX !
+- Import, save your decks and matches in HearthStats through HSTracker
+
+#### New / Bugfixes
+- Card font should be better on retina display
+- Better rank / mode handling for stats / HearthStats
+- Added some notifications through Notification Center
+- Fade cards in the deck manager when you can't add it anymore in your deck
+- Added an option to save/restore the last played deck. This allow the log reader to restart your game correctly when HSTracker crashed or you forgot to start it
+- Added a HearthStats skin
+- Mana curve is now visible when you click on a deck
+- Added some actions on right-click on deck list
+
 #### 0.10.3
 - You can now import multiple files at the same time
 - Choose **Decks** -> **Save all** to export all your decks
