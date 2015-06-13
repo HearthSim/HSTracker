@@ -213,9 +213,12 @@ class LogObserver
         name   = match[1]
         player = match[2].to_i
 
-        if player == 1
+        entity = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == player }.values.first
+        return if entity.nil?
+
+        if entity.is_player
           Game.instance.player_name(name)
-        elsif player == 2
+        else
           Game.instance.opponent_name(name)
         end
 
@@ -297,7 +300,8 @@ class LogObserver
 
         tag_change(tag, @current_entity, value)
 
-      elsif line.include? 'Begin Spectating'
+      elsif line.include? 'Begin Spectating' or line.include? 'Start Spectator'
+        @game_mode  = :spectator
         @spectating = true
 
       elsif line.include? 'End Spectator'
@@ -309,7 +313,7 @@ class LogObserver
         id       = match[1]
         local_id = match[2]
         target   = match[3]
-        #Log.verbose "ACTION START id : '#{id}', local_id : '#{local_id}', target : '#{target}', line : #{line}"
+
         player   = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @player_id }.values.first
         opponent = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @opponent_id }.values.first
 
