@@ -795,7 +795,6 @@ class DeckManager < NSWindowController
 
         if sender and sender.respond_to?('identifier') and sender.identifier == 'table_identifier'
           deck = @decks_or_cards[row]
-          break
         else
           deck = @current_deck
         end
