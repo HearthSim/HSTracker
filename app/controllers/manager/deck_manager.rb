@@ -16,16 +16,6 @@ class DeckManager < NSWindowController
       self.window          = @layout.window
       self.window.delegate = self
 
-      @saved             = true
-      @in_edition        = false
-      @max_cards_in_deck = 30
-
-      # preparation for arena
-      @current_deck_mode = :constructed
-
-      # load decks
-      show_decks
-
       # init tabs
       @tabs = @layout.get(:tabs)
       @tabs.setAction 'tab_changed:'
@@ -75,9 +65,6 @@ class DeckManager < NSWindowController
       @cards_view.collectionViewLayout = grid_layout
       @cards_view.registerClass(CardItemView, forCellWithReuseIdentifier: 'card_item')
 
-      @cards = nil
-      @cards_view.reloadData
-
       @left = @layout.get(:left)
 
       @toolbar             = NSToolbar.alloc.initWithIdentifier 'toolbar'
@@ -85,14 +72,32 @@ class DeckManager < NSWindowController
       @toolbar.delegate    = self
       self.window.toolbar  = @toolbar
 
-      check_clipboad_net_deck
-
       @card_count = @layout.get(:card_count)
       @curve_view = @layout.get(:curve_view)
 
       @show_stats = @layout.get(:show_stats)
       @show_stats.setTarget self
       @show_stats.setAction 'show_stats:'
+    end
+  end
+
+  def showWindow(_)
+    super.tap do
+      @saved             = true
+      @in_edition        = false
+      @max_cards_in_deck = 30
+
+      # preparation for arena
+      @current_deck_mode = :constructed
+
+      # load decks
+      show_decks
+      @table_view.reloadData
+
+      @cards = nil
+      @cards_view.reloadData
+
+      check_clipboad_net_deck
 
       NSNotificationCenter.defaultCenter.observe('skin') do |_|
         unless @in_edition
