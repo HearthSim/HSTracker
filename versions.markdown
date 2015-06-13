@@ -1,6 +1,7 @@
 #### 0.11.1
 - Correct a bug where the last deck was deleted on right-click instead of the selected one
 - Add a verification for the config.log file
+- Improve deck manager opening
 
 #### 0.11
 ##### HearthStats support
