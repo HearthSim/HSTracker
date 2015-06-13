@@ -1,3 +1,7 @@
+#### 0.11.1
+- Correct a bug where the last deck was deleted on right-click instead of the selected one
+- Add a verification for the config.log file
+
 #### 0.11
 ##### HearthStats support
 - HSTracker is now the official HearthStats uploader of OsX !
