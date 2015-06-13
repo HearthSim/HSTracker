@@ -16,6 +16,9 @@ class DeckManager < NSWindowController
       self.window          = @layout.window
       self.window.delegate = self
 
+      @saved             = true
+      @in_edition        = false
+
       # init tabs
       @tabs = @layout.get(:tabs)
       @tabs.setAction 'tab_changed:'
@@ -83,8 +86,6 @@ class DeckManager < NSWindowController
 
   def showWindow(_)
     super.tap do
-      @saved             = true
-      @in_edition        = false
       @max_cards_in_deck = 30
 
       # preparation for arena
