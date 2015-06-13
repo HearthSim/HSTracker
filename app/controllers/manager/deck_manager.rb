@@ -783,6 +783,7 @@ class DeckManager < NSWindowController
   end
 
   def delete_deck(sender)
+    row  = @table_view.clickedRow
 
     NSAlert.alert('Delete'._,
                   :buttons     => ['OK'._, 'Cancel'._],
@@ -793,8 +794,8 @@ class DeckManager < NSWindowController
       if response == NSAlertFirstButtonReturn
 
         if sender and sender.respond_to?('identifier') and sender.identifier == 'table_identifier'
-          row  = @table_view.clickedRow
           deck = @decks_or_cards[row]
+          break
         else
           deck = @current_deck
         end
