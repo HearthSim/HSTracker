@@ -50,7 +50,7 @@ GEM
       motion-cocoapods (>= 1.1.0)
     motion-yaml (1.4)
     motion_print (1.1.2)
-    multi_json (1.11.0)
+    multi_json (1.11.1)
     nap (0.8.0)
     netrc (0.7.8)
     plist (3.1.0)

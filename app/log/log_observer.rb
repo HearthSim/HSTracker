@@ -378,6 +378,14 @@ class LogObserver
         @found_ranked = true
         @game_mode    = :ranked
         Game.instance.game_mode(@game_mode)
+
+      elsif (match = /unloading name=(\w+_\w+) family=CardPrefab persistent=False/.match(line))
+        card_id = match[1]
+        #if @game_mode == :arena
+        #  Log.verbose "possible arena card draft : #{card_id} ?"
+        #else
+        #  Log.verbose "possible constructed card draft : #{card_id} ?"
+        #end
       end
 
     elsif line.start_with?('[Bob] ---RegisterScreenPractice---')
@@ -399,18 +407,14 @@ class LogObserver
         Log.debug "#{victories} / 3 -> 10 gold"
       end
 
-      if @game_mode == :arena
-        match = /.*somehow the card def for (\w+_\w+) was already in the cache\.\.\./.match(line)
-        if match
-          card_id = match[1]
-          Log.verbose "possible arena card draft : #{card_id} ?"
-        end
+      if (match = /.*somehow the card def for (\w+_\w+) was already in the cache\.\.\./.match(line))
+        card_id = match[1]
+        #if @game_mode == :arena
+        #  Log.verbose "possible arena card draft : #{card_id} ?"
+        #else
+        #  Log.verbose "possible constructed card draft : #{card_id} ?"
+        #end
 
-        match = /.*unloading name=(\w+_\w+) family=CardPrefab persistent=False/.match(line)
-        if match
-          card_id = match[1]
-          Log.verbose "possible arena card draft : #{card_id} ?"
-        end
       end
 
     elsif line =~ /^\[Zone\]/
