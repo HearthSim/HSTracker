@@ -677,7 +677,7 @@ class DeckManager < NSWindowController
                     :window      => self.window
       ) do |response|
         if response == NSAlertSecondButtonReturn
-          return
+          break
         end
 
         _play_deck(deck, cards, name)
@@ -849,7 +849,7 @@ class DeckManager < NSWindowController
       ) do |response|
 
         if response == NSAlertFirstButtonReturn
-          return
+          break
         end
         _save_deck
       end
@@ -876,7 +876,7 @@ class DeckManager < NSWindowController
     ) do |response|
 
       if response == NSAlertThirdButtonReturn
-        return
+        break
       end
 
       deck_name_input.validateEditing
