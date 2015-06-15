@@ -2,6 +2,7 @@
 - Correct a bug where the last deck was deleted on right-click instead of the selected one
 - Add a verification for the config.log file
 - Improve deck manager opening
+- Add turn timer (beta). There is a know bug with the first turn which starts too soon.
 
 #### 0.11
 ##### HearthStats support

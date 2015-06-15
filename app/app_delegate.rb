@@ -24,8 +24,6 @@ class AppDelegate
 
     # load cards into database if needed
     DatabaseGenerator.init_database(@splash) do
-      @splash.window.orderOut(self)
-      @splash = nil
 
       NSApp.mainMenu = MainMenu.new.menu
 
@@ -37,14 +35,19 @@ class AppDelegate
       @opponent.showWindow(self)
       @opponent.window.orderFrontRegardless
 
+      @timer_hud = TimerHud.new
+      @timer_hud.showWindow(self)
+      @timer_hud.window.orderFrontRegardless
+
       Game.instance.player_tracker   = @player
       Game.instance.opponent_tracker = @opponent
+      Game.instance.timer_hud        = @timer_hud
 
       if Configuration.remember_last_deck
         last_deck_played = Configuration.last_deck_played
         unless last_deck_played.nil?
           name, version = last_deck_played.split('#')
-          deck = Deck.where(:name => name).and(:version).eq(version).first
+          deck          = Deck.where(:name => name).and(:version).eq(version).first
           if deck
             @player.show_deck(deck.playable_cards, deck.name)
             Game.instance.with_deck(deck)
@@ -76,6 +79,9 @@ class AppDelegate
       if Hearthstone.instance.is_hearthstone_running?
         Hearthstone.instance.start
       end
+
+      @splash.window.orderOut(self)
+      @splash = nil
 
       VersionChecker.check
 

@@ -3,7 +3,9 @@ class Game
 
   Log = Motion::Log
 
-  attr_accessor :player_tracker, :opponent_tracker, :start_date, :end_date
+  attr_accessor :player_tracker, :opponent_tracker
+  attr_accessor :timer_hud
+  attr_accessor :start_date, :end_date
 
   def self.instance
     Dispatch.once { @instance ||= new }
@@ -208,11 +210,14 @@ class Game
 
     player_tracker.game_end
     opponent_tracker.game_end
+    timer_hud.game_end
   end
 
   def turn_start(player, turn)
     log(player, "turn : #{turn}")
     @current_turn = turn
+
+    timer_hud.restart(player)
   end
 
   ## player events
@@ -275,6 +280,7 @@ class Game
   def player_mulligan(card_id)
     log(:player, "mulligan #{card_id} (#{card(card_id)})")
     player_tracker.mulligan(card_id)
+    timer_hud.mulligan_done(:player)
   end
 
   def player_back_to_hand(card_id, turn)
@@ -355,6 +361,7 @@ class Game
   def opponent_mulligan(from)
     log(:opponent, "mulligan (from: #{from})")
     opponent_tracker.mulligan
+    timer_hud.mulligan_done(:opponent)
   end
 
   def opponent_play_to_hand(card_id, turn, id)

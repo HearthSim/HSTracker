@@ -86,6 +86,7 @@ class InterfacePreferencesLayout < PreferencesLayout
               end
             }
         },
+        :show_timer => 'Show timers'._
     }
   end
 

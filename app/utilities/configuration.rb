@@ -15,7 +15,7 @@ class Configuration
                   flash_color fixed_window_names reset_on_end card_layout count_color
                   count_color_border hand_count_window show_get_cards show_card_on_hover
                   in_hand_as_played use_hearthstats hearthstats_token show_notifications
-                  remember_last_deck last_deck_played skin)
+                  remember_last_deck last_deck_played skin show_timer)
 
     KDefaults = {
         :flash_color         => [55, 189, 223],
@@ -34,7 +34,8 @@ class Configuration
         :use_hearthstats     => false,
         :show_notifications  => true,
         :remember_last_deck  => true,
-        :skin                => :hearthstats
+        :skin                => :hearthstats,
+        :show_timer          => true
     }
 
     def method_missing(symbol, *args)
