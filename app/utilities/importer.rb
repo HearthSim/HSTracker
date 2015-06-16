@@ -334,7 +334,7 @@ class Importer
       end
 
       # search for title
-      title_node = doc.firstNodeForXPath("//h2[contains(@class,'t-deck-title')]", error: error)
+      title_node = doc.firstNodeForXPath("//h2[contains(@class,'deck-title')]", error: error)
       if error[0]
         Log.error error[0].description
         return nil, nil, nil
