@@ -1,3 +1,7 @@
+#### 0.11.2
+- Correct a bug where HSTracker will crash when canceling a modal dialog in the deck manager
+- Support for new heroes
+
 #### 0.11.1
 - Correct a bug where the last deck was deleted on right-click instead of the selected one
 - Add a verification for the config.log file

@@ -72,7 +72,7 @@ class Game
                  :duration        => (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
                  :deck_id         => @current_deck.hearthstats_id,
                  :deck_version_id => @current_deck.hearthstats_version_id,
-                 :oppclass        => @current_opponent.player_class,
+                 :oppclass        => @current_opponent ? @current_opponent.player_class : nil,
                  :oppname         => @opponent_name || nil,
                  :notes           => nil,
                  :ranklvl         => @current_rank,
@@ -233,8 +233,11 @@ class Game
   end
 
   def player_hero(hero_id)
-    log(:player, "hero is #{hero_id} (#{Card.hero(hero_id).name})")
-    player_tracker.set_hero(hero_id)
+    hero = Card.hero(hero_id)
+    if hero
+      log(:player, "hero is #{hero_id} (#{hero.name})")
+      player_tracker.set_hero(hero_id)
+    end
   end
 
   def player_draw(card_id, turn)

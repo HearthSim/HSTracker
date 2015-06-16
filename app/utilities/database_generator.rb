@@ -2,7 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 4
+  DATABASE_VERSION = 5
 
   Log = Motion::Log
 
@@ -46,7 +46,9 @@ class DatabaseGenerator
         'Promotion',
         'Curse of Naxxramas',
         'Goblins vs Gnomes',
-        'Blackrock Mountain'
+        'Blackrock Mountain',
+        'Hero Skins',
+        'Tavern Brawl'
     ]
     splash.max(langs.size) if splash
 

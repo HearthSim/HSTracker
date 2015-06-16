@@ -49,9 +49,9 @@ class TimerHud < Hud
 
   private
   def fire(_)
-    return if !@player_mulligan and !@opponent_mulligan
-
     @seconds -= 1 if @seconds > 0
+
+    return if !@player_mulligan and !@opponent_mulligan
 
     seconds = 90 - @seconds
     if @seconds < 10
