@@ -129,7 +129,6 @@ class Game
     data[:player_class] = data[:class]
     data.delete_if { |key, _| key == :class }
 
-    mp :data => data, :cards => cards
     match = HearthstatsMatch.create data
 
     cards.each do |c|

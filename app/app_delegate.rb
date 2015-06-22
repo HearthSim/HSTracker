@@ -64,9 +64,11 @@ class AppDelegate
         if is_active
           @player.set_level NSScreenSaverWindowLevel
           @opponent.set_level NSScreenSaverWindowLevel
+          @timer_hud.set_level NSScreenSaverWindowLevel
         else
           @player.set_level NSNormalWindowLevel
           @opponent.set_level NSNormalWindowLevel
+          @timer_hud.set_level NSNormalWindowLevel
         end
       end
 

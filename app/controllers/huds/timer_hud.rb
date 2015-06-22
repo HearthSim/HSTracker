@@ -7,6 +7,20 @@ class TimerHud < Hud
       self.window.delegate = self
 
       @label = @layout.get(:label)
+
+      NSNotificationCenter.defaultCenter.observe('show_timer') do |_|
+        show_hide
+      end
+      
+      show_hide
+    end
+  end
+
+  def show_hide
+    if Configuration.show_timer
+      self.window.orderFront(self)
+    else
+      self.window.orderOut(self)
     end
   end
 
