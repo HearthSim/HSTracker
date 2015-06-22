@@ -166,9 +166,10 @@ class DeckManager < NSWindowController
     @saved = false
     cards  = []
     data[:cards].each do |card|
-      next if ignore_cards.include? card.card_id or !card.collectible
+      next if ignore_cards.include? card.card_id
 
       r_card       = Card.by_id card.card_id
+      next unless r_card.collectible
       r_card.count = card.count
       cards << r_card
     end

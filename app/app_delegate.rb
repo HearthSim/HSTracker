@@ -145,12 +145,12 @@ class AppDelegate
     @player.set_level NSNormalWindowLevel
     @opponent.set_level NSNormalWindowLevel
 
+    deck_manager.showWindow(nil)
+    deck_manager.player_view = @player
+
     if data.is_a? Hash
       deck_manager.import(data)
     end
-
-    deck_manager.showWindow(nil)
-    deck_manager.player_view = @player
 
     close_window_menu true
   end

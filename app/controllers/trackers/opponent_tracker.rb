@@ -40,8 +40,9 @@ class OpponentTracker < Tracker
   end
 
   def clicked(_)
-    return if !@game_ended or @table_view.clickedRow != 0
+    return unless @game_ended and @table_view.clickedRow.zero?
 
+    Log.verbose "Want to save a deck for #{@hero.player_class}"
     NSNotificationCenter.defaultCenter.post('open_deck_manager',
                                             nil,
                                             {
