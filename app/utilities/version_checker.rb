@@ -45,7 +45,7 @@ class VersionChecker
                                                          frameName: nil,
                                                          groupName: nil
 
-                  text = "<h2>#{release_version}</h2>#{changelogs.XMLString}#{changelogs.XMLString}"
+                  text = "<h2>#{release_version}</h2>#{changelogs.XMLString}"
                   web_view.mainFrame.loadHTMLString text, baseURL: nil
 
                   response = NSAlert.alert('Update'._,
