@@ -79,6 +79,7 @@ class Game
                  :oppcards        => cards,
                  :created_at      => @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", :unicode => true)
         }
+        # todo, add :log (see match_log.json)
 
         if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
           response = NSAlert.alert('Deck save'._,

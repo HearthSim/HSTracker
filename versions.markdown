@@ -1,3 +1,6 @@
+#### 0.11.3
+- Correct a bug when importing old hearthstats decks
+
 #### 0.11.2
 - Correct a bug where HSTracker will crash when canceling a modal dialog in the deck manager
 - Support for new heroes

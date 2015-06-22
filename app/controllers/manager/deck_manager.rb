@@ -594,20 +594,27 @@ class DeckManager < NSWindowController
           deck_name  = json_deck['deck']['name']
           deck_class = classes[json_deck['deck']['klass_id']]
 
+          next if deck_class.nil?
+
           # search for a deck with the same id
           deck       = Deck.where(:hearthstats_id => deck_id).first
 
           if deck.nil?
+
+            hearthstats_version_id = nil
+            current_version = json_deck['current_version']
+            if current_version and json_deck.has_key? 'versions'
+              hearthstats_version_id = json_deck['versions'].select { |d| d['version'] == json_deck['current_version'] }
+                                                            .first['deck_version_id']
+            end
+
             deck = Deck.create :name                   => deck_name,
                                :player_class           => deck_class,
                                :arena                  => false,
                                :version                => json_deck['current_version'].to_i,
                                :is_active              => true,
                                :hearthstats_id         => deck_id,
-                               :hearthstats_version_id => json_deck['versions']
-                                                              .select { |d| d['version'] == json_deck['current_version'] }
-                                                              .first['deck_version_id']
-
+                               :hearthstats_version_id => hearthstats_version_id
           end
 
           deck.cards.each do |c|
