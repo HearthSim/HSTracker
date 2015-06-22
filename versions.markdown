@@ -2,6 +2,7 @@
 - Correct a bug when importing old hearthstats decks  
 - Correct a bug with save opponent deck button  
 - The timer can now be hidden correctly
+- Correct a crash when there're Hearthstats issue
 
 #### 0.11.2
 - Correct a bug where HSTracker will crash when canceling a modal dialog in the deck manager

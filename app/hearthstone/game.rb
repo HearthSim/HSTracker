@@ -87,10 +87,10 @@ class Game
                                    :informative => 'Your deck is not saved on HearthStats. Do you want to save it now ?'._,
                                    :force_top   => true)
           if response == NSAlertFirstButtonReturn
-            HearthStatsAPI.post_deck(@current_deck) do |status|
+            HearthStatsAPI.post_deck(@current_deck) do |status, deck|
               if status
-                data[:deck_id]         = @current_deck.hearthstats_id
-                data[:deck_version_id] = @current_deck.hearthstats_version_id
+                data[:deck_id]         = deck.hearthstats_id
+                data[:deck_version_id] = deck.hearthstats_version_id
                 HearthStatsAPI.post_game_result(data) do |success|
                   # save for later
                   save_match(data, cards) unless success
@@ -127,7 +127,7 @@ class Game
 
   def save_match(data, cards)
     data[:player_class] = data[:class]
-    data.delete_if { |key, _| key == :class }
+    data.delete_if { |key, _| key == :class or key == :oppclass }
 
     match = HearthstatsMatch.create data
 

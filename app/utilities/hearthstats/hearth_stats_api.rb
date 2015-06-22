@@ -88,7 +88,7 @@ class HearthStatsAPI
         deck.hearthstats_version_id = response['data']['deck_versions'][0]['id']
       end
       Dispatch::Queue.main.async do
-        block.call(status) if block
+        block.call(status, deck) if block
       end
     end
   end
