@@ -169,3 +169,6 @@
 "Skin" = "Skin";
 
 "Show timers" = "Show timers";
+"The deck has been saved on HearthStats" = "The deck has been saved on HearthStats";
+"There were an error while saving this deck on HearthStats" = "There were an error while saving this deck on HearthStats";
+"Save version %@" = "Save version %@";

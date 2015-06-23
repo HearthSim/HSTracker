@@ -1,5 +1,19 @@
 class Deck < CDQManagedObject
 
+  def self.upgrade_versions
+    upgrade_version_done = NSUserDefaults.standardUserDefaults.objectForKey 'upgrade_version_done'
+    return if upgrade_version_done
+
+    Deck.each do |deck| 
+      if deck.version.nil? or deck.version.zero?
+        deck.version = 1.0
+        deck.is_active = true
+      end
+    end
+
+    NSUserDefaults.standardUserDefaults.setObject(true, forKey: 'upgrade_version_done')
+  end
+
   def self.by_name(name)
     Deck.where(:name => name).first
   end

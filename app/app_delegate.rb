@@ -25,6 +25,9 @@ class AppDelegate
     # load cards into database if needed
     DatabaseGenerator.init_database(@splash) do
 
+      # upgrade decks to have versions number
+      Deck.upgrade_versions
+
       NSApp.mainMenu = MainMenu.new.menu
 
       @player = PlayerTracker.new

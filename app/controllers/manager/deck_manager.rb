@@ -873,8 +873,22 @@ class DeckManager < NSWindowController
     end
 
     buttons = ['Save'._, 'Cancel'._]
+    current_version = 1.0.round(1)
+    next_minor = (current_version + 0.1).round(1)
+    next_major = (current_version.to_i + 1.0).round(1)
+    is_new_deck = true
+
     unless @current_deck.nil?
-      buttons = ['Save'._, 'New version'._, 'Cancel'._]
+      is_new_deck = false
+      current_version = @current_deck.version.round(1)
+      next_minor = (current_version + 0.1).round(1)
+      next_major = (current_version.to_i + 1.0).round(1)
+
+      save_as = NSString.stringWithFormat('Save version %@', current_version)
+      save_minor = NSString.stringWithFormat('Save version %@', next_minor)
+      save_major = NSString.stringWithFormat('Save version %@', next_major)
+
+      buttons = [save_as, save_minor, save_major, 'Cancel'._]
     end
 
     NSAlert.alert('Deck name'._,
@@ -883,45 +897,41 @@ class DeckManager < NSWindowController
                   :window  => self.window
     ) do |response|
 
-      if response == NSAlertThirdButtonReturn
+      if (buttons.length == 2 and response == NSAlertSecondButtonReturn) or (buttons.length == 4 and response == NSAlertThirdButtonReturn + 1)
         break
       end
 
       deck_name_input.validateEditing
       deck_name = deck_name_input.stringValue
 
-      if response == NSAlertFirstButtonReturn
-        is_new_deck = true
-        if @current_deck.nil?
-          @current_deck = Deck.create(
+      if is_new_deck
+        # new deck
+        @current_deck = Deck.create(
               :player_class => @deck_class,
-              :version      => 0,
+              :version      => current_version,
               :is_active    => true)
-        elsif @current_deck.version.nil?
-          # update the old deck to new system
-          @current_deck.version   = 0
-          @current_deck.is_active = true
-        end
-        @current_deck.arena = @current_deck_mode == :arena
-        @current_deck.name  = deck_name
-
+      elsif response == NSAlertFirstButtonReturn
+        # should I change something in the deck here ?
+        # we still have the same version...
       else
-        is_new_deck             = false
-        @current_deck.is_active = false
-        if @current_deck.version.nil?
-          # update the old deck to new system
-          @current_deck.version = 0
+        # new version of the deck
+        new_version = case response
+          when NSAlertSecondButtonReturn
+            next_minor
+          when NSAlertThirdButtonReturn
+            next_major
         end
-
+          
+        @current_deck.is_active = false
         new_deck      = Deck.create(
             :player_class           => @deck_class,
-            :version                => @current_deck.version + 1,
+            :version                => new_version,
             :is_active              => true,
             :arena                  => @current_deck.arena,
             :name                   => deck_name,
             :deck                   => @current_deck,
             :hearthstats_id         => @current_deck.hearthstats_id,
-            :hearthstats_version_id => @current_deck.hearthstats_version_id
+            :hearthstats_version_id => nil
         )
         @current_deck = new_deck
       end
@@ -946,16 +956,14 @@ class DeckManager < NSWindowController
                       :buttons     => ['OK'._, 'Cancel'._],
                       :informative => 'Do you want to save this deck on HearthStats ?'._,
                       :window      => self.window) do |res|
-          if res == NSAlertFirstButtonReturn
-            if is_new_deck
-              if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
-                HearthStatsAPI.post_deck(@current_deck)
-              else
-                HearthStatsAPI.update_deck(@current_deck)
-              end
-            else
-              HearthStatsAPI.post_deck_version(@current_deck)
-            end
+          break if res == NSAlertSecondButtonReturn
+
+          if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
+            HearthStatsAPI.post_deck(@current_deck)
+          elsif !@current_deck.hearthstats_version_id.nil?
+            HearthStatsAPI.update_deck(@current_deck)
+          else
+            HearthStatsAPI.post_deck_version(@current_deck)
           end
         end
       end

@@ -77,7 +77,8 @@ class HearthStatsAPI
         :tags  => nil,
         :notes => '',
         :cards => deck.cards.map { |card| { id: card.card_id, count: card.count } },
-        :class => deck.player_class
+        :class => deck.player_class,
+        :version => 1.0.round(1)
     }
 
     Web.json_post(url, data) do |response, error|
@@ -88,6 +89,11 @@ class HearthStatsAPI
         deck.hearthstats_version_id = response['data']['deck_versions'][0]['id']
       end
       Dispatch::Queue.main.async do
+        if status 
+          Notification.post('Save deck'._, 'The deck has been saved on HearthStats'._)
+        else
+          Notification.post('Save deck'._, 'There were an error while saving this deck on HearthStats'._)
+        end
         block.call(status, deck) if block
       end
     end
@@ -111,6 +117,11 @@ class HearthStatsAPI
         status = true
       end
       Dispatch::Queue.main.async do
+        if status 
+          Notification.post('Save deck'._, 'The deck has been saved on HearthStats'._)
+        else
+          Notification.post('Save deck'._, 'There were an error while saving this deck on HearthStats'._)
+        end
         block.call(status) if block
       end
     end
@@ -122,7 +133,7 @@ class HearthStatsAPI
     data = {
         :deck_id => deck.hearthstats_id,
         :cards   => deck.cards.map { |card| { id: card.card_id, count: card.count } },
-        :version => deck.version
+        :version => deck.version.round(1)
     }
 
     Web.json_post(url, data) do |response, error|
