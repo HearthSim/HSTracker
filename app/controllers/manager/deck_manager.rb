@@ -779,6 +779,7 @@ class DeckManager < NSWindowController
     @deck_class     = clazz.sub(/^(\w)/) { |s| s.capitalize }
     @current_class  = @deck_class
     @decks_or_cards = []
+    @current_deck = nil
 
     @card_count.stringValue = "0 / #{@max_cards_in_deck}"
 
@@ -935,6 +936,8 @@ class DeckManager < NSWindowController
         )
         @current_deck = new_deck
       end
+
+      @current_deck.name = deck_name
 
       @current_deck.cards.each do |c|
         c.destroy
