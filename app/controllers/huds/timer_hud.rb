@@ -16,6 +16,10 @@ class TimerHud < Hud
     end
   end
 
+  def set_level(level)
+    window.setLevel level
+  end
+
   def show_hide
     if Configuration.show_timer
       self.window.orderFront(self)
