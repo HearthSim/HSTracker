@@ -11,8 +11,6 @@ class TimerHud < Hud
       NSNotificationCenter.defaultCenter.observe('show_timer') do |_|
         show_hide
       end
-      
-      show_hide
     end
   end
 
