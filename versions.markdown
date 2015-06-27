@@ -1,6 +1,7 @@
 #### 0.11.4
 - Correct the save button on "non-full" decks
 - The timer is now correctly hidden on HSTracker start when show_timer is not checked
+- Add an option to hide the opponent tracker
 
 #### 0.11.3
 - Correct a bug when importing old hearthstats decks  

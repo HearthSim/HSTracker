@@ -36,6 +36,18 @@ class OpponentTracker < Tracker
         @count_window = CardCountHud.alloc.initWithPlayer(:opponent)
         @count_window.showWindow(self)
       end
+
+      NSNotificationCenter.defaultCenter.observe('show_opponent_tracker') do |_|
+        show_hide
+      end
+    end
+  end
+
+  def show_hide
+    if Configuration.show_opponent_tracker
+      self.window.orderFront(self)
+    else
+      self.window.orderOut(self)
     end
   end
 

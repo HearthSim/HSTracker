@@ -99,7 +99,7 @@ class Tracker < NSWindowController
   def windowWillClose(_)
     @events.each do |event|
       NSNotificationCenter.defaultCenter.unobserve(event)
-    end
+    end if @events
   end
 
   # card hover

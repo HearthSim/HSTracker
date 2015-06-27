@@ -35,8 +35,10 @@ class AppDelegate
       @player.window.orderFrontRegardless
 
       @opponent = OpponentTracker.new
-      @opponent.showWindow(self)
-      @opponent.window.orderFrontRegardless
+      if Configuration.show_opponent_tracker
+        @opponent.showWindow(self)
+        @opponent.window.orderFrontRegardless
+      end
 
       @timer_hud = TimerHud.new
       if Configuration.show_timer

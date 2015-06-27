@@ -86,7 +86,8 @@ class InterfacePreferencesLayout < PreferencesLayout
               end
             }
         },
-        :show_timer => 'Show timers'._
+        :show_timer => 'Show timers'._,
+        :show_opponent_tracker => 'Show opponent tracker'._
     }
   end
 
