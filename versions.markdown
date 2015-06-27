@@ -1,8 +1,11 @@
+#### 0.11.4
+- Correct the save button on "non-full" decks
+
 #### 0.11.3
 - Correct a bug when importing old hearthstats decks  
 - Correct a bug with save opponent deck button  
 - The timer can now be hidden correctly
-- Correct a crash when there're Hearthstats issue
+- Correct a crash when there are Hearthstats issue
 - Change version system to allow version x.y (ie 1.1)
 
 #### 0.11.2

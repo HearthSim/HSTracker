@@ -16,11 +16,11 @@ class DeckManager < NSWindowController
       self.window          = @layout.window
       self.window.delegate = self
 
-      @saved             = true
-      @in_edition        = false
+      @saved      = true
+      @in_edition = false
 
       # init tabs
-      @tabs = @layout.get(:tabs)
+      @tabs       = @layout.get(:tabs)
       @tabs.setAction 'tab_changed:'
       @tabs.setTarget self
       @tabs.setSegmentCount ClassesData::KClasses.size
@@ -168,7 +168,7 @@ class DeckManager < NSWindowController
     data[:cards].each do |card|
       next if ignore_cards.include? card.card_id
 
-      r_card       = Card.by_id card.card_id
+      r_card = Card.by_id card.card_id
       next unless r_card.collectible
       r_card.count = card.count
       cards << r_card
@@ -598,15 +598,15 @@ class DeckManager < NSWindowController
           next if deck_class.nil?
 
           # search for a deck with the same id
-          deck       = Deck.where(:hearthstats_id => deck_id).first
+          deck = Deck.where(:hearthstats_id => deck_id).first
 
           if deck.nil?
 
             hearthstats_version_id = nil
-            current_version = json_deck['current_version']
+            current_version        = json_deck['current_version']
             if current_version and json_deck.has_key? 'versions'
               hearthstats_version_id = json_deck['versions'].select { |d| d['version'] == json_deck['current_version'] }
-                                                            .first['deck_version_id']
+                                           .first['deck_version_id']
             end
 
             deck = Deck.create :name                   => deck_name,
@@ -779,7 +779,7 @@ class DeckManager < NSWindowController
     @deck_class     = clazz.sub(/^(\w)/) { |s| s.capitalize }
     @current_class  = @deck_class
     @decks_or_cards = []
-    @current_deck = nil
+    @current_deck   = nil
 
     @card_count.stringValue = "0 / #{@max_cards_in_deck}"
 
@@ -798,7 +798,7 @@ class DeckManager < NSWindowController
   end
 
   def delete_deck(sender)
-    row  = @table_view.clickedRow
+    row = @table_view.clickedRow
 
     NSAlert.alert('Delete'._,
                   :buttons     => ['OK'._, 'Cancel'._],
@@ -857,7 +857,7 @@ class DeckManager < NSWindowController
                     :window      => self.window
       ) do |response|
 
-        if response == NSAlertFirstButtonReturn
+        if response == NSAlertSecondButtonReturn
           break
         end
         _save_deck
@@ -873,19 +873,19 @@ class DeckManager < NSWindowController
       deck_name_input.stringValue = @deck_name
     end
 
-    buttons = ['Save'._, 'Cancel'._]
+    buttons         = ['Save'._, 'Cancel'._]
     current_version = 1.0.round(1)
-    next_minor = (current_version + 0.1).round(1)
-    next_major = (current_version.to_i + 1.0).round(1)
-    is_new_deck = true
+    next_minor      = (current_version + 0.1).round(1)
+    next_major      = (current_version.to_i + 1.0).round(1)
+    is_new_deck     = true
 
     unless @current_deck.nil?
-      is_new_deck = false
+      is_new_deck     = false
       current_version = @current_deck.version.round(1)
-      next_minor = (current_version + 0.1).round(1)
-      next_major = (current_version.to_i + 1.0).round(1)
+      next_minor      = (current_version + 0.1).round(1)
+      next_major      = (current_version.to_i + 1.0).round(1)
 
-      save_as = NSString.stringWithFormat('Save version %@', current_version)
+      save_as    = NSString.stringWithFormat('Save version %@', current_version)
       save_minor = NSString.stringWithFormat('Save version %@', next_minor)
       save_major = NSString.stringWithFormat('Save version %@', next_major)
 
@@ -908,23 +908,23 @@ class DeckManager < NSWindowController
       if is_new_deck
         # new deck
         @current_deck = Deck.create(
-              :player_class => @deck_class,
-              :version      => current_version,
-              :is_active    => true)
+            :player_class => @deck_class,
+            :version      => current_version,
+            :is_active    => true)
       elsif response == NSAlertFirstButtonReturn
         # should I change something in the deck here ?
         # we still have the same version...
       else
         # new version of the deck
         new_version = case response
-          when NSAlertSecondButtonReturn
-            next_minor
-          when NSAlertThirdButtonReturn
-            next_major
-        end
-          
+                        when NSAlertSecondButtonReturn
+                          next_minor
+                        when NSAlertThirdButtonReturn
+                          next_major
+                      end
+
         @current_deck.is_active = false
-        new_deck      = Deck.create(
+        new_deck                = Deck.create(
             :player_class           => @deck_class,
             :version                => new_version,
             :is_active              => true,
@@ -934,7 +934,7 @@ class DeckManager < NSWindowController
             :hearthstats_id         => @current_deck.hearthstats_id,
             :hearthstats_version_id => nil
         )
-        @current_deck = new_deck
+        @current_deck           = new_deck
       end
 
       @current_deck.name = deck_name
