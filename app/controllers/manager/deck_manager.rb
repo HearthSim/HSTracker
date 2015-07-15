@@ -590,6 +590,8 @@ class DeckManager < NSWindowController
       }
 
       HearthStatsAPI.get_decks do |data|
+        break if data.nil?
+
         data.each do |json_deck|
           deck_id    = json_deck['deck']['id']
           deck_name  = json_deck['deck']['name']
@@ -618,8 +620,10 @@ class DeckManager < NSWindowController
                                :hearthstats_version_id => hearthstats_version_id
           end
 
-          deck.cards.each do |c|
-            c.destroy
+          if deck.cards and !deck.cards.length.zero?
+            deck.cards.each do |c|
+              c.destroy
+            end
           end
           json_deck['cards'].each do |json_card|
             deck.cards.create(:card_id => json_card['id'], :count => json_card['count'].to_i)

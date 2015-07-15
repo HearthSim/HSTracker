@@ -1,7 +1,7 @@
 class HearthStatsAPI
   include CDQ
 
-  HearthStatsAPIURL = 'http://hearthstats.net/api/v3'
+  HearthStatsAPIURL = 'http://api.hearthstats.net/api/v3'
 
   def self.auth_token
     Configuration.hearthstats_token
@@ -63,7 +63,7 @@ class HearthStatsAPI
                                                     forKey: key)
       ret = []
       if response and response['status'] == 200
-        ret = response['data']
+        ret = response['data'] if response['data']
       end
       block.call(ret) if block
     end

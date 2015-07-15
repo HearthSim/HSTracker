@@ -126,10 +126,24 @@ class Game
   end
 
   def save_match(data, cards)
-    data[:player_class] = data[:class]
-    data.delete_if { |key, _| key == :class or key == :oppclass }
+    created_at = data[:created_at]
+    if created_at.is_a? Time
+      created_at = created_at.string_with_format("yyyy-MM-dd'T'HH:mm", :unicode => true)
+    end
 
-    match = HearthstatsMatch.create data
+    match = HearthstatsMatch.create :player_class    => data[:class],
+                                    :mode            => data[:mode],
+                                    :result          => data[:result],
+                                    :coin            => data[:coin],
+                                    :numturns        => data[:numturns],
+                                    :duration        => data[:duration],
+                                    :deck_id         => data[:deck_id],
+                                    :deck_version_id => data[:deck_version_id],
+                                    :oppclass        => data[:oppclass],
+                                    :oppname         => data[:oppname],
+                                    :notes           => data[:notes],
+                                    :ranklvl         => data[:ranklvl],
+                                    :created_at      => created_at
 
     cards.each do |c|
       HearthstatsMatchCard.create :card_id           => c[:id],
