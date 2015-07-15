@@ -4,6 +4,7 @@
 - Add an option to hide the opponent tracker
 - Correct a crash when importing hearthstats decks
 - Correct an error with the deck selection from menu
+- Correct scroll on 10.8 and 10.9
 
 #### 0.11.3
 - Correct a bug when importing old hearthstats decks  

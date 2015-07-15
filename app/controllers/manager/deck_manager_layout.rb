@@ -1,5 +1,7 @@
 class DeckManagerLayout < MK::WindowLayout
 
+  include OSXHelper
+
   def layout
     frame_width  = CGRectGetWidth(NSScreen.mainScreen.frame) - 100
     frame_height = CGRectGetHeight(NSScreen.mainScreen.frame) - 100
@@ -77,6 +79,9 @@ class DeckManagerLayout < MK::WindowLayout
       add NSScrollView, :table_scroll_view do
         drawsBackground false
         autoresizing_mask NSViewWidthSizable | NSViewHeightSizable
+        unless is_10_10?
+          has_vertical_scroller true
+        end
 
         table = add NSTableView, :table_view do
           row_height 37
@@ -110,7 +115,11 @@ class DeckManagerLayout < MK::WindowLayout
       end
 
       constraints do
-        width.equals(220)
+        _width = 220
+        unless is_10_10?
+          _width += 15
+        end
+        width.equals(_width)
         top_right.equals x: 0, y: 0
         height.equals(:superview)
       end

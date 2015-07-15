@@ -1,5 +1,7 @@
 class TrackerLayout < MK::WindowLayout
 
+  include OSXHelper
+
   KFrameWidth  = 220.0
   KFrameHeight = 700.0
   KRowHeight   = 37.0
@@ -45,6 +47,10 @@ class TrackerLayout < MK::WindowLayout
         width = KFrameWidth
     end
 
+    unless is_10_10?
+      width += 15
+    end
+
     content_min_size [width, 200]
     content_max_size [width, CGRectGetHeight(NSScreen.mainScreen.frame)]
 
@@ -66,13 +72,16 @@ class TrackerLayout < MK::WindowLayout
     end
 
     add NSScrollView, :table_scroll_view do
-      drawsBackground false
       document_view add NSTableView, :table_view
     end
   end
 
   def table_scroll_view_style
     background_color :clear.nscolor
+    drawsBackground false
+    unless is_10_10?
+      has_vertical_scroller true
+    end
 
     constraints do
       height.equals(:superview)
