@@ -28,7 +28,7 @@ class MainMenu < MK::MenuLayout
       add 'Save all'._, action: 'save_decks:', key: ''
       add separator_item
 
-      Deck.where(:is_active => true).or(:is_active).eq(nil).sort_by(:name, :case_insensitive => true).each do |deck|
+      Deck.where(:is_active => true).sort_by(:name, :case_insensitive => true).each do |deck|
         add deck.name, action: 'open_deck:'
       end
     end
