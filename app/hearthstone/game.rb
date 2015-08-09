@@ -127,8 +127,13 @@ class Game
 
   def save_match(data, cards)
     created_at = data[:created_at]
-    if created_at.is_a? Time
+    if created_at.respond_to?(:string_with_format)
       created_at = created_at.string_with_format("yyyy-MM-dd'T'HH:mm", :unicode => true)
+    end
+
+    # let's be sure...
+    if created_at.respond_to?(:to_s)
+      created_at = created_at.to_s
     end
 
     match = HearthstatsMatch.create :player_class    => data[:class],
