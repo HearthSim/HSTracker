@@ -173,3 +173,5 @@
 "There were an error while saving this deck on HearthStats" = "Il y a eu une erreur lors de la sauvegarde du deck sur HearthStats";
 "Save version %@" = "Save version %@";
 "Show opponent tracker" = "Voir le tracker de l'opposant";
+"Rebuild card database" = "Reconstruire la base de données des cartes";
+"HSTracker will restart to rebuild card database. It can take a while." = "HSTracker va redémarrer pour reconstruire la base de données des cartes. Cette opération peut prendre un certain temps.";

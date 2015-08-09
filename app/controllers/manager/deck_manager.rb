@@ -818,6 +818,8 @@ class DeckManager < NSWindowController
           deck = @current_deck
         end
 
+        break if deck.is_a?(Card) or deck.is_a?(PlayCard)
+
         if Configuration.use_hearthstats and !deck.hearthstats_id.nil? and !deck.hearthstats_id.zero?
           NSAlert.alert('Delete'._,
                         :buttons     => ['OK'._, 'Cancel'._],

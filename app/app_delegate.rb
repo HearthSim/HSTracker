@@ -350,6 +350,22 @@ class AppDelegate
     end
   end
 
+  def rebuild_cards(_)
+    Card.destroy_all
+    Mechanic.destroy_all
+    cdq.save
+
+    response = NSAlert.alert('Rebuild card database'._,
+                             :buttons     => ['OK'._],
+                             :informative => 'HSTracker will restart to rebuild card database. It can take a while.'._)
+    if response == NSAlertFirstButtonReturn
+      @app_will_restart = true
+
+      NSApplication.sharedApplication.terminate(nil)
+      exit(0)
+    end
+  end
+
   def open_debug(_)
     NSWorkspace.sharedWorkspace.activateFileViewerSelectingURLs ['/Library/Logs/HSTracker'.home_path.fileurl]
   end

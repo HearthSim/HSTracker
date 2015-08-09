@@ -6,6 +6,7 @@ class MainMenu < MK::MenuLayout
       add about_item 'About HSTracker'._
       add 'Download images'._, action: 'ask_download_images:', key: ''
       add 'Reset all data'._, action: 'reset_all_data:', key: ''
+      add 'Rebuild card database'._, action: 'rebuild_cards:', key: ''
       add separator_item
       add preferences_item 'Preferences'._
       add separator_item
