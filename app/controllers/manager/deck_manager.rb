@@ -625,8 +625,17 @@ class DeckManager < NSWindowController
               c.destroy
             end
           end
-          json_deck['cards'].each do |json_card|
-            deck.cards.create(:card_id => json_card['id'], :count => json_card['count'].to_i)
+          if json_deck['cards'].nil?
+            NSAlert.alert('The import of this deck can not be completed. Please create an issue on Github and paste the content of your last log file.',
+                          buttons: ['OK'._],
+                          window: self.window)
+            deck.destroy
+            Log.warn json_deck.inspect
+            next
+          else
+            json_deck['cards'].each do |json_card|
+              deck.cards.create(card_id: json_card['id'], count: json_card['count'].to_i)
+            end
           end
         end
 
