@@ -52,44 +52,44 @@ class Game
                         else
                           'None'
                       end
-        game_mode   = case @game_mode
-                        when :ranked
-                          'Ranked'
-                        when :arena
-                          'Arena'
-                        else
-                          'Casual'
-                      end
-        cards       = []
+        game_mode = case @game_mode
+                      when :ranked
+                        'Ranked'
+                      when :arena
+                        'Arena'
+                      else
+                        'Casual'
+                    end
+        cards = []
         if @opponent_cards
           cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
         end
-        data = { :class           => @current_deck.player_class,
-                 :mode            => game_mode,
-                 :result          => game_result,
-                 :coin            => @has_coin.to_s,
-                 :numturns        => @current_turn,
-                 :duration        => (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
-                 :deck_id         => @current_deck.hearthstats_id,
-                 :deck_version_id => @current_deck.hearthstats_version_id,
-                 :oppclass        => @current_opponent ? @current_opponent.player_class : nil,
-                 :oppname         => @opponent_name || nil,
-                 :notes           => nil,
-                 :ranklvl         => @current_rank,
-                 :oppcards        => cards,
-                 :created_at      => @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", :unicode => true)
+        data = { class: @current_deck.player_class,
+                 mode: game_mode,
+                 result: game_result,
+                 coin: @has_coin.to_s,
+                 numturns: @current_turn,
+                 duration: (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
+                 deck_id: @current_deck.hearthstats_id,
+                 deck_version_id: @current_deck.hearthstats_version_id,
+                 oppclass: @current_opponent ? @current_opponent.player_class : nil,
+                 oppname: @opponent_name || nil,
+                 notes: nil,
+                 ranklvl: @current_rank,
+                 oppcards: cards,
+                 created_at: @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
         }
         # todo, add :log (see match_log.json)
 
         if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
           response = NSAlert.alert('Deck save'._,
-                                   :buttons     => ['OK'._, 'Cancel'._],
-                                   :informative => 'Your deck is not saved on HearthStats. Do you want to save it now ?'._,
-                                   :force_top   => true)
+                                   buttons: ['OK'._, 'Cancel'._],
+                                   informative: 'Your deck is not saved on HearthStats. Do you want to save it now ?'._,
+                                   force_top: true)
           if response == NSAlertFirstButtonReturn
             HearthStatsAPI.post_deck(@current_deck) do |status, deck|
               if status
-                data[:deck_id]         = deck.hearthstats_id
+                data[:deck_id] = deck.hearthstats_id
                 data[:deck_version_id] = deck.hearthstats_version_id
                 HearthStatsAPI.post_game_result(data) do |success|
                   # save for later
@@ -110,16 +110,16 @@ class Game
 
       # stats have a game_mode... it will be supported in a future version
       Log.verbose "stats : #{@game_result_win} against : #{@current_opponent.player_class} with deck : #{@current_deck.name} at rank : #{@current_rank}"
-      Statistic.create :opponent_class => @current_opponent.player_class,
-                       :opponent_name  => @opponent_name,
-                       :win            => (@game_result_win == :win),
-                       :deck           => @current_deck,
-                       :rank           => @current_rank,
-                       :game_mode      => @game_mode.to_s,
-                       :duration       => (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
-                       :turns          => @current_turn,
-                       :has_coin       => @has_coin,
-                       :created_at     => @start_date
+      Statistic.create opponent_class: @current_opponent.player_class,
+                       opponent_name: @opponent_name,
+                       win: (@game_result_win == :win),
+                       deck: @current_deck,
+                       rank: @current_rank,
+                       game_mode: @game_mode.to_s,
+                       duration: (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
+                       turns: @current_turn,
+                       has_coin: @has_coin,
+                       created_at: @start_date
       cdq.save
       @game_saved = true
     end
@@ -128,7 +128,7 @@ class Game
   def save_match(data, cards)
     created_at = data[:created_at]
     if created_at.respond_to?(:string_with_format)
-      created_at = created_at.string_with_format("yyyy-MM-dd'T'HH:mm", :unicode => true)
+      created_at = created_at.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
     end
 
     # let's be sure...
@@ -136,24 +136,24 @@ class Game
       created_at = created_at.to_s
     end
 
-    match = HearthstatsMatch.create :player_class    => data[:class],
-                                    :mode            => data[:mode],
-                                    :result          => data[:result],
-                                    :coin            => data[:coin],
-                                    :numturns        => data[:numturns],
-                                    :duration        => data[:duration],
-                                    :deck_id         => data[:deck_id],
-                                    :deck_version_id => data[:deck_version_id],
-                                    :oppclass        => data[:oppclass],
-                                    :oppname         => data[:oppname],
-                                    :notes           => data[:notes],
-                                    :ranklvl         => data[:ranklvl],
-                                    :created_at      => created_at
+    match = HearthstatsMatch.create player_class: data[:class],
+                                    mode: data[:mode],
+                                    result: data[:result],
+                                    coin: data[:coin],
+                                    numturns: data[:numturns],
+                                    duration: data[:duration],
+                                    deck_id: data[:deck_id],
+                                    deck_version_id: data[:deck_version_id],
+                                    oppclass: data[:oppclass],
+                                    oppname: data[:oppname],
+                                    notes: data[:notes],
+                                    ranklvl: data[:ranklvl],
+                                    created_at: created_at
 
     cards.each do |c|
-      HearthstatsMatchCard.create :card_id           => c[:id],
-                                  :count             => c[:count],
-                                  :hearthstats_match => match
+      HearthstatsMatchCard.create card_id: c[:id],
+                                  count: c[:count],
+                                  hearthstats_match: match
     end
 
     cdq.save
@@ -193,12 +193,12 @@ class Game
     player_tracker.game_start
     opponent_tracker.game_start
 
-    @game_saved       = false
-    @game_result_win  = nil
+    @game_saved = false
+    @game_result_win = nil
     @current_opponent = nil
-    @current_turn     = 0
-    @opponent_cards   = nil
-    @has_coin         = false
+    @current_turn = 0
+    @opponent_cards = nil
+    @has_coin = false
   end
 
   def concede

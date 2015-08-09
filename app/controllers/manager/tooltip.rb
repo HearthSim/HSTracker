@@ -3,8 +3,8 @@ class Tooltip < NSWindowController
 
   def init
     super.tap do
-      @layout              = TooltipLayout.new
-      self.window          = @layout.window
+      @layout = TooltipLayout.new
+      self.window = @layout.window
       self.window.delegate = self
 
       @card_label = @layout.get(:card_label)
@@ -25,14 +25,14 @@ class Tooltip < NSWindowController
       card_text.gsub! /\$(\d+) \|4\((\w+),(\w+)\)/ do |m|
         single = $2
         plural = $3
-        count  = $1.gsub(/\$/, '').to_i
+        count = $1.gsub(/\$/, '').to_i
         "#{count} #{count <= 1 ? single : plural}"
       end
       card_text.gsub! /\$/, ''
 
       text += NSAttributedString.alloc
-                  .initWithData("<br><br>#{card_text}".dataUsingEncoding(NSUnicodeStringEncoding), options: options, documentAttributes: nil, error: nil)
-                  .font('FranklinGothic-Book'.nsfont(15))
+                .initWithData("<br><br>#{card_text}".dataUsingEncoding(NSUnicodeStringEncoding), options: options, documentAttributes: nil, error: nil)
+                .font('FranklinGothic-Book'.nsfont(15))
     end
 
     if card.flavor
@@ -43,7 +43,7 @@ class Tooltip < NSWindowController
 
       text += "\n".attrd + line + "\n".attrd
       text += card.flavor.attrd
-                  .font('FranklinGothic-BookItalic'.nsfont(14))
+                .font('FranklinGothic-BookItalic'.nsfont(14))
     end
 
     @card_label.textStorage.setAttributedString text

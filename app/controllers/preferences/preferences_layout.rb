@@ -95,15 +95,15 @@ class PreferencesLayout < MK::Layout
     options.each do |key, opts|
       if opts.is_a? String
         normalized[key] = {
-            :type    => NSButton,
-            :title   => opts,
-            :init    => -> (elem) {
-              elem.buttonType = NSSwitchButton
-              elem.state      = (Configuration.send(key.to_s) ? NSOnState : NSOffState)
-            },
-            :changed => -> (elem) {
-              Configuration.send("#{key.to_s}=", (elem.state == NSOnState))
-            }
+          type: NSButton,
+          title: opts,
+          init: -> (elem) {
+            elem.buttonType = NSSwitchButton
+            elem.state = (Configuration.send(key.to_s) ? NSOnState : NSOffState)
+          },
+          changed: -> (elem) {
+            Configuration.send("#{key.to_s}=", (elem.state == NSOnState))
+          }
         }
       else
         normalized[key] = opts

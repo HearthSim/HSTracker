@@ -9,7 +9,7 @@ class CardCellView < NSTableCellView
       @flash_alpha = 0.0
 
       # the layer for the card art
-      @card_layer  = CALayer.layer
+      @card_layer = CALayer.layer
       self.layer << @card_layer
 
       # the layer for the frame
@@ -34,20 +34,20 @@ class CardCellView < NSTableCellView
       @flash_layer = CALayer.layer
       self.layer << @flash_layer
 
-      @mask_layer          = CALayer.layer
+      @mask_layer = CALayer.layer
       @mask_layer.contents = ImageCache.frame_image_mask
     end
   end
 
   def flash
     @flash_layer.backgroundColor = Configuration.flash_color.cgcolor
-    fade                         = CABasicAnimation.animationWithKeyPath('opacity')
-    fade.fromValue               = 0.7
-    fade.toValue                 = 0.0
-    fade.duration                = 0.5
+    fade = CABasicAnimation.animationWithKeyPath('opacity')
+    fade.fromValue = 0.7
+    fade.toValue = 0.0
+    fade.duration = 0.5
 
     fade.removedOnCompletion = false
-    fade.fillMode            = KCAFillModeBoth
+    fade.fillMode = KCAFillModeBoth
 
     @flash_layer.addAnimation(fade, forKey: 'alpha')
   end
@@ -84,12 +84,12 @@ class CardCellView < NSTableCellView
 
     # draw the card art
     @card_layer.contents = ImageCache.small_card_image(card)
-    x                    = 104.0 / ratio
-    y                    = 1.0 / ratio
-    width                = 110.0 / ratio
-    height               = 34.0 / ratio
-    @card_layer.frame    = [[x, y], [width, height]]
-    @card_layer.opacity  = alpha
+    x = 104.0 / ratio
+    y = 1.0 / ratio
+    width = 110.0 / ratio
+    height = 34.0 / ratio
+    @card_layer.frame = [[x, y], [width, height]]
+    @card_layer.opacity = alpha
 
     # draw the frame
     if card.is_stolen
@@ -98,16 +98,16 @@ class CardCellView < NSTableCellView
       @frame_layer.contents = ImageCache.frame_image
     end
 
-    x                    = 1.0 / ratio
-    y                    = 0.0 / ratio
-    width                = 218.0 / ratio
-    height               = 35.0 / ratio
-    frame_rect           = [[x, y], [width, height]]
-    @frame_layer.frame   = frame_rect
+    x = 1.0 / ratio
+    y = 0.0 / ratio
+    width = 218.0 / ratio
+    height = 35.0 / ratio
+    frame_rect = [[x, y], [width, height]]
+    @frame_layer.frame = frame_rect
     @frame_layer.opacity = alpha
 
     stroke_color = :black.nscolor(alpha)
-    foreground   = :white.nscolor(alpha)
+    foreground = :white.nscolor(alpha)
     if card.hand_count > 0 and side == :player
       foreground = Configuration.flash_color.nscolor(alpha)
     end
@@ -120,32 +120,32 @@ class CardCellView < NSTableCellView
     end
 
     name = card.name.attrd
-               .font(font)
-               .foreground_color(foreground)
+             .font(font)
+             .foreground_color(foreground)
 
     unless Configuration.is_cyrillic_or_asian
       name = name.stroke_width(-2)
-                 .stroke_color(stroke_color)
+               .stroke_color(stroke_color)
     end
-    x                  = 38.0 / ratio
-    y                  = -3.0 / ratio
-    width              = 174.0 / ratio
-    height             = 30.0 / ratio
-    @text_layer.frame  = [[x, y], [width, height]]
+    x = 38.0 / ratio
+    y = -3.0 / ratio
+    width = 174.0 / ratio
+    height = 30.0 / ratio
+    @text_layer.frame = [[x, y], [width, height]]
     @text_layer.string = name
 
     # print the card cost
-    cost               = "<center>#{card.cost}</center>".attributed_html
-                             .foreground_color(foreground)
-                             .font('Belwe Bd BT'.nsfont((22.0 / ratio).round))
-                             .stroke_width(-1.5)
-                             .stroke_color(stroke_color)
+    cost = "<center>#{card.cost}</center>".attributed_html
+             .foreground_color(foreground)
+             .font('Belwe Bd BT'.nsfont((22.0 / ratio).round))
+             .stroke_width(-1.5)
+             .stroke_color(stroke_color)
 
     card.cost > 9 ? x = (7.0 / ratio) : x = 13.0 / ratio
-    y                  = -4.0 / ratio
-    width              = 34.0 / ratio
-    height             = 37.0 / ratio
-    @cost_layer.frame  = [[x, y], [width, height]]
+    y = -4.0 / ratio
+    width = 34.0 / ratio
+    height = 37.0 / ratio
+    @cost_layer.frame = [[x, y], [width, height]]
     @cost_layer.string = cost
 
     if card.count >= 2 or card.rarity == 'Legendary'._
@@ -155,10 +155,10 @@ class CardCellView < NSTableCellView
       else
         @frame_count_box.contents = ImageCache.frame_countbox
       end
-      x                      = 189.0 / ratio
-      y                      = 5.0 / ratio
-      width                  = 25.0 / ratio
-      height                 = 24.0 / ratio
+      x = 189.0 / ratio
+      y = 5.0 / ratio
+      width = 25.0 / ratio
+      height = 24.0 / ratio
       @frame_count_box.frame = [[x, y], [width, height]]
 
       if card.count.between?(2, 9)
@@ -168,29 +168,29 @@ class CardCellView < NSTableCellView
         # card is legendary (or count > 10)
         @extra_info.contents = ImageCache.frame_legendary
       end
-      x                 = 194.0 / ratio
-      y                 = 8.0 / ratio
-      width             = 18.0 / ratio
-      height            = 21.0 / ratio
+      x = 194.0 / ratio
+      y = 8.0 / ratio
+      width = 18.0 / ratio
+      height = 21.0 / ratio
       @extra_info.frame = [[x, y], [width, height]]
     else
-      @extra_info.contents      = nil
+      @extra_info.contents = nil
       @frame_count_box.contents = nil
     end
     @frame_count_box.opacity = alpha
-    @extra_info.opacity      = alpha
+    @extra_info.opacity = alpha
 
     @flash_layer.frame = self.bounds
-    @mask_layer.frame  = frame_rect
-    @flash_layer.mask  = @mask_layer
+    @mask_layer.frame = frame_rect
+    @flash_layer.mask = @mask_layer
   end
 
   # check mouse hover
   def ensure_tracking_area
     if @tracking_area.nil?
       @tracking_area = NSTrackingArea.alloc.initWithRect(NSZeroRect,
-                                                         options:  NSTrackingInVisibleRect | NSTrackingActiveAlways | NSTrackingMouseEnteredAndExited,
-                                                         owner:    self,
+                                                         options: NSTrackingInVisibleRect | NSTrackingActiveAlways | NSTrackingMouseEnteredAndExited,
+                                                         owner: self,
                                                          userInfo: nil)
     end
   end

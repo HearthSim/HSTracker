@@ -2,14 +2,14 @@ class TrackerLayout < MK::WindowLayout
 
   include OSXHelper
 
-  KFrameWidth  = 220.0
+  KFrameWidth = 220.0
   KFrameHeight = 700.0
-  KRowHeight   = 37.0
+  KRowHeight = 37.0
 
-  KMediumRowHeight  = 29.0
+  KMediumRowHeight = 29.0
   KMediumFrameWidth = KFrameWidth / KRowHeight * KMediumRowHeight
 
-  KSmallRowHeight  = 23.0
+  KSmallRowHeight = 23.0
   KSmallFrameWidth = KFrameWidth / KRowHeight * KSmallRowHeight
 
   # get the window frame
@@ -29,7 +29,7 @@ class TrackerLayout < MK::WindowLayout
 
   def layout
     wframe = window_frame
-    frame  = NSUserDefaults.standardUserDefaults.objectForKey window_name
+    frame = NSUserDefaults.standardUserDefaults.objectForKey window_name
     if frame
       wframe = NSRectFromString(frame)
     end

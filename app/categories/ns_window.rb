@@ -5,9 +5,9 @@ class NSWindow
     else
       NSApp.beginSheet(window,
                        modalForWindow: self,
-                       modalDelegate:  self,
+                       modalDelegate: self,
                        didEndSelector: nil,
-                       contextInfo:    nil)
+                       contextInfo: nil)
     end
   end
 

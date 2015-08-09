@@ -40,15 +40,15 @@ class DatabaseGenerator
       langs = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
     end
     valid_card_set = [
-        'Basic',
-        'Classic',
-        'Reward',
-        'Promotion',
-        'Curse of Naxxramas',
-        'Goblins vs Gnomes',
-        'Blackrock Mountain',
-        'Hero Skins',
-        'Tavern Brawl'
+      'Basic',
+      'Classic',
+      'Reward',
+      'Promotion',
+      'Curse of Naxxramas',
+      'Goblins vs Gnomes',
+      'Blackrock Mountain',
+      'Hero Skins',
+      'Tavern Brawl'
     ]
     splash.max(langs.size) if splash
 
@@ -61,7 +61,7 @@ class DatabaseGenerator
         else
           Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
         end
-        data  = NSData.read_from "cards/cardsDB.#{lang}.json".resource_path
+        data = NSData.read_from "cards/cardsDB.#{lang}.json".resource_path
         cards = JSON.parse data
 
         valid_card_set.each do |card_set|
@@ -85,25 +85,25 @@ class DatabaseGenerator
             end
 
             c = Card.create(
-                :lang         => lang,
-                :name         => card['name'],
-                :card_id      => card['id'],
-                :card_type    => type,
-                :text         => card['text'],
-                :player_class => card['playerClass'],
-                :rarity       => rarity,
-                :faction      => card['faction'],
-                :flavor       => card['flavor'],
-                :how_to_get   => card['howToGet'],
-                :artist       => card['artist'],
-                :cost         => cost,
-                :collectible  => card['collectible']
+              lang: lang,
+              name: card['name'],
+              card_id: card['id'],
+              card_type: type,
+              text: card['text'],
+              player_class: card['playerClass'],
+              rarity: rarity,
+              faction: card['faction'],
+              flavor: card['flavor'],
+              how_to_get: card['howToGet'],
+              artist: card['artist'],
+              cost: cost,
+              collectible: card['collectible']
             )
 
             card['mechanics'].each do |mechanic|
-              m = Mechanic.where(:value => mechanic).first
+              m = Mechanic.where(value: mechanic).first
               if m.nil?
-                m = Mechanic.create :value => mechanic
+                m = Mechanic.create value: mechanic
               end
               c.mechanics << m
             end unless card['mechanics'].nil?

@@ -1,7 +1,7 @@
 class HearthStatsLogin < NSWindowController
   def init
     super.tap do
-      @layout     = HearthStatsLoginLayout.new
+      @layout = HearthStatsLoginLayout.new
       self.window = @layout.window
 
       @connect = @layout.get(:connect)
@@ -19,7 +19,7 @@ class HearthStatsLogin < NSWindowController
   end
 
   def connect(_)
-    login    = @layout.get(:login).stringValue
+    login = @layout.get(:login).stringValue
     password = @layout.get(:password).stringValue
 
     HearthStatsAPI.login(login, password) do |success, auth_token|
@@ -36,8 +36,8 @@ class HearthStatsLogin < NSWindowController
       end
 
       NSAlert.alert(message._,
-                    :buttons => ['OK'._],
-                    :window  => self.window
+                    buttons: ['OK'._],
+                    window: self.window
       )
     end
   end
@@ -48,7 +48,7 @@ class HearthStatsLogin < NSWindowController
 
   def cancel(_)
     Configuration.hearthstats_token = nil
-    Configuration.use_hearthstats   = false
+    Configuration.use_hearthstats = false
     self.window.close
   end
 

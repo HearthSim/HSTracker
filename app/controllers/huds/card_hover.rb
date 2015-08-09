@@ -4,8 +4,8 @@ class CardHover < NSWindowController
 
   def init
     super.tap do
-      @layout              = CardHoverLayout.new
-      self.window          = @layout.window
+      @layout = CardHoverLayout.new
+      self.window = @layout.window
       self.window.delegate = self
 
       @image_view = @layout.get(:image_view)

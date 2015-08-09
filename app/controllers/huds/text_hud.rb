@@ -49,14 +49,14 @@ class TextHud < NSView
         stroke = :red.nscolor
       end
 
-      size       = (font_size / ratio).round
-      style           = NSMutableParagraphStyle.new
+      size = (font_size / ratio).round
+      style = NSMutableParagraphStyle.new
       style.alignment = NSCenterTextAlignment
-      name            = text.attrd.paragraph_style(style)
-                            .font('Belwe Bd BT'.nsfont(size))
-                            .stroke_width(-1.5)
-                            .stroke_color(stroke)
-                            .foreground_color(Configuration.count_color)
+      name = text.attrd.paragraph_style(style)
+               .font('Belwe Bd BT'.nsfont(size))
+               .stroke_width(-1.5)
+               .stroke_color(stroke)
+               .foreground_color(Configuration.count_color)
       name.drawInRect self.bounds,
                       options: NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesDeviceMetrics
 

@@ -2,7 +2,7 @@ class InterfacePreferences < NSViewController
 
   def init
     super.tap do
-      @layout   = InterfacePreferencesLayout.new
+      @layout = InterfacePreferencesLayout.new
       self.view = @layout.view
     end
   end

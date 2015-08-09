@@ -92,7 +92,7 @@ class Hearthstone
   def initialize
     super.tap do
       @update_list = []
-      @listeners   = {}
+      @listeners = {}
       setup
       listener
     end
@@ -137,8 +137,8 @@ class Hearthstone
 
     if config_changed and is_hearthstone_running?
       NSAlert.alert('Alert'._,
-                    :buttons     => ['OK'._],
-                    :informative => 'You must restart Hearthstone for logs to be used'._)
+                    buttons: ['OK'._],
+                    informative: 'You must restart Hearthstone for logs to be used'._)
 
     end
   end

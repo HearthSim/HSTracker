@@ -1,6 +1,6 @@
 class LoadingScreenLayout < MK::WindowLayout
   def layout
-    width  312
+    width 312
     height 311
     frame from_center(NSScreen.mainScreen, size: [312, 311])
 

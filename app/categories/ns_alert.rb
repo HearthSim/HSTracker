@@ -1,6 +1,6 @@
 class NSAlert
   def self.alert(message, options={}, &block)
-    buttons     = options[:buttons]
+    buttons = options[:buttons]
     informative = options.fetch(:informative, nil)
 
     style = options.fetch(:style, NSInformationalAlertStyle)
@@ -39,9 +39,9 @@ class NSAlert
     elsif window
       delegate = options.fetch(:delegate, nil)
       alert.beginSheetModalForWindow(window,
-                                     modalDelegate:  delegate,
+                                     modalDelegate: delegate,
                                      didEndSelector: nil,
-                                     contextInfo:    nil)
+                                     contextInfo: nil)
     else
       alert.runModal
     end

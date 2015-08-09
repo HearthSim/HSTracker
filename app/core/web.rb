@@ -7,16 +7,16 @@ class Web
       manager = AFHTTPRequestOperationManager.manager
     end
 
-    manager.responseSerializer                        = AFCompoundResponseSerializer.serializer
+    manager.responseSerializer = AFCompoundResponseSerializer.serializer
     manager.responseSerializer.acceptableContentTypes = ['text/html']
     manager.GET(url,
                 parameters: nil,
-                success:    -> (_, response) {
+                success: -> (_, response) {
                   string = response.nsstring
 
                   block.call(string) if block
                 },
-                failure:    -> (_, error) {
+                failure: -> (_, error) {
                   Motion::Log.error(error.localizedDescription)
                   block.call(nil) if block
                 })
@@ -26,10 +26,10 @@ class Web
     log('post', url, data)
     json_manager.POST(url,
                       parameters: data,
-                      success:    -> (_, response) {
+                      success: -> (_, response) {
                         block.call(response, nil) if block
                       },
-                      failure:    -> (_, error) {
+                      failure: -> (_, error) {
                         Motion::Log.error(error.localizedDescription)
                         block.call(nil, error) if block
                       })
@@ -39,10 +39,10 @@ class Web
     log('put', url, data)
     json_manager.PUT(url,
                      parameters: data,
-                     success:    -> (_, response) {
+                     success: -> (_, response) {
                        block.call(response, nil) if block
                      },
-                     failure:    -> (_, error) {
+                     failure: -> (_, error) {
                        Motion::Log.error(error.localizedDescription)
                        block.call(nil, error) if block
                      })
@@ -52,10 +52,10 @@ class Web
     log('delete', url, data)
     json_manager.DELETE(url,
                         parameters: data,
-                        success:    -> (_, response) {
+                        success: -> (_, response) {
                           block.call(response, nil) if block
                         },
-                        failure:    -> (_, error) {
+                        failure: -> (_, error) {
                           Motion::Log.error(error.localizedDescription)
                           block.call(nil, error) if block
                         })
@@ -65,10 +65,10 @@ class Web
     log('get', url, data)
     json_manager.GET(url,
                      parameters: data,
-                     success:    -> (_, response) {
+                     success: -> (_, response) {
                        block.call(response, nil) if block
                      },
-                     failure:    -> (_, error) {
+                     failure: -> (_, error) {
                        Motion::Log.error(error.localizedDescription)
                        block.call(nil, error) if block
                      })
@@ -78,8 +78,8 @@ class Web
     unless File.exists?(path)
       NSFileManager.defaultManager.createDirectoryAtPath(path,
                                                          withIntermediateDirectories: true,
-                                                         attributes:                  nil,
-                                                         error:                       nil)
+                                                         attributes: nil,
+                                                         error: nil)
     end
     _download(cards_id, locale, path, options, block)
   end
@@ -91,9 +91,9 @@ class Web
       return
     end
 
-    card    = cards_id.pop
+    card = cards_id.pop
     card_id = card[:id]
-    name    = card[:name]
+    name = card[:name]
 
     increment = options.fetch(:increment, nil)
 
@@ -104,7 +104,7 @@ class Web
       return
     end
 
-    request   = "http://bmichotte.github.io/HSTracker/cards/#{locale}/#{card_id}.png".nsurl.nsurlrequest
+    request = "http://bmichotte.github.io/HSTracker/cards/#{locale}/#{card_id}.png".nsurl.nsurlrequest
     operation = AFHTTPRequestOperation.alloc.initWithRequest(request)
     operation.setOutputStream(NSOutputStream.outputStreamToFileAtPath(full_path, append: false))
     operation.setCompletionBlockWithSuccess(-> (_, _) {

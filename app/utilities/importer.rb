@@ -19,7 +19,7 @@ class Importer
 
         Log.verbose 'Loading : OK'
         error = Pointer.new(:id)
-        doc   = GDataXMLDocument.alloc.initWithHTMLString(result, error: error)
+        doc = GDataXMLDocument.alloc.initWithHTMLString(result, error: error)
         if error[0]
           Log.error error[0].description
           block.call(nil, nil, nil, nil) if block
@@ -43,7 +43,7 @@ class Importer
           when /hearthnews\.fr/
             deck, clazz, title = hearthnews(doc)
           when /heartharena\.com/
-            arena              = true
+            arena = true
             deck, clazz, title = heartharena(doc)
           else
             Log.warn "unknown url #{url}"
@@ -121,13 +121,13 @@ class Importer
 
     def netdeck(&block)
       pasteboard = NSPasteboard.generalPasteboard
-      paste      = pasteboard.stringForType NSPasteboardTypeString
+      paste = pasteboard.stringForType NSPasteboardTypeString
 
       if paste and /^(trackerimport|netdeckimport)/ =~ paste
         lines = paste.split("\n")
 
-        arena     = false
-        deck      = []
+        arena = false
+        deck = []
         deck_name = ''
         lines.drop(1).each do |line|
           if /^name:/ =~ line
@@ -186,18 +186,18 @@ class Importer
     def hearthstone_decks(doc)
       deck = []
 
-      title       = nil
-      clazz       = nil
+      title = nil
+      clazz = nil
 
       # search for title
-      error      = Pointer.new(:id)
+      error = Pointer.new(:id)
       title_node = doc.firstNodeForXPath("//div[@id='content']//h1", error: error)
       if error[0]
         Log.error error[0].description
         return nil, nil, nil
       end
       unless title_node.nil?
-        title      = title_node.children.last.stringValue.strip
+        title = title_node.children.last.stringValue.strip
       end
 
       # search for clazz
@@ -210,17 +210,17 @@ class Importer
         clazz = clazz_node.attributeForName('value').stringValue
         if clazz
           classes = {
-              'Chaman'    => 'Shaman',
-              'Chasseur'  => 'Hunter',
-              'Démoniste' => 'Warlock',
-              'Druide'    => 'Druid',
-              'Guerrier'  => 'Warrior',
-              'Mage'      => 'Mage',
-              'Paladin'   => 'Paladin',
-              'Prêtre'    => 'Priest',
-              'Voleur'    => 'Rogue'
+            'Chaman' => 'Shaman',
+            'Chasseur' => 'Hunter',
+            'Démoniste' => 'Warlock',
+            'Druide' => 'Druid',
+            'Guerrier' => 'Warrior',
+            'Mage' => 'Mage',
+            'Paladin' => 'Paladin',
+            'Prêtre' => 'Priest',
+            'Voleur' => 'Rogue'
           }
-          clazz   = classes[clazz]
+          clazz = classes[clazz]
         end
       end
 
@@ -231,7 +231,7 @@ class Importer
         return nil, nil, nil
       end
       cards_nodes.each do |card_node|
-        count     = card_node.childAtIndex(0).stringValue.to_i
+        count = card_node.childAtIndex(0).stringValue.to_i
         card_name = card_node.childAtIndex(1).stringValue.strip
 
         card = Card.by_french_name(card_name)
@@ -316,11 +316,11 @@ class Importer
 
     # fetch and parse a deck from http://www.hearthpwn.com/decks/
     def hearthpwn_deck(doc)
-      title      = nil
-      clazz      = nil
+      title = nil
+      clazz = nil
 
       # search for class
-      error      = Pointer.new(:id)
+      error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath("//span[contains(@class,'class')]", error: error)
       if error[0]
         Log.error error[0].description
@@ -378,7 +378,7 @@ class Importer
 
     # fetch and parse a deck from http://www.hearthpwn.com/deckbuilder
     def hearthpwn_deckbuilder(url, doc)
-      deck  = []
+      deck = []
 
       # search for class
       clazz = url.partition('#').first.split('/').last.ucfirst
@@ -387,10 +387,10 @@ class Importer
       cards = url.partition('#').last.split(';').map { |x| x.split ':' }
       cards.each do |card_id_arr|
         card_id = card_id_arr[0]
-        count   = card_id_arr[1]
+        count = card_id_arr[1]
 
         error = Pointer.new(:id)
-        node  = doc.firstNodeForXPath("//tr[@data-id='#{card_id}']/td[1]/b", error: error)
+        node = doc.firstNodeForXPath("//tr[@data-id='#{card_id}']/td[1]/b", error: error)
         if error[0]
           Log.error error[0].description
           next
@@ -412,11 +412,11 @@ class Importer
 
     # fetch and parse a deck from http://www.hearthstats.net/decks/
     def hearthstats(doc)
-      title      = nil
-      clazz      = nil
+      title = nil
+      clazz = nil
 
       # search for class
-      error      = Pointer.new(:id)
+      error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath("//div[contains(@class,'win-count')]//img", error: error)
       if error[0]
         Log.error error[0].description
@@ -491,23 +491,23 @@ class Importer
       title = nil
       clazz = nil
 
-      locale     = case url
-                     when /de\.hearthhead\.com/
-                       'deDE'
-                     when /es\.hearthhead\.com/
-                       'esES'
-                     when /fr\.hearthhead\.com/
-                       'frFR'
-                     when /pt\.hearthhead\.com/
-                       'ptPT'
-                     when /ru\.hearthhead\.com/
-                       'ruRU'
-                     else
-                       'enUS'
-                   end
+      locale = case url
+                 when /de\.hearthhead\.com/
+                   'deDE'
+                 when /es\.hearthhead\.com/
+                   'esES'
+                 when /fr\.hearthhead\.com/
+                   'frFR'
+                 when /pt\.hearthhead\.com/
+                   'ptPT'
+                 when /ru\.hearthhead\.com/
+                   'ruRU'
+                 else
+                   'enUS'
+               end
 
       # search for class
-      error      = Pointer.new(:id)
+      error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath("//div[@class='deckguide-hero']", error: error)
       if error[0]
         Log.error error[0].description
@@ -515,18 +515,18 @@ class Importer
       end
       unless clazz_node.nil?
         classes = {
-            1  => 'Warrior',
-            2  => 'Paladin',
-            3  => 'Hunter',
-            4  => 'Rogue',
-            5  => 'Priest',
-            # 6 => 'Death-Knight'
-            7  => 'Shaman',
-            8  => 'Mage',
-            9  => 'Warlock',
-            11 => 'Druid'
+          1 => 'Warrior',
+          2 => 'Paladin',
+          3 => 'Hunter',
+          4 => 'Rogue',
+          5 => 'Priest',
+          # 6 => 'Death-Knight'
+          7 => 'Shaman',
+          8 => 'Mage',
+          9 => 'Warlock',
+          11 => 'Druid'
         }
-        clazz   = classes[clazz_node.attributeForName('data-class').stringValue.to_i]
+        clazz = classes[clazz_node.attributeForName('data-class').stringValue.to_i]
       end
 
       # search for title
@@ -575,11 +575,11 @@ class Importer
 
     # fetch and parse a deck from http://www.hearthnews.fr
     def hearthnews(doc)
-      title      = nil
-      clazz      = nil
+      title = nil
+      clazz = nil
 
       # search for class
-      error      = Pointer.new(:id)
+      error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath('//div[@hero_class]', error: error)
       if error[0]
         Log.error error[0].description
@@ -612,7 +612,7 @@ class Importer
       deck = []
       card_nodes.each do |node|
         card_id = node.attributeForName('real_id').stringValue
-        count   = node.attributeForName('nb_card').stringValue.to_i
+        count = node.attributeForName('nb_card').stringValue.to_i
 
         next if card_id.nil? || count.nil?
 
@@ -631,11 +631,11 @@ class Importer
 
     # fetch and parse a deck from http://www.heartharena.com
     def heartharena(doc)
-      title      = nil
-      clazz      = nil
+      title = nil
+      clazz = nil
 
       # search for class
-      error      = Pointer.new(:id)
+      error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath('//h1[@class="class"]', error: error)
       if error[0]
         Log.error error[0].description

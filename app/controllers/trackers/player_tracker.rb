@@ -10,20 +10,20 @@ class PlayerTracker < Tracker
 
   def init
     super.tap do
-      @layout              = PlayerTrackerLayout.new
-      self.window          = @layout.window
+      @layout = PlayerTrackerLayout.new
+      self.window = @layout.window
       self.window.delegate = self
 
-      @cards         = {}
+      @cards = {}
       @playing_cards = []
-      @count_text    = ''
+      @count_text = ''
 
       self.hand_count = 0
       self.deck_count = 30
 
       @table_view = @layout.get(:table_view)
       @table_view.setHeaderView nil
-      @table_view.delegate   = self
+      @table_view.delegate = self
       @table_view.dataSource = self
 
       if Configuration.hand_count_window == :window
@@ -46,8 +46,8 @@ class PlayerTracker < Tracker
   end
 
   def cards=(cards)
-    @cells         = {}
-    @cards         = {}
+    @cells = {}
+    @cards = {}
     @playing_cards = []
     cards.each do |card|
       @cards[card.card_id] = card.count
@@ -74,11 +74,11 @@ class PlayerTracker < Tracker
 
     if card
       @cells ||= {}
-      cell   = @cells[card.card_id] if @cells[card.card_id]
+      cell = @cells[card.card_id] if @cells[card.card_id]
 
-      cell          ||= CardCellView.new
-      cell.card     = card
-      cell.side     = :player
+      cell ||= CardCellView.new
+      cell.card = card
+      cell.side = :player
       cell.delegate = self
 
       if card.has_changed
@@ -88,7 +88,7 @@ class PlayerTracker < Tracker
 
       @cells[card.card_id] = cell
     else
-      cell      = CountTextCellView.new
+      cell = CountTextCellView.new
       cell.text = @count_text
     end
 
@@ -113,15 +113,15 @@ class PlayerTracker < Tracker
   end
 
   def reset
-    @count_text    = nil
+    @count_text = nil
     @playing_cards = []
 
     @cards.each_key do |card_id|
       real_card = Card.by_id(card_id)
       if real_card
-        card            = PlayCard.from_card(real_card)
+        card = PlayCard.from_card(real_card)
         card.hand_count = 0
-        card.count      = @cards[card_id]
+        card.count = @cards[card_id]
         @playing_cards << card
       end
     end
@@ -151,11 +151,11 @@ class PlayerTracker < Tracker
     card = @playing_cards.select { |c| c.card_id == card_id and c.count > 0 }.first
     return if card.nil?
 
-    card.count       -= 1
-    card.hand_count  += 1
+    card.count -= 1
+    card.hand_count += 1
     card.has_changed = true
 
-    self.deck_count  -= 1 unless self.deck_count.zero?
+    self.deck_count -= 1 unless self.deck_count.zero?
 
     display_count
 
@@ -173,15 +173,15 @@ class PlayerTracker < Tracker
         if card.count == 0
           # Malorne return to deck
           card_is_discarded = false
-          card.count        += 1
-          self.deck_count   += 1
+          card.count += 1
+          self.deck_count += 1
         end
       end
 
       if card_is_discarded
-        card.count       -= 1
+        card.count -= 1
         card.has_changed = true
-        self.deck_count  -= 1 unless self.deck_count.zero?
+        self.deck_count -= 1 unless self.deck_count.zero?
       end
     end
 
@@ -217,7 +217,7 @@ class PlayerTracker < Tracker
 
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     if card
-      card.count      += 1
+      card.count += 1
       card.hand_count -= 1
     end
     self.deck_count += 1
@@ -233,9 +233,9 @@ class PlayerTracker < Tracker
     else
       real_card = Card.by_id(card_id)
       if real_card
-        card             = PlayCard.from_card(real_card)
-        card.hand_count  = 0
-        card.count       = 1
+        card = PlayCard.from_card(real_card)
+        card.hand_count = 0
+        card.count = 1
         card.has_changed = true
         @playing_cards << card
       end
@@ -252,16 +252,16 @@ class PlayerTracker < Tracker
   def get_to_deck(card_id)
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     if card
-      card.count       += 1
+      card.count += 1
       card.has_changed = true
     else
       real_card = Card.by_id(card_id)
       if real_card
-        card             = PlayCard.from_card(real_card)
-        card.hand_count  = 0
-        card.count       = 1
+        card = PlayCard.from_card(real_card)
+        card.hand_count = 0
+        card.count = 1
         card.has_changed = true
-        card.is_stolen   = true
+        card.is_stolen = true
         @playing_cards << card
       end
 
@@ -286,11 +286,11 @@ class PlayerTracker < Tracker
     elsif !from_play and Configuration.show_get_cards
       real_card = Card.by_id(card_id)
       if real_card
-        card             = PlayCard.from_card(real_card)
-        card.hand_count  = 1
-        card.count       = 0
+        card = PlayCard.from_card(real_card)
+        card.hand_count = 1
+        card.count = 0
         card.has_changed = true
-        card.is_stolen   = true
+        card.is_stolen = true
         @playing_cards << card
       end
 

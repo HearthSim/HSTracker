@@ -4,23 +4,23 @@ class DeckManager < NSWindowController
   Log = Motion::Log
 
   KMaxCardOccurence = {
-      :arena       => 30,
-      :constructed => 2
+      arena: 30,
+      constructed: 2
   }
 
   attr_accessor :player_view
 
   def init
     super.tap do
-      @layout              = DeckManagerLayout.new
-      self.window          = @layout.window
+      @layout = DeckManagerLayout.new
+      self.window = @layout.window
       self.window.delegate = self
 
-      @saved      = true
+      @saved = true
       @in_edition = false
 
       # init tabs
-      @tabs       = @layout.get(:tabs)
+      @tabs = @layout.get(:tabs)
       @tabs.setAction 'tab_changed:'
       @tabs.setTarget self
       @tabs.setSegmentCount ClassesData::KClasses.size
@@ -29,7 +29,7 @@ class DeckManager < NSWindowController
         if Configuration.skin == :default || clazz == 'Neutral'
           @tabs.setLabel(clazz._, forSegment: idx)
         else
-          @tabs.setImage(ImageCache.hero(clazz, :size => [20, 20]), forSegment: idx)
+          @tabs.setImage(ImageCache.hero(clazz, size: [20, 20]), forSegment: idx)
         end
       end
 
@@ -37,43 +37,43 @@ class DeckManager < NSWindowController
       @current_class = ClassesData::KClasses[0]
 
       # init table
-      @table_view    = @layout.get(:table_view)
+      @table_view = @layout.get(:table_view)
       @table_view.setHeaderView nil
       @table_view.doubleAction = 'double_click:'
-      @table_view.action       = 'click:'
-      @table_view.delegate     = self
-      @table_view.dataSource   = self
+      @table_view.action = 'click:'
+      @table_view.delegate = self
+      @table_view.dataSource = self
 
-      @table_menu          = NSMenu.alloc.initWithTitle 'table_identifier'
-      menu_item            = NSMenuItem.alloc.initWithTitle('Play'._, action: 'play_deck:', keyEquivalent: '')
+      @table_menu = NSMenu.alloc.initWithTitle 'table_identifier'
+      menu_item = NSMenuItem.alloc.initWithTitle('Play'._, action: 'play_deck:', keyEquivalent: '')
       menu_item.identifier = 'table_identifier'
       @table_menu.addItem menu_item
       @table_menu.addItem NSMenuItem.separatorItem
-      menu_item            = NSMenuItem.alloc.initWithTitle('Export'._, action: 'export_deck:', keyEquivalent: '')
+      menu_item = NSMenuItem.alloc.initWithTitle('Export'._, action: 'export_deck:', keyEquivalent: '')
       menu_item.identifier = 'table_identifier'
       @table_menu.addItem menu_item
       menu_item = NSMenuItem.alloc.initWithTitle('Delete'._, action: 'delete_deck:', keyEquivalent: '')
       @table_menu.addItem menu_item
-      menu_item.identifier   = 'table_identifier'
-      @table_view.menu       = @table_menu
+      menu_item.identifier = 'table_identifier'
+      @table_view.menu = @table_menu
 
       # init card view
-      @cards_view            = @layout.get(:cards_view)
+      @cards_view = @layout.get(:cards_view)
       @cards_view.dataSource = self
-      @cards_view.delegate   = self
+      @cards_view.delegate = self
 
-      grid_layout                      = JNWCollectionViewGridLayout.alloc.initWithCollectionView(@cards_view)
-      grid_layout.delegate             = self
-      grid_layout.itemSize             = [191, 260]
+      grid_layout = JNWCollectionViewGridLayout.alloc.initWithCollectionView(@cards_view)
+      grid_layout.delegate = self
+      grid_layout.itemSize = [191, 260]
       @cards_view.collectionViewLayout = grid_layout
       @cards_view.registerClass(CardItemView, forCellWithReuseIdentifier: 'card_item')
 
       @left = @layout.get(:left)
 
-      @toolbar             = NSToolbar.alloc.initWithIdentifier 'toolbar'
+      @toolbar = NSToolbar.alloc.initWithIdentifier 'toolbar'
       @toolbar.displayMode = NSToolbarDisplayModeIconOnly
-      @toolbar.delegate    = self
-      self.window.toolbar  = @toolbar
+      @toolbar.delegate = self
+      self.window.toolbar = @toolbar
 
       @card_count = @layout.get(:card_count)
       @curve_view = @layout.get(:curve_view)
@@ -117,7 +117,7 @@ class DeckManager < NSWindowController
 
       NSEvent.addLocalMonitorForEventsMatchingMask(NSKeyDownMask,
                                                    handler: -> (event) {
-                                                     is_cmd   = (event.modifierFlags & NSCommandKeyMask == NSCommandKeyMask)
+                                                     is_cmd = (event.modifierFlags & NSCommandKeyMask == NSCommandKeyMask)
                                                      is_shift = (event.modifierFlags & NSShiftKeyMask == NSShiftKeyMask)
                                                      unless is_cmd
                                                        return event
@@ -164,7 +164,7 @@ class DeckManager < NSWindowController
     ]
 
     @saved = false
-    cards  = []
+    cards = []
     data[:cards].each do |card|
       next if ignore_cards.include? card.card_id
 
@@ -182,8 +182,8 @@ class DeckManager < NSWindowController
 
     unless @saved
       response = NSAlert.alert('Delete'._,
-                               :buttons     => ['OK'._, 'Cancel'._],
-                               :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._
+                               buttons: ['OK'._, 'Cancel'._],
+                               informative: 'Are you sure you want to close this deck ? Your changes will not be saved.'._
       )
 
       if response == NSAlertFirstButtonReturn
@@ -195,7 +195,7 @@ class DeckManager < NSWindowController
 
   def show_decks
     @decks_or_cards = []
-    Deck.active.all.sort_by(:name, :case_insensitive => true).each do |deck|
+    Deck.active.all.sort_by(:name, case_insensitive: true).each do |deck|
       @decks_or_cards << deck
     end
 
@@ -213,20 +213,20 @@ class DeckManager < NSWindowController
         clazz = nil
       end
       Card.per_lang.playable
-          .where(:player_class => clazz)
+          .where(player_class: clazz)
           .sort_by(:cost)
-          .sort_by(:card_type, :order => :desc)
-          .sort_by(:name, :case_insensitive => true)
+          .sort_by(:card_type, order: :desc)
+          .sort_by(:name, case_insensitive: true)
     end
   end
 
   # JNWCollection stuff
   def collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-    cell          = @cards_view.dequeueReusableCellWithIdentifier('card_item')
-    card          = cards[indexPath.jnw_item]
+    cell = @cards_view.dequeueReusableCellWithIdentifier('card_item')
+    card = cards[indexPath.jnw_item]
     cell.delegate = self
-    cell.card     = card
-    cell.mode     = @current_deck_mode
+    cell.card = card
+    cell.mode = @current_deck_mode
 
     count = 0
     if @in_edition
@@ -261,7 +261,7 @@ class DeckManager < NSWindowController
     return if card_count >= @max_cards_in_deck
 
     cell = collectionView.cellForItemAtIndexPath(indexPath)
-    c    = cell.card
+    c = cell.card
 
     found = false
     @decks_or_cards.each do |card|
@@ -273,7 +273,7 @@ class DeckManager < NSWindowController
         end
 
         card.count += 1
-        found      = true
+        found = true
       end
     end
 
@@ -284,7 +284,7 @@ class DeckManager < NSWindowController
 
     @card_count.stringValue = "#{card_count + 1} / #{@max_cards_in_deck}"
 
-    @curves.cards           = @decks_or_cards if @curves
+    @curves.cards = @decks_or_cards if @curves
     @table_view.reloadData
     @cards_view.reloadData
     @saved = false
@@ -292,13 +292,13 @@ class DeckManager < NSWindowController
 
   # CardItemView delegate
   def hover(cell)
-    rect          = self.window.contentView.convertRect(cell.bounds, fromView: cell)
-    point         = rect.origin
-    point.x       += CGRectGetWidth(cell.frame) + 130
-    point.y       += 100
-    @tooltip      ||= Tooltip.new
+    rect = self.window.contentView.convertRect(cell.bounds, fromView: cell)
+    point = rect.origin
+    point.x += CGRectGetWidth(cell.frame) + 130
+    point.y += 100
+    @tooltip ||= Tooltip.new
     @tooltip.card = cell.card
-    rect          = [point, [250, @tooltip.text_height + 20]]
+    rect = [point, [250, @tooltip.text_height + 20]]
 
     @tooltip.window.setFrame(rect, display: true)
     self.window.addChildWindow(@tooltip.window, ordered: NSWindowAbove)
@@ -311,7 +311,7 @@ class DeckManager < NSWindowController
   # nssegmentedcontrol
   def tab_changed(_)
     @current_class = ClassesData::KClasses[@tabs.selectedSegment]
-    @cards         = nil
+    @cards = nil
 
     str = @search_field.stringValue
     if str and !str.empty?
@@ -332,12 +332,12 @@ class DeckManager < NSWindowController
     deck_or_card = @decks_or_cards[row]
 
     if deck_or_card.is_a? Card
-      cell           = CardCellView.new
+      cell = CardCellView.new
       cell.card_size = :big
-      cell.side      = :opponent
-      cell.card      = deck_or_card
+      cell.side = :opponent
+      cell.card = deck_or_card
     else
-      cell      = DeckCellView.new
+      cell = DeckCellView.new
       cell.deck = deck_or_card
     end
 
@@ -369,10 +369,10 @@ class DeckManager < NSWindowController
         deck_or_card.count -= 1
       end
 
-      card_count              = @decks_or_cards.count_cards
+      card_count = @decks_or_cards.count_cards
       @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
-      @curves.cards           = @decks_or_cards if @curves
-      @saved                  = false
+      @curves.cards = @decks_or_cards if @curves
+      @saved = false
       @table_view.reloadData
       @cards_view.reloadData
     end
@@ -408,141 +408,141 @@ class DeckManager < NSWindowController
     item = NSToolbarItem.alloc.initWithItemIdentifier(identifier)
     case identifier
       when 'import'
-        item.label   = 'Import'._
+        item.label = 'Import'._
         item.toolTip = 'Import'._
-        image        = 'import'.nsimage
+        image = 'import'.nsimage
         image.setTemplate true
 
-        menu            = NSMenu.alloc.initWithTitle identifier
-        menu_item       = NSMenuItem.alloc.initWithTitle('', action: nil, keyEquivalent: '')
+        menu = NSMenu.alloc.initWithTitle identifier
+        menu_item = NSMenuItem.alloc.initWithTitle('', action: nil, keyEquivalent: '')
         menu_item.image = image
         menu.addItem menu_item
 
-        menu_item            = NSMenuItem.alloc.initWithTitle('From Web'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item = NSMenuItem.alloc.initWithTitle('From Web'._, action: 'import_deck:', keyEquivalent: '')
         menu_item.identifier = 'web'
         menu.addItem menu_item
 
-        menu_item            = NSMenuItem.alloc.initWithTitle('From File'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item = NSMenuItem.alloc.initWithTitle('From File'._, action: 'import_deck:', keyEquivalent: '')
         menu_item.identifier = 'file'
         menu.addItem menu_item
 
-        menu_item            = NSMenuItem.alloc.initWithTitle('From HearthStats'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item = NSMenuItem.alloc.initWithTitle('From HearthStats'._, action: 'import_deck:', keyEquivalent: '')
         menu_item.identifier = 'hearthstats'
         menu.addItem menu_item
 
-        menu_item            = NSMenuItem.alloc.initWithTitle('From HearthStats (force)'._, action: 'import_deck:', keyEquivalent: '')
+        menu_item = NSMenuItem.alloc.initWithTitle('From HearthStats (force)'._, action: 'import_deck:', keyEquivalent: '')
         menu_item.identifier = 'hearthstats_force'
         menu.addItem menu_item
 
-        popup                    = NSPopUpButton.alloc.initWithFrame [[0, 0], [50, 32]]
+        popup = NSPopUpButton.alloc.initWithFrame [[0, 0], [50, 32]]
         popup.cell.arrowPosition = NSPopUpNoArrow
-        popup.bordered           = false
-        popup.pullsDown          = true
-        popup.menu               = menu
-        item.view                = popup
+        popup.bordered = false
+        popup.pullsDown = true
+        popup.menu = menu
+        item.view = popup
 
       when 'new', 'arena'
-        label  = (identifier == 'new') ? 'New'._ : 'Arena Deck'._
+        label = (identifier == 'new') ? 'New'._ : 'Arena Deck'._
         action = (identifier == 'new') ? 'add_deck:' : 'add_area_deck:'
 
         item.label = label
 
-        menu      = NSMenu.alloc.initWithTitle identifier
+        menu = NSMenu.alloc.initWithTitle identifier
         menu_item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
         menu.addItem menu_item
 
         classes = ClassesData::KClasses[0...-1]
         classes.each do |clazz|
-          menu_item            = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
-          menu_item.image      = ImageCache.hero(clazz)
+          menu_item = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
+          menu_item.image = ImageCache.hero(clazz)
           menu_item.identifier = clazz
           menu.addItem menu_item
         end
-        popup           = NSPopUpButton.alloc.initWithFrame [[0, 0], [100, 22]]
-        popup.bordered  = false
+        popup = NSPopUpButton.alloc.initWithFrame [[0, 0], [100, 22]]
+        popup.bordered = false
         popup.pullsDown = true
-        popup.menu      = menu
-        item.view       = popup
+        popup.menu = menu
+        item.view = popup
 
       when 'close'
-        item.label   = 'Close'._
+        item.label = 'Close'._
         item.toolTip = 'Close'._
-        image        = 'close'.nsimage
+        image = 'close'.nsimage
         image.setTemplate true
-        item.image  = image
+        item.image = image
         item.target = self
         item.action = 'close_deck:'
 
       when 'save'
-        item.label   = 'Save'._
+        item.label = 'Save'._
         item.toolTip = 'Save'._
-        image        = 'save'.nsimage
+        image = 'save'.nsimage
         image.setTemplate true
-        item.image  = image
+        item.image = image
         item.target = self
         item.action = 'save_deck:'
 
       when 'export'
-        item.label   = 'Export'._
+        item.label = 'Export'._
         item.toolTip = 'Export'._
-        image        = 'export'.nsimage
+        image = 'export'.nsimage
         image.setTemplate true
-        item.image  = image
+        item.image = image
         item.target = self
         item.action = 'export_deck:'
 
       when 'play'
-        item.label   = 'Play'._
+        item.label = 'Play'._
         item.toolTip = 'Play'._
-        image        = 'play'.nsimage
+        image = 'play'.nsimage
         image.setTemplate true
-        item.image  = image
+        item.image = image
         item.target = self
         item.action = 'play_deck:'
 
       when 'delete'
-        item.label   = 'Delete'._
+        item.label = 'Delete'._
         item.toolTip = 'Delete'._
-        image        = 'delete'.nsimage
+        image = 'delete'.nsimage
         image.setTemplate true
-        item.image  = image
+        item.image = image
         item.target = self
         item.action = 'delete_deck:'
 
       when 'donate'
-        item.label   = 'Donate'._
+        item.label = 'Donate'._
         item.toolTip = 'Donate'._
-        image        = 'donate'.nsimage
-        item.image   = image
-        item.target  = self
-        item.action  = 'donate:'
+        image = 'donate'.nsimage
+        item.image = image
+        item.target = self
+        item.action = 'donate:'
 
       when 'twitter'
-        item.label   = 'Twitter'
+        item.label = 'Twitter'
         item.toolTip = 'Twitter'
-        image        = 'twitter'.nsimage
-        item.image   = image
-        item.target  = self
-        item.action  = 'twitter:'
+        image = 'twitter'.nsimage
+        item.image = image
+        item.target = self
+        item.action = 'twitter:'
 
       when 'hearthstats'
-        item.label   = 'HearthStats'
+        item.label = 'HearthStats'
         item.toolTip = 'HearthStats'
-        image        = 'hearthstats_icon'.nsimage
-        item.image   = image
-        item.target  = self
-        item.action  = 'hearthstats:'
+        image = 'hearthstats_icon'.nsimage
+        item.image = image
+        item.target = self
+        item.action = 'hearthstats:'
 
       when 'search'
         item.label = 'Search'
 
-        @search_field                              = NSSearchField.alloc.initWithFrame(NSZeroRect)
-        @search_field.target                       = self
-        @search_field.action                       = 'search:'
+        @search_field = NSSearchField.alloc.initWithFrame(NSZeroRect)
+        @search_field.target = self
+        @search_field.action = 'search:'
         @search_field.cell.cancelButtonCell.target = self
         @search_field.cell.cancelButtonCell.action = 'cancel_search:'
-        @search_field.frame                        = [[0, 0], [200, 0]]
-        item.view                                  = @search_field
+        @search_field.frame = [[0, 0], [200, 0]]
+        item.view = @search_field
     end
     item
   end
@@ -551,10 +551,10 @@ class DeckManager < NSWindowController
   def import_deck(sender)
     if @in_edition and !@saved
       NSAlert.alert('Error'._,
-                    :buttons     => ['OK'._],
-                    :informative => 'You are currently in a deck edition and you changes have not been saved.'._,
-                    :style       => NSCriticalAlertStyle,
-                    :window      => self.window
+                    buttons: ['OK'._],
+                    informative: 'You are currently in a deck edition and you changes have not been saved.'._,
+                    style: NSCriticalAlertStyle,
+                    window: self.window
       )
       return
     end
@@ -593,31 +593,31 @@ class DeckManager < NSWindowController
         break if data.nil?
 
         data.each do |json_deck|
-          deck_id    = json_deck['deck']['id']
-          deck_name  = json_deck['deck']['name']
+          deck_id = json_deck['deck']['id']
+          deck_name = json_deck['deck']['name']
           deck_class = classes[json_deck['deck']['klass_id']]
 
           next if deck_class.nil?
 
           # search for a deck with the same id
-          deck = Deck.where(:hearthstats_id => deck_id).first
+          deck = Deck.where(hearthstats_id: deck_id).first
 
           if deck.nil?
 
             hearthstats_version_id = nil
-            current_version        = json_deck['current_version']
+            current_version = json_deck['current_version']
             if current_version and json_deck.has_key? 'versions'
               hearthstats_version_id = json_deck['versions'].select { |d| d['version'] == json_deck['current_version'] }
                                            .first['deck_version_id']
             end
 
-            deck = Deck.create :name                   => deck_name,
-                               :player_class           => deck_class,
-                               :arena                  => false,
-                               :version                => json_deck['current_version'].to_i,
-                               :is_active              => true,
-                               :hearthstats_id         => deck_id,
-                               :hearthstats_version_id => hearthstats_version_id
+            deck = Deck.create name: deck_name,
+                               player_class: deck_class,
+                               arena: false,
+                               version: json_deck['current_version'].to_i,
+                               is_active: true,
+                               hearthstats_id: deck_id,
+                               hearthstats_version_id: hearthstats_version_id
           end
 
           if deck.cards and !deck.cards.length.zero?
@@ -645,8 +645,8 @@ class DeckManager < NSWindowController
           message = NSString.stringWithFormat('%@ decks have been imported'._, data.count)
         end
         NSAlert.alert(message,
-                      :buttons => ['OK'._],
-                      :window  => self.window) do |_|
+                      buttons: ['OK'._],
+                      window: self.window) do |_|
           cdq.save
 
           # reload decks
@@ -655,11 +655,11 @@ class DeckManager < NSWindowController
         end
       end
     else
-      panel                         = NSOpenPanel.openPanel
-      panel.canChooseFiles          = true
-      panel.canChooseDirectories    = false
+      panel = NSOpenPanel.openPanel
+      panel.canChooseFiles = true
+      panel.canChooseDirectories = false
       panel.allowsMultipleSelection = true
-      panel.allowedFileTypes        = ['txt']
+      panel.allowedFileTypes = ['txt']
 
       if panel.runModal == NSFileHandlingPanelOKButton
         panel.filenames.each do |filename|
@@ -678,24 +678,24 @@ class DeckManager < NSWindowController
 
   def play_deck(sender)
     if sender and sender.respond_to?('identifier') and sender.identifier == 'table_identifier'
-      row   = @table_view.clickedRow
-      deck  = @decks_or_cards[row]
-      name  = deck.name
+      row = @table_view.clickedRow
+      deck = @decks_or_cards[row]
+      name = deck.name
       cards = deck.playable_cards
     else
-      name  = @deck_name
+      name = @deck_name
       cards = @decks_or_cards
-      deck  = @current_deck
+      deck = @current_deck
     end
 
     if @saved
       _play_deck(deck, cards, name)
     else
       NSAlert.alert('Play'._,
-                    :buttons     => ['OK'._, 'Cancel'._],
-                    :informative => 'Your deck is not saved, are you sure you want to continue, you will lose all changes.'._,
-                    :style       => NSInformationalAlertStyle,
-                    :window      => self.window
+                    buttons: ['OK'._, 'Cancel'._],
+                    informative: 'Your deck is not saved, are you sure you want to continue, you will lose all changes.'._,
+                    style: NSInformationalAlertStyle,
+                    window: self.window
       ) do |response|
         if response == NSAlertSecondButtonReturn
           break
@@ -717,7 +717,7 @@ class DeckManager < NSWindowController
   def show_deck(deck, clazz=nil, name=nil, arena=false)
     @table_view.menu = nil
 
-    @in_edition         = true
+    @in_edition = true
     @show_stats.enabled = true
 
     if deck.is_a? Deck
@@ -725,14 +725,14 @@ class DeckManager < NSWindowController
 
       @current_deck.arena.to_bool ? @current_deck_mode = :arena : @current_deck_mode = :constructed
       @decks_or_cards = @current_deck.playable_cards
-      @deck_name      = deck.name
-      @deck_class     = deck.player_class
+      @deck_name = deck.name
+      @deck_class = deck.player_class
     else
       arena ? @current_deck_mode = :arena : @current_deck_mode = :constructed
-      @current_deck   = nil
+      @current_deck = nil
       @decks_or_cards = deck
-      @deck_name      = name
-      @deck_class     = clazz
+      @deck_name = name
+      @deck_class = clazz
     end
     @current_class = @deck_class
 
@@ -744,7 +744,7 @@ class DeckManager < NSWindowController
     end
     @cards = nil
 
-    card_count              = @decks_or_cards.count_cards
+    card_count = @decks_or_cards.count_cards
     @card_count.stringValue = "#{card_count} / #{@max_cards_in_deck}"
 
     @cards_view.reloadData
@@ -787,12 +787,12 @@ class DeckManager < NSWindowController
   def start_new_deck(sender)
     clazz = sender.identifier
 
-    @in_edition     = true
-    @saved          = false
-    @deck_class     = clazz.sub(/^(\w)/) { |s| s.capitalize }
-    @current_class  = @deck_class
+    @in_edition = true
+    @saved = false
+    @deck_class = clazz.sub(/^(\w)/) { |s| s.capitalize }
+    @current_class = @deck_class
     @decks_or_cards = []
-    @current_deck   = nil
+    @current_deck = nil
 
     @card_count.stringValue = "0 / #{@max_cards_in_deck}"
 
@@ -814,9 +814,9 @@ class DeckManager < NSWindowController
     row = @table_view.clickedRow
 
     NSAlert.alert('Delete'._,
-                  :buttons     => ['OK'._, 'Cancel'._],
-                  :informative => 'Are you sure you want to delete this deck ?'._,
-                  :window      => self.window
+                  buttons: ['OK'._, 'Cancel'._],
+                  informative: 'Are you sure you want to delete this deck ?'._,
+                  window: self.window
     ) do |response|
 
       if response == NSAlertFirstButtonReturn
@@ -831,9 +831,9 @@ class DeckManager < NSWindowController
 
         if Configuration.use_hearthstats and !deck.hearthstats_id.nil? and !deck.hearthstats_id.zero?
           NSAlert.alert('Delete'._,
-                        :buttons     => ['OK'._, 'Cancel'._],
-                        :informative => 'Do you want to delete this deck on HearthStats ?'._,
-                        :window      => self.window) do |res|
+                        buttons: ['OK'._, 'Cancel'._],
+                        informative: 'Do you want to delete this deck on HearthStats ?'._,
+                        window: self.window) do |res|
             if res == NSAlertFirstButtonReturn
               HearthStatsAPI.delete_deck(deck)
             end
@@ -845,10 +845,10 @@ class DeckManager < NSWindowController
         cdq.save
 
         @current_deck = nil
-        @deck_name    = nil
-        @deck_class   = nil
-        @in_edition   = false
-        @saved        = true
+        @deck_name = nil
+        @deck_class = nil
+        @in_edition = false
+        @saved = true
         show_decks
 
         NSNotificationCenter.defaultCenter.post('deck_change')
@@ -867,9 +867,9 @@ class DeckManager < NSWindowController
 
     if card_count < @max_cards_in_deck
       NSAlert.alert('Save'._,
-                    :buttons     => ['OK'._, 'Cancel'._],
-                    :informative => "Your deck don't have 30 cards, are you sure you want to continue ?"._,
-                    :window      => self.window
+                    buttons: ['OK'._, 'Cancel'._],
+                    informative: "Your deck don't have 30 cards, are you sure you want to continue ?"._,
+                    window: self.window
       ) do |response|
 
         if response == NSAlertSecondButtonReturn
@@ -888,19 +888,19 @@ class DeckManager < NSWindowController
       deck_name_input.stringValue = @deck_name
     end
 
-    buttons         = ['Save'._, 'Cancel'._]
+    buttons = ['Save'._, 'Cancel'._]
     current_version = 1.0.round(1)
-    next_minor      = (current_version + 0.1).round(1)
-    next_major      = (current_version.to_i + 1.0).round(1)
-    is_new_deck     = true
+    next_minor = (current_version + 0.1).round(1)
+    next_major = (current_version.to_i + 1.0).round(1)
+    is_new_deck = true
 
     unless @current_deck.nil?
-      is_new_deck     = false
+      is_new_deck = false
       current_version = @current_deck.version.round(1)
-      next_minor      = (current_version + 0.1).round(1)
-      next_major      = (current_version.to_i + 1.0).round(1)
+      next_minor = (current_version + 0.1).round(1)
+      next_major = (current_version.to_i + 1.0).round(1)
 
-      save_as    = NSString.stringWithFormat('Save version %@', current_version)
+      save_as = NSString.stringWithFormat('Save version %@', current_version)
       save_minor = NSString.stringWithFormat('Save version %@', next_minor)
       save_major = NSString.stringWithFormat('Save version %@', next_major)
 
@@ -909,8 +909,8 @@ class DeckManager < NSWindowController
 
     NSAlert.alert('Deck name'._,
                   :buttons => buttons,
-                  :view    => deck_name_input,
-                  :window  => self.window
+                  :view => deck_name_input,
+                  :window => self.window
     ) do |response|
 
       if (buttons.length == 2 and response == NSAlertSecondButtonReturn) or (buttons.length == 4 and response == NSAlertThirdButtonReturn + 1)
@@ -922,10 +922,9 @@ class DeckManager < NSWindowController
 
       if is_new_deck
         # new deck
-        @current_deck = Deck.create(
-            :player_class => @deck_class,
-            :version      => current_version,
-            :is_active    => true)
+        @current_deck = Deck.create(player_class: @deck_class,
+                                    version: current_version,
+                                    is_active: true)
       elsif response == NSAlertFirstButtonReturn
         # should I change something in the deck here ?
         # we still have the same version...
@@ -939,17 +938,16 @@ class DeckManager < NSWindowController
                       end
 
         @current_deck.is_active = false
-        new_deck                = Deck.create(
-            :player_class           => @deck_class,
-            :version                => new_version,
-            :is_active              => true,
-            :arena                  => @current_deck.arena,
-            :name                   => deck_name,
-            :deck                   => @current_deck,
-            :hearthstats_id         => @current_deck.hearthstats_id,
-            :hearthstats_version_id => nil
+        new_deck = Deck.create(player_class: @deck_class,
+                               version: new_version,
+                               is_active: true,
+                               arena: @current_deck.arena,
+                               name: deck_name,
+                               deck: @current_deck,
+                               hearthstats_id: @current_deck.hearthstats_id,
+                               hearthstats_version_id: nil
         )
-        @current_deck           = new_deck
+        @current_deck = new_deck
       end
 
       @current_deck.name = deck_name
@@ -959,7 +957,7 @@ class DeckManager < NSWindowController
       end
 
       @decks_or_cards.each do |card|
-        @current_deck.cards.create(:card_id => card.card_id, :count => card.count)
+        @current_deck.cards.create(card_id: card.card_id, count: card.count)
       end
 
       cdq.save
@@ -971,9 +969,9 @@ class DeckManager < NSWindowController
 
       if Configuration.use_hearthstats
         NSAlert.alert('Deck save'._,
-                      :buttons     => ['OK'._, 'Cancel'._],
-                      :informative => 'Do you want to save this deck on HearthStats ?'._,
-                      :window      => self.window) do |res|
+                      buttons: ['OK'._, 'Cancel'._],
+                      informative: 'Do you want to save this deck on HearthStats ?'._,
+                      window: self.window) do |res|
           break if res == NSAlertSecondButtonReturn
 
           if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
@@ -993,9 +991,9 @@ class DeckManager < NSWindowController
       _close_deck
     else
       NSAlert.alert('Close'._,
-                    :buttons     => ['OK'._, 'Cancel'._],
-                    :informative => 'Are you sure you want to close this deck ? Your changes will not be saved.'._,
-                    :window      => self.window
+                    buttons: ['OK'._, 'Cancel'._],
+                    informative: 'Are you sure you want to close this deck ? Your changes will not be saved.'._,
+                    window: self.window
       ) do |response|
         if response == NSAlertFirstButtonReturn
           _close_deck
@@ -1005,18 +1003,18 @@ class DeckManager < NSWindowController
   end
 
   def _close_deck
-    @in_edition   = false
-    @saved        = true
+    @in_edition = false
+    @saved = true
     @current_deck = nil
-    @deck_name    = nil
-    @deck_class   = nil
+    @deck_name = nil
+    @deck_class = nil
     show_decks
     @card_count.stringValue = ''
     @table_view.reloadData
     @cards_view.reloadData
 
     @curve_view.subviews = []
-    @show_stats.enabled  = false
+    @show_stats.enabled = false
   end
 
   def search(sender)
@@ -1046,32 +1044,29 @@ class DeckManager < NSWindowController
 
   def export_deck(sender)
     if sender and sender.respond_to?('identifier') and sender.identifier == 'table_identifier'
-      row   = @table_view.clickedRow
-      deck  = @decks_or_cards[row]
-      name  = deck.name
+      row = @table_view.clickedRow
+      deck = @decks_or_cards[row]
+      name = deck.name
       cards = deck.playable_cards
-      mp :deck => deck,
-         :name => name
     else
-      name  = @deck_name
+      name = @deck_name
       cards = @decks_or_cards
     end
 
-    panel                      = NSSavePanel.savePanel
-    panel.allowedFileTypes     = %w(txt)
+    panel = NSSavePanel.savePanel
+    panel.allowedFileTypes = %w(txt)
     panel.canCreateDirectories = true
     panel.nameFieldStringValue = "#{name}.txt"
-    panel.title                = 'Export Deck'._
+    panel.title = 'Export Deck'._
 
     result = panel.runModal
     if result == NSOKButton
       path = panel.URL.path
 
-      content = ''
-      cards.each do |card|
+      content = cards.map do |card|
         c = Card.by_id(card.card_id)
-        content << "#{card.count} #{c.english_name}\n"
-      end
+        "#{card.count} #{c.english_name}"
+      end.join("\n")
 
       content.nsdata.write_to(path)
       Notification.post('Export Deck'._, 'Your deck has been exported'._)
@@ -1107,7 +1102,7 @@ class DeckManager < NSWindowController
   end
 
   def show_stats(_)
-    @stats_panel      ||= StatisticPanel.new
+    @stats_panel ||= StatisticPanel.new
     @stats_panel.deck = @current_deck
 
     self.window.show_sheet(@stats_panel.window)

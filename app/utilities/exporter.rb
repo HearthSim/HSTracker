@@ -6,20 +6,19 @@ class Exporter
       name = deck.name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
       puts "Saving #{deck.name} to #{dir}/#{name}.txt"
       File.open "#{dir}/#{name}.txt", 'w' do |file|
-        text = ''
-        deck.cards.each do |card|
+        text = deck.cards.map do |card|
           c = Card.by_id(card.card_id)
 
-          text << "#{card.count} #{c.english_name}\n"
-        end
+          "#{card.count} #{c.english_name}"
+        end.join("\n")
 
         file.write text
       end
     end
 
     NSAlert.alert('Save'._,
-                  :buttons     => ['OK'._],
-                  :informative => 'All deck have been saved'._
+                  buttons: ['OK'._],
+                  informative: 'All deck have been saved'._
     )
   end
 end

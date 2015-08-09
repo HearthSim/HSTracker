@@ -2,8 +2,8 @@ class TimerHud < Hud
 
   def init
     super.tap do
-      @layout              = TimerHudLayout.new
-      self.window          = @layout.window
+      @layout = TimerHudLayout.new
+      self.window = @layout.window
       self.window.delegate = self
 
       @label = @layout.get(:label)
@@ -27,7 +27,7 @@ class TimerHud < Hud
   end
 
   def game_start
-    @label.text      = nil
+    @label.text = nil
     @player_mulligan = @opponent_mulligan = false
   end
 
@@ -52,10 +52,10 @@ class TimerHud < Hud
     end
     @seconds = 90
     @timer = NSTimer.scheduledTimerWithTimeInterval(1,
-                                                    target:   self,
+                                                    target: self,
                                                     selector: 'fire:',
                                                     userInfo: nil,
-                                                    repeats:  true)
+                                                    repeats: true)
 
     if (!@player_mulligan and @opponent_mulligan) or (!@opponent_mulligan and @player_mulligan) or (!@player_mulligan and !@opponent_mulligan and @seconds < 85)
       @opponent_mulligan = @player_mulligan = true

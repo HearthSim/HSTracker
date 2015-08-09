@@ -2,7 +2,7 @@ class HearthStatsRegister < NSWindowController
 
   def init
     super.tap do
-      @layout     = HearthStatsRegisterLayout.new
+      @layout = HearthStatsRegisterLayout.new
       self.window = @layout.window
 
       @register = @layout.get(:register)
@@ -16,22 +16,22 @@ class HearthStatsRegister < NSWindowController
   end
 
   def register(_)
-    login            = @layout.get(:login).stringValue
-    confirm_login    = @layout.get(:confirm_login).stringValue
-    password         = @layout.get(:password).stringValue
+    login = @layout.get(:login).stringValue
+    confirm_login = @layout.get(:confirm_login).stringValue
+    password = @layout.get(:password).stringValue
     confirm_password = @layout.get(:confirm_password).stringValue
 
     if login != confirm_login
       NSAlert.alert('Login are not the same'._,
-                    :buttons => ['OK'._],
-                    :window  => self.window)
+                    buttons: ['OK'._],
+                    window: self.window)
       return
     end
 
     if password != confirm_password
       NSAlert.alert('Password are not the same'._,
-                    :buttons => ['OK'._],
-                    :window  => self.window)
+                    buttons: ['OK'._],
+                    window: self.window)
       return
     end
 
@@ -55,8 +55,8 @@ class HearthStatsRegister < NSWindowController
       end
 
       NSAlert.alert(message._,
-                    :buttons => ['OK'._],
-                    :window  => self.window
+                    buttons: ['OK'._],
+                    window: self.window
       )
     end
   end
@@ -67,7 +67,7 @@ class HearthStatsRegister < NSWindowController
 
   def cancel(_)
     Configuration.hearthstats_token = nil
-    Configuration.use_hearthstats   = false
+    Configuration.use_hearthstats = false
     self.window.close
   end
 end

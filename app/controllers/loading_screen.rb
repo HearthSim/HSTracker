@@ -2,7 +2,7 @@ class LoadingScreen < NSWindowController
 
   def init
     super.tap do
-      @layout     = LoadingScreenLayout.new
+      @layout = LoadingScreenLayout.new
       self.window = @layout.window
 
       @progress = @layout.get(:progress)

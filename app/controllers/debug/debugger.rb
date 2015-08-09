@@ -1,8 +1,8 @@
 class Debugger < NSWindowController
   def init
     super.tap do
-      @layout              = DebuggerLayout.new
-      self.window          = @layout.window
+      @layout = DebuggerLayout.new
+      self.window = @layout.window
 
       @text_view = @layout.get(:text_view)
 

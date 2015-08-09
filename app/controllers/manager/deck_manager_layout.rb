@@ -3,7 +3,7 @@ class DeckManagerLayout < MK::WindowLayout
   include OSXHelper
 
   def layout
-    frame_width  = CGRectGetWidth(NSScreen.mainScreen.frame) - 100
+    frame_width = CGRectGetWidth(NSScreen.mainScreen.frame) - 100
     frame_height = CGRectGetHeight(NSScreen.mainScreen.frame) - 100
 
     frame [[0, 0], [frame_width, frame_height]], 'HSTrackerDeckManager'

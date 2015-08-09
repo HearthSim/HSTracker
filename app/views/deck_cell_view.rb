@@ -23,12 +23,12 @@ class DeckCellView < NSTableCellView
 
       if Configuration.skin == :hearthstats
         name.foreground_color(:black.nscolor)
-            .font('Lato-Regular'.nsfont(16))
+          .font('Lato-Regular'.nsfont(16))
       else
         name.font('Belwe Bd BT'.nsfont(16))
-            .stroke_width(-1.5)
-            .stroke_color(:black.nscolor)
-            .foreground_color(:white.nscolor)
+          .stroke_width(-1.5)
+          .stroke_color(:black.nscolor)
+          .foreground_color(:white.nscolor)
       end
       name.drawInRect([[38, 4], [184, 30]], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
     end

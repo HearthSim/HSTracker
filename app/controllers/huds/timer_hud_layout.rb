@@ -2,7 +2,7 @@ class TimerHudLayout < MK::WindowLayout
 
   def layout
     wframe = [[400, 120], [200, 80]]
-    frame  = NSUserDefaults.standardUserDefaults.objectForKey 'HSTimer'
+    frame = NSUserDefaults.standardUserDefaults.objectForKey 'HSTimer'
     if frame
       wframe = NSRectFromString(frame)
     end

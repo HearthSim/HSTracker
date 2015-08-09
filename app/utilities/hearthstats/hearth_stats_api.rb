@@ -8,31 +8,31 @@ class HearthStatsAPI
   end
 
   def self.login(email, password, &block)
-    url  = "#{HearthStatsAPIURL}/users/sign_in"
+    url = "#{HearthStatsAPIURL}/users/sign_in"
     data = {
-        :user_login => {
-            :email    => email,
-            :password => password
-        }
+      user_login: {
+        email: email,
+        password: password
+      }
     }
     Web.json_post(url, data) do |response, error|
       success = false
-      token   = nil
+      token = nil
       if response
         success = response['success']
-        token   = response['auth_token']
+        token = response['auth_token']
       end
       block.call(success, token) if block
     end
   end
 
   def self.register(email, password, &block)
-    url  = "#{HearthStatsAPIURL}/users"
+    url = "#{HearthStatsAPIURL}/users"
     data = {
-        :user => {
-            :email    => email,
-            :password => password
-        }
+      user: {
+        email: email,
+        password: password
+      }
     }
     Web.json_post(url, data) do |response, error|
       success = false
@@ -51,14 +51,14 @@ class HearthStatsAPI
   end
 
   def self.get_decks(&block)
-    key       = 'hearthstats_last_get_decks'
+    key = 'hearthstats_last_get_decks'
     last_date = NSUserDefaults.standardUserDefaults.objectForKey(key) || 0
 
-    url  = "#{HearthStatsAPIURL}/decks/after_date?auth_token=#{auth_token}"
+    url = "#{HearthStatsAPIURL}/decks/after_date?auth_token=#{auth_token}"
     data = {
-        :date => last_date.to_s
+      date: last_date.to_s
     }
-    Web.json_post(url, data) do |response, error|
+    Web.json_post(url, data) do |response, _|
       NSUserDefaults.standardUserDefaults.setObject((NSDate.new.timeIntervalSince1970 - 600).to_i,
                                                     forKey: key)
       ret = []
@@ -73,23 +73,23 @@ class HearthStatsAPI
     url = "#{HearthStatsAPIURL}/decks?auth_token=#{auth_token}"
 
     data = {
-        :name  => deck.name,
-        :tags  => nil,
-        :notes => '',
-        :cards => deck.cards.map { |card| { id: card.card_id, count: card.count } },
-        :class => deck.player_class,
-        :version => 1.0.round(1)
+      name: deck.name,
+      tags: nil,
+      notes: '',
+      cards: deck.cards.map { |card| { id: card.card_id, count: card.count } },
+      class: deck.player_class,
+      version: 1.0.round(1)
     }
 
     Web.json_post(url, data) do |response, error|
       status = false
       if response and response['status'] == 200
-        status                      = true
-        deck.hearthstats_id         = response['data']['deck']['id']
+        status = true
+        deck.hearthstats_id = response['data']['deck']['id']
         deck.hearthstats_version_id = response['data']['deck_versions'][0]['id']
       end
       Dispatch::Queue.main.async do
-        if status 
+        if status
           Notification.post('Save deck'._, 'The deck has been saved on HearthStats'._)
         else
           Notification.post('Save deck'._, 'There were an error while saving this deck on HearthStats'._)
@@ -103,21 +103,21 @@ class HearthStatsAPI
     url = "#{HearthStatsAPIURL}/decks/edit?auth_token=#{auth_token}"
 
     data = {
-        :deck_id => deck.hearthstats_id,
-        :name    => deck.name,
-        :tags    => nil,
-        :notes   => '',
-        :cards   => deck.cards.map { |card| { id: card.card_id, count: card.count } },
-        :class   => deck.player_class
+      deck_id: deck.hearthstats_id,
+      name: deck.name,
+      tags: nil,
+      notes: '',
+      cards: deck.cards.map { |card| { id: card.card_id, count: card.count } },
+      class: deck.player_class
     }
 
-    Web.json_post(url, data) do |response, error|
+    Web.json_post(url, data) do |response, _|
       status = false
       if response and response['status'] == 200
         status = true
       end
       Dispatch::Queue.main.async do
-        if status 
+        if status
           Notification.post('Save deck'._, 'The deck has been saved on HearthStats'._)
         else
           Notification.post('Save deck'._, 'There were an error while saving this deck on HearthStats'._)
@@ -131,9 +131,9 @@ class HearthStatsAPI
     url = "#{HearthStatsAPIURL}/decks/create_version?auth_token=#{auth_token}"
 
     data = {
-        :deck_id => deck.hearthstats_id,
-        :cards   => deck.cards.map { |card| { id: card.card_id, count: card.count } },
-        :version => deck.version.round(1)
+      deck_id: deck.hearthstats_id,
+      cards: deck.cards.map { |card| { id: card.card_id, count: card.count } },
+      version: deck.version.round(1)
     }
 
     Web.json_post(url, data) do |response, error|
@@ -151,7 +151,7 @@ class HearthStatsAPI
     url = "#{HearthStatsAPIURL}/decks/delete?auth_token=#{auth_token}"
 
     data = {
-        :deck_id => [deck.hearthstats_id]
+      deck_id: [deck.hearthstats_id]
     }
 
     Web.json_post(url, data) do |response, error|

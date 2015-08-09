@@ -6,19 +6,19 @@ class PlayCard
                 :is_stolen, :lang
 
   def self.from_card(card)
-    c              = self.new
-    c.count        = card.count
-    c.hand_count   = 0
-    c.card_id      = card.card_id
-    c.name         = card.name
+    c = self.new
+    c.count = card.count
+    c.hand_count = 0
+    c.card_id = card.card_id
+    c.name = card.name
     c.english_name = card.english_name
-    c.cost         = card.cost
-    c.health       = card.health
+    c.cost = card.cost
+    c.health = card.health
     c.player_class = card.player_class
-    c.rarity       = card.rarity
-    c.card_type    = card.card_type
-    c.lang         = card.lang
-    c.has_changed  = false
+    c.rarity = card.rarity
+    c.card_type = card.card_type
+    c.lang = card.lang
+    c.has_changed = false
 
     c
   end

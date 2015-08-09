@@ -18,25 +18,25 @@ class Configuration
                   remember_last_deck last_deck_played skin show_timer show_opponent_tracker)
 
     KDefaults = {
-        :flash_color           => [55, 189, 223],
-        :count_color           => [255, 255, 255],
-        :count_color_border    => [0, 0, 0],
-        :window_transparency   => 0.1,
-        :card_played           => :fade,
-        :card_layout           => :big,
-        :windows_locked        => false,
-        :fixed_window_names    => false,
-        :reset_on_end          => false,
-        :show_get_cards        => false,
-        :hand_count_window     => :tracker,
-        :show_card_on_hover    => true,
-        :in_hand_as_played     => false,
-        :use_hearthstats       => false,
-        :show_notifications    => true,
-        :remember_last_deck    => true,
-        :skin                  => :hearthstats,
-        :show_timer            => true,
-        :show_opponent_tracker => true
+      flash_color: [55, 189, 223],
+      count_color: [255, 255, 255],
+      count_color_border: [0, 0, 0],
+      window_transparency: 0.1,
+      card_played: :fade,
+      card_layout: :big,
+      windows_locked: false,
+      fixed_window_names: false,
+      reset_on_end: false,
+      show_get_cards: false,
+      hand_count_window: :tracker,
+      show_card_on_hover: true,
+      in_hand_as_played: false,
+      use_hearthstats: false,
+      show_notifications: true,
+      remember_last_deck: true,
+      skin: :hearthstats,
+      show_timer: true,
+      show_opponent_tracker: true
     }
 
     def method_missing(symbol, *args)

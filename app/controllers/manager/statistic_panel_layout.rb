@@ -26,7 +26,7 @@ class StatisticPanelLayout < MK::WindowLayout
 
           frame frame
 
-          classes = ClassesData::KClasses.reject {|cl| cl=='Neutral' }
+          classes = ClassesData::KClasses.reject { |cl| cl == 'Neutral' }
           column_width = table_width / classes.size
 
           add_column 'version' do
