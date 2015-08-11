@@ -1,7 +1,12 @@
 class JSON
   # generate a json string
-  def self.generate(obj)
-    NSJSONSerialization.dataWithJSONObject(obj, options: 0, error: nil).to_str
+  def self.generate(obj, opts={})
+    to_str = opts[:to_str]
+    data = NSJSONSerialization.dataWithJSONObject(obj, options: 0, error: nil)
+    if to_str and data.respond_to?(:to_str)
+      data = data.to_str
+    end
+    data
   end
 
   # parse a data to nsdictionary or nsarray

@@ -13,7 +13,7 @@ class LoadingScreenLayout < MK::WindowLayout
 
     add NSImageView do
       setWantsLayer true
-      layer.setBackgroundColor :clear.nscolor
+      layer.setBackgroundColor :clear.nscolor.cgcolor
       image NSImage.alloc.initByReferencingFile "#{'images/assets/'.resource_path}/loading.png"
 
       constraints do

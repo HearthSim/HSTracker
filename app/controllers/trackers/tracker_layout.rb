@@ -1,7 +1,5 @@
 class TrackerLayout < MK::WindowLayout
 
-  include OSXHelper
-
   KFrameWidth = 220.0
   KFrameHeight = 700.0
   KRowHeight = 37.0
@@ -47,7 +45,7 @@ class TrackerLayout < MK::WindowLayout
         width = KFrameWidth
     end
 
-    unless is_10_10?
+    unless OSXHelper.gt_10_10?
       width += 15
     end
 
@@ -79,7 +77,7 @@ class TrackerLayout < MK::WindowLayout
   def table_scroll_view_style
     background_color :clear.nscolor
     drawsBackground false
-    unless is_10_10?
+    unless OSXHelper.gt_10_10?
       has_vertical_scroller true
     end
 

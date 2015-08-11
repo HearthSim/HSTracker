@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/bmichotte/sugarcube.git
+  revision: 6e411ec2418d5bef70a0cc089797ac1e27a848eb
+  branch: nscolor-10.8
+  specs:
+    sugarcube (3.3.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -8,8 +15,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     builder (3.2.2)
-    cdq (1.0.6)
-      motion-yaml (>= 1.4)
+    cdq (1.0.7)
+      motion-yaml (= 1.4)
       ruby-xcdm (>= 0.0.9)
     claide (0.9.1)
     cocoapods (0.38.2)
@@ -66,7 +73,6 @@ GEM
       activesupport (~> 4.1)
       builder (~> 3.2)
       plist (~> 3.1)
-    sugarcube (3.3.6)
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -87,7 +93,7 @@ DEPENDENCIES
   motion-yaml (= 1.4)
   motion_print
   rake
-  sugarcube
+  sugarcube!
 
 BUNDLED WITH
    1.10.5
