@@ -386,6 +386,10 @@ class LogObserver
         #else
         #  Log.verbose "possible constructed card draft : #{card_id} ?"
         #end
+
+      elsif line =~ /unloading name=Tavern_Brawl/
+        @game_mode = :brawl
+        Game.instance.game_mode(@game_mode)
       end
 
     elsif line.start_with?('[Bob] ---RegisterScreenPractice---')

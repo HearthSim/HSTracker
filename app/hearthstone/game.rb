@@ -57,6 +57,8 @@ class Game
                         'Ranked'
                       when :arena
                         'Arena'
+                      when :brawl
+                        'Brawl'
                       else
                         'Casual'
                     end
