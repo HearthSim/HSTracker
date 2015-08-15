@@ -174,4 +174,4 @@
 "Save version %@" = "Save version %@";
 "Show opponent tracker" = "Voir le tracker de l'opposant";
 "Rebuild card database" = "Reconstruire la base de données des cartes";
-"HSTracker will restart to rebuild card database. It can take a while." = "HSTracker va redémarrer pour reconstruire la base de données des cartes. Cette opération peut prendre un certain temps.";
+"HSTracker will rebuild the card database and restart. It can take a while." = "HSTracker va reconstruire la base de données des cartes puis redémarrer. Cette opération peut prendre un certain temps.";

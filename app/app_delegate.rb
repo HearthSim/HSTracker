@@ -357,7 +357,7 @@ class AppDelegate
 
     response = NSAlert.alert('Rebuild card database'._,
                              buttons: ['OK'._],
-                             informative: 'HSTracker will restart to rebuild card database. It can take a while.'._)
+                             informative: 'HSTracker will rebuild the card database and restart. It can take a while.'._)
     if response == NSAlertFirstButtonReturn
       @app_will_restart = true
 
