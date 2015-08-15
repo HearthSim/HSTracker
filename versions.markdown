@@ -1,3 +1,9 @@
+#### 0.11.5
+- Fix : should run correctly on 10.8
+- Fix : upload on HearthStats
+- Add an option to rebuild card database (menu HSTracker -> rebuild card database)
+- Fix : brawl is now correctly detected
+
 #### 0.11.4
 - Correct the save button on "non-full" decks
 - The timer is now correctly hidden on HSTracker start when show_timer is not checked
@@ -7,8 +13,8 @@
 - Correct scroll on 10.8 and 10.9
 
 #### 0.11.3
-- Correct a bug when importing old hearthstats decks  
-- Correct a bug with save opponent deck button  
+- Correct a bug when importing old hearthstats decks
+- Correct a bug with save opponent deck button
 - The timer can now be hidden correctly
 - Correct a crash when there are Hearthstats issue
 - Change version system to allow version x.y (ie 1.1)
