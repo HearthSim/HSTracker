@@ -90,9 +90,9 @@ class HearthStatsAPI
       end
       Dispatch::Queue.main.async do
         if status
-          Notification.post('Save deck'._, 'The deck has been saved on HearthStats'._)
+          Notification.post(:save_deck._, :deck_saved_hearthstats._)
         else
-          Notification.post('Save deck'._, 'There were an error while saving this deck on HearthStats'._)
+          Notification.post(:save_deck._, :error_saving_deck_hearthstats._)
         end
         block.call(status, deck) if block
       end
@@ -118,9 +118,9 @@ class HearthStatsAPI
       end
       Dispatch::Queue.main.async do
         if status
-          Notification.post('Save deck'._, 'The deck has been saved on HearthStats'._)
+          Notification.post(:save_deck._, :deck_saved_hearthstats._)
         else
-          Notification.post('Save deck'._, 'There were an error while saving this deck on HearthStats'._)
+          Notification.post(:save_deck._, :error_saving_deck_hearthstats._)
         end
         block.call(status) if block
       end
@@ -173,10 +173,10 @@ class HearthStatsAPI
       # maybe save in a temporary table and post later ?
       if response && response['status']
         success = true
-        Notification.post('Save match'._, 'Results for this game has been saved on HearthStats'._)
+        Notification.post(:save_match._, :results_saved_hearthstats._)
       else
         success = false
-        Notification.post('Save match'._, 'An error has occured while saving results for this game on HearthStats'._)
+        Notification.post(:save_match._, :error_saving_hearthstats._)
       end
       block.call(success) if block
     end

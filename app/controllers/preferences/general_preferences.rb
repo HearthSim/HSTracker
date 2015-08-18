@@ -22,6 +22,6 @@ class GeneralPreferences < NSViewController
   end
 
   def toolbarItemLabel
-    'General'._
+    :general._
   end
 end

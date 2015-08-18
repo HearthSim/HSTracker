@@ -48,9 +48,9 @@ class VersionChecker
                   text = "<h2>#{release_version}</h2>#{changelogs.XMLString}"
                   web_view.mainFrame.loadHTMLString text, baseURL: nil
 
-                  response = NSAlert.alert('Update'._,
-                                           buttons: ['OK'._, 'Cancel'._],
-                                           informative: 'A new version of HSTracker is available, click OK to download it.'._,
+                  response = NSAlert.alert(:update._,
+                                           buttons: [:ok._, :cancel._],
+                                           informative: :new_version_available._,
                                            view: web_view
                   )
 

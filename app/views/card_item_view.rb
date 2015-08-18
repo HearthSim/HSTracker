@@ -16,7 +16,7 @@ class CardItemView < JNWCollectionViewCell
     @count = count
 
     alpha = 1.0
-    if count > 0 && (count == DeckManager::KMaxCardOccurence[mode] || card.rarity == 'Legendary'._)
+    if count > 0 && (count == DeckManager::KMaxCardOccurence[mode] || card.rarity == :legendary._)
       alpha = 0.5
     end
     self.layer.opacity = alpha

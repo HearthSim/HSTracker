@@ -1,0 +1,164 @@
+ok: OK
+error: Erreur
+error_deck_loading: Erreur durant le chargement du deck
+empty_deck_url: URL du deck vide
+import_deck: Importer Deck
+deck_url: URL du Deck
+import_from: Vous pouvez importer des decks depuis %{sites}
+and: et
+import: Importer
+cancel: Annuler
+loading: Chargement
+error_language_import_deck: Vous n'avez pas sélectionné de langue dans les préférences, merci d'en choisir une avant d'importer un deck
+edit: Édition
+cut: Couper
+copy: Copier
+paste: Coller
+select_all: Tout sélectionner
+about_hstracker: À propos de HSTracker
+preferences: Préférences
+hide_hstracker: Masquer HSTracker
+hide_others: Masquer les autres
+show_all: Tout afficher
+quit_hstracker: Quitter HSTracker
+window: Fenêtre
+unlock_windows: Déverrouiller les fenêtres
+decks: Decks
+save_all: Tout enregistrer
+reset_all: Supprimer toutes les données
+reset_all_confirm: Êtes-vous sur de vouloir supprimer toutes les données ?\nCeci supprimera vos decks et statistiques.\nCette operation est irréversible.
+all_decks_saved: Tous les decks ont été enregistrés
+all_data_deleted: Toutes les données ont été supprimées
+reset: Réinitialiser
+general: Général
+game_language: Langue du jeu
+card_played: Carte jouée
+fade: Transparence
+remove: Enlever
+lock_windows: Verrouiller les fenêtres
+windows_transparency: Transparence des fenêtres
+interface: Interface
+flash_color: Couleur flash
+fixed_window_names: Nom des fenêtres fixe
+reset_trackers_end: Nettoie les trackers en fin de partie
+hstracker_language: Langue de HSTracker
+language_change: Changement de langue
+language_change_restart: Vous devez redémarrer HSTracker pour que le changement de langue soit effectif
+card_size: Taille des Cartes
+big: Grand
+medium: Moyen
+small: Petit
+colors: Couleurs
+draw_count_color: Comptage / Pioche couleur
+draw_count_border_color: Comptage / Pioche couleur bord
+card_count_draw_chance: Comptage / Chance de pioche
+hidden: Caché
+on_trackers: Dans les trackers
+detached_windows: Fenêtres séparées
+player_card_count: Cartes joueur
+opponent_card_count: Cartes opposant
+show_stolen_cards: Voir les cartes volées
+show_card_hover: Voir les cartes au survol
+user_accounts: Comptes utilisateur
+configure_hearthstats: Configuration Hearthstats
+login: Email
+password: Mot de passe
+connect: Connection
+deck_save: Enregistrement du deck
+deck_not_saved_hearthstats: Votre deck n'est pas enregistré sur HearthStats.\nVoulez-vous l'enregistrer maintenant ?
+delete_deck_hearthstats: Voulez-vous supprimer ce deck sur HearthStats ?
+save_deck_hearthstats: Voulez-vous enregistrer ce deck sur HearthStats ?
+no_account: Pas encore de compte ?
+from_hearthstats: Depuis HearthStats
+from_hearthstats_force: Depuis HearthStats (force)
+no_deck_to_import: No new deck to import
+decks_imported: "%{number} decks have been imported"
+login_successfully: Connecté avec succès
+login_error: Erreur de connexion
+confirm_password: Confirmation mot de passe
+confirm_login: Confirmation email
+register: Création du compte
+login_not_same: Les emails ne correspondent pas
+password_not_same: Les mots de passe ne correspondent pas
+registration_successfully: Création de compte finie avec succès
+hstracker_error_log: HSTracker n'arrive pas à lire le fichier de log. Merci de relancer HSTracker et Hearthstone pour corriger cette erreur.
+shaman: Chaman
+hunter: Chasseur
+warlock: Démoniste
+druid: Druide
+warrior: Guerrier
+mage: Mage
+paladin: Paladin
+priest: Prêtre
+rogue: Voleur
+neutral: Neutre
+free: Libre
+common: Commune
+rare: Rare
+epic: Épique
+legendary: Légendaire
+minion: Serviteur
+spell: Sort
+weapon: Arme
+update: Mise à jour
+new_version_available: Une nouvelle version de HSTracker est disponible, cliquez sur OK pour la télécharger.
+deck_manager: Deck Manager
+new: Nouveau
+save: Enregistrer
+delete: Supprimer
+close: Fermer
+play: Jouer
+export: Exporter
+export_deck: Exporter Deck
+arena_deck: Deck Arène
+donate: Donation
+deck_edition_not_saved: Vous êtes en mode édition de deck et vos modifications n'ont pas été sauvegardées.
+deck_name: Nom du deck
+sure_delete_deck: Êtes-vous sur de vouloir supprimer ce deck ?
+sure_close_deck: Êtes-vous sur de vouloir fermer ce deck ? Vos modifications ne seront pas sauvegardées.
+deck_incomplete: Votre deck ne contient pas 30 cartes, êtes-vous sur de vouloir continuer ?
+deck_not_saved: Votre deck n'est pas sauvegardé, êtes-vous sur de vouloir continuer, vous perdrez vos modifications.
+deck_saved: Deck enregistré
+new_version: Nouvelle version
+hand: "Main : %{count}"
+deck: "Deck : %{count}"
+draw: "Pioche :"
+player: Joueur
+opponent: Opposant
+restart_hearthstone_logs: Vous devez redémarrer Hearthstone pour qu'il commence à logger
+cards_not_found: Les images des cartes sont introuvables.\nMerci de confirmer la langue de Hearthstone puis de cliquer sur OK pour les télécharger.
+images: Images
+download_images: Téléchargement des images
+missing_images: Images manquantes
+missing_images_force: Certaines images sont manquantes, forcez un téléchargement depuis le menu HSTracker -> Téléchargement des images
+from_web: Depuis le Web
+from_file: Depuis un fichier
+consider_inhand_played: Considère les cartes en main comme jouées
+show_debug_files: Voir les fichiers de debug
+deck_has_been_saved: Votre deck a été sauvegardé
+deck_has_been_exported: Votre deck a été exporté
+results_saved_hearthstats: Les résultats de ce match ont été sauvés sur HearthStats
+save_match: Sauvegarde match
+error_saving_hearthstats: Une erreur s'est produite durant la sauvegarde sur HearthStats
+delete_deck: Suppression Deck
+deck_deleted: Votre deck a été supprimé
+show_notifications: Voir les notifications
+remember_last_deck: Se souvenir du dernier deck joué
+default: Défaut
+skin: Skin
+show_timers: Voir la minuterie
+deck_saved_hearthstats: Le deck a été sauvé sur HearthStats
+error_saving_deck_hearthstats: Il y a eu une erreur lors de la sauvegarde du deck sur HearthStats
+save_version: Save version %{version}
+show_versions: "%{number} version(s)"
+show_opponent_tracker: Voir le tracker de l'opposant
+rebuild_card_database: Reconstruire la base de données des cartes
+rebuild_card_database_info: HSTracker va reconstruire la base de données des cartes puis redémarrer. Cette opération peut prendre un certain temps.
+save_deck: Enregistrement du deck
+alert: Alerte
+downloading: Téléchargement en cours
+n_a: N/A
+show_stat: "%{percent}%% win (%{win}/%{total})"
+search: Rechercher
+timer: Chronomètre
+detect_wrong_deck: Detecter les mauvais decks

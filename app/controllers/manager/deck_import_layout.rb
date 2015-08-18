@@ -5,10 +5,10 @@ class DeckImportLayout < MK::WindowLayout
     frame_height = 200
 
     frame [[0, 0], [frame_width, frame_height]]
-    title 'Import Deck'._
+    title :import_deck._
 
     add NSTextField, :deck_label do
-      stringValue 'Deck URL'._
+      stringValue :deck_url._
       editable false
       bezeled false
       draws_background false
@@ -55,7 +55,7 @@ class DeckImportLayout < MK::WindowLayout
     end
 
     add NSButton, :import do
-      title 'Import'._
+      title :import._
       bezelStyle NSTexturedRoundedBezelStyle
 
       constraints do
@@ -65,7 +65,7 @@ class DeckImportLayout < MK::WindowLayout
     end
 
     add NSButton, :cancel do
-      title 'Cancel'._
+      title :cancel._
       bezelStyle NSTexturedRoundedBezelStyle
 
       constraints do
@@ -75,7 +75,7 @@ class DeckImportLayout < MK::WindowLayout
     end
 
     add NSTextField, :status do
-      stringValue 'Loading'._
+      stringValue :loading._
       editable false
       bezeled false
       draws_background false

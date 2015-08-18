@@ -28,7 +28,7 @@ class HearthStatsLogin < NSWindowController
 
         message = 'Login successfully'
 
-        @connect.title = 'Close'._
+        @connect.title = :close._
         @connect.setAction 'close:'
         @cancel.hidden = true
       else
@@ -36,7 +36,7 @@ class HearthStatsLogin < NSWindowController
       end
 
       NSAlert.alert(message._,
-                    buttons: ['OK'._],
+                    buttons: [:ok._],
                     window: self.window
       )
     end

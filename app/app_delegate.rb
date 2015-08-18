@@ -94,9 +94,9 @@ class AppDelegate
       VersionChecker.check
 
       NSNotificationCenter.defaultCenter.observe 'AppleLanguages_changed' do |_|
-        response = NSAlert.alert('Language change'._,
-                                 buttons: ['OK'._, 'Cancel'._],
-                                 informative: 'You must restart HSTracker for the language change to take effect'._)
+        response = NSAlert.alert(:language_change._,
+                                 buttons: [:ok._, :cancel._],
+                                 informative: :language_change_restart._)
         if response == NSAlertFirstButtonReturn
           @app_will_restart = true
 
@@ -130,7 +130,7 @@ class AppDelegate
           ColorPreferences.new,
           SyncPreferences.new
         ],
-        title: 'Preferences'._)
+        title: :preferences._)
     end
   end
 
@@ -181,7 +181,7 @@ class AppDelegate
 
   # lock / unlock windows
   def lock_windows(menu_item)
-    Configuration.windows_locked ? menu_item.title = 'Lock Windows'._ : menu_item.title = 'Unlock Windows'._
+    Configuration.windows_locked ? menu_item.title = :lock_windows._ : menu_item.title = :unlock_windows._
 
     Configuration.windows_locked = !Configuration.windows_locked
   end
@@ -204,14 +204,14 @@ class AppDelegate
   end
 
   def reload_deck_menu
-    deck_menu = NSApp.mainMenu.itemWithTitle 'Decks'._
+    deck_menu = NSApp.mainMenu.itemWithTitle :decks._
     deck_menu.submenu.removeAllItems
 
-    item = NSMenuItem.alloc.initWithTitle('Deck Manager'._, action: 'open_deck_manager:', keyEquivalent: 'm')
+    item = NSMenuItem.alloc.initWithTitle(:deck_manager._, action: 'open_deck_manager:', keyEquivalent: 'm')
     deck_menu.submenu.addItem item
-    item = NSMenuItem.alloc.initWithTitle('Reset'._, action: 'reset:', keyEquivalent: 'r')
+    item = NSMenuItem.alloc.initWithTitle(:reset._, action: 'reset:', keyEquivalent: 'r')
     deck_menu.submenu.addItem item
-    item = NSMenuItem.alloc.initWithTitle('Save all'._, action: 'save_decks:', keyEquivalent: '')
+    item = NSMenuItem.alloc.initWithTitle(:save_all._, action: 'save_decks:', keyEquivalent: '')
     deck_menu.submenu.addItem item
     deck_menu.submenu.addItem NSMenuItem.separatorItem
 
@@ -222,8 +222,8 @@ class AppDelegate
   end
 
   def close_window_menu(enabled)
-    window_menu = NSApp.mainMenu.itemWithTitle 'Window'._
-    close_window = window_menu.submenu.itemWithTitle 'Close'._
+    window_menu = NSApp.mainMenu.itemWithTitle :window._
+    close_window = window_menu.submenu.itemWithTitle :close._
     close_window.enabled = enabled
   end
 
@@ -284,9 +284,9 @@ class AppDelegate
       popup.selectItemAtIndex -1
     end
 
-    rep = NSAlert.alert('Images'._,
-                        buttons: ['OK'._],
-                        informative: 'Cards images are not found. Please confirm the Hearthstone language then click OK to download them.'._,
+    rep = NSAlert.alert(:images._,
+                        buttons: [:ok._],
+                        informative: :cards_not_found._,
                         view: popup)
     if rep
       choosen = popup.selectedItem.title
@@ -321,7 +321,7 @@ class AppDelegate
     panel.canChooseDirectories = true
     panel.allowsMultipleSelection = false
     panel.canCreateDirectories = true
-    panel.prompt = 'Save'._
+    panel.prompt = :save._
 
     if panel.runModal == NSFileHandlingPanelOKButton
       Exporter.export_to_files(panel.directoryURL.path)
@@ -329,9 +329,9 @@ class AppDelegate
   end
 
   def reset_all_data(_)
-    response = NSAlert.alert('Reset all data'._,
-                             buttons: ['OK'._, 'Cancel'._],
-                             informative: 'Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible.'._
+    response = NSAlert.alert(:reset_all._,
+                             buttons: [:ok._, :cancel._],
+                             informative: :reset_all_confirm._
     )
 
     if response == NSAlertFirstButtonReturn
@@ -343,9 +343,9 @@ class AppDelegate
       Statistic.destroy_all!
 
       reload_deck_menu
-      NSAlert.alert('Reset all data'._,
-                    buttons: ['OK'._],
-                    informative: 'All data have been deleted'._
+      NSAlert.alert(:reset_all._,
+                    buttons: [:ok._],
+                    informative: :all_data_deleted._
       )
     end
   end
@@ -355,9 +355,9 @@ class AppDelegate
     Mechanic.destroy_all
     cdq.save
 
-    response = NSAlert.alert('Rebuild card database'._,
-                             buttons: ['OK'._],
-                             informative: 'HSTracker will rebuild the card database and restart. It can take a while.'._)
+    response = NSAlert.alert(:rebuild_card_database._,
+                             buttons: [:ok._],
+                             informative: :rebuild_card_database_info._)
     if response == NSAlertFirstButtonReturn
       @app_will_restart = true
 

@@ -21,6 +21,6 @@ class InterfacePreferences < NSViewController
   end
 
   def toolbarItemLabel
-    'Interface'._
+    :interface._
   end
 end

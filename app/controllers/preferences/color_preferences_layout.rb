@@ -5,20 +5,20 @@ class ColorPreferencesLayout < PreferencesLayout
   end
 
   KOnCardLayoutChoices = {
-    big: 'Big'._,
-    medium: 'Medium'._,
-    small: 'Small'._
+    big: :big._,
+    medium: :medium._,
+    small: :small._
   }
 
   KOnCardPlayedChoices = {
-    fade: 'Fade'._,
-    remove: 'Remove'._
+    fade: :fade._,
+    remove: :remove._
   }
 
   def options
     {
       card_played: {
-        label: 'Card played'._,
+        label: :card_played._,
         type: NSPopUpButton,
         init: -> (elem) {
           current_choice = Configuration.card_played
@@ -43,7 +43,7 @@ class ColorPreferencesLayout < PreferencesLayout
         }
       },
       flash_color: {
-        label: 'Flash color'._,
+        label: :flash_color._,
         type: NSColorWell,
         init: -> (elem) {
           elem.color = Configuration.flash_color
@@ -53,7 +53,7 @@ class ColorPreferencesLayout < PreferencesLayout
         }
       },
       count_color: {
-        label: 'Draw / Count color'._,
+        label: :draw_count_color._,
         type: NSColorWell,
         init: -> (elem) {
           elem.color = Configuration.count_color
@@ -63,7 +63,7 @@ class ColorPreferencesLayout < PreferencesLayout
         }
       },
       count_color_border: {
-        label: 'Draw / Count border color'._,
+        label: :draw_count_border_color._,
         type: NSColorWell,
         init: -> (elem) {
           elem.color = Configuration.count_color_border
@@ -73,7 +73,7 @@ class ColorPreferencesLayout < PreferencesLayout
         }
       },
       card_layout: {
-        label: 'Card size'._,
+        label: :card_size._,
         type: NSPopUpButton,
         init: -> (elem) {
           current_choice = Configuration.card_layout

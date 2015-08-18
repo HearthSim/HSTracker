@@ -148,7 +148,7 @@ class CardCellView < NSTableCellView
     @cost_layer.frame = [[x, y], [width, height]]
     @cost_layer.string = cost
 
-    if card.count >= 2 || card.rarity == 'Legendary'._
+    if card.count >= 2 || card.rarity == :legendary._
       # add the background of the card count
       if card.is_stolen
         @frame_count_box.contents = ImageCache.frame_countbox_deck

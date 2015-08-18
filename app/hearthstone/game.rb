@@ -84,9 +84,9 @@ class Game
         # todo, add :log (see match_log.json)
 
         if @current_deck.hearthstats_id.nil? || @current_deck.hearthstats_id.zero?
-          response = NSAlert.alert('Deck save'._,
-                                   buttons: ['OK'._, 'Cancel'._],
-                                   informative: 'Your deck is not saved on HearthStats. Do you want to save it now ?'._,
+          response = NSAlert.alert(:deck_save._,
+                                   buttons: [:ok._, :cancel._],
+                                   informative: :deck_not_saved_hearthstats._,
                                    force_top: true)
           if response == NSAlertFirstButtonReturn
             HearthStatsAPI.post_deck(@current_deck) do |status, deck|

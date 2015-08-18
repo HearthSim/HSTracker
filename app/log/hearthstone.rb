@@ -136,9 +136,9 @@ class Hearthstone
     end
 
     if config_changed && is_hearthstone_running?
-      NSAlert.alert('Alert'._,
-                    buttons: ['OK'._],
-                    informative: 'You must restart Hearthstone for logs to be used'._)
+      NSAlert.alert(:alert._,
+                    buttons: [:ok._],
+                    informative: :restart_hearthstone_logs._)
 
     end
   end

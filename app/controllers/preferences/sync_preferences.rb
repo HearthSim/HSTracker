@@ -25,7 +25,7 @@ class SyncPreferences < NSViewController
   end
 
   def toolbarItemLabel
-    'User Accounts'._
+    :user_accounts._
   end
 
   def hearthstats_login(status)

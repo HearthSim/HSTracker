@@ -24,7 +24,7 @@ class ButtonCellView < NSTableCellView
       style = NSMutableParagraphStyle.new
       style.alignment = NSCenterTextAlignment
 
-      name = 'Save'._.attrd.paragraph_style(style)
+      name = :save._.attrd.paragraph_style(style)
                .font('Belwe Bd BT'.nsfont(font_size))
                .foreground_color(:black.nscolor)
       name.drawInRect [[x, y - 2], [width, height]]

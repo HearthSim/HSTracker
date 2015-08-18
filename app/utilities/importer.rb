@@ -5,7 +5,7 @@ class Importer
     Log = Motion::Log
 
     def supported_sites
-      NSString.stringWithFormat('You can import decks from %@'._, "hearthpwn.com, hearthstone-decks.com,\nhearthstats.net, hearthhead.com, hearthnews.fr #{'and'._} heartharena.com")
+      :import_from._(sites: "hearthpwn.com, hearthstone-decks.com,\nhearthstats.net, hearthhead.com, hearthnews.fr #{:and._} heartharena.com")
     end
 
     def load(url, &block)

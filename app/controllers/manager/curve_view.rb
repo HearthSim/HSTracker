@@ -15,9 +15,9 @@ class CurveView < NSView
       unless @counts.has_key? cost
         @counts[cost] = {
           count: 0,
-          'Minion'._ => 0,
-          'Spell'._ => 0,
-          'Weapon'._ => 0
+          :minion._ => 0,
+          :spell._ => 0,
+          :weapon._ => 0
         }
       end
       @counts[cost][:count] += card.count
@@ -40,9 +40,9 @@ class CurveView < NSView
       x = 0
 
       types = {
-        'Minion'._ => [[106, 210, 199].nscolor, [167, 231, 229].nscolor],
-        'Spell'._ => [[234, 107, 85].nscolor, [233, 156, 148].nscolor],
-        'Weapon'._ => [[138, 228, 113].nscolor, [206, 230, 184].nscolor]
+        :minion._ => [[106, 210, 199].nscolor, [167, 231, 229].nscolor],
+        :spell._ => [[234, 107, 85].nscolor, [233, 156, 148].nscolor],
+        :weapon._ => [[138, 228, 113].nscolor, [206, 230, 184].nscolor]
       }
 
       # get the biggest value

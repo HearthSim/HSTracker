@@ -324,9 +324,9 @@ class OpponentTracker < Tracker
   end
 
   def display_count
-    text = ("#{'Hand : '._} #{self.hand_count}")
+    text = :hand._(count: self.hand_count)
     text << ' / '
-    text << ("#{'Deck : '._} #{self.deck_count}")
+    text << :deck._(count: self.deck_count)
 
     if Configuration.hand_count_window == :tracker
       @count_text = text

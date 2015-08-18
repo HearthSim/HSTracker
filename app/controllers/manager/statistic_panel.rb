@@ -72,7 +72,7 @@ class StatisticPanel < NSWindowController
         value = value[:percent]
       end
     else
-      value = 'N/A'._
+      value = :n_a._
     end
 
     text_field = table_view.makeViewWithIdentifier(column.identifier, owner: self)
