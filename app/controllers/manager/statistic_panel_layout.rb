@@ -60,7 +60,7 @@ class StatisticPanelLayout < MK::WindowLayout
         size [100, 32]
 
         cell do
-          title 'Close'._
+          title :close._
           bezelStyle NSRoundedBezelStyle
           alignment NSCenterTextAlignment
         end

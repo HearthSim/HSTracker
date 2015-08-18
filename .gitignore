@@ -6,6 +6,7 @@ app/pixate_code.rb
 resources/*.nib
 resources/*.momd
 resources/*.storyboardc
+resources/*.lproj/Localizable.strings
 .DS_Store
 nbproject
 .redcar

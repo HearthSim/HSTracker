@@ -14,7 +14,7 @@ class CardCountHudLayout < MK::WindowLayout
 
     frame(wframe)
     identifier window_name
-    title self.player == :player ? 'Player Card Count'._ : 'Opponent Card Count'._
+    title self.player == :player ? :player_card_count._ : :opponent_card_count._
 
     # transparent all the things \o|
     opaque false

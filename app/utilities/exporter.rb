@@ -16,9 +16,9 @@ class Exporter
       end
     end
 
-    NSAlert.alert('Save'._,
-                  buttons: ['OK'._],
-                  informative: 'All deck have been saved'._
+    NSAlert.alert(:save._,
+                  buttons: [:ok._],
+                  informative: :all_decks_saved._
     )
   end
 end

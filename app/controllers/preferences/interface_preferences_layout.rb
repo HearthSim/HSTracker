@@ -1,13 +1,13 @@
 class InterfacePreferencesLayout < PreferencesLayout
 
   KHandCountOptions = {
-    hidden: 'Hidden'._,
-    tracker: 'On trackers'._,
-    window: 'Detached windows'._
+    hidden: :hidden._,
+    tracker: :on_trackers._,
+    window: :detached_windows._
   }
 
   KSkinOptions = {
-    default: 'Default'._,
+    default: :default._,
     hearthstats: 'HearthStats'
   }
 
@@ -19,9 +19,9 @@ class InterfacePreferencesLayout < PreferencesLayout
     NSColorPanel.sharedColorPanel.continuous = false
 
     {
-      windows_locked: 'Lock Windows'._,
+      windows_locked: :lock_windows._,
       window_transparency: {
-        label: 'Windows Transparency'._,
+        label: :windows_transparency._,
         type: NSSlider,
         init: -> (elem) {
           elem.minValue = 0.0
@@ -32,11 +32,11 @@ class InterfacePreferencesLayout < PreferencesLayout
           Configuration.window_transparency = elem.floatValue
         }
       },
-      show_get_cards: 'Show stolen cards'._,
-      show_card_on_hover: 'Show card on hover'._,
-      fixed_window_names: 'Fixed window names'._,
+      show_get_cards: :show_stolen_cards._,
+      show_card_on_hover: :show_card_hover._,
+      fixed_window_names: :fixed_window_names._,
       hand_count_window: {
-        label: 'Card count / Draw chance'._,
+        label: :card_count_draw_chance._,
         type: NSPopUpButton,
         init: -> (elem) {
           current_choice = Configuration.hand_count_window
@@ -60,9 +60,9 @@ class InterfacePreferencesLayout < PreferencesLayout
           end
         }
       },
-      in_hand_as_played: 'Consider in-hand as played'._,
+      in_hand_as_played: :consider_inhand_played._,
       skin: {
-        label: 'Skin'._,
+        label: :skin._,
         type: NSPopUpButton,
         init: -> (elem) {
           current_choice = Configuration.skin
@@ -86,8 +86,8 @@ class InterfacePreferencesLayout < PreferencesLayout
           end
         }
       },
-      show_timer: 'Show timers'._,
-      show_opponent_tracker: 'Show opponent tracker'._
+      show_timer: :show_timers._,
+      show_opponent_tracker: :show_opponent_tracker._
     }
   end
 

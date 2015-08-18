@@ -1,0 +1,163 @@
+ok: OK
+error: Error
+error_deck_loading: Error while loading deck
+empty_deck_url: Empty deck url
+import_deck: Import Deck
+deck_url: Deck URL
+import_from: You can import decks from %{sites}
+and: and
+import: Import
+cancel: Cancel
+loading: Loading
+error_language_import_deck: You have not selected a language from the preferences, please choose a language before importing a deck
+edit: Edit
+cut: Cut
+copy: Copy
+paste: Paste
+select-all: Select All
+about_hstracker: About HSTracker
+preferences: Preferences
+hide_hstracker: Hide HSTracker
+hide_others: Hide Others
+show_all: Show All
+quit_hstracker: Quit HSTracker
+window: Window
+unlock_windows: Unlock Windows
+decks: Decks
+save_all: Save all
+reset_all: Reset all data
+reset_all_confirm: Are you sure you want to delete all data ?\nThis will delete your decks and statistics.\nThis operation is irreversible.
+all_decks_saved: All decks have been saved
+all_data_deleted: All data have been deleted
+reset: Reset
+general: General
+game_language: Game language
+card_played: Card played
+fade: Fade
+remove: Remove
+lock_windows: Lock Windows
+windows_transparency: Windows Transparency
+interface: Interface
+flash_color: Flash color
+fixed_window_names: Fixed window names
+reset_trackers_end: Reset trackers on game end
+hstracker_language: HSTracker language
+language_change: Language change
+language_change_restart: You must restart HSTracker for the language change to take effect
+card_size: Card size
+big: Big
+medium: Medium
+small: Small
+colors: Colors
+draw_count_color: Draw / Count color
+draw_count_border_color: Draw / Count border color
+card_count_draw_chance: Card count / Draw chance
+hidden: Hidden
+on_trackers: On trackers
+detached_windows: Detached windows
+player_card_count: Player Card Count
+opponent_card_count: Opponent Card Count
+show_stolen_cards: Show stolen cards
+show_card_hover: Show card on hover
+user_accounts: User Accounts
+configure_hearthstats: Configure Hearthstats
+login: Email
+password: Password
+connect: Connect
+deck_save: Deck save
+deck_not_saved_hearthstats: Your deck is not saved on HearthStats.\nDo you want to save it now ?
+delete_deck_hearthstats: Do you want to delete this deck on HearthStats ?
+save_deck_hearthstats: Do you want to save this deck on HearthStats ?
+no_account: No account yet ?
+from_hearthstats: From HearthStats
+from_hearthstats_force: From HearthStats (force)
+no_deck_to_import: No new deck to import
+decks_imported: "%{number} decks have been imported"
+login_successfully: Login successfully
+login_error: Login Error
+confirm_password: Confirm password
+confirm_login: Confirm email
+register: Register
+login_not_same: Login are not the same
+password_not_same: Password are not the same
+registration_successfully: Registration successfully completed
+hstracker_error_log: HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue
+shaman: Shaman
+hunter: Hunter
+warlock: Warlock
+druid: Druid
+warrior: Warrior
+mage: Mage
+paladin: Paladin
+priest: Priest
+rogue: Rogue
+neutral: Neutral
+free: Free
+common: Common
+rare: Rare
+epic: Epic
+legendary: Legendary
+minion: Minion
+spell: Spell
+weapon: Weapon
+update: Update
+new_version_available: A new version of HSTracker is available, click OK to download it.
+deck_manager: Deck Manager
+new: New
+save: Save
+delete: Delete
+close: Close
+play: Play
+export: Export
+export_deck: Export Deck
+arena_deck: Arena Deck
+donate: Donate
+deck_edition_not_saved: You are currently in a deck edition and you changes have not been saved.
+deck_name: Deck name
+sure_delete_deck: Are you sure you want to delete this deck ?
+sure_close_deck: Are you sure you want to close this deck ? Your changes will not be saved.
+deck_incomplete: Your deck don't have 30 cards, are you sure you want to continue ?
+deck_not_saved: Your deck is not saved, are you sure you want to continue, you will lose all changes.
+deck_saved: Deck saved
+new_version: New version
+hand: "Hand : %{count}"
+deck: "Deck : %{count}"
+draw: "Draw :"
+player: Player
+opponent: Opponent
+restart_hearthstone_logs: You must restart Hearthstone for logs to be used
+alert: Alert
+cards_not_found: Cards images are not found.\nPlease confirm the Hearthstone language then click OK to download them.
+images: Images
+download_images: Download images
+missing_images: Missing images
+missing_images_force: Some images are missing, force a download from HSTracker menu -> Download images
+from_web: From Web
+from_file: From File
+consider_inhand_played: Consider in-hand as played
+show_debug_files: Show debug files
+deck_has_been_saved: Your deck has been saved
+deck_has_been_exported: Your deck has been exported
+results_saved_hearthstats: Results for this game has been saved on HearthStats
+save_match: Save match
+error_saving_hearthstats: An error has occured while saving results for this game on HearthStats
+delete_deck: Delete Deck
+deck_deleted: Your deck has been deleted
+show_notifications: Show notifications
+remember_last_deck: Remember last played deck
+default: Default
+skin: Skin
+show_timers: Show timers
+deck_saved_hearthstats: The deck has been saved on HearthStats
+error_saving_deck_hearthstats: There were an error while saving this deck on HearthStats
+save_version: Save version %{version}
+show_opponent_tracker: Show opponent tracker
+rebuild_card_database: Rebuild card database
+rebuild_card_database_info: HSTracker will rebuild the card database and restart. It can take a while.
+save_deck: Save deck
+downloading: Downloading
+n_a: N/A
+show_versions: "%{number} version(s)"
+show_stat: "%{percent}%% win (%{win}/%{total})"
+search: Search
+timer: Timer
