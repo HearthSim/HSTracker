@@ -22,8 +22,8 @@ class LogObserver
         file_handle = NSFileHandle.fileHandleForReadingAtPath(path)
         if file_handle.nil?
           NSAlert.alert('Error',
-                        :informative => "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
-                        :style       => NSCriticalAlertStyle
+                        informative: "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
+                        style: NSCriticalAlertStyle
           )
           return
         end
@@ -48,24 +48,24 @@ class LogObserver
 
   def reset_data
     @game_started = false
-    @coin_set     = false
+    @coin_set = false
     @current_turn = -1
-    @entities     = {}
+    @entities = {}
     @tmp_entities = []
 
     @spectating = true
 
-    @player_id   = nil
+    @player_id = nil
     @opponent_id = nil
   end
 
   def detect_mode(timeout_sec, &block)
     Log.verbose 'waiting for mode'
     Dispatch::Queue.concurrent.async do
-      @awaiting_ranked_detection      = true
+      @awaiting_ranked_detection = true
       @waiting_for_first_asset_unload = true
-      @found_ranked                   = false
-      @last_asset_unload              = NSDate.new.timeIntervalSince1970
+      @found_ranked = false
+      @last_asset_unload = NSDate.new.timeIntervalSince1970
 
       timeout = timeout_sec.seconds.after(NSDate.now).timeIntervalSince1970
       while @waiting_for_first_asset_unload or (NSDate.now.timeIntervalSince1970 - @last_asset_unload) < timeout
@@ -91,17 +91,17 @@ class LogObserver
     file_handle = NSFileHandle.fileHandleForReadingAtPath(path)
     if file_handle.nil?
       NSAlert.alert('Error',
-                    :informative => "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
-                    :style       => NSCriticalAlertStyle
+                    informative: "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
+                    style: NSCriticalAlertStyle
       )
       return
     end
     file_handle.seekToFileOffset(@last_read_position)
 
     Dispatch::Queue.concurrent.async do
-      data                = file_handle.readDataToEndOfFile
-      lines_str           = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
-      size                = @last_read_position
+      data = file_handle.readDataToEndOfFile
+      lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
+      size = @last_read_position
       @last_read_position = file_size(path)
 
       if @last_read_position > size
@@ -125,18 +125,18 @@ class LogObserver
   end
 
   def find_last_game_start(file_handle)
-    offset                = 0
-    temp_offset           = 0
+    offset = 0
+    temp_offset = 0
     found_spectator_start = false
 
     file_handle.seekToFileOffset(0)
     data = file_handle.readDataToEndOfFile
 
     lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
-    lines     = lines_str.split "\n"
+    lines = lines_str.split "\n"
     lines.each do |line|
       if line.include? 'Begin Spectating' or line.include? 'Start Spectator'
-        offset                = temp_offset
+        offset = temp_offset
         found_spectator_start = true
       elsif line.include? 'End Spectator'
         offset = temp_offset
@@ -210,19 +210,22 @@ class LogObserver
         @current_entity = entity
 
       elsif (match = /TAG_CHANGE Entity=(\w+) tag=PLAYER_ID value=(\d)/.match(line))
-        name   = match[1]
+        name = match[1]
         player = match[2].to_i
 
-        if player == 1
+        entity = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == player }.values.first
+        return if entity.nil?
+
+        if entity.is_player
           Game.instance.player_name(name)
-        elsif player == 2
+        else
           Game.instance.opponent_name(name)
         end
 
       elsif (match = /TAG_CHANGE Entity=(.+) tag=(\w+) value=(\w+)/.match(line))
         raw_entity = match[1].sub(/UNKNOWN ENTITY /, '')
-        tag        = match[2]
-        value      = match[3]
+        tag = match[2]
+        value = match[3]
 
         if raw_entity =~ /^\[/ and is_entity?(raw_entity)
           id, _, _, _, _, _, _ = parse_entity(raw_entity)
@@ -235,12 +238,12 @@ class LogObserver
             tmp_entity = @tmp_entities.select { |val| val.name == raw_entity }.first
 
             if tmp_entity.nil?
-              tmp_entity      = Entity.new(@tmp_entities.size + 1)
+              tmp_entity = Entity.new(@tmp_entities.size + 1)
               tmp_entity.name = raw_entity
               @tmp_entities << tmp_entity
             end
 
-            tag   = GameTag.parse(tag)
+            tag = GameTag.parse(tag)
             value = parse_tag(tag, value)
             tmp_entity.set_tag(tag, value)
             if tmp_entity.has_tag?(GameTag::ENTITY_ID)
@@ -260,19 +263,19 @@ class LogObserver
         end
 
       elsif (match = /FULL_ENTITY - Creating ID=(\d+) CardID=(\w*)/.match(line))
-        id      = match[1].to_i
+        id = match[1].to_i
         card_id = match[2]
 
         unless @entities.has_key? id
-          entity         = Entity.new(id)
+          entity = Entity.new(id)
           entity.card_id = card_id
-          @entities[id]  = entity
+          @entities[id] = entity
         end
-        @current_entity             = id
+        @current_entity = id
         @current_entity_has_card_id = !(card_id.nil? or card_id.empty?)
 
       elsif (match = /SHOW_ENTITY - Updating Entity=(.+) CardID=(\w*)/.match(line))
-        entity  = match[1]
+        entity = match[1]
         card_id = match[2]
 
         entity_id = -1
@@ -284,37 +287,38 @@ class LogObserver
 
         unless entity_id.nil? or entity_id == -1
           unless @entities.has_key? entity_id
-            entity               = Entity.new(entity_id)
+            entity = Entity.new(entity_id)
             @entities[entity_id] = entity
           end
           @entities[entity_id].card_id = card_id
-          @current_entity              = entity_id
+          @current_entity = entity_id
         end
 
       elsif (match = /tag=(\w+) value=(\w+)/.match(line)) and !line.include? 'HIDE_ENTITY'
-        tag   = match[1]
+        tag = match[1]
         value = match[2]
 
         tag_change(tag, @current_entity, value)
 
-      elsif line.include? 'Begin Spectating'
+      elsif line.include? 'Begin Spectating' or line.include? 'Start Spectator'
+        @game_mode = :spectator
         @spectating = true
 
       elsif line.include? 'End Spectator'
-        @game_mode  = :spectator
+        @game_mode = :spectator
         @spectating = true
         #game_end
 
       elsif (match = /.*ACTION_START.*id=(\w*).*cardId=(\w*).*SubType=POWER.*Target=(.+)/i.match(line))
-        id       = match[1]
+        id = match[1]
         local_id = match[2]
-        target   = match[3]
-        #Log.verbose "ACTION START id : '#{id}', local_id : '#{local_id}', target : '#{target}', line : #{line}"
-        player   = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @player_id }.values.first
+        target = match[3]
+
+        player = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @player_id }.values.first
         opponent = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @opponent_id }.values.first
 
         if local_id.nil? or local_id.empty? and id
-          entity   = @entities[id.to_i]
+          entity = @entities[id.to_i]
           local_id = entity.card_id
         end
 
@@ -362,7 +366,7 @@ class LogObserver
 
     elsif line =~ /^\[Asset\]/
       if @awaiting_ranked_detection
-        @last_asset_unload         = NSDate.new.timeIntervalSince1970
+        @last_asset_unload = NSDate.new.timeIntervalSince1970
         @awaiting_ranked_detection = false
       end
 
@@ -372,7 +376,19 @@ class LogObserver
 
       elsif line.include? 'rank_window'
         @found_ranked = true
-        @game_mode    = :ranked
+        @game_mode = :ranked
+        Game.instance.game_mode(@game_mode)
+
+      elsif (match = /unloading name=(\w+_\w+) family=CardPrefab persistent=False/.match(line))
+        card_id = match[1]
+        #if @game_mode == :arena
+        #  Log.verbose "possible arena card draft : #{card_id} ?"
+        #else
+        #  Log.verbose "possible constructed card draft : #{card_id} ?"
+        #end
+
+      elsif line =~ /unloading name=Tavern_Brawl/
+        @game_mode = :brawl
         Game.instance.game_mode(@game_mode)
       end
 
@@ -395,18 +411,14 @@ class LogObserver
         Log.debug "#{victories} / 3 -> 10 gold"
       end
 
-      if @game_mode == :arena
-        match = /.*somehow the card def for (\w+_\w+) was already in the cache\.\.\./.match(line)
-        if match
-          card_id = match[1]
-          Log.verbose "possible arena card draft : #{card_id} ?"
-        end
+      if (match = /.*somehow the card def for (\w+_\w+) was already in the cache\.\.\./.match(line))
+        card_id = match[1]
+        #if @game_mode == :arena
+        #  Log.verbose "possible arena card draft : #{card_id} ?"
+        #else
+        #  Log.verbose "possible constructed card draft : #{card_id} ?"
+        #end
 
-        match = /.*unloading name=(\w+_\w+) family=CardPrefab persistent=False/.match(line)
-        if match
-          card_id = match[1]
-          Log.verbose "possible arena card draft : #{card_id} ?"
-        end
       end
 
     elsif line =~ /^\[Zone\]/
@@ -414,7 +426,7 @@ class LogObserver
       if (match = /ProcessChanges.*TRANSITIONING card \[name=(.*).*zone=PLAY.*cardId=(.*).*player=(\d)\] to (.*) \(Hero\)/i.match(line))
 
         card_id = match[2].strip
-        to      = match[4]
+        to = match[4]
 
         if to =~ /FRIENDLY PLAY/
           Game.instance.player_hero(card_id)
@@ -461,14 +473,14 @@ class LogObserver
         player_1.is_player = (value == 1) if player_1
         player_2.is_player = (value != 1) if player_2
 
-        @player_id   = value
+        @player_id = value
         @opponent_id = value == 1 ? 2 : 1
 
       else
         player_1.is_player = (value != 1) if player_1
         player_2.is_player = (value == 1) if player_2
 
-        @player_id   = value == 1 ? 2 : 1
+        @player_id = value == 1 ? 2 : 1
         @opponent_id = value
       end
 
@@ -477,7 +489,7 @@ class LogObserver
     end
 
     controller = @entities[id].tag(GameTag::CONTROLLER).to_i
-    card_id    = @entities[id].card_id
+    card_id = @entities[id].card_id
 
     if tag == GameTag::ZONE
       if (value == Zone::HAND || (value == Zone::PLAY) && is_mulligan_done) && @wait_controller.nil?
@@ -486,7 +498,7 @@ class LogObserver
         end
         if controller == 0
           @entities[id].set_tag(GameTag::ZONE, prev_zone)
-          @wait_controller = { :tag => tag, :id => id, :value => value }
+          @wait_controller = { tag: tag, id: id, value: value }
           return
         end
       end
@@ -595,7 +607,7 @@ class LogObserver
                 Game.instance.player_get(card_id, turn_number)
                 if @entities[id].has_tag?(GameTag::LINKEDCARD)
                   linked_card = @entities[id].tag(GameTag::LINKEDCARD)
-                  to_remove   = @entities[linked_card]
+                  to_remove = @entities[linked_card]
                   if to_remove and to_remove.is_in_zone?(Zone::HAND)
                     Game.instance.player_hand_discard(to_remove.card_id, turn_number)
                   end
@@ -633,7 +645,7 @@ class LogObserver
       player = @entities[id].is_player ? :player : :opponent
       Game.instance.turn_start(player, turn_number)
 
-      @player_used_hero_power   = false
+      @player_used_hero_power = false
       @opponent_used_hero_power = false
 
     elsif tag == GameTag::NUM_ATTACKS_THIS_TURN and value > 0
@@ -679,7 +691,7 @@ class LogObserver
   end
 
   def is_mulligan_done
-    player   = @entities.select { |_, val| val.is_player }.values.first
+    player = @entities.select { |_, val| val.is_player }.values.first
     opponent = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and !val.is_player }.values.first
 
     return false if player.nil? or opponent.nil?
@@ -689,15 +701,15 @@ class LogObserver
 
   # parse an entity
   def parse_entity(entity)
-    id       = name = zone = zone_pos = card_id = player = type = nil
+    id = name = zone = zone_pos = card_id = player = type = nil
 
-    id       = /id=(\d+)/.match(entity)[1].to_i if entity =~ /id=(\d+)/
-    name     = /name=(\w+)/.match(entity)[1] if entity =~ /name=(\w+)/
-    zone     = /zone=(\w+)/.match(entity)[1] if entity =~ /zone=(\w+)/
+    id = /id=(\d+)/.match(entity)[1].to_i if entity =~ /id=(\d+)/
+    name = /name=(\w+)/.match(entity)[1] if entity =~ /name=(\w+)/
+    zone = /zone=(\w+)/.match(entity)[1] if entity =~ /zone=(\w+)/
     zone_pos = /zonePos=(\d+)/.match(entity)[1] if entity =~ /zonePos=(\d+)/
-    card_id  = /cardId=(\w+)/.match(entity)[1] if entity =~ /cardId=(\w+)/
-    player   = /player=(\d+)/.match(entity)[1] if entity =~ /player=(\d+)/
-    type     = /type=(\w+)/.match(entity)[1] if entity =~ /type=(\w+)/
+    card_id = /cardId=(\w+)/.match(entity)[1] if entity =~ /cardId=(\w+)/
+    player = /player=(\d+)/.match(entity)[1] if entity =~ /player=(\d+)/
+    type = /type=(\w+)/.match(entity)[1] if entity =~ /type=(\w+)/
 
     return id, name, zone, zone_pos, card_id, player, type
   end

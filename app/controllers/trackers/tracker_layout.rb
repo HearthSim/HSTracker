@@ -1,13 +1,13 @@
 class TrackerLayout < MK::WindowLayout
 
-  KFrameWidth  = 220.0
+  KFrameWidth = 220.0
   KFrameHeight = 700.0
-  KRowHeight   = 37.0
+  KRowHeight = 37.0
 
-  KMediumRowHeight  = 29.0
+  KMediumRowHeight = 29.0
   KMediumFrameWidth = KFrameWidth / KRowHeight * KMediumRowHeight
 
-  KSmallRowHeight  = 23.0
+  KSmallRowHeight = 23.0
   KSmallFrameWidth = KFrameWidth / KRowHeight * KSmallRowHeight
 
   # get the window frame
@@ -27,7 +27,7 @@ class TrackerLayout < MK::WindowLayout
 
   def layout
     wframe = window_frame
-    frame  = NSUserDefaults.standardUserDefaults.objectForKey window_name
+    frame = NSUserDefaults.standardUserDefaults.objectForKey window_name
     if frame
       wframe = NSRectFromString(frame)
     end
@@ -43,6 +43,10 @@ class TrackerLayout < MK::WindowLayout
         width = KMediumFrameWidth
       else
         width = KFrameWidth
+    end
+
+    unless OSXHelper.gt_10_10?
+      width += 15
     end
 
     content_min_size [width, 200]
@@ -66,13 +70,16 @@ class TrackerLayout < MK::WindowLayout
     end
 
     add NSScrollView, :table_scroll_view do
-      drawsBackground false
       document_view add NSTableView, :table_view
     end
   end
 
   def table_scroll_view_style
     background_color :clear.nscolor
+    drawsBackground false
+    unless OSXHelper.gt_10_10?
+      has_vertical_scroller true
+    end
 
     constraints do
       height.equals(:superview)

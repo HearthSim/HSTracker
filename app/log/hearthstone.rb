@@ -92,7 +92,7 @@ class Hearthstone
   def initialize
     super.tap do
       @update_list = []
-      @listeners   = {}
+      @listeners = {}
       setup
       listener
     end
@@ -115,19 +115,31 @@ class Hearthstone
 
   # write the log.config file is not exists
   def setup
-    unless Hearthstone.config_path.file_exists?
-      content = File.read(Hearthstone.new_config_path)
-      dir     = File.dirname(Hearthstone.config_path)
+    content = File.read(Hearthstone.new_config_path)
+    config_changed = false
 
-      NSFileManager.defaultManager.createDirectoryAtPath(dir, withIntermediateDirectories: true, attributes: nil, error: nil)
+    if Hearthstone.config_path.file_exists?
+      current_content = File.read(Hearthstone.config_path)
+      if current_content != content
+        File.open(Hearthstone.config_path, 'w') { |file| file.write(content) }
+        config_changed = true
+      end
+    else
+      dir = File.dirname(Hearthstone.config_path)
+
+      unless Dir.exists?(dir)
+        NSFileManager.defaultManager.createDirectoryAtPath(dir, withIntermediateDirectories: true, attributes: nil, error: nil)
+      end
       File.open(Hearthstone.config_path, 'w') { |file| file.write(content) }
 
-      if is_hearthstone_running?
-        NSAlert.alert('Alert'._,
-                      :buttons     => ['OK'._],
-                      :informative => 'You must restart Hearthstone for logs to be used'._)
+      config_changed = true
+    end
 
-      end
+    if config_changed and is_hearthstone_running?
+      NSAlert.alert('Alert'._,
+                    buttons: ['OK'._],
+                    informative: 'You must restart Hearthstone for logs to be used'._)
+
     end
   end
 

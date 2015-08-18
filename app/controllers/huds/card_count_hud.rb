@@ -1,9 +1,9 @@
 class CardCountHud < Hud
   def initWithPlayer(player)
     init.tap do
-      @layout              = CardCountHudLayout.new
-      @layout.player       = player
-      self.window          = @layout.window
+      @layout = CardCountHudLayout.new
+      @layout.player = player
+      self.window = @layout.window
       self.window.delegate = self
 
       @label = @layout.get(:label)

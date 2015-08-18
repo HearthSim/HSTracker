@@ -3,7 +3,7 @@ class GeneralPreferences < NSViewController
 
   def init
     super.tap do
-      @layout   = GeneralPreferencesLayout.new
+      @layout = GeneralPreferencesLayout.new
       self.view = @layout.view
     end
   end

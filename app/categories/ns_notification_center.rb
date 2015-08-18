@@ -5,8 +5,8 @@ class NSNotificationCenter
 
   def observe(name, object=nil, &block)
     observer = self.addObserverForName(name,
-                                       object:     object,
-                                       queue:      NSOperationQueue.mainQueue,
+                                       object: object,
+                                       queue: NSOperationQueue.mainQueue,
                                        usingBlock: block.respond_to?('weak!') ? block.weak! : block)
     observers << observer
     observer

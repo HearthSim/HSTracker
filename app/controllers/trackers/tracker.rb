@@ -45,16 +45,16 @@ class Tracker < NSWindowController
     case Configuration.card_layout
       when :small
         row_height = TrackerLayout::KSmallRowHeight
-        width      = TrackerLayout::KSmallFrameWidth
+        width = TrackerLayout::KSmallFrameWidth
       when :medium
         row_height = TrackerLayout::KMediumRowHeight
-        width      = TrackerLayout::KMediumFrameWidth
+        width = TrackerLayout::KMediumFrameWidth
       else
         row_height = TrackerLayout::KRowHeight
-        width      = TrackerLayout::KFrameWidth
+        width = TrackerLayout::KFrameWidth
     end
 
-    frame            = self.window.frame
+    frame = self.window.frame
     frame.size.width = width
 
     self.window.setFrame(frame, display: true)
@@ -99,7 +99,7 @@ class Tracker < NSWindowController
   def windowWillClose(_)
     @events.each do |event|
       NSNotificationCenter.defaultCenter.unobserve(event)
-    end
+    end if @events
   end
 
   # card hover
@@ -125,7 +125,7 @@ class Tracker < NSWindowController
   end
 
   def get_point(cell)
-    row  = @table_view.rowForView(cell)
+    row = @table_view.rowForView(cell)
     rect = @table_view.frameOfCellAtColumn(0, row: row)
 
     offset = rect.origin.y - @table_view.enclosingScrollView.documentVisibleRect.origin.y

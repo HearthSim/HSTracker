@@ -2,7 +2,7 @@ class ColorPreferences < NSViewController
 
   def init
     super.tap do
-      @layout   = ColorPreferencesLayout.new
+      @layout = ColorPreferencesLayout.new
       self.view = @layout.view
     end
   end

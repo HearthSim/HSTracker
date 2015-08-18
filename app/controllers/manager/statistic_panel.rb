@@ -4,12 +4,12 @@ class StatisticPanel < NSWindowController
 
   def init
     super.tap do
-      @layout     = StatisticPanelLayout.new
+      @layout = StatisticPanelLayout.new
       self.window = @layout.window
 
       @table_view = @layout.get(:table_view)
 
-      @table_view.delegate   = self
+      @table_view.delegate = self
       @table_view.dataSource = self
 
       @close = @layout.get(:close)
@@ -35,7 +35,7 @@ class StatisticPanel < NSWindowController
     versions.sort { |a, b| b.version <=> a.version }.each do |deck_version|
       # can be nil for old decks
       deck_version_nbr = deck_version.version || 0
-      version          = { 'version' => "v#{deck_version_nbr}" }
+      version = { 'version' => "v#{deck_version_nbr}" }
 
       deck_version.statistics.each do |stat|
         clazz = stat.opponent_class
@@ -44,8 +44,8 @@ class StatisticPanel < NSWindowController
           version[clazz] = { win: 0, total: 0, percent: 0 }
         end
 
-        version[clazz][:win]     += 1 if stat.win.to_bool
-        version[clazz][:total]   += 1
+        version[clazz][:win] += 1 if stat.win.to_bool
+        version[clazz][:total] += 1
 
         win = version[clazz][:win]
         loss = version[clazz][:total] - win
@@ -78,12 +78,12 @@ class StatisticPanel < NSWindowController
     text_field = table_view.makeViewWithIdentifier(column.identifier, owner: self)
 
     unless text_field
-      text_field                 = NSTextField.alloc.initWithFrame([[0, 0], [column.width, 0]])
-      text_field.identifier      = column.identifier
-      text_field.editable        = false
+      text_field = NSTextField.alloc.initWithFrame([[0, 0], [column.width, 0]])
+      text_field.identifier = column.identifier
+      text_field.editable = false
       text_field.drawsBackground = false
-      text_field.bezeled         = false
-      text_field.alignment       = NSCenterTextAlignment
+      text_field.bezeled = false
+      text_field.alignment = NSCenterTextAlignment
     end
 
     text_field.stringValue = value

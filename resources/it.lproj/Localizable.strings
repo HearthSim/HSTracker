@@ -167,3 +167,11 @@
 "Remember last played deck" = "Ricorda l'ultimo mazzo giocato";
 "Default" = "Default";
 "Skin" = "Skin";
+
+"Show timers" = "Show timers";
+"The deck has been saved on HearthStats" = "The deck has been saved on HearthStats";
+"There were an error while saving this deck on HearthStats" = "There were an error while saving this deck on HearthStats";
+"Save version %@" = "Save version %@";
+"Show opponent tracker" = "Show opponent tracker";
+"Rebuild card database" = "Rebuild card database";
+"HSTracker will rebuild the card database and restart. It can take a while." = "HSTracker will rebuild the card database and restart. It can take a while.";

@@ -11,8 +11,8 @@ class AppDelegate
 
     return true if RUBYMOTION_ENV == 'test'
 
-    file_logger                                        = DDFileLogger.new
-    file_logger.rollingFrequency                       = 60 * 60 * 12
+    file_logger = DDFileLogger.new
+    file_logger.rollingFrequency = 60 * 60 * 12
     file_logger.logFileManager.maximumNumberOfLogFiles = 7
     Log.addLogger file_logger
 
@@ -24,8 +24,9 @@ class AppDelegate
 
     # load cards into database if needed
     DatabaseGenerator.init_database(@splash) do
-      @splash.window.orderOut(self)
-      @splash = nil
+
+      # upgrade decks to have versions number
+      Deck.upgrade_versions
 
       NSApp.mainMenu = MainMenu.new.menu
 
@@ -34,11 +35,19 @@ class AppDelegate
       @player.window.orderFrontRegardless
 
       @opponent = OpponentTracker.new
-      @opponent.showWindow(self)
-      @opponent.window.orderFrontRegardless
+      if Configuration.show_opponent_tracker
+        @opponent.showWindow(self)
+        @opponent.window.orderFrontRegardless
+      end
 
-      Game.instance.player_tracker   = @player
+      @timer_hud = TimerHud.new
+      if Configuration.show_timer
+        @timer_hud.showWindow(self)
+      end
+
+      Game.instance.player_tracker = @player
       Game.instance.opponent_tracker = @opponent
+      Game.instance.timer_hud = @timer_hud
 
       if Configuration.remember_last_deck
         last_deck_played = Configuration.last_deck_played
@@ -61,9 +70,11 @@ class AppDelegate
         if is_active
           @player.set_level NSScreenSaverWindowLevel
           @opponent.set_level NSScreenSaverWindowLevel
+          @timer_hud.set_level NSScreenSaverWindowLevel
         else
           @player.set_level NSNormalWindowLevel
           @opponent.set_level NSNormalWindowLevel
+          @timer_hud.set_level NSNormalWindowLevel
         end
       end
 
@@ -77,12 +88,15 @@ class AppDelegate
         Hearthstone.instance.start
       end
 
+      @splash.window.orderOut(self)
+      @splash = nil
+
       VersionChecker.check
 
       NSNotificationCenter.defaultCenter.observe 'AppleLanguages_changed' do |_|
         response = NSAlert.alert('Language change'._,
-                                 :buttons     => ['OK'._, 'Cancel'._],
-                                 :informative => 'You must restart HSTracker for the language change to take effect'._)
+                                 buttons: ['OK'._, 'Cancel'._],
+                                 informative: 'You must restart HSTracker for the language change to take effect'._)
         if response == NSAlertFirstButtonReturn
           @app_will_restart = true
 
@@ -110,13 +124,13 @@ class AppDelegate
   def preferences
     @preferences ||= begin
       MASPreferencesWindowController.alloc.initWithViewControllers(
-          [
-              GeneralPreferences.new,
-              InterfacePreferences.new,
-              ColorPreferences.new,
-              SyncPreferences.new
-          ],
-          title: 'Preferences'._)
+        [
+          GeneralPreferences.new,
+          InterfacePreferences.new,
+          ColorPreferences.new,
+          SyncPreferences.new
+        ],
+        title: 'Preferences'._)
     end
   end
 
@@ -128,7 +142,7 @@ class AppDelegate
   # deck manager
   def deck_manager
     @deck_manager ||= begin
-      manager                 = DeckManager.new
+      manager = DeckManager.new
       manager.window.delegate = self
       manager
     end
@@ -139,12 +153,12 @@ class AppDelegate
     @player.set_level NSNormalWindowLevel
     @opponent.set_level NSNormalWindowLevel
 
+    deck_manager.showWindow(nil)
+    deck_manager.player_view = @player
+
     if data.is_a? Hash
       deck_manager.import(data)
     end
-
-    deck_manager.showWindow(nil)
-    deck_manager.player_view = @player
 
     close_window_menu true
   end
@@ -201,15 +215,15 @@ class AppDelegate
     deck_menu.submenu.addItem item
     deck_menu.submenu.addItem NSMenuItem.separatorItem
 
-    Deck.where(:is_active => true).or(:is_active).eq(nil).sort_by(:name, :case_insensitive => true).each do |deck|
+    Deck.where(:is_active => true).sort_by(:name, :case_insensitive => true).each do |deck|
       item = NSMenuItem.alloc.initWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
       deck_menu.submenu.addItem item
     end
   end
 
   def close_window_menu(enabled)
-    window_menu          = NSApp.mainMenu.itemWithTitle 'Window'._
-    close_window         = window_menu.submenu.itemWithTitle 'Close'._
+    window_menu = NSApp.mainMenu.itemWithTitle 'Window'._
+    close_window = window_menu.submenu.itemWithTitle 'Close'._
     close_window.enabled = enabled
   end
 
@@ -223,7 +237,7 @@ class AppDelegate
   def applicationWillTerminate(_)
     if @app_will_restart
       app_path = NSBundle.mainBundle.bundlePath
-      task     = NSTask.new
+      task = NSTask.new
       task.setLaunchPath '/usr/bin/open'
       task.setArguments [app_path]
       task.launch
@@ -251,11 +265,11 @@ class AppDelegate
   def ask_download_images(_)
     current_locale = Configuration.hearthstone_locale
 
-    popup       = NSPopUpButton.new
+    popup = NSPopUpButton.new
     popup.frame = [[0, 0], [299, 24]]
 
     GeneralPreferencesLayout::KHearthstoneLocales.each do |hs_locale, osx_locale|
-      locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
+      locale = NSLocale.alloc.initWithLocaleIdentifier osx_locale
       display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
 
       item = NSMenuItem.alloc.initWithTitle(display, action: nil, keyEquivalent: '')
@@ -271,14 +285,14 @@ class AppDelegate
     end
 
     rep = NSAlert.alert('Images'._,
-                        :buttons     => ['OK'._],
-                        :informative => 'Cards images are not found. Please confirm the Hearthstone language then click OK to download them.'._,
-                        :view        => popup)
+                        buttons: ['OK'._],
+                        informative: 'Cards images are not found. Please confirm the Hearthstone language then click OK to download them.'._,
+                        view: popup)
     if rep
       choosen = popup.selectedItem.title
 
       GeneralPreferencesLayout::KHearthstoneLocales.each do |hs_locale, osx_locale|
-        locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
+        locale = NSLocale.alloc.initWithLocaleIdentifier osx_locale
         display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
 
         if choosen == display
@@ -302,12 +316,12 @@ class AppDelegate
   end
 
   def save_decks(_)
-    panel                         = NSOpenPanel.savePanel
-    panel.canChooseFiles          = false
-    panel.canChooseDirectories    = true
+    panel = NSOpenPanel.savePanel
+    panel.canChooseFiles = false
+    panel.canChooseDirectories = true
     panel.allowsMultipleSelection = false
-    panel.canCreateDirectories    = true
-    panel.prompt                  = 'Save'._
+    panel.canCreateDirectories = true
+    panel.prompt = 'Save'._
 
     if panel.runModal == NSFileHandlingPanelOKButton
       Exporter.export_to_files(panel.directoryURL.path)
@@ -316,8 +330,8 @@ class AppDelegate
 
   def reset_all_data(_)
     response = NSAlert.alert('Reset all data'._,
-                             :buttons     => ['OK'._, 'Cancel'._],
-                             :informative => 'Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible.'._
+                             buttons: ['OK'._, 'Cancel'._],
+                             informative: 'Are you sure you want to delete all data ? This will delete your decks and statistics. This operation is irreversible.'._
     )
 
     if response == NSAlertFirstButtonReturn
@@ -330,9 +344,25 @@ class AppDelegate
 
       reload_deck_menu
       NSAlert.alert('Reset all data'._,
-                    :buttons     => ['OK'._],
-                    :informative => 'All data have been deleted'._
+                    buttons: ['OK'._],
+                    informative: 'All data have been deleted'._
       )
+    end
+  end
+
+  def rebuild_cards(_)
+    Card.destroy_all
+    Mechanic.destroy_all
+    cdq.save
+
+    response = NSAlert.alert('Rebuild card database'._,
+                             buttons: ['OK'._],
+                             informative: 'HSTracker will rebuild the card database and restart. It can take a while.'._)
+    if response == NSAlertFirstButtonReturn
+      @app_will_restart = true
+
+      NSApplication.sharedApplication.terminate(nil)
+      exit(0)
     end
   end
 

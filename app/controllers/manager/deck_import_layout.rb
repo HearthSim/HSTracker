@@ -1,7 +1,7 @@
 class DeckImportLayout < MK::WindowLayout
 
   def layout
-    frame_width  = 390
+    frame_width = 390
     frame_height = 200
 
     frame [[0, 0], [frame_width, frame_height]]

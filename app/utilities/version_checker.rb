@@ -10,7 +10,7 @@ class VersionChecker
       end
 
       error = Pointer.new(:id)
-      doc   = GDataXMLDocument.alloc.initWithHTMLString(result, error: error)
+      doc = GDataXMLDocument.alloc.initWithHTMLString(result, error: error)
       if error[0]
         Log.error error[0].description
         next
@@ -31,8 +31,8 @@ class VersionChecker
               version_number = version.firstNodeForXPath("div[contains(@class, 'release-meta')]/ul/li/a/span[contains(@class, 'css-truncate-target')]", error: error)
               if version_number
                 release_version = version_number.stringValue
-                dict            = NSBundle.mainBundle.infoDictionary
-                local_version   = "#{dict['CFBundleShortVersionString']}.#{dict['CFBundleVersion']}"
+                dict = NSBundle.mainBundle.infoDictionary
+                local_version = "#{dict['CFBundleShortVersionString']}.#{dict['CFBundleVersion']}"
 
                 Motion::Log.verbose "last release is #{release_version} -> local is #{local_version}"
 
@@ -45,13 +45,13 @@ class VersionChecker
                                                          frameName: nil,
                                                          groupName: nil
 
-                  text = "<h2>#{release_version}</h2>#{changelogs.XMLString}#{changelogs.XMLString}"
+                  text = "<h2>#{release_version}</h2>#{changelogs.XMLString}"
                   web_view.mainFrame.loadHTMLString text, baseURL: nil
 
                   response = NSAlert.alert('Update'._,
-                                           :buttons     => ['OK'._, 'Cancel'._],
-                                           :informative => 'A new version of HSTracker is available, click OK to download it.'._,
-                                           :view        => web_view
+                                           buttons: ['OK'._, 'Cancel'._],
+                                           informative: 'A new version of HSTracker is available, click OK to download it.'._,
+                                           view: web_view
                   )
 
                   if response == NSAlertFirstButtonReturn

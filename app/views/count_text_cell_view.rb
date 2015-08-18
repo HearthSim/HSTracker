@@ -19,18 +19,18 @@ class CountTextCellView < NSTableCellView
           ratio = 1.0
       end
 
-      font_size       = (14.0 / ratio).round
-      style           = NSMutableParagraphStyle.new
+      font_size = (14.0 / ratio).round
+      style = NSMutableParagraphStyle.new
       style.alignment = NSCenterTextAlignment
-      name            = text.attrd.paragraph_style(style)
-                            .font('Belwe Bd BT'.nsfont(font_size))
-                            .stroke_width(-1.5)
-                            .stroke_color(Configuration.count_color_border)
-                            .foreground_color(Configuration.count_color)
+      name = text.attrd.paragraph_style(style)
+               .font('Belwe Bd BT'.nsfont(font_size))
+               .stroke_width(-1.5)
+               .stroke_color(Configuration.count_color_border)
+               .foreground_color(Configuration.count_color)
 
-      x      = 0.0
-      y      = -3.0 / ratio
-      width  = 220.0 / ratio
+      x = 0.0
+      y = -3.0 / ratio
+      width = 220.0 / ratio
       height = 50.0 / ratio
       name.drawInRect [[x, y], [width, height]],
                       options: NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesDeviceMetrics

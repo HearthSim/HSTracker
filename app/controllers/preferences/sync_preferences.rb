@@ -2,7 +2,7 @@ class SyncPreferences < NSViewController
 
   def init
     super.tap do
-      @layout   = SyncPreferencesLayout.new
+      @layout = SyncPreferencesLayout.new
       self.view = @layout.view
 
       @layout.on :hearthstats_login do |status|
@@ -30,7 +30,7 @@ class SyncPreferences < NSViewController
 
   def hearthstats_login(status)
     if status
-      @config                 = HearthStatsLogin.new
+      @config = HearthStatsLogin.new
       @config.window.delegate = self
       @config.showWindow(nil)
     else

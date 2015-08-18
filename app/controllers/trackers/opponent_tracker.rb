@@ -16,17 +16,17 @@ class OpponentTracker < Tracker
 
   def init
     super.tap do
-      @layout              = OpponentTrackerLayout.new
-      self.window          = @layout.window
+      @layout = OpponentTrackerLayout.new
+      self.window = @layout.window
       self.window.delegate = self
 
-      @cards      = []
+      @cards = []
       @count_text = ''
       @game_ended = false
 
       @table_view = @layout.get(:table_view)
       @table_view.setHeaderView nil
-      @table_view.delegate   = self
+      @table_view.delegate = self
       @table_view.dataSource = self
 
       @table_view.setAction 'clicked:'
@@ -36,17 +36,30 @@ class OpponentTracker < Tracker
         @count_window = CardCountHud.alloc.initWithPlayer(:opponent)
         @count_window.showWindow(self)
       end
+
+      NSNotificationCenter.defaultCenter.observe('show_opponent_tracker') do |_|
+        show_hide
+      end
+    end
+  end
+
+  def show_hide
+    if Configuration.show_opponent_tracker
+      self.window.orderFront(self)
+    else
+      self.window.orderOut(self)
     end
   end
 
   def clicked(_)
-    return if !@game_ended or @table_view.clickedRow != 0
+    return unless @game_ended and @table_view.clickedRow.zero?
 
+    Log.verbose "Want to save a deck for #{@hero.player_class}"
     NSNotificationCenter.defaultCenter.post('open_deck_manager',
                                             nil,
                                             {
-                                                :cards => @cards,
-                                                :class => @hero.player_class
+                                              cards: @cards,
+                                              class: @hero.player_class
                                             })
   end
 
@@ -71,7 +84,7 @@ class OpponentTracker < Tracker
 
     if @game_ended
       if row == 0
-        cell          = ButtonCellView.new
+        cell = ButtonCellView.new
         cell.delegate = self
         cell.setNeedsDisplay true
       end
@@ -85,16 +98,16 @@ class OpponentTracker < Tracker
 
       if card
         @cells ||= {}
-        cell   = @cells[card.card_id] if @cells[card.card_id]
+        cell = @cells[card.card_id] if @cells[card.card_id]
 
-        cell          ||= CardCellView.new
-        cell.card     = card
-        cell.side     = :opponent
+        cell ||= CardCellView.new
+        cell.card = card
+        cell.side = :opponent
         cell.delegate = self
 
         @cells[card.card_id] = cell
       else
-        cell      = CountTextCellView.new
+        cell = CountTextCellView.new
         cell.text = @count_text
       end
     end
@@ -131,7 +144,7 @@ class OpponentTracker < Tracker
       self.window.title = 'HSTracker'
     end
 
-    self.has_coin   = false
+    self.has_coin = false
     self.hand_count = 0
     self.deck_count = 30
     display_count
@@ -188,8 +201,8 @@ class OpponentTracker < Tracker
     else
       real_card = Card.by_id(card_id)
       if real_card
-        card            = PlayCard.from_card(real_card)
-        card.count      = 1
+        card = PlayCard.from_card(real_card)
+        card.count = 1
         card.hand_count = 0
         @cards << card
         @cards.sort_cards!
@@ -215,9 +228,9 @@ class OpponentTracker < Tracker
       else
         real_card = Card.by_id(card_id)
         if real_card
-          card             = PlayCard.from_card(real_card)
-          card.count       = 1
-          card.hand_count  = 0
+          card = PlayCard.from_card(real_card)
+          card.count = 1
+          card.hand_count = 0
           card.has_changed = true
           @cards << card
           @cards.sort_cards!
@@ -240,7 +253,7 @@ class OpponentTracker < Tracker
 
   def play_to_hand(card_id, turn, id)
     self.hand_count -= 1
-    card            = @cards.select { |c| c.card_id == card_id }.first
+    card = @cards.select { |c| c.card_id == card_id }.first
     if card
       card.count -= 1
     end
@@ -265,9 +278,9 @@ class OpponentTracker < Tracker
     else
       real_card = Card.by_id(card_id)
       if real_card
-        card             = PlayCard.from_card(real_card)
-        card.count       = 1
-        card.hand_count  = 0
+        card = PlayCard.from_card(real_card)
+        card.count = 1
+        card.hand_count = 0
         card.has_changed = true
         @cards << card
         @cards.sort_cards!

@@ -1,85 +1,45 @@
 class Web
-  # use AFHTTPRequestOperationManager to support osx 10.8
+
   def self.get(url, &block)
-    if defined?(NSURLSession) == 'constant' and NSURLSession.class == Class
-      manager = AFHTTPSessionManager.manager
-    else
-      manager = AFHTTPRequestOperationManager.manager
-    end
-
-    manager.responseSerializer                        = AFCompoundResponseSerializer.serializer
-    manager.responseSerializer.acceptableContentTypes = ['text/html']
-    manager.GET(url,
-                parameters: nil,
-                success:    -> (_, response) {
-                  string = response.nsstring
-
-                  block.call(string) if block
-                },
-                failure:    -> (_, error) {
-                  Motion::Log.error(error.localizedDescription)
-                  block.call(nil) if block
-                })
+    NSURLConnection.sendAsynchronousRequest(url.nsurl.nsurlrequest,
+                                            queue: NSOperationQueue.new,
+                                            completionHandler: -> (_, data, error) {
+                                              if data and data.is_a?(NSData) and data.length > 0
+                                                response = data.nsstring
+                                                Dispatch::Queue.main.async do
+                                                  block.call(response) if block
+                                                end
+                                              elsif error
+                                                Motion::Log.error(error.localizedDescription)
+                                                Dispatch::Queue.main.async do
+                                                  block.call(nil) if block
+                                                end
+                                              end
+                                            })
   end
 
   def self.json_post(url, data, &block)
-    log('post', url, data)
-    json_manager.POST(url,
-                      parameters: data,
-                      success:    -> (_, response) {
-                        block.call(response, nil) if block
-                      },
-                      failure:    -> (_, error) {
-                        Motion::Log.error(error.localizedDescription)
-                        block.call(nil, error) if block
-                      })
+    json_call(:post, url, data, &block)
   end
 
   def self.json_put(url, data, &block)
-    log('put', url, data)
-    json_manager.PUT(url,
-                     parameters: data,
-                     success:    -> (_, response) {
-                       block.call(response, nil) if block
-                     },
-                     failure:    -> (_, error) {
-                       Motion::Log.error(error.localizedDescription)
-                       block.call(nil, error) if block
-                     })
+    json_call(:put, url, data, &block)
   end
 
   def self.json_delete(url, data, &block)
-    log('delete', url, data)
-    json_manager.DELETE(url,
-                        parameters: data,
-                        success:    -> (_, response) {
-                          block.call(response, nil) if block
-                        },
-                        failure:    -> (_, error) {
-                          Motion::Log.error(error.localizedDescription)
-                          block.call(nil, error) if block
-                        })
+    json_call(:delete, url, data, &block)
   end
 
   def self.json_get(url, data, &block)
-    log('get', url, data)
-    json_manager.GET(url,
-                     parameters: data,
-                     success:    -> (_, response) {
-                       block.call(response, nil) if block
-                     },
-                     failure:    -> (_, error) {
-                       Motion::Log.error(error.localizedDescription)
-                       block.call(nil, error) if block
-                     })
+    json_call(:get, url, data, &block)
   end
 
   def self.download(cards_id, locale, path, options={}, &block)
     unless File.exists?(path)
       NSFileManager.defaultManager.createDirectoryAtPath(path,
                                                          withIntermediateDirectories: true,
-                                                         attributes:                  nil,
-                                                         error:                       nil)
+                                                         attributes: nil,
+                                                         error: nil)
     end
     _download(cards_id, locale, path, options, block)
   end
@@ -91,9 +51,9 @@ class Web
       return
     end
 
-    card    = cards_id.pop
+    card = cards_id.pop
     card_id = card[:id]
-    name    = card[:name]
+    name = card[:name]
 
     increment = options.fetch(:increment, nil)
 
@@ -104,31 +64,55 @@ class Web
       return
     end
 
-    request   = "http://bmichotte.github.io/HSTracker/cards/#{locale}/#{card_id}.png".nsurl.nsurlrequest
-    operation = AFHTTPRequestOperation.alloc.initWithRequest(request)
-    operation.setOutputStream(NSOutputStream.outputStreamToFileAtPath(full_path, append: false))
-    operation.setCompletionBlockWithSuccess(-> (_, _) {
-      increment.call(name)
-      _download(cards_id, locale, path, options, block)
-    }, failure: -> (_, error) {
-       Motion::Log.error error.localizedDescription
-       increment.call(name)
-       _download(cards_id, locale, path, options, block)
-     })
+    request = "http://bmichotte.github.io/HSTracker/cards/#{locale}/#{card_id}.png".nsurl.nsurlrequest
+    Dispatch::Queue.concurrent.async do
+      error = Pointer.new(:object)
+      response = Pointer.new(:object)
+      data = NSURLConnection.sendSynchronousRequest(request,
+                                                    returningResponse: response,
+                                                    error: error)
+      if data and data.length > 0
+        data.write_to(full_path)
+      end
 
-    operation.start
-  end
-
-  def self.json_manager
-    if defined?(NSURLSession) == 'constant' and NSURLSession.class == Class
-      manager = AFHTTPSessionManager.manager
-    else
-      manager = AFHTTPRequestOperationManager.manager
+      Dispatch::Queue.main.async do
+        increment.call(name)
+        _download(cards_id, locale, path, options, block)
+      end
     end
 
-    manager.requestSerializer = AFJSONRequestSerializer.serializer
+  end
 
-    manager
+  def self.json_call(verb, url, parameters, &block)
+    unless verb == :post
+      raise "Web.#{verb} is not yet implemented !!!"
+    end
+
+    log(verb, url, parameters)
+    parameters = JSON.generate(parameters)
+
+    request = url.nsurl.nsmutableurlrequest
+    request.HTTPMethod = verb.to_s.upcase
+    request.setValue('application/json', forHTTPHeaderField: 'Accept')
+    request.setValue('application/json', forHTTPHeaderField: 'Content-Type')
+    request.setValue(parameters.length.to_s, forHTTPHeaderField: 'Content-Length')
+    request.HTTPBody = parameters
+
+    NSURLConnection.sendAsynchronousRequest(request,
+                                            queue: NSOperationQueue.new,
+                                            completionHandler: -> (_, data, error) {
+                                              if data and data.is_a?(NSData) and data.length > 0
+                                                response = JSON.parse(data)
+                                                Dispatch::Queue.main.async do
+                                                  block.call(response) if block
+                                                end
+                                              elsif error
+                                                Motion::Log.error(error.localizedDescription)
+                                                Dispatch::Queue.main.async do
+                                                  block.call(nil) if block
+                                                end
+                                              end
+                                            })
   end
 
   def self.log(verb, url, data)

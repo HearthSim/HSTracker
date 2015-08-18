@@ -21,81 +21,81 @@ class GeneralPreferencesLayout < PreferencesLayout
 
   def options
     {
-        :app_language       => {
-            :label   => 'HSTracker language'._,
-            :type    => NSPopUpButton,
-            :init    => -> (elem) {
-              langs          = NSUserDefaults.standardUserDefaults.objectForKey('AppleLanguages')
-              current_locale = langs[0]
+      app_language: {
+        label: 'HSTracker language'._,
+        type: NSPopUpButton,
+        init: -> (elem) {
+          langs = NSUserDefaults.standardUserDefaults.objectForKey('AppleLanguages')
+          current_locale = langs[0]
 
-              KHSTrackerLocales.each do |loc|
-                locale  = NSLocale.alloc.initWithLocaleIdentifier loc
-                display = locale.displayNameForKey(NSLocaleIdentifier, value: loc)
+          KHSTrackerLocales.each do |loc|
+            locale = NSLocale.alloc.initWithLocaleIdentifier loc
+            display = locale.displayNameForKey(NSLocaleIdentifier, value: loc)
 
-                item = NSMenuItem.alloc.initWithTitle(display.capitalize, action: nil, keyEquivalent: '')
-                elem.menu.addItem item
+            item = NSMenuItem.alloc.initWithTitle(display.capitalize, action: nil, keyEquivalent: '')
+            elem.menu.addItem item
 
-                if current_locale == loc
-                  elem.selectItem item
-                end
-              end
+            if current_locale == loc
+              elem.selectItem item
+            end
+          end
 
-              if current_locale.nil?
-                elem.selectItemAtIndex -1
-              end
-            },
-            :changed => -> (elem) {
-              choosen = elem.selectedItem.title
-
-              KHSTrackerLocales.each do |loc|
-                locale  = NSLocale.alloc.initWithLocaleIdentifier loc
-                display = locale.displayNameForKey(NSLocaleIdentifier, value: loc)
-
-                if choosen == display.capitalize
-                  NSUserDefaults.standardUserDefaults.setObject([loc], forKey: 'AppleLanguages')
-                  NSNotificationCenter.defaultCenter.post('AppleLanguages_changed')
-                end
-              end
-            }
+          if current_locale.nil?
+            elem.selectItemAtIndex -1
+          end
         },
-        :hearthstone_locale => {
-            :label   => 'Game language'._,
-            :type    => NSPopUpButton,
-            :init    => -> (elem) {
-              current_locale = Configuration.hearthstone_locale
+        changed: -> (elem) {
+          choosen = elem.selectedItem.title
 
-              KHearthstoneLocales.each do |hs_locale, osx_locale|
-                locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
-                display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
+          KHSTrackerLocales.each do |loc|
+            locale = NSLocale.alloc.initWithLocaleIdentifier loc
+            display = locale.displayNameForKey(NSLocaleIdentifier, value: loc)
 
-                item = NSMenuItem.alloc.initWithTitle(display.capitalize, action: nil, keyEquivalent: '')
-                elem.menu.addItem item
+            if choosen == display.capitalize
+              NSUserDefaults.standardUserDefaults.setObject([loc], forKey: 'AppleLanguages')
+              NSNotificationCenter.defaultCenter.post('AppleLanguages_changed')
+            end
+          end
+        }
+      },
+      hearthstone_locale: {
+        label: 'Game language'._,
+        type: NSPopUpButton,
+        init: -> (elem) {
+          current_locale = Configuration.hearthstone_locale
 
-                if current_locale == hs_locale
-                  elem.selectItem item
-                end
-              end
+          KHearthstoneLocales.each do |hs_locale, osx_locale|
+            locale = NSLocale.alloc.initWithLocaleIdentifier osx_locale
+            display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
 
-              if current_locale.nil?
-                elem.selectItemAtIndex -1
-              end
-            },
-            :changed => -> (elem) {
-              choosen = elem.selectedItem.title
+            item = NSMenuItem.alloc.initWithTitle(display.capitalize, action: nil, keyEquivalent: '')
+            elem.menu.addItem item
 
-              KHearthstoneLocales.each do |hs_locale, osx_locale|
-                locale  = NSLocale.alloc.initWithLocaleIdentifier osx_locale
-                display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
+            if current_locale == hs_locale
+              elem.selectItem item
+            end
+          end
 
-                if choosen == display.capitalize
-                  Configuration.hearthstone_locale = hs_locale
-                end
-              end
-            }
+          if current_locale.nil?
+            elem.selectItemAtIndex -1
+          end
         },
-        :reset_on_end       => 'Reset trackers on game end'._,
-        :show_notifications => 'Show notifications'._,
-        :remember_last_deck => 'Remember last played deck'._
+        changed: -> (elem) {
+          choosen = elem.selectedItem.title
+
+          KHearthstoneLocales.each do |hs_locale, osx_locale|
+            locale = NSLocale.alloc.initWithLocaleIdentifier osx_locale
+            display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
+
+            if choosen == display.capitalize
+              Configuration.hearthstone_locale = hs_locale
+            end
+          end
+        }
+      },
+      reset_on_end: 'Reset trackers on game end'._,
+      show_notifications: 'Show notifications'._,
+      remember_last_deck: 'Remember last played deck'._
     }
   end
 

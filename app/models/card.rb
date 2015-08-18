@@ -5,15 +5,15 @@ class Card < CDQManagedObject
 
   # scope to skip hero and uncollectible cards
   scope :playable, where(:collectible => true)
-                       .and(cdq(:card_type).not_equal('Hero'))
-                       .and(cdq(:card_type).not_equal('Hero Power'))
+                     .and(cdq(:card_type).not_equal('Hero'))
+                     .and(cdq(:card_type).not_equal('Hero Power'))
 
   # scope to get only the current locale
   scope :per_lang, where(:lang => Configuration.hearthstone_locale)
 
   # get a card by its id
   def self.by_id(card_id)
-    self.where(:card_id => card_id).per_lang.first
+    self.where(card_id: card_id).per_lang.first
   end
 
   # shortcut to by_name_and_locale for us cards
@@ -28,7 +28,7 @@ class Card < CDQManagedObject
 
   # get a hero by its ID
   def self.hero(card_id)
-    self.where(:card_id => card_id).per_lang.first
+    self.where(card_id: card_id).per_lang.first
   end
 
   # get the us name of this card
@@ -36,7 +36,7 @@ class Card < CDQManagedObject
     if self.lang == 'enUS'
       card = self
     else
-      card = Card.where(:card_id => card_id, :lang => 'enUS').first
+      card = Card.where(card_id: card_id, lang: 'enUS').first
     end
     card.name
   end
@@ -58,12 +58,12 @@ class Card < CDQManagedObject
   private
   # search a card by a name and locale and return the card in your locale
   def self.by_name_and_locale(name, locale)
-    card = self.playable.where(:name => name, :lang => locale).first
+    card = self.playable.where(name: name, lang: locale).first
     return nil if card.nil?
 
     if Configuration.hearthstone_locale == locale
       return card
     end
-    self.where(:card_id => card.card_id).per_lang.playable.first
+    self.where(card_id: card.card_id).per_lang.playable.first
   end
 end

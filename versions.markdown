@@ -1,3 +1,49 @@
+#### 0.11.5
+- Fix : should run correctly on 10.8
+- Fix : upload on HearthStats
+- Add an option to rebuild card database (menu HSTracker -> rebuild card database)
+- Fix : brawl is now correctly detected
+
+#### 0.11.4
+- Correct the save button on "non-full" decks
+- The timer is now correctly hidden on HSTracker start when show_timer is not checked
+- Add an option to hide the opponent tracker
+- Correct a crash when importing hearthstats decks
+- Correct an error with the deck selection from menu
+- Correct scroll on 10.8 and 10.9
+
+#### 0.11.3
+- Correct a bug when importing old hearthstats decks
+- Correct a bug with save opponent deck button
+- The timer can now be hidden correctly
+- Correct a crash when there are Hearthstats issue
+- Change version system to allow version x.y (ie 1.1)
+
+#### 0.11.2
+- Correct a bug where HSTracker will crash when canceling a modal dialog in the deck manager
+- Support for new heroes
+
+#### 0.11.1
+- Correct a bug where the last deck was deleted on right-click instead of the selected one
+- Add a verification for the config.log file
+- Improve deck manager opening
+- Add turn timer (beta). There is a know bug with the first turn which starts too soon.
+
+#### 0.11
+##### HearthStats support
+- HSTracker is now the official HearthStats uploader of OsX !
+- Import, save your decks and matches in HearthStats through HSTracker
+
+##### New / Bugfixes
+- Card font should be better on retina display
+- Better rank / mode handling for stats / HearthStats
+- Added some notifications through Notification Center
+- Fade cards in the deck manager when you can not add it anymore in your deck
+- Added an option to save/restore the last played deck. This allow the log reader to restart your game correctly when HSTracker crashed or you forgot to start it
+- Added a HearthStats skin
+- Mana curve is now visible when you click on a deck
+- Added some actions on right-click on deck list
+
 #### 0.10.3
 - You can now import multiple files at the same time
 - Choose **Decks** -> **Save all** to export all your decks

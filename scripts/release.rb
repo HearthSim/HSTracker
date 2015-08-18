@@ -8,6 +8,10 @@ access_token      = ENV['HSTRACKER_GITHUB_TOKEN']
 repo              = 'repos/bmichotte/HSTracker'
 dmg_file          = 'HSTracker.dmg'
 
+if File.exists? "build/#{dmg_file}"
+  File.delete "build/#{dmg_file}"
+end
+
 puts "Creating #{dmg_file}"
 `rsync -a build/MacOSX-#{deployment_target}-Release/HSTracker.app build/Release`
 `ln -sf /Applications build/Release`
@@ -21,17 +25,17 @@ version   = nil
 File.open './versions.markdown', 'r' do |file|
   started = false
   file.each_line do |line|
-    if line =~ /####/
+    if line =~ /^####\s/
       if started
         break
       else
         version = line.gsub(/(#|\s)/, '')
-        puts "#{version}"
+        puts "new #{version}"
         started = true
         next
       end
     else
-      changelog << line.strip unless line.strip.empty?
+      changelog << line.strip
     end
   end
 end
@@ -40,6 +44,9 @@ if changelog.empty?
   puts 'empty changelog'
   exit(1)
 end
+
+puts 'Changelog'
+puts changelog
 
 json = {
     :tag_name         => "#{tag}",
@@ -51,8 +58,7 @@ json = {
 }.to_json
 
 puts "Creating release #{version}"
-response = `curl --data '#{json}' \
-              https://api.github.com/#{repo}/releases?access_token=#{access_token}`
+response = `curl --data '#{json}' https://api.github.com/#{repo}/releases?access_token=#{access_token}`
 
 data = JSON.parse response
 id   = data['id']

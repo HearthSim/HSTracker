@@ -6,6 +6,7 @@ class MainMenu < MK::MenuLayout
       add about_item 'About HSTracker'._
       add 'Download images'._, action: 'ask_download_images:', key: ''
       add 'Reset all data'._, action: 'reset_all_data:', key: ''
+      add 'Rebuild card database'._, action: 'rebuild_cards:', key: ''
       add separator_item
       add preferences_item 'Preferences'._
       add separator_item
@@ -28,7 +29,7 @@ class MainMenu < MK::MenuLayout
       add 'Save all'._, action: 'save_decks:', key: ''
       add separator_item
 
-      Deck.where(:is_active => true).or(:is_active).eq(nil).sort_by(:name, :case_insensitive => true).each do |deck|
+      Deck.where(:is_active => true).sort_by(:name, case_insensitive: true).each do |deck|
         add deck.name, action: 'open_deck:'
       end
     end
@@ -37,7 +38,7 @@ class MainMenu < MK::MenuLayout
       setAutoenablesItems false
       label = Configuration.windows_locked ? 'Unlock Windows'._ : 'Lock Windows'._
       add label, action: 'lock_windows:', key: 'l'
-      close         = add close_item('Close'._)
+      close = add close_item('Close'._)
       close.enabled = false
 
       add separator_item

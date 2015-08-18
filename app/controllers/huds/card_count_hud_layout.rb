@@ -7,7 +7,7 @@ class CardCountHudLayout < MK::WindowLayout
 
   def layout
     wframe = self.player == :player ? [[200, 200], [120, 90]] : [[200, 400], [120, 90]]
-    frame  = NSUserDefaults.standardUserDefaults.objectForKey window_name
+    frame = NSUserDefaults.standardUserDefaults.objectForKey window_name
     if frame
       wframe = NSRectFromString(frame)
     end

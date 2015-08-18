@@ -1,7 +1,7 @@
 class HearthStatsLoginLayout < MK::WindowLayout
 
   def layout
-    frame_width  = 485
+    frame_width = 485
     frame_height = 190
 
     width frame_width

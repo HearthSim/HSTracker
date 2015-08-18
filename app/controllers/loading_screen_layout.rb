@@ -1,6 +1,6 @@
 class LoadingScreenLayout < MK::WindowLayout
   def layout
-    width  312
+    width 312
     height 311
     frame from_center(NSScreen.mainScreen, size: [312, 311])
 
@@ -13,7 +13,7 @@ class LoadingScreenLayout < MK::WindowLayout
 
     add NSImageView do
       setWantsLayer true
-      layer.setBackgroundColor :clear.nscolor
+      layer.setBackgroundColor :clear.nscolor.cgcolor
       image NSImage.alloc.initByReferencingFile "#{'images/assets/'.resource_path}/loading.png"
 
       constraints do

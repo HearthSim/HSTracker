@@ -251,4 +251,23 @@ describe 'Configuration' do
     value = Configuration.skin
     value.should == :default
   end
+
+  it 'should accept a "show_timer" option' do
+    value = Configuration.show_timer
+    value.should == true
+
+    should.not.raise(ArgumentError) { Configuration.show_timer = false }
+    value = Configuration.show_timer
+    value.should == false
+  end
+
+  it 'should accept a "show_opponent_tracker" option' do
+    value = Configuration.show_opponent_tracker
+    value.should == true
+
+    should.not.raise(ArgumentError) { Configuration.show_opponent_tracker = false }
+    value = Configuration.show_opponent_tracker
+    value.should == false
+  end
+
 end

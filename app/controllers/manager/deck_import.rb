@@ -3,8 +3,8 @@ class DeckImport < NSWindowController
 
   def init
     super.tap do
-      @layout              = DeckImportLayout.new
-      self.window          = @layout.window
+      @layout = DeckImportLayout.new
+      self.window = @layout.window
       self.window.delegate = self
 
       @import = @layout.get(:import)
@@ -24,17 +24,17 @@ class DeckImport < NSWindowController
   def import(_)
     if Configuration.hearthstone_locale.nil?
       NSAlert.alert('Error'._,
-                    :buttons     => ['OK'._],
-                    :informative => 'You have not selected a language from the preferences, please choose a language before importing a deck'._,
-                    :style       => NSCriticalAlertStyle,
-                    :window      => self.window,
-                    :delegate    => self
+                    buttons: ['OK'._],
+                    informative: 'You have not selected a language from the preferences, please choose a language before importing a deck'._,
+                    style: NSCriticalAlertStyle,
+                    window: self.window,
+                    delegate: self
       )
       return
     end
 
     indicator = @layout.get(:indicator)
-    status    = @layout.get(:status)
+    status = @layout.get(:status)
 
     deck_id = @layout.get(:deck_id)
 
@@ -45,11 +45,11 @@ class DeckImport < NSWindowController
 
     if deck == ''
       NSAlert.alert('Error'._,
-                    :buttons     => ['OK'._],
-                    :informative => 'Empty deck url'._,
-                    :style       => NSCriticalAlertStyle,
-                    :window      => self.window,
-                    :delegate    => self
+                    buttons: ['OK'._],
+                    informative: 'Empty deck url'._,
+                    style: NSCriticalAlertStyle,
+                    window: self.window,
+                    delegate: self
       )
 
       @import.enabled = true
@@ -70,11 +70,11 @@ class DeckImport < NSWindowController
         self.window.end_sheet(NSModalResponseOK)
       else
         NSAlert.alert('Error'._,
-                      :buttons     => ['OK'._],
-                      :informative => 'Error while loading deck'._,
-                      :style       => NSCriticalAlertStyle,
-                      :window      => self.window,
-                      :delegate    => self
+                      buttons: ['OK'._],
+                      informative: 'Error while loading deck'._,
+                      style: NSCriticalAlertStyle,
+                      window: self.window,
+                      delegate: self
         )
 
         @import.enabled = true
