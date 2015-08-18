@@ -76,7 +76,7 @@ class DatabaseGenerator
 
             rarity = card['rarity']
             unless rarity.nil?
-              rarity = rarity._
+              rarity = rarity.downcase._
             end
 
             type = card['type']
