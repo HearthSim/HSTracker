@@ -16,7 +16,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     builder (3.2.2)
-    cdq (1.0.7)
+    cdq (1.0.8)
       motion-yaml (= 1.4)
       ruby-xcdm (>= 0.0.9)
     claide (0.9.1)
