@@ -64,7 +64,7 @@ class Configuration
       else
         value = NSUserDefaults.standardUserDefaults.objectForKey(method)
 
-        if KDefaults.has_key?(method.to_sym) and value.nil?
+        if KDefaults.has_key?(method.to_sym) && value.nil?
           value = KDefaults.fetch(method.to_sym)
         end
 

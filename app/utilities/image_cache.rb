@@ -7,7 +7,7 @@ class ImageCache
     def need_download?
       images_version = NSUserDefaults.standardUserDefaults.objectForKey 'image_version'
       return true unless dir_exists?
-      return true if images_version.nil? or images_version.to_i < ImageCache::IMAGES_VERSION
+      return true if images_version.nil? || images_version.to_i < ImageCache::IMAGES_VERSION
 
       return_value = false
       path = image_path(Configuration.hearthstone_locale)

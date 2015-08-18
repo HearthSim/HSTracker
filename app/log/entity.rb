@@ -21,7 +21,7 @@ class Entity
   end
 
   def is_in_zone?(zone)
-    has_tag? GameTag::ZONE and tag(GameTag::ZONE).to_i == zone
+    has_tag? GameTag::ZONE && tag(GameTag::ZONE).to_i == zone
   end
 
 end

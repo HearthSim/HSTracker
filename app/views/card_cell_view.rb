@@ -108,7 +108,7 @@ class CardCellView < NSTableCellView
 
     stroke_color = :black.nscolor(alpha)
     foreground = :white.nscolor(alpha)
-    if card.hand_count > 0 and side == :player
+    if card.hand_count > 0 && side == :player
       foreground = Configuration.flash_color.nscolor(alpha)
     end
 
@@ -148,7 +148,7 @@ class CardCellView < NSTableCellView
     @cost_layer.frame = [[x, y], [width, height]]
     @cost_layer.string = cost
 
-    if card.count >= 2 or card.rarity == 'Legendary'._
+    if card.count >= 2 || card.rarity == 'Legendary'._
       # add the background of the card count
       if card.is_stolen
         @frame_count_box.contents = ImageCache.frame_countbox_deck

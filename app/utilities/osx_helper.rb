@@ -46,19 +46,19 @@ class OSXHelper
   def self.is_version?(major, minor)
     _major, _minor = get_version
 
-    _major == major and _minor == minor
+    _major == major && _minor == minor
   end
 
   def self.gt_version?(major, minor)
     _major, _minor = get_version
 
-    _major >= major and _minor >= minor
+    _major >= major && _minor >= minor
   end
 
   private
   def self.get_version
     match = /Version (\d+)\.(\d+)/.match(NSProcessInfo.processInfo.operatingSystemVersionString)
-    return false, false if match.nil? or match.length != 3
+    return false, false if match.nil? || match.length != 3
 
     _major = match[1].to_i
     _minor = match[2].to_i

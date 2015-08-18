@@ -146,7 +146,7 @@ class DeckManager < NSWindowController
 
                                                        # cmd-s
                                                        when 1
-                                                         if @in_edition and !@saved
+                                                         if @in_edition && !@saved
                                                            save_deck(nil)
                                                            event = nil
                                                          end
@@ -268,7 +268,7 @@ class DeckManager < NSWindowController
       if card.card_id == c.card_id
         card.hand_count = 0
 
-        if card.count + 1 > KMaxCardOccurence[@current_deck_mode] or card.rarity == 'Legendary'._
+        if card.count + 1 > KMaxCardOccurence[@current_deck_mode] || card.rarity == 'Legendary'._
           return
         end
 
@@ -314,7 +314,7 @@ class DeckManager < NSWindowController
     @cards = nil
 
     str = @search_field.stringValue
-    if str and !str.empty?
+    if str && !str.empty?
       search_card(str)
     else
       @cards_view.reloadData
@@ -549,7 +549,7 @@ class DeckManager < NSWindowController
 
   # actions
   def import_deck(sender)
-    if @in_edition and !@saved
+    if @in_edition && !@saved
       NSAlert.alert('Error'._,
                     buttons: ['OK'._],
                     informative: 'You are currently in a deck edition and you changes have not been saved.'._,
@@ -570,7 +570,7 @@ class DeckManager < NSWindowController
         end
       end
       self.window.show_sheet(@import.window)
-    elsif sender.identifier == 'hearthstats' or sender.identifier == 'hearthstats_force'
+    elsif sender.identifier == 'hearthstats' || sender.identifier == 'hearthstats_force'
 
       if sender.identifier == 'hearthstats_force'
         key = 'hearthstats_last_get_decks'
@@ -606,7 +606,7 @@ class DeckManager < NSWindowController
 
             hearthstats_version_id = nil
             current_version = json_deck['current_version']
-            if current_version and json_deck.has_key? 'versions'
+            if current_version && json_deck.has_key? 'versions'
               hearthstats_version_id = json_deck['versions'].select { |d| d['version'] == json_deck['current_version'] }
                                            .first['deck_version_id']
             end
@@ -620,7 +620,7 @@ class DeckManager < NSWindowController
                                hearthstats_version_id: hearthstats_version_id
           end
 
-          if deck.cards and !deck.cards.length.zero?
+          if deck.cards && !deck.cards.length.zero?
             deck.cards.each do |c|
               c.destroy
             end
@@ -677,7 +677,7 @@ class DeckManager < NSWindowController
   end
 
   def play_deck(sender)
-    if sender and sender.respond_to?('identifier') and sender.identifier == 'table_identifier'
+    if sender && sender.respond_to?('identifier') && sender.identifier == 'table_identifier'
       row = @table_view.clickedRow
       deck = @decks_or_cards[row]
       name = deck.name
@@ -821,15 +821,15 @@ class DeckManager < NSWindowController
 
       if response == NSAlertFirstButtonReturn
 
-        if sender and sender.respond_to?('identifier') and sender.identifier == 'table_identifier'
+        if sender && sender.respond_to?('identifier') && sender.identifier == 'table_identifier'
           deck = @decks_or_cards[row]
         else
           deck = @current_deck
         end
 
-        break if deck.is_a?(Card) or deck.is_a?(PlayCard)
+        break if deck.is_a?(Card) || deck.is_a?(PlayCard)
 
-        if Configuration.use_hearthstats and !deck.hearthstats_id.nil? and !deck.hearthstats_id.zero?
+        if Configuration.use_hearthstats && !deck.hearthstats_id.nil? && !deck.hearthstats_id.zero?
           NSAlert.alert('Delete'._,
                         buttons: ['OK'._, 'Cancel'._],
                         informative: 'Do you want to delete this deck on HearthStats ?'._,
@@ -913,7 +913,7 @@ class DeckManager < NSWindowController
                   :window => self.window
     ) do |response|
 
-      if (buttons.length == 2 and response == NSAlertSecondButtonReturn) or (buttons.length == 4 and response == NSAlertThirdButtonReturn + 1)
+      if (buttons.length == 2 && response == NSAlertSecondButtonReturn) || (buttons.length == 4 && response == NSAlertThirdButtonReturn + 1)
         break
       end
 
@@ -974,7 +974,7 @@ class DeckManager < NSWindowController
                       window: self.window) do |res|
           break if res == NSAlertSecondButtonReturn
 
-          if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
+          if @current_deck.hearthstats_id.nil? || @current_deck.hearthstats_id.zero?
             HearthStatsAPI.post_deck(@current_deck)
           elsif !@current_deck.hearthstats_version_id.nil?
             HearthStatsAPI.update_deck(@current_deck)
@@ -1020,7 +1020,7 @@ class DeckManager < NSWindowController
   def search(sender)
     str = sender.stringValue
 
-    if str and !str.empty?
+    if str && !str.empty?
       search_card(str)
     else
       cancel_search(sender)
@@ -1043,7 +1043,7 @@ class DeckManager < NSWindowController
   end
 
   def export_deck(sender)
-    if sender and sender.respond_to?('identifier') and sender.identifier == 'table_identifier'
+    if sender && sender.respond_to?('identifier') && sender.identifier == 'table_identifier'
       row = @table_view.clickedRow
       deck = @decks_or_cards[row]
       name = deck.name

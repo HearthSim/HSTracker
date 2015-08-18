@@ -4,7 +4,7 @@ class Web
     NSURLConnection.sendAsynchronousRequest(url.nsurl.nsurlrequest,
                                             queue: NSOperationQueue.new,
                                             completionHandler: -> (_, data, error) {
-                                              if data and data.is_a?(NSData) and data.length > 0
+                                              if data && data.is_a?(NSData) && data.length > 0
                                                 response = data.nsstring
                                                 Dispatch::Queue.main.async do
                                                   block.call(response) if block
@@ -71,7 +71,7 @@ class Web
       data = NSURLConnection.sendSynchronousRequest(request,
                                                     returningResponse: response,
                                                     error: error)
-      if data and data.length > 0
+      if data && data.length > 0
         data.write_to(full_path)
       end
 
@@ -101,7 +101,7 @@ class Web
     NSURLConnection.sendAsynchronousRequest(request,
                                             queue: NSOperationQueue.new,
                                             completionHandler: -> (_, data, error) {
-                                              if data and data.is_a?(NSData) and data.length > 0
+                                              if data && data.is_a?(NSData) && data.length > 0
                                                 response = JSON.parse(data)
                                                 Dispatch::Queue.main.async do
                                                   block.call(response) if block

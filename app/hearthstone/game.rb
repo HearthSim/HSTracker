@@ -31,7 +31,7 @@ class Game
       end
     end
 
-    if @game_mode == :ranked and @current_rank.nil?
+    if @game_mode == :ranked && @current_rank.nil?
       wait_rank(5) do |found|
         if found
           Log.verbose "Game ranked, get rank #{@current_rank}"
@@ -83,7 +83,7 @@ class Game
         }
         # todo, add :log (see match_log.json)
 
-        if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
+        if @current_deck.hearthstats_id.nil? || @current_deck.hearthstats_id.zero?
           response = NSAlert.alert('Deck save'._,
                                    buttons: ['OK'._, 'Cancel'._],
                                    informative: 'Your deck is not saved on HearthStats. Do you want to save it now ?'._,
@@ -248,7 +248,7 @@ class Game
 
   def player_get_to_deck(card_id, turn)
     log(:player, "get to deck #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get_to_deck(card_id)
   end
@@ -263,7 +263,7 @@ class Game
 
   def player_draw(card_id, turn)
     log(:player, "draw #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     if card_id == 'GAME_005'
       @has_coin = true
@@ -289,13 +289,13 @@ class Game
 
   def player_play(card_id, turn)
     log(:player, "play #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.play(card_id)
   end
 
   def player_hand_discard(card_id, turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     log(:player, "discard from hand #{card_id} (#{card(card_id)})", turn)
     player_tracker.hand_discard(card_id)
@@ -309,21 +309,21 @@ class Game
 
   def player_back_to_hand(card_id, turn)
     log(:player, "card back to hand #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get(card_id, true, turn)
   end
 
   def player_play_to_deck(card_id, turn)
     log(:player, "play to deck #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.play_to_deck(card_id)
   end
 
   def player_get(card_id, turn)
     log(:player, "get #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get(card_id, false, turn)
   end

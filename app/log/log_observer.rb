@@ -68,7 +68,7 @@ class LogObserver
       @last_asset_unload = NSDate.new.timeIntervalSince1970
 
       timeout = timeout_sec.seconds.after(NSDate.now).timeIntervalSince1970
-      while @waiting_for_first_asset_unload or (NSDate.now.timeIntervalSince1970 - @last_asset_unload) < timeout
+      while @waiting_for_first_asset_unload || (NSDate.now.timeIntervalSince1970 - @last_asset_unload) < timeout
         NSThread.sleepForTimeInterval(0.1)
         break if @found_ranked
       end
@@ -135,7 +135,7 @@ class LogObserver
     lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
     lines = lines_str.split "\n"
     lines.each do |line|
-      if line.include? 'Begin Spectating' or line.include? 'Start Spectator'
+      if line.include? 'Begin Spectating' || line.include? 'Start Spectator'
         offset = temp_offset
         found_spectator_start = true
       elsif line.include? 'End Spectator'
@@ -167,7 +167,7 @@ class LogObserver
   def entity_with_value(name, value)
     entity = nil
     @entities.each do |key, values|
-      if values[name] and values[name] == value
+      if values[name] && values[name] == value
         entity = key
       end
     end
@@ -213,7 +213,7 @@ class LogObserver
         name = match[1]
         player = match[2].to_i
 
-        entity = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == player }.values.first
+        entity = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) && val.tag(GameTag::PLAYER_ID).to_i == player }.values.first
         return if entity.nil?
 
         if entity.is_player
@@ -227,7 +227,7 @@ class LogObserver
         tag = match[2]
         value = match[3]
 
-        if raw_entity =~ /^\[/ and is_entity?(raw_entity)
+        if raw_entity =~ /^\[/ && is_entity?(raw_entity)
           id, _, _, _, _, _, _ = parse_entity(raw_entity)
           tag_change(tag, id, value)
         elsif raw_entity.is_i?
@@ -272,20 +272,20 @@ class LogObserver
           @entities[id] = entity
         end
         @current_entity = id
-        @current_entity_has_card_id = !(card_id.nil? or card_id.empty?)
+        @current_entity_has_card_id = !(card_id.nil? || card_id.empty?)
 
       elsif (match = /SHOW_ENTITY - Updating Entity=(.+) CardID=(\w*)/.match(line))
         entity = match[1]
         card_id = match[2]
 
         entity_id = -1
-        if entity =~ /^\[/ and is_entity?(entity)
+        if entity =~ /^\[/ && is_entity?(entity)
           entity_id, _, _, _, _, _, _ = parse_entity(entity)
         elsif entity.is_i?
           entity_id = entity.to_i
         end
 
-        unless entity_id.nil? or entity_id == -1
+        unless entity_id.nil? || entity_id == -1
           unless @entities.has_key? entity_id
             entity = Entity.new(entity_id)
             @entities[entity_id] = entity
@@ -294,13 +294,13 @@ class LogObserver
           @current_entity = entity_id
         end
 
-      elsif (match = /tag=(\w+) value=(\w+)/.match(line)) and !line.include? 'HIDE_ENTITY'
+      elsif (match = /tag=(\w+) value=(\w+)/.match(line)) && !line.include? 'HIDE_ENTITY'
         tag = match[1]
         value = match[2]
 
         tag_change(tag, @current_entity, value)
 
-      elsif line.include? 'Begin Spectating' or line.include? 'Start Spectator'
+      elsif line.include? 'Begin Spectating' || line.include? 'Start Spectator'
         @game_mode = :spectator
         @spectating = true
 
@@ -314,23 +314,23 @@ class LogObserver
         local_id = match[2]
         target = match[3]
 
-        player = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @player_id }.values.first
-        opponent = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == @opponent_id }.values.first
+        player = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) && val.tag(GameTag::PLAYER_ID).to_i == @player_id }.values.first
+        opponent = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) && val.tag(GameTag::PLAYER_ID).to_i == @opponent_id }.values.first
 
-        if local_id.nil? or local_id.empty? and id
+        if local_id.nil? || local_id.empty? && id
           entity = @entities[id.to_i]
           local_id = entity.card_id
         end
 
         if local_id == 'BRM_007' # Gang Up
           card_id = nil
-          if target =~ /^\[/ and is_entity?(target)
+          if target =~ /^\[/ && is_entity?(target)
             if (card_id_match = /cardId=(\w+)/.match(target))
               card_id = card_id_match[1]
             end
           end
 
-          if !player.nil? and player.tag(GameTag::CURRENT_PLAYER).to_i == 1
+          if !player.nil? && player.tag(GameTag::CURRENT_PLAYER).to_i == 1
             if card_id
               (0...3).each do |_|
                 Game.instance.player_get_to_deck(card_id, turn_number)
@@ -344,16 +344,16 @@ class LogObserver
 
         elsif local_id == 'GVG_056' # Iron Juggernaut
 
-          if !player.nil? and player.tag(GameTag::CURRENT_PLAYER).to_i == 1
+          if !player.nil? && player.tag(GameTag::CURRENT_PLAYER).to_i == 1
             Game.instance.opponent_get_to_deck('GVG_056t', turn_number)
           else
             Game.instance.player_get_to_deck('GVG_056t', turn_number)
           end
 
-        elsif (player and player.tag(GameTag::CURRENT_PLAYER).to_i == 1 and !@player_used_hero_power) or (opponent and opponent.tag(GameTag::CURRENT_PLAYER).to_i == 1 and !@opponent_used_hero_power)
+        elsif (player && player.tag(GameTag::CURRENT_PLAYER).to_i == 1 && !@player_used_hero_power) || (opponent && opponent.tag(GameTag::CURRENT_PLAYER).to_i == 1 && !@opponent_used_hero_power)
           card = Card.by_id(local_id)
-          if card and card.card_type == 'Hero Power'
-            if player and player.tag(GameTag::CURRENT_PLAYER).to_i == 1
+          if card && card.card_type == 'Hero Power'
+            if player && player.tag(GameTag::CURRENT_PLAYER).to_i == 1
               @player_used_hero_power = true
               Log.verbose 'player use hero power'
             elsif opponent
@@ -454,9 +454,9 @@ class LogObserver
 
     tag = GameTag.parse(raw_tag)
     if tag.nil?
-      if raw_tag.is_a?(Fixnum) and GameTag.exists?(raw_tag)
+      if raw_tag.is_a?(Fixnum) && GameTag.exists?(raw_tag)
         tag = raw_tag
-      elsif raw_tag.is_a?(String) and raw_tag.is_i? and GameTag.exists?(raw_tag.to_i)
+      elsif raw_tag.is_a?(String) && raw_tag.is_i? && GameTag.exists?(raw_tag.to_i)
         tag = raw_tag.to_i
       end
     end
@@ -465,9 +465,9 @@ class LogObserver
     prev_zone = @entities[id].tag(GameTag::ZONE)
     @entities[id].set_tag(tag, value)
 
-    if tag == GameTag::CONTROLLER and !@wait_controller.nil? and @player_id.nil?
-      player_1 = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == 1 }.values.first
-      player_2 = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and val.tag(GameTag::PLAYER_ID).to_i == 2 }.values.first
+    if tag == GameTag::CONTROLLER && !@wait_controller.nil? && @player_id.nil?
+      player_1 = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) && val.tag(GameTag::PLAYER_ID).to_i == 1 }.values.first
+      player_2 = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) && val.tag(GameTag::PLAYER_ID).to_i == 2 }.values.first
 
       if @current_entity_has_card_id
         player_1.is_player = (value == 1) if player_1
@@ -608,7 +608,7 @@ class LogObserver
                 if @entities[id].has_tag?(GameTag::LINKEDCARD)
                   linked_card = @entities[id].tag(GameTag::LINKEDCARD)
                   to_remove = @entities[linked_card]
-                  if to_remove and to_remove.is_in_zone?(Zone::HAND)
+                  if to_remove && to_remove.is_in_zone?(Zone::HAND)
                     Game.instance.player_hand_discard(to_remove.card_id, turn_number)
                   end
 
@@ -640,7 +640,7 @@ class LogObserver
           end
         end
       end
-    elsif tag == GameTag::CURRENT_PLAYER and value == 1
+    elsif tag == GameTag::CURRENT_PLAYER && value == 1
       # be sure to "reset" cards from tracking
       player = @entities[id].is_player ? :player : :opponent
       Game.instance.turn_start(player, turn_number)
@@ -648,12 +648,12 @@ class LogObserver
       @player_used_hero_power = false
       @opponent_used_hero_power = false
 
-    elsif tag == GameTag::NUM_ATTACKS_THIS_TURN and value > 0
+    elsif tag == GameTag::NUM_ATTACKS_THIS_TURN && value > 0
     elsif tag == GameTag::ZONE_POSITION
-    elsif tag == GameTag::CARD_TARGET and value > 0
-    elsif tag == GameTag::EQUIPPED_WEAPON and value == 0
-    elsif tag == GameTag::EXHAUSTED and value > 0
-    elsif tag == GameTag::CONTROLLER and @entities[id].is_in_zone?(Zone::SECRET)
+    elsif tag == GameTag::CARD_TARGET && value > 0
+    elsif tag == GameTag::EQUIPPED_WEAPON && value == 0
+    elsif tag == GameTag::EXHAUSTED && value > 0
+    elsif tag == GameTag::CONTROLLER && @entities[id].is_in_zone?(Zone::SECRET)
       if value == @player_id
         Game.instance.opponent_secret_trigger(card_id, turn_number, id)
       end
@@ -665,7 +665,7 @@ class LogObserver
       end
     end
 
-    if !@wait_controller.nil? and !recurse
+    if !@wait_controller.nil? && !recurse
       tag_change(@wait_controller[:tag], @wait_controller[:id], @wait_controller[:value], true)
       @wait_controller = nil
     end
@@ -692,11 +692,11 @@ class LogObserver
 
   def is_mulligan_done
     player = @entities.select { |_, val| val.is_player }.values.first
-    opponent = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) and !val.is_player }.values.first
+    opponent = @entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) && !val.is_player }.values.first
 
-    return false if player.nil? or opponent.nil?
+    return false if player.nil? || opponent.nil?
 
-    player.tag(GameTag::MULLIGAN_STATE) == Mulligan::DONE and opponent.tag(GameTag::MULLIGAN_STATE) == Mulligan::DONE
+    player.tag(GameTag::MULLIGAN_STATE) == Mulligan::DONE && opponent.tag(GameTag::MULLIGAN_STATE) == Mulligan::DONE
   end
 
   # parse an entity
@@ -717,7 +717,7 @@ class LogObserver
   # check if the entity is a raw entity
   def is_entity?(entity)
     id, name, zone, zone_pos, card_id, player, type = parse_entity(entity)
-    !id.nil? or !name.nil? or !zone.nil? or !zone_pos.nil? or !card_id.nil? or !player.nil? or !type.nil?
+    !id.nil? || !name.nil? || !zone.nil? || !zone_pos.nil? || !card_id.nil? || !player.nil? || !type.nil?
   end
 
   def parse_tag(tag, raw_value)
@@ -729,7 +729,7 @@ class LogObserver
       value = PlayState.parse(raw_value)
     elsif tag == GameTag::CARDTYPE
       value = CardType.parse(raw_value)
-    elsif raw_value.is_a? String and raw_value.is_i?
+    elsif raw_value.is_a? String && raw_value.is_i?
       value = raw_value.to_i
     end
     value

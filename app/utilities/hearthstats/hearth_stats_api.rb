@@ -62,7 +62,7 @@ class HearthStatsAPI
       NSUserDefaults.standardUserDefaults.setObject((NSDate.new.timeIntervalSince1970 - 600).to_i,
                                                     forKey: key)
       ret = []
-      if response and response['status'] == 200
+      if response && response['status'] == 200
         ret = response['data'] if response['data']
       end
       block.call(ret) if block
@@ -83,7 +83,7 @@ class HearthStatsAPI
 
     Web.json_post(url, data) do |response, error|
       status = false
-      if response and response['status'] == 200
+      if response && response['status'] == 200
         status = true
         deck.hearthstats_id = response['data']['deck']['id']
         deck.hearthstats_version_id = response['data']['deck_versions'][0]['id']
@@ -113,7 +113,7 @@ class HearthStatsAPI
 
     Web.json_post(url, data) do |response, _|
       status = false
-      if response and response['status'] == 200
+      if response && response['status'] == 200
         status = true
       end
       Dispatch::Queue.main.async do
@@ -138,7 +138,7 @@ class HearthStatsAPI
 
     Web.json_post(url, data) do |response, error|
       status = false
-      if response and response['status'] == 200
+      if response && response['status'] == 200
         status = true
       end
       Dispatch::Queue.main.async do
@@ -156,7 +156,7 @@ class HearthStatsAPI
 
     Web.json_post(url, data) do |response, error|
       status = false
-      if response and response['status'] == 200
+      if response && response['status'] == 200
         status = true
       end
       Dispatch::Queue.main.async do
@@ -171,7 +171,7 @@ class HearthStatsAPI
     Web.json_post(url, data) do |response, error|
       # will do something more usefull in the future
       # maybe save in a temporary table and post later ?
-      if response and response['status']
+      if response && response['status']
         success = true
         Notification.post('Save match'._, 'Results for this game has been saved on HearthStats'._)
       else
