@@ -303,9 +303,9 @@ class PlayerTracker < Tracker
   end
 
   def display_count
-    text = ("#{'Hand : '._} #{self.hand_count}")
+    text = :hand._(count: self.hand_count)
     text << ' / '
-    text << ("#{'Deck : '._} #{self.deck_count}")
+    text << :deck._(count: self.deck_count)
     text << "\n"
 
     card_count = @playing_cards.map(&:count).inject(0, :+)

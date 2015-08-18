@@ -7,7 +7,7 @@ class HearthStatsLoginLayout < MK::WindowLayout
     width frame_width
     height frame_height
     frame from_center(NSScreen.mainScreen, size: [frame_width, frame_height])
-    title 'Configure Hearthstats'._
+    title :configure_hearthstats._
 
     style_mask NSTitledWindowMask
 
@@ -22,7 +22,7 @@ class HearthStatsLoginLayout < MK::WindowLayout
     end
 
     add NSTextField, :login_label do
-      stringValue 'Login'._
+      stringValue :login._
       editable false
       bezeled false
       draws_background false
@@ -45,7 +45,7 @@ class HearthStatsLoginLayout < MK::WindowLayout
     end
 
     add NSTextField, :password_label do
-      stringValue 'Password'._
+      stringValue :password._
       editable false
       bezeled false
       draws_background false
@@ -68,7 +68,7 @@ class HearthStatsLoginLayout < MK::WindowLayout
     end
 
     add NSButton, :connect do
-      title 'Connect'._
+      title :connect._
       bezelStyle NSTexturedRoundedBezelStyle
 
       constraints do
@@ -78,7 +78,7 @@ class HearthStatsLoginLayout < MK::WindowLayout
     end
 
     add NSButton, :cancel do
-      title 'Cancel'._
+      title :cancel._
       bezelStyle NSTexturedRoundedBezelStyle
 
       constraints do
@@ -88,7 +88,7 @@ class HearthStatsLoginLayout < MK::WindowLayout
     end
 
     add NSButton, :register do
-      attributed_title 'No account yet ?'._.underline
+      attributed_title :no_account._.underline
       bordered false
 
       constraints do

@@ -13,7 +13,7 @@ class OpponentTrackerLayout < TrackerLayout
   end
 
   def window_title
-    'Opponent'._
+    :opponent._
   end
 
 end

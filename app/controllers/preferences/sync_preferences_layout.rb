@@ -8,7 +8,7 @@ class SyncPreferencesLayout < PreferencesLayout
     {
       use_hearthstats: {
         type: NSButton,
-        title: 'Configure Hearthstats'._,
+        title: :configure_hearthstats._,
         init: -> (elem) {
           elem.buttonType = NSSwitchButton
           elem.state = (Configuration.use_hearthstats ? NSOnState : NSOffState)

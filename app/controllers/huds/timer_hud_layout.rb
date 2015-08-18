@@ -9,7 +9,7 @@ class TimerHudLayout < MK::WindowLayout
 
     frame(wframe)
     identifier 'HSTimer'
-    title 'Timer'._
+    title :timer._
 
     # transparent all the things \o|
     opaque false

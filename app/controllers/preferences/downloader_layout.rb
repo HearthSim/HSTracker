@@ -5,7 +5,7 @@ class DownloaderLayout < MK::WindowLayout
     w = CGRectGetMidX(NSScreen.mainScreen.frame)
 
     frame [[w - 150, h - 50], [300, 100]]
-    title 'Downloading'._
+    title :downloading._
     style_mask NSBorderlessWindowMask | NSTitledWindowMask
 
     add NSTextField, :message do

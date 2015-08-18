@@ -7,7 +7,7 @@ class HearthStatsRegisterLayout < MK::WindowLayout
     width frame_width
     height frame_height
     frame from_center(NSScreen.mainScreen, size: [frame_width, frame_height])
-    title 'Configure Hearthstats'._
+    title :configure_hearthstats._
 
     style_mask NSTitledWindowMask
 
@@ -22,7 +22,7 @@ class HearthStatsRegisterLayout < MK::WindowLayout
     end
 
     add NSTextField, :login_label do
-      stringValue 'Login'._
+      stringValue :login._
       editable false
       bezeled false
       draws_background false
@@ -45,7 +45,7 @@ class HearthStatsRegisterLayout < MK::WindowLayout
     end
 
     add NSTextField, :confirm_login_label do
-      stringValue 'Confirm login'._
+      stringValue :confirm_login._
       editable false
       bezeled false
       draws_background false
@@ -68,7 +68,7 @@ class HearthStatsRegisterLayout < MK::WindowLayout
     end
 
     add NSTextField, :password_label do
-      stringValue 'Password'._
+      stringValue :password._
       editable false
       bezeled false
       draws_background false
@@ -91,7 +91,7 @@ class HearthStatsRegisterLayout < MK::WindowLayout
     end
 
     add NSTextField, :confirm_password_label do
-      stringValue 'Confirm password'._
+      stringValue :confirm_password._
       editable false
       bezeled false
       draws_background false
@@ -114,7 +114,7 @@ class HearthStatsRegisterLayout < MK::WindowLayout
     end
 
     add NSButton, :register do
-      title 'Register'._
+      title :register._
       bezelStyle NSTexturedRoundedBezelStyle
 
       constraints do
@@ -124,7 +124,7 @@ class HearthStatsRegisterLayout < MK::WindowLayout
     end
 
     add NSButton, :cancel do
-      title 'Cancel'._
+      title :cancel._
       bezelStyle NSTexturedRoundedBezelStyle
 
       constraints do

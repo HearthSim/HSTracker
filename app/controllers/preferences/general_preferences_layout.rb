@@ -22,7 +22,7 @@ class GeneralPreferencesLayout < PreferencesLayout
   def options
     {
       app_language: {
-        label: 'HSTracker language'._,
+        label: :hstracker_language._,
         type: NSPopUpButton,
         init: -> (elem) {
           langs = NSUserDefaults.standardUserDefaults.objectForKey('AppleLanguages')
@@ -59,7 +59,7 @@ class GeneralPreferencesLayout < PreferencesLayout
         }
       },
       hearthstone_locale: {
-        label: 'Game language'._,
+        label: :game_language._,
         type: NSPopUpButton,
         init: -> (elem) {
           current_locale = Configuration.hearthstone_locale
@@ -93,9 +93,9 @@ class GeneralPreferencesLayout < PreferencesLayout
           end
         }
       },
-      reset_on_end: 'Reset trackers on game end'._,
-      show_notifications: 'Show notifications'._,
-      remember_last_deck: 'Remember last played deck'._
+      reset_on_end: :reset_trackers_end._,
+      show_notifications: :show_notifications._,
+      remember_last_deck: :remember_last_deck._
     }
   end
 

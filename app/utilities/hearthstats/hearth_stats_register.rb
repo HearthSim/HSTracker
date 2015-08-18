@@ -22,40 +22,40 @@ class HearthStatsRegister < NSWindowController
     confirm_password = @layout.get(:confirm_password).stringValue
 
     if login != confirm_login
-      NSAlert.alert('Login are not the same'._,
-                    buttons: ['OK'._],
+      NSAlert.alert(:login_not_same._,
+                    buttons: [:ok._],
                     window: self.window)
       return
     end
 
     if password != confirm_password
-      NSAlert.alert('Password are not the same'._,
-                    buttons: ['OK'._],
+      NSAlert.alert(:password_not_same._,
+                    buttons: [:ok._],
                     window: self.window)
       return
     end
 
     HearthStatsAPI.register(login, password) do |success, result|
       if success
-        message = 'Registration successfully completed'
-        @register.title = 'Close'._
+        message = :registration_successfully._
+        @register.title = :close._
         @register.setAction 'close:'
         @cancel.hidden = true
       else
         message = []
         if result
           if result.has_key? 'email'
-            message << "#{'Login'._} : #{result['email'].join(',')}"
+            message << "#{:login._} : #{result['email'].join(',')}"
           end
           if result.has_key? 'password'
-            message << "#{'Password'._} : #{result['password'].join(',')}"
+            message << "#{:password._} : #{result['password'].join(',')}"
           end
         end
         message = message.join("\n")
       end
 
-      NSAlert.alert(message._,
-                    buttons: ['OK'._],
+      NSAlert.alert(message,
+                    buttons: [:ok._],
                     window: self.window
       )
     end

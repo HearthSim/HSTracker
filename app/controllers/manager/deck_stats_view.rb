@@ -19,7 +19,7 @@ class DeckStatsView < NSView
         win = deck.statistics.where(:win => true).count
         percent_win = win.to_f / total.to_f * 100.0
 
-        text << NSString.stringWithFormat('%@%% win (%@/%@)'._, percent_win.round(2), win, total)
+        text << :show_stat._(percent: percent_win.round(2), win: win, total: total)
         text << "\n"
       end
 
@@ -29,7 +29,7 @@ class DeckStatsView < NSView
         num_version = Deck.where(:deck => deck.deck).count
       end
       num_version += 1
-      text << NSString.stringWithFormat('%@ version(s)'._, num_version)
+      text << :show_versions._(number: num_version)
 
       text.attrd
         .foreground_color(:black.nscolor)

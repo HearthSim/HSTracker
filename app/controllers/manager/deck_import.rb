@@ -23,9 +23,9 @@ class DeckImport < NSWindowController
 
   def import(_)
     if Configuration.hearthstone_locale.nil?
-      NSAlert.alert('Error'._,
-                    buttons: ['OK'._],
-                    informative: 'You have not selected a language from the preferences, please choose a language before importing a deck'._,
+      NSAlert.alert(:error._,
+                    buttons: [:ok._],
+                    informative: :error_language_import_deck._,
                     style: NSCriticalAlertStyle,
                     window: self.window,
                     delegate: self
@@ -44,9 +44,9 @@ class DeckImport < NSWindowController
     deck_id.enabled = false
 
     if deck == ''
-      NSAlert.alert('Error'._,
-                    buttons: ['OK'._],
-                    informative: 'Empty deck url'._,
+      NSAlert.alert(:error._,
+                    buttons: [:ok._],
+                    informative: :empty_deck_url._,
                     style: NSCriticalAlertStyle,
                     window: self.window,
                     delegate: self
@@ -69,9 +69,9 @@ class DeckImport < NSWindowController
         @deck_loaded_block.call(cards, clazz, name, arena) if @deck_loaded_block
         self.window.end_sheet(NSModalResponseOK)
       else
-        NSAlert.alert('Error'._,
-                      buttons: ['OK'._],
-                      informative: 'Error while loading deck'._,
+        NSAlert.alert(:error._,
+                      buttons: [:ok._],
+                      informative: :error_deck_loading._,
                       style: NSCriticalAlertStyle,
                       window: self.window,
                       delegate: self

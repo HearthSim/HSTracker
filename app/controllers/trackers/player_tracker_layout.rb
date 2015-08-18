@@ -16,7 +16,7 @@ class PlayerTrackerLayout < TrackerLayout
   end
 
   def window_title
-    'Player'._
+    :player._
   end
 
 end

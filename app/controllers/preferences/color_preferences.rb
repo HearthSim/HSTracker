@@ -21,6 +21,6 @@ class ColorPreferences < NSViewController
   end
 
   def toolbarItemLabel
-    'Colors'._
+    :colors._
   end
 end
