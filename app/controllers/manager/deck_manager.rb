@@ -27,7 +27,7 @@ class DeckManager < NSWindowController
 
       ClassesData::KClasses.each_with_index do |clazz, idx|
         if Configuration.skin == :default || clazz == 'Neutral'
-          @tabs.setLabel(clazz._, forSegment: idx)
+          @tabs.setLabel(clazz.downcase._, forSegment: idx)
         else
           @tabs.setImage(ImageCache.hero(clazz, size: [20, 20]), forSegment: idx)
         end
