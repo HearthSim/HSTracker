@@ -201,6 +201,7 @@ class Game
     @current_turn = 0
     @opponent_cards = nil
     @has_coin = false
+    @has_been_prompted_back_deck = false
   end
 
   def concede
@@ -258,6 +259,14 @@ class Game
     if hero
       log(:player, "hero is #{hero_id} (#{hero.name})")
       player_tracker.set_hero(hero_id)
+
+      if Configuration.prompt_deck && @current_deck.player_class != hero.player_class && !@has_been_prompted_back_deck
+        @has_been_prompted_back_deck = true
+        NSAlert.alert('Invalid deck choosen'._,
+                      buttons: ['OK'._],
+                      window: self.window) do |_|
+        end
+      end
     end
   end
 

@@ -175,3 +175,4 @@
 "Show opponent tracker" = "Show opponent tracker";
 "Rebuild card database" = "Rebuild card database";
 "HSTracker will rebuild the card database and restart. It can take a while." = "HSTracker will rebuild the card database and restart. It can take a while.";
+"Detect wrong deck" = "Detect wrong deck";
