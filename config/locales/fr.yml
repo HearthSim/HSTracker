@@ -162,3 +162,4 @@ show_stat: "%{percent}%% win (%{win}/%{total})"
 search: Rechercher
 timer: Chronomètre
 detect_wrong_deck: Detecter les mauvais decks
+invalid_deck: Le deck sélectionné ne semble pas correct

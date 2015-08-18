@@ -162,3 +162,4 @@ show_stat: "%{percent}%% win (%{win}/%{total})"
 search: Search
 timer: Timer
 detect_wrong_deck: Detect wrong deck
+invalid_deck: Selected deck doesn't seem to be correct

@@ -3,7 +3,7 @@ class PlayerTracker < Tracker
 
   Log = Motion::Log
 
-  attr_accessor :cards
+  attr_accessor :cards, :playing_cards
 
   # accessors used by card count
   attr_accessor :deck_count, :hand_count
@@ -140,7 +140,6 @@ class PlayerTracker < Tracker
   end
 
   def set_hero(hero_id)
-    # todo warn if the player don't match with the current deck ?
   end
 
   def draw(card_id)

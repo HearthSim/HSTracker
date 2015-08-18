@@ -33,6 +33,11 @@ class LogObserver
     changes_in_file
   end
 
+  def restart_last_game
+    stop
+    start
+  end
+
   def debug(text)
     lines = text.split "\n"
     if lines.count > 0
@@ -90,8 +95,8 @@ class LogObserver
 
     file_handle = NSFileHandle.fileHandleForReadingAtPath(path)
     if file_handle.nil?
-      NSAlert.alert('Error',
-                    informative: "HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue",
+      NSAlert.alert(:error._,
+                    informative: :hstracker_error_log._,
                     style: NSCriticalAlertStyle
       )
       return
@@ -135,12 +140,12 @@ class LogObserver
     lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
     lines = lines_str.split "\n"
     lines.each do |line|
-      if line.include? 'Begin Spectating' || line.include? 'Start Spectator'
+      if line.include?('Begin Spectating') || line.include?('Start Spectator')
         offset = temp_offset
         found_spectator_start = true
-      elsif line.include? 'End Spectator'
+      elsif line.include?('End Spectator')
         offset = temp_offset
-      elsif line.include? 'CREATE_GAME'
+      elsif line.include?('CREATE_GAME')
         if found_spectator_start
           found_spectator_start = false
           next
@@ -294,17 +299,17 @@ class LogObserver
           @current_entity = entity_id
         end
 
-      elsif (match = /tag=(\w+) value=(\w+)/.match(line)) && !line.include? 'HIDE_ENTITY'
+      elsif (match = /tag=(\w+) value=(\w+)/.match(line)) && !line.include?('HIDE_ENTITY')
         tag = match[1]
         value = match[2]
 
         tag_change(tag, @current_entity, value)
 
-      elsif line.include? 'Begin Spectating' || line.include? 'Start Spectator'
+      elsif line.include?('Begin Spectating') || line.include?('Start Spectator')
         @game_mode = :spectator
         @spectating = true
 
-      elsif line.include? 'End Spectator'
+      elsif line.include?('End Spectator')
         @game_mode = :spectator
         @spectating = true
         #game_end
@@ -729,7 +734,7 @@ class LogObserver
       value = PlayState.parse(raw_value)
     elsif tag == GameTag::CARDTYPE
       value = CardType.parse(raw_value)
-    elsif raw_value.is_a? String && raw_value.is_i?
+    elsif raw_value.is_a?(String) && raw_value.is_i?
       value = raw_value.to_i
     end
     value

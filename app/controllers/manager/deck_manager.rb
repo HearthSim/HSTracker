@@ -606,7 +606,7 @@ class DeckManager < NSWindowController
 
             hearthstats_version_id = nil
             current_version = json_deck['current_version']
-            if current_version && json_deck.has_key? 'versions'
+            if current_version && json_deck.has_key?('versions')
               hearthstats_version_id = json_deck['versions'].select { |d| d['version'] == json_deck['current_version'] }
                                          .first['deck_version_id']
             end

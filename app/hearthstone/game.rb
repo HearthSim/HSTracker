@@ -16,6 +16,54 @@ class Game
     @current_deck = current_deck
   end
 
+  def choose_correct_deck
+    # when HSTracker starts and the game is already started, player_tracker window
+    # can not still be visible...
+    # wait for it
+    unless player_tracker.window.isVisible
+      Dispatch::Queue.concurrent.after (0.25) do
+        choose_correct_deck
+      end
+      return
+    end
+
+    @has_been_prompted_back_deck = true
+
+    popup = NSPopUpButton.new
+    popup.frame = [[0, 0], [299, 24]]
+
+    Deck.where(is_active: true)
+      .and(:player_class).eq(@current_player_class)
+      .sort_by(:name, case_insensitive: true).each do |deck|
+
+      item = NSMenuItem.alloc.initWithTitle(deck.name, action: nil, keyEquivalent: '')
+      popup.menu.addItem item
+    end
+
+    response = NSAlert.alert(:invalid_deck._,
+                             buttons: [:ok._, :cancel._],
+                             view: popup,
+                             force_top: true)
+    if response == NSAlertFirstButtonReturn
+      choosen = popup.selectedItem.title
+      deck = Deck.by_name(choosen)
+      return if deck.nil?
+
+      with_deck(deck)
+      if player_tracker
+        Dispatch::Queue.main.after (0.5) do
+          player_tracker.show_deck(deck.playable_cards, deck.name)
+          Dispatch::Queue.concurrent.after (0.25) do
+            Hearthstone.instance.log_observer.restart_last_game
+          end
+        end
+      end
+      if Configuration.remember_last_deck
+        Configuration.last_deck_played = "#{deck.name}##{deck.version}"
+      end
+    end
+  end
+
   def handle_end_game
     if @current_deck.nil?
       Log.verbose 'No current deck, ignore game'
@@ -197,6 +245,7 @@ class Game
 
     @game_saved = false
     @game_result_win = nil
+    @current_player_class = nil
     @current_opponent = nil
     @current_turn = 0
     @opponent_cards = nil
@@ -257,15 +306,12 @@ class Game
   def player_hero(hero_id)
     hero = Card.hero(hero_id)
     if hero
+      @current_player_class = hero.player_class
       log(:player, "hero is #{hero_id} (#{hero.name})")
       player_tracker.set_hero(hero_id)
 
       if Configuration.prompt_deck && @current_deck.player_class != hero.player_class && !@has_been_prompted_back_deck
-        @has_been_prompted_back_deck = true
-        NSAlert.alert('Invalid deck choosen'._,
-                      buttons: ['OK'._],
-                      window: self.window) do |_|
-        end
+        choose_correct_deck
       end
     end
   end

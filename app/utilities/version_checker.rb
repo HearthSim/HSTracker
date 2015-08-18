@@ -27,7 +27,7 @@ class VersionChecker
           span = version.firstNodeForXPath("div[contains(@class, 'release-meta')]/span[contains(@class, 'release-label')]", error: error)
           if span
             attr = span.attributeForName 'class'
-            if attr && attr.stringValue.include? 'release-label' && !attr.stringValue.include? 'prerelease'
+            if attr && attr.stringValue.include?('release-label') && !attr.stringValue.include?('prerelease')
               version_number = version.firstNodeForXPath("div[contains(@class, 'release-meta')]/ul/li/a/span[contains(@class, 'css-truncate-target')]", error: error)
               if version_number
                 release_version = version_number.stringValue
