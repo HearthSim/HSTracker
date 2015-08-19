@@ -96,7 +96,7 @@ class GeneralPreferencesLayout < PreferencesLayout
       reset_on_end: :reset_trackers_end._,
       show_notifications: :show_notifications._,
       remember_last_deck: :remember_last_deck._,
-      prompt_deck: :detect_wrong_deck._
+      #prompt_deck: :detect_wrong_deck._
     }
   end
 

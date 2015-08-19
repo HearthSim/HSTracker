@@ -310,9 +310,9 @@ class Game
       log(:player, "hero is #{hero_id} (#{hero.name})")
       player_tracker.set_hero(hero_id)
 
-      if Configuration.prompt_deck && @current_deck.player_class != hero.player_class && !@has_been_prompted_back_deck
-        choose_correct_deck
-      end
+      #if Configuration.prompt_deck && @current_deck.player_class != hero.player_class && !@has_been_prompted_back_deck
+      #  choose_correct_deck
+      #end
     end
   end
 

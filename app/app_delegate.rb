@@ -86,8 +86,8 @@ class AppDelegate
 
       if Hearthstone.instance.is_hearthstone_running?
         Dispatch::Queue.main.async do
-        Hearthstone.instance.start
-          end
+          Hearthstone.instance.start
+        end
       end
 
       @splash.window.orderOut(self)
