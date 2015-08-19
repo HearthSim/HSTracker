@@ -16,7 +16,7 @@ class JSON
     opts = NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves | NSJSONReadingAllowFragments
     error = Pointer.new(:id)
     obj = NSJSONSerialization.JSONObjectWithData(data, options: opts, error: error)
-    raise ParserError, error[0].description if error[0]
+    return nil if error[0]
     if block_given?
       yield obj
     else
