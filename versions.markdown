@@ -1,3 +1,6 @@
+#### 0.12.1
+- Bugfixes !
+
 #### 0.12
 - Fix : should run correctly on 10.8
 - Fix : upload on HearthStats
