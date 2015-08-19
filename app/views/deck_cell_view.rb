@@ -3,7 +3,11 @@ class DeckCellView < NSTableCellView
 
   def drawRect(rect)
     if Configuration.skin == :hearthstats
-      ClassesData::KClassesColor[deck.player_class.downcase.to_sym].set
+      color = ClassesData::KClassesColor[deck.player_class.downcase.to_sym]
+      unless color
+        color = :green.nscolor
+      end
+      color.set
       NSRectFill rect
     end
 
@@ -16,7 +20,9 @@ class DeckCellView < NSTableCellView
 
       # draw the class image
       image = ImageCache.hero(deck.player_class)
-      image.drawInRect([[2, 2], [32, 32]], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
+      if image
+        image.drawInRect([[2, 2], [32, 32]], fromRect: NSZeroRect, operation: NSCompositeSourceOver, fraction: 1.0)
+      end
 
       # print the deck name
       name = deck.name.attrd
