@@ -1,8 +1,9 @@
-#### 0.11.5
+#### 0.12
 - Fix : should run correctly on 10.8
 - Fix : upload on HearthStats
 - Add an option to rebuild card database (menu HSTracker -> rebuild card database)
 - Fix : brawl is now correctly detected
+- Support TGT
 
 #### 0.11.4
 - Correct the save button on "non-full" decks
