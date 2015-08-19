@@ -2,7 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 5
+  DATABASE_VERSION = 6
 
   Log = Motion::Log
 
@@ -37,7 +37,7 @@ class DatabaseGenerator
     if RUBYMOTION_ENV == 'test'
       langs = %w(deDE enUS frFR)
     else
-      langs = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
+      langs = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ruRU zhCN zhTW)
     end
     valid_card_set = [
       'Basic',
@@ -48,7 +48,8 @@ class DatabaseGenerator
       'Goblins vs Gnomes',
       'Blackrock Mountain',
       'Hero Skins',
-      'Tavern Brawl'
+      'Tavern Brawl',
+      'The Grand Tournament'
     ]
     splash.max(langs.size) if splash
 

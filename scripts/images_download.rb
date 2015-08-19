@@ -13,7 +13,8 @@ valid_card_set = [
     'Promotion',
     'Curse of Naxxramas',
     'Goblins vs Gnomes',
-    'Blackrock Mountain'
+    'Blackrock Mountain',
+    'The Grand Tournament'
 ]
 
 resource_dir = "#{File.dirname(__FILE__)}/../resources/"
