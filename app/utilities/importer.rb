@@ -51,7 +51,7 @@ class Importer
             next
         end
 
-        if deck.nil? or deck.count.zero?
+        if deck.nil? || deck.count.zero?
           block.call(nil, nil, nil, nil) if block
           next
         end
@@ -99,7 +99,7 @@ class Importer
             next
           end
 
-          if !card.player_class.nil? and clazz.nil?
+          if !card.player_class.nil? && clazz.nil?
             clazz = card.player_class
             Log.verbose "Found class as #{clazz}"
           end
@@ -123,7 +123,7 @@ class Importer
       pasteboard = NSPasteboard.generalPasteboard
       paste = pasteboard.stringForType NSPasteboardTypeString
 
-      if paste and /^(trackerimport|netdeckimport)/ =~ paste
+      if paste && /^(trackerimport|netdeckimport)/ =~ paste
         lines = paste.split("\n")
 
         arena = false
@@ -259,14 +259,14 @@ class Importer
 
       # search for title
       title_nodes = doc.xpath("//div[@id='contenu-titre']//h1")
-      unless title_nodes.nil? or title_nodes.size.zero?
+      unless title_nodes.nil? || title_nodes.size.zero?
         title_node = title_nodes.first
         title      = title_node.children.last.stringValue.strip
       end
 
       # search for clazz
       clazz_nodes = doc.xpath("//div[@id='contenu']//img")
-      unless clazz_nodes.nil? or clazz_nodes.size.zero?
+      unless clazz_nodes.nil? || clazz_nodes.size.zero?
         clazz_node = clazz_nodes.first
 
         match = /select-(\w+)\.png/.match clazz_node.XMLString
@@ -349,7 +349,7 @@ class Importer
         Log.error error[0].description
         return nil, nil, nil
       end
-      if card_nodes.nil? or card_nodes.size.zero?
+      if card_nodes.nil? || card_nodes.size.zero?
         return nil, nil, nil
       end
 
@@ -449,7 +449,7 @@ class Importer
         Log.error error[0].description
         return nil, nil, nil
       end
-      if card_nodes.nil? or card_nodes.size.zero?
+      if card_nodes.nil? || card_nodes.size.zero?
         return nil, nil, nil
       end
 
@@ -541,7 +541,7 @@ class Importer
 
       # search for cards
       card_nodes = doc.nodesForXPath("//div[contains(@class,'deckguide-cards-type')]/ul/li", error: error)
-      if card_nodes.nil? or card_nodes.size.zero?
+      if card_nodes.nil? || card_nodes.size.zero?
         return nil, nil, nil
       end
 
@@ -605,7 +605,7 @@ class Importer
         Log.error error[0].description
         return nil, nil, nil
       end
-      if card_nodes.nil? or card_nodes.size.zero?
+      if card_nodes.nil? || card_nodes.size.zero?
         return nil, nil, nil
       end
 
@@ -652,7 +652,7 @@ class Importer
         Log.error error[0].description
         return nil, nil, nil
       end
-      if card_nodes.nil? or card_nodes.size.zero?
+      if card_nodes.nil? || card_nodes.size.zero?
         return nil, nil, nil
       end
 

@@ -102,7 +102,7 @@ class Hearthstone
   # all are always added
   def listeners(type = nil)
     all = []
-    if type and @listeners[type]
+    if type && @listeners[type]
       all += @listeners[type]
     elsif type.nil?
       all += @listeners[:player] if @listeners[:player]
@@ -135,7 +135,7 @@ class Hearthstone
       config_changed = true
     end
 
-    if config_changed and is_hearthstone_running?
+    if config_changed && is_hearthstone_running?
       NSAlert.alert(:alert._,
                     buttons: [:ok._],
                     informative: :restart_hearthstone_logs._)

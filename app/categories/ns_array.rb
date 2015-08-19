@@ -15,7 +15,7 @@ class NSArray
     sort! do |a, b|
       if a.cost != b.cost
         a.cost <=> b.cost
-      elsif (a.player_class.nil? and !b.player_class.nil?) or (!a.player_class.nil? and b.player_class.nil?)
+      elsif (a.player_class.nil? && !b.player_class.nil?) || (!a.player_class.nil? && b.player_class.nil?)
         a.player_class.nil? ? 1 : -1
       elsif a.card_type != b.card_type
         b.card_type <=> a.card_type

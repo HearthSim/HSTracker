@@ -52,7 +52,7 @@ class OpponentTracker < Tracker
   end
 
   def clicked(_)
-    return unless @game_ended and @table_view.clickedRow.zero?
+    return unless @game_ended && @table_view.clickedRow.zero?
 
     Log.verbose "Want to save a deck for #{@hero.player_class}"
     NSNotificationCenter.defaultCenter.post('open_deck_manager',
@@ -157,7 +157,7 @@ class OpponentTracker < Tracker
 
   def set_hero(hero_id)
     @hero = Card.hero(hero_id)
-    if @hero and !Configuration.fixed_window_names
+    if @hero && !Configuration.fixed_window_names
       self.window.setTitle @hero.player_class._
     end
   end
@@ -171,7 +171,7 @@ class OpponentTracker < Tracker
 
   def draw(turn)
     self.hand_count += 1
-    if turn == 0 and self.hand_count == 5
+    if turn == 0 && self.hand_count == 5
       Log.verbose 'opponent get the coin'
     else
       self.deck_count -= 1 unless self.deck_count.zero?
@@ -270,7 +270,7 @@ class OpponentTracker < Tracker
   end
 
   def secret_trigger(card_id, turn, id)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     card = @cards.select { |c| c.card_id == card_id }.first
     if card
@@ -307,9 +307,9 @@ class OpponentTracker < Tracker
         ratio = 1.0
     end
 
-    if @game_end and row == 0
+    if @game_end && row == 0
       35.0 / ratio
-    elsif Configuration.hand_count_window == :tracker and numberOfRowsInTableView(@table_view) - 1 == row
+    elsif Configuration.hand_count_window == :tracker && numberOfRowsInTableView(@table_view) - 1 == row
       50.0 / ratio
     else
       case Configuration.card_layout

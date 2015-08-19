@@ -3,7 +3,7 @@ class JSON
   def self.generate(obj, opts={})
     to_str = opts[:to_str]
     data = NSJSONSerialization.dataWithJSONObject(obj, options: 0, error: nil)
-    if to_str and data.respond_to?(:to_str)
+    if to_str && data.respond_to?(:to_str)
       data = data.to_str
     end
     data

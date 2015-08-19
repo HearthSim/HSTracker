@@ -16,6 +16,54 @@ class Game
     @current_deck = current_deck
   end
 
+  def choose_correct_deck
+    # when HSTracker starts and the game is already started, player_tracker window
+    # can not still be visible...
+    # wait for it
+    unless player_tracker.window.isVisible
+      Dispatch::Queue.concurrent.after (0.25) do
+        choose_correct_deck
+      end
+      return
+    end
+
+    @has_been_prompted_back_deck = true
+
+    popup = NSPopUpButton.new
+    popup.frame = [[0, 0], [299, 24]]
+
+    Deck.where(is_active: true)
+      .and(:player_class).eq(@current_player_class)
+      .sort_by(:name, case_insensitive: true).each do |deck|
+
+      item = NSMenuItem.alloc.initWithTitle(deck.name, action: nil, keyEquivalent: '')
+      popup.menu.addItem item
+    end
+
+    response = NSAlert.alert(:invalid_deck._,
+                             buttons: [:ok._, :cancel._],
+                             view: popup,
+                             force_top: true)
+    if response == NSAlertFirstButtonReturn
+      choosen = popup.selectedItem.title
+      deck = Deck.by_name(choosen)
+      return if deck.nil?
+
+      with_deck(deck)
+      if player_tracker
+        Dispatch::Queue.main.after (0.5) do
+          player_tracker.show_deck(deck.playable_cards, deck.name)
+          Dispatch::Queue.concurrent.after (0.25) do
+            Hearthstone.instance.log_observer.restart_last_game
+          end
+        end
+      end
+      if Configuration.remember_last_deck
+        Configuration.last_deck_played = "#{deck.name}##{deck.version}"
+      end
+    end
+  end
+
   def handle_end_game
     if @current_deck.nil?
       Log.verbose 'No current deck, ignore game'
@@ -31,7 +79,7 @@ class Game
       end
     end
 
-    if @game_mode == :ranked and @current_rank.nil?
+    if @game_mode == :ranked && @current_rank.nil?
       wait_rank(5) do |found|
         if found
           Log.verbose "Game ranked, get rank #{@current_rank}"
@@ -83,7 +131,7 @@ class Game
         }
         # todo, add :log (see match_log.json)
 
-        if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
+        if @current_deck.hearthstats_id.nil? || @current_deck.hearthstats_id.zero?
           response = NSAlert.alert(:deck_save._,
                                    buttons: [:ok._, :cancel._],
                                    informative: :deck_not_saved_hearthstats._,
@@ -197,10 +245,12 @@ class Game
 
     @game_saved = false
     @game_result_win = nil
+    @current_player_class = nil
     @current_opponent = nil
     @current_turn = 0
     @opponent_cards = nil
     @has_coin = false
+    @has_been_prompted_back_deck = false
   end
 
   def concede
@@ -248,7 +298,7 @@ class Game
 
   def player_get_to_deck(card_id, turn)
     log(:player, "get to deck #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get_to_deck(card_id)
   end
@@ -256,14 +306,19 @@ class Game
   def player_hero(hero_id)
     hero = Card.hero(hero_id)
     if hero
+      @current_player_class = hero.player_class
       log(:player, "hero is #{hero_id} (#{hero.name})")
       player_tracker.set_hero(hero_id)
+
+      if Configuration.prompt_deck && @current_deck.player_class != hero.player_class && !@has_been_prompted_back_deck
+        choose_correct_deck
+      end
     end
   end
 
   def player_draw(card_id, turn)
     log(:player, "draw #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     if card_id == 'GAME_005'
       @has_coin = true
@@ -289,13 +344,13 @@ class Game
 
   def player_play(card_id, turn)
     log(:player, "play #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.play(card_id)
   end
 
   def player_hand_discard(card_id, turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     log(:player, "discard from hand #{card_id} (#{card(card_id)})", turn)
     player_tracker.hand_discard(card_id)
@@ -309,21 +364,21 @@ class Game
 
   def player_back_to_hand(card_id, turn)
     log(:player, "card back to hand #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get(card_id, true, turn)
   end
 
   def player_play_to_deck(card_id, turn)
     log(:player, "play to deck #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.play_to_deck(card_id)
   end
 
   def player_get(card_id, turn)
     log(:player, "get #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get(card_id, false, turn)
   end

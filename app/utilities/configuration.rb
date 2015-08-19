@@ -15,7 +15,8 @@ class Configuration
                   flash_color fixed_window_names reset_on_end card_layout count_color
                   count_color_border hand_count_window show_get_cards show_card_on_hover
                   in_hand_as_played use_hearthstats hearthstats_token show_notifications
-                  remember_last_deck last_deck_played skin show_timer show_opponent_tracker)
+                  remember_last_deck last_deck_played skin show_timer show_opponent_tracker
+                  prompt_deck)
 
     KDefaults = {
       flash_color: [55, 189, 223],
@@ -36,7 +37,8 @@ class Configuration
       remember_last_deck: true,
       skin: :hearthstats,
       show_timer: true,
-      show_opponent_tracker: true
+      show_opponent_tracker: true,
+      prompt_deck: true
     }
 
     def method_missing(symbol, *args)
@@ -64,7 +66,7 @@ class Configuration
       else
         value = NSUserDefaults.standardUserDefaults.objectForKey(method)
 
-        if KDefaults.has_key?(method.to_sym) and value.nil?
+        if KDefaults.has_key?(method.to_sym) && value.nil?
           value = KDefaults.fetch(method.to_sym)
         end
 

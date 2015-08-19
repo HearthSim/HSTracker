@@ -19,7 +19,7 @@ class DatabaseGenerator
     end
 
     database_version = NSUserDefaults.standardUserDefaults.objectForKey 'database_version'
-    return true if database_version.nil? or database_version.to_i < DATABASE_VERSION
+    return true if database_version.nil? || database_version.to_i < DATABASE_VERSION
 
     false
   end

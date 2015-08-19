@@ -3,7 +3,7 @@ class PlayerTracker < Tracker
 
   Log = Motion::Log
 
-  attr_accessor :cards
+  attr_accessor :cards, :playing_cards
 
   # accessors used by card count
   attr_accessor :deck_count, :hand_count
@@ -140,15 +140,14 @@ class PlayerTracker < Tracker
   end
 
   def set_hero(hero_id)
-    # todo warn if the player don't match with the current deck ?
   end
 
   def draw(card_id)
     self.hand_count += 1
 
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
-    card = @playing_cards.select { |c| c.card_id == card_id and c.count > 0 }.first
+    card = @playing_cards.select { |c| c.card_id == card_id && c.count > 0 }.first
     return if card.nil?
 
     card.count -= 1
@@ -163,7 +162,7 @@ class PlayerTracker < Tracker
   end
 
   def deck_discard(card_id)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     if card
@@ -201,7 +200,7 @@ class PlayerTracker < Tracker
     unless card.nil?
       card.hand_count -= 1
 
-      if card.hand_count.zero? and card.count.zero? and Configuration.card_played == :remove
+      if card.hand_count.zero? && card.count.zero? && Configuration.card_played == :remove
         @playing_cards.delete card
       end
     end
@@ -213,7 +212,7 @@ class PlayerTracker < Tracker
   def mulligan(card_id)
     self.hand_count -= 1
 
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     if card
@@ -274,7 +273,7 @@ class PlayerTracker < Tracker
   end
 
   def get(card_id, from_play, turn)
-    if card_id == 'GAME_005' and turn == 0
+    if card_id == 'GAME_005' && turn == 0
       self.hand_count += 1
       return
     end
@@ -283,7 +282,7 @@ class PlayerTracker < Tracker
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     if card
       card.hand_count += 1
-    elsif !from_play and Configuration.show_get_cards
+    elsif !from_play && Configuration.show_get_cards
       real_card = Card.by_id(card_id)
       if real_card
         card = PlayCard.from_card(real_card)
@@ -325,7 +324,7 @@ class PlayerTracker < Tracker
   end
 
   def tableView(tableView, heightOfRow: row)
-    if Configuration.hand_count_window == :tracker and row >= @playing_cards.count
+    if Configuration.hand_count_window == :tracker && row >= @playing_cards.count
       case Configuration.card_layout
         when :small
           ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight

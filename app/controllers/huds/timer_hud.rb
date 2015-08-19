@@ -57,7 +57,7 @@ class TimerHud < Hud
                                                     userInfo: nil,
                                                     repeats: true)
 
-    if (!@player_mulligan and @opponent_mulligan) or (!@opponent_mulligan and @player_mulligan) or (!@player_mulligan and !@opponent_mulligan and @seconds < 85)
+    if (!@player_mulligan && @opponent_mulligan) || (!@opponent_mulligan && @player_mulligan) || (!@player_mulligan && !@opponent_mulligan && @seconds < 85)
       @opponent_mulligan = @player_mulligan = true
     end
 
@@ -67,7 +67,7 @@ class TimerHud < Hud
   def fire(_)
     @seconds -= 1 if @seconds > 0
 
-    return if !@player_mulligan and !@opponent_mulligan
+    return if !@player_mulligan && !@opponent_mulligan
 
     seconds = 90 - @seconds
     if @seconds < 10
