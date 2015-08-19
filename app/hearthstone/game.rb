@@ -198,7 +198,7 @@ class Game
                                     oppname: data[:oppname],
                                     notes: data[:notes],
                                     ranklvl: data[:ranklvl],
-                                    created_at: created_at
+                                    match_created_at: created_at
 
     cards.each do |c|
       HearthstatsMatchCard.create card_id: c[:id],
