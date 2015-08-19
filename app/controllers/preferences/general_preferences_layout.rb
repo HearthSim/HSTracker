@@ -11,7 +11,6 @@ class GeneralPreferencesLayout < PreferencesLayout
       'koKR' => 'ko_KR',
       'plPL' => 'pl_PL',
       'ptBR' => 'pt_BR',
-      'ptPT' => 'pt_PT',
       'ruRU' => 'ru_RU',
       'zhCN' => 'zh_CN',
       'zhTW' => 'zh_TW'

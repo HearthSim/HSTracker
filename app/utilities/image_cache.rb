@@ -1,6 +1,6 @@
 class ImageCache
   # usefull if we need to force reloading of images
-  IMAGES_VERSION = 1
+  IMAGES_VERSION = 2
 
   class << self
 

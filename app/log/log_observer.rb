@@ -145,7 +145,7 @@ class LogObserver
         found_spectator_start = true
       elsif line.include?('End Spectator')
         offset = temp_offset
-      elsif line.include?('CREATE_GAME')
+      elsif line.include?('CREATE_GAME') && line.include?('GameState.')
         if found_spectator_start
           found_spectator_start = false
           next
@@ -190,7 +190,7 @@ class LogObserver
     #return
 
     ## [POWER]
-    if line =~ /^\[Power\]/
+    if line =~ /^\[Power\] GameState\./
       # game start
       if line =~ /CREATE_GAME/
         start_game
@@ -314,7 +314,7 @@ class LogObserver
         @spectating = true
         #game_end
 
-      elsif (match = /.*ACTION_START.*id=(\w*).*cardId=(\w*).*SubType=POWER.*Target=(.+)/i.match(line))
+      elsif (match = /.*ACTION_START.*id=(\w*).*cardId=(\w*).*BlockType=POWER.*Target=(.+)/i.match(line))
         id = match[1]
         local_id = match[2]
         target = match[3]
