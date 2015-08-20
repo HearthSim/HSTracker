@@ -114,20 +114,34 @@ class Game
         if @opponent_cards
           cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
         end
-        data = { class: @current_deck.player_class,
+        # with a too long timeout, and if you already started a new game, @vars will be resetted
+        # a the time the fail block is called...
+        _player_class = @current_deck.player_class
+        _has_coin = @has_coin.to_s
+        _current_turn = @current_turn
+        _duration = (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i
+        _deck_id = @current_deck.hearthstats_id
+        _deck_version_id = @current_deck.hearthstats_version_id
+        _oppclass = @current_opponent ? @current_opponent.player_class : nil
+        _oppname = @opponent_name || nil
+        _ranklvl = @current_rank
+        _oppcards = cards
+        _created_at = @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
+
+        data = { class: _player_class,
                  mode: game_mode,
                  result: game_result,
-                 coin: @has_coin.to_s,
-                 numturns: @current_turn,
-                 duration: (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
-                 deck_id: @current_deck.hearthstats_id,
-                 deck_version_id: @current_deck.hearthstats_version_id,
-                 oppclass: @current_opponent ? @current_opponent.player_class : nil,
-                 oppname: @opponent_name || nil,
+                 coin: _has_coin,
+                 numturns: _current_turn,
+                 duration: _duration,
+                 deck_id: _deck_id,
+                 deck_version_id: _deck_version_id,
+                 oppclass: _oppclass,
+                 oppname: _oppname,
                  notes: nil,
-                 ranklvl: @current_rank,
+                 ranklvl: _ranklvl,
                  oppcards: cards,
-                 created_at: @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
+                 created_at: _created_at
         }
         # todo, add :log (see match_log.json)
 
