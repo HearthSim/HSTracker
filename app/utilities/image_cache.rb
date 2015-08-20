@@ -82,7 +82,7 @@ class ImageCache
 
     def hero(clazz, options={})
       image = image_named "heroes/#{Configuration.skin}/#{clazz.downcase}.png"
-      if options.has_key? :size
+      if options.has_key?(:size) && image
         image.size = options[:size]
       end
       image
