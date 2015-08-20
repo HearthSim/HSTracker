@@ -34,6 +34,10 @@ Motion::Project::App.setup do |app|
   end
   app.development do
     app.deployment_target = '10.9'
+
+    app.sparkle do
+      release :base_url, 'https://github.com/bmichotte/HSTracker'
+    end
   end
   App.info 'Building for target', app.deployment_target
 
