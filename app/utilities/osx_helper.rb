@@ -58,7 +58,7 @@ class OSXHelper
   private
   def self.get_version
     match = /Version (\d+)\.(\d+)/.match(NSProcessInfo.processInfo.operatingSystemVersionString)
-    return false, false if match.nil? || match.length != 3
+    return 0, 0 if match.nil? || match.length != 3
 
     _major = match[1].to_i
     _minor = match[2].to_i
