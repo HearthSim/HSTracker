@@ -5,6 +5,9 @@ class LogObserver
   def initialize
     super.tap do
       @last_read_position = 0
+
+      # force initialization of data
+      reset_data
     end
   end
 
