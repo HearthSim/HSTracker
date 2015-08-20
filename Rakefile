@@ -27,8 +27,11 @@ Motion::Project::App.setup do |app|
   end
   App.info 'Building for target', app.deployment_target
 
+  require 'dotenv'
+  Dotenv.load
+
   app.identifier = 'be.michotte.hstracker'
-  app.codesign_for_release = false
+  app.codesign_certificate = ENV['CODE_SIGN']
 
   app.icon = 'Icon.icns'
   app.info_plist['ATSApplicationFontsPath'] = 'fonts/'
@@ -42,9 +45,6 @@ Motion::Project::App.setup do |app|
     pod 'HockeySDK-Mac'
   end
 
-  require 'dotenv'
-  Dotenv.load
-
   app.env['hockey_app_id'] = ENV['HOCKEY_APP']
   app.sparkle do
     release :base_url, "https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}"
@@ -52,9 +52,10 @@ Motion::Project::App.setup do |app|
     release :feed_filename, ENV['HOCKEY_APP']
   end
 end
+task :run => :localize
 task :run => :'schema:build'
 
-task :publish => :'build:release' do
+task :publish => :'archive' do
   desc 'Generate HSTracker.dmg and release to Github'
   config = Motion::Project::App.config
 

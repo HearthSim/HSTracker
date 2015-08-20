@@ -8,18 +8,27 @@ hstracker_dsym_zip = './hstracker.dsym.zip'
 `rm -f #{hstracker_dsym_zip}`
 
 version = nil
+changelog = []
 
 File.open './versions.markdown', 'r' do |file|
+  started = false
   file.each_line do |line|
     if line =~ /^####\s/
-      version = line.gsub(/(#|\s)/, '')
-      puts "new #{version}"
-      break
+      if started
+        break
+      else
+        version = line.gsub(/(#|\s)/, '')
+        puts "new #{version}"
+        started = true
+        next
+      end
+    else
+      changelog << line.strip
     end
   end
 end
 
-if version.nil?
+if changelog.empty? || version.nil?
   puts "Can't find new version"
   exit(1)
 end
@@ -41,7 +50,7 @@ puts 'Uploading to HockeyApp'
 `curl \
   -F "status=1" \
   -F "notify=0" \
-  -F "notes=Version #{version}" \
+  -F "notes=#{changelog.reject(&:empty?).join(" \\ \n")}" \
   -F "notes_type=1" \
   -F "ipa=@#{hstracker_zip}" \
   -F "dsym=@#{hstracker_dsym_zip}" \
