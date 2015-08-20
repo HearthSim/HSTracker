@@ -31,7 +31,7 @@ Motion::Project::App.setup do |app|
   Dotenv.load
 
   app.identifier = 'be.michotte.hstracker'
-  app.codesign_certificate = ENV['CODE_SIGN']
+  app.codesign_certificate = ENV['CODE_SIGN'] || nil
 
   app.icon = 'Icon.icns'
   app.info_plist['ATSApplicationFontsPath'] = 'fonts/'
@@ -45,11 +45,13 @@ Motion::Project::App.setup do |app|
     pod 'HockeySDK-Mac'
   end
 
-  app.env['hockey_app_id'] = ENV['HOCKEY_APP']
-  app.sparkle do
-    release :base_url, "https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}"
-    release :feed_base_url, 'https://rink.hockeyapp.net/api/2/apps/'
-    release :feed_filename, ENV['HOCKEY_APP']
+  unless app.spec_mode
+    app.env['hockey_app_id'] = ENV['HOCKEY_APP']
+    app.sparkle do
+      release :base_url, "https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}"
+      release :feed_base_url, 'https://rink.hockeyapp.net/api/2/apps/'
+      release :feed_filename, ENV['HOCKEY_APP']
+    end
   end
 end
 task :run => :localize
