@@ -61,6 +61,7 @@ puts 'Uploading to HockeyApp'
   https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}/app_versions/upload`
 
 require 'json'
+changelog << "\nNew download page : https://rink.hockeyapp.net/apps/f38b1192f0dac671153a94036ced974e"
 json = {
   tag_name: "#{tag}",
   target_commitish: 'master',
