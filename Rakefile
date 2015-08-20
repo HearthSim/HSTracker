@@ -19,6 +19,9 @@ Motion::Project::App.setup do |app|
   # see https://github.com/HipByte/RubyMotion/issues/201
   system 'touch Rakefile'
 
+  require 'dotenv'
+  Dotenv.load
+
   app.release do
     app.deployment_target = '10.8'
 
@@ -33,9 +36,6 @@ Motion::Project::App.setup do |app|
     app.deployment_target = '10.9'
   end
   App.info 'Building for target', app.deployment_target
-
-  require 'dotenv'
-  Dotenv.load
 
   app.identifier = 'be.michotte.hstracker'
   app.codesign_certificate = ENV['CODE_SIGN'] || nil
