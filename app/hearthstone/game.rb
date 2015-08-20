@@ -90,6 +90,12 @@ class Game
 
     # with a too long timeout, and if you already started a new game, @vars will be resetted
     # a the time the fail block is called...
+
+    cards = []
+    if @opponent_cards
+      cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
+    end
+
     _player_class = @current_deck.player_class
     _current_deck = @current_deck
     _current_deck_name = _current_deck.name
@@ -144,10 +150,6 @@ class Game
                       else
                         'Casual'
                     end
-        cards = []
-        if @opponent_cards
-          cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
-        end
 
         data = { class: _player_class,
                  mode: game_mode,
