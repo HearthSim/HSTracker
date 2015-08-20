@@ -89,7 +89,7 @@ class AppDelegate
       end
 
       if Hearthstone.instance.is_hearthstone_running?
-        Dispatch::Queue.main.async do
+        Dispatch::Queue.main.after 0.5 do
           Hearthstone.instance.start
         end
       end

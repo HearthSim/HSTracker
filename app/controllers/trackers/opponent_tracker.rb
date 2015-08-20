@@ -157,7 +157,8 @@ class OpponentTracker < Tracker
 
   def set_hero(hero_id)
     @hero = Card.hero(hero_id)
-    if @hero && !Configuration.fixed_window_names
+    # how @hero.player_class can be nil ?
+    if @hero && @hero.player_class && !Configuration.fixed_window_names
       self.window.setTitle @hero.player_class._
     end
   end
