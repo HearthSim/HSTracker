@@ -59,7 +59,7 @@ class AppDelegate
         last_deck_played = Configuration.last_deck_played
         unless last_deck_played.nil?
           name, version = last_deck_played.split('#')
-          deck = Deck.where(:name => name).and(:version).eq(version).first
+          deck = Deck.where(name: name).and(:version).eq(version).first
           if deck
             @player.show_deck(deck.playable_cards, deck.name)
             Game.instance.with_deck(deck)
@@ -156,8 +156,12 @@ class AppDelegate
 
   def open_deck_manager(data)
     # change windows level
-    @player.set_level NSNormalWindowLevel
-    @opponent.set_level NSNormalWindowLevel
+    if @player
+      @player.set_level NSNormalWindowLevel
+    end
+    if @opponent
+      @opponent.set_level NSNormalWindowLevel
+    end
 
     deck_manager.showWindow(nil)
     deck_manager.player_view = @player
