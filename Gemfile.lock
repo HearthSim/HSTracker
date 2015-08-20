@@ -49,6 +49,7 @@ GEM
     cocoapods-try (0.4.5)
     colored (1.2)
     dbt (1.1.5)
+    dotenv (2.0.2)
     escape (0.0.4)
     fuzzy_match (2.0.4)
     i18n (0.7.0)
@@ -57,6 +58,7 @@ GEM
     molinillo (0.3.1)
     motion-cocoapods (1.7.3)
       cocoapods (>= 0.34)
+    motion-env (0.0.4)
     motion-kit (0.18.0)
       dbt (~> 1.1.5)
     motion-kit-events (0.3.1)
@@ -89,6 +91,8 @@ DEPENDENCIES
   MotionLocalize
   cdq
   cocoapods
+  dotenv
+  motion-env
   motion-kit
   motion-kit-events
   motion-logger

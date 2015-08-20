@@ -39,7 +39,13 @@ Motion::Project::App.setup do |app|
     pod 'GDataXML-HTML'
     pod 'MASPreferences'
     pod 'JNWCollectionView'
+    pod 'HockeySDK-Mac'
   end
+
+  require 'dotenv'
+  Dotenv.load
+
+  app.env['hockey_app_id'] = ENV['HOCKEY_APP']
 end
 task :run => :'schema:build'
 
