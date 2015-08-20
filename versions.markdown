@@ -1,3 +1,8 @@
+#### 0.12.2
+- Correct the invalid update message
+- Correct a crash if HearthStats is down and the timeout is too long
+- Add HockeyApp to help getting error message. Please always accept to send the crash logs !
+
 #### 0.12.1
 - Bugfixes !
 
