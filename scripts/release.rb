@@ -51,7 +51,7 @@ puts 'Zipping dSYM'
 
 puts 'Uploading to HockeyApp'
 `curl \
-  -F "status=1" \
+  -F "status=2" \
   -F "notify=0" \
   -F "notes=#{changelog.join(" \ \n")}" \
   -F "notes_type=1" \
