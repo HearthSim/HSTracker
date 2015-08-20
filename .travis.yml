@@ -9,5 +9,6 @@ script:
     - bundle exec rake pod:install > pod_log.txt
     - bundle exec rake clean
     - rm -rf sparkle
+    - rm -f resources/dsa_pub.pem
     - bundle exec rake sparkle:setup_certificates
     - bundle exec rake spec
