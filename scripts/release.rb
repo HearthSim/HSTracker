@@ -1,80 +1,49 @@
 #!/usr/bin/env ruby
 
-require 'json'
+deployment_target ||= '10.8'
 
-deployment_target = ARGV[0]
-tag               = ARGV[1]
-access_token      = ENV['HSTRACKER_GITHUB_TOKEN']
-repo              = 'repos/bmichotte/HSTracker'
-dmg_file          = 'HSTracker.dmg'
+hstracker_zip = './sparkle/release/HSTracker.zip'
+hstracker_dsym_zip = './hstracker.dsym.zip'
+`rm -f #{hstracker_zip}`
+`rm -f #{hstracker_dsym_zip}`
 
-if File.exists? "build/#{dmg_file}"
-  File.delete "build/#{dmg_file}"
-end
-
-puts "Creating #{dmg_file}"
-`rsync -a build/MacOSX-#{deployment_target}-Release/HSTracker.app build/Release`
-`ln -sf /Applications build/Release`
-`hdiutil create build/tmp.dmg -volname HSTracker -srcfolder build/Release`
-`hdiutil convert -format UDBZ build/tmp.dmg -o build/#{dmg_file}`
-`rm -f build/tmp.dmg`
-
-changelog = []
-version   = nil
+version = nil
 
 File.open './versions.markdown', 'r' do |file|
-  started = false
   file.each_line do |line|
     if line =~ /^####\s/
-      if started
-        break
-      else
-        version = line.gsub(/(#|\s)/, '')
-        puts "new #{version}"
-        started = true
-        next
-      end
-    else
-      changelog << line.strip
+      version = line.gsub(/(#|\s)/, '')
+      puts "new #{version}"
+      break
     end
   end
 end
 
-if changelog.empty?
-  puts 'empty changelog'
+if version.nil?
+  puts "Can't find new version"
   exit(1)
 end
 
-puts 'Changelog'
-puts changelog
+require 'redcarpet'
+puts 'Generating versions'
+content = File.read('./versions.markdown')
+markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+html = markdown.render(content)
+File.open('./sparkle/config/release_notes.content.html', 'w') { |file| file.write(html) }
 
-json = {
-    :tag_name         => "#{tag}",
-    :target_commitish => 'master',
-    :name             => "#{version}",
-    :body             => "#{changelog.join("\n")}",
-    :draft            => true,
-    :prerelease       => false
-}.to_json
+puts 'Packing release'
+`rake sparkle:package mode=release`
 
-puts "Creating release #{version}"
-response = `curl --data '#{json}' https://api.github.com/#{repo}/releases?access_token=#{access_token}`
+puts 'Zipping dSYM'
+`zip -r #{hstracker_dsym_zip} build/MacOSX-#{deployment_target}-Release/HSTracker.app.dSYM`
 
-data = JSON.parse response
-id   = data['id']
-
-puts "Uploading #{dmg_file}"
-`curl -H "Authorization: token #{access_token}" \
-      -H "Accept: application/vnd.github.manifold-preview" \
-      -H "Content-Type: application/zip" \
-      --data-binary @build/HSTracker.dmg \
-      https://uploads.github.com/#{repo}/releases/#{id}/assets?name=#{dmg_file}`
-
-json = {
-    :draft => false
-}.to_json
-
-puts 'Releasing version'
-`curl --request PATCH --data '#{json}' \
-  https://api.github.com/#{repo}/releases/#{id}?access_token=#{access_token}`
-
+puts 'Uploading to HockeyApp'
+`curl \
+  -F "status=1" \
+  -F "notify=0" \
+  -F "notes=Version #{version}" \
+  -F "notes_type=1" \
+  -F "ipa=@#{hstracker_zip}" \
+  -F "dsym=@#{hstracker_dsym_zip}" \
+  -H "X-HockeyAppToken: #{ENV['HOCKEY_API_TOKEN']}" \
+  https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}/app_versions/upload`

@@ -18,3 +18,9 @@ nbproject
 .idea
 .dat*.*
 .env
+sparkle/release
+sparkle/release/*
+sparkle/config/dsa_priv.pem
+sparkle/release
+sparkle/release/*
+sparkle/config/dsa_priv.pem

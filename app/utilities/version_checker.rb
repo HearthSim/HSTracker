@@ -1,4 +1,6 @@
 # check if a new version of the app is available
+# Deprecated : this is not used anymore
+# will be removed soon
 class VersionChecker
   KReleasePageUrl = 'https://github.com/bmichotte/HSTracker/releases'
 

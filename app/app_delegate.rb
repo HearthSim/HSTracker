@@ -97,8 +97,6 @@ class AppDelegate
       @splash.window.orderOut(self)
       @splash = nil
 
-      VersionChecker.check
-
       NSNotificationCenter.defaultCenter.observe 'AppleLanguages_changed' do |_|
         response = NSAlert.alert(:language_change._,
                                  buttons: [:ok._, :cancel._],
