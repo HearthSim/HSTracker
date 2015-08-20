@@ -195,7 +195,9 @@ class AppDelegate
   # open a deck
   def open_deck(menu_item)
     deck = Deck.by_name(menu_item.title)
-    @player.show_deck(deck.playable_cards, deck.name)
+    if @player
+      @player.show_deck(deck.playable_cards, deck.name)
+    end
     Game.instance.with_deck(deck)
     if Configuration.remember_last_deck
       Configuration.last_deck_played = "#{deck.name}##{deck.version}"
