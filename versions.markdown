@@ -1,3 +1,9 @@
+#### 0.12.4
+- Bugfixes
+
+Hey guys, sorry for 0.12 start which is not glorious, patch 0.3 + a lot of downtime on HearthStats reveal a lot of bugs.
+I'm trying to do my best to correct them as fast as possible !
+
 #### 0.12.3
 - Correct some crashes
 - Add Sparkle for auto-update stuff !
