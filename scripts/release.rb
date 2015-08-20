@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-deployment_target ||= '10.8'
+deployment_target = ARGV[0]
+tag = ARGV[1]
 
 hstracker_zip = './sparkle/release/HSTracker.zip'
 hstracker_dsym_zip = './hstracker.dsym.zip'
@@ -33,6 +34,8 @@ if changelog.empty? || version.nil?
   exit(1)
 end
 
+changelog.reject!(&:empty?)
+
 require 'redcarpet'
 puts 'Generating versions'
 content = File.read('./versions.markdown')
@@ -50,9 +53,22 @@ puts 'Uploading to HockeyApp'
 `curl \
   -F "status=1" \
   -F "notify=0" \
-  -F "notes=#{changelog.reject(&:empty?).join(" \\ \n")}" \
+  -F "notes=#{changelog.join(" \ \n")}" \
   -F "notes_type=1" \
   -F "ipa=@#{hstracker_zip}" \
   -F "dsym=@#{hstracker_dsym_zip}" \
   -H "X-HockeyAppToken: #{ENV['HOCKEY_API_TOKEN']}" \
   https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}/app_versions/upload`
+
+require 'json'
+json = {
+  tag_name: "#{tag}",
+  target_commitish: 'master',
+  name: "#{version}",
+  body: "#{changelog.join("\n")}",
+  draft: false,
+  prerelease: false
+}.to_json
+
+puts "Creating release #{version} on Github"
+`curl --data '#{json}' https://api.github.com/repos/bmichotte/HSTracker/releases?access_token=#{ENV['HSTRACKER_GITHUB_TOKEN']}`

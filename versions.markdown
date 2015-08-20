@@ -1,3 +1,7 @@
+#### 0.12.3
+- Correct some crashes
+- Add Sparkle for auto-update stuff !
+
 #### 0.12.2
 - Correct the invalid update message
 - Correct a crash if HearthStats is down and the timeout is too long
