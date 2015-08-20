@@ -8,6 +8,6 @@ script:
     - bundle install
     - bundle exec rake pod:install > pod_log.txt
     - bundle exec rake clean
+    - rm -rf sparkle
     - bundle exec rake sparkle:setup_certificates
-    - bundle exec rake sparkle:clean
     - bundle exec rake spec
