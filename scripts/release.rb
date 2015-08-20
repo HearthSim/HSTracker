@@ -4,7 +4,7 @@ deployment_target = ARGV[0]
 tag = ARGV[1]
 
 hstracker_zip = './sparkle/release/HSTracker.zip'
-hstracker_dsym_zip = './hstracker.dsym.zip'
+hstracker_dsym_zip = './sparkle/release/hstracker.dsym.zip'
 `rm -f #{hstracker_zip}`
 `rm -f #{hstracker_dsym_zip}`
 

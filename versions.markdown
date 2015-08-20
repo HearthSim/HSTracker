@@ -1,3 +1,6 @@
+#### 0.12.5
+- Heroes are back
+
 #### 0.12.4
 - Bugfixes
 
