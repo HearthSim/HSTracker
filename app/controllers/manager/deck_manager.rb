@@ -231,6 +231,8 @@ class DeckManager < NSWindowController
     count = 0
     if @in_edition
       @decks_or_cards.each do |c|
+        next if card.nil? || c.nil?
+
         if card.card_id == c.card_id
           count = c.count
         end
