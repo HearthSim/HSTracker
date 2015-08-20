@@ -88,7 +88,41 @@ class Game
       end
     end
 
+    # with a too long timeout, and if you already started a new game, @vars will be resetted
+    # a the time the fail block is called...
+    _player_class = @current_deck.player_class
+    _current_deck = @current_deck
+    _current_deck_name = _current_deck.name
+    _has_coin = @has_coin
+    _current_turn = @current_turn
+    _duration = (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i
+    _deck_id = @current_deck.hearthstats_id
+    _deck_version_id = @current_deck.hearthstats_version_id
+    _ranklvl = @current_rank
+    _oppcards = cards
+    _start_date = @start_date
+    _created_at = _start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
+    _oppclass = @current_opponent ? @current_opponent.player_class : nil
+    _oppname = @opponent_name || nil
+    _game_mode = @game_mode.to_s
+
     if @game_mode == :ranked && @current_rank
+      # stats have a game_mode... it will be supported in a future version
+      Log.verbose "stats : #{@game_result_win} against : #{_oppclass} with deck : #{_current_deck_name} at rank : #{_ranklvl}"
+      Statistic.create opponent_class: _oppclass,
+                       opponent_name: _oppname,
+                       win: (@game_result_win == :win),
+                       deck: _current_deck,
+                       rank: _ranklvl,
+                       game_mode: _game_mode,
+                       duration: _duration,
+                       turns: _current_turn,
+                       has_coin: _has_coin,
+                       created_at: _start_date
+
+      cdq.save
+      @game_saved = true
+
       if Configuration.use_hearthstats
         game_result = case @game_result_win
                         when :win
@@ -114,24 +148,11 @@ class Game
         if @opponent_cards
           cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
         end
-        # with a too long timeout, and if you already started a new game, @vars will be resetted
-        # a the time the fail block is called...
-        _player_class = @current_deck.player_class
-        _has_coin = @has_coin.to_s
-        _current_turn = @current_turn
-        _duration = (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i
-        _deck_id = @current_deck.hearthstats_id
-        _deck_version_id = @current_deck.hearthstats_version_id
-        _oppclass = @current_opponent ? @current_opponent.player_class : nil
-        _oppname = @opponent_name || nil
-        _ranklvl = @current_rank
-        _oppcards = cards
-        _created_at = @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
 
         data = { class: _player_class,
                  mode: game_mode,
                  result: game_result,
-                 coin: _has_coin,
+                 coin: _has_coin.to_s,
                  numturns: _current_turn,
                  duration: _duration,
                  deck_id: _deck_id,
@@ -145,13 +166,13 @@ class Game
         }
         # todo, add :log (see match_log.json)
 
-        if @current_deck.hearthstats_id.nil? || @current_deck.hearthstats_id.zero?
+        if _deck_id.nil? || _deck_id.zero?
           response = NSAlert.alert(:deck_save._,
                                    buttons: [:ok._, :cancel._],
                                    informative: :deck_not_saved_hearthstats._,
                                    force_top: true)
           if response == NSAlertFirstButtonReturn
-            HearthStatsAPI.post_deck(@current_deck) do |status, deck|
+            HearthStatsAPI.post_deck(_current_deck) do |status, deck|
               if status
                 data[:deck_id] = deck.hearthstats_id
                 data[:deck_version_id] = deck.hearthstats_version_id
@@ -171,21 +192,6 @@ class Game
           end
         end
       end
-
-      # stats have a game_mode... it will be supported in a future version
-      Log.verbose "stats : #{@game_result_win} against : #{@current_opponent.player_class} with deck : #{@current_deck.name} at rank : #{@current_rank}"
-      Statistic.create opponent_class: @current_opponent.player_class,
-                       opponent_name: @opponent_name,
-                       win: (@game_result_win == :win),
-                       deck: @current_deck,
-                       rank: @current_rank,
-                       game_mode: @game_mode.to_s,
-                       duration: (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
-                       turns: @current_turn,
-                       has_coin: @has_coin,
-                       created_at: @start_date
-      cdq.save
-      @game_saved = true
     end
   end
 
