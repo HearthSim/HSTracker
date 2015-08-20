@@ -2,7 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 7
+  DATABASE_VERSION = 8
 
   Log = Motion::Log
 
@@ -67,8 +67,6 @@ class DatabaseGenerator
 
         valid_card_set.each do |card_set|
           cards[card_set].each do |card|
-            next if card['id'] =~ /^HERO_/
-
             cost = card['cost']
             # "fake" the coin... in the game files, Coin cost is empty
             # so we set it to 0
