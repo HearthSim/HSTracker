@@ -8,8 +8,10 @@ class AppDelegate
     Log.level = :debug
 
     # Starting hockey
-    BITHockeyManager.sharedHockeyManager.configureWithIdentifier(ENV['hockey_app_id'])
-    BITHockeyManager.sharedHockeyManager.startManager
+    if RUBYMOTION_ENV == 'release'
+      BITHockeyManager.sharedHockeyManager.configureWithIdentifier(ENV['hockey_app_id'])
+      BITHockeyManager.sharedHockeyManager.startManager
+    end
 
     Log.addLogger DDTTYLogger.sharedInstance
 
