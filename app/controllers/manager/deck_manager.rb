@@ -298,6 +298,9 @@ class DeckManager < NSWindowController
     point = rect.origin
     point.x += CGRectGetWidth(cell.frame) + 130
     point.y += 100
+
+    card = cell.card
+    return if card.nil? || card.name.nil?
     @tooltip ||= Tooltip.new
     @tooltip.card = cell.card
     rect = [point, [250, @tooltip.text_height + 20]]
