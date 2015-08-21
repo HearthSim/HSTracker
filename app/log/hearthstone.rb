@@ -30,11 +30,8 @@ class Hearthstone
 
   # check if HS is running
   def is_hearthstone_running?
-    NSWorkspace.sharedWorkspace.runningApplications.each do |app|
-      if app.localizedName == 'Hearthstone'
-        return true
-      end
-    end
+    app = NSWorkspace.sharedWorkspace.runningApplications.find {|app| app.localizedName == 'Hearthstone' }
+    return true if app
 
     # debugging from actual log file, fake HS is running
     if KDebugFromFile
