@@ -54,6 +54,7 @@ Motion::Project::App.setup do |app|
     pod 'MASPreferences'
     pod 'JNWCollectionView'
     pod 'HockeySDK-Mac'
+    pod 'Sparkle'
   end
 
 end

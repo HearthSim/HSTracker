@@ -33,7 +33,7 @@ module Kernel
   end
 
   def log_file
-    file ||= begin
+    @file ||= begin
       date = NSDate.now
       five_days = date - 5.days
 
@@ -43,12 +43,18 @@ module Kernel
       Dir.glob("#{log_dir}/*.log").each do |file|
         # old logs
         base_name = File.basename(file)
+
+        if base_name =~ /^be\.michotte\.hstracker /
+          File.delete(file)
+          next
+        end
+
         components = base_name.gsub(/\.log/, '').split('-')
         file_date = NSDate.from_components(year: components[0], month: components[1], day: components[2])
         file_size = File.size(file)
-
-        if file_size > 10000000 || file_date < five_days || base_name =~ /^be\.michotte\.hstracker /
+        if file_size > 10000000 || file_date < five_days
           File.delete(file)
+          next
         end
       end
 
