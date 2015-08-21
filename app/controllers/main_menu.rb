@@ -8,6 +8,9 @@ class MainMenu < MK::MenuLayout
       add :reset_all._, action: 'reset_all_data:', key: ''
       add :rebuild_card_database._, action: 'rebuild_cards:', key: ''
       add separator_item
+      sparkle = add :check_updates._, action: 'checkForUpdates:', key: ''
+      sparkle.setTarget SUUpdater.new
+      add separator_item
       add preferences_item :preferences._
       add separator_item
       add hide_item :hide_hstracker._

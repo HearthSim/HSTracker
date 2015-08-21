@@ -92,7 +92,7 @@ class CurveView < NSView
         unless how_many.zero?
           y = padding * 2 + mana_height
           types.each do |type, colors|
-            if !current.has_key? type or current[type].zero?
+            if !current.has_key?(type) || current[type].zero?
               next
             end
 

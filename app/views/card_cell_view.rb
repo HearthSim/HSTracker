@@ -73,14 +73,14 @@ class CardCellView < NSTableCellView
     if card_size
       layout = card_size
     end
-    case layout
-      when :small
-        ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
-      when :medium
-        ratio = TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
-      else
-        ratio = 1.0
-    end
+    ratio = case layout
+               when :small
+                 TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
+               when :medium
+                 TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
+               else
+                 1.0
+             end
 
     # draw the card art
     @card_layer.contents = ImageCache.small_card_image(card)
@@ -108,7 +108,7 @@ class CardCellView < NSTableCellView
 
     stroke_color = :black.nscolor(alpha)
     foreground = :white.nscolor(alpha)
-    if card.hand_count > 0 and side == :player
+    if card.hand_count > 0 && side == :player
       foreground = Configuration.flash_color.nscolor(alpha)
     end
 
@@ -134,21 +134,24 @@ class CardCellView < NSTableCellView
     @text_layer.frame = [[x, y], [width, height]]
     @text_layer.string = name
 
+    card_cost = card.cost
     # print the card cost
-    cost = "<center>#{card.cost}</center>".attributed_html
+    cost = "<center>#{card_cost}</center>".attributed_html
              .foreground_color(foreground)
              .font('Belwe Bd BT'.nsfont((22.0 / ratio).round))
              .stroke_width(-1.5)
              .stroke_color(stroke_color)
 
-    card.cost > 9 ? x = (7.0 / ratio) : x = 13.0 / ratio
+    card_cost > 9 ? x = (7.0 / ratio) : x = 13.0 / ratio
     y = -4.0 / ratio
     width = 34.0 / ratio
     height = 37.0 / ratio
+
+    return if width.nil? || height.nil?
     @cost_layer.frame = [[x, y], [width, height]]
     @cost_layer.string = cost
 
-    if card.count >= 2 or card.rarity == :legendary._
+    if card.count >= 2 || card.rarity == :legendary._
       # add the background of the card count
       if card.is_stolen
         @frame_count_box.contents = ImageCache.frame_countbox_deck

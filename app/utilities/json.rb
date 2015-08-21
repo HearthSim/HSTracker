@@ -3,7 +3,7 @@ class JSON
   def self.generate(obj, opts={})
     to_str = opts[:to_str]
     data = NSJSONSerialization.dataWithJSONObject(obj, options: 0, error: nil)
-    if to_str and data.respond_to?(:to_str)
+    if to_str && data.respond_to?(:to_str)
       data = data.to_str
     end
     data
@@ -16,7 +16,7 @@ class JSON
     opts = NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves | NSJSONReadingAllowFragments
     error = Pointer.new(:id)
     obj = NSJSONSerialization.JSONObjectWithData(data, options: opts, error: error)
-    raise ParserError, error[0].description if error[0]
+    return nil if error[0]
     if block_given?
       yield obj
     else

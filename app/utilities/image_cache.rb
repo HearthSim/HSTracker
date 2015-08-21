@@ -1,13 +1,13 @@
 class ImageCache
   # usefull if we need to force reloading of images
-  IMAGES_VERSION = 1
+  IMAGES_VERSION = 2
 
   class << self
 
     def need_download?
       images_version = NSUserDefaults.standardUserDefaults.objectForKey 'image_version'
       return true unless dir_exists?
-      return true if images_version.nil? or images_version.to_i < ImageCache::IMAGES_VERSION
+      return true if images_version.nil? || images_version.to_i < ImageCache::IMAGES_VERSION
 
       return_value = false
       path = image_path(Configuration.hearthstone_locale)
@@ -82,7 +82,7 @@ class ImageCache
 
     def hero(clazz, options={})
       image = image_named "heroes/#{Configuration.skin}/#{clazz.downcase}.png"
-      if options.has_key? :size
+      if options.has_key?(:size) && image
         image.size = options[:size]
       end
       image

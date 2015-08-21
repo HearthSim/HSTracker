@@ -16,7 +16,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     builder (3.2.2)
-    cdq (1.0.7)
+    cdq (1.0.8)
       motion-yaml (= 1.4)
       ruby-xcdm (>= 0.0.9)
     claide (0.9.1)
@@ -49,6 +49,7 @@ GEM
     cocoapods-try (0.4.5)
     colored (1.2)
     dbt (1.1.5)
+    dotenv (2.0.2)
     escape (0.0.4)
     fuzzy_match (2.0.4)
     i18n (0.7.0)
@@ -57,19 +58,20 @@ GEM
     molinillo (0.3.1)
     motion-cocoapods (1.7.3)
       cocoapods (>= 0.34)
+    motion-env (0.0.4)
     motion-kit (0.18.0)
       dbt (~> 1.1.5)
     motion-kit-events (0.3.1)
       dbt
       motion-kit
-    motion-logger (0.1.4)
-      motion-cocoapods (~> 1.7, >= 1.7.0)
+    motion-sparkle (0.0.5)
     motion-yaml (1.4)
     motion_print (1.2.0)
     nap (0.8.0)
     netrc (0.7.8)
     plist (3.1.0)
     rake (10.4.2)
+    redcarpet (3.3.2)
     ruby-xcdm (0.0.9)
       activesupport (~> 4.1)
       builder (~> 3.2)
@@ -88,12 +90,15 @@ PLATFORMS
 DEPENDENCIES
   MotionLocalize
   cdq
-  cocoapods
+  dotenv
+  motion-cocoapods
+  motion-env
   motion-kit
   motion-kit-events
-  motion-logger
+  motion-sparkle
   motion_print
   rake
+  redcarpet
   sugarcube!
 
 BUNDLED WITH

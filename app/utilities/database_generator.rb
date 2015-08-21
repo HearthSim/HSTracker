@@ -2,9 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 5
-
-  Log = Motion::Log
+  DATABASE_VERSION = 8
 
   def self.init_database(splash, &block)
     database = DatabaseGenerator.new
@@ -19,7 +17,7 @@ class DatabaseGenerator
     end
 
     database_version = NSUserDefaults.standardUserDefaults.objectForKey 'database_version'
-    return true if database_version.nil? or database_version.to_i < DATABASE_VERSION
+    return true if database_version.nil? || database_version.to_i < DATABASE_VERSION
 
     false
   end
@@ -37,7 +35,7 @@ class DatabaseGenerator
     if RUBYMOTION_ENV == 'test'
       langs = %w(deDE enUS frFR)
     else
-      langs = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ptPT ruRU zhCN zhTW)
+      langs = %w(deDE enGB enUS esES esMX frFR itIT koKR plPL ptBR ruRU zhCN zhTW)
     end
     valid_card_set = [
       'Basic',
@@ -48,25 +46,23 @@ class DatabaseGenerator
       'Goblins vs Gnomes',
       'Blackrock Mountain',
       'Hero Skins',
-      'Tavern Brawl'
+      'Tavern Brawl',
+      'The Grand Tournament'
     ]
-    splash.max(langs.size) if splash
+    Dispatch::Queue.main.async do
+      splash.max(langs.size)
+    end if splash
 
     # do all the creation in background
     cdq.background do
 
       langs.each do |lang|
-        if RUBYMOTION_ENV == 'test'
-          puts "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
-        else
-          Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
-        end
+        log(:database, "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}")
         data = NSData.read_from "cards/cardsDB.#{lang}.json".resource_path
         cards = JSON.parse data
 
         valid_card_set.each do |card_set|
           cards[card_set].each do |card|
-
             cost = card['cost']
             # "fake" the coin... in the game files, Coin cost is empty
             # so we set it to 0
@@ -76,12 +72,12 @@ class DatabaseGenerator
 
             rarity = card['rarity']
             unless rarity.nil?
-              rarity = rarity._
+              rarity = rarity.downcase._
             end
 
             type = card['type']
             unless type.nil?
-              type = type._
+              type = type.downcase._
             end
 
             c = Card.create(
@@ -112,7 +108,7 @@ class DatabaseGenerator
         cdq.save(always_wait: true)
 
         Dispatch::Queue.main.async do
-          splash.progress
+          splash.progress(:loading._(name: "cardsDB.#{lang}.json"))
         end if splash
       end
 

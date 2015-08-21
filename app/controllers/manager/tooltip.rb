@@ -1,20 +1,26 @@
-class Tooltip < NSWindowController
+class Tooltip < NSViewController
   attr_accessor :card
 
   def init
     super.tap do
       @layout = TooltipLayout.new
-      self.window = @layout.window
-      self.window.delegate = self
+      self.view = @layout.view
 
       @card_label = @layout.get(:card_label)
     end
   end
 
+  def view
+    @layout.view
+  end
+
   def card=(card)
     @card = card
 
-    text = card.name.bold.underline.font('Belwe Bd BT'.nsfont(15))
+    text = ''
+    if card.name
+      text = card.name.bold.underline.font('Belwe Bd BT'.nsfont(15))
+    end
 
     options = { NSDocumentTypeDocumentAttribute => NSHTMLTextDocumentType }
 
@@ -22,7 +28,7 @@ class Tooltip < NSWindowController
       card_text = card.text.dup
 
       # replace text
-      card_text.gsub! /\$(\d+) \|4\((\w+),(\w+)\)/ do |m|
+      card_text.gsub! /\$(\d+) \|4\((\w+),(\w+)\)/ do |_|
         single = $2
         plural = $3
         count = $1.gsub(/\$/, '').to_i

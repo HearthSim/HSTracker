@@ -4,9 +4,9 @@ class Card < CDQManagedObject
   attr_accessor :count, :hand_count
 
   # scope to skip hero and uncollectible cards
-  scope :playable, where(:collectible => true)
-                     .and(cdq(:card_type).not_equal('Hero'))
-                     .and(cdq(:card_type).not_equal('Hero Power'))
+  scope :playable, where(collectible: true)
+                     .and(:card_type).ne('hero')
+                     .and(:card_type).ne('hero power')
 
   # scope to get only the current locale
   scope :per_lang, where(:lang => Configuration.hearthstone_locale)

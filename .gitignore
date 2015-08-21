@@ -17,3 +17,7 @@ nbproject
 .sass-cache
 .idea
 .dat*.*
+.env
+sparkle/release
+sparkle/release/*
+sparkle/config/dsa_priv.pem

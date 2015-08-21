@@ -5,7 +5,9 @@ class LoadingScreen < NSWindowController
       @layout = LoadingScreenLayout.new
       self.window = @layout.window
 
+      @image = @layout.get(:bg)
       @progress = @layout.get(:progress)
+      @label = @layout.get(:label)
     end
   end
 
@@ -15,8 +17,16 @@ class LoadingScreen < NSWindowController
     @progress.doubleValue = 0
   end
 
-  def progress
-    @progress.incrementBy 1.0
+  def progress(text)
+    @progress.doubleValue = @progress.doubleValue + 1.0
+    @label.stringValue = text
+    @progress.displayIfNeeded
+  end
+
+  def text(text)
+    @progress.indeterminate = true
+    @progress.startAnimation(self)
+    @label.stringValue = text
   end
 
 end

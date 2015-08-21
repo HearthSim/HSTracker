@@ -1,8 +1,37 @@
-#### 0.11.5
+#### 0.12.6
+- (A lot of) Bugfixes (thanks HockeyApp, and you guys which send reports)
+- Change loader to add some text and progress
+- Change HSTracker logs, should stop crash on 10.8
+- Joust cards are now shown on the deck of your opponent
+- Rewrite the popup on the deck manager to use a cleaner one
+
+#### 0.12.5
+- Heroes are back
+
+#### 0.12.4
+- Bugfixes
+
+Hey guys, sorry for 0.12 start which is not glorious, patch 0.3 + a lot of downtime on HearthStats reveal a lot of bugs.
+I'm trying to do my best to correct them as fast as possible !
+
+#### 0.12.3
+- Correct some crashes
+- Add Sparkle for auto-update stuff !
+
+#### 0.12.2
+- Correct the invalid update message
+- Correct a crash if HearthStats is down and the timeout is too long
+- Add HockeyApp to help getting error message. Please always accept to send the crash logs !
+
+#### 0.12.1
+- Bugfixes !
+
+#### 0.12
 - Fix : should run correctly on 10.8
 - Fix : upload on HearthStats
 - Add an option to rebuild card database (menu HSTracker -> rebuild card database)
 - Fix : brawl is now correctly detected
+- Support TGT
 
 #### 0.11.4
 - Correct the save button on "non-full" decks

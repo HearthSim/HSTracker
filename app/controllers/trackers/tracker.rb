@@ -71,15 +71,15 @@ class Tracker < NSWindowController
       @events = []
       # options
       @events << NSNotificationCenter.defaultCenter.observe('windows_locked') do |_|
-        window_locks
+        window_locks if self.respond_to?(:window_locks)
       end
 
       @events << NSNotificationCenter.defaultCenter.observe('window_transparency') do |_|
-        window_transparency
+        window_transparency if self.respond_to?(:window_transparency)
       end
 
       @events << NSNotificationCenter.defaultCenter.observe('card_layout') do |_|
-        card_layout
+        card_layout if self.respond_to?(:card_layout)
       end
 
       @events << NSNotificationCenter.defaultCenter.observe('count_color') do |_|
@@ -91,7 +91,7 @@ class Tracker < NSWindowController
       end
 
       @events << NSNotificationCenter.defaultCenter.observe('hand_count_window') do |_|
-        hand_count_window_changed
+        hand_count_window_changed if self.respond_to?(:hand_count_window_changed)
       end
     end
   end

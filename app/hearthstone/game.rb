@@ -1,8 +1,6 @@
 class Game
   include CDQ
 
-  Log = Motion::Log
-
   attr_accessor :player_tracker, :opponent_tracker
   attr_accessor :timer_hud
   attr_accessor :start_date, :end_date
@@ -16,31 +14,119 @@ class Game
     @current_deck = current_deck
   end
 
+  def choose_correct_deck
+    # when HSTracker starts and the game is already started, player_tracker window
+    # can not still be visible...
+    # wait for it
+    unless player_tracker.window.isVisible
+      Dispatch::Queue.concurrent.after (0.25) do
+        choose_correct_deck
+      end
+      return
+    end
+
+    @has_been_prompted_back_deck = true
+
+    popup = NSPopUpButton.new
+    popup.frame = [[0, 0], [299, 24]]
+
+    Deck.where(is_active: true)
+      .and(:player_class).eq(@current_player_class)
+      .sort_by(:name, case_insensitive: true).each do |deck|
+
+      item = NSMenuItem.alloc.initWithTitle(deck.name, action: nil, keyEquivalent: '')
+      popup.menu.addItem item
+    end
+
+    response = NSAlert.alert(:invalid_deck._,
+                             buttons: [:ok._, :cancel._],
+                             view: popup,
+                             force_top: true)
+    if response == NSAlertFirstButtonReturn
+      choosen = popup.selectedItem.title
+      deck = Deck.by_name(choosen)
+      return if deck.nil?
+
+      with_deck(deck)
+      if player_tracker
+        Dispatch::Queue.main.after (0.5) do
+          player_tracker.show_deck(deck.playable_cards, deck.name)
+          Dispatch::Queue.concurrent.after (0.25) do
+            Hearthstone.instance.log_observer.restart_last_game
+          end
+        end
+      end
+      if Configuration.remember_last_deck
+        Configuration.last_deck_played = "#{deck.name}##{deck.version}"
+      end
+    end
+  end
+
   def handle_end_game
     if @current_deck.nil?
-      Log.verbose 'No current deck, ignore game'
+      log(:engine, 'No current deck, ignore game')
       return
     end
 
     if @game_mode != :ranked
       Hearthstone.instance.log_observer.detect_mode(3) do |found|
         if found
-          Log.verbose 'Game mode detected as ranked'
+          log(:engine, 'Game mode detected as ranked')
           handle_end_game
         end
       end
     end
 
-    if @game_mode == :ranked and @current_rank.nil?
+    if @game_mode == :ranked && @current_rank.nil?
       wait_rank(5) do |found|
         if found
-          Log.verbose "Game ranked, get rank #{@current_rank}"
+          log(:engine, "Game ranked, get rank #{@current_rank}")
           handle_end_game
         end
       end
     end
 
+    # with a too long timeout, and if you already started a new game, @vars will be resetted
+    # a the time the fail block is called...
+
+    cards = []
+    if @opponent_cards
+      cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
+    end
+
+    _player_class = @current_deck.player_class
+    _current_deck = @current_deck
+    _current_deck_name = _current_deck.name
+    _has_coin = @has_coin
+    _current_turn = @current_turn
+    _duration = (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i
+    _deck_id = @current_deck.hearthstats_id
+    _deck_version_id = @current_deck.hearthstats_version_id
+    _ranklvl = @current_rank
+    _oppcards = cards
+    _start_date = @start_date
+    _created_at = _start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
+    _oppclass = @current_opponent ? @current_opponent.player_class : nil
+    _oppname = @opponent_name || nil
+    _game_mode = @game_mode.to_s
+
     if @game_mode == :ranked && @current_rank
+      # stats have a game_mode... it will be supported in a future version
+      log(:engine, stats: @game_result_win, against: _oppclass, with_deck: _current_deck_name, rank: _ranklvl)
+      Statistic.create opponent_class: _oppclass,
+                       opponent_name: _oppname,
+                       win: (@game_result_win == :win),
+                       deck: _current_deck,
+                       rank: _ranklvl,
+                       game_mode: _game_mode,
+                       duration: _duration,
+                       turns: _current_turn,
+                       has_coin: _has_coin,
+                       created_at: _start_date
+
+      cdq.save
+      @game_saved = true
+
       if Configuration.use_hearthstats
         game_result = case @game_result_win
                         when :win
@@ -62,34 +148,31 @@ class Game
                       else
                         'Casual'
                     end
-        cards = []
-        if @opponent_cards
-          cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
-        end
-        data = { class: @current_deck.player_class,
+
+        data = { class: _player_class,
                  mode: game_mode,
                  result: game_result,
-                 coin: @has_coin.to_s,
-                 numturns: @current_turn,
-                 duration: (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
-                 deck_id: @current_deck.hearthstats_id,
-                 deck_version_id: @current_deck.hearthstats_version_id,
-                 oppclass: @current_opponent ? @current_opponent.player_class : nil,
-                 oppname: @opponent_name || nil,
+                 coin: _has_coin.to_s,
+                 numturns: _current_turn,
+                 duration: _duration,
+                 deck_id: _deck_id,
+                 deck_version_id: _deck_version_id,
+                 oppclass: _oppclass,
+                 oppname: _oppname,
                  notes: nil,
-                 ranklvl: @current_rank,
+                 ranklvl: _ranklvl,
                  oppcards: cards,
-                 created_at: @start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
+                 created_at: _created_at
         }
         # todo, add :log (see match_log.json)
 
-        if @current_deck.hearthstats_id.nil? or @current_deck.hearthstats_id.zero?
+        if _deck_id.nil? || _deck_id.zero?
           response = NSAlert.alert(:deck_save._,
                                    buttons: [:ok._, :cancel._],
                                    informative: :deck_not_saved_hearthstats._,
                                    force_top: true)
           if response == NSAlertFirstButtonReturn
-            HearthStatsAPI.post_deck(@current_deck) do |status, deck|
+            HearthStatsAPI.post_deck(_current_deck) do |status, deck|
               if status
                 data[:deck_id] = deck.hearthstats_id
                 data[:deck_version_id] = deck.hearthstats_version_id
@@ -98,7 +181,7 @@ class Game
                   save_match(data, cards) unless success
                 end
               else
-                Log.error "Error while posting deck #{@current_deck.name}"
+                error(:error, "Error while posting deck #{@current_deck.name}")
               end
             end
           end
@@ -109,21 +192,6 @@ class Game
           end
         end
       end
-
-      # stats have a game_mode... it will be supported in a future version
-      Log.verbose "stats : #{@game_result_win} against : #{@current_opponent.player_class} with deck : #{@current_deck.name} at rank : #{@current_rank}"
-      Statistic.create opponent_class: @current_opponent.player_class,
-                       opponent_name: @opponent_name,
-                       win: (@game_result_win == :win),
-                       deck: @current_deck,
-                       rank: @current_rank,
-                       game_mode: @game_mode.to_s,
-                       duration: (@end_date.timeIntervalSince1970 - @start_date.timeIntervalSince1970).to_i,
-                       turns: @current_turn,
-                       has_coin: @has_coin,
-                       created_at: @start_date
-      cdq.save
-      @game_saved = true
     end
   end
 
@@ -150,7 +218,7 @@ class Game
                                     oppname: data[:oppname],
                                     notes: data[:notes],
                                     ranklvl: data[:ranklvl],
-                                    created_at: created_at
+                                    match_created_at: created_at
 
     cards.each do |c|
       HearthstatsMatchCard.create card_id: c[:id],
@@ -162,7 +230,7 @@ class Game
   end
 
   def wait_rank(timeout_sec, &block)
-    Log.verbose 'waiting for rank'
+    log(:engine, 'waiting for rank')
     Dispatch::Queue.concurrent.async do
       @found_rank = false
 
@@ -180,50 +248,52 @@ class Game
 
   ## game events
   def game_mode(game_mode)
-    Log.debug "Player in game mode #{game_mode}"
+    log(:engine, "Player in game mode #{game_mode}")
     @game_mode = game_mode
   end
 
   def player_rank(rank)
-    Log.debug "You are rank #{rank}"
+    log(:engine, "You are rank #{rank}")
     @current_rank = rank
   end
 
   def game_start
-    Log.debug '----- Game Started -----'
+    log(:engine, '----- Game Started -----')
     @start_date = NSDate.new
     player_tracker.game_start
     opponent_tracker.game_start
 
     @game_saved = false
     @game_result_win = nil
+    @current_player_class = nil
     @current_opponent = nil
     @current_turn = 0
     @opponent_cards = nil
     @has_coin = false
+    @has_been_prompted_back_deck = false
   end
 
   def concede
-    Log.debug 'Game has been conceded :('
+    log(:engine, 'Game has been conceded :(')
   end
 
   def win
-    Log.debug 'You win ¯\_(ツ)_/¯'
+    log(:engine, 'You win ¯\_(ツ)_/¯')
     @game_result_win = :win
   end
 
   def loss
-    Log.debug 'You loose :('
+    log(:engine, 'You loose :(')
     @game_result_win = :loss
   end
 
   def tied
-    Log.debug 'You loose / game tied:('
+    log(:engine, 'You loose / game tied:(')
     @game_result_win = :draw
   end
 
   def game_end
-    Log.debug '----- Game End -----'
+    log(:engine, '----- Game End -----')
     @end_date = NSDate.new
 
     @opponent_cards = opponent_tracker.cards
@@ -235,7 +305,7 @@ class Game
   end
 
   def turn_start(player, turn)
-    log(player, "turn : #{turn}")
+    log(:engine, player: :turn, turn: turn)
     @current_turn = turn
 
     timer_hud.restart(player)
@@ -243,12 +313,12 @@ class Game
 
   ## player events
   def player_name(name)
-    log(:player, "name is #{name}")
+    log(:engine, player: name)
   end
 
   def player_get_to_deck(card_id, turn)
-    log(:player, "get to deck #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    log(:engine, player: :get_to_deck, card_id: card_id, card: card(card_id), turn: turn)
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get_to_deck(card_id)
   end
@@ -256,14 +326,19 @@ class Game
   def player_hero(hero_id)
     hero = Card.hero(hero_id)
     if hero
-      log(:player, "hero is #{hero_id} (#{hero.name})")
+      @current_player_class = hero.player_class
+      log(:engine, player: hero.name, hero_id: hero_id)
       player_tracker.set_hero(hero_id)
+
+      #if Configuration.prompt_deck && @current_deck.player_class != hero.player_class && !@has_been_prompted_back_deck
+      #  choose_correct_deck
+      #end
     end
   end
 
   def player_draw(card_id, turn)
-    log(:player, "draw #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    log(:engine, player: :draw, card_id: card_id, card: card(card_id), turn: turn)
+    return if card_id.nil? || card_id.empty?
 
     if card_id == 'GAME_005'
       @has_coin = true
@@ -274,12 +349,12 @@ class Game
   end
 
   def player_deck_discard(card_id, turn)
-    log(:player, "discard to deck #{card_id} (#{card(card_id)})", turn)
+    log(:engine, player: :discard_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     player_tracker.deck_discard(card_id)
   end
 
   def player_secret_played(card_id, turn, from_deck)
-    log(:player, "play secret #{card_id} (#{card(card_id)}) (from_deck: #{from_deck})", turn)
+    log(:engine, player: :play_secret, card_id: card_id, card: card(card_id), from_deck: from_deck, turn: turn)
     if from_deck
       player_tracker.deck_discard(card_id)
     else
@@ -288,58 +363,58 @@ class Game
   end
 
   def player_play(card_id, turn)
-    log(:player, "play #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    log(:engine, player: :play, card_id: card_id, card: card(card_id), turn: turn)
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.play(card_id)
   end
 
   def player_hand_discard(card_id, turn)
-    return if card_id.nil? or card_id.empty?
+    return if card_id.nil? || card_id.empty?
 
-    log(:player, "discard from hand #{card_id} (#{card(card_id)})", turn)
+    log(:engine, player: :discard_from_hand, card_id: card_id, card: card(card_id), turn: turn)
     player_tracker.hand_discard(card_id)
   end
 
   def player_mulligan(card_id)
-    log(:player, "mulligan #{card_id} (#{card(card_id)})")
+    log(:engine, player: :mulligan, card_id: card_id, card: card(card_id))
     player_tracker.mulligan(card_id)
     timer_hud.mulligan_done(:player)
   end
 
   def player_back_to_hand(card_id, turn)
-    log(:player, "card back to hand #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    log(:engine, player: :card_back_to_hand, card_id: card_id, card: card(card_id), turn: turn)
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get(card_id, true, turn)
   end
 
   def player_play_to_deck(card_id, turn)
-    log(:player, "play to deck #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    log(:engine, player: :play_to_deck, card_id: card_id, card: card(card_id), turn: turn)
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.play_to_deck(card_id)
   end
 
   def player_get(card_id, turn)
-    log(:player, "get #{card_id} (#{card(card_id)})", turn)
-    return if card_id.nil? or card_id.empty?
+    log(:engine, player: :get, card_id: card_id, card: card(card_id), turn: turn)
+    return if card_id.nil? || card_id.empty?
 
     player_tracker.get(card_id, false, turn)
   end
 
   def player_fatigue(value)
-    log(:player, "take #{value} from fatigue")
+    log(:engine, player: :fatigue, value: value)
   end
 
   ## opponent events
   def opponent_name(name)
-    log(:opponent, "name is #{name}")
+    log(:engine, opponent: name)
     @opponent_name = name
   end
 
   def opponent_get_to_deck(card_id, turn)
-    log(:opponent, "get to deck #{card_id} (#{card(card_id)})", turn)
+    log(:engine, opponent: :get_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     opponent_tracker.get_to_deck(card_id, turn)
   end
 
@@ -347,23 +422,23 @@ class Game
     @current_opponent = Card.hero(hero_id)
     if @current_opponent
       hero = @current_opponent.name
-      log(:opponent, "hero is #{hero_id} (#{hero})")
+      log(:engine, opponent: hero, hero_id: hero_id)
       opponent_tracker.set_hero(hero_id)
     end
   end
 
   def opponent_draw(turn)
-    log(:opponent, 'draw', turn)
+    log(:engine, opponent: :draw, turn: turn)
     opponent_tracker.draw(turn)
   end
 
   def opponent_deck_discard(card_id, turn)
-    log(:opponent, "discard to deck #{card_id} (#{card(card_id)})", turn)
+    log(:engine, opponent: :discard_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     opponent_tracker.deck_discard(card_id, turn)
   end
 
   def opponent_secret_played(card_id, from, turn, from_deck, id)
-    log(:opponent, "play secret #{card_id} (#{card(card_id)}) (from: #{from}, id: #{id}, from_deck: #{from_deck})", turn)
+    log(:engine, opponent: :play_secret, card_id: card_id, card: card(card_id), from: from, id: id, from_deck: from_deck, turn: turn)
 
     if from_deck
       opponent_tracker.deck_discard(card_id, turn)
@@ -373,43 +448,49 @@ class Game
   end
 
   def opponent_play(card_id, from, turn)
-    log(:opponent, "play #{card_id} (#{card(card_id)}) (from: #{from})", turn)
+    log(:engine, opponent: :play, card_id: card_id, card: card(card_id), from: from, turn: turn)
     opponent_tracker.play(card_id, turn)
   end
 
   def opponent_hand_discard(card_id, from, turn)
-    log(:opponent, "discard from hand #{card_id} (#{card(card_id)}) (from: #{from})", turn)
+    log(:engine, opponent: :discard_from_hand, card_id: card_id, card: card(card_id), from: from, turn: turn)
     opponent_tracker.play(card_id, turn)
   end
 
   def opponent_mulligan(from)
-    log(:opponent, "mulligan (from: #{from})")
+    log(:engine, opponent: :mulligan, from: from)
     opponent_tracker.mulligan
     timer_hud.mulligan_done(:opponent)
   end
 
   def opponent_play_to_hand(card_id, turn, id)
-    log(:opponent, "play to hand #{card_id} (#{card(card_id)}) (id: #{id})", turn)
+    log(:engine, opponent: :play_to_hand, card_id: card_id, card: card(card_id), id: id, turn: turn)
     opponent_tracker.play_to_hand(card_id, turn, id)
   end
 
   def opponent_play_to_deck(card_id, turn)
-    log(:opponent, "play to deck #{card_id} (#{card(card_id)})", turn)
+    log(:engine, opponent: :play_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     opponent_tracker.play_to_deck(card_id, turn)
   end
 
   def opponent_secret_trigger(card_id, turn, id)
-    log(:opponent, "secret trigger #{card_id} (#{card(card_id)}) (id: #{id})", turn)
+    log(:engine, opponent: :secret_trigger, card_id: card_id, card: card(card_id), id: id, turn: turn)
     opponent_tracker.secret_trigger(card_id, turn, id)
   end
 
   def opponent_get(turn, id)
-    log(:opponent, "get (id: #{id})", turn)
+    log(:engine, opponent: :get, id: id, turn: turn)
     opponent_tracker.get(turn, id)
   end
 
   def opponent_fatigue(value)
-    log(:opponent, "take #{value} from fatigue")
+    log(:engine, opponent: :fatigue, value: value)
+  end
+
+  def opponent_joust(card_id)
+    return if card_id.nil? or card_id.empty?
+    log(:engine, opponent: :joust, card_id: card_id, card: card(card_id))
+    opponent_tracker.joust(card_id)
   end
 
   private
@@ -417,14 +498,6 @@ class Game
     card = Card.by_id(card_id)
     return card.name if card
     'Unknown card'
-  end
-
-  def log(player, str, turn=nil)
-    message = "#{player}"
-    message << " | turn : #{turn}" unless turn.nil?
-    message << " | #{str}"
-
-    Log.verbose message
   end
 
   def notify(event, args={})

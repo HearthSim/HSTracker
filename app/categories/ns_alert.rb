@@ -31,7 +31,7 @@ class NSAlert
     end
 
     window = options.fetch(:window, nil)
-    if window and block
+    if window && block
       if alert.respond_to? 'beginSheetModalForWindow:completionHandler:'
       alert.beginSheetModalForWindow(window,
                                      completionHandler: -> (return_code) {

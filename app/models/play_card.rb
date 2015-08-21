@@ -3,7 +3,7 @@ class PlayCard
 
   attr_accessor :count, :hand_count, :card_id, :name, :english_name, :cost,
                 :health, :player_class, :rarity, :card_type, :has_changed,
-                :is_stolen, :lang
+                :is_stolen, :lang, :is_jousted
 
   def self.from_card(card)
     c = self.new
@@ -21,6 +21,10 @@ class PlayCard
     c.has_changed = false
 
     c
+  end
+
+  def is_jousted
+    @is_jousted ||= false
   end
 
   def is_stolen

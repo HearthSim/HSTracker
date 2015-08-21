@@ -4,13 +4,13 @@ class Web
     NSURLConnection.sendAsynchronousRequest(url.nsurl.nsurlrequest,
                                             queue: NSOperationQueue.new,
                                             completionHandler: -> (_, data, error) {
-                                              if data and data.is_a?(NSData) and data.length > 0
+                                              if data && data.is_a?(NSData) && data.length > 0
                                                 response = data.nsstring
                                                 Dispatch::Queue.main.async do
                                                   block.call(response) if block
                                                 end
                                               elsif error
-                                                Motion::Log.error(error.localizedDescription)
+                                                error(:network, error.localizedDescription)
                                                 Dispatch::Queue.main.async do
                                                   block.call(nil) if block
                                                 end
@@ -71,7 +71,7 @@ class Web
       data = NSURLConnection.sendSynchronousRequest(request,
                                                     returningResponse: response,
                                                     error: error)
-      if data and data.length > 0
+      if data && data.length > 0
         data.write_to(full_path)
       end
 
@@ -88,7 +88,7 @@ class Web
       raise "Web.#{verb} is not yet implemented !!!"
     end
 
-    log(verb, url, parameters)
+    _log(verb, url, parameters)
     parameters = JSON.generate(parameters)
 
     request = url.nsurl.nsmutableurlrequest
@@ -101,13 +101,13 @@ class Web
     NSURLConnection.sendAsynchronousRequest(request,
                                             queue: NSOperationQueue.new,
                                             completionHandler: -> (_, data, error) {
-                                              if data and data.is_a?(NSData) and data.length > 0
+                                              if data && data.is_a?(NSData) && data.length > 0
                                                 response = JSON.parse(data)
                                                 Dispatch::Queue.main.async do
                                                   block.call(response) if block
                                                 end
                                               elsif error
-                                                Motion::Log.error(error.localizedDescription)
+                                                error(:network, error.localizedDescription)
                                                 Dispatch::Queue.main.async do
                                                   block.call(nil) if block
                                                 end
@@ -115,7 +115,7 @@ class Web
                                             })
   end
 
-  def self.log(verb, url, data)
+  def self._log(verb, url, data)
     _url = url.gsub /auth_token=(.+)$/, 'auth_token=¯\_(ツ)_/¯'
 
     p = proc do |k, v|
@@ -125,6 +125,6 @@ class Web
 
     _data = Marshal.load(Marshal.dump(data))
 
-    Motion::Log.verbose("will #{verb} to #{_url} with #{_data.delete_if(&p).inspect}")
+    log(:network, verb: verb, to: _url, data: _data.delete_if(&p))
   end
 end

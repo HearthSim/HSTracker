@@ -5,7 +5,7 @@ class Deck < CDQManagedObject
     return if upgrade_version_done
 
     Deck.each do |deck|
-      if deck.version.nil? or deck.version.zero?
+      if deck.version.nil? || deck.version.zero?
         deck.version = 1.0
         deck.is_active = true
       end

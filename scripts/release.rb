@@ -1,26 +1,15 @@
 #!/usr/bin/env ruby
 
-require 'json'
-
 deployment_target = ARGV[0]
-tag               = ARGV[1]
-access_token      = ENV['HSTRACKER_GITHUB_TOKEN']
-repo              = 'repos/bmichotte/HSTracker'
-dmg_file          = 'HSTracker.dmg'
+tag = ARGV[1]
 
-if File.exists? "build/#{dmg_file}"
-  File.delete "build/#{dmg_file}"
-end
+hstracker_zip = './sparkle/release/HSTracker.zip'
+hstracker_dsym_zip = './sparkle/release/hstracker.dsym.zip'
+`rm -f #{hstracker_zip}`
+`rm -f #{hstracker_dsym_zip}`
 
-puts "Creating #{dmg_file}"
-`rsync -a build/MacOSX-#{deployment_target}-Release/HSTracker.app build/Release`
-`ln -sf /Applications build/Release`
-`hdiutil create build/tmp.dmg -volname HSTracker -srcfolder build/Release`
-`hdiutil convert -format UDBZ build/tmp.dmg -o build/#{dmg_file}`
-`rm -f build/tmp.dmg`
-
+version = nil
 changelog = []
-version   = nil
 
 File.open './versions.markdown', 'r' do |file|
   started = false
@@ -40,41 +29,47 @@ File.open './versions.markdown', 'r' do |file|
   end
 end
 
-if changelog.empty?
-  puts 'empty changelog'
+if changelog.empty? || version.nil?
+  puts "Can't find new version"
   exit(1)
 end
 
-puts 'Changelog'
-puts changelog
+changelog.reject!(&:empty?)
 
+require 'redcarpet'
+puts 'Generating versions'
+content = File.read('./versions.markdown')
+markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+html = markdown.render(content)
+File.open('./sparkle/config/release_notes.content.html', 'w') { |file| file.write(html) }
+
+puts 'Packing release'
+`rake sparkle:package mode=release`
+
+puts 'Zipping dSYM'
+`zip -r #{hstracker_dsym_zip} build/MacOSX-#{deployment_target}-Release/HSTracker.app.dSYM`
+
+puts 'Uploading to HockeyApp'
+`curl \
+  -F "status=2" \
+  -F "notify=0" \
+  -F "notes=#{changelog.join(" \ \n")}" \
+  -F "notes_type=1" \
+  -F "ipa=@#{hstracker_zip}" \
+  -F "dsym=@#{hstracker_dsym_zip}" \
+  -H "X-HockeyAppToken: #{ENV['HOCKEY_API_TOKEN']}" \
+  https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}/app_versions/upload`
+
+require 'json'
+changelog << "\nNew download page : https://rink.hockeyapp.net/apps/f38b1192f0dac671153a94036ced974e"
 json = {
-    :tag_name         => "#{tag}",
-    :target_commitish => 'master',
-    :name             => "#{version}",
-    :body             => "#{changelog.join("\n")}",
-    :draft            => true,
-    :prerelease       => false
+  tag_name: "#{tag}",
+  target_commitish: 'master',
+  name: "#{version}",
+  body: "#{changelog.join("\n")}",
+  draft: false,
+  prerelease: false
 }.to_json
 
-puts "Creating release #{version}"
-response = `curl --data '#{json}' https://api.github.com/#{repo}/releases?access_token=#{access_token}`
-
-data = JSON.parse response
-id   = data['id']
-
-puts "Uploading #{dmg_file}"
-`curl -H "Authorization: token #{access_token}" \
-      -H "Accept: application/vnd.github.manifold-preview" \
-      -H "Content-Type: application/zip" \
-      --data-binary @build/HSTracker.dmg \
-      https://uploads.github.com/#{repo}/releases/#{id}/assets?name=#{dmg_file}`
-
-json = {
-    :draft => false
-}.to_json
-
-puts 'Releasing version'
-`curl --request PATCH --data '#{json}' \
-  https://api.github.com/#{repo}/releases/#{id}?access_token=#{access_token}`
-
+puts "Creating release #{version} on Github"
+`curl --data '#{json}' https://api.github.com/repos/bmichotte/HSTracker/releases?access_token=#{ENV['HSTRACKER_GITHUB_TOKEN']}`
