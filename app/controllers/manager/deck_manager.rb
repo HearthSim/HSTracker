@@ -295,22 +295,26 @@ class DeckManager < NSWindowController
   # CardItemView delegate
   def hover(cell)
     rect = self.window.contentView.convertRect(cell.bounds, fromView: cell)
-    point = rect.origin
-    point.x += CGRectGetWidth(cell.frame) + 130
-    point.y += 100
-
     card = cell.card
-    return if card.nil? || card.name.nil?
-    @tooltip ||= Tooltip.new
-    @tooltip.card = cell.card
-    rect = [point, [250, @tooltip.text_height + 20]]
 
-    @tooltip.window.setFrame(rect, display: true)
-    self.window.addChildWindow(@tooltip.window, ordered: NSWindowAbove)
+    return if card.nil? || card.name.nil?
+
+    @popover.close if @popover && @popover.isShown
+
+    @popover ||= begin
+      popover = NSPopover.new
+      popover.animates = false
+      @tooltip ||= Tooltip.new
+      popover.contentViewController = @tooltip
+      popover
+    end
+
+    @tooltip.card = cell.card
+    @popover.showRelativeToRect(rect, ofView: self.window.contentView, preferredEdge: NSMinXEdge)
   end
 
   def out(_)
-    @tooltip.window.orderOut(self) if @tooltip
+    @popover.close if @popover && @popover.isShown
   end
 
   # nssegmentedcontrol

@@ -1,14 +1,7 @@
-class TooltipLayout < MK::WindowLayout
+class TooltipLayout < MK::Layout
 
   def layout
-    frame [[0, 0], [250, 300]]
-    content_max_size [250, CGRectGetHeight(NSScreen.mainScreen.frame)]
-    background_color :white.nscolor(0.9)
-
-    opaque false
-
-    style_mask NSBorderlessWindowMask
-    level NSScreenSaverWindowLevel
+    frame [[0, 0], [250, 200]]
 
     add NSTextView, :card_label do
       editable false
