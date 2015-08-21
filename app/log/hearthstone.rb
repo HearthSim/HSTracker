@@ -23,11 +23,6 @@ class Hearthstone
     '/Library/Preferences/Blizzard/Hearthstone/log.config'.home_path
   end
 
-  # get log.config in bundle
-  def self.new_config_path
-    'files/log.config'.resource_path
-  end
-
   # get the path to the player.log
   def self.log_path
     '/Library/Logs/Unity/Player.log'.home_path
@@ -113,24 +108,45 @@ class Hearthstone
 
   # write the log.config file is not exists
   def setup
-    content = File.read(Hearthstone.new_config_path)
-    config_changed = false
+    zones = %w(Zone Bob Power Asset Rachelle Arena)
 
-    if Hearthstone.config_path.file_exists?
-      current_content = File.read(Hearthstone.config_path)
-      if current_content != content
-        File.open(Hearthstone.config_path, 'w') { |file| file.write(content) }
+    config_changed = false
+    unless Dir.exists?(File.dirname(Hearthstone.config_path))
+      Dir.mkdir(File.dirname(Hearthstone.config_path))
+      config_changed = true
+    end
+
+    if !Hearthstone.config_path.file_exists?
+      File.open(Hearthstone.config_path, 'w') do |f|
+        zones.each do |zone|
+          f << "[#{zone}]\n"
+					f << "LogLevel=1\n"
+					f << "FilePrinting=false\n"
+					f << "ConsolePrinting=true\n"
+					f << "ScreenPrinting=false\n"
+        end
+      end
+      config_changed = true
+    else
+      zones_found = []
+      File.open(Hearthstone.config_path, 'r+') do |f|
+        zones.each do |zone|
+          found = f.find { |l| l =~ /\[#{zone}\]/ }
+          zones_found << zone if found
+        end
+
+        missings = zones - zones_found
+        unless missings.empty?
+          missings.each do |zone|
+            f << "\n[#{zone}]"
+  					f << "\nLogLevel=1"
+  					f << "\nFilePrinting=false"
+  					f << "\nConsolePrinting=true"
+  					f << "\nScreenPrinting=false"
+          end
+        end
         config_changed = true
       end
-    else
-      dir = File.dirname(Hearthstone.config_path)
-
-      unless Dir.exists?(dir)
-        NSFileManager.defaultManager.createDirectoryAtPath(dir, withIntermediateDirectories: true, attributes: nil, error: nil)
-      end
-      File.open(Hearthstone.config_path, 'w') { |file| file.write(content) }
-
-      config_changed = true
     end
 
     if config_changed && is_hearthstone_running?
