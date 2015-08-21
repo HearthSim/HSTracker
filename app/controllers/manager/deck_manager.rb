@@ -682,13 +682,17 @@ class DeckManager < NSWindowController
     if sender && sender.respond_to?('identifier') && sender.identifier == 'table_identifier'
       row = @table_view.clickedRow
       deck = @decks_or_cards[row]
-      name = deck.name
-      cards = deck.playable_cards
+      if deck.is_a?(Deck)
+        name = deck.name
+        cards = deck.playable_cards
+      end
     else
       name = @deck_name
       cards = @decks_or_cards
       deck = @current_deck
     end
+
+    return unless cards
 
     if @saved
       _play_deck(deck, cards, name)
