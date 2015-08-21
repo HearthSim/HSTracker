@@ -19,15 +19,16 @@ module Kernel
   def _message(level, type, data={})
     date = NSDate.now.string_with_format(:iso8601)
     case RUBYMOTION_ENV
-    when 'test'
-      puts "[#{date}][#{type}][#{level}]: #{data.inspect}"
-    when 'development'
-      mp date: date,
-         type: type,
-         level: level,
-         data: data
-    else
-      File.open(log_file, 'a') {|file| file << "[#{date}][#{type}][#{level}]: #{data.inspect}\n"}
+      when 'test'
+        puts "[#{date}][#{type}][#{level}]: #{data.inspect}"
+      when 'development'
+        args = { date: date,
+                 type: type,
+                 data: data
+        }
+        mp args, force_color: level == :log ? nil : :red
+      else
+        File.open(log_file, 'a') { |file| file << "[#{date}][#{type}][#{level}]: #{data.inspect}\n" }
     end
   end
 

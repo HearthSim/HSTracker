@@ -141,8 +141,8 @@ class Hearthstone
   					f << "\nConsolePrinting=true"
   					f << "\nScreenPrinting=false"
           end
+          config_changed = true
         end
-        config_changed = true
       end
     end
 
