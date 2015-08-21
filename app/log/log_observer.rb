@@ -55,6 +55,7 @@ class LogObserver
   def reset_data
     @game_started = false
     @coin_set = false
+    @next_entity_is_joust = false
     @current_turn = -1
     @entities = {}
     @tmp_entities = []
@@ -287,6 +288,14 @@ class LogObserver
         entity_id = -1
         if entity =~ /^\[/ && is_entity?(entity)
           entity_id, _, _, _, _, _, _ = parse_entity(entity)
+          if @next_entity_is_joust
+            current_entity = @entities[entity_id]
+            if current_entity && !current_entity.is_player
+              Game.instance.opponent_joust(card_id)
+              @next_entity_is_joust = false
+            end
+          end
+
         elsif entity.is_i?
           entity_id = entity.to_i
         end
@@ -368,6 +377,9 @@ class LogObserver
             end
           end
         end
+
+      elsif line.include?('BlockType=JOUST')
+        @next_entity_is_joust = true
       end
 
     elsif line =~ /^\[Asset\]/

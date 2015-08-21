@@ -242,6 +242,26 @@ class OpponentTracker < Tracker
     @table_view.reloadData
   end
 
+  def joust(card_id)
+    card = @cards.select { |c| c.card_id == card_id }.first
+    if card && card.is_jousted
+      card.is_jousted = false
+    elsif card
+      # card.count ?
+    else
+      real_card = Card.by_id(card_id)
+      if real_card
+        card = PlayCard.from_card(real_card)
+        card.count = 0
+        card.hand_count = 0
+        card.is_jousted = true
+        card.has_changed = true
+        @cards << card
+        @cards.sort_cards!
+      end
+    end
+  end
+
   def mulligan
     self.hand_count -= 1
     self.deck_count += 1

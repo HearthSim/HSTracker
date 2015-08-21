@@ -305,7 +305,7 @@ class Game
   end
 
   def turn_start(player, turn)
-    log(player, "turn : #{turn}")
+    log(:engine, player: :turn, turn: turn)
     @current_turn = turn
 
     timer_hud.restart(player)
@@ -317,7 +317,7 @@ class Game
   end
 
   def player_get_to_deck(card_id, turn)
-    log(:engine, player: "get to deck", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, player: :get_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     return if card_id.nil? || card_id.empty?
 
     player_tracker.get_to_deck(card_id)
@@ -337,7 +337,7 @@ class Game
   end
 
   def player_draw(card_id, turn)
-    log(:engine, player: "draw", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, player: :draw, card_id: card_id, card: card(card_id), turn: turn)
     return if card_id.nil? || card_id.empty?
 
     if card_id == 'GAME_005'
@@ -349,12 +349,12 @@ class Game
   end
 
   def player_deck_discard(card_id, turn)
-    log(:engine, player: "discard to deck", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, player: :discard_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     player_tracker.deck_discard(card_id)
   end
 
   def player_secret_played(card_id, turn, from_deck)
-    log(:engine, player: "play secret", card_id: card_id, card: card(card_id), turn: turn, from_deck: from_deck, turn: turn)
+    log(:engine, player: :play_secret, card_id: card_id, card: card(card_id), from_deck: from_deck, turn: turn)
     if from_deck
       player_tracker.deck_discard(card_id)
     else
@@ -363,7 +363,7 @@ class Game
   end
 
   def player_play(card_id, turn)
-    log(:engine, player: "play", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, player: :play, card_id: card_id, card: card(card_id), turn: turn)
     return if card_id.nil? || card_id.empty?
 
     player_tracker.play(card_id)
@@ -372,39 +372,39 @@ class Game
   def player_hand_discard(card_id, turn)
     return if card_id.nil? || card_id.empty?
 
-    log(:engine, player: "discard from hand", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, player: :discard_from_hand, card_id: card_id, card: card(card_id), turn: turn)
     player_tracker.hand_discard(card_id)
   end
 
   def player_mulligan(card_id)
-    log(:engine, player: "mulligan", card_id: card_id, card: card(card_id))
+    log(:engine, player: :mulligan, card_id: card_id, card: card(card_id))
     player_tracker.mulligan(card_id)
     timer_hud.mulligan_done(:player)
   end
 
   def player_back_to_hand(card_id, turn)
-    log(:engine, player: "card back to hand", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, player: :card_back_to_hand, card_id: card_id, card: card(card_id), turn: turn)
     return if card_id.nil? || card_id.empty?
 
     player_tracker.get(card_id, true, turn)
   end
 
   def player_play_to_deck(card_id, turn)
-    log(:engine, player: "play to deck", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, player: :play_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     return if card_id.nil? || card_id.empty?
 
     player_tracker.play_to_deck(card_id)
   end
 
   def player_get(card_id, turn)
-    log(:engine, player: "get", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, player: :get, card_id: card_id, card: card(card_id), turn: turn)
     return if card_id.nil? || card_id.empty?
 
     player_tracker.get(card_id, false, turn)
   end
 
   def player_fatigue(value)
-    log(:engine, player: "fatigue", value: value)
+    log(:engine, player: :fatigue, value: value)
   end
 
   ## opponent events
@@ -414,7 +414,7 @@ class Game
   end
 
   def opponent_get_to_deck(card_id, turn)
-    log(:engine, opponent: "get to deck", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, opponent: :get_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     opponent_tracker.get_to_deck(card_id, turn)
   end
 
@@ -428,17 +428,17 @@ class Game
   end
 
   def opponent_draw(turn)
-    log(:engine, opponent: 'draw', turn: turn)
+    log(:engine, opponent: :draw, turn: turn)
     opponent_tracker.draw(turn)
   end
 
   def opponent_deck_discard(card_id, turn)
-    log(:engine, opponent: "discard to deck", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, opponent: :discard_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     opponent_tracker.deck_discard(card_id, turn)
   end
 
   def opponent_secret_played(card_id, from, turn, from_deck, id)
-    log(:engine, opponent: "play secret", card_id: card_id, card: card(card_id), from: from, id: id, from_deck: from_deck, turn: turn)
+    log(:engine, opponent: :play_secret, card_id: card_id, card: card(card_id), from: from, id: id, from_deck: from_deck, turn: turn)
 
     if from_deck
       opponent_tracker.deck_discard(card_id, turn)
@@ -448,43 +448,49 @@ class Game
   end
 
   def opponent_play(card_id, from, turn)
-    log(:engine, opponent: "play", card_id: card_id, card: card(card_id), from: from, turn: turn)
+    log(:engine, opponent: :play, card_id: card_id, card: card(card_id), from: from, turn: turn)
     opponent_tracker.play(card_id, turn)
   end
 
   def opponent_hand_discard(card_id, from, turn)
-    log(:engine, opponent: "discard from hand", card_id: card_id, card: card(card_id), from: from, turn: turn)
+    log(:engine, opponent: :discard_from_hand, card_id: card_id, card: card(card_id), from: from, turn: turn)
     opponent_tracker.play(card_id, turn)
   end
 
   def opponent_mulligan(from)
-    log(:engine, opponent: "mulligan", from: from)
+    log(:engine, opponent: :mulligan, from: from)
     opponent_tracker.mulligan
     timer_hud.mulligan_done(:opponent)
   end
 
   def opponent_play_to_hand(card_id, turn, id)
-    log(:engine, opponent: "play to hand", card_id: card_id, card: card(card_id), id: id, turn: turn)
+    log(:engine, opponent: :play_to_hand, card_id: card_id, card: card(card_id), id: id, turn: turn)
     opponent_tracker.play_to_hand(card_id, turn, id)
   end
 
   def opponent_play_to_deck(card_id, turn)
-    log(:engine, opponent: "play to deck", card_id: card_id, card: card(card_id), turn: turn)
+    log(:engine, opponent: :play_to_deck, card_id: card_id, card: card(card_id), turn: turn)
     opponent_tracker.play_to_deck(card_id, turn)
   end
 
   def opponent_secret_trigger(card_id, turn, id)
-    log(:engine, opponent: "secret trigger", card_id: card_id, card: card(card_id), id: id, turn: turn)
+    log(:engine, opponent: :secret_trigger, card_id: card_id, card: card(card_id), id: id, turn: turn)
     opponent_tracker.secret_trigger(card_id, turn, id)
   end
 
   def opponent_get(turn, id)
-    log(:engine, opponent: "get", id: id, turn: turn)
+    log(:engine, opponent: :get, id: id, turn: turn)
     opponent_tracker.get(turn, id)
   end
 
   def opponent_fatigue(value)
-    log(:engine, opponent: "fatigue", value: value)
+    log(:engine, opponent: :fatigue, value: value)
+  end
+
+  def opponent_joust(card_id)
+    return if card_id.nil? or card_id.empty?
+    log(:engine, opponent: :joust, card_id: card_id, card: card(card_id))
+    opponent_tracker.joust(card_id)
   end
 
   private
