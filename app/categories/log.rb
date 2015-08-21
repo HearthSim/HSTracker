@@ -44,7 +44,7 @@ module Kernel
         # old logs
         base_name = File.basename(file)
 
-        if base_name =~ /^be\.michotte\.hstracker /
+        if base_name =~ /^be\.michotte\.hstracker/
           File.delete(file)
           next
         end
