@@ -148,7 +148,7 @@ default: Default
 skin: Skin
 show_timers: Show timers
 deck_saved_hearthstats: The deck has been saved on HearthStats
-error_saving_deck_hearthstats: There were an error while saving this deck on HearthStats
+error_saving_deck_hearthstats: There was an error while saving this deck on HearthStats
 save_version: Save version %{version}
 show_opponent_tracker: Show opponent tracker
 rebuild_card_database: Rebuild card database
@@ -162,5 +162,5 @@ show_stat: "%{percent}%% win (%{win}/%{total})"
 search: Search
 timer: Timer
 detect_wrong_deck: Detect wrong deck
-invalid_deck: Selected deck doesn't seem to be correct
+invalid_deck: The selected deck seems to be invalid
 check_updates: Check for updates...

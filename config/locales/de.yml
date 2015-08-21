@@ -28,7 +28,7 @@ save_all: Save all
 reset_all: Reset all data
 reset_all_confirm: Are you sure you want to delete all data ?\nThis will delete your decks and statistics.\nThis operation is irreversible.
 all_decks_saved: All decks have been saved
-all_data_deleted: All data have been deleted
+all_data_deleted: All data has been deleted
 reset: Reset
 general: Allgemein
 game_language: Spielsprache
@@ -72,14 +72,14 @@ no_account: No account yet ?
 from_hearthstats: From HearthStats
 from_hearthstats_force: From HearthStats (force)
 no_deck_to_import: No new deck to import
-decks_imported: "%{number} decks have been imported"
+decks_imported: "%{number} deck(s) have been imported"
 login_successfully: Login successfully
 login_error: Login Error
 confirm_password: Confirm password
 confirm_login: Confirm email
 register: Register
-login_not_same: Login are not the same
-password_not_same: Password are not the same
+login_not_same: Logins are not the same
+password_not_same: Passwords are not the same
 registration_successfully: Registration successfully completed
 hstracker_error_log: HSTracker can't read log file. Please restart HSTracker and Hearthstone to fix this issue
 shaman: Shamane
@@ -133,22 +133,22 @@ missing_images: Missing images
 missing_images_force: Some images are missing, force a download from HSTracker menu -> Download images
 from_web: From Web
 from_file: From File
-consider_inhand_played: Consider in-hand as played
+consider_inhand_played: Mark in-hand cards as played
 show_debug_files: Show debug files
 deck_has_been_saved: Your deck has been saved
 deck_has_been_exported: Your deck has been exported
-results_saved_hearthstats: Results for this game has been saved on HearthStats
+results_saved_hearthstats: The game results have been saved on HearthStats
 save_match: Save match
-error_saving_hearthstats: An error has occured while saving results for this game on HearthStats
+error_saving_hearthstats: An error has occured while saving this game's results on HearthStats
 delete_deck: Delete Deck
 deck_deleted: Your deck has been deleted
 show_notifications: Show notifications
-remember_last_deck: Remember last played deck
+remember_last_deck: Remember the last played deck
 default: Default
 skin: Skin
 show_timers: Show timers
 deck_saved_hearthstats: The deck has been saved on HearthStats
-error_saving_deck_hearthstats: There were an error while saving this deck on HearthStats
+error_saving_deck_hearthstats: There was an error while saving this deck on HearthStats
 save_version: Save version %{version}
 show_opponent_tracker: Show opponent tracker
 rebuild_card_database: Rebuild card database
@@ -162,5 +162,5 @@ show_stat: "%{percent}%% win (%{win}/%{total})"
 search: Search
 timer: Timer
 detect_wrong_deck: Detect wrong deck
-invalid_deck: Selected deck doesn't seem to be correct
+invalid_deck: The selected deck seems to be invalid
 check_updates: Check for updates...
