@@ -1,8 +1,6 @@
 # The player tracker window
 class PlayerTracker < Tracker
 
-  Log = Motion::Log
-
   attr_accessor :cards, :playing_cards
 
   # accessors used by card count
@@ -108,7 +106,7 @@ class PlayerTracker < Tracker
   end
 
   def game_start
-    Log.verbose 'Player reset card'
+    log(:tracker, 'Player reset card')
     reset
   end
 
@@ -278,7 +276,7 @@ class PlayerTracker < Tracker
       return
     end
 
-    Log.verbose "get from_play : #{from_play}"
+    log(:tracker, "get from_play : #{from_play}")
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     if card
       card.hand_count += 1

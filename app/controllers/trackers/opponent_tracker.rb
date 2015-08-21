@@ -12,8 +12,6 @@ class OpponentTracker < Tracker
     @hand_count ||= 0
   end
 
-  Log = Motion::Log
-
   def init
     super.tap do
       @layout = OpponentTrackerLayout.new
@@ -54,7 +52,7 @@ class OpponentTracker < Tracker
   def clicked(_)
     return unless @game_ended && @table_view.clickedRow.zero?
 
-    Log.verbose "Want to save a deck for #{@hero.player_class}"
+    log(:tracker, "Want to save a deck for #{@hero.player_class}")
     NSNotificationCenter.defaultCenter.post('open_deck_manager',
                                             nil,
                                             {
@@ -132,7 +130,7 @@ class OpponentTracker < Tracker
   end
 
   def game_start
-    Log.verbose 'Opponent reset card'
+    log(:tracker, 'Opponent reset card')
     @game_ended = false
     reset
   end
@@ -173,7 +171,7 @@ class OpponentTracker < Tracker
   def draw(turn)
     self.hand_count += 1
     if turn == 0 && self.hand_count == 5
-      Log.verbose 'opponent get the coin'
+      log(:tracker, 'opponent get the coin')
     else
       self.deck_count -= 1 unless self.deck_count.zero?
     end

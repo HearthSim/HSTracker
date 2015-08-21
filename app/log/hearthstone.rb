@@ -5,8 +5,6 @@ class Hearthstone
   # used when debugging from actual log file
   KDebugFromFile = false
 
-  Log = Motion::Log
-
   def self.instance
     Dispatch.once { @instance ||= new }
     @instance

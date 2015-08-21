@@ -2,14 +2,12 @@ class Importer
 
   class << self
 
-    Log = Motion::Log
-
     def supported_sites
       :import_from._(sites: "hearthpwn.com, hearthstone-decks.com,\nhearthstats.net, hearthhead.com, hearthnews.fr #{:and._} heartharena.com")
     end
 
     def load(url, &block)
-      Log.debug "Loading deck from #{url}"
+      log(:import, "Loading deck from #{url}")
       Web.get(url) do |result|
 
         if result.nil?
@@ -17,11 +15,11 @@ class Importer
           next
         end
 
-        Log.verbose 'Loading : OK'
+        log(:import, 'Loading : OK')
         error = Pointer.new(:id)
         doc = GDataXMLDocument.alloc.initWithHTMLString(result, error: error)
         if error[0]
-          Log.error error[0].description
+          error(:import, error[0].description)
           block.call(nil, nil, nil, nil) if block
           next
         end
@@ -46,7 +44,7 @@ class Importer
             arena = true
             deck, clazz, title = heartharena(doc)
           else
-            Log.warn "unknown url #{url}"
+            error(:import, "unknown url #{url}")
             block.call(nil, nil, nil, nil) if block
             next
         end
@@ -62,7 +60,7 @@ class Importer
     end
 
     def import_from_file(filename, &block)
-      Log.verbose "Import file : #{filename}"
+      log(:import, "Import file : #{filename}")
 
       locale = Configuration.hearthstone_locale
       arena = false
@@ -80,7 +78,7 @@ class Importer
           end
 
           card_name = match[3].strip
-          Log.verbose "Searching for #{card_name}"
+          log(:import, "Searching for #{card_name}")
 
           # let's try by english name
           card = Card.by_english_name card_name
@@ -101,10 +99,10 @@ class Importer
 
           if !card.player_class.nil? && clazz.nil?
             clazz = card.player_class
-            Log.verbose "Found class as #{clazz}"
+            log(:import, "Found class as #{clazz}")
           end
 
-          Log.verbose "Adding card #{card.name}"
+          log(:import, "Adding card #{card.name}")
           card.count = count
           cards << card
         end
@@ -132,7 +130,7 @@ class Importer
         lines.drop(1).each do |line|
           if /^name:/ =~ line
             deck_name = line.split(':').last
-            Log.verbose "found deck name '#{deck_name}'"
+            log(:import, "found deck name '#{deck_name}'")
             next
           end
 
@@ -148,7 +146,7 @@ class Importer
 
           card = Card.by_english_name line
           next if card.nil?
-          Log.verbose "found card #{line}"
+          log(:import, "found card #{line}")
           if deck.include? card
             deck.each do |c|
               if c.card_id == card.card_id
@@ -169,7 +167,7 @@ class Importer
           end
         end
 
-        Log.verbose "found deck #{deck_name} for class #{clazz}"
+        log(:import, "found deck #{deck_name} for class #{clazz}")
         deck.sort_cards!
         block.call(deck, clazz, deck_name, arena) if block
       end
@@ -193,7 +191,7 @@ class Importer
       error = Pointer.new(:id)
       title_node = doc.firstNodeForXPath("//div[@id='content']//h1", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless title_node.nil?
@@ -203,7 +201,7 @@ class Importer
       # search for clazz
       clazz_node = doc.firstNodeForXPath("//input[@id='classe_nom']", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless clazz_node.nil?
@@ -227,7 +225,7 @@ class Importer
       # search for cards
       cards_nodes = doc.nodesForXPath("//table[contains(@class,'tabcartes')]//tbody//tr", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       cards_nodes.each do |card_node|
@@ -236,7 +234,7 @@ class Importer
 
         card = Card.by_french_name(card_name)
         if card.nil?
-          Log.warn "CARD : #{card_name} is nil"
+          log(:import, "CARD : #{card_name} is nil")
           next
         end
         card.count = count
@@ -300,10 +298,10 @@ class Importer
         count     = /\d+/.match td_children[0].stringValue
         card_name = td_children[2].stringValue
 
-        Log.verbose "#{card_name} x #{count[0].to_i}"
+        log(:import, "#{card_name} x #{count[0].to_i}")
         card = Card.by_french_name(card_name)
         if card.nil?
-          Log.warn "CARD : #{card_name} is nil"
+          log(:import, "CARD : #{card_name} is nil")
           next
         end
         card.count = count[0].to_i
@@ -323,7 +321,7 @@ class Importer
       error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath("//span[contains(@class,'class')]", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless clazz_node.nil?
@@ -336,7 +334,7 @@ class Importer
       # search for title
       title_node = doc.firstNodeForXPath("//h2[contains(@class,'deck-title')]", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless title_node.nil?
@@ -346,7 +344,7 @@ class Importer
       # search for cards
       card_nodes = doc.nodesForXPath("//td[contains(@class,'col-name')]", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       if card_nodes.nil? || card_nodes.size.zero?
@@ -365,10 +363,10 @@ class Importer
 
         card = Card.by_english_name(card_name)
         if card.nil?
-          Log.warn "CARD : #{card_name} is nil"
+          log(:import, "CARD : #{card_name} is nil")
           next
         end
-        Log.verbose "card #{card_name} is #{card}"
+        log(:import, "card #{card_name} is #{card}")
         card.count = count[0].to_i
         deck << card
       end
@@ -392,7 +390,7 @@ class Importer
         error = Pointer.new(:id)
         node = doc.firstNodeForXPath("//tr[@data-id='#{card_id}']/td[1]/b", error: error)
         if error[0]
-          Log.error error[0].description
+          error(:import, error[0].description)
           next
         end
         next if node.nil?
@@ -400,7 +398,7 @@ class Importer
 
         card = Card.by_english_name(card_name)
         if card.nil?
-          Log.warn "CARD : #{card_name} is nil"
+          log(:import, "CARD : #{card_name} is nil")
           next
         end
         card.count = count.to_i
@@ -419,7 +417,7 @@ class Importer
       error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath("//div[contains(@class,'win-count')]//img", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless clazz_node.nil?
@@ -432,7 +430,7 @@ class Importer
       # search for title
       title_node = doc.firstNodeForXPath("//h1[contains(@class,'page-title')]", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless title_node.nil?
@@ -446,7 +444,7 @@ class Importer
       # search for cards
       card_nodes = doc.nodesForXPath("//div[contains(@class,'cardWrapper')]", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       if card_nodes.nil? || card_nodes.size.zero?
@@ -459,14 +457,14 @@ class Importer
 
         card_name = node.firstNodeForXPath("div[@class='name']", error: error)
         if error[0]
-          Log.error error[0].description
+          error(:import, error[0].description)
           next
         end
         card_name = card_name.stringValue
 
         count = node.firstNodeForXPath("div[@class='qty']", error: error)
         if error[0]
-          Log.error error[0].description
+          error(:import, error[0].description)
           next
         end
         count = count.stringValue.to_i
@@ -475,10 +473,10 @@ class Importer
 
         card = Card.by_english_name(card_name)
         if card.nil?
-          Log.warn "CARD : #{card_name} is nil"
+          log(:import, "CARD : #{card_name} is nil")
           next
         end
-        Log.verbose "card #{card_name} is #{card}"
+        log(:import, "card #{card_name} is #{card}")
         card.count = count
         deck << card
       end
@@ -510,7 +508,7 @@ class Importer
       error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath("//div[@class='deckguide-hero']", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless clazz_node.nil?
@@ -532,7 +530,7 @@ class Importer
       # search for title
       title_node = doc.firstNodeForXPath("//h1[@id='deckguide-name']", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless title_node.nil?
@@ -562,10 +560,10 @@ class Importer
 
         card = Card.by_name_and_locale(card_name, locale)
         if card.nil?
-          Log.warn "CARD : #{card_name} is nil"
+          log(:import, "CARD : #{card_name} is nil")
           next
         end
-        Log.verbose "card #{card_name} is #{card}"
+        log(:import, "card #{card_name} is #{card}")
         card.count = count
         deck << card
       end
@@ -582,7 +580,7 @@ class Importer
       error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath('//div[@hero_class]', error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless clazz_node.nil?
@@ -592,7 +590,7 @@ class Importer
       # search for title
       title_node = doc.firstNodeForXPath("//div[@class='block_deck_content_deck_name']", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       unless title_node.nil?
@@ -602,7 +600,7 @@ class Importer
       # search for cards
       card_nodes = doc.nodesForXPath("//a[@class='real_id']", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       if card_nodes.nil? || card_nodes.size.zero?
@@ -618,10 +616,10 @@ class Importer
 
         card = Card.by_id(card_id)
         if card.nil?
-          Log.warn "CARD : #{card_id} is nil"
+          log(:import, "CARD : #{card_id} is nil")
           next
         end
-        Log.verbose "card #{card_id} is #{card}"
+        log(:import, "card #{card_id} is #{card}")
         card.count = count
         deck << card
       end
@@ -638,7 +636,7 @@ class Importer
       error = Pointer.new(:id)
       clazz_node = doc.firstNodeForXPath('//h1[@class="class"]', error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
 
@@ -649,7 +647,7 @@ class Importer
       # search for cards
       card_nodes = doc.nodesForXPath("//ul[@class='deckList']/li", error: error)
       if error[0]
-        Log.error error[0].description
+        error(:import, error[0].description)
         return nil, nil, nil
       end
       if card_nodes.nil? || card_nodes.size.zero?
@@ -667,10 +665,10 @@ class Importer
 
         card = Card.by_english_name(card_name)
         if card.nil?
-          Log.warn "CARD : #{card_name} is nil"
+          log(:import, "CARD : #{card_name} is nil")
           next
         end
-        Log.verbose "card #{card_name} is #{card}"
+        log(:import, "card #{card_name} is #{card}")
         card.count = count
         deck << card
       end

@@ -1,7 +1,5 @@
 class LogObserver
 
-  Log = Motion::Log
-
   def initialize
     super.tap do
       @last_read_position = 0
@@ -68,7 +66,7 @@ class LogObserver
   end
 
   def detect_mode(timeout_sec, &block)
-    Log.verbose 'waiting for mode'
+    log(:analyzer, 'waiting for mode')
     Dispatch::Queue.concurrent.async do
       @awaiting_ranked_detection = true
       @waiting_for_first_asset_unload = true
@@ -363,9 +361,9 @@ class LogObserver
           if card && card.card_type == 'Hero Power'
             if player && player.tag(GameTag::CURRENT_PLAYER).to_i == 1
               @player_used_hero_power = true
-              Log.verbose 'player use hero power'
+              log(:analyzer, 'player use hero power')
             elsif opponent
-              Log.verbose 'opponent use hero power'
+              log(:analyzer, 'opponent use hero power')
               @opponent_used_hero_power = true
             end
           end
@@ -390,9 +388,9 @@ class LogObserver
       elsif (match = /unloading name=(\w+_\w+) family=CardPrefab persistent=False/.match(line))
         card_id = match[1]
         #if @game_mode == :arena
-        #  Log.verbose "possible arena card draft : #{card_id} ?"
+        #  log(:analyzer, "possible arena card draft : #{card_id} ?")
         #else
-        #  Log.verbose "possible constructed card draft : #{card_id} ?"
+        #  log(:analyzer, "possible constructed card draft : #{card_id} ?")
         #end
 
       elsif line =~ /unloading name=Tavern_Brawl/
@@ -416,15 +414,15 @@ class LogObserver
 
       if (match = /(\d)\/3 wins towards 10 gold/.match(line))
         victories = match[1].to_i
-        Log.debug "#{victories} / 3 -> 10 gold"
+        log(:analyzer, "#{victories} / 3 -> 10 gold")
       end
 
       if (match = /.*somehow the card def for (\w+_\w+) was already in the cache\.\.\./.match(line))
         card_id = match[1]
         #if @game_mode == :arena
-        #  Log.verbose "possible arena card draft : #{card_id} ?"
+        #  log(:analyzer, "possible arena card draft : #{card_id} ?")
         #else
-        #  Log.verbose "possible constructed card draft : #{card_id} ?"
+        #  log(:analyzer, "possible constructed card draft : #{card_id} ?")
         #end
 
       end
@@ -492,8 +490,8 @@ class LogObserver
         @opponent_id = value
       end
 
-      Log.verbose "player_1 is player : #{player_1.is_player}" if player_1
-      Log.verbose "player_2 is player : #{player_2.is_player}" if player_2
+      log(:analyzer, "player_1 is player : #{player_1.is_player}") if player_1
+      log(:analyzer, "player_2 is player : #{player_2.is_player}") if player_2
     end
 
     controller = @entities[id].tag(GameTag::CONTROLLER).to_i

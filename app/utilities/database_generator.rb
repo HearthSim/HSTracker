@@ -4,8 +4,6 @@ class DatabaseGenerator
   # usefull if we need to force reloading of database
   DATABASE_VERSION = 8
 
-  Log = Motion::Log
-
   def self.init_database(splash, &block)
     database = DatabaseGenerator.new
     database.load(splash, &block)
@@ -59,11 +57,7 @@ class DatabaseGenerator
     cdq.background do
 
       langs.each do |lang|
-        if RUBYMOTION_ENV == 'test'
-          puts "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
-        else
-          Log.verbose "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}"
-        end
+        log(:database, "#{lang} -> #{"cards/cardsDB.#{lang}.json".resource_path}")
         data = NSData.read_from "cards/cardsDB.#{lang}.json".resource_path
         cards = JSON.parse data
 

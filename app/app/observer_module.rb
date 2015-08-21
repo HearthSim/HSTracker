@@ -3,11 +3,11 @@ module Observer
   def init_observers(&block)
 
     Hearthstone.instance.on(:app_running) do |is_running|
-      Motion::Log.info "Hearthstone is running? #{is_running}"
+      log(:events, message: "Hearthstone is running?", is_running: is_running)
     end
 
     Hearthstone.instance.on(:app_activated) do |is_active|
-      Motion::Log.info "Hearthstone is active? #{is_active}"
+      log(:events, message: "Hearthstone is active?", is_active: is_active)
       if is_active
         @player.set_level NSScreenSaverWindowLevel
         @opponent.set_level NSScreenSaverWindowLevel

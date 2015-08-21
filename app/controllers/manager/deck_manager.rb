@@ -1,8 +1,6 @@
 class DeckManager < NSWindowController
   include CDQ
 
-  Log = Motion::Log
-
   KMaxCardOccurence = {
     arena: 30,
     constructed: 2
@@ -247,7 +245,7 @@ class DeckManager < NSWindowController
 
   # todo make something with this ?
   def missing_image(card)
-    Log.warn "image for #{card.card_id} is missing"
+    error(:cards, "image for #{card.card_id} is missing")
   end
 
   def numberOfSections
@@ -568,7 +566,7 @@ class DeckManager < NSWindowController
 
       @import.on_deck_loaded do |cards, clazz, name, arena|
         if cards
-          Log.debug "#{clazz} / #{name} / #{arena}"
+          log(:import, class: clazz, name: name, is_arena: arena)
           @saved = false
           show_deck(cards, clazz, name, arena)
         end
@@ -634,7 +632,7 @@ class DeckManager < NSWindowController
                           buttons: [:ok._],
                           window: self.window)
             deck.destroy
-            Log.warn json_deck.inspect
+            error(:import, json_deck)
             next
           else
             json_deck['cards'].each do |json_card|
@@ -668,7 +666,7 @@ class DeckManager < NSWindowController
       if panel.runModal == NSFileHandlingPanelOKButton
         panel.filenames.each do |filename|
           Importer.import_from_file(filename) do |cards, clazz, name, arena|
-            Log.debug "#{clazz} / #{name} / #{arena}"
+            log(:import, class: clazz, name: name, is_arena: arena)
 
             if cards
               show_deck(cards, clazz, name, arena)

@@ -5,26 +5,14 @@ class AppDelegate
   include Observer
   include Ui
 
-  Log = Motion::Log
-
   def applicationDidFinishLaunching(notification)
-    # init logs
-    Log.level = :debug
-
     # Starting hockey
     if RUBYMOTION_ENV == 'release'
       BITHockeyManager.sharedHockeyManager.configureWithIdentifier(ENV['hockey_app_id'])
       BITHockeyManager.sharedHockeyManager.startManager
     end
 
-    Log.addLogger DDTTYLogger.sharedInstance
-
     return true if RUBYMOTION_ENV == 'test'
-
-    file_logger = DDFileLogger.new
-    file_logger.rollingFrequency = 60 * 60 * 12
-    file_logger.logFileManager.maximumNumberOfLogFiles = 7
-    Log.addLogger file_logger
 
     #AFNetworkActivityLogger.sharedLogger.startLogging
 
