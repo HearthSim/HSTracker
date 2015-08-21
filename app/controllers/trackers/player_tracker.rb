@@ -225,7 +225,7 @@ class PlayerTracker < Tracker
 
   def play_to_deck(card_id)
     card = @playing_cards.select { |c| c.card_id == card_id }.first
-    if card.nil?
+    if !card.nil?
       card.count += 1
     else
       real_card = Card.by_id(card_id)
