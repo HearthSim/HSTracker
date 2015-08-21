@@ -164,3 +164,7 @@ timer: Timer
 detect_wrong_deck: Detect wrong deck
 invalid_deck: The selected deck seems to be invalid
 check_updates: Check for updates...
+loading: Loading %{name}
+interface: user interface
+observers: observers
+configuration: configuration

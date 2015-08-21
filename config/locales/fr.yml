@@ -164,3 +164,7 @@ timer: Chronomètre
 detect_wrong_deck: Detecter les mauvais decks
 invalid_deck: Le deck sélectionné ne semble pas correct
 check_updates: Vérifier les mises à jour...
+loading: Chargement %{name}
+interface: interface graphique
+observers: observeurs
+configuration: configuration

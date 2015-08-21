@@ -51,7 +51,9 @@ class DatabaseGenerator
       'Tavern Brawl',
       'The Grand Tournament'
     ]
-    splash.max(langs.size) if splash
+    Dispatch::Queue.main.async do
+      splash.max(langs.size)
+    end if splash
 
     # do all the creation in background
     cdq.background do
@@ -112,7 +114,7 @@ class DatabaseGenerator
         cdq.save(always_wait: true)
 
         Dispatch::Queue.main.async do
-          splash.progress
+          splash.progress(:loading._(name: "cardsDB.#{lang}.json"))
         end if splash
       end
 

@@ -1,5 +1,9 @@
 class AppDelegate
   include CDQ
+  include Database
+  include Menu
+  include Observer
+  include Ui
 
   Log = Motion::Log
 
@@ -22,108 +26,67 @@ class AppDelegate
     file_logger.logFileManager.maximumNumberOfLogFiles = 7
     Log.addLogger file_logger
 
-    cdq.setup
-
     #AFNetworkActivityLogger.sharedLogger.startLogging
 
-    show_splash_screen
+    init_database do
+      build_ui
+    end
 
-    # load cards into database if needed
-    DatabaseGenerator.init_database(@splash) do
+  end
 
-      # upgrade decks to have versions number
-      Deck.upgrade_versions
-
-      NSApp.mainMenu = MainMenu.new.menu
-
-      @player = PlayerTracker.new
-      @player.showWindow(self)
-      @player.window.orderFrontRegardless
-
-      @opponent = OpponentTracker.new
-      if Configuration.show_opponent_tracker
-        @opponent.showWindow(self)
-        @opponent.window.orderFrontRegardless
-      end
-
-      @timer_hud = TimerHud.new
-      if Configuration.show_timer
-        @timer_hud.showWindow(self)
-      end
-
-      Game.instance.player_tracker = @player
-      Game.instance.opponent_tracker = @opponent
-      Game.instance.timer_hud = @timer_hud
-
-      if Configuration.remember_last_deck
-        last_deck_played = Configuration.last_deck_played
-        unless last_deck_played.nil?
-          name, version = last_deck_played.split('#')
-          deck = Deck.where(name: name).and(:version).eq(version).first
-          if deck
-            @player.show_deck(deck.playable_cards, deck.name)
-            Game.instance.with_deck(deck)
-          end
-        end
-      end
-
-      Hearthstone.instance.on(:app_running) do |is_running|
-        Log.info "Hearthstone is running? #{is_running}"
-      end
-
-      Hearthstone.instance.on(:app_activated) do |is_active|
-        Log.info "Hearthstone is active? #{is_active}"
-        if is_active
-          @player.set_level NSScreenSaverWindowLevel
-          @opponent.set_level NSScreenSaverWindowLevel
-          @timer_hud.set_level NSScreenSaverWindowLevel
-        else
-          @player.set_level NSNormalWindowLevel
-          @opponent.set_level NSNormalWindowLevel
-          @timer_hud.set_level NSNormalWindowLevel
-        end
-      end
-
-      Configuration.use_hearthstats = !Configuration.hearthstats_token.nil?
-
-      NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|
-        reload_deck_menu
-      end
-
-      if Hearthstone.instance.is_hearthstone_running?
-        Dispatch::Queue.main.after 0.5 do
-          Hearthstone.instance.start
-        end
-      end
-
-      @splash.window.orderOut(self)
-      @splash = nil
-
-      NSNotificationCenter.defaultCenter.observe 'AppleLanguages_changed' do |_|
-        response = NSAlert.alert(:language_change._,
-                                 buttons: [:ok._, :cancel._],
-                                 informative: :language_change_restart._)
-        if response == NSAlertFirstButtonReturn
-          @app_will_restart = true
-
-          NSApplication.sharedApplication.terminate(nil)
-          exit(0)
-        end
-      end
-
-      NSNotificationCenter.defaultCenter.observe 'open_deck_manager' do |notif|
-        open_deck_manager notif.userInfo
-      end
-
-      if ImageCache.need_download?
-        ask_download_images(nil)
-      end
+  def build_ui
+    Dispatch::Queue.main.async do
+      splash_screen.text(:loading._(name: :interface._))
+    end
+    load_windows do
+      build_observers
     end
   end
 
-  def show_splash_screen
-    @splash = LoadingScreen.new
-    @splash.showWindow(nil)
+  def build_observers
+    Dispatch::Queue.main.async do
+      splash_screen.text(:loading._(name: :observers._))
+    end
+    init_observers do
+      load_configuration
+    end
+  end
+
+  def load_configuration
+    Dispatch::Queue.main.async do
+      splash_screen.text(:loading._(name: :configuration._))
+    end
+
+    if Configuration.remember_last_deck
+      last_deck_played = Configuration.last_deck_played
+      unless last_deck_played.nil?
+        name, version = last_deck_played.split('#')
+        deck = Deck.where(name: name).and(:version).eq(version).first
+        if deck
+          @player.show_deck(deck.playable_cards, deck.name)
+          Game.instance.with_deck(deck)
+        end
+      end
+    end
+
+    Configuration.use_hearthstats = !Configuration.hearthstats_token.nil?
+
+    splash_screen.window.orderOut(self)
+
+    if ImageCache.need_download?
+      ask_download_images(nil)
+    elsif Hearthstone.instance.is_hearthstone_running?
+      Hearthstone.instance.start
+    end
+
+  end
+
+  def splash_screen
+    @splash ||= begin
+      splash = LoadingScreen.new
+      splash.showWindow(nil)
+      splash
+    end
   end
 
   # preferences
@@ -140,11 +103,6 @@ class AppDelegate
     end
   end
 
-  def openPreferences(_)
-    Configuration.use_hearthstats = !Configuration.hearthstats_token.nil?
-    preferences.showWindow(nil)
-  end
-
   # deck manager
   def deck_manager
     @deck_manager ||= begin
@@ -152,25 +110,6 @@ class AppDelegate
       manager.window.delegate = self
       manager
     end
-  end
-
-  def open_deck_manager(data)
-    # change windows level
-    if @player
-      @player.set_level NSNormalWindowLevel
-    end
-    if @opponent
-      @opponent.set_level NSNormalWindowLevel
-    end
-
-    deck_manager.showWindow(nil)
-    deck_manager.player_view = @player
-
-    if data.is_a? Hash
-      deck_manager.import(data)
-    end
-
-    close_window_menu true
   end
 
   # nswindowdelegate
@@ -187,56 +126,6 @@ class AppDelegate
 
     close_window_menu false
     @deck_manager = nil
-  end
-
-  # lock / unlock windows
-  def lock_windows(menu_item)
-    Configuration.windows_locked ? menu_item.title = :lock_windows._ : menu_item.title = :unlock_windows._
-
-    Configuration.windows_locked = !Configuration.windows_locked
-  end
-
-  # open a deck
-  def open_deck(menu_item)
-    deck = Deck.by_name(menu_item.title)
-    if @player
-      @player.show_deck(deck.playable_cards, deck.name)
-    end
-    Game.instance.with_deck(deck)
-    if Configuration.remember_last_deck
-      Configuration.last_deck_played = "#{deck.name}##{deck.version}"
-    end
-  end
-
-  # reset the trackers
-  def reset(_)
-    @player.game_start
-    @opponent.game_start
-    Hearthstone.instance.reset
-  end
-
-  def reload_deck_menu
-    deck_menu = NSApp.mainMenu.itemWithTitle :decks._
-    deck_menu.submenu.removeAllItems
-
-    item = NSMenuItem.alloc.initWithTitle(:deck_manager._, action: 'open_deck_manager:', keyEquivalent: 'm')
-    deck_menu.submenu.addItem item
-    item = NSMenuItem.alloc.initWithTitle(:reset._, action: 'reset:', keyEquivalent: 'r')
-    deck_menu.submenu.addItem item
-    item = NSMenuItem.alloc.initWithTitle(:save_all._, action: 'save_decks:', keyEquivalent: '')
-    deck_menu.submenu.addItem item
-    deck_menu.submenu.addItem NSMenuItem.separatorItem
-
-    Deck.where(:is_active => true).sort_by(:name, :case_insensitive => true).each do |deck|
-      item = NSMenuItem.alloc.initWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
-      deck_menu.submenu.addItem item
-    end
-  end
-
-  def close_window_menu(enabled)
-    window_menu = NSApp.mainMenu.itemWithTitle :window._
-    close_window = window_menu.submenu.itemWithTitle :close._
-    close_window.enabled = enabled
   end
 
   def performClose(_)
@@ -267,119 +156,6 @@ class AppDelegate
     end
 
     response
-  end
-
-  def debug(_)
-    @debugger ||= Debugger.new
-    @debugger.showWindow(nil)
-  end
-
-  def ask_download_images(_)
-    current_locale = Configuration.hearthstone_locale
-
-    popup = NSPopUpButton.new
-    popup.frame = [[0, 0], [299, 24]]
-
-    GeneralPreferencesLayout::KHearthstoneLocales.each do |hs_locale, osx_locale|
-      locale = NSLocale.alloc.initWithLocaleIdentifier osx_locale
-      display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
-
-      item = NSMenuItem.alloc.initWithTitle(display, action: nil, keyEquivalent: '')
-      popup.menu.addItem item
-
-      if current_locale == hs_locale
-        popup.selectItem item
-      end
-    end
-
-    if current_locale.nil?
-      popup.selectItemAtIndex -1
-    end
-
-    rep = NSAlert.alert(:images._,
-                        buttons: [:ok._],
-                        informative: :cards_not_found._,
-                        view: popup)
-    if rep
-      choosen = popup.selectedItem.title
-
-      GeneralPreferencesLayout::KHearthstoneLocales.each do |hs_locale, osx_locale|
-        locale = NSLocale.alloc.initWithLocaleIdentifier osx_locale
-        display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
-
-        if choosen == display
-          Configuration.hearthstone_locale = hs_locale
-        end
-      end
-
-      download_images
-    end
-  end
-
-  def download_images
-    @downloader = Downloader.new
-    @downloader.showWindow(nil)
-    @downloader.download do
-      NSUserDefaults.standardUserDefaults.setObject(ImageCache::IMAGES_VERSION, forKey: 'image_version')
-
-      @downloader.close
-      @downloader = nil
-    end
-  end
-
-  def save_decks(_)
-    panel = NSOpenPanel.savePanel
-    panel.canChooseFiles = false
-    panel.canChooseDirectories = true
-    panel.allowsMultipleSelection = false
-    panel.canCreateDirectories = true
-    panel.prompt = :save._
-
-    if panel.runModal == NSFileHandlingPanelOKButton
-      Exporter.export_to_files(panel.directoryURL.path)
-    end
-  end
-
-  def reset_all_data(_)
-    response = NSAlert.alert(:reset_all._,
-                             buttons: [:ok._, :cancel._],
-                             informative: :reset_all_confirm._
-    )
-
-    if response == NSAlertFirstButtonReturn
-      # since 0.11, cascade is set on deletion rule
-      # but before that version, when you deleted a deck, all cards
-      # where kept, this is why we force the deletion here
-      Deck.destroy_all!
-      DeckCard.destroy_all!
-      Statistic.destroy_all!
-
-      reload_deck_menu
-      NSAlert.alert(:reset_all._,
-                    buttons: [:ok._],
-                    informative: :all_data_deleted._
-      )
-    end
-  end
-
-  def rebuild_cards(_)
-    Card.destroy_all
-    Mechanic.destroy_all
-    cdq.save
-
-    response = NSAlert.alert(:rebuild_card_database._,
-                             buttons: [:ok._],
-                             informative: :rebuild_card_database_info._)
-    if response == NSAlertFirstButtonReturn
-      @app_will_restart = true
-
-      NSApplication.sharedApplication.terminate(nil)
-      exit(0)
-    end
-  end
-
-  def open_debug(_)
-    NSWorkspace.sharedWorkspace.activateFileViewerSelectingURLs ['/Library/Logs/HSTracker'.home_path.fileurl]
   end
 
 end
