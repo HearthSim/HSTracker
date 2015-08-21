@@ -4,7 +4,6 @@ describe 'Cards' do
     class << self
       include CDQ
     end
-    Motion::Log.level = :error
     cdq.setup
   end
 
