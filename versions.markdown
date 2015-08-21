@@ -1,3 +1,10 @@
+#### 0.12.6
+- (A lot of) Bugfixes (thanks HockeyApp, and you guys which send reports)
+- Change loader to add some text and progress
+- Change HSTracker logs, should stop crash on 10.8
+- Joust cards are now shown on the deck of your opponent
+- Rewrite the popup on the deck manager to use a cleaner one
+
 #### 0.12.5
 - Heroes are back
 
