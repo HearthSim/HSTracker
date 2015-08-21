@@ -16,7 +16,7 @@ module Kernel
   end
 
   private
-  def _message(type, level, data={})
+  def _message(level, type, data={})
     date = NSDate.now.string_with_format(:iso8601)
     case RUBYMOTION_ENV
     when 'test'
