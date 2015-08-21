@@ -8,7 +8,7 @@ class AppDelegate
   def applicationDidFinishLaunching(notification)
     # Starting hockey
     if RUBYMOTION_ENV == 'release'
-      BITHockeyManager.sharedHockeyManager.configureWithIdentifier(ENV['hockey_app_id'])
+      BITHockeyManager.sharedHockeyManager.configureWithIdentifier(ENV['hockey_app_id'], delegate: self)
       BITHockeyManager.sharedHockeyManager.startManager
     end
 
@@ -144,6 +144,11 @@ class AppDelegate
     end
 
     response
+  end
+
+  # hockey
+  def applicationLogForCrashManager(manager)
+    log_file_content
   end
 
 end

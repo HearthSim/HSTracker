@@ -7,6 +7,14 @@ module Kernel
     _message(:log, type, data)
   end
 
+  def log_file_content
+    content = NSData.read_from(log_file)
+    return nil if content.nil?
+
+    lines = content.to_s.split("\n")
+    lines[-([200, lines.count - 1].min)..-1].join("\n")
+  end
+
   private
   def _message(type, level, data={})
     date = NSDate.now.string_with_format(:iso8601)
