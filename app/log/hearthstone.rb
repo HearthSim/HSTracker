@@ -225,8 +225,10 @@ class Hearthstone
   def stop_tracking
     @is_started = false
 
-    @log_observer.stop
-    @log_observer = nil
+    if @log_observer
+      @log_observer.stop
+      @log_observer = nil
+    end
   end
 
 end
