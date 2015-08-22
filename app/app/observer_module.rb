@@ -4,6 +4,9 @@ module Observer
 
     Hearthstone.instance.on(:app_running) do |is_running|
       log(:events, message: "Hearthstone is running?", is_running: is_running)
+      if is_running && Configuration.size_from_game
+        NSNotificationCenter.defaultCenter.post('resize_window')
+      end
     end
 
     Hearthstone.instance.on(:app_activated) do |is_active|
@@ -17,6 +20,15 @@ module Observer
         @opponent.set_level NSNormalWindowLevel
         @timer_hud.set_level NSNormalWindowLevel
       end
+    end
+
+    NSNotificationCenter.defaultCenter.observe 'size_from_game' do |_|
+      menu = NSApp.mainMenu.itemWithTitle :window._
+      lock = menu.submenu.itemWithTitle :lock_windows._
+      unless lock
+        lock = menu.submenu.itemWithTitle :unlock_windows._
+      end
+      lock.enabled = !Configuration.size_from_game
     end
 
     NSNotificationCenter.defaultCenter.observe 'deck_change' do |_|

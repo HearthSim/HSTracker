@@ -24,23 +24,18 @@ class OSXHelper
     self.gt_version? 10, 8
   end
 
-  def self.window_frame
+  def self.hearthstone_frame
     windows = CGWindowListCopyWindowInfo(KCGWindowListOptionOnScreenOnly | KCGWindowListExcludeDesktopElements, KCGNullWindowID)
+    hearthstone = windows.find { |w| w['kCGWindowName'] == 'Hearthstone' }
+    return nil? unless hearthstone
 
-    hearthstone_window = nil
-    windows.each do |window|
-      name = window['kCGWindowName']
-      bounds = Pointer.new(CGRect.type, 1)
-      CGRectMakeWithDictionaryRepresentation(window['kCGWindowBounds'], bounds)
+    bounds = Pointer.new(CGRect.type, 1)
+    CGRectMakeWithDictionaryRepresentation(hearthstone['kCGWindowBounds'], bounds)
 
-      if name == 'Hearthstone'
-        hearthstone_window = bounds[0]
-        puts "name: #{name}, #{NSStringFromRect(bounds[0])}"
-        break
-      end
-    end
-
-    hearthstone_window
+    frame = bounds[0]
+    title_height = NSWindow.frameRectForContentRect([[0, 0], [400, 400]], styleMask: NSTitledWindowMask)
+    frame.size.height = frame.size.height - (title_height.size.height - 400)
+    frame
   end
 
   def self.is_version?(major, minor)

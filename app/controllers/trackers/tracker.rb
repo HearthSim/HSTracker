@@ -17,7 +17,7 @@ class Tracker < NSWindowController
   end
 
   def save_frame
-    return if Configuration.windows_locked
+    return if Configuration.windows_locked || Configuration.size_from_game || !self.window.identifier
     NSUserDefaults.standardUserDefaults.setObject(NSStringFromRect(self.window.frame),
                                                   forKey: self.window.identifier)
   end
@@ -30,6 +30,8 @@ class Tracker < NSWindowController
     else
       mask = NSTitledWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
     end
+    self.window.ignoresMouseEvents = locked
+    self.window.acceptsMouseMovedEvents = true
     self.window.setStyleMask mask
   end
 
@@ -92,6 +94,10 @@ class Tracker < NSWindowController
 
       @events << NSNotificationCenter.defaultCenter.observe('hand_count_window') do |_|
         hand_count_window_changed if self.respond_to?(:hand_count_window_changed)
+      end
+
+      @events << NSNotificationCenter.defaultCenter.observe('resize_window') do |_|
+        resize_window if self.respond_to?(:resize_window)
       end
     end
   end

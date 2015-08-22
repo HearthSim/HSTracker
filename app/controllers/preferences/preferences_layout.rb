@@ -36,9 +36,13 @@ class PreferencesLayout < MK::Layout
         left_prev = :"#{key}_label"
       end
 
-      elem = add opts[:type], :"#{key}" do
+      elem = add opts[:type], key.to_sym do
         if opts[:title]
           title opts[:title]
+        end
+
+        if opts.has_key?(:enabled)
+          enabled opts[:enabled]
         end
 
         constraints do

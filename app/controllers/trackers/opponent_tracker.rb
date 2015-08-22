@@ -380,4 +380,10 @@ class OpponentTracker < Tracker
       @count_window.window.setLevel level
     end
   end
+
+  def resize_window
+    frame = OpponentTrackerLayout.window_size
+    return if frame.nil?
+    self.window.setFrame(frame, display: true)
+  end
 end

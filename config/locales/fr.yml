@@ -168,3 +168,4 @@ loading: Chargement %{name}
 interface: interface graphique
 observers: observeurs
 configuration: configuration
+size_from_game: Redimensionne et place les fenêtres automatiquement

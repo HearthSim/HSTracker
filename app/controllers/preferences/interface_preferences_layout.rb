@@ -19,7 +19,18 @@ class InterfacePreferencesLayout < PreferencesLayout
     NSColorPanel.sharedColorPanel.continuous = false
 
     {
-      windows_locked: :lock_windows._,
+      windows_locked: {
+        type: NSButton,
+        title: :lock_windows._,
+        init: -> (elem) {
+          elem.buttonType = NSSwitchButton
+          elem.state = (Configuration.windows_locked ? NSOnState : NSOffState)
+        },
+        changed: -> (elem) {
+          Configuration.windows_locked = (elem.state == NSOnState)
+        },
+        enabled: !Configuration.size_from_game
+      },
       window_transparency: {
         label: :windows_transparency._,
         type: NSSlider,
@@ -87,7 +98,22 @@ class InterfacePreferencesLayout < PreferencesLayout
         }
       },
       show_timer: :show_timers._,
-      show_opponent_tracker: :show_opponent_tracker._
+      show_opponent_tracker: :show_opponent_tracker._,
+      size_from_game: {
+        type: NSButton,
+        title: :size_from_game._,
+        init: -> (elem) {
+          elem.buttonType = NSSwitchButton
+          elem.state = (Configuration.size_from_game ? NSOnState : NSOffState)
+        },
+        changed: -> (elem) {
+          Configuration.size_from_game = (elem.state == NSOnState)
+          if Configuration.size_from_game && !Configuration.windows_locked
+            Configuration.windows_locked = true
+          end
+          get(:windows_locked).enabled = !Configuration.size_from_game
+        }
+      }
     }
   end
 

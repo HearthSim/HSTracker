@@ -385,4 +385,10 @@ class PlayerTracker < Tracker
     end
   end
 
+  def resize_window
+    frame = PlayerTrackerLayout.window_size
+    return if frame.nil?
+    self.window.setFrame(frame, display: true)
+  end
+
 end

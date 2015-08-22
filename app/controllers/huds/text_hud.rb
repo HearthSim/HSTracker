@@ -7,6 +7,7 @@ class TextHud < NSView
   end
 
   def text=(value)
+    log(:text_hud, value: value)
     @text = value
     setNeedsDisplay true
   end
@@ -33,6 +34,7 @@ class TextHud < NSView
 
   def drawRect(rect)
     super.tap do
+      log(:text_hud, draw_rect: text)
       return if text.nil?
 
       case Configuration.card_layout
