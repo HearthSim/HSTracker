@@ -4,6 +4,12 @@ GIT
   specs:
     sugarcube (3.3.6)
 
+GIT
+  remote: git://github.com/webcracy/motion-sparkle.git
+  revision: 64b08fbfd0f288239a5620a1f1f821a58835e485
+  specs:
+    motion-sparkle (0.0.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -64,7 +70,6 @@ GEM
     motion-kit-events (0.3.1)
       dbt
       motion-kit
-    motion-sparkle (0.0.5)
     motion-yaml (1.4)
     motion_print (1.2.0)
     nap (0.8.0)
@@ -95,7 +100,7 @@ DEPENDENCIES
   motion-env
   motion-kit
   motion-kit-events
-  motion-sparkle
+  motion-sparkle!
   motion_print
   rake
   redcarpet
