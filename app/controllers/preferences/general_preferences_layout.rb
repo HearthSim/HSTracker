@@ -1,19 +1,19 @@
 class GeneralPreferencesLayout < PreferencesLayout
 
   KHearthstoneLocales = {
-      'deDE' => 'de_DE',
-      'enGB' => 'en_GB',
-      'enUS' => 'en_US',
-      'esES' => 'es_ES',
-      'esMX' => 'es_MX',
-      'frFR' => 'fr_FR',
-      'itIT' => 'it_IT',
-      'koKR' => 'ko_KR',
-      'plPL' => 'pl_PL',
-      'ptBR' => 'pt_BR',
-      'ruRU' => 'ru_RU',
-      'zhCN' => 'zh_CN',
-      'zhTW' => 'zh_TW'
+    'deDE' => 'de_DE',
+    'enGB' => 'en_GB',
+    'enUS' => 'en_US',
+    'esES' => 'es_ES',
+    'esMX' => 'es_MX',
+    'frFR' => 'fr_FR',
+    'itIT' => 'it_IT',
+    'koKR' => 'ko_KR',
+    'plPL' => 'pl_PL',
+    'ptBR' => 'pt_BR',
+    'ruRU' => 'ru_RU',
+    'zhCN' => 'zh_CN',
+    'zhTW' => 'zh_TW'
   }
 
   KHSTrackerLocales = %w(de en fr it)
@@ -67,7 +67,12 @@ class GeneralPreferencesLayout < PreferencesLayout
             locale = NSLocale.alloc.initWithLocaleIdentifier osx_locale
             display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
 
-            item = NSMenuItem.alloc.initWithTitle(display.capitalize, action: nil, keyEquivalent: '')
+            if (match = /([[:word:]]+) \(([[:word:]]+)\s?([[:word:]]+)?\)/.match(display))
+              m = match.to_a.reject { |n| n.nil? }.map(&:capitalize)
+              display = "#{m[1]} (#{m[2..-1].join(' ')})"
+            end
+
+            item = NSMenuItem.alloc.initWithTitle(display, action: nil, keyEquivalent: '')
             elem.menu.addItem item
 
             if current_locale == hs_locale
