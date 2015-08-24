@@ -70,6 +70,9 @@ GEM
     motion-kit-events (0.3.1)
       dbt
       motion-kit
+    motion-require (0.2.0)
+    motion-support (0.2.6)
+      motion-require (>= 0.0.6)
     motion-yaml (1.4)
     motion_print (1.2.0)
     nap (0.8.0)
@@ -101,6 +104,7 @@ DEPENDENCIES
   motion-kit
   motion-kit-events
   motion-sparkle!
+  motion-support
   motion_print
   rake
   redcarpet

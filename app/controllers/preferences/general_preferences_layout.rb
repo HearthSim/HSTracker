@@ -65,12 +65,7 @@ class GeneralPreferencesLayout < PreferencesLayout
 
           KHearthstoneLocales.each do |hs_locale, osx_locale|
             locale = NSLocale.alloc.initWithLocaleIdentifier osx_locale
-            display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale)
-
-            if (match = /([[:word:]]+) \(([[:word:]]+)\s?([[:word:]]+)?\)/.match(display))
-              m = match.to_a.reject { |n| n.nil? }.map(&:capitalize)
-              display = "#{m[1]} (#{m[2..-1].join(' ')})"
-            end
+            display = locale.displayNameForKey(NSLocaleIdentifier, value: osx_locale).titleize
 
             item = NSMenuItem.alloc.initWithTitle(display, action: nil, keyEquivalent: '')
             elem.menu.addItem item
