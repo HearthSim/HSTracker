@@ -21,7 +21,11 @@ class Entity
   end
 
   def is_in_zone?(zone)
-    has_tag? GameTag::ZONE && tag(GameTag::ZONE).to_i == zone
+    has_tag?(GameTag::ZONE) && tag(GameTag::ZONE).to_i == zone
+  end
+
+  def is_controlled_by?(controller)
+    has_tag?(GameTag::CONTROLLER) && tag(GameTag::CONTROLLER) == controller
   end
 
 end

@@ -1056,15 +1056,22 @@ class DeckManager < NSWindowController
   end
 
   def export_deck(sender)
+    name = cards = nil
+
     if sender && sender.respond_to?('identifier') && sender.identifier == 'table_identifier'
       row = @table_view.clickedRow
       deck = @decks_or_cards[row]
-      name = deck.name
-      cards = deck.playable_cards
+
+      if deck.is_a?(Deck)
+        name = deck.name
+        cards = deck.playable_cards
+      end
     else
       name = @deck_name
       cards = @decks_or_cards
     end
+
+    return if name.nil? || cards.nil?
 
     panel = NSSavePanel.savePanel
     panel.allowedFileTypes = %w(txt)

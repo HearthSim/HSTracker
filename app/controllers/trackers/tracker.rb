@@ -35,12 +35,6 @@ class Tracker < NSWindowController
     self.window.setStyleMask mask
   end
 
-  def window_transparency
-  end
-
-  def hand_count_window_changed
-  end
-
   def card_layout
     return if @table_view.nil?
 
