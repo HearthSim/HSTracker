@@ -129,7 +129,7 @@ module Menu
     @downloader.download do
       NSUserDefaults.standardUserDefaults.setObject(ImageCache::IMAGES_VERSION, forKey: 'image_version')
 
-      @downloader.close
+      @downloader.close if @downloader
       @downloader = nil
     end
   end
