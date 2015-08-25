@@ -24,6 +24,18 @@ class OSXHelper
     self.gt_version? 10, 8
   end
 
+  def self.is_version?(major, minor)
+    _major, _minor = get_version
+
+    _major == major && _minor == minor
+  end
+
+  def self.gt_version?(major, minor)
+    _major, _minor = get_version
+
+    _major >= major && _minor >= minor
+  end
+
   def self.hearthstone_frame
     windows = CGWindowListCopyWindowInfo(KCGWindowListOptionOnScreenOnly | KCGWindowListExcludeDesktopElements, KCGNullWindowID)
     hearthstone = windows.find { |w| w['kCGWindowName'] == 'Hearthstone' }
@@ -38,16 +50,17 @@ class OSXHelper
     frame
   end
 
-  def self.is_version?(major, minor)
-    _major, _minor = get_version
+  def self.point_relative_to_hearthstone(point)
+    frame = hearthstone_frame
+    return nil if frame.nil?
 
-    _major == major && _minor == minor
-  end
+    point_x = point.is_a?(Array) ? point[0] : point.x
+    point_y = point.is_a?(Array) ? point[1] : point.y
 
-  def self.gt_version?(major, minor)
-    _major, _minor = get_version
+    x = frame.origin.x + point_x
+    y = frame.origin.y + point_y - 8
 
-    _major >= major && _minor >= minor
+    [x, y]
   end
 
   private

@@ -12,11 +12,9 @@ class PlayerTrackerLayout < TrackerLayout
     hearthstone_window = OSXHelper.hearthstone_frame
     return nil if hearthstone_window.nil?
 
-    screen_height = hearthstone_window.size.height - hearthstone_window.origin.y
-
-    screen_width = hearthstone_window.size.width + hearthstone_window.origin.x
-
-    [[screen_width - width, hearthstone_window.origin.y], [width, screen_height]]
+    point = OSXHelper.point_relative_to_hearthstone([hearthstone_window.size.width - width, 0])
+    return nil if point.nil?
+    [point, [width, hearthstone_window.size.height]]
   end
 
   # get the window frame

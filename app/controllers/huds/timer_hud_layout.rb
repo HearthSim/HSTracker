@@ -1,17 +1,21 @@
 class TimerHudLayout < MK::WindowLayout
 
   def layout
+    wframe = nil
+    size = [100, 80]
     if Configuration.size_from_game && Hearthstone.instance.is_hearthstone_running?
       hearthstone_window = OSXHelper.hearthstone_frame
-      screen_height = hearthstone_window.size.height - hearthstone_window.origin.y
-      mid_y = screen_height / 2
+      unless hearthstone_window.nil?
+        point = [hearthstone_window.size.width - 280 - size[0], hearthstone_window.size.height / 2 + 8]
+        point = OSXHelper.point_relative_to_hearthstone(point)
+        unless point.nil?
+          wframe = [point, size]
+        end
+      end
+    end
 
-      screen_width = hearthstone_window.size.width + hearthstone_window.origin.x
-
-      wframe = [[screen_width - 450, mid_y],
-                [200, 80]]
-    else
-      wframe = [[400, 120], [200, 80]]
+    if wframe.nil?
+      wframe = [[400, 120], size]
       frame = NSUserDefaults.standardUserDefaults.objectForKey 'HSTimer'
       if frame
         wframe = NSRectFromString(frame)
