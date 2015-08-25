@@ -109,7 +109,7 @@ class Hearthstone
 
     config_changed = false
     unless Dir.exists?(File.dirname(Hearthstone.config_path))
-      Dir.mkdir(File.dirname(Hearthstone.config_path))
+      Motion::FileUtils.mkdir_p(File.dirname(Hearthstone.config_path))
       config_changed = true
     end
 

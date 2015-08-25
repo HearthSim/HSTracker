@@ -72,6 +72,7 @@ GEM
     motion-cocoapods (1.7.3)
       cocoapods (>= 0.34)
     motion-env (0.0.4)
+    motion-fileutils (0.1.1)
     motion-kit (0.18.0)
       dbt (~> 1.1.5)
     motion-kit-events (0.3.1)
@@ -106,6 +107,7 @@ DEPENDENCIES
   dotenv
   motion-cocoapods
   motion-env
+  motion-fileutils
   motion-kit
   motion-kit-events
   motion-sparkle!
