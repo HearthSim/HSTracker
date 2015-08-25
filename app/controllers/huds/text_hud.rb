@@ -44,7 +44,7 @@ class TextHud < NSView
           ratio = 1.0
       end
 
-      stroke = Configuration.count_color_border
+      stroke = :black.nscolor
       if @is_flashing && @flash_count % 2 == 0
         stroke = :red.nscolor
       end
