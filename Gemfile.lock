@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/rubymotion/motion-support.git
+  revision: 0371145b83ad0ad9e8fac6c920a13a1b66facc7d
+  specs:
+    motion-support (0.2.6)
+      motion-require (>= 0.0.6)
+
+GIT
   remote: git://github.com/rubymotion/sugarcube.git
   revision: cf689842b3e364c87e76bf2cf410d07e19b12afb
   specs:
@@ -71,8 +78,6 @@ GEM
       dbt
       motion-kit
     motion-require (0.2.0)
-    motion-support (0.2.6)
-      motion-require (>= 0.0.6)
     motion-yaml (1.4)
     motion_print (1.2.0)
     nap (0.8.0)
@@ -104,7 +109,7 @@ DEPENDENCIES
   motion-kit
   motion-kit-events
   motion-sparkle!
-  motion-support
+  motion-support!
   motion_print
   rake
   redcarpet
