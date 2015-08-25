@@ -63,6 +63,12 @@ class TimerHud < Hud
 
   end
 
+  def resize_window
+    frame = SizeHelper.timer_hud_frame
+    return if frame.nil?
+    self.window.setFrame(frame, display: true)
+  end
+
   private
   def fire(_)
     @seconds -= 1 if @seconds > 0

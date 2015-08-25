@@ -2,7 +2,7 @@
 class OpponentTracker < Tracker
 
   # accessors used by card count
-  attr_accessor :deck_count, :hand_count, :has_coin, :cards
+  attr_accessor :deck_count, :hand_count, :has_coin, :cards, :count_window
 
   def deck_count
     @deck_count ||= 30
@@ -382,7 +382,7 @@ class OpponentTracker < Tracker
   end
 
   def resize_window
-    frame = OpponentTrackerLayout.window_size
+    frame = SizeHelper.opponent_tracker_frame
     return if frame.nil?
     self.window.setFrame(frame, display: true)
   end

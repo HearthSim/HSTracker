@@ -1,7 +1,7 @@
 # The player tracker window
 class PlayerTracker < Tracker
 
-  attr_accessor :cards, :playing_cards
+  attr_accessor :cards, :playing_cards, :count_window
 
   # accessors used by card count
   attr_accessor :deck_count, :hand_count
@@ -386,7 +386,7 @@ class PlayerTracker < Tracker
   end
 
   def resize_window
-    frame = PlayerTrackerLayout.window_size
+    frame = SizeHelper.player_tracker_frame
     return if frame.nil?
     self.window.setFrame(frame, display: true)
   end

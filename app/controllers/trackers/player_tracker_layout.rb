@@ -1,27 +1,10 @@
 class PlayerTrackerLayout < TrackerLayout
 
-  def self.window_size
-    width = case Configuration.card_layout
-              when :small
-                KSmallFrameWidth
-              when :medium
-                KMediumFrameWidth
-              else
-                KFrameWidth
-            end
-    hearthstone_window = OSXHelper.hearthstone_frame
-    return nil if hearthstone_window.nil?
-
-    point = OSXHelper.point_relative_to_hearthstone([hearthstone_window.size.width - width, 0])
-    return nil if point.nil?
-    [point, [width, hearthstone_window.size.height]]
-  end
-
   # get the window frame
   def window_frame
     frame = nil
     if Configuration.size_from_game && Hearthstone.instance.is_hearthstone_running?
-      frame = PlayerTrackerLayout.window_size
+      frame = SizeHelper.player_tracker_frame
     end
 
     if frame.nil?
