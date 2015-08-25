@@ -6,7 +6,7 @@ class TimerHudLayout < MK::WindowLayout
     if Configuration.size_from_game && Hearthstone.instance.is_hearthstone_running?
       hearthstone_window = OSXHelper.hearthstone_frame
       unless hearthstone_window.nil?
-        point = [hearthstone_window.size.width - 280 - size[0], hearthstone_window.size.height / 2 + 8]
+        point = [hearthstone_window.size.width - 290 - size[0], hearthstone_window.size.height / 2 + 15]
         point = OSXHelper.point_relative_to_hearthstone(point)
         unless point.nil?
           wframe = [point, size]
