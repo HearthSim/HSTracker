@@ -27,4 +27,7 @@ class OpponentCardHud < Hud
     self.window.setFrame(frame, display: true)
   end
 
+  def window_transparency
+  end
+
 end

@@ -66,23 +66,6 @@ class SizeHelper
     [point, size]
   end
 
-  def self.op_debug(position, x, y)
-    hearthstone_window = OSXHelper.hearthstone_frame
-
-    size = [40, 40]
-
-    window = Game.instance.opponent_tracker.card_huds[position].window
-
-    mid_x = hearthstone_window.size.width / 2
-    top_y = hearthstone_window.size.height
-
-    point = [x - (hearthstone_window.origin.x * 2), top_y - (top_y - (y - 15)) - hearthstone_window.origin.y]
-    puts point.to_s
-    point = OSXHelper.point_relative_to_hearthstone(point)
-    frame = [point, size]
-    window.setFrame(frame, display: true)
-  end
-
   def self.opponent_card_hud_frame(position, card_count)
     size = [40, 40]
 
@@ -247,9 +230,6 @@ class SizeHelper
     end
 
     point = OSXHelper.point_relative_to_hearthstone(point)
-    mp position: position,
-       card_count: card_count,
-       point: point
 
     [point, size]
   end

@@ -129,6 +129,10 @@ class OpponentTracker < Tracker
   # game events
   def game_end
     @game_ended = true
+    self.card_huds.each do |card_hud|
+      card_hud.text = nil
+    end
+
     if Configuration.reset_on_end
       @count_text = nil
       reset
