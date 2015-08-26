@@ -175,6 +175,8 @@ class Game
             HearthStatsAPI.post_deck(_current_deck) do |status, deck|
               if status
                 # update deck
+                cdq.save
+
                 self.with_deck(deck)
                 data[:deck_id] = deck.hearthstats_id
                 data[:deck_version_id] = deck.hearthstats_version_id
