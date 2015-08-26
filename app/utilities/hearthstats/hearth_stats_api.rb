@@ -87,7 +87,6 @@ class HearthStatsAPI
         status = true
         deck.hearthstats_id = response['data']['deck']['id']
         deck.hearthstats_version_id = response['data']['deck_versions'][0]['id']
-        cdq.save
       end
       Dispatch::Queue.main.async do
         if status
