@@ -174,6 +174,8 @@ class Game
           if response == NSAlertFirstButtonReturn
             HearthStatsAPI.post_deck(_current_deck) do |status, deck|
               if status
+                # update deck
+                self.with_deck(deck)
                 data[:deck_id] = deck.hearthstats_id
                 data[:deck_version_id] = deck.hearthstats_version_id
                 HearthStatsAPI.post_game_result(data) do |success|
