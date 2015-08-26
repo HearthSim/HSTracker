@@ -1,3 +1,7 @@
+#### 0.12.8
+- Correct a crash when a date is not a date (oO)
+- HSTracker like your decks and want to create them multiple times on HeartStats
+
 #### 0.12.7
 - Bugfixes
 
