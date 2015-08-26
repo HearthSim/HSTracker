@@ -1,3 +1,6 @@
+#### 0.12.7
+- Bugfixes
+
 #### 0.12.6
 - (A lot of) Bugfixes (thanks HockeyApp, and you guys which send reports)
 - Change loader to add some text and progress
