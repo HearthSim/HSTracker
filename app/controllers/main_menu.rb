@@ -40,7 +40,9 @@ class MainMenu < MK::MenuLayout
     add :window._ do
       setAutoenablesItems false
       label = Configuration.windows_locked ? :unlock_windows._ : :lock_windows._
-      add label, action: 'lock_windows:', key: 'l'
+      lock = add label, action: 'lock_windows:', key: 'l'
+      lock.enabled = !Configuration.size_from_game
+
       close = add close_item(:close._)
       close.enabled = false
 

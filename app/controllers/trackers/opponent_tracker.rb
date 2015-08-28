@@ -2,7 +2,9 @@
 class OpponentTracker < Tracker
 
   # accessors used by card count
-  attr_accessor :deck_count, :hand_count, :has_coin, :cards
+  attr_accessor :deck_count, :hand_count, :cards, :count_window, :card_huds
+
+  CoinPosition = 4
 
   def deck_count
     @deck_count ||= 30
@@ -33,6 +35,12 @@ class OpponentTracker < Tracker
       if Configuration.hand_count_window == :window
         @count_window = CardCountHud.alloc.initWithPlayer(:opponent)
         @count_window.showWindow(self)
+      end
+
+      self.card_huds = (0..10).map do |position|
+        card_hud = OpponentCardHud.alloc.initWithPosition(position)
+        card_hud.showWindow(self)
+        card_hud
       end
 
       NSNotificationCenter.defaultCenter.observe('show_opponent_tracker') do |_|
@@ -121,6 +129,10 @@ class OpponentTracker < Tracker
   # game events
   def game_end
     @game_ended = true
+    self.card_huds.each do |card_hud|
+      card_hud.text = nil
+    end
+
     if Configuration.reset_on_end
       @count_text = nil
       reset
@@ -137,12 +149,13 @@ class OpponentTracker < Tracker
 
   def reset
     @cards = []
+    @ages = {}
+    @marks = {}
 
     unless Configuration.fixed_window_names
       self.window.title = 'HSTracker'
     end
 
-    self.has_coin = false
     self.hand_count = 0
     self.deck_count = 30
     display_count
@@ -151,6 +164,13 @@ class OpponentTracker < Tracker
     if Configuration.show_card_on_hover
       @card_hover.close if @card_hover
     end
+
+    (0..10).each do |i|
+      @ages[i] = -1
+      @marks[i] = :none
+    end
+
+    reload_card_huds
   end
 
   def set_hero(hero_id)
@@ -172,12 +192,17 @@ class OpponentTracker < Tracker
     self.hand_count += 1
     if turn == 0 && self.hand_count == 5
       log(:tracker, 'opponent get the coin')
+      @ages[CoinPosition] = turn
+      @marks[CoinPosition] = :coin
     else
       self.deck_count -= 1 unless self.deck_count.zero?
+      @ages[self.hand_count - 1] = turn
+      @marks[self.hand_count - 1] = turn.zero? ? :kept : :none
     end
 
     display_count
     @table_view.reloadData
+    reload_card_huds
   end
 
   def deck_discard(card_id, turn)
@@ -216,9 +241,19 @@ class OpponentTracker < Tracker
 
     display_count
     @table_view.reloadData
+
+    reload_card_huds
   end
 
-  def play(card_id, turn)
+  def play(card_id, from, turn)
+    #wasReturnedToDeck = OpponentReturnedToDeck.Any(p => p.Key == id && p.Value <= OpponentHandAge[from - 1]);
+    wasReturnedToDeck = false
+    stolen = from != -1 && (@marks[from - 1] == :stolen || @marks[from - 1] == :returned || wasReturnedToDeck)
+
+    # card can't be marked stolen or returned, since it was returned to the deck
+    if wasReturnedToDeck && stolen && !(@marks[from - 1] == :stolen || @marks[from - 1] == :returned)
+      #OpponentReturnedToDeck.Remove(OpponentReturnedToDeck.First(p => p.Key == id && p.Value <= OpponentHandAge[from - 1]));
+    end
 
     if card_id
       card = @cards.select { |c| c.card_id == card_id }.first
@@ -240,6 +275,18 @@ class OpponentTracker < Tracker
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
     @table_view.reloadData
+
+    ((from - 1)..9).each do |i|
+      @ages[i] = @ages[i + 1]
+      @marks[i] = @marks[i + 1]
+      #OpponentStolenCardsInformation[i] = OpponentStolenCardsInformation[i + 1];
+    end
+
+    @ages[9] = -1
+    @marks[9] = :none
+    #OpponentStolenCardsInformation[MaxHandSize - 1] = null;
+
+    reload_card_huds
   end
 
   def joust(card_id)
@@ -262,12 +309,16 @@ class OpponentTracker < Tracker
     end
   end
 
-  def mulligan
+  def mulligan(pos)
     self.hand_count -= 1
     self.deck_count += 1
 
     display_count
     @table_view.reloadData
+
+    @marks[pos - 1] = :mulliganed
+
+    reload_card_huds
   end
 
   def play_to_hand(card_id, turn, id)
@@ -279,6 +330,11 @@ class OpponentTracker < Tracker
 
     display_count
     @table_view.reloadData
+
+    @ages[self.hand_count - 1] = turn
+    @marks[self.hand_count - 1] = :returned
+
+    reload_card_huds
   end
 
   def play_to_deck(card_id, turn)
@@ -314,6 +370,35 @@ class OpponentTracker < Tracker
     self.hand_count += 1
     display_count
     @table_view.reloadData
+
+    @ages[self.hand_count - 1] = turn
+
+    if @marks[self.hand_count - 1] != :coin
+      @marks[self.hand_count - 1] = :stolen
+=begin
+      if SecondToLastUsedId.HasValue
+        var cardId = Entities[id].CardId
+        if cardId == "GVG_007" && Entities[id].HasTag(GAME_TAG.DISPLAYED_CREATOR)
+          #Bug with created Flame Leviathan's: #863
+          return
+
+          if (string.IsNullOrEmpty(cardId) && Entities[id].HasTag(GAME_TAG.LAST_AFFECTED_BY))
+            cardId = Entities[Entities[id].GetTag(GAME_TAG.LAST_AFFECTED_BY)].CardId;
+          end
+          if (string.IsNullOrEmpty(cardId))
+            cardId = Entities[SecondToLastUsedId.Value].CardId;
+          end
+
+          var card = GetCardFromId(cardId);
+          if (card != null)
+            OpponentStolenCardsInformation[OpponentHandCount - 1] = card;
+          end
+        end
+      end
+=end
+    end
+
+    reload_card_huds
   end
 
   def tableView(tableView, heightOfRow: row)
@@ -354,6 +439,28 @@ class OpponentTracker < Tracker
     end
   end
 
+  def reload_card_huds
+    mp opponent_hand: @ages.map { |k, v| { age: v, card: @marks[k] } }.join(', ')
+
+    self.card_huds.each do |card_hud|
+      age = @ages[card_hud.position]
+      if age == -1
+        card_hud.window.orderOut(self)
+        next
+      end
+
+      card_hud.window.orderFront(self)
+      text = case @marks[card_hud.position]
+               when :coin
+                 :coin_abbr._
+               else
+                 age.to_s
+             end
+      card_hud.text = text
+      card_hud.resize_window_with_cards(self.hand_count)
+    end
+  end
+
   def window_transparency
     @table_view.backgroundColor = :black.nscolor(Configuration.window_transparency)
   end
@@ -378,6 +485,19 @@ class OpponentTracker < Tracker
     window.setLevel level
     if @count_window
       @count_window.window.setLevel level
+    end
+    self.card_huds.each do |card_hud|
+      card_hud.set_level level
+    end
+  end
+
+  def resize_window
+    frame = SizeHelper.opponent_tracker_frame
+    return if frame.nil?
+    self.window.setFrame(frame, display: true)
+
+    self.card_huds.each do |card_hud|
+      card_hud.resize_window_with_cards(self.hand_count)
     end
   end
 end

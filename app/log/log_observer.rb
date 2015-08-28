@@ -74,8 +74,8 @@ class LogObserver
       @found_ranked = false
       @last_asset_unload = NSDate.new.timeIntervalSince1970
 
-      timeout = timeout_sec.seconds.after(NSDate.now).timeIntervalSince1970
-      while @waiting_for_first_asset_unload || (NSDate.now.timeIntervalSince1970 - @last_asset_unload) < timeout
+      timeout = (Time.now + timeout_sec.seconds).to_f
+      while @waiting_for_first_asset_unload || (Time.now.to_f - @last_asset_unload) < timeout
         NSThread.sleepForTimeInterval(0.1)
         break if @found_ranked
       end
@@ -184,12 +184,6 @@ class LogObserver
   def analyze(line)
     return if line.strip.size.zero?
     return if line =~ /^\(Filename/
-    #if line =~ /CREATE_GAME/
-    #puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
-    #end
-    #puts line
-    #puts " "
-    #return
 
     ## [POWER]
     if line =~ /^\[Power\] GameState\./

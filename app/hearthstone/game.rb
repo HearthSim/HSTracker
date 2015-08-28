@@ -174,6 +174,10 @@ class Game
           if response == NSAlertFirstButtonReturn
             HearthStatsAPI.post_deck(_current_deck) do |status, deck|
               if status
+                # update deck
+                cdq.save
+
+                self.with_deck(deck)
                 data[:deck_id] = deck.hearthstats_id
                 data[:deck_version_id] = deck.hearthstats_version_id
                 HearthStatsAPI.post_game_result(data) do |success|
@@ -443,23 +447,23 @@ class Game
     if from_deck
       opponent_tracker.deck_discard(card_id, turn)
     else
-      opponent_tracker.play(card_id, turn)
+      opponent_tracker.play(card_id, from, turn)
     end
   end
 
   def opponent_play(card_id, from, turn)
     log(:engine, opponent: :play, card_id: card_id, card: card(card_id), from: from, turn: turn)
-    opponent_tracker.play(card_id, turn)
+    opponent_tracker.play(card_id, from, turn)
   end
 
   def opponent_hand_discard(card_id, from, turn)
     log(:engine, opponent: :discard_from_hand, card_id: card_id, card: card(card_id), from: from, turn: turn)
-    opponent_tracker.play(card_id, turn)
+    opponent_tracker.play(card_id, from, turn)
   end
 
   def opponent_mulligan(from)
     log(:engine, opponent: :mulligan, from: from)
-    opponent_tracker.mulligan
+    opponent_tracker.mulligan(from)
     timer_hud.mulligan_done(:opponent)
   end
 

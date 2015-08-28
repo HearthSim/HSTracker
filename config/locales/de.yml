@@ -168,3 +168,4 @@ loading: Loading %{name}
 interface: user interface
 observers: observers
 configuration: configuration
+size_from_game: Resize and move windows automatically

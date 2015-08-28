@@ -27,13 +27,7 @@ class TrackerLayout < MK::WindowLayout
 
   def layout
     wframe = window_frame
-    frame = NSUserDefaults.standardUserDefaults.objectForKey window_name
-    if frame
-      wframe = NSRectFromString(frame)
-    end
-
     frame(wframe)
-    identifier window_name
     title window_title
 
     case Configuration.card_layout
@@ -64,6 +58,9 @@ class TrackerLayout < MK::WindowLayout
     else
       mask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
     end
+    ignores_mouse_events locked
+    accepts_mouse_moved_events true
+
     style_mask mask
     if Hearthstone.instance.is_active?
       level NSScreenSaverWindowLevel
