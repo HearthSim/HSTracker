@@ -1,6 +1,6 @@
 class DeckManagerLayout < MK::WindowLayout
 
-  def layout
+  def layout 
     frame_width = CGRectGetWidth(NSScreen.mainScreen.frame) - 100
     frame_height = CGRectGetHeight(NSScreen.mainScreen.frame) - 100
 

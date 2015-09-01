@@ -39,6 +39,7 @@ class OpponentTracker < Tracker
 
       self.card_huds = (0..10).map do |position|
         card_hud = OpponentCardHud.alloc.initWithPosition(position)
+        card_hud.delegate = self
         card_hud.showWindow(self)
         card_hud
       end
@@ -149,7 +150,6 @@ class OpponentTracker < Tracker
 
   def reset
     @cards = []
-    @ages = {}
     @marks = {}
 
     unless Configuration.fixed_window_names
@@ -166,9 +166,10 @@ class OpponentTracker < Tracker
     end
 
     (0..10).each do |i|
-      @ages[i] = -1
-      @marks[i] = :none
+      @marks[i] = { age: -1, info: :none }
     end
+
+    @opponent_card_hud_hover.close if @opponent_card_hud_hover
 
     reload_card_huds
   end
@@ -188,16 +189,27 @@ class OpponentTracker < Tracker
     @table_view.reloadData
   end
 
+  def turn_start(turn)
+    @last_played_card_id = nil
+    @last_jousted_card_id = nil
+    @last_jousted_turn = nil
+  end
+
   def draw(turn)
     self.hand_count += 1
     if turn == 0 && self.hand_count == 5
       log(:tracker, 'opponent get the coin')
-      @ages[CoinPosition] = turn
-      @marks[CoinPosition] = :coin
+      @marks[CoinPosition] = { age: turn, info: :coin, card: 'GAME_005' }
     else
       self.deck_count -= 1 unless self.deck_count.zero?
-      @ages[self.hand_count - 1] = turn
-      @marks[self.hand_count - 1] = turn.zero? ? :kept : :none
+
+      if @last_played_card_id == 'AT_058'
+        @marks[self.hand_count - 1][:info] = :jousted
+        @marks[self.hand_count - 1][:info] = @last_jousted_card_id
+        @marks[self.hand_count - 1] = { age: turn, info: :jousted, card: @last_jousted_card_id }
+      else
+        @marks[self.hand_count - 1] = { age: turn, info: turn.zero? ? :kept : :none }
+      end
     end
 
     display_count
@@ -246,15 +258,7 @@ class OpponentTracker < Tracker
   end
 
   def play(card_id, from, turn)
-    #wasReturnedToDeck = OpponentReturnedToDeck.Any(p => p.Key == id && p.Value <= OpponentHandAge[from - 1]);
-    wasReturnedToDeck = false
-    stolen = from != -1 && (@marks[from - 1] == :stolen || @marks[from - 1] == :returned || wasReturnedToDeck)
-
-    # card can't be marked stolen or returned, since it was returned to the deck
-    if wasReturnedToDeck && stolen && !(@marks[from - 1] == :stolen || @marks[from - 1] == :returned)
-      #OpponentReturnedToDeck.Remove(OpponentReturnedToDeck.First(p => p.Key == id && p.Value <= OpponentHandAge[from - 1]));
-    end
-
+    @last_played_card_id = card_id
     if card_id
       card = @cards.select { |c| c.card_id == card_id }.first
       if card
@@ -277,19 +281,15 @@ class OpponentTracker < Tracker
     @table_view.reloadData
 
     ((from - 1)..9).each do |i|
-      @ages[i] = @ages[i + 1]
-      @marks[i] = @marks[i + 1]
-      #OpponentStolenCardsInformation[i] = OpponentStolenCardsInformation[i + 1];
+      @marks[i] = { age: i + 1, info: @marks[i + 1][:info], card: @marks[i + 1][:card] }
     end
 
-    @ages[9] = -1
-    @marks[9] = :none
-    #OpponentStolenCardsInformation[MaxHandSize - 1] = null;
+    @marks[9] = { age: -1, info: :none }
 
     reload_card_huds
   end
 
-  def joust(card_id)
+  def joust(card_id, turn)
     card = @cards.select { |c| c.card_id == card_id }.first
     if card && card.is_jousted
       card.is_jousted = false
@@ -307,6 +307,19 @@ class OpponentTracker < Tracker
         @cards.sort_cards!
       end
     end
+
+    if @last_played_card_id
+
+      # if the last is King's Elekk,
+      # we remember the jousted card
+      if @last_played_card_id == 'AT_058'
+        @last_jousted_card_id = card_id
+        @last_jousted_turn = turn
+      end      
+    end
+    mp last_card: @last_played_card_id,
+      last_joust: @last_jousted_card_id,
+      turn: @last_jousted_turn
   end
 
   def mulligan(pos)
@@ -315,8 +328,7 @@ class OpponentTracker < Tracker
 
     display_count
     @table_view.reloadData
-
-    @marks[pos - 1] = :mulliganed
+    @marks[pos - 1][:info] = :mulliganed
 
     reload_card_huds
   end
@@ -331,8 +343,7 @@ class OpponentTracker < Tracker
     display_count
     @table_view.reloadData
 
-    @ages[self.hand_count - 1] = turn
-    @marks[self.hand_count - 1] = :returned
+    @marks[self.hand_count - 1] = { age: turn, info: :returned, card: card_id }
 
     reload_card_huds
   end
@@ -371,10 +382,12 @@ class OpponentTracker < Tracker
     display_count
     @table_view.reloadData
 
-    @ages[self.hand_count - 1] = turn
+    @marks[self.hand_count - 1][:age] = turn
 
-    if @marks[self.hand_count - 1] != :coin
-      @marks[self.hand_count - 1] = :stolen
+    if @marks[self.hand_count - 1][:info] != :coin
+      @marks[self.hand_count - 1][:info] = :stolen
+
+
 =begin
       if SecondToLastUsedId.HasValue
         var cardId = Entities[id].CardId
@@ -440,23 +453,30 @@ class OpponentTracker < Tracker
   end
 
   def reload_card_huds
-    mp opponent_hand: @ages.map { |k, v| { age: v, card: @marks[k] } }.join(', ')
+    mp opponent_hand: @marks
 
     self.card_huds.each do |card_hud|
-      age = @ages[card_hud.position]
+      age = @marks[card_hud.position][:age]
       if age == -1
         card_hud.window.orderOut(self)
         next
       end
 
       card_hud.window.orderFront(self)
-      text = case @marks[card_hud.position]
+      text = case @marks[card_hud.position][:info]
                when :coin
                  :coin_abbr._
+               when :returned
+                 :returned_abbr._
+               when :stolen
+                 :stolen_abbr._
+               when :jousted
+                 :joust_abbr._
                else
-                 age.to_s
+                 ''
              end
-      card_hud.text = text
+      card_hud.card = @marks[card_hud.position][:card]
+      card_hud.text = age.to_s + "\n" + text
       card_hud.resize_window_with_cards(self.hand_count)
     end
   end
@@ -500,4 +520,26 @@ class OpponentTracker < Tracker
       card_hud.resize_window_with_cards(self.hand_count)
     end
   end
+
+  def hover_opponent_card(hud)
+    card = hud.card
+
+    return if card.nil?
+
+    if @opponent_card_hud_hover.nil?
+      @opponent_card_hud_hover = CardHover.new
+    end
+
+    @opponent_card_hud_hover.card = Card.by_id(card)
+    @opponent_card_hud_hover.showWindow(self.window)
+    frame = hud.window.frame
+    point = [frame.origin.x + frame.size.width + 10, frame.origin.y]
+    @opponent_card_hud_hover.window.setFrameTopLeftPoint(point)
+
+  end
+
+  def out_opponent_card(hud)
+    @opponent_card_hud_hover.close if @opponent_card_hud_hover
+  end
+
 end

@@ -169,3 +169,7 @@ interface: user interface
 observers: observers
 configuration: configuration
 size_from_game: Resize and move windows automatically
+coin_abbr: C
+stolen_abbr: S
+returned_abbr: R
+joust_abbr: J

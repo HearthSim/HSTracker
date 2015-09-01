@@ -1,6 +1,32 @@
 class TextHud < NSView
 
-  attr_accessor :text, :font_size
+  attr_accessor :text, :font_size, :delegate
+
+  def ensure_tracking_area
+    if @tracking_area.nil?
+      @tracking_area = NSTrackingArea.alloc.initWithRect(NSZeroRect,
+                                                         options: NSTrackingInVisibleRect | NSTrackingActiveAlways | NSTrackingMouseEnteredAndExited,
+                                                         owner: self,
+                                                         userInfo: nil)
+    end
+  end
+
+  def updateTrackingAreas
+    super.tap do
+      ensure_tracking_area
+      unless trackingAreas.include?(@tracking_area)
+        addTrackingArea(@tracking_area)
+      end
+    end
+  end
+
+  def mouseEntered(_)
+    self.delegate.hover(self) if self.delegate
+  end
+
+  def mouseExited(_)
+    self.delegate.out(self) if self.delegate
+  end
 
   def font_size
     @font_size ||= 14

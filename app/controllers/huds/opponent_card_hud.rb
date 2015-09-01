@@ -1,5 +1,5 @@
 class OpponentCardHud < Hud
-  attr_accessor :position
+  attr_accessor :position, :delegate, :card
 
   def initWithPosition(position)
     init.tap do
@@ -10,6 +10,7 @@ class OpponentCardHud < Hud
       self.window.delegate = self
 
       @label = @layout.get(:label)
+      @label.delegate = self
     end
   end
 
@@ -28,6 +29,14 @@ class OpponentCardHud < Hud
   end
 
   def window_transparency
+  end
+
+  def hover(_)
+    self.delegate.hover_opponent_card(self) if self.delegate
+  end
+
+  def out(_)
+    self.delegate.out_opponent_card(self) if self.delegate
   end
 
 end

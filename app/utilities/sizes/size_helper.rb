@@ -67,8 +67,6 @@ class SizeHelper
   end
 
   def self.opponent_card_hud_frame(position, card_count)
-    size = [40, 40]
-
     point = case card_count
               when 1
                 [684.0, 785.0]
@@ -227,8 +225,10 @@ class SizeHelper
 
     if point.nil?
       point = [0, 0]
+    else
+      point[1] = point[1] - 40
     end
-
+    size = [40, 80]
     point = OSXHelper.point_relative_to_hearthstone(point)
 
     [point, size]

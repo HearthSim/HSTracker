@@ -313,6 +313,7 @@ class Game
     @current_turn = turn
 
     timer_hud.restart(player)
+    opponent_tracker.turn_start(turn) if player == :opponent
   end
 
   ## player events
@@ -491,10 +492,10 @@ class Game
     log(:engine, opponent: :fatigue, value: value)
   end
 
-  def opponent_joust(card_id)
+  def opponent_joust(card_id, turn)
     return if card_id.nil? or card_id.empty?
-    log(:engine, opponent: :joust, card_id: card_id, card: card(card_id))
-    opponent_tracker.joust(card_id)
+    log(:engine, opponent: :joust, card_id: card_id, card: card(card_id), turn: turn)
+    opponent_tracker.joust(card_id, turn)
   end
 
   private

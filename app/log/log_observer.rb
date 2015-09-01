@@ -285,7 +285,7 @@ class LogObserver
           if @next_entity_is_joust
             current_entity = @entities[entity_id]
             if current_entity && current_entity.is_controlled_by?(@opponent_id)
-              Game.instance.opponent_joust(card_id)
+              Game.instance.opponent_joust(card_id, turn_number)
               @next_entity_is_joust = false
             end
           end
