@@ -28,12 +28,7 @@ class OpponentCardHudLayout < MK::WindowLayout
     background_color :clear.nscolor
 
     locked = Configuration.windows_locked
-    if locked
-      mask = NSBorderlessWindowMask
-    else
-      mask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
-    end
-    style_mask mask
+    style_mask NSBorderlessWindowMask
 
     ignores_mouse_events locked
     accepts_mouse_moved_events true
