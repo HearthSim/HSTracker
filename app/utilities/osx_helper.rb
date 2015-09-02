@@ -86,14 +86,12 @@ class OSXHelper
     x = frame.origin.x + point_x
     y = frame.origin.y + point_y
 
-=begin
     mp hs_x: frame.origin.x,
        hs_y: frame.origin.y,
        point_x: point_x,
        point_y: point_y,
        x: x,
        y: y
-=end
 
     [x, y]
   end
