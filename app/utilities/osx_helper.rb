@@ -55,7 +55,7 @@ class OSXHelper
     title_bar_height = title_height.size.height - 400
     frame.size.height -= title_bar_height
     # add the titlebar to y
-    frame.origin.y += title_bar_height
+    #frame.origin.y += @title_bar_height
 
     # OSX will return correct height for all screens, but with those screens
     #
@@ -68,7 +68,8 @@ class OSXHelper
     # +----------------+                 based on mainScreen
 
     screen_rect = NSScreen.mainScreen.frame
-    frame.origin.y = screen_rect.size.height - frame.origin.y - frame.size.height
+    visible_screen_rect = NSScreen.mainScreen.visibleFrame
+    frame.origin.y = visible_screen_rect.size.height + visible_screen_rect.origin.y - frame.origin.y - frame.size.height
 
     @hearthstone_frame = frame
     frame
@@ -86,7 +87,7 @@ class OSXHelper
     x = frame.origin.x + point_x
     y = frame.origin.y + point_y
 
-    mp hs_x: frame.origin.x,
+    log hs_x: frame.origin.x,
        hs_y: frame.origin.y,
        point_x: point_x,
        point_y: point_y,

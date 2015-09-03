@@ -226,7 +226,7 @@ class SizeHelper
     if point.nil?
       point = [0, 0]
     else
-      point[1] = point[1] - 40
+      point[1] = point[1] - 40 - 22
     end
     size = [40, 80]
     point = OSXHelper.point_relative_to_hearthstone(point)
