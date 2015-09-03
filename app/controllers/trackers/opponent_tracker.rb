@@ -37,16 +37,17 @@ class OpponentTracker < Tracker
         @count_window.showWindow(self)
       end
 
-      self.card_huds = (0..10).map do |position|
+      self.card_huds = (0...10).map do |position|
         card_hud = OpponentCardHud.alloc.initWithPosition(position)
         card_hud.delegate = self
-        card_hud.showWindow(self)
         card_hud
       end
 
       NSNotificationCenter.defaultCenter.observe('show_opponent_tracker') do |_|
         show_hide
       end
+
+      reset
     end
   end
 
@@ -535,7 +536,6 @@ class OpponentTracker < Tracker
     frame = hud.window.frame
     point = [frame.origin.x + frame.size.width + 10, frame.origin.y]
     @opponent_card_hud_hover.window.setFrameTopLeftPoint(point)
-
   end
 
   def out_opponent_card(hud)

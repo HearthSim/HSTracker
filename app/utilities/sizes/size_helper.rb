@@ -9,12 +9,11 @@ class SizeHelper
               else
                 TrackerLayout::KFrameWidth
             end
-    hearthstone_window = OSXHelper.hearthstone_frame
+    hearthstone_window = SizeHelper.hearthstone_frame
     return nil if hearthstone_window.nil?
 
-    point = OSXHelper.point_relative_to_hearthstone([hearthstone_window.size.width - width, 0])
-    size = [width, hearthstone_window.size.height]
-    [point, size]
+    frame = [[hearthstone_window.size.width - width, 0], [width, hearthstone_window.size.height]]
+    SizeHelper.frame_relative_to_hearthstone(frame)
   end
 
   def self.opponent_tracker_frame
@@ -26,44 +25,37 @@ class SizeHelper
               else
                 TrackerLayout::KFrameWidth
             end
-    hearthstone_window = OSXHelper.hearthstone_frame
+    hearthstone_window = SizeHelper.hearthstone_frame
     return nil if hearthstone_window.nil?
 
-    point = OSXHelper.point_relative_to_hearthstone([0, 0])
-    return nil if point.nil?
-    size = [width, hearthstone_window.size.height]
-    [point, size]
+    frame = [[0, 0], [width, hearthstone_window.size.height]]
+    point = SizeHelper.frame_relative_to_hearthstone(frame)
   end
 
   def self.timer_hud_frame
-    hearthstone_window = OSXHelper.hearthstone_frame
+    hearthstone_window = SizeHelper.hearthstone_frame
     return nil if hearthstone_window.nil?
 
-    #[[1100, 470], [100, 80]]
-    size = [100, 80]
-    point = [hearthstone_window.size.width - 300 - size[0], hearthstone_window.size.height / 2 + 20]
-    point = OSXHelper.point_relative_to_hearthstone(point)
-    [point, size]
+    width = 100
+    frame = [[hearthstone_window.size.width - 300 - width, hearthstone_window.size.height / 2 + 20], [width, 80]]
+    SizeHelper.frame_relative_to_hearthstone(frame)
   end
 
   def self.player_card_count_frame
-    hearthstone_window = OSXHelper.hearthstone_frame
+    hearthstone_window = SizeHelper.hearthstone_frame
     return nil if hearthstone_window.nil?
 
-    size = [225, 60]
-    point = [hearthstone_window.size.width - 435 - size[0], 275]
-    point = OSXHelper.point_relative_to_hearthstone(point)
-    [point, size]
+    width = 225
+    frame = [[hearthstone_window.size.width - 435 - width, 275], [225, 60]]
+    SizeHelper.frame_relative_to_hearthstone(frame)
   end
 
   def self.opponent_card_count_frame
-    hearthstone_window = OSXHelper.hearthstone_frame
+    hearthstone_window = SizeHelper.hearthstone_frame
     return nil if hearthstone_window.nil?
 
-    size = [225, 40]
-    point = [415, hearthstone_window.size.height - 255]
-    point = OSXHelper.point_relative_to_hearthstone(point)
-    [point, size]
+    frame = [[415, hearthstone_window.size.height - 255], [225, 40]]
+    SizeHelper.frame_relative_to_hearthstone(frame)
   end
 
   def self.opponent_card_hud_frame(position, card_count)
@@ -224,13 +216,93 @@ class SizeHelper
             end
 
     if point.nil?
-      point = [0, 0]
+      hearthstone_window = SizeHelper.hearthstone_frame
+      return nil if hearthstone_window.nil?
+      point = [hearthstone_window.size.width / 2, 0]
     else
       point[1] = point[1] - 40 - 22
     end
     size = [40, 80]
-    point = OSXHelper.point_relative_to_hearthstone(point)
 
-    [point, size]
+    SizeHelper.frame_relative_to_hearthstone([point, size])
+  end
+
+  def self.debug
+    Game.instance.opponent_tracker.window.backgroundColor = NSColor.blueColor
+    Game.instance.opponent_tracker.window.setFrame(opponent_tracker_frame, display: true)
+
+    Game.instance.opponent_tracker.card_huds.each_with_index do |hud, index|
+      hud.text = index.to_s
+      hud.window.backgroundColor = [rand(255), rand(255), rand(255)].nscolor
+      hud.showWindow(nil)
+      hud.resize_window_with_cards(10)
+    end
+
+    Game.instance.timer_hud.window.setFrame(timer_hud_frame, display: true)
+    Game.instance.timer_hud.window.backgroundColor = NSColor.yellowColor
+
+    Game.instance.player_tracker.window.setFrame(player_tracker_frame, display: true)
+    Game.instance.player_tracker.window.backgroundColor = NSColor.redColor
+  end
+
+  # Get the title bar height
+  # I could fix it at 22, but IDK if it's change on retina ie
+  def self.title_bar_height
+    @title_bar_height ||= begin
+      title_height = NSWindow.frameRectForContentRect([[0, 0], [400, 400]], styleMask: NSTitledWindowMask)
+      title_height.size.height - 400
+    end
+  end
+
+  # Get the frame of the Hearthstone window.
+  # The size is reduced with the title bar height
+  def self.hearthstone_frame
+    # TODO need a way to check moving Hearthstone window and reset @hearthstone_frame
+    return @hearthstone_frame if @hearthstone_frame
+
+    windows = CGWindowListCopyWindowInfo(KCGWindowListOptionOnScreenOnly | KCGWindowListExcludeDesktopElements, KCGNullWindowID)
+    hearthstone = windows.find { |w| w['kCGWindowName'] == 'Hearthstone' }
+    hearthstone = windows.find { |w| w['kCGWindowName'] =~ /Sublime/ || w['kCGWindowOwnerName'] =~ /Sublime/ }
+    return nil? unless hearthstone
+
+    bounds = Pointer.new(CGRect.type, 1)
+    CGRectMakeWithDictionaryRepresentation(hearthstone['kCGWindowBounds'], bounds)
+
+    frame = bounds[0]
+
+    # remove the titlebar from the height
+    frame.size.height -= title_bar_height
+    # add the titlebar to y
+    frame.origin.y += title_bar_height
+
+    @hearthstone_frame = frame
+    log hs_frame: frame
+    frame
+  end
+
+  # Get a frame relative to Hearthstone window
+  def self.frame_relative_to_hearthstone(frame)
+    hs_frame = hearthstone_frame
+    return nil if hs_frame.nil?
+
+    if frame.is_a?(Array)
+      frame = frame.to_rect
+    end
+    point_x = frame.origin.x
+    point_y = frame.origin.y
+    width = frame.size.width
+    height = frame.size.height
+
+    screen_rect = NSScreen.mainScreen.frame
+
+    x = hs_frame.origin.x + point_x
+    y = screen_rect.size.height - hs_frame.origin.y - height - point_y
+
+    log screen_rect: screen_rect,
+       hs_frame: [[hs_frame.origin.x, hs_frame.origin.y], [hs_frame.size.width, hs_frame.size.height]].to_rect,
+       frame: [[point_x, point_y], [width, height]].to_rect,
+       new_frame: [[x, y], [width, height]].to_rect
+
+    [[x, y], [width, height]]
   end
 end
