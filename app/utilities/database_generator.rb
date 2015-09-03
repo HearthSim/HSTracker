@@ -2,7 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 8
+  DATABASE_VERSION = 9
 
   def self.init_database(splash, &block)
     database = DatabaseGenerator.new
@@ -77,7 +77,7 @@ class DatabaseGenerator
 
             type = card['type']
             unless type.nil?
-              type = type.downcase._
+              type = type.downcase
             end
 
             c = Card.create(

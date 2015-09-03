@@ -361,7 +361,7 @@ class LogObserver
 
         elsif (player && player.tag(GameTag::CURRENT_PLAYER).to_i == 1 && !@player_used_hero_power) || (opponent && opponent.tag(GameTag::CURRENT_PLAYER).to_i == 1 && !@opponent_used_hero_power)
           card = Card.by_id(local_id)
-          if card && card.card_type == 'Hero Power'
+          if card && card.card_type == 'hero power'
             if player && player.tag(GameTag::CURRENT_PLAYER).to_i == 1
               @player_used_hero_power = true
               log(:analyzer, 'player use hero power')
