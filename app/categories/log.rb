@@ -35,7 +35,7 @@ module Kernel
   def log_file
     @file ||= begin
       date = NSDate.now
-      five_days = date - 5.days
+      five_days = date.delta(days: -5)
 
       log_dir = "/Library/Logs/HSTracker".home_path
       Dir.mkdir(log_dir) unless Dir.exists?(log_dir)
