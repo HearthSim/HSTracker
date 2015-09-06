@@ -193,7 +193,6 @@ class OpponentTracker < Tracker
   def turn_start(turn)
     @last_played_card_id = nil
     @last_jousted_card_id = nil
-    @last_jousted_turn = nil
   end
 
   def draw(turn)
@@ -252,6 +251,12 @@ class OpponentTracker < Tracker
       self.deck_count == 1
     end
 
+    # if the last is King's Elekk,
+    # we remember the jousted card
+    if @last_played_card_id == 'AT_058'
+      @last_jousted_card_id = card_id
+    end  
+
     display_count
     @table_view.reloadData
 
@@ -260,6 +265,8 @@ class OpponentTracker < Tracker
 
   def play(card_id, from, turn)
     @last_played_card_id = card_id
+    mp last_played_card_id: @last_played_card_id
+
     if card_id
       card = @cards.select { |c| c.card_id == card_id }.first
       if card
@@ -282,10 +289,16 @@ class OpponentTracker < Tracker
     @table_view.reloadData
 
     ((from - 1)..9).each do |i|
-      @marks[i] = { age: i + 1, info: @marks[i + 1][:info], card: @marks[i + 1][:card] }
+      @marks[i] = { age: @marks[i + 1][:age], info: @marks[i + 1][:info], card: @marks[i + 1][:card] }
     end
 
     @marks[9] = { age: -1, info: :none }
+
+    # if the last is King's Elekk,
+    # we remember the jousted card
+    if @last_played_card_id == 'AT_058'
+      @last_jousted_card_id = card_id
+    end  
 
     reload_card_huds
   end
@@ -315,12 +328,8 @@ class OpponentTracker < Tracker
       # we remember the jousted card
       if @last_played_card_id == 'AT_058'
         @last_jousted_card_id = card_id
-        @last_jousted_turn = turn
       end      
     end
-    mp last_card: @last_played_card_id,
-      last_joust: @last_jousted_card_id,
-      turn: @last_jousted_turn
   end
 
   def mulligan(pos)
@@ -387,29 +396,6 @@ class OpponentTracker < Tracker
 
     if @marks[self.hand_count - 1][:info] != :coin
       @marks[self.hand_count - 1][:info] = :stolen
-
-
-=begin
-      if SecondToLastUsedId.HasValue
-        var cardId = Entities[id].CardId
-        if cardId == "GVG_007" && Entities[id].HasTag(GAME_TAG.DISPLAYED_CREATOR)
-          #Bug with created Flame Leviathan's: #863
-          return
-
-          if (string.IsNullOrEmpty(cardId) && Entities[id].HasTag(GAME_TAG.LAST_AFFECTED_BY))
-            cardId = Entities[Entities[id].GetTag(GAME_TAG.LAST_AFFECTED_BY)].CardId;
-          end
-          if (string.IsNullOrEmpty(cardId))
-            cardId = Entities[SecondToLastUsedId.Value].CardId;
-          end
-
-          var card = GetCardFromId(cardId);
-          if (card != null)
-            OpponentStolenCardsInformation[OpponentHandCount - 1] = card;
-          end
-        end
-      end
-=end
     end
 
     reload_card_huds

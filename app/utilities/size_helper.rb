@@ -59,170 +59,27 @@ class SizeHelper
   end
 
   def self.opponent_card_hud_frame(position, card_count)
-    point = case card_count
-              when 1
-                [684.0, 785.0]
-              when 2
-                case position
-                  when 0
-                    [638.0, 785.0]
-                  when 1
-                    [728.0, 785.0]
-                  else
-                    nil
-                end
-              when 3
-                case position
-                  when 0
-                    [593.0, 800.0]
-                  when 1
-                    [683.0, 785.0]
-                  when 2
-                    [773.0, 800.0]
-                  else
-                    nil
-                end
-              when 4
-                case position
-                  when 0
-                    [578.0, 800.0]
-                  when 1
-                    [648.0, 785.0]
-                  when 2
-                    [718.0, 785.0]
-                  when 3
-                    [788.0, 795.0]
-                  else
-                    nil
-                end
-              when 5
-                case position
-                  when 0
-                    [563.0, 800.0]
-                  when 1
-                    [618.0, 785.0]
-                  when 2
-                    [678.0, 780.0]
-                  when 3
-                    [733.0, 785.0]
-                  when 4
-                    [793.0, 800.0]
-                  else
-                    nil
-                end
-              when 6
-                case position
-                  when 0
-                    [548.0, 810.0]
-                  when 1
-                    [598.0, 800.0]
-                  when 2
-                    [648.0, 785.0]
-                  when 3
-                    [693.0, 780.0]
-                  when 4
-                    [738.0, 785.0]
-                  when 5
-                    [798.0, 800.0]
-                  else
-                    nil
-                end
-              when 7
-                case position
-                  when 0
-                    [538.0, 805.0]
-                  when 1
-                    [588.0, 788.0]
-                  when 2
-                    [623.0, 780.0]
-                  when 3
-                    [663.0, 775.0]
-                  when 4
-                    [706.0, 780.0]
-                  when 5
-                    [748.0, 785.0]
-                  when 6
-                    [798.0, 800.0]
-                  else
-                    nil
-                end
-              when 8
-                case position
-                  when 0
-                    [538.0, 810.0]
-                  when 1
-                    [578.0, 800.0]
-                  when 2
-                    [613.0, 790.0]
-                  when 3
-                    [648.0, 780.0]
-                  when 4
-                    [678.0, 775.0]
-                  when 5
-                    [718.0, 780.0]
-                  when 6
-                    [758.0, 785.0]
-                  when 7
-                    [798.0, 795.0]
-                end
-              when 9
-                case position
-                  when 0
-                    [532.0, 810.0]
-                  when 1
-                    [566.0, 800.0]
-                  when 2
-                    [598.0, 788.0]
-                  when 3
-                    [628.0, 782.0]
-                  when 4
-                    [663.0, 778.0]
-                  when 5
-                    [693.0, 778.0]
-                  when 6
-                    [726.0, 782.0]
-                  when 7
-                    [758.0, 790.0]
-                  when 8
-                    [808.0, 805.0]
-                  else
-                    nil
-                end
-              when 10
-                case position
-                  when 0
-                    [518.0, 810.0]
-                  when 1
-                    [558.0, 810.0]
-                  when 2
-                    [588.0, 795.0]
-                  when 3
-                    [618.0, 785.0]
-                  when 4
-                    [643.0, 780.0]
-                  when 5
-                    [673.0, 775.0]
-                  when 6
-                    [703.0, 775.0]
-                  when 7
-                    [733.0, 780.0]
-                  when 8
-                    [763.0, 790.0]
-                  when 9
-                    [803.0, 805.0]
-                end
-              else
-                nil
-            end
+    points = {
+      1 => [[671.5, 20]],
+      2 => [[628.5, 20], [715.5, 20]],
+      3 => [[578.5, 10], [672.5, 20], [764.5, 7]],
+      4 => [[567.5, -2], [637.5, 15], [706.5, 20], [776.5, 11]],
+      5 => [[561.5, 5], [616.5, 17], [671.5, 22], [729.5, 16], [786.5, 3]],
+      6 => [[554.5, -10], [602.5, 7], [648.5, 16], [696.5, 19], [743.5, 16], [791.5, 5]],
+      7 => [[551.5, -6], [591.5, 7], [631.5, 16], [671.5, 20], [711.5, 18], [751.5, 9], [794.5, -3]],
+      8 => [[545.5, -11], [581.5, -3], [616.5, 9], [652.5, 17], [686.5, 20], [723.5, 18], [759.5, 11], [797.5, 0]],
+      9 => [[541.5, -10], [573.5, 0], [603.5, 10], [633.5, 19], [665.5, 20], [697.5, 20], [728.5, 13], [762.5, 3], [795.5, -12]],
+      10 => [[529.5, -10], [560.5, -9], [590.5, 0], [618.5, 9], [646.5, 16], [675.5, 20], [704.5, 17], [732.5, 10], [762.5, 3], [797.5, -11]]
+    }
 
-    if point.nil?
-      hearthstone_window = SizeHelper.hearthstone_frame
-      return nil if hearthstone_window.nil?
-      point = [hearthstone_window.size.width / 2, 0]
-    else
-      point[1] = point[1] - 40 - 22
-    end
+    hearthstone_window = SizeHelper.hearthstone_frame
+    return nil if hearthstone_window.nil?
+    #point = [hearthstone_window.size.width / 2, 0]
+    point = [0, 0]
     size = [40, 80]
+    if points.has_key?(card_count) && points[card_count][position]
+      point = points[card_count][position]
+    end
 
     SizeHelper.frame_relative_to_hearthstone([point, size])
   end
@@ -233,7 +90,7 @@ class SizeHelper
 
     Game.instance.opponent_tracker.card_huds.each_with_index do |hud, index|
       hud.text = index.to_s
-      hud.window.backgroundColor = [rand(255), rand(255), rand(255)].nscolor
+      hud.window.backgroundColor = [rand(255), rand(255), rand(255), 0.4].nscolor
       hud.showWindow(nil)
       hud.resize_window_with_cards(10)
     end
@@ -262,7 +119,7 @@ class SizeHelper
 
     windows = CGWindowListCopyWindowInfo(KCGWindowListOptionOnScreenOnly | KCGWindowListExcludeDesktopElements, KCGNullWindowID)
     hearthstone = windows.find { |w| w['kCGWindowName'] == 'Hearthstone' }
-    hearthstone = windows.find { |w| w['kCGWindowName'] =~ /Sublime/ || w['kCGWindowOwnerName'] =~ /Sublime/ }
+    #hearthstone = windows.find { |w| w['kCGWindowName'] =~ /Sublime/ || w['kCGWindowOwnerName'] =~ /Sublime/ }
     return nil? unless hearthstone
 
     bounds = Pointer.new(CGRect.type, 1)
@@ -304,5 +161,62 @@ class SizeHelper
        new_frame: [[x, y], [width, height]].to_rect
 
     [[x, y], [width, height]]
+  end
+end
+
+module Kernel
+  def hud(num)
+    @x = SizeHelper.hearthstone_frame.size.width / 2
+    @y = 0
+    @current_hud = Game.instance.opponent_tracker.card_huds[num]
+  end
+
+  def center
+    point = [SizeHelper.hearthstone_frame.size.width / 2, 0]
+    size = [40, 80]
+    
+    frame = SizeHelper.frame_relative_to_hearthstone([point, size])
+    @current_hud.window.setFrame(frame, display: true)
+  end
+
+  def reset
+    @x = 0
+    @y = 0
+    point = [@x, @y]
+    size = [40, 80]
+    frame = SizeHelper.frame_relative_to_hearthstone([point, size])
+    Game.instance.opponent_tracker.card_huds.each do |hud|
+      hud.window.setFrame(frame, display: true)
+    end
+  end
+
+  def move(w, value)
+    frame = @current_hud.window.frame
+    case w
+    when :up
+      @y -= value
+    when :down
+      @y += value
+    when :left
+      @x -= value
+    when :right
+      @x += value
+    end
+    frame = SizeHelper.frame_relative_to_hearthstone([[@x, @y], [40, 80]])
+    @current_hud.window.setFrame(frame, display: true)
+    [@x, @y]
+  end
+
+  def u(value=1)
+    move :up, value
+  end
+  def d(value=1)
+    move :down, value
+  end
+  def r(value=1)
+    move :right, value
+  end
+  def l(value=1)
+    move :left, value
   end
 end
