@@ -105,7 +105,10 @@ class Game
     _ranklvl = @current_rank
     _oppcards = cards
     _start_date = @start_date
-    _created_at = _start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
+    date_formatter = NSDateFormatter.new
+    date_formatter.timeZone = NSTimeZone.timeZoneWithName('UTC')
+    date_formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+    _created_at = date_formatter.stringFromDate(_start_date)
     _oppclass = @current_opponent ? @current_opponent.player_class : nil
     _oppname = @opponent_name || nil
     _game_mode = @game_mode.to_s
