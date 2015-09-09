@@ -20,8 +20,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    MotionLocalize (0.0.2)
-      motion-yaml (>= 1.4)
+    MotionLocalize (0.0.3)
     activesupport (4.2.4)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -51,13 +50,13 @@ GEM
       activesupport (>= 3.2.15)
       fuzzy_match (~> 2.0.4)
       nap (~> 0.8.0)
-    cocoapods-downloader (0.9.1)
+    cocoapods-downloader (0.9.3)
     cocoapods-plugins (0.4.2)
       nap
     cocoapods-stats (0.5.3)
       nap (~> 0.8)
-    cocoapods-trunk (0.6.2)
-      nap (>= 0.8)
+    cocoapods-trunk (0.6.4)
+      nap (>= 0.8, < 2.0)
       netrc (= 0.7.8)
     cocoapods-try (0.4.5)
     colored (1.2)
@@ -69,7 +68,7 @@ GEM
     json (1.8.3)
     minitest (5.8.0)
     molinillo (0.3.1)
-    motion-cocoapods (1.7.3)
+    motion-cocoapods (1.7.4)
       cocoapods (>= 0.34)
     motion-env (0.0.4)
     motion-fileutils (0.1.1)

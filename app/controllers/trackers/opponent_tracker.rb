@@ -265,7 +265,6 @@ class OpponentTracker < Tracker
 
   def play(card_id, from, turn)
     @last_played_card_id = card_id
-    mp last_played_card_id: @last_played_card_id
 
     if card_id
       card = @cards.select { |c| c.card_id == card_id }.first
@@ -440,8 +439,6 @@ class OpponentTracker < Tracker
   end
 
   def reload_card_huds
-    mp opponent_hand: @marks
-
     self.card_huds.each do |card_hud|
       age = @marks[card_hud.position][:age]
       if age == -1
@@ -459,6 +456,8 @@ class OpponentTracker < Tracker
                  :stolen_abbr._
                when :jousted
                  :joust_abbr._
+               when :mulliganed
+                :mulligan_abbr._
                else
                  ''
              end
