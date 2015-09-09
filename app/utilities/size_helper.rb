@@ -36,9 +36,8 @@ class SizeHelper
     hearthstone_window = SizeHelper.hearthstone_frame
     return nil if hearthstone_window.nil?
 
-    width = 100
-    frame = [[hearthstone_window.size.width - 300 - width, hearthstone_window.size.height / 2 + 20], [width, 80]]
-    SizeHelper.frame_relative_to_hearthstone(frame)
+    frame = [[1098.0, 264.0], [80, 60]]
+    SizeHelper.frame_relative_to_hearthstone(frame, true)
   end
 
   def self.player_card_count_frame
@@ -81,7 +80,7 @@ class SizeHelper
       point = points[card_count][position]
     end
 
-    SizeHelper.frame_relative_to_hearthstone([point, size])
+    SizeHelper.frame_relative_to_hearthstone([point, size], true)
   end
 
   def self.debug
@@ -137,8 +136,14 @@ class SizeHelper
     frame
   end
 
+  def self.reset_hearthstone_frame
+    @hearthstone_frame = nil
+  end
+
   # Get a frame relative to Hearthstone window
-  def self.frame_relative_to_hearthstone(frame)
+  # All size are taken from a resolution of 1404*840 (my MBA resolution)
+  # and translated to your resolution
+  def self.frame_relative_to_hearthstone(frame, relative=false)
     hs_frame = hearthstone_frame
     return nil if hs_frame.nil?
 
@@ -152,10 +157,16 @@ class SizeHelper
 
     screen_rect = NSScreen.mainScreen.frame
 
+    if relative
+      point_x = point_x / 1404.0 * hs_frame.size.width
+      point_y / 840.0 * hs_frame.size.height
+    end
+
     x = hs_frame.origin.x + point_x
     y = screen_rect.size.height - hs_frame.origin.y - height - point_y
 
-    log screen_rect: screen_rect,
+    log :size_helper, 
+       screen_rect: screen_rect,
        hs_frame: [[hs_frame.origin.x, hs_frame.origin.y], [hs_frame.size.width, hs_frame.size.height]].to_rect,
        frame: [[point_x, point_y], [width, height]].to_rect,
        new_frame: [[x, y], [width, height]].to_rect
@@ -165,6 +176,12 @@ class SizeHelper
 end
 
 module Kernel
+  def timer
+    @x = SizeHelper.hearthstone_frame.size.width / 2
+    @y = 0
+    @current_hud = Game.instance.timer_hud
+  end
+
   def hud(num)
     @x = SizeHelper.hearthstone_frame.size.width / 2
     @y = 0
@@ -173,7 +190,7 @@ module Kernel
 
   def center
     point = [SizeHelper.hearthstone_frame.size.width / 2, 0]
-    size = [40, 80]
+    size = [@current_hud.window.frame.size.width, @current_hud.window.frame.size.height]
     
     frame = SizeHelper.frame_relative_to_hearthstone([point, size])
     @current_hud.window.setFrame(frame, display: true)
@@ -183,7 +200,7 @@ module Kernel
     @x = 0
     @y = 0
     point = [@x, @y]
-    size = [40, 80]
+    size = [@current_hud.window.frame.size.width, @current_hud.window.frame.size.height]
     frame = SizeHelper.frame_relative_to_hearthstone([point, size])
     Game.instance.opponent_tracker.card_huds.each do |hud|
       hud.window.setFrame(frame, display: true)
@@ -202,7 +219,8 @@ module Kernel
     when :right
       @x += value
     end
-    frame = SizeHelper.frame_relative_to_hearthstone([[@x, @y], [40, 80]])
+    size = [@current_hud.window.frame.size.width, @current_hud.window.frame.size.height]
+    frame = SizeHelper.frame_relative_to_hearthstone([[@x, @y], size])
     @current_hud.window.setFrame(frame, display: true)
     [@x, @y]
   end
