@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'cdq'
-gem 'motion-kit'
+gem 'motion-kit', '0.18.0'
 gem 'motion-kit-events'
 gem 'sugarcube', require: 'sugarcube-all', github: 'rubymotion/sugarcube'
 gem 'motion-cocoapods'

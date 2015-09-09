@@ -7,9 +7,9 @@ GIT
 
 GIT
   remote: git://github.com/rubymotion/sugarcube.git
-  revision: cf689842b3e364c87e76bf2cf410d07e19b12afb
+  revision: 15ae59f1ab40561aff911c4cce376d022d2edebe
   specs:
-    sugarcube (3.3.6)
+    sugarcube (3.3.7)
 
 GIT
   remote: git://github.com/webcracy/motion-sparkle.git
@@ -107,7 +107,7 @@ DEPENDENCIES
   motion-cocoapods
   motion-env
   motion-fileutils
-  motion-kit
+  motion-kit (= 0.18.0)
   motion-kit-events
   motion-sparkle!
   motion-support!
@@ -117,4 +117,4 @@ DEPENDENCIES
   sugarcube!
 
 BUNDLED WITH
-   1.10.5
+   1.10.6
