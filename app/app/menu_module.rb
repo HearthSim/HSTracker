@@ -76,10 +76,6 @@ module Menu
     Configuration.windows_locked = !Configuration.windows_locked
   end
 
-  def debug(_)
-    @debugger ||= Debugger.new
-    @debugger.showWindow(nil)
-  end
 
   def ask_download_images(_)
     current_locale = Configuration.hearthstone_locale

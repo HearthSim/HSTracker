@@ -48,9 +48,6 @@ class MainMenu < MK::MenuLayout
 
       add separator_item
       add :show_debug_files._, action: 'open_debug:', key: ''
-      if RUBYMOTION_ENV == 'development'
-        add 'Debugger', action: 'debug:', key: ''
-      end
     end
   end
 
