@@ -132,8 +132,9 @@ class OpponentTracker < Tracker
   def game_end
     @game_ended = true
     self.card_huds.each do |card_hud|
-      card_hud.text = nil
+      @marks[i] = { age: -1, info: :none }
     end
+    reload_card_huds
 
     if Configuration.reset_on_end
       @count_text = nil
