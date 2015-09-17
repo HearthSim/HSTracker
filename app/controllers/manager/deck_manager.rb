@@ -270,7 +270,7 @@ class DeckManager < NSWindowController
       if card.card_id == c.card_id
         card.hand_count = 0
 
-        if card.count + 1 > KMaxCardOccurence[@current_deck_mode] || card.rarity == :legendary._
+        if card.count + 1 > KMaxCardOccurence[@current_deck_mode] || (@current_deck_mode == :constructed && card.rarity == :legendary._)
           return
         end
 
