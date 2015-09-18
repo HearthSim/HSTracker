@@ -72,7 +72,7 @@ no_account: 尚未注册 ?
 from_hearthstats: 来自 HearthStats
 from_hearthstats_force: 来自 HearthStats (强制)
 no_deck_to_import: 未导入任何卡组
-decks_imported: "%{number} 套卡组已导入”
+decks_imported: "%{number} 套卡组已导入"
 login_successfully: 登录成功
 login_error: 登录错误
 confirm_password: 确认密码
@@ -120,9 +120,9 @@ deck_incomplete: 您的卡组未满30张，是否继续？
 deck_not_saved: 您的卡组尚未保存，是否确定继续？您将丢失所有为保存的修改。
 deck_saved: 卡组已保存
 new_version: 新版本
-hand: “手牌 : %{count}"
-deck: “卡组 : %{count}"
-draw: “抽卡 :"
+hand: "手牌 : %{count}"
+deck: "卡组 : %{count}"
+draw: "抽卡 :"
 player: 玩家
 opponent: 对方
 restart_hearthstone_logs: 请重启 HSTracker 已读取日志信息
@@ -157,7 +157,7 @@ rebuild_card_database_info: HSTracker 将重建卡牌数据库并将重启，这
 save_deck: 保存卡组
 downloading: 下载中
 n_a: 未知
-show_versions: "%{number} 版本号”
+show_versions: "%{number} 版本号"
 show_stat: "%{percent}%% 胜率 (%{win}/%{total})"
 search: 查找
 timer: 计时器
