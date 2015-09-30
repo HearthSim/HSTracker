@@ -1,0 +1,171 @@
+
+ok: OK
+error: Erro
+error_deck_loading: Erro ao carregar o deck
+empty_deck_url: URL do deck está vazia
+import_deck: Importar Deck
+deck_url: URL do Deck
+import_from: Você pode importar seus decisk dos seguintes sites %{sites}
+and: e
+import: Importar
+cancel: Cancelar
+loading: Carregando
+error_language_import_deck: Você não selecionou a linguagem de preferencia, por favor escolha a linguagem antes de importar um deck
+edit: Editar
+cut: Cortar
+copy: Copiar
+paste: Colar
+select-all: Selecionar Tudo
+about_hstracker: Sobre HSTracker
+preferences: Preferencias
+hide_hstracker: Esconder HSTracker
+hide_others: Esconder Others
+show_all: Mostrar Tudo
+quit_hstracker: Sair do HSTracker
+window: Janela
+unlock_windows: Travar Janelas
+decks: Decks
+save_all: Salvar Tudo
+reset_all: Resetar todos os dados
+reset_all_confirm: Você tem certeza que deseja deletar todos os dados?\nSeus decks e estatísticas serão deletados.\nEssa operação é irreversível.
+all_decks_saved: Todos os decks foram salvos
+all_data_deleted: Todos os dados foram deletados
+reset: Resetar
+general: Geral
+game_language: Linguagem do jogo
+card_played: Carta jogada
+fade: Sombrear
+remove: Remover
+lock_windows: Travar Janelas
+windows_transparency: Transparência das Janelas
+interface: Interface
+flash_color: Cor do Flash
+fixed_window_names: Nomes fixos da janela
+reset_trackers_end: Resetar trackers no final do jogo
+hstracker_language: Linguagem do HSTracker
+language_change: Language alterada
+language_change_restart: Você deve resetar o HSTracker para as mudanças serem efetivadas.
+card_size: Tamanho da carta
+big: Grande
+medium: Médio
+small: Pequeno
+colors: Cores
+draw_count_color: Comprar carta / cor do contador
+draw_count_border_color: Comprar carta / cor da borda
+card_count_draw_chance: Qtde. Cartas / Chance de Comprar
+hidden: Escondido
+on_trackers: No tracker
+detached_windows: Desacoplar de janela
+player_card_count: Contador de cartas do jogador
+opponent_card_count: Contador de cartas do oponente
+show_stolen_cards: Mostrar cartas roubadas
+show_card_hover: Mostrar cartas em espera
+user_accounts: Contas do Usuário
+configure_hearthstats: Configurar Hearthstats
+login: Email
+password: Senha
+connect: Conectar
+deck_save: Salvar Deck
+deck_not_saved_hearthstats: Seu deck não foi salvo no HearthStats.\nDeseja salva-lo agora ?
+delete_deck_hearthstats: Você deseja deletar esse deck no HearthStats ?
+save_deck_hearthstats: Você deseja salvar esse deck no HearthStats ?
+no_account: Sem conta ?
+from_hearthstats: Do HearthStats
+from_hearthstats_force: Do HearthStats (force)
+no_deck_to_import: Nenhum novo deck foi importado
+decks_imported: "%{number} deck(s) fora importados"
+login_successfully: Logado com sucesso
+login_error: Erro no login
+confirm_password: Confirme a senha
+confirm_login: Confirme o email
+register: Registrar
+login_not_same: Os logins não são os mesmos
+password_not_same: As senhas não são as mesmas
+registration_successfully: Registro completado com sucesso
+hstracker_error_log: HSTracker não consegue ler o arquivo de logs. Por favor reinicie o HSTracker e o Hearthstone para que o problema seja corrigido.
+shaman: Shaman
+hunter: Caçador
+warlock: Bruxo
+druid: Druida
+warrior: Guerreiro
+mage: Mago
+paladin: Paladino
+priest: Sacerdote
+rogue: Ladino
+neutral: Neutro
+free: Free
+common: Comum
+rare: Raro
+epic: Epico
+legendary: Lendária
+minion: Lacaio
+spell: Feitiço
+weapon: Arma
+update: Atualização
+new_version_available: A nova versão do HSTracker está disponível, clique OK para baixar.
+deck_manager: Gerenciador de Decks
+new: Novo
+save: Salvar
+delete: Deletar
+close: Fechar
+play: Jogar
+export: Exportar
+export_deck: Exportar Deck
+arena_deck: Deck da Arena
+donate: Doar
+deck_edition_not_saved: Você está editando um deck e as mudanças não foram salvas.
+deck_name: Nome do Deck
+sure_delete_deck: Você tem certeza que deseja deletar esse deck ?
+sure_close_deck: Você tem certeza que deseja clonar esse deck ? Suas mudanças não serão salvas.
+deck_incomplete: Seu deck não possui 30 cartas, você tem certeza que deseja continuar ?
+deck_not_saved: Seu deck não foi salvo, você tem certeza que deseja continuar? Você irá perder todas as suas alterações.
+deck_saved: Deck salvo
+new_version: Nova versão
+hand: "Mão : %{count}"
+deck: "Deck : %{count}"
+draw: "Compra :"
+player: Jogador
+opponent: Oponente
+restart_hearthstone_logs: Você deve reiniciar o Hearthstone para os logs serem utilizados.
+alert: Alerta
+cards_not_found: As imagens das cartas não foram encontradas.\nPor favor, confirme a linguagem do Hearthstone e clique em OK pra baixá-las
+images: Imagens
+download_images: Baixar imagens
+missing_images: Imagens faltando
+missing_images_force: Algumas imagens estão faltando, force o download através do menu do HSTracker -> Baixar imagens
+from_web: Da Web
+from_file: Do Arquivo
+consider_inhand_played: Marcar as cartas que estão na mão como cartas jogadas
+show_debug_files: Mostrar arquivos de debug
+deck_has_been_saved: Seu deck foi salvo
+deck_has_been_exported: Seu deck foi exportado
+results_saved_hearthstats: Os resultados do jogo foram salvos no HearthStats
+save_match: Salvar partida
+error_saving_hearthstats: Ocorreu um erro ao salvar o jogo no HearthStats
+delete_deck: Deletar Deck
+deck_deleted: Seu deck foi deletado
+show_notifications: Mostrar notificações
+remember_last_deck: Lembrar do último deck jogado
+default: Padrão
+skin: Tema
+show_timers: Mostrar tempo
+deck_saved_hearthstats: O deck foi salvo no HearthStats
+error_saving_deck_hearthstats: Houve um erro ao salvar o deck no HearthStats
+save_version: Salvar versão %{version}
+show_opponent_tracker: Mostrar tracker do oponente
+rebuild_card_database: Refazer bando de dados de cartas
+rebuild_card_database_info: HSTracker irá refazer o bando de dados de cartas e reiniciar. Isso pode demorar um pouco.
+save_deck: Salvar deck
+downloading: Baixando
+n_a: N/A
+show_versions: "%{number} versão(ões)"
+show_stat: "%{percent}%% ganho (%{win}/%{total})"
+search: Procurar
+timer: Tempo
+detect_wrong_deck: Detectar deck errado
+invalid_deck: O deck selecionado parece ser inválido
+check_updates: Encontrando atualizações...
+loading: Carregando %{name}
+interface: interface de usuário
+observers: observadores
+configuration: configuração
