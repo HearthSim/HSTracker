@@ -132,7 +132,7 @@ class SizeHelper
     frame.origin.y += title_bar_height
 
     @hearthstone_frame = frame
-    log hs_frame: frame
+    #log hs_frame: frame
     frame
   end
 
@@ -165,16 +165,19 @@ class SizeHelper
     x = hs_frame.origin.x + point_x
     y = screen_rect.size.height - hs_frame.origin.y - height - point_y
 
-    log :size_helper, 
-       screen_rect: screen_rect,
-       hs_frame: [[hs_frame.origin.x, hs_frame.origin.y], [hs_frame.size.width, hs_frame.size.height]].to_rect,
-       frame: [[point_x, point_y], [width, height]].to_rect,
-       new_frame: [[x, y], [width, height]].to_rect
+    #log :size_helper,
+    #   screen_rect: screen_rect,
+    #   hs_frame: [[hs_frame.origin.x, hs_frame.origin.y], [hs_frame.size.width, hs_frame.size.height]].to_rect,
+    #   frame: [[point_x, point_y], [width, height]].to_rect,
+    #   new_frame: [[x, y], [width, height]].to_rect
 
     [[x, y], [width, height]]
   end
 end
 
+__END__
+
+# debug stuff to help move windows from REPL
 module Kernel
   def timer
     @x = SizeHelper.hearthstone_frame.size.width / 2
@@ -191,7 +194,7 @@ module Kernel
   def center
     point = [SizeHelper.hearthstone_frame.size.width / 2, 0]
     size = [@current_hud.window.frame.size.width, @current_hud.window.frame.size.height]
-    
+
     frame = SizeHelper.frame_relative_to_hearthstone([point, size])
     @current_hud.window.setFrame(frame, display: true)
   end

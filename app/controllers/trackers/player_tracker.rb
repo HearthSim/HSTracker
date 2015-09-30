@@ -299,6 +299,19 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
+  def joust(card_id)
+    #card = @playing_cards.select { |c| c.card_id == card_id }.first
+    puts "******** player joust #{card_id}"
+  end
+
+  def deck_to_play(card_id)
+    puts "******** player deck_to_play #{card_id}"
+  end
+
+  def remove_from_deck(card_id)
+    puts "******** player remove_from_deck #{card_id}"
+  end
+
   def display_count
     text = :hand._(count: self.hand_count)
     text << ' / '

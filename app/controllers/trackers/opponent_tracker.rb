@@ -132,6 +132,9 @@ class OpponentTracker < Tracker
   def game_end
     @game_ended = true
     self.card_huds.each do |card_hud|
+      card_hud.text = nil
+    end
+    (0..10).each do |i|
       @marks[i] = { age: -1, info: :none }
     end
     reload_card_huds
@@ -152,13 +155,14 @@ class OpponentTracker < Tracker
 
   def reset
     @cards = []
-    @marks = {}
+    @marks ||= {}
 
     unless Configuration.fixed_window_names
       self.window.title = 'HSTracker'
     end
 
     self.hand_count = 0
+    puts "******** reset #{self.hand_count}"
     self.deck_count = 30
     display_count
     @table_view.reloadData
@@ -212,7 +216,7 @@ class OpponentTracker < Tracker
         @marks[self.hand_count - 1] = { age: turn, info: turn.zero? ? :kept : :none }
       end
     end
-
+    puts "******** draw #{self.hand_count}"
     display_count
     @table_view.reloadData
     reload_card_huds
@@ -256,7 +260,7 @@ class OpponentTracker < Tracker
     # we remember the jousted card
     if @last_played_card_id == 'AT_058'
       @last_jousted_card_id = card_id
-    end  
+    end
 
     display_count
     @table_view.reloadData
@@ -287,7 +291,7 @@ class OpponentTracker < Tracker
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
     @table_view.reloadData
-
+    puts "******** play #{self.hand_count}"
     ((from - 1)..9).each do |i|
       @marks[i] = { age: @marks[i + 1][:age], info: @marks[i + 1][:info], card: @marks[i + 1][:card] }
     end
@@ -298,12 +302,13 @@ class OpponentTracker < Tracker
     # we remember the jousted card
     if @last_played_card_id == 'AT_058'
       @last_jousted_card_id = card_id
-    end  
+    end
 
     reload_card_huds
   end
 
-  def joust(card_id, turn)
+  def joust(card_id)
+    puts "******** opponent joust #{card_id}"
     card = @cards.select { |c| c.card_id == card_id }.first
     if card && card.is_jousted
       card.is_jousted = false
@@ -328,14 +333,14 @@ class OpponentTracker < Tracker
       # we remember the jousted card
       if @last_played_card_id == 'AT_058'
         @last_jousted_card_id = card_id
-      end      
+      end
     end
   end
 
   def mulligan(pos)
     self.hand_count -= 1
     self.deck_count += 1
-
+    puts "******** mulligan #{self.hand_count}"
     display_count
     @table_view.reloadData
     @marks[pos - 1][:info] = :mulliganed
@@ -349,7 +354,7 @@ class OpponentTracker < Tracker
     if card
       card.count -= 1
     end
-
+    puts "******** play_to_hand #{self.hand_count}"
     display_count
     @table_view.reloadData
 
@@ -363,6 +368,14 @@ class OpponentTracker < Tracker
 
     display_count
     @table_view.reloadData
+  end
+
+  def deck_to_play(card_id)
+    puts "******** opponent deck_to_play #{card_id}"
+  end
+
+  def remove_from_deck(card_id)
+    puts "******** opponent remove_from_deck #{card_id}"
   end
 
   def secret_trigger(card_id, turn, id)
@@ -391,7 +404,7 @@ class OpponentTracker < Tracker
     self.hand_count += 1
     display_count
     @table_view.reloadData
-
+    puts "******** get #{self.hand_count}"
     @marks[self.hand_count - 1][:age] = turn
 
     if @marks[self.hand_count - 1][:info] != :coin
@@ -459,11 +472,13 @@ class OpponentTracker < Tracker
                  :joust_abbr._
                when :mulliganed
                 :mulligan_abbr._
+              when :kept
+                :kept_abbr._
                else
                  ''
              end
       card_hud.card = @marks[card_hud.position][:card]
-      card_hud.text = age.to_s + "\n" + text
+      card_hud.text = (age.to_f / 2).round.to_s + "\n" + text
       card_hud.resize_window_with_cards(self.hand_count)
     end
   end

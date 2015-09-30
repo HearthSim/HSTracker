@@ -4,6 +4,8 @@ class Game
   attr_accessor :player_tracker, :opponent_tracker
   attr_accessor :timer_hud
   attr_accessor :start_date, :end_date
+  attr_accessor :game_mode, :entities, :player_id, :opponent_id, :wait_controller, :joust_reveals
+  attr_accessor :awaiting_ranked_detection, :found_ranked, :last_asset_unload, :game_started
 
   def self.instance
     Dispatch.once { @instance ||= new }
@@ -68,8 +70,8 @@ class Game
       return
     end
 
-    if @game_mode != :ranked
-      Hearthstone.instance.log_observer.detect_mode(3) do |found|
+    if game_mode != :ranked
+      detect_mode(3) do |found|
         if found
           log(:engine, 'Game mode detected as ranked')
           handle_end_game
@@ -77,7 +79,7 @@ class Game
       end
     end
 
-    if @game_mode == :ranked && @current_rank.nil?
+    if game_mode == :ranked && @current_rank.nil?
       wait_rank(5) do |found|
         if found
           log(:engine, "Game ranked, get rank #{@current_rank}")
@@ -108,9 +110,9 @@ class Game
     _created_at = _start_date.string_with_format("yyyy-MM-dd'T'HH:mm", unicode: true)
     _oppclass = @current_opponent ? @current_opponent.player_class : nil
     _oppname = @opponent_name || nil
-    _game_mode = @game_mode.to_s
+    _game_mode = game_mode.to_s
 
-    if @game_mode == :ranked && @current_rank
+    if game_mode == :ranked && @current_rank
       # stats have a game_mode... it will be supported in a future version
       log(:engine, stats: @game_result_win, against: _oppclass, with_deck: _current_deck_name, rank: _ranklvl)
       Statistic.create opponent_class: _oppclass,
@@ -138,7 +140,7 @@ class Game
                         else
                           'None'
                       end
-        game_mode = case @game_mode
+        _game_mode = case game_mode
                       when :ranked
                         'Ranked'
                       when :arena
@@ -150,7 +152,7 @@ class Game
                     end
 
         data = { class: _player_class,
-                 mode: game_mode,
+                 mode: _game_mode,
                  result: game_result,
                  coin: _has_coin.to_s,
                  numturns: _current_turn,
@@ -251,9 +253,13 @@ class Game
   end
 
   ## game events
-  def game_mode(game_mode)
+  def game_mode=(game_mode)
     log(:engine, "Player in game mode #{game_mode}")
     @game_mode = game_mode
+  end
+
+  def entities
+    @entities ||= {}
   end
 
   def player_rank(rank)
@@ -262,10 +268,23 @@ class Game
   end
 
   def game_start
+    return if @game_started
+    @game_started = true
+
     log(:engine, '----- Game Started -----')
     @start_date = NSDate.new
     player_tracker.game_start
     opponent_tracker.game_start
+
+    @entities = {}
+    @tmp_entities = []
+    @player_id = nil
+    @opponent_id = nil
+    @wait_controller = nil
+    @joust_reveals = 0
+
+    @current_turn = -1
+    @current_entity = nil
 
     @game_saved = false
     @game_result_win = nil
@@ -298,6 +317,7 @@ class Game
 
   def game_end
     log(:engine, '----- Game End -----')
+    @game_started = false
     @end_date = NSDate.new
 
     @opponent_cards = opponent_tracker.cards
@@ -401,6 +421,11 @@ class Game
     player_tracker.play_to_deck(card_id)
   end
 
+  def player_deck_to_play(card_id, turn)
+    log(:engine, player: :deck_to_play, card_id: card_id, card: card(card_id), turn: turn)
+    player_tracker.deck_to_play(card_id)
+  end
+
   def player_get(card_id, turn)
     log(:engine, player: :get, card_id: card_id, card: card(card_id), turn: turn)
     return if card_id.nil? || card_id.empty?
@@ -410,6 +435,16 @@ class Game
 
   def player_fatigue(value)
     log(:engine, player: :fatigue, value: value)
+  end
+
+  def player_joust(card_id, turn)
+    log(:engine, player: :joust, card_id: card_id, card: card(card_id), turn: turn)
+    player_tracker.joust(card_id)
+  end
+
+  def player_remove_from_deck(card_id, turn)
+    log(:engine, player: :remove_from_deck, card_id: card_id, card: card(card_id), turn: turn)
+    player_tracker.remove_from_deck(card_id)
   end
 
   ## opponent events
@@ -478,6 +513,11 @@ class Game
     opponent_tracker.play_to_deck(card_id, turn)
   end
 
+  def opponent_deck_to_play(card_id, turn)
+    log(:engine, opponent: :deck_to_play, card_id: card_id, card: card(card_id), turn: turn)
+    opponent_tracker.deck_to_play(card_id)
+  end
+
   def opponent_secret_trigger(card_id, turn, id)
     log(:engine, opponent: :secret_trigger, card_id: card_id, card: card(card_id), id: id, turn: turn)
     opponent_tracker.secret_trigger(card_id, turn, id)
@@ -495,7 +535,59 @@ class Game
   def opponent_joust(card_id, turn)
     return if card_id.nil? or card_id.empty?
     log(:engine, opponent: :joust, card_id: card_id, card: card(card_id), turn: turn)
-    opponent_tracker.joust(card_id, turn)
+    opponent_tracker.joust(card_id)
+  end
+
+  def opponent_remove_from_deck(card_id, turn)
+    log(:engine, opponent: :remove_from_deck, card_id: card_id, card: card(card_id), turn: turn)
+    opponent_tracker.remove_from_deck(card_id)
+  end
+
+  def turn_number
+    return 0 unless is_mulligan_done
+
+    if @current_turn == -1
+      player = entities.select { |_, val| val.has_tag?(GameTag::FIRST_PLAYER) }.values.first
+      unless player.nil?
+        @current_turn = player.tag(GameTag::CONTROLLER) == player_id ? 0 : 1
+      end
+    end
+
+    entity = entities.values.first
+    if entity
+      return (entity.tag(GameTag::TURN).to_i + (@current_turn == -1 ? 0 : @current_turn)) / 2
+    end
+
+    0
+  end
+
+  def is_mulligan_done
+    player = entities.select { |_, val| val.is_player }.values.first
+    opponent = entities.select { |_, val| val.has_tag?(GameTag::PLAYER_ID) && !val.is_player }.values.first
+
+    return false if player.nil? || opponent.nil?
+
+    player.tag(GameTag::MULLIGAN_STATE) == Mulligan::DONE && opponent.tag(GameTag::MULLIGAN_STATE) == Mulligan::DONE
+  end
+
+  def detect_mode(timeout_sec, &block)
+    log(:analyzer, 'waiting for mode')
+    Dispatch::Queue.concurrent.async do
+      @awaiting_ranked_detection = true
+      @waiting_for_first_asset_unload = true
+      @found_ranked = false
+      @last_asset_unload = NSDate.new.timeIntervalSince1970
+
+      timeout = (Time.now + timeout_sec.seconds).to_f
+      while @waiting_for_first_asset_unload || (Time.now.to_f - @last_asset_unload) < timeout
+        NSThread.sleepForTimeInterval(0.1)
+        break if @found_ranked
+      end
+
+      Dispatch::Queue.main.async do
+        block.call(@found_ranked) if block
+      end
+    end
   end
 
   private
