@@ -1,9 +1,10 @@
 class LogReader
 
-  def initialize(name, opts={})
+  def initialize(name, log_reader_manager, opts={})
     @name = name
     @start_filters = opts[:starts_filters]
     @contains_filters = opts[:contains_filters]
+    @log_reader_manager = log_reader_manager
     @path = File.join(Hearthstone.log_path, "#{name}.log")
   end
 
@@ -22,70 +23,56 @@ class LogReader
   end
 
   def start(starting_point)
-    #if File.exists?(@path)
-    #  File.delete(@path)
-    #end
-
     @starting_point = starting_point
     @stop = false
     @offset = 0
-    @lines = []
-
-    @read_thread = NSThread.alloc.initWithTarget(self, selector: :read_log_file, object:nil)
-    @read_thread.start
+    read_log_file
   end
 
   def read_log_file
-    @running = true
-    until @stop do
+    return if @stop
 
+    if File.exists?(@path)
       file_handle = NSFileHandle.fileHandleForReadingAtPath(@path)
-      if file_handle.nil?
-        NSThread.sleepForTimeInterval(LogReaderManager::TimeoutRead)
-        next
-      end
       file_handle.seekToFileOffset(@offset)
 
       data = file_handle.readDataToEndOfFile
       lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
       @offset += lines_str.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
 
-      lines = lines_str.split "\n"
-      lines.each do |line|
-        next unless line =~ /^D\s/
+      lines_str
+        .split("\n")
+        .delete_if { |line| line !~ /^D\s/ }
+        .each do |line|
 
-        time = LogLine.parse_time(line) || File.mtime(@path)
+        time = LogLine.parse_time(line) || File.mtime(@path).to_f
 
         parse = false
         if @start_filters.nil? || @contains_filters.nil?
           parse = true
         elsif @start_filters
-          parse = !(@start_filters.select {|filter| line[19..-1].start_with?(filter) }).empty?
+          parse = !(@start_filters.select { |filter| line[19..-1].start_with?(filter) }).empty?
         end
         if @contains_filters && !parse
-          parse = !(@contains_filters.select {|filter| line[19..-1].include?(filter) }).empty?
+          parse = !(@contains_filters.select { |filter| line[19..-1].include?(filter) }).empty?
         end
 
         if time >= @starting_point && parse
           log_line = LogLine.new(namespace: @name, line: line, time: time)
-          @lines << log_line
+          @log_reader_manager.process_new_line(log_line)
         end
 
       end
+    end
 
-      NSThread.sleepForTimeInterval(LogReaderManager::TimeoutRead)
+    Dispatch::Queue.main.after(LogReaderManager::TimeoutRead) do
+      read_log_file
     end
   end
 
   def stop
+    log :log_reader, stopping: @name
     @stop = true
-  end
-
-  def collect
-    lines = @lines
-    @lines = []
-
-    lines
   end
 
 end

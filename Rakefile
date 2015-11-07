@@ -47,6 +47,19 @@ Motion::Project::App.setup do |app|
   app.icon = 'Icon.icns'
   app.info_plist['ATSApplicationFontsPath'] = 'fonts/'
 
+  domains = %w(hearthstone-decks.com hearthstats.net hearthhead.com hearthnews.fr heartharena.com)
+  app.info_plist['NSAppTransportSecurity'] = {
+    'NSExceptionDomains' => domains.map do |domain|
+      {
+        domain => {
+          'NSExceptionAllowsInsecureHTTPLoads' => true,
+          'NSExceptionMinimumTLSVersion' => 'TLSv1.1',
+          'NSIncludesSubdomains' => true
+        }
+      }
+    end.reduce({}) { |h, v| h.merge v }
+  }
+
   app.frameworks = %w(AppKit Foundation CoreGraphics CoreServices CoreData WebKit Cocoa QuartzCore Security SystemConfiguration)
 
   app.pods do

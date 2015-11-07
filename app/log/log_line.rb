@@ -27,6 +27,6 @@ class LogLine
       date = date.delta(days: -1)
     end
 
-    date
+    date.to_f
   end
 end

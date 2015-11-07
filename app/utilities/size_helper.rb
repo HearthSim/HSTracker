@@ -114,12 +114,11 @@ class SizeHelper
   # The size is reduced with the title bar height
   def self.hearthstone_frame
     # TODO need a way to check moving Hearthstone window and reset @hearthstone_frame
-    return @hearthstone_frame if @hearthstone_frame
+    return @hearthstone_frame unless @hearthstone_frame.nil?
 
     windows = CGWindowListCopyWindowInfo(KCGWindowListOptionOnScreenOnly | KCGWindowListExcludeDesktopElements, KCGNullWindowID)
     hearthstone = windows.find { |w| w['kCGWindowName'] == 'Hearthstone' }
-    #hearthstone = windows.find { |w| w['kCGWindowName'] =~ /Sublime/ || w['kCGWindowOwnerName'] =~ /Sublime/ }
-    return nil? unless hearthstone
+    return nil unless hearthstone
 
     bounds = Pointer.new(CGRect.type, 1)
     CGRectMakeWithDictionaryRepresentation(hearthstone['kCGWindowBounds'], bounds)
@@ -132,7 +131,7 @@ class SizeHelper
     frame.origin.y += title_bar_height
 
     @hearthstone_frame = frame
-    #log hs_frame: frame
+    log :size_helper, hs_frame: frame
     frame
   end
 

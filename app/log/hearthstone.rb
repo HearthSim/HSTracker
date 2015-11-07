@@ -10,10 +10,6 @@ class Hearthstone
     @instance
   end
 
-  def is_started?
-    @is_started ||= false
-  end
-
   def is_active?
     @is_active ||= false
   end
@@ -38,7 +34,8 @@ class Hearthstone
   end
 
   def reset
-    LogReaderManager.restart
+    stop_tracking
+    start_tracking
   end
 
   # register events
@@ -65,14 +62,13 @@ class Hearthstone
 
   # start the analysis if HS is running
   def start
-    return unless is_hearthstone_running?
-
-    start_tracking
+    start_tracking if is_hearthstone_running?
   end
 
   private
   def initialize
     super.tap do
+      @log_reader_manager = LogReaderManager.new
       @update_list = []
       @listeners = {}
       setup
@@ -165,6 +161,7 @@ class Hearthstone
     application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
     if application && application.localizedName == 'Hearthstone'
+      SizeHelper.reset_hearthstone_frame
       start_tracking
 
       if @listeners[:app_running]
@@ -219,18 +216,15 @@ class Hearthstone
   end
 
   # start analysis and dispatch events
-  def start_tracking(text=nil)
-    return if is_started?
-    @is_started = true
-
-    LogReaderManager.start
+  def start_tracking
+    mp hearthstone: :start_tracking
+    @log_reader_manager.restart
   end
 
   # stop analysis
   def stop_tracking
-    @is_started = false
-
-    LogReaderManager.stop
+    mp hearthstone: :stop_tracking
+    @log_reader_manager.stop
   end
 
 end
