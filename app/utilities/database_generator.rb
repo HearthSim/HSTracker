@@ -2,7 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 9
+  DATABASE_VERSION = 10
 
   def self.init_database(splash, &block)
     database = DatabaseGenerator.new
