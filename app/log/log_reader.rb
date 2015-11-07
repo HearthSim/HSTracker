@@ -38,7 +38,8 @@ class LogReader
 
       data = file_handle.readDataToEndOfFile
       lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
-      @offset += lines_str.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+      #@offset += lines_str.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+      @offset = File.stat(@path).size
 
       lines_str
         .split("\n")
