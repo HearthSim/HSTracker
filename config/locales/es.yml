@@ -1,0 +1,170 @@
+ok: OK
+error: Error
+error_deck_loading: Error al cargar el mazo
+empty_deck_url: URL del mazo vacía
+import_deck: Importar Mazo
+deck_url: URL del Mazo
+import_from: Puedes importar mazos de %{sites}
+and: y
+import: Importar
+cancel: Cancelar
+loading: Cargando
+error_language_import_deck: No has seleccionado un idioma en las Preferencias, por favor elige un idioma antes de importar un mazo
+edit: Editar
+cut: Cortar
+copy: Copiar
+paste: Pegar
+select-all: Seleccionar Todo
+about_hstracker: Acerca de HSTracker
+preferences: Preferencias
+hide_hstracker: Ocultar HSTracker
+hide_others: Ocultar Resto de Aplicaciones
+show_all: Mostrar Todo
+quit_hstracker: Salir de HSTracker
+window: Ventana
+unlock_windows: Desbloquear Ventanas
+decks: Mazos
+save_all: Guardar todo
+reset_all: Restablecer todos los datos
+reset_all_confirm: ¿Estás seguro de que quieres borrar todos los datos?\nEsto borrará todos tus mazos y estadísticas.\nEsta acción es irreversible.
+all_decks_saved: Todos los mazos han sido guardados
+all_data_deleted: Todos los datos han sido borrados
+reset: Restablecer
+general: General
+game_language: Idioma del Juego
+card_played: Carta jugada
+fade: Difuminar
+remove: Quitar
+lock_windows: Bloquear Ventana
+windows_transparency: Opacidad de Ventanas
+interface: Interfaz
+flash_color: Color del flash
+fixed_window_names: Títulos de ventana fijos
+reset_trackers_end: Restablecer los trackers al finalizar la partida
+hstracker_language: Idioma HSTracker
+language_change: Cambio de idioma
+language_change_restart: Debes reiniciar HSTracker para que el cambio de idioma tenga efecto
+card_size: Tamaño de carta
+big: Grande
+medium: Mediano
+small: Pequeño
+colors: Colores
+draw_count_color: Color de Robar / Cuenta
+draw_count_border_color: Color del borde de Robar / Cuenta
+card_count_draw_chance: Cuenta de cartas / Posibilidad de robar
+hidden: Oculta
+on_trackers: En los trackers
+detached_windows: En ventanas separadas
+player_card_count: Número de Cartas del Jugador
+opponent_card_count: Número de Cartas del Oponente
+show_stolen_cards: Mostrar cartas robadas
+show_card_hover: Mostrar cartas al poner el cursor encima
+user_accounts: Cuentas de Usuario
+configure_hearthstats: Configurar Hearthstats
+login: Email
+password: Contraseña
+connect: Conectar
+deck_save: Guardar mazo
+deck_not_saved_hearthstats: Tu mazo no se ha guardado en HearthStats.\n¿Quieres guardarlo ahora?
+delete_deck_hearthstats: ¿Quieres borrar este mazo de HearthStats?
+save_deck_hearthstats: ¿Quieres guardar este mazo en HearthStats?
+no_account: ¿Aún no tienes una cuenta?
+from_hearthstats: De HearthStats
+from_hearthstats_force: De HearthStats (forzar)
+no_deck_to_import: No hay mazos nuevos que importar
+decks_imported: "%{number} mazo(s) han sido importados"
+login_successfully: Login correcto
+login_error: Login Erróneo
+confirm_password: Confirmar contraseña
+confirm_login: Confirmar email
+register: Registrar cuenta
+login_not_same: Los logins no coinciden
+password_not_same: Las contraseñas no coinciden
+registration_successfully: Registro completado correctamente
+hstracker_error_log: HSTracker no puede leer el archivo registro (log). Por favor reinicia  Hearthstone y HSTracker para solucionar este problema
+shaman: Chamán
+hunter: Cazador
+warlock: Brujo
+druid: Druida
+warrior: Guerrero
+mage: Mago
+paladin: Paladín
+priest: Sacerdote
+rogue: Pícaro
+neutral: Neutral
+free: Gratuita
+common: Común
+rare: Rara
+epic: Épica
+legendary: Legendaria
+minion: Esbirro
+spell: Hechizo
+weapon: Arma
+update: Actualizar
+new_version_available: Una nueva versión de HSTracker está disponible, pulsa OK para descargarla.
+deck_manager: Gestor de Mazos
+new: Nuevo
+save: Guardar
+delete: Borrar
+close: Cerrar
+play: Jugar
+export: Exportar
+export_deck: Exportar Mazo
+arena_deck: Mazo para Arena 
+donate: Donar
+deck_edition_not_saved: Actualmente estás editando un mazo y los cambios no han sido guardados.
+deck_name: Nombre del mazo
+sure_delete_deck: ¿Estás seguro de que quieres borrar este mazo?
+sure_close_deck: ¿Estás seguro de que quieres cerrar este mazo? Los cammbios no serán guardados.
+deck_incomplete: Tu mazo no tiene 30 cartas, ¿estás seguro de querer continuar?
+deck_not_saved: Tu mazo no ha sido guardado, ¿estás seguro de querer continuar?, todos los cambios no serán guardados.
+deck_saved: Mazo guardado
+new_version: Nueva versión
+hand: "Mano : %{count}"
+deck: "Mazo : %{count}"
+draw: "Robar :"
+player: Jugador
+opponent: Oponente
+restart_hearthstone_logs: Debes reiniciar Hearthstone para que los archivos de registro (logs) puedan ser usados
+alert: Alerta
+cards_not_found: No se encuentran las imágenes de las cartas.\nPor favor confirma el idioma de Hearthstone y después pulsa OK para descargarlas.
+images: Imágenes
+download_images: Descargar imágenes
+missing_images: Imágenes faltantes
+missing_images_force: Faltan algunas imágenes, fuerza la descarga desde el menu HSTracker -> Descargar imágenes
+from_web: Desde Web
+from_file: Desde Archivo
+consider_inhand_played: Marcar las cartas en mano como jugadas
+show_debug_files: Mostar los archivos de depuración (debug)
+deck_has_been_saved: Tu mazo ha sido guardado
+deck_has_been_exported: Tu mazo ha sido exportado
+results_saved_hearthstats: El resultado de la partida ha sido guardado en HearthStats
+save_match: Guardar partida
+error_saving_hearthstats: Ha ocurrido un error al guardar el resultado de esta partida en HearthStats
+delete_deck: Borrar mazo
+deck_deleted: Tu mazo ha sido borrado
+show_notifications: Mostrar notifications
+remember_last_deck: Recordar el último mazo jugado
+default: Por Defecto
+skin: Tema
+show_timers: Mostar cronómetros
+deck_saved_hearthstats: El mazo ha sido guardado en HearthStats
+error_saving_deck_hearthstats: Ha ocurrido un error al guardar este mazo en HearthStats
+save_version: Guardar versión %{version}
+show_opponent_tracker: Mostrar el tracker del oponente
+rebuild_card_database: Reconstruir la base de datos de cartas
+rebuild_card_database_info: HSTracker reconstruirá la base de datos de cartas y se reiniciará. Esto puede tardar un poco.
+save_deck: Guardar mazo
+downloading: Descargando
+n_a: N/A
+show_versions: "%{number} versión(es)"
+show_stat: "%{percent}%% victorias (%{win}/%{total})"
+search: Buscar
+timer: Cronómetro
+detect_wrong_deck: Detectar mazo erróneo
+invalid_deck: El mazo seleccionado parece ser incorrecto
+check_updates: Buscar actualizaciones...
+loading: Cargando %{name}
+interface: Interfaz de Usuario
+observers: espectadores
+configuration: configuración
