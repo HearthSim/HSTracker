@@ -168,3 +168,10 @@ loading: Cargando %{name}
 interface: Interfaz de Usuario
 observers: espectadores
 configuration: configuración
+size_from_game: Cambiar tamañao y mover ventanas automáticamente
+coin_abbr: M
+stolen_abbr: R
+returned_abbr: D
+joust_abbr: J
+mulligan_abbr: S
+kept_abbr: G
