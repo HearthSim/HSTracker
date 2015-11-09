@@ -17,7 +17,7 @@ class GeneralPreferencesLayout < PreferencesLayout
     'jaJP' => 'ja_JP'
   }
 
-  KHSTrackerLocales = %w(de en fr it pt-br zh-cn)
+  KHSTrackerLocales = %w(de en fr it pt-br zh-cn es)
 
   def options
     {
