@@ -16,6 +16,10 @@ class CardCellView < NSTableCellView
       @frame_layer = CALayer.layer
       self.layer << @frame_layer
 
+      # the layer for the gem art
+      @gem_layer = CALayer.layer
+      self.layer << @gem_layer
+
       @cost_layer = CATextLayer.layer
       @cost_layer.contentsScale = NSScreen.mainScreen.backingScaleFactor
       self.layer << @cost_layer
@@ -91,11 +95,26 @@ class CardCellView < NSTableCellView
     @card_layer.frame = [[x, y], [width, height]]
     @card_layer.opacity = alpha
 
+    if card.rarity
+      rarity = card.rarity
+
+      @gem_layer.contents = ImageCache.gem_image(rarity)
+    else
+      @gem_layer.contents = nil
+    end
+    x = 3.0 / ratio
+    y = 4.0 / ratio
+    width = 28.0 / ratio
+    height = 28.0 / ratio
+    frame_rect = [[x, y], [width, height]]
+    @gem_layer.frame = frame_rect
+    @gem_layer.opacity = alpha
+
     # draw the frame
     if card.is_stolen
       @frame_layer.contents = ImageCache.frame_deck_image
     else
-      @frame_layer.contents = ImageCache.frame_image
+      @frame_layer.contents = ImageCache.frame_image(rarity)
     end
 
     x = 1.0 / ratio
