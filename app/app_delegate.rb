@@ -64,7 +64,9 @@ class AppDelegate
     if ImageCache.need_download?
       ask_download_images(nil)
     elsif Hearthstone.instance.is_hearthstone_running?
-      Hearthstone.instance.start
+      Dispatch::Queue.main.after(1) do
+        Hearthstone.instance.reset
+      end
     end
 
   end

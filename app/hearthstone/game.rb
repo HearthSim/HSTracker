@@ -8,6 +8,7 @@ class Game
   attr_accessor :awaiting_ranked_detection, :found_ranked, :last_asset_unload, :game_started
 
   def initialize
+    @game_started = false
     reset
   end
 
@@ -275,7 +276,7 @@ class Game
   end
 
   def reset
-    log(:game, 'Reset data')
+    log(:engine, 'Reset data')
     @entities = {}
     @tmp_entities = []
     @player_id = nil

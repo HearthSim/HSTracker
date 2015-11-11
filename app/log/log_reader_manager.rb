@@ -51,14 +51,19 @@ class LogReaderManager
         reader.stop
       end
     end
-    @readers = []
   end
 
   def restart
     log :reader_manager, restarting: true
-    @readers ||= []
-    stop
-    start
+
+    if @readers
+      stop
+
+      @starting_point = get_starting_point
+      start_log_readers
+    else
+      start
+    end
   end
 
   def process_new_line(line)

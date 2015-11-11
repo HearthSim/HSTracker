@@ -29,7 +29,7 @@ class Hearthstone
     # debugging from actual log file, fake HS is running
     return true if KDebugFromFile
 
-    app = NSWorkspace.sharedWorkspace.runningApplications.find {|app| app.localizedName == 'Hearthstone' }
+    app = NSWorkspace.sharedWorkspace.runningApplications.find { |app| app.localizedName == 'Hearthstone' }
     !app.nil?
   end
 
@@ -62,7 +62,7 @@ class Hearthstone
 
   # start the analysis if HS is running
   def start
-    start_tracking if is_hearthstone_running?
+    start_tracking
   end
 
   private
@@ -111,10 +111,10 @@ class Hearthstone
       File.open(Hearthstone.config_path, 'w') do |f|
         zones.each do |zone|
           f << "[#{zone}]\n"
-					f << "LogLevel=1\n"
-					f << "FilePrinting=true\n"
-					f << "ConsolePrinting=false\n"
-					f << "ScreenPrinting=false\n"
+          f << "LogLevel=1\n"
+          f << "FilePrinting=true\n"
+          f << "ConsolePrinting=false\n"
+          f << "ScreenPrinting=false\n"
         end
       end
       config_changed = true
@@ -130,10 +130,10 @@ class Hearthstone
         unless missings.empty?
           missings.each do |zone|
             f << "\n[#{zone}]"
-  					f << "\nLogLevel=1"
-  					f << "\nFilePrinting=true"
+            f << "\nLogLevel=1"
+            f << "\nFilePrinting=true"
             f << "\nConsolePrinting=false"
-  					f << "\nScreenPrinting=false"
+            f << "\nScreenPrinting=false"
           end
           config_changed = true
         end
@@ -161,8 +161,10 @@ class Hearthstone
     application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
     if application && application.localizedName == 'Hearthstone'
-      SizeHelper.reset_hearthstone_frame
-      start_tracking
+      Dispatch::Queue.main.after(0.5) do
+        SizeHelper.reset_hearthstone_frame
+        reset
+      end
 
       if @listeners[:app_running]
         @listeners[:app_running].each do |block|

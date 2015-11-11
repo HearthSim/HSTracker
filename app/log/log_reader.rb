@@ -1,6 +1,7 @@
 class LogReader
 
   def initialize(name, log_reader_manager, opts={})
+    log(:log_reader, init: name)
     @name = name
     @start_filters = opts[:starts_filters]
     @contains_filters = opts[:contains_filters]
@@ -23,10 +24,29 @@ class LogReader
   end
 
   def start(starting_point)
+    File.delete(@path) if File.exist?(@path) && !Hearthstone.instance.is_hearthstone_running?
     @starting_point = starting_point
     @stop = false
-    @offset = 0
-    read_log_file
+    @offset = find_offset
+    log(:log_reader, start: @name, starting_offset: @offset)
+
+    Dispatch::Queue.main.async do
+      read_log_file
+    end
+  end
+
+  def find_offset
+    return 0 unless File.exist?(@path)
+
+    offset = 0
+    IO.foreach(@path).reverse_each do |line|
+      time = LogLine.parse_time(line) || File.mtime(@path).to_f
+      if time < @starting_point
+        offset += line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+      end
+    end
+
+    offset
   end
 
   def read_log_file
@@ -34,12 +54,15 @@ class LogReader
 
     if File.exists?(@path)
       file_handle = NSFileHandle.fileHandleForReadingAtPath(@path)
+      if @offset > File.stat(@path).size
+        @offset = find_offset
+      end
       file_handle.seekToFileOffset(@offset)
 
       data = file_handle.readDataToEndOfFile
       lines_str = NSString.alloc.initWithData(data, encoding: NSUTF8StringEncoding)
-      #@offset += lines_str.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
-      @offset = File.stat(@path).size
+      @offset += lines_str.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+      file_handle.closeFile
 
       lines_str
         .split("\n")
@@ -47,6 +70,7 @@ class LogReader
         .each do |line|
 
         time = LogLine.parse_time(line) || File.mtime(@path).to_f
+        next if time < @starting_point
 
         parse = false
         if @start_filters.nil? || @contains_filters.nil?
@@ -58,7 +82,7 @@ class LogReader
           parse = !(@contains_filters.select { |filter| line[19..-1].include?(filter) }).empty?
         end
 
-        if time >= @starting_point && parse
+        if parse
           log_line = LogLine.new(namespace: @name, line: line, time: time)
           @log_reader_manager.process_new_line(log_line)
         end
