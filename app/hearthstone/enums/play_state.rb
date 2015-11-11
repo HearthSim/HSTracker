@@ -7,7 +7,8 @@ class PlayState
   LOST = 5
   TIED = 6
   DISCONNECTED = 7
-  QUIT = 8
+  CONCEDED = 8
+  QUIT = CONCEDED
 
   class << self
     def parse(value)
@@ -24,7 +25,8 @@ class PlayState
         'LOST' => LOST,
         'TIED' => TIED,
         'DISCONNECTED' => DISCONNECTED,
-        'QUIT' => QUIT
+        'CONCEDED' => CONCEDED,
+        'QUIT' => QUIT,
       }
     end
   end

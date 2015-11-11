@@ -5,7 +5,7 @@ require 'json'
 require 'open-uri'
 require 'mini_magick'
 
-langs          = %w(deDE enUS esES frFR ptBR ruRU)
+langs          = %w(deDE enUS esES frFR ptBR ruRU zhCN)
 valid_card_set = [
     'Basic',
     'Classic',
@@ -14,7 +14,8 @@ valid_card_set = [
     'Curse of Naxxramas',
     'Goblins vs Gnomes',
     'Blackrock Mountain',
-    'The Grand Tournament'
+    'The Grand Tournament',
+    'League of Explorers'
 ]
 
 resource_dir = "#{File.dirname(__FILE__)}/../resources/"

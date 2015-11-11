@@ -210,7 +210,7 @@ class TagChangeHandler
       end
 
     elsif tag == GameTag::PLAYSTATE
-      if value == PlayState::QUIT
+      if value == PlayState::CONCEDED
         Game.instance.concede
       end
       if Game.instance.game_started

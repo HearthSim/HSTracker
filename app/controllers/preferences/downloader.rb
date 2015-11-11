@@ -21,7 +21,7 @@ class Downloader < NSWindowController
     card = Card.by_id 'GAME_005'
     card_ids << { id: card.card_id, name: card.name }
 
-    langs = %w(deDE enUS esES frFR ptBR ruRU)
+    langs = %w(deDE enUS esES frFR ptBR ruRU zhCN)
 
     unless langs.include? locale
       locale = case locale
