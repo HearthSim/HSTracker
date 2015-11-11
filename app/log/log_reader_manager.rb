@@ -46,8 +46,10 @@ class LogReaderManager
   def stop
     log :reader_manager, stopping: true
 
-    @readers.each do |reader|
-      reader.stop
+    if @readers
+      @readers.each do |reader|
+        reader.stop
+      end
     end
     @readers = []
   end
