@@ -1,7 +1,7 @@
 # The player tracker window
 class PlayerTracker < Tracker
 
-  attr_accessor :cards, :playing_cards
+  attr_accessor :cards, :playing_cards, :count_window
 
   # accessors used by card count
   attr_accessor :deck_count, :hand_count
@@ -299,6 +299,19 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
+  def joust(card_id)
+    #card = @playing_cards.select { |c| c.card_id == card_id }.first
+    puts "******** player joust #{card_id}"
+  end
+
+  def deck_to_play(card_id)
+    puts "******** player deck_to_play #{card_id}"
+  end
+
+  def remove_from_deck(card_id)
+    puts "******** player remove_from_deck #{card_id}"
+  end
+
   def display_count
     text = :hand._(count: self.hand_count)
     text << ' / '
@@ -383,6 +396,12 @@ class PlayerTracker < Tracker
     if @count_window
       @count_window.window.setLevel level
     end
+  end
+
+  def resize_window
+    frame = SizeHelper.player_tracker_frame
+    return if frame.nil?
+    self.window.setFrame(frame, display: true)
   end
 
 end

@@ -6,10 +6,17 @@ class CardCountHudLayout < MK::WindowLayout
   end
 
   def layout
-    wframe = self.player == :player ? [[200, 200], [120, 90]] : [[200, 400], [120, 90]]
-    frame = NSUserDefaults.standardUserDefaults.objectForKey window_name
-    if frame
-      wframe = NSRectFromString(frame)
+    wframe = nil
+    if Configuration.size_from_game && Hearthstone.instance.is_hearthstone_running?
+      wframe = self.player == :player ? SizeHelper.player_card_count_frame : SizeHelper.opponent_card_count_frame
+    end
+
+    if wframe.nil?
+      wframe = self.player == :player ? [[200, 200], [120, 90]] : [[200, 400], [120, 90]]
+      frame = NSUserDefaults.standardUserDefaults.objectForKey window_name
+      if frame
+        wframe = NSRectFromString(frame)
+      end
     end
 
     frame(wframe)
@@ -28,6 +35,7 @@ class CardCountHudLayout < MK::WindowLayout
     else
       mask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
     end
+    ignores_mouse_events locked
     style_mask mask
     if Hearthstone.instance.is_active?
       level NSScreenSaverWindowLevel

@@ -122,35 +122,35 @@ class DeckManager < NSWindowController
                                                      end
 
                                                      case event.keyCode
-                                                       when 35
-                                                         if @in_edition
-                                                           play_deck(nil)
-                                                           event = nil
-                                                         end
+                                                     when 35
+                                                       if @in_edition
+                                                         play_deck(nil)
+                                                         event = nil
+                                                       end
 
                                                        # close window
-                                                       when 6
-                                                         if is_shift
-                                                           self.window.performClose(nil)
-                                                         elsif @in_edition
-                                                           close_deck(nil)
-                                                         end
-                                                         event = nil
+                                                     when 6
+                                                       if is_shift
+                                                         self.window.performClose(nil)
+                                                       elsif @in_edition
+                                                         close_deck(nil)
+                                                       end
+                                                       event = nil
 
                                                        # cmd-f
-                                                       when 3
-                                                         @search_field.becomeFirstResponder
-                                                         event = nil
+                                                     when 3
+                                                       @search_field.becomeFirstResponder
+                                                       event = nil
 
                                                        # cmd-s
-                                                       when 1
-                                                         if @in_edition && !@saved
-                                                           save_deck(nil)
-                                                           event = nil
-                                                         end
+                                                     when 1
+                                                       if @in_edition && !@saved
+                                                         save_deck(nil)
+                                                         event = nil
+                                                       end
                                                      end
                                                      return event
-                                                   })
+      })
     end
   end
 
@@ -182,7 +182,7 @@ class DeckManager < NSWindowController
       response = NSAlert.alert(:delete._,
                                buttons: [:ok._, :cancel._],
                                informative: :sure_close_deck._
-      )
+                               )
 
       if response == NSAlertFirstButtonReturn
         close = true
@@ -211,10 +211,10 @@ class DeckManager < NSWindowController
         clazz = nil
       end
       Card.per_lang.playable
-        .where(player_class: clazz)
-        .sort_by(:cost)
-        .sort_by(:card_type, order: :desc)
-        .sort_by(:name, case_insensitive: true)
+      .where(player_class: clazz)
+      .sort_by(:cost)
+      .sort_by(:card_type, order: :desc)
+      .sort_by(:name, case_insensitive: true)
     end
   end
 
@@ -391,12 +391,12 @@ class DeckManager < NSWindowController
   # enable / disable items
   def validateToolbarItem(item)
     case item.itemIdentifier
-      when 'save', 'delete', 'close', 'play', 'export'
-        @in_edition
-      when 'new', 'import', 'arena'
-        !@in_edition
-      else
-        true
+    when 'save', 'delete', 'close', 'play', 'export'
+      @in_edition
+    when 'new', 'import', 'arena'
+      !@in_edition
+    else
+      true
     end
   end
 
@@ -416,142 +416,142 @@ class DeckManager < NSWindowController
   def toolbar(toolbar, itemForItemIdentifier: identifier, willBeInsertedIntoToolbar: flag)
     item = NSToolbarItem.alloc.initWithItemIdentifier(identifier)
     case identifier
-      when 'import'
-        item.label = :import._
-        item.toolTip = :import._
-        image = 'import'.nsimage
-        image.setTemplate true
+    when 'import'
+      item.label = :import._
+      item.toolTip = :import._
+      image = 'import'.nsimage
+      image.setTemplate true
 
-        menu = NSMenu.alloc.initWithTitle identifier
-        menu_item = NSMenuItem.alloc.initWithTitle('', action: nil, keyEquivalent: '')
-        menu_item.image = image
+      menu = NSMenu.alloc.initWithTitle identifier
+      menu_item = NSMenuItem.alloc.initWithTitle('', action: nil, keyEquivalent: '')
+      menu_item.image = image
+      menu.addItem menu_item
+
+      menu_item = NSMenuItem.alloc.initWithTitle(:from_web._, action: 'import_deck:', keyEquivalent: '')
+      menu_item.identifier = 'web'
+      menu.addItem menu_item
+
+      menu_item = NSMenuItem.alloc.initWithTitle(:from_file._, action: 'import_deck:', keyEquivalent: '')
+      menu_item.identifier = 'file'
+      menu.addItem menu_item
+
+      menu_item = NSMenuItem.alloc.initWithTitle(:from_hearthstats._, action: 'import_deck:', keyEquivalent: '')
+      menu_item.identifier = 'hearthstats'
+      menu.addItem menu_item
+
+      menu_item = NSMenuItem.alloc.initWithTitle(:from_hearthstats_force._, action: 'import_deck:', keyEquivalent: '')
+      menu_item.identifier = 'hearthstats_force'
+      menu.addItem menu_item
+
+      popup = NSPopUpButton.alloc.initWithFrame [[0, 0], [50, 32]]
+      popup.cell.arrowPosition = NSPopUpNoArrow
+      popup.bordered = false
+      popup.pullsDown = true
+      popup.menu = menu
+      item.view = popup
+
+    when 'new', 'arena'
+      label = (identifier == 'new') ? :new._ : :arena_deck._
+      action = (identifier == 'new') ? 'add_deck:' : 'add_area_deck:'
+
+      item.label = label
+
+      menu = NSMenu.alloc.initWithTitle identifier
+      menu_item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
+      menu.addItem menu_item
+
+      classes = ClassesData::KClasses[0...-1]
+      classes.each do |clazz|
+        menu_item = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
+        menu_item.image = ImageCache.hero(clazz)
+        menu_item.identifier = clazz
         menu.addItem menu_item
+      end
+      popup = NSPopUpButton.alloc.initWithFrame [[0, 0], [100, 22]]
+      popup.bordered = false
+      popup.pullsDown = true
+      popup.menu = menu
+      item.view = popup
 
-        menu_item = NSMenuItem.alloc.initWithTitle(:from_web._, action: 'import_deck:', keyEquivalent: '')
-        menu_item.identifier = 'web'
-        menu.addItem menu_item
+    when 'close'
+      item.label = :close._
+      item.toolTip = :close._
+      image = 'close'.nsimage
+      image.setTemplate true
+      item.image = image
+      item.target = self
+      item.action = 'close_deck:'
 
-        menu_item = NSMenuItem.alloc.initWithTitle(:from_file._, action: 'import_deck:', keyEquivalent: '')
-        menu_item.identifier = 'file'
-        menu.addItem menu_item
+    when 'save'
+      item.label = :save._
+      item.toolTip = :save._
+      image = 'save'.nsimage
+      image.setTemplate true
+      item.image = image
+      item.target = self
+      item.action = 'save_deck:'
 
-        menu_item = NSMenuItem.alloc.initWithTitle(:from_hearthstats._, action: 'import_deck:', keyEquivalent: '')
-        menu_item.identifier = 'hearthstats'
-        menu.addItem menu_item
+    when 'export'
+      item.label = :export._
+      item.toolTip = :export._
+      image = 'export'.nsimage
+      image.setTemplate true
+      item.image = image
+      item.target = self
+      item.action = 'export_deck:'
 
-        menu_item = NSMenuItem.alloc.initWithTitle(:from_hearthstats_force._, action: 'import_deck:', keyEquivalent: '')
-        menu_item.identifier = 'hearthstats_force'
-        menu.addItem menu_item
+    when 'play'
+      item.label = :play._
+      item.toolTip = :play._
+      image = 'play'.nsimage
+      image.setTemplate true
+      item.image = image
+      item.target = self
+      item.action = 'play_deck:'
 
-        popup = NSPopUpButton.alloc.initWithFrame [[0, 0], [50, 32]]
-        popup.cell.arrowPosition = NSPopUpNoArrow
-        popup.bordered = false
-        popup.pullsDown = true
-        popup.menu = menu
-        item.view = popup
+    when 'delete'
+      item.label = :delete._
+      item.toolTip = :delete._
+      image = 'delete'.nsimage
+      image.setTemplate true
+      item.image = image
+      item.target = self
+      item.action = 'delete_deck:'
 
-      when 'new', 'arena'
-        label = (identifier == 'new') ? :new._ : :arena_deck._
-        action = (identifier == 'new') ? 'add_deck:' : 'add_area_deck:'
+    when 'donate'
+      item.label = :donate._
+      item.toolTip = :donate._
+      image = 'donate'.nsimage
+      item.image = image
+      item.target = self
+      item.action = 'donate:'
 
-        item.label = label
+    when 'twitter'
+      item.label = 'Twitter'
+      item.toolTip = 'Twitter'
+      image = 'twitter'.nsimage
+      item.image = image
+      item.target = self
+      item.action = 'twitter:'
 
-        menu = NSMenu.alloc.initWithTitle identifier
-        menu_item = NSMenuItem.alloc.initWithTitle(label, action: nil, keyEquivalent: '')
-        menu.addItem menu_item
+    when 'hearthstats'
+      item.label = 'HearthStats'
+      item.toolTip = 'HearthStats'
+      image = 'hearthstats_icon'.nsimage
+      item.image = image
+      item.target = self
+      item.action = 'hearthstats:'
 
-        classes = ClassesData::KClasses[0...-1]
-        classes.each do |clazz|
-          menu_item = NSMenuItem.alloc.initWithTitle(clazz._, action: action, keyEquivalent: '')
-          menu_item.image = ImageCache.hero(clazz)
-          menu_item.identifier = clazz
-          menu.addItem menu_item
-        end
-        popup = NSPopUpButton.alloc.initWithFrame [[0, 0], [100, 22]]
-        popup.bordered = false
-        popup.pullsDown = true
-        popup.menu = menu
-        item.view = popup
+    when 'search'
+      item.label = :search._
 
-      when 'close'
-        item.label = :close._
-        item.toolTip = :close._
-        image = 'close'.nsimage
-        image.setTemplate true
-        item.image = image
-        item.target = self
-        item.action = 'close_deck:'
-
-      when 'save'
-        item.label = :save._
-        item.toolTip = :save._
-        image = 'save'.nsimage
-        image.setTemplate true
-        item.image = image
-        item.target = self
-        item.action = 'save_deck:'
-
-      when 'export'
-        item.label = :export._
-        item.toolTip = :export._
-        image = 'export'.nsimage
-        image.setTemplate true
-        item.image = image
-        item.target = self
-        item.action = 'export_deck:'
-
-      when 'play'
-        item.label = :play._
-        item.toolTip = :play._
-        image = 'play'.nsimage
-        image.setTemplate true
-        item.image = image
-        item.target = self
-        item.action = 'play_deck:'
-
-      when 'delete'
-        item.label = :delete._
-        item.toolTip = :delete._
-        image = 'delete'.nsimage
-        image.setTemplate true
-        item.image = image
-        item.target = self
-        item.action = 'delete_deck:'
-
-      when 'donate'
-        item.label = :donate._
-        item.toolTip = :donate._
-        image = 'donate'.nsimage
-        item.image = image
-        item.target = self
-        item.action = 'donate:'
-
-      when 'twitter'
-        item.label = 'Twitter'
-        item.toolTip = 'Twitter'
-        image = 'twitter'.nsimage
-        item.image = image
-        item.target = self
-        item.action = 'twitter:'
-
-      when 'hearthstats'
-        item.label = 'HearthStats'
-        item.toolTip = 'HearthStats'
-        image = 'hearthstats_icon'.nsimage
-        item.image = image
-        item.target = self
-        item.action = 'hearthstats:'
-
-      when 'search'
-        item.label = :search._
-
-        @search_field = NSSearchField.alloc.initWithFrame(NSZeroRect)
-        @search_field.target = self
-        @search_field.action = 'search:'
-        @search_field.cell.cancelButtonCell.target = self
-        @search_field.cell.cancelButtonCell.action = 'cancel_search:'
-        @search_field.frame = [[0, 0], [200, 0]]
-        item.view = @search_field
+      @search_field = NSSearchField.alloc.initWithFrame(NSZeroRect)
+      @search_field.target = self
+      @search_field.action = 'search:'
+      @search_field.cell.cancelButtonCell.target = self
+      @search_field.cell.cancelButtonCell.action = 'cancel_search:'
+      @search_field.frame = [[0, 0], [200, 0]]
+      item.view = @search_field
     end
     item
   end
@@ -564,7 +564,7 @@ class DeckManager < NSWindowController
                     informative: :deck_edition_not_saved._,
                     style: NSCriticalAlertStyle,
                     window: self.window
-      )
+                    )
       return
     end
 
@@ -617,16 +617,16 @@ class DeckManager < NSWindowController
             current_version = json_deck['current_version']
             if current_version && json_deck.has_key?('versions')
               hearthstats_version_id = json_deck['versions'].select { |d| d['version'] == json_deck['current_version'] }
-                                         .first['deck_version_id']
+              .first['deck_version_id']
             end
 
             deck = Deck.create name: deck_name,
-                               player_class: deck_class,
-                               arena: false,
-                               version: json_deck['current_version'].to_i,
-                               is_active: true,
-                               hearthstats_id: deck_id,
-                               hearthstats_version_id: hearthstats_version_id
+              player_class: deck_class,
+              arena: false,
+              version: json_deck['current_version'].to_i,
+              is_active: true,
+              hearthstats_id: deck_id,
+              hearthstats_version_id: hearthstats_version_id
           end
 
           if deck.cards && !deck.cards.length.zero?
@@ -655,7 +655,7 @@ class DeckManager < NSWindowController
         end
         NSAlert.alert(message,
                       buttons: [:ok._],
-                      window: self.window) do |_|
+        window: self.window) do |_|
           cdq.save
 
           # reload decks
@@ -846,7 +846,7 @@ class DeckManager < NSWindowController
           NSAlert.alert(:delete._,
                         buttons: [:ok._, :cancel._],
                         informative: :delete_deck_hearthstats._,
-                        window: self.window) do |res|
+          window: self.window) do |res|
             if res == NSAlertFirstButtonReturn
               HearthStatsAPI.delete_deck(deck)
             end
@@ -944,11 +944,11 @@ class DeckManager < NSWindowController
       else
         # new version of the deck
         new_version = case response
-                        when NSAlertSecondButtonReturn
-                          next_minor
-                        when NSAlertThirdButtonReturn
-                          next_major
-                      end
+        when NSAlertSecondButtonReturn
+          next_minor
+        when NSAlertThirdButtonReturn
+          next_major
+        end
 
         @current_deck.is_active = false
         new_deck = Deck.create(player_class: @deck_class,
@@ -959,7 +959,7 @@ class DeckManager < NSWindowController
                                deck: @current_deck,
                                hearthstats_id: @current_deck.hearthstats_id,
                                hearthstats_version_id: nil
-        )
+                               )
         @current_deck = new_deck
       end
 
@@ -984,7 +984,7 @@ class DeckManager < NSWindowController
         NSAlert.alert(:deck_save._,
                       buttons: [:ok._, :cancel._],
                       informative: :save_deck_hearthstats._,
-                      window: self.window) do |res|
+        window: self.window) do |res|
           break if res == NSAlertSecondButtonReturn
 
           if @current_deck.hearthstats_id.nil? || @current_deck.hearthstats_id.zero?
@@ -1044,14 +1044,14 @@ class DeckManager < NSWindowController
     class_name = @current_class == 'Neutral' ? nil : @current_class
 
     @cards = Card.per_lang.playable
-               .and(
-                 cdq(:name).contains(str, NSCaseInsensitivePredicateOption)
-                   .or(:text).contains(str, NSCaseInsensitivePredicateOption)
-                   .or(:rarity).contains(str, NSCaseInsensitivePredicateOption)
-                   .or(:card_type).contains(str, NSCaseInsensitivePredicateOption)
-               ).and(:player_class).eq(class_name)
-               .sort_by(:cost)
-               .sort_by(:name)
+    .and(
+      cdq(:name).contains(str, NSCaseInsensitivePredicateOption)
+      .or(:text).contains(str, NSCaseInsensitivePredicateOption)
+      .or(:rarity).contains(str, NSCaseInsensitivePredicateOption)
+      .or(:card_type).contains(str, NSCaseInsensitivePredicateOption)
+    ).and(:player_class).eq(class_name)
+    .sort_by(:cost)
+    .sort_by(:name)
     @cards_view.reloadData
   end
 

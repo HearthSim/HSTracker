@@ -40,15 +40,14 @@ class MainMenu < MK::MenuLayout
     add :window._ do
       setAutoenablesItems false
       label = Configuration.windows_locked ? :unlock_windows._ : :lock_windows._
-      add label, action: 'lock_windows:', key: 'l'
+      lock = add label, action: 'lock_windows:', key: 'l'
+      lock.enabled = !Configuration.size_from_game
+
       close = add close_item(:close._)
       close.enabled = false
 
       add separator_item
       add :show_debug_files._, action: 'open_debug:', key: ''
-      if RUBYMOTION_ENV == 'development'
-        add 'Debugger', action: 'debug:', key: ''
-      end
     end
   end
 

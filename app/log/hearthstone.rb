@@ -10,10 +10,6 @@ class Hearthstone
     @instance
   end
 
-  def is_started?
-    @is_started ||= false
-  end
-
   def is_active?
     @is_active ||= false
   end
@@ -25,24 +21,21 @@ class Hearthstone
 
   # get the path to the player.log
   def self.log_path
-    '/Library/Logs/Unity/Player.log'.home_path
+    '/Applications/Hearthstone/Logs/'
   end
 
   # check if HS is running
   def is_hearthstone_running?
-    app = NSWorkspace.sharedWorkspace.runningApplications.find {|app| app.localizedName == 'Hearthstone' }
-    return true if app
-
     # debugging from actual log file, fake HS is running
-    if KDebugFromFile
-      true
-    else
-      false
-    end
+    return true if KDebugFromFile
+
+    app = NSWorkspace.sharedWorkspace.runningApplications.find { |app| app.localizedName == 'Hearthstone' }
+    !app.nil?
   end
 
   def reset
-    @log_observer.reset_data if @log_observer
+    stop_tracking
+    start_tracking
   end
 
   # register events
@@ -69,18 +62,13 @@ class Hearthstone
 
   # start the analysis if HS is running
   def start
-    if is_hearthstone_running?
-      start_tracking
-    end
-  end
-
-  def start_from_debugger(text)
-    start_tracking(text)
+    start_tracking
   end
 
   private
   def initialize
     super.tap do
+      @log_reader_manager = LogReaderManager.new
       @update_list = []
       @listeners = {}
       setup
@@ -107,6 +95,12 @@ class Hearthstone
   def setup
     zones = %w(Zone Bob Power Asset Rachelle Arena)
 
+    change = NSUserDefaults.standardUserDefaults.objectForKey 'file_print_change'
+    if change.nil? && File.exists?(Hearthstone.config_path)
+      File.delete(Hearthstone.config_path)
+      NSUserDefaults.standardUserDefaults.setObject(true, forKey: 'file_print_change')
+    end
+
     config_changed = false
     unless Dir.exists?(File.dirname(Hearthstone.config_path))
       Motion::FileUtils.mkdir_p(File.dirname(Hearthstone.config_path))
@@ -117,10 +111,10 @@ class Hearthstone
       File.open(Hearthstone.config_path, 'w') do |f|
         zones.each do |zone|
           f << "[#{zone}]\n"
-					f << "LogLevel=1\n"
-					f << "FilePrinting=false\n"
-					f << "ConsolePrinting=true\n"
-					f << "ScreenPrinting=false\n"
+          f << "LogLevel=1\n"
+          f << "FilePrinting=true\n"
+          f << "ConsolePrinting=false\n"
+          f << "ScreenPrinting=false\n"
         end
       end
       config_changed = true
@@ -136,10 +130,10 @@ class Hearthstone
         unless missings.empty?
           missings.each do |zone|
             f << "\n[#{zone}]"
-  					f << "\nLogLevel=1"
-  					f << "\nFilePrinting=false"
-  					f << "\nConsolePrinting=true"
-  					f << "\nScreenPrinting=false"
+            f << "\nLogLevel=1"
+            f << "\nFilePrinting=true"
+            f << "\nConsolePrinting=false"
+            f << "\nScreenPrinting=false"
           end
           config_changed = true
         end
@@ -167,7 +161,10 @@ class Hearthstone
     application = notification.userInfo.fetch('NSWorkspaceApplicationKey', nil)
 
     if application && application.localizedName == 'Hearthstone'
-      start_tracking
+      Dispatch::Queue.main.after(0.5) do
+        SizeHelper.reset_hearthstone_frame
+        reset
+      end
 
       if @listeners[:app_running]
         @listeners[:app_running].each do |block|
@@ -221,25 +218,15 @@ class Hearthstone
   end
 
   # start analysis and dispatch events
-  def start_tracking(text=nil)
-    return if is_started?
-    @is_started = true
-
-    @log_observer = LogObserver.new
-    @log_observer.start
-    if text
-      @log_observer.debug(text)
-    end
+  def start_tracking
+    mp hearthstone: :start_tracking
+    @log_reader_manager.restart
   end
 
   # stop analysis
   def stop_tracking
-    @is_started = false
-
-    if @log_observer
-      @log_observer.stop
-      @log_observer = nil
-    end
+    mp hearthstone: :stop_tracking
+    @log_reader_manager.stop
   end
 
 end

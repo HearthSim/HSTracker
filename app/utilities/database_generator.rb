@@ -2,7 +2,7 @@ class DatabaseGenerator
   include CDQ
 
   # usefull if we need to force reloading of database
-  DATABASE_VERSION = 9
+  DATABASE_VERSION = 11
 
   def self.init_database(splash, &block)
     database = DatabaseGenerator.new
@@ -47,7 +47,8 @@ class DatabaseGenerator
       'Blackrock Mountain',
       'Hero Skins',
       'Tavern Brawl',
-      'The Grand Tournament'
+      'The Grand Tournament',
+      'League of Explorers'
     ]
     Dispatch::Queue.main.async do
       splash.max(langs.size)

@@ -1,6 +1,6 @@
 class ImageCache
   # usefull if we need to force reloading of images
-  IMAGES_VERSION = 2
+  IMAGES_VERSION = 3
 
   class << self
 
@@ -48,8 +48,30 @@ class ImageCache
       image_named "assets/#{asset}.png"
     end
 
-    def frame_image
-      image_named 'frames/frame.png'
+    def frame_image(rarity=nil)
+      case rarity
+      when :common._ then image = "frame_rarity_common"
+      when :rare._ then image = "frame_rarity_rare"
+      when :epic._ then image = "frame_rarity_epic"
+      when :legendary._ then image = "frame_rarity_legendary"
+      else
+        image = "frame"
+      end
+
+      image_named "frames/#{image}.png"
+    end
+
+    def gem_image(rarity)
+      case rarity
+      when :common._ then image = "gem_rarity_common"
+      when :rare._ then image = "gem_rarity_rare"
+      when :epic._ then image = "gem_rarity_epic"
+      when :legendary._ then image = "gem_rarity_legendary"
+      else
+        return nil
+      end
+
+      image_named "frames/#{image}.png"
     end
 
     def frame_deck_image

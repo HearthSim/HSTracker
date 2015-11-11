@@ -357,7 +357,7 @@ class Importer
 
         next if card_name.nil?
 
-        card_name = card_name.first.stringValue
+        card_name = card_name.first.stringValue.strip
 
         count = /\d+/.match node.children.lastObject.stringValue
 

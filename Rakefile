@@ -47,6 +47,11 @@ Motion::Project::App.setup do |app|
   app.icon = 'Icon.icns'
   app.info_plist['ATSApplicationFontsPath'] = 'fonts/'
 
+  domains = %w(hearthstone-decks.com hearthstats.net heartpwn.com hearthhead.com hearthnews.fr heartharena.com)
+  app.info_plist['NSAppTransportSecurity'] = {
+    'NSAllowsArbitraryLoads' => true
+  }
+
   app.frameworks = %w(AppKit Foundation CoreGraphics CoreServices CoreData WebKit Cocoa QuartzCore Security SystemConfiguration)
 
   app.pods do

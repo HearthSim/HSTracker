@@ -13,10 +13,11 @@ class GeneralPreferencesLayout < PreferencesLayout
     'ptBR' => 'pt_BR',
     'ruRU' => 'ru_RU',
     'zhCN' => 'zh_CN',
-    'zhTW' => 'zh_TW'
+    'zhTW' => 'zh_TW',
+    'jaJP' => 'ja_JP'
   }
 
-  KHSTrackerLocales = %w(de en fr it)
+  KHSTrackerLocales = %w(de en fr it pt-br zh-cn es)
 
   def options
     {

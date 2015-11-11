@@ -1,14 +1,21 @@
 class TimerHudLayout < MK::WindowLayout
 
   def layout
-    wframe = [[400, 120], [200, 80]]
-    frame = NSUserDefaults.standardUserDefaults.objectForKey 'HSTimer'
-    if frame
-      wframe = NSRectFromString(frame)
+    wframe = nil
+    if Configuration.size_from_game && Hearthstone.instance.is_hearthstone_running?
+      wframe = SizeHelper.timer_hud_frame
+    end
+
+    if wframe.nil?
+      wframe = [[400, 120], [100, 80]]
+      frame = NSUserDefaults.standardUserDefaults.objectForKey 'HSTimer'
+      if frame
+        wframe = NSRectFromString(frame)
+      end
+      identifier 'HSTimer'
     end
 
     frame(wframe)
-    identifier 'HSTimer'
     title :timer._
 
     # transparent all the things \o|
@@ -23,6 +30,7 @@ class TimerHudLayout < MK::WindowLayout
     else
       mask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
     end
+    ignores_mouse_events locked
     style_mask mask
     level NSScreenSaverWindowLevel
 
