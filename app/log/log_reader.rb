@@ -10,11 +10,11 @@ class LogReader
 
   def find_entry_point(str)
     time = NSDate.distantPast
-    return time unless File.exists?(@path)
+    return time.to_f unless File.exists?(@path)
 
     IO.foreach(@path).reverse_each do |line|
       if line.include?(str)
-        time = LogLine.parse_time(line) || File.mtime(@path)
+        time = LogLine.parse_time(line) || File.mtime(@path).to_f
         break
       end
     end
