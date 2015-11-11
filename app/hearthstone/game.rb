@@ -7,6 +7,10 @@ class Game
   attr_accessor :game_mode, :entities, :player_id, :opponent_id, :wait_controller, :joust_reveals
   attr_accessor :awaiting_ranked_detection, :found_ranked, :last_asset_unload, :game_started
 
+  def initialize
+    reset
+  end
+
   def self.instance
     Dispatch.once { @instance ||= new }
     @instance
@@ -270,15 +274,8 @@ class Game
     @current_rank = rank
   end
 
-  def game_start
-    return if @game_started
-    @game_started = true
-
-    log(:engine, '----- Game Started -----')
-    @start_date = NSDate.new
-    player_tracker.game_start
-    opponent_tracker.game_start
-
+  def reset
+    log(:game, 'Reset data')
     @entities = {}
     @tmp_entities = []
     @player_id = nil
@@ -297,6 +294,18 @@ class Game
     @opponent_cards = nil
     @has_coin = false
     @has_been_prompted_back_deck = false
+  end
+
+  def game_start
+    return if @game_started
+    @game_started = true
+
+    log(:engine, '----- Game Started -----')
+    @start_date = NSDate.new
+    player_tracker.game_start
+    opponent_tracker.game_start
+
+    reset
   end
 
   def concede
