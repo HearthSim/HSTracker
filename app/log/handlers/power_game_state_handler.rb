@@ -55,7 +55,10 @@ class PowerGameStateHandler
           if s_entity.nil?
 
             tmp_entity = Game.instance.entities.select { |_, val| val.name == 'UNKNOWN HUMAN PLAYER' }.first
-            unless tmp_entity.nil?
+            if tmp_entity.is_a?(Array)
+              log(:engine, tmp_entity: tmp_entity, is_array: true)
+            end
+            unless tmp_entity.nil? or tmp_entity.is_a?(Array)
               tmp_entity.name = raw_entity
             end
 
