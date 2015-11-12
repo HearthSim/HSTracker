@@ -235,8 +235,6 @@ class GameTag
   HealTarget = 361
 
   # strings
-  CARDTEXT_INHAND = 184
-  CARDNAME = 185
   CardTextInPlay = 252
   TARGETING_ARROW_TEXT = 325
   ARTISTNAME = 342
@@ -501,8 +499,6 @@ class GameTag
         'DevState' => DevState,
         'GrantCharge' => GrantCharge,
         'HealTarget' => HealTarget,
-        'CARDTEXT_INHAND' => CARDTEXT_INHAND,
-        'CARDNAME' => CARDNAME,
         'CardTextInPlay' => CardTextInPlay,
         'TARGETING_ARROW_TEXT' => TARGETING_ARROW_TEXT,
         'ARTISTNAME' => ARTISTNAME,

@@ -29,6 +29,12 @@ class LogReaderManager
   def get_starting_point
     power_entry = @power.find_entry_point('GameState.DebugPrintPower() - CREATE_GAME')
     bob_entry = @bob.find_entry_point('legend rank')
+    if power_entry.is_a?(Time)
+      power_entry = power_entry.to_f
+    end
+    if bob_entry.is_a?(Time)
+      bob_entry = bob_entry.to_f
+    end
     mp power_entry: power_entry,
        bob_entry: bob_entry,
        diff: power_entry > bob_entry

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/rubymotion/motion-support.git
-  revision: fbd8ded71dab26a1e8ed47ac3584458803104d97
+  revision: 6ad6468b8398a89834121a036a8cee1632f52240
   specs:
     motion-support (0.2.6)
       motion-require (>= 0.0.6)

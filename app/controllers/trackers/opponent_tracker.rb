@@ -404,7 +404,7 @@ class OpponentTracker < Tracker
     self.hand_count += 1
     display_count
     @table_view.reloadData
-    puts "******** get #{self.hand_count}"
+
     @marks[self.hand_count - 1][:age] = turn
 
     if @marks[self.hand_count - 1][:info] != :coin
@@ -424,7 +424,7 @@ class OpponentTracker < Tracker
         ratio = 1.0
     end
 
-    if @game_end && row == 0
+    if @game_ended && row == 0
       35.0 / ratio
     elsif Configuration.hand_count_window == :tracker && numberOfRowsInTableView(@table_view) - 1 == row
       50.0 / ratio
