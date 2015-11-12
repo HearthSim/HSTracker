@@ -1,3 +1,8 @@
+#### 0.13.1
+- Correct a crash when entity is unknown
+- Correctly check for file offset is log file does not exists
+- New icon, give me some swag :D
+
 #### 0.13
 - Add a auto move and resize window mode (issue #31)
 - It is now possible to click on the tracker, they will not take focus (issue #134)
