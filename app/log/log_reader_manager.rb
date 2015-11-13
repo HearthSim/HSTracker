@@ -11,7 +11,7 @@ class LogReaderManager
   end
 
   def init_readers
-    mp init_readers: true
+    log :reader_manager, init_readers: true
     @power = LogReader.new('Power',
                            self,
                            starts_filters: ['GameState.'],
@@ -35,9 +35,10 @@ class LogReaderManager
     if bob_entry.is_a?(Time)
       bob_entry = bob_entry.to_r
     end
-    mp power_entry: power_entry,
-       bob_entry: bob_entry,
-       diff: power_entry > bob_entry
+    log :reader_manager,
+        power_entry: power_entry,
+        bob_entry: bob_entry,
+        diff: power_entry > bob_entry
     power_entry > bob_entry ? power_entry : bob_entry
   end
 

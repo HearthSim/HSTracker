@@ -162,7 +162,7 @@ class OpponentTracker < Tracker
     end
 
     self.hand_count = 0
-    puts "******** reset #{self.hand_count}"
+    log :opponent_tracker, reset: self.hand_count
     self.deck_count = 30
     display_count
     @table_view.reloadData
@@ -216,7 +216,7 @@ class OpponentTracker < Tracker
         @marks[self.hand_count - 1] = { age: turn, info: turn.zero? ? :kept : :none }
       end
     end
-    puts "******** draw #{self.hand_count}"
+    log :opponent_tracker, draw: self.hand_count
     display_count
     @table_view.reloadData
     reload_card_huds
@@ -291,7 +291,7 @@ class OpponentTracker < Tracker
     self.hand_count -= 1 unless self.hand_count.zero?
     display_count
     @table_view.reloadData
-    puts "******** play #{self.hand_count}"
+    log :opponent_tracker, play: self.hand_count
     ((from - 1)..9).each do |i|
       @marks[i] = { age: @marks[i + 1][:age], info: @marks[i + 1][:info], card: @marks[i + 1][:card] }
     end
@@ -308,7 +308,7 @@ class OpponentTracker < Tracker
   end
 
   def joust(card_id)
-    puts "******** opponent joust #{card_id}"
+    log :opponent_tracker, opponent_joust: card_id
     card = @cards.select { |c| c.card_id == card_id }.first
     if card && card.is_jousted
       card.is_jousted = false
@@ -340,7 +340,7 @@ class OpponentTracker < Tracker
   def mulligan(pos)
     self.hand_count -= 1
     self.deck_count += 1
-    puts "******** mulligan #{self.hand_count}"
+    log :opponent_tracker, mulligan: self.hand_count
     display_count
     @table_view.reloadData
     @marks[pos - 1][:info] = :mulliganed
@@ -354,7 +354,7 @@ class OpponentTracker < Tracker
     if card
       card.count -= 1
     end
-    puts "******** play_to_hand #{self.hand_count}"
+    log :opponent_tracker, play_to_hand: self.hand_count
     display_count
     @table_view.reloadData
 
@@ -371,11 +371,11 @@ class OpponentTracker < Tracker
   end
 
   def deck_to_play(card_id)
-    puts "******** opponent deck_to_play #{card_id}"
+    log :opponent_tracker, opponent_deck_to_play: card_id
   end
 
   def remove_from_deck(card_id)
-    puts "******** opponent remove_from_deck #{card_id}"
+    log :opponent_tracker, opponent_remove_from_deck: card_id
   end
 
   def secret_trigger(card_id, turn, id)
