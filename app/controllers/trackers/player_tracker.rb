@@ -55,6 +55,13 @@ class PlayerTracker < Tracker
     @table_view.reloadData
   end
 
+  def clear
+    @cells = {}
+    @cards = {}
+    @playing_cards = []
+    @table_view.reloadData
+  end
+
   ## table datasource
   def numberOfRowsInTableView(_)
     count = @playing_cards.count

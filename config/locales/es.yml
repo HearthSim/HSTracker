@@ -178,3 +178,4 @@ kept_abbr: G
 log_path: Log path
 rarity_colors: Show rarity color on trackers
 opponent_overlay: Show card tracking on opponent hand
+clear: Clear tracker

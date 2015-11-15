@@ -29,6 +29,7 @@ class MainMenu < MK::MenuLayout
     add :decks._ do
       add :deck_manager._, action: 'open_deck_manager:', key: 'm'
       add :reset._, action: 'reset:', key: 'r'
+      add :clear._, action: 'clear:', key: ''
       add :save_all._, action: 'save_decks:', key: ''
       add separator_item
 

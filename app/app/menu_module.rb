@@ -24,6 +24,10 @@ module Menu
     Hearthstone.instance.reset
   end
 
+  def clear(_)
+    @player.clear
+  end
+
   def reload_deck_menu
     deck_menu = NSApp.mainMenu.itemWithTitle :decks._
     deck_menu.submenu.removeAllItems
@@ -31,6 +35,8 @@ module Menu
     item = NSMenuItem.alloc.initWithTitle(:deck_manager._, action: 'open_deck_manager:', keyEquivalent: 'm')
     deck_menu.submenu.addItem item
     item = NSMenuItem.alloc.initWithTitle(:reset._, action: 'reset:', keyEquivalent: 'r')
+    deck_menu.submenu.addItem item
+    item = NSMenuItem.alloc.initWithTitle(:clear._, action: 'clear:', keyEquivalent: '')
     deck_menu.submenu.addItem item
     item = NSMenuItem.alloc.initWithTitle(:save_all._, action: 'save_decks:', keyEquivalent: '')
     deck_menu.submenu.addItem item
