@@ -32,20 +32,35 @@ module Menu
     deck_menu = NSApp.mainMenu.itemWithTitle :decks._
     deck_menu.submenu.removeAllItems
 
-    item = NSMenuItem.alloc.initWithTitle(:deck_manager._, action: 'open_deck_manager:', keyEquivalent: 'm')
-    deck_menu.submenu.addItem item
-    item = NSMenuItem.alloc.initWithTitle(:reset._, action: 'reset:', keyEquivalent: 'r')
-    deck_menu.submenu.addItem item
-    item = NSMenuItem.alloc.initWithTitle(:clear._, action: 'clear:', keyEquivalent: '')
-    deck_menu.submenu.addItem item
-    item = NSMenuItem.alloc.initWithTitle(:save_all._, action: 'save_decks:', keyEquivalent: '')
-    deck_menu.submenu.addItem item
+    deck_menu.submenu.addItemWithTitle(:deck_manager._, action: 'open_deck_manager:', keyEquivalent: 'm')
+    deck_menu.submenu.addItemWithTitle(:reset._, action: 'reset:', keyEquivalent: 'r')
+    deck_menu.submenu.addItemWithTitle(:clear._, action: 'clear:', keyEquivalent: '')
+    deck_menu.submenu.addItemWithTitle(:save_all._, action: 'save_decks:', keyEquivalent: '')
     deck_menu.submenu.addItem NSMenuItem.separatorItem
 
-    Deck.where(:is_active => true).sort_by(:name, :case_insensitive => true).each do |deck|
-      item = NSMenuItem.alloc.initWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
-      deck_menu.submenu.addItem item
+    decks = {}
+    Deck.where(is_active: true)
+      .sort_by(:player_class)
+      .sort_by(:name, case_insensitive: true)
+      .each do |deck|
+      unless decks.has_key?(deck.player_class.downcase._)
+        decks[deck.player_class.downcase._] = []
+      end
+      decks[deck.player_class.downcase._] << deck
     end
+
+    Hash[decks.sort_by {|k, _| k}].each do |clazz, _decks|
+      item = NSMenuItem.alloc.initWithTitle(clazz, action: nil, keyEquivalent: '')
+      deck_menu.submenu.addItem item
+
+      menu = NSMenu.alloc.init
+
+      _decks.each do |deck|
+        menu.addItemWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
+      end
+      item.setSubmenu(menu)
+    end
+
   end
 
   def close_window_menu(enabled)
