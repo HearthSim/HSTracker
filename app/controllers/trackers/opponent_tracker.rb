@@ -453,6 +453,8 @@ class OpponentTracker < Tracker
   end
 
   def reload_card_huds
+    return unless Configuration.opponent_overlay
+
     self.card_huds.each do |card_hud|
       age = @marks[card_hud.position][:age]
       if age == -1

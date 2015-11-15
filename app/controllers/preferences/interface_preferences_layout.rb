@@ -12,7 +12,7 @@ class InterfacePreferencesLayout < PreferencesLayout
   }
 
   def frame_size
-    [[0, 0], [400, 350]]
+    [[0, 0], [450, 400]]
   end
 
   def options
@@ -113,7 +113,9 @@ class InterfacePreferencesLayout < PreferencesLayout
           end
           get(:windows_locked).enabled = !Configuration.size_from_game
         }
-      }
+      },
+      rarity_colors: :rarity_colors._,
+      opponent_overlay: :opponent_overlay._,
     }
   end
 

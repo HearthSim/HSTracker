@@ -1,9 +1,5 @@
 class ColorPreferencesLayout < PreferencesLayout
 
-  def frame_size
-    [[0, 0], [300, 350]]
-  end
-
   KOnCardLayoutChoices = {
     big: :big._,
     medium: :medium._,

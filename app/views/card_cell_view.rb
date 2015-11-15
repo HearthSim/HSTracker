@@ -95,13 +95,14 @@ class CardCellView < NSTableCellView
     @card_layer.frame = [[x, y], [width, height]]
     @card_layer.opacity = alpha
 
-    if card.rarity
+    if card.rarity && Configuration.rarity_colors
       rarity = card.rarity
-
       @gem_layer.contents = ImageCache.gem_image(rarity)
     else
+      rarity = nil
       @gem_layer.contents = nil
     end
+
     x = 3.0 / ratio
     y = 4.0 / ratio
     width = 28.0 / ratio

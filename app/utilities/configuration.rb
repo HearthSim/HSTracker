@@ -16,7 +16,7 @@ class Configuration
                   count_color_border hand_count_window show_get_cards show_card_on_hover
                   in_hand_as_played use_hearthstats hearthstats_token show_notifications
                   remember_last_deck last_deck_played skin show_timer show_opponent_tracker
-                  prompt_deck size_from_game log_path)
+                  prompt_deck size_from_game log_path rarity_colors opponent_overlay)
 
     KDefaults = {
       flash_color: [55, 189, 223],
@@ -41,6 +41,8 @@ class Configuration
       prompt_deck: true,
       size_from_game: false,
       log_path: '/Applications/Hearthstone/Logs/',
+      rarity_colors: true,
+      opponent_overlay: true,
     }
 
     def method_missing(symbol, *args)

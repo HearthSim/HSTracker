@@ -169,3 +169,5 @@ interface: 用户界面
 observers: 观察者
 configuration: 配置
 log_path: Log path
+rarity_colors: Show rarity color on trackers
+opponent_overlay: Show card tracking on opponent hand

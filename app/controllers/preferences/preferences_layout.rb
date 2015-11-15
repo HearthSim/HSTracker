@@ -4,7 +4,7 @@ class PreferencesLayout < MK::Layout
   end
 
   def frame_size
-    [[0, 0], [400, 250]]
+    [[0, 0], [450, 400]]
   end
 
   def layout

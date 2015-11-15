@@ -1,5 +1,7 @@
 #### 0.13.2
 - Add option to change log path (issue #217)
+- Add option to disable card number overlay (issue #223)
+- Add option to disable card rarity colors
 
 #### 0.13.1
 - Correct a crash when entity is unknown
