@@ -1,5 +1,5 @@
 #### 0.13.2
-- Add option to change log path
+- Add option to change log path (issue #217)
 
 #### 0.13.1
 - Correct a crash when entity is unknown
