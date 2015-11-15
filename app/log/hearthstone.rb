@@ -21,7 +21,15 @@ class Hearthstone
 
   # get the path to the player.log
   def self.log_path
-    '/Applications/Hearthstone/Logs/'
+    path = Configuration.log_path
+    unless path.end_with? '/'
+      path += '/'
+    end
+
+    log :reader_manager,
+        log_path: path
+
+    path
   end
 
   # check if HS is running
@@ -63,6 +71,13 @@ class Hearthstone
   # start the analysis if HS is running
   def start
     start_tracking
+  end
+
+  def reboot
+    log :hearthstone, reboot_engine: true
+    @log_reader_manager.stop
+    @log_reader_manager = LogReaderManager.new
+    start
   end
 
   private
@@ -219,13 +234,13 @@ class Hearthstone
 
   # start analysis and dispatch events
   def start_tracking
-    mp hearthstone: :start_tracking
+    log :hearthstone, start_tracking: true
     @log_reader_manager.restart
   end
 
   # stop analysis
   def stop_tracking
-    mp hearthstone: :stop_tracking
+    log :hearthstone, stop_tracking: true
     @log_reader_manager.stop
   end
 

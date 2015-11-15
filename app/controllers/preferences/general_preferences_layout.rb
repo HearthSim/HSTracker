@@ -96,6 +96,30 @@ class GeneralPreferencesLayout < PreferencesLayout
       reset_on_end: :reset_trackers_end._,
       show_notifications: :show_notifications._,
       remember_last_deck: :remember_last_deck._,
+      log_path: {
+        label: :log_path._,
+        type: NSButton,
+        init: -> (elem) {
+          elem.title = Configuration.log_path
+        },
+        changed: -> (elem) {
+          open_dialog = NSOpenPanel.openPanel
+          open_dialog.setCanChooseDirectories(true)
+          open_dialog.setAllowsMultipleSelection(false)
+          open_dialog.setDirectoryURL(Configuration.log_path.nsurl)
+
+          if open_dialog.runModal == NSOKButton
+            url = open_dialog.URLs.first
+            path = url.path
+
+            Configuration.log_path = path
+            elem.title = Configuration.log_path
+
+            Hearthstone.instance.reboot
+          end
+        }
+
+      }
       #prompt_deck: :detect_wrong_deck._
     }
   end

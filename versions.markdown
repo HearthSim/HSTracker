@@ -1,3 +1,6 @@
+#### 0.13.2
+- Add option to change log path
+
 #### 0.13.1
 - Correct a crash when entity is unknown
 - Correctly check for file offset is log file does not exists

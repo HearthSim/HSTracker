@@ -41,6 +41,11 @@ class PreferencesLayout < MK::Layout
           title opts[:title]
         end
 
+        if opts[:type] == NSButton
+          set_button_type NSMomentaryPushInButton
+          set_bezel_style NSRoundedBezelStyle
+        end
+
         if opts.has_key?(:enabled)
           enabled opts[:enabled]
         end

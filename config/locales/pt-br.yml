@@ -168,3 +168,4 @@ loading: Carregando %{name}
 interface: interface de usuário
 observers: observadores
 configuration: configuração
+log_path: Log path

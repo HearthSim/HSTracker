@@ -168,3 +168,4 @@ loading: 加载 %{name} 中
 interface: 用户界面
 observers: 观察者
 configuration: 配置
+log_path: Log path

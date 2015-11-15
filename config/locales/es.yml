@@ -110,7 +110,7 @@ close: Cerrar
 play: Jugar
 export: Exportar
 export_deck: Exportar Mazo
-arena_deck: Mazo para Arena 
+arena_deck: Mazo para Arena
 donate: Donar
 deck_edition_not_saved: Actualmente estás editando un mazo y los cambios no han sido guardados.
 deck_name: Nombre del mazo
@@ -175,3 +175,4 @@ returned_abbr: D
 joust_abbr: J
 mulligan_abbr: S
 kept_abbr: G
+log_path: Log path
