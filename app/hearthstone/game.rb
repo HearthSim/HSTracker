@@ -101,6 +101,8 @@ class Game
       cards = @opponent_cards.map { |card| { id: card.card_id, count: card.count } }
     end
 
+    @start_date ||= NSDate.new
+
     _player_class = @current_deck.player_class
     _current_deck = @current_deck
     _current_deck_name = _current_deck.name
