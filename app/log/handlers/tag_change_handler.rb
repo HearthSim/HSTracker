@@ -29,13 +29,13 @@ class TagChangeHandler
         player_2.is_player = (value != 1) if player_2
 
         Game.instance.player_id = value
-        Game.instance.opponent_id = value == 1 ? 2 : 1
+        Game.instance.opponent_id = value % 2 + 1
 
       else
         player_1.is_player = (value != 1) if player_1
         player_2.is_player = (value == 1) if player_2
 
-        Game.instance.player_id = value == 1 ? 2 : 1
+        Game.instance.player_id = value % 2 + 1
         Game.instance.opponent_id = value
       end
 
