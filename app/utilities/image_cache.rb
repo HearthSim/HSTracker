@@ -63,6 +63,7 @@ class ImageCache
 
     def gem_image(rarity)
       case rarity
+      when :free._ then image = "gem_rarity_free"
       when :common._ then image = "gem_rarity_common"
       when :rare._ then image = "gem_rarity_rare"
       when :epic._ then image = "gem_rarity_epic"
