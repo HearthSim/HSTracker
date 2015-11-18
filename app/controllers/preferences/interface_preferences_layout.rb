@@ -72,6 +72,7 @@ class InterfacePreferencesLayout < PreferencesLayout
         }
       },
       in_hand_as_played: :consider_inhand_played._,
+      show_one_card: :show_one_card._,
       skin: {
         label: :skin._,
         type: NSPopUpButton,
