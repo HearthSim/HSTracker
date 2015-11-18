@@ -175,3 +175,8 @@ returned_abbr: R
 joust_abbr: J
 mulligan_abbr: M
 kept_abbr: G
+log_path: Répertoire des logs
+rarity_colors: Voir les couleurs de rareté dans les trackers
+opponent_overlay: Voir le tracking des cartes de l'opposant
+clear: Vider le tracker
+show_one_card: Voir le nombre 1 dans les trackers

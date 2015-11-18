@@ -19,7 +19,9 @@ class NSArray
   # 4) card name
   def sort_cards!
     sort! do |a, b|
-      if a.cost != b.cost
+      if a.nil? || b.nil?
+        a.nil? ? 1 : -1
+      elsif a.cost != b.cost
         a.cost <=> b.cost
       elsif (a.player_class.nil? && !b.player_class.nil?) || (!a.player_class.nil? && b.player_class.nil?)
         a.player_class.nil? ? 1 : -1

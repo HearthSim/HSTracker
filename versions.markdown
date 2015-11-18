@@ -1,3 +1,19 @@
+#### 0.13.3
+- Add "show number 1 on trackers" option (issue #235)
+- Add another gem color for free cards (issue #230)
+- Better thread usage (issue #196, #237 and #224)
+
+#### 0.13.2
+- Add option to change log path (issue #217)
+- Add option to disable card number overlay (issue #223)
+- Add option to disable card rarity colors
+- Sort decks per class in the deck menu
+
+#### 0.13.1
+- Correct a crash when entity is unknown
+- Correctly check for file offset is log file does not exists
+- New icon, give me some swag :D
+
 #### 0.13
 - Add a auto move and resize window mode (issue #31)
 - It is now possible to click on the tracker, they will not take focus (issue #134)

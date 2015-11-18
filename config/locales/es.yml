@@ -14,7 +14,7 @@ edit: Editar
 cut: Cortar
 copy: Copiar
 paste: Pegar
-select-all: Seleccionar Todo
+select_all: Seleccionar Todo
 about_hstracker: Acerca de HSTracker
 preferences: Preferencias
 hide_hstracker: Ocultar HSTracker
@@ -49,8 +49,8 @@ big: Grande
 medium: Mediano
 small: Pequeño
 colors: Colores
-draw_count_color: Color de Robar / Cuenta
-draw_count_border_color: Color del borde de Robar / Cuenta
+draw_count_color: Color de Mazo / Mano
+draw_count_border_color: Color del borde de Mazo / Mano
 card_count_draw_chance: Cuenta de cartas / Posibilidad de robar
 hidden: Oculta
 on_trackers: En los trackers
@@ -110,7 +110,7 @@ close: Cerrar
 play: Jugar
 export: Exportar
 export_deck: Exportar Mazo
-arena_deck: Mazo para Arena 
+arena_deck: Mazo para Arena
 donate: Donar
 deck_edition_not_saved: Actualmente estás editando un mazo y los cambios no han sido guardados.
 deck_name: Nombre del mazo
@@ -175,3 +175,8 @@ returned_abbr: D
 joust_abbr: J
 mulligan_abbr: S
 kept_abbr: G
+log_path: Log path
+rarity_colors: Show rarity color on trackers
+opponent_overlay: Show card tracking on opponent hand
+clear: Clear tracker
+show_one_card: Show number 1 on tracker

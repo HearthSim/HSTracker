@@ -8,7 +8,7 @@ class Configuration
     end
 
     def is_cyrillic_or_asian
-      hearthstone_locale =~ /^(zh|ko|ru)/
+      hearthstone_locale =~ /^(zh|ko|ru|ja)/
     end
 
     KValidOptions = %w(hearthstone_locale card_played windows_locked window_transparency
@@ -16,7 +16,8 @@ class Configuration
                   count_color_border hand_count_window show_get_cards show_card_on_hover
                   in_hand_as_played use_hearthstats hearthstats_token show_notifications
                   remember_last_deck last_deck_played skin show_timer show_opponent_tracker
-                  prompt_deck size_from_game)
+                  prompt_deck size_from_game log_path rarity_colors opponent_overlay
+                  show_one_card)
 
     KDefaults = {
       flash_color: [55, 189, 223],
@@ -39,7 +40,11 @@ class Configuration
       show_timer: true,
       show_opponent_tracker: true,
       prompt_deck: true,
-      size_from_game: false
+      size_from_game: false,
+      log_path: '/Applications/Hearthstone/Logs/',
+      rarity_colors: true,
+      opponent_overlay: true,
+      show_one_card: false,
     }
 
     def method_missing(symbol, *args)

@@ -78,12 +78,10 @@ class Tracker < NSWindowController
         card_layout if self.respond_to?(:card_layout)
       end
 
-      @events << NSNotificationCenter.defaultCenter.observe('count_color') do |_|
-        @table_view.reloadData if @table_view
-      end
-
-      @events << NSNotificationCenter.defaultCenter.observe('count_color_border') do |_|
-        @table_view.reloadData if @table_view
+      %w(show_one_card count_color count_color_border).each do |opt|
+        @events << NSNotificationCenter.defaultCenter.observe(opt) do |_|
+          @table_view.reloadData if @table_view
+        end
       end
 
       @events << NSNotificationCenter.defaultCenter.observe('hand_count_window') do |_|

@@ -4,7 +4,7 @@ class PreferencesLayout < MK::Layout
   end
 
   def frame_size
-    [[0, 0], [400, 250]]
+    [[0, 0], [450, 400]]
   end
 
   def layout
@@ -39,6 +39,11 @@ class PreferencesLayout < MK::Layout
       elem = add opts[:type], key.to_sym do
         if opts[:title]
           title opts[:title]
+        end
+
+        if opts[:type] == NSButton
+          set_button_type NSMomentaryPushInButton
+          set_bezel_style NSRoundedBezelStyle
         end
 
         if opts.has_key?(:enabled)

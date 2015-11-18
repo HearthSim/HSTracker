@@ -95,13 +95,14 @@ class CardCellView < NSTableCellView
     @card_layer.frame = [[x, y], [width, height]]
     @card_layer.opacity = alpha
 
-    if card.rarity
+    if card.rarity && Configuration.rarity_colors
       rarity = card.rarity
-
       @gem_layer.contents = ImageCache.gem_image(rarity)
     else
+      rarity = nil
       @gem_layer.contents = nil
     end
+
     x = 3.0 / ratio
     y = 4.0 / ratio
     width = 28.0 / ratio
@@ -170,7 +171,10 @@ class CardCellView < NSTableCellView
     @cost_layer.frame = [[x, y], [width, height]]
     @cost_layer.string = cost
 
-    if card.count >= 2 || card.rarity == :legendary._
+    # by default, we only show 2 or more
+    min_count = Configuration.show_one_card ? 1 : 2
+
+    if card.count >= min_count || card.rarity == :legendary._
       # add the background of the card count
       if card.is_stolen
         @frame_count_box.contents = ImageCache.frame_countbox_deck
@@ -183,7 +187,7 @@ class CardCellView < NSTableCellView
       height = 24.0 / ratio
       @frame_count_box.frame = [[x, y], [width, height]]
 
-      if card.count.between?(2, 9)
+      if card.count.between?(min_count, 9) && card.rarity != :legendary._
         # the card count
         @extra_info.contents = ImageCache.frame_count(card.count)
       else

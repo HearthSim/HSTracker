@@ -11,7 +11,7 @@ class LogReaderManager
   end
 
   def init_readers
-    mp init_readers: true
+    log :reader_manager, init_readers: true
     @power = LogReader.new('Power',
                            self,
                            starts_filters: ['GameState.'],
@@ -30,14 +30,15 @@ class LogReaderManager
     power_entry = @power.find_entry_point('GameState.DebugPrintPower() - CREATE_GAME')
     bob_entry = @bob.find_entry_point('legend rank')
     if power_entry.is_a?(Time)
-      power_entry = power_entry.to_f
+      power_entry = power_entry.to_r
     end
     if bob_entry.is_a?(Time)
-      bob_entry = bob_entry.to_f
+      bob_entry = bob_entry.to_r
     end
-    mp power_entry: power_entry,
-       bob_entry: bob_entry,
-       diff: power_entry > bob_entry
+    log :reader_manager,
+        power_entry: power_entry,
+        bob_entry: bob_entry,
+        diff: power_entry > bob_entry
     power_entry > bob_entry ? power_entry : bob_entry
   end
 
@@ -45,7 +46,9 @@ class LogReaderManager
     log :reader_manager, starting_readers: @starting_point
 
     @readers.each do |reader|
-      reader.start(@starting_point)
+      Dispatch::Queue.concurrent(:high).async do
+        reader.start(@starting_point)
+      end
     end
   end
 

@@ -175,3 +175,8 @@ returned_abbr: R
 joust_abbr: J
 mulligan_abbr: M
 kept_abbr: K
+log_path: Log path
+rarity_colors: Show rarity color on trackers
+opponent_overlay: Show card tracking on opponent hand
+clear: Clear tracker
+show_one_card: Show number 1 on tracker

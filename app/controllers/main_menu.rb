@@ -29,11 +29,27 @@ class MainMenu < MK::MenuLayout
     add :decks._ do
       add :deck_manager._, action: 'open_deck_manager:', key: 'm'
       add :reset._, action: 'reset:', key: 'r'
+      add :clear._, action: 'clear:', key: ''
       add :save_all._, action: 'save_decks:', key: ''
       add separator_item
 
-      Deck.where(:is_active => true).sort_by(:name, case_insensitive: true).each do |deck|
-        add deck.name, action: 'open_deck:'
+      decks = {}
+      Deck.where(is_active: true)
+        .sort_by(:player_class)
+        .sort_by(:name, case_insensitive: true)
+        .each do |deck|
+        unless decks.has_key?(deck.player_class.downcase._)
+          decks[deck.player_class.downcase._] = []
+        end
+        decks[deck.player_class.downcase._] << deck
+      end
+
+      Hash[decks.sort_by {|k, _| k}].each do |clazz, _decks|
+        add clazz do
+          _decks.each do |deck|
+            add deck.name, action: 'open_deck:'
+          end
+        end
       end
     end
 
