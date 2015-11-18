@@ -46,7 +46,9 @@ class LogReaderManager
     log :reader_manager, starting_readers: @starting_point
 
     @readers.each do |reader|
-      reader.start(@starting_point)
+      Dispatch::Queue.concurrent(:high).async do
+        reader.start(@starting_point)
+      end
     end
   end
 
