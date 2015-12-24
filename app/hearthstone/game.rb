@@ -321,12 +321,12 @@ class Game
   end
 
   def loss
-    log(:engine, 'You loose :(')
+    log(:engine, 'You lose :(')
     @game_result_win = :loss
   end
 
   def tied
-    log(:engine, 'You loose / game tied:(')
+    log(:engine, 'You lose / game tied:(')
     @game_result_win = :draw
   end
 
