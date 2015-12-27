@@ -2,7 +2,6 @@ class GeneralPreferencesLayout < PreferencesLayout
 
   KHearthstoneLocales = {
     'deDE' => 'de_DE',
-    'enGB' => 'en_GB',
     'enUS' => 'en_US',
     'esES' => 'es_ES',
     'esMX' => 'es_MX',
