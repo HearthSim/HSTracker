@@ -405,7 +405,7 @@ class OpponentTracker < Tracker
     display_count
     @table_view.reloadData
 
-    return unless @marks || @marks[self.hand_count - 1]
+    return if @marks.nil? || @marks[self.hand_count - 1].nil?
     @marks[self.hand_count - 1][:age] = turn
 
     if @marks[self.hand_count - 1][:info] != :coin
