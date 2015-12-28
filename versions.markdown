@@ -2,6 +2,7 @@
 - Add "show number 1 on trackers" option (issue #235)
 - Add another gem color for free cards (issue #230)
 - Better thread usage (issue #196, #237 and #224)
+- Better opponent name detection (issue #236)
 
 #### 0.13.2
 - Add option to change log path (issue #217)

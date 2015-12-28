@@ -27,7 +27,7 @@ class PowerGameStateHandler
         end
         @current_entity = entity
 
-      elsif (match = /TAG_CHANGE Entity=(\w+) tag=PLAYER_ID value=(\d)/.match(line))
+      elsif (match = /TAG_CHANGE Entity=([\w\s]+\w) tag=PLAYER_ID value=(\d)/.match(line))
         name = match[1]
         player = match[2].to_i
 

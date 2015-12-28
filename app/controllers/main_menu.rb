@@ -47,7 +47,8 @@ class MainMenu < MK::MenuLayout
       Hash[decks.sort_by {|k, _| k}].each do |clazz, _decks|
         add clazz do
           _decks.each do |deck|
-            add deck.name, action: 'open_deck:'
+            item = add deck.name, action: 'open_deck:'
+            item.deck = deck
           end
         end
       end

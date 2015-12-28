@@ -7,7 +7,7 @@ module Menu
 
   # open a deck
   def open_deck(menu_item)
-    deck = Deck.by_name(menu_item.title)
+    deck = menu_item.deck
     if @player
       @player.show_deck(deck.playable_cards, deck.name)
     end
@@ -56,7 +56,8 @@ module Menu
       menu = NSMenu.alloc.init
 
       _decks.each do |deck|
-        menu.addItemWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
+        menu_item = menu.addItemWithTitle(deck.name, action: 'open_deck:', keyEquivalent: '')
+        menu_item.deck = deck
       end
       item.setSubmenu(menu)
     end

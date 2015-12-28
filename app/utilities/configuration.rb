@@ -63,14 +63,14 @@ class Configuration
             value = value.hex
         end
 
-        NSUserDefaults.standardUserDefaults.setObject(value, forKey: method)
-        NSUserDefaults.standardUserDefaults.synchronize
+        Store[method] = value
+        #NSUserDefaults.standardUserDefaults.synchronize
 
         # always post an event with this key...
         # we don't care if nobody is listening
         NSNotificationCenter.defaultCenter.post(method)
       else
-        value = NSUserDefaults.standardUserDefaults.objectForKey(method)
+        value = Store[method]
 
         if KDefaults.has_key?(method.to_sym) && value.nil?
           value = KDefaults.fetch(method.to_sym)
@@ -90,7 +90,7 @@ class Configuration
 
     # get the HS locale
     def hearthstone_locale
-      locale = NSUserDefaults.standardUserDefaults.objectForKey 'hearthstone_locale'
+      locale = Store[:hearthstone_locale]
       return locale unless locale.nil?
 
       current = NSLocale.currentLocale.localeIdentifier
