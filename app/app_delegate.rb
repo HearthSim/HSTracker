@@ -1,11 +1,27 @@
-class AppDelegate
+class AppDelegate < ProMotion::Delegate
   include CDQ
-  include Database
-  include Menu
-  include Observer
-  include Ui
+  include App::Database
+  #include Menu
+  #include Observer
+  #include Ui
 
-  def applicationDidFinishLaunching(notification)
+  def on_launch(_)
+    # check if app and HS language are configured
+    hs_locale = Store[:hearthstone_locale]
+    app_language = Store['AppleLanguages']
+    if hs_locale && app_language
+      start_app
+    else
+      @language_choose = LanguageChooseScreen.new
+      @language_choose.on_save do
+        @language_choose.hide
+        start_app
+      end
+      @language_choose.show
+    end
+  end
+
+  def start_app
     # Starting hockey
     if RUBYMOTION_ENV == 'release'
       BITHockeyManager.sharedHockeyManager.configureWithIdentifier(ENV['hockey_app_id'], delegate: self)
@@ -13,6 +29,25 @@ class AppDelegate
     end
 
     return true if RUBYMOTION_ENV == 'test'
+
+    init_database do
+
+    end
+  end
+
+  def splash_screen
+    @splash ||= begin
+      splash = LoadingScreen.new
+      splash.showWindow(nil)
+      splash
+    end
+  end
+
+end
+
+__END__
+  def applicationDidFinishLaunching(notification)
+
 
     #AFNetworkActivityLogger.sharedLogger.startLogging
 
@@ -71,13 +106,7 @@ class AppDelegate
 
   end
 
-  def splash_screen
-    @splash ||= begin
-      splash = LoadingScreen.new
-      splash.showWindow(nil)
-      splash
-    end
-  end
+
 
   # preferences
   def preferences
