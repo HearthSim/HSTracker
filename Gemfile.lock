@@ -1,8 +1,14 @@
 GIT
-  remote: git://github.com/rubymotion/motion-support.git
-  revision: 6ad6468b8398a89834121a036a8cee1632f52240
+  remote: git://github.com/hipbyte/flow.git
+  revision: 5631bfd22df7ba135607cb7c22d04ab2d2531070
   specs:
-    motion-support (0.2.6)
+    motion-flow (0.2)
+
+GIT
+  remote: git://github.com/rubymotion/motion-support.git
+  revision: e2afaeab1088f7436c9385aa1201da3e718090a4
+  specs:
+    motion-support (0.3.0)
       motion-require (>= 0.0.6)
 
 GIT
@@ -21,7 +27,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     MotionLocalize (0.0.3)
-    activesupport (4.2.4)
+    activesupport (4.2.5)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -67,9 +73,9 @@ GEM
     fuzzy_match (2.0.4)
     i18n (0.7.0)
     json (1.8.3)
-    minitest (5.8.2)
+    minitest (5.8.3)
     molinillo (0.4.0)
-    motion-cocoapods (1.7.5)
+    motion-cocoapods (1.7.8)
       cocoapods (>= 0.34)
     motion-env (0.0.4)
     motion-fileutils (0.1.1)
@@ -85,7 +91,7 @@ GEM
     netrc (0.7.8)
     plist (3.1.0)
     rake (10.4.2)
-    redcarpet (3.3.3)
+    redcarpet (3.3.4)
     ruby-xcdm (0.0.9)
       activesupport (~> 4.1)
       builder (~> 3.2)
@@ -108,6 +114,7 @@ DEPENDENCIES
   motion-cocoapods
   motion-env
   motion-fileutils
+  motion-flow!
   motion-kit (= 0.18.0)
   motion-kit-events
   motion-sparkle!
@@ -118,4 +125,4 @@ DEPENDENCIES
   sugarcube!
 
 BUNDLED WITH
-   1.10.6
+   1.11.1

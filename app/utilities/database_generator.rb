@@ -16,7 +16,7 @@ class DatabaseGenerator
       return true
     end
 
-    database_version = NSUserDefaults.standardUserDefaults.objectForKey 'database_version'
+    database_version = Store[:database_version]
     return true if database_version.nil? || database_version.to_i < DATABASE_VERSION
 
     false
@@ -108,7 +108,7 @@ class DatabaseGenerator
       end
 
       Dispatch::Queue.main.async do
-        NSUserDefaults.standardUserDefaults.setObject(DATABASE_VERSION, forKey: 'database_version')
+        Store[:database_version] = DATABASE_VERSION
         cdq.save
 
         block.call if block
