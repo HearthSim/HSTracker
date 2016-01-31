@@ -54,7 +54,7 @@ class Importer
           next
         end
 
-        deck.sort_cards!
+        deck.sort!
         block.call(deck, clazz, title, arena) if block
       end
     end
@@ -113,7 +113,7 @@ class Importer
         return
       end
 
-      cards.sort_cards!
+      cards.sort!
       block.call(cards, clazz, title, arena) if block
     end
 
@@ -168,7 +168,7 @@ class Importer
         end
 
         log(:import, "found deck #{deck_name} for class #{clazz}")
-        deck.sort_cards!
+        deck.sort!
         block.call(deck, clazz, deck_name, arena) if block
       end
 

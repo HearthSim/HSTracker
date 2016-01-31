@@ -131,7 +131,7 @@ class PlayerTracker < Tracker
       end
     end
 
-    @playing_cards.sort_cards!
+    @playing_cards.sort!
 
     self.hand_count = 0
     self.deck_count = 30
@@ -153,7 +153,12 @@ class PlayerTracker < Tracker
     return if card_id.nil? || card_id.empty?
 
     card = @playing_cards.select { |c| c.card_id == card_id && c.count > 0 }.first
-    return if card.nil?
+    if card.nil?
+      card = Card.by_id(card_id)
+      return if card.nil?
+      card = PlayCard.from_card(card)
+      @playing_cards << card
+    end
 
     card.count -= 1
     card.hand_count += 1
@@ -201,6 +206,24 @@ class PlayerTracker < Tracker
   def play(card_id)
     self.hand_count -= 1
 
+    if card_id == 'LOE_079' || card_id == 'LOE_019t'
+      # if Elise Starseeker -> Add Map to the Golden Monkey to deck
+      # if Map to the Golden Monkey -> Add Golden Monkey to deck
+      real_card = card_id == 'LOE_079' ? 'LOE_019t' : 'LOE_019t2'
+      card = PlayCard.from_card(Card.by_id(real_card))
+      card.hand_count = 0
+      card.count = 1
+
+      @playing_cards << card
+      @playing_cards.sort!
+    end
+
+    if card_id == 'LOE_019t2'
+      # Golden Monkey
+      # clear the tracker
+      @playing_cards = []
+    end
+
     card = @playing_cards.select { |c| c.card_id == card_id }.first
     unless card.nil?
       card.hand_count -= 1
@@ -244,7 +267,7 @@ class PlayerTracker < Tracker
         @playing_cards << card
       end
 
-      @playing_cards.sort_cards!
+      @playing_cards.sort!
     end
 
     self.deck_count += 1
@@ -269,7 +292,7 @@ class PlayerTracker < Tracker
         @playing_cards << card
       end
 
-      @playing_cards.sort_cards!
+      @playing_cards.sort!
     end
 
     self.deck_count += 1
@@ -298,7 +321,7 @@ class PlayerTracker < Tracker
         @playing_cards << card
       end
 
-      @playing_cards.sort_cards!
+      @playing_cards.sort!
     end
     self.hand_count += 1
 

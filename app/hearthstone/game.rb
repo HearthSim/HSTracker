@@ -151,15 +151,15 @@ class Game
                           'None'
                       end
         _game_mode = case game_mode
-                      when :ranked
-                        'Ranked'
-                      when :arena
-                        'Arena'
-                      when :brawl
-                        'Brawl'
-                      else
-                        'Casual'
-                    end
+                       when :ranked
+                         'Ranked'
+                       when :arena
+                         'Arena'
+                       when :brawl
+                         'Brawl'
+                       else
+                         'Casual'
+                     end
 
         data = { class: _player_class,
                  mode: _game_mode,
@@ -407,6 +407,11 @@ class Game
     return if card_id.nil? || card_id.empty?
 
     player_tracker.play(card_id)
+
+    if card_id == 'LOE_111'
+      # Excavated Evil -> Add the card to the deck of opponent
+      opponent_tracker.play_to_deck(card_id, turn)
+    end
   end
 
   def player_hand_discard(card_id, turn)
@@ -505,6 +510,11 @@ class Game
   def opponent_play(card_id, from, turn)
     log(:engine, opponent: :play, card_id: card_id, card: card(card_id), from: from, turn: turn)
     opponent_tracker.play(card_id, from, turn)
+
+    if card_id == 'LOE_111'
+      # Excavated Evil -> Add the card to the deck of player
+      player_tracker.play_to_deck(card_id)
+    end
   end
 
   def opponent_hand_discard(card_id, from, turn)

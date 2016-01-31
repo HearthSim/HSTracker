@@ -281,7 +281,7 @@ class DeckManager < NSWindowController
 
     unless found
       @decks_or_cards << c
-      @decks_or_cards.sort_cards!
+      @decks_or_cards.sort!
     end
 
     @card_count.stringValue = "#{card_count + 1} / #{@max_cards_in_deck}"

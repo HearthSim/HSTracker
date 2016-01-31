@@ -112,7 +112,7 @@ class CardCellView < NSTableCellView
     @gem_layer.opacity = alpha
 
     # draw the frame
-    if card.is_stolen
+    if card.is_stolen?
       @frame_layer.contents = ImageCache.frame_deck_image
     else
       @frame_layer.contents = ImageCache.frame_image(rarity)
@@ -176,7 +176,7 @@ class CardCellView < NSTableCellView
 
     if card.count >= min_count || card.rarity == :legendary._
       # add the background of the card count
-      if card.is_stolen
+      if card.is_stolen?
         @frame_count_box.contents = ImageCache.frame_countbox_deck
       else
         @frame_count_box.contents = ImageCache.frame_countbox

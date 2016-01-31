@@ -51,8 +51,40 @@ class Card < CDQManagedObject
     @hand_count ||= 0
   end
 
-  def is_stolen
+  def is_stolen?
     false
+  end
+
+  def is_class_card?
+    !player_class.nil?
+  end
+
+  def <=>(card)
+    Card.compare_card(self, card)
+  end
+
+  # sort a deck
+  # sort by
+  # 1) card cost
+  # 2) class card
+  # 3) card type (spell, minion, ...)
+  # 4) card name
+  def self.compare_card(a, b)
+    if a.nil?
+      1
+    elsif b.nil?
+      -1
+    elsif a.cost != b.cost
+      a.cost <=> b.cost
+    elsif a.is_class_card? && !b.is_class_card?
+      -1
+    elsif !a.is_class_card? && b.is_class_card?
+      1
+    elsif a.card_type != b.card_type
+      b.card_type <=> a.card_type
+    else
+      a.name <=> b.name
+    end
   end
 
   private

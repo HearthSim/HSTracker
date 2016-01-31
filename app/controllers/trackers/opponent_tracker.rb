@@ -246,7 +246,7 @@ class OpponentTracker < Tracker
         card.count = 1
         card.hand_count = 0
         @cards << card
-        @cards.sort_cards!
+        @cards.sort!
       end
     end
 
@@ -283,7 +283,7 @@ class OpponentTracker < Tracker
           card.hand_count = 0
           card.has_changed = true
           @cards << card
-          @cards.sort_cards!
+          @cards.sort!
         end
       end
     end
@@ -310,7 +310,7 @@ class OpponentTracker < Tracker
   def joust(card_id)
     log :opponent_tracker, opponent_joust: card_id
     card = @cards.select { |c| c.card_id == card_id }.first
-    if card && card.is_jousted
+    if card && card.is_jousted?
       card.is_jousted = false
     elsif card
       # card.count ?
@@ -323,7 +323,7 @@ class OpponentTracker < Tracker
         card.is_jousted = true
         card.has_changed = true
         @cards << card
-        @cards.sort_cards!
+        @cards.sort!
       end
     end
 
@@ -366,12 +366,29 @@ class OpponentTracker < Tracker
   def play_to_deck(card_id, turn)
     self.deck_count += 1
 
+    card = @cards.select { |c| c.card_id == card_id }.first
+    if card
+      card.count -= 1 unless card.count.zero?
+    elsif card_id
+      real_card = Card.by_id(card_id)
+      if real_card
+        card = PlayCard.from_card(real_card)
+        card.count = 0
+        card.hand_count = 0
+        card.is_jousted = true
+        card.has_changed = true
+        @cards << card
+        @cards.sort!
+      end
+    end
+
     display_count
     @table_view.reloadData
   end
 
   def deck_to_play(card_id)
     log :opponent_tracker, opponent_deck_to_play: card_id
+    _card_played(card_id)
   end
 
   def remove_from_deck(card_id)
@@ -379,6 +396,10 @@ class OpponentTracker < Tracker
   end
 
   def secret_trigger(card_id, turn, id)
+    _card_played(card_id)
+  end
+
+  def _card_played(card_id)
     return if card_id.nil? || card_id.empty?
 
     card = @cards.select { |c| c.card_id == card_id }.first
@@ -392,7 +413,7 @@ class OpponentTracker < Tracker
         card.hand_count = 0
         card.has_changed = true
         @cards << card
-        @cards.sort_cards!
+        @cards.sort!
       end
     end
 

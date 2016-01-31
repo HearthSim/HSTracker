@@ -3,7 +3,7 @@ class PlayCard
 
   attr_accessor :count, :hand_count, :card_id, :name, :english_name, :cost,
                 :health, :player_class, :rarity, :card_type, :has_changed,
-                :is_stolen, :lang, :is_jousted
+                :is_stolen, :lang, :is_jousted, :is_class_card
 
   def self.from_card(card)
     c = self.new
@@ -19,16 +19,21 @@ class PlayCard
     c.card_type = card.card_type
     c.lang = card.lang
     c.has_changed = false
+    c.is_class_card = card.is_class_card?
 
     c
   end
 
-  def is_jousted
+  def is_jousted?
     @is_jousted ||= false
   end
 
-  def is_stolen
+  def is_stolen?
     @is_stolen ||= false
+  end
+
+  def is_class_card?
+    @is_class_card ||= false
   end
 
   # the number of this card we have in our deck
@@ -40,4 +45,9 @@ class PlayCard
   def hand_count
     @hand_count ||= 0
   end
+
+  def <=>(card)
+    Card.compare_card(self, card)
+  end
+
 end

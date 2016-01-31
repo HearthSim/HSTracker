@@ -29,6 +29,6 @@ class Deck < CDQManagedObject
       card.count = deck_card.count
       card
     end.compact
-    _cards.sort_cards!
+    _cards.sort!
   end
 end
