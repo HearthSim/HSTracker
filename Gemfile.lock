@@ -1,10 +1,4 @@
 GIT
-  remote: git://github.com/HipByte/Flow.git
-  revision: 7e0066156efff2827fe19224956273abaaa4523f
-  specs:
-    motion-flow (0.2)
-
-GIT
   remote: git://github.com/rubymotion/motion-support.git
   revision: e2afaeab1088f7436c9385aa1201da3e718090a4
   specs:
@@ -114,7 +108,6 @@ DEPENDENCIES
   motion-cocoapods
   motion-env
   motion-fileutils
-  motion-flow!
   motion-kit (= 0.18.0)
   motion-kit-events
   motion-sparkle!
