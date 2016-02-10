@@ -138,8 +138,8 @@ consider_inhand_played: Mark in-hand cards as played
 show_debug_files: Show debug files
 deck_has_been_saved: Your deck has been saved
 deck_has_been_exported: Your deck has been exported
-results_saved_hearthstats: The game results have been saved on HearthStats
-save_match: Save match
+results_saved_hearthstats: Game results have been saved to HearthStats
+save_match: Match Saved
 error_saving_hearthstats: An error has occured while saving this game's results on HearthStats
 delete_deck: Delete Deck
 deck_deleted: Your deck has been deleted
