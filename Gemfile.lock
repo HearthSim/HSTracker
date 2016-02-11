@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/bmichotte/motion-sparkle.git
+  revision: a962cfb5298fe1efe564e30fc588259063963a13
+  specs:
+    motion-sparkle (0.0.5)
+
+GIT
   remote: git://github.com/rubymotion/motion-support.git
   revision: e2afaeab1088f7436c9385aa1201da3e718090a4
   specs:
@@ -10,12 +16,6 @@ GIT
   revision: 15ae59f1ab40561aff911c4cce376d022d2edebe
   specs:
     sugarcube (3.3.7)
-
-GIT
-  remote: git://github.com/webcracy/motion-sparkle.git
-  revision: 64b08fbfd0f288239a5620a1f1f821a58835e485
-  specs:
-    motion-sparkle (0.0.5)
 
 GEM
   remote: https://rubygems.org/
