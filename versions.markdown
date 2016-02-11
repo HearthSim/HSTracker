@@ -1,3 +1,7 @@
+#### 0.13.4
+- Update Sparkle to prevent vulnerabilities
+- Update some english words
+
 #### 0.13.3
 - Add "show number 1 on trackers" option (issue #235)
 - Add another gem color for free cards (issue #230)
