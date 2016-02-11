@@ -79,6 +79,10 @@ class ImageCache
       image_named 'frames/frame_deck.png'
     end
 
+    def frame_deck_golden
+      image_named 'frames/frame_golden.png'
+    end
+
     def frame_image_mask
       image_named 'frames/frame_mask.png'
     end
