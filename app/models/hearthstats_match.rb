@@ -1,2 +1,0 @@
-class HearthstatsMatch < CDQManagedObject
-end
