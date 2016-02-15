@@ -7,12 +7,11 @@
  *
  * Created on 15/02/16.
  */
-#import <Foundation/Foundation.h>
+#import "PlayCard.h"
+#import "Card.h"
 
-typedef NS_ENUM(NSInteger, GameResult)
+@implementation PlayCard
 {
-    GameResult_Unknow,
-    GameResult_Win,
-    GameResult_Loss,
-    GameResult_Tied
-};
+
+}
+@end

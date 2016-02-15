@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, GameMode) {
+    GameMode_Unknow,
     GameMode_Ranked,
     GameMode_Casual,
     GameMode_Arena,

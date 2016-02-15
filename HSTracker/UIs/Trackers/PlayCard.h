@@ -9,10 +9,9 @@
  */
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, GameResult)
-{
-    GameResult_Unknow,
-    GameResult_Win,
-    GameResult_Loss,
-    GameResult_Tied
-};
+@class Card;
+
+@interface PlayCard : NSObject
+@property(nonatomic) NSNumber *count;
+@property(nonatomic,strong) Card *card;
+@end

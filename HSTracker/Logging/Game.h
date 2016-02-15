@@ -9,8 +9,10 @@
  */
 #import <Foundation/Foundation.h>
 #import "GameMode.h"
+#import "GameResult.h"
 
 @class TempEntity;
+@class Tracker;
 
 typedef NS_ENUM(NSInteger, PlayerType)
 {
@@ -20,8 +22,9 @@ typedef NS_ENUM(NSInteger, PlayerType)
 
 @interface Game : NSObject
 
-@property(nonatomic) NSInteger joustReveals;
 @property(nonatomic, strong) NSMutableDictionary *entities;
+@property(nonatomic, strong) NSMutableArray *tmpEntities;
+@property(nonatomic) NSInteger joustReveals;
 @property(nonatomic, assign) GameMode gameMode;
 @property(nonatomic) BOOL rankFound;
 @property(nonatomic) BOOL awaitingRankedDetection;
@@ -29,8 +32,12 @@ typedef NS_ENUM(NSInteger, PlayerType)
 @property(nonatomic, strong) NSNumber *opponentId;
 @property(nonatomic, strong) NSNumber *playerId;
 @property(nonatomic, strong) TempEntity *waitController;
-
 @property(nonatomic) BOOL gameStarted;
+@property(nonatomic, strong) NSDate *gameStartDate;
+@property(nonatomic) enum GameResult gameResult;
+@property(nonatomic, strong) NSDate *gameEndDate;
+@property(nonatomic, strong) Tracker *playerTracker;
+@property(nonatomic, strong) Tracker *opponentTracker;
 
 + (Game *)instance;
 
@@ -100,7 +107,7 @@ typedef NS_ENUM(NSInteger, PlayerType)
 
 - (void)opponentMulligan:(id)tag;
 
-- (void)player_mulligan:(NSString *)cardId;
+- (void)playerMulligan:(NSString *)cardId;
 
 - (void)playerPlay:(NSString *)cardId turn:(NSNumber *)turn;
 

@@ -20,4 +20,9 @@
   return [Card MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"cardId = %@ and lang = %@", cardId, lang]];
 }
 
+- (NSString *)englishName
+{
+  return @"";
+}
+
 @end

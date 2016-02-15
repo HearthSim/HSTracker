@@ -204,7 +204,7 @@
 
             case EZone_DECK: {
               if ([controller isEqualToNumber:game.playerId]) {
-                [game player_mulligan:cardId];
+                [game playerMulligan:cardId];
               }
               else if ([controller isEqualToNumber:game.opponentId]) {
                 [game opponentMulligan:[((Entity *) game.entities[id]) getTag:EGameTag_ZONE_POSITION]];

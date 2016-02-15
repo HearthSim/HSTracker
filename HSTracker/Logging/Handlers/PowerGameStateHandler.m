@@ -27,10 +27,8 @@ static NSString *const ActionStart = @".*ACTION_START.*id=(\\w*).*cardId=(\\w*).
 
 + (void)handle:(NSString *)line
 {
-    static NSMutableArray *tmpEntities;
-    tmpEntities = [NSMutableArray array];
-    static TagChangeHandler *tagChangeHandler;
-    tagChangeHandler = [TagChangeHandler new];
+  static TagChangeHandler *tagChangeHandler;
+  tagChangeHandler = [TagChangeHandler new];
   static NSNumber *currentEntityId = nil;
   static Entity *currentEntity;
   Entity *entity = nil;
@@ -135,9 +133,9 @@ static NSString *const ActionStart = @".*ACTION_START.*id=(\\w*).*cardId=(\\w*).
         }
 
         if (tmpEntity == nil) {
-          tmpEntity = [[Entity alloc] initWithId:@(tmpEntities.count + 1)];
+          tmpEntity = [[Entity alloc] initWithId:@(game.tmpEntities.count + 1)];
           tmpEntity.name = rawEntity;
-          [tmpEntities addObject:tmpEntity];
+          [game.tmpEntities addObject:tmpEntity];
         }
 
         EGameTag _tag = [GameTag parse:tag];
@@ -151,7 +149,7 @@ static NSString *const ActionStart = @".*ACTION_START.*id=(\\w*).*cardId=(\\w*).
             for (NSNumber *key in [tmpEntity.tags allKeys]) {
               [((Entity *) game.entities[id]) setValue:tmpEntity.tags[key] forTag:[key integerValue]];
             }
-            [tmpEntities removeObject:tmpEntity];
+            [game.tmpEntities removeObject:tmpEntity];
           }
         }
       }

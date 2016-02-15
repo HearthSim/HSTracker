@@ -7,7 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GameMode.h"
+#import "Game.h"
 
 @interface Tracker : NSWindowController
 
+@property(nonatomic) GameMode gameMode;
+@property(nonatomic) PlayerType playerType;
+
+- (void)gameStart;
+
+- (void)gameEnd;
 @end

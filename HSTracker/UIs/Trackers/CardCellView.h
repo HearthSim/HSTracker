@@ -8,6 +8,13 @@
  * Created on 15/02/16.
  */
 #import <Foundation/Foundation.h>
+#import "Game.h"
 
-@interface CardCellView : NSObject
+@class PlayCard;
+
+@interface CardCellView : NSTableCellView
+
+@property(nonatomic)PlayerType playerType;
+@property(nonatomic)PlayCard *playCard;
+
 @end
