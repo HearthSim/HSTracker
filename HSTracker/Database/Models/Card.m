@@ -22,7 +22,12 @@
 
 - (NSString *)englishName
 {
-  return @"";
+  if ([self.lang isEqualToString:@"enUS"]) {
+    return self.name;
+  }
+
+  Card *card = [Card MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"cardId = %@ and lang = %@", self.cardId, @"enUS"]];
+  return card.name;
 }
 
 @end

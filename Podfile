@@ -1,4 +1,4 @@
-platform :osx, '10.9'
+platform :osx, '10.10'
 # Uncomment this line if you're using Swift
 # use_frameworks!
 

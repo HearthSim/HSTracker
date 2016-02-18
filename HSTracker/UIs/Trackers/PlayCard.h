@@ -12,6 +12,11 @@
 @class Card;
 
 @interface PlayCard : NSObject
-@property(nonatomic) NSNumber *count;
+@property(nonatomic) NSInteger count;
+@property(nonatomic) NSInteger handCount;
 @property(nonatomic,strong) Card *card;
+@property(nonatomic) BOOL hasChanged;
+@property(nonatomic) BOOL isStolen;
+
+- (NSString *)description;
 @end

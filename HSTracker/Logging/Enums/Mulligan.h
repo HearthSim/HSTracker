@@ -20,5 +20,5 @@ typedef NS_ENUM(NSInteger, EMulligan)
 
 
 @interface Mulligan : NSObject
-+ (EMulligan)parse:(NSString *)rawValue;
++ (BOOL)tryParse:(NSString *)rawValue out:(EMulligan *)out;
 @end

@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * Created on 13/02/16.
+ * Created on 17/02/16.
  */
 #import <Foundation/Foundation.h>
 
-@interface ZoneHandler : NSObject
+@interface LoadingScreenHandler : NSObject
 
 + (void)handle:(NSString *)line;
 

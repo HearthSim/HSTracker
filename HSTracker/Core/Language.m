@@ -18,7 +18,7 @@
 
 - (BOOL)isLanguageSet
 {
-  return [Settings hasKey:HearthstoneLanguage] && [Settings hasKey:HSTrackerLanguage];
+  return [Settings instance].hearthstoneLanguage != nil && [Settings instance].hsTrackerLanguage != nil;
 }
 
 - (void)presentLanguageChooserWithCompletion:(LanguageChooserCompletion)completion

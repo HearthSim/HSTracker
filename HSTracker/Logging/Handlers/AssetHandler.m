@@ -10,6 +10,9 @@
 #import "AssetHandler.h"
 #import "Game.h"
 
+static NSString *const MedalRank = @"Medal_Ranked_(\\d+)";
+static NSString *const UnloadingCard = @"unloading name=(\\w+_\\w+) family=CardPrefab persistent=False";
+
 @implementation AssetHandler
 
 + (void)handle:(NSString *)line
@@ -20,18 +23,18 @@
     game.awaitingRankedDetection = NO;
   }
 
-  RxMatch *match;
-  if ((match = [line firstMatchWithDetails:RX(@"Medal_Ranked_(\\d+)")]) != nil) {
-    NSInteger rank = [match.value integerValue];
+  if ([line isMatch:RX(MedalRank)]) {
+    NSNumber *rank = @([[line firstMatch:RX(MedalRank)] integerValue]);
     [game setPlayerRank:rank];
   }
   else if ([line isMatch:RX(@"rank_window")]) {
     game.rankFound = YES;
-    game.gameMode = GameMode_Ranked;
+    game.gameMode = EGameMode_Ranked;
   }
-  else if ((match = [line firstMatchWithDetails:RX(@"unloading name=(\\w+_\\w+) family=CardPrefab persistent=False")]) != nil) {
-    NSString *cardId = match.value;
-    if (game.gameMode == GameMode_Arena) {
+  else if ([line isMatch:RX(UnloadingCard)]) {
+    RxMatch *match = [line firstMatchWithDetails:RX(UnloadingCard)];
+    NSString *cardId = ((RxMatchGroup *) match.groups[1]).value;
+    if (game.gameMode == EGameMode_Arena) {
       DDLogInfo(@"Possible arena card draft : %@ ?", cardId);
     }
     else {
@@ -39,7 +42,7 @@
     }
   }
   else if ([line isMatch:RX(@"unloading name=Tavern_Brawl")]) {
-    game.gameMode = GameMode_Brawl;
+    game.gameMode = EGameMode_Brawl;
   }
 }
 

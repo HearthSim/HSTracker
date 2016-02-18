@@ -11,10 +11,20 @@
 #import "Game.h"
 
 @class PlayCard;
+@class Card;
+@protocol CardCellHover;
 
 @interface CardCellView : NSTableCellView
 
-@property(nonatomic)PlayerType playerType;
-@property(nonatomic)PlayCard *playCard;
+@property(nonatomic) PlayerType playerType;
+@property(nonatomic, strong) PlayCard *playCard;
+@property(nonatomic, weak) id <CardCellHover> delegate;
 
+- (void)flash;
+@end
+
+@protocol CardCellHover <NSObject>
+- (void)hover:(Card *)card;
+
+- (void)out:(Card *)card;
 @end

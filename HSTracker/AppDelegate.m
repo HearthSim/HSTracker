@@ -13,6 +13,8 @@
 #import "Database.h"
 #import "Hearthstone.h"
 #import "Tracker.h"
+#import "Settings.h"
+#import "Player.h"
 
 @interface AppDelegate ()
 {
@@ -32,12 +34,16 @@
   [MagicalRecord setupAutoMigratingCoreDataStack];
 
   // init logger
-  [DDLog addLogger:[DDTTYLogger sharedInstance]];
-
-  /*DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
+#ifdef DEBUG
+  DDTTYLogger *logger = [DDTTYLogger sharedInstance];
+  logger.colorsEnabled = YES;
+  [DDLog addLogger:logger];
+#else
+  DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
   fileLogger.rollingFrequency = 60 * 60 * 24;
   fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
-  [DDLog addLogger:fileLogger];*/
+  [DDLog addLogger:fileLogger];
+#endif
 
   // check for player locale
   language = [[Language alloc] init];
@@ -60,8 +66,7 @@
 
   NSBlockOperation *startUpCompletionOperation = [NSBlockOperation blockOperationWithBlock:^{
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-          DDLogInfo(@"HSTracker is now ready !");
-          [self.splashscreen.window close];
+          [self hstrackerReady];
       }];
   }];
 
@@ -72,8 +77,8 @@
   NSBlockOperation *loggingOperation = [NSBlockOperation blockOperationWithBlock:^{
       DDLogVerbose(@"Starting logging");
       [[Hearthstone instance] start];
-      [Game instance].playerTracker = self.playerTracker;
-      [Game instance].opponentTracker = self.opponentTracker;
+      [Game instance].player.tracker = self.playerTracker;
+      [Game instance].opponent.tracker = self.opponentTracker;
   }];
   NSBlockOperation *trackerOperation = [NSBlockOperation blockOperationWithBlock:^{
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -91,14 +96,21 @@
   [operationQueue addOperation:loggingOperation];
 }
 
+- (void)hstrackerReady
+{
+  DDLogInfo(@"HSTracker is now ready !");
+  [self.splashscreen.window orderOut:self];
+  self.splashscreen = nil;
+}
+
 - (void)openTrackers
 {
   self.playerTracker = [[Tracker alloc] init];
-  self.playerTracker.playerType = Player;
+  self.playerTracker.playerType = PlayerType_Player;
   [self.playerTracker showWindow:self];
 
   self.opponentTracker = [[Tracker alloc] init];
-  self.opponentTracker.playerType = Opponent;
+  self.opponentTracker.playerType = PlayerType_Opponent;
   [self.opponentTracker showWindow:self];
 }
 

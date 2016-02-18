@@ -8,17 +8,48 @@
  * Created on 13/02/16.
  */
 #import <Foundation/Foundation.h>
-
-extern NSString *__nonnull const HSTrackerLanguage;
-extern NSString *__nonnull const HearthstoneLanguage;
-extern NSString *__nonnull const HearthstoneLogPath;
+#import "CardSize.h"
+#import "HandCountPosition.h"
 
 @interface Settings : NSObject
 
-+ (void)setObject:(nullable id)value forKey:(nonnull NSString *)key;
++ (Settings *)instance;
 
-+ (nullable id)objectForKey:(nonnull NSString *)key;
+- (void)setFlashColor:(NSColor *)flashColor;
+- (NSColor *)flashColor;
 
-+ (BOOL)hasKey:(nonnull NSString *)key;
+- (void)setCardSize:(CardSize)size;
+- (CardSize)cardSize;
 
+- (void)setHearthstoneLogPath:(NSString *)path;
+- (NSString *)hearthstoneLogPath;
+
+- (void)setHearthstoneLanguage:(NSString *)hearthstoneLanguage;
+- (NSString *)hearthstoneLanguage;
+
+- (void)setHsTrackerLanguage:(NSString *)hsTrackerLanguage;
+- (NSString *)hsTrackerLanguage;
+
+- (void)setDatabaseVersion:(NSNumber *)version;
+- (NSNumber *)databaseVersion;
+
+- (void)setShowRarityColors:(BOOL)value;
+- (BOOL)showRarityColors;
+
+- (void)setShowOneCard:(BOOL)value;
+- (BOOL)showOneCard;
+
+- (void)setInHandAsPlayed:(BOOL)value;
+- (BOOL)inHandAsPlayed;
+
+- (BOOL)isCyrillicOrAsian;
+
+- (void)setWindowsLocked:(BOOL)value;
+- (BOOL)windowsLocked;
+
+- (void)setHandCountWindow:(HandCountPosition)position;
+- (HandCountPosition)handCountWindow;
+
+- (void)setFixedWindowNames:(BOOL)value;
+- (BOOL)fixedWindowNames;
 @end

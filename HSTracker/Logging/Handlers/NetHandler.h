@@ -9,17 +9,8 @@
  */
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, EGameMode) {
-    EGameMode_Unknow,
-    EGameMode_Ranked,
-    EGameMode_Casual,
-    EGameMode_Arena,
-    EGameMode_Brawl,
-    EGameMode_Spectator,
-    EGameMode_Friendly,
-    EGameMode_Practice
-};
+@interface NetHandler : NSObject
 
-@interface GameMode : NSObject
-+ (NSString *)toString:(EGameMode)gameMode;
++ (void)handle:(NSString *)line;
+
 @end

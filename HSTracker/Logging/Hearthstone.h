@@ -11,6 +11,8 @@
 
 @interface Hearthstone : NSObject
 
+@property (nonatomic, getter=isHearthstoneActive) BOOL hearthstoneActive;
+
 + (Hearthstone *)instance;
 
 - (void)start;

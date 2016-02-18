@@ -267,7 +267,9 @@ typedef NS_ENUM(NSInteger, EGameTag)
 
 
 @interface GameTag : NSObject
-+ (EGameTag)parse:(NSString *)rawValue;
 
-+ (BOOL)exists:(NSNumber *)number;
++ (BOOL)exists:(NSInteger)number;
+
++ (BOOL)tryParse:(NSString *)rawValue out:(EGameTag *)out;
+
 @end

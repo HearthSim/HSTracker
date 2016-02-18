@@ -11,20 +11,25 @@
 
 @implementation CardType
 
-+ (ECardType)parse:(NSString *)rawValue
++ (BOOL)tryParse:(NSString *)rawValue out:(ECardType *)out
 {
-  if ([rawValue isEqualToString:@"INVALID"]) { return ECardType_INVALID; }
-  else if ([rawValue isEqualToString:@"GAME"]) { return ECardType_GAME; }
-  else if ([rawValue isEqualToString:@"PLAYER"]) { return ECardType_PLAYER; }
-  else if ([rawValue isEqualToString:@"HERO"]) { return ECardType_HERO; }
-  else if ([rawValue isEqualToString:@"MINION"]) { return ECardType_MINION; }
-  else if ([rawValue isEqualToString:@"ABILITY"]) { return ECardType_ABILITY; }
-  else if ([rawValue isEqualToString:@"ENCHANTMENT"]) { return ECardType_ENCHANTMENT; }
-  else if ([rawValue isEqualToString:@"WEAPON"]) { return ECardType_WEAPON; }
-  else if ([rawValue isEqualToString:@"ITEM"]) { return ECardType_ITEM; }
-  else if ([rawValue isEqualToString:@"TOKEN"]) { return ECardType_TOKEN; }
-  else if ([rawValue isEqualToString:@"HERO_POWER"]) { return ECardType_HERO_POWER; }
-  else {return (ECardType) 0;}
+  if ([rawValue isEqualToString:@"INVALID"]) {*out = ECardType_INVALID;}
+  else if ([rawValue isEqualToString:@"GAME"]) {*out = ECardType_GAME;}
+  else if ([rawValue isEqualToString:@"PLAYER"]) {*out = ECardType_PLAYER;}
+  else if ([rawValue isEqualToString:@"HERO"]) {*out = ECardType_HERO;}
+  else if ([rawValue isEqualToString:@"MINION"]) {*out = ECardType_MINION;}
+  else if ([rawValue isEqualToString:@"SPELL"]) {*out = ECardType_SPELL;}
+  else if ([rawValue isEqualToString:@"ENCHANTMENT"]) {*out = ECardType_ENCHANTMENT;}
+  else if ([rawValue isEqualToString:@"WEAPON"]) {*out = ECardType_WEAPON;}
+  else if ([rawValue isEqualToString:@"ITEM"]) {*out = ECardType_ITEM;}
+  else if ([rawValue isEqualToString:@"TOKEN"]) {*out = ECardType_TOKEN;}
+  else if ([rawValue isEqualToString:@"HERO_POWER"]) {*out = ECardType_HERO_POWER;}
+  else {
+    *out = ECardType_INVALID;
+    return NO;
+  }
+
+  return YES;
 }
 
 @end

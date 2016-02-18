@@ -7,7 +7,6 @@
  *
  * Created on 13/02/16.
  */
-#import <AppKit/AppKit.h>
 #import "Hearthstone.h"
 #import "Settings.h"
 #import "LogReaderManager.h"
@@ -41,7 +40,7 @@
 
 - (void)setup
 {
-  NSArray *zones = @[@"Zone", @"Bob", @"Power", @"Asset", @"Rachelle", @"Arena"];
+  NSArray *zones = @[@"Zone", @"Bob", @"Power", @"Asset", @"Rachelle", @"Arena", @"LoadingScreen", @"Net"];
 
   NSMutableArray *missingZones;
   NSMutableString *fileContent;
@@ -167,6 +166,7 @@
   NSRunningApplication *application = notification.userInfo[@"NSWorkspaceApplicationKey"];
   if (application && [application.localizedName isEqualToString:@"Hearthstone"]) {
     DDLogVerbose(@"Hearthstone is now active");
+    self.hearthstoneActive = YES;
   }
 }
 
@@ -175,9 +175,9 @@
   NSRunningApplication *application = notification.userInfo[@"NSWorkspaceApplicationKey"];
   if (application && [application.localizedName isEqualToString:@"Hearthstone"]) {
     DDLogVerbose(@"Hearthstone is now inactive");
+    self.hearthstoneActive = NO;
   }
 }
-
 
 #pragma mark - Paths / Utils
 
@@ -188,7 +188,7 @@
 
 - (NSString *)logPath
 {
-  NSString *logPath = [Settings objectForKey:HearthstoneLogPath];
+  NSString *logPath = [Settings instance].hearthstoneLogPath;
   if (logPath == nil) {
     logPath = @"/Applications/Hearthstone/Logs/";
   }
@@ -205,6 +205,4 @@
   }
   return NO;
 }
-
-
 @end

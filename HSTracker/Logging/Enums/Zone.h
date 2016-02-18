@@ -23,5 +23,5 @@ typedef NS_ENUM(NSInteger, EZone)
 };
 
 @interface Zone : NSObject
-+ (EZone)parse:(NSString *)rawValue;
++ (BOOL)tryParse:(NSString *)rawValue out:(EZone *)out;
 @end

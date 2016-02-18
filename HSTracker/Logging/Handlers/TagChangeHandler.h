@@ -18,8 +18,8 @@
 
 @property(nonatomic) BOOL opponentUsedHeroPower;
 
-- (void)tagChange:(NSString *)rawTag id:(NSNumber *)id rawValue:(NSString *)rawValue;
-- (void)tagChange:(NSString *)rawTag id:(NSNumber *)id rawValue:(NSString *)rawValue recurse:(BOOL)recurse;
+- (void)tagChange:(NSString *)rawTag id:(NSInteger)id rawValue:(NSString *)rawValue;
+- (void)tagChange:(NSString *)rawTag id:(NSInteger)id rawValue:(NSString *)rawValue recurse:(BOOL)recurse;
 
 - (BOOL)isEntity:(NSString *)entity;
 - (NSDictionary *)parseEntity:(NSString *)entity;

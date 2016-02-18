@@ -17,7 +17,7 @@
 
 - (instancetype)initWithName:(NSString *)name logReaderManager:(LogReaderManager *)logReaderManager startFilters:(NSArray *)startFilters containsFilters:(NSArray *)containsFilters;
 
-- (NSTimeInterval)findEntryPoint:(NSString *)str;
+- (NSTimeInterval)findEntryPoint:(NSArray *)choices;
 
 - (void)start:(NSTimeInterval)entryPoint;
 

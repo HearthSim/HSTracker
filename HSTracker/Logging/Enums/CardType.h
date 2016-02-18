@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, ECardType)
     ECardType_PLAYER = 2,
     ECardType_HERO = 3,
     ECardType_MINION = 4,
-    ECardType_ABILITY = 5,
+    ECardType_SPELL = 5,
     ECardType_ENCHANTMENT = 6,
     ECardType_WEAPON = 7,
     ECardType_ITEM = 8,
@@ -25,5 +25,5 @@ typedef NS_ENUM(NSInteger, ECardType)
 };
 
 @interface CardType : NSObject
-+ (ECardType)parse:(NSString *)rawValue;
++ (BOOL)tryParse:(NSString *)rawValue out:(ECardType *)out;
 @end

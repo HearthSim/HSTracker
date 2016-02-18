@@ -18,7 +18,7 @@
 
 - (void)loadDatabaseIfNeeded:(Splashscreen *)splashscreen
 {
-  NSNumber *dbVersion = [Settings objectForKey:@"database_version"];
+  NSNumber *dbVersion = [Settings instance].databaseVersion;
   if (dbVersion != nil && [dbVersion compare:@(DATABASE_VERSION)] == NSOrderedSame) {
     DDLogVerbose(@"Database already on version %@", @(DATABASE_VERSION));
     return;
@@ -29,11 +29,11 @@
   [CardMechanic MR_truncateAll];
 
   NSArray *langs;
-  if ([[Settings objectForKey:HearthstoneLanguage] isEqualToString:@"enUS"]) {
+  if ([[Settings instance].hearthstoneLanguage isEqualToString:@"enUS"]) {
     langs = @[@"enUS"];
   }
   else {
-    langs = @[@"enUS", [Settings objectForKey:HearthstoneLanguage]];
+    langs = @[@"enUS", [Settings instance].hearthstoneLanguage];
   }
 
   NSArray *validCardSet = @[@"CORE", @"EXPERT1", @"NAXX", @"GVG", @"BRM", @"TGT", @"LOE", @"PROMO", @"REWARD"];
@@ -108,7 +108,7 @@
 
           card.health = jsonCard[@"health"];
           card.flavor = jsonCard[@"flavor"];
-          card.collectible = @(jsonCard[@"collectible"] ? YES : NO);
+          card.collectible = @(jsonCard[@"collectible"] != nil);
           card.name = jsonCard[@"name"];
           card.text = jsonCard[@"text"];
 
@@ -127,7 +127,7 @@
     }
   }
 
-  [Settings setObject:@(DATABASE_VERSION) forKey:@"database_version"];
+  [Settings instance].databaseVersion = @(DATABASE_VERSION);
 }
 
 @end

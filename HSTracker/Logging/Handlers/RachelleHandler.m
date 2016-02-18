@@ -19,15 +19,14 @@ static NSString *const CardInCache = @".*somehow the card def for (\\w+_\\w+) wa
 + (void)handle:(NSString *)line
 {
   if ([line isMatch:RX(TowardsGolds)]) {
-    RxMatch *match = [line firstMatchWithDetails:RX(TowardsGolds)];
-    NSInteger victories = [match.value integerValue];
+    NSInteger victories = [[line firstMatch:RX(TowardsGolds)] integerValue];
     DDLogInfo(@"%ld / 3 -> 10 gold", victories);
   }
 
   if ([line isMatch:RX(CardInCache)]) {
-    NSArray *matches = [line matches:RX(CardInCache)];
-    NSString *cardId = ((RxMatch *)matches[0]).value;
-    if ([Game instance].gameMode == GameMode_Arena){
+    RxMatch *match = [line firstMatchWithDetails:RX(CardInCache)];
+    NSString *cardId = ((RxMatchGroup *)match.groups[1]).value;
+    if ([Game instance].gameMode == EGameMode_Arena){
       DDLogInfo(@"Possible arena card draft : %@ ?", cardId);
     }
     else {

@@ -11,14 +11,18 @@
 
 @implementation Mulligan
 
-+ (EMulligan)parse:(NSString *)rawValue
++ (BOOL)tryParse:(NSString *)rawValue out:(EMulligan *)out
 {
-  if ([rawValue isEqualToString:@"INVALID"]) { return EMulligan_INVALID; }
-  else if ([rawValue isEqualToString:@"INPUT"]) { return EMulligan_INPUT; }
-  else if ([rawValue isEqualToString:@"DEALING"]) { return EMulligan_DEALING; }
-  else if ([rawValue isEqualToString:@"WAITING"]) { return EMulligan_WAITING; }
-  else if ([rawValue isEqualToString:@"DONE"]) { return EMulligan_DONE; }
-  else { return (EMulligan) 0; }
+  if ([rawValue isEqualToString:@"INVALID"]) {*out = EMulligan_INVALID;}
+  else if ([rawValue isEqualToString:@"INPUT"]) {*out = EMulligan_INPUT;}
+  else if ([rawValue isEqualToString:@"DEALING"]) {*out = EMulligan_DEALING;}
+  else if ([rawValue isEqualToString:@"WAITING"]) {*out = EMulligan_WAITING;}
+  else if ([rawValue isEqualToString:@"DONE"]) {*out = EMulligan_DONE;}
+  else {
+    *out = EMulligan_INVALID;
+    return NO;
+  }
+  return YES;
 }
 
 @end

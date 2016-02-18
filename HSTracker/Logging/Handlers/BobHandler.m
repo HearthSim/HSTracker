@@ -20,22 +20,22 @@
 
   Game *game = [Game instance];
   if ([line isMatch:RX(@"---RegisterScreenBox---")]) {
-    if (game.gameMode == GameMode_Spectator) {
+    if (game.gameMode == EGameMode_Spectator) {
       [game gameEnd];
     }
   }
-  else if ([line isMatch:RX(@"---RegisterScreenForge---")]) {
-    game.gameMode = GameMode_Arena;
+  /*else if ([line isMatch:RX(@"---RegisterScreenForge---")]) {
+    game.gameMode = EGameMode_Arena;
   }
   else if ([line isMatch:RX(@"---RegisterScreenPractice---")]) {
-    game.gameMode = GameMode_Practice;
+    game.gameMode = EGameMode_Practice;
   }
   else if ([line isMatch:RX(@"---RegisterScreenTourneys---")]) {
-    game.gameMode = GameMode_Casual;
+    game.gameMode = EGameMode_Casual;
   }
   else if ([line isMatch:RX(@"---RegisterScreenFriendly---")]) {
-    game.gameMode = GameMode_Friendly;
-  }
+    game.gameMode = EGameMode_Friendly;
+  }*/
 }
 
 @end

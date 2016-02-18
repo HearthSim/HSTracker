@@ -73,12 +73,12 @@
 
 - (IBAction)save:(id)sender
 {
-  NSString *hstracker = [hstrackerLanguages allKeys][hstrackerLanguage.indexOfSelectedItem];
-  NSString *hearthstone = [hearthstoneLanguages allKeys][hearthstoneLanguage.indexOfSelectedItem];
+  NSString *hstracker = [hstrackerLanguages allKeys][(NSUInteger) hstrackerLanguage.indexOfSelectedItem];
+  NSString *hearthstone = [hearthstoneLanguages allKeys][(NSUInteger) hearthstoneLanguage.indexOfSelectedItem];
 
   DDLogDebug(@"Setting HSTracker locale to %@ and Hearthstone locale to %@", hstracker, hearthstone);
-  [Settings setObject:hearthstone forKey:HearthstoneLanguage];
-  [Settings setObject:hstracker forKey:HSTrackerLanguage];
+  [Settings instance].hearthstoneLanguage = hearthstone;
+  [Settings instance].hsTrackerLanguage = hstracker;
 
   dispatch_async(dispatch_get_main_queue(), ^{
       self.completion();

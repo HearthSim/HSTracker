@@ -24,5 +24,5 @@ typedef NS_ENUM(NSInteger, EPlayState)
 };
 
 @interface PlayState : NSObject
-+ (EPlayState)parse:(NSString *)rawValue;
++ (BOOL)tryParse:(NSString *)rawValue out:(EPlayState *)out;
 @end

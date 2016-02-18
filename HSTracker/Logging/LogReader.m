@@ -53,10 +53,10 @@
   return self;
 }
 
-- (NSTimeInterval)findEntryPoint:(NSString *)str
+- (NSTimeInterval)findEntryPoint:(NSArray *)choices
 {
   if (![[NSFileManager defaultManager] fileExistsAtPath:self.path]) {
-    return [NSDate distantPast].timeIntervalSinceReferenceDate;
+    return [NSDate distantPast].timeIntervalSince1970;
   }
 
   NSError *error;
@@ -67,14 +67,16 @@
   // TODO check error
   NSArray *lines = [[[fileContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] reverseObjectEnumerator] allObjects];
   for (NSString *line in lines) {
-    if ([line rangeOfString:str].location != NSNotFound) {
-      NSDate *date = [self parseTime:line];
+    for (NSString *str in choices) {
+      if ([line rangeOfString:str].location != NSNotFound) {
+        NSDate *date = [self parseTime:line];
 
-      return date.timeIntervalSinceReferenceDate;
+        return date.timeIntervalSince1970;
+      }
     }
   }
 
-  return [NSDate distantPast].timeIntervalSinceReferenceDate;
+  return [NSDate distantPast].timeIntervalSince1970;
 }
 
 - (NSDate *)parseTime:(NSString *)line
@@ -102,7 +104,7 @@
 {
   DDLogInfo(@"Starting reader %@, (%@:%lf)", self.name, self.path, entryPoint);
   if ([[NSFileManager defaultManager] fileExistsAtPath:self.path] && ![[Hearthstone instance] isHearthstoneRunning]) {
-    [[NSFileManager defaultManager] removeItemAtPath:self.path error:nil];
+    //TODO[[NSFileManager defaultManager] removeItemAtPath:self.path error:nil];
   }
 
   stopped = NO;
@@ -113,63 +115,63 @@
 
 - (void)readFile
 {
-  if (stopped) {
-    return;
-  }
+  while (!stopped) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.path]) {
+      NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:self.path];
 
-  if ([[NSFileManager defaultManager] fileExistsAtPath:self.path]) {
-    NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:self.path];
-    NSDictionary *fileAttribs = [[NSFileManager defaultManager] attributesOfItemAtPath:self.path
-                                                                                 error:nil];
-    if (offset > [fileAttribs[NSFileSize] unsignedLongLongValue]) {
-      offset = [self findOffset];
-    }
-    [fileHandle seekToFileOffset:offset];
-
-    NSData *data = [fileHandle readDataToEndOfFile];
-    NSString *linesStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    offset += [linesStr lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-    [fileHandle closeFile];
-
-    NSArray *lines = [[linesStr componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]
-      filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];
-
-    for (NSString *line in lines) {
-      NSDate *time = [self parseTime:line];
-      if (time.timeIntervalSinceReferenceDate < startingPoint) {
-        continue;
+      NSDictionary *fileAttribs = [[NSFileManager defaultManager] attributesOfItemAtPath:self.path
+                                                                                   error:nil];
+      if (offset > [fileAttribs[NSFileSize] unsignedLongLongValue]) {
+        offset = [self findOffset];
       }
+      [fileHandle seekToFileOffset:offset];
 
-      BOOL parse = NO;
-      if (self.startFilters == nil || self.containsFilters == nil) {
-        parse = YES;
-      }
-      else if (self.startFilters) {
-        for (NSString *filter in self.startFilters) {
-          NSString *reg = [NSString stringWithFormat:@"^%@", filter];
-          if ([[line substringFromIndex:19] isMatch:RX(reg)]) {
-            parse = YES;
-            break;
+      NSData *data = [fileHandle readDataToEndOfFile];
+      NSString *linesStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+      offset += [linesStr lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+      [fileHandle closeFile];
+
+      NSArray *lines = [[linesStr componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]
+        filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];
+
+      for (NSString *line in lines) {
+        NSDate *time = [self parseTime:line];
+        if (time.timeIntervalSince1970 < startingPoint) {
+          continue;
+        }
+
+        BOOL parse = NO;
+        if (self.startFilters == nil || self.containsFilters == nil) {
+          parse = YES;
+        }
+        else if (self.startFilters) {
+          for (NSString *filter in self.startFilters) {
+            NSString *reg = [NSString stringWithFormat:@"^%@", filter];
+            if ([[line substringFromIndex:19] isMatch:RX(reg)]) {
+              parse = YES;
+              break;
+            }
           }
         }
-      }
 
-      if (self.containsFilters && !parse) {
-        for (NSString *filter in self.containsFilters) {
-          if ([[line substringFromIndex:19] isMatch:RX(filter)]) {
-            parse = YES;
-            break;
+        if (self.containsFilters && !parse) {
+          for (NSString *filter in self.containsFilters) {
+            if ([[line substringFromIndex:19] isMatch:RX(filter)]) {
+              parse = YES;
+              break;
+            }
           }
         }
-      }
 
-      if (parse) {
-        LogLine *logLine = [[LogLine alloc] initWithNamespace:self.name
-                                                         time:time.timeIntervalSinceReferenceDate
-                                                         line:line];
-        [self.logReaderManager processNewLine:logLine];
+        if (parse) {
+          LogLine *logLine = [[LogLine alloc] initWithNamespace:self.name
+                                                           time:time.timeIntervalSince1970
+                                                           line:line];
+          [self.logReaderManager processNewLine:logLine];
+        }
       }
     }
+    [NSThread sleepForTimeInterval:0.05];
   }
 }
 
@@ -189,7 +191,7 @@
   NSArray *lines = [[[fileContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] reverseObjectEnumerator] allObjects];
   for (NSString *line in lines) {
     NSDate *time = [self parseTime:line];
-    if (time.timeIntervalSinceReferenceDate < startingPoint) {
+    if (time.timeIntervalSince1970 < startingPoint) {
       offset += [line lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
     }
   }
@@ -199,7 +201,6 @@
 
 - (void)stop
 {
-
   stopped = YES;
 }
 

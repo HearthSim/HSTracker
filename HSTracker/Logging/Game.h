@@ -13,11 +13,14 @@
 
 @class TempEntity;
 @class Tracker;
+@class Entity;
+@class Player;
+@class Player;
 
 typedef NS_ENUM(NSInteger, PlayerType)
 {
-    Player,
-    Opponent,
+    PlayerType_Player,
+    PlayerType_Opponent,
 };
 
 @interface Game : NSObject
@@ -25,21 +28,25 @@ typedef NS_ENUM(NSInteger, PlayerType)
 @property(nonatomic, strong) NSMutableDictionary *entities;
 @property(nonatomic, strong) NSMutableArray *tmpEntities;
 @property(nonatomic) NSInteger joustReveals;
-@property(nonatomic, assign) GameMode gameMode;
+@property(nonatomic, assign) EGameMode gameMode;
 @property(nonatomic) BOOL rankFound;
 @property(nonatomic) BOOL awaitingRankedDetection;
 @property(nonatomic) NSTimeInterval lastAssetUnload;
-@property(nonatomic, strong) NSNumber *opponentId;
-@property(nonatomic, strong) NSNumber *playerId;
+@property(nonatomic, strong) Player *player;
+@property(nonatomic, strong) Player *opponent;
 @property(nonatomic, strong) TempEntity *waitController;
 @property(nonatomic) BOOL gameStarted;
 @property(nonatomic, strong) NSDate *gameStartDate;
 @property(nonatomic) enum GameResult gameResult;
 @property(nonatomic, strong) NSDate *gameEndDate;
-@property(nonatomic, strong) Tracker *playerTracker;
-@property(nonatomic, strong) Tracker *opponentTracker;
+
+@property(nonatomic) BOOL waitingForFirstAssetUnload;
 
 + (Game *)instance;
+
+- (Entity *)playerEntity;
+
+- (Entity *)opponentEntity;
 
 - (void)gameStart;
 
@@ -49,29 +56,19 @@ typedef NS_ENUM(NSInteger, PlayerType)
 
 - (void)setOpponentHero:(NSString *)cardId;
 
-- (void)setPlayerRank:(NSInteger)rank;
+- (void)setPlayerRank:(NSNumber *)rank;
 
 - (void)setPlayerName:(NSString *)name;
 
 - (void)setOpponentName:(NSString *)name;
 
-- (NSNumber *)turnNumber;
-
-- (void)opponentJoust:(NSString *)cardId turn:(NSNumber *)turn;
-
-- (void)playerJoust:(NSString *)cardId turn:(NSNumber *)turn;
-
-- (void)playerGetToDeck:(NSString *)cardId turn:(NSNumber *)turn;
-
-- (void)opponentGetToDeck:(NSString *)cardId turn:(NSNumber *)turn;
-
-- (void)opponentSecretTrigger:(NSString *)cardId turn:(NSNumber *)turn id:(NSNumber *)id;
+- (NSInteger)turnNumber;
 
 - (void)playerFatigue:(NSInteger)value;
 
 - (void)opponentFatigue:(NSInteger)value;
 
-- (void)turnStart:(PlayerType)player turn:(NSNumber *)turn;
+- (void)turnStart:(PlayerType)player turn:(NSInteger)turn;
 
 - (void)concede;
 
@@ -83,47 +80,69 @@ typedef NS_ENUM(NSInteger, PlayerType)
 
 - (BOOL)isMulliganDone;
 
-- (void)playerGet:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)playerGet:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)opponentGet:(NSNumber *)turn id:(NSNumber *)id;
+- (void)opponentGet:(Entity *)entity turn:(NSInteger)turn id:(NSInteger)id;
 
-- (void)playerBackToHand:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)playerBackToHand:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)opponentPlayToHand:(NSString *)cardId turn:(NSNumber *)turn id:(NSNumber *)id;
+- (void)opponentPlayToHand:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn id:(NSInteger)id;
 
-- (void)playerPlayToDeck:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)playerPlayToDeck:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)opponentPlayToDeck:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)opponentPlayToDeck:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)opponentPlay:(NSString *)cardId from:(id)from turn:(NSNumber *)turn;
+- (void)playerPlay:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)playerHandDiscard:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)opponentPlay:(Entity *)entity card:(NSString *)cardId from:(NSInteger)from turn:(NSInteger)turn;
 
-- (void)opponentHandDiscard:(NSString *)cardId from:(id)from turn:(NSNumber *)turn;
+- (void)playerHandDiscard:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)playerSecretPlayed:(NSString *)cardId turn:(NSNumber *)turn fromDeck:(BOOL)deck;
+- (void)opponentHandDiscard:(Entity *)entity card:(NSString *)cardId from:(NSInteger)from turn:(NSInteger)turn;
 
-- (void)opponentSecretPlayed:(NSString *)cardId from:(id)from turn:(NSNumber *)turn fromDeck:(BOOL)deck id:(NSNumber *)id;
+- (void)playerSecretPlayed:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn fromDeck:(BOOL)fromDeck;
 
-- (void)opponentMulligan:(id)tag;
+- (void)opponentSecretPlayed:(Entity *)entity card:(NSString *)cardId from:(NSInteger)from turn:(NSInteger)turn fromDeck:(BOOL)fromDeck id:(NSInteger)id;
 
-- (void)playerMulligan:(NSString *)cardId;
+- (void)playerMulligan:(Entity *)entity card:(NSString *)cardId;
 
-- (void)playerPlay:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)opponentMulligan:(Entity *)entity from:(NSInteger)from;
 
-- (void)playerDraw:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)playerDraw:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)opponentDraw:(NSNumber *)turn;
+- (void)opponentDraw:(Entity *)entity turn:(NSInteger)turn;
 
-- (void)playerRemoveFromDeck:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)playerRemoveFromDeck:(Entity *)entity turn:(NSInteger)turn;
 
-- (void)opponentRemoveFromDeck:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)opponentRemoveFromDeck:(Entity *)entity turn:(NSInteger)turn;
 
-- (void)opponentDeckDiscard:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)opponentDeckDiscard:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)playerDeckDiscard:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)playerDeckDiscard:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)playerDeckToPlay:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)playerDeckToPlay:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
 
-- (void)opponentDeckToPlay:(NSString *)cardId turn:(NSNumber *)turn;
+- (void)opponentDeckToPlay:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)playerPlayToGraveyard:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)opponentPlayToGraveyard:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)playerCreateInPlay:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)opponentCreateInPlay:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)opponentStolen:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)playerStolen:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)opponentJoust:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)playerJoust:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)playerGetToDeck:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)opponentGetToDeck:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn;
+
+- (void)opponentSecretTrigger:(Entity *)entity card:(NSString *)cardId turn:(NSInteger)turn id:(NSInteger)id;
 @end
