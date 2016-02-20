@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="Tracker">
+        <customObject id="-2" userLabel="File's Owner" customClass="Tracker" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="table" destination="695-Rw-J4I" id="Nqh-Fq-jr8"/>
                 <outlet property="tableColumn" destination="BPd-Xb-fay" id="7Ur-rv-vQe"/>
@@ -60,7 +60,7 @@
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="oWb-ja-QYt">
-                            <rect key="frame" x="1" y="114.78292381763458" width="230.90024566650391" height="16"/>
+                            <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="ILD-8R-TIn">

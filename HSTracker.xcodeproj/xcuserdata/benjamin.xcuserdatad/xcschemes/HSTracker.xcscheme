@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "433D15C91C6DF362005A1F2F"
+               BlueprintIdentifier = "439C7E471C7772C000D29859"
                BuildableName = "HSTracker.app"
                BlueprintName = "HSTracker"
                ReferencedContainer = "container:HSTracker.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "433D15DF1C6DF362005A1F2F"
+               BlueprintIdentifier = "439C7E5B1C7772C100D29859"
                BuildableName = "HSTrackerTests.xctest"
                BlueprintName = "HSTrackerTests"
                ReferencedContainer = "container:HSTracker.xcodeproj">
@@ -42,7 +42,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "433D15EA1C6DF362005A1F2F"
+               BlueprintIdentifier = "439C7E661C7772C100D29859"
                BuildableName = "HSTrackerUITests.xctest"
                BlueprintName = "HSTrackerUITests"
                ReferencedContainer = "container:HSTracker.xcodeproj">
@@ -52,7 +52,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "433D15C91C6DF362005A1F2F"
+            BlueprintIdentifier = "439C7E471C7772C000D29859"
             BuildableName = "HSTracker.app"
             BlueprintName = "HSTracker"
             ReferencedContainer = "container:HSTracker.xcodeproj">
@@ -75,7 +75,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "433D15C91C6DF362005A1F2F"
+            BlueprintIdentifier = "439C7E471C7772C000D29859"
             BuildableName = "HSTracker.app"
             BlueprintName = "HSTracker"
             ReferencedContainer = "container:HSTracker.xcodeproj">
@@ -83,13 +83,6 @@
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "TERM"
-            value = "color"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -101,7 +94,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "433D15C91C6DF362005A1F2F"
+            BlueprintIdentifier = "439C7E471C7772C000D29859"
             BuildableName = "HSTracker.app"
             BlueprintName = "HSTracker"
             ReferencedContainer = "container:HSTracker.xcodeproj">

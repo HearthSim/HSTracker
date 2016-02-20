@@ -1,11 +1,11 @@
 platform :osx, '10.10'
-# Uncomment this line if you're using Swift
-# use_frameworks!
+use_frameworks!
 
 target 'HSTracker' do
   pod 'HockeySDK-Mac'
-  pod 'MagicalRecord'
-  pod 'CocoaLumberjack'
+  pod "MagicalRecord/CocoaLumberjack"
+  #pod 'MagicalRecord'
+  pod 'CocoaLumberjack/Swift'
   pod 'RegExCategories', '~> 1.0'
 end
 
