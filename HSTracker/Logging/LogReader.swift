@@ -30,7 +30,7 @@ class LogReader {
         self.startFilters = startFilters
         self.containsFilters = containsFilters
 
-        self.path = Hearthstone.instance.logPath + "\(name).log"
+        self.path = Hearthstone.instance.logPath + "/\(name).log"
     }
 
     func setDelegate(delegate: LogLineReader) {
@@ -91,6 +91,7 @@ class LogReader {
         stopped = false
         startingPoint = entryPoint
         offset = findOffset()
+        DDLogVerbose("Starting to track \(self.name) with offset \(offset)")
         readFile()
     }
 
@@ -110,7 +111,7 @@ class LogReader {
                 fileHandle!.closeFile()
 
                 let lines = linesStr!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).filter {
-                    $0.isEmpty
+                    !$0.isEmpty
                 }
 
                 for line in lines {

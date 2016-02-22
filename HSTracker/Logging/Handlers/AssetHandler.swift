@@ -24,8 +24,10 @@ class AssetHandler {
         }
 
         if line.isMatch(NSRegularExpression.rx(MedalRank)) {
-            let rank = Int(line.firstMatch(NSRegularExpression.rx(MedalRank)))!
-            game.setPlayerRank(rank)
+            let match = line.firstMatchWithDetails(NSRegularExpression.rx(MedalRank))
+            if let rank = Int(match.groups[1].value) {
+                game.setPlayerRank(rank)
+            }
         } else if line.isMatch(NSRegularExpression.rx("rank_window")) {
             game.rankFound = true
             game.gameMode = .Ranked

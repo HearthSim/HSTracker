@@ -42,7 +42,7 @@ class Card: NSManagedObject {
     var highlightInHand: Bool = false
 
     class func byId(cardId: String) -> Card? {
-        return Card.MR_findFirstWithPredicate(NSPredicate(format: "cardId = %@ and", cardId))
+        return Card.MR_findFirstWithPredicate(NSPredicate(format: "cardId = %@", cardId))
     }
 
     var englishName: String {

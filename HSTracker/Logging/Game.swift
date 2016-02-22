@@ -44,6 +44,7 @@ class Game {
     }
 
     func reset() {
+        DDLogVerbose("Reseting Game")
         currentTurn = -1
         entities.removeAll()
         tmpEntities.removeAll()
@@ -73,7 +74,7 @@ class Game {
 
     var opponentEntity: Entity? {
         for (_, ent) in entities {
-            if ent[GameTag.PLAYER_ID] != nil && !ent.isPlayer {
+            if ent.hasTag(GameTag.PLAYER_ID) && !ent.isPlayer {
                 return ent
             }
         }
@@ -195,13 +196,13 @@ class Game {
         if currentTurn == -1 {
             var player: Entity?
             for (_, ent) in entities {
-                if ent[GameTag.FIRST_PLAYER] != nil {
+                if ent.hasTag(GameTag.FIRST_PLAYER) {
                     player = ent
                     break
                 }
             }
             if player != nil {
-                currentTurn = player![GameTag.CONTROLLER] == self.player.id ? 0 : 1
+                currentTurn = player!.getTag(GameTag.CONTROLLER) == self.player.id ? 0 : 1
             }
         }
 
@@ -214,7 +215,7 @@ class Game {
         }
         if entity != nil {
             let _turn = currentTurn == -1 ? 0 : currentTurn
-            return Int(Double(entity![GameTag.TURN]! + _turn) / 2.0)
+            return Int(Double(entity!.getTag(GameTag.TURN) + _turn) / 2.0)
         }
         return 0
     }
@@ -249,7 +250,7 @@ class Game {
         for (_, ent) in entities {
             if ent.isPlayer {
                 player = ent
-            } else if ent[GameTag.PLAYER_ID] != nil && !ent.isPlayer {
+            } else if ent.hasTag(GameTag.PLAYER_ID) && !ent.isPlayer {
                 opponent = ent
             }
         }
@@ -257,13 +258,16 @@ class Game {
         if player == nil || opponent == nil {
             return false
         }
-        return player![GameTag.MULLIGAN_STATE] != nil && player![GameTag.MULLIGAN_STATE]! == Mulligan.DONE.rawValue
-                && opponent![GameTag.MULLIGAN_STATE] != nil && opponent![GameTag.MULLIGAN_STATE]! == Mulligan.DONE.rawValue
+        return player!.hasTag(GameTag.MULLIGAN_STATE) && player!.getTag(GameTag.MULLIGAN_STATE) == Mulligan.DONE.rawValue
+                && opponent!.hasTag(GameTag.MULLIGAN_STATE) && opponent!.getTag(GameTag.MULLIGAN_STATE) == Mulligan.DONE.rawValue
     }
 
     // MARK: - player
     func setPlayerHero(cardId: String) {
         player.playerClass = Card.byId(cardId)
+        if let card = player.playerClass {
+            DDLogInfo("player is \(card.name)")
+        }
     }
 
     func setPlayerRank(rank: Int) {
@@ -431,6 +435,9 @@ class Game {
 
     func setOpponentHero(cardId: String) {
         opponent.playerClass = Card.byId(cardId)
+        if let card = opponent.playerClass {
+            DDLogInfo("opponent is \(card.name)")
+        }
     }
 
     func setOpponentName(name: String) {

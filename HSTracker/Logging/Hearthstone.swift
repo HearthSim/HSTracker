@@ -22,7 +22,9 @@ class Hearthstone : NSObject {
     func start() {
         setup()
         startListeners()
-        startTracking()
+        if self.isHearthstoneRunning {
+            startTracking()
+        }
     }
 
     func setup() {
@@ -92,12 +94,14 @@ class Hearthstone : NSObject {
     }
 
     func stopTracking() {
-        logReaderManager!.stop()
+        if let logReaderManager = self.logReaderManager {
+            logReaderManager.stop()
+        }
     }
 
     func restartTracking() {
-        logReaderManager!.stop()
-        logReaderManager!.start()
+        stopTracking()
+        startTracking()
     }
 
     //MARK: - Events
@@ -124,12 +128,14 @@ class Hearthstone : NSObject {
     func appLaunched(notification: NSNotification) {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
             DDLogVerbose("Hearthstone is now launched")
+            self.restartTracking()
         }
     }
 
     func appTerminated(notification: NSNotification) {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
             DDLogVerbose("Hearthstone is now closed")
+            self.stopTracking()
         }
     }
 

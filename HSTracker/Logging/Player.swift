@@ -312,7 +312,7 @@ class Player {
 
     func play(entity: Entity, turn: Int) {
         if let cardEntity = moveCardEntity(entity, from: self.hand, to: entity.isSecret ? self.secrets : self.board, turn: turn) {
-            if entity[GameTag.CARDTYPE] == CardType.TOKEN.rawValue {
+            if entity.getTag(GameTag.CARDTYPE) == CardType.TOKEN.rawValue {
                 cardEntity.cardMark = .Created
                 cardEntity.created = true
             }
@@ -351,7 +351,7 @@ class Player {
             //new cards are drawn first
             var newCard: CardEntity?
             for ent in self.hand {
-                if ent.entity![GameTag.ZONE_POSITION] == entity[GameTag.ZONE_POSITION] {
+                if ent.entity!.getTag(GameTag.ZONE_POSITION) == entity.getTag(GameTag.ZONE_POSITION) {
                     newCard = ent
                     break
                 }
@@ -518,7 +518,7 @@ class Player {
             cardEntity!.turn = turn
             cardEntity!.created = entity.created
             cardEntity!.discarded = entity.discarded
-            let cardType = CardType(rawValue: entity.entity![GameTag.CARDTYPE]!)
+            let cardType = CardType(rawValue: entity.entity!.getTag(GameTag.CARDTYPE))
             if cardType != CardType.HERO && cardType != CardType.ENCHANTMENT && cardType != CardType.HERO_POWER && cardType != CardType.PLAYER {
                 self.revealedCards.append(entity)
             }
@@ -558,8 +558,8 @@ class Player {
             _cardEntity.turn = turn
             to.append(_cardEntity)
             to.sortInPlace {
-                let v1 = ($0.entity != nil && $0.entity![GameTag.ZONE_POSITION] != nil) ? $0.entity![GameTag.ZONE_POSITION]! : 10
-                let v2 = ($1.entity != nil && $1.entity![GameTag.ZONE_POSITION] != nil) ? $1.entity![GameTag.ZONE_POSITION]! : 10
+                let v1 = ($0.entity != nil && $0.entity!.hasTag(GameTag.ZONE_POSITION)) ? $0.entity!.getTag(GameTag.ZONE_POSITION) : 10
+                let v2 = ($1.entity != nil && $1.entity!.hasTag(GameTag.ZONE_POSITION)) ? $1.entity!.getTag(GameTag.ZONE_POSITION) : 10
                 return v1 < v2
             }
         }

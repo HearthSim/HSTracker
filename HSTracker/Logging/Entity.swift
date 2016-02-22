@@ -10,34 +10,44 @@
 
 class Entity: Equatable {
     var id: Int
-    var isPlayer: Bool = false
+    var isPlayer: Bool
     var cardId: String?
     var name: String?
     var tags = [GameTag: Int]()
 
     init(_ id: Int) {
         self.id = id
+        self.isPlayer = false
     }
-
-    subscript(tag: GameTag) -> Int? {
-        get {
-            return tags[tag];
+    
+    func setTag(tag: GameTag, _ value: Int) {
+        self.tags[tag] = value
+    }
+    
+    func getTag(tag: GameTag) -> Int {
+        if let value = self.tags[tag] {
+            return value
         }
-        set {
-            tags[tag] = newValue
+        return 0
+    }
+    
+    func hasTag(tag: GameTag) -> Bool {
+        if let _ = self.tags[tag] {
+            return true
         }
+        return false
     }
 
     func isInZone(zone: Zone) -> Bool {
-        return self[GameTag.ZONE] == nil ? false : self[GameTag.ZONE]! == zone.rawValue
+        return self.hasTag(GameTag.ZONE) ? false : self.getTag(GameTag.ZONE) == zone.rawValue
     }
 
     func isControllerBy(controller: Int) -> Bool {
-        return self[GameTag.CONTROLLER] == nil ? false : self[GameTag.CONTROLLER]! == controller;
+        return self.hasTag(GameTag.CONTROLLER) ? false : self.getTag(GameTag.CONTROLLER) == controller
     }
 
     var isSecret: Bool {
-        return self[GameTag.SECRET] == nil
+        return self.hasTag(GameTag.SECRET)
     }
 }
 

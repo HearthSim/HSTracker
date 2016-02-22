@@ -8,18 +8,14 @@
  * Created on 18/02/16.
  */
 
-class CardEntity: Equatable {
+class CardEntity: Equatable, CustomStringConvertible {
 
     var cardId: String?
     var entity: Entity?
 
     var turn: Int {
-        set {
-            prevTurn = turn
-            self.turn = newValue
-        }
-        get {
-            return self.turn
+        willSet(newTurn) {
+            prevTurn = self.turn
         }
     }
     var prevTurn = -1
@@ -28,12 +24,12 @@ class CardEntity: Equatable {
 
     var inHand: Bool {
         get {
-            return entity != nil && entity![GameTag.ZONE] == Zone.HAND.rawValue
+            return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.HAND.rawValue
         }
     }
     var inDeck: Bool {
         get {
-            return entity != nil && entity![GameTag.ZONE] == Zone.DECK.rawValue
+            return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.DECK.rawValue
         }
     }
     var unkown: Bool {
@@ -44,7 +40,13 @@ class CardEntity: Equatable {
     var created: Bool = false
 
     init(cardId: String? = nil, entity: Entity? = nil) {
-        self.cardId = cardId == nil && entity != nil ? entity!.cardId : cardId!
+        if let entity = entity {
+            if let cardId = entity.cardId {
+                self.cardId = cardId
+            }
+        } else if let cardId = cardId {
+            self.cardId = cardId
+        }
         self.entity = entity
         self.turn = -1
         self.cardMark = entity?.id > 68 ? .Created : .None
@@ -57,8 +59,8 @@ class CardEntity: Equatable {
     }
 
     func zonePosComparison(other: CardEntity) -> Bool {
-        let v1 = (self.entity != nil && entity![GameTag.ZONE_POSITION] != nil) ? entity![GameTag.ZONE_POSITION]! : 10
-        let v2 = (other.entity != nil && other.entity![GameTag.ZONE_POSITION] != nil) ? other.entity![GameTag.ZONE_POSITION]! : 10
+        let v1 = self.entity != nil ? entity!.getTag(GameTag.ZONE_POSITION) : 10
+        let v2 = other.entity != nil ? other.entity!.getTag(GameTag.ZONE_POSITION) : 10
         return v1 < v2
     }
 
@@ -74,28 +76,28 @@ class CardEntity: Equatable {
         }
     }
 
+    var description: String {
+        var description = "<\(NSStringFromClass(self.dynamicType)): "
+            + "self.entity=\(self.entity)"
+            + ", self.cardId=\(cardName(self.cardId))"
+            + ", self.turn=\(self.turn)"
+    
+        if let entity = self.entity {
+            description += ", self.zonePos=\(entity.getTag(GameTag.ZONE_POSITION))"
+        }
+        if self.cardMark != CardMark.None {
+            description += ", self.cardMark=\(self.cardMark)"
+        }
+        if self.discarded {
+            description += ", self.discarded=true"
+        }
+        if self.created {
+            description += ", self.created=true"
+        }
+        description += ">"
 
-    /*func description() -> String
-    {
-    NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: ", NSStringFromClass([self class])];
-    [description appendFormat:@"self.entity=%@", self.entity];
-    [description appendFormat:@", self.cardId=%@", [self cardName:self.cardId]];
-    [description appendFormat:@", self.turn=%li", self.turn];
-    if (self.entity) {
-    [description appendFormat:@", self.zonePos=%li", [self.entity getTag:EGameTag_ZONE_POSITION]];
+        return description
     }
-    if (self.cardMark != ECardMark_None) {
-    [description appendFormat:@", self.cardMark=%li", (NSInteger) self.cardMark];
-    }
-    if (self.discarded) {
-    [description appendString:@", self.discarded=true"];
-    }
-    if (self.created) {
-    [description appendString:@", self.created=true"];
-    }
-    [description appendString:@">"];
-    return description;
-    }*/
 
     func cardName(cardId: String?) -> String {
         if let cardId = cardId {

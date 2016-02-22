@@ -15,7 +15,7 @@ class TagChangeHandler {
 
     func tagChange(rawTag: String, id: Int, rawValue: String, recurse: Bool? = false) {
         let game = Game.instance
-        if game.entities[id] != nil {
+        if game.entities[id] == nil {
             game.entities[id] = Entity(id)
         }
 
@@ -32,15 +32,15 @@ class TagChangeHandler {
         }
         if let tag = _tag {
             let value = self.parseTag(tag, rawValue)
-            var prevValue = game.entities[id]![tag]!
-            game.entities[id]![tag] = value
+            var prevValue = game.entities[id]!.getTag(tag)
+            game.entities[id]!.setTag(tag, value)
 
-            if tag == GameTag.CONTROLLER && game.waitController != nil && game.player.id == NSNotFound {
+            if tag == GameTag.CONTROLLER && game.waitController != nil && game.player.id == nil {
                 var player1: Entity?, player2: Entity?
                 for (_, ent) in game.entities {
-                    if ent[GameTag.PLAYER_ID] == 1 {
+                    if ent.getTag(GameTag.PLAYER_ID) == 1 {
                         player1 = ent
-                    } else if ent[GameTag.PLAYER_ID] == 2 {
+                    } else if ent.getTag(GameTag.PLAYER_ID) == 2 {
                         player2 = ent
                     }
                 }
@@ -67,14 +67,14 @@ class TagChangeHandler {
                 }
 
                 if let player1 = player1 {
-                    DDLogInfo("player1 is player : \(player1.isPlayer ? "YES" : "NO")")
+                    DDLogInfo("player1 \(player1.id) is player : \(player1.isPlayer)")
                 }
                 if let player2 = player2 {
-                    DDLogInfo("player2 is player : \(player2.isPlayer ? "YES" : "NO")")
+                    DDLogInfo("player2 \(player2.id) is player : \(player2.isPlayer)")
                 }
             }
 
-            let controller: Int = game.entities[id]![GameTag.CONTROLLER] == nil ? 0 : game.entities[id]![GameTag.CONTROLLER]!
+            let controller: Int = game.entities[id]!.getTag(GameTag.CONTROLLER)
             let cardId = game.entities[id]!.cardId
             //DDLogVerbose("Entity \(id), Controller is \(controller), player is \(game.player.id), opponent is \(game.opponent.id), card \(cardId)")
 
@@ -85,7 +85,7 @@ class TagChangeHandler {
                         prevValue = Zone.DECK.rawValue
                     }
                     if controller == 0 {
-                        game.entities[id]![GameTag.ZONE] = prevValue
+                        game.entities[id]!.setTag(GameTag.ZONE, prevValue)
                         game.waitController = TempEntity(rawTag, id, rawValue)
                         return
                     }
@@ -154,7 +154,7 @@ class TagChangeHandler {
                             game.playerPlay(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
                             game.opponentPlay(game.entities[id]!, cardId: cardId,
-                                    from: game.entities[id]![GameTag.ZONE_POSITION]!, turn: game.turnNumber())
+                                    from: game.entities[id]!.getTag(GameTag.ZONE_POSITION), turn: game.turnNumber())
                         }
 
                     case Zone.REMOVEDFROMGAME,
@@ -165,7 +165,7 @@ class TagChangeHandler {
                         } else if controller == game.opponent.id {
                             game.opponentHandDiscard(game.entities[id]!,
                                     cardId: cardId,
-                                    from: game.entities[id]![GameTag.ZONE_POSITION]!,
+                                    from: game.entities[id]!.getTag(GameTag.ZONE_POSITION),
                                     turn: game.turnNumber())
                         }
 
@@ -174,14 +174,14 @@ class TagChangeHandler {
                             game.playerSecretPlayed(game.entities[id]!, cardId: cardId, turn: game.turnNumber(), fromDeck: false)
                         } else if controller == game.opponent.id {
                             game.opponentSecretPlayed(game.entities[id]!, cardId: cardId,
-                                    from: game.entities[id]![GameTag.ZONE_POSITION]!, turn: game.turnNumber(), fromDeck: false, id: id)
+                                    from: game.entities[id]!.getTag(GameTag.ZONE_POSITION), turn: game.turnNumber(), fromDeck: false, id: id)
                         }
 
                     case Zone.DECK:
                         if controller == game.player.id {
                             game.playerMulligan(game.entities[id]!, cardId: cardId)
                         } else if controller == game.opponent.id {
-                            game.opponentMulligan(game.entities[id]!, from: game.entities[id]![GameTag.ZONE_POSITION]!)
+                            game.opponentMulligan(game.entities[id]!, from: game.entities[id]!.getTag(GameTag.ZONE_POSITION))
                         }
 
                     default:
@@ -210,12 +210,12 @@ class TagChangeHandler {
                          Zone.GRAVEYARD:
                         if controller == game.player.id {
                             game.playerPlayToGraveyard(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
-                            if game.entities[id]![GameTag.HEALTH] != nil {
+                            if game.entities[id]!.hasTag(GameTag.HEALTH) {
                             }
                         } else if controller == game.opponent.id {
                             // TODO gameState.GameHandler.HandleOpponentPlayToGraveyard(game.Entities[id], cardId, gameState.GetTurnNumber(), gameState.PlayersTurn());
                             game.opponentPlayToGraveyard(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
-                            if game.entities[id]![GameTag.HEALTH] != nil {
+                            if game.entities[id]!.hasTag(GameTag.HEALTH) {
                             }
                         }
 
@@ -351,43 +351,49 @@ class TagChangeHandler {
 
             if let _ = recurse {
                 if let waitController = game.waitController {
-                    tagChange(waitController.tag, id: waitController.id, rawValue: waitController.value, recurse: true)
+                    let tag = waitController.tag
+                    let id = waitController.id
+                    let value = waitController.value
                     game.waitController = nil
+                    
+                    tagChange(tag, id: id, rawValue: value, recurse: true)
                 }
             }
         }
     }
 
     func setHeroAsync(id: Int) {
-        DDLogInfo("Found hero with id \(id)")
+        DDLogVerbose("Found hero with id \(id)")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let game = Game.instance
             if game.playerEntity == nil {
-                DDLogInfo("Waiting for playerEntity")
+                DDLogVerbose("Waiting for playerEntity")
                 while game.playerEntity == nil {
                     NSThread.sleepForTimeInterval(0.1)
                 }
-                DDLogInfo("Found playerEntity")
             }
-            if id == game.playerEntity![GameTag.HERO_ENTITY] {
-                dispatch_async(dispatch_get_main_queue()) {
-                    game.setPlayerHero(game.entities[id]!.cardId!)
+            if let playerEntity = game.playerEntity {
+                if id == playerEntity.getTag(GameTag.HERO_ENTITY) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        game.setPlayerHero(game.entities[id]!.cardId!)
+                    }
+                    return
                 }
-                return
             }
-
+            
             if game.opponentEntity == nil {
-                DDLogInfo("Waiting for opponentEntity")
+                DDLogVerbose("Waiting for opponentEntity")
                 while game.opponentEntity == nil {
                     NSThread.sleepForTimeInterval(0.1)
                 }
-                DDLogInfo("Found opponentEntity")
             }
-            if id == game.opponentEntity![GameTag.HERO_ENTITY] {
-                dispatch_async(dispatch_get_main_queue()) {
-                    game.setOpponentHero(game.entities[id]!.cardId!)
+            if let opponentEntity = game.opponentEntity {
+                if id == opponentEntity.getTag(GameTag.HERO_ENTITY) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        game.setOpponentHero(game.entities[id]!.cardId!)
+                    }
+                    return
                 }
-                return
             }
         }
     }
@@ -453,7 +459,10 @@ class TagChangeHandler {
             return TagClass(rawString: rawValue)!.rawValue
 
         default:
-            return Int(rawValue)!
+            if let value = Int(rawValue) {
+                return value
+            }
+            return 0
         }
     }
 }
