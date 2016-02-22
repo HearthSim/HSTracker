@@ -52,7 +52,6 @@
 		439C7EE11C777FA900D29859 /* CardCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED61C777FA900D29859 /* CardCellView.swift */; };
 		439C7EE31C777FA900D29859 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EDC1C777FA900D29859 /* Tracker.swift */; };
 		439C7EE41C777FA900D29859 /* Tracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EDD1C777FA900D29859 /* Tracker.xib */; };
-		439C7EE61C777FC600D29859 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE51C777FC600D29859 /* Language.swift */; };
 		439C7EEA1C777FCF00D29859 /* NSArray+HSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE81C777FCF00D29859 /* NSArray+HSTracker.swift */; };
 		439C7EEB1C777FCF00D29859 /* NSString+HSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE91C777FCF00D29859 /* NSString+HSTracker.swift */; };
 		439C7EEC1C77991100D29859 /* CardSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED71C777FA900D29859 /* CardSize.swift */; };
@@ -135,7 +134,6 @@
 		439C7ED81C777FA900D29859 /* HandCountPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandCountPosition.swift; sourceTree = "<group>"; };
 		439C7EDC1C777FA900D29859 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		439C7EDD1C777FA900D29859 /* Tracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Tracker.xib; sourceTree = "<group>"; };
-		439C7EE51C777FC600D29859 /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		439C7EE81C777FCF00D29859 /* NSArray+HSTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSArray+HSTracker.swift"; sourceTree = "<group>"; };
 		439C7EE91C777FCF00D29859 /* NSString+HSTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+HSTracker.swift"; sourceTree = "<group>"; };
 		439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialConfiguration.xib; sourceTree = "<group>"; };
@@ -265,7 +263,6 @@
 			isa = PBXGroup;
 			children = (
 				439C7EE71C777FCF00D29859 /* Categories */,
-				439C7EE51C777FC600D29859 /* Language.swift */,
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 			);
 			path = Core;
@@ -577,7 +574,6 @@
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */,
 				439C7EC81C777F8900D29859 /* Hearthstone.swift in Sources */,
-				439C7EE61C777FC600D29859 /* Language.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,

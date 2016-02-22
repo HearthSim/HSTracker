@@ -10,11 +10,12 @@
 
 import Cocoa
 
-class LanguageChooser: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
+class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     @IBOutlet var hstrackerLanguage: NSComboBox?
     @IBOutlet var hearthstoneLanguage: NSComboBox?
     @IBOutlet var saveButton: NSButton!
+    @IBOutlet var hearthstonePath: NSTextField!
 
     var completionHandler: (() -> Void)?
 
@@ -44,6 +45,7 @@ class LanguageChooser: NSWindowController, NSComboBoxDataSource, NSComboBoxDeleg
 
         Settings.instance.hearthstoneLanguage = hearthstone
         Settings.instance.hsTrackerLanguage = hstracker
+        Settings.instance.hearthstoneLogPath = hearthstonePath!.stringValue
 
         if let completionHandler = self.completionHandler {
             dispatch_async(dispatch_get_main_queue()) {
@@ -53,6 +55,19 @@ class LanguageChooser: NSWindowController, NSComboBoxDataSource, NSComboBoxDeleg
         self.window!.close()
     }
 
+    @IBAction func choosePath(sender: AnyObject) {
+        let openDialog = NSOpenPanel()
+        openDialog.canChooseDirectories = true
+        openDialog.allowsMultipleSelection = false
+        openDialog.title = NSLocalizedString("Please choose your Hearthstone directory", comment: "")
+        if openDialog.runModal() == NSModalResponseOK {
+            if let url = openDialog.URLs.first {
+                hearthstonePath.stringValue = url.path! + "/Logs"
+            }
+        }
+        checkToEnableSave()
+    }
+    
     // MARK: - NSComboBoxDataSource methods
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
@@ -81,8 +96,12 @@ class LanguageChooser: NSWindowController, NSComboBoxDataSource, NSComboBoxDeleg
     }
     
     func comboBoxSelectionDidChange(notification: NSNotification) {
+        checkToEnableSave()
+    }
+    
+    func checkToEnableSave() {
         if let saveButton = self.saveButton {
-            saveButton.enabled = (hearthstoneLanguage!.indexOfSelectedItem != -1 && hstrackerLanguage!.indexOfSelectedItem != -1)
+            saveButton.enabled = (hearthstoneLanguage!.indexOfSelectedItem != -1 && hstrackerLanguage!.indexOfSelectedItem != -1 && hearthstonePath!.stringValue != "")
         }
     }
 }

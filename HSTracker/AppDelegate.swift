@@ -16,9 +16,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var splashscreen: Splashscreen?
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
-    var language: Language?
+    var initalConfig: InitialConfiguration?
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        /*for (key,_) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
+            NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
+        }
+        NSUserDefaults.standardUserDefaults().synchronize()*/
+        
         if let _ = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_v2") {
             // welcome to HSTracker v2
         } else {
@@ -43,15 +48,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         DDLog.addLogger(fileLogger)
 #endif
 
-        // check for player locale
-        language = Language()
-        DDLogDebug("Is user language set ? : \(language!.isLanguageSet() ? "yes" : "no")")
-        if language!.isLanguageSet() {
+        if Settings.instance.hearthstoneLanguage != nil && Settings.instance.hsTrackerLanguage != nil {
             loadSplashscreen()
         } else {
-            language!.presentLanguageChooserWithCompletion() {
+            initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
+            initalConfig!.completionHandler = {
                 self.loadSplashscreen()
             }
+            initalConfig!.showWindow(nil)
+            initalConfig!.window?.orderFrontRegardless()
         }
     }
 
