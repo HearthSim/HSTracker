@@ -172,6 +172,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		436032991C7B4C34005F1893 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				439C7EEE1C78A71300D29859 /* LanguageChooser.xib */,
+				439C7EF01C78A71300D29859 /* Splashscreen.xib */,
+				439C7ED11C777FA900D29859 /* LanguageChooser.swift */,
+				439C7ED31C777FA900D29859 /* Splashscreen.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
@@ -312,13 +323,10 @@
 		439C7ECD1C777FA900D29859 /* UIs */ = {
 			isa = PBXGroup;
 			children = (
+				436032991C7B4C34005F1893 /* Preferences */,
 				439C7ED41C777FA900D29859 /* Trackers */,
-				439C7EEE1C78A71300D29859 /* LanguageChooser.xib */,
 				439C7EEF1C78A71300D29859 /* MainMenu.xib */,
-				439C7EF01C78A71300D29859 /* Splashscreen.xib */,
 				439C7ECF1C777FA900D29859 /* ImageCache.swift */,
-				439C7ED11C777FA900D29859 /* LanguageChooser.swift */,
-				439C7ED31C777FA900D29859 /* Splashscreen.swift */,
 			);
 			path = UIs;
 			sourceTree = "<group>";
