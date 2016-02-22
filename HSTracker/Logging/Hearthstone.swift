@@ -10,7 +10,7 @@
 
 import Foundation
 
-class Hearthstone {
+class Hearthstone : NSObject {
 
     var logReaderManager: LogReaderManager?
 
@@ -18,8 +18,7 @@ class Hearthstone {
 
     static let instance = Hearthstone()
 
-//MARK: Initialisation
-
+    //MARK: - Initialisation
     func start() {
         setup()
         startListeners()
@@ -27,74 +26,68 @@ class Hearthstone {
     }
 
     func setup() {
-        var zones = ["Zone", "Bob", "Power", "Asset", "Rachelle", "Arena", "LoadingScreen", "Net"]
+        let zones = ["Zone", "Bob", "Power", "Asset", "Rachelle", "Arena", "LoadingScreen", "Net"]
 
         var missingZones = [String]()
-        /*NSMutableString *fileContent;
-        NSError *error;
-        if (![[NSFileManager defaultManager] fileExistsAtPath:[self configPath]]) {
-          NSString *path = [[self configPath] stringByDeletingLastPathComponent];
-          [[NSFileManager defaultManager] createDirectoryAtPath:path
-                                    withIntermediateDirectories:YES
-                                                     attributes:nil
-                                                          error:&error];
 
-          // TODO check error
-
-          missingZones = [NSMutableArray arrayWithArray:zones];
-          fileContent = [NSMutableString string];
-        }
-        else {
-          fileContent = [NSMutableString stringWithContentsOfFile:[self configPath]
-                                                         encoding:NSUTF8StringEncoding
-                                                            error:&error];
-
-          // TODO check error
-          NSArray *lines = [fileContent componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-          NSMutableArray *zoneFound = [NSMutableArray array];
-          for (NSString *zone in zones) {
-            for (NSString *line in lines) {
-              NSString *reg = [NSString stringWithFormat:@"^\\[%@\\]$", zone];
-              if ([line isMatch:RX(reg)]) {
-                DDLogVerbose(@"Found %@", reg);
-                [zoneFound addObject:zone];
-              }
+        var fileContent = ""
+        if !NSFileManager.defaultManager().fileExistsAtPath(self.configPath) {
+            missingZones = zones
+            fileContent = ""
+        } else {
+            do {
+                fileContent = try String(contentsOfFile: self.configPath)
+                var zonesFound = [String]()
+                fileContent.enumerateLines({
+                    (line, stop) -> () in
+                    for zone in zones {
+                        if line.containsString("[\(zone)]") {
+                            zonesFound.append(zone)
+                            DDLogVerbose("Found \(zone)")
+                        }
+                    }
+                })
+                for zone in zones {
+                    if !zonesFound.contains(zone) {
+                        missingZones.append(zone)
+                    }
+                }
+            } catch {
             }
-          }
-          missingZones = [NSMutableArray arrayWithArray:zones];
-          [missingZones removeObjectsInArray:zoneFound];
+
         }
 
-        DDLogVerbose(@"Missing zones : %@", missingZones);
-        if ([missingZones count] > 0) {
-          for (NSString *zone in zones) {
-            [fileContent appendString:[NSString stringWithFormat:@"\n[%@]", zone]];
-            [fileContent appendString:@"\nLogLevel=1"];
-            [fileContent appendString:@"\nFilePrinting=true"];
-            [fileContent appendString:@"\nConsolePrinting=false"];
-            [fileContent appendString:@"\nScreenPrinting=false"];
-          }
-          [fileContent writeToFile:[self configPath]
-                        atomically:YES
-                          encoding:NSUTF8StringEncoding
-                             error:&error];
+        DDLogVerbose("Missing zones : \(missingZones)")
+        if missingZones.count > 0 {
+            for zone in missingZones {
+                fileContent += "\n[\(zone)]"
+                        + "\nLogLevel=1"
+                        + "\nFilePrinting=true"
+                        + "\nConsolePrinting=false"
+                        + "\nScreenPrinting=false"
+            }
+            do {
+                try fileContent.writeToFile(self.configPath, atomically: true, encoding: NSUTF8StringEncoding)
+            } catch {
+                // TODO error handling
+            }
 
-          if ([self isHearthstoneRunning]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSAlert *alert = [NSAlert new];
-                [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-                [alert setInformativeText:NSLocalizedString(@"You must restart Hearthstone for logs to be used", nil)];
-                [alert setAlertStyle:NSInformationalAlertStyle];
-                [[NSRunningApplication currentApplication] activateWithOptions:NSApplicationActivateIgnoringOtherApps | NSApplicationActivateAllWindows];
-                [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-                [alert runModal];
-            });
-          }
-        }*/
+            if isHearthstoneRunning {
+                dispatch_async(dispatch_get_main_queue()) {
+                    let alert = NSAlert()
+                    alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                    alert.informativeText = NSLocalizedString("You must restart Hearthstone for logs to be used", comment: "")
+                    alert.alertStyle = NSAlertStyle.InformationalAlertStyle
+                    NSRunningApplication.currentApplication().activateWithOptions([NSApplicationActivationOptions.ActivateAllWindows, NSApplicationActivationOptions.ActivateIgnoringOtherApps])
+                    NSApplication.sharedApplication().activateIgnoringOtherApps(true)
+                    alert.runModal()
+                }
+            }
+        }
     }
 
     func startTracking() {
-        self.logReaderManager! = LogReaderManager()
+        self.logReaderManager = LogReaderManager()
         self.logReaderManager!.start()
     }
 
@@ -107,7 +100,7 @@ class Hearthstone {
         logReaderManager!.start()
     }
 
-    // observe for HS starting/leaving
+    //MARK: - Events
     func startListeners() {
         let notificationCenter = NSWorkspace.sharedWorkspace().notificationCenter
         notificationCenter.addObserver(self,

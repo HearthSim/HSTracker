@@ -19,14 +19,15 @@ class Card: NSManagedObject {
     @NSManaged var faction: String
     @NSManaged var flavor: String
     @NSManaged var health: Int
-    @NSManaged var lang: String
     @NSManaged var name: String
+    @NSManaged var enName: String
     @NSManaged var playerClass: String
     @NSManaged var rarity: String
     @NSManaged var set: String
     @NSManaged var text: String
     @NSManaged var type: String
     @NSManaged var mechanics: Set<CardMechanic>
+    @NSManaged var isStandard: Bool
 
     var count: Int = 0
     var handCount: Int = 0
@@ -41,17 +42,14 @@ class Card: NSManagedObject {
     var highlightInHand: Bool = false
 
     class func byId(cardId: String) -> Card? {
-        // TODO lang
-        let lang = "frFR"
-        return Card.MR_findFirstWithPredicate(NSPredicate(format: "cardId = %@ and lang = %@", cardId, lang))!
+        return Card.MR_findFirstWithPredicate(NSPredicate(format: "cardId = %@ and", cardId))
     }
 
     var englishName: String {
-        if lang == "enUS" {
+        if let language = Settings.instance.hearthstoneLanguage where language == "enUS" {
             return self.name
         }
-        let card = Card.MR_findFirstWithPredicate(NSPredicate(format: "cardId = %@ and lang = %@", self.cardId, "enUS"))
-        return card!.name
+        return self.enName
     }
 
 }

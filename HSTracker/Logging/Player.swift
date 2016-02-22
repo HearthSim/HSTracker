@@ -75,6 +75,7 @@ class Player {
             }
         }];
         return cards;*/
+        return [Card]()
     }
 
     func displayReveleadCards() -> [Card] {
@@ -101,6 +102,7 @@ class Player {
           }
         }
         return [[temp allValues] sortCardList];*/
+        return [Card]()
     }
 
     func displayCards() -> [Card] {
@@ -206,6 +208,7 @@ class Player {
 
         //return stillInDeck.Concat(notInDeck).Concat(createdInHand).ToSortedCardList();
         return [[stillInDeck arrayByAddingObjectsFromArray:createdInHand] sortCardList];*/
+        return [Card]()
     }
 
     func reset() {

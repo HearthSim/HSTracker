@@ -30,10 +30,15 @@ class LanguageChooser: NSWindowController, NSComboBoxDataSource {
         hearthstoneLanguage!.usesDataSource = true
         hearthstoneLanguage!.dataSource = self
     }
+    
+    // MARK: - Button actions
+    @IBAction func exit(sender: AnyObject) {
+        NSApplication.sharedApplication().terminate(nil)
+    }
 
     @IBAction func save(sender: AnyObject) {
         let hstracker = hstrackerLanguages[hstrackerLanguage!.indexOfSelectedItem]
-        let hearthstone = hearthstoneLanguages[hearthstoneLanguage!.indexOfSelectedItem]
+        let hearthstone = hsLanguages[hearthstoneLanguage!.indexOfSelectedItem]
 
         Settings.instance.hearthstoneLanguage = hearthstone
         Settings.instance.hsTrackerLanguage = hstracker
@@ -67,7 +72,7 @@ class LanguageChooser: NSWindowController, NSComboBoxDataSource {
 
         if let language = language {
             let locale = NSLocale(localeIdentifier: language)
-            return locale.displayNameForKey(NSLocaleIdentifier, value: language)!
+            return locale.displayNameForKey(NSLocaleIdentifier, value: language)!.capitalizedString
         } else {
             return ""
         }

@@ -16,7 +16,7 @@ class Language {
     }
 
     func presentLanguageChooserWithCompletion(completion: () -> Void) {
-        languageChooser = LanguageChooser()
+        languageChooser = LanguageChooser(windowNibName: "LanguageChooser")
         languageChooser!.completionHandler = completion
         languageChooser!.showWindow(nil)
         languageChooser!.window?.orderFrontRegardless()

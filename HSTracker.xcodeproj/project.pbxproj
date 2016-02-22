@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3051E5FC75FE21E9802087D0 /* Pods_HSTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */; };
+		436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E511C7772C000D29859 /* HSTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4F1C7772C000D29859 /* HSTracker.xcdatamodeld */; };
 		439C7E531C7772C000D29859 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E521C7772C000D29859 /* Assets.xcassets */; };
@@ -81,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		439C7E501C7772C000D29859 /* HSTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HSTracker.xcdatamodel; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			children = (
 				439C7E7B1C777CD500D29859 /* Models */,
 				439C7E8C1C777D1C00D29859 /* Database.swift */,
+				436032971C79D59C005F1893 /* ImageDownloader.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
 				439C7EEB1C777FCF00D29859 /* NSString+HSTracker.swift in Sources */,
+				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				439C7EE11C777FA900D29859 /* CardCellView.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
@@ -710,6 +714,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_SWIFT_FLAGS = "-DDEBUG $(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -725,6 +730,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";

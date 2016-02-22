@@ -12,20 +12,6 @@ class Settings {
 
     static let instance = Settings()
 
-    private init() {
-        initDefaults()
-    }
-
-    func initDefaults() {
-        NSUserDefaults.standardUserDefaults().registerDefaults([
-                "flash_color": NSArchiver.archivedDataWithRootObject(NSColor(red: 55, green: 189, blue: 223, alpha: 1)),
-                "card_size": CardSize.Big.rawValue,
-                "rarity_colors": true,
-                "show_one_card": false,
-                "in_hand_as_played": false,
-                "window_locked": true,
-        ])
-    }
     var flashColor: NSColor {
         set {
             NSUserDefaults.standardUserDefaults().setObject(NSArchiver.archivedDataWithRootObject(newValue), forKey: "flash_color")
@@ -97,7 +83,7 @@ class Settings {
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         get {
-            if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_language") as? Int {
+            if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("database_version") as? Int {
                 return returnValue
             } else {
                 return 0
