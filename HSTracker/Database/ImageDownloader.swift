@@ -36,7 +36,7 @@ class ImageDownloader {
                 semaphore = dispatch_semaphore_create(0)
                 let total = Double(images.count)
                 dispatch_async(dispatch_get_main_queue()) {
-                    splashscreen.display("Downloading images", total: total)
+                    splashscreen.display(NSLocalizedString("Downloading images", comment: ""), total: total)
                 }
                 
                 downloadImages(images, language: lang.lowercaseString, destination: destination, splashscreen: splashscreen)
@@ -57,7 +57,7 @@ class ImageDownloader {
         
         if let image = images.popLast() {
             dispatch_async(dispatch_get_main_queue()) {
-                splashscreen.increment("Downloading \(image).png")
+                splashscreen.increment(String(format: NSLocalizedString("Downloading %@.png", comment: ""), image))
             }
             
             let path = "\(destination)/HSTracker/cards/\(image).png"

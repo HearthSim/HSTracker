@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="hearthstoneLanguage" destination="dKf-yJ-Fmy" id="EQs-ll-15I"/>
                 <outlet property="hstrackerLanguage" destination="oTb-hA-tu9" id="F9i-ma-kBI"/>
+                <outlet property="saveButton" destination="VwM-gj-cGE" id="pfN-VW-TuA"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="9bH-bO-Ztr"/>
             </connections>
         </customObject>
@@ -39,23 +40,31 @@
                     </textField>
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oTb-hA-tu9">
                         <rect key="frame" x="180" y="92" width="197" height="26"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="ibM-Ew-QoU">
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="ibM-Ew-QoU">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </comboBoxCell>
+                        <connections>
+                            <outlet property="dataSource" destination="-2" id="9F5-EZ-gK2"/>
+                            <outlet property="delegate" destination="-2" id="ZeA-uz-usx"/>
+                        </connections>
                     </comboBox>
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dKf-yJ-Fmy">
                         <rect key="frame" x="180" y="67" width="197" height="26"/>
-                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="Dsu-X3-SXO">
+                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="Dsu-X3-SXO">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </comboBoxCell>
+                        <connections>
+                            <outlet property="dataSource" destination="-2" id="dOa-XO-bbI"/>
+                            <outlet property="delegate" destination="-2" id="A8e-tN-t81"/>
+                        </connections>
                     </comboBox>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VwM-gj-cGE">
                         <rect key="frame" x="290" y="18" width="84" height="25"/>
-                        <buttonCell key="cell" type="roundTextured" title="Save" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qo1-rO-693">
+                        <buttonCell key="cell" type="roundTextured" title="Save" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qo1-rO-693">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>

@@ -42,7 +42,7 @@ class Database {
                     let cards: [[String:AnyObject]] = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [[String:AnyObject]]
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        splashscreen.display("Loading \(lang) cards", total: Double(cards.count))
+                        splashscreen.display(String(format: NSLocalizedString("Loading %@ cards", comment: ""), lang), total: Double(cards.count))
                     }
 
                     for jsonCard in cards {

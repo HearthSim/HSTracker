@@ -10,10 +10,11 @@
 
 import Cocoa
 
-class LanguageChooser: NSWindowController, NSComboBoxDataSource {
+class LanguageChooser: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     @IBOutlet var hstrackerLanguage: NSComboBox?
     @IBOutlet var hearthstoneLanguage: NSComboBox?
+    @IBOutlet var saveButton: NSButton!
 
     var completionHandler: (() -> Void)?
 
@@ -24,11 +25,12 @@ class LanguageChooser: NSWindowController, NSComboBoxDataSource {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        hstrackerLanguage!.usesDataSource = true
-        hstrackerLanguage!.dataSource = self
-
-        hearthstoneLanguage!.usesDataSource = true
-        hearthstoneLanguage!.dataSource = self
+        if let hearthstoneLanguage = self.hearthstoneLanguage {
+            hearthstoneLanguage.reloadData()
+        }
+        if let hstrackerLanguage = self.hstrackerLanguage {
+            hstrackerLanguage.reloadData()
+        }
     }
     
     // MARK: - Button actions
@@ -75,6 +77,12 @@ class LanguageChooser: NSWindowController, NSComboBoxDataSource {
             return locale.displayNameForKey(NSLocaleIdentifier, value: language)!.capitalizedString
         } else {
             return ""
+        }
+    }
+    
+    func comboBoxSelectionDidChange(notification: NSNotification) {
+        if let saveButton = self.saveButton {
+            saveButton.enabled = (hearthstoneLanguage!.indexOfSelectedItem != -1 && hstrackerLanguage!.indexOfSelectedItem != -1)
         }
     }
 }

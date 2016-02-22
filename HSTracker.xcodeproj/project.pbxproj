@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3051E5FC75FE21E9802087D0 /* Pods_HSTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */; };
 		436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
+		4360329A1C7B6578005F1893 /* LanguageChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* LanguageChooser.swift */; };
+		4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E511C7772C000D29859 /* HSTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4F1C7772C000D29859 /* HSTracker.xcdatamodeld */; };
 		439C7E531C7772C000D29859 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E521C7772C000D29859 /* Assets.xcassets */; };
@@ -47,8 +49,6 @@
 		439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EB11C777F8900D29859 /* LogReaderManager.swift */; };
 		439C7ECC1C777F8900D29859 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EB31C777F8900D29859 /* Player.swift */; };
 		439C7EDE1C777FA900D29859 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ECF1C777FA900D29859 /* ImageCache.swift */; };
-		439C7EDF1C777FA900D29859 /* LanguageChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* LanguageChooser.swift */; };
-		439C7EE01C777FA900D29859 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
 		439C7EE11C777FA900D29859 /* CardCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED61C777FA900D29859 /* CardCellView.swift */; };
 		439C7EE31C777FA900D29859 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EDC1C777FA900D29859 /* Tracker.swift */; };
 		439C7EE41C777FA900D29859 /* Tracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EDD1C777FA900D29859 /* Tracker.xib */; };
@@ -554,10 +554,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */,
+				4360329A1C7B6578005F1893 /* LanguageChooser.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
 				439C7E511C7772C000D29859 /* HSTracker.xcdatamodeld in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
-				439C7EDF1C777FA900D29859 /* LanguageChooser.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
 				439C7EED1C77997000D29859 /* HandCountPosition.swift in Sources */,
 				439C7EEC1C77991100D29859 /* CardSize.swift in Sources */,
@@ -580,7 +581,6 @@
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
-				439C7EE01C777FA900D29859 /* Splashscreen.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
