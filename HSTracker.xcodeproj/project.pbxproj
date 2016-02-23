@@ -262,6 +262,7 @@
 		439C7E901C777EE800D29859 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				439C7EE71C777FCF00D29859 /* Categories */,
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 			);
 			path = Core;
@@ -270,7 +271,6 @@
 		439C7E931C777F8900D29859 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
-				439C7EE71C777FCF00D29859 /* Categories */,
 				439C7E961C777F8900D29859 /* Enums */,
 				439C7EA21C777F8900D29859 /* Handlers */,
 				439C7E941C777F8900D29859 /* CardEntity.swift */,
@@ -346,8 +346,7 @@
 				439C7EE81C777FCF00D29859 /* NSArray+HSTracker.swift */,
 				439C7EE91C777FCF00D29859 /* NSString+HSTracker.swift */,
 			);
-			name = Categories;
-			path = ../Core/Categories;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		82F55DC1DE1DEEB878F5386E /* Pods */ = {
