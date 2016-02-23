@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
     var initalConfig: InitialConfiguration?
+    var deckManager: DeckManager?
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         /*for (key,_) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
@@ -131,6 +132,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
+
+    }
+    
+    // MARK: - Menu
+    @IBAction func openDeckManager(sender: AnyObject) {
+        let storyBoard = NSStoryboard(name: "DeckManager", bundle: nil)
+        deckManager = storyBoard.instantiateControllerWithIdentifier("deckManager") as? DeckManager
+        deckManager?.showWindow(self)
 
     }
 
