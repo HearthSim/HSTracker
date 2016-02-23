@@ -17,12 +17,14 @@ enum PlayerType: Int {
 class Game {
     var currentTurn: Int = 0
     var currentRank: Int = 0
+    var maxId: Int = 0
 
     var player: Player
     var opponent: Player
     var gameMode: GameMode = .Unknow
     var entities = [Int: Entity]()
     var tmpEntities = [Entity]()
+    var knownCardIds = [Int: String]()
     var joustReveals: Int = 0
     var rankFound: Bool = false
     var awaitingRankedDetection: Bool = true
@@ -35,6 +37,9 @@ class Game {
     var waitingForFirstAssetUnload: Bool = true
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
+    var lastCardPlayed: Int?
+    var activeDeck: Deck?
+    var currentEntityId = Int.min
     
     static let instance = Game()
 
@@ -45,6 +50,7 @@ class Game {
 
     func reset() {
         DDLogVerbose("Reseting Game")
+        maxId = 0
         currentTurn = -1
         entities.removeAll()
         tmpEntities.removeAll()
@@ -56,6 +62,7 @@ class Game {
         waitController = nil
         gameStarted = false
         gameResult = GameResult.Unknow;
+        knownCardIds.removeAll()
         gameStartDate = nil
         gameEndDate = nil
 
@@ -467,6 +474,7 @@ class Game {
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.play(entity, turn: turn)
+        DDLogVerbose("player opponent play tracker -> \(opponentTracker)")
         if let tracker = opponentTracker {
             tracker.update()
         }

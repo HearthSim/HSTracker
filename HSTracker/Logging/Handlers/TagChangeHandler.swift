@@ -13,8 +13,12 @@ class TagChangeHandler {
     var playerUsedHeroPower: Bool = false
     var opponentUsedHeroPower: Bool = false
 
-    func tagChange(rawTag: String, id: Int, rawValue: String, recurse: Bool? = false) {
+    func tagChange(rawTag: String, _ id: Int, _ rawValue: String, _ recurse: Bool? = false) {
         let game = Game.instance
+        if id > game.maxId {
+            game.maxId = id
+        }
+        
         if game.entities[id] == nil {
             game.entities[id] = Entity(id)
         }
@@ -36,14 +40,9 @@ class TagChangeHandler {
             game.entities[id]!.setTag(tag, value)
 
             if tag == GameTag.CONTROLLER && game.waitController != nil && game.player.id == nil {
-                var player1: Entity?, player2: Entity?
-                for (_, ent) in game.entities {
-                    if ent.getTag(GameTag.PLAYER_ID) == 1 {
-                        player1 = ent
-                    } else if ent.getTag(GameTag.PLAYER_ID) == 2 {
-                        player2 = ent
-                    }
-                }
+                let player1: Entity? = Array(game.entities.values).filter {$0.getTag(GameTag.PLAYER_ID) == 1 }.first
+                let player2: Entity? = Array(game.entities.values).filter {$0.getTag(GameTag.PLAYER_ID) == 2 }.first
+
                 if self.currentEntityHasCardId {
                     if let player1 = player1 {
                         player1.isPlayer = (value == 1)
@@ -96,6 +95,7 @@ class TagChangeHandler {
                     switch Zone(rawValue: value)! {
                     case .HAND:
                         if controller == game.player.id {
+                            //DDLogVerbose("player draw \(cardId) -> \(game.entities[id])")
                             game.playerDraw(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
                             if let _cardId = game.entities[id]!.cardId where _cardId.isEmpty {
@@ -105,8 +105,8 @@ class TagChangeHandler {
                             game.opponentDraw(game.entities[id]!, turn: game.turnNumber())
                         }
 
-                    case Zone.REMOVEDFROMGAME,
-                         Zone.SETASIDE:
+                    case .REMOVEDFROMGAME,
+                         .SETASIDE:
                         if controller == game.player.id {
                             if game.joustReveals > 0 {
                                 game.joustReveals -= 1;
@@ -121,25 +121,25 @@ class TagChangeHandler {
                             game.opponentRemoveFromDeck(game.entities[id]!, turn: game.turnNumber())
                         }
 
-                    case Zone.GRAVEYARD:
+                    case .GRAVEYARD:
                         if controller == game.player.id {
                             game.playerDeckDiscard(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
                             game.opponentDeckDiscard(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         }
 
-                    case Zone.PLAY:
+                    case .PLAY:
                         if controller == game.player.id {
                             game.playerDeckToPlay(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
                             game.opponentDeckToPlay(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         }
 
-                    case Zone.SECRET:
+                    case .SECRET:
                         if controller == game.player.id {
                             game.playerSecretPlayed(game.entities[id]!, cardId: cardId, turn: game.turnNumber(), fromDeck: true)
                         } else if controller == game.opponent.id {
-                            game.opponentSecretPlayed(game.entities[id]!, cardId: cardId, from: 1, turn: game.turnNumber(), fromDeck: true, id: id)
+                            game.opponentSecretPlayed(game.entities[id]!, cardId: cardId, from: -1, turn: game.turnNumber(), fromDeck: true, id: id)
                         }
 
                     default:
@@ -147,9 +147,9 @@ class TagChangeHandler {
                         break
                     }
 
-                case Zone.HAND:
+                case .HAND:
                     switch Zone(rawValue: value)! {
-                    case Zone.PLAY:
+                    case .PLAY:
                         if controller == game.player.id {
                             game.playerPlay(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
@@ -157,9 +157,9 @@ class TagChangeHandler {
                                     from: game.entities[id]!.getTag(GameTag.ZONE_POSITION), turn: game.turnNumber())
                         }
 
-                    case Zone.REMOVEDFROMGAME,
-                         Zone.SETASIDE,
-                         Zone.GRAVEYARD:
+                    case .REMOVEDFROMGAME,
+                         .SETASIDE,
+                         .GRAVEYARD:
                         if controller == game.player.id {
                             game.playerHandDiscard(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
@@ -169,7 +169,7 @@ class TagChangeHandler {
                                     turn: game.turnNumber())
                         }
 
-                    case Zone.SECRET:
+                    case .SECRET:
                         if controller == game.player.id {
                             game.playerSecretPlayed(game.entities[id]!, cardId: cardId, turn: game.turnNumber(), fromDeck: false)
                         } else if controller == game.opponent.id {
@@ -177,7 +177,7 @@ class TagChangeHandler {
                                     from: game.entities[id]!.getTag(GameTag.ZONE_POSITION), turn: game.turnNumber(), fromDeck: false, id: id)
                         }
 
-                    case Zone.DECK:
+                    case .DECK:
                         if controller == game.player.id {
                             game.playerMulligan(game.entities[id]!, cardId: cardId)
                         } else if controller == game.opponent.id {
@@ -189,25 +189,25 @@ class TagChangeHandler {
                         break
                     }
 
-                case Zone.PLAY:
+                case .PLAY:
                     switch Zone(rawValue: value)! {
-                    case Zone.HAND:
+                    case .HAND:
                         if controller == game.player.id {
                             game.playerBackToHand(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
                             game.opponentPlayToHand(game.entities[id]!, cardId: cardId, turn: game.turnNumber(), id: id)
                         }
 
-                    case Zone.DECK:
+                    case .DECK:
                         if controller == game.player.id {
                             game.playerPlayToDeck(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
                             game.opponentPlayToDeck(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         }
 
-                    case Zone.REMOVEDFROMGAME,
-                         Zone.SETASIDE,
-                         Zone.GRAVEYARD:
+                    case .REMOVEDFROMGAME,
+                         .SETASIDE,
+                         .GRAVEYARD:
                         if controller == game.player.id {
                             game.playerPlayToGraveyard(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                             if game.entities[id]!.hasTag(GameTag.HEALTH) {
@@ -224,10 +224,10 @@ class TagChangeHandler {
                         break
                     }
 
-                case Zone.SECRET:
+                case .SECRET:
                     switch Zone(rawValue: value)! {
-                    case Zone.SECRET,
-                         Zone.GRAVEYARD:
+                    case .SECRET,
+                         .GRAVEYARD:
                         if controller == game.player.id {
                         } else if controller == game.opponent.id {
                             game.opponentSecretTrigger(game.entities[id]!, cardId: cardId, turn: game.turnNumber(), id: id)
@@ -238,20 +238,20 @@ class TagChangeHandler {
                         break
                     }
 
-                case Zone.GRAVEYARD,
-                     Zone.SETASIDE,
-                     Zone.CREATED,
-                     Zone.INVALID,
-                     Zone.REMOVEDFROMGAME:
+                case .GRAVEYARD,
+                     .SETASIDE,
+                     .CREATED,
+                     .INVALID,
+                     .REMOVEDFROMGAME:
                     switch Zone(rawValue: value)! {
-                    case Zone.PLAY:
+                    case .PLAY:
                         if controller == game.player.id {
                             game.playerCreateInPlay(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
                             game.opponentCreateInPlay(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         }
 
-                    case Zone.DECK:
+                    case .DECK:
                         if controller == game.player.id {
                             if game.joustReveals > 0 {
                                 break
@@ -264,7 +264,7 @@ class TagChangeHandler {
                             game.opponentGetToDeck(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         }
 
-                    case Zone.HAND:
+                    case .HAND:
                         if controller == game.player.id {
                             game.playerGet(game.entities[id]!, cardId: cardId, turn: game.turnNumber())
                         } else if controller == game.opponent.id {
@@ -314,7 +314,7 @@ class TagChangeHandler {
                     self.opponentUsedHeroPower = false
                 }
             } else if tag == GameTag.LAST_CARD_PLAYED {
-                //gameState.LastCardPlayed = value;
+                game.lastCardPlayed = value
             } else if tag == GameTag.DEFENDING {
             } else if tag == GameTag.ATTACKING {
             } else if tag == GameTag.PROPOSED_DEFENDER {
@@ -356,7 +356,7 @@ class TagChangeHandler {
                     let value = waitController.value
                     game.waitController = nil
                     
-                    tagChange(tag, id: id, rawValue: value, recurse: true)
+                    tagChange(tag, id, value, true)
                 }
             }
         }
@@ -397,38 +397,40 @@ class TagChangeHandler {
             }
         }
     }
+    
+
 
     // parse an entity
     func parseEntity(entity: String) -> (id:Int?, zonePos:Int?, player:Int?, name:String?, zone:String?, cardId:String?, type:String?) {
         var id: Int?, zonePos: Int?, player: Int?
-        if entity.isMatch(NSRegularExpression.rx("id=(\\d+)")) {
-            let match = entity.firstMatchWithDetails(NSRegularExpression.rx("id=(\\d+)"))
+        if entity.isMatch(PowerGameStateHandler.ParseEntityIDRegex) {
+            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityIDRegex)
             id = Int(match.groups[1].value)
         }
-        if entity.isMatch(NSRegularExpression.rx("zonePos=(\\d+)")) {
-            let match = entity.firstMatchWithDetails(NSRegularExpression.rx("zonePos=(\\d+)"))
+        if entity.isMatch(PowerGameStateHandler.ParseEntityZonePosRegex) {
+            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityZonePosRegex)
             zonePos = Int(match.groups[1].value)
         }
-        if entity.isMatch(NSRegularExpression.rx("player=(\\d+)")) {
-            let match = entity.firstMatchWithDetails(NSRegularExpression.rx("player=(\\d+)"))
+        if entity.isMatch(PowerGameStateHandler.ParseEntityPlayerRegex) {
+            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityPlayerRegex)
             player = Int(match.groups[1].value)
         }
 
         var name: String?, zone: String?, cardId: String?, type: String?
-        if entity.isMatch(NSRegularExpression.rx("name=(\\d+)")) {
-            let match = entity.firstMatchWithDetails(NSRegularExpression.rx("name=(\\d+)"))
+        if entity.isMatch(PowerGameStateHandler.ParseEntityNameRegex) {
+            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityNameRegex)
             name = match.groups[1].value
         }
-        if entity.isMatch(NSRegularExpression.rx("zone=(\\d+)")) {
-            let match = entity.firstMatchWithDetails(NSRegularExpression.rx("zone=(\\d+)"))
+        if entity.isMatch(PowerGameStateHandler.ParseEntityZoneRegex) {
+            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityZoneRegex)
             zone = match.groups[1].value
         }
-        if entity.isMatch(NSRegularExpression.rx("cardId=(\\d+)")) {
-            let match = entity.firstMatchWithDetails(NSRegularExpression.rx("cardId=(\\d+)"))
+        if entity.isMatch(PowerGameStateHandler.ParseEntityCardIDRegex) {
+            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityCardIDRegex)
             cardId = match.groups[1].value
         }
-        if entity.isMatch(NSRegularExpression.rx("type=(\\d+)")) {
-            let match = entity.firstMatchWithDetails(NSRegularExpression.rx("type=(\\d+)"))
+        if entity.isMatch(PowerGameStateHandler.ParseEntityTypeRegex) {
+            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityTypeRegex)
             type = match.groups[1].value
         }
 

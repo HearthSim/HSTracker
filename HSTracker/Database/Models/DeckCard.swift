@@ -15,5 +15,6 @@ class DeckCard: NSManagedObject {
 
     @NSManaged var cardId: String
     @NSManaged var count: Int
+    @NSManaged var deck: Deck
 
 }

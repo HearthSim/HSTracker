@@ -78,16 +78,16 @@ class ImageCache {
     static func imageNamed(path: String, from: FromDestination) -> NSImage? {
         switch from {
         case .Bundle:
-            let fullPath = NSBundle.mainBundle().resourcePath! + path
-            DDLogVerbose("Opening image \(fullPath)")
+            let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(path)"
+            //DDLogVerbose("Opening image \(fullPath)")
             return NSImage(contentsOfFile: fullPath)
 
         case .Assets:
-            DDLogVerbose("Opening image \(path)")
+            //DDLogVerbose("Opening image \(path)")
             return NSImage(named: path)
 
         case .Path:
-            DDLogVerbose("Opening image \(path)")
+            //DDLogVerbose("Opening image \(path)")
             return NSImage(contentsOfFile: path)
         }
     }

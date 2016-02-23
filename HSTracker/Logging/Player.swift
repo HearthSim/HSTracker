@@ -21,6 +21,7 @@ class Player {
     var drawnCardIds = [String]()
     var drawnCardIdsTotal = [String]()
     var createdInHandCardIds = [String]()
+    var hightlightedCards = [String]()
     var isLocalPlayer: Bool
     var id: Int?
     var playerClass: Card?
@@ -55,161 +56,176 @@ class Player {
     }
 
     func drawnCards() -> [Card] {
-        /*NSArray *tmp = [self._drawnCardIds filteredArrayUsingPredicate:
-          [NSPredicate predicateWithFormat:@"name.length > 0"]];
-        NSMutableArray *cards = [NSMutableArray array];
-        [tmp enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            Card *card = [Card byId:obj];
-            if (card && ![card.name isEqualToString:@"UNKNOWN"]) {
-              PlayCard *playCard = [[cards filteredArrayUsingPredicate:
-                [NSPredicate predicateWithFormat:@"self.card.cardId = %@", obj]] firstObject];
-              if (playCard) {
-                playCard.count += 1;
-              }
-              else {
-                playCard = [[PlayCard alloc] init];
-                playCard.count = 1;
-                playCard.card = card;
-                [cards addObject:playCard];
-              }
+        let tmp = drawnCardIds.filter { !$0.isEmpty }
+        var cards = [String: Card]()
+        tmp.forEach { (cardId) -> () in
+            if let card = cards[cardId] {
+                card.count += 1
+            } else if let card = Card.byId(cardId) {
+                card.count = 1
+                cards[cardId] = card
             }
-        }];
-        return cards;*/
-        return [Card]()
+        }
+        
+        return Array(cards.values)
     }
 
     func displayReveleadCards() -> [Card] {
-        /*NSMutableDictionary *temp = [NSMutableDictionary dictionary];
-        Settings *settings = [Settings instance];
-
-        for (CardEntity *cardEntity in self._revealedCards) {
-          if (cardEntity.cardId != nil && ![cardEntity.cardId isEmpty]) {
-            if (temp[cardEntity.cardId]) {
-              ((PlayCard *) temp[cardEntity.cardId]).count += 1;
+        var cards = [String: Card]()
+        revealedCards.forEach { (cardEntity) -> () in
+            if let cardId = cardEntity.cardId where !cardId.isEmpty {
+                if let card = cards[cardId] {
+                    card.count += 1
+                }
+                else if let card = Card.byId(cardId) {
+                    card.count = 1
+                    card.jousted = (cardEntity.inHand || cardEntity.inDeck)
+                    card.isCreated = cardEntity.created
+                    card.wasDiscarded = cardEntity.discarded && Settings.instance.highlightDiscarded
+                    cards[cardId] = card
+                }
             }
-            else {
-              Card *card = [Card byId:cardEntity.cardId];
-              if (card && ![card.name isEqualToString:@"UNKNOWN"]) {
-                PlayCard *playCard = [[PlayCard alloc] init];
-                playCard.card = card;
-                playCard.count = 1;
-                playCard.jousted = (cardEntity.inHand || cardEntity.inDeck);
-                playCard.isCreated = cardEntity.created;
-                playCard.wasDiscarded = cardEntity.discarded && settings.highlightDiscarded;
-                temp[cardEntity.cardId] = playCard;
-              }
-            }
-          }
         }
-        return [[temp allValues] sortCardList];*/
-        return [Card]()
+        
+        return Array(cards.values).sortCardList()
     }
 
     func displayCards() -> [Card] {
-        /*NSMutableDictionary *temp = [NSMutableDictionary dictionary];
-        for (NSString *str in self._createdInHandCardIds) {
-          if (temp[str]) {
-            ((PlayCard *) temp[str]).count += 1;
-          }
-          else {
-            Card *card = [Card byId:str];
-            if (card) {
-              PlayCard *playCard = [[PlayCard alloc] init];
-              playCard.card = card;
-              playCard.count = 1;
-              playCard.isCreated = YES;
-              temp[str] = playCard;
+        var drawnCards = self.drawnCards()
+        
+        var cards = [String: Card]()
+        createdInHandCardIds.forEach { (cardId) -> () in
+            if let card = cards[cardId] {
+                card.count += 1
+            } else if let card = Card.byId(cardId) {
+                card.count = 1
+                card.isCreated = true
+                cards[cardId] = card
             }
-          }
         }
-        NSArray *createdInHand = [temp allValues];
-        [temp removeAllObjects];
-
-        BOOL tmpBool = NO;
-        if (tmpBool) {
-          return [[[self drawnCards] arrayByAddingObjectsFromArray:createdInHand] sortCardList];
+        
+        let createdInHand = Array(cards.values)
+        guard let _ = Game.instance.activeDeck else {
+            drawnCards.appendContentsOf(createdInHand)
+            return drawnCards.sortCardList()
         }
-
-        for (CardEntity *ce in self._deck) {
-          if (ce.cardId != nil && ![ce.cardId isEmpty]) {
-            if (temp[ce.cardId]) {
-              ((PlayCard *) temp[ce.cardId]).count += 1;
-            }
-            else {
-              Card *card = [Card byId:ce.cardId];
-              if (card) {
-                PlayCard *playCard = [[PlayCard alloc] init];
-                playCard.card = card;
-                playCard.count = 1;
-                playCard.isCreated = ce.cardMark == ECardMark_Created;
-                //playCard.highlightDraw = [self._hightlightedCards containsObject:ce.cardId];
-                BOOL highlightInHand = NO;
-                for (CardEntity *cardEntity in self._hand) {
-                  if ([cardEntity.cardId isEqualToString:ce.cardId]) {
-                    highlightInHand = YES;
-                    break;
-                  }
+        
+        cards.removeAll()
+        deck.forEach { (cardEntity) -> () in
+            if let cardId = cardEntity.cardId where !cardId.isEmpty {
+                if let card = cards[cardId] {
+                    card.count += 1
                 }
-                playCard.highlightInHand = highlightInHand;
-                temp[ce.cardId] = playCard;
-              }
+                else if let card = Card.byId(cardId) {
+                    card.count = 1
+                    card.isCreated = cardEntity.cardMark == .Created
+                    card.highlightDraw = hightlightedCards.contains(cardId)
+                    var highlightInHand = false
+                    hand.forEach({ (ce) -> () in
+                        if let cardId = ce.cardId where cardId == cardEntity.cardId {
+                            highlightInHand = true
+                        }
+                    })
+                    card.highlightInHand = highlightInHand
+                    cards[cardId] = card
+                }
             }
-          }
         }
-        NSArray *stillInDeck = [temp allValues];
-
-        Settings *settings = [Settings instance];
-        if (settings.removeCardsFromDeck) {
-          if (settings.highlightLastDrawn) {
-            var drawHighlight =
-            DeckList.Instance.ActiveDeck.Cards.Where(c => _hightlightedCards.Contains(c.Id) && stillInDeck.All(c2 => c2.Id != c.Id))
-            .Select(c =>
-              {
-                var card = (Card)c.Clone();
-              card.Count = 0;
-              card.HighlightDraw = true;
-              return card;
-              });
-            stillInDeck = stillInDeck.Concat(drawHighlight).ToList();
-          }
-          if (settings.highlightCardsInHand) {
-            var inHand =
-            DeckList.Instance.ActiveDeck.Cards.Where(c => stillInDeck.All(c2 => c2.Id != c.Id) && Hand.Any(ce => c.Id == ce.CardId))
-            .Select(c =>
-              {
-                var card = (Card)c.Clone();
-              card.Count = 0;
-              card.HighlightInHand = true;
-              if(IsLocalPlayer && card.Id == HearthDb.CardIds.Collectible.Neutral.RenoJackson
-              && Deck.Where(x => !string.IsNullOrEmpty(x.CardId)).Select(x => x.CardId).GroupBy(x => x).All(x => x.Count() <= 1))
-              card.HighlightFrame = true;
-              return card;
-              });
-            ;
-            stillInDeck = stillInDeck.Concat(inHand).ToList();
-          }
-          //return stillInDeck.Concat(createdInHand).ToSortedCardList();
+        var stillInDeck:[Card] = Array(cards.values)
+        
+        let settings = Settings.instance
+        if settings.removeCardsFromDeck {
+            if settings.highlightLastDrawn {
+                var drawHighlight = [Card]()
+                var drawHighlightCardIds:[DeckCard]?
+                if let activeDeck = Game.instance.activeDeck {
+                    drawHighlightCardIds = activeDeck.deckCards.filter({ (deckCard) -> Bool in
+                        let cardId = deckCard.cardId
+                        return self.hightlightedCards.contains(cardId) && stillInDeck.filter({ $0.cardId != cardId }).isEmpty
+                    })
+                }
+                if let drawHighlightCardIds = drawHighlightCardIds {
+                    drawHighlightCardIds.forEach({ (deckCard) -> () in
+                        if let card = Card.byId(deckCard.cardId) {
+                            card.count = 0
+                            card.highlightDraw = true
+                            drawHighlight.append(card)
+                        }
+                    })
+                }
+                stillInDeck.appendContentsOf(drawHighlight)
+            }
+            
+            if settings.highlightCardsInHand {
+                if let activeDeck = Game.instance.activeDeck {
+                    let inHandCardIds = activeDeck.deckCards.filter({ (deckCard) -> Bool in
+                        let cardId = deckCard.cardId
+                        return !self.hand.filter({ $0.cardId != cardId }).isEmpty && stillInDeck.filter({ $0.cardId != cardId }).isEmpty
+                    })
+                    var inHand = [Card]()
+                    inHandCardIds.forEach({ (deckCard) -> () in
+                        if let card = Card.byId(deckCard.cardId) {
+                            card.count = 0
+                            card.highlightDraw = true
+                            if self.isLocalPlayer && card.cardId == CardIds.Collectible.Neutral.RenoJackson {
+                                var countIds = [String: Int]()
+                                deck.forEach({ (cardEntity) -> () in
+                                    if let cardId = cardEntity.cardId where !cardId.isEmpty {
+                                        if let count = countIds[cardId] {
+                                            countIds[cardId] = count + 1
+                                        }
+                                        else {
+                                            countIds[cardId] = 1
+                                        }
+                                    }
+                                })
+                                card.highlightDraw = Array(countIds.values).maxElement() <= 1
+                            }
+                            inHand.append(card)
+                        }
+                    })
+                    stillInDeck.appendContentsOf(inHand)
+                }
+            }
+            
+            stillInDeck.appendContentsOf(createdInHand)
+            return stillInDeck.sortCardList()
         }
-
-        var notInDeck = DeckList.Instance.ActiveDeckVersion.Cards.Where(c => Deck.All(ce => ce.CardId != c.Id)).Select(c =>
-          {
-            var card = (Card)c.Clone();
-          card.Count = 0;
-          card.HighlightDraw = _hightlightedCards.Contains(c.Id);
-          if(Hand.Any(ce => ce.CardId == c.Id))
-          {
-            card.HighlightInHand = true;
-            if(IsLocalPlayer && card.Id == HearthDb.CardIds.Collectible.Neutral.RenoJackson
-              && Deck.Where(x => !string.IsNullOrEmpty(x.CardId)).Select(x => x.CardId).GroupBy(x => x).All(x => x.Count() <= 1))
-            card.HighlightFrame = true;
-          }
-          return card;
-          });
-
-        //return stillInDeck.Concat(notInDeck).Concat(createdInHand).ToSortedCardList();
-        return [[stillInDeck arrayByAddingObjectsFromArray:createdInHand] sortCardList];*/
-        return [Card]()
+        
+        if let activeDeck = Game.instance.activeDeck {
+            let notInDeckCardIds = activeDeck.deckCards.filter({ (deckCard) -> Bool in
+                return self.deck.filter({ $0.cardId != deckCard.cardId }).isEmpty
+            })
+            var notInDeck = [Card]()
+            notInDeckCardIds.forEach({ (deckCard) -> () in
+                if let card = Card.byId(deckCard.cardId) {
+                    card.count = 0
+                    card.highlightDraw = true
+                    if self.isLocalPlayer && card.cardId == CardIds.Collectible.Neutral.RenoJackson {
+                        var countIds = [String: Int]()
+                        deck.forEach({ (cardEntity) -> () in
+                            if let cardId = cardEntity.cardId where !cardId.isEmpty {
+                                if let count = countIds[cardId] {
+                                    countIds[cardId] = count + 1
+                                }
+                                else {
+                                    countIds[cardId] = 1
+                                }
+                            }
+                        })
+                        card.highlightDraw = Array(countIds.values).maxElement() <= 1
+                    }
+                    notInDeck.append(card)
+                }
+            })
+            stillInDeck.appendContentsOf(notInDeck)
+        }
+        
+        stillInDeck.appendContentsOf(createdInHand)
+        
+        return stillInDeck.sortCardList()
     }
+    
 
     func reset() {
         self.id = nil
@@ -227,6 +243,7 @@ class Player {
         self.drawnCardIdsTotal.removeAll()
         self.revealedCards.removeAll()
         self.createdInHandCardIds.removeAll()
+        self.hightlightedCards.removeAll()
         self.removed.removeAll()
 
         for _ in 0 ..< DeckSize {
@@ -386,7 +403,15 @@ class Player {
     }
 
     func highlight(cardId: String) {
-
+        hightlightedCards.append(cardId)
+        Game.instance.playerTracker?.update()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            NSThread.sleepForTimeInterval(3)
+            self.hightlightedCards.removeFirst()
+            dispatch_async(dispatch_get_main_queue()) {
+                Game.instance.playerTracker?.update()
+            }
+        }
     }
 
     func removeFromDeck(entity: Entity, turn: Int) {
@@ -453,11 +478,11 @@ class Player {
 
         if let _ = ce {
             if let cardId = entity.cardId {
-            revealDeckCard(cardId, turn: turn)
-            let cardEntity = CardEntity(cardId: entity.cardId, entity: nil)
-            cardEntity.turn = turn
-            self.revealedCards.append(cardEntity)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+                revealDeckCard(cardId, turn: turn)
+                let cardEntity = CardEntity(cardId: entity.cardId, entity: nil)
+                cardEntity.turn = turn
+                self.revealedCards.append(cardEntity)
+                DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
             }
         }
     }
@@ -557,11 +582,12 @@ class Player {
         if let _cardEntity = cardEntity {
             _cardEntity.turn = turn
             to.append(_cardEntity)
-            to.sortInPlace {
+            to.sortInPlace(CardEntity.zonePosComparison)
+            /*to.sortInPlace {
                 let v1 = ($0.entity != nil && $0.entity!.hasTag(GameTag.ZONE_POSITION)) ? $0.entity!.getTag(GameTag.ZONE_POSITION) : 10
                 let v2 = ($1.entity != nil && $1.entity!.hasTag(GameTag.ZONE_POSITION)) ? $1.entity!.getTag(GameTag.ZONE_POSITION) : 10
                 return v1 < v2
-            }
+            }*/
         }
         return cardEntity
     }

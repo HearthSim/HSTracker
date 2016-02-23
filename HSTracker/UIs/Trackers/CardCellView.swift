@@ -185,7 +185,7 @@ class CardCellView: NSTableCellView {
             // by default, we only show 2 or more
             let minCount = settings.showOneCard ? 1 : 2
 
-            if card.count >= minCount || card.rarity == "legendary" {
+            if card.count > minCount || card.rarity == "legendary" {
                 // add the background of the card count
                 if card.isStolen {
                     frameCountBox.contents = ImageCache.frameCountboxDeck()

@@ -8,7 +8,7 @@
  * Created on 14/02/16.
  */
 
-class Entity: Equatable {
+class Entity: Equatable, CustomStringConvertible {
     var id: Int
     var isPlayer: Bool
     var cardId: String?
@@ -48,6 +48,25 @@ class Entity: Equatable {
 
     var isSecret: Bool {
         return self.hasTag(GameTag.SECRET)
+    }
+    
+    var description: String {
+        var description = "<\(NSStringFromClass(self.dynamicType)): "
+            + "self.id=\(self.id)"
+            + ", self.cardId=\(cardName(self.cardId))"
+        if let name = self.name {
+            description += ", self.name=\(name)"
+        }
+        return description
+    }
+    
+    func cardName(cardId: String?) -> String {
+        if let cardId = cardId {
+            if let card = Card.byId(cardId) {
+                return "[\(card.name) (\(cardId)]"
+            }
+        }
+        return "N/A"
     }
 }
 

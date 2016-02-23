@@ -204,7 +204,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
                 default:
                     self.cards = player.displayReveleadCards()
                 }
-                DDLogVerbose("cards : \(self.cards)")
+                DDLogVerbose("cards for \(playerType) : \(self.cards)")
                 self.table!.reloadData()
             }
         }

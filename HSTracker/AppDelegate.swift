@@ -80,10 +80,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         })
         let loggingOperation = NSBlockOperation(block: {
-            DDLogInfo("Starting logging")
-            Hearthstone.instance.start()
+            while true {
+                if self.playerTracker != nil && self.opponentTracker != nil {
+                    break
+                }
+                NSThread.sleepForTimeInterval(0.2)
+            }
+            DDLogInfo("Starting logging \(self.playerTracker) vs \(self.opponentTracker)")
             Game.instance.setPlayerTracker(self.playerTracker)
             Game.instance.setOpponentTracker(self.opponentTracker)
+            Hearthstone.instance.start()
         })
         let trackerOperation = NSBlockOperation(block: {
             NSOperationQueue.mainQueue().addOperationWithBlock() {
@@ -95,9 +101,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         startUpCompletionOperation.addDependency(loggingOperation)
         loggingOperation.addDependency(trackerOperation)
         trackerOperation.addDependency(databaseOperation)
+        
         operationQueue.addOperation(startUpCompletionOperation)
-        operationQueue.addOperation(databaseOperation)
         operationQueue.addOperation(trackerOperation)
+        operationQueue.addOperation(databaseOperation)
         operationQueue.addOperation(loggingOperation)
     }
 

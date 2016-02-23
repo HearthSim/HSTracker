@@ -20,5 +20,6 @@ class Deck: NSManagedObject {
     @NSManaged var name: String
     @NSManaged var playerClass: String
     @NSManaged var version: String
+    @NSManaged var deckCards: Set<DeckCard>
 
 }

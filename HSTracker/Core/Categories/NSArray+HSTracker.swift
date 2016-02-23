@@ -9,9 +9,9 @@
  */
 
 extension Array where Element: Card {
-    var sortCardList: [Card] {
+    func sortCardList() -> [Card] {
         return self.sort {
-            DDLogVerbose("Comparing card \($0) with \($1)")
+            //DDLogVerbose("Comparing card \($0) with \($1)")
             if $0.cost != $1.cost {
                 return $0.cost < $1.cost
             }

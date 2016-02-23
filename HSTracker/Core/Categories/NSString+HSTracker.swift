@@ -12,12 +12,9 @@ import Foundation
 
 extension String {
 
-    /*func isEmpty() -> Bool {
-      if self.length == 0 {
-        return true
-      }
-      return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet).length == 0
-    }*/
+    func trim() -> String {
+      return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    }
 
     func substringWithRange(start: Int, end: Int) -> String {
         if (start < 0 || start > self.characters.count) {

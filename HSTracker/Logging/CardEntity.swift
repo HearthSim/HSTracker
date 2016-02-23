@@ -58,9 +58,9 @@ class CardEntity: Equatable, CustomStringConvertible {
         self.cardId = nil
     }
 
-    func zonePosComparison(other: CardEntity) -> Bool {
-        let v1 = self.entity != nil ? entity!.getTag(GameTag.ZONE_POSITION) : 10
-        let v2 = other.entity != nil ? other.entity!.getTag(GameTag.ZONE_POSITION) : 10
+    static let zonePosComparison:((CardEntity, CardEntity) -> Bool) = {
+        let v1 = ($0.entity != nil && $0.entity!.hasTag(GameTag.ZONE_POSITION)) ? $0.entity!.getTag(GameTag.ZONE_POSITION) : 10
+        let v2 = ($1.entity != nil && $1.entity!.hasTag(GameTag.ZONE_POSITION)) ? $1.entity!.getTag(GameTag.ZONE_POSITION) : 10
         return v1 < v2
     }
 
