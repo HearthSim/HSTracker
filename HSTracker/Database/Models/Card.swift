@@ -51,5 +51,33 @@ class Card: NSManagedObject {
         }
         return self.enName
     }
+    
+    override var description : String {
+        return "<\(NSStringFromClass(self.dynamicType)): "
+            + "self.cardId=\(self.cardId)"
+            + ", self.collectible=\(self.collectible)"
+            + ", self.cost=\(self.cost)"
+            + ", self.faction=\(self.faction)"
+            + ", self.flavor=\(self.flavor)"
+            + ", self.health=\(self.health)"
+            + ", self.name=\(self.name)"
+            + ", self.enName=\(self.enName)"
+            + ", self.playerClass=\(self.playerClass)"
+            + ", self.rarity=\(self.rarity)"
+            + ", self.set=\(self.set)"
+            + ", self.text=\(self.text)"
+            + ", self.type=\(self.type)"
+            + ", self.mechanics=\(self.mechanics)"
+            + ", self.isStandard=\(self.isStandard)"
+            + ", self.count=\(self.count)"
+            + ", self.handCount=\(self.handCount)"
+            + ", self.hasChanged=\(self.hasChanged)"
+            + ", self.jousted=\(self.jousted)"
+            + ", self.isStolen=\(self.isStolen)"
+            + ", self.isCreated=\(self.isCreated)"
+            + ", self.wasDiscarded=\(self.wasDiscarded)"
+            + ", self.highlightDraw=\(self.highlightDraw)"
+            + ", self.highlightInHand=\(self.highlightInHand)"
+    }
 
 }
