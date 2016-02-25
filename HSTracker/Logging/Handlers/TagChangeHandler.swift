@@ -397,7 +397,6 @@ class TagChangeHandler {
             }
         }
     }
-    
 
 
     // parse an entity
@@ -438,9 +437,9 @@ class TagChangeHandler {
     }
 
     // check if the entity is a raw entity
-    func isEntity(entity: String) -> Bool {
-        let (id, zonePos, player, name, zone, cardId, type) = parseEntity(entity)
-        return id != nil || zonePos != nil || player != nil || name != nil || zone != nil || cardId != nil || type != nil
+    func isEntity(rawEntity: String) -> Bool {
+        let entity = parseEntity(rawEntity)
+        return entity.id != nil || entity.zonePos != nil || entity.player != nil || entity.name != nil || entity.zone != nil || entity.cardId != nil || entity.type != nil
     }
 
     func parseTag(tag: GameTag, _ rawValue: String) -> Int {

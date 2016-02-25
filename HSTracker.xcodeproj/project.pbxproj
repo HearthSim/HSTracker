@@ -11,7 +11,6 @@
 		436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
 		4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
-		436032A01C7D0307005F1893 /* DeckManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4360329F1C7D0307005F1893 /* DeckManager.storyboard */; };
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E511C7772C000D29859 /* HSTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4F1C7772C000D29859 /* HSTracker.xcdatamodeld */; };
@@ -61,6 +60,11 @@
 		439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */; };
 		439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEF1C78A71300D29859 /* MainMenu.xib */; };
 		439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EF01C78A71300D29859 /* Splashscreen.xib */; };
+		43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB931C7DE1E40077AC1B /* DeckManager.xib */; };
+		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
+		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
+		43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB991C7E3F620077AC1B /* DeckCellView.xib */; };
+		43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB9B1C7E4EA20077AC1B /* CurveView.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
 /* End PBXBuildFile section */
 
@@ -84,7 +88,6 @@
 /* Begin PBXFileReference section */
 		1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
-		4360329F1C7D0307005F1893 /* DeckManager.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DeckManager.storyboard; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -143,6 +146,11 @@
 		439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialConfiguration.xib; sourceTree = "<group>"; };
 		439C7EEF1C78A71300D29859 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		439C7EF01C78A71300D29859 /* Splashscreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Splashscreen.xib; sourceTree = "<group>"; };
+		43EECB931C7DE1E40077AC1B /* DeckManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckManager.xib; sourceTree = "<group>"; };
+		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
+		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
+		43EECB991C7E3F620077AC1B /* DeckCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckCellView.xib; sourceTree = "<group>"; };
+		43EECB9B1C7E4EA20077AC1B /* CurveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveView.swift; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
 		6DF6E90CEA5D7299D8A9A854 /* Pods-HSTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTracker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker.debug.xcconfig"; sourceTree = "<group>"; };
 		787C11774664AC0A4051C8E4 /* Pods-HSTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTracker.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker.release.xcconfig"; sourceTree = "<group>"; };
@@ -188,8 +196,11 @@
 		4360329E1C7D0113005F1893 /* DeckTracker */ = {
 			isa = PBXGroup;
 			children = (
-				4360329F1C7D0307005F1893 /* DeckManager.storyboard */,
 				436032A11C7D0332005F1893 /* DeckManager.swift */,
+				43EECB931C7DE1E40077AC1B /* DeckManager.xib */,
+				43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */,
+				43EECB991C7E3F620077AC1B /* DeckCellView.xib */,
+				43EECB9B1C7E4EA20077AC1B /* CurveView.swift */,
 			);
 			path = DeckTracker;
 			sourceTree = "<group>";
@@ -338,6 +349,7 @@
 				439C7ED41C777FA900D29859 /* Trackers */,
 				439C7EEF1C78A71300D29859 /* MainMenu.xib */,
 				439C7ECF1C777FA900D29859 /* ImageCache.swift */,
+				43EECB971C7DEF7F0077AC1B /* ClassColor.swift */,
 			);
 			path = UIs;
 			sourceTree = "<group>";
@@ -490,7 +502,8 @@
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				439C7E531C7772C000D29859 /* Assets.xcassets in Resources */,
 				439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */,
-				436032A01C7D0307005F1893 /* DeckManager.storyboard in Resources */,
+				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
+				43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */,
 				439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */,
@@ -573,6 +586,7 @@
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
 				439C7EED1C77997000D29859 /* HandCountPosition.swift in Sources */,
+				43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */,
 				439C7EEC1C77991100D29859 /* CardSize.swift in Sources */,
 				439C7E871C777CFC00D29859 /* DeckCard.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
@@ -601,11 +615,13 @@
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
 				439C7EEA1C777FCF00D29859 /* NSArray+HSTracker.swift in Sources */,
+				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageCache.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
+				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439C7EC41C777F8900D29859 /* NetHandler.swift in Sources */,

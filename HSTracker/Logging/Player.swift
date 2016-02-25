@@ -38,13 +38,14 @@ class Player {
     }
 
     var hasCoin: Bool {
-        for ce in self.hand {
-            if ce.cardId == "GAME_005"
-                    || (ce.entity != nil && ce.entity!.cardId == "GAME_005") {
-                return true;
+        return !self.hand.filter({ (cardEntity) -> Bool in
+            if let entity = cardEntity.entity {
+                if entity.cardId == "GAME_005" {
+                    return true
+                }
             }
-        }
-        return false
+            return cardEntity.cardId == "GAME_005"
+        }).isEmpty
     }
 
     var handCount: Int {
@@ -234,17 +235,17 @@ class Player {
         self.goingFirst = false
         self.fatigue = 0
         //self.drawnCardsMatchDeck = true;
-        self.hand.removeAll()
-        self.board.removeAll()
-        self.deck.removeAll()
-        self.graveyard.removeAll()
-        self.secrets.removeAll()
-        self.drawnCardIds.removeAll()
-        self.drawnCardIdsTotal.removeAll()
-        self.revealedCards.removeAll()
-        self.createdInHandCardIds.removeAll()
-        self.hightlightedCards.removeAll()
-        self.removed.removeAll()
+        self.hand = []
+        self.board = []
+        self.deck = []
+        self.graveyard = []
+        self.secrets = []
+        self.drawnCardIds = []
+        self.drawnCardIdsTotal = []
+        self.revealedCards = []
+        self.createdInHandCardIds = []
+        self.hightlightedCards = []
+        self.removed = []
 
         for _ in 0 ..< DeckSize {
             self.deck.append(CardEntity())
@@ -543,8 +544,8 @@ class Player {
             cardEntity!.turn = turn
             cardEntity!.created = entity.created
             cardEntity!.discarded = entity.discarded
-            let cardType = CardType(rawValue: entity.entity!.getTag(GameTag.CARDTYPE))
-            if cardType != CardType.HERO && cardType != CardType.ENCHANTMENT && cardType != CardType.HERO_POWER && cardType != CardType.PLAYER {
+            let cardType = CardType(rawValue: entity.entity!.getTag(.CARDTYPE))
+            if cardType != .HERO && cardType != .ENCHANTMENT && cardType != .HERO_POWER && cardType != .PLAYER {
                 self.revealedCards.append(entity)
             }
         }
@@ -583,11 +584,6 @@ class Player {
             _cardEntity.turn = turn
             to.append(_cardEntity)
             to.sortInPlace(CardEntity.zonePosComparison)
-            /*to.sortInPlace {
-                let v1 = ($0.entity != nil && $0.entity!.hasTag(GameTag.ZONE_POSITION)) ? $0.entity!.getTag(GameTag.ZONE_POSITION) : 10
-                let v2 = ($1.entity != nil && $1.entity!.hasTag(GameTag.ZONE_POSITION)) ? $1.entity!.getTag(GameTag.ZONE_POSITION) : 10
-                return v1 < v2
-            }*/
         }
         return cardEntity
     }

@@ -21,5 +21,20 @@ class Deck: NSManagedObject {
     @NSManaged var playerClass: String
     @NSManaged var version: String
     @NSManaged var deckCards: Set<DeckCard>
+    
+    var sortedCards: [Card] {
+        var cards = [Card]()
+        for deckCard in deckCards {
+            if let card = Card.byId(deckCard.cardId) {
+                card.count = deckCard.count
+                cards.append(card)
+            }
+        }
+        return cards.sortCardList()
+    }
 
+    func displayStats() -> String {
+        // TODO
+        return "12 - 1 / 97%"
+    }
 }

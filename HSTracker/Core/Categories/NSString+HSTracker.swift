@@ -11,6 +11,10 @@
 import Foundation
 
 extension String {
+    
+    func startsWith(str:String) -> Bool {
+        return self.hasPrefix(str)
+    }
 
     func trim() -> String {
       return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

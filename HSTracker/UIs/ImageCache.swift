@@ -74,6 +74,14 @@ class ImageCache {
     static func frameCountboxDeck() -> NSImage? {
         return self.imageNamed("frame_countbox_deck", from: .Assets)
     }
+    
+    static func classImage(playerClass:String) -> NSImage? {
+        return self.imageNamed(playerClass.lowercaseString, from: .Assets)
+    }
+    
+    static func asset(asset:String) -> NSImage? {
+        return self.imageNamed(asset, from: .Assets)
+    }
 
     static func imageNamed(path: String, from: FromDestination) -> NSImage? {
         switch from {

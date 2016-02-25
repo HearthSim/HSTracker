@@ -139,7 +139,7 @@ class CardCellView: NSTableCellView {
             // print the card name
             let strokeColor = NSColor(red: 0, green: 0, blue: 0, alpha: CGFloat(alpha))
             var foreground = NSColor(red: 255, green: 255, blue: 255, alpha: CGFloat(alpha))
-            if card.handCount > 0 && self.playerType == .Player {
+            if card.count > 0 && self.playerType == .Player {
                 foreground = settings.flashColor.colorWithAlphaComponent(CGFloat(alpha))
             }
 
@@ -185,7 +185,7 @@ class CardCellView: NSTableCellView {
             // by default, we only show 2 or more
             let minCount = settings.showOneCard ? 1 : 2
 
-            if card.count > minCount || card.rarity == "legendary" {
+            if card.count >= minCount || card.rarity == "legendary" {
                 // add the background of the card count
                 if card.isStolen {
                     frameCountBox.contents = ImageCache.frameCountboxDeck()
@@ -198,7 +198,7 @@ class CardCellView: NSTableCellView {
                 height = 24.0 / ratio
                 frameCountBox.frame = NSRect(x: x, y: y, width: width, height: height)
 
-                if (card.count > minCount && card.count < 9) && card.rarity != "legendary" {
+                if (card.count >= minCount && card.count < 9) && card.rarity != "legendary" {
                     // the card count
                     extraInfo.contents = ImageCache.frameCount(card.count)
                 } else {

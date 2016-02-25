@@ -70,9 +70,9 @@ class PowerGameStateHandler {
             let tag: String = match.groups[2].value
             let value: String = match.groups[3].value
 
-            if rawEntity.isMatch(NSRegularExpression.rx("^\\[")) && tagChangeHandler.isEntity(rawEntity) {
-                let (id, _, _, _, _, _, _) = tagChangeHandler.parseEntity(rawEntity)
-                if let id = id {
+            if rawEntity.startsWith("[") && tagChangeHandler.isEntity(rawEntity) {
+                let entity = tagChangeHandler.parseEntity(rawEntity)
+                if let id = entity.id {
                     //DDLogVerbose("TagChangeRegex isEntity -> \(id)")
                     tagChangeHandler.tagChange(tag, id, value)
                 }
@@ -168,9 +168,9 @@ class PowerGameStateHandler {
             //DDLogVerbose("UpdatingEntityRegex \(rawEntity) -> \(cardId)")
             var entityId: Int?
             
-            if rawEntity.isMatch(NSRegularExpression.rx("^\\[")) && tagChangeHandler.isEntity(rawEntity) {
-                let (_entityId, _, _, _, _, _, _) = tagChangeHandler.parseEntity(rawEntity)
-                if let _entityId = _entityId {
+            if rawEntity.startsWith("[") && tagChangeHandler.isEntity(rawEntity) {
+                let entity = tagChangeHandler.parseEntity(rawEntity)
+                if let _entityId = entity.id {
                     entityId = _entityId
                 }
             } else if rawEntity.isMatch(NSRegularExpression.rx("\\d+")) {
@@ -302,7 +302,7 @@ class PowerGameStateHandler {
     
     private static func addTargetAsKnownCardId(match:RxMatch, _ count:Int = 1) {
         let target:String = match.groups[4].value.trim()
-        if !target.isMatch(NSRegularExpression.rx("^\\[")) || !tagChangeHandler.isEntity(target) {
+        if !target.startsWith("[") || !tagChangeHandler.isEntity(target) {
             return
         }
         if !target.isMatch(CardIdRegex) {
