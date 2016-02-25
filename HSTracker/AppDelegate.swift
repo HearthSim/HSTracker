@@ -49,6 +49,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             DDLog.addLogger(fileLogger)
         #endif
         
+        let hearthpwn = "http://www.hearthpwn.com/decks/432773-ostkakas-standard-miracle-rogue"
+        let hearthpwnDeckbuilder = "http://www.hearthpwn.com/deckbuilder/warrior#50:2;73:1;96:1;215:2;227:2;297:2;493:2;632:1;644:1;7734:2;7749:2;12215:2;14448:1;14464:2;22264:1;22276:1;22309:2;27210:1;27211:2"
+        let hearthstats = "http://hearthstats.net/decks/mage-meca--1049/public_show?locale=en"
+        
+        let url = hearthstats
+        do {
+            try NetImporter.netImport(url, { (deck) -> Void in
+                DDLogVerbose("\(deck)")
+            })
+        } catch {
+            DDLogVerbose("error")
+        }
+        
         /*MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
             if let deck = Deck.MR_createEntityInContext(localContext) {
                 deck.hearthstatsId = 6994742

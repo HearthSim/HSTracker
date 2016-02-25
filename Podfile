@@ -7,6 +7,7 @@ target 'HSTracker' do
   pod 'CocoaLumberjack/Swift'
   pod 'RegExCategories', '~> 1.0'
   pod 'Alamofire', '~> 3.0'
+  pod 'Kanna', '~> 1.0.0'
 end
 
 target 'HSTrackerTests' do

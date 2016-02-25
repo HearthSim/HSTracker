@@ -41,8 +41,16 @@ class Card: NSManagedObject {
     var highlightDraw: Bool = false
     var highlightInHand: Bool = false
 
-    class func byId(cardId: String) -> Card? {
+    static func byId(cardId: String) -> Card? {
         return Card.MR_findFirstWithPredicate(NSPredicate(format: "cardId = %@", cardId))
+    }
+    
+    static func byEnglishName(name: String) -> Card? {
+        //where(collectible: true)
+        //.and(:card_type).ne('hero')
+          //  .and(:card_type).ne('hero power')
+        
+        return Card.MR_findFirstWithPredicate(NSPredicate(format: "enName = %@ and collectible = %@ and type != %@ and type != %@", name, true, "hero", "hero power"))
     }
 
     var englishName: String {

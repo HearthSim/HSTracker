@@ -14,12 +14,16 @@ enum DeckManagerViewMode : Int {
     Deck
 }
 
-class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, DeckCellViewDelegate {
+class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, DeckCellViewDelegate, NewDeckDelegate {
 
     @IBOutlet weak var decksTable: NSTableView!
     @IBOutlet weak var deckListTable: NSTableView!
     @IBOutlet weak var curveView: CurveView!
     @IBOutlet weak var statsLabel: NSTextField!
+    @IBOutlet weak var progressView: NSView!
+    @IBOutlet weak var progressIndicator: NSProgressIndicator!
+    
+    var newDeck: NewDeck?
     
     var viewMode: DeckManagerViewMode = .Classes
     var decks = [Deck]()
@@ -185,6 +189,13 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     @IBAction func addDeck(sender: AnyObject) {
+        newDeck = NewDeck()
+        if let newDeck = newDeck {
+            newDeck.setDelegate(self)
+            self.window!.beginSheet(newDeck.window!, completionHandler: { (response) -> Void in
+                
+            })
+        }
     }
     
     
@@ -203,4 +214,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         NSMenu.popUpContextMenu(menu, withEvent:NSApp.currentEvent!, forView: cell.moreButton)
     }
     
+    // MARK: - NewDeckDelegate
+    func addNewDeck(deck: Deck) {
+        
+    }
 }
