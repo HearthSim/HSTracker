@@ -48,7 +48,6 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         
         let nib = NSNib(nibNamed: "DeckCellView", bundle: nil)
         decksTable.registerNib(nib, forIdentifier: "DeckCellView")
-        //decksTable.intercellSpacing = NSSize(width: 0, height: 0)
         
         decksTable.backgroundColor = NSColor.clearColor()
         decksTable.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
@@ -76,7 +75,11 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
     
     func filteredDecks() -> [Deck] {
-        return decks.filter({$0.playerClass == currentClass})
+        return decks.filter({$0.playerClass == currentClass}).sort { $0.name < $1.name }
+    }
+    
+    func filteredClasses() -> [String] {
+        return classes.sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
     }
     
     // MARK: - NSTableViewDelegate / NSTableViewDataSource
@@ -84,7 +87,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         if tableView == decksTable {
             switch (viewMode) {
             case .Classes:
-                return classes.count
+                return filteredClasses().count
             case .Deck:
                 return filteredDecks().count
             }
@@ -102,7 +105,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             switch (viewMode) {
             case .Classes:
                 cell.moreButton.hidden = true
-                let clazz = classes[row]
+                let clazz = filteredClasses()[row]
                 cell.label.stringValue = NSLocalizedString(clazz, comment: "")
                 cell.image.image = ImageCache.classImage(clazz)
                 cell.color = ClassColor.color(clazz)
@@ -159,7 +162,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
         let clickedRow = sender!.clickedRow!
         if viewMode == .Classes {
-            currentClass = classes[clickedRow]
+            currentClass = filteredClasses()[clickedRow]
             viewMode = .Deck
             decksTable.reloadData()
         }
