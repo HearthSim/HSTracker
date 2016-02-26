@@ -69,6 +69,17 @@ class Game {
         player.reset()
         opponent.reset()
     }
+    
+    func setActiveDeck(deck:Deck)
+    {
+        self.activeDeck = deck
+        for card in deck.sortedCards {
+            for _ in 0..<card.count {
+                DDLogVerbose("adding \(card.cardId)")
+                player.revealDeckCard(card.cardId, -1)
+            }
+        }
+    }
 
     var playerEntity: Entity? {
         for (_, ent) in entities {
@@ -268,10 +279,19 @@ class Game {
         return player!.hasTag(GameTag.MULLIGAN_STATE) && player!.getTag(GameTag.MULLIGAN_STATE) == Mulligan.DONE.rawValue
                 && opponent!.hasTag(GameTag.MULLIGAN_STATE) && opponent!.getTag(GameTag.MULLIGAN_STATE) == Mulligan.DONE.rawValue
     }
+    
+    func handleZonePositionUpdate(playerType:PlayerType, _ entity:Entity, _ zone:Zone, _ turn:Int) {
+        if playerType == .Player {
+            player.updateZonePos(entity, zone, turn)
+        }
+        else if playerType == .Opponent {
+            opponent.updateZonePos(entity, zone, turn)
+        }
+    }
 
     // MARK: - player
     func setPlayerHero(cardId: String) {
-        player.playerClass = Card.byId(cardId)
+        player.playerClass = Cards.byId(cardId)
         if let card = player.playerClass {
             DDLogInfo("player is \(card.name)")
         }
@@ -291,7 +311,7 @@ class Game {
         if cardId == nil || cardId!.isEmpty {
             return
         }
-        player.createInHand(entity, turn: turn)
+        player.createInHand(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
@@ -309,7 +329,7 @@ class Game {
         if let tracker = playerTracker {
             tracker.update()
         }
-        player.boardToHand(entity, turn: turn)
+        player.boardToHand(entity, turn)
     }
 
 
@@ -317,7 +337,7 @@ class Game {
         if cardId == nil || cardId!.isEmpty {
             return
         }
-        player.boardToDeck(entity, turn: turn)
+        player.boardToDeck(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
@@ -327,7 +347,7 @@ class Game {
         if cardId == nil || cardId!.isEmpty {
             return
         }
-        player.play(entity, turn: turn)
+        player.play(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
@@ -337,7 +357,7 @@ class Game {
         if cardId == nil || cardId!.isEmpty {
             return
         }
-        player.handDiscard(entity, turn: turn)
+        player.handDiscard(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
@@ -348,9 +368,9 @@ class Game {
             return
         }
         if fromDeck {
-            player.secretPlayedFromDeck(entity, turn: turn)
+            player.secretPlayedFromDeck(entity, turn)
         } else {
-            player.secretPlayedFromHand(entity, turn: turn)
+            player.secretPlayedFromHand(entity, turn)
         }
         if let tracker = playerTracker {
             tracker.update()
@@ -375,7 +395,7 @@ class Game {
         if cardId == "GAME_005" {
             playerGet(entity, cardId: cardId, turn: turn)
         } else {
-            player.draw(entity, turn: turn)
+            player.draw(entity, turn)
             if let tracker = playerTracker {
                 tracker.update()
             }
@@ -383,32 +403,32 @@ class Game {
     }
 
     func playerRemoveFromDeck(entity: Entity, turn: Int) {
-        player.removeFromDeck(entity, turn: turn)
+        player.removeFromDeck(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
     }
 
     func playerDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
-        player.deckDiscard(entity, turn: turn)
+        player.deckDiscard(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
     }
 
     func playerDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
-        player.deckToPlay(entity, turn: turn)
+        player.deckToPlay(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
     }
 
     func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int) {
-        player.playToGraveyard(entity, cardId: cardId, turn: turn)
+        player.playToGraveyard(entity, cardId, turn)
     }
 
     func playerJoust(entity: Entity, cardId: String?, turn: Int) {
-        player.joustReveal(entity, turn: turn)
+        player.joustReveal(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
@@ -418,7 +438,7 @@ class Game {
         if cardId == nil || cardId!.isEmpty {
             return
         }
-        player.createInDeck(entity, turn: turn)
+        player.createInDeck(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
@@ -430,18 +450,18 @@ class Game {
     }
 
     func playerCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
-        player.createInPlay(entity, turn: turn)
+        player.createInPlay(entity, turn)
     }
 
     func playerStolen(entity: Entity, cardId: String?, turn: Int) {
-        player.stolenByOpponent(entity, turn: turn)
-        opponent.stolenFromOpponent(entity, turn: turn)
+        player.stolenByOpponent(entity, turn)
+        opponent.stolenFromOpponent(entity, turn)
     }
 
     //MARK: - opponent
 
     func setOpponentHero(cardId: String) {
-        opponent.playerClass = Card.byId(cardId)
+        opponent.playerClass = Cards.byId(cardId)
         if let card = opponent.playerClass {
             DDLogInfo("opponent is \(card.name)")
         }
@@ -452,28 +472,28 @@ class Game {
     }
 
     func opponentGet(entity: Entity, turn: Int, id: Int) {
-        opponent.createInHand(entity, turn: turn)
+        opponent.createInHand(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentPlayToHand(entity: Entity, cardId: String?, turn: Int, id: Int) {
-        opponent.boardToHand(entity, turn: turn)
+        opponent.boardToHand(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentPlayToDeck(entity: Entity, cardId: String?, turn: Int) {
-        opponent.boardToDeck(entity, turn: turn)
+        opponent.boardToDeck(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
-        opponent.play(entity, turn: turn)
+        opponent.play(entity, turn)
         DDLogVerbose("player opponent play tracker -> \(opponentTracker)")
         if let tracker = opponentTracker {
             tracker.update()
@@ -482,7 +502,7 @@ class Game {
 
     func opponentHandDiscard(entity: Entity, cardId: String?, from: Int, turn: Int) {
         // TODO exception ???
-        opponent.play(entity, turn: turn)
+        opponent.play(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
@@ -490,9 +510,9 @@ class Game {
 
     func opponentSecretPlayed(entity: Entity, cardId: String?, from: Int, turn: Int, fromDeck: Bool, id: Int) {
         if fromDeck {
-            opponent.secretPlayedFromDeck(entity, turn: turn)
+            opponent.secretPlayedFromDeck(entity, turn)
         } else {
-            opponent.secretPlayedFromHand(entity, turn: turn)
+            opponent.secretPlayedFromHand(entity, turn)
         }
     }
 
@@ -501,50 +521,50 @@ class Game {
     }
 
     func opponentDraw(entity: Entity, turn: Int) {
-        opponent.draw(entity, turn: turn)
+        opponent.draw(entity, turn)
     }
 
     func opponentRemoveFromDeck(entity: Entity, turn: Int) {
-        opponent.removeFromDeck(entity, turn: turn)
+        opponent.removeFromDeck(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
-        opponent.deckDiscard(entity, turn: turn)
+        opponent.deckDiscard(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
-        opponent.deckToPlay(entity, turn: turn)
+        opponent.deckToPlay(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentPlayToGraveyard(entity: Entity, cardId: String?, turn: Int) {
-        opponent.playToGraveyard(entity, cardId: cardId, turn: turn)
+        opponent.playToGraveyard(entity, cardId, turn)
     }
 
     func opponentJoust(entity: Entity, cardId: String?, turn: Int) {
-        opponent.joustReveal(entity, turn: turn)
+        opponent.joustReveal(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentGetToDeck(entity: Entity, cardId: String?, turn: Int) {
-        opponent.createInDeck(entity, turn: turn)
+        opponent.createInDeck(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, id: Int) {
-        opponent.secretTriggered(entity, turn: turn)
+        opponent.secretTriggered(entity, turn)
     }
 
     func opponentFatigue(value: Int) {
@@ -552,12 +572,12 @@ class Game {
     }
 
     func opponentCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
-        opponent.createInPlay(entity, turn: turn)
+        opponent.createInPlay(entity, turn)
     }
 
     func opponentStolen(entity: Entity, cardId: String?, turn: Int) {
-        opponent.stolenByOpponent(entity, turn: turn)
-        player.stolenFromOpponent(entity, turn: turn)
+        opponent.stolenByOpponent(entity, turn)
+        player.stolenFromOpponent(entity, turn)
         if let tracker = opponentTracker where entity.isSecret {
             tracker.update()
         }

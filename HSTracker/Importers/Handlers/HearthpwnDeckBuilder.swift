@@ -40,7 +40,7 @@ class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
                     if let id = split.first, let count = Int(split.last!) {
                         if let node = doc.at_xpath("//tr[@data-id='\(id)']/td[1]/b"), cardId = node.text {
                             DDLogVerbose("id : \(id) count : \(count) text : \(node.text)")
-                            if let card = Card.byEnglishName(cardId) {
+                            if let card = Cards.byEnglishName(cardId) {
                                 cards[card.cardId] = count
                             }
                         }

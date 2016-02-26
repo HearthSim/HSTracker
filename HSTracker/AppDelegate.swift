@@ -132,7 +132,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let databaseOperation = NSBlockOperation(block: {
             let database = Database()
-            if let images = database.loadDatabaseIfNeeded(self.splashscreen!) {
+            if let images = database.loadDatabase(self.splashscreen!) {
                 DDLogVerbose("need to download \(images)")
                 let imageDownloader = ImageDownloader()
                 imageDownloader.downloadImagesIfNeeded(images, splashscreen: self.splashscreen!)

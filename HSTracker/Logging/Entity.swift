@@ -62,7 +62,7 @@ class Entity: Equatable, CustomStringConvertible {
     
     func cardName(cardId: String?) -> String {
         if let cardId = cardId {
-            if let card = Card.byId(cardId) {
+            if let card = Cards.byId(cardId) {
                 return "[\(card.name) (\(cardId)]"
             }
         }

@@ -22,15 +22,24 @@ class Deck: NSManagedObject {
     @NSManaged var version: String
     @NSManaged var deckCards: Set<DeckCard>
     
+    var cards:[Card]?
+    
     var sortedCards: [Card] {
-        var cards = [Card]()
-        for deckCard in deckCards {
-            if let card = Card.byId(deckCard.cardId) {
-                card.count = deckCard.count
-                cards.append(card)
-            }
+        if let cards = self.cards {
+            return cards
         }
-        return cards.sortCardList()
+        else {
+            var cards = [Card]()
+            for deckCard in deckCards {
+                if let card = Cards.byId(deckCard.cardId) {
+                    card.count = deckCard.count
+                    cards.append(card)
+                }
+            }
+            cards = cards.sortCardList()
+            self.cards = cards
+            return cards
+        }
     }
 
     func displayStats() -> String {

@@ -55,7 +55,7 @@ class Hearthpwn: BaseNetImporter, NetImporterAware {
                         }
                         DDLogVerbose("got card \(card) with count \(count)")
                         if let card = card, count = count {
-                            if let _card = Card.byEnglishName(card) {
+                            if let _card = Cards.byEnglishName(card) {
                                 cards[_card.cardId] = count
                             }
                         }

@@ -26,8 +26,8 @@ class Hearthstats: BaseNetImporter, NetImporterAware {
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
                 var playerClass:String?
                 if let node = doc.at_xpath("//div[contains(@class,'win-count')]//img") {
-                    if let src = node["src"], let match = src.firstMatchWithDetails(NSRegularExpression.rx("\\/assets\\/Icons\\/Classes\\/(\\w+)_Icon\\.gif")) {
-                        playerClass = match.groups[1].value.lowercaseString
+                    if let alt = node["alt"] {
+                        playerClass = alt.lowercaseString
                         DDLogVerbose("got player class : \(playerClass)")
                     }
                 }
@@ -50,7 +50,7 @@ class Hearthstats: BaseNetImporter, NetImporterAware {
                 for node in doc.xpath("//div[contains(@class,'cardWrapper')]") {
                     if let card = node.at_xpath("div[@class='name']")?.text, let count = node.at_xpath("div[@class='qty']")?.text {
                         DDLogVerbose("card : \(card) -> count \(count)")
-                        if let card = Card.byEnglishName(card), let count = Int(count) {
+                        if let card = Cards.byEnglishName(card), let count = Int(count) {
                             cards[card.cardId] = count
                         }
                     }

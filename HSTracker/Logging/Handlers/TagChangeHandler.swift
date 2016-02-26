@@ -323,8 +323,28 @@ class TagChangeHandler {
             } else if tag == GameTag.PREDAMAGE && value > 0 {
             } else if tag == GameTag.NUM_TURNS_IN_PLAY && value > 0 {
             } else if tag == GameTag.NUM_ATTACKS_THIS_TURN && value > 0 {
-            } else if tag == GameTag.ZONE_POSITION {
-            } else if tag == GameTag.CARD_TARGET && value > 0 {
+            }
+            else if tag == GameTag.ZONE_POSITION {
+                if let entity = game.entities[id], let zone:Zone = Zone(rawValue: entity.getTag(.ZONE)) {
+                    if zone == .HAND {
+                        if controller == game.player.id {
+                            game.handleZonePositionUpdate(.Player, entity, .HAND, game.turnNumber())
+                        }
+                        else if controller == game.opponent.id {
+                            game.handleZonePositionUpdate(.Opponent, entity, .HAND, game.turnNumber())
+                        }
+                    }
+                    else if zone == .PLAY {
+                        if controller == game.player.id {
+                            game.handleZonePositionUpdate(.Player, entity, .PLAY, game.turnNumber())
+                        }
+                        else if controller == game.opponent.id {
+                            game.handleZonePositionUpdate(.Opponent, entity, .PLAY, game.turnNumber())
+                        }
+                    }
+                }
+            }
+            else if tag == GameTag.CARD_TARGET && value > 0 {
             } else if tag == GameTag.EQUIPPED_WEAPON && value == 0 {
             } else if tag == GameTag.EXHAUSTED && value > 0 {
             } else if tag == GameTag.CONTROLLER && prevValue > 0 {

@@ -16,11 +16,7 @@ extension String {
         return self.hasPrefix(str)
     }
 
-    func trim() -> String {
-      return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-    }
-
-    func substringWithRange(start: Int, end: Int) -> String {
+      func substringWithRange(start: Int, end: Int) -> String {
         if (start < 0 || start > self.characters.count) {
             print("start index \(start) out of bounds")
             return ""

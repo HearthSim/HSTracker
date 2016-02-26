@@ -80,9 +80,9 @@ class CardCellView: NSTableCellView {
         if let card = self.card {
             if self.playerType == .Player {
                 showAlpha = card.count == 0
-                if !settings.inHandAsPlayed {
-                    showAlpha = showAlpha && card.handCount <= 0
-                }
+                //if !settings.inHandAsPlayed {
+                //    showAlpha = showAlpha && card.count <= 0
+                //}
 
                 alpha = (showAlpha) ? 0.4 : 1.0
             } else {

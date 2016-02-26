@@ -7,13 +7,9 @@
 //
 
 import Foundation
-import CoreData
-import MagicalRecord
 
-@objc(CardMechanic)
-class CardMechanic: NSManagedObject {
+class CardMechanic {
 
-    @NSManaged var name: String
-    @NSManaged var cards: Set<Card>
-
+    var name: String = ""
+    
 }

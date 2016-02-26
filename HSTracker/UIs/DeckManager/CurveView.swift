@@ -22,26 +22,24 @@ class CurveView : NSView {
         guard let deck = self.deck else {return}
         
         // let's count that stuff
-        for deckCard in deck.deckCards {
-            if let card = Card.byId(deckCard.cardId) {
-                var cost = card.cost
-                if cost > 7 {
-                    cost = 7
-                }
-                
-                if counts[cost] == nil {
-                    counts[cost] = CardCount(count: 0, minion: 0, spell: 0, weapon: 0)
-                }
-                var cardCount = self.counts[cost]
-                cardCount!.count += deckCard.count
-                switch (card.type) {
-                case "minion": cardCount!.minion += card.count
-                case "spell": cardCount!.spell += card.count
-                case "weapon": cardCount!.weapon += card.count
-                default: continue
-                }
-                counts[cost] = cardCount
+        for card in deck.sortedCards {
+            var cost = card.cost
+            if cost > 7 {
+                cost = 7
             }
+            
+            if counts[cost] == nil {
+                counts[cost] = CardCount(count: 0, minion: 0, spell: 0, weapon: 0)
+            }
+            var cardCount = self.counts[cost]
+            cardCount!.count += card.count
+            switch (card.type) {
+            case "minion": cardCount!.minion += card.count
+            case "spell": cardCount!.spell += card.count
+            case "weapon": cardCount!.weapon += card.count
+            default: continue
+            }
+            counts[cost] = cardCount
         }
         self.needsDisplay = true
     }
@@ -71,9 +69,9 @@ class CurveView : NSView {
         ]
         
         // get the biggest value
-        let biggest = counts.map({ $0.1.count }).maxElement({ $0 < $1 })
+        let biggest:Int = counts.map({ $0.1.count }).maxElement({ $0 < $1 })!
         // and get a unit based on this value
-        let oneUnit = Int(barHeight) / biggest!
+        let oneUnit = Int(barHeight) / biggest
         
         let style = NSMutableParagraphStyle()
         style.alignment = NSCenterTextAlignment

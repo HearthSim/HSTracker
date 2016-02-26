@@ -281,7 +281,7 @@ class PowerGameStateHandler {
                 } else if actionStartingCardId == CardIds.NonCollectible.Neutral.MapToTheGoldenMonkeyToken {
                     addKnownCardId(CardIds.NonCollectible.Neutral.GoldenMonkeyToken)
                 } else {
-                    let card = Card.byId(actionStartingCardId!)
+                    let card = Cards.byId(actionStartingCardId!)
                     if card != nil && card!.type == "hero power" {
                         if player != nil && player!.getTag(GameTag.CURRENT_PLAYER) == 1 {
                             tagChangeHandler.playerUsedHeroPower = true

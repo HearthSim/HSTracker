@@ -30,6 +30,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     var classes = [String]()
     var currentClass:String?
     var currentDeck:Deck?
+    var currentCell: DeckCellView?
     
     convenience init() {
         self.init(windowNibName: "DeckManager")
@@ -204,9 +205,11 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     
     // MARK: - DeckCellViewDelegate
     func moreClicked(cell: DeckCellView) {
+        currentCell = cell
+        
         let menu = NSMenu()
         var menuItem = NSMenuItem(title: NSLocalizedString("Use", comment: ""),
-            action: "",
+            action: "useDeck:",
             keyEquivalent: "")
         menu.addItem(menuItem)
         menuItem = NSMenuItem(title: NSLocalizedString("Edit", comment: ""),
@@ -214,7 +217,14 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             keyEquivalent: "")
         menu.addItem(menuItem)
         
-        NSMenu.popUpContextMenu(menu, withEvent:NSApp.currentEvent!, forView: cell.moreButton)
+        NSMenu.popUpContextMenu(menu, withEvent: NSApp.currentEvent!, forView: cell.moreButton)
+    }
+    
+    func useDeck(sender:AnyObject?) {
+        if let cell = currentCell, deck = cell.deck {
+            Game.instance.setActiveDeck(deck)
+            Game.instance.playerTracker?.update()
+        }
     }
     
     // MARK: - NewDeckDelegate

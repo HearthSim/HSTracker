@@ -220,7 +220,20 @@ class Settings {
             }
         }
     }
-
+    var showPlayerGet: Bool {
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "show_player_get")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        get {
+            if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("show_player_get") as? Bool {
+                return returnValue
+            } else {
+                return false
+            }
+        }
+    }
+    
     var isCyrillicOrAsian: Bool {
         get {
             if let language = hearthstoneLanguage {
