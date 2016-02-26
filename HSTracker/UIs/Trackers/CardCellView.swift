@@ -27,6 +27,7 @@ class CardCellView: NSTableCellView {
     var extraInfo: CALayer = CALayer()
     var flashLayer: CALayer = CALayer()
     var maskLayer: CALayer = CALayer()
+    var darkenLayer: CALayer = CALayer()
 
     var trackingArea: NSTrackingArea?
     var delegate: CardCellHover?
@@ -66,6 +67,8 @@ class CardCellView: NSTableCellView {
         self.layer!.addSublayer(frameCountBox)
 
         self.layer!.addSublayer(extraInfo)
+        
+        self.layer!.addSublayer(darkenLayer)
 
         // the layer for flashing the card on draw
         self.layer!.addSublayer(flashLayer)
@@ -75,19 +78,7 @@ class CardCellView: NSTableCellView {
 
     override func updateLayer() {
         let settings = Settings.instance
-        var alpha: Float
-        var showAlpha: Bool
         if let card = self.card {
-            if self.playerType == .Player {
-                showAlpha = card.count == 0
-                //if !settings.inHandAsPlayed {
-                //    showAlpha = showAlpha && card.count <= 0
-                //}
-
-                alpha = (showAlpha) ? 0.4 : 1.0
-            } else {
-                alpha = card.count == 0 ? 0.4 : 1.0
-            }
 
             var ratio: Double
             switch settings.cardSize {
@@ -108,8 +99,27 @@ class CardCellView: NSTableCellView {
             var width = 110.0 / ratio
             var height = 34.0 / ratio
             cardLayer.frame = NSRect(x: x, y: y, width: width, height: height)
-            cardLayer.opacity = alpha
 
+            // draw the frame
+            var frameImage = ImageCache.frameImage(nil)
+            if card.highlightFrame {
+                frameImage = ImageCache.frameImage("golden")
+                //_card.IsFrameHighlighted = true;
+            } else {
+                //_card.IsFrameHighlighted = true;
+                if settings.showRarityColors {
+                    frameImage = ImageCache.frameImage(card.rarity)
+                }
+            }
+            frameLayer.contents = frameImage
+            x = 1.0 / ratio
+            y = 0.0 / ratio
+            width = 218.0 / ratio
+            height = 35.0 / ratio
+            let frameRect = NSRect(x: x, y: y, width: width, height: height)
+            frameLayer.frame = frameRect
+            
+            // draw the gem
             if settings.showRarityColors {
                 gemLayer.contents = ImageCache.gemImage(card.rarity)
             } else {
@@ -120,27 +130,12 @@ class CardCellView: NSTableCellView {
             width = 28.0 / ratio
             height = 28.0 / ratio
             gemLayer.frame = NSRect(x: x, y: y, width: width, height: height)
-            gemLayer.opacity = alpha
-
-            // draw the frame
-            if card.isStolen {
-                frameLayer.contents = ImageCache.frameDeckImage()
-            } else {
-                frameLayer.contents = ImageCache.frameImage(card.rarity)
-            }
-            x = 1.0 / ratio
-            y = 0.0 / ratio
-            width = 218.0 / ratio
-            height = 35.0 / ratio
-            let frameRect = NSRect(x: x, y: y, width: width, height: height)
-            frameLayer.frame = frameRect
-            frameLayer.opacity = alpha
 
             // print the card name
-            let strokeColor = NSColor(red: 0, green: 0, blue: 0, alpha: CGFloat(alpha))
-            var foreground = NSColor(red: 255, green: 255, blue: 255, alpha: CGFloat(alpha))
-            if card.count > 0 && self.playerType == .Player {
-                foreground = settings.flashColor.colorWithAlphaComponent(CGFloat(alpha))
+            let strokeColor = NSColor.blackColor()
+            var foreground = NSColor.whiteColor()
+            if self.playerType == .Player {
+                foreground = card.textColor()
             }
 
             var nameFont: NSFont
@@ -161,7 +156,6 @@ class CardCellView: NSTableCellView {
             width = 174.0 / ratio
             height = 30.0 / ratio
             textLayer.frame = NSRect(x: x, y: y, width: width, height: height)
-            textLayer.opacity = alpha
             textLayer.string = name
 
             let cardCost = card.cost
@@ -181,24 +175,17 @@ class CardCellView: NSTableCellView {
 
             costLayer.frame = NSRect(x: x, y: y, width: width, height: height)
             costLayer.string = cost
-
-            // by default, we only show 2 or more
-            let minCount = settings.showOneCard ? 1 : 2
-
-            if card.count >= minCount || card.rarity == "legendary" {
-                // add the background of the card count
-                if card.isStolen {
-                    frameCountBox.contents = ImageCache.frameCountboxDeck()
-                } else {
-                    frameCountBox.contents = ImageCache.frameCountbox()
-                }
+            
+            // add card count
+            if abs(card.count) > 1 || card.rarity == "legendary" {
+                frameCountBox.contents = ImageCache.frameCountbox()
                 x = 189.0 / ratio
                 y = 5.0 / ratio
                 width = 25.0 / ratio
                 height = 24.0 / ratio
                 frameCountBox.frame = NSRect(x: x, y: y, width: width, height: height)
 
-                if (card.count >= minCount && card.count < 9) && card.rarity != "legendary" {
+                if abs(card.count) > 1 && abs(card.count) <= 9 {
                     // the card count
                     extraInfo.contents = ImageCache.frameCount(card.count)
                 } else {
@@ -214,8 +201,13 @@ class CardCellView: NSTableCellView {
                 extraInfo.contents = nil
                 frameCountBox.contents = nil
             }
-            frameCountBox.opacity = alpha
-            extraInfo.opacity = alpha
+            
+            if card.count <= 0 || card.jousted {
+                darkenLayer.contents = ImageCache.darkenImage()
+                darkenLayer.frame = frameRect
+            } else {
+                darkenLayer.contents = nil
+            }
 
             flashLayer.frame = self.bounds
             maskLayer.frame = frameRect
@@ -238,6 +230,10 @@ class CardCellView: NSTableCellView {
         fade.fillMode = kCAFillModeBoth
 
         flashLayer.addAnimation(fade, forKey: "alpha")
+    }
+    
+    func addCardImage() {
+        
     }
 
     // MARK: - mouse hover

@@ -20,7 +20,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     var cards = [Card]()
     var player: Player?
     var playerType: PlayerType?
-
+    
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -68,17 +68,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
 
         self.tableColumn!.width = NSWidth(self.table!.bounds)
         self.tableColumn!.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
-
-        /*PlayCard *playCard = [[PlayCard alloc] init];
-      playCard.count = @2;
-      playCard.card = [Card byId:@"GVG_078"];
-      [self.cards addObject:playCard];
-
-      playCard = [[PlayCard alloc] init];
-      playCard.count = @1;
-      playCard.card = [Card byId:@"GVG_110"];
-      [self.cards addObject:playCard];*/
-
+        
         self.table!.reloadData()
     }
 
@@ -165,35 +155,6 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     func gameEnd() {
         self.gameEnded = true
     }
-
-/*- (void)setHero:(Card *)card
-{
-  self.heroCard = card;
-  if (self.heroCard && self.heroCard.playerClass && ![Settings instance].fixedWindowNames) {
-    [self.window setTitle:NSLocalizedString(self.heroCard.playerClass, nil)];
-  }
-}*/
-
-/*- (void)play:(Card *)card from:(NSInteger)from turn:(NSInteger)turn
-{
-  BOOL found = NO;
-  for (PlayCard *playCard in self.cards) {
-    if ([playCard.card.cardId isEqualToString:card.cardId]) {
-      playCard.count += 1;
-      found = YES;
-      break;
-    }
-  }
-
-  if (!found) {
-    PlayCard *playCard = [[PlayCard alloc] init];
-    playCard.count = 1;
-    playCard.card = card;
-    [self.cards addObject:playCard];
-  }
-
-  [self.table reloadData];
-}*/
 
     func update() {
         if let playerType = self.playerType {

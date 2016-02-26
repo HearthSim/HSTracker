@@ -68,6 +68,10 @@ class Game {
 
         player.reset()
         opponent.reset()
+        if activeDeck != nil {
+            activeDeck?.reset()
+            setActiveDeck(activeDeck!)
+        }
     }
     
     func setActiveDeck(deck:Deck)

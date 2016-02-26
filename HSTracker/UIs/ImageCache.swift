@@ -47,16 +47,23 @@ class ImageCache {
         return self.imageNamed("frame_deck", from: .Assets)
     }
 
-    static func frameImage(rarity: String) -> NSImage? {
-        var image: String
-        switch rarity {
-        case "common":image = "frame_rarity_common"
-        case "rare":image = "frame_rarity_rare"
-        case "epic":image = "frame_rarity_epic"
-        case "legendary":image = "frame_rarity_legendary"
-        default:image = "frame"
+    static func frameImage(rarity: String?) -> NSImage? {
+        var image: String = "frame"
+        if let rarity = rarity {
+            switch rarity {
+            case "common":image = "frame_rarity_common"
+            case "rare":image = "frame_rarity_rare"
+            case "epic":image = "frame_rarity_epic"
+            case "legendary":image = "frame_rarity_legendary"
+            case "golden":image = "frame_golden"
+            default: break
+            }
         }
         return self.imageNamed(image, from: .Assets)
+    }
+    
+    static func darkenImage() -> NSImage? {
+        return self.imageNamed("darken", from: .Assets)
     }
 
     static func frameLegendary() -> NSImage? {

@@ -41,6 +41,10 @@ class Deck: NSManagedObject {
             return cards
         }
     }
+    
+    func reset() {
+        self.cards = nil
+    }
 
     func displayStats() -> String {
         // TODO

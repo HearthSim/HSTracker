@@ -117,6 +117,7 @@ class Player {
             }
             .filter { $0 != nil }
             .map { $0! }
+            .sortCardList()
     }
     
     func displayCards() -> [Card] {
@@ -168,19 +169,18 @@ class Player {
             .filter { $0 != nil }
             .map { $0! }
         
-        
         if settings.removeCardsFromDeck {
             if settings.highlightLastDrawn {
                 let drawHighlight = Game.instance.activeDeck!.sortedCards.filter { (card:Card) in
                     self.hightlightedCards.contains(card.cardId) && stillInDeck.all { (c:Card) in c.cardId != card.cardId  }
-                    }
+                }
                     .map { card -> Card in
                         let c:Card = card.copy() as! Card
                         c.count = 0
                         c.highlightDraw = true
                         return c
                 }
-                stillInDeck.appendContentsOf(drawHighlight)
+                stillInDeck += drawHighlight
             }
             
             if settings.highlightCardsInHand {
@@ -203,14 +203,14 @@ class Player {
                         
                         return c
                 }
-                stillInDeck.appendContentsOf(inHand)
+                stillInDeck += inHand
             }
             return stillInDeck.sortCardList()
         }
-
+        
         let notInDeck = Game.instance.activeDeck!.sortedCards.filter { (card:Card) in
             self.deck.all { (c:CardEntity) in c.cardId != card.cardId }
-        }
+            }
             .map { card -> Card in
                 let c:Card = card.copy() as! Card
                 c.count = 0
@@ -230,8 +230,7 @@ class Player {
                 return c
         }
         
-        stillInDeck.appendContentsOf(notInDeck)
-        stillInDeck.appendContentsOf(createdInHand)
+        stillInDeck += notInDeck + createdInHand
         return stillInDeck.sortCardList()
     }
 

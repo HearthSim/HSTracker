@@ -72,6 +72,7 @@
 		439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */; };
 		439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEF1C78A71300D29859 /* MainMenu.xib */; };
 		439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EF01C78A71300D29859 /* Splashscreen.xib */; };
+		43D0C7D41C80E40A0091C565 /* .editorconfig in Resources */ = {isa = PBXBuildFile; fileRef = 43D0C7D31C80E40A0091C565 /* .editorconfig */; };
 		43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB931C7DE1E40077AC1B /* DeckManager.xib */; };
 		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
 		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
@@ -170,6 +171,7 @@
 		439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialConfiguration.xib; sourceTree = "<group>"; };
 		439C7EEF1C78A71300D29859 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		439C7EF01C78A71300D29859 /* Splashscreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Splashscreen.xib; sourceTree = "<group>"; };
+		43D0C7D31C80E40A0091C565 /* .editorconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .editorconfig; sourceTree = "<group>"; };
 		43EECB931C7DE1E40077AC1B /* DeckManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckManager.xib; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
 		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
+				43D0C7D31C80E40A0091C565 /* .editorconfig */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
 				439C7E6A1C7772C100D29859 /* HSTrackerUITests */,
@@ -559,6 +562,7 @@
 				43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */,
 				439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
+				43D0C7D41C80E40A0091C565 /* .editorconfig in Resources */,
 				439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

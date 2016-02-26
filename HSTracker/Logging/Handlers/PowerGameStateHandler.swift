@@ -102,18 +102,19 @@ class PowerGameStateHandler {
                         game.tmpEntities.append(tmpEntity!)
                     }
 
-                    let _tag: GameTag = GameTag(rawString: tag)!
-                    let tagValue = tagChangeHandler.parseTag(_tag, value)
-                    if let tmpEntity = tmpEntity {
-                        tmpEntity.setTag(_tag, tagValue)
-                        if tmpEntity.hasTag(GameTag.ENTITY_ID) {
-                            let id = tmpEntity.getTag(GameTag.ENTITY_ID)
-                            if (game.entities[id] != nil) {
-                                game.entities[id]!.name = tmpEntity.name
-                                tmpEntity.tags.forEach({ (tmpTag, tmpValue) -> () in
-                                    game.entities[id]!.setTag(tmpTag, tmpValue)
-                                })
-                                game.tmpEntities.remove(tmpEntity)
+                    if let _tag: GameTag = GameTag(rawString: tag) {
+                        let tagValue = tagChangeHandler.parseTag(_tag, value)
+                        if let tmpEntity = tmpEntity {
+                            tmpEntity.setTag(_tag, tagValue)
+                            if tmpEntity.hasTag(GameTag.ENTITY_ID) {
+                                let id = tmpEntity.getTag(GameTag.ENTITY_ID)
+                                if (game.entities[id] != nil) {
+                                    game.entities[id]!.name = tmpEntity.name
+                                    tmpEntity.tags.forEach({ (tmpTag, tmpValue) -> () in
+                                        game.entities[id]!.setTag(tmpTag, tmpValue)
+                                    })
+                                    game.tmpEntities.remove(tmpEntity)
+                                }
                             }
                         }
                     }

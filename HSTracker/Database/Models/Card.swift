@@ -45,6 +45,26 @@ class Card : CustomStringConvertible {
         return self.enName
     }
     
+    func textColor() -> NSColor {
+        var color:NSColor
+        if  highlightDraw && Settings.instance.highlightLastDrawn {
+            color = NSColor(red:1, green:0.647, blue:0, alpha:1)
+        }
+        else if highlightInHand && Settings.instance.highlightCardsInHand {
+            color = NSColor(red:0.678, green:1, blue:0.184, alpha:1)
+        }
+        else if count <= 0 || jousted {
+            color = NSColor(red:0.501, green:0.501, blue:0.501, alpha:1)
+        }
+        else if wasDiscarded && Settings.instance.highlightDiscarded {
+            color = NSColor(red:0.803, green:0.36, blue:0.36, alpha:1)
+        }
+        else {
+            color = NSColor.whiteColor()
+        }
+        return color
+    }
+    
     func copy() -> AnyObject {
         let copy = Card()
         copy.cardId = self.cardId
@@ -99,7 +119,7 @@ class Card : CustomStringConvertible {
             + ", self.wasDiscarded=\(self.wasDiscarded)"
             + ", self.highlightDraw=\(self.highlightDraw)"
             + ", self.highlightInHand=\(self.highlightInHand)"
-            + ", self.highlightFrame=\(self.highlightFrame)"
+            + ", self.highlightFrame=\(self.highlightFrame)>"
     }
 
 }

@@ -177,7 +177,7 @@ class Settings {
             if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("remove_cards_from_deck") as? Bool {
                 return returnValue
             } else {
-                return false
+                return true
             }
         }
     }
@@ -203,7 +203,7 @@ class Settings {
             if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("highlight_cards_in_hand") as? Bool {
                 return returnValue
             } else {
-                return false
+                return true
             }
         }
     }
