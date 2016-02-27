@@ -13,26 +13,12 @@ import Foundation
 class BobHandler {
     static func handle(line: String) {
 
-        if !line.isMatch(NSRegularExpression.rx("---Register")) {
-            return
+        let legendRank = NSRegularExpression.rx("legend rank (\\d+)")
+        if !line.isMatch(legendRank) {
+            /*let match = line.firstMatchWithDetails(legendRank)
+            if let rank = Int(match.groups[1].value) {
+                game.MetaData.LegendRank = rank;
+           }*/
         }
-
-        if line.isMatch(NSRegularExpression.rx("---RegisterScreenBox---")) {
-            if (Game.instance.gameMode == GameMode.Spectator) {
-                Game.instance.gameEnd()
-            }
-        }
-        /*else if ([line isMatch:RX(@"---RegisterScreenForge---")]) {
-          game.gameMode = EGameMode_Arena;
-        }
-        else if ([line isMatch:RX(@"---RegisterScreenPractice---")]) {
-          game.gameMode = EGameMode_Practice;
-        }
-        else if ([line isMatch:RX(@"---RegisterScreenTourneys---")]) {
-          game.gameMode = EGameMode_Casual;
-        }
-        else if ([line isMatch:RX(@"---RegisterScreenFriendly---")]) {
-          game.gameMode = EGameMode_Friendly;
-        }*/
     }
 }

@@ -72,12 +72,12 @@
 		439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */; };
 		439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEF1C78A71300D29859 /* MainMenu.xib */; };
 		439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EF01C78A71300D29859 /* Splashscreen.xib */; };
-		43D0C7D41C80E40A0091C565 /* .editorconfig in Resources */ = {isa = PBXBuildFile; fileRef = 43D0C7D31C80E40A0091C565 /* .editorconfig */; };
 		43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB931C7DE1E40077AC1B /* DeckManager.xib */; };
 		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
 		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
 		43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB991C7E3F620077AC1B /* DeckCellView.xib */; };
 		43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB9B1C7E4EA20077AC1B /* CurveView.swift */; };
+		43F000301C81BAE8000F2F8F /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F0002F1C81BAE8000F2F8F /* Mode.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
 /* End PBXBuildFile section */
 
@@ -171,12 +171,12 @@
 		439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialConfiguration.xib; sourceTree = "<group>"; };
 		439C7EEF1C78A71300D29859 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		439C7EF01C78A71300D29859 /* Splashscreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Splashscreen.xib; sourceTree = "<group>"; };
-		43D0C7D31C80E40A0091C565 /* .editorconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .editorconfig; sourceTree = "<group>"; };
 		43EECB931C7DE1E40077AC1B /* DeckManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckManager.xib; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
 		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
 		43EECB991C7E3F620077AC1B /* DeckCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckCellView.xib; sourceTree = "<group>"; };
 		43EECB9B1C7E4EA20077AC1B /* CurveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveView.swift; sourceTree = "<group>"; };
+		43F0002F1C81BAE8000F2F8F /* Mode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
 		6DF6E90CEA5D7299D8A9A854 /* Pods-HSTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTracker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker.debug.xcconfig"; sourceTree = "<group>"; };
 		787C11774664AC0A4051C8E4 /* Pods-HSTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTracker.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker.release.xcconfig"; sourceTree = "<group>"; };
@@ -260,7 +260,6 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
-				43D0C7D31C80E40A0091C565 /* .editorconfig */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
 				439C7E6A1C7772C100D29859 /* HSTrackerUITests */,
@@ -376,6 +375,7 @@
 				439C7E9D1C777F8900D29859 /* PlayState.swift */,
 				439C7E9E1C777F8900D29859 /* TagClass.swift */,
 				439C7E9F1C777F8900D29859 /* Zone.swift */,
+				43F0002F1C81BAE8000F2F8F /* Mode.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -562,7 +562,6 @@
 				43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */,
 				439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
-				43D0C7D41C80E40A0091C565 /* .editorconfig in Resources */,
 				439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -662,6 +661,7 @@
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
 				439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */,
+				43F000301C81BAE8000F2F8F /* Mode.swift in Sources */,
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,
 				439C7EC81C777F8900D29859 /* Hearthstone.swift in Sources */,
 				434C2F381C7F487D001D1D91 /* Hearthstats.swift in Sources */,

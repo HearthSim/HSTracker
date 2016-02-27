@@ -8,7 +8,7 @@
  * Created on 14/02/16.
  */
 
-class Entity: Equatable, CustomStringConvertible {
+class Entity: Hashable, CustomStringConvertible {
     var id: Int
     var isPlayer: Bool
     var cardId: String?
@@ -39,15 +39,19 @@ class Entity: Equatable, CustomStringConvertible {
     }
 
     func isInZone(zone: Zone) -> Bool {
-        return self.hasTag(GameTag.ZONE) ? false : self.getTag(GameTag.ZONE) == zone.rawValue
+        return self.hasTag(.ZONE) ? false : self.getTag(.ZONE) == zone.rawValue
     }
 
     func isControllerBy(controller: Int) -> Bool {
-        return self.hasTag(GameTag.CONTROLLER) ? false : self.getTag(GameTag.CONTROLLER) == controller
+        return self.hasTag(.CONTROLLER) ? false : self.getTag(.CONTROLLER) == controller
     }
 
     var isSecret: Bool {
-        return self.hasTag(GameTag.SECRET)
+        return self.hasTag(.SECRET)
+    }
+    
+    var isSpell: Bool {
+        return self.getTag(.CARDTYPE) == CardType.SPELL.rawValue
     }
     
     var description: String {
@@ -67,6 +71,10 @@ class Entity: Equatable, CustomStringConvertible {
             }
         }
         return "N/A"
+    }
+    
+    var hashValue: Int {
+        return id.hashValue
     }
 }
 

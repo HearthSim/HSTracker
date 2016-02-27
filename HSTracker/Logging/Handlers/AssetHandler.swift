@@ -30,17 +30,17 @@ class AssetHandler {
             }
         } else if line.isMatch(NSRegularExpression.rx("rank_window")) {
             game.rankFound = true
-            game.gameMode = .Ranked
+            game.currentGameMode = .Ranked
         } else if line.isMatch(NSRegularExpression.rx(UnloadingCard)) {
             let match = line.firstMatchWithDetails(NSRegularExpression.rx(UnloadingCard))
             let cardId: String = match.groups[1].value
-            if game.gameMode == .Arena {
+            if game.currentGameMode == .Arena {
                 DDLogInfo("Possible arena card draft : \(cardId) ?")
             } else {
                 DDLogInfo("Possible constructed card draft : \(cardId) ?")
             }
         } else if line.isMatch(NSRegularExpression.rx("unloading name=Tavern_Brawl")) {
-            game.gameMode = .Brawl
+            game.currentGameMode = .Brawl
         }
     }
 

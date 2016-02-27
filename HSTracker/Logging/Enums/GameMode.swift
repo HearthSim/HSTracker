@@ -10,13 +10,14 @@
 
 import Foundation
 
-enum GameMode: String {
-    case Unknow,
-         Ranked,
-         Casual,
-         Arena,
-         Brawl,
-         Spectator,
-         Friendly,
-         Practice
+enum GameMode : Int {
+    case All, //for filtering @ deck stats
+    Ranked,
+    Casual,
+    Arena,
+    Brawl,
+    Friendly,
+    Practice,
+    Spectator,
+    None
 }

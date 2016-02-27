@@ -20,34 +20,49 @@ class LoadingScreenHandler {
         }
 
         let match = line.firstMatchWithDetails(NSRegularExpression.rx(regex))
-        let prev: String = match.groups[1].value
-        if let newMode = self.parseGameMode(match.groups[2].value) {
-
-            let game = Game.instance
-            if !(game.gameMode == .Ranked && newMode == .Casual) {
-                game.gameMode = newMode
-            }
-            if (prev == "GAMEPLAY") {
-                //gameState.GameHandler.HandleInMenu();
+        let game = Game.instance
+        
+        game.currentMode = Mode(rawValue: match.groups[2].value)
+        game.previousMode = Mode(rawValue: match.groups[1].value)
+        
+        var newMode: GameMode?
+        if let mode = game.currentMode, currentMode = getGameMode(mode) {
+            newMode = currentMode
+        }
+        else if let mode = game.currentMode, currentMode = getGameMode(mode) {
+            newMode = currentMode
+        }
+        
+        if let newMode = newMode where !(game.currentGameMode == .Ranked && newMode == .Casual) {
+            game.currentGameMode = newMode
+        }
+        if game.previousMode == .GAMEPLAY {
+            //game.handleInMenu()
+        }
+        if let currentMode = game.currentMode {
+            switch currentMode {
+            case .COLLECTIONMANAGER,
+            .TAVERN_BRAWL:
+                //gameState.GameHandler.ResetConstructedImporting();
+                break
+                
+            case .DRAFT:
+                //game.ResetArenaCards();
+                break
+                
+            default:break
             }
         }
     }
-
-    static func parseGameMode(mode: String) -> GameMode? {
+    
+    static func getGameMode(mode:Mode) -> GameMode? {
         switch mode {
-        case "ADVENTURE":
-            return .Practice
-        case "TAVERN_BRAWL":
-            return .Brawl
-        case "TOURNAMENT":
-            return .Casual
-        case "DRAFT":
-            return .Arena
-        case "FRIENDLY":
-            return .Friendly
-        default:
-            return nil
+        case Mode.TOURNAMENT: return .Casual
+        case Mode.FRIENDLY: return .Friendly
+        case Mode.DRAFT: return .Arena
+        case Mode.ADVENTURE: return .Practice
+        case Mode.TAVERN_BRAWL: return .Brawl
+        default: return nil
         }
     }
-
 }

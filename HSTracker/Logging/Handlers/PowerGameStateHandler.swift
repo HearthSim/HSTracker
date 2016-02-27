@@ -44,7 +44,9 @@ class PowerGameStateHandler {
             if let id = Int(match.groups[1].value) {
                 //DDLogVerbose("GameEntityRegex id : \(id)")
                 if game.entities[id] == nil {
-                    game.entities[id] = Entity(id)
+                    let entity = Entity(id)
+                    entity.name = "GameEntity"
+                    game.entities[id] = entity
                 }
                 game.currentEntityId = id
             }
@@ -159,7 +161,7 @@ class PowerGameStateHandler {
                 game.entities[id] = entity
             }
             game.currentEntityId = id
-            tagChangeHandler.currentEntityHasCardId = !cardId.isEmpty
+            game.currentEntityHasCardId = !cardId.isEmpty
         }
         
         else if line.isMatch(UpdatingEntityRegex) {
@@ -190,9 +192,9 @@ class PowerGameStateHandler {
             if game.joustReveals > 0 {
                 if let currentEntity = game.entities[entityId!] {
                     if currentEntity.isControllerBy(game.opponent.id!) {
-                        game.opponentJoust(currentEntity, cardId: cardId, turn: game.turnNumber())
+                        game.opponentJoust(currentEntity, cardId, game.turnNumber())
                     } else if currentEntity.isControllerBy(game.player.id!) {
-                        game.playerJoust(currentEntity, cardId: cardId, turn: game.turnNumber())
+                        game.playerJoust(currentEntity, cardId, game.turnNumber())
                     }
                 }
             }
@@ -207,11 +209,11 @@ class PowerGameStateHandler {
         }
         
         else if line.containsString("Begin Spectating") || line.containsString("Start Spectator") {
-            game.gameMode = GameMode.Spectator
+            game.currentGameMode = GameMode.Spectator
         }
         
         else if line.containsString("End Spectator") {
-            game.gameMode = GameMode.Spectator
+            game.currentGameMode = GameMode.Spectator
             game.gameEnd()
         }
         
@@ -224,23 +226,10 @@ class PowerGameStateHandler {
             let player: Entity? = Array(game.entities.values).filter {$0.getTag(GameTag.PLAYER_ID) == game.player.id }.first
             let opponent: Entity? = Array(game.entities.values).filter {$0.getTag(GameTag.PLAYER_ID) == game.opponent.id }.first
 
-            var actionEntity: Entity
             if let _actionStartingCardId = actionStartingCardId where _actionStartingCardId.isEmpty {
                 if game.entities[actionStartingEntityId] != nil {
-                    actionEntity = game.entities[actionStartingEntityId]!
+                    let actionEntity = game.entities[actionStartingEntityId]!
                     actionStartingCardId = actionEntity.cardId
-                }
-            }
-
-            if game.entities[actionStartingEntityId] != nil {
-                actionEntity = game.entities[actionStartingEntityId]!
-
-                if actionEntity.hasTag(GameTag.CONTROLLER) && actionEntity.getTag(GameTag.CONTROLLER) == game.player.id
-                        && actionEntity.getTag(GameTag.CARDTYPE) == CardType.SPELL.rawValue {
-                    //NSInteger targetEntityId = [actionEntity getTag:EGameTag_CARD_TARGET];
-                    //Entity *targetEntity;
-                    //var targetsMinion = game.Entities.TryGetValue(targetEntityId, out targetEntity) && targetEntity.IsMinion;
-                    //gameState.GameHandler.HandlePlayerSpellPlayed(targetsMinion);
                 }
             }
 
@@ -285,11 +274,11 @@ class PowerGameStateHandler {
                     let card = Cards.byId(actionStartingCardId!)
                     if card != nil && card!.type == "hero power" {
                         if player != nil && player!.getTag(GameTag.CURRENT_PLAYER) == 1 {
-                            tagChangeHandler.playerUsedHeroPower = true
+                            game.playerUsedHeroPower = true
                             DDLogInfo("player use hero power")
                         } else if opponent != nil {
                             DDLogInfo("opponent use hero power")
-                            tagChangeHandler.opponentUsedHeroPower = true
+                            game.opponentUsedHeroPower = true
                         }
                     }
                 }

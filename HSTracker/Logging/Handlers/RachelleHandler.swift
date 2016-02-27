@@ -22,7 +22,7 @@ class RachelleHandler {
         if line.isMatch(NSRegularExpression.rx(CardInCache)) {
             let match = line.firstMatchWithDetails(NSRegularExpression.rx(CardInCache))
             let cardId: String = match.groups[1].value
-            if Game.instance.gameMode == .Arena {
+            if Game.instance.currentGameMode == .Arena {
                 DDLogInfo("Possible arena card draft : \(cardId) ?")
             } else {
                 DDLogInfo("Possible constructed card draft : \(cardId) ?")

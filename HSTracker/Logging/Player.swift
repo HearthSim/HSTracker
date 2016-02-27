@@ -270,53 +270,49 @@ class Player {
 
     func createInDeck(entity: Entity, _ turn: Int) {
         var cardEntity: CardEntity
+        
+        let created = turn > 1
 
         if self.isLocalPlayer {
             cardEntity = CardEntity(cardId: nil, entity: entity)
             cardEntity.turn = turn
+            cardEntity.created = created
             self.deck.append(cardEntity)
 
             let ce = CardEntity(cardId: nil, entity: entity)
             ce.turn = turn
+            ce.created = created
             self.revealedCards.append(ce)
         } else {
             self.deck.append(CardEntity())
-            self.revealDeckCard(entity.cardId!, turn)
+            self.revealDeckCard(entity.cardId!, turn, created)
             cardEntity = CardEntity(cardId: entity.cardId, entity: nil)
             cardEntity.turn = turn
+            cardEntity.created = created
             self.revealedCards.append(cardEntity)
         }
         DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
     }
 
-    func revealDeckCard(cardId: String, _ turn: Int) {
-        var cardEntity: CardEntity?
-        for ce in self.deck {
-            if ce.unkown {
-                cardEntity = ce
-                break
-            }
-        }
-        if let cardEntity = cardEntity {
+    func revealDeckCard(cardId: String, _ turn: Int, _ created: Bool = false) {
+        if let cardEntity = deck.firstWhere({ $0.unknown }) {
             cardEntity.cardId = cardId
             cardEntity.turn = turn
+            if created {
+                cardEntity.created = true
+            }
         }
     }
 
     func createInHand(entity: Entity?, _ turn: Int) {
         let cardEntity = CardEntity(cardId: nil, entity: entity)
         cardEntity.turn = turn
-        cardEntity.cardMark = CardMark.Created
         cardEntity.created = true
-        if let entity = entity where entity.cardId == "GAME_005" || entity.cardId == "GVG_028t" {
-            cardEntity.cardMark = CardMark.Coin
-
-            if let cardId = entity.cardId where self.isLocalPlayer {
-                self.createdInHandCardIds.append(cardId)
-            }
-        }
-
         self.hand.append(cardEntity)
+        
+        if let entity = entity, let cardId = entity.cardId where self.isLocalPlayer {
+            self.createdInHandCardIds.append(cardId)
+        }
 
         DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
     }
@@ -337,7 +333,6 @@ class Player {
     func play(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, self.hand, entity.isSecret ? self.secrets : self.board, turn) {
             if entity.getTag(GameTag.CARDTYPE) == CardType.TOKEN.rawValue {
-                cardEntity.cardMark = .Created
                 cardEntity.created = true
             }
             updateRevealedEntity(cardEntity, turn)
@@ -382,7 +377,7 @@ class Player {
             }
 
             if let newCard = newCard {
-                newCard.cardMark = CardMark.Mulliganed
+                newCard.mulliganed = true
             }
             if let cardId = entity.cardId where !cardId.isEmpty && self.drawnCardIds.contains(cardId) {
                 self.drawnCardIds.remove(cardId)
@@ -510,7 +505,7 @@ class Player {
 
     func stolenFromOpponent(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, self.removed, self.board, turn) {
-            cardEntity.created = true
+            cardEntity.stolen = true
             updateRevealedEntity(cardEntity, turn)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
@@ -518,7 +513,7 @@ class Player {
 
     func boardToHand(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, self.board, self.hand, turn) {
-            cardEntity.cardMark = CardMark.Returned
+            cardEntity.returned = true
             updateRevealedEntity(cardEntity, turn, nil, CardMark.Returned)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
@@ -559,10 +554,6 @@ class Player {
         if let discarded = discarded {
             cardEntity!.discarded = discarded
         }
-
-        if let cardMark = cardMark {
-            cardEntity!.cardMark = cardMark
-        }
     }
 
     func moveCardEntity(entity: Entity, var _ from: [CardEntity], var _ to: [CardEntity], _
@@ -571,13 +562,7 @@ class Player {
         if let _cardEntity = cardEntity {
             from.remove(_cardEntity)
         } else {
-            for ce in from {
-                if let cardId = ce.cardId where !cardId.isEmpty && ce.entity == nil {
-                    cardEntity = ce
-                    break
-                }
-            }
-
+            cardEntity = from.firstWhere { ($0.cardId == nil || $0.cardId!.isEmpty) && $0.entity == nil }
             if let _cardEntity = cardEntity {
                 from.remove(_cardEntity)
                 _cardEntity.update(entity)
@@ -596,33 +581,14 @@ class Player {
     }
 
     func getEntityFromCollection(array: [CardEntity], _ entity: Entity) -> CardEntity? {
-        var cardEntity: CardEntity?
-
-        for ce in array {
-            if ce.entity == entity {
-                cardEntity = ce
-                break
-            }
-        }
-
+        var cardEntity = array.firstWhere { $0.entity == entity}
         if cardEntity == nil {
-            for ce in array {
-                if let cardId = ce.cardId where !cardId.isEmpty && ce.cardId == entity.cardId {
-                    cardEntity = ce
-                    break
-                }
-            }
+            cardEntity = array.firstWhere { $0.cardId != nil && !$0.cardId!.isEmpty && $0.cardId == entity.cardId }
         }
-
         if cardEntity == nil {
-            for ce in array {
-                if (ce.cardId == nil || ce.cardId!.isEmpty) && ce.entity == nil {
-                    cardEntity = ce
-                    break
-                }
-            }
+            cardEntity = array.firstWhere { ($0.cardId == nil || $0.cardId!.isEmpty) && $0.entity == nil }
         }
-
+        
         if cardEntity != nil {
             cardEntity!.update(entity)
         }
@@ -635,7 +601,7 @@ class Player {
             updateCardEntity(entity)
             hand.sortInPlace(CardEntity.zonePosComparison)
             if !isLocalPlayer && turn == 0 && hand.count == 5 && hand[4].entity?.id > 67 {
-                hand[4].cardMark = .Coin
+                hand[4].cardId = CardIds.NonCollectible.Neutral.TheCoin
                 hand[4].created = true
                 deck.append(CardEntity())
                 DDLogVerbose("Coin \(hand[4])")

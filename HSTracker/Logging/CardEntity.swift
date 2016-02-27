@@ -19,8 +19,27 @@ class CardEntity: Equatable, CustomStringConvertible {
         }
     }
     var prevTurn = -1
-    var cardMark: CardMark = .None
+    var cardMark: CardMark {
+        get {
+            if cardId == CardIds.NonCollectible.Neutral.TheCoin || cardId == CardIds.NonCollectible.Neutral.GallywixsCoinToken {
+                return .Coin
+            }
+            if returned {
+                return .Returned
+            }
+            if created || stolen {
+                return .Created
+            }
+            if mulliganed {
+                return .Mulliganed
+            }
+            return .None
+        }
+    }
     var discarded: Bool = false
+    var returned: Bool = false
+    var mulliganed: Bool = false
+    var stolen: Bool = false
 
     var inHand: Bool {
         get {
@@ -32,12 +51,21 @@ class CardEntity: Equatable, CustomStringConvertible {
             return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.DECK.rawValue
         }
     }
-    var unkown: Bool {
+    var unknown: Bool {
         get {
             return cardId == nil || cardId!.isEmpty && entity == nil
         }
     }
-    var created: Bool = false
+    
+    private var _created: Bool = false
+    var created: Bool {
+        get {
+            return _created && (entity == nil || entity!.id > 67)
+        }
+        set {
+            _created = newValue
+        }
+    }
 
     init(cardId: String? = nil, entity: Entity? = nil) {
         if let entity = entity {
@@ -49,11 +77,9 @@ class CardEntity: Equatable, CustomStringConvertible {
         }
         self.entity = entity
         self.turn = -1
-        self.cardMark = entity?.id > 68 ? .Created : .None
     }
 
     func reset() {
-        self.cardMark = .None
         self.created = false
         self.cardId = nil
     }

@@ -18,10 +18,13 @@ class Game {
     var currentTurn: Int = 0
     var currentRank: Int = 0
     var maxId: Int = 0
+    var lastId: Int = 0
 
     var player: Player
     var opponent: Player
-    var gameMode: GameMode = .Unknow
+    var currentMode: Mode? = .INVALID
+    var previousMode: Mode? = .INVALID
+    var currentGameMode: GameMode = .None
     var entities = [Int: Entity]()
     var tmpEntities = [Entity]()
     var knownCardIds = [Int: String]()
@@ -31,6 +34,7 @@ class Game {
     var lastAssetUnload: Double = 0
     var waitController: TempEntity?
     var gameStarted: Bool = false
+    var gameEnded: Bool = true
     var gameStartDate: NSDate?
     var gameResult: GameResult = .Unknow
     var gameEndDate: NSDate?
@@ -40,6 +44,9 @@ class Game {
     var lastCardPlayed: Int?
     var activeDeck: Deck?
     var currentEntityId = Int.min
+    var currentEntityHasCardId: Bool = false
+    var playerUsedHeroPower: Bool = false
+    var opponentUsedHeroPower: Bool = false
     
     static let instance = Game()
 
@@ -55,7 +62,7 @@ class Game {
         entities.removeAll()
         tmpEntities.removeAll()
         joustReveals = 0
-        gameMode = GameMode.Unknow
+        //currentGameMode = GameMode.Unknow
         rankFound = false
         awaitingRankedDetection = false
         lastAssetUnload = -1
@@ -157,14 +164,14 @@ class Game {
     }
 
     func handleEndGame() {
-        if gameMode == GameMode.Unknow {
+        if currentGameMode == .None {
             detectMode(3) {
                 self.handleEndGame()
             }
             return
         }
 
-        if gameMode == GameMode.Ranked && !self.rankFound {
+        if currentGameMode == .Ranked && !self.rankFound {
             waitForRank(5) {
                 self.handleEndGame()
             }
@@ -209,6 +216,16 @@ class Game {
             }
         }
     }
+    
+    func playersTurn() -> Bool {
+        if let firstPlayer = entities.map({ $0.1 }).firstWhere({ $0.hasTag(.FIRST_PLAYER) }) {
+            let offset = firstPlayer.isPlayer ? 0 : 1
+            if let gameRoot = entities.map({ $0.1 }).firstWhere({ $0.name == "GameEntity" }) {
+                return (gameRoot.getTag(.TURN) + offset) % 2 == 1
+            }
+        }
+        return false
+    }
 
     func turnNumber() -> Int {
         if !isMulliganDone() {
@@ -242,7 +259,7 @@ class Game {
         return 0
     }
 
-    func turnStart(player: PlayerType, turn: Int) {
+    func turnStart(player: PlayerType, _ turn: Int) {
         DDLogInfo("Turn \(turn) start for player \(player.rawValue)")
         //timer_hud.restart(player)
     }
@@ -284,7 +301,7 @@ class Game {
                 && opponent!.hasTag(GameTag.MULLIGAN_STATE) && opponent!.getTag(GameTag.MULLIGAN_STATE) == Mulligan.DONE.rawValue
     }
     
-    func handleZonePositionUpdate(playerType:PlayerType, _ entity:Entity, _ zone:Zone, _ turn:Int) {
+    func zonePositionUpdate(playerType:PlayerType, _ entity:Entity, _ zone:Zone, _ turn:Int) {
         if playerType == .Player {
             player.updateZonePos(entity, zone, turn)
         }
@@ -311,7 +328,7 @@ class Game {
     }
 
 
-    func playerGet(entity: Entity, cardId: String?, turn: Int) {
+    func playerGet(entity: Entity, _ cardId: String?, _ turn: Int) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
@@ -326,7 +343,7 @@ class Game {
         }*/
     }
 
-    func playerBackToHand(entity: Entity, cardId: String?, turn: Int) {
+    func playerBackToHand(entity: Entity, _ cardId: String?, _ turn: Int) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
@@ -337,7 +354,7 @@ class Game {
     }
 
 
-    func playerPlayToDeck(entity: Entity, cardId: String?, turn: Int) {
+    func playerPlayToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
@@ -347,7 +364,7 @@ class Game {
         }
     }
 
-    func playerPlay(entity: Entity, cardId: String?, turn: Int) {
+    func playerPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
@@ -357,7 +374,7 @@ class Game {
         }
     }
 
-    func playerHandDiscard(entity: Entity, cardId: String?, turn: Int) {
+    func playerHandDiscard(entity: Entity, _ cardId: String?, _ turn: Int) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
@@ -367,7 +384,7 @@ class Game {
         }
     }
 
-    func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromDeck: Bool) {
+    func playerSecretPlayed(entity: Entity, _ cardId: String?, _ turn: Int, _ fromDeck: Bool) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
@@ -381,7 +398,7 @@ class Game {
         }
     }
 
-    func playerMulligan(entity: Entity, cardId: String?) {
+    func playerMulligan(entity: Entity, _ cardId: String?) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
@@ -392,12 +409,12 @@ class Game {
         }
     }
 
-    func playerDraw(entity: Entity, cardId: String?, turn: Int) {
+    func playerDraw(entity: Entity, _ cardId: String?, _ turn: Int) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
         if cardId == "GAME_005" {
-            playerGet(entity, cardId: cardId, turn: turn)
+            playerGet(entity, cardId, turn)
         } else {
             player.draw(entity, turn)
             if let tracker = playerTracker {
@@ -406,39 +423,39 @@ class Game {
         }
     }
 
-    func playerRemoveFromDeck(entity: Entity, turn: Int) {
+    func playerRemoveFromDeck(entity: Entity, _ turn: Int) {
         player.removeFromDeck(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
     }
 
-    func playerDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
+    func playerDeckDiscard(entity: Entity, _ cardId: String?, _ turn: Int) {
         player.deckDiscard(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
     }
 
-    func playerDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
+    func playerDeckToPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
         player.deckToPlay(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
     }
 
-    func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int) {
+    func playerPlayToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int) {
         player.playToGraveyard(entity, cardId, turn)
     }
 
-    func playerJoust(entity: Entity, cardId: String?, turn: Int) {
+    func playerJoust(entity: Entity, _ cardId: String?, _ turn: Int) {
         player.joustReveal(entity, turn)
         if let tracker = playerTracker {
             tracker.update()
         }
     }
 
-    func playerGetToDeck(entity: Entity, cardId: String?, turn: Int) {
+    func playerGetToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
         if cardId == nil || cardId!.isEmpty {
             return
         }
@@ -453,11 +470,11 @@ class Game {
         player.fatigue = value
     }
 
-    func playerCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
+    func playerCreateInPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
         player.createInPlay(entity, turn)
     }
 
-    func playerStolen(entity: Entity, cardId: String?, turn: Int) {
+    func playerStolen(entity: Entity, _ cardId: String?, _ turn: Int) {
         player.stolenByOpponent(entity, turn)
         opponent.stolenFromOpponent(entity, turn)
     }
@@ -475,28 +492,28 @@ class Game {
         opponent.name = name
     }
 
-    func opponentGet(entity: Entity, turn: Int, id: Int) {
+    func opponentGet(entity: Entity, _ turn: Int, _ id: Int) {
         opponent.createInHand(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentPlayToHand(entity: Entity, cardId: String?, turn: Int, id: Int) {
+    func opponentPlayToHand(entity: Entity, _ cardId: String?, _ turn: Int, _ id: Int) {
         opponent.boardToHand(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentPlayToDeck(entity: Entity, cardId: String?, turn: Int) {
+    func opponentPlayToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.boardToDeck(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
+    func opponentPlay(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
         opponent.play(entity, turn)
         DDLogVerbose("player opponent play tracker -> \(opponentTracker)")
         if let tracker = opponentTracker {
@@ -504,7 +521,7 @@ class Game {
         }
     }
 
-    func opponentHandDiscard(entity: Entity, cardId: String?, from: Int, turn: Int) {
+    func opponentHandDiscard(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
         // TODO exception ???
         opponent.play(entity, turn)
         if let tracker = opponentTracker {
@@ -512,7 +529,7 @@ class Game {
         }
     }
 
-    func opponentSecretPlayed(entity: Entity, cardId: String?, from: Int, turn: Int, fromDeck: Bool, id: Int) {
+    func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromDeck: Bool, _ id: Int) {
         if fromDeck {
             opponent.secretPlayedFromDeck(entity, turn)
         } else {
@@ -520,54 +537,57 @@ class Game {
         }
     }
 
-    func opponentMulligan(entity: Entity, from: Int) {
+    func opponentMulligan(entity: Entity, _ from: Int) {
         opponent.mulligan(entity)
     }
 
-    func opponentDraw(entity: Entity, turn: Int) {
+    func opponentDraw(entity: Entity, _ turn: Int) {
         opponent.draw(entity, turn)
     }
 
-    func opponentRemoveFromDeck(entity: Entity, turn: Int) {
+    func opponentRemoveFromDeck(entity: Entity, _ turn: Int) {
         opponent.removeFromDeck(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
+    func opponentDeckDiscard(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.deckDiscard(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
+    func opponentDeckToPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.deckToPlay(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentPlayToGraveyard(entity: Entity, cardId: String?, turn: Int) {
+    func opponentPlayToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int, _ playersTurn: Bool) {
         opponent.playToGraveyard(entity, cardId, turn)
+        /*if playersTurn && entity.IsMinion {
+            opponentMinionDeath(entity, turn)
+        }*/
     }
 
-    func opponentJoust(entity: Entity, cardId: String?, turn: Int) {
+    func opponentJoust(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.joustReveal(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentGetToDeck(entity: Entity, cardId: String?, turn: Int) {
+    func opponentGetToDeck(entity: Entity, _ turn: Int) {
         opponent.createInDeck(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, id: Int) {
+    func opponentSecretTrigger(entity: Entity, _ cardId: String?, _ turn: Int, _ id: Int) {
         opponent.secretTriggered(entity, turn)
     }
 
@@ -575,15 +595,29 @@ class Game {
         opponent.fatigue = value
     }
 
-    func opponentCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
+    func opponentCreateInPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.createInPlay(entity, turn)
     }
 
-    func opponentStolen(entity: Entity, cardId: String?, turn: Int) {
+    func opponentStolen(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.stolenByOpponent(entity, turn)
         player.stolenFromOpponent(entity, turn)
         if let tracker = opponentTracker where entity.isSecret {
             tracker.update()
         }
+    }
+    
+    func handleDefendingEntity(entity:Entity?) {
+        /*_defendingEntity = entity;
+        if(_attackingEntity != null && _defendingEntity != null)
+				_game.OpponentSecrets.ZeroFromAttack(_attackingEntity, _defendingEntity);
+        */
+    }
+    
+    func handleAttackingEntity(entity:Entity?) {
+        /*_defendingEntity = entity;
+        if(_attackingEntity != null && _defendingEntity != null)
+        _game.OpponentSecrets.ZeroFromAttack(_attackingEntity, _defendingEntity);
+        */
     }
 }
