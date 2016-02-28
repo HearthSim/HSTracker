@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		202A706D36F0F8BFE41AB802 /* Pods_HSTrackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB8F3F8763FD98FAD3C32F /* Pods_HSTrackerUITests.framework */; };
 		3051E5FC75FE21E9802087D0 /* Pods_HSTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */; };
 		434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434C2F291C7F0F96001D1D91 /* NewDeck.xib */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
@@ -79,6 +80,7 @@
 		43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB9B1C7E4EA20077AC1B /* CurveView.swift */; };
 		43F000301C81BAE8000F2F8F /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F0002F1C81BAE8000F2F8F /* Mode.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
+		B9B4194B0AF1FB50E30AA9CD /* Pods_HSTrackerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D11EF751C5BDA03013DFFFB2 /* Pods_HSTrackerTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		127403DD07CF436D8A62AD88 /* Pods-HSTrackerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		434C2F291C7F0F96001D1D91 /* NewDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDeck.xib; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
@@ -179,7 +182,12 @@
 		43F0002F1C81BAE8000F2F8F /* Mode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
 		6DF6E90CEA5D7299D8A9A854 /* Pods-HSTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTracker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker.debug.xcconfig"; sourceTree = "<group>"; };
+		6FFB8F3F8763FD98FAD3C32F /* Pods_HSTrackerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTrackerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		787C11774664AC0A4051C8E4 /* Pods-HSTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTracker.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker.release.xcconfig"; sourceTree = "<group>"; };
+		A15A4BE30B2A9008669B3239 /* Pods-HSTrackerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests.release.xcconfig"; sourceTree = "<group>"; };
+		A5F153329E34E12AAA4D5B7C /* Pods-HSTrackerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerUITests/Pods-HSTrackerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		B8D89D78995F40C9E9DA4D40 /* Pods-HSTrackerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerUITests/Pods-HSTrackerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D11EF751C5BDA03013DFFFB2 /* Pods_HSTrackerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTrackerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +203,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9B4194B0AF1FB50E30AA9CD /* Pods_HSTrackerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +211,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				202A706D36F0F8BFE41AB802 /* Pods_HSTrackerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +445,10 @@
 			children = (
 				6DF6E90CEA5D7299D8A9A854 /* Pods-HSTracker.debug.xcconfig */,
 				787C11774664AC0A4051C8E4 /* Pods-HSTracker.release.xcconfig */,
+				127403DD07CF436D8A62AD88 /* Pods-HSTrackerTests.debug.xcconfig */,
+				A15A4BE30B2A9008669B3239 /* Pods-HSTrackerTests.release.xcconfig */,
+				B8D89D78995F40C9E9DA4D40 /* Pods-HSTrackerUITests.debug.xcconfig */,
+				A5F153329E34E12AAA4D5B7C /* Pods-HSTrackerUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -443,6 +457,8 @@
 			isa = PBXGroup;
 			children = (
 				1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */,
+				D11EF751C5BDA03013DFFFB2 /* Pods_HSTrackerTests.framework */,
+				6FFB8F3F8763FD98FAD3C32F /* Pods_HSTrackerUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -474,9 +490,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 439C7E731C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTrackerTests" */;
 			buildPhases = (
+				FB626DDB381C61629F8C2C7D /* Check Pods Manifest.lock */,
 				439C7E581C7772C100D29859 /* Sources */,
 				439C7E591C7772C100D29859 /* Frameworks */,
 				439C7E5A1C7772C100D29859 /* Resources */,
+				56ADEF35187847FD27EE9568 /* Embed Pods Frameworks */,
+				0D6182CFA069C51C6F06B5F9 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -492,9 +511,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 439C7E761C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTrackerUITests" */;
 			buildPhases = (
+				52090FC73471AD9F4B5D1C06 /* Check Pods Manifest.lock */,
 				439C7E631C7772C100D29859 /* Sources */,
 				439C7E641C7772C100D29859 /* Frameworks */,
 				439C7E651C7772C100D29859 /* Resources */,
+				352456CC7040179A36D83074 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -583,6 +604,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0D6182CFA069C51C6F06B5F9 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2F27056CA6947F361DA9E01F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -596,6 +632,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		352456CC7040179A36D83074 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTrackerUITests/Pods-HSTrackerUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		52090FC73471AD9F4B5D1C06 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		56ADEF35187847FD27EE9568 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5D33BE4E48C7B59C059D27B3 /* Embed Pods Frameworks */ = {
@@ -614,6 +695,21 @@
 			showEnvVarsInLog = 0;
 		};
 		D78270F4819BDE5E91BAEEC3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FB626DDB381C61629F8C2C7D /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -843,6 +939,7 @@
 		};
 		439C7E741C7772C100D29859 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 127403DD07CF436D8A62AD88 /* Pods-HSTrackerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -856,6 +953,7 @@
 		};
 		439C7E751C7772C100D29859 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A15A4BE30B2A9008669B3239 /* Pods-HSTrackerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -869,6 +967,7 @@
 		};
 		439C7E771C7772C100D29859 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B8D89D78995F40C9E9DA4D40 /* Pods-HSTrackerUITests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = HSTrackerUITests/Info.plist;
@@ -882,6 +981,7 @@
 		};
 		439C7E781C7772C100D29859 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A5F153329E34E12AAA4D5B7C /* Pods-HSTrackerUITests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = HSTrackerUITests/Info.plist;

@@ -49,8 +49,8 @@ class Heartharena: BaseNetImporter, NetImporterAware {
                     return
                 }
             }
+            completion(nil)
         }
-        completion(nil)
     }
     
 }

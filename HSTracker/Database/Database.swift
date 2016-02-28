@@ -27,7 +27,7 @@ class Cards {
 }
 
 class Database {
-    func loadDatabase(splashscreen: Splashscreen) -> [String]? {
+    func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
         var langs = [String]()
         if let language = Settings.instance.hearthstoneLanguage where language != "enUS" {
@@ -46,13 +46,17 @@ class Database {
                 do {
                     let cards: [[String:AnyObject]] = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [[String:AnyObject]]
                     
-                    dispatch_async(dispatch_get_main_queue()) {
-                        splashscreen.display(String(format: NSLocalizedString("Loading %@ cards", comment: ""), lang), total: Double(cards.count))
+                    if let splashscreen = splashscreen {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            splashscreen.display(String(format: NSLocalizedString("Loading %@ cards", comment: ""), lang), total: Double(cards.count))
+                        }
                     }
                     
                     for jsonCard in cards {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            splashscreen.increment()
+                        if let splashscreen = splashscreen {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                splashscreen.increment()
+                            }
                         }
                         
                         let set = jsonCard["set"] as! String

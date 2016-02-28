@@ -78,8 +78,8 @@ class Hearthhead: BaseNetImporter, NetImporterAware {
                     return
                 }
             }
+            completion(nil)
         }
-        completion(nil)
     }
     
 }

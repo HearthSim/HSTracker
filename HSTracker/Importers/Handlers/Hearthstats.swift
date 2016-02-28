@@ -63,7 +63,6 @@ class Hearthstats: BaseNetImporter, NetImporterAware {
             }
             
             completion(nil)
-            return
         }
     }
     

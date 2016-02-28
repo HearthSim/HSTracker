@@ -50,8 +50,8 @@ class Hearthnews: BaseNetImporter, NetImporterAware {
                     return
                 }
             }
+            completion(nil)
         }
-        completion(nil)
     }
     
 }

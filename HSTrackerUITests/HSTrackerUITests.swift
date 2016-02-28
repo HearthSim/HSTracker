@@ -8,6 +8,7 @@
 
 import XCTest
 
+@available(OSX 10.11, *)
 class HSTrackerUITests: XCTestCase {
         
     override func setUp() {

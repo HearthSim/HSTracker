@@ -19,6 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var deckManager: DeckManager?
     
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        let app = NSBundle.mainBundle().infoDictionary!["CFBundleName"] as! String
+        print("\(app)")
         /*for (key,_) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
         NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
         }
@@ -117,7 +119,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func hstrackerReady() {
         DDLogInfo("HSTracker is now ready !")
-        /*
+        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
+                /*
         let deck = Deck(playerClass: "shaman", name: "Control Shaman")
         deck.hearthstatsId = 6994742
         deck.hearthstatsVersionId = 7852777
