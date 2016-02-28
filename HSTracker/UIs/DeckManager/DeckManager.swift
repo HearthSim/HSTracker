@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import MagicalRecord
 
 enum DeckManagerViewMode : Int {
     case Classes,
@@ -122,7 +121,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         }
         else {
             let cell = CardCellView()
-            cell.playerType = .Player
+            cell.playerType = .DeckManager
             cell.card = currentDeck!.sortedCards[row]
             return cell
         }
@@ -199,7 +198,6 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             })
         }
     }
-    
     
     // MARK: - DeckCellViewDelegate
     func moreClicked(cell: DeckCellView) {

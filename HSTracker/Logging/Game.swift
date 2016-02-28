@@ -11,7 +11,7 @@
 import Foundation
 
 enum PlayerType: Int {
-    case Player, Opponent
+    case Player, Opponent, DeckManager
 }
 
 class Game {

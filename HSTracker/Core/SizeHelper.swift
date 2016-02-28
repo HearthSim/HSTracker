@@ -24,7 +24,7 @@ class SizeHelper {
         if let infoList = windowListInfo as NSArray? as? [[String: AnyObject]] {
             if let hearthstone = infoList.filter({
                 !$0.filter({
-                    $0.0 == "kCGWindowName" && $0.1 as? String == "Slack"
+                    $0.0 == "kCGWindowName" && $0.1 as? String == "Hearthstone"
                 }).isEmpty
             }).first {
                 if let dict = hearthstone["kCGWindowBounds"] {

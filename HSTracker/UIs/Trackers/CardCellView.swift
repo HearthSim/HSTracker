@@ -81,15 +81,19 @@ class CardCellView: NSTableCellView {
         if let card = self.card {
 
             var ratio: Double
-            switch settings.cardSize {
-            case .Small:
-                ratio = kRowHeight / kSmallRowHeight
-
-            case .Medium:
-                ratio = kRowHeight / kMediumRowHeight
-
-            default:
+            if self.playerType == .DeckManager {
                 ratio = 1.0
+            } else {
+                switch settings.cardSize {
+                case .Small:
+                    ratio = kRowHeight / kSmallRowHeight
+                    
+                case .Medium:
+                    ratio = kRowHeight / kMediumRowHeight
+                    
+                default:
+                    ratio = 1.0
+                }
             }
 
             // draw the card art

@@ -8,16 +8,15 @@
 
 import Foundation
 import Alamofire
-import MagicalRecord
 
 class BaseNetImporter {
     
     func loadHtml(url:String, _ completion: String? -> Void) {
         DDLogInfo("Fetching \(url)")
         Alamofire.request(.GET, url)
-            .responseString { response in
+            .responseString(encoding: NSUTF8StringEncoding) { response in
                 if let html = response.result.value {
-                    DDLogInfo("Fetching \(url) complete")                    
+                    DDLogInfo("Fetching \(url) complete")
                     completion(html)
                 }
                 else {
