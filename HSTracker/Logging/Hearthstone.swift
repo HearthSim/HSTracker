@@ -129,6 +129,7 @@ class Hearthstone : NSObject {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
             DDLogVerbose("Hearthstone is now launched")
             self.restartTracking()
+            Game.instance.hearthstoneIsActive(true)
         }
     }
 
@@ -136,6 +137,7 @@ class Hearthstone : NSObject {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
             DDLogVerbose("Hearthstone is now closed")
             self.stopTracking()
+            Game.instance.hearthstoneIsActive(false)
         }
     }
 
@@ -143,6 +145,7 @@ class Hearthstone : NSObject {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
             DDLogVerbose("Hearthstone is now active")
             self.hearthstoneActive = true
+            Game.instance.hearthstoneIsActive(true)
         }
     }
 
@@ -150,6 +153,7 @@ class Hearthstone : NSObject {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
             DDLogVerbose("Hearthstone is now inactive")
             self.hearthstoneActive = false
+            Game.instance.hearthstoneIsActive(false)
         }
     }
 

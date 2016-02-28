@@ -30,13 +30,13 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         let settings = Settings.instance
         switch settings.cardSize {
         case .Small:
-            width = KSmallFrameWidth
+            width = kSmallFrameWidth
 
         case .Medium:
-            width = KMediumFrameWidth
+            width = kMediumFrameWidth
 
         default:
-            width = KFrameWidth
+            width = kFrameWidth
         }
 
         self.window!.setFrame(NSRect(x: 0, y: 0, width: width, height: 200), display: true)
@@ -49,7 +49,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
 
         let locked = settings.windowsLocked
         if locked {
-            self.window!.styleMask = NSBorderlessWindowMask;
+            self.window!.styleMask = NSBorderlessWindowMask
         } else {
             self.window!.styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
         }
@@ -110,9 +110,9 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         /*if (Configuration.hand_count_window == :tracker && row >= @playing_cards.count) {
         case Configuration.card_layout
         when :small
-        ratio = TrackerLayout::KRowHeight / TrackerLayout::KSmallRowHeight
+        ratio = kRowHeight / kSmallRowHeight
         when :medium
-        ratio = TrackerLayout::KRowHeight / TrackerLayout::KMediumRowHeight
+        ratio = kRowHeight / kMediumRowHeight
         else
         ratio = 1.0
         end
@@ -121,13 +121,13 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         else {*/
         switch Settings.instance.cardSize {
         case .Small:
-            return CGFloat(KSmallRowHeight)
+            return CGFloat(kSmallRowHeight)
 
         case .Medium:
-            return CGFloat(KMediumRowHeight)
+            return CGFloat(kMediumRowHeight)
 
         default:
-            return CGFloat(KRowHeight)
+            return CGFloat(kRowHeight)
         }
         //}
     }

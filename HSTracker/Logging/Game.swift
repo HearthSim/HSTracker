@@ -72,12 +72,35 @@ class Game {
         knownCardIds.removeAll()
         gameStartDate = nil
         gameEndDate = nil
+        gameEnded = false
 
         player.reset()
         opponent.reset()
         if activeDeck != nil {
             activeDeck?.reset()
             setActiveDeck(activeDeck!)
+        }
+    }
+    
+    func hearthstoneIsActive(active:Bool) {
+        if let tracker = self.playerTracker {
+            changeTracker(tracker, active, SizeHelper.playerTrackerFrame())
+        }
+        if let tracker = self.opponentTracker {
+            changeTracker(tracker, active, SizeHelper.opponentTrackerFrame())
+        }
+    }
+    
+    private func changeTracker(tracker:Tracker, _ active:Bool, _ frame:NSRect?) {
+        if active {
+            tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            // TODO check for setting
+            if let frame = frame {
+                tracker.window?.setFrame(frame, display: true)
+            }
+        }
+        else {
+            tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
         }
     }
     
@@ -267,7 +290,6 @@ class Game {
     func concede() {
         DDLogInfo("Game has been conceded :(")
     }
-
 
     func win() {
         DDLogInfo("You win ¯\\_(ツ)_/¯")

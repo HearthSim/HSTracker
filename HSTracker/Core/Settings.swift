@@ -11,6 +11,20 @@ import Foundation
 class Settings {
 
     static let instance = Settings()
+    
+    var activeDeck: String? {
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "active_deck")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        get {
+            if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("active_deck") as? String {
+                return returnValue
+            } else {
+                return nil
+            }
+        }
+    }
 
     var flashColor: NSColor {
         set {
@@ -231,6 +245,29 @@ class Settings {
             } else {
                 return false
             }
+        }
+    }
+    
+    var deckPath: String? {
+        set {
+            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "decks_path")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        get {
+            if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("decks_path") as? String {
+                return returnValue
+            }
+            else if let appSupport = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
+                let path = "\(appSupport)/HSTracker/decks"
+                do {
+                    try NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil)
+                }
+                catch {
+                    return nil
+                }
+                return path
+            }
+            return nil
         }
     }
     

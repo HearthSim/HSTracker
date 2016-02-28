@@ -27,35 +27,24 @@ class BaseNetImporter {
     }
     
     func saveDeck(name:String?, _ playerClass:String, _ cards:[String:Int], _ isArena:Bool, _ completion: Deck? -> Void) {
-        MagicalRecord.saveWithBlock { (context) -> Void in
-            if let deck = Deck.MR_createEntityInContext(context) {
-                if let name = name {
-                    deck.name = name
-                }
-                deck.isActive = true
-                deck.isArena = isArena
-                deck.playerClass = playerClass
-                for (cardId, count) in cards {
-                    if let deckCard = DeckCard.MR_createEntityInContext(context) {
-                        deckCard.cardId = cardId
-                        deckCard.count = count
-                        deck.deckCards.insert(deckCard)
-                    }
-                }
-                completion(deck)
-            }
-            else {
-                completion(nil)
+        let deck = Deck(playerClass: playerClass, name: name)
+        
+        deck.isActive = true
+        deck.isArena = isArena
+        deck.playerClass = playerClass
+        for (cardId, count) in cards {
+            if let card = Cards.byId(cardId) {
+                card.count = count
+                deck.addCard(card)
             }
         }
+        deck.save()
+        completion(deck)
     }
     
     func isCount(cards:[String:Int]) -> Bool {
-        var count:Int = 0
-        for (_,c) in cards {
-            count += c
-        }
-        
+        let count = cards.map {$0.1}.reduce(0, combine: +)
+        DDLogVerbose("counting \(count) cards")
         return count == 30
     }
     

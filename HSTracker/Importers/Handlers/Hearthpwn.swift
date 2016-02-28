@@ -39,6 +39,7 @@ class Hearthpwn: BaseNetImporter, NetImporterAware {
                 }
                 guard let _ = className else {
                     // can't find class, ignore
+                    DDLogWarn("class not found")
                     completion(nil)
                     return
                 }
@@ -53,9 +54,11 @@ class Hearthpwn: BaseNetImporter, NetImporterAware {
                         if let dataCount = cardNode["data-count"] {
                             count = Int(dataCount)
                         }
-                        DDLogVerbose("got card \(card) with count \(count)")
+
                         if let card = card, count = count {
-                            if let _card = Cards.byEnglishName(card) {
+                            DDLogVerbose("got card \(card.trim()) with count \(count)")
+                            if let _card = Cards.byEnglishName(card.trim()) {
+                                DDLogVerbose("Got card \(_card)")
                                 cards[_card.cardId] = count
                             }
                         }

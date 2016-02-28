@@ -140,5 +140,4 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     override func controlTextDidChange(obj: NSNotification) {
         checkToEnableSave()
     }
-
 }

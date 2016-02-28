@@ -446,7 +446,7 @@ extension String {
     }
     
     func trim() -> String {
-        return (self as String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return (self as String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
     }
 }
 

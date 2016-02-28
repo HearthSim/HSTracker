@@ -10,15 +10,15 @@
 
 import Foundation
 
-let KFrameWidth = 220.0
-let KFrameHeight = 700.0
-let KRowHeight = 37.0
+let kFrameWidth = 220.0
+let kFrameHeight = 700.0
+let kRowHeight = 37.0
 
-let KMediumRowHeight = 29.0
-let KMediumFrameWidth = (KFrameWidth / KRowHeight * KMediumRowHeight)
+let kMediumRowHeight = 29.0
+let kMediumFrameWidth = (kFrameWidth / kRowHeight * kMediumRowHeight)
 
-let KSmallRowHeight = 23.0
-let KSmallFrameWidth = (KFrameWidth / KRowHeight * KSmallRowHeight)
+let kSmallRowHeight = 23.0
+let kSmallFrameWidth = (kFrameWidth / kRowHeight * kSmallRowHeight)
 
 enum CardSize: Int {
     case Small,

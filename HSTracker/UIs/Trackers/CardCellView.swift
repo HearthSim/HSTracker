@@ -83,10 +83,10 @@ class CardCellView: NSTableCellView {
             var ratio: Double
             switch settings.cardSize {
             case .Small:
-                ratio = KRowHeight / KSmallRowHeight
+                ratio = kRowHeight / kSmallRowHeight
 
             case .Medium:
-                ratio = KRowHeight / KMediumRowHeight
+                ratio = kRowHeight / kMediumRowHeight
 
             default:
                 ratio = 1.0

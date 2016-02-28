@@ -8,7 +8,6 @@
 
 import Cocoa
 import CocoaLumberjack
-import MagicalRecord
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -35,9 +34,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hstracker_v2")
         }
         
-        // init core data stuff
-        MagicalRecord.setupAutoMigratingCoreDataStack()
-        
         // init logger
         #if DEBUG
             DDTTYLogger.sharedInstance().colorsEnabled = true
@@ -48,64 +44,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             fileLogger.logFileManager.maximumNumberOfLogFiles = 7
             DDLog.addLogger(fileLogger)
         #endif
-        
-        //let hearthpwn = "http://www.hearthpwn.com/decks/432773-ostkakas-standard-miracle-rogue"
-        //let hearthpwnDeckbuilder = "http://www.hearthpwn.com/deckbuilder/warrior#50:2;73:1;96:1;215:2;227:2;297:2;493:2;632:1;644:1;7734:2;7749:2;12215:2;14448:1;14464:2;22264:1;22276:1;22309:2;27210:1;27211:2"
-        //let hearthstats = "http://hearthstats.net/decks/mage-meca--1049/public_show?locale=en"
-        
-        /*let url = hearthstats
-        do {
-            try NetImporter.netImport(url, { (deck) -> Void in
-                DDLogVerbose("\(deck)")
-            })
-        } catch {
-            DDLogVerbose("error")
-        }*/
-        
-        /*MagicalRecord.saveWithBlockAndWait({ (localContext) -> Void in
-            if let deck = Deck.MR_createEntityInContext(localContext) {
-                deck.hearthstatsId = 6994742
-                deck.hearthstatsVersionId = 7852777
-                deck.isActive = true
-                deck.isArena = false
-                deck.name = "Control Shaman"
-                deck.playerClass = "shaman"
-                deck.version = "1.0"
-                
-                let cards = [
-                    "EX1_259": 2,
-                    "GVG_074": 1,
-                    "AT_047": 2,
-                    "EX1_575": 1,
-                    "NEW1_010": 1,
-                    "CS2_045": 1,
-                    "CS2_042": 2,
-                    "GVG_038": 1,
-                    "FP1_001": 1,
-                    "EX1_565": 1,
-                    "LOE_029": 2,
-                    "AT_090": 1,
-                    "EX1_093": 1,
-                    "AT_054": 1,
-                    "AT_046": 2,
-                    "EX1_016": 1,
-                    "CS2_203": 1,
-                    "GVG_110": 1,
-                    "GVG_096": 2,
-                    "EX1_246": 1,
-                    "EX1_248": 2,
-                    "EX1_245": 1,
-                    "EX1_250": 1
-                ]
-                for (id, count) in cards {
-                    if let deckCard = DeckCard.MR_createEntityInContext(localContext) {
-                        deckCard.count = count
-                        deckCard.cardId = id
-                        deck.deckCards.insert(deckCard)
-                    }
-                }
-            }
-        })*/
         
         if Settings.instance.hearthstoneLanguage != nil && Settings.instance.hsTrackerLanguage != nil {
             loadSplashscreen()
@@ -148,6 +86,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             DDLogInfo("Starting logging \(self.playerTracker) vs \(self.opponentTracker)")
             Game.instance.setPlayerTracker(self.playerTracker)
             Game.instance.setOpponentTracker(self.opponentTracker)
+            
+            if let activeDeck = Settings.instance.activeDeck {
+                if let deck = Decks.byId(activeDeck) {
+                    NSOperationQueue.mainQueue().addOperationWithBlock() {
+                        Game.instance.setActiveDeck(deck)
+                        self.playerTracker?.update()
+                    }
+                }
+            }
+            
             Hearthstone.instance.start()
         })
         let trackerOperation = NSBlockOperation(block: {
@@ -169,6 +117,65 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func hstrackerReady() {
         DDLogInfo("HSTracker is now ready !")
+        /*
+        let deck = Deck(playerClass: "shaman", name: "Control Shaman")
+        deck.hearthstatsId = 6994742
+        deck.hearthstatsVersionId = 7852777
+        deck.isActive = true
+        deck.isArena = false
+        deck.name = "Control Shaman"
+        deck.playerClass = "shaman"
+        deck.version = "1.0"
+        
+        let cards = [
+            "EX1_259": 2,
+            "GVG_074": 1,
+            "AT_047": 2,
+            "EX1_575": 1,
+            "NEW1_010": 1,
+            "CS2_045": 1,
+            "CS2_042": 2,
+            "GVG_038": 1,
+            "FP1_001": 1,
+            "EX1_565": 1,
+            "LOE_029": 2,
+            "AT_090": 1,
+            "EX1_093": 1,
+            "AT_054": 1,
+            "AT_046": 2,
+            "EX1_016": 1,
+            "CS2_203": 1,
+            "GVG_110": 1,
+            "GVG_096": 2,
+            "EX1_246": 1,
+            "EX1_248": 2,
+            "EX1_245": 1,
+            "EX1_250": 1
+        ]
+        for (id, count) in cards {
+            if let card = Cards.byId(id) {
+                card.count = count
+                deck.addCard(card)
+            }
+        }
+        deck.save()
+        */
+        
+        
+        /*let hearthpwn = "http://www.hearthpwn.com/decks/432773-ostkakas-standard-miracle-rogue"
+        //let hearthpwnDeckbuilder = "http://www.hearthpwn.com/deckbuilder/warrior#50:2;73:1;96:1;215:2;227:2;297:2;493:2;632:1;644:1;7734:2;7749:2;12215:2;14448:1;14464:2;22264:1;22276:1;22309:2;27210:1;27211:2"
+        //let hearthstats = "http://hearthstats.net/decks/mage-meca--1049/public_show?locale=en"
+        
+        let url = hearthpwn
+        do {
+            try NetImporter.netImport(url, { (deck) -> Void in
+                DDLogVerbose("\(deck)")
+            })
+        } catch {
+            DDLogVerbose("error")
+        }
+        */
+        SizeHelper.hearthstoneFrame()
         if let splashscreen = splashscreen {
             splashscreen.close()
             self.splashscreen = nil
@@ -176,6 +183,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func openTrackers() {
+        Settings.instance.highlightCardsInHand = false
+        Settings.instance.highlightLastDrawn = true
         self.playerTracker = Tracker(windowNibName: "Tracker")
         if let tracker = self.playerTracker {
             tracker.playerType = .Player

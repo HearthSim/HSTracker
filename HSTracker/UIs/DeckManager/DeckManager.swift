@@ -60,16 +60,14 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         decksTable.action = "decksTableClick:"
         decksTable.doubleAction = "decksTableDoubleClick:"
         
-        if let _decks = Deck.MR_findAll() {
-            decks = _decks as! [Deck]
-            for deck in decks {
-                if !classes.contains(deck.playerClass) {
-                    classes.append(deck.playerClass)
-                }
+        decks = Decks.decks()
+        for deck in decks {
+            if !classes.contains(deck.playerClass) {
+                classes.append(deck.playerClass)
             }
-            
-            decksTable.reloadData()
         }
+        DDLogVerbose("decks \(decks)")
+        decksTable.reloadData()
         
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
         deckListTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
@@ -115,7 +113,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
                 let deck = filteredDecks()[row]
                 cell.moreButton.hidden = false
                 cell.deck = deck
-                cell.label.stringValue = deck.name
+                cell.label.stringValue = deck.name!
                 cell.image.image = ImageCache.classImage(deck.playerClass)
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.setDelegate(self)
@@ -135,7 +133,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             return 55
         }
         else if tableView == self.deckListTable {
-            return CGFloat(KRowHeight)
+            return CGFloat(kRowHeight)
         }
         return 20
     }
@@ -222,6 +220,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     
     func useDeck(sender:AnyObject?) {
         if let cell = currentCell, deck = cell.deck {
+            Settings.instance.activeDeck = deck.deckId
             Game.instance.setActiveDeck(deck)
             Game.instance.playerTracker?.update()
         }
@@ -229,6 +228,14 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     
     // MARK: - NewDeckDelegate
     func addNewDeck(deck: Deck) {
-        
+        decks = Decks.decks()
+        classes = [String]()
+        for deck in decks {
+            if !classes.contains(deck.playerClass) {
+                classes.append(deck.playerClass)
+            }
+        }
+        DDLogVerbose("decks \(decks)")
+        decksTable.reloadData()
     }
 }
