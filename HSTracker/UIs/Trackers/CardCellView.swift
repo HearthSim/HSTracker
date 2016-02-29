@@ -223,7 +223,7 @@ class CardCellView: NSTableCellView {
         self.delegate = delegate
     }
 
-    func flash() {
+    /*func flash() {
         flashLayer.backgroundColor = Settings.instance.flashColor.CGColor
         let fade = CABasicAnimation(keyPath: "opacity")
         fade.fromValue = 0.7
@@ -234,7 +234,7 @@ class CardCellView: NSTableCellView {
         fade.fillMode = kCAFillModeBoth
 
         flashLayer.addAnimation(fade, forKey: "alpha")
-    }
+    }*/
     
     func addCardImage() {
         

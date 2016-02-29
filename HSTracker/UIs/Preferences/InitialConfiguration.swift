@@ -33,7 +33,7 @@ class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBox
             hstrackerLanguage.reloadData()
         }
     }
-    
+
     // MARK: - Button actions
     @IBAction func exit(sender: AnyObject) {
         NSApplication.sharedApplication().terminate(nil)
@@ -67,7 +67,7 @@ class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBox
         }
         checkToEnableSave()
     }
-    
+
     // MARK: - NSComboBoxDataSource methods
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
@@ -94,11 +94,11 @@ class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBox
             return ""
         }
     }
-    
+
     func comboBoxSelectionDidChange(notification: NSNotification) {
         checkToEnableSave()
     }
-    
+
     func checkToEnableSave() {
         if let saveButton = self.saveButton {
             saveButton.enabled = (hearthstoneLanguage!.indexOfSelectedItem != -1 && hstrackerLanguage!.indexOfSelectedItem != -1 && hearthstonePath!.stringValue != "")

@@ -20,9 +20,19 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     var cards = [Card]()
     var player: Player?
     var playerType: PlayerType?
-    
+
     override func windowDidLoad() {
         super.windowDidLoad()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "opacityChange:", name: "tracker_opacity", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cardSizeChange:", name: "card_size", object: nil)
+        let options = ["show_opponent_draw", "show_opponent_mulligan", "show_opponent_play",
+            "show_player_draw", "show_player_mulligan", "show_player_play", "rarity_colors",
+            "remove_cards_from_deck", "highlight_last_drawn", "highlight_cards_in_hand",
+            "highlight_discarded", "show_player_get"]
+        for option in options {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "trackerOptionsChange:", name: option, object: nil)
+        }
 
         self.gameEnded = false
 
@@ -45,7 +55,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
 
         self.window!.opaque = false
         self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clearColor()
+        self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: CGFloat(Settings.instance.trackerOpacity / 100.0))
 
         let locked = settings.windowsLocked
         if locked {
@@ -68,8 +78,20 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
 
         self.tableColumn!.width = NSWidth(self.table!.bounds)
         self.tableColumn!.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
-        
+
         self.table!.reloadData()
+    }
+
+    func trackerOptionsChange(notification: NSNotification) {
+        self.table?.reloadData()
+    }
+
+    func cardSizeChange(notification: NSNotification) {
+        self.table?.reloadData()
+    }
+
+    func opacityChange(notification: NSNotification) {
+        self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: CGFloat(Settings.instance.trackerOpacity / 100.0))
     }
 
     // MARK: - NSTableViewDelegate / NSTableViewDataSource
@@ -77,8 +99,8 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         var count = self.cards.count
 
         /*if ([Settings instance].handCountWindow == HandCountPosition_Tracker) {
-        count += 1;
-        }*/
+         count += 1;
+         }*/
 
         if let playerType = self.playerType where self.gameEnded && playerType == .Opponent {
             count += 1
@@ -96,29 +118,29 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
 
         if card.hasChanged {
             card.hasChanged = false
-            cell.flash()
+            // cell.flash()
         }
         return cell
-        //}
-        //else {
-        //cell = CountTextCellView.new
-        //cell.text = @count_text
-        //}
+        // }
+        // else {
+        // cell = CountTextCellView.new
+        // cell.text = @count_text
+        // }
     }
 
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         /*if (Configuration.hand_count_window == :tracker && row >= @playing_cards.count) {
-        case Configuration.card_layout
-        when :small
-        ratio = kRowHeight / kSmallRowHeight
-        when :medium
-        ratio = kRowHeight / kMediumRowHeight
-        else
-        ratio = 1.0
-        end
-        50.0 / ratio
-        }
-        else {*/
+         case Configuration.card_layout
+         when :small
+         ratio = kRowHeight / kSmallRowHeight
+         when :medium
+         ratio = kRowHeight / kMediumRowHeight
+         else
+         ratio = 1.0
+         end
+         50.0 / ratio
+         }
+         else {*/
         switch Settings.instance.cardSize {
         case .Small:
             return CGFloat(kSmallRowHeight)
@@ -129,7 +151,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         default:
             return CGFloat(kRowHeight)
         }
-        //}
+        // }
     }
 
     func selectionShouldChangeInTableView(tableView: NSTableView) -> Bool {
@@ -138,11 +160,11 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
 
     // MARK: - CardCellHover
     func hover(card: Card) {
-        //DDLogInfo("hovering \(card)")
+        // DDLogInfo("hovering \(card)")
     }
 
     func out(card: Card) {
-        //DDLogInfo(@"out \(card)")
+        // DDLogInfo(@"out \(card)")
     }
 
     // MARK: - Game
@@ -157,6 +179,8 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     }
 
     func update() {
+        guard let _ = self.table else { return }
+
         if let playerType = self.playerType {
             if let player = self.player {
                 switch playerType {
@@ -170,5 +194,4 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
             }
         }
     }
-
 }

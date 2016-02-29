@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TrackersPreferences" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="cardSize" destination="oRs-V7-1J6" id="hMc-ok-6ju"/>
+                <outlet property="highlightCardsInHand" destination="MOS-w7-D1d" id="XUa-7d-V1f"/>
+                <outlet property="highlightDiscarded" destination="1Ry-pR-4H6" id="RCX-SP-P36"/>
+                <outlet property="highlightLastDrawn" destination="PL6-uo-7RN" id="uTk-hD-3zS"/>
+                <outlet property="opacity" destination="KBy-Iy-S6O" id="HNP-7K-Wm4"/>
+                <outlet property="removeCards" destination="Q3s-94-J32" id="FLy-Eg-f3R"/>
+                <outlet property="showOpponentTracker" destination="bt4-kn-GjS" id="dK1-dQ-v0r"/>
+                <outlet property="showPlayerGet" destination="Jdv-Xu-QUr" id="1ni-Vt-PT6"/>
+                <outlet property="showPlayerTracker" destination="AVh-I0-Pfw" id="sYo-ig-vb8"/>
+                <outlet property="view" destination="c22-O7-iKe" id="8Yr-e6-AQa"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-w7-D1d">
+                    <rect key="frame" x="18" y="236" width="162" height="18"/>
+                    <buttonCell key="cell" type="check" title="Highlight cards in hand" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hJI-dG-QeP">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <connections>
+                            <action selector="checkboxClicked:" target="-2" id="xg2-rp-Dpi"/>
+                        </connections>
+                    </buttonCell>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PL6-uo-7RN">
+                    <rect key="frame" x="18" y="216" width="173" height="18"/>
+                    <buttonCell key="cell" type="check" title="Highlight last drawn card" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="WKT-Hm-Z7h">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="MNv-zk-tF7"/>
+                    </connections>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q3s-94-J32">
+                    <rect key="frame" x="18" y="196" width="182" height="18"/>
+                    <buttonCell key="cell" type="check" title="Remove cards if count is 0" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="s9w-5p-pJs">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="48A-rk-sgZ"/>
+                    </connections>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jdv-Xu-QUr">
+                    <rect key="frame" x="18" y="176" width="161" height="18"/>
+                    <buttonCell key="cell" type="check" title="Include obtained cards" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ndN-hu-6Rx">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="XYl-NL-OZZ"/>
+                    </connections>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Ry-pR-4H6">
+                    <rect key="frame" x="18" y="156" width="205" height="18"/>
+                    <buttonCell key="cell" type="check" title="Highlight discarded from deck" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="yeJ-ZI-Pca">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="MTd-f1-BP7"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avV-MQ-3U6">
+                    <rect key="frame" x="18" y="133" width="51" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Opacity" id="zP3-ns-ggP">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KBy-Iy-S6O">
+                    <rect key="frame" x="261" y="131" width="201" height="21"/>
+                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="ycW-Tn-tCn"/>
+                    <connections>
+                        <action selector="sliderChange:" target="-2" id="fVp-YH-wrG"/>
+                    </connections>
+                </slider>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7tL-jS-waw">
+                    <rect key="frame" x="18" y="108" width="68" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cards size" id="NLB-ON-zWk">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oRs-V7-1J6">
+                    <rect key="frame" x="263" y="102" width="200" height="26"/>
+                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="ar6-6g-GKv">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <objectValues>
+                            <string>Small</string>
+                            <string>Medium</string>
+                            <string>Big</string>
+                        </objectValues>
+                    </comboBoxCell>
+                    <connections>
+                        <action selector="comboboxChange:" target="-2" id="3NF-Vr-1QS"/>
+                    </connections>
+                </comboBox>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AVh-I0-Pfw">
+                    <rect key="frame" x="18" y="84" width="142" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show player tracker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MiE-Lr-Vdi">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Jjy-F9-Xg2"/>
+                    </connections>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bt4-kn-GjS">
+                    <rect key="frame" x="18" y="64" width="164" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show opponent tracker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MLJ-7t-LVJ">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="ktr-VS-gDn"/>
+                    </connections>
+                </button>
+            </subviews>
+        </customView>
+    </objects>
+</document>

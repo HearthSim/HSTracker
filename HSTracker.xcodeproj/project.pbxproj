@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		202A706D36F0F8BFE41AB802 /* Pods_HSTrackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB8F3F8763FD98FAD3C32F /* Pods_HSTrackerUITests.framework */; };
 		3051E5FC75FE21E9802087D0 /* Pods_HSTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */; };
+		4317196F1C84910600F5988B /* EditDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4317196E1C84910600F5988B /* EditDeck.xib */; };
+		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
 		434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434C2F291C7F0F96001D1D91 /* NewDeck.xib */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
@@ -73,6 +75,12 @@
 		439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EF01C78A71300D29859 /* Splashscreen.xib */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
+		43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D307FF1C842DA700480488 /* GeneralPreferences.xib */; };
+		43D308021C842DB400480488 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D308011C842DB400480488 /* GamePreferences.xib */; };
+		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
+		43D308061C842DC900480488 /* GamePrefences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePrefences.swift */; };
+		43D308081C84410000480488 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* TrackersPreferences.swift */; };
+		43D3080A1C84411200480488 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D308091C84411200480488 /* TrackersPreferences.xib */; };
 		43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB931C7DE1E40077AC1B /* DeckManager.xib */; };
 		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
 		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
@@ -103,6 +111,8 @@
 /* Begin PBXFileReference section */
 		127403DD07CF436D8A62AD88 /* Pods-HSTrackerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4317196E1C84910600F5988B /* EditDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDeck.xib; sourceTree = "<group>"; };
+		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
 		434C2F291C7F0F96001D1D91 /* NewDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDeck.xib; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
 		434C2F2E1C7F437D001D1D91 /* NetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImporter.swift; sourceTree = "<group>"; };
@@ -174,6 +184,12 @@
 		439C7EF01C78A71300D29859 /* Splashscreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Splashscreen.xib; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
+		43D307FF1C842DA700480488 /* GeneralPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPreferences.xib; sourceTree = "<group>"; };
+		43D308011C842DB400480488 /* GamePreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePreferences.xib; sourceTree = "<group>"; };
+		43D308031C842DC000480488 /* GeneralPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferences.swift; sourceTree = "<group>"; };
+		43D308051C842DC900480488 /* GamePrefences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrefences.swift; sourceTree = "<group>"; };
+		43D308071C84410000480488 /* TrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackersPreferences.swift; sourceTree = "<group>"; };
+		43D308091C84411200480488 /* TrackersPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackersPreferences.xib; sourceTree = "<group>"; };
 		43EECB931C7DE1E40077AC1B /* DeckManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckManager.xib; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
 		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
@@ -249,6 +265,12 @@
 				439C7EF01C78A71300D29859 /* Splashscreen.xib */,
 				439C7ED11C777FA900D29859 /* InitialConfiguration.swift */,
 				439C7ED31C777FA900D29859 /* Splashscreen.swift */,
+				43D307FF1C842DA700480488 /* GeneralPreferences.xib */,
+				43D308031C842DC000480488 /* GeneralPreferences.swift */,
+				43D308011C842DB400480488 /* GamePreferences.xib */,
+				43D308051C842DC900480488 /* GamePrefences.swift */,
+				43D308071C84410000480488 /* TrackersPreferences.swift */,
+				43D308091C84411200480488 /* TrackersPreferences.xib */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -263,6 +285,8 @@
 				43EECB9B1C7E4EA20077AC1B /* CurveView.swift */,
 				434C2F291C7F0F96001D1D91 /* NewDeck.xib */,
 				434C2F2B1C7F122A001D1D91 /* NewDeck.swift */,
+				4317196E1C84910600F5988B /* EditDeck.xib */,
+				431719701C84911300F5988B /* EditDeck.swift */,
 			);
 			path = DeckManager;
 			sourceTree = "<group>";
@@ -575,9 +599,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4317196F1C84910600F5988B /* EditDeck.xib in Resources */,
 				434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */,
+				43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */,
+				43D308021C842DB400480488 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				439C7E531C7772C000D29859 /* Assets.xcassets in Resources */,
+				43D3080A1C84411200480488 /* TrackersPreferences.xib in Resources */,
 				439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */,
@@ -734,6 +762,7 @@
 				4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
+				43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
 				434C2F421C7F50F4001D1D91 /* BaseNetImporter.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
@@ -744,6 +773,7 @@
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
 				439C7EC21C777F8900D29859 /* BobHandler.swift in Sources */,
 				439C7EC51C777F8900D29859 /* PowerGameStateHandler.swift in Sources */,
+				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */,
@@ -760,6 +790,7 @@
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,
 				439C7EC81C777F8900D29859 /* Hearthstone.swift in Sources */,
 				434C2F381C7F487D001D1D91 /* Hearthstats.swift in Sources */,
+				43D308081C84410000480488 /* TrackersPreferences.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
@@ -771,6 +802,7 @@
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				434C2F341C7F4816001D1D91 /* HearthpwnDeckBuilder.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
+				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
 				439C7EEA1C777FCF00D29859 /* NSArray+HSTracker.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,

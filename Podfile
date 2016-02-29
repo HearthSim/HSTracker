@@ -8,6 +8,8 @@ def pods
     pod 'RegExCategories', '~> 1.0'
     pod 'Alamofire', '~> 3.0'
     pod 'Kanna', '~> 1.0.0'
+    pod 'MASPreferences'
+    pod 'JNWCollectionView'
 end
 
 target 'HSTracker' do

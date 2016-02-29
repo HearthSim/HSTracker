@@ -10,7 +10,7 @@ import Foundation
 
 enum DeckManagerViewMode : Int {
     case Classes,
-    Deck
+        Deck
 }
 
 class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, DeckCellViewDelegate, NewDeckDelegate {
@@ -21,65 +21,64 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     @IBOutlet weak var statsLabel: NSTextField!
     @IBOutlet weak var progressView: NSView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
-    
+
     var newDeck: NewDeck?
-    
+
     var viewMode: DeckManagerViewMode = .Classes
     var decks = [Deck]()
     var classes = [String]()
-    var currentClass:String?
-    var currentDeck:Deck?
+    var currentClass: String?
+    var currentDeck: Deck?
     var currentCell: DeckCellView?
-    
+
     convenience init() {
         self.init(windowNibName: "DeckManager")
     }
-    
+
     override init(window: NSWindow!) {
         super.init(window: window)
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     override func windowDidLoad() {
         super.windowDidLoad()
-        
+
         let nib = NSNib(nibNamed: "DeckCellView", bundle: nil)
         decksTable.registerNib(nib, forIdentifier: "DeckCellView")
-        
+
         decksTable.backgroundColor = NSColor.clearColor()
         decksTable.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
-        
+
         decksTable.tableColumns.first?.width = NSWidth(decksTable.bounds)
         decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
-        
+
         decksTable.target = self
         decksTable.action = "decksTableClick:"
         decksTable.doubleAction = "decksTableDoubleClick:"
-        
+
         decks = Decks.decks()
         for deck in decks {
             if !classes.contains(deck.playerClass) {
                 classes.append(deck.playerClass)
             }
         }
-        DDLogVerbose("decks \(decks)")
         decksTable.reloadData()
-        
+
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
         deckListTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
     }
-    
+
     func filteredDecks() -> [Deck] {
-        return decks.filter({$0.playerClass == currentClass}).sort { $0.name < $1.name }
+        return decks.filter({ $0.playerClass == currentClass }).sort { $0.name < $1.name }
     }
-    
+
     func filteredClasses() -> [String] {
         return classes.sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
     }
-    
+
     // MARK: - NSTableViewDelegate / NSTableViewDataSource
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         if tableView == decksTable {
@@ -93,10 +92,10 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         else if let currentDeck = currentDeck {
             return currentDeck.sortedCards.count
         }
-        
+
         return 0;
     }
-    
+
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView == decksTable {
             let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self) as! DeckCellView
@@ -126,7 +125,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             return cell
         }
     }
-    
+
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         if tableView == self.decksTable {
             return 55
@@ -136,7 +135,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         }
         return 20
     }
-    
+
     func decksTableClick(sender: AnyObject?) {
         guard viewMode == .Deck else {
             return
@@ -145,14 +144,13 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             return
         }
         let clickedRow = sender!.clickedRow!
-        DDLogVerbose("\(clickedRow) -> \(filteredDecks())")
         currentDeck = filteredDecks()[clickedRow]
         deckListTable.reloadData()
         curveView.deck = currentDeck
         statsLabel.stringValue = currentDeck!.displayStats()
         curveView.reload()
     }
-    
+
     func decksTableDoubleClick(sender: AnyObject?) {
         guard sender?.clickedRow >= 0 else {
             return
@@ -165,8 +163,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             decksTable.reloadData()
         }
     }
-    
-    //MARK: - Toolbar actions
+
+    // MARK: - Toolbar actions
     override func validateToolbarItem(item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
         case "back":
@@ -177,7 +175,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             return false
         }
     }
-    
+
     @IBAction func back(sender: AnyObject) {
         currentClass = nil
         viewMode = .Classes
@@ -193,37 +191,46 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         newDeck = NewDeck()
         if let newDeck = newDeck {
             newDeck.setDelegate(self)
-            self.window!.beginSheet(newDeck.window!, completionHandler: { (response) -> Void in
-                
-            })
+            self.window!.beginSheet(newDeck.window!) { (response) -> Void in }
         }
     }
-    
+
     // MARK: - DeckCellViewDelegate
     func moreClicked(cell: DeckCellView) {
         currentCell = cell
-        
+
         let menu = NSMenu()
-        var menuItem = NSMenuItem(title: NSLocalizedString("Use", comment: ""),
+        var menuItem = NSMenuItem(title: NSLocalizedString("Use deck", comment: ""),
             action: "useDeck:",
             keyEquivalent: "")
         menu.addItem(menuItem)
-        menuItem = NSMenuItem(title: NSLocalizedString("Edit", comment: ""),
+        menuItem = NSMenuItem(title: NSLocalizedString("Edit deck", comment: ""),
             action: "",
             keyEquivalent: "")
         menu.addItem(menuItem)
-        
+        menuItem = NSMenuItem(title: NSLocalizedString("Delete deck", comment: ""),
+            action: "deleteDeck:",
+            keyEquivalent: "")
+        menu.addItem(menuItem)
+
         NSMenu.popUpContextMenu(menu, withEvent: NSApp.currentEvent!, forView: cell.moreButton)
     }
-    
-    func useDeck(sender:AnyObject?) {
+
+    func useDeck(sender: AnyObject?) {
         if let cell = currentCell, deck = cell.deck {
             Settings.instance.activeDeck = deck.deckId
             Game.instance.setActiveDeck(deck)
             Game.instance.playerTracker?.update()
         }
     }
-    
+
+    func deleteDeck(sender: AnyObject?) {
+        // TODO confirmation
+        if let cell = currentCell, deck = cell.deck {
+            Decks.remove(deck)
+        }
+    }
+
     // MARK: - NewDeckDelegate
     func addNewDeck(deck: Deck) {
         decks = Decks.decks()

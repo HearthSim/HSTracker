@@ -9,29 +9,29 @@
 import Foundation
 
 class Decks {
-    private static var _decks:[Deck]?
-    
+    private static var _decks: [Deck]?
+
     private static var savePath: String? {
         if let path = Settings.instance.deckPath {
             return "\(path)/decks.json"
         }
         return nil
     }
-    
-    static func byId(id:String) -> Deck? {
-        return decks().filter({$0.deckId == id}).first
+
+    static func byId(id: String) -> Deck? {
+        return decks().filter({ $0.deckId == id }).first
     }
-    
+
     static func decks() -> [Deck] {
         if let _decks = _decks {
             return _decks
         }
-        
+
         if let jsonFile = savePath {
             DDLogVerbose("json file : \(jsonFile)")
             if let jsonData = NSData(contentsOfFile: jsonFile) {
                 do {
-                    let decks: [[String:AnyObject]] = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [[String:AnyObject]]
+                    let decks: [[String: AnyObject]] = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [[String: AnyObject]]
                     var validDecks = [Deck]()
                     DDLogVerbose("\(decks)")
                     for _deck in decks {
@@ -52,7 +52,7 @@ class Decks {
                             if let isArena = _deck["isArena"] as? Int {
                                 deck.isArena = Bool(isArena)
                             }
-                            if let cards = _deck["cards"] as? [[String:Int]] {
+                            if let cards = _deck["cards"] as? [[String: Int]] {
                                 for card in cards {
                                     for (cardId, count) in card {
                                         if let card = Cards.byId(cardId) {
@@ -62,14 +62,14 @@ class Decks {
                                     }
                                 }
                             }
-                            
+
                             DDLogVerbose("\(deck)")
                             if deck.isValid() {
                                 validDecks.append(deck)
                             }
                         }
                     }
-                    
+
                     _decks = validDecks
                     return validDecks
                 } catch {
@@ -79,8 +79,8 @@ class Decks {
         }
         return [Deck]()
     }
-    
-    static func add(deck:Deck) {
+
+    static func add(deck: Deck) {
         // be sure decks are loaded
         let _ = decks()
         if _decks == nil {
@@ -89,10 +89,17 @@ class Decks {
         _decks?.append(deck)
         save()
     }
-    
+
+    static func remove(deck: Deck) {
+        let _ = decks()
+        guard let _ = _decks else { return }
+        _decks?.remove(deck)
+        save()
+    }
+
     static func save() {
         if let decks = _decks {
-            let jsonDecks:[[String:AnyObject]] = decks.map({
+            let jsonDecks: [[String: AnyObject]] = decks.map({
                 $0.reset()
                 return [
                     "deckId": $0.deckId == nil ? "" : $0.deckId!,
@@ -103,7 +110,7 @@ class Decks {
                     "hearthstatsVersionId": $0.hearthstatsVersionId == nil ? -1 : $0.hearthstatsVersionId!,
                     "isActive": Int($0.isActive),
                     "isArena": Int($0.isArena),
-                    "cards": $0.sortedCards.map({ [$0.cardId:$0.count] })
+                    "cards": $0.sortedCards.map({ [$0.cardId: $0.count] })
                 ]
             })
             if let jsonFile = savePath {
@@ -112,7 +119,7 @@ class Decks {
                     data.writeToFile(jsonFile, atomically: true)
                 }
                 catch {
-                // TODO error
+                    // TODO error
                 }
             }
         }
@@ -123,8 +130,8 @@ func generateId() -> String {
     return "\(NSUUID().UUIDString)-\(NSDate().timeIntervalSince1970)"
 }
 
-class Deck : CustomStringConvertible {
-    var deckId:String? = generateId()
+class Deck : Hashable, CustomStringConvertible {
+    var deckId: String? = generateId()
     var name: String?
     var playerClass: String
     var version: String = "1.0"
@@ -133,24 +140,24 @@ class Deck : CustomStringConvertible {
     var isActive: Bool = true
     var isArena: Bool = false
     private var _cards = [Card]()
-    var cards:[Card]?
-    
-    init(playerClass: String, name: String? = nil, deckId:String? = nil) {
+    var cards: [Card]?
+
+    init(playerClass: String, name: String? = nil, deckId: String? = nil) {
         if deckId != nil {
             self.deckId = deckId
         }
         self.name = name
         self.playerClass = playerClass
     }
-    
-    func addCard(card:Card) {
+
+    func addCard(card: Card) {
         _cards.append(card)
     }
-    
+
     func save() {
         Decks.add(self)
     }
-    
+
     var sortedCards: [Card] {
         if let cards = self.cards {
             return cards
@@ -168,13 +175,13 @@ class Deck : CustomStringConvertible {
             return cards
         }
     }
-    
+
     func reset() {
         self.cards = nil
     }
-    
+
     func isValid() -> Bool {
-        let count = _cards.map({$0.count}).reduce(0, combine: +)
+        let count = _cards.map({ $0.count }).reduce(0, combine: +)
         DDLogVerbose("Found \(count)")
         return count == 30
     }
@@ -183,7 +190,7 @@ class Deck : CustomStringConvertible {
         // TODO
         return "12 - 1 / 97%"
     }
-    
+
     var description: String {
         return "<\(NSStringFromClass(self.dynamicType)): "
             + "deckId=\(self.deckId)"
@@ -192,4 +199,14 @@ class Deck : CustomStringConvertible {
             + ", self.cards=\(self._cards.map({[$0.cardId:$0.count]}))"
             + ">"
     }
+
+    var hashValue: Int {
+        if let deckId = deckId {
+            return deckId.hashValue
+        }
+        return 0
+    }
+}
+func == (lhs: Deck, rhs: Deck) -> Bool {
+    return lhs.deckId == rhs.deckId && lhs.version == rhs.version
 }
