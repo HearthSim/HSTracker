@@ -125,49 +125,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         DDLogInfo("HSTracker is now ready !")
         NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
-        /*
-         let deck = Deck(playerClass: "shaman", name: "Control Shaman")
-         deck.hearthstatsId = 6994742
-         deck.hearthstatsVersionId = 7852777
-         deck.isActive = true
-         deck.isArena = false
-         deck.name = "Control Shaman"
-         deck.playerClass = "shaman"
-         deck.version = "1.0"
-
-         let cards = [
-         "EX1_259": 2,
-         "GVG_074": 1,
-         "AT_047": 2,
-         "EX1_575": 1,
-         "NEW1_010": 1,
-         "CS2_045": 1,
-         "CS2_042": 2,
-         "GVG_038": 1,
-         "FP1_001": 1,
-         "EX1_565": 1,
-         "LOE_029": 2,
-         "AT_090": 1,
-         "EX1_093": 1,
-         "AT_054": 1,
-         "AT_046": 2,
-         "EX1_016": 1,
-         "CS2_203": 1,
-         "GVG_110": 1,
-         "GVG_096": 2,
-         "EX1_246": 1,
-         "EX1_248": 2,
-         "EX1_245": 1,
-         "EX1_250": 1
-         ]
-         for (id, count) in cards {
-         if let card = Cards.byId(id) {
-         card.count = count
-         deck.addCard(card)
-         }
-         }
-         deck.save()
-         */
 
         // let heartharena = "http://www.heartharena.com/arena-run/260979"
         // let hearthnews = "http://www.hearthnews.fr/decks/7070"
@@ -186,11 +143,58 @@ class AppDelegate: NSObject, NSApplicationDelegate {
          DDLogVerbose("error")
          }*/
 
+        // testImportDeck()
+
         SizeHelper.hearthstoneFrame()
         if let splashscreen = splashscreen {
             splashscreen.close()
             self.splashscreen = nil
         }
+    }
+
+    private func testImportDeck() {
+        let deck = Deck(playerClass: "shaman", name: "Control Shaman")
+        deck.hearthstatsId = 6994742
+        deck.hearthstatsVersionId = 7852777
+        deck.isActive = true
+        deck.isArena = false
+        deck.name = "Control Shaman"
+        deck.playerClass = "shaman"
+        deck.version = "1.0"
+
+        let cards = [
+            "EX1_259": 2,
+            "GVG_074": 1,
+            "AT_047": 2,
+            "EX1_575": 1,
+            "NEW1_010": 1,
+            "CS2_045": 1,
+            "CS2_042": 2,
+            "GVG_038": 1,
+            "FP1_001": 1,
+            "EX1_565": 1,
+            "LOE_029": 2,
+            "AT_090": 1,
+            "EX1_093": 1,
+            "AT_054": 1,
+            "AT_046": 2,
+            "EX1_016": 1,
+            "CS2_203": 1,
+            "GVG_110": 1,
+            "GVG_096": 2,
+            "EX1_246": 1,
+            "EX1_248": 2,
+            "EX1_245": 1,
+            "EX1_250": 1
+        ]
+        for (id, count) in cards {
+            for _ in 0 ..< count {
+                if let card = Cards.byId(id) {
+                    deck.addCard(card)
+                }
+            }
+        }
+        deck.save()
     }
 
     func openTrackers() {

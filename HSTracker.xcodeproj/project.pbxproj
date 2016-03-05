@@ -11,6 +11,8 @@
 		3051E5FC75FE21E9802087D0 /* Pods_HSTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */; };
 		4317196F1C84910600F5988B /* EditDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4317196E1C84910600F5988B /* EditDeck.xib */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
+		431719731C885BD600F5988B /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719721C885BD600F5988B /* CardCell.swift */; };
+		431719751C89ADA000F5988B /* NSAlert+HSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */; };
 		434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434C2F291C7F0F96001D1D91 /* NewDeck.xib */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
@@ -113,6 +115,8 @@
 		1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4317196E1C84910600F5988B /* EditDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDeck.xib; sourceTree = "<group>"; };
 		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
+		431719721C885BD600F5988B /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
+		431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert+HSTracker.swift"; sourceTree = "<group>"; };
 		434C2F291C7F0F96001D1D91 /* NewDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDeck.xib; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
 		434C2F2E1C7F437D001D1D91 /* NetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImporter.swift; sourceTree = "<group>"; };
@@ -287,6 +291,7 @@
 				434C2F2B1C7F122A001D1D91 /* NewDeck.swift */,
 				4317196E1C84910600F5988B /* EditDeck.xib */,
 				431719701C84911300F5988B /* EditDeck.swift */,
+				431719721C885BD600F5988B /* CardCell.swift */,
 			);
 			path = DeckManager;
 			sourceTree = "<group>";
@@ -460,6 +465,7 @@
 				439C7EE81C777FCF00D29859 /* NSArray+HSTracker.swift */,
 				439C7EE91C777FCF00D29859 /* NSString+HSTracker.swift */,
 				436969141C80653000CE1D29 /* LinqExtension.swift */,
+				431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -794,6 +800,7 @@
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
+				431719731C885BD600F5988B /* CardCell.swift in Sources */,
 				434C2F321C7F475E001D1D91 /* Hearthpwn.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
@@ -808,6 +815,7 @@
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
 				434C2F361C7F4857001D1D91 /* HearthstoneDecks.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
+				431719751C89ADA000F5988B /* NSAlert+HSTracker.swift in Sources */,
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
 				434C2F3A1C7F48BE001D1D91 /* Hearthhead.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,

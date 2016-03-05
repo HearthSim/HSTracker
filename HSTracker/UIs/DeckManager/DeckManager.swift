@@ -8,11 +8,6 @@
 
 import Foundation
 
-enum DeckManagerViewMode : Int {
-    case Classes,
-        Deck
-}
-
 class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, DeckCellViewDelegate, NewDeckDelegate {
 
     @IBOutlet weak var decksTable: NSTableView!
@@ -22,9 +17,19 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     @IBOutlet weak var progressView: NSView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
 
+    @IBOutlet weak var druidButton: NSButton!
+    @IBOutlet weak var hunterButton: NSButton!
+    @IBOutlet weak var mageButton: NSButton!
+    @IBOutlet weak var paladinButton: NSButton!
+    @IBOutlet weak var priestButton: NSButton!
+    @IBOutlet weak var rogueButton: NSButton!
+    @IBOutlet weak var shamanButton: NSButton!
+    @IBOutlet weak var warlockButton: NSButton!
+    @IBOutlet weak var warriorButton: NSButton!
+
+    var editDeck: EditDeck?
     var newDeck: NewDeck?
 
-    var viewMode: DeckManagerViewMode = .Classes
     var decks = [Deck]()
     var classes = [String]()
     var currentClass: String?
@@ -57,14 +62,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
         decksTable.target = self
         decksTable.action = "decksTableClick:"
-        decksTable.doubleAction = "decksTableDoubleClick:"
 
         decks = Decks.decks()
-        for deck in decks {
-            if !classes.contains(deck.playerClass) {
-                classes.append(deck.playerClass)
-            }
-        }
         decksTable.reloadData()
 
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
@@ -72,22 +71,68 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func filteredDecks() -> [Deck] {
-        return decks.filter({ $0.playerClass == currentClass }).sort { $0.name < $1.name }
+        if let currentClass = currentClass {
+            return decks.filter({ $0.playerClass == currentClass }).sort { $0.name < $1.name }
+        }
+        else {
+            return decks.sort { $0.name < $1.name }
+        }
     }
 
-    func filteredClasses() -> [String] {
-        return classes.sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
+    @IBAction func filterClassesAction(sender: NSButton) {
+        let buttons = [druidButton, hunterButton, mageButton,
+            paladinButton, priestButton, rogueButton,
+            shamanButton, warlockButton, warriorButton
+        ]
+        for button in buttons {
+            if sender != button {
+                button.state = NSOffState
+            }
+        }
+
+        let oldCurrentClass = currentClass
+        if sender == druidButton {
+            currentClass = "druid"
+        }
+        else if sender == hunterButton {
+            currentClass = "hunter"
+        }
+        else if sender == mageButton {
+            currentClass = "mage"
+        }
+        else if sender == paladinButton {
+            currentClass = "paladin"
+        }
+        else if sender == priestButton {
+            currentClass = "priest"
+        }
+        else if sender == rogueButton {
+            currentClass = "rogue"
+        }
+        else if sender == shamanButton {
+            currentClass = "shaman"
+        }
+        else if sender == warlockButton {
+            currentClass = "warlock"
+        }
+        else if sender == warriorButton {
+            currentClass = "warrior"
+        }
+        else {
+            currentClass = nil
+        }
+
+        if currentClass == oldCurrentClass {
+            currentClass = nil
+        }
+
+        decksTable.reloadData()
     }
 
     // MARK: - NSTableViewDelegate / NSTableViewDataSource
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         if tableView == decksTable {
-            switch (viewMode) {
-            case .Classes:
-                return filteredClasses().count
-            case .Deck:
-                return filteredDecks().count
-            }
+            return filteredDecks().count
         }
         else if let currentDeck = currentDeck {
             return currentDeck.sortedCards.count
@@ -99,23 +144,13 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView == decksTable {
             let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self) as! DeckCellView
-            switch (viewMode) {
-            case .Classes:
-                cell.moreButton.hidden = true
-                let clazz = filteredClasses()[row]
-                cell.label.stringValue = NSLocalizedString(clazz, comment: "")
-                cell.image.image = ImageCache.classImage(clazz)
-                cell.color = ClassColor.color(clazz)
-                cell.setDelegate(nil)
-            case .Deck:
-                let deck = filteredDecks()[row]
-                cell.moreButton.hidden = false
-                cell.deck = deck
-                cell.label.stringValue = deck.name!
-                cell.image.image = ImageCache.classImage(deck.playerClass)
-                cell.color = ClassColor.color(deck.playerClass)
-                cell.setDelegate(self)
-            }
+            let deck = filteredDecks()[row]
+            cell.moreButton.hidden = false
+            cell.deck = deck
+            cell.label.stringValue = deck.name!
+            cell.image.image = ImageCache.classImage(deck.playerClass)
+            cell.color = ClassColor.color(deck.playerClass)
+            cell.setDelegate(self)
             return cell
         }
         else {
@@ -137,9 +172,6 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func decksTableClick(sender: AnyObject?) {
-        guard viewMode == .Deck else {
-            return
-        }
         guard sender?.clickedRow >= 0 else {
             return
         }
@@ -151,24 +183,9 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         curveView.reload()
     }
 
-    func decksTableDoubleClick(sender: AnyObject?) {
-        guard sender?.clickedRow >= 0 else {
-            return
-        }
-
-        let clickedRow = sender!.clickedRow!
-        if viewMode == .Classes {
-            currentClass = filteredClasses()[clickedRow]
-            viewMode = .Deck
-            decksTable.reloadData()
-        }
-    }
-
     // MARK: - Toolbar actions
     override func validateToolbarItem(item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
-        case "back":
-            return viewMode == .Deck
         case "add":
             return true
         default:
@@ -177,8 +194,6 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     @IBAction func back(sender: AnyObject) {
-        currentClass = nil
-        viewMode = .Classes
         currentDeck = nil
         deckListTable.reloadData()
         curveView.deck = nil
@@ -205,7 +220,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             keyEquivalent: "")
         menu.addItem(menuItem)
         menuItem = NSMenuItem(title: NSLocalizedString("Edit deck", comment: ""),
-            action: "",
+            action: "editDeck:",
             keyEquivalent: "")
         menu.addItem(menuItem)
         menuItem = NSMenuItem(title: NSLocalizedString("Delete deck", comment: ""),
@@ -214,6 +229,18 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         menu.addItem(menuItem)
 
         NSMenu.popUpContextMenu(menu, withEvent: NSApp.currentEvent!, forView: cell.moreButton)
+    }
+
+    func editDeck(sender: AnyObject?) {
+        if let cell = currentCell, deck = cell.deck {
+            editDeck = EditDeck()
+            if let editDeck = editDeck {
+                editDeck.setDeck(deck)
+                editDeck.setPlayerClass(deck.playerClass)
+                editDeck.setDelegate(self)
+                editDeck.showWindow(self)
+            }
+        }
     }
 
     func useDeck(sender: AnyObject?) {
@@ -233,6 +260,20 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
     // MARK: - NewDeckDelegate
     func addNewDeck(deck: Deck) {
+        refreshDecks()
+    }
+
+    func openDeckBuilder(playerClass: String) {
+        editDeck = EditDeck()
+        if let editDeck = editDeck {
+            editDeck.setDeck(Deck(playerClass: playerClass))
+            editDeck.setPlayerClass(playerClass)
+            editDeck.setDelegate(self)
+            editDeck.showWindow(self)
+        }
+    }
+
+    func refreshDecks() {
         decks = Decks.decks()
         classes = [String]()
         for deck in decks {

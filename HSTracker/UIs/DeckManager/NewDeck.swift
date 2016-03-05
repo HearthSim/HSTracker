@@ -9,14 +9,13 @@
 import Foundation
 
 protocol NewDeckDelegate {
-    //func newDeckFromFile(file:NSURL)
-    //func newDeckFromUrl(url:NSURL)
-    //func newDeckFromDeckBuilder(playerClass:String)
     func addNewDeck(deck: Deck)
+    func openDeckBuilder(playerClass: String)
+    func refreshDecks()
 }
 
 class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
-    
+
     @IBOutlet weak var hstrackerDeckBuilder: NSButton!
     @IBOutlet weak var fromAFile: NSButton!
     @IBOutlet weak var fromTheWeb: NSButton!
@@ -24,33 +23,33 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBOutlet weak var urlDeck: NSTextField!
     @IBOutlet weak var chooseFile: NSButton!
     @IBOutlet weak var okButton: NSButton!
-    
+
     var delegate: NewDeckDelegate?
-    
+
     convenience init() {
         self.init(windowNibName: "NewDeck")
     }
-    
+
     override init(window: NSWindow!) {
         super.init(window: window)
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     override func windowDidLoad() {
         super.windowDidLoad()
     }
-    
-    func radios() -> [NSButton:NSControl] {
+
+    func radios() -> [NSButton: NSControl] {
         return [
             hstrackerDeckBuilder: classesCombobox,
             fromAFile: chooseFile,
             fromTheWeb: urlDeck
         ]
     }
-    
+
     @IBAction func radioChange(sender: AnyObject) {
         for (button, control) in radios() {
             if button == sender as! NSControl {
@@ -64,25 +63,26 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
         checkToEnableSave()
     }
-    
+
     func setDelegate(delegate: NewDeckDelegate) {
         self.delegate = delegate
     }
-    
+
     @IBAction func cancelClicked(sender: AnyObject) {
         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseCancel)
     }
-    
+
     @IBAction func okClicked(sender: AnyObject) {
         if hstrackerDeckBuilder.state == NSOnState {
-
+            delegate?.openDeckBuilder(classes()[classesCombobox.indexOfSelectedItem])
+            self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         }
         else if fromTheWeb.state == NSOnState {
             // TODO add loader
             do {
                 try NetImporter.netImport(urlDeck.stringValue, { (deck) -> Void in
-                    if let deck = deck, let delegate = self.delegate {
-                        delegate.addNewDeck(deck)
+                    if let deck = deck {
+                        self.delegate?.addNewDeck(deck)
                     }
                     else {
                         // TODO show error
@@ -94,34 +94,31 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             }
         }
         else if fromAFile.state == NSOnState {
-
         }
-        
 
-        
-        //self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+        // self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
     }
-    
+
     func classes() -> [String] {
-        return [ "druid", "hunter", "mage", "paladin", "priest",
-            "rogue", "shaman", "warlock", "warrior"].sort { NSLocalizedString($0, comment: "") <  NSLocalizedString($1, comment: "")}
+        return ["druid", "hunter", "mage", "paladin", "priest",
+            "rogue", "shaman", "warlock", "warrior"].sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
     }
-    
-    //MARK: - NSComboBoxDataSource, NSComboBoxDelegate
+
+    // MARK: - NSComboBoxDataSource, NSComboBoxDelegate
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
         return classes().count
     }
-    
+
     func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
-        return classes()[index]
+        return NSLocalizedString(classes()[index], comment: "")
     }
-    
+
     func comboBoxSelectionDidChange(notification: NSNotification) {
         checkToEnableSave()
     }
-    
+
     func checkToEnableSave() {
-        var enabled:Bool?
+        var enabled: Bool?
         if hstrackerDeckBuilder.state == NSOnState {
             enabled = classesCombobox.indexOfSelectedItem != -1
         }
@@ -131,7 +128,7 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         else if fromAFile.state == NSOnState {
             enabled = false
         }
-        
+
         if let enabled = enabled {
             okButton.enabled = enabled
         }

@@ -22,5 +22,7 @@ static const DDLogLevel ddLogLevel = DDLogLevelInfo;
 #endif
 
 #import <MASPreferences/MASPreferencesViewController.h>
+#import <JNWScrollView/JNWScrollView.h>
+#import <JNWCollectionView/JNWCollectionView.h>
 
 #endif /* HSTracker_Bridging_Header_h */

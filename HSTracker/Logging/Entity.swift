@@ -19,23 +19,27 @@ class Entity: Hashable, CustomStringConvertible {
         self.id = id
         self.isPlayer = false
     }
-    
+
     func setTag(tag: GameTag, _ value: Int) {
         self.tags[tag] = value
     }
-    
+
     func getTag(tag: GameTag) -> Int {
         if let value = self.tags[tag] {
             return value
         }
         return 0
     }
-    
+
     func hasTag(tag: GameTag) -> Bool {
         if let _ = self.tags[tag] {
             return true
         }
         return false
+    }
+
+    var isCurrentPlayer: Bool {
+        return self.hasTag(GameTag.CURRENT_PLAYER)
     }
 
     func isInZone(zone: Zone) -> Bool {
@@ -49,11 +53,11 @@ class Entity: Hashable, CustomStringConvertible {
     var isSecret: Bool {
         return self.hasTag(.SECRET)
     }
-    
+
     var isSpell: Bool {
         return self.getTag(.CARDTYPE) == CardType.SPELL.rawValue
     }
-    
+
     var description: String {
         var description = "<\(NSStringFromClass(self.dynamicType)): "
             + "self.id=\(self.id)"
@@ -63,7 +67,7 @@ class Entity: Hashable, CustomStringConvertible {
         }
         return description
     }
-    
+
     func cardName(cardId: String?) -> String {
         if let cardId = cardId {
             if let card = Cards.byId(cardId) {
@@ -72,24 +76,24 @@ class Entity: Hashable, CustomStringConvertible {
         }
         return "N/A"
     }
-    
+
     var hashValue: Int {
         return id.hashValue
     }
 }
 
-func ==(lhs: Entity, rhs: Entity) -> Bool {
+func == (lhs: Entity, rhs: Entity) -> Bool {
     return lhs.id == rhs.id
 }
 
 class TempEntity {
-    var tag: String
+    var tag: GameTag
     var id: Int
-    var value: String
+    var value: Int
 
-    init(_ tag: String, _ id: Int, _ value: String) {
-        self.tag = tag;
-        self.id = id;
-        self.value = value;
+    init(_ tag: GameTag, _ id: Int, _ value: Int) {
+        self.tag = tag
+        self.id = id
+        self.value = value
     }
 }

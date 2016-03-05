@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Card : CustomStringConvertible {
+class Card : Hashable, CustomStringConvertible {
 
     var cardId: String = ""
     var collectible: Bool = false
@@ -23,7 +23,7 @@ class Card : CustomStringConvertible {
     var set: String = ""
     var text: String = ""
     var type: String = ""
-    //var mechanics: Set<CardMechanic>
+    // var mechanics: Set<CardMechanic>
     var isStandard: Bool = false
 
     var count: Int = 0
@@ -44,28 +44,28 @@ class Card : CustomStringConvertible {
         }
         return self.enName
     }
-    
+
     func textColor() -> NSColor {
-        var color:NSColor
-        if  highlightDraw && Settings.instance.highlightLastDrawn {
-            color = NSColor(red:1, green:0.647, blue:0, alpha:1)
+        var color: NSColor
+        if highlightDraw && Settings.instance.highlightLastDrawn {
+            color = NSColor(red: 1, green: 0.647, blue: 0, alpha: 1)
         }
         else if highlightInHand && Settings.instance.highlightCardsInHand {
-            color = NSColor(red:0.678, green:1, blue:0.184, alpha:1)
+            color = NSColor(red: 0.678, green: 1, blue: 0.184, alpha: 1)
         }
         else if count <= 0 || jousted {
-            color = NSColor(red:0.501, green:0.501, blue:0.501, alpha:1)
+            color = NSColor(red: 0.501, green: 0.501, blue: 0.501, alpha: 1)
         }
         else if wasDiscarded && Settings.instance.highlightDiscarded {
-            color = NSColor(red:0.803, green:0.36, blue:0.36, alpha:1)
+            color = NSColor(red: 0.803, green: 0.36, blue: 0.36, alpha: 1)
         }
         else {
             color = NSColor.whiteColor()
         }
         return color
     }
-    
-    func copy() -> AnyObject {
+
+    func copy() -> Card {
         let copy = Card()
         copy.cardId = self.cardId
         copy.collectible = self.collectible
@@ -80,7 +80,7 @@ class Card : CustomStringConvertible {
         copy.set = self.set
         copy.text = self.text
         copy.type = self.type
-        //copy.mechanics = self.mechanics
+        // copy.mechanics = self.mechanics
         copy.isStandard = self.isStandard
         copy.count = self.count
         copy.hasChanged = self.hasChanged
@@ -93,26 +93,16 @@ class Card : CustomStringConvertible {
         copy.highlightFrame = self.highlightFrame
         return copy
     }
-    
+
     var description : String {
         return "<\(NSStringFromClass(self.dynamicType)): "
             + "self.cardId=\(self.cardId)"
-            + ", self.collectible=\(self.collectible)"
-            + ", self.cost=\(self.cost)"
-            + ", self.faction=\(self.faction)"
-            //+ ", self.flavor=\(self.flavor)"
-            //+ ", self.health=\(self.health)"
             + ", self.name=\(self.name)"
             + ", self.enName=\(self.enName)"
             + ", self.playerClass=\(self.playerClass)"
             + ", self.rarity=\(self.rarity)"
             + ", self.set=\(self.set)"
-            //+ ", self.text=\(self.text)"
-            + ", self.type=\(self.type)"
-            //+ ", self.mechanics=\(self.mechanics)"
-            //+ ", self.isStandard=\(self.isStandard)"
             + ", self.count=\(self.count)"
-            + ", self.hasChanged=\(self.hasChanged)"
             + ", self.jousted=\(self.jousted)"
             + ", self.isStolen=\(self.isStolen)"
             + ", self.isCreated=\(self.isCreated)"
@@ -122,4 +112,10 @@ class Card : CustomStringConvertible {
             + ", self.highlightFrame=\(self.highlightFrame)>"
     }
 
+    var hashValue: Int {
+        return cardId.hashValue
+    }
+}
+func == (lhs: Card, rhs: Card) -> Bool {
+    return lhs.cardId == rhs.cardId
 }

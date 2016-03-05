@@ -11,32 +11,32 @@
 import Foundation
 
 class DynamicEntity : Hashable {
-    var cardId:String
-    var hidden, created, discarded:Bool
-    var cardMark:CardMark
-    
-    init(cardId:String, hidden:Bool = false, created:Bool = false,
-        cardMark:CardMark = CardMark.None, discarded:Bool = false) {
-        self.cardId = cardId
-        self.hidden = hidden
-        self.created = created
-        self.discarded = discarded
+    var cardId: String
+    var hidden, created, discarded: Bool
+    var cardMark: CardMark
+
+    init(cardId: String, hidden: Bool = false, created: Bool = false,
+        cardMark: CardMark = CardMark.None, discarded: Bool = false) {
+            self.cardId = cardId
+            self.hidden = hidden
+            self.created = created
+            self.discarded = discarded
             self.cardMark = cardMark
     }
-    
+
     var hashValue: Int {
         return cardId.hashValue ^
-            hidden.hashValue ^
-            created.hashValue ^
-            discarded.hashValue ^
+        hidden.hashValue ^
+        created.hashValue ^
+        discarded.hashValue ^
         cardMark.hashValue
     }
 }
-func ==(lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
+func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
     return lhs.cardId == rhs.cardId &&
-        lhs.hidden == rhs.hidden &&
-        lhs.created == lhs.created &&
-        lhs.discarded == rhs.discarded &&
+    lhs.hidden == rhs.hidden &&
+    lhs.created == lhs.created &&
+    lhs.discarded == rhs.discarded &&
     lhs.cardMark == rhs.cardMark
 }
 
@@ -59,7 +59,7 @@ class Player {
     var tracker: Tracker?
     var goingFirst: Bool = false
     var fatigue: Int = 0
-    //@property(nonatomic) BOOL drawnCardsMatchDeck;
+    // @property(nonatomic) BOOL drawnCardsMatchDeck;
 
     let DeckSize = 30
 
@@ -82,7 +82,7 @@ class Player {
 
     func drawnCards() -> [Card] {
         return drawnCardIds.filter { !$0.isEmpty }
-            .groupBy { (s:String) in s.trim() }
+            .groupBy { (s: String) in s.trim() }
             .map { g -> (Card?) in
                 if let card = Cards.byId(g.key) {
                     card.count = g.items.count
@@ -90,20 +90,20 @@ class Player {
                 } else {
                     return nil
                 }
-            }
+        }
             .filter { $0 != nil }
             .map { $0! }
     }
 
     func displayReveleadCards() -> [Card] {
         return revealedCards.filter { $0.cardId != nil && !$0.cardId!.isEmpty }
-            .map { (ce:CardEntity) -> (DynamicEntity) in
+            .map { (ce: CardEntity) -> (DynamicEntity) in
                 DynamicEntity(cardId: ce.cardId!,
                     hidden: ce.inHand || ce.inDeck,
                     created: ce.created,
                     discarded: ce.discarded && Settings.instance.highlightDiscarded)
-            }
-            .groupBy { (d:DynamicEntity) in d }
+        }
+            .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
                 if let card = Cards.byId(g.key.cardId) {
                     card.count = g.items.count
@@ -114,20 +114,20 @@ class Player {
                 } else {
                     return nil
                 }
-            }
+        }
             .filter { $0 != nil }
             .map { $0! }
             .sortCardList()
     }
-    
+
     func displayCards() -> [Card] {
         let settings = Settings.instance
         var drawnCards = self.drawnCards()
-        
+
         var createdInHand = [Card]()
         if settings.showPlayerGet {
             createdInHand = createdInHandCardIds.filter { !$0.isEmpty }
-                .groupBy { (s:String) in s }
+                .groupBy { (s: String) in s }
                 .map { g -> Card? in
                     if let card = Cards.byId(g.key) {
                         card.count = g.items.count
@@ -137,24 +137,24 @@ class Player {
                     } else {
                         return nil
                     }
-                }
+            }
                 .filter { $0 != nil }
                 .map { $0! }
         }
-        
+
         guard let _ = Game.instance.activeDeck else {
             drawnCards += createdInHand
             return drawnCards.sortCardList()
         }
-        
+
         var stillInDeck = deck.filter { $0.cardId != nil && !$0.cardId!.isEmpty }
-            .map { (ce:CardEntity) -> (DynamicEntity) in
+            .map { (ce: CardEntity) -> (DynamicEntity) in
                 DynamicEntity(cardId: ce.cardId!,
                     hidden: ce.inHand || ce.inDeck,
                     cardMark: ce.cardMark,
                     discarded: ce.discarded)
-            }
-            .groupBy { (d:DynamicEntity) in d }
+        }
+            .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
                 if let card = Cards.byId(g.key.cardId) {
                     card.count = g.items.count
@@ -165,62 +165,62 @@ class Player {
                 } else {
                     return nil
                 }
-            }
+        }
             .filter { $0 != nil }
             .map { $0! }
-        
+
         if settings.removeCardsFromDeck {
             if settings.highlightLastDrawn {
-                let drawHighlight = Game.instance.activeDeck!.sortedCards.filter { (card:Card) in
-                    self.hightlightedCards.contains(card.cardId) && stillInDeck.all { (c:Card) in c.cardId != card.cardId  }
+                let drawHighlight = Game.instance.activeDeck!.sortedCards.filter { (card: Card) in
+                    self.hightlightedCards.contains(card.cardId) && stillInDeck.all { (c: Card) in c.cardId != card.cardId }
                 }
                     .map { card -> Card in
-                        let c:Card = card.copy() as! Card
+                        let c: Card = card.copy()
                         c.count = 0
                         c.highlightDraw = true
                         return c
                 }
                 stillInDeck += drawHighlight
             }
-            
+
             if settings.highlightCardsInHand {
-                let inHand = Game.instance.activeDeck!.sortedCards.filter { (card:Card) in
-                    stillInDeck.all { (c:Card) in c.cardId != card.cardId } && self.hand.any { (ce:CardEntity) in card.cardId == ce.cardId }
-                    }
+                let inHand = Game.instance.activeDeck!.sortedCards.filter { (card: Card) in
+                    stillInDeck.all { (c: Card) in c.cardId != card.cardId } && self.hand.any { (ce: CardEntity) in card.cardId == ce.cardId }
+                }
                     .map { card -> Card in
-                        let c:Card = card.copy() as! Card
+                        let c: Card = card.copy()
                         c.count = 0
                         c.highlightInHand = true
-                        let count = self.deck.filter { (ce:CardEntity) -> Bool in
+                        let count = self.deck.filter { (ce: CardEntity) -> Bool in
                             return (ce.cardId != nil && !ce.cardId!.isEmpty)
-                            }
-                            .groupBy { (ce:CardEntity) -> String in ce.cardId! }
+                        }
+                            .groupBy { (ce: CardEntity) -> String in ce.cardId! }
                             .map { g -> Int in g.items.count }
                             .maxElement()
                         if let count = count where self.isLocalPlayer && c.cardId == CardIds.Collectible.Neutral.RenoJackson && count <= 1 {
                             c.highlightFrame = true
                         }
-                        
+
                         return c
                 }
                 stillInDeck += inHand
             }
             return stillInDeck.sortCardList()
         }
-        
-        let notInDeck = Game.instance.activeDeck!.sortedCards.filter { (card:Card) in
-            self.deck.all { (c:CardEntity) in c.cardId != card.cardId }
-            }
+
+        let notInDeck = Game.instance.activeDeck!.sortedCards.filter { (card: Card) in
+            self.deck.all { (c: CardEntity) in c.cardId != card.cardId }
+        }
             .map { card -> Card in
-                let c:Card = card.copy() as! Card
+                let c: Card = card.copy()
                 c.count = 0
                 c.highlightDraw = self.hightlightedCards.contains(c.cardId)
                 if self.hand.any({ $0.cardId == c.cardId }) {
                     card.highlightInHand = true
-                    let count = self.deck.filter { (ce:CardEntity) -> Bool in
+                    let count = self.deck.filter { (ce: CardEntity) -> Bool in
                         return (ce.cardId != nil && !ce.cardId!.isEmpty)
-                        }
-                        .groupBy { (ce:CardEntity) -> String in ce.cardId! }
+                    }
+                        .groupBy { (ce: CardEntity) -> String in ce.cardId! }
                         .map { g -> Int in g.items.count }
                         .maxElement()
                     if let count = count where self.isLocalPlayer && c.cardId == CardIds.Collectible.Neutral.RenoJackson && count <= 1 {
@@ -229,7 +229,7 @@ class Player {
                 }
                 return c
         }
-        
+
         stillInDeck += notInDeck + createdInHand
         return stillInDeck.sortCardList()
     }
@@ -240,7 +240,7 @@ class Player {
         self.playerClass = nil
         self.goingFirst = false
         self.fatigue = 0
-        //self.drawnCardsMatchDeck = true;
+        // self.drawnCardsMatchDeck = true;
         self.hand = []
         self.board = []
         self.deck = []
@@ -270,7 +270,7 @@ class Player {
 
     func createInDeck(entity: Entity, _ turn: Int) {
         var cardEntity: CardEntity
-        
+
         let created = turn > 1
 
         if self.isLocalPlayer {
@@ -309,7 +309,7 @@ class Player {
         cardEntity.turn = turn
         cardEntity.created = true
         self.hand.append(cardEntity)
-        
+
         if let entity = entity, let cardId = entity.cardId where self.isLocalPlayer {
             self.createdInHandCardIds.append(cardId)
         }
@@ -367,7 +367,7 @@ class Player {
     func mulligan(entity: Entity) {
         if let cardEntity = moveCardEntity(entity, self.hand, self.deck, 0) {
 
-            //new cards are drawn first
+            // new cards are drawn first
             var newCard: CardEntity?
             for ent in self.hand {
                 if ent.entity!.getTag(GameTag.ZONE_POSITION) == entity.getTag(GameTag.ZONE_POSITION) {
@@ -396,7 +396,7 @@ class Player {
             }
 
             if let cardId = entity.cardId where !cardId.isEmpty && cardEntity.cardMark != CardMark.Created
-                    && cardEntity.cardMark != CardMark.Returned && !cardEntity.created {
+            && cardEntity.cardMark != CardMark.Returned && !cardEntity.created {
                 self.drawnCardIds.append(cardId)
                 self.drawnCardIdsTotal.append(cardId)
             }
@@ -439,8 +439,8 @@ class Player {
 
             if let cardId = entity.cardId where !cardId.isEmpty && cardEntity.cardMark != CardMark.Created && cardEntity.cardMark != CardMark.Returned {
                 /*if(self.isLocalPlayer && !CardMatchesActiveDeck(entity.CardId)) {
-                    DrawnCardsMatchDeck = false;
-                }*/
+                 DrawnCardsMatchDeck = false;
+                 }*/
                 self.drawnCardIds.append(cardId)
                 self.drawnCardIdsTotal.append(cardId)
             }
@@ -454,8 +454,8 @@ class Player {
 
             if let cardId = entity.cardId where !cardId.isEmpty && cardEntity.cardMark != CardMark.Created && cardEntity.cardMark != CardMark.Returned {
                 /*if(self.isLocalPlayer && !CardMatchesActiveDeck(entity.CardId)) {
-                  DrawnCardsMatchDeck = false;
-                }*/
+                 DrawnCardsMatchDeck = false;
+                 }*/
                 self.drawnCardIds.append(cardId)
                 self.drawnCardIdsTotal.append(cardId)
             }
@@ -521,10 +521,10 @@ class Player {
 
     func secretTriggered(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, self.secrets,
-                self.graveyard,
-                turn) {
-            updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            self.graveyard,
+            turn) {
+                updateRevealedEntity(cardEntity, turn)
+                DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
 
@@ -532,7 +532,7 @@ class Player {
         var cardEntity: CardEntity?
         for ent in self.revealedCards {
             if ent.entity == entity.entity ||
-                    (ent.cardId == entity.cardId && ent.entity == nil && ent.turn <= entity.prevTurn) {
+            (ent.cardId == entity.cardId && ent.entity == nil && ent.turn <= entity.prevTurn) {
                 cardEntity = ent
                 break
             }
@@ -558,44 +558,44 @@ class Player {
 
     func moveCardEntity(entity: Entity, var _ from: [CardEntity], var _ to: [CardEntity], _
         turn: Int) -> CardEntity? {
-        var cardEntity = getEntityFromCollection(from, entity)
-        if let _cardEntity = cardEntity {
-            from.remove(_cardEntity)
-        } else {
-            cardEntity = from.firstWhere { ($0.cardId == nil || $0.cardId!.isEmpty) && $0.entity == nil }
+            var cardEntity = getEntityFromCollection(from, entity)
             if let _cardEntity = cardEntity {
                 from.remove(_cardEntity)
-                _cardEntity.update(entity)
             } else {
-                cardEntity = CardEntity(cardId: nil, entity: entity)
-                cardEntity!.turn = turn
+                cardEntity = from.firstWhere { ($0.cardId == nil || $0.cardId!.isEmpty) && $0.entity == nil }
+                if let _cardEntity = cardEntity {
+                    from.remove(_cardEntity)
+                    _cardEntity.update(entity)
+                } else {
+                    cardEntity = CardEntity(cardId: nil, entity: entity)
+                    cardEntity!.turn = turn
+                }
             }
-        }
 
-        if let _cardEntity = cardEntity {
-            _cardEntity.turn = turn
-            to.append(_cardEntity)
-            to.sortInPlace(CardEntity.zonePosComparison)
-        }
-        return cardEntity
+            if let _cardEntity = cardEntity {
+                _cardEntity.turn = turn
+                to.append(_cardEntity)
+                to.sortInPlace(CardEntity.zonePosComparison)
+            }
+            return cardEntity
     }
 
     func getEntityFromCollection(array: [CardEntity], _ entity: Entity) -> CardEntity? {
-        var cardEntity = array.firstWhere { $0.entity == entity}
+        var cardEntity = array.firstWhere { $0.entity == entity }
         if cardEntity == nil {
             cardEntity = array.firstWhere { $0.cardId != nil && !$0.cardId!.isEmpty && $0.cardId == entity.cardId }
         }
         if cardEntity == nil {
             cardEntity = array.firstWhere { ($0.cardId == nil || $0.cardId!.isEmpty) && $0.entity == nil }
         }
-        
+
         if cardEntity != nil {
             cardEntity!.update(entity)
         }
         return cardEntity
     }
-    
-    func updateZonePos(entity:Entity, _ zone:Zone, _ turn:Int) {
+
+    func updateZonePos(entity: Entity, _ zone: Zone, _ turn: Int) {
         switch zone {
         case .HAND:
             updateCardEntity(entity)
@@ -606,16 +606,16 @@ class Player {
                 deck.append(CardEntity())
                 DDLogVerbose("Coin \(hand[4])")
             }
-            
+
         case .PLAY:
             updateCardEntity(entity)
             board.sortInPlace(CardEntity.zonePosComparison)
-            
+
         default: break
         }
     }
-    
-    func updateCardEntity(entity:Entity)
+
+    func updateCardEntity(entity: Entity)
     {
         if let cardEntity = getEntityFromCollection(hand, entity) {
             cardEntity.entity = entity
