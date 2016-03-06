@@ -21,10 +21,10 @@ class LoadingScreenHandler {
 
         let match = line.firstMatchWithDetails(NSRegularExpression.rx(regex))
         let game = Game.instance
-        
+
         game.currentMode = Mode(rawValue: match.groups[2].value)
         game.previousMode = Mode(rawValue: match.groups[1].value)
-        
+
         var newMode: GameMode?
         if let mode = game.currentMode, currentMode = getGameMode(mode) {
             newMode = currentMode
@@ -32,30 +32,31 @@ class LoadingScreenHandler {
         else if let mode = game.currentMode, currentMode = getGameMode(mode) {
             newMode = currentMode
         }
-        
+
         if let newMode = newMode where !(game.currentGameMode == .Ranked && newMode == .Casual) {
+            DDLogInfo("Game mode : \(newMode)")
             game.currentGameMode = newMode
         }
         if game.previousMode == .GAMEPLAY {
-            //game.handleInMenu()
+            // game.handleInMenu()
         }
         if let currentMode = game.currentMode {
             switch currentMode {
             case .COLLECTIONMANAGER,
-            .TAVERN_BRAWL:
-                //gameState.GameHandler.ResetConstructedImporting();
+                    .TAVERN_BRAWL:
+                // gameState.GameHandler.ResetConstructedImporting();
                 break
-                
+
             case .DRAFT:
-                //game.ResetArenaCards();
+                // game.ResetArenaCards();
                 break
-                
-            default:break
+
+            default: break
             }
         }
     }
-    
-    static func getGameMode(mode:Mode) -> GameMode? {
+
+    static func getGameMode(mode: Mode) -> GameMode? {
         switch mode {
         case Mode.TOURNAMENT: return .Casual
         case Mode.FRIENDLY: return .Friendly

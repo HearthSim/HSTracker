@@ -32,6 +32,16 @@ extension Array where Element: Card {
     }
 }
 
+extension Array where Element: Statistic {
+    func toDict() -> [[String: AnyObject]] {
+        var result = [[String: AnyObject]]()
+        for statistic in self {
+            result.append(statistic.toDict())
+        }
+        return result
+    }
+}
+
 extension Array where Element: Equatable {
     mutating func remove(e: Element) {
         if let index = indexOf(e) {

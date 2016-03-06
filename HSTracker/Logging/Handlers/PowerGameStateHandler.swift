@@ -349,9 +349,11 @@ class PowerGameStateHandler {
         let game = Game.instance
         if playerId == game.player.id {
             game.player.name = name
+            DDLogInfo("Player name is \(name)")
         }
         else if playerId == game.opponent.id {
             game.opponent.name = name
+            DDLogInfo("Opponent name is \(name)")
         }
     }
 }

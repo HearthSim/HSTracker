@@ -11,6 +11,13 @@ import Foundation
 class Cards {
     static var cards = [Card]()
 
+    static func heroById(cardId: String) -> Card? {
+        if let card = cards.firstWhere({ $0.cardId == cardId && $0.type == "hero" }) {
+            return card.copy()
+        }
+        return nil
+    }
+
     static func byId(cardId: String) -> Card? {
         if let card = collectible().firstWhere({ $0.cardId == cardId }) {
             return card.copy()

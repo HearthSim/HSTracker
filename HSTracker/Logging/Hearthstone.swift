@@ -24,6 +24,9 @@ class Hearthstone : NSObject {
         startListeners()
         if self.isHearthstoneRunning {
             startTracking()
+            dispatch_async(dispatch_get_main_queue()) {
+                Game.instance.hearthstoneIsActive(true)
+            }
         }
     }
 

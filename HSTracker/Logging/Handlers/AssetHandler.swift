@@ -29,7 +29,7 @@ class AssetHandler {
                 game.setPlayerRank(rank)
             }
         } else if line.isMatch(NSRegularExpression.rx("rank_window")) {
-            game.rankFound = true
+            // game.rankFound = true
             game.currentGameMode = .Ranked
         } else if line.isMatch(NSRegularExpression.rx(UnloadingCard)) {
             let match = line.firstMatchWithDetails(NSRegularExpression.rx(UnloadingCard))
@@ -43,5 +43,4 @@ class AssetHandler {
             game.currentGameMode = .Brawl
         }
     }
-
 }

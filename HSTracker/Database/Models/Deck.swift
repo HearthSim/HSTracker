@@ -116,6 +116,7 @@ class Deck : Hashable, CustomStringConvertible {
     var isArena: Bool = false
     private var _cards = [Card]()
     var cards: [Card]?
+    var statistics = [Statistic]()
 
     init(playerClass: String, name: String? = nil, deckId: String? = nil) {
         if let deckId = deckId {
@@ -186,11 +187,6 @@ class Deck : Hashable, CustomStringConvertible {
         return count == 30
     }
 
-    func displayStats() -> String {
-        // TODO
-        return "12 - 1 / 97%"
-    }
-
     var description: String {
         return "<\(NSStringFromClass(self.dynamicType)): "
             + "deckId=\(self.deckId)"
@@ -205,19 +201,20 @@ class Deck : Hashable, CustomStringConvertible {
     }
 
     func toDict() -> [String: AnyObject] {
-        var result = [String: AnyObject]()
         self.reset()
-        result["deckId"] = deckId
-        result["name"] = name == nil ? "" : name!
-        result["playerClass"] = playerClass
-        result["version"] = version
-        result["hearthstatsId"] = hearthstatsId == nil ? -1 : hearthstatsId!
-        result["hearthstatsVersionId"] = hearthstatsVersionId == nil ? -1 : hearthstatsVersionId!
-        result["isActive"] = Int(isActive)
-        result["isArena"] = Int(isArena)
-        result["cards"] = sortedCards.toDict()
-        result["creationDate"] = creationDate == nil ? -1 : creationDate?.timeIntervalSince1970
-        return result
+        return [
+            "deckId": deckId,
+            "name": name == nil ? "" : name!,
+            "playerClass": playerClass,
+            "version": version,
+            "hearthstatsId": (hearthstatsId == nil ? -1 : hearthstatsId!),
+            "hearthstatsVersionId": (hearthstatsVersionId == nil ? -1 : hearthstatsVersionId!),
+            "isActive": Int(isActive),
+            "isArena": Int(isArena),
+            "cards": sortedCards.toDict(),
+            "creationDate": (creationDate == nil ? -1 : creationDate!.timeIntervalSince1970),
+            "statistics": statistics.toDict()
+        ]
     }
 
     static func fromDict(dict: [String: AnyObject]) -> Deck? {
@@ -254,9 +251,30 @@ class Deck : Hashable, CustomStringConvertible {
                 }
             }
         }
+        if let statistics = dict["statistics"] as? [[String: AnyObject]] {
+            for stat in statistics {
+                if let statistic = Statistic.fromDict(stat) {
+                    deck.addStatistic(statistic)
+                }
+            }
+        }
 
         DDLogVerbose("\(deck)")
         return deck
+    }
+
+    func addStatistic(statistic: Statistic) {
+        statistics.append(statistic)
+    }
+
+    func displayStats() -> String {
+        let totalGames = statistics.count
+        if totalGames == 0 {
+            return "0 - 0"
+        }
+        let wins = statistics.filter { $0.gameResult == .Win }.count
+
+        return "\(wins) - \(totalGames - wins) / \(wins / totalGames * 100)%"
     }
 }
 func == (lhs: Deck, rhs: Deck) -> Bool {

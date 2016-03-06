@@ -459,7 +459,7 @@ class TagChangeHandler {
             return
         }
 
-        guard let entity = game.entities[id] where !entity.isPlayer else {
+        if let entity = game.entities[id] where !entity.isPlayer {
             return
         }
 
@@ -734,7 +734,7 @@ class TagChangeHandler {
                 }
             }
             if let playerEntity = game.playerEntity {
-                if id == playerEntity.getTag(GameTag.HERO_ENTITY) {
+                if game.player.playerClass == nil && id == playerEntity.getTag(GameTag.HERO_ENTITY) {
                     dispatch_async(dispatch_get_main_queue()) {
                         game.setPlayerHero(game.entities[id]!.cardId!)
                     }
@@ -749,7 +749,7 @@ class TagChangeHandler {
                 }
             }
             if let opponentEntity = game.opponentEntity {
-                if id == opponentEntity.getTag(GameTag.HERO_ENTITY) {
+                if game.opponent.playerClass == nil && id == opponentEntity.getTag(GameTag.HERO_ENTITY) {
                     dispatch_async(dispatch_get_main_queue()) {
                         game.setOpponentHero(game.entities[id]!.cardId!)
                     }

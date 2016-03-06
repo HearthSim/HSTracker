@@ -29,7 +29,6 @@ class Game {
     var tmpEntities = [Entity]()
     var knownCardIds = [Int: String]()
     var joustReveals: Int = 0
-    var rankFound: Bool = false
     var awaitingRankedDetection: Bool = true
     var lastAssetUnload: Double = 0
     var waitController: TempEntity?
@@ -46,6 +45,7 @@ class Game {
     var currentEntityId = Int.min
     var currentEntityHasCardId: Bool = false
     var playerUsedHeroPower: Bool = false
+    var hasCoin: Bool = false
     var opponentUsedHeroPower: Bool = false
 
     static let instance = Game()
@@ -62,8 +62,6 @@ class Game {
         entities.removeAll()
         tmpEntities.removeAll()
         joustReveals = 0
-        // currentGameMode = GameMode.Unknow
-        rankFound = false
         awaitingRankedDetection = false
         lastAssetUnload = -1
         waitController = nil
@@ -188,22 +186,37 @@ class Game {
             return
         }
 
-        if currentGameMode == .Ranked && !self.rankFound {
+        if currentGameMode == .Ranked && 0 == self.currentRank {
             waitForRank(5) {
                 self.handleEndGame()
             }
             return
         }
+
+        DDLogInfo("End game : mode=\(currentGameMode), rank=\(currentRank), against=\(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayReveleadCards())")
+
+        if let deck = activeDeck,
+            let opponentName = opponent.name,
+            let opponentClass = opponent.playerClass?.playerClass {
+                let statistic = Statistic()
+                statistic.opponentName = opponentName
+                statistic.opponentClass = opponentClass
+                statistic.gameResult = gameResult
+                statistic.hasCoin = hasCoin
+                statistic.playerRank = currentRank
+                statistic.playerMode = currentGameMode
+                deck.addStatistic(statistic)
+                deck.save()
+        }
     }
 
     func waitForRank(seconds: Double, completion: () -> Void) {
         DDLogInfo("waiting for rank")
-        rankFound = false
         let timeout = NSDate().timeIntervalSince1970 + seconds
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             while NSDate().timeIntervalSince1970 - self.lastAssetUnload < timeout {
                 NSThread.sleepForTimeInterval(0.1)
-                if self.rankFound {
+                if self.currentRank != 0 {
                     break
                 }
                 dispatch_async(dispatch_get_main_queue()) {
@@ -216,14 +229,14 @@ class Game {
     func detectMode(seconds: Double, completion: () -> Void) {
         DDLogInfo("waiting for mode")
         awaitingRankedDetection = true
-        rankFound = false
+        // rankFound = false
         lastAssetUnload = NSDate().timeIntervalSince1970
         waitingForFirstAssetUnload = true
         let timeout = NSDate().timeIntervalSince1970 + seconds
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             while self.waitingForFirstAssetUnload || NSDate().timeIntervalSince1970 - self.lastAssetUnload < timeout {
                 NSThread.sleepForTimeInterval(0.1)
-                if self.rankFound {
+                if self.currentGameMode != .None {
                     break
                 }
             }
@@ -260,12 +273,12 @@ class Game {
 
     func loss() {
         DDLogInfo("You lose :(")
-        self.gameResult = GameResult.Loss
+        gameResult = GameResult.Loss
     }
 
     func tied() {
         DDLogInfo("You lose :( / game tied:(")
-        self.gameResult = GameResult.Tied
+        gameResult = GameResult.Tied
     }
 
     func isMulliganDone() -> Bool {
@@ -294,11 +307,11 @@ class Game {
         }
     }
 
-    // MARK: - player
+// MARK: - player
     func setPlayerHero(cardId: String) {
-        player.playerClass = Cards.byId(cardId)
-        if let card = player.playerClass {
-            DDLogInfo("player is \(card.name)")
+        if let card = Cards.heroById(cardId) {
+            player.playerClass = card
+            DDLogInfo("Player class is \(card.name)")
         }
     }
 
@@ -319,11 +332,10 @@ class Game {
         if let tracker = playerTracker {
             tracker.update()
         }
-        /*if(cardId == "GAME_005" && _game.CurrentGameStats != null)
-         {
-         _game.CurrentGameStats.Coin = true;
-         Logger.WriteLine("Got coin", "GameStats");
-         }*/
+        if cardId == "GAME_005" {
+            hasCoin = true
+            DDLogInfo("Player got the coin")
+        }
     }
 
     func playerBackToHand(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -465,12 +477,12 @@ class Game {
         player.removeFromPlay(entity, turn)
     }
 
-    // MARK: - opponent
+// MARK: - opponent
 
     func setOpponentHero(cardId: String) {
-        opponent.playerClass = Cards.byId(cardId)
-        if let card = opponent.playerClass {
-            DDLogInfo("opponent is \(card.name)")
+        if let card = Cards.heroById(cardId) {
+            opponent.playerClass = card
+            DDLogInfo("Opponent class is \(card.name)")
         }
     }
 

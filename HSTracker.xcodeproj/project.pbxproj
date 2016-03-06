@@ -14,6 +14,7 @@
 		431719731C885BD600F5988B /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719721C885BD600F5988B /* CardCell.swift */; };
 		431719751C89ADA000F5988B /* NSAlert+HSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */; };
 		431719791C8C179D00F5988B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
+		4317197B1C8C19B500F5988B /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197A1C8C19B500F5988B /* Statistic.swift */; };
 		434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434C2F291C7F0F96001D1D91 /* NewDeck.xib */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
@@ -119,6 +120,7 @@
 		431719721C885BD600F5988B /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert+HSTracker.swift"; sourceTree = "<group>"; };
 		431719781C8C179D00F5988B /* Rarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
+		4317197A1C8C19B500F5988B /* Statistic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
 		434C2F291C7F0F96001D1D91 /* NewDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDeck.xib; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
 		434C2F2E1C7F437D001D1D91 /* NetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImporter.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 				439C7E7D1C777CFC00D29859 /* Deck.swift */,
 				439C7E811C777CFC00D29859 /* Card.swift */,
 				439C7E831C777CFC00D29859 /* CardMechanic.swift */,
+				4317197A1C8C19B500F5988B /* Statistic.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -825,6 +828,7 @@
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
+				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageCache.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
