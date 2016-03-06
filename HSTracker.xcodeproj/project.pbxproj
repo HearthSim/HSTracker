@@ -450,11 +450,11 @@
 		439C7ED41C777FA900D29859 /* Trackers */ = {
 			isa = PBXGroup;
 			children = (
-				439C7ED61C777FA900D29859 /* CardCellView.swift */,
 				439C7ED71C777FA900D29859 /* CardSize.swift */,
 				439C7ED81C777FA900D29859 /* HandCountPosition.swift */,
 				439C7EDC1C777FA900D29859 /* Tracker.swift */,
 				439C7EDD1C777FA900D29859 /* Tracker.xib */,
+				439C7ED61C777FA900D29859 /* CardCellView.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";

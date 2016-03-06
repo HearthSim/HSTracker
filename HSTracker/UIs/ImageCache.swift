@@ -71,7 +71,7 @@ class ImageCache {
     }
 
     static func darkenImage() -> NSImage? {
-        return imageNamed("darken", from: .Assets)
+        return imageNamed("dark", from: .Assets)
     }
 
     static func frameLegendary() -> NSImage? {

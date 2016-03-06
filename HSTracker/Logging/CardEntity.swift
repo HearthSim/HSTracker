@@ -42,21 +42,15 @@ class CardEntity: Equatable, CustomStringConvertible {
     var stolen: Bool = false
 
     var inHand: Bool {
-        get {
-            return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.HAND.rawValue
-        }
+        return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.HAND.rawValue
     }
     var inDeck: Bool {
-        get {
-            return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.DECK.rawValue
-        }
+        return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.DECK.rawValue
     }
     var unknown: Bool {
-        get {
-            return cardId == nil || cardId!.isEmpty && entity == nil
-        }
+        return cardId == nil || cardId!.isEmpty && entity == nil
     }
-    
+
     private var _created: Bool = false
     var created: Bool {
         get {
@@ -69,10 +63,8 @@ class CardEntity: Equatable, CustomStringConvertible {
 
     init(cardId: String? = nil, entity: Entity? = nil) {
         if let entity = entity {
-            if let cardId = entity.cardId {
-                self.cardId = cardId
-            }
-        } else if let cardId = cardId {
+            self.cardId = entity.cardId
+        } else {
             self.cardId = cardId
         }
         self.entity = entity
@@ -84,9 +76,9 @@ class CardEntity: Equatable, CustomStringConvertible {
         self.cardId = nil
     }
 
-    static let zonePosComparison:((CardEntity, CardEntity) -> Bool) = {
-        let v1 = ($0.entity != nil && $0.entity!.hasTag(GameTag.ZONE_POSITION)) ? $0.entity!.getTag(GameTag.ZONE_POSITION) : 10
-        let v2 = ($1.entity != nil && $1.entity!.hasTag(GameTag.ZONE_POSITION)) ? $1.entity!.getTag(GameTag.ZONE_POSITION) : 10
+    static let zonePosComparison: ((CardEntity, CardEntity) -> Bool) = {
+        let v1 = $0.entity?.getTag(GameTag.ZONE_POSITION) ?? 10
+        let v2 = $1.entity?.getTag(GameTag.ZONE_POSITION) ?? 10
         return v1 < v2
     }
 
@@ -107,7 +99,7 @@ class CardEntity: Equatable, CustomStringConvertible {
             + "self.entity=\(self.entity)"
             + ", self.cardId=\(cardName(self.cardId))"
             + ", self.turn=\(self.turn)"
-    
+
         if let entity = self.entity {
             description += ", self.zonePos=\(entity.getTag(GameTag.ZONE_POSITION))"
         }
@@ -135,19 +127,19 @@ class CardEntity: Equatable, CustomStringConvertible {
     }
 }
 
-func ==(lhs: CardEntity, rhs: CardEntity) -> Bool {
-    if lhs.entity == nil && rhs.entity != nil || lhs.entity != nil && rhs.entity == nil {
-        return false
+func == (lhs: CardEntity, rhs: CardEntity) -> Bool {
+    if lhs.entity != nil {
+        if lhs.entity == rhs.entity {
+            return true
+        }
+        if lhs.entity!.cardId == rhs.entity!.cardId {
+            return true
+        }
     }
-    
-    if lhs.entity == nil && rhs.entity == nil {
-        let lhsEntity = lhs.entity!
-        let rhsEntity = rhs.entity!
-        
-        return lhsEntity.cardId == nil && rhsEntity.cardId != nil || lhsEntity.cardId != nil && rhsEntity.cardId == nil
+    if lhs.cardId != nil {
+        if lhs.cardId == rhs.cardId {
+            return true
+        }
     }
-    else {
-        return lhs.cardId == rhs.cardId
-    }
+    return false
 }
-

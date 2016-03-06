@@ -12,8 +12,7 @@ import Cocoa
 
 class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, CardCellHover {
 
-    @IBOutlet var table: NSTableView?
-    @IBOutlet var tableColumn: NSTableColumn?
+    @IBOutlet weak var table: NSTableView!
 
     var gameEnded: Bool = false
     var heroCard: Card?
@@ -24,6 +23,8 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     override func windowDidLoad() {
         super.windowDidLoad()
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hearthstoneRunning:", name: "hearthstone_running", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hearthstoneActive:", name: "hearthstone_active", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "opacityChange:", name: "tracker_opacity", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cardSizeChange:", name: "card_size", object: nil)
         let options = ["show_opponent_draw", "show_opponent_mulligan", "show_opponent_play",
@@ -69,25 +70,42 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         if Hearthstone.instance.isHearthstoneRunning {
             self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
         }
-        self.table!.setDelegate(self)
-        self.table!.setDataSource(self)
-        self.table!.intercellSpacing = NSSize(width: 0, height: 0)
 
-        self.table!.backgroundColor = NSColor.clearColor()
-        self.table!.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
+        self.table.intercellSpacing = NSSize(width: 0, height: 0)
 
-        self.tableColumn!.width = NSWidth(self.table!.bounds)
-        self.tableColumn!.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
+        self.table.backgroundColor = NSColor.clearColor()
+        self.table.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
 
-        self.table!.reloadData()
+        self.table.reloadData()
+    }
+
+    func hearthstoneRunning(notification: NSNotification) {
+        if Hearthstone.instance.isHearthstoneRunning {
+            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        }
+        else {
+            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
+        }
+    }
+
+    func hearthstoneActive(notification: NSNotification) {
+        let locked = Settings.instance.windowsLocked
+
+        if Hearthstone.instance.hearthstoneActive && locked {
+            self.window!.styleMask = NSBorderlessWindowMask
+            self.window!.ignoresMouseEvents = true
+        } else {
+            self.window!.styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
+            self.window!.ignoresMouseEvents = false
+        }
     }
 
     func trackerOptionsChange(notification: NSNotification) {
-        self.table?.reloadData()
+        self.table.reloadData()
     }
 
     func cardSizeChange(notification: NSNotification) {
-        self.table?.reloadData()
+        self.table.reloadData()
     }
 
     func opacityChange(notification: NSNotification) {
@@ -171,7 +189,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     func gameStart() {
         self.gameEnded = false
         self.cards.removeAll()
-        self.table!.reloadData()
+        self.table.reloadData()
     }
 
     func gameEnd() {
@@ -181,17 +199,15 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     func update() {
         guard let _ = self.table else { return }
 
-        if let playerType = self.playerType {
-            if let player = self.player {
+        if let playerType = self.playerType,
+            let player = self.player {
                 switch playerType {
                 case .Player:
                     self.cards = player.displayCards()
                 default:
                     self.cards = player.displayReveleadCards()
                 }
-                DDLogVerbose("cards for \(playerType) : \(self.cards)")
-                self.table!.reloadData()
-            }
+                self.table.reloadData()
         }
     }
 }

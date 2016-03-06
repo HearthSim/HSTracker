@@ -6,7 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="Tracker" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="table" destination="695-Rw-J4I" id="Nqh-Fq-jr8"/>
+                <outlet property="table" destination="695-Rw-J4I" id="IkM-QW-B4L"/>
                 <outlet property="tableColumn" destination="BPd-Xb-fay" id="7Ur-rv-vQe"/>
                 <outlet property="window" destination="KpN-Eq-jNY" id="ToO-5Y-9JJ"/>
             </connections>
@@ -55,6 +55,10 @@
                                             </prototypeCellViews>
                                         </tableColumn>
                                     </tableColumns>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-2" id="xda-bJ-CCH"/>
+                                        <outlet property="delegate" destination="-2" id="1Xa-Vf-EYn"/>
+                                    </connections>
                                 </tableView>
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>

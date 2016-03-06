@@ -18,7 +18,7 @@ class Hearthstone : NSObject {
 
     static let instance = Hearthstone()
 
-    //MARK: - Initialisation
+    // MARK: - Initialisation
     func start() {
         setup()
         startListeners()
@@ -56,17 +56,16 @@ class Hearthstone : NSObject {
                 }
             } catch {
             }
-
         }
 
         DDLogVerbose("Missing zones : \(missingZones)")
         if missingZones.count > 0 {
             for zone in missingZones {
                 fileContent += "\n[\(zone)]"
-                        + "\nLogLevel=1"
-                        + "\nFilePrinting=true"
-                        + "\nConsolePrinting=false"
-                        + "\nScreenPrinting=false"
+                    + "\nLogLevel=1"
+                    + "\nFilePrinting=true"
+                    + "\nConsolePrinting=false"
+                    + "\nScreenPrinting=false"
             }
             do {
                 try fileContent.writeToFile(self.configPath, atomically: true, encoding: NSUTF8StringEncoding)
@@ -104,25 +103,25 @@ class Hearthstone : NSObject {
         startTracking()
     }
 
-    //MARK: - Events
+    // MARK: - Events
     func startListeners() {
         let notificationCenter = NSWorkspace.sharedWorkspace().notificationCenter
         notificationCenter.addObserver(self,
-                selector: "appLaunched:",
-                name: NSWorkspaceDidLaunchApplicationNotification,
-                object: nil)
+            selector: "appLaunched:",
+            name: NSWorkspaceDidLaunchApplicationNotification,
+            object: nil)
         notificationCenter.addObserver(self,
-                selector: "appTerminated:",
-                name: NSWorkspaceDidTerminateApplicationNotification,
-                object: nil)
+            selector: "appTerminated:",
+            name: NSWorkspaceDidTerminateApplicationNotification,
+            object: nil)
         notificationCenter.addObserver(self,
-                selector: "appActivated:",
-                name: NSWorkspaceDidActivateApplicationNotification,
-                object: nil)
+            selector: "appActivated:",
+            name: NSWorkspaceDidActivateApplicationNotification,
+            object: nil)
         notificationCenter.addObserver(self,
-                selector: "appDeactivated:",
-                name: NSWorkspaceDidDeactivateApplicationNotification,
-                object: nil)
+            selector: "appDeactivated:",
+            name: NSWorkspaceDidDeactivateApplicationNotification,
+            object: nil)
     }
 
     func appLaunched(notification: NSNotification) {
@@ -130,6 +129,7 @@ class Hearthstone : NSObject {
             DDLogVerbose("Hearthstone is now launched")
             self.restartTracking()
             Game.instance.hearthstoneIsActive(true)
+            NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_running", object: nil)
         }
     }
 
@@ -138,6 +138,7 @@ class Hearthstone : NSObject {
             DDLogVerbose("Hearthstone is now closed")
             self.stopTracking()
             Game.instance.hearthstoneIsActive(false)
+            NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_running", object: nil)
         }
     }
 
@@ -146,6 +147,7 @@ class Hearthstone : NSObject {
             DDLogVerbose("Hearthstone is now active")
             self.hearthstoneActive = true
             Game.instance.hearthstoneIsActive(true)
+            NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_active", object: nil)
         }
     }
 
@@ -154,10 +156,11 @@ class Hearthstone : NSObject {
             DDLogVerbose("Hearthstone is now inactive")
             self.hearthstoneActive = false
             Game.instance.hearthstoneIsActive(false)
+            NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_active", object: nil)
         }
     }
 
-    //MARK: - Paths / Utils
+    // MARK: - Paths / Utils
     var configPath: String {
         return NSString(string: "~/Library/Preferences/Blizzard/Hearthstone/log.config").stringByExpandingTildeInPath
     }

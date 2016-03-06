@@ -25,8 +25,6 @@ class CardCellView: NSTableCellView {
     var textLayer: CATextLayer = CATextLayer()
     var frameCountBox: CALayer = CALayer()
     var extraInfo: CALayer = CALayer()
-    var flashLayer: CALayer = CALayer()
-    var maskLayer: CALayer = CALayer()
     var darkenLayer: CALayer = CALayer()
 
     var trackingArea: NSTrackingArea?
@@ -67,13 +65,8 @@ class CardCellView: NSTableCellView {
         self.layer!.addSublayer(frameCountBox)
 
         self.layer!.addSublayer(extraInfo)
-        
+
         self.layer!.addSublayer(darkenLayer)
-
-        // the layer for flashing the card on draw
-        self.layer!.addSublayer(flashLayer)
-
-        maskLayer.contents = ImageCache.frameImageMask()
     }
 
     override func updateLayer() {
@@ -87,10 +80,10 @@ class CardCellView: NSTableCellView {
                 switch settings.cardSize {
                 case .Small:
                     ratio = kRowHeight / kSmallRowHeight
-                    
+
                 case .Medium:
                     ratio = kRowHeight / kMediumRowHeight
-                    
+
                 default:
                     ratio = 1.0
                 }
@@ -108,9 +101,9 @@ class CardCellView: NSTableCellView {
             var frameImage = ImageCache.frameImage(nil)
             if card.highlightFrame {
                 frameImage = ImageCache.frameImage("golden")
-                //_card.IsFrameHighlighted = true;
+                // _card.IsFrameHighlighted = true;
             } else {
-                //_card.IsFrameHighlighted = true;
+                // _card.IsFrameHighlighted = true;
                 if settings.showRarityColors {
                     frameImage = ImageCache.frameImage(card.rarity)
                 }
@@ -122,7 +115,7 @@ class CardCellView: NSTableCellView {
             height = 35.0 / ratio
             let frameRect = NSRect(x: x, y: y, width: width, height: height)
             frameLayer.frame = frameRect
-            
+
             // draw the gem
             if settings.showRarityColors {
                 gemLayer.contents = ImageCache.gemImage(card.rarity)
@@ -150,10 +143,10 @@ class CardCellView: NSTableCellView {
             }
 
             let name = NSAttributedString(string: card.name, attributes: [
-                    NSFontAttributeName: nameFont,
-                    NSForegroundColorAttributeName: foreground,
-                    NSStrokeWidthAttributeName: settings.isCyrillicOrAsian ? 0 : -2,
-                    NSStrokeColorAttributeName: settings.isCyrillicOrAsian ? NSColor.clearColor() : strokeColor
+                NSFontAttributeName: nameFont,
+                NSForegroundColorAttributeName: foreground,
+                NSStrokeWidthAttributeName: settings.isCyrillicOrAsian ? 0 : -2,
+                NSStrokeColorAttributeName: settings.isCyrillicOrAsian ? NSColor.clearColor() : strokeColor
             ])
             x = 38.0 / ratio
             y = -3.0 / ratio
@@ -166,12 +159,12 @@ class CardCellView: NSTableCellView {
             // print the card cost
             let costFont = NSFont(name: "Belwe Bd BT", size: CGFloat(22.0 / ratio))!
             let cost = NSAttributedString(string: "\(cardCost)",
-                    attributes: [
-                            NSFontAttributeName: costFont,
-                            NSForegroundColorAttributeName: foreground,
-                            NSStrokeWidthAttributeName: -1.5,
-                            NSStrokeColorAttributeName: strokeColor
-                    ])
+                attributes: [
+                    NSFontAttributeName: costFont,
+                    NSForegroundColorAttributeName: foreground,
+                    NSStrokeWidthAttributeName: -1.5,
+                    NSStrokeColorAttributeName: strokeColor
+            ])
             x = (cardCost > 9 ? 6.0 : 13.0) / ratio
             y = -4.0 / ratio
             width = 34.0 / ratio
@@ -179,7 +172,7 @@ class CardCellView: NSTableCellView {
 
             costLayer.frame = NSRect(x: x, y: y, width: width, height: height)
             costLayer.string = cost
-            
+
             // add card count
             if abs(card.count) > 1 || card.rarity == "legendary" {
                 frameCountBox.contents = ImageCache.frameCountbox()
@@ -205,17 +198,13 @@ class CardCellView: NSTableCellView {
                 extraInfo.contents = nil
                 frameCountBox.contents = nil
             }
-            
+
             if card.count <= 0 || card.jousted {
                 darkenLayer.contents = ImageCache.darkenImage()
                 darkenLayer.frame = frameRect
             } else {
                 darkenLayer.contents = nil
             }
-
-            flashLayer.frame = self.bounds
-            maskLayer.frame = frameRect
-            flashLayer.mask = maskLayer
         }
     }
 
@@ -223,30 +212,13 @@ class CardCellView: NSTableCellView {
         self.delegate = delegate
     }
 
-    /*func flash() {
-        flashLayer.backgroundColor = Settings.instance.flashColor.CGColor
-        let fade = CABasicAnimation(keyPath: "opacity")
-        fade.fromValue = 0.7
-        fade.toValue = 0.0
-        fade.duration = 0.5
-
-        fade.removedOnCompletion = false
-        fade.fillMode = kCAFillModeBoth
-
-        flashLayer.addAnimation(fade, forKey: "alpha")
-    }*/
-    
-    func addCardImage() {
-        
-    }
-
     // MARK: - mouse hover
     func ensureTrackingArea() {
         if trackingArea == nil {
             trackingArea = NSTrackingArea(rect: NSZeroRect,
-                    options: [NSTrackingAreaOptions.InVisibleRect, NSTrackingAreaOptions.ActiveAlways, NSTrackingAreaOptions.MouseEnteredAndExited],
-                    owner: self,
-                    userInfo: nil)
+                options: [NSTrackingAreaOptions.InVisibleRect, NSTrackingAreaOptions.ActiveAlways, NSTrackingAreaOptions.MouseEnteredAndExited],
+                owner: self,
+                userInfo: nil)
         }
     }
 
@@ -275,5 +247,4 @@ class CardCellView: NSTableCellView {
             }
         }
     }
-
 }

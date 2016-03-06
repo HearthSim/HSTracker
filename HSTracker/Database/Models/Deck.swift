@@ -109,6 +109,7 @@ class Deck : Hashable, CustomStringConvertible {
     var name: String?
     var playerClass: String
     var version: String = "1.0"
+    var creationDate: NSDate?
     var hearthstatsId: Int?
     var hearthstatsVersionId: Int?
     var isActive: Bool = true
@@ -149,6 +150,7 @@ class Deck : Hashable, CustomStringConvertible {
     }
 
     func save() {
+        creationDate = NSDate()
         Decks.add(self)
     }
 
@@ -174,7 +176,7 @@ class Deck : Hashable, CustomStringConvertible {
         self.cards = nil
     }
 
-    func  countCards() -> Int {
+    func countCards() -> Int {
         return _cards.map({ $0.count }).reduce(0, combine: +)
     }
 
@@ -214,6 +216,7 @@ class Deck : Hashable, CustomStringConvertible {
         result["isActive"] = Int(isActive)
         result["isArena"] = Int(isArena)
         result["cards"] = sortedCards.toDict()
+        result["creationDate"] = creationDate == nil ? -1 : creationDate?.timeIntervalSince1970
         return result
     }
 
@@ -239,6 +242,9 @@ class Deck : Hashable, CustomStringConvertible {
         }
         if let isArena = dict["isArena"] as? Int {
             deck.isArena = Bool(isArena)
+        }
+        if let creationDate = dict["creationDate"] as? Double {
+            deck.creationDate = NSDate(timeIntervalSince1970: creationDate)
         }
         if let cards = dict["cards"] as? [String: Int] {
             for (cardId, count) in cards {

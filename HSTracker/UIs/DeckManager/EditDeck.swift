@@ -136,8 +136,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         alert.messageText = NSLocalizedString("Are you sure you want to close this deck ? Your changes will not be saved.", comment: "")
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-        let response = alert.runModalSheetForWindow(self.window!)
-        if response == NSAlertFirstButtonReturn {
+        if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
             Decks.resetDeck(currentDeck!)
             delegate?.refreshDecks()
             return true
@@ -251,6 +250,22 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
     // MARK: - Toolbar actions
     @IBAction func save(sender: AnyObject?) {
+        if currentDeck!.creationDate == nil {
+            let deckNameInput = NSTextField(frame: NSMakeRect(0, 0, 220, 24))
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            alert.messageText = NSLocalizedString("Deck name", comment: "")
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            alert.accessoryView = deckNameInput
+            if alert.runModalSheetForWindow(self.window!) == NSAlertSecondButtonReturn {
+                return
+            }
+            currentDeck!.name = deckNameInput.stringValue
+            currentDeck!.save()
+        }
+        else {
+        }
     }
 
     @IBAction func cancel(sender: AnyObject?) {
@@ -263,7 +278,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-        if alert.runModal() == NSAlertFirstButtonReturn {
+        if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
             Decks.remove(currentDeck!)
             isSaved = true
             self.window?.performClose(self)

@@ -74,9 +74,6 @@ class TagChangeHandler {
         case .CARDTYPE:
             cardTypeChange(id, value)
 
-        case .CURRENT_PLAYER:
-            currentPlayerChange(id, value)
-
         case .LAST_CARD_PLAYED:
             lastCardPlayedChange(value)
 
@@ -121,6 +118,12 @@ class TagChangeHandler {
 
         case .FATIGUE:
             fatigueChange(value, controller)
+
+        case .STEP:
+            stepChange()
+            break;
+        case .TURN:
+            turnChange()
 
         default:
             break
@@ -414,18 +417,30 @@ class TagChangeHandler {
         }
     }
 
-    private func currentPlayerChange(id: Int, _ value: Int) {
+    private func turnChange() {
         let game = Game.instance
-        if let entity = game.entities[id] where value == 1 {
-            let activePlayer: PlayerType = entity.isPlayer ? .Player : .Opponent
-            game.turnStart(activePlayer, game.turnNumber())
-            if activePlayer == .Player {
-                game.playerUsedHeroPower = false
-            }
-            else {
-                game.opponentUsedHeroPower = false
-            }
+        if game.entities.count <= 1 || game.playerEntity == nil {
+            return
         }
+        let activePlayer: PlayerType = game.playerEntity!.hasTag(.CURRENT_PLAYER) ? .Player : .Opponent
+        game.turnStart(activePlayer, game.turnNumber())
+
+        if activePlayer == .Player {
+            game.playerUsedHeroPower = false
+        }
+        else {
+            game.opponentUsedHeroPower = false
+        }
+    }
+
+    private func stepChange() {
+        let game = Game.instance
+        if game.entities.count > 1 || game.entities.first?.1.name != "GameEntity" {
+            return
+        }
+
+        DDLogVerbose("Game was already in progress.")
+        // game.wasInProgress = true
     }
 
     private func cardTypeChange(id: Int, _ value: Int) {

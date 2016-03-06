@@ -95,21 +95,12 @@ class Card : Hashable, CustomStringConvertible {
     }
 
     var description : String {
-        return "<\(NSStringFromClass(self.dynamicType)): "
-            + "self.cardId=\(self.cardId)"
-            + ", self.name=\(self.name)"
-            + ", self.enName=\(self.enName)"
-            + ", self.playerClass=\(self.playerClass)"
-            + ", self.rarity=\(self.rarity)"
-            + ", self.set=\(self.set)"
-            + ", self.count=\(self.count)"
-            + ", self.jousted=\(self.jousted)"
-            + ", self.isStolen=\(self.isStolen)"
-            + ", self.isCreated=\(self.isCreated)"
-            + ", self.wasDiscarded=\(self.wasDiscarded)"
-            + ", self.highlightDraw=\(self.highlightDraw)"
-            + ", self.highlightInHand=\(self.highlightInHand)"
-            + ", self.highlightFrame=\(self.highlightFrame)>"
+        /*return "<\(NSStringFromClass(self.dynamicType)): "
+         + "self.cardId=\(self.cardId)"
+         + ", self.name=\(self.name)"
+         + ", self.enName=\(self.enName)"
+         + ", self.count=\(self.count)>"*/
+        return "[\(self.name):\(self.count)]"
     }
 
     var hashValue: Int {

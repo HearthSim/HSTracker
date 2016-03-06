@@ -206,7 +206,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         newDeck = NewDeck()
         if let newDeck = newDeck {
             newDeck.setDelegate(self)
-            self.window!.beginSheet(newDeck.window!) { (response) -> Void in }
+            self.window!.beginSheet(newDeck.window!, completionHandler: nil)
         }
     }
 
@@ -223,12 +223,35 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             action: "editDeck:",
             keyEquivalent: "")
         menu.addItem(menuItem)
+        menuItem = NSMenuItem(title: NSLocalizedString("Rename deck", comment: ""),
+            action: "renameDeck:",
+            keyEquivalent: "")
+        menu.addItem(menuItem)
         menuItem = NSMenuItem(title: NSLocalizedString("Delete deck", comment: ""),
             action: "deleteDeck:",
             keyEquivalent: "")
         menu.addItem(menuItem)
 
         NSMenu.popUpContextMenu(menu, withEvent: NSApp.currentEvent!, forView: cell.moreButton)
+    }
+
+    func renameDeck(sender: AnyObject?) {
+        if let cell = currentCell, deck = cell.deck {
+            let deckNameInput = NSTextField(frame: NSMakeRect(0, 0, 220, 24))
+            deckNameInput.stringValue = deck.name!
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            alert.messageText = NSLocalizedString("Deck name", comment: "")
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            alert.accessoryView = deckNameInput
+            if alert.runModalSheetForWindow(self.window!) == NSAlertSecondButtonReturn {
+                return
+            }
+            deck.name = deckNameInput.stringValue
+            deck.save()
+            refreshDecks()
+        }
     }
 
     func editDeck(sender: AnyObject?) {
