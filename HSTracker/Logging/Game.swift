@@ -186,7 +186,7 @@ class Game {
             return
         }
 
-        DDLogInfo("End game : mode=\(currentGameMode), rank=\(currentRank), against=\(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayReveleadCards())")
+        DDLogInfo("End game : mode=\(currentGameMode), rank=\(currentRank), result=\(gameResult), against=\(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayReveleadCards())")
 
         if let deck = activeDeck,
             let opponentName = opponent.name,
@@ -275,20 +275,14 @@ class Game {
     }
 
     func isMulliganDone() -> Bool {
-        var player: Entity?, opponent: Entity?
-        for (_, ent) in entities {
-            if ent.isPlayer {
-                player = ent
-            } else if ent.hasTag(GameTag.PLAYER_ID) && !ent.isPlayer {
-                opponent = ent
-            }
-        }
+        let player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
+        let opponent = entities.map { $0.1 }.firstWhere { $0.hasTag(.PLAYER_ID) && !$0.isPlayer }
 
-        if player == nil || opponent == nil {
-            return false
+        if let player = player, let opponent = opponent {
+            return player.hasTag(.MULLIGAN_STATE) && player.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
+            && opponent.hasTag(.MULLIGAN_STATE) && opponent.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
         }
-        return player!.hasTag(GameTag.MULLIGAN_STATE) && player!.getTag(GameTag.MULLIGAN_STATE) == Mulligan.DONE.rawValue
-        && opponent!.hasTag(GameTag.MULLIGAN_STATE) && opponent!.getTag(GameTag.MULLIGAN_STATE) == Mulligan.DONE.rawValue
+        return false
     }
 
     func zonePositionUpdate(playerType: PlayerType, _ entity: Entity, _ zone: Zone, _ turn: Int) {
@@ -300,7 +294,7 @@ class Game {
         }
     }
 
-// MARK: - player
+    // MARK: - player
     func setPlayerHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
             player.playerClass = card
@@ -318,7 +312,7 @@ class Game {
     }
 
     func playerGet(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         player.createInHand(entity, turn)
@@ -332,7 +326,7 @@ class Game {
     }
 
     func playerBackToHand(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         if let tracker = playerTracker {
@@ -342,7 +336,7 @@ class Game {
     }
 
     func playerPlayToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         player.boardToDeck(entity, turn)
@@ -352,7 +346,7 @@ class Game {
     }
 
     func playerPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         player.play(entity, turn)
@@ -362,7 +356,7 @@ class Game {
     }
 
     func playerHandDiscard(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         player.handDiscard(entity, turn)
@@ -372,7 +366,7 @@ class Game {
     }
 
     func playerSecretPlayed(entity: Entity, _ cardId: String?, _ turn: Int, _ fromDeck: Bool) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         if fromDeck {
@@ -386,7 +380,7 @@ class Game {
     }
 
     func playerMulligan(entity: Entity, _ cardId: String?) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         // TurnTimer.Instance.MulliganDone(ActivePlayer.Player);
@@ -397,7 +391,7 @@ class Game {
     }
 
     func playerDraw(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         if cardId == "GAME_005" {
@@ -443,7 +437,7 @@ class Game {
     }
 
     func playerGetToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if cardId == nil || cardId!.isEmpty {
+        if String.isNullOrEmpty(cardId) {
             return
         }
         player.createInDeck(entity, turn)
@@ -470,8 +464,7 @@ class Game {
         player.removeFromPlay(entity, turn)
     }
 
-// MARK: - opponent
-
+    // MARK: - opponent
     func setOpponentHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
             opponent.playerClass = card
