@@ -259,6 +259,10 @@ enum GameTag: Int {
                 return
             }
         }
+        if let value = Int(rawString), _enum = GameTag(rawValue: value) {
+            self = _enum
+            return
+        }
         return nil
     }
 }

@@ -21,6 +21,8 @@ static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
 static const DDLogLevel ddLogLevel = DDLogLevelInfo;
 #endif
 
-#import <MagicalRecord/MagicalRecord.h>
+#import <MASPreferences/MASPreferencesViewController.h>
+#import <JNWScrollView/JNWScrollView.h>
+#import <JNWCollectionView/JNWCollectionView.h>
 
 #endif /* HSTracker_Bridging_Header_h */

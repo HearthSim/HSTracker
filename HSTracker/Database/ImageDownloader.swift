@@ -15,7 +15,7 @@ class ImageDownloader {
     func downloadImagesIfNeeded(var images:[String], splashscreen:Splashscreen) {
         if let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
             do {
-                try NSFileManager.defaultManager().createDirectoryAtPath(destination + "/HSTracker/cards", withIntermediateDirectories: true, attributes: nil)
+                try NSFileManager.defaultManager().createDirectoryAtPath("\(destination)/HSTracker/cards", withIntermediateDirectories: true, attributes: nil)
             }
             catch {}
             

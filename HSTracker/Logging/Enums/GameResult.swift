@@ -11,8 +11,8 @@
 import Foundation
 
 enum GameResult: Int {
-    case Unknow,
-         Win,
-         Loss,
-         Tied
+    case Unknow = 0,
+        Win,
+        Loss,
+        Tied
 }

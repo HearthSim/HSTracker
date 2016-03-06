@@ -19,48 +19,66 @@ class CardEntity: Equatable, CustomStringConvertible {
         }
     }
     var prevTurn = -1
-    var cardMark: CardMark = .None
+    var cardMark: CardMark {
+        get {
+            if cardId == CardIds.NonCollectible.Neutral.TheCoin || cardId == CardIds.NonCollectible.Neutral.GallywixsCoinToken {
+                return .Coin
+            }
+            if returned {
+                return .Returned
+            }
+            if created || stolen {
+                return .Created
+            }
+            if mulliganed {
+                return .Mulliganed
+            }
+            return .None
+        }
+    }
     var discarded: Bool = false
+    var returned: Bool = false
+    var mulliganed: Bool = false
+    var stolen: Bool = false
 
     var inHand: Bool {
-        get {
-            return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.HAND.rawValue
-        }
+        return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.HAND.rawValue
     }
     var inDeck: Bool {
+        return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.DECK.rawValue
+    }
+    var unknown: Bool {
+        return cardId == nil || cardId!.isEmpty && entity == nil
+    }
+
+    private var _created: Bool = false
+    var created: Bool {
         get {
-            return entity != nil && entity!.getTag(GameTag.ZONE) == Zone.DECK.rawValue
+            return _created && (entity == nil || entity!.id > 67)
+        }
+        set {
+            _created = newValue
         }
     }
-    var unkown: Bool {
-        get {
-            return cardId == nil || cardId!.isEmpty && entity == nil
-        }
-    }
-    var created: Bool = false
 
     init(cardId: String? = nil, entity: Entity? = nil) {
         if let entity = entity {
-            if let cardId = entity.cardId {
-                self.cardId = cardId
-            }
-        } else if let cardId = cardId {
+            self.cardId = entity.cardId
+        } else {
             self.cardId = cardId
         }
         self.entity = entity
         self.turn = -1
-        self.cardMark = entity?.id > 68 ? .Created : .None
     }
 
     func reset() {
-        self.cardMark = .None
         self.created = false
         self.cardId = nil
     }
 
-    static let zonePosComparison:((CardEntity, CardEntity) -> Bool) = {
-        let v1 = ($0.entity != nil && $0.entity!.hasTag(GameTag.ZONE_POSITION)) ? $0.entity!.getTag(GameTag.ZONE_POSITION) : 10
-        let v2 = ($1.entity != nil && $1.entity!.hasTag(GameTag.ZONE_POSITION)) ? $1.entity!.getTag(GameTag.ZONE_POSITION) : 10
+    static let zonePosComparison: ((CardEntity, CardEntity) -> Bool) = {
+        let v1 = $0.entity?.getTag(GameTag.ZONE_POSITION) ?? 10
+        let v2 = $1.entity?.getTag(GameTag.ZONE_POSITION) ?? 10
         return v1 < v2
     }
 
@@ -81,7 +99,7 @@ class CardEntity: Equatable, CustomStringConvertible {
             + "self.entity=\(self.entity)"
             + ", self.cardId=\(cardName(self.cardId))"
             + ", self.turn=\(self.turn)"
-    
+
         if let entity = self.entity {
             description += ", self.zonePos=\(entity.getTag(GameTag.ZONE_POSITION))"
         }
@@ -101,7 +119,7 @@ class CardEntity: Equatable, CustomStringConvertible {
 
     func cardName(cardId: String?) -> String {
         if let cardId = cardId {
-            if let card = Card.byId(cardId) {
+            if let card = Cards.byId(cardId) {
                 return "[\(card.name) (\(cardId)]"
             }
         }
@@ -109,19 +127,19 @@ class CardEntity: Equatable, CustomStringConvertible {
     }
 }
 
-func ==(lhs: CardEntity, rhs: CardEntity) -> Bool {
-    if lhs.entity == nil && rhs.entity != nil || lhs.entity != nil && rhs.entity == nil {
-        return false
+func == (lhs: CardEntity, rhs: CardEntity) -> Bool {
+    if lhs.entity != nil {
+        if lhs.entity == rhs.entity {
+            return true
+        }
+        if lhs.entity!.cardId == rhs.entity!.cardId {
+            return true
+        }
     }
-    
-    if lhs.entity == nil && rhs.entity == nil {
-        let lhsEntity = lhs.entity!
-        let rhsEntity = rhs.entity!
-        
-        return lhsEntity.cardId == nil && rhsEntity.cardId != nil || lhsEntity.cardId != nil && rhsEntity.cardId == nil
+    if lhs.cardId != nil {
+        if lhs.cardId == rhs.cardId {
+            return true
+        }
     }
-    else {
-        return lhs.cardId == rhs.cardId
-    }
+    return false
 }
-

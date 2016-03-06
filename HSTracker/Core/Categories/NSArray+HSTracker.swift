@@ -11,7 +11,6 @@
 extension Array where Element: Card {
     func sortCardList() -> [Card] {
         return self.sort {
-            //DDLogVerbose("Comparing card \($0) with \($1)")
             if $0.cost != $1.cost {
                 return $0.cost < $1.cost
             }
@@ -24,6 +23,23 @@ extension Array where Element: Card {
         }
     }
 
+    func toDict() -> [String: Int] {
+        var result = [String: Int]()
+        for card in self {
+            result[card.cardId] = card.count
+        }
+        return result
+    }
+}
+
+extension Array where Element: Statistic {
+    func toDict() -> [[String: AnyObject]] {
+        var result = [[String: AnyObject]]()
+        for statistic in self {
+            result.append(statistic.toDict())
+        }
+        return result
+    }
 }
 
 extension Array where Element: Equatable {

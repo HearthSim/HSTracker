@@ -11,13 +11,13 @@
 import Foundation
 
 extension String {
-    
-    func startsWith(str:String) -> Bool {
-        return self.hasPrefix(str)
+
+    static func isNullOrEmpty(str: String?) -> Bool {
+        return str == nil || str!.isEmpty
     }
 
-    func trim() -> String {
-      return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    func startsWith(str: String) -> Bool {
+        return self.hasPrefix(str)
     }
 
     func substringWithRange(start: Int, end: Int) -> String {
@@ -43,5 +43,4 @@ extension String {
         let range = Range(start: self.startIndex.advancedBy(start), end: self.startIndex.advancedBy(start + location))
         return self.substringWithRange(range)
     }
-
 }

@@ -8,7 +8,7 @@
  * Created on 14/02/16.
  */
 
-class Entity: Equatable, CustomStringConvertible {
+class Entity: Hashable, CustomStringConvertible {
     var id: Int
     var isPlayer: Bool
     var cardId: String?
@@ -19,18 +19,18 @@ class Entity: Equatable, CustomStringConvertible {
         self.id = id
         self.isPlayer = false
     }
-    
+
     func setTag(tag: GameTag, _ value: Int) {
         self.tags[tag] = value
     }
-    
+
     func getTag(tag: GameTag) -> Int {
         if let value = self.tags[tag] {
             return value
         }
         return 0
     }
-    
+
     func hasTag(tag: GameTag) -> Bool {
         if let _ = self.tags[tag] {
             return true
@@ -38,18 +38,26 @@ class Entity: Equatable, CustomStringConvertible {
         return false
     }
 
+    var isCurrentPlayer: Bool {
+        return self.hasTag(GameTag.CURRENT_PLAYER)
+    }
+
     func isInZone(zone: Zone) -> Bool {
-        return self.hasTag(GameTag.ZONE) ? false : self.getTag(GameTag.ZONE) == zone.rawValue
+        return self.hasTag(.ZONE) ? false : self.getTag(.ZONE) == zone.rawValue
     }
 
     func isControllerBy(controller: Int) -> Bool {
-        return self.hasTag(GameTag.CONTROLLER) ? false : self.getTag(GameTag.CONTROLLER) == controller
+        return self.hasTag(.CONTROLLER) ? false : self.getTag(.CONTROLLER) == controller
     }
 
     var isSecret: Bool {
-        return self.hasTag(GameTag.SECRET)
+        return self.hasTag(.SECRET)
     }
-    
+
+    var isSpell: Bool {
+        return self.getTag(.CARDTYPE) == CardType.SPELL.rawValue
+    }
+
     var description: String {
         var description = "<\(NSStringFromClass(self.dynamicType)): "
             + "self.id=\(self.id)"
@@ -59,29 +67,33 @@ class Entity: Equatable, CustomStringConvertible {
         }
         return description
     }
-    
+
     func cardName(cardId: String?) -> String {
         if let cardId = cardId {
-            if let card = Card.byId(cardId) {
+            if let card = Cards.byId(cardId) {
                 return "[\(card.name) (\(cardId)]"
             }
         }
         return "N/A"
     }
+
+    var hashValue: Int {
+        return id.hashValue
+    }
 }
 
-func ==(lhs: Entity, rhs: Entity) -> Bool {
+func == (lhs: Entity, rhs: Entity) -> Bool {
     return lhs.id == rhs.id
 }
 
 class TempEntity {
-    var tag: String
+    var tag: GameTag
     var id: Int
-    var value: String
+    var value: Int
 
-    init(_ tag: String, _ id: Int, _ value: String) {
-        self.tag = tag;
-        self.id = id;
-        self.value = value;
+    init(_ tag: GameTag, _ id: Int, _ value: Int) {
+        self.tag = tag
+        self.id = id
+        self.value = value
     }
 }

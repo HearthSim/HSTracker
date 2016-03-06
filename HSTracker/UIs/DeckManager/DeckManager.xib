@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DeckManager" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="curveView" destination="gl3-d5-lam" id="KjY-HS-ImR"/>
+                <outlet property="deckListTable" destination="Znw-pX-Aav" id="6Yh-1v-5F5"/>
+                <outlet property="decksTable" destination="Pdd-Yb-1af" id="CWs-js-WpT"/>
+                <outlet property="druidButton" destination="E4J-Nz-XJT" id="pHt-yn-xFT"/>
+                <outlet property="hunterButton" destination="pNA-TP-ZaI" id="Cjd-In-4cp"/>
+                <outlet property="mageButton" destination="qNR-vu-j1V" id="2BY-qB-t2g"/>
+                <outlet property="paladinButton" destination="8sY-oX-A05" id="WOT-el-1bO"/>
+                <outlet property="priestButton" destination="kic-Sa-OCu" id="RHh-JV-4f2"/>
+                <outlet property="rogueButton" destination="DDU-f7-Nwx" id="vdW-fp-DAg"/>
+                <outlet property="shamanButton" destination="HZK-Si-jIN" id="a7g-bp-RjD"/>
+                <outlet property="statsLabel" destination="Y6G-cK-9fE" id="HHC-8d-lga"/>
+                <outlet property="warlockButton" destination="UjQ-5M-0Yn" id="4Xh-UJ-cmN"/>
+                <outlet property="warriorButton" destination="NXa-nS-g6K" id="n0B-j3-Meq"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="Xbg-rx-0ml"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Deck Manager" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="740" height="621"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="740" height="621"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="sQk-3F-woa">
+                        <rect key="frame" x="0.0" y="1" width="482" height="563"/>
+                        <clipView key="contentView" ambiguous="YES" id="Nh9-JJ-D9x">
+                            <rect key="frame" x="1" y="1" width="480" height="561"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af">
+                                    <rect key="frame" x="0.0" y="0.0" width="480" height="561"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                    <tableColumns>
+                                        <tableColumn width="480" minWidth="40" maxWidth="1000" id="eaC-v5-T4W">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="fXC-1a-kDU">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <prototypeCellViews>
+                                                <tableCellView id="ZaP-sI-CgA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="480" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vXg-zH-IOD">
+                                                            <rect key="frame" x="0.0" y="0.0" width="537" height="17"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="sFg-Jc-b7d">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <connections>
+                                                        <outlet property="textField" destination="vXg-zH-IOD" id="z16-7L-df4"/>
+                                                    </connections>
+                                                </tableCellView>
+                                            </prototypeCellViews>
+                                        </tableColumn>
+                                    </tableColumns>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-2" id="HfA-Ow-oxA"/>
+                                        <outlet property="delegate" destination="-2" id="Kjp-hY-XRR"/>
+                                    </connections>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="QCi-YG-ygL">
+                            <rect key="frame" x="-100" y="-100" width="213" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="gUj-Ae-ZNG">
+                            <rect key="frame" x="224" y="17" width="15" height="102"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="XVZ-SC-VpB">
+                        <rect key="frame" x="500" y="209" width="240" height="413"/>
+                        <clipView key="contentView" ambiguous="YES" id="w6T-1v-BGO">
+                            <rect key="frame" x="1" y="1" width="238" height="411"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" id="Znw-pX-Aav">
+                                    <rect key="frame" x="0.0" y="0.0" width="238" height="411"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                    <tableColumns>
+                                        <tableColumn width="238" minWidth="40" maxWidth="1000" id="0je-pV-xMY">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="YgP-rU-92k">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        </tableColumn>
+                                    </tableColumns>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-2" id="vvY-BL-IXh"/>
+                                        <outlet property="delegate" destination="-2" id="2pl-h4-zBD"/>
+                                    </connections>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="VUX-x2-aTP">
+                            <rect key="frame" x="-100" y="-100" width="229" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="qCj-I8-Rer">
+                            <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gl3-d5-lam" customClass="CurveView" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="500" y="0.0" width="240" height="170"/>
+                    </customView>
+                    <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="5" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TTC-y9-MBL">
+                        <rect key="frame" x="0.0" y="563" width="482" height="58"/>
+                        <subviews>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="E4J-Nz-XJT">
+                                <rect key="frame" x="5" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="GgN-xS-1cR"/>
+                                    <constraint firstAttribute="width" constant="48" id="GiN-qa-Kct"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Druid" bezelStyle="shadowlessSquare" image="druid" imagePosition="only" alignment="center" alternateImage="druid_dark" imageScaling="proportionallyUpOrDown" inset="2" id="Vlh-O0-He6">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterClassesAction:" target="-2" id="jq5-Bn-i4a"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="pNA-TP-ZaI">
+                                <rect key="frame" x="58" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="OBR-gB-Ney"/>
+                                    <constraint firstAttribute="height" constant="48" id="Qe5-yn-i13"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Hunter" bezelStyle="shadowlessSquare" image="hunter" imagePosition="only" alignment="center" alternateImage="hunter_dark" imageScaling="proportionallyUpOrDown" inset="2" id="SFV-9g-O6Q">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterClassesAction:" target="-2" id="vYW-7a-qx5"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="qNR-vu-j1V">
+                                <rect key="frame" x="111" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="Qys-Ug-Y41"/>
+                                    <constraint firstAttribute="height" constant="48" id="lxM-Om-SQq"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Mage" bezelStyle="shadowlessSquare" image="mage" imagePosition="only" alignment="center" alternateImage="mage_dark" imageScaling="proportionallyUpOrDown" inset="2" id="hrd-FU-dK1">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterClassesAction:" target="-2" id="Ch1-zf-gph"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="8sY-oX-A05">
+                                <rect key="frame" x="164" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="IhM-ck-QBN"/>
+                                    <constraint firstAttribute="height" constant="48" id="VRW-zZ-tyl"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Paladin" bezelStyle="shadowlessSquare" image="paladin" imagePosition="only" alignment="center" alternateImage="paladin_dark" imageScaling="proportionallyUpOrDown" inset="2" id="CbC-0a-X7t">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterClassesAction:" target="-2" id="daS-If-6Qk"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="kic-Sa-OCu">
+                                <rect key="frame" x="217" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="7yE-oc-Gmp"/>
+                                    <constraint firstAttribute="width" constant="48" id="qFu-Ex-44h"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Priest" bezelStyle="shadowlessSquare" image="priest" imagePosition="only" alignment="center" alternateImage="priest_dark" imageScaling="proportionallyUpOrDown" inset="2" id="9XJ-kc-UgY">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterClassesAction:" target="-2" id="PBj-Ic-ai3"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="DDU-f7-Nwx">
+                                <rect key="frame" x="270" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="j0x-DI-TZa"/>
+                                    <constraint firstAttribute="width" constant="48" id="u40-zQ-C9P"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Rogue" bezelStyle="shadowlessSquare" image="rogue" imagePosition="only" alignment="center" alternateImage="rogue_dark" imageScaling="proportionallyUpOrDown" inset="2" id="Nap-OM-LG5">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterClassesAction:" target="-2" id="AQp-Kt-JA9"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="HZK-Si-jIN">
+                                <rect key="frame" x="323" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="TKz-sP-04m"/>
+                                    <constraint firstAttribute="width" constant="48" id="y0o-CT-WGC"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Shaman" bezelStyle="shadowlessSquare" image="shaman" imagePosition="only" alignment="center" alternateImage="shaman_dark" imageScaling="proportionallyUpOrDown" inset="2" id="JET-g1-bWo">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterClassesAction:" target="-2" id="PQN-bc-dmp"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="UjQ-5M-0Yn">
+                                <rect key="frame" x="376" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="ILu-fp-ZRS"/>
+                                    <constraint firstAttribute="height" constant="48" id="W8J-sD-0Wi"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Warlock" bezelStyle="shadowlessSquare" image="warlock" imagePosition="only" alignment="center" alternateImage="warlock_dark" imageScaling="proportionallyUpOrDown" inset="2" id="vb9-th-XQj">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="filterClassesAction:" target="-2" id="bA8-gN-0Lp"/>
+                                </connections>
+                            </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="NXa-nS-g6K">
+                                <rect key="frame" x="429" y="5" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="grW-8b-rvt"/>
+                                    <constraint firstAttribute="width" constant="48" id="qcd-Bd-y96"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" title="Warrior" bezelStyle="shadowlessSquare" image="warrior" imagePosition="only" alignment="center" alternateImage="warrior_dark" imageScaling="proportionallyUpOrDown" inset="2" id="uXG-vp-oEe">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <edgeInsets key="edgeInsets" left="5" right="5" top="5" bottom="5"/>
+                        <visibilityPriorities>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                        </visibilityPriorities>
+                        <customSpacing>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                        </customSpacing>
+                    </stackView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y6G-cK-9fE">
+                        <rect key="frame" x="498" y="184" width="244" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="deck stats" id="iJM-ZN-CuN">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="D4C446BD-5308-439F-B399-AD7BFF5D31CA" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="small" id="UfZ-Rs-kI0">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="zzP-9i-1ZV"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="T15-yg-NBA"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="LxM-0W-duh"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="SIs-XB-agx"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="I75-rt-at9"/>
+                    <toolbarItem implicitItemIdentifier="9CFB70C2-474C-48A1-9CAD-960FA33EB20B" explicitItemIdentifier="back" label="Back" paletteLabel="Back" tag="-1" image="back" id="GO8-CU-P6l">
+                        <connections>
+                            <action selector="back:" target="-2" id="C2Q-UK-qr3"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="EBECF1E7-72BD-406F-B6A5-E29D93787ECC" explicitItemIdentifier="add" label="Add" paletteLabel="Add" tag="-1" image="plus" id="7FY-gv-qwP">
+                        <connections>
+                            <action selector="addDeck:" target="-2" id="vwS-C5-2yS"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="GO8-CU-P6l"/>
+                    <toolbarItem reference="7FY-gv-qwP"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <connections>
+                <outlet property="delegate" destination="-2" id="kaw-5l-LVh"/>
+            </connections>
+            <point key="canvasLocation" x="445" y="487.5"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="back" width="32" height="32"/>
+        <image name="druid" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="druid_dark" width="1437" height="1437"/>
+        <image name="hunter" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="hunter_dark" width="1437" height="1437"/>
+        <image name="mage" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="mage_dark" width="1437" height="1437"/>
+        <image name="paladin" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="paladin_dark" width="1437" height="1437"/>
+        <image name="plus" width="32" height="32"/>
+        <image name="priest" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="priest_dark" width="1437" height="1437"/>
+        <image name="rogue" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="rogue_dark" width="1437" height="1437"/>
+        <image name="shaman" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="shaman_dark" width="1437" height="1437"/>
+        <image name="warlock" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="warlock_dark" width="1437" height="1437"/>
+        <image name="warrior" width="344.8800048828125" height="344.8800048828125"/>
+        <image name="warrior_dark" width="1437" height="1437"/>
+    </resources>
+</document>

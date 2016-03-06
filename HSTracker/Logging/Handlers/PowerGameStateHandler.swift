@@ -21,7 +21,7 @@ class PowerGameStateHandler {
     static let UpdatingEntityRegex = NSRegularExpression.rx("SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)")
     static let CreationTagRegex = NSRegularExpression.rx("tag=(\\w+) value=(\\w+)")
     static let ActionStartRegex = NSRegularExpression.rx(".*ACTION_START.*id=(\\d*).*cardId=(\\w*).*BlockType=(POWER|TRIGGER).*Target=(.+)")
-    
+
     static let ParseEntityIDRegex = NSRegularExpression.rx("id=(\\d+)")
     static let ParseEntityZonePosRegex = NSRegularExpression.rx("zonePos=(\\d+)")
     static let ParseEntityPlayerRegex = NSRegularExpression.rx("player=(\\d+)")
@@ -42,9 +42,11 @@ class PowerGameStateHandler {
 
             let match = line.firstMatchWithDetails(GameEntityRegex)
             if let id = Int(match.groups[1].value) {
-                //DDLogVerbose("GameEntityRegex id : \(id)")
+                // DDLogVerbose("GameEntityRegex id : \(id)")
                 if game.entities[id] == nil {
-                    game.entities[id] = Entity(id)
+                    let entity = Entity(id)
+                    entity.name = "GameEntity"
+                    game.entities[id] = entity
                 }
                 game.currentEntityId = id
             }
@@ -54,15 +56,14 @@ class PowerGameStateHandler {
         else if line.isMatch(PlayerEntityRegex) {
             let match = line.firstMatchWithDetails(PlayerEntityRegex)
             if let id = Int(match.groups[1].value) {
-                //DDLogVerbose("PlayerEntityRegex id: \(id)")
+                // DDLogVerbose("PlayerEntityRegex id: \(id)")
                 if game.entities[id] == nil {
                     game.entities[id] = Entity(id)
                 }
                 game.currentEntityId = id
             }
-            
         }
-        
+
         else if line.isMatch(TagChangeRegex) {
             var match = line.firstMatchWithDetails(TagChangeRegex)
 
@@ -73,47 +74,70 @@ class PowerGameStateHandler {
             if rawEntity.startsWith("[") && tagChangeHandler.isEntity(rawEntity) {
                 let entity = tagChangeHandler.parseEntity(rawEntity)
                 if let id = entity.id {
-                    //DDLogVerbose("TagChangeRegex isEntity -> \(id)")
+                    // DDLogVerbose("TagChangeRegex isEntity -> \(id)")
                     tagChangeHandler.tagChange(tag, id, value)
                 }
             } else if rawEntity.isMatch(NSRegularExpression.rx("\\d+")) {
                 if let id = Int(rawEntity) {
-                    //DDLogVerbose("TagChangeRegex \\d+ -> \(id)")
+                    // DDLogVerbose("TagChangeRegex \\d+ -> \(id)")
                     tagChangeHandler.tagChange(tag, id, value)
                 }
             } else {
                 var entity: Entity? = Array(game.entities.values).filter({ $0.name == rawEntity }).first
-                    
-                if entity == nil {
-                    entity = Array(game.entities.values).filter({ $0.name == "UNKNOWN HUMAN PLAYER" }).first
-                    if entity != nil {
-                        entity?.name = rawEntity
-                    }
-                }
-                
+
                 if let entity = entity {
                     tagChangeHandler.tagChange(tag, entity.id, value)
                 }
                 else {
-                    var tmpEntity: Entity? = Array(game.tmpEntities).filter({ $0.name == rawEntity }).first
+                    let players = game.entities.filter { $0.1.hasTag(GameTag.PLAYER_ID) }.map { $0.1 }
+                    let unnamedPlayers = players.filter { $0.name == nil || $0.name!.isEmpty }
+                    let unknownHumanPlayer = players.firstWhere { $0.name == "UNKNOWN HUMAN PLAYER" }
+
+                    if unnamedPlayers.count == 0 && unknownHumanPlayer != nil {
+                        entity = unknownHumanPlayer
+                        if let entity = entity {
+                            setPlayerName(entity.getTag(GameTag.PLAYER_ID), rawEntity)
+                        }
+                    }
+
+                    var tmpEntity: Entity? = game.tmpEntities.filter({ $0.name == rawEntity }).first
                     if tmpEntity == nil {
                         tmpEntity = Entity(game.tmpEntities.count + 1)
                         tmpEntity!.name = rawEntity
                         game.tmpEntities.append(tmpEntity!)
                     }
 
-                    let _tag: GameTag = GameTag(rawString: tag)!
-                    let tagValue = tagChangeHandler.parseTag(_tag, value)
-                    if let tmpEntity = tmpEntity {
-                        tmpEntity.setTag(_tag, tagValue)
-                        if tmpEntity.hasTag(GameTag.ENTITY_ID) {
-                            let id = tmpEntity.getTag(GameTag.ENTITY_ID)
-                            if (game.entities[id] != nil) {
-                                game.entities[id]!.name = tmpEntity.name
-                                tmpEntity.tags.forEach({ (tmpTag, tmpValue) -> () in
-                                    game.entities[id]!.setTag(tmpTag, tmpValue)
-                                })
-                                game.tmpEntities.remove(tmpEntity)
+                    if let _tag: GameTag = GameTag(rawString: tag) {
+                        let tagValue = tagChangeHandler.parseTag(_tag, value)
+
+                        if unnamedPlayers.count == 1 {
+                            entity = unnamedPlayers.first
+                        }
+                        else if unnamedPlayers.count == 2 && _tag == GameTag.CURRENT_PLAYER && tagValue == 0 {
+                            entity = game.entities.map { $0.1 }.firstWhere { $0.hasTag(GameTag.CURRENT_PLAYER) }
+                        }
+
+                        if let entity = entity, tmpEntity = tmpEntity {
+                            entity.name = tmpEntity.name
+                            tmpEntity.tags.forEach({ (gameTag, value) -> () in
+                                tagChangeHandler.tagChange(gameTag, tmpEntity.getTag(GameTag.ENTITY_ID), value)
+                            })
+                            setPlayerName(entity.getTag(GameTag.PLAYER_ID), tmpEntity.name!)
+                            game.tmpEntities.remove(tmpEntity)
+                            tagChangeHandler.tagChange(tag, entity.id, value)
+                        }
+
+                        if let tmpEntity = tmpEntity where game.tmpEntities.contains(tmpEntity) {
+                            tmpEntity.setTag(_tag, tagValue)
+                            if tmpEntity.hasTag(GameTag.ENTITY_ID) {
+                                let id = tmpEntity.getTag(GameTag.ENTITY_ID)
+                                if game.entities[id] != nil {
+                                    game.entities[id]!.name = tmpEntity.name
+                                    tmpEntity.tags.forEach({ (gameTag, value) -> () in
+                                        tagChangeHandler.tagChange(gameTag, id, value)
+                                    })
+                                    game.tmpEntities.remove(tmpEntity)
+                                }
                             }
                         }
                     }
@@ -122,10 +146,10 @@ class PowerGameStateHandler {
 
             if line.isMatch(EntityNameRegex) {
                 match = line.firstMatchWithDetails(EntityNameRegex)
-                //DDLogVerbose(@"EntityNameRegex %@ -> %@", EntityNameRegex, match.groups);
+                // DDLogVerbose(@"EntityNameRegex %@ -> %@", EntityNameRegex, match.groups);
                 let name: String = match.groups[1].value
                 let player = Int(match.groups[2].value)
-                
+
                 if player == game.player.id {
                     game.setPlayerName(name)
                 }
@@ -134,12 +158,12 @@ class PowerGameStateHandler {
                 }
             }
         }
-        
+
         else if line.isMatch(CreationRegex) {
             let match = line.firstMatchWithDetails(CreationRegex)
             let id = Int(match.groups[1].value)!
             var cardId: String = match.groups[2].value
-            //DDLogVerbose("CreationRegex id \(id), cardId \(cardId)")
+            // DDLogVerbose("CreationRegex id \(id), cardId \(cardId)")
 
             if game.entities[id] == nil {
                 if cardId.isEmpty {
@@ -152,22 +176,22 @@ class PowerGameStateHandler {
                         }
                     }
                 }
-                
+
                 let entity = Entity(id)
                 entity.cardId = cardId
                 game.entities[id] = entity
             }
             game.currentEntityId = id
-            tagChangeHandler.currentEntityHasCardId = !cardId.isEmpty
+            game.currentEntityHasCardId = !cardId.isEmpty
         }
-        
+
         else if line.isMatch(UpdatingEntityRegex) {
             let match = line.firstMatchWithDetails(UpdatingEntityRegex)
             let rawEntity: String = match.groups[1].value
             let cardId: String = match.groups[2].value
-            //DDLogVerbose("UpdatingEntityRegex \(rawEntity) -> \(cardId)")
+            // DDLogVerbose("UpdatingEntityRegex \(rawEntity) -> \(cardId)")
             var entityId: Int?
-            
+
             if rawEntity.startsWith("[") && tagChangeHandler.isEntity(rawEntity) {
                 let entity = tagChangeHandler.parseEntity(rawEntity)
                 if let _entityId = entity.id {
@@ -177,7 +201,7 @@ class PowerGameStateHandler {
                 entityId = Int(rawEntity)
             }
             if let entityId = entityId {
-                //DDLogVerbose("updating entity \(entityId) with card \(cardId)")
+                // DDLogVerbose("updating entity \(entityId) with card \(cardId)")
                 game.currentEntityId = entityId
                 if game.entities[entityId] == nil {
                     let entity = Entity(entityId)
@@ -189,57 +213,44 @@ class PowerGameStateHandler {
             if game.joustReveals > 0 {
                 if let currentEntity = game.entities[entityId!] {
                     if currentEntity.isControllerBy(game.opponent.id!) {
-                        game.opponentJoust(currentEntity, cardId: cardId, turn: game.turnNumber())
+                        game.opponentJoust(currentEntity, cardId, game.turnNumber())
                     } else if currentEntity.isControllerBy(game.player.id!) {
-                        game.playerJoust(currentEntity, cardId: cardId, turn: game.turnNumber())
+                        game.playerJoust(currentEntity, cardId, game.turnNumber())
                     }
                 }
             }
         }
-        
+
         else if line.isMatch(CreationTagRegex) && !line.containsString("HIDE_ENTITY") {
             let match = line.firstMatchWithDetails(CreationTagRegex)
-            //DDLogVerbose("CreationTagRegex \(game.currentEntityId)")
+            // DDLogVerbose("CreationTagRegex \(game.currentEntityId)")
             let tag: String = match.groups[1].value
             let value: String = match.groups[2].value
             tagChangeHandler.tagChange(tag, game.currentEntityId, value)
         }
-        
+
         else if line.containsString("Begin Spectating") || line.containsString("Start Spectator") {
-            game.gameMode = GameMode.Spectator
+            game.currentGameMode = GameMode.Spectator
         }
-        
+
         else if line.containsString("End Spectator") {
-            game.gameMode = GameMode.Spectator
+            game.currentGameMode = GameMode.Spectator
             game.gameEnd()
         }
-        
+
         else if line.isMatch(ActionStartRegex) {
             let match = line.firstMatchWithDetails(ActionStartRegex)
-            //DDLogVerbose(@"ActionStartRegex %@ -> %@", ActionStartRegex, match);
+            // DDLogVerbose(@"ActionStartRegex %@ -> %@", ActionStartRegex, match);
             let actionStartingEntityId = Int(match.groups[1].value)!
             var actionStartingCardId: String? = match.groups[2].value
-            
-            let player: Entity? = Array(game.entities.values).filter {$0.getTag(GameTag.PLAYER_ID) == game.player.id }.first
-            let opponent: Entity? = Array(game.entities.values).filter {$0.getTag(GameTag.PLAYER_ID) == game.opponent.id }.first
 
-            var actionEntity: Entity
+            let player: Entity? = Array(game.entities.values).filter { $0.getTag(GameTag.PLAYER_ID) == game.player.id }.first
+            let opponent: Entity? = Array(game.entities.values).filter { $0.getTag(GameTag.PLAYER_ID) == game.opponent.id }.first
+
             if let _actionStartingCardId = actionStartingCardId where _actionStartingCardId.isEmpty {
                 if game.entities[actionStartingEntityId] != nil {
-                    actionEntity = game.entities[actionStartingEntityId]!
+                    let actionEntity = game.entities[actionStartingEntityId]!
                     actionStartingCardId = actionEntity.cardId
-                }
-            }
-
-            if game.entities[actionStartingEntityId] != nil {
-                actionEntity = game.entities[actionStartingEntityId]!
-
-                if actionEntity.hasTag(GameTag.CONTROLLER) && actionEntity.getTag(GameTag.CONTROLLER) == game.player.id
-                        && actionEntity.getTag(GameTag.CARDTYPE) == CardType.SPELL.rawValue {
-                    //NSInteger targetEntityId = [actionEntity getTag:EGameTag_CARD_TARGET];
-                    //Entity *targetEntity;
-                    //var targetsMinion = game.Entities.TryGetValue(targetEntityId, out targetEntity) && targetEntity.IsMinion;
-                    //gameState.GameHandler.HandlePlayerSpellPlayed(targetsMinion);
                 }
             }
 
@@ -281,27 +292,27 @@ class PowerGameStateHandler {
                 } else if actionStartingCardId == CardIds.NonCollectible.Neutral.MapToTheGoldenMonkeyToken {
                     addKnownCardId(CardIds.NonCollectible.Neutral.GoldenMonkeyToken)
                 } else {
-                    let card = Card.byId(actionStartingCardId!)
+                    let card = Cards.byId(actionStartingCardId!)
                     if card != nil && card!.type == "hero power" {
                         if player != nil && player!.getTag(GameTag.CURRENT_PLAYER) == 1 {
-                            tagChangeHandler.playerUsedHeroPower = true
+                            game.playerUsedHeroPower = true
                             DDLogInfo("player use hero power")
                         } else if opponent != nil {
                             DDLogInfo("opponent use hero power")
-                            tagChangeHandler.opponentUsedHeroPower = true
+                            game.opponentUsedHeroPower = true
                         }
                     }
                 }
             }
         }
-        
+
         else if line.isMatch(NSRegularExpression.rx("BlockType=JOUST")) {
             game.joustReveals = 2
         }
     }
-    
-    private static func addTargetAsKnownCardId(match:RxMatch, _ count:Int = 1) {
-        let target:String = match.groups[4].value.trim()
+
+    private static func addTargetAsKnownCardId(match: RxMatch, _ count: Int = 1) {
+        let target: String = match.groups[4].value.trim()
         if !target.startsWith("[") || !tagChangeHandler.isEntity(target) {
             return
         }
@@ -309,29 +320,40 @@ class PowerGameStateHandler {
             return
         }
         let cardIdMatch = target.firstMatchWithDetails(CardIdRegex)
-        let targetCardId:String = cardIdMatch.groups[1].value.trim()
+        let targetCardId: String = cardIdMatch.groups[1].value.trim()
         let game = Game.instance
-        for(var i = 0; i < count; i++) {
+        for (var i = 0; i < count; i++) {
             let id = getMaxEntityId() + i + 1
             if game.knownCardIds[id] != nil {
                 game.knownCardIds[id] = targetCardId
             }
         }
     }
-    
-    private static func addKnownCardId(cardId:String, _ count:Int = 1) {
+
+    private static func addKnownCardId(cardId: String, _ count: Int = 1) {
         let game = Game.instance
-        for i in 0..<count {
+        for i in 0 ..< count {
             let id = getMaxEntityId() + 1 + i;
             if game.knownCardIds[id] != nil {
                 game.knownCardIds[id] = cardId
             }
         }
     }
-    
+
     private static func getMaxEntityId() -> Int {
         let game = Game.instance
         return [game.entities.count, game.maxId].maxElement()!
     }
 
+    private static func setPlayerName(playerId: Int, _ name: String) {
+        let game = Game.instance
+        if playerId == game.player.id {
+            game.player.name = name
+            DDLogInfo("Player name is \(name)")
+        }
+        else if playerId == game.opponent.id {
+            game.opponent.name = name
+            DDLogInfo("Opponent name is \(name)")
+        }
+    }
 }

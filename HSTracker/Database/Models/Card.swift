@@ -7,30 +7,26 @@
 //
 
 import Foundation
-import CoreData
-import MagicalRecord
 
-@objc(Card)
-class Card: NSManagedObject {
+class Card : Hashable, CustomStringConvertible {
 
-    @NSManaged var cardId: String
-    @NSManaged var collectible: Bool
-    @NSManaged var cost: Int
-    @NSManaged var faction: String
-    @NSManaged var flavor: String
-    @NSManaged var health: Int
-    @NSManaged var name: String
-    @NSManaged var enName: String
-    @NSManaged var playerClass: String
-    @NSManaged var rarity: String
-    @NSManaged var set: String
-    @NSManaged var text: String
-    @NSManaged var type: String
-    @NSManaged var mechanics: Set<CardMechanic>
-    @NSManaged var isStandard: Bool
+    var cardId: String = ""
+    var collectible: Bool = false
+    var cost: Int = 0
+    var faction: String = ""
+    var flavor: String = ""
+    var health: Int = 0
+    var name: String = ""
+    var enName: String = ""
+    var playerClass: String = ""
+    var rarity: Rarity?
+    var set: String = ""
+    var text: String = ""
+    var type: String = ""
+    // var mechanics: Set<CardMechanic>
+    var isStandard: Bool = false
 
     var count: Int = 0
-    var handCount: Int = 0
     var hasChanged: Bool = false
 
     var jousted: Bool = false
@@ -40,10 +36,7 @@ class Card: NSManagedObject {
 
     var highlightDraw: Bool = false
     var highlightInHand: Bool = false
-
-    class func byId(cardId: String) -> Card? {
-        return Card.MR_findFirstWithPredicate(NSPredicate(format: "cardId = %@", cardId))
-    }
+    var highlightFrame: Bool = false
 
     var englishName: String {
         if let language = Settings.instance.hearthstoneLanguage where language == "enUS" {
@@ -51,33 +44,69 @@ class Card: NSManagedObject {
         }
         return self.enName
     }
-    
-    override var description : String {
-        return "<\(NSStringFromClass(self.dynamicType)): "
-            + "self.cardId=\(self.cardId)"
-            + ", self.collectible=\(self.collectible)"
-            + ", self.cost=\(self.cost)"
-            + ", self.faction=\(self.faction)"
-            + ", self.flavor=\(self.flavor)"
-            + ", self.health=\(self.health)"
-            + ", self.name=\(self.name)"
-            + ", self.enName=\(self.enName)"
-            + ", self.playerClass=\(self.playerClass)"
-            + ", self.rarity=\(self.rarity)"
-            + ", self.set=\(self.set)"
-            + ", self.text=\(self.text)"
-            + ", self.type=\(self.type)"
-            + ", self.mechanics=\(self.mechanics)"
-            + ", self.isStandard=\(self.isStandard)"
-            + ", self.count=\(self.count)"
-            + ", self.handCount=\(self.handCount)"
-            + ", self.hasChanged=\(self.hasChanged)"
-            + ", self.jousted=\(self.jousted)"
-            + ", self.isStolen=\(self.isStolen)"
-            + ", self.isCreated=\(self.isCreated)"
-            + ", self.wasDiscarded=\(self.wasDiscarded)"
-            + ", self.highlightDraw=\(self.highlightDraw)"
-            + ", self.highlightInHand=\(self.highlightInHand)"
+
+    func textColor() -> NSColor {
+        var color: NSColor
+        if highlightDraw && Settings.instance.highlightLastDrawn {
+            color = NSColor(red: 1, green: 0.647, blue: 0, alpha: 1)
+        }
+        else if highlightInHand && Settings.instance.highlightCardsInHand {
+            color = NSColor(red: 0.678, green: 1, blue: 0.184, alpha: 1)
+        }
+        else if count <= 0 || jousted {
+            color = NSColor(red: 0.501, green: 0.501, blue: 0.501, alpha: 1)
+        }
+        else if wasDiscarded && Settings.instance.highlightDiscarded {
+            color = NSColor(red: 0.803, green: 0.36, blue: 0.36, alpha: 1)
+        }
+        else {
+            color = NSColor.whiteColor()
+        }
+        return color
     }
 
+    func copy() -> Card {
+        let copy = Card()
+        copy.cardId = self.cardId
+        copy.collectible = self.collectible
+        copy.cost = self.cost
+        copy.faction = self.faction
+        copy.flavor = self.flavor
+        copy.health = self.health
+        copy.name = self.name
+        copy.enName = self.enName
+        copy.playerClass = self.playerClass
+        copy.rarity = self.rarity
+        copy.set = self.set
+        copy.text = self.text
+        copy.type = self.type
+        // copy.mechanics = self.mechanics
+        copy.isStandard = self.isStandard
+        copy.count = self.count
+        copy.hasChanged = self.hasChanged
+        copy.jousted = self.jousted
+        copy.isStolen = self.isStolen
+        copy.isCreated = self.isCreated
+        copy.wasDiscarded = self.wasDiscarded
+        copy.highlightDraw = self.highlightDraw
+        copy.highlightInHand = self.highlightInHand
+        copy.highlightFrame = self.highlightFrame
+        return copy
+    }
+
+    var description : String {
+        /*return "<\(NSStringFromClass(self.dynamicType)): "
+         + "self.cardId=\(self.cardId)"
+         + ", self.name=\(self.name)"
+         + ", self.enName=\(self.enName)"
+         + ", self.count=\(self.count)>"*/
+        return "[\(self.name):\(self.count)]"
+    }
+
+    var hashValue: Int {
+        return cardId.hashValue
+    }
+}
+func == (lhs: Card, rhs: Card) -> Bool {
+    return lhs.cardId == rhs.cardId
 }

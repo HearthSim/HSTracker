@@ -12,90 +12,105 @@ import Foundation
 
 enum FromDestination: Int {
     case Bundle,
-         Assets,
-         Path
+        Assets,
+        Path
 };
 
 class ImageCache {
 
+    static func cardImage(card: Card) -> NSImage? {
+        if let appSupport = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
+            let path = "\(appSupport)/HSTracker/cards/\(card.cardId).png"
+            return imageNamed(path, from: .Path)
+        }
+        return nil
+    }
+
     static func frameImageMask() -> NSImage? {
-        return self.imageNamed("frame_mask.png", from: .Assets)
+        return imageNamed("frame_mask.png", from: .Assets)
     }
 
     static func smallCardImage(card: Card) -> NSImage? {
         let image = card.englishName.lowercaseString
-        .replace(NSRegularExpression.rx("[ ']"), with: "-")
-        .replace(NSRegularExpression.rx("[:.!]"), with: "")
-        return self.imageNamed("\(image).png", from: .Bundle)
+            .replace(NSRegularExpression.rx("[ ']"), with: "-")
+            .replace(NSRegularExpression.rx("[:.!]"), with: "")
+        return imageNamed("\(image).png", from: .Bundle)
     }
 
-    static func gemImage(rarity: String) -> NSImage? {
+    static func gemImage(rarity: Rarity) -> NSImage? {
         var image: String
-        switch rarity {
+        switch rarity.rawValue {
         case "free": image = "gem_rarity_free"
-        case "common":image = "gem_rarity_common"
-        case "rare":image = "gem_rarity_rare"
-        case "epic":image = "gem_rarity_epic"
-        case "legendary":image = "gem_rarity_legendary"
+        case "common": image = "gem_rarity_common"
+        case "rare": image = "gem_rarity_rare"
+        case "epic": image = "gem_rarity_epic"
+        case "legendary": image = "gem_rarity_legendary"
         default: return nil
         }
 
-        return self.imageNamed(image, from: .Assets)
+        return imageNamed(image, from: .Assets)
     }
 
     static func frameDeckImage() -> NSImage? {
-        return self.imageNamed("frame_deck", from: .Assets)
+        return imageNamed("frame_deck", from: .Assets)
     }
 
-    static func frameImage(rarity: String) -> NSImage? {
-        var image: String
-        switch rarity {
-        case "common":image = "frame_rarity_common"
-        case "rare":image = "frame_rarity_rare"
-        case "epic":image = "frame_rarity_epic"
-        case "legendary":image = "frame_rarity_legendary"
-        default:image = "frame"
+    static func frameImage(rarity: Rarity?) -> NSImage? {
+        var image: String = "frame"
+        if let rarity = rarity {
+            switch rarity.rawValue {
+            case "common": image = "frame_rarity_common"
+            case "rare": image = "frame_rarity_rare"
+            case "epic": image = "frame_rarity_epic"
+            case "legendary": image = "frame_rarity_legendary"
+            case "golden": image = "frame_golden"
+            default: break
+            }
         }
-        return self.imageNamed(image, from: .Assets)
+        return imageNamed(image, from: .Assets)
+    }
+
+    static func darkenImage() -> NSImage? {
+        return imageNamed("dark", from: .Assets)
     }
 
     static func frameLegendary() -> NSImage? {
-        return self.imageNamed("frame_legendary", from: .Assets)
+        return imageNamed("frame_legendary", from: .Assets)
     }
 
     static func frameCount(number: Int) -> NSImage? {
-        return self.imageNamed("frame_\(number)", from: .Assets)
+        return imageNamed("frame_\(number)", from: .Assets)
     }
 
     static func frameCountbox() -> NSImage? {
-        return self.imageNamed("frame_countbox", from: .Assets)
+        return imageNamed("frame_countbox", from: .Assets)
     }
 
     static func frameCountboxDeck() -> NSImage? {
-        return self.imageNamed("frame_countbox_deck", from: .Assets)
+        return imageNamed("frame_countbox_deck", from: .Assets)
     }
-    
-    static func classImage(playerClass:String) -> NSImage? {
-        return self.imageNamed(playerClass.lowercaseString, from: .Assets)
+
+    static func classImage(playerClass: String) -> NSImage? {
+        return imageNamed(playerClass.lowercaseString, from: .Assets)
     }
-    
-    static func asset(asset:String) -> NSImage? {
-        return self.imageNamed(asset, from: .Assets)
+
+    static func asset(asset: String) -> NSImage? {
+        return imageNamed(asset, from: .Assets)
     }
 
     static func imageNamed(path: String, from: FromDestination) -> NSImage? {
         switch from {
         case .Bundle:
             let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(path)"
-            //DDLogVerbose("Opening image \(fullPath)")
+            // DDLogVerbose("Opening image \(fullPath)")
             return NSImage(contentsOfFile: fullPath)
 
         case .Assets:
-            //DDLogVerbose("Opening image \(path)")
+            // DDLogVerbose("Opening image \(path)")
             return NSImage(named: path)
 
         case .Path:
-            //DDLogVerbose("Opening image \(path)")
+            // DDLogVerbose("Opening image \(path)")
             return NSImage(contentsOfFile: path)
         }
     }
