@@ -121,7 +121,7 @@ class TagChangeHandler {
 
         case .STEP:
             stepChange()
-            break;
+
         case .TURN:
             turnChange()
 
@@ -255,7 +255,7 @@ class TagChangeHandler {
     }
 
     private func proposedDefenderChange(value: Int) {
-        // Game.instance.OpponentSecrets.ProposedDefenderEntityId = value;
+        // Game.instance.OpponentSecrets.ProposedDefenderEntityId = value
     }
 
     private func proposedAttackerChange(value: Int) {
@@ -268,7 +268,7 @@ class TagChangeHandler {
         }
         /*let game = Game.instance
          if game.PlayerEntity.IsCurrentPlayer() {
-         game.PlayerMinionPlayed();
+         game.PlayerMinionPlayed()
          }*/
     }
 
@@ -280,7 +280,7 @@ class TagChangeHandler {
         /*
          let game = Game.instance
          if game.PlayerEntity.IsCurrentPlayer() {
-         game.OpponentDamage(game.Entities[id]);
+         game.OpponentDamage(game.Entities[id])
          }
          */
     }
@@ -293,7 +293,7 @@ class TagChangeHandler {
         /*
          let game = Game.instance
          if game.PlayerEntity.IsCurrentPlayer() {
-         game.OpponentTurnStart(game.Entities[id]);
+         game.OpponentTurnStart(game.Entities[id])
          }*/
     }
 
@@ -347,10 +347,10 @@ class TagChangeHandler {
             return
         }
         if controller == game.player.id {
-            // gameState.ProposeKeyPoint(HeroPower, id, ActivePlayer.Player);
+            // gameState.ProposeKeyPoint(HeroPower, id, ActivePlayer.Player)
         }
         else if controller == game.opponent.id {
-            // gameState.ProposeKeyPoint(HeroPower, id, ActivePlayer.Opponent);
+            // gameState.ProposeKeyPoint(HeroPower, id, ActivePlayer.Opponent)
         }
     }
 
@@ -360,10 +360,10 @@ class TagChangeHandler {
         }
         let game = Game.instance
         if controller == game.player.id {
-            // gameState.ProposeKeyPoint(WeaponDestroyed, id, ActivePlayer.Player);
+            // gameState.ProposeKeyPoint(WeaponDestroyed, id, ActivePlayer.Player)
         }
         else if controller == game.opponent.id {
-            // gameState.ProposeKeyPoint(WeaponDestroyed, id, ActivePlayer.Opponent);
+            // gameState.ProposeKeyPoint(WeaponDestroyed, id, ActivePlayer.Opponent)
         }
     }
 
@@ -374,10 +374,10 @@ class TagChangeHandler {
         }
         let game = Game.instance
         if controller == game.player.id {
-            // gameState.ProposeKeyPoint(PlaySpell, id, ActivePlayer.Player);
+            // gameState.ProposeKeyPoint(PlaySpell, id, ActivePlayer.Player)
         }
         else if controller == game.opponent.id {
-            // gameState.ProposeKeyPoint(PlaySpell, id, ActivePlayer.Opponent);
+            // gameState.ProposeKeyPoint(PlaySpell, id, ActivePlayer.Opponent)
         }
     }
 
@@ -409,10 +409,10 @@ class TagChangeHandler {
         if value > 0 {
             let game = Game.instance
             if controller == game.player.id {
-                // gameState.ProposeKeyPoint(Attack, id, ActivePlayer.Player);
+                // gameState.ProposeKeyPoint(Attack, id, ActivePlayer.Player)
             }
             else if controller == game.opponent.id {
-                // gameState.ProposeKeyPoint(Attack, id, ActivePlayer.Opponent);
+                // gameState.ProposeKeyPoint(Attack, id, ActivePlayer.Opponent)
             }
         }
     }
@@ -588,18 +588,25 @@ class TagChangeHandler {
                     game.opponentPlayToDeck(entity, cardId, game.turnNumber())
                 }
 
-            case .REMOVEDFROMGAME,
-                    .SETASIDE,
-                    .GRAVEYARD:
-                    if controller == game.player.id {
-                        game.playerPlayToGraveyard(entity, cardId, game.turnNumber());
-                        /*if let entity = entity where entity.hasTag(.HEALTH) {
-                         }*/
+            case .GRAVEYARD:
+                if controller == game.player.id {
+                    game.playerPlayToGraveyard(entity, cardId, game.turnNumber())
+                    /*if let entity = entity where entity.hasTag(.HEALTH) {
+                     }*/
                 }
                 else if controller == game.opponent.id {
                     game.opponentPlayToGraveyard(entity, cardId, game.turnNumber(), game.playerEntity!.isCurrentPlayer)
                     /*if let entity = entity where entity.hasTag(.HEALTH) {
                      }*/
+                }
+
+            case .REMOVEDFROMGAME,
+                    .SETASIDE:
+                    if controller == game.player.id {
+                        game.playerRemoveFromPlay(entity, game.turnNumber())
+                }
+                else if controller == game.opponent.id {
+                    game.opponentRemoveFromPlay(entity, game.turnNumber())
                 }
 
             case .PLAY:
@@ -629,7 +636,7 @@ class TagChangeHandler {
                     game.playerHandDiscard(entity, cardId, game.turnNumber())
                 }
                 else if controller == game.opponent.id {
-                    game.opponentHandDiscard(entity, cardId, entity.getTag(.ZONE_POSITION), game.turnNumber());
+                    game.opponentHandDiscard(entity, cardId, entity.getTag(.ZONE_POSITION), game.turnNumber())
                 }
 
             case .SECRET:

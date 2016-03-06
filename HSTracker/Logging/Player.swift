@@ -418,6 +418,12 @@ class Player {
         }
     }
 
+    func removeFromPlay(entity: Entity, _ turn: Int) {
+        if let ce = moveCardEntity(entity, &self.board, &self.removed, turn) {
+            DDLogInfo("\(debugName) \(__FUNCTION__) \(ce)")
+        }
+    }
+
     func deckDiscard(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &self.deck, &self.graveyard, turn) {
             updateRevealedEntity(cardEntity, turn, true)

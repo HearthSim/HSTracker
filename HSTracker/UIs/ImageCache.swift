@@ -37,9 +37,9 @@ class ImageCache {
         return imageNamed("\(image).png", from: .Bundle)
     }
 
-    static func gemImage(rarity: String) -> NSImage? {
+    static func gemImage(rarity: Rarity) -> NSImage? {
         var image: String
-        switch rarity {
+        switch rarity.rawValue {
         case "free": image = "gem_rarity_free"
         case "common": image = "gem_rarity_common"
         case "rare": image = "gem_rarity_rare"
@@ -55,10 +55,10 @@ class ImageCache {
         return imageNamed("frame_deck", from: .Assets)
     }
 
-    static func frameImage(rarity: String?) -> NSImage? {
+    static func frameImage(rarity: Rarity?) -> NSImage? {
         var image: String = "frame"
         if let rarity = rarity {
-            switch rarity {
+            switch rarity.rawValue {
             case "common": image = "frame_rarity_common"
             case "rare": image = "frame_rarity_rare"
             case "epic": image = "frame_rarity_epic"

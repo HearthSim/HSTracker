@@ -461,6 +461,10 @@ class Game {
         opponent.stolenFromOpponent(entity, turn)
     }
 
+    func playerRemoveFromPlay(entity: Entity, _ turn: Int) {
+        player.removeFromPlay(entity, turn)
+    }
+
     // MARK: - opponent
 
     func setOpponentHero(cardId: String) {
@@ -587,6 +591,10 @@ class Game {
         if let tracker = opponentTracker where entity.isSecret {
             tracker.update()
         }
+    }
+
+    func opponentRemoveFromPlay(entity: Entity, _ turn: Int) {
+        opponent.removeFromPlay(entity, turn)
     }
 
     func handleDefendingEntity(entity: Entity?) {

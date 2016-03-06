@@ -100,7 +100,7 @@ class CardCellView: NSTableCellView {
             // draw the frame
             var frameImage = ImageCache.frameImage(nil)
             if card.highlightFrame {
-                frameImage = ImageCache.frameImage("golden")
+                frameImage = ImageCache.frameImage(.Golden)
                 // _card.IsFrameHighlighted = true;
             } else {
                 // _card.IsFrameHighlighted = true;
@@ -118,7 +118,7 @@ class CardCellView: NSTableCellView {
 
             // draw the gem
             if settings.showRarityColors {
-                gemLayer.contents = ImageCache.gemImage(card.rarity)
+                gemLayer.contents = ImageCache.gemImage(card.rarity!)
             } else {
                 gemLayer.contents = nil
             }
@@ -174,7 +174,7 @@ class CardCellView: NSTableCellView {
             costLayer.string = cost
 
             // add card count
-            if abs(card.count) > 1 || card.rarity == "legendary" {
+            if abs(card.count) > 1 || card.rarity == .Legendary {
                 frameCountBox.contents = ImageCache.frameCountbox()
                 x = 189.0 / ratio
                 y = 5.0 / ratio

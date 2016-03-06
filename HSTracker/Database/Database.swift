@@ -46,7 +46,7 @@ class Cards {
             $0.name.lowercaseString.contains(term.lowercaseString) ||
             $0.enName.lowercaseString.contains(term.lowercaseString) ||
             $0.text.lowercaseString.contains(term.lowercaseString) ||
-            $0.rarity.lowercaseString.contains(term.lowercaseString) ||
+            ($0.rarity != nil && $0.rarity!.rawValue.contains(term.lowercaseString)) ||
             $0.type.lowercaseString.contains(term.lowercaseString)
         }
     }
@@ -118,7 +118,7 @@ class Database {
                                 }
 
                                 if let cardRarity = jsonCard["rarity"] as? String {
-                                    card.rarity = cardRarity.lowercaseString
+                                    card.rarity = Rarity(rawValue: cardRarity.lowercaseString)
                                 }
 
                                 if let cardType = jsonCard["type"] as? String {

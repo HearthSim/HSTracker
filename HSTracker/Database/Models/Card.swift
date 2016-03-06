@@ -19,7 +19,7 @@ class Card : Hashable, CustomStringConvertible {
     var name: String = ""
     var enName: String = ""
     var playerClass: String = ""
-    var rarity: String = ""
+    var rarity: Rarity?
     var set: String = ""
     var text: String = ""
     var type: String = ""

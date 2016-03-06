@@ -23,7 +23,7 @@ class CardCell : JNWCollectionViewCell {
 
     func setCount(count: Int) {
         var alpha: Float = 1.0
-        if count == 2 || (count == 1 && _card!.rarity == "legendary") {
+        if count == 2 || (count == 1 && _card!.rarity == .Legendary) {
             alpha = 0.5
         }
         self.layer!.opacity = alpha
