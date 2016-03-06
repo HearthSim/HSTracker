@@ -1,6 +1,5 @@
 platform :osx, '10.10'
 use_frameworks!
-#link_with 'HSTracker', 'HSTrackerTests', 'HSTrackerUITests'
 
 def pods
     pod 'HockeySDK-Mac'
@@ -9,7 +8,7 @@ def pods
     pod 'Alamofire', '~> 3.0'
     pod 'Kanna', '~> 1.0.0'
     pod 'MASPreferences'
-    pod 'JNWCollectionView'
+    pod 'JNWCollectionView', git: 'https://github.com/bmichotte/JNWCollectionView'
 end
 
 target 'HSTracker' do
