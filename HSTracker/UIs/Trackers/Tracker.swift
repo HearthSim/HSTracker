@@ -76,6 +76,9 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         self.table.backgroundColor = NSColor.clearColor()
         self.table.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
 
+        let nib = NSNib(nibNamed: "CountTextCellView", bundle: nil)
+        self.table.registerNib(nib, forIdentifier: "CountTextCellView")
+
         self.table.reloadData()
     }
 
@@ -119,6 +122,9 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         /*if ([Settings instance].handCountWindow == HandCountPosition_Tracker) {
          count += 1;
          }*/
+        if count > 0 {
+            count += 1
+        }
 
         if let playerType = self.playerType where self.gameEnded && playerType == .Opponent {
             count += 1
@@ -128,48 +134,68 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let card = self.cards[row]
-        let cell = CardCellView()
-        cell.card = card
-        cell.playerType = self.playerType
-        cell.setDelegate(self)
 
-        if card.hasChanged {
-            card.hasChanged = false
-            // cell.flash()
+        if row >= cards.count {
+            let cell = table.makeViewWithIdentifier("CountTextCellView", owner: self) as! CountTextCellView
+            cell.setText(countText())
+            return cell
         }
-        return cell
-        // }
-        // else {
-        // cell = CountTextCellView.new
-        // cell.text = @count_text
-        // }
+        else {
+            let card = cards[row]
+            let cell = CardCellView()
+            cell.card = card
+            cell.playerType = self.playerType
+            cell.setDelegate(self)
+
+            if card.hasChanged {
+                card.hasChanged = false
+            }
+            return cell
+        }
+    }
+
+    func countText() -> String {
+        if let player = player {
+            var str = "\(NSLocalizedString("Hand", comment: "")) : \(player.handCount)"
+                + " / "
+                + "\(NSLocalizedString("Deck", comment: "")) : \(player.deckCount)\n"
+
+            let cardCount = player.deckCount
+            if cardCount > 0 {
+                var percent = (1 * 100.0) / Double(cardCount)
+                str += String(format: "[1] : %.2f%", percent)
+                str += " / "
+                percent = (2 * 100.0) / Double(cardCount)
+                str += String(format: "[2] : %.2f%", percent)
+            }
+
+            return str
+        }
+        return ""
     }
 
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        /*if (Configuration.hand_count_window == :tracker && row >= @playing_cards.count) {
-         case Configuration.card_layout
-         when :small
-         ratio = kRowHeight / kSmallRowHeight
-         when :medium
-         ratio = kRowHeight / kMediumRowHeight
-         else
-         ratio = 1.0
-         end
-         50.0 / ratio
-         }
-         else {*/
-        switch Settings.instance.cardSize {
-        case .Small:
-            return CGFloat(kSmallRowHeight)
-
-        case .Medium:
-            return CGFloat(kMediumRowHeight)
-
-        default:
-            return CGFloat(kRowHeight)
+        if row >= cards.count {
+            var ratio: CGFloat
+            switch Settings.instance.cardSize {
+            case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
+            case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
+            default: ratio = 1.0
+            }
+            return 50.0 / ratio
         }
-        // }
+        else {
+            switch Settings.instance.cardSize {
+            case .Small:
+                return CGFloat(kSmallRowHeight)
+
+            case .Medium:
+                return CGFloat(kMediumRowHeight)
+
+            default:
+                return CGFloat(kRowHeight)
+            }
+        }
     }
 
     func selectionShouldChangeInTableView(tableView: NSTableView) -> Bool {

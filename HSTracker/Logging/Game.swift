@@ -179,14 +179,7 @@ class Game {
     }
 
     func handleEndGame() {
-        if currentGameMode == .None {
-            detectMode(3) {
-                self.handleEndGame()
-            }
-            return
-        }
-
-        if currentGameMode == .Ranked && 0 == self.currentRank {
+        if currentGameMode == .None || currentGameMode == .Casual {
             waitForRank(5) {
                 self.handleEndGame()
             }

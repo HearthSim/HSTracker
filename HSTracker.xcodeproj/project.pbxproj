@@ -15,6 +15,8 @@
 		431719751C89ADA000F5988B /* NSAlert+HSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */; };
 		431719791C8C179D00F5988B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
 		4317197B1C8C19B500F5988B /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197A1C8C19B500F5988B /* Statistic.swift */; };
+		4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* CountTextCellView.swift */; };
+		4317197F1C8C651900F5988B /* CountTextCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4317197E1C8C651900F5988B /* CountTextCellView.xib */; };
 		434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434C2F291C7F0F96001D1D91 /* NewDeck.xib */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
@@ -121,6 +123,8 @@
 		431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert+HSTracker.swift"; sourceTree = "<group>"; };
 		431719781C8C179D00F5988B /* Rarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
 		4317197A1C8C19B500F5988B /* Statistic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
+		4317197C1C8C54FF00F5988B /* CountTextCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountTextCellView.swift; sourceTree = "<group>"; };
+		4317197E1C8C651900F5988B /* CountTextCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountTextCellView.xib; sourceTree = "<group>"; };
 		434C2F291C7F0F96001D1D91 /* NewDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDeck.xib; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
 		434C2F2E1C7F437D001D1D91 /* NetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImporter.swift; sourceTree = "<group>"; };
@@ -461,6 +465,8 @@
 				439C7EDC1C777FA900D29859 /* Tracker.swift */,
 				439C7EDD1C777FA900D29859 /* Tracker.xib */,
 				439C7ED61C777FA900D29859 /* CardCellView.swift */,
+				4317197C1C8C54FF00F5988B /* CountTextCellView.swift */,
+				4317197E1C8C651900F5988B /* CountTextCellView.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -624,6 +630,7 @@
 				439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */,
+				4317197F1C8C651900F5988B /* CountTextCellView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +797,7 @@
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
+				4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */,
 				439C7EEB1C777FCF00D29859 /* NSString+HSTracker.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,

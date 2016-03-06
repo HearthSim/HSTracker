@@ -28,15 +28,15 @@ class AssetHandler {
             if let rank = Int(match.groups[1].value) {
                 game.setPlayerRank(rank)
             }
-        } else if line.isMatch(NSRegularExpression.rx("rank_window")) {
-            // game.rankFound = true
+        } else if line.contains("rank_window") {
             game.currentGameMode = .Ranked
         } else if line.isMatch(NSRegularExpression.rx(UnloadingCard)) {
             let match = line.firstMatchWithDetails(NSRegularExpression.rx(UnloadingCard))
             let cardId: String = match.groups[1].value
-            if game.currentGameMode == .Arena {
+
+            if game.currentMode == Mode.DRAFT && game.previousMode == Mode.HUB {
                 DDLogInfo("Possible arena card draft : \(cardId) ?")
-            } else {
+            } else if (game.currentMode == Mode.COLLECTIONMANAGER || game.currentMode == Mode.TAVERN_BRAWL) && game.previousMode == Mode.HUB {
                 DDLogInfo("Possible constructed card draft : \(cardId) ?")
             }
         } else if line.isMatch(NSRegularExpression.rx("unloading name=Tavern_Brawl")) {
