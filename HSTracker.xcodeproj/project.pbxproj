@@ -79,6 +79,10 @@
 		439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */; };
 		439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEF1C78A71300D29859 /* MainMenu.xib */; };
 		439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EF01C78A71300D29859 /* Splashscreen.xib */; };
+		43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */; };
+		43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
+		43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695511C903A3600F4D0AC /* KeyPointType.swift */; };
+		43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695531C903AC900F4D0AC /* ReplayMaker.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D307FF1C842DA700480488 /* GeneralPreferences.xib */; };
@@ -194,6 +198,10 @@
 		439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialConfiguration.xib; sourceTree = "<group>"; };
 		439C7EEF1C78A71300D29859 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		439C7EF01C78A71300D29859 /* Splashscreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Splashscreen.xib; sourceTree = "<group>"; };
+		43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeActions.swift; sourceTree = "<group>"; };
+		43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKeyPoint.swift; sourceTree = "<group>"; };
+		43B695511C903A3600F4D0AC /* KeyPointType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPointType.swift; sourceTree = "<group>"; };
+		43B695531C903AC900F4D0AC /* ReplayMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayMaker.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
 		43D307FF1C842DA700480488 /* GeneralPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPreferences.xib; sourceTree = "<group>"; };
@@ -329,11 +337,12 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
+				439C7E8E1C777D6C00D29859 /* Resources */,
+				43B6954E1C90387F00F4D0AC /* Replay */,
 				434C2F2D1C7F433E001D1D91 /* Importers */,
 				439C7ECD1C777FA900D29859 /* UIs */,
 				439C7E931C777F8900D29859 /* Logging */,
 				439C7E901C777EE800D29859 /* Core */,
-				439C7E8E1C777D6C00D29859 /* Resources */,
 				439C7E7A1C777CC000D29859 /* Database */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
 				439C7E521C7772C000D29859 /* Assets.xcassets */,
@@ -440,6 +449,7 @@
 				439C7EA81C777F8900D29859 /* PowerGameStateHandler.swift */,
 				439C7EA91C777F8900D29859 /* RachelleHandler.swift */,
 				439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */,
+				43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -480,6 +490,16 @@
 				431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		43B6954E1C90387F00F4D0AC /* Replay */ = {
+			isa = PBXGroup;
+			children = (
+				43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */,
+				43B695511C903A3600F4D0AC /* KeyPointType.swift */,
+				43B695531C903AC900F4D0AC /* ReplayMaker.swift */,
+			);
+			path = Replay;
 			sourceTree = "<group>";
 		};
 		82F55DC1DE1DEEB878F5386E /* Pods */ = {
@@ -791,9 +811,11 @@
 				434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
 				439C7EC21C777F8900D29859 /* BobHandler.swift in Sources */,
+				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				439C7EC51C777F8900D29859 /* PowerGameStateHandler.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
+				43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
@@ -813,6 +835,7 @@
 				43D308081C84410000480488 /* TrackersPreferences.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
+				43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
 				431719731C885BD600F5988B /* CardCell.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
@@ -836,6 +859,7 @@
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
+				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
 				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageCache.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,

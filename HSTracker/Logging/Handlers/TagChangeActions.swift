@@ -165,6 +165,7 @@ class TagChangeActions {
             if value == game.player.id {
                 if entity.isInZone(.SECRET) {
                     game.opponentStolen(entity, entity.cardId, game.turnNumber())
+                    game.proposeKeyPoint(.SecretStolen, id, .Player)
                 }
                 else if entity.isInZone(.PLAY) {
                     game.opponentStolen(entity, entity.cardId, game.turnNumber())
@@ -173,6 +174,7 @@ class TagChangeActions {
             else if value == game.opponent.id {
                 if entity.isInZone(.SECRET) {
                     game.opponentStolen(entity, entity.cardId, game.turnNumber())
+                    game.proposeKeyPoint(.SecretStolen, id, .Player)
                 }
                 else if entity.isInZone(.PLAY) {
                     game.playerStolen(entity, entity.cardId, game.turnNumber())
@@ -192,10 +194,10 @@ class TagChangeActions {
             }
             let controller = entity.getTag(.CONTROLLER)
             if controller == game.player.id {
-                // gameState.ProposeKeyPoint(HeroPower, id, ActivePlayer.Player)
+                game.proposeKeyPoint(.HeroPower, id, .Player)
             }
             else if controller == game.opponent.id {
-                // gameState.ProposeKeyPoint(HeroPower, id, ActivePlayer.Opponent)
+                game.proposeKeyPoint(.HeroPower, id, .Opponent)
             }
         }
     }
@@ -207,10 +209,10 @@ class TagChangeActions {
         if let entity = game.entities[id] {
             let controller = entity.getTag(.CONTROLLER)
             if controller == game.player.id {
-                // gameState.ProposeKeyPoint(WeaponDestroyed, id, ActivePlayer.Player)
+                game.proposeKeyPoint(.WeaponDestroyed, id, .Player)
             }
             else if controller == game.opponent.id {
-                // gameState.ProposeKeyPoint(WeaponDestroyed, id, ActivePlayer.Opponent)
+                game.proposeKeyPoint(.WeaponDestroyed, id, .Opponent)
             }
         }
     }
@@ -223,10 +225,10 @@ class TagChangeActions {
         if let entity = game.entities[id] {
             let controller = entity.getTag(.CONTROLLER)
             if controller == game.player.id {
-                // gameState.ProposeKeyPoint(PlaySpell, id, ActivePlayer.Player)
+                game.proposeKeyPoint(.PlaySpell, id, .Player)
             }
             else if controller == game.opponent.id {
-                // gameState.ProposeKeyPoint(PlaySpell, id, ActivePlayer.Opponent)
+                game.proposeKeyPoint(.PlaySpell, id, .Opponent)
             }
         }
     }
@@ -237,18 +239,22 @@ class TagChangeActions {
             let controller = entity.getTag(.CONTROLLER)
             if zone == Zone.HAND.rawValue {
                 if controller == game.player.id {
+                    ReplayMaker.generate(.HandPos, id, .Player, game)
                     game.zonePositionUpdate(.Player, entity, .HAND, game.turnNumber())
                 }
                 else if controller == game.opponent.id {
+                    ReplayMaker.generate(.HandPos, id, .Opponent, game)
                     game.zonePositionUpdate(.Opponent, entity, .HAND, game.turnNumber())
                 }
             }
             else if zone == Zone.PLAY.rawValue
             {
                 if controller == game.player.id {
+                    ReplayMaker.generate(.BoardPos, id, .Player, game)
                     game.zonePositionUpdate(.Player, entity, .PLAY, game.turnNumber())
                 }
                 else if controller == game.opponent.id {
+                    ReplayMaker.generate(.BoardPos, id, .Opponent, game)
                     game.zonePositionUpdate(.Opponent, entity, .PLAY, game.turnNumber())
                 }
             }
@@ -263,10 +269,10 @@ class TagChangeActions {
         if let entity = game.entities[id] {
             let controller = entity.getTag(.CONTROLLER)
             if controller == game.player.id {
-                // gameState.ProposeKeyPoint(Attack, id, ActivePlayer.Player)
+                game.proposeKeyPoint(.Attack, id, .Player)
             }
             else if controller == game.opponent.id {
-                // gameState.ProposeKeyPoint(Attack, id, ActivePlayer.Opponent)
+                game.proposeKeyPoint(.Attack, id, .Opponent)
             }
         }
     }
@@ -317,16 +323,19 @@ class TagChangeActions {
         if let value = PlayState(rawValue: value) {
             switch value {
             case .WON:
+                game.gameEndKeyPoint(true, id)
                 game.win()
                 game.gameEnd()
                 game.gameEnded = true
 
             case .LOST:
+                game.gameEndKeyPoint(false, id)
                 game.loss()
                 game.gameEnd()
                 game.gameEnded = true
 
             case .TIED:
+                game.gameEndKeyPoint(false, id)
                 game.tied()
                 game.gameEnd()
 
@@ -403,9 +412,11 @@ class TagChangeActions {
             case .PLAY:
                 if controller == game.player.id {
                     game.playerCreateInPlay(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.Summon, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentCreateInPlay(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.Summon, id, .Opponent)
                 }
 
             case .DECK:
@@ -414,6 +425,7 @@ class TagChangeActions {
                         break
                     }
                     game.playerGetToDeck(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.CreateToDeck, id, .Player)
                 }
                 if controller == game.opponent.id {
 
@@ -421,14 +433,17 @@ class TagChangeActions {
                         break
                     }
                     game.opponentGetToDeck(entity, game.turnNumber())
+                    game.proposeKeyPoint(.CreateToDeck, id, .Opponent)
                 }
 
             case .HAND:
                 if controller == game.player.id {
                     game.playerGet(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.Obtain, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentGet(entity, game.turnNumber(), id)
+                    game.proposeKeyPoint(.Obtain, id, .Opponent)
                 }
 
             default:
@@ -442,9 +457,11 @@ class TagChangeActions {
             switch zoneValue {
             case .SECRET, .GRAVEYARD:
                 if controller == game.player.id {
+                    game.proposeKeyPoint(.SecretTriggered, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentSecretTrigger(entity, cardId, game.turnNumber(), id)
+                    game.proposeKeyPoint(.SecretTriggered, id, .Opponent)
                 }
 
             default:
@@ -459,29 +476,35 @@ class TagChangeActions {
             case .HAND:
                 if controller == game.player.id {
                     game.playerBackToHand(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.PlayToHand, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentPlayToHand(entity, cardId, game.turnNumber(), id)
+                    game.proposeKeyPoint(.PlayToHand, id, .Opponent)
                 }
 
             case .DECK:
                 if controller == game.player.id {
                     game.playerPlayToDeck(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.PlayToDeck, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentPlayToDeck(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.PlayToDeck, id, .Opponent)
                 }
 
             case .GRAVEYARD:
                 if controller == game.player.id {
                     game.playerPlayToGraveyard(entity, cardId, game.turnNumber())
-                    /*if let entity = entity where entity.hasTag(.HEALTH) {
-                     }*/
+                    if entity.hasTag(.HEALTH) {
+                        game.proposeKeyPoint(.Death, id, .Player)
+                    }
                 }
                 else if controller == game.opponent.id {
                     game.opponentPlayToGraveyard(entity, cardId, game.turnNumber(), game.playerEntity!.isCurrentPlayer)
-                    /*if let entity = entity where entity.hasTag(.HEALTH) {
-                     }*/
+                    if entity.hasTag(.HEALTH) {
+                        game.proposeKeyPoint(.Death, id, .Opponent)
+                    }
                 }
 
             case .REMOVEDFROMGAME,
@@ -508,33 +531,41 @@ class TagChangeActions {
             case .PLAY:
                 if controller == game.player.id {
                     game.playerPlay(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.Play, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentPlay(entity, cardId, entity.getTag(.ZONE_POSITION), game.turnNumber())
+                    game.proposeKeyPoint(.Play, id, .Opponent)
                 }
 
             case .REMOVEDFROMGAME, .SETASIDE, .GRAVEYARD:
                 if controller == game.player.id {
                     game.playerHandDiscard(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.HandDiscard, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentHandDiscard(entity, cardId, entity.getTag(.ZONE_POSITION), game.turnNumber())
+                    game.proposeKeyPoint(.HandDiscard, id, .Opponent)
                 }
 
             case .SECRET:
                 if controller == game.player.id {
                     game.playerSecretPlayed(entity, cardId, game.turnNumber(), false)
+                    game.proposeKeyPoint(.SecretPlayed, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentSecretPlayed(entity, cardId, entity.getTag(.ZONE_POSITION), game.turnNumber(), false, id)
+                    game.proposeKeyPoint(.SecretPlayed, id, .Opponent)
                 }
 
             case .DECK:
                 if controller == game.player.id {
                     game.playerMulligan(entity, cardId)
+                    game.proposeKeyPoint(.Mulligan, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentMulligan(entity, entity.getTag(.ZONE_POSITION))
+                    game.proposeKeyPoint(.Mulligan, id, .Opponent)
                 }
 
             default:
@@ -549,12 +580,14 @@ class TagChangeActions {
             case .HAND:
                 if controller == game.player.id {
                     game.playerDraw(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.Draw, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     if entity.cardId != nil && !entity.cardId!.isEmpty {
                         entity.cardId = ""
                     }
                     game.opponentDraw(entity, game.turnNumber())
+                    game.proposeKeyPoint(.Draw, id, .Opponent)
                 }
 
             case .SETASIDE, .REMOVEDFROMGAME:
@@ -576,17 +609,21 @@ class TagChangeActions {
             case .GRAVEYARD:
                 if controller == game.player.id {
                     game.playerDeckDiscard(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.DeckDiscard, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentDeckDiscard(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.DeckDiscard, id, .Opponent)
                 }
 
             case .PLAY:
                 if controller == game.player.id {
                     game.playerDeckToPlay(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.DeckDiscard, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentDeckToPlay(entity, cardId, game.turnNumber())
+                    game.proposeKeyPoint(.DeckDiscard, id, .Opponent)
                 }
 
             case .SECRET:

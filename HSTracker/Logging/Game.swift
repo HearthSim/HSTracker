@@ -49,6 +49,7 @@ class Game {
     var opponentUsedHeroPower: Bool = false
     var determinedPlayers: Bool = false
     var setupDone: Bool = false
+    var proposedKeyPoint: ReplayKeyPoint?
 
     static let instance = Game()
 
@@ -168,6 +169,21 @@ class Game {
             tracker.gameEnd()
         }
         // TODO [self.timerHud gameEnd]
+    }
+
+    func proposeKeyPoint(type: KeyPointType, _ id: Int, _ player: PlayerType) {
+        if let proposedKeyPoint = proposedKeyPoint {
+            ReplayMaker.generate(proposedKeyPoint.type, proposedKeyPoint.id, proposedKeyPoint.player, self)
+        }
+        proposedKeyPoint = ReplayKeyPoint(data: nil, type: type, id: id, player: player)
+    }
+
+    func gameEndKeyPoint(victory: Bool, _ id: Int) {
+        if let proposedKeyPoint = proposedKeyPoint {
+            ReplayMaker.generate(proposedKeyPoint.type, proposedKeyPoint.id, proposedKeyPoint.player, self)
+            self.proposedKeyPoint = nil
+        }
+        ReplayMaker.generate(victory ? .Victory : .Defeat, id, .Player, self)
     }
 
     func setPlayerTracker(tracker: Tracker?) {

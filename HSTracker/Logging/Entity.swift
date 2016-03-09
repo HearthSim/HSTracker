@@ -102,6 +102,16 @@ class Entity: Hashable, CustomStringConvertible {
     var hashValue: Int {
         return id.hashValue
     }
+
+    func copy() -> Entity {
+        let e = Entity(self.id)
+        e.isPlayer = self.isPlayer
+        e.cardId = self.cardId
+        e.name = self.name
+        self.tags.forEach({ e.tags[$0.0] = $0.1 })
+
+        return e
+    }
 }
 
 func == (lhs: Entity, rhs: Entity) -> Bool {
