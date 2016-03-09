@@ -8,7 +8,7 @@ def pods
     pod 'Alamofire', '~> 3.0'
     pod 'Kanna', '~> 1.0.0'
     pod 'MASPreferences'
-    pod 'JNWCollectionView', git: 'https://github.com/bmichotte/JNWCollectionView'
+    pod 'JNWCollectionView'
 end
 
 target 'HSTracker' do
