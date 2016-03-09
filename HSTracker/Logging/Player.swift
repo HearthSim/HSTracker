@@ -99,7 +99,7 @@ class Player {
         return revealedCards.filter { !String.isNullOrEmpty($0.cardId) }
             .map { (ce: CardEntity) -> (DynamicEntity) in
                 DynamicEntity(cardId: ce.cardId!,
-                    hidden: ce.inHand || ce.inDeck,
+                    hidden: (ce.inHand || ce.inDeck) && (ce.entity == nil ? true : ce.entity!.isControllerBy(self.id!)),
                     created: ce.created,
                     discarded: ce.discarded && Settings.instance.highlightDiscarded)
         }
@@ -479,6 +479,7 @@ class Player {
 
     func stolenByOpponent(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &self.board, &self.removed, turn) {
+            cardEntity.stolen = true
             updateRevealedEntity(cardEntity, turn)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }

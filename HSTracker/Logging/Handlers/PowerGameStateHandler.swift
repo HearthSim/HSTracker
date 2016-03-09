@@ -17,7 +17,7 @@ class PowerGameStateHandler {
     static let PlayerEntityRegex = NSRegularExpression.rx("Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)")
     static let EntityNameRegex = NSRegularExpression.rx("TAG_CHANGE Entity=([\\w\\s]+\\w) tag=PLAYER_ID value=(\\d)")
     static let TagChangeRegex = NSRegularExpression.rx("TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)")
-    static let CreationRegex = NSRegularExpression.rx("FULL_ENTITY - Creating ID=(\\d+) CardID=(\\w*)")
+    static let CreationRegex = NSRegularExpression.rx("FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)")
     static let UpdatingEntityRegex = NSRegularExpression.rx("SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)")
     static let CreationTagRegex = NSRegularExpression.rx("tag=(\\w+) value=(\\w+)")
     static let ActionStartRegex = NSRegularExpression.rx(".*ACTION_START.*id=(\\d*).*cardId=(\\w*).*BlockType=(POWER|TRIGGER).*Target=(.+)")
@@ -35,6 +35,8 @@ class PowerGameStateHandler {
 
     static func handle(line: String) {
         let game = Game.instance
+        var setup = false
+        var creationTag = false
 
         // current game
         if line.isMatch(GameEntityRegex) {
@@ -162,8 +164,8 @@ class PowerGameStateHandler {
         else if line.isMatch(CreationRegex) {
             let match = line.firstMatchWithDetails(CreationRegex)
             let id = Int(match.groups[1].value)!
-            var cardId: String = match.groups[2].value
-            // DDLogVerbose("CreationRegex id \(id), cardId \(cardId)")
+            let zone: String = match.groups[2].value
+            var cardId: String = match.groups[3].value
 
             if game.entities[id] == nil {
                 if cardId.isEmpty {
@@ -183,6 +185,8 @@ class PowerGameStateHandler {
             }
             game.currentEntityId = id
             game.currentEntityHasCardId = !cardId.isEmpty
+            game.currentEntityZone = Zone(rawString: zone)
+            setup = true
         }
 
         else if line.isMatch(UpdatingEntityRegex) {
@@ -226,7 +230,9 @@ class PowerGameStateHandler {
             // DDLogVerbose("CreationTagRegex \(game.currentEntityId)")
             let tag: String = match.groups[1].value
             let value: String = match.groups[2].value
-            tagChangeHandler.tagChange(tag, game.currentEntityId, value)
+            tagChangeHandler.tagChange(tag, game.currentEntityId, value, true)
+            setup = true
+            creationTag = true
         }
 
         else if line.containsString("Begin Spectating") || line.containsString("Start Spectator") {
@@ -306,8 +312,35 @@ class PowerGameStateHandler {
             }
         }
 
-        else if line.isMatch(NSRegularExpression.rx("BlockType=JOUST")) {
+        else if line.contains("BlockType=JOUST") {
             game.joustReveals = 2
+        }
+        else if line.contains("CREATE_GAME") {
+            setup = true
+            tagChangeHandler.clearQueuedActions()
+        }
+
+        if !setup {
+            game.setupDone = true
+        }
+
+        if game.isInMenu {
+            return
+        }
+        if !creationTag && game.determinedPlayers {
+            tagChangeHandler.invokeQueuedActions()
+        }
+        else if !game.determinedPlayers && game.setupDone
+        {
+            DDLogWarn("Could not determine players by checking for opponent hand.")
+            let playerCard = game.entities.map { $0.1 }.firstWhere { $0.isInHand && !String.isNullOrEmpty($0.cardId) }
+
+            if let playerCard = playerCard {
+                tagChangeHandler.determinePlayers(playerCard.getTag(.CONTROLLER), false)
+            }
+            else {
+                DDLogWarn("Could not determine players by checking for player hand either... waiting for draws...")
+            }
         }
     }
 

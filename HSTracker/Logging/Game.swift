@@ -31,7 +31,6 @@ class Game {
     var joustReveals: Int = 0
     var awaitingRankedDetection: Bool = true
     var lastAssetUnload: Double = 0
-    var waitController: TempEntity?
     var gameStarted: Bool = false
     var gameEnded: Bool = true
     var gameStartDate: NSDate?
@@ -46,7 +45,10 @@ class Game {
     var currentEntityHasCardId: Bool = false
     var playerUsedHeroPower: Bool = false
     var hasCoin: Bool = false
+    var currentEntityZone: Zone? = .INVALID
     var opponentUsedHeroPower: Bool = false
+    var determinedPlayers: Bool = false
+    var setupDone: Bool = false
 
     static let instance = Game()
 
@@ -64,13 +66,14 @@ class Game {
         joustReveals = 0
         awaitingRankedDetection = false
         lastAssetUnload = -1
-        waitController = nil
         gameStarted = false
         gameResult = GameResult.Unknow;
         knownCardIds.removeAll()
         gameStartDate = nil
         gameEndDate = nil
         gameEnded = false
+        determinedPlayers = false
+        setupDone = false
 
         player.reset()
         opponent.reset()
@@ -79,6 +82,8 @@ class Game {
             setActiveDeck(activeDeck!)
         }
     }
+
+    var isInMenu: Bool = true
 
     func hearthstoneIsActive(active: Bool) {
         if let tracker = self.playerTracker {
@@ -132,6 +137,7 @@ class Game {
         reset()
         gameStarted = true
         gameStartDate = NSDate()
+        isInMenu = false
 
         DDLogInfo("----- Game Started -----")
 
@@ -184,6 +190,11 @@ class Game {
                 self.handleEndGame()
             }
             return
+        }
+
+        let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
+        if let _player = _player {
+            hasCoin = !_player.hasTag(.FIRST_PLAYER)
         }
 
         DDLogInfo("End game : mode=\(currentGameMode), rank=\(currentRank), result=\(gameResult), against=\(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayReveleadCards())")
@@ -319,10 +330,6 @@ class Game {
         if let tracker = playerTracker {
             tracker.update()
         }
-        if cardId == "GAME_005" {
-            hasCoin = true
-            DDLogInfo("Player got the coin")
-        }
     }
 
     func playerBackToHand(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -437,9 +444,6 @@ class Game {
     }
 
     func playerGetToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if String.isNullOrEmpty(cardId) {
-            return
-        }
         player.createInDeck(entity, turn)
         if let tracker = playerTracker {
             tracker.update()

@@ -58,6 +58,28 @@ class Entity: Hashable, CustomStringConvertible {
         return self.getTag(.CARDTYPE) == CardType.SPELL.rawValue
     }
 
+    var isOpponent: Bool {
+        return !isPlayer && hasTag(.PLAYER_ID)
+    }
+
+    var isMinion: Bool {
+        return hasTag(.CARDTYPE) && getTag(.CARDTYPE) == CardType.MINION.rawValue
+    }
+
+    var isWeapon: Bool {
+        return hasTag(.CARDTYPE) && getTag(.CARDTYPE) == CardType.WEAPON.rawValue
+    }
+
+    var isHero: Bool { return Cards.isHero(cardId) }
+
+    var isHeroPower: Bool { return getTag(.CARDTYPE) == CardType.HERO_POWER.rawValue }
+
+    var isInHand: Bool { return isInZone(.HAND) }
+
+    var isInPlay: Bool { return isInZone(.PLAY) }
+
+    var isInGraveyard: Bool { return isInZone(.GRAVEYARD) }
+
     var description: String {
         var description = "<\(NSStringFromClass(self.dynamicType)): "
             + "self.id=\(self.id)"
@@ -84,16 +106,4 @@ class Entity: Hashable, CustomStringConvertible {
 
 func == (lhs: Entity, rhs: Entity) -> Bool {
     return lhs.id == rhs.id
-}
-
-class TempEntity {
-    var tag: GameTag
-    var id: Int
-    var value: Int
-
-    init(_ tag: GameTag, _ id: Int, _ value: Int) {
-        self.tag = tag
-        self.id = id
-        self.value = value
-    }
 }

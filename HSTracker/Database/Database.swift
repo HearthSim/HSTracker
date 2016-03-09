@@ -18,6 +18,16 @@ class Cards {
         return nil
     }
 
+    static func isHero(cardId: String?) -> Bool {
+        if String.isNullOrEmpty(cardId) {
+            return false
+        }
+        if let cardId = cardId, let _ = heroById(cardId) {
+            return true
+        }
+        return false
+    }
+
     static func byId(cardId: String) -> Card? {
         if let card = collectible().firstWhere({ $0.cardId == cardId }) {
             return card.copy()
