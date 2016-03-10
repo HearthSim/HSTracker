@@ -99,7 +99,7 @@ class Player {
         return revealedCards.filter { !String.isNullOrEmpty($0.cardId) }
             .map { (ce: CardEntity) -> (DynamicEntity) in
                 DynamicEntity(cardId: ce.cardId!,
-                    hidden: (ce.inHand || ce.inDeck) && (ce.entity == nil ? true : ce.entity!.isControllerBy(self.id!)),
+                    hidden: (ce.inHand || ce.inDeck) && (ce.entity == nil ? true : ce.entity!.isControlledBy(self.id!)),
                     created: ce.created,
                     discarded: ce.discarded && Settings.instance.highlightDiscarded)
         }
@@ -123,7 +123,6 @@ class Player {
     func displayCards() -> [Card] {
         let settings = Settings.instance
         let drawnCards = self.drawnCards()
-        DDLogVerbose("drawnCards: \(drawnCards)")
 
         var createdInHand = [Card]()
         if settings.showPlayerGet {
@@ -142,7 +141,6 @@ class Player {
                 .filter { $0 != nil }
                 .map { $0! }
         }
-        DDLogVerbose("createdInHand: \(createdInHand)")
 
         guard let _ = Game.instance.activeDeck else {
             return (drawnCards + createdInHand).sortCardList()
@@ -168,7 +166,6 @@ class Player {
         }
             .filter { $0 != nil }
             .map { $0! }
-        DDLogVerbose("stillInDeck: \(stillInDeck)")
 
         if settings.removeCardsFromDeck {
             if settings.highlightLastDrawn {
@@ -181,7 +178,6 @@ class Player {
                         c.highlightDraw = true
                         return c
                 }
-                DDLogVerbose("drawHighLight: \(drawHighlight)")
                 stillInDeck += drawHighlight
             }
 
@@ -203,7 +199,6 @@ class Player {
 
                         return c
                 }
-                DDLogVerbose("inHand: \(inHand)")
                 stillInDeck += inHand
             }
             return stillInDeck.sortCardList()
@@ -228,7 +223,6 @@ class Player {
                 }
                 return c
         }
-        DDLogVerbose("notInDeck: \(notInDeck)")
         stillInDeck += notInDeck + createdInHand
         return stillInDeck.sortCardList()
     }
@@ -284,7 +278,9 @@ class Player {
             self.revealedCards.append(ce)
         } else {
             self.deck.append(CardEntity())
-            self.revealDeckCard(entity.cardId!, turn, created)
+            if let cardId = entity.cardId {
+                self.revealDeckCard(cardId, turn, created)
+            }
             cardEntity = CardEntity(cardId: entity.cardId, entity: nil)
             cardEntity.turn = turn
             cardEntity.created = created
@@ -402,7 +398,9 @@ class Player {
         Game.instance.playerTracker?.update()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             NSThread.sleepForTimeInterval(3)
-            self.hightlightedCards.removeFirst()
+            if self.hightlightedCards.count > 0 {
+                self.hightlightedCards.removeFirst()
+            }
             dispatch_async(dispatch_get_main_queue()) {
                 Game.instance.playerTracker?.update()
             }

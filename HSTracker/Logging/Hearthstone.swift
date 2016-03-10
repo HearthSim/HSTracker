@@ -22,12 +22,12 @@ class Hearthstone : NSObject {
     func start() {
         setup()
         startListeners()
-        if self.isHearthstoneRunning {
-            startTracking()
-            dispatch_async(dispatch_get_main_queue()) {
-                Game.instance.hearthstoneIsActive(true)
-            }
+        // if self.isHearthstoneRunning {
+        startTracking()
+        dispatch_async(dispatch_get_main_queue()) {
+            Game.instance.hearthstoneIsActive(true)
         }
+        // }
     }
 
     func setup() {

@@ -21,20 +21,28 @@ class LogReader {
 
     var name: String
     var delegate: LogLineReader?
-    var startFilters: [String]?
-    var containsFilters: [String]?
+    var startFilters = [String]()
+    var containsFilters = [String]()
     var path: String
 
     init(name: String, startFilters: [String]? = nil, containsFilters: [String]? = nil) {
         self.name = name
-        self.startFilters = startFilters
-        self.containsFilters = containsFilters
+        if let startFilters = startFilters {
+            self.startFilters = startFilters
+        }
+        if let containsFilters = containsFilters {
+            self.containsFilters = containsFilters
+        }
 
         self.path = Hearthstone.instance.logPath + "/\(name).log"
     }
 
     func setDelegate(delegate: LogLineReader) {
         self.delegate = delegate
+    }
+
+    func findEntryPoint(choice: String) -> Double {
+        return findEntryPoint([choice])
     }
 
     func findEntryPoint(choices: [String]) -> Double {
@@ -85,7 +93,7 @@ class LogReader {
     func start(entryPoint: Double) {
         DDLogInfo("Starting reader \(self.name), (\(self.path):\(entryPoint)")
         if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
-            //TODO NSFileManager.defaultManager.removeItemAtPath(self.path, error:nil)
+            // TODO NSFileManager.defaultManager.removeItemAtPath(self.path, error:nil)
         }
 
         stopped = false
@@ -120,33 +128,12 @@ class LogReader {
                         continue
                     }
 
-                    var parse = false
-                    if self.startFilters == nil || self.containsFilters == nil {
-                        parse = true
-                    } else if let filters = self.startFilters {
-                        for filter in filters {
-                            let reg = "^\(filter)"
-                            let index: String.Index = line.startIndex.advancedBy(19)
-                            if line.substringFromIndex(index).isMatch(NSRegularExpression.rx(reg)) {
-                                parse = true
-                                break
-                            }
-                        }
+                    if !line.startsWith("D ") {
+                        continue
                     }
 
-                    if !parse && self.containsFilters != nil {
-                        if let filters = self.containsFilters {
-                            for filter in filters {
-                                let index: String.Index = line.startIndex.advancedBy(19)
-                                if line.substringFromIndex(index).isMatch(NSRegularExpression.rx(filter)) {
-                                    parse = true
-                                    break
-                                }
-                            }
-                        }
-                    }
-
-                    if parse {
+                    let cutted = line.substringFromIndex(line.startIndex.advancedBy(19))
+                    if (startFilters.count == 0 && containsFilters.count == 0) || startFilters.any({ cutted.startsWith($0) }) || containsFilters.any({ cutted.containsString($0) }) {
                         if let delegate = self.delegate {
                             let logLine = LogLine(namespace: self.name, time: Int(time.timeIntervalSince1970), line: line)
                             delegate.processNewLine(logLine)

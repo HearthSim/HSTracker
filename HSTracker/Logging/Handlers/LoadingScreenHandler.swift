@@ -12,15 +12,14 @@ import Foundation
 
 class LoadingScreenHandler {
 
-    static func handle(line: String) {
-        let regex = "prevMode=(\\w+).*currMode=(\\w+)"
+    static let GameModeRegex = NSRegularExpression.rx("prevMode=(\\w+).*currMode=(\\w+)")
 
-        if !line.isMatch(NSRegularExpression.rx(regex)) {
+    static func handle(game: Game, _ line: String) {
+        if !line.isMatch(GameModeRegex) {
             return
         }
 
-        let match = line.firstMatchWithDetails(NSRegularExpression.rx(regex))
-        let game = Game.instance
+        let match = line.firstMatchWithDetails(GameModeRegex)
 
         game.currentMode = Mode(rawValue: match.groups[2].value)
         game.previousMode = Mode(rawValue: match.groups[1].value)
@@ -38,7 +37,7 @@ class LoadingScreenHandler {
             game.currentGameMode = newMode
         }
         if game.previousMode == .GAMEPLAY {
-            // game.handleInMenu()
+            game.inMenu()
         }
         if let currentMode = game.currentMode {
             switch currentMode {

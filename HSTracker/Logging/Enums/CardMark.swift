@@ -12,9 +12,9 @@ import Foundation
 
 enum CardMark: Int {
     case None,
-         Coin,
-         Returned,
-         Mulliganed,
-         Created,
-         Kept
+        Coin,
+        Returned,
+        Mulliganed,
+        Created,
+        Kept
 }

@@ -38,37 +38,31 @@ class Entity: Hashable, CustomStringConvertible {
         return false
     }
 
-    var isCurrentPlayer: Bool {
-        return self.hasTag(GameTag.CURRENT_PLAYER)
+    func setPlayer(isPlayer: Bool) {
+        self.isPlayer = isPlayer
     }
+
+    var isActiveDeathrattle: Bool { return hasTag(.DEATHRATTLE) && getTag(.DEATHRATTLE) == 1 }
+
+    var isCurrentPlayer: Bool { return hasTag(GameTag.CURRENT_PLAYER) }
 
     func isInZone(zone: Zone) -> Bool {
-        return self.hasTag(.ZONE) ? false : self.getTag(.ZONE) == zone.rawValue
+        return hasTag(.ZONE) ? getTag(.ZONE) == zone.rawValue : false
     }
 
-    func isControllerBy(controller: Int) -> Bool {
-        return self.hasTag(.CONTROLLER) ? false : self.getTag(.CONTROLLER) == controller
+    func isControlledBy(controller: Int) -> Bool {
+        return self.hasTag(.CONTROLLER) ? self.getTag(.CONTROLLER) == controller : false
     }
 
-    var isSecret: Bool {
-        return self.hasTag(.SECRET)
-    }
+    var isSecret: Bool { return hasTag(.SECRET) }
 
-    var isSpell: Bool {
-        return self.getTag(.CARDTYPE) == CardType.SPELL.rawValue
-    }
+    var isSpell: Bool { return getTag(.CARDTYPE) == CardType.SPELL.rawValue }
 
-    var isOpponent: Bool {
-        return !isPlayer && hasTag(.PLAYER_ID)
-    }
+    var isOpponent: Bool { return !isPlayer && hasTag(.PLAYER_ID) }
 
-    var isMinion: Bool {
-        return hasTag(.CARDTYPE) && getTag(.CARDTYPE) == CardType.MINION.rawValue
-    }
+    var isMinion: Bool { return hasTag(.CARDTYPE) && getTag(.CARDTYPE) == CardType.MINION.rawValue }
 
-    var isWeapon: Bool {
-        return hasTag(.CARDTYPE) && getTag(.CARDTYPE) == CardType.WEAPON.rawValue
-    }
+    var isWeapon: Bool { return hasTag(.CARDTYPE) && getTag(.CARDTYPE) == CardType.WEAPON.rawValue }
 
     var isHero: Bool { return Cards.isHero(cardId) }
 
@@ -82,19 +76,18 @@ class Entity: Hashable, CustomStringConvertible {
 
     var description: String {
         var description = "<\(NSStringFromClass(self.dynamicType)): "
-            + "self.id=\(self.id)"
-            + ", self.cardId=\(cardName(self.cardId))"
+            + "id=\(self.id)"
+            + ", cardId=\(cardName(self.cardId))"
         if let name = self.name {
-            description += ", self.name=\(name)"
+            description += ", name=\(name)"
         }
+        description += ">"
         return description
     }
 
     func cardName(cardId: String?) -> String {
-        if let cardId = cardId {
-            if let card = Cards.byId(cardId) {
-                return "[\(card.name) (\(cardId)]"
-            }
+        if let cardId = cardId, let card = Cards.byId(cardId) {
+            return "[\(card.name) (\(cardId))]"
         }
         return "N/A"
     }
@@ -113,7 +106,6 @@ class Entity: Hashable, CustomStringConvertible {
         return e
     }
 }
-
 func == (lhs: Entity, rhs: Entity) -> Bool {
     return lhs.id == rhs.id
 }

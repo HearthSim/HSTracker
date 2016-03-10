@@ -35,6 +35,8 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "trackerOptionsChange:", name: option, object: nil)
         }
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "windowLockedChange:", name: "window_locked", object: nil)
+
         self.gameEnded = false
 
         var width: Double
@@ -80,6 +82,16 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         self.table.registerNib(nib, forIdentifier: "CountTextCellView")
 
         self.table.reloadData()
+    }
+
+    func windowLockedChange(notification: NSNotification) {
+        let locked = Settings.instance.windowsLocked
+        if locked {
+            self.window!.styleMask = NSBorderlessWindowMask
+        } else {
+            self.window!.styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
+        }
+        self.window!.ignoresMouseEvents = locked
     }
 
     func hearthstoneRunning(notification: NSNotification) {

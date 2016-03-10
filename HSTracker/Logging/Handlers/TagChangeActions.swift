@@ -83,62 +83,51 @@ class TagChangeActions {
     }
 
     private func defendingChange(game: Game, _ id: Int, _ value: Int) {
-        if let entity = game.entities[id] {
-            if entity.getTag(.CONTROLLER) == game.opponent.id {
-                game.handleDefendingEntity(value == 1 ? game.entities[id] : nil)
-            }
+        if let entity = game.entities[id] where entity.getTag(.CONTROLLER) == game.opponent.id {
+            game.defendingEntity(value == 1 ? entity : nil)
         }
     }
 
     private func attackingChange(game: Game, _ id: Int, _ value: Int) {
-        if let entity = game.entities[id] {
-            if entity.getTag(.CONTROLLER) == game.player.id {
-                game.handleAttackingEntity(value == 1 ? game.entities[id] : nil)
-            }
+        if let entity = game.entities[id] where entity.getTag(.CONTROLLER) == game.player.id {
+            game.attackingEntity(value == 1 ? entity : nil)
         }
     }
 
     private func proposedDefenderChange(game: Game, _ value: Int) {
-        // Game.instance.OpponentSecrets.ProposedDefenderEntityId = value
+        game.opponentSecrets?.proposedDefenderEntityId = value
     }
 
     private func proposedAttackerChange(game: Game, _ value: Int) {
-        // Game.instance.OpponentSecrets.ProposedAttackerEntityId = value
+        game.opponentSecrets?.proposedAttackerEntityId = value
     }
 
     private func numMinionsPlayedThisTurnChange(game: Game, _ value: Int) {
         if value <= 0 {
             return
         }
-        /*let game = Game.instance
-         if game.PlayerEntity.IsCurrentPlayer() {
-         game.PlayerMinionPlayed()
-         }*/
+        if let playerEntity = game.playerEntity where playerEntity.isCurrentPlayer {
+            game.playerMinionPlayed()
+        }
     }
 
-    private func predamageChange(game: Game, _ id: Int, _ value: Int)
-    {
+    private func predamageChange(game: Game, _ id: Int, _ value: Int) {
         if value <= 0 {
             return
         }
-        /*
-         let game = Game.instance
-         if game.PlayerEntity.IsCurrentPlayer() {
-         game.OpponentDamage(game.Entities[id])
-         }
-         */
+        if let playerEntity = game.playerEntity, let entity = game.entities[id] where playerEntity.isCurrentPlayer {
+            game.opponentDamage(entity)
+        }
     }
 
-    private func numTurnsInPlayChange(game: Game, _ id: Int, _ value: Int)
-    {
+    private func numTurnsInPlayChange(game: Game, _ id: Int, _ value: Int) {
         if value <= 0 {
             return
         }
-        /*
-         let game = Game.instance
-         if game.PlayerEntity.IsCurrentPlayer() {
-         game.OpponentTurnStart(game.Entities[id])
-         }*/
+
+        if let opponentEntity = game.opponentEntity, let entity = game.entities[id] where opponentEntity.isCurrentPlayer {
+            game.opponentTurnStart(entity)
+        }
     }
 
     private func fatigueChange(game: Game, _ value: Int, _ id: Int) {
@@ -281,14 +270,16 @@ class TagChangeActions {
         if !game.setupDone || game.playerEntity == nil {
             return
         }
-        let activePlayer: PlayerType = game.playerEntity!.hasTag(.CURRENT_PLAYER) ? .Player : .Opponent
-        game.turnStart(activePlayer, game.turnNumber())
+        if let playerEntity = game.playerEntity {
+            let activePlayer: PlayerType = playerEntity.hasTag(.CURRENT_PLAYER) ? .Player : .Opponent
+            game.turnStart(activePlayer, game.turnNumber())
 
-        if activePlayer == .Player {
-            game.playerUsedHeroPower = false
-        }
-        else {
-            game.opponentUsedHeroPower = false
+            if activePlayer == .Player {
+                game.playerUsedHeroPower = false
+            }
+            else {
+                game.opponentUsedHeroPower = false
+            }
         }
     }
 
@@ -369,11 +360,8 @@ class TagChangeActions {
                         zoneChangeFromOther(game, id, value, prevValue, controller, entity.cardId)
                     }
 
-                case .GRAVEYARD,
-                        .SETASIDE,
-                        .INVALID,
-                        .REMOVEDFROMGAME:
-                        zoneChangeFromOther(game, id, value, prevValue, controller, entity.cardId)
+                case .GRAVEYARD, .SETASIDE, .INVALID, .REMOVEDFROMGAME:
+                    zoneChangeFromOther(game, id, value, prevValue, controller, entity.cardId)
                 }
             }
         }
@@ -447,7 +435,8 @@ class TagChangeActions {
                 }
 
             default:
-                DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                break
             }
         }
     }
@@ -465,7 +454,8 @@ class TagChangeActions {
                 }
 
             default:
-                DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                break
             }
         }
     }
@@ -507,10 +497,9 @@ class TagChangeActions {
                     }
                 }
 
-            case .REMOVEDFROMGAME,
-                    .SETASIDE:
-                    if controller == game.player.id {
-                        game.playerRemoveFromPlay(entity, game.turnNumber())
+            case .REMOVEDFROMGAME, .SETASIDE:
+                if controller == game.player.id {
+                    game.playerRemoveFromPlay(entity, game.turnNumber())
                 }
                 else if controller == game.opponent.id {
                     game.opponentRemoveFromPlay(entity, game.turnNumber())
@@ -520,7 +509,8 @@ class TagChangeActions {
                 break
 
             default:
-                DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                break
             }
         }
     }
@@ -569,7 +559,8 @@ class TagChangeActions {
                 }
 
             default:
-                DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                break
             }
         }
     }
@@ -583,7 +574,7 @@ class TagChangeActions {
                     game.proposeKeyPoint(.Draw, id, .Player)
                 }
                 else if controller == game.opponent.id {
-                    if entity.cardId != nil && !entity.cardId!.isEmpty {
+                    if !String.isNullOrEmpty(entity.cardId) {
                         entity.cardId = ""
                     }
                     game.opponentDraw(entity, game.turnNumber())
@@ -629,13 +620,16 @@ class TagChangeActions {
             case .SECRET:
                 if controller == game.player.id {
                     game.playerSecretPlayed(entity, cardId, game.turnNumber(), true)
+                    game.proposeKeyPoint(.SecretPlayed, id, .Player)
                 }
                 else if controller == game.opponent.id {
                     game.opponentSecretPlayed(entity, cardId, -1, game.turnNumber(), true, id)
+                    game.proposeKeyPoint(.SecretPlayed, id, .Opponent)
                 }
 
             default:
-                DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                break
             }
         }
     }
@@ -649,8 +643,10 @@ class TagChangeActions {
                     NSThread.sleepForTimeInterval(0.1)
                 }
             }
+
             if let playerEntity = game.playerEntity {
-                if game.player.playerClass == nil && id == playerEntity.getTag(GameTag.HERO_ENTITY) {
+                DDLogVerbose("playerEntity found playerClass : \(game.player.playerClass), \(id)->\(playerEntity.getTag(.HERO_ENTITY)) -> \(game.entities[id]!.cardId)")
+                if game.player.playerClass == nil && id == playerEntity.getTag(.HERO_ENTITY) {
                     dispatch_async(dispatch_get_main_queue()) {
                         game.setPlayerHero(game.entities[id]!.cardId!)
                     }
@@ -665,7 +661,8 @@ class TagChangeActions {
                 }
             }
             if let opponentEntity = game.opponentEntity {
-                if game.opponent.playerClass == nil && id == opponentEntity.getTag(GameTag.HERO_ENTITY) {
+                DDLogVerbose("opponentEntity found playerClass : \(game.opponent.playerClass), \(id)->\(opponentEntity.getTag(.HERO_ENTITY)) -> \(game.entities[id]!.cardId)")
+                if game.opponent.playerClass == nil && id == opponentEntity.getTag(.HERO_ENTITY) {
                     dispatch_async(dispatch_get_main_queue()) {
                         game.setOpponentHero(game.entities[id]!.cardId!)
                     }

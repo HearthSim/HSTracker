@@ -11,7 +11,7 @@
 import Foundation
 
 enum PlayerType: Int {
-    case Player, Opponent, DeckManager
+    case Player, Opponent, DeckManager, Secrets
 }
 
 class Game {
@@ -39,6 +39,7 @@ class Game {
     var waitingForFirstAssetUnload: Bool = true
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
+    var secretTracker: SecretTracker?
     var lastCardPlayed: Int?
     var activeDeck: Deck?
     var currentEntityId = Int.min
@@ -50,12 +51,20 @@ class Game {
     var determinedPlayers: Bool = false
     var setupDone: Bool = false
     var proposedKeyPoint: ReplayKeyPoint?
+    var opponentSecrets: OpponentSecrets?
+    var defendingEntity: Entity?
+    var attackingEntity: Entity?
+    private var avengeDeathRattleCount: Int = 0
+    var opponentSecretCount: Int = 0
+    private var awaitingAvenge: Bool = false
+    var isInMenu: Bool = true
 
     static let instance = Game()
 
     init() {
         player = Player(true)
         opponent = Player(false)
+        opponentSecrets = OpponentSecrets(game: self)
     }
 
     func reset() {
@@ -64,27 +73,47 @@ class Game {
         currentTurn = -1
         entities.removeAll()
         tmpEntities.removeAll()
+        lastCardPlayed = 0
         joustReveals = 0
         awaitingRankedDetection = false
         lastAssetUnload = -1
         gameStarted = false
-        gameResult = GameResult.Unknow;
+        gameResult = .Unknow;
         knownCardIds.removeAll()
         gameStartDate = nil
         gameEndDate = nil
         gameEnded = false
         determinedPlayers = false
         setupDone = false
+        currentEntityZone = .INVALID
+        currentEntityId = Int.min
+        currentEntityHasCardId = false
+        playerUsedHeroPower = false
+        hasCoin = false
+
+        opponentSecretCount = 0
+        opponentSecrets?.clearSecrets()
 
         player.reset()
         opponent.reset()
+
         if activeDeck != nil {
             activeDeck?.reset()
             setActiveDeck(activeDeck!)
         }
     }
 
-    var isInMenu: Bool = true
+    var isMinionInPlay: Bool {
+        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion } != nil
+    }
+
+    var isOpponentMinionInPlay: Bool {
+        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id!) } != nil
+    }
+
+    var opponentMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id!) }.count }
+
+    var playerMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.player.id!) }.count }
 
     func hearthstoneIsActive(active: Bool) {
         if let tracker = self.playerTracker {
@@ -113,7 +142,6 @@ class Game {
         self.activeDeck = deck
         for card in deck.sortedCards {
             for _ in 0 ..< card.count {
-                DDLogVerbose("adding \(card.cardId)")
                 player.revealDeckCard(card.cardId, -1)
             }
         }
@@ -171,6 +199,18 @@ class Game {
         // TODO [self.timerHud gameEnd]
     }
 
+    func debugSecrets() {
+        DDLogVerbose("\(opponentSecrets)")
+    }
+
+    func inMenu() {
+        if isInMenu {
+            return
+        }
+
+        isInMenu = true
+    }
+
     func proposeKeyPoint(type: KeyPointType, _ id: Int, _ player: PlayerType) {
         if let proposedKeyPoint = proposedKeyPoint {
             ReplayMaker.generate(proposedKeyPoint.type, proposedKeyPoint.id, proposedKeyPoint.player, self)
@@ -200,6 +240,10 @@ class Game {
         }
     }
 
+    func setSecretTracker(tracker: SecretTracker?) {
+        self.secretTracker = tracker
+    }
+
     func handleEndGame() {
         if currentGameMode == .None || currentGameMode == .Casual {
             waitForRank(5) {
@@ -213,7 +257,7 @@ class Game {
             hasCoin = !_player.hasTag(.FIRST_PLAYER)
         }
 
-        DDLogInfo("End game : mode=\(currentGameMode), rank=\(currentRank), result=\(gameResult), against=\(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayReveleadCards())")
+        DDLogInfo("End game : mode = \(currentGameMode), rank = \(currentRank), result = \(gameResult), against = \(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayReveleadCards()) ")
 
         if let deck = activeDeck,
             let opponentName = opponent.name,
@@ -278,26 +322,26 @@ class Game {
     }
 
     func turnStart(player: PlayerType, _ turn: Int) {
-        DDLogInfo("Turn \(turn) start for player \(player.rawValue)")
+        DDLogInfo("Turn \(turn) start for player \(player) ")
         // timer_hud.restart(player)
     }
 
     func concede() {
-        DDLogInfo("Game has been conceded :(")
+        DDLogInfo("Game has been conceded : (")
     }
 
     func win() {
-        DDLogInfo("You win ¯\\_(ツ)_/¯")
+        DDLogInfo("You win ¯\\_(ツ) _ / ¯")
         gameResult = GameResult.Win
     }
 
     func loss() {
-        DDLogInfo("You lose :(")
+        DDLogInfo("You lose : (")
         gameResult = GameResult.Loss
     }
 
     func tied() {
-        DDLogInfo("You lose :( / game tied:(")
+        DDLogInfo("You lose : ( / game tied: (")
         gameResult = GameResult.Tied
     }
 
@@ -306,8 +350,8 @@ class Game {
         let opponent = entities.map { $0.1 }.firstWhere { $0.hasTag(.PLAYER_ID) && !$0.isPlayer }
 
         if let player = player, let opponent = opponent {
-            return player.hasTag(.MULLIGAN_STATE) && player.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
-            && opponent.hasTag(.MULLIGAN_STATE) && opponent.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
+            return player.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
+            && opponent.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
         }
         return false
     }
@@ -325,12 +369,12 @@ class Game {
     func setPlayerHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
             player.playerClass = card
-            DDLogInfo("Player class is \(card.name)")
+            DDLogInfo("Player class is \(card) ")
         }
     }
 
     func setPlayerRank(rank: Int) {
-        DDLogInfo("Player rank is \(rank)")
+        DDLogInfo("Player rank is \(rank) ")
         currentRank = rank
     }
 
@@ -376,6 +420,46 @@ class Game {
         if let tracker = playerTracker {
             tracker.update()
         }
+
+        secretsOnPlay(entity)
+    }
+
+    func secretsOnPlay(entity: Entity) {
+        if Settings.instance.autoGrayoutSecrets {
+            return
+        }
+
+        if entity.isSpell {
+            opponentSecrets?.setZero(CardIds.Secrets.Mage.Counterspell)
+
+            if opponentMinionCount < 7 {
+                let when = dispatch_time(DISPATCH_TIME_NOW, Int64(50 * Double(NSEC_PER_MSEC)))
+                let queue = dispatch_get_main_queue()
+                dispatch_after(when, queue) {
+                    // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
+                    if entity.hasTag(.CARD_TARGET) && self.entities[entity.getTag(.CARD_TARGET)]!.isMinion {
+                        self.opponentSecrets?.setZero(CardIds.Secrets.Mage.Spellbender)
+                    }
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if let secretTracker = self.secretTracker,
+                            let opponentSecrets = self.opponentSecrets {
+                                secretTracker.setSecrets(opponentSecrets)
+                                secretTracker.showWindow(self)
+                        }
+                    }
+                }
+            }
+            else if entity.isMinion && playerMinionCount > 3 {
+                opponentSecrets?.setZero(CardIds.Secrets.Paladin.SacredTrial)
+
+                if let secretTracker = self.secretTracker,
+                    let opponentSecrets = opponentSecrets {
+                        secretTracker.setSecrets(opponentSecrets)
+                        secretTracker.showWindow(self)
+                }
+            }
+        }
     }
 
     func playerHandDiscard(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -396,6 +480,7 @@ class Game {
             player.secretPlayedFromDeck(entity, turn)
         } else {
             player.secretPlayedFromHand(entity, turn)
+            secretsOnPlay(entity)
         }
         if let tracker = playerTracker {
             tracker.update()
@@ -478,17 +563,59 @@ class Game {
     func playerStolen(entity: Entity, _ cardId: String?, _ turn: Int) {
         player.stolenByOpponent(entity, turn)
         opponent.stolenFromOpponent(entity, turn)
+
+        if entity.isSecret {
+            var heroClass: HeroClass?
+            var className = "\(entity.getTag(.CLASS)) "
+            if !String.isNullOrEmpty(className) {
+                className = className.capitalizedString
+                heroClass = HeroClass(rawValue: className)
+                if heroClass == .None {
+                    if let playerClass = opponent.playerClass {
+                        heroClass = HeroClass(rawValue: playerClass.playerClass)
+                    }
+                }
+            }
+            else {
+                if let playerClass = opponent.playerClass {
+                    heroClass = HeroClass(rawValue: playerClass.playerClass)
+                }
+            }
+            guard let _ = heroClass else { return }
+            opponentSecretCount++
+            opponentSecrets?.newSecretPlayed(heroClass!, entity.id, turn)
+            if let secretTracker = self.secretTracker,
+                let opponentSecrets = opponentSecrets {
+                    secretTracker.setSecrets(opponentSecrets)
+                    secretTracker.showWindow(self)
+            }
+        }
     }
 
     func playerRemoveFromPlay(entity: Entity, _ turn: Int) {
         player.removeFromPlay(entity, turn)
     }
 
+    func playerHeroPower(cardId: String, _ turn: Int) {
+        DDLogInfo("Player Hero Power \(cardId) \(turn) ")
+
+        if !Settings.instance.autoGrayoutSecrets {
+            return
+        }
+        opponentSecrets?.setZero(CardIds.Secrets.Hunter.DartTrap)
+
+        if let secretTracker = self.secretTracker,
+            let opponentSecrets = opponentSecrets {
+                secretTracker.setSecrets(opponentSecrets)
+                secretTracker.showWindow(self)
+        }
+    }
+
     // MARK: - opponent
     func setOpponentHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
             opponent.playerClass = card
-            DDLogInfo("Opponent class is \(card.name)")
+            DDLogInfo("Opponent class is \(card) ")
         }
     }
 
@@ -519,25 +646,52 @@ class Game {
 
     func opponentPlay(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
         opponent.play(entity, turn)
-        DDLogVerbose("player opponent play tracker -> \(opponentTracker)")
+        DDLogVerbose("player opponent play tracker -> \(opponentTracker) ")
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
     func opponentHandDiscard(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
-        // TODO exception ???
         opponent.play(entity, turn)
         if let tracker = opponentTracker {
             tracker.update()
         }
     }
 
-    func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromDeck: Bool, _ id: Int) {
+    func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromDeck: Bool, _ otherId: Int) {
+        opponentSecretCount++
+
         if fromDeck {
             opponent.secretPlayedFromDeck(entity, turn)
         } else {
             opponent.secretPlayedFromHand(entity, turn)
+        }
+
+        var heroClass: HeroClass?
+        var className = "\(entity.getTag(.CLASS))"
+        if !String.isNullOrEmpty(className) {
+            className = className.capitalizedString
+            heroClass = HeroClass(rawValue: className)
+            if heroClass == .None {
+                if let playerClass = opponent.playerClass {
+                    heroClass = HeroClass(rawValue: playerClass.playerClass.capitalizedString)
+                }
+            }
+        }
+        else {
+            if let playerClass = opponent.playerClass {
+                heroClass = HeroClass(rawValue: playerClass.playerClass.capitalizedString)
+            }
+        }
+        DDLogVerbose("Secret played by \(entity.getTag(.CLASS)) -> \(heroClass) -> \(opponent.playerClass)")
+        guard let _ = heroClass else { return }
+
+        opponentSecrets?.newSecretPlayed(heroClass!, otherId, turn)
+        if let secretTracker = self.secretTracker,
+            let opponentSecrets = opponentSecrets {
+                secretTracker.setSecrets(opponentSecrets)
+                secretTracker.showWindow(self)
         }
     }
 
@@ -572,9 +726,9 @@ class Game {
 
     func opponentPlayToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int, _ playersTurn: Bool) {
         opponent.playToGraveyard(entity, cardId, turn)
-        /*if playersTurn && entity.IsMinion {
-         opponentMinionDeath(entity, turn)
-         }*/
+        if playersTurn && entity.isMinion {
+            opponentMinionDeath(entity, turn)
+        }
     }
 
     func opponentJoust(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -591,8 +745,25 @@ class Game {
         }
     }
 
-    func opponentSecretTrigger(entity: Entity, _ cardId: String?, _ turn: Int, _ id: Int) {
+    func opponentSecretTrigger(entity: Entity, _ cardId: String?, _ turn: Int, _ otherId: Int) {
         opponent.secretTriggered(entity, turn)
+
+        opponentSecretCount--
+        opponentSecrets?.secretRemoved(otherId, cardId!)
+        if opponentSecretCount <= 0 {
+            if let secretTracker = self.secretTracker {
+                secretTracker.window!.close()
+            }
+        } else {
+            if Settings.instance.autoGrayoutSecrets {
+                opponentSecrets?.setZero(cardId!)
+            }
+            if let secretTracker = self.secretTracker,
+                let opponentSecrets = opponentSecrets {
+                    secretTracker.setSecrets(opponentSecrets)
+                    secretTracker.showWindow(self)
+            }
+        }
     }
 
     func opponentFatigue(value: Int) {
@@ -606,26 +777,181 @@ class Game {
     func opponentStolen(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.stolenByOpponent(entity, turn)
         player.stolenFromOpponent(entity, turn)
-        if let tracker = opponentTracker where entity.isSecret {
-            tracker.update()
+
+        if entity.isSecret {
+            opponentSecretCount--
+            opponentSecrets?.secretRemoved(entity.id, cardId!)
+            if opponentSecretCount <= 0 {
+                if let secretTracker = self.secretTracker,
+                    let opponentSecrets = opponentSecrets {
+                        secretTracker.setSecrets(opponentSecrets)
+                        secretTracker.window!.close()
+                }
+            } else {
+                if Settings.instance.autoGrayoutSecrets {
+                    opponentSecrets?.setZero(cardId!)
+                }
+                if let secretTracker = self.secretTracker,
+                    let opponentSecrets = opponentSecrets {
+                        secretTracker.setSecrets(opponentSecrets)
+                        secretTracker.showWindow(self)
+                }
+            }
+
+            if let tracker = opponentTracker {
+                tracker.update()
+            }
         }
     }
 
     func opponentRemoveFromPlay(entity: Entity, _ turn: Int) {
-        opponent.removeFromPlay(entity, turn)
+        player.removeFromPlay(entity, turn)
     }
 
-    func handleDefendingEntity(entity: Entity?) {
-        /*_defendingEntity = entity;
-         if(_attackingEntity != null && _defendingEntity != null)
-         _game.OpponentSecrets.ZeroFromAttack(_attackingEntity, _defendingEntity);
-         */
+    func opponentHeroPower(cardId: String, _ turn: Int) {
+        DDLogInfo("Opponent Hero Power \(cardId) \(turn) ")
     }
 
-    func handleAttackingEntity(entity: Entity?) {
-        /*_defendingEntity = entity;
-         if(_attackingEntity != null && _defendingEntity != null)
-         _game.OpponentSecrets.ZeroFromAttack(_attackingEntity, _defendingEntity);
-         */
+    // MARK: - game actions
+    func defendingEntity(entity: Entity?) {
+        self.defendingEntity = entity
+        if let attackingEntity = self.attackingEntity, let defendingEntity = self.defendingEntity {
+            opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+        }
+    }
+
+    func attackingEntity(entity: Entity?) {
+        self.attackingEntity = entity
+        if let attackingEntity = self.attackingEntity, let defendingEntity = self.defendingEntity {
+            opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+        }
+    }
+
+    func playerMinionPlayed() {
+        if !Settings.instance.autoGrayoutSecrets {
+            return
+        }
+
+        opponentSecrets?.setZero(CardIds.Secrets.Hunter.Snipe)
+        opponentSecrets?.setZero(CardIds.Secrets.Mage.MirrorEntity)
+        opponentSecrets?.setZero(CardIds.Secrets.Paladin.Repentance)
+
+        if let secretTracker = self.secretTracker,
+            let opponentSecrets = opponentSecrets {
+                secretTracker.setSecrets(opponentSecrets)
+                secretTracker.showWindow(self)
+        }
+    }
+
+    func opponentMinionDeath(entity: Entity, _ turn: Int) {
+        if !Settings.instance.autoGrayoutSecrets {
+            return
+        }
+
+        if opponent.handCount < 10 {
+            opponentSecrets?.setZero(CardIds.Secrets.Mage.Duplicate)
+        }
+
+        var numDeathrattleMinions = 0
+        if entity.isActiveDeathrattle {
+            if let count = CardIds.DeathrattleSummonCardIds[entity.cardId!] {
+                numDeathrattleMinions = count
+            }
+            else {
+                if entity.cardId == CardIds.Collectible.Neutral.Stalagg && opponent.graveyard.any({ $0.cardId == CardIds.Collectible.Neutral.Feugen })
+                || entity.cardId == CardIds.Collectible.Neutral.Feugen && opponent.graveyard.any({ $0.cardId == CardIds.Collectible.Neutral.Stalagg }) {
+                    numDeathrattleMinions = 1
+                }
+            }
+
+            if entities.map({ $0.1 }).any({ $0.cardId == CardIds.NonCollectible.Druid.SoulOfTheForestEnchantment && $0.getTag(.ATTACHED) == entity.id }) {
+                numDeathrattleMinions++
+            }
+
+            if entities.map({ $0.1 }).any({ $0.cardId == CardIds.NonCollectible.Shaman.AncestralSpiritEnchantment && $0.getTag(.ATTACHED) == entity.id }) {
+                numDeathrattleMinions++
+            }
+
+            if let opponentEntity = opponentEntity where opponentEntity.hasTag(.EXTRA_DEATHRATTLES) {
+                numDeathrattleMinions *= (opponentEntity.getTag(.EXTRA_DEATHRATTLES) + 1)
+            }
+
+            avengeAsync(numDeathrattleMinions)
+
+            // redemption never triggers if a deathrattle effect fills up the board
+            // effigy can trigger ahead of the deathrattle effect, but only if effigy was played before the deathrattle minion
+            if opponentMinionCount < 7 - numDeathrattleMinions {
+                opponentSecrets?.setZero(CardIds.Secrets.Paladin.Redemption)
+                opponentSecrets?.setZero(CardIds.Secrets.Mage.Effigy)
+            }
+            else {
+                // TODO need to properly break ties when effigy + deathrattle played in same turn
+                let minionTurnPlayed = turn - entity.getTag(.NUM_TURNS_IN_PLAY)
+                var secretOffset: Int = 0
+                if let secret = opponentSecrets!.secrets.firstWhere({ $0.turnPlayed >= minionTurnPlayed }) {
+                    secretOffset = opponentSecrets!.secrets.indexOf(secret)!
+                }
+                opponentSecrets?.setZeroOlder(CardIds.Secrets.Mage.Effigy, secretOffset)
+            }
+        }
+        if let secretTracker = self.secretTracker,
+            let opponentSecrets = opponentSecrets {
+                secretTracker.setSecrets(opponentSecrets)
+                secretTracker.showWindow(self)
+        }
+    }
+
+    func avengeAsync(deathRattleCount: Int) {
+        avengeDeathRattleCount += deathRattleCount
+        if awaitingAvenge {
+            return
+        }
+        awaitingAvenge = true
+        if opponentMinionCount != 0 {
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(50 * Double(NSEC_PER_MSEC)))
+            let queue = dispatch_get_main_queue()
+            dispatch_after(when, queue) {
+                if self.opponentMinionCount - self.avengeDeathRattleCount > 0 {
+                    self.opponentSecrets?.setZero(CardIds.Secrets.Paladin.Avenge)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        // TODO if (Core.MainWindow != null)
+                        // Core.Overlay.ShowSecrets();
+                        self.debugSecrets()
+                        self.awaitingAvenge = false
+                        self.avengeDeathRattleCount = 0
+                    }
+                }
+            }
+        }
+    }
+
+    func opponentDamage(entity: Entity) {
+        if !Settings.instance.autoGrayoutSecrets {
+            return
+        }
+        if !entity.isHero || !entity.isControlledBy(opponent.id!) {
+            return
+        }
+        opponentSecrets?.setZero(CardIds.Secrets.Paladin.EyeForAnEye)
+        if let secretTracker = self.secretTracker,
+            let opponentSecrets = opponentSecrets {
+                secretTracker.setSecrets(opponentSecrets)
+                secretTracker.showWindow(self)
+        }
+    }
+
+    func opponentTurnStart(entity: Entity) {
+        if !Settings.instance.autoGrayoutSecrets {
+            return
+        }
+        if !entity.isMinion {
+            return
+        }
+        opponentSecrets?.setZero(CardIds.Secrets.Paladin.CompetitiveSpirit)
+        if let secretTracker = self.secretTracker,
+            let opponentSecrets = opponentSecrets {
+                secretTracker.setSecrets(opponentSecrets)
+                secretTracker.showWindow(self)
+        }
     }
 }

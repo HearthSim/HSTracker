@@ -24,10 +24,10 @@ class LogReaderManager: LogLineReader {
 
     init() {
         self.power = LogReader(name: "Power",
-                startFilters: ["PowerTaskList."],
-                containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"])
+            startFilters: ["PowerTaskList.DebugPrintPower"],
+            containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"])
 
-        self.fullPower = LogReader(name: "Power")
+        self.fullPower = LogReader(name: "Power", startFilters: ["GameState."])
 
         self.bob = LogReader(name: "Bob")
         self.rachelle = LogReader(name: "Rachelle")
@@ -63,33 +63,33 @@ class LogReaderManager: LogLineReader {
 
     func entryPoint() -> Double {
         let powerEntry = self.power!.findEntryPoint(["tag=GOLD_REWARD_STATE", "End Spectator"])
-        let netEntry = self.net!.findEntryPoint(["ConnectAPI.GotoGameServer"])
+        let netEntry = self.net!.findEntryPoint("ConnectAPI.GotoGameServer")
 
         return powerEntry > netEntry ? powerEntry : netEntry
     }
 
     func processNewLine(line: LogLine) {
-        //DDLogVerbose("processing line \(line)", line)
+        // DDLogVerbose("processing line \(line)", line)
         dispatch_async(dispatch_get_main_queue()) {
+            let game = Game.instance
             switch (line.namespace) {
             case "Power":
-                PowerGameStateHandler.handle(line.line)
+                PowerGameStateHandler.handle(game, line.line)
             case "Net":
-                NetHandler.handle(line.line)
+                NetHandler.handle(game, line.line)
             case "Asset":
-                AssetHandler.handle(line.line)
+                AssetHandler.handle(game, line.line)
             case "Bob":
-                BobHandler.handle(line.line)
+                BobHandler.handle(game, line.line)
             case "Rachelle":
-                RachelleHandler.handle(line.line)
+                RachelleHandler.handle(game, line.line)
             case "Arena":
-                ArenaHandler.handle(line.line)
+                ArenaHandler.handle(game, line.line)
             case "LoadingScreen":
-                LoadingScreenHandler.handle(line.line)
+                LoadingScreenHandler.handle(game, line.line)
             default:
                 break
             }
         }
     }
-
 }

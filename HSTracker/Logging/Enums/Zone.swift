@@ -12,14 +12,14 @@ import Foundation
 
 enum Zone: Int {
     case INVALID = -1,
-         CREATED = 0,
-         PLAY = 1,
-         DECK = 2,
-         HAND = 3,
-         GRAVEYARD = 4,
-         REMOVEDFROMGAME = 5,
-         SETASIDE = 6,
-         SECRET = 7
+        CREATED = 0,
+        PLAY = 1,
+        DECK = 2,
+        HAND = 3,
+        GRAVEYARD = 4,
+        REMOVEDFROMGAME = 5,
+        SETASIDE = 6,
+        SECRET = 7
 
     init?(rawString: String) {
         for _enum in _ZoneAllValues {

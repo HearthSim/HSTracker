@@ -94,8 +94,12 @@ class Settings {
 
     var showRarityColors: Bool {
         set { set("rarity_colors", newValue) }
-        get {
-            return get("rarity_colors", true) as! Bool }
+        get { return get("rarity_colors", true) as! Bool }
+    }
+
+    var autoGrayoutSecrets: Bool {
+        set { set("auto_grayout_secrets", newValue) }
+        get { return get("auto_grayout_secrets", true) as! Bool }
     }
     /*var showOneCard: Bool {
      set {

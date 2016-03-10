@@ -96,21 +96,21 @@ class CardEntity: Equatable, CustomStringConvertible {
 
     var description: String {
         var description = "<\(NSStringFromClass(self.dynamicType)): "
-            + "self.entity=\(self.entity)"
-            + ", self.cardId=\(cardName(self.cardId))"
-            + ", self.turn=\(self.turn)"
+            + "entity=\(self.entity)"
+            + ", cardId=\(cardName(self.cardId))"
+            + ", turn=\(self.turn)"
 
         if let entity = self.entity {
-            description += ", self.zonePos=\(entity.getTag(GameTag.ZONE_POSITION))"
+            description += ", zonePos=\(entity.getTag(GameTag.ZONE_POSITION))"
         }
         if self.cardMark != CardMark.None {
-            description += ", self.cardMark=\(self.cardMark)"
+            description += ", cardMark=\(self.cardMark)"
         }
         if self.discarded {
-            description += ", self.discarded=true"
+            description += ", discarded=true"
         }
         if self.created {
-            description += ", self.created=true"
+            description += ", created=true"
         }
         description += ">"
 
@@ -120,7 +120,7 @@ class CardEntity: Equatable, CustomStringConvertible {
     func cardName(cardId: String?) -> String {
         if let cardId = cardId {
             if let card = Cards.byId(cardId) {
-                return "[\(card.name) (\(cardId)]"
+                return "[\(card.name) (\(cardId))]"
             }
         }
         return "N/A"

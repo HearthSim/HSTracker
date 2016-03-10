@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var splashscreen: Splashscreen?
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
+    var secretTracker: SecretTracker?
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
     var preferences: MASPreferencesWindowController?
@@ -75,7 +76,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let databaseOperation = NSBlockOperation(block: {
             let database = Database()
             if let images = database.loadDatabase(self.splashscreen!) {
-                DDLogVerbose("need to download \(images)")
                 let imageDownloader = ImageDownloader()
                 imageDownloader.downloadImagesIfNeeded(images, splashscreen: self.splashscreen!)
             }
@@ -87,9 +87,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 NSThread.sleepForTimeInterval(0.2)
             }
-            DDLogInfo("Starting logging \(self.playerTracker) vs \(self.opponentTracker)")
             Game.instance.setPlayerTracker(self.playerTracker)
             Game.instance.setOpponentTracker(self.opponentTracker)
+            Game.instance.setSecretTracker(self.secretTracker)
 
             if let activeDeck = Settings.instance.activeDeck {
                 if let deck = Decks.byId(activeDeck) {
@@ -213,6 +213,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 tracker.showWindow(self)
             }
         }
+
+        self.secretTracker = SecretTracker(windowNibName: "SecretTracker")
+        if let tracker = self.secretTracker {
+            tracker.showWindow(self)
+        }
     }
 
     func showPlayerTracker(notification: NSNotification) {
@@ -255,5 +260,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let preferences = preferences {
             preferences.showWindow(nil)
         }
+    }
+
+    @IBAction func lockWindows(sender: AnyObject) {
+        let settings = Settings.instance
+        settings.windowsLocked = !settings.windowsLocked
+        // TODO menu
     }
 }

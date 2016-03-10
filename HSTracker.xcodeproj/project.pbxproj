@@ -83,6 +83,12 @@
 		43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
 		43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695511C903A3600F4D0AC /* KeyPointType.swift */; };
 		43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695531C903AC900F4D0AC /* ReplayMaker.swift */; };
+		43B695591C90658B00F4D0AC /* HeroClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695581C90658B00F4D0AC /* HeroClass.swift */; };
+		43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955A1C9065AC00F4D0AC /* Secret.swift */; };
+		43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955C1C90681200F4D0AC /* SecretHelper.swift */; };
+		43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
+		43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* SecretTracker.swift */; };
+		43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* SecretTracker.xib */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D307FF1C842DA700480488 /* GeneralPreferences.xib */; };
@@ -202,6 +208,12 @@
 		43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKeyPoint.swift; sourceTree = "<group>"; };
 		43B695511C903A3600F4D0AC /* KeyPointType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPointType.swift; sourceTree = "<group>"; };
 		43B695531C903AC900F4D0AC /* ReplayMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayMaker.swift; sourceTree = "<group>"; };
+		43B695581C90658B00F4D0AC /* HeroClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroClass.swift; sourceTree = "<group>"; };
+		43B6955A1C9065AC00F4D0AC /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		43B6955C1C90681200F4D0AC /* SecretHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretHelper.swift; sourceTree = "<group>"; };
+		43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentSecrets.swift; sourceTree = "<group>"; };
+		43B695621C920A0500F4D0AC /* SecretTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretTracker.swift; sourceTree = "<group>"; };
+		43B695641C920BD500F4D0AC /* SecretTracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecretTracker.xib; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
 		43D307FF1C842DA700480488 /* GeneralPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPreferences.xib; sourceTree = "<group>"; };
@@ -337,6 +349,7 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
+				43B695551C90653A00F4D0AC /* Hearthstone */,
 				439C7E8E1C777D6C00D29859 /* Resources */,
 				43B6954E1C90387F00F4D0AC /* Replay */,
 				434C2F2D1C7F433E001D1D91 /* Importers */,
@@ -477,6 +490,8 @@
 				439C7ED61C777FA900D29859 /* CardCellView.swift */,
 				4317197C1C8C54FF00F5988B /* CountTextCellView.swift */,
 				4317197E1C8C651900F5988B /* CountTextCellView.xib */,
+				43B695621C920A0500F4D0AC /* SecretTracker.swift */,
+				43B695641C920BD500F4D0AC /* SecretTracker.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -500,6 +515,33 @@
 				43B695531C903AC900F4D0AC /* ReplayMaker.swift */,
 			);
 			path = Replay;
+			sourceTree = "<group>";
+		};
+		43B695551C90653A00F4D0AC /* Hearthstone */ = {
+			isa = PBXGroup;
+			children = (
+				43B695571C90657300F4D0AC /* Enums */,
+				43B695561C90655C00F4D0AC /* Secrets */,
+			);
+			path = Hearthstone;
+			sourceTree = "<group>";
+		};
+		43B695561C90655C00F4D0AC /* Secrets */ = {
+			isa = PBXGroup;
+			children = (
+				43B6955A1C9065AC00F4D0AC /* Secret.swift */,
+				43B6955C1C90681200F4D0AC /* SecretHelper.swift */,
+				43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */,
+			);
+			path = Secrets;
+			sourceTree = "<group>";
+		};
+		43B695571C90657300F4D0AC /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				43B695581C90658B00F4D0AC /* HeroClass.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		82F55DC1DE1DEEB878F5386E /* Pods */ = {
@@ -643,6 +685,7 @@
 				43D308021C842DB400480488 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				439C7E531C7772C000D29859 /* Assets.xcassets in Resources */,
+				43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */,
 				43D3080A1C84411200480488 /* TrackersPreferences.xib in Resources */,
 				439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
@@ -799,6 +842,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */,
+				43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
 				43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */,
@@ -813,9 +857,12 @@
 				439C7EC21C777F8900D29859 /* BobHandler.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				439C7EC51C777F8900D29859 /* PowerGameStateHandler.swift in Sources */,
+				43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
+				43B695591C90658B00F4D0AC /* HeroClass.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */,
+				43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
@@ -840,6 +887,7 @@
 				431719731C885BD600F5988B /* CardCell.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
 				434C2F321C7F475E001D1D91 /* Hearthpwn.swift in Sources */,
+				43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
