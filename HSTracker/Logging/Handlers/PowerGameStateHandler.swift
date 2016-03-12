@@ -69,7 +69,7 @@ class PowerGameStateHandler {
             }
         }
 
-        else if line.isMatch(CreationRegex1) {
+        /*else if line.isMatch(CreationRegex1) {
             let match = line.firstMatchWithDetails(CreationRegex1)
             let id = Int(match.groups[1].value)!
             let cardId: String = match.groups[2].value
@@ -78,13 +78,12 @@ class PowerGameStateHandler {
                 game.entities[id] = entity
             }
             if !String.isNullOrEmpty(cardId) {
-                print("CREATION1 \(id) -> \(cardId)")
                 game.entities[id]!.cardId = cardId
             }
             game.currentEntityId = id
             game.currentEntityHasCardId = !String.isNullOrEmpty(cardId)
             setup = true
-        }
+        }*/
 
         else if line.isMatch(TagChangeRegex) {
             var match = line.firstMatchWithDetails(TagChangeRegex)
@@ -178,7 +177,6 @@ class PowerGameStateHandler {
             let id = Int(match.groups[1].value)!
             let zone: String = match.groups[2].value
             var cardId: String = match.groups[3].value
-
             if game.entities[id] == .None {
                 if String.isNullOrEmpty(cardId) {
                     if game.knownCardIds[id] != .None {
@@ -193,7 +191,6 @@ class PowerGameStateHandler {
             }
 
             if !String.isNullOrEmpty(cardId) {
-                print("CREATION \(id) -> \(cardId)")
                 game.entities[id]!.cardId = cardId
             }
 

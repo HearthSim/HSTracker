@@ -17,6 +17,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
     var secretTracker: SecretTracker?
+    var timerHud: TimerHud?
+    var cardHuds = [CardHud]()
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
     var preferences: MASPreferencesWindowController?
@@ -87,14 +89,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 NSThread.sleepForTimeInterval(0.2)
             }
-            Game.instance.setPlayerTracker(self.playerTracker)
-            Game.instance.setOpponentTracker(self.opponentTracker)
-            Game.instance.setSecretTracker(self.secretTracker)
+            let game = Game.instance
+            game.setPlayerTracker(self.playerTracker)
+            game.setOpponentTracker(self.opponentTracker)
+            game.setSecretTracker(self.secretTracker)
+            game.setTimerHud(self.timerHud)
+            game.setCardHuds(self.cardHuds)
 
             if let activeDeck = Settings.instance.activeDeck {
                 if let deck = Decks.byId(activeDeck) {
                     NSOperationQueue.mainQueue().addOperationWithBlock() {
-                        Game.instance.setActiveDeck(deck)
+                        game.setActiveDeck(deck)
                         self.playerTracker?.update()
                     }
                 }
@@ -218,6 +223,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let tracker = self.secretTracker {
             tracker.showWindow(self)
         }
+
+        self.timerHud = TimerHud(windowNibName: "TimerHud")
+        if let tracker = self.timerHud {
+            tracker.showWindow(self)
+        }
+
+        for i in 0 ... 10 {
+            let cardHud = CardHud(windowNibName: "CardHud")
+            cardHud.position = i
+            cardHuds.append(cardHud)
+        }
     }
 
     func showPlayerTracker(notification: NSNotification) {
@@ -247,6 +263,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func openDeckManager(sender: AnyObject) {
         deckManager = DeckManager()
         deckManager?.showWindow(self)
+    }
+
+    @IBAction func clearTrackers(sender: AnyObject) {
+        Game.instance.removeActiveDeck()
     }
 
     @IBAction func openPreferences(sender: AnyObject) {

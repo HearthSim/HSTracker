@@ -2072,7 +2072,7 @@ class CardIds {
         }
     }
 
-    static let DeathrattleSummonCardIds: [String: Int] = [
+    static let DeathrattleSummonCardIds = [
         CardIds.Collectible.Druid.MountedRaptor: 1,
         CardIds.Collectible.Hunter.SavannahHighmane: 2,
         CardIds.Collectible.Rogue.Anubarak: 1,
@@ -2087,5 +2087,19 @@ class CardIds {
         CardIds.Collectible.Neutral.NerubianEgg: 1,
         CardIds.Collectible.Neutral.SludgeBelcher: 1,
         CardIds.Collectible.Neutral.WobblingRunts: 3
+    ]
+
+    static let HeroIdDict = [
+        CardIds.Collectible.Warrior.GarroshHellscream: "Warrior",
+        CardIds.Collectible.Shaman.Thrall: "Shaman",
+        CardIds.Collectible.Rogue.ValeeraSanguinar: "Rogue",
+        CardIds.Collectible.Paladin.UtherLightbringer: "Paladin",
+        CardIds.Collectible.Hunter.Rexxar: "Hunter",
+        CardIds.Collectible.Druid.MalfurionStormrage: "Druid",
+        CardIds.Collectible.Warlock.Guldan: "Warlock",
+        CardIds.Collectible.Mage.JainaProudmoore: "Mage",
+        CardIds.Collectible.Priest.AnduinWrynn: "Priest",
+        CardIds.Collectible.Warlock.LordJaraxxus: "Jaraxxus",
+        CardIds.Collectible.Neutral.MajordomoExecutus: "Ragnaros the Firelord"
     ]
 }

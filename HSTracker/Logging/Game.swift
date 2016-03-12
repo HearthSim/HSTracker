@@ -15,10 +15,10 @@ enum PlayerType: Int {
 }
 
 class Game {
-    var currentTurn: Int = 0
-    var currentRank: Int = 0
-    var maxId: Int = 0
-    var lastId: Int = 0
+    var currentTurn = 0
+    var currentRank = 0
+    var maxId = 0
+    var lastId = 0
 
     var player: Player
     var opponent: Player
@@ -28,36 +28,39 @@ class Game {
     var entities = [Int: Entity]()
     var tmpEntities = [Entity]()
     var knownCardIds = [Int: String]()
-    var joustReveals: Int = 0
-    var awaitingRankedDetection: Bool = true
+    var joustReveals = 0
+    var awaitingRankedDetection = true
     var lastAssetUnload: Double = 0
-    var gameStarted: Bool = false
-    var gameEnded: Bool = true
+    var gameStarted = false
+    var gameEnded = true
     var gameStartDate: NSDate?
     var gameResult: GameResult = .Unknow
     var gameEndDate: NSDate?
-    var waitingForFirstAssetUnload: Bool = true
+    var waitingForFirstAssetUnload = true
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
     var secretTracker: SecretTracker?
+    var timerHud: TimerHud?
+    var cardHuds: [CardHud]?
     var lastCardPlayed: Int?
     var activeDeck: Deck?
     var currentEntityId = Int.min
-    var currentEntityHasCardId: Bool = false
-    var playerUsedHeroPower: Bool = false
-    var hasCoin: Bool = false
+    var currentEntityHasCardId = false
+    var playerUsedHeroPower = false
+    var hasCoin = false
     var currentEntityZone: Zone? = .INVALID
-    var opponentUsedHeroPower: Bool = false
-    var determinedPlayers: Bool = false
-    var setupDone: Bool = false
+    var opponentUsedHeroPower = false
+    var determinedPlayers = false
+    var setupDone = false
     var proposedKeyPoint: ReplayKeyPoint?
     var opponentSecrets: OpponentSecrets?
     var defendingEntity: Entity?
     var attackingEntity: Entity?
-    private var avengeDeathRattleCount: Int = 0
-    var opponentSecretCount: Int = 0
-    private var awaitingAvenge: Bool = false
-    var isInMenu: Bool = true
+    private var avengeDeathRattleCount = 0
+    var opponentSecretCount = 0
+    private var awaitingAvenge = false
+    var isInMenu = true
+    var endGameStats = false
 
     static let instance = Game()
 
@@ -90,6 +93,7 @@ class Game {
         currentEntityHasCardId = false
         playerUsedHeroPower = false
         hasCoin = false
+        endGameStats = false
 
         opponentSecretCount = 0
         opponentSecrets?.clearSecrets()
@@ -97,9 +101,11 @@ class Game {
         player.reset()
         opponent.reset()
 
-        if activeDeck != nil {
-            activeDeck?.reset()
-            setActiveDeck(activeDeck!)
+        updateCardHuds()
+
+        if let activeDeck = activeDeck {
+            activeDeck.reset()
+            addDeckCards()
         }
     }
 
@@ -122,9 +128,31 @@ class Game {
         if let tracker = self.opponentTracker {
             changeTracker(tracker, active, SizeHelper.opponentTrackerFrame())
         }
+        if let tracker = self.secretTracker {
+            changeTracker(tracker, active, SizeHelper.secretTrackerFrame())
+        }
+        if let tracker = self.timerHud {
+            changeTracker(tracker, active, SizeHelper.timerHudFrame())
+        }
+
+        if let cardHuds = cardHuds {
+            let count = opponent.handCount
+            if count == 0 {
+                for hud in cardHuds {
+                    hud.window?.orderOut(self)
+                }
+            }
+            else {
+                for i in 0 ..< count {
+                    if let frame = SizeHelper.opponentCardHudFrame(i, count) {
+                        cardHuds[i].window?.setFrame(frame, display: true)
+                    }
+                }
+            }
+        }
     }
 
-    private func changeTracker(tracker: Tracker, _ active: Bool, _ frame: NSRect?) {
+    private func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect?) {
         if active {
             tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
             // TODO check for setting
@@ -137,12 +165,25 @@ class Game {
         }
     }
 
-    func setActiveDeck(deck: Deck)
-    {
+    func setActiveDeck(deck: Deck) {
         self.activeDeck = deck
-        for card in deck.sortedCards {
-            for _ in 0 ..< card.count {
-                player.revealDeckCard(card.cardId, -1)
+        addDeckCards()
+        playerTracker?.update()
+    }
+
+    func removeActiveDeck() {
+        self.activeDeck = nil
+        player.resetDeck()
+        playerTracker?.update()
+    }
+
+    private func addDeckCards() {
+        player.resetDeck()
+        if let deck = activeDeck {
+            for card in deck.sortedCards {
+                for _ in 0 ..< card.count {
+                    player.revealDeckCard(card.cardId, -1)
+                }
             }
         }
     }
@@ -170,14 +211,10 @@ class Game {
 
         DDLogInfo("----- Game Started -----")
 
-        player.gameStart()
-        if let tracker = playerTracker {
-            tracker.gameStart()
-        }
-        opponent.gameStart()
-        if let tracker = opponentTracker {
-            tracker.gameStart()
-        }
+        self.playerTracker?.gameStart()
+        self.opponentTracker?.gameStart()
+        self.timerHud?.showWindow(self)
+        TurnTimer.instance.reset()
     }
 
     func gameEnd() {
@@ -188,15 +225,9 @@ class Game {
         // @opponent_cards = opponent_tracker.cards
         handleEndGame()
 
-        player.gameEnd()
-        if let tracker = playerTracker {
-            tracker.gameEnd()
-        }
-        opponent.gameEnd()
-        if let tracker = opponentTracker {
-            tracker.gameEnd()
-        }
-        // TODO [self.timerHud gameEnd]
+        self.playerTracker?.gameEnd()
+        self.opponentTracker?.gameEnd()
+        self.timerHud?.window?.orderOut(self)
     }
 
     func debugSecrets() {
@@ -244,6 +275,14 @@ class Game {
         self.secretTracker = tracker
     }
 
+    func setTimerHud(timerHud: TimerHud?) {
+        self.timerHud = timerHud
+    }
+
+    func setCardHuds(cardHuds: [CardHud]) {
+        self.cardHuds = cardHuds
+    }
+
     func handleEndGame() {
         if currentGameMode == .None || currentGameMode == .Casual {
             waitForRank(5) {
@@ -251,6 +290,11 @@ class Game {
             }
             return
         }
+
+        if endGameStats {
+            return
+        }
+        endGameStats = true
 
         let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         if let _player = _player {
@@ -316,14 +360,15 @@ class Game {
             return 0
         }
         if let gameEntity = self.gameEntity {
-            return (gameEntity.getTag(GameTag.TURN) + 1) / 2
+            return (gameEntity.getTag(.TURN) + 1) / 2
         }
         return 0
     }
 
     func turnStart(player: PlayerType, _ turn: Int) {
         DDLogInfo("Turn \(turn) start for player \(player) ")
-        // timer_hud.restart(player)
+        TurnTimer.instance.currentActivePlayer = player
+        TurnTimer.instance.restart()
     }
 
     func concede() {
@@ -628,6 +673,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentPlayToHand(entity: Entity, _ cardId: String?, _ turn: Int, _ id: Int) {
@@ -635,6 +681,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentPlayToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -642,6 +689,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentPlay(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
@@ -650,6 +698,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentHandDiscard(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
@@ -657,6 +706,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromDeck: Bool, _ otherId: Int) {
@@ -667,6 +717,7 @@ class Game {
         } else {
             opponent.secretPlayedFromHand(entity, turn)
         }
+        updateCardHuds()
 
         var heroClass: HeroClass?
         var className = "\(entity.getTag(.CLASS))"
@@ -697,10 +748,12 @@ class Game {
 
     func opponentMulligan(entity: Entity, _ from: Int) {
         opponent.mulligan(entity)
+        updateCardHuds()
     }
 
     func opponentDraw(entity: Entity, _ turn: Int) {
         opponent.draw(entity, turn)
+        updateCardHuds()
     }
 
     func opponentRemoveFromDeck(entity: Entity, _ turn: Int) {
@@ -708,6 +761,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentDeckDiscard(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -715,6 +769,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentDeckToPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -722,6 +777,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentPlayToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int, _ playersTurn: Bool) {
@@ -729,6 +785,7 @@ class Game {
         if playersTurn && entity.isMinion {
             opponentMinionDeath(entity, turn)
         }
+        updateCardHuds()
     }
 
     func opponentJoust(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -736,6 +793,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentGetToDeck(entity: Entity, _ turn: Int) {
@@ -743,16 +801,18 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentSecretTrigger(entity: Entity, _ cardId: String?, _ turn: Int, _ otherId: Int) {
         opponent.secretTriggered(entity, turn)
+        updateCardHuds()
 
         opponentSecretCount--
         opponentSecrets?.secretRemoved(otherId, cardId!)
         if opponentSecretCount <= 0 {
             if let secretTracker = self.secretTracker {
-                secretTracker.window!.close()
+                secretTracker.window!.orderOut(self)
             }
         } else {
             if Settings.instance.autoGrayoutSecrets {
@@ -772,6 +832,7 @@ class Game {
 
     func opponentCreateInPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.createInPlay(entity, turn)
+        updateCardHuds()
     }
 
     func opponentStolen(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -785,7 +846,7 @@ class Game {
                 if let secretTracker = self.secretTracker,
                     let opponentSecrets = opponentSecrets {
                         secretTracker.setSecrets(opponentSecrets)
-                        secretTracker.window!.close()
+                        secretTracker.window!.orderOut(self)
                 }
             } else {
                 if Settings.instance.autoGrayoutSecrets {
@@ -802,10 +863,12 @@ class Game {
                 tracker.update()
             }
         }
+        updateCardHuds()
     }
 
     func opponentRemoveFromPlay(entity: Entity, _ turn: Int) {
         player.removeFromPlay(entity, turn)
+        updateCardHuds()
     }
 
     func opponentHeroPower(cardId: String, _ turn: Int) {
@@ -952,6 +1015,30 @@ class Game {
             let opponentSecrets = opponentSecrets {
                 secretTracker.setSecrets(opponentSecrets)
                 secretTracker.showWindow(self)
+        }
+    }
+
+    func updateCardHuds() {
+        let opponentHandCount = opponent.handCount
+        guard let _ = cardHuds else { return }
+
+        if let cardHuds = cardHuds {
+            for i in 0 ... 10 {
+                if cardHuds[i] == .None {
+                    continue
+                }
+                let cardHud = cardHuds[i]
+                if i < opponentHandCount {
+                    cardHud.setEntity(opponent.hand[i])
+                    cardHud.showWindow(self)
+                    if let frame = SizeHelper.opponentCardHudFrame(i, opponentHandCount) {
+                        cardHud.window?.setFrame(frame, display: true)
+                    }
+                }
+                else {
+                    cardHud.window?.orderOut(self)
+                }
+            }
         }
     }
 }

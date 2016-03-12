@@ -70,7 +70,7 @@ class Cards {
 }
 
 class Database {
-    static let validCardSet: [String] = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD"]
+    static let validCardSet: [String] = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS"]
 
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
@@ -164,7 +164,7 @@ class Database {
                                     card.collectible = collectible
 
                                     // card is collectible, mark it as needed for download
-                                    if lang == imageLanguage {
+                                    if lang == imageLanguage && card.type != "hero" {
                                         images.append(card.cardId)
                                     }
                                 }

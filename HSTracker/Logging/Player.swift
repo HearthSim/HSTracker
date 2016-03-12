@@ -68,6 +68,34 @@ class Player {
         reset()
     }
 
+    func reset() {
+        self.id = nil
+        self.name = ""
+        self.playerClass = nil
+        self.goingFirst = false
+        self.fatigue = 0
+        // self.drawnCardsMatchDeck = true;
+        self.hand.removeAll()
+        self.board.removeAll()
+        self.deck.removeAll()
+        self.graveyard.removeAll()
+        self.secrets.removeAll()
+        self.drawnCardIds.removeAll()
+        self.drawnCardIdsTotal.removeAll()
+        self.revealedCards.removeAll()
+        self.createdInHandCardIds.removeAll()
+        self.hightlightedCards.removeAll()
+        self.removed.removeAll()
+        resetDeck()
+    }
+
+    func resetDeck() {
+        self.deck = []
+        for _ in 0 ..< DeckSize {
+            self.deck.append(CardEntity())
+        }
+    }
+
     var hasCoin: Bool {
         return hand.any { $0.cardId == "GAME_005" || $0.entity?.cardId == "GAME_005" }
     }
@@ -227,36 +255,6 @@ class Player {
         return stillInDeck.sortCardList()
     }
 
-    func reset() {
-        self.id = nil
-        self.name = ""
-        self.playerClass = nil
-        self.goingFirst = false
-        self.fatigue = 0
-        // self.drawnCardsMatchDeck = true;
-        self.hand = []
-        self.board = []
-        self.deck = []
-        self.graveyard = []
-        self.secrets = []
-        self.drawnCardIds = []
-        self.drawnCardIdsTotal = []
-        self.revealedCards = []
-        self.createdInHandCardIds = []
-        self.hightlightedCards = []
-        self.removed = []
-
-        for _ in 0 ..< DeckSize {
-            self.deck.append(CardEntity())
-        }
-    }
-
-    func gameStart() {
-    }
-
-    func gameEnd() {
-    }
-
     var debugName: String {
         return self.isLocalPlayer ? "Player" : "Opponent"
     }
@@ -412,6 +410,7 @@ class Player {
             self.revealedCards.remove(revealed)
         }
         if let cardEntity = moveCardEntity(entity, &self.deck, &self.removed, turn) {
+            updateRevealedEntity(cardEntity, turn, true)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
@@ -532,6 +531,7 @@ class Player {
         turn: Int) -> CardEntity? {
             var cardEntity = getEntityFromCollection(from, entity)
             if let _cardEntity = cardEntity {
+                _cardEntity.update(entity)
                 from.remove(_cardEntity)
             } else {
                 cardEntity = from.firstWhere { String.isNullOrEmpty($0.cardId) && $0.entity == nil }
@@ -553,12 +553,13 @@ class Player {
     }
 
     func getEntityFromCollection(array: [CardEntity], _ entity: Entity) -> CardEntity? {
-        let cardEntity = array.firstWhere { $0.entity == entity }
-            ?? array.firstWhere { !String.isNullOrEmpty($0.cardId) && $0.cardId == entity.cardId }
-            ?? array.firstWhere { String.isNullOrEmpty($0.cardId) && $0.entity == nil }
-
-        cardEntity?.update(entity)
-        return cardEntity
+        if let cardEntity = (array.firstWhere({ $0.entity == entity })
+                ?? array.firstWhere({ !String.isNullOrEmpty($0.cardId) && $0.cardId == entity.cardId })
+                ?? array.firstWhere({ String.isNullOrEmpty($0.cardId) && $0.entity == nil })) {
+                    cardEntity.update(entity)
+                    return cardEntity
+        }
+        return nil
     }
 
     func updateZonePos(entity: Entity, _ zone: Zone, _ turn: Int) {

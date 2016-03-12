@@ -97,6 +97,11 @@
 		43D308061C842DC900480488 /* GamePrefences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePrefences.swift */; };
 		43D308081C84410000480488 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* TrackersPreferences.swift */; };
 		43D3080A1C84411200480488 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D308091C84411200480488 /* TrackersPreferences.xib */; };
+		43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EDF1C949C6D00C26950 /* TimerHud.xib */; };
+		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
+		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
+		43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
+		43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EE71C94B4CA00C26950 /* CardHud.xib */; };
 		43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB931C7DE1E40077AC1B /* DeckManager.xib */; };
 		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
 		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
@@ -222,6 +227,11 @@
 		43D308051C842DC900480488 /* GamePrefences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrefences.swift; sourceTree = "<group>"; };
 		43D308071C84410000480488 /* TrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackersPreferences.swift; sourceTree = "<group>"; };
 		43D308091C84411200480488 /* TrackersPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackersPreferences.xib; sourceTree = "<group>"; };
+		43E77EDF1C949C6D00C26950 /* TimerHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerHud.xib; sourceTree = "<group>"; };
+		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
+		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
+		43E77EE51C94B4B400C26950 /* CardHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHud.swift; sourceTree = "<group>"; };
+		43E77EE71C94B4CA00C26950 /* CardHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHud.xib; sourceTree = "<group>"; };
 		43EECB931C7DE1E40077AC1B /* DeckManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckManager.xib; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
 		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
@@ -429,6 +439,7 @@
 				439C7EB11C777F8900D29859 /* LogReaderManager.swift */,
 				439C7EB31C777F8900D29859 /* Player.swift */,
 				64C117BCDB7C91174D0EAD99 /* CardIds.swift */,
+				43E77EE31C94A19700C26950 /* TurnTimer.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -492,6 +503,10 @@
 				4317197E1C8C651900F5988B /* CountTextCellView.xib */,
 				43B695621C920A0500F4D0AC /* SecretTracker.swift */,
 				43B695641C920BD500F4D0AC /* SecretTracker.xib */,
+				43E77EE11C949C7800C26950 /* TimerHud.swift */,
+				43E77EDF1C949C6D00C26950 /* TimerHud.xib */,
+				43E77EE51C94B4B400C26950 /* CardHud.swift */,
+				43E77EE71C94B4CA00C26950 /* CardHud.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -690,10 +705,12 @@
 				439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */,
+				43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */,
 				439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */,
 				4317197F1C8C651900F5988B /* CountTextCellView.xib in Resources */,
+				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -872,6 +889,7 @@
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				439C7EE11C777FA900D29859 /* CardCellView.swift in Sources */,
+				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
 				439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */,
@@ -897,6 +915,7 @@
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
+				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
 				439C7EEA1C777FCF00D29859 /* NSArray+HSTracker.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
 				434C2F361C7F4857001D1D91 /* HearthstoneDecks.swift in Sources */,
@@ -906,6 +925,7 @@
 				434C2F3A1C7F48BE001D1D91 /* Hearthhead.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
+				43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
 				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
 				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,

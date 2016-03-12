@@ -181,6 +181,12 @@
                                     <action selector="openDeckManager:" target="Voe-Tx-rLC" id="Eeb-Ft-BPb"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Clear trackers" id="Slg-Ni-HzQ">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="clearTrackers:" target="Voe-Tx-rLC" id="VgK-16-ZjQ"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="1Sa-pt-bWA"/>
                         </items>
                     </menu>

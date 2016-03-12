@@ -271,7 +271,8 @@ class TagChangeActions {
             return
         }
         if let playerEntity = game.playerEntity {
-            let activePlayer: PlayerType = playerEntity.hasTag(.CURRENT_PLAYER) ? .Player : .Opponent
+            let activePlayer: PlayerType = playerEntity.getTag(.CURRENT_PLAYER) == playerEntity.getTag(.CONTROLLER) ? .Player : .Opponent
+
             game.turnStart(activePlayer, game.turnNumber())
 
             if activePlayer == .Player {
@@ -435,7 +436,7 @@ class TagChangeActions {
                 }
 
             default:
-                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change(id = \(id)): \(prevValue) -> \(value) ")
                 break
             }
         }
@@ -454,7 +455,7 @@ class TagChangeActions {
                 }
 
             default:
-                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change(id = \(id)): \(prevValue) -> \(value) ")
                 break
             }
         }
@@ -509,7 +510,7 @@ class TagChangeActions {
                 break
 
             default:
-                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change(id = \(id)): \(prevValue) -> \(value) ")
                 break
             }
         }
@@ -559,7 +560,7 @@ class TagChangeActions {
                 }
 
             default:
-                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change(id = \(id)): \(prevValue) -> \(value) ")
                 break
             }
         }
@@ -628,14 +629,14 @@ class TagChangeActions {
                 }
 
             default:
-                // DDLogWarn("unhandled zone change (id=\(id)): \(prevValue) -> \(value)")
+                // DDLogWarn("unhandled zone change(id = \(id)): \(prevValue) -> \(value) ")
                 break
             }
         }
     }
 
     private func setHeroAsync(game: Game, _ id: Int) {
-        DDLogVerbose("Found hero with id \(id)")
+        DDLogVerbose("Found hero with id \(id) ")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if game.playerEntity == nil {
                 DDLogVerbose("Waiting for playerEntity")
@@ -644,14 +645,15 @@ class TagChangeActions {
                 }
             }
 
-            if let playerEntity = game.playerEntity {
-                DDLogVerbose("playerEntity found playerClass : \(game.player.playerClass), \(id)->\(playerEntity.getTag(.HERO_ENTITY)) -> \(game.entities[id]!.cardId)")
-                if game.player.playerClass == nil && id == playerEntity.getTag(.HERO_ENTITY) {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        game.setPlayerHero(game.entities[id]!.cardId!)
+            if let playerEntity = game.playerEntity,
+                let entity = game.entities[id] {
+                    DDLogVerbose("playerEntity found playerClass : \(game.player.playerClass), \(id) -> \(playerEntity.getTag(.HERO_ENTITY)) -> \(entity.cardId) ")
+                    if let cardId = entity.cardId where game.player.playerClass == nil && id == playerEntity.getTag(.HERO_ENTITY) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            game.setPlayerHero(cardId)
+                        }
+                        return
                     }
-                    return
-                }
             }
 
             if game.opponentEntity == nil {
@@ -660,14 +662,16 @@ class TagChangeActions {
                     NSThread.sleepForTimeInterval(0.1)
                 }
             }
-            if let opponentEntity = game.opponentEntity {
-                DDLogVerbose("opponentEntity found playerClass : \(game.opponent.playerClass), \(id)->\(opponentEntity.getTag(.HERO_ENTITY)) -> \(game.entities[id]!.cardId)")
-                if game.opponent.playerClass == nil && id == opponentEntity.getTag(.HERO_ENTITY) {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        game.setOpponentHero(game.entities[id]!.cardId!)
+            if let opponentEntity = game.opponentEntity,
+                let entity = game.entities[id] {
+                    DDLogVerbose("opponentEntity found playerClass : \(game.opponent.playerClass), \(id) -> \(opponentEntity.getTag(.HERO_ENTITY)) -> \(entity.cardId) ")
+
+                    if let cardId = entity.cardId where game.opponent.playerClass == nil && id == opponentEntity.getTag(.HERO_ENTITY) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            game.setOpponentHero(cardId)
+                        }
+                        return
                     }
-                    return
-                }
             }
         }
     }

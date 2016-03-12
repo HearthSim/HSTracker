@@ -10,20 +10,17 @@
 
 import Foundation
 
-protocol LogLineReader {
-    func processNewLine(logLine: LogLine)
-}
-
 class LogReader {
     var stopped: Bool = true
     var offset: UInt64 = 0
     var startingPoint: Double = 0
 
     var name: String
-    var delegate: LogLineReader?
     var startFilters = [String]()
     var containsFilters = [String]()
     var path: String
+    var lines = [LogLine]()
+    var collected = false
 
     init(name: String, startFilters: [String]? = nil, containsFilters: [String]? = nil) {
         self.name = name
@@ -35,10 +32,6 @@ class LogReader {
         }
 
         self.path = Hearthstone.instance.logPath + "/\(name).log"
-    }
-
-    func setDelegate(delegate: LogLineReader) {
-        self.delegate = delegate
     }
 
     func findEntryPoint(choice: String) -> Double {
@@ -93,18 +86,26 @@ class LogReader {
     func start(entryPoint: Double) {
         DDLogInfo("Starting reader \(self.name), (\(self.path):\(entryPoint)")
         if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
-            // TODO NSFileManager.defaultManager.removeItemAtPath(self.path, error:nil)
+            /*do {
+             try NSFileManager.defaultManager().removeItemAtPath(self.path)
+             } catch { }*/
         }
 
         stopped = false
         startingPoint = entryPoint
         offset = findOffset()
         DDLogVerbose("Starting to track \(self.name) with offset \(offset)")
-        readFile()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+            self.readFile()
+        }
     }
 
     func readFile() {
         while !stopped {
+            if collected {
+                lines.removeAll()
+                collected = false
+            }
             if NSFileManager.defaultManager().fileExistsAtPath(self.path) {
                 let fileHandle = NSFileHandle(forReadingAtPath: self.path)
 
@@ -118,31 +119,32 @@ class LogReader {
                 offset += UInt64(linesStr!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
                 fileHandle!.closeFile()
 
-                let lines = linesStr!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).filter {
-                    !$0.isEmpty
+                let lines = linesStr!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+                    .filter {
+                        !$0.isEmpty && $0.startsWith("D ")
                 }
 
                 for line in lines {
-                    let time = parseTime(line)
-                    if time.timeIntervalSince1970 < startingPoint {
-                        continue
-                    }
-
-                    if !line.startsWith("D ") {
-                        continue
-                    }
-
                     let cutted = line.substringFromIndex(line.startIndex.advancedBy(19))
-                    if (startFilters.count == 0 && containsFilters.count == 0) || startFilters.any({ cutted.startsWith($0) }) || containsFilters.any({ cutted.containsString($0) }) {
-                        if let delegate = self.delegate {
-                            let logLine = LogLine(namespace: self.name, time: Int(time.timeIntervalSince1970), line: line)
-                            delegate.processNewLine(logLine)
+                    if (startFilters.count == 0 && containsFilters.count == 0)
+                    || startFilters.any({ cutted.startsWith($0) })
+                    || containsFilters.any({ cutted.containsString($0) }) {
+                        let time = parseTime(line)
+                        if time.timeIntervalSince1970 < startingPoint {
+                            continue
                         }
+
+                        self.lines.append(LogLine(namespace: self.name, time: Int(time.timeIntervalSince1970), line: line))
                     }
                 }
             }
-            NSThread.sleepForTimeInterval(0.5)
+            NSThread.sleepForTimeInterval(0.1)
         }
+    }
+
+    func collect() -> [LogLine] {
+        collected = true
+        return lines
     }
 
     func fileSize() -> UInt64 {
@@ -196,6 +198,7 @@ class LogReader {
     }
 
     func stop() {
+        DDLogVerbose("Stopping tracker \(name)")
         stopped = true
     }
 }

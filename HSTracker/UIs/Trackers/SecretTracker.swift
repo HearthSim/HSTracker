@@ -26,9 +26,28 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
         self.window!.ignoresMouseEvents = locked
         self.window!.acceptsMouseMovedEvents = true
 
+        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+
         self.window!.opaque = false
         self.window!.hasShadow = false
         self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: CGFloat(Settings.instance.trackerOpacity / 100.0))
+
+        var width: Double
+        let settings = Settings.instance
+        switch settings.cardSize {
+        case .Small:
+            width = kSmallFrameWidth
+
+        case .Medium:
+            width = kMediumFrameWidth
+
+        default:
+            width = kFrameWidth
+        }
+
+        self.window!.setFrame(NSRect(x: 0, y: 0, width: width, height: 350), display: true)
+        self.window!.contentMinSize = NSSize(width: width, height: 350)
+        self.window!.contentMaxSize = NSSize(width: width, height: Double(NSHeight(NSScreen.mainScreen()!.frame)))
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "opacityChange:", name: "tracker_opacity", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cardSizeChange:", name: "card_size", object: nil)
@@ -57,12 +76,10 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
 
     func setSecrets(opponentSecrets: OpponentSecrets) {
         cards.removeAll()
-        opponentSecrets.secrets.forEach { (secret) in
-            secret.possibleSecrets.forEach { (cardId, possible) in
-                if let card = Cards.byId(cardId) {
-                    card.count = possible ? 1 : 0
-                    cards.append(card)
-                }
+        opponentSecrets.getSecrets().forEach { (secret) in
+            if let card = Cards.byId(secret.cardId) {
+                card.count = secret.count
+                cards.append(card)
             }
         }
         table.reloadData()

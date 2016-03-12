@@ -62,11 +62,7 @@ class CardEntity: Equatable, CustomStringConvertible {
     }
 
     init(cardId: String? = nil, entity: Entity? = nil) {
-        if let entity = entity {
-            self.cardId = entity.cardId
-        } else {
-            self.cardId = cardId
-        }
+        self.cardId = (String.isNullOrEmpty(cardId) && entity != nil) ? entity!.cardId : cardId
         self.entity = entity
         self.turn = -1
     }
