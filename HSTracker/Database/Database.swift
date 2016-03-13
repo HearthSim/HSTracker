@@ -70,7 +70,7 @@ class Cards {
 }
 
 class Database {
-    static let validCardSet: [String] = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS"]
+    static let validCardSet = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS"]
 
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
@@ -110,7 +110,7 @@ class Database {
 
                         if let cardId = jsonCard["id"] as? String {
 
-                            if lang == "enUS" {
+                            if lang == "enUS" && langs.count > 1 {
                                 if let card = Cards.cards.firstWhere({ $0.cardId == cardId }) {
                                     if let name = jsonCard["name"] as? String {
                                         card.enName = name
