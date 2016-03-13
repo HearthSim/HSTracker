@@ -12,7 +12,7 @@
 		4317196F1C84910600F5988B /* EditDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4317196E1C84910600F5988B /* EditDeck.xib */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
 		431719731C885BD600F5988B /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719721C885BD600F5988B /* CardCell.swift */; };
-		431719751C89ADA000F5988B /* NSAlert+HSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */; };
+		431719751C89ADA000F5988B /* NSAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719741C89ADA000F5988B /* NSAlert.swift */; };
 		431719791C8C179D00F5988B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
 		4317197B1C8C19B500F5988B /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197A1C8C19B500F5988B /* Statistic.swift */; };
 		4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* CountTextCellView.swift */; };
@@ -72,8 +72,8 @@
 		439C7EE11C777FA900D29859 /* CardCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED61C777FA900D29859 /* CardCellView.swift */; };
 		439C7EE31C777FA900D29859 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EDC1C777FA900D29859 /* Tracker.swift */; };
 		439C7EE41C777FA900D29859 /* Tracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EDD1C777FA900D29859 /* Tracker.xib */; };
-		439C7EEA1C777FCF00D29859 /* NSArray+HSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE81C777FCF00D29859 /* NSArray+HSTracker.swift */; };
-		439C7EEB1C777FCF00D29859 /* NSString+HSTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE91C777FCF00D29859 /* NSString+HSTracker.swift */; };
+		439C7EEA1C777FCF00D29859 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE81C777FCF00D29859 /* Array.swift */; };
+		439C7EEB1C777FCF00D29859 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE91C777FCF00D29859 /* String.swift */; };
 		439C7EEC1C77991100D29859 /* CardSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED71C777FA900D29859 /* CardSize.swift */; };
 		439C7EED1C77997000D29859 /* HandCountPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED81C777FA900D29859 /* HandCountPosition.swift */; };
 		439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */; };
@@ -102,6 +102,7 @@
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
 		43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
 		43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EE71C94B4CA00C26950 /* CardHud.xib */; };
+		43E77EEA1C95713300C26950 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE91C95713300C26950 /* Date.swift */; };
 		43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB931C7DE1E40077AC1B /* DeckManager.xib */; };
 		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
 		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
@@ -135,7 +136,7 @@
 		4317196E1C84910600F5988B /* EditDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDeck.xib; sourceTree = "<group>"; };
 		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
 		431719721C885BD600F5988B /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
-		431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAlert+HSTracker.swift"; sourceTree = "<group>"; };
+		431719741C89ADA000F5988B /* NSAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSAlert.swift; sourceTree = "<group>"; };
 		431719781C8C179D00F5988B /* Rarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
 		4317197A1C8C19B500F5988B /* Statistic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
 		4317197C1C8C54FF00F5988B /* CountTextCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountTextCellView.swift; sourceTree = "<group>"; };
@@ -204,8 +205,8 @@
 		439C7ED81C777FA900D29859 /* HandCountPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandCountPosition.swift; sourceTree = "<group>"; };
 		439C7EDC1C777FA900D29859 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		439C7EDD1C777FA900D29859 /* Tracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Tracker.xib; sourceTree = "<group>"; };
-		439C7EE81C777FCF00D29859 /* NSArray+HSTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSArray+HSTracker.swift"; sourceTree = "<group>"; };
-		439C7EE91C777FCF00D29859 /* NSString+HSTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+HSTracker.swift"; sourceTree = "<group>"; };
+		439C7EE81C777FCF00D29859 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		439C7EE91C777FCF00D29859 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialConfiguration.xib; sourceTree = "<group>"; };
 		439C7EEF1C78A71300D29859 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		439C7EF01C78A71300D29859 /* Splashscreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Splashscreen.xib; sourceTree = "<group>"; };
@@ -232,6 +233,7 @@
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
 		43E77EE51C94B4B400C26950 /* CardHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHud.swift; sourceTree = "<group>"; };
 		43E77EE71C94B4CA00C26950 /* CardHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHud.xib; sourceTree = "<group>"; };
+		43E77EE91C95713300C26950 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		43EECB931C7DE1E40077AC1B /* DeckManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckManager.xib; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
 		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
@@ -514,10 +516,11 @@
 		439C7EE71C777FCF00D29859 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				439C7EE81C777FCF00D29859 /* NSArray+HSTracker.swift */,
-				439C7EE91C777FCF00D29859 /* NSString+HSTracker.swift */,
+				439C7EE81C777FCF00D29859 /* Array.swift */,
+				439C7EE91C777FCF00D29859 /* String.swift */,
 				436969141C80653000CE1D29 /* LinqExtension.swift */,
-				431719741C89ADA000F5988B /* NSAlert+HSTracker.swift */,
+				431719741C89ADA000F5988B /* NSAlert.swift */,
+				43E77EE91C95713300C26950 /* Date.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -884,7 +887,7 @@
 				439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
 				4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */,
-				439C7EEB1C777FCF00D29859 /* NSString+HSTracker.swift in Sources */,
+				439C7EEB1C777FCF00D29859 /* String.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
@@ -916,11 +919,11 @@
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
-				439C7EEA1C777FCF00D29859 /* NSArray+HSTracker.swift in Sources */,
+				439C7EEA1C777FCF00D29859 /* Array.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
 				434C2F361C7F4857001D1D91 /* HearthstoneDecks.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
-				431719751C89ADA000F5988B /* NSAlert+HSTracker.swift in Sources */,
+				431719751C89ADA000F5988B /* NSAlert.swift in Sources */,
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
 				434C2F3A1C7F48BE001D1D91 /* Hearthhead.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
@@ -937,6 +940,7 @@
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439C7EC41C777F8900D29859 /* NetHandler.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
+				43E77EEA1C95713300C26950 /* Date.swift in Sources */,
 				64C11831FAF872B46E57E719 /* CardIds.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
