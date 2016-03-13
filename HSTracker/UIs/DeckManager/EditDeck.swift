@@ -53,7 +53,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         super.windowDidLoad()
 
         let gridLayout = JNWCollectionViewGridLayout()
-        gridLayout.itemSize = NSMakeSize(191, 290)
+        gridLayout.itemSize = NSMakeSize(177, 259)
         collectionView.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
         collectionView.collectionViewLayout = gridLayout
         collectionView.registerClass(CardCell.self, forCellWithReuseIdentifier: "card_cell")
