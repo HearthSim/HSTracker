@@ -7,4 +7,4 @@ before_install:
     - if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
 script: 
   - xctool clean build -workspace HSTracker.xcworkspace -scheme HSTracker -sdk macosx
-  - xctool test -workspace HSTracker.xcworkspace -scheme HSTrackerTests -sdk macosx
+  - xctool test -workspace HSTracker.xcworkspace -scheme HSTracker -sdk macosx
