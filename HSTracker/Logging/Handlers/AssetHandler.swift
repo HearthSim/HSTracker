@@ -39,7 +39,7 @@ class AssetHandler {
             } else if (game.currentMode == Mode.COLLECTIONMANAGER || game.currentMode == Mode.TAVERN_BRAWL) && game.previousMode == Mode.HUB {
                 DDLogInfo("Possible constructed card draft : \(cardId) ?")
             }
-        } else if line.isMatch(NSRegularExpression.rx("unloading name=Tavern_Brawl")) {
+        } else if line.contains("unloading name=Tavern_Brawl") {
             game.currentGameMode = .Brawl
         }
     }

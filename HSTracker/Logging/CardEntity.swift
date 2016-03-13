@@ -20,22 +20,21 @@ class CardEntity: Equatable, CustomStringConvertible {
     }
     var prevTurn = -1
     var cardMark: CardMark {
-        get {
-            if cardId == CardIds.NonCollectible.Neutral.TheCoin || cardId == CardIds.NonCollectible.Neutral.GallywixsCoinToken {
-                return .Coin
-            }
-            if returned {
-                return .Returned
-            }
-            if created || stolen {
-                return .Created
-            }
-            if mulliganed {
-                return .Mulliganed
-            }
-            return .None
+        if cardId == CardIds.NonCollectible.Neutral.TheCoin || cardId == CardIds.NonCollectible.Neutral.GallywixsCoinToken {
+            return .Coin
         }
+        if returned {
+            return .Returned
+        }
+        if created || stolen {
+            return .Created
+        }
+        if mulliganed {
+            return .Mulliganed
+        }
+        return .None
     }
+
     var discarded: Bool = false
     var returned: Bool = false
     var mulliganed: Bool = false
@@ -70,12 +69,6 @@ class CardEntity: Equatable, CustomStringConvertible {
     func reset() {
         self.created = false
         self.cardId = nil
-    }
-
-    static let zonePosComparison: ((CardEntity, CardEntity) -> Bool) = {
-        let v1 = $0.entity?.getTag(GameTag.ZONE_POSITION) ?? 10
-        let v2 = $1.entity?.getTag(GameTag.ZONE_POSITION) ?? 10
-        return v1 < v2
     }
 
     func update(entity: Entity?) {

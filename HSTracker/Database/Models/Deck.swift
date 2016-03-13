@@ -183,7 +183,6 @@ class Deck : Hashable, CustomStringConvertible {
 
     func isValid() -> Bool {
         let count = countCards()
-        DDLogVerbose("Found \(count)")
         return count == 30
     }
 
@@ -259,7 +258,6 @@ class Deck : Hashable, CustomStringConvertible {
             }
         }
 
-        DDLogVerbose("\(deck)")
         return deck
     }
 

@@ -547,7 +547,7 @@ class Player {
             if let _cardEntity = cardEntity {
                 _cardEntity.turn = turn
                 to.append(_cardEntity)
-                to.sortInPlace(CardEntity.zonePosComparison)
+                to.sortInPlace(zonePosComparison)
             }
             return cardEntity
     }
@@ -566,7 +566,8 @@ class Player {
         switch zone {
         case .HAND:
             updateCardEntity(entity)
-            hand.sortInPlace(CardEntity.zonePosComparison)
+            hand.sortInPlace(zonePosComparison)
+            DDLogVerbose("\(debugName) sorting hand \(hand)")
             if !isLocalPlayer && turn == 0 && hand.count == 5 && hand[4].entity?.id > 67 {
                 hand[4].cardId = CardIds.NonCollectible.Neutral.TheCoin
                 hand[4].created = true
@@ -576,10 +577,16 @@ class Player {
 
         case .PLAY:
             updateCardEntity(entity)
-            board.sortInPlace(CardEntity.zonePosComparison)
+            board.sortInPlace(zonePosComparison)
 
         default: break
         }
+    }
+
+    let zonePosComparison: ((CardEntity, CardEntity) -> Bool) = {
+        let v1 = $0.entity?.getTag(.ZONE_POSITION) ?? 10
+        let v2 = $1.entity?.getTag(.ZONE_POSITION) ?? 10
+        return v1 < v2
     }
 
     func updateCardEntity(entity: Entity)

@@ -28,8 +28,8 @@ class TimerHud: NSWindowController {
     }
 
     func tick(seconds: Int, _ playerSeconds: Int, _ opponentSeconds: Int) {
-        turnLabel.stringValue = "\((seconds / 60) % 60):\(seconds % 60)"
-        playerLabel.stringValue = "\((playerSeconds / 60) % 60):\(playerSeconds % 60)"
-        opponentLabel.stringValue = "\((opponentSeconds / 60) % 60):\(opponentSeconds % 60)"
+        turnLabel.stringValue = String(format: "%d:%02d", (seconds / 60) % 60, seconds % 60)
+        playerLabel.stringValue = String(format: "%d:%02d", (playerSeconds / 60) % 60, playerSeconds % 60)
+        opponentLabel.stringValue = String(format: "%d:%02d", (opponentSeconds / 60) % 60, opponentSeconds % 60)
     }
 }

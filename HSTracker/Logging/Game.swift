@@ -97,6 +97,8 @@ class Game {
 
         opponentSecretCount = 0
         opponentSecrets?.clearSecrets()
+        secretTracker?.window?.orderOut(self)
+        timerHud?.window?.orderOut(self)
 
         player.reset()
         opponent.reset()
@@ -407,6 +409,7 @@ class Game {
         }
         else if playerType == .Opponent {
             opponent.updateZonePos(entity, zone, turn)
+            updateCardHuds()
         }
     }
 
@@ -673,7 +676,6 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentPlayToHand(entity: Entity, _ cardId: String?, _ turn: Int, _ id: Int) {
@@ -681,7 +683,6 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentPlayToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -689,7 +690,6 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentPlay(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
@@ -706,7 +706,6 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromDeck: Bool, _ otherId: Int) {
@@ -717,7 +716,6 @@ class Game {
         } else {
             opponent.secretPlayedFromHand(entity, turn)
         }
-        updateCardHuds()
 
         var heroClass: HeroClass?
         var className = "\(entity.getTag(.CLASS))"
@@ -748,12 +746,10 @@ class Game {
 
     func opponentMulligan(entity: Entity, _ from: Int) {
         opponent.mulligan(entity)
-        updateCardHuds()
     }
 
     func opponentDraw(entity: Entity, _ turn: Int) {
         opponent.draw(entity, turn)
-        updateCardHuds()
     }
 
     func opponentRemoveFromDeck(entity: Entity, _ turn: Int) {
@@ -761,7 +757,6 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentDeckDiscard(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -769,7 +764,6 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentDeckToPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -777,7 +771,6 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentPlayToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int, _ playersTurn: Bool) {
@@ -785,7 +778,6 @@ class Game {
         if playersTurn && entity.isMinion {
             opponentMinionDeath(entity, turn)
         }
-        updateCardHuds()
     }
 
     func opponentJoust(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -793,7 +785,6 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentGetToDeck(entity: Entity, _ turn: Int) {
@@ -801,12 +792,10 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
-        updateCardHuds()
     }
 
     func opponentSecretTrigger(entity: Entity, _ cardId: String?, _ turn: Int, _ otherId: Int) {
         opponent.secretTriggered(entity, turn)
-        updateCardHuds()
 
         opponentSecretCount--
         opponentSecrets?.secretRemoved(otherId, cardId!)
@@ -832,7 +821,6 @@ class Game {
 
     func opponentCreateInPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
         opponent.createInPlay(entity, turn)
-        updateCardHuds()
     }
 
     func opponentStolen(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -863,12 +851,10 @@ class Game {
                 tracker.update()
             }
         }
-        updateCardHuds()
     }
 
     func opponentRemoveFromPlay(entity: Entity, _ turn: Int) {
         player.removeFromPlay(entity, turn)
-        updateCardHuds()
     }
 
     func opponentHeroPower(cardId: String, _ turn: Int) {
@@ -1020,6 +1006,7 @@ class Game {
 
     func updateCardHuds() {
         let opponentHandCount = opponent.handCount
+        DDLogVerbose("updateCardHuds : \(opponentHandCount)")
         guard let _ = cardHuds else { return }
 
         if let cardHuds = cardHuds {

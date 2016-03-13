@@ -32,6 +32,11 @@ class LogReader {
         }
 
         self.path = Hearthstone.instance.logPath + "/\(name).log"
+        if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(self.path)
+            } catch { }
+        }
     }
 
     func findEntryPoint(choice: String) -> Double {
@@ -85,11 +90,6 @@ class LogReader {
 
     func start(entryPoint: Double) {
         DDLogInfo("Starting reader \(self.name), (\(self.path):\(entryPoint)")
-        if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
-            /*do {
-             try NSFileManager.defaultManager().removeItemAtPath(self.path)
-             } catch { }*/
-        }
 
         stopped = false
         startingPoint = entryPoint

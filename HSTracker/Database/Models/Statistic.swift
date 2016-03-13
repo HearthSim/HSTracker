@@ -15,6 +15,7 @@ class Statistic {
     var opponentName: String = ""
     var playerRank: Int = 0
     var playerMode: GameMode = .None
+    var date = NSDate()
 
     func toDict() -> [String: AnyObject] {
         return [
@@ -23,7 +24,8 @@ class Statistic {
             "gameResult": self.gameResult.rawValue,
             "hasCoin": Int(self.hasCoin),
             "playerRank": self.playerRank,
-            "playerMode": self.playerMode.rawValue
+            "playerMode": self.playerMode.rawValue,
+            "date": date.timeIntervalSince1970
         ]
     }
 
@@ -33,14 +35,16 @@ class Statistic {
             let gameResult = dict["gameResult"] as? Int,
             let hasCoin = dict["hasCoin"] as? Int,
             let playerRank = dict["playerRank"] as? Int,
-            let playerMode = dict["playerMode"] as? Int {
-                                let statistic = Statistic()
+            let playerMode = dict["playerMode"] as? Int,
+            let date = dict["date"] as? Double {
+                let statistic = Statistic()
                 statistic.opponentName = opponentName
                 statistic.opponentClass = opponentClass
                 statistic.gameResult = GameResult(rawValue: gameResult)!
                 statistic.hasCoin = Bool(hasCoin)
                 statistic.playerRank = playerRank
                 statistic.playerMode = GameMode(rawValue: playerMode)!
+                statistic.date = NSDate(timeIntervalSince1970: date)
                 return statistic
         }
         return nil

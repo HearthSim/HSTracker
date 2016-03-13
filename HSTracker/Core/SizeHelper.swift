@@ -177,7 +177,7 @@ class SizeHelper {
 
         let hearthstoneWindow = self.hearthstoneFrame()
         if let _ = hearthstoneWindow {
-            var frame = NSMakeRect(0, 0, 40, 80)
+            var frame = NSMakeRect(0, 0, 70, 80)
 
             if let pos = points[cardCount]?[position] {
                 frame.origin.x = pos.x

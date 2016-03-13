@@ -9,7 +9,7 @@
 import Foundation
 
 class CardHud : NSWindowController {
-    var position: Int = 0
+
     var entity: CardEntity?
 
     @IBOutlet weak var label: NSTextFieldCell!
@@ -32,22 +32,23 @@ class CardHud : NSWindowController {
 
         if let entity = entity {
             text += "\(entity.turn)"
+            DDLogVerbose("turn : \(entity.turn), mark: \(entity.cardMark), cardId : \(entity.cardId) / \(entity.entity?.cardId)")
 
             switch entity.cardMark {
             case .Coin:
-                label.stringValue += "C"
+                text += "C"
 
             case .Kept:
-                label.stringValue += "K"
+                text += "K"
 
             case .Mulliganed:
-                label.stringValue += "M"
+                text += "M"
 
             case .Returned:
-                label.stringValue += "R"
+                text += "R"
 
             case .Created:
-                label.stringValue += "Cr"
+                text += "Cr"
 
             default: break
             }

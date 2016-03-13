@@ -104,6 +104,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     }
                 }
             }
+            NSOperationQueue.mainQueue().addOperationWithBlock() {
+                game.reset()
+            }
 
             Hearthstone.instance.start()
         })
@@ -229,9 +232,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             tracker.showWindow(self)
         }
 
-        for i in 0 ... 10 {
+        for _ in 0 ... 10 {
             let cardHud = CardHud(windowNibName: "CardHud")
-            cardHud.position = i
             cardHuds.append(cardHud)
         }
     }

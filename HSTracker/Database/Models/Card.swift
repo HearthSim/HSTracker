@@ -100,7 +100,7 @@ class Card : Hashable, CustomStringConvertible {
          + ", self.name=\(self.name)"
          + ", self.enName=\(self.enName)"
          + ", self.count=\(self.count)>"*/
-        return "[\(self.name):\(self.count)]"
+        return "[\(self.name)(\(self.cardId)):\(self.count)]"
     }
 
     var hashValue: Int {

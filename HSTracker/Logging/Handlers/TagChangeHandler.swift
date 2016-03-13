@@ -152,7 +152,7 @@ class TagChangeHandler {
             game.player.id = playerId
             game.opponent.id = playerId % 2 + 1
         }
-        DDLogVerbose("\(playerId) \(isOpponentId) -> player id = \(game.player.id), opponent id = \(game.opponent.id)")
+
         game.determinedPlayers = game.playerEntity != nil
     }
 }
