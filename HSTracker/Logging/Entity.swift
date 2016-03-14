@@ -32,10 +32,7 @@ class Entity: Hashable, CustomStringConvertible {
     }
 
     func hasTag(tag: GameTag) -> Bool {
-        if let _ = self.tags[tag] {
-            return true
-        }
-        return false
+        return getTag(tag) > 0
     }
 
     func setPlayer(isPlayer: Bool) {
@@ -44,7 +41,7 @@ class Entity: Hashable, CustomStringConvertible {
 
     var isActiveDeathrattle: Bool { return hasTag(.DEATHRATTLE) && getTag(.DEATHRATTLE) == 1 }
 
-    var isCurrentPlayer: Bool { return hasTag(GameTag.CURRENT_PLAYER) }
+    var isCurrentPlayer: Bool { return hasTag(.CURRENT_PLAYER) }
 
     func isInZone(zone: Zone) -> Bool {
         return hasTag(.ZONE) ? getTag(.ZONE) == zone.rawValue : false

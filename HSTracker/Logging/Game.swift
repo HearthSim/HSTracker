@@ -230,6 +230,12 @@ class Game {
         self.playerTracker?.gameEnd()
         self.opponentTracker?.gameEnd()
         self.timerHud?.window?.orderOut(self)
+        if let cardHuds = cardHuds {
+            for i in 0 ... 10 {
+                let cardHud = cardHuds[i]
+                cardHud.window?.orderOut(self)
+            }
+        }
     }
 
     func debugSecrets() {
@@ -498,14 +504,14 @@ class Game {
                     }
                 }
             }
-            else if entity.isMinion && playerMinionCount > 3 {
-                opponentSecrets?.setZero(CardIds.Secrets.Paladin.SacredTrial)
-
-                if let secretTracker = self.secretTracker,
-                    let opponentSecrets = opponentSecrets {
-                        secretTracker.setSecrets(opponentSecrets)
-                        secretTracker.showWindow(self)
-                }
+        }
+        else if entity.isMinion && playerMinionCount > 3 {
+            opponentSecrets?.setZero(CardIds.Secrets.Paladin.SacredTrial)
+            
+            if let secretTracker = self.secretTracker,
+                let opponentSecrets = opponentSecrets {
+                    secretTracker.setSecrets(opponentSecrets)
+                    secretTracker.showWindow(self)
             }
         }
     }

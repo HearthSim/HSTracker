@@ -271,8 +271,7 @@ class TagChangeActions {
             return
         }
         if let playerEntity = game.playerEntity {
-            let activePlayer: PlayerType = playerEntity.getTag(.CURRENT_PLAYER) == playerEntity.getTag(.CONTROLLER) ? .Player : .Opponent
-
+            let activePlayer: PlayerType = playerEntity.hasTag(.CURRENT_PLAYER) ? .Player : .Opponent
             game.turnStart(activePlayer, game.turnNumber())
 
             if activePlayer == .Player {
