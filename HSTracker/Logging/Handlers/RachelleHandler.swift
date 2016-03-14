@@ -9,23 +9,25 @@
  */
 
 class RachelleHandler {
-    static let TowardsGolds = NSRegularExpression.rx("(\\d)/3 wins towards 10 gold")
-    static let CardInCache = NSRegularExpression.rx(".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\.")
+    static let TowardsGolds = "(\\d)/3 wins towards 10 gold"
+    static let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
 
     static func handle(game: Game, _ line: String) {
-        if line.isMatch(TowardsGolds) {
-            if let victories = Int(line.firstMatch(TowardsGolds)) {
-                DDLogInfo("\(victories) / 3 -> 10 gold")
+        if line.match(TowardsGolds) {
+            if let match = line.matches(TowardsGolds).first,
+                let victories = Int(match.value) {
+                    DDLogInfo("\(victories) / 3 -> 10 gold")
             }
         }
 
-        if line.isMatch(CardInCache) {
-            let match = line.firstMatchWithDetails(CardInCache)
-            let cardId: String = match.groups[1].value
-            if game.currentGameMode == .Arena {
-                DDLogInfo("Possible arena card draft : \(cardId) ?")
-            } else {
-                DDLogInfo("Possible constructed card draft : \(cardId) ?")
+        if line.match(CardInCache) {
+            if let match = line.matches(CardInCache).first {
+                let cardId: String = match.value
+                if game.currentGameMode == .Arena {
+                    DDLogInfo("Possible arena card draft : \(cardId) ?")
+                } else {
+                    DDLogInfo("Possible constructed card draft : \(cardId) ?")
+                }
             }
         }
     }

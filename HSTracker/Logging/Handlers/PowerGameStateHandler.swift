@@ -12,25 +12,24 @@ import Foundation
 import RegExCategories
 
 class PowerGameStateHandler {
-    static let CardIdRegex = NSRegularExpression.rx("cardId=(\\w+)")
-    static let GameEntityRegex = NSRegularExpression.rx("GameEntity EntityID=(\\d+)")
-    static let PlayerEntityRegex = NSRegularExpression.rx("Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)")
-    static let EntityNameRegex = NSRegularExpression.rx("TAG_CHANGE Entity=([\\w\\s]+\\w) tag=PLAYER_ID value=(\\d)")
-    static let TagChangeRegex = NSRegularExpression.rx("TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)")
-    static let CreationRegex = NSRegularExpression.rx("FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)")
-    static let CreationRegex1 = NSRegularExpression.rx("FULL_ENTITY - Creating ID=(\\d+) CardID=(\\w*)")
-    static let UpdatingEntityRegex = NSRegularExpression.rx("SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)")
+    static let CardIdRegex = "cardId=(\\w+)"
+    static let GameEntityRegex = "GameEntity EntityID=(\\d+)"
+    static let PlayerEntityRegex = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
+    static let EntityNameRegex = "TAG_CHANGE Entity=([\\w\\s]+\\w) tag=PLAYER_ID value=(\\d)"
+    static let TagChangeRegex = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
+    static let CreationRegex = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
+    static let UpdatingEntityRegex = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
 
-    static let CreationTagRegex = NSRegularExpression.rx("tag=(\\w+) value=(\\w+)")
-    static let ActionStartRegex = NSRegularExpression.rx(".*ACTION_START.*id=(\\d*).*cardId=(\\w*).*BlockType=(POWER|TRIGGER).*Target=(.+)")
+    static let CreationTagRegex = "tag=(\\w+) value=(\\w+)"
+    static let ActionStartRegex = ".*ACTION_START.*id=(\\d*).*cardId=(\\w*).*BlockType=(POWER|TRIGGER).*Target=(.+)"
 
-    static let ParseEntityIDRegex = NSRegularExpression.rx("id=(\\d+)")
-    static let ParseEntityZonePosRegex = NSRegularExpression.rx("zonePos=(\\d+)")
-    static let ParseEntityPlayerRegex = NSRegularExpression.rx("player=(\\d+)")
-    static let ParseEntityNameRegex = NSRegularExpression.rx("name=(\\d+)")
-    static let ParseEntityZoneRegex = NSRegularExpression.rx("zone=(\\d+)")
-    static let ParseEntityCardIDRegex = NSRegularExpression.rx("cardId=(\\d+)")
-    static let ParseEntityTypeRegex = NSRegularExpression.rx("type=(\\d+)")
+    static let ParseEntityIDRegex = "id=(\\d+)"
+    static let ParseEntityZonePosRegex = "zonePos=(\\d+)"
+    static let ParseEntityPlayerRegex = "player=(\\d+)"
+    static let ParseEntityNameRegex = "name=(\\d+)"
+    static let ParseEntityZoneRegex = "zone=(\\d+)"
+    static let ParseEntityCardIDRegex = "cardId=(\\d+)"
+    static let ParseEntityTypeRegex = "type=(\\d+)"
 
     static let tagChangeHandler = TagChangeHandler()
     static var currentEntity: Entity?
@@ -40,57 +39,41 @@ class PowerGameStateHandler {
         var creationTag = false
 
         // current game
-        if line.isMatch(GameEntityRegex) {
+        if line.match(GameEntityRegex) {
             game.gameStart()
 
-            let match = line.firstMatchWithDetails(GameEntityRegex)
-            if let id = Int(match.groups[1].value) {
-                // DDLogVerbose("GameEntityRegex id : \(id)")
-                if game.entities[id] == .None {
-                    let entity = Entity(id)
-                    entity.name = "GameEntity"
-                    game.entities[id] = entity
-                }
-                game.currentEntityId = id
-                setup = true
+            if let match = line.matches(GameEntityRegex).first,
+                let id = Int(match.value) {
+                    // DDLogVerbose("GameEntityRegex id : \(id)")
+                    if game.entities[id] == .None {
+                        let entity = Entity(id)
+                        entity.name = "GameEntity"
+                        game.entities[id] = entity
+                    }
+                    game.currentEntityId = id
+                    setup = true
             }
         }
 
         // players
-        else if line.isMatch(PlayerEntityRegex) {
-            let match = line.firstMatchWithDetails(PlayerEntityRegex)
-            if let id = Int(match.groups[1].value) {
-                // DDLogVerbose("PlayerEntityRegex id: \(id)")
-                if game.entities[id] == .None {
-                    game.entities[id] = Entity(id)
-                }
-                game.currentEntityId = id
-                setup = true
+        else if line.match(PlayerEntityRegex) {
+            if let match = line.matches(PlayerEntityRegex).first,
+                let id = Int(match.value) {
+                    // DDLogVerbose("PlayerEntityRegex id: \(id)")
+                    if game.entities[id] == .None {
+                        game.entities[id] = Entity(id)
+                    }
+                    game.currentEntityId = id
+                    setup = true
             }
         }
 
-        /*else if line.isMatch(CreationRegex1) {
-            let match = line.firstMatchWithDetails(CreationRegex1)
-            let id = Int(match.groups[1].value)!
-            let cardId: String = match.groups[2].value
-            if game.entities[id] == .None {
-                let entity = Entity(id)
-                game.entities[id] = entity
-            }
-            if !String.isNullOrEmpty(cardId) {
-                game.entities[id]!.cardId = cardId
-            }
-            game.currentEntityId = id
-            game.currentEntityHasCardId = !String.isNullOrEmpty(cardId)
-            setup = true
-        }*/
+        else if line.match(TagChangeRegex) {
+            let matches = line.matches(TagChangeRegex)
 
-        else if line.isMatch(TagChangeRegex) {
-            var match = line.firstMatchWithDetails(TagChangeRegex)
-
-            let rawEntity = match.groups[1].value.stringByReplacingOccurrencesOfString("UNKNOWN ENTITY ", withString: "")
-            let tag: String = match.groups[2].value
-            let value: String = match.groups[3].value
+            let rawEntity = matches[0].value.stringByReplacingOccurrencesOfString("UNKNOWN ENTITY ", withString: "")
+            let tag = matches[1].value
+            let value = matches[2].value
 
             if rawEntity.startsWith("[") && tagChangeHandler.isEntity(rawEntity) {
                 let entity = tagChangeHandler.parseEntity(rawEntity)
@@ -163,20 +146,20 @@ class PowerGameStateHandler {
                 }
             }
 
-            if line.isMatch(EntityNameRegex) {
-                match = line.firstMatchWithDetails(EntityNameRegex)
-                let name: String = match.groups[1].value
-                let player = Int(match.groups[2].value)
+            if line.match(EntityNameRegex) {
+                let matches = line.matches(EntityNameRegex)
+                let name = matches[0].value
+                let player = Int(matches[1].value)
                 // DDLogVerbose("EntityNameRegex \(EntityNameRegex) -> \(name):\(player)")
                 setPlayerName(game, player!, name)
             }
         }
 
-        else if line.isMatch(CreationRegex) {
-            let match = line.firstMatchWithDetails(CreationRegex)
-            let id = Int(match.groups[1].value)!
-            let zone: String = match.groups[2].value
-            var cardId: String = match.groups[3].value
+        else if line.match(CreationRegex) {
+            let matches = line.matches(CreationRegex)
+            let id = Int(matches[0].value)!
+            let zone = matches[1].value
+            var cardId = matches[2].value
             if game.entities[id] == .None {
                 if String.isNullOrEmpty(cardId) {
                     if game.knownCardIds[id] != .None {
@@ -200,10 +183,10 @@ class PowerGameStateHandler {
             setup = true
         }
 
-        else if line.isMatch(UpdatingEntityRegex) {
-            let match = line.firstMatchWithDetails(UpdatingEntityRegex)
-            let rawEntity: String = match.groups[1].value
-            let cardId: String = match.groups[2].value
+        else if line.match(UpdatingEntityRegex) {
+            let matches = line.matches(UpdatingEntityRegex)
+            let rawEntity = matches[0].value
+            let cardId = matches[1].value
             // DDLogVerbose("UpdatingEntityRegex \(rawEntity) -> \(cardId)")
             var entityId: Int?
 
@@ -237,10 +220,10 @@ class PowerGameStateHandler {
             }
         }
 
-        else if line.isMatch(CreationTagRegex) && !line.containsString("HIDE_ENTITY") {
-            let match = line.firstMatchWithDetails(CreationTagRegex)
-            let tag: String = match.groups[1].value
-            let value: String = match.groups[2].value
+        else if line.match(CreationTagRegex) && !line.containsString("HIDE_ENTITY") {
+            let matches = line.matches(CreationTagRegex)
+            let tag = matches[0].value
+            let value = matches[1].value
             // DDLogVerbose("CreationTagRegex \(game.currentEntityId) -> \(tag):\(value)")
             tagChangeHandler.tagChange(game, tag, game.currentEntityId, value, true)
             setup = true
@@ -256,10 +239,10 @@ class PowerGameStateHandler {
             game.gameEnd()
         }
 
-        else if line.isMatch(ActionStartRegex) {
-            let match = line.firstMatchWithDetails(ActionStartRegex)
-            let actionStartingEntityId = Int(match.groups[1].value)!
-            var actionStartingCardId: String? = match.groups[2].value
+        else if line.match(ActionStartRegex) {
+            let matches = line.matches(ActionStartRegex)
+            let actionStartingEntityId = Int(matches[0].value)!
+            var actionStartingCardId: String? = matches[1].value
             // DDLogVerbose("ActionStartRegex \(actionStartingEntityId) -> \(actionStartingCardId)")
 
             let player = game.entities.map { $0.1 }.firstWhere { $0.hasTag(.PLAYER_ID) && $0.getTag(.PLAYER_ID) == game.player.id }
@@ -275,7 +258,7 @@ class PowerGameStateHandler {
                 return
             }
 
-            let type: String = match.groups[3].value;
+            let type: String = matches[2].value;
             if type == "TRIGGER" {
                 if actionStartingCardId == CardIds.Collectible.Rogue.TradePrinceGallywix {
                     if let lastCardPlayed = game.lastCardPlayed {
@@ -289,13 +272,13 @@ class PowerGameStateHandler {
                 }
             } else {
                 if actionStartingCardId == CardIds.Collectible.Rogue.GangUp {
-                    addTargetAsKnownCardId(match, 3)
+                    addTargetAsKnownCardId(matches, 3)
                 } else if actionStartingCardId == CardIds.Collectible.Rogue.BeneathTheGrounds {
                     addKnownCardId(CardIds.NonCollectible.Rogue.AmbushToken, 3)
                 } else if actionStartingCardId == CardIds.Collectible.Warrior.IronJuggernaut {
                     addKnownCardId(CardIds.NonCollectible.Warrior.BurrowingMineToken)
                 } else if actionStartingCardId == CardIds.Collectible.Druid.Recycle {
-                    addTargetAsKnownCardId(match)
+                    addTargetAsKnownCardId(matches)
                 } else if actionStartingCardId == CardIds.Collectible.Mage.ForgottenTorch {
                     addKnownCardId(CardIds.NonCollectible.Mage.RoaringTorchToken)
                 } else if actionStartingCardId == CardIds.Collectible.Warlock.CurseOfRafaam {
@@ -353,16 +336,16 @@ class PowerGameStateHandler {
         }
     }
 
-    private static func addTargetAsKnownCardId(match: RxMatch, _ count: Int = 1) {
-        let target: String = match.groups[4].value.trim()
+    private static func addTargetAsKnownCardId(matches: [Match], _ count: Int = 1) {
+        let target: String = matches[3].value.trim()
         if !target.startsWith("[") || !tagChangeHandler.isEntity(target) {
             return
         }
-        if !target.isMatch(CardIdRegex) {
+        if !target.match(CardIdRegex) {
             return
         }
-        let cardIdMatch = target.firstMatchWithDetails(CardIdRegex)
-        let targetCardId: String = cardIdMatch.groups[1].value.trim()
+        let cardIdMatch = target.matches(CardIdRegex)
+        let targetCardId: String = cardIdMatch[0].value.trim()
         let game = Game.instance
         for i in 0 ..< count {
             let id = getMaxEntityId() + i + 1

@@ -9,8 +9,6 @@
 #ifndef HSTracker_Bridging_Header_h
 #define HSTracker_Bridging_Header_h
 
-#import <RegExCategories/RegExCategories.h>
-
 #define LOG_LEVEL_DEF ddLogLevel
 
 #import <CocoaLumberjack/CocoaLumberjack.h>

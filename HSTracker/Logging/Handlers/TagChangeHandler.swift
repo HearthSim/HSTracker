@@ -72,35 +72,42 @@ class TagChangeHandler {
     // parse an entity
     func parseEntity(entity: String) -> (id: Int?, zonePos: Int?, player: Int?, name: String?, zone: String?, cardId: String?, type: String?) {
         var id: Int?, zonePos: Int?, player: Int?
-        if entity.isMatch(PowerGameStateHandler.ParseEntityIDRegex) {
-            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityIDRegex)
-            id = Int(match.groups[1].value)
+        if entity.match(PowerGameStateHandler.ParseEntityIDRegex) {
+            if let match = entity.matches(PowerGameStateHandler.ParseEntityIDRegex).first {
+                id = Int(match.value)
+            }
         }
-        if entity.isMatch(PowerGameStateHandler.ParseEntityZonePosRegex) {
-            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityZonePosRegex)
-            zonePos = Int(match.groups[1].value)
+        if entity.match(PowerGameStateHandler.ParseEntityZonePosRegex) {
+            if let match = entity.matches(PowerGameStateHandler.ParseEntityZonePosRegex).first {
+                zonePos = Int(match.value)
+            }
         }
-        if entity.isMatch(PowerGameStateHandler.ParseEntityPlayerRegex) {
-            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityPlayerRegex)
-            player = Int(match.groups[1].value)
+        if entity.match(PowerGameStateHandler.ParseEntityPlayerRegex) {
+            if let match = entity.matches(PowerGameStateHandler.ParseEntityPlayerRegex).first {
+                player = Int(match.value)
+            }
         }
 
         var name: String?, zone: String?, cardId: String?, type: String?
-        if entity.isMatch(PowerGameStateHandler.ParseEntityNameRegex) {
-            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityNameRegex)
-            name = match.groups[1].value
+        if entity.match(PowerGameStateHandler.ParseEntityNameRegex) {
+            if let match = entity.matches(PowerGameStateHandler.ParseEntityNameRegex).first {
+                name = match.value
+            }
         }
-        if entity.isMatch(PowerGameStateHandler.ParseEntityZoneRegex) {
-            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityZoneRegex)
-            zone = match.groups[1].value
+        if entity.match(PowerGameStateHandler.ParseEntityZoneRegex) {
+            if let match = entity.matches(PowerGameStateHandler.ParseEntityZoneRegex).first {
+                zone = match.value
+            }
         }
-        if entity.isMatch(PowerGameStateHandler.ParseEntityCardIDRegex) {
-            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityCardIDRegex)
-            cardId = match.groups[1].value
+        if entity.match(PowerGameStateHandler.ParseEntityCardIDRegex) {
+            if let match = entity.matches(PowerGameStateHandler.ParseEntityCardIDRegex).first {
+                cardId = match.value
+            }
         }
-        if entity.isMatch(PowerGameStateHandler.ParseEntityTypeRegex) {
-            let match = entity.firstMatchWithDetails(PowerGameStateHandler.ParseEntityTypeRegex)
-            type = match.groups[1].value
+        if entity.match(PowerGameStateHandler.ParseEntityTypeRegex) {
+            if let match = entity.matches(PowerGameStateHandler.ParseEntityTypeRegex).first {
+                type = match.value
+            }
         }
 
         return (id, zonePos, player, name, zone, cardId, type)

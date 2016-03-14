@@ -11,11 +11,11 @@
 import Foundation
 
 class NetHandler {
-    static let ConnectRegex = NSRegularExpression.rx("ConnectAPI\\.GotoGameServer -- address=(.+), game=(.+), client=(.+), spectateKey=(.+)")
+    static let ConnectRegex = "ConnectAPI\\.GotoGameServer -- address=(.+), game=(.+), client=(.+), spectateKey=(.+)"
 
     static func handle(game: Game, _ line: String) {
 
-        if line.isMatch(ConnectRegex) {
+        if line.match(ConnectRegex) {
             // let match = line.firstMatchWithDetails(NSRegularExpression.rx(regex))
             game.gameStart()
         }
