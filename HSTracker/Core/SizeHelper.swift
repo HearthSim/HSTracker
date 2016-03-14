@@ -162,26 +162,26 @@ class SizeHelper {
     }
 
     static func opponentCardHudFrame(position: Int, _ cardCount: Int) -> NSRect? {
-        let points: [Int: [NSPoint]] = [
-            1: [NSMakePoint(671.5, 20)],
-            2: [NSMakePoint(628.5, 20), NSMakePoint(715.5, 20)],
-            3: [NSMakePoint(578.5, 10), NSMakePoint(672.5, 20), NSMakePoint(764.5, 7)],
-            4: [NSMakePoint(567.5, -2), NSMakePoint(637.5, 15), NSMakePoint(706.5, 20), NSMakePoint(776.5, 11)],
-            5: [NSMakePoint(561.5, 5), NSMakePoint(616.5, 17), NSMakePoint(671.5, 22), NSMakePoint(729.5, 16), NSMakePoint(786.5, 3)],
-            6: [NSMakePoint(554.5, -10), NSMakePoint(602.5, 7), NSMakePoint(648.5, 16), NSMakePoint(696.5, 19), NSMakePoint(743.5, 16), NSMakePoint(791.5, 5)],
-            7: [NSMakePoint(551.5, -6), NSMakePoint(591.5, 7), NSMakePoint(631.5, 16), NSMakePoint(671.5, 20), NSMakePoint(711.5, 18), NSMakePoint(751.5, 9), NSMakePoint(794.5, -3)],
-            8: [NSMakePoint(545.5, -11), NSMakePoint(581.5, -3), NSMakePoint(616.5, 9), NSMakePoint(652.5, 17), NSMakePoint(686.5, 20), NSMakePoint(723.5, 18), NSMakePoint(759.5, 11), NSMakePoint(797.5, 0)],
-            9: [NSMakePoint(541.5, -10), NSMakePoint(573.5, 0), NSMakePoint(603.5, 10), NSMakePoint(633.5, 19), NSMakePoint(665.5, 20), NSMakePoint(697.5, 20), NSMakePoint(728.5, 13), NSMakePoint(762.5, 3), NSMakePoint(795.5, -12)],
-            10: [NSMakePoint(529.5, -10), NSMakePoint(560.5, -9), NSMakePoint(590.5, 0), NSMakePoint(618.5, 9), NSMakePoint(646.5, 16), NSMakePoint(675.5, 20), NSMakePoint(704.5, 17), NSMakePoint(732.5, 10), NSMakePoint(762.5, 3), NSMakePoint(797.5, -11)]
+        let points = [
+            [[671.5, 20]],
+            [[628.5, 20], [715.5, 20]],
+            [[578.5, 10], [672.5, 20], [764.5, 7]],
+            [[567.5, -2], [637.5, 15], [706.5, 20], [776.5, 11]],
+            [[561.5, 5], [616.5, 17], [671.5, 22], [729.5, 16], [786.5, 3]],
+            [[554.5, -10], [602.5, 7], [648.5, 16], [696.5, 19], [743.5, 16], [791.5, 5]],
+            [[551.5, -6], [591.5, 7], [631.5, 16], [671.5, 20], [711.5, 18], [751.5, 9], [794.5, -3]],
+            [[545.5, -11], [581.5, -3], [616.5, 9], [652.5, 17], [686.5, 20], [723.5, 18], [759.5, 11], [797.5, 0]],
+            [[541.5, -10], [573.5, 0], [603.5, 10], [633.5, 19], [665.5, 20], [697.5, 20], [728.5, 13], [762.5, 3], [795.5, -12]],
+            [[529.5, -10], [560.5, -9], [590.5, 0], [618.5, 9], [646.5, 16], [675.5, 20], [704.5, 17], [732.5, 10], [762.5, 3], [797.5, -11]]
         ]
 
         let hearthstoneWindow = self.hearthstoneFrame()
         if let _ = hearthstoneWindow {
             var frame = NSMakeRect(0, 0, 70, 80)
 
-            if let pos = points[cardCount]?[position] {
-                frame.origin.x = pos.x
-                frame.origin.y = pos.y
+            if let pos = points[cardCount - 1]?[position] {
+                frame.origin.x = pos[0]
+                frame.origin.y = pos[1]
             }
 
             return frameRelativeToHearthstone(frame, true)
