@@ -226,8 +226,8 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     // MARK: - Game
     func gameStart() {
         self.gameEnded = false
-        // self.cards.removeAll()
-        // self.table.reloadData()
+        self.cards.removeAll()
+        self.table.reloadData()
     }
 
     func gameEnd() {

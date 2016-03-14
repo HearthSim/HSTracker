@@ -59,7 +59,7 @@ class Player {
     var tracker: Tracker?
     var goingFirst: Bool = false
     var fatigue: Int = 0
-    // @property(nonatomic) BOOL drawnCardsMatchDeck;
+    var drawnCardsMatchDeck = true
 
     let DeckSize = 30
 
@@ -344,10 +344,7 @@ class Player {
     func secretPlayedFromDeck(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &self.deck, &self.secrets, turn) {
             updateRevealedEntity(cardEntity, turn)
-            if let cardId = entity.cardId where !String.isNullOrEmpty(cardId) {
-                self.drawnCardIds.append(cardId)
-                self.drawnCardIdsTotal.append(cardId)
-            }
+            verifyCardMatchesDeck(cardEntity)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
@@ -383,10 +380,7 @@ class Player {
                 ce.reset()
             }
 
-            if !String.isNullOrEmpty(entity.cardId) && ce.cardMark != CardMark.Created && ce.cardMark != CardMark.Returned && !ce.created {
-                self.drawnCardIds.append(entity.cardId!)
-                self.drawnCardIdsTotal.append(entity.cardId!)
-            }
+            verifyCardMatchesDeck(ce)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(ce)")
         }
     }
@@ -411,6 +405,7 @@ class Player {
         }
         if let cardEntity = moveCardEntity(entity, &self.deck, &self.removed, turn) {
             updateRevealedEntity(cardEntity, turn, true)
+            verifyCardMatchesDeck(cardEntity)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
@@ -424,14 +419,7 @@ class Player {
     func deckDiscard(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &self.deck, &self.graveyard, turn) {
             updateRevealedEntity(cardEntity, turn, true)
-
-            if let cardId = entity.cardId where !String.isNullOrEmpty(cardId) && cardEntity.cardMark != CardMark.Created && cardEntity.cardMark != CardMark.Returned {
-                /*if(self.isLocalPlayer && !CardMatchesActiveDeck(entity.CardId)) {
-                 DrawnCardsMatchDeck = false;
-                 }*/
-                self.drawnCardIds.append(cardId)
-                self.drawnCardIdsTotal.append(cardId)
-            }
+            verifyCardMatchesDeck(cardEntity)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
@@ -440,13 +428,7 @@ class Player {
         if let cardEntity = moveCardEntity(entity, &self.deck, &self.board, turn) {
             updateRevealedEntity(cardEntity, turn)
 
-            if let cardId = entity.cardId where !String.isNullOrEmpty(cardId) && cardEntity.cardMark != CardMark.Created && cardEntity.cardMark != CardMark.Returned {
-                /*if(self.isLocalPlayer && !CardMatchesActiveDeck(entity.CardId)) {
-                 DrawnCardsMatchDeck = false;
-                 }*/
-                self.drawnCardIds.append(cardId)
-                self.drawnCardIdsTotal.append(cardId)
-            }
+            verifyCardMatchesDeck(cardEntity)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
@@ -593,6 +575,19 @@ class Player {
     {
         if let cardEntity = getEntityFromCollection(hand, entity) {
             cardEntity.entity = entity
+        }
+    }
+    
+    private func verifyCardMatchesDeck(ce: CardEntity) {
+        if String.isNullOrEmpty(ce.entity?.cardId) || ce.created || ce.returned || ce.stolen {
+            return
+        }
+        if let activeDeck = Game.instance.activeDeck, let entity = ce.entity, let cardId = entity.cardId {
+            if isLocalPlayer && activeDeck.sortedCards.all({ $0.cardId != cardId}) {
+                drawnCardsMatchDeck = false
+                drawnCardIds.append(cardId)
+                drawnCardIdsTotal.append(cardId)
+            }
         }
     }
 }

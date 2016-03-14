@@ -236,6 +236,9 @@ class Game {
                 cardHud.window?.orderOut(self)
             }
         }
+        if let secretTracker = self.secretTracker {
+            secretTracker.window!.orderOut(self)
+        }
     }
 
     func debugSecrets() {
@@ -682,6 +685,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentPlayToHand(entity: Entity, _ cardId: String?, _ turn: Int, _ id: Int) {
@@ -689,6 +693,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentPlayToDeck(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -696,6 +701,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentPlay(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
@@ -712,6 +718,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromDeck: Bool, _ otherId: Int) {
@@ -722,6 +729,7 @@ class Game {
         } else {
             opponent.secretPlayedFromHand(entity, turn)
         }
+        updateCardHuds()
 
         var heroClass: HeroClass?
         var className = "\(entity.getTag(.CLASS))"
@@ -752,10 +760,18 @@ class Game {
 
     func opponentMulligan(entity: Entity, _ from: Int) {
         opponent.mulligan(entity)
+        if let tracker = opponentTracker {
+            tracker.update()
+        }
+        updateCardHuds()
     }
 
     func opponentDraw(entity: Entity, _ turn: Int) {
         opponent.draw(entity, turn)
+        if let tracker = opponentTracker {
+            tracker.update()
+        }
+        updateCardHuds()
     }
 
     func opponentRemoveFromDeck(entity: Entity, _ turn: Int) {
@@ -763,6 +779,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentDeckDiscard(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -770,6 +787,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentDeckToPlay(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -777,6 +795,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentPlayToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int, _ playersTurn: Bool) {
@@ -784,6 +803,7 @@ class Game {
         if playersTurn && entity.isMinion {
             opponentMinionDeath(entity, turn)
         }
+        updateCardHuds()
     }
 
     func opponentJoust(entity: Entity, _ cardId: String?, _ turn: Int) {
@@ -791,6 +811,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentGetToDeck(entity: Entity, _ turn: Int) {
@@ -798,6 +819,7 @@ class Game {
         if let tracker = opponentTracker {
             tracker.update()
         }
+        updateCardHuds()
     }
 
     func opponentSecretTrigger(entity: Entity, _ cardId: String?, _ turn: Int, _ otherId: Int) {
@@ -819,6 +841,7 @@ class Game {
                     secretTracker.showWindow(self)
             }
         }
+        updateCardHuds()
     }
 
     func opponentFatigue(value: Int) {
