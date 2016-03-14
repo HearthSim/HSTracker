@@ -492,7 +492,9 @@ class TagChangeActions {
                     }
                 }
                 else if controller == game.opponent.id {
-                    game.opponentPlayToGraveyard(entity, cardId, game.turnNumber(), game.playerEntity!.isCurrentPlayer)
+                    if let playerEntity = game.playerEntity {
+                        game.opponentPlayToGraveyard(entity, cardId, game.turnNumber(), playerEntity.isCurrentPlayer)
+                    }
                     if entity.hasTag(.HEALTH) {
                         game.proposeKeyPoint(.Death, id, .Opponent)
                     }

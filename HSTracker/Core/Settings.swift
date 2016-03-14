@@ -208,7 +208,7 @@ class Settings {
 
     var isCyrillicOrAsian: Bool {
         if let language = hearthstoneLanguage {
-            return language.isMatch(NSRegularExpression.rx("^(zh|ko|ru|ja)"))
+            return language.match("^(zh|ko|ru|ja)")
         } else {
             return false
         }

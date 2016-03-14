@@ -11,9 +11,10 @@
 import Foundation
 
 class NetHandler {
-    static let ConnectRegex = "ConnectAPI\\.GotoGameServer -- address=(.+), game=(.+), client=(.+), spectateKey=(.+)"
 
-    static func handle(game: Game, _ line: String) {
+    let ConnectRegex = "ConnectAPI\\.GotoGameServer -- address=(.+), game=(.+), client=(.+), spectateKey=(.+)"
+
+    func handle(game: Game, _ line: String) {
 
         if line.match(ConnectRegex) {
             // let match = line.firstMatchWithDetails(NSRegularExpression.rx(regex))

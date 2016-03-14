@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import RegExCategories
 import Kanna
 
 class HearthstoneDecks: BaseNetImporter, NetImporterAware {
-    
+
     static let classes = [
         "Chaman": "shaman",
         "Chasseur": "hunter",
@@ -23,38 +22,38 @@ class HearthstoneDecks: BaseNetImporter, NetImporterAware {
         "Prêtre": "priest",
         "Voleur": "rogue"
     ]
-    
-    var siteName:String {
+
+    var siteName: String {
         return "Hearthstone-Decks"
     }
-    
+
     func handleUrl(url: String) -> Bool {
-        return url.isMatch(NSRegularExpression.rx("hearthstone-decks\\.com"))
+        return url.match("hearthstone-decks\\.com")
     }
-    
+
     func loadDeck(url: String, _ completion: Deck? -> Void) throws {
         loadHtml(url) { (html) -> Void in
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                var className:String?
+                var className: String?
                 if let classNode = doc.at_xpath("//input[@id='classe_nom']") {
                     if let clazz = classNode["value"] {
                         className = HearthstoneDecks.classes[clazz]
                         DDLogVerbose("found \(className)")
                     }
                 }
-                var deckName:String?
+                var deckName: String?
                 if let deckNode = doc.at_xpath("//div[@id='content']//h1") {
                     deckName = deckNode.text
                     DDLogVerbose("found \(deckName)")
                 }
-                
-                var cards = [String:Int]()
+
+                var cards = [String: Int]()
                 for cardNode in doc.xpath("//table[contains(@class,'tabcartes')]//tbody//tr//a") {
                     if let qty = cardNode["nb_card"], let cardId = cardNode["real_id"], count = Int(qty) {
                         cards[cardId] = count
                     }
                 }
-                
+
                 if self.isCount(cards) {
                     self.saveDeck(deckName, className!, cards, false, completion)
                     return
@@ -63,5 +62,4 @@ class HearthstoneDecks: BaseNetImporter, NetImporterAware {
             completion(nil)
         }
     }
-    
 }

@@ -28,6 +28,10 @@ enum PlayState: Int {
                 return
             }
         }
+        if let value = Int(rawString), _enum = PlayState(rawValue: value) {
+            self = _enum
+            return
+        }
         self = .INVALID
     }
 }

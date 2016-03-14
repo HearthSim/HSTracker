@@ -7,34 +7,33 @@
 //
 
 import Foundation
-import RegExCategories
 import Kanna
 
 class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
-    
-    var siteName:String {
+
+    var siteName: String {
         return "HearthpPwn deckbuilder"
     }
-    
+
     func handleUrl(url: String) -> Bool {
-        return url.isMatch(NSRegularExpression.rx("hearthpwn\\.com\\/deckbuilder"))
+        return url.match("hearthpwn\\.com\\/deckbuilder")
     }
-    
+
     func loadDeck(url: String, _ completion: Deck? -> Void) throws {
         loadHtml(url) { (html) -> Void in
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
                 var urlParts = url.characters.split { $0 == "#" }.map(String.init)
                 let split = urlParts[0].characters.split { $0 == "/" }.map(String.init)
                 let playerClass = split.last
-                    if playerClass == nil {
+                if playerClass == nil {
                     completion(nil)
                     return
                 }
-                
+
                 DDLogVerbose("\(playerClass)")
-                
-                let cardIds = urlParts.last?.characters.split {$0 == ";" }.map(String.init)
-                var cards = [String:Int]()
+
+                let cardIds = urlParts.last?.characters.split { $0 == ";" }.map(String.init)
+                var cards = [String: Int]()
                 cardIds?.forEach({ (str) -> () in
                     let split = str.characters.split(":").map(String.init)
                     if let id = split.first, let count = Int(split.last!) {
@@ -46,15 +45,14 @@ class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
                         }
                     }
                 })
-                
+
                 if self.isCount(cards) {
                     self.saveDeck(nil, playerClass!, cards, false, completion)
                     return
                 }
             }
-            
+
             completion(nil)
         }
     }
-    
 }

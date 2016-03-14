@@ -12,9 +12,9 @@ import Foundation
 
 class LoadingScreenHandler {
 
-    static let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
+    let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
 
-    static func handle(game: Game, _ line: String) {
+    func handle(game: Game, _ line: String) {
         if !line.match(GameModeRegex) {
             return
         }
@@ -55,14 +55,14 @@ class LoadingScreenHandler {
         }
     }
 
-    static func getGameMode(mode: Mode) -> GameMode? {
+    func getGameMode(mode: Mode) -> GameMode? {
         switch mode {
         case Mode.TOURNAMENT: return .Casual
         case Mode.FRIENDLY: return .Friendly
         case Mode.DRAFT: return .Arena
         case Mode.ADVENTURE: return .Practice
         case Mode.TAVERN_BRAWL: return .Brawl
-        default: return nil
+        default: return .None
         }
     }
 }

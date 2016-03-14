@@ -12,10 +12,10 @@ import Foundation
 
 class AssetHandler {
 
-    static let MedalRank = "Medal_Ranked_(\\d+)"
-    static let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"
+    let MedalRank = "Medal_Ranked_(\\d+)"
+    let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"
 
-    static func handle(game: Game, _ line: String) {
+    func handle(game: Game, _ line: String) {
 
         if game.awaitingRankedDetection {
             game.lastAssetUnload = NSDate().timeIntervalSince1970

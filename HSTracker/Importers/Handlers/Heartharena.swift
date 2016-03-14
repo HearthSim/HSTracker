@@ -7,24 +7,23 @@
 //
 
 import Foundation
-import RegExCategories
 import Kanna
 
 class Heartharena: BaseNetImporter, NetImporterAware {
-    
-    var siteName:String {
+
+    var siteName: String {
         return "HearthArena"
     }
-    
+
     func handleUrl(url: String) -> Bool {
-        return url.isMatch(NSRegularExpression.rx("heartharena\\.com"))
+        return url.match("heartharena\\.com")
     }
-    
+
     func loadDeck(url: String, _ completion: Deck? -> Void) throws {
         loadHtml(url) { (html) -> Void in
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                var className:String?
-                var deckName:String?
+                var className: String?
+                var deckName: String?
                 if let classNode = doc.at_xpath("//h1[@class='class']") {
                     className = classNode.text?.lowercaseString
                     if let className = className {
@@ -32,18 +31,18 @@ class Heartharena: BaseNetImporter, NetImporterAware {
                     }
                     DDLogVerbose("found \(className) / name : \(deckName)")
                 }
-                
-                var cards = [String:Int]()
+
+                var cards = [String: Int]()
                 for cardNode in doc.xpath("//ul[@class='deckList']/li") {
                     if let qty = cardNode.at_xpath("span[@class='quantity']")?.text,
                         let count = Int(qty),
                         let cardName = cardNode.at_xpath("span[@class='name']")?.text,
                         let card = Cards.byEnglishName(cardName) {
-                        DDLogVerbose("qty : \(count) name: \(card.cardId)")
+                            DDLogVerbose("qty : \(count) name: \(card.cardId)")
                             cards[card.cardId] = count
                     }
                 }
-                
+
                 if self.isCount(cards) {
                     self.saveDeck(deckName, className!, cards, true, completion)
                     return
@@ -52,5 +51,4 @@ class Heartharena: BaseNetImporter, NetImporterAware {
             completion(nil)
         }
     }
-    
 }

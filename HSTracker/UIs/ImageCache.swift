@@ -48,8 +48,8 @@ class ImageCache {
 
     static func smallCardImage(card: Card) -> NSImage? {
         let image = card.englishName.lowercaseString
-            .replace(NSRegularExpression.rx("[ ']"), with: "-")
-            .replace(NSRegularExpression.rx("[:.!]"), with: "")
+            .replace("[ ']", with: "-")
+            .replace("[:.!]", with: "")
         return imageNamed("\(image).png", from: .Bundle)
     }
 

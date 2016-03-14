@@ -9,10 +9,10 @@
  */
 
 class RachelleHandler {
-    static let TowardsGolds = "(\\d)/3 wins towards 10 gold"
-    static let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
+    let TowardsGolds = "(\\d)/3 wins towards 10 gold"
+    let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
 
-    static func handle(game: Game, _ line: String) {
+    func handle(game: Game, _ line: String) {
         if line.match(TowardsGolds) {
             if let match = line.matches(TowardsGolds).first,
                 let victories = Int(match.value) {

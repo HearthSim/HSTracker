@@ -35,8 +35,8 @@ struct Regex {
         do {
             let regularExpression = try NSRegularExpression(pattern: expression, options: [])
             let results = regularExpression.matchesInString(someString, options: [], range: NSMakeRange(0, someString.characters.count))
-            if let result = results.first {
-                for index in 0 ..< result.numberOfRanges {
+            for result in results {
+                for index in 1 ..< result.numberOfRanges {
                     let resultRange = result.rangeAtIndex(index)
                     let range = Range(start: someString.startIndex.advancedBy(resultRange.location), end: someString.startIndex.advancedBy(resultRange.location + resultRange.length))
 
@@ -58,5 +58,14 @@ extension String {
 
     func matches(pattern: String) -> [Match] {
         return Regex(pattern).matches(self)
+    }
+
+    func replace(pattern: String, with: String) -> String {
+        do {
+            let regularExpression = try NSRegularExpression(pattern: pattern, options: [])
+            return regularExpression.stringByReplacingMatchesInString(self, options: [], range: NSMakeRange(0, self.characters.count), withTemplate: with)
+        }
+        catch { }
+        return self
     }
 }

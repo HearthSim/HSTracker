@@ -9,32 +9,24 @@
  */
 
 import Foundation
-import RegExCategories
 
 class PowerGameStateHandler {
-    static let CardIdRegex = "cardId=(\\w+)"
-    static let GameEntityRegex = "GameEntity EntityID=(\\d+)"
-    static let PlayerEntityRegex = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
-    static let EntityNameRegex = "TAG_CHANGE Entity=([\\w\\s]+\\w) tag=PLAYER_ID value=(\\d)"
-    static let TagChangeRegex = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
-    static let CreationRegex = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
-    static let UpdatingEntityRegex = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
 
-    static let CreationTagRegex = "tag=(\\w+) value=(\\w+)"
-    static let ActionStartRegex = ".*ACTION_START.*id=(\\d*).*cardId=(\\w*).*BlockType=(POWER|TRIGGER).*Target=(.+)"
+    let CardIdRegex = "cardId=(\\w+)"
+    let GameEntityRegex = "GameEntity EntityID=(\\d+)"
+    let PlayerEntityRegex = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
+    let EntityNameRegex = "TAG_CHANGE Entity=([\\w\\s]+\\w) tag=PLAYER_ID value=(\\d)"
+    let TagChangeRegex = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
+    let CreationRegex = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
+    let UpdatingEntityRegex = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
 
-    static let ParseEntityIDRegex = "id=(\\d+)"
-    static let ParseEntityZonePosRegex = "zonePos=(\\d+)"
-    static let ParseEntityPlayerRegex = "player=(\\d+)"
-    static let ParseEntityNameRegex = "name=(\\d+)"
-    static let ParseEntityZoneRegex = "zone=(\\d+)"
-    static let ParseEntityCardIDRegex = "cardId=(\\d+)"
-    static let ParseEntityTypeRegex = "type=(\\d+)"
+    let CreationTagRegex = "tag=(\\w+) value=(\\w+)"
+    let ActionStartRegex = ".*ACTION_START.*id=(\\d*).*cardId=(\\w*).*BlockType=(POWER|TRIGGER).*Target=(.+)"
 
-    static let tagChangeHandler = TagChangeHandler()
-    static var currentEntity: Entity?
+    let tagChangeHandler = TagChangeHandler()
+    var currentEntity: Entity?
 
-    static func handle(game: Game, _ line: String) {
+    func handle(game: Game, _ line: String) {
         var setup = false
         var creationTag = false
 
@@ -336,7 +328,7 @@ class PowerGameStateHandler {
         }
     }
 
-    private static func addTargetAsKnownCardId(matches: [Match], _ count: Int = 1) {
+    private func addTargetAsKnownCardId(matches: [Match], _ count: Int = 1) {
         let target: String = matches[3].value.trim()
         if !target.startsWith("[") || !tagChangeHandler.isEntity(target) {
             return
@@ -355,7 +347,7 @@ class PowerGameStateHandler {
         }
     }
 
-    private static func addKnownCardId(cardId: String, _ count: Int = 1) {
+    private func addKnownCardId(cardId: String, _ count: Int = 1) {
         let game = Game.instance
         for i in 0 ..< count {
             let id = getMaxEntityId() + 1 + i;
@@ -365,12 +357,12 @@ class PowerGameStateHandler {
         }
     }
 
-    private static func getMaxEntityId() -> Int {
+    private func getMaxEntityId() -> Int {
         let game = Game.instance
         return [game.entities.count, game.maxId].maxElement()!
     }
 
-    private static func setPlayerName(game: Game, _ playerId: Int, _ name: String) {
+    private func setPlayerName(game: Game, _ playerId: Int, _ name: String) {
         if playerId == game.player.id {
             game.player.name = name
             DDLogInfo("Player name is \(name)")

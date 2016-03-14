@@ -11,9 +11,10 @@
 import Foundation
 
 class BobHandler {
-    static let LegendRankRegex = "legend rank (\\d+)"
 
-    static func handle(game: Game, _ line: String) {
+    let LegendRankRegex = "legend rank (\\d+)"
+
+    func handle(game: Game, _ line: String) {
 
         if !line.match(LegendRankRegex) {
             /*let match = line.matches(legendRank)

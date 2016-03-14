@@ -10,7 +10,7 @@
 
 import Foundation
 
-class DynamicEntity : Hashable {
+class DynamicEntity: Hashable {
     var cardId: String
     var hidden, created, discarded: Bool
     var cardMark: CardMark

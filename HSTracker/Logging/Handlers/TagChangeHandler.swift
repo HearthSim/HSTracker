@@ -10,6 +10,14 @@
 
 class TagChangeHandler {
 
+    let ParseEntityIDRegex = "id=(\\d+)"
+    let ParseEntityZonePosRegex = "zonePos=(\\d+)"
+    let ParseEntityPlayerRegex = "player=(\\d+)"
+    let ParseEntityNameRegex = "name=(\\d+)"
+    let ParseEntityZoneRegex = "zone=(\\d+)"
+    let ParseEntityCardIDRegex = "cardId=(\\d+)"
+    let ParseEntityTypeRegex = "type=(\\d+)"
+
     private var creationTagActionQueue: [() -> ()] = []
     private var tagChangeAction = TagChangeActions()
 
@@ -72,40 +80,40 @@ class TagChangeHandler {
     // parse an entity
     func parseEntity(entity: String) -> (id: Int?, zonePos: Int?, player: Int?, name: String?, zone: String?, cardId: String?, type: String?) {
         var id: Int?, zonePos: Int?, player: Int?
-        if entity.match(PowerGameStateHandler.ParseEntityIDRegex) {
-            if let match = entity.matches(PowerGameStateHandler.ParseEntityIDRegex).first {
+        if entity.match(ParseEntityIDRegex) {
+            if let match = entity.matches(ParseEntityIDRegex).first {
                 id = Int(match.value)
             }
         }
-        if entity.match(PowerGameStateHandler.ParseEntityZonePosRegex) {
-            if let match = entity.matches(PowerGameStateHandler.ParseEntityZonePosRegex).first {
+        if entity.match(ParseEntityZonePosRegex) {
+            if let match = entity.matches(ParseEntityZonePosRegex).first {
                 zonePos = Int(match.value)
             }
         }
-        if entity.match(PowerGameStateHandler.ParseEntityPlayerRegex) {
-            if let match = entity.matches(PowerGameStateHandler.ParseEntityPlayerRegex).first {
+        if entity.match(ParseEntityPlayerRegex) {
+            if let match = entity.matches(ParseEntityPlayerRegex).first {
                 player = Int(match.value)
             }
         }
 
         var name: String?, zone: String?, cardId: String?, type: String?
-        if entity.match(PowerGameStateHandler.ParseEntityNameRegex) {
-            if let match = entity.matches(PowerGameStateHandler.ParseEntityNameRegex).first {
+        if entity.match(ParseEntityNameRegex) {
+            if let match = entity.matches(ParseEntityNameRegex).first {
                 name = match.value
             }
         }
-        if entity.match(PowerGameStateHandler.ParseEntityZoneRegex) {
-            if let match = entity.matches(PowerGameStateHandler.ParseEntityZoneRegex).first {
+        if entity.match(ParseEntityZoneRegex) {
+            if let match = entity.matches(ParseEntityZoneRegex).first {
                 zone = match.value
             }
         }
-        if entity.match(PowerGameStateHandler.ParseEntityCardIDRegex) {
-            if let match = entity.matches(PowerGameStateHandler.ParseEntityCardIDRegex).first {
+        if entity.match(ParseEntityCardIDRegex) {
+            if let match = entity.matches(ParseEntityCardIDRegex).first {
                 cardId = match.value
             }
         }
-        if entity.match(PowerGameStateHandler.ParseEntityTypeRegex) {
-            if let match = entity.matches(PowerGameStateHandler.ParseEntityTypeRegex).first {
+        if entity.match(ParseEntityTypeRegex) {
+            if let match = entity.matches(ParseEntityTypeRegex).first {
                 type = match.value
             }
         }

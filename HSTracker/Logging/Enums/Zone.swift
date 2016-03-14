@@ -28,6 +28,10 @@ enum Zone: Int {
                 return
             }
         }
+        if let value = Int(rawString), _enum = Zone(rawValue: value) {
+            self = _enum
+            return
+        }
         self = .CREATED
     }
 }

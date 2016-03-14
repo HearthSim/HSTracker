@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RegExCategories
 import Kanna
 
 class Hearthhead: BaseNetImporter, NetImporterAware {
@@ -22,34 +21,34 @@ class Hearthhead: BaseNetImporter, NetImporterAware {
         9: "warlock",
         11: "druid"
     ]
-    
-    var siteName:String {
+
+    var siteName: String {
         return "Hearthhead"
     }
-    
+
     func handleUrl(url: String) -> Bool {
-        return url.isMatch(NSRegularExpression.rx("hearthhead\\.com\\/deck="))
+        return url.match("hearthhead\\.com\\/deck=")
     }
-    
+
     func loadDeck(url: String, _ completion: Deck? -> Void) throws {
         loadHtml(url) { (html) -> Void in
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                var className:String?
+                var className: String?
                 if let classNode = doc.at_xpath("//div[@class='deckguide-hero']") {
                     if let clazz = classNode["data-class"], classId = Int(clazz) {
                         className = Hearthhead.classes[classId]
                         DDLogVerbose("found \(className)")
                     }
                 }
-                var deckName:String?
+                var deckName: String?
                 if let deckNode = doc.at_xpath("//h1[@id='deckguide-name']") {
                     deckName = deckNode.text?.trim()
                     DDLogVerbose("found \(deckName)")
                 }
-                
-                var cards = [String:Int]()
+
+                var cards = [String: Int]()
                 for cardNode in doc.xpath("//div[contains(@class,'deckguide-cards-type')]/ul/li") {
-                    var cardId:String?
+                    var cardId: String?
                     if let cardNameNode = cardNode.at_xpath("a"),
                         let cardName = cardNameNode.text,
                         let card = Cards.byEnglishName(cardName) {
@@ -58,21 +57,21 @@ class Hearthhead: BaseNetImporter, NetImporterAware {
                     }
                     var count = 1
                     if let cardNodeHTML = cardNode.text {
-                        if cardNodeHTML.isMatch(NSRegularExpression.rx("x[0-9]+$")) {
-                            if let match = cardNodeHTML.firstMatchWithDetails(NSRegularExpression.rx("x([0-9]+)$")) {
-                                let qty: String = match.groups[1].value
+                        if cardNodeHTML.match("x[0-9]+$") {
+                            if let match = cardNodeHTML.matches("x([0-9]+)$").first {
+                                let qty: String = match.value
                                 if let _count = Int(qty) {
                                     count = _count
                                 }
                             }
                         }
                     }
-                    
+
                     if let cardId = cardId {
                         cards[cardId] = count
                     }
                 }
-                
+
                 if self.isCount(cards) {
                     self.saveDeck(deckName, className!, cards, false, completion)
                     return
@@ -81,5 +80,4 @@ class Hearthhead: BaseNetImporter, NetImporterAware {
             completion(nil)
         }
     }
-    
 }

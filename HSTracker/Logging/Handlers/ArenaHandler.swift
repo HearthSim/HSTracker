@@ -12,6 +12,6 @@ import Foundation
 
 class ArenaHandler {
 
-    static func handle(game: Game, _ line: String) {
+    func handle(game: Game, _ line: String) {
     }
 }

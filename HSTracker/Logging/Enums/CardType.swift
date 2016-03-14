@@ -30,6 +30,10 @@ enum CardType: Int {
                 return
             }
         }
+        if let value = Int(rawString), _enum = CardType(rawValue: value) {
+            self = _enum
+            return
+        }
         self = .INVALID
     }
 }

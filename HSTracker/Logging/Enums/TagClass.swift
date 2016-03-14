@@ -31,6 +31,10 @@ enum TagClass: Int {
                 return
             }
         }
+        if let value = Int(rawString), _enum = TagClass(rawValue: value) {
+            self = _enum
+            return
+        }
         self = .INVALID
     }
 }
