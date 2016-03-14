@@ -19,8 +19,8 @@ class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBox
 
     var completionHandler: (() -> Void)?
 
-    let hsLanguages = ["deDE", "enUS", "esES", "esMX", "frFR", "itIT", "koKR", "plPL", "ptBR", "ruRU", "zhCN", "zhTW", "jaJP"]
-    let hearthstoneLanguages = ["de_DE", "en_US", "es_ES", "es_MX", "fr_FR", "it_IT", "ko_KR", "pl_PL", "pt_BR", "ru_RU", "zh_CN", "zh_TW", "ja_JP"]
+    let hsLanguages = ["deDE", "enUS", "esES", "esMX", "frFR", "itIT", "koKR", "plPL", "ptBR", "ruRU", "zhCN", "zhTW", "jaJP", "thTH"]
+    let hearthstoneLanguages = ["de_DE", "en_US", "es_ES", "es_MX", "fr_FR", "it_IT", "ko_KR", "pl_PL", "pt_BR", "ru_RU", "zh_CN", "zh_TW", "ja_JP", "th_TH"]
     let hstrackerLanguages = ["de", "en", "fr", "it", "pt-br", "zh-cn", "es"]
 
     override func windowDidLoad() {
