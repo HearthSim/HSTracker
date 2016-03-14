@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'open-uri'
 
-HS_VERSION = 11461
+HS_VERSION = 12051
 
 cards_dir = "#{File.dirname(__FILE__)}/../HSTracker/Resources/Cards"
 langs = %w(deDE esES itIT ptBR zhTW esMX koKR ruRU enUS frFR plPL zhCN jaJP)
