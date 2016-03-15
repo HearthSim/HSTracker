@@ -1040,7 +1040,7 @@ class Game {
 
         if let cardHuds = cardHuds {
             for i in 0 ... 10 {
-                if cardHuds[i] == .None {
+                if i > cardHuds.count || cardHuds[i] == .None {
                     continue
                 }
                 let cardHud = cardHuds[i]

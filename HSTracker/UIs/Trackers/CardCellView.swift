@@ -17,15 +17,25 @@ protocol CardCellHover {
     func out(card: Card)
 }
 
-class CardCellView: NSTableCellView {
-    var cardLayer: CALayer = CALayer()
-    var frameLayer: CALayer = CALayer()
-    var gemLayer: CALayer = CALayer()
-    var costLayer: CATextLayer = CATextLayer()
-    var textLayer: CATextLayer = CATextLayer()
-    var frameCountBox: CALayer = CALayer()
-    var extraInfo: CALayer = CALayer()
-    var darkenLayer: CALayer = CALayer()
+extension NSRect {
+    func ratio(ratio: CGFloat) -> NSRect {
+        return NSMakeRect(self.origin.x / ratio,
+            self.origin.y / ratio,
+            self.size.width / ratio,
+            self.size.height / ratio)
+    }
+}
+
+class CardCellView: NSView {
+    
+    let frameCountBoxRect = NSMakeRect(183, 0, 34, 34)
+    let frameCounterRect = NSMakeRect(195, 7, 18, 21)
+    let frameRect = NSMakeRect(0, 0, 217, 34)
+    let gemRect = NSMakeRect(0, 0, 34, 34)
+    let imageRect = NSMakeRect(108, 4, 108, 27)
+    let fadeRect = NSMakeRect(28, 0, 189, 34)
+    let iconRect = NSMakeRect(183, 0, 34, 34)
+    let markerRect = NSMakeRect(192, 8, 21, 21)
 
     var trackingArea: NSTrackingArea?
     var delegate: CardCellHover?
@@ -46,168 +56,163 @@ class CardCellView: NSTableCellView {
         self.wantsLayer = true
 
         self.layer!.backgroundColor = NSColor.clearColor().CGColor
-
-        // the layer for the card art
-        self.layer!.addSublayer(cardLayer)
-
-        // the layer for the frame
-        self.layer!.addSublayer(frameLayer)
-
-        // the layer for the gem art
-        self.layer!.addSublayer(gemLayer)
-
-        costLayer.contentsScale = NSScreen.mainScreen()!.backingScaleFactor
-        self.layer!.addSublayer(costLayer)
-
-        textLayer.contentsScale = NSScreen.mainScreen()!.backingScaleFactor
-        self.layer!.addSublayer(textLayer)
-
-        self.layer!.addSublayer(frameCountBox)
-
-        self.layer!.addSublayer(extraInfo)
-
-        self.layer!.addSublayer(darkenLayer)
     }
-
+    
     override func updateLayer() {
-        let settings = Settings.instance
+        if let layer = self.layer, let sublayers = layer.sublayers {
+            for sublayer in sublayers {
+                sublayer.removeFromSuperlayer()
+            }
+        }
+        
         if let card = self.card {
-
-            var ratio: Double
-            if self.playerType == .DeckManager {
-                ratio = 1.0
-            } else {
-                switch settings.cardSize {
-                case .Small:
-                    ratio = kRowHeight / kSmallRowHeight
-
-                case .Medium:
-                    ratio = kRowHeight / kMediumRowHeight
-
-                default:
-                    ratio = 1.0
-                }
+            addCardImage(card)
+            addCardName(card)
+            addFrame(card)
+            
+            addGem(card)
+            addCardCost(card)
+            
+            if abs(card.count) > 1 || card.rarity == Rarity.Legendary {
+                addFrameCounter(card)
             }
-
-            // draw the card art
-            cardLayer.contents = ImageCache.smallCardImage(card)
-            var x = 104.0 / ratio
-            var y = 1.0 / ratio
-            var width = 110.0 / ratio
-            var height = 34.0 / ratio
-            cardLayer.frame = NSRect(x: x, y: y, width: width, height: height)
-
-            // draw the frame
-            var frameImage = ImageCache.frameImage(nil)
-            if card.highlightFrame {
-                frameImage = ImageCache.frameImage(.Golden)
-                // _card.IsFrameHighlighted = true;
-            } else {
-                // _card.IsFrameHighlighted = true;
-                if settings.showRarityColors {
-                    frameImage = ImageCache.frameImage(card.rarity)
-                }
-            }
-            frameLayer.contents = frameImage
-            x = 1.0 / ratio
-            y = 0.0 / ratio
-            width = 218.0 / ratio
-            height = 35.0 / ratio
-            let frameRect = NSRect(x: x, y: y, width: width, height: height)
-            frameLayer.frame = frameRect
-
-            // draw the gem
-            if settings.showRarityColors {
-                gemLayer.contents = ImageCache.gemImage(card.rarity!)
-            } else {
-                gemLayer.contents = nil
-            }
-            x = 3.0 / ratio
-            y = 4.0 / ratio
-            width = 28.0 / ratio
-            height = 28.0 / ratio
-            gemLayer.frame = NSRect(x: x, y: y, width: width, height: height)
-
-            // print the card name
-            let strokeColor = NSColor.blackColor()
-            var foreground = NSColor.whiteColor()
-            if self.playerType == .Player {
-                foreground = card.textColor()
-            }
-
-            var nameFont: NSFont
-            if settings.isCyrillicOrAsian {
-                nameFont = NSFont(name: "NanumGothic", size: CGFloat(18.0 / ratio))!
-            } else {
-                nameFont = NSFont(name: "Belwe Bd BT", size: CGFloat(15.0 / ratio))!
-            }
-
-            let name = NSAttributedString(string: card.name, attributes: [
-                NSFontAttributeName: nameFont,
-                NSForegroundColorAttributeName: foreground,
-                NSStrokeWidthAttributeName: settings.isCyrillicOrAsian ? 0 : -2,
-                NSStrokeColorAttributeName: settings.isCyrillicOrAsian ? NSColor.clearColor() : strokeColor
-            ])
-            x = 38.0 / ratio
-            y = -3.0 / ratio
-            width = 174.0 / ratio
-            height = 30.0 / ratio
-            textLayer.frame = NSRect(x: x, y: y, width: width, height: height)
-            textLayer.string = name
-
-            let cardCost = card.cost
-            // print the card cost
-            let costFont = NSFont(name: "Belwe Bd BT", size: CGFloat(22.0 / ratio))!
-            let cost = NSAttributedString(string: "\(cardCost)",
-                attributes: [
-                    NSFontAttributeName: costFont,
-                    NSForegroundColorAttributeName: foreground,
-                    NSStrokeWidthAttributeName: -1.5,
-                    NSStrokeColorAttributeName: strokeColor
-            ])
-            x = (cardCost > 9 ? 6.0 : 13.0) / ratio
-            y = -4.0 / ratio
-            width = 34.0 / ratio
-            height = 37.0 / ratio
-
-            costLayer.frame = NSRect(x: x, y: y, width: width, height: height)
-            costLayer.string = cost
-
-            // add card count
-            if abs(card.count) > 1 || card.rarity == .Legendary {
-                frameCountBox.contents = ImageCache.frameCountbox()
-                x = 189.0 / ratio
-                y = 5.0 / ratio
-                width = 25.0 / ratio
-                height = 24.0 / ratio
-                frameCountBox.frame = NSRect(x: x, y: y, width: width, height: height)
-
-                if abs(card.count) > 1 && abs(card.count) <= 9 {
-                    // the card count
-                    extraInfo.contents = ImageCache.frameCount(card.count)
-                } else {
-                    // card is legendary (or count > 10)
-                    extraInfo.contents = ImageCache.frameLegendary()
-                }
-                x = 194.0 / ratio
-                y = 8.0 / ratio
-                width = 18.0 / ratio
-                height = 21.0 / ratio
-                extraInfo.frame = NSRect(x: x, y: y, width: width, height: height)
-            } else {
-                extraInfo.contents = nil
-                frameCountBox.contents = nil
-            }
-
+            
             if card.count <= 0 || card.jousted {
-                darkenLayer.contents = ImageCache.darkenImage()
-                darkenLayer.frame = frameRect
-            } else {
-                darkenLayer.contents = nil
+                addDarken(card)
             }
         }
     }
+    
+    private func addCardName(card: Card) {
+        let sublayer = CATextLayer()
+        var foreground = NSColor.whiteColor()
+        if self.playerType == .Player {
+            foreground = card.textColor()
+        }
+        sublayer.string = NSAttributedString(string: card.name, attributes: [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 16 / self.ratio())!,
+            NSForegroundColorAttributeName: foreground,
+            NSStrokeWidthAttributeName: -2,
+            NSStrokeColorAttributeName: NSColor.blackColor()
+            ])
+        sublayer.frame = NSMakeRect(38 / self.ratio(), -3 / self.ratio(), 174 / self.ratio(), 30 / self.ratio())
+        self.layer?.addSublayer(sublayer)
+    }
+    
+    private func addCardCost(card: Card) {
+        let sublayer = CATextLayer()
+        var foreground = NSColor.whiteColor()
+        if self.playerType == .Player {
+            foreground = card.textColor()
+        }
+        sublayer.string = NSAttributedString(string: "\(card.cost)", attributes: [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 24 / self.ratio())!,
+            NSForegroundColorAttributeName: foreground,
+            NSStrokeWidthAttributeName: -2,
+            NSStrokeColorAttributeName: NSColor.blackColor()
+            ])
 
+        sublayer.frame = NSMakeRect((card.cost > 9 ? 5.0 : 13.0) / self.ratio(),
+            -4 / self.ratio(), 34 / self.ratio(), 37 / self.ratio())
+        self.layer?.addSublayer(sublayer)
+    }
+    
+    private func addDarken(card: Card) {
+        addChild(ImageCache.darkenImage(), frameRect)
+        if card.highlightFrame {
+            addChild(ImageCache.frameImage(.Golden), frameRect)
+        }
+    }
+    
+    private func addFrameCounter(card: Card) {
+        if Settings.instance.showRarityColors {
+            addChild(ImageCache.frameCountbox(card.rarity), frameCountBoxRect)
+        }
+        else {
+            addChild(ImageCache.frameCountbox(nil), frameCountBoxRect)
+        }
+        
+        let count = abs(card.count)
+        if count <= 1 && card.rarity == Rarity.Legendary {
+            addChild(ImageCache.frameLegendary(), frameCountBoxRect)
+        }
+        else {
+            let countText = count > 9 ? "9" : "\(count)"
+            addText(countText, 20, 198, -6)
+            if count > 9 {
+                addText("+", 13, 202, -6)
+            }
+        }
+    }
+    
+    private func addText(text: String, _ size: CGFloat, _ x: CGFloat, _ y: CGFloat) {
+        let sublayer = CATextLayer()
+        sublayer.string = NSAttributedString(string: text, attributes: [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: size / self.ratio())!,
+            NSForegroundColorAttributeName: NSColor(red: 240.0 / 255.0, green: 195.0 / 255.0, blue: 72.0 / 255.0, alpha: 1.0),
+            NSStrokeWidthAttributeName: -2,
+            NSStrokeColorAttributeName: NSColor.blackColor()
+        ])
+        sublayer.frame = NSMakeRect(x / self.ratio(), y / self.ratio(), 30 / self.ratio(), 37 / self.ratio())
+        self.layer?.addSublayer(sublayer)
+    }
+    
+    private func addGem(card: Card) {
+        if Settings.instance.showRarityColors {
+            addChild(ImageCache.gemImage(card.rarity), gemRect)
+        }
+        else {
+            addChild(ImageCache.gemImage(nil), gemRect)
+        }
+    }
+
+    private func ratio() -> CGFloat {
+        var ratio: CGFloat
+        if self.playerType == .DeckManager {
+            ratio = 1.0
+        } else {
+            switch Settings.instance.cardSize {
+            case .Small:
+                ratio = CGFloat(kRowHeight / kSmallRowHeight)
+            
+            case .Medium:
+                ratio = CGFloat(kRowHeight / kMediumRowHeight)
+            
+            default:
+                ratio = 1.0
+            }
+        }
+        return ratio
+    }
+
+    private func addChild(image: NSImage?, _ rect:NSRect) {
+        guard let _ = image else { return }
+        
+        let sublayer = CALayer()
+        sublayer.contents = image!
+        sublayer.frame = rect.ratio(self.ratio())
+        self.layer?.addSublayer(sublayer)
+    }
+    
+    private func addCardImage(card:Card) {
+        let xOffset:CGFloat = abs(card.count) > 1 || card.rarity == .Legendary ? 19 : 0
+        addChild(ImageCache.smallCardImage(card), imageRect.offsetBy(dx: -xOffset, dy: 0))
+        addChild(ImageCache.fadeImage(), fadeRect.offsetBy(dx: -xOffset, dy: 0))
+    }
+    
+    private func addFrame(card:Card) {
+        var frame = ImageCache.frameImage(nil)
+        if card.highlightFrame {
+            frame = ImageCache.frameImage(.Golden)
+        }
+        else {
+            if Settings.instance.showRarityColors {
+                frame = ImageCache.frameImage(card.rarity)
+            }
+        }
+        addChild(frame, frameRect)
+    }
+    
     func setDelegate(delegate: CardCellHover) {
         self.delegate = delegate
     }

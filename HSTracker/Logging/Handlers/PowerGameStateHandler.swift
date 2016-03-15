@@ -21,7 +21,7 @@ class PowerGameStateHandler {
     let UpdatingEntityRegex = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
 
     let CreationTagRegex = "tag=(\\w+) value=(\\w+)"
-    let ActionStartRegex = ".*ACTION_START.*id=(\\d*).*cardId=(\\w*).*BlockType=(POWER|TRIGGER).*Target=(.+)"
+    let ActionStartRegex = ".*ACTION_START.*BlockType=(POWER|TRIGGER).*id=(\\d*).*(cardId=(\\w*)).*Target=(.+)"
 
     let tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
@@ -233,8 +233,11 @@ class PowerGameStateHandler {
 
         else if line.match(ActionStartRegex) {
             let matches = line.matches(ActionStartRegex)
-            let actionStartingEntityId = Int(matches[0].value)!
-            var actionStartingCardId: String? = matches[1].value
+            let type = matches[0].value
+            let actionStartingEntityId = Int(matches[1].value)!
+            var actionStartingCardId: String? = matches[2].value
+            //let target = matches[3].value
+            
             // DDLogVerbose("ActionStartRegex \(actionStartingEntityId) -> \(actionStartingCardId)")
 
             let player = game.entities.map { $0.1 }.firstWhere { $0.hasTag(.PLAYER_ID) && $0.getTag(.PLAYER_ID) == game.player.id }
@@ -250,7 +253,6 @@ class PowerGameStateHandler {
                 return
             }
 
-            let type: String = matches[2].value;
             if type == "TRIGGER" {
                 if actionStartingCardId == CardIds.Collectible.Rogue.TradePrinceGallywix {
                     if let lastCardPlayed = game.lastCardPlayed {

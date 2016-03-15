@@ -67,8 +67,9 @@ class CardEntity: Equatable, CustomStringConvertible {
     }
 
     func reset() {
-        self.created = false
-        self.cardId = nil
+        created = false
+        cardId = nil
+        stolen = false
     }
 
     func update(entity: Entity?) {

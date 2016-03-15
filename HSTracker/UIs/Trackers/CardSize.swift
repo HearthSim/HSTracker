@@ -10,9 +10,9 @@
 
 import Foundation
 
-let kFrameWidth = 220.0
+let kFrameWidth = 217.0
 let kFrameHeight = 700.0
-let kRowHeight = 37.0
+let kRowHeight = 34.0
 
 let kMediumRowHeight = 29.0
 let kMediumFrameWidth = (kFrameWidth / kRowHeight * kMediumRowHeight)

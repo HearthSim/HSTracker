@@ -42,44 +42,27 @@ class ImageCache {
         return nil
     }
 
-    static func frameImageMask() -> NSImage? {
-        return imageNamed("frame_mask.png", from: .Assets)
-    }
-
     static func smallCardImage(card: Card) -> NSImage? {
-        let image = card.englishName.lowercaseString
-            .replace("[ ']", with: "-")
-            .replace("[:.!]", with: "")
-        return imageNamed("\(image).png", from: .Bundle)
+        return imageNamed("\(card.cardId).png", from: .Bundle)
     }
 
-    static func gemImage(rarity: Rarity) -> NSImage? {
-        var image: String
-        switch rarity.rawValue {
-        case "free": image = "gem_rarity_free"
-        case "common": image = "gem_rarity_common"
-        case "rare": image = "gem_rarity_rare"
-        case "epic": image = "gem_rarity_epic"
-        case "legendary": image = "gem_rarity_legendary"
-        default: return nil
-        }
-
-        return imageNamed(image, from: .Assets)
-    }
-
-    static func frameDeckImage() -> NSImage? {
-        return imageNamed("frame_deck", from: .Assets)
+    static func gemImage(rarity: Rarity?) -> NSImage? {
+        return image("gem", rarity)
     }
 
     static func frameImage(rarity: Rarity?) -> NSImage? {
-        var image: String = "frame"
+        return image("frame", rarity)
+    }
+    
+    private static func image(base:String, _ rarity: Rarity?) -> NSImage? {
+        var image: String = "\(base)"
         if let rarity = rarity {
             switch rarity.rawValue {
-            case "common": image = "frame_rarity_common"
-            case "rare": image = "frame_rarity_rare"
-            case "epic": image = "frame_rarity_epic"
-            case "legendary": image = "frame_rarity_legendary"
-            case "golden": image = "frame_golden"
+            case "common": image += "_common"
+            case "rare": image += "_rare"
+            case "epic": image += "_epic"
+            case "legendary": image += "_legendary"
+            case "golden": image += "_golden"
             default: break
             }
         }
@@ -89,21 +72,17 @@ class ImageCache {
     static func darkenImage() -> NSImage? {
         return imageNamed("dark", from: .Assets)
     }
+    
+    static func fadeImage() -> NSImage? {
+        return imageNamed("fade", from: .Assets)
+    }
 
     static func frameLegendary() -> NSImage? {
-        return imageNamed("frame_legendary", from: .Assets)
+        return imageNamed("icon_legendary", from: .Assets)
     }
 
-    static func frameCount(number: Int) -> NSImage? {
-        return imageNamed("frame_\(number)", from: .Assets)
-    }
-
-    static func frameCountbox() -> NSImage? {
-        return imageNamed("frame_countbox", from: .Assets)
-    }
-
-    static func frameCountboxDeck() -> NSImage? {
-        return imageNamed("frame_countbox_deck", from: .Assets)
+    static func frameCountbox(rarity: Rarity?) -> NSImage? {
+        return image("countbox", rarity)
     }
 
     static func classImage(playerClass: String) -> NSImage? {

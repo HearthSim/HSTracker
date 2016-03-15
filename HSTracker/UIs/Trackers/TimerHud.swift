@@ -14,9 +14,28 @@ class TimerHud: NSWindowController {
     @IBOutlet weak var turnLabel: NSTextField!
     @IBOutlet weak var playerLabel: NSTextField!
     var currentPlayer: PlayerType?
+    var attributes = [String:AnyObject]()
+    var largeAttributes = [String:AnyObject]()
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .Right
+        attributes = [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 18)!,
+            NSForegroundColorAttributeName: NSColor.whiteColor(),
+            NSStrokeWidthAttributeName: -1.5,
+            NSStrokeColorAttributeName: NSColor.blackColor(),
+            NSParagraphStyleAttributeName: paragraph
+        ]
+        largeAttributes = [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 26)!,
+            NSForegroundColorAttributeName: NSColor.whiteColor(),
+            NSStrokeWidthAttributeName: -1.5,
+            NSStrokeColorAttributeName: NSColor.blackColor(),
+            NSParagraphStyleAttributeName: paragraph
+        ]
 
         self.window!.styleMask = NSBorderlessWindowMask
         self.window!.ignoresMouseEvents = true
@@ -28,8 +47,8 @@ class TimerHud: NSWindowController {
     }
 
     func tick(seconds: Int, _ playerSeconds: Int, _ opponentSeconds: Int) {
-        turnLabel.stringValue = String(format: "%d:%02d", (seconds / 60) % 60, seconds % 60)
-        playerLabel.stringValue = String(format: "%d:%02d", (playerSeconds / 60) % 60, playerSeconds % 60)
-        opponentLabel.stringValue = String(format: "%d:%02d", (opponentSeconds / 60) % 60, opponentSeconds % 60)
+        turnLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (seconds / 60) % 60, seconds % 60), attributes: largeAttributes)
+        playerLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (playerSeconds / 60) % 60, playerSeconds % 60), attributes: attributes)
+        opponentLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (opponentSeconds / 60) % 60, opponentSeconds % 60), attributes: attributes)
     }
 }

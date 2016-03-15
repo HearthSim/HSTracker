@@ -58,17 +58,13 @@ class LogReaderManager {
         }
 
         self.running = true
-        let entryPoint = self.entryPoint()
-        for reader in self.readers {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            reader.start(entryPoint)
+            let entryPoint = self.entryPoint()
+            for reader in self.readers {
+                reader.start(entryPoint)
             }
-        }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
             self.gameStatePowerLogReader.start(entryPoint)
-        }
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
             var powerLines = [LogLine]()
 
             while !self.stopped {

@@ -17,6 +17,9 @@
 		4317197B1C8C19B500F5988B /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197A1C8C19B500F5988B /* Statistic.swift */; };
 		4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* CountTextCellView.swift */; };
 		4317197F1C8C651900F5988B /* CountTextCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4317197E1C8C651900F5988B /* CountTextCellView.xib */; };
+		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
+		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
+		434106A61C9868620045655A /* Frames.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A31C9868620045655A /* Frames.xcassets */; };
 		434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434C2F291C7F0F96001D1D91 /* NewDeck.xib */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
@@ -34,7 +37,6 @@
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
 		436969151C80653000CE1D29 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436969141C80653000CE1D29 /* LinqExtension.swift */; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
-		439C7E531C7772C000D29859 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E521C7772C000D29859 /* Assets.xcassets */; };
 		439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
 		439C7E6C1C7772C100D29859 /* HSTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */; };
 		439C7E851C777CFC00D29859 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E7D1C777CFC00D29859 /* Deck.swift */; };
@@ -142,6 +144,9 @@
 		4317197A1C8C19B500F5988B /* Statistic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
 		4317197C1C8C54FF00F5988B /* CountTextCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountTextCellView.swift; sourceTree = "<group>"; };
 		4317197E1C8C651900F5988B /* CountTextCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountTextCellView.xib; sourceTree = "<group>"; };
+		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
+		434106A31C9868620045655A /* Frames.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Frames.xcassets; sourceTree = "<group>"; };
 		434C2F291C7F0F96001D1D91 /* NewDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDeck.xib; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
 		434C2F2E1C7F437D001D1D91 /* NetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImporter.swift; sourceTree = "<group>"; };
@@ -158,7 +163,6 @@
 		436969141C80653000CE1D29 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		439C7E521C7772C000D29859 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		439C7E571C7772C000D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HSTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E601C7772C100D29859 /* HSTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTrackerTests.swift; sourceTree = "<group>"; };
@@ -280,6 +284,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		434106A01C9868620045655A /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				434106A11C9868620045655A /* Assets.xcassets */,
+				434106A21C9868620045655A /* Classes.xcassets */,
+				434106A31C9868620045655A /* Frames.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		434C2F2D1C7F433E001D1D91 /* Importers */ = {
 			isa = PBXGroup;
 			children = (
@@ -363,6 +377,7 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
+				434106A01C9868620045655A /* Assets */,
 				43B695551C90653A00F4D0AC /* Hearthstone */,
 				439C7E8E1C777D6C00D29859 /* Resources */,
 				43B6954E1C90387F00F4D0AC /* Replay */,
@@ -372,7 +387,6 @@
 				439C7E901C777EE800D29859 /* Core */,
 				439C7E7A1C777CC000D29859 /* Database */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
-				439C7E521C7772C000D29859 /* Assets.xcassets */,
 				439C7E571C7772C000D29859 /* Info.plist */,
 				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
 			);
@@ -713,8 +727,9 @@
 				43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */,
 				43D308021C842DB400480488 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
-				439C7E531C7772C000D29859 /* Assets.xcassets in Resources */,
 				43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */,
+				434106A41C9868620045655A /* Assets.xcassets in Resources */,
+				434106A61C9868620045655A /* Frames.xcassets in Resources */,
 				43D3080A1C84411200480488 /* TrackersPreferences.xib in Resources */,
 				439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
@@ -724,6 +739,7 @@
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */,
 				4317197F1C8C651900F5988B /* CountTextCellView.xib in Resources */,
+				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
