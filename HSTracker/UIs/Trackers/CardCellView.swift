@@ -71,11 +71,11 @@ class CardCellView: NSView {
             addFrame(card)
             
             addGem(card)
-            addCardCost(card)
             
             if abs(card.count) > 1 || card.rarity == Rarity.Legendary {
                 addFrameCounter(card)
             }
+            addCardCost(card)
             
             if card.count <= 0 || card.jousted {
                 addDarken(card)

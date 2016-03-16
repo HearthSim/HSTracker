@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Statistic {
+class Statistic : Dictable {
     var gameResult: GameResult = .Unknow
     var hasCoin: Bool = false
     var opponentClass: String = ""

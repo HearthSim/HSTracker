@@ -51,7 +51,7 @@ class Settings {
      set { set("show_player_play", newValue) }
      get { return get("show_player_play", true) as! Bool }
      }*/
-
+    
     var trackerOpacity: Double {
         set { set("tracker_opacity", newValue) }
         get { return get("tracker_opacity", 0) as! Double }
@@ -101,6 +101,12 @@ class Settings {
         set { set("auto_grayout_secrets", newValue) }
         get { return get("auto_grayout_secrets", true) as! Bool }
     }
+    
+    var autoPositionTrackers: Bool {
+        set { set("auto_position_trackers", newValue) }
+        get { return get("auto_position_trackers", true) as! Bool }
+    }
+    
     /*var showOneCard: Bool {
      set {
      NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "show_one_card")

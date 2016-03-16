@@ -90,14 +90,12 @@ class LogReader {
 
     func start(entryPoint: Double) {
         DDLogInfo("Starting reader \(self.name), (\(self.path):\(entryPoint)")
-
         stopped = false
         startingPoint = entryPoint
         offset = findOffset()
         DDLogVerbose("Starting to track \(self.name) with offset \(offset)")
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            self.readFile()
-        }
+
+        self.readFile()
     }
 
     func readFile() {
@@ -108,7 +106,6 @@ class LogReader {
             }
             if NSFileManager.defaultManager().fileExistsAtPath(self.path) {
                 let fileHandle = NSFileHandle(forReadingAtPath: self.path)
-
                 if offset > self.fileSize() {
                     offset = findOffset()
                 }

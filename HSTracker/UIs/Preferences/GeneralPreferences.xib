@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferences" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="autoPositionTrackers" destination="qPv-aw-L7q" id="2DB-Rx-nXg"/>
                 <outlet property="view" destination="c22-O7-iKe" id="g0K-Jv-9qq"/>
             </connections>
         </customObject>
@@ -14,6 +15,18 @@
         <customView id="c22-O7-iKe">
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qPv-aw-L7q">
+                    <rect key="frame" x="18" y="236" width="212" height="18"/>
+                    <buttonCell key="cell" type="check" title="Auto position trackers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="p1S-1q-TX6">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="VMI-XI-h1Q"/>
+                    </connections>
+                </button>
+            </subviews>
         </customView>
     </objects>
 </document>

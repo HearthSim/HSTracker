@@ -16,6 +16,44 @@ class ReplayMaker {
     static func generate(type: KeyPointType, _ id: Int, _ player: PlayerType, _ game: Game) {
         points.append(ReplayKeyPoint(data: game.entities.map { $0.1 }, type: type, id: id, player: player))
     }
+    
+    static func saveToDisk() {
+        if points.count == 0 {
+            return
+        }
+        resolveZonePos()
+        resolveCardIds()
+        removeObsoletePlays()
+        
+        if let player = points.last?.data.firstWhere({$0.isPlayer}),
+            let opponent = points.last?.data.firstWhere({$0.hasTag(.PLAYER_ID) && !$0.isPlayer}) {
+                let playerHero = points.last?.data.firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue && $0.isControlledBy(player.getTag(.CONTROLLER))})
+                if playerHero == nil {
+                    DDLogWarn("Replay : playerHero is nil")
+                    return
+                }
+                
+                var opponentHero = points.last?.data.firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue && $0.isControlledBy(opponent.getTag(.CONTROLLER))})
+                
+                if opponentHero == nil {
+                    // adventure bosses
+                    opponentHero = points.last?.data.firstWhere({
+                        !String.isNullOrEmpty($0.cardId)
+                                    && (($0.cardId!.startsWith("NAX") && $0.cardId!.contains("_01"))
+                                        || $0.cardId!.startsWith("BRMA"))
+                            && Cards.heroById($0.cardId!) != nil})
+                    if opponentHero == nil {
+                        DDLogWarn("Replay : opponentHero is nil")
+                        return
+                    }
+                    resolveOpponentName(Cards.heroById(opponentHero!.cardId!)?.name)
+                }
+                
+                let filename = "\(player.name)(\(Cards.heroById(playerHero!.cardId!)?.name)) vs \(opponent.name)(\(Cards.heroById(opponentHero!.cardId!)?.name)) \(NSDate().getUTCFormateDate())"
+                DDLogInfo("will save to \(filename)")
+                print("\(points.toDict())")
+        }
+    }
 
     private static func resolveOpponentName(opponentName: String?) {
         if opponentName == nil {

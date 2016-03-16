@@ -263,6 +263,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
             }
             currentDeck!.name = deckNameInput.stringValue
             currentDeck!.save()
+            isSaved = true
         }
         else {
         }

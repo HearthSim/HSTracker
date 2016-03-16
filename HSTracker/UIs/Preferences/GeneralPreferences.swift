@@ -10,6 +10,22 @@ import Foundation
 import MASPreferences
 
 class GeneralPreferences : NSViewController, MASPreferencesViewController {
+    
+    @IBOutlet weak var autoPositionTrackers: NSButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let settings = Settings.instance
+        
+        autoPositionTrackers.state = settings.autoPositionTrackers ? NSOnState : NSOffState
+    }
+    
+    @IBAction func checkboxClicked(sender: NSButton) {
+        let settings = Settings.instance
+        if sender == autoPositionTrackers {
+            settings.autoPositionTrackers = autoPositionTrackers.state == NSOnState
+        }
+    }
 
     // MARK: - MASPreferencesViewController
     override var identifier: String? {

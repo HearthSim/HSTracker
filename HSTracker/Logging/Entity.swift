@@ -8,7 +8,7 @@
  * Created on 14/02/16.
  */
 
-class Entity: Hashable, CustomStringConvertible {
+class Entity: Hashable, CustomStringConvertible, Dictable {
     var id: Int
     var isPlayer: Bool
     var cardId: String?
@@ -101,6 +101,18 @@ class Entity: Hashable, CustomStringConvertible {
         self.tags.forEach({ e.tags[$0.0] = $0.1 })
 
         return e
+    }
+    
+    func toDict() -> [String : AnyObject] {
+        var tags = [Int: Int]()
+        self.tags.forEach({ tags[$0.0.rawValue] = $0.1 })
+        return [
+            "id": self.id,
+            "isPlayer": self.isPlayer,
+            "cardId": self.cardId != nil ? self.cardId! : "",
+            "name": self.name != nil ? self.name! : "",
+            "tags": tags
+        ]
     }
 }
 func == (lhs: Entity, rhs: Entity) -> Bool {

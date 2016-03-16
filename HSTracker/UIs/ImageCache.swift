@@ -46,7 +46,10 @@ class ImageCache {
         return imageNamed("\(card.cardId).png", from: .Bundle)
     }
 
-    static func gemImage(rarity: Rarity?) -> NSImage? {
+    static func gemImage(var rarity: Rarity?) -> NSImage? {
+        if rarity == .Golden {
+           rarity = .Legendary
+        }
         return image("gem", rarity)
     }
 

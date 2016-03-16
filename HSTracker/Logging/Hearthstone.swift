@@ -92,7 +92,9 @@ class Hearthstone : NSObject {
 
     func startTracking() {
         self.logReaderManager = LogReaderManager()
-        self.logReaderManager!.start()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+            self.logReaderManager?.start()
+        }
     }
 
     func stopTracking() {

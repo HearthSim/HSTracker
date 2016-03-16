@@ -209,6 +209,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.playerTracker = Tracker(windowNibName: "Tracker")
         if let tracker = self.playerTracker {
             tracker.playerType = .Player
+            tracker.window?.setFrameAutosaveName("player_tracker")
             if Settings.instance.showPlayerTracker {
                 tracker.showWindow(self)
             }
@@ -217,6 +218,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.opponentTracker = Tracker(windowNibName: "Tracker")
         if let tracker = self.opponentTracker {
             tracker.playerType = .Opponent
+            tracker.window?.setFrameAutosaveName("opponent_tracker")
             if Settings.instance.showOpponentTracker {
                 tracker.showWindow(self)
             }

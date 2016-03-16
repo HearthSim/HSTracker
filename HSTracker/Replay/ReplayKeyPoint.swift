@@ -14,7 +14,7 @@ func deepClone(data: [Entity]) -> [Entity] {
     return copy
 }
 
-class ReplayKeyPoint: Equatable {
+class ReplayKeyPoint: Equatable, Dictable  {
     var data: [Entity]
     var id: Int
     var player: PlayerType
@@ -52,6 +52,16 @@ class ReplayKeyPoint: Equatable {
             return type.rawValue
         }
         return String.isNullOrEmpty(getCardId()) ? "Entity \(id)" : Cards.byId(getCardId()!)!.name
+    }
+    
+    func toDict() -> [String: AnyObject] {
+        return [
+            "id": self.id,
+            "player": self.player.rawValue,
+            "type": self.type.rawValue,
+            "turn": self.turn,
+            "data": self.data.toDict()
+        ]
     }
 }
 func == (lhs: ReplayKeyPoint, rhs: ReplayKeyPoint) -> Bool {

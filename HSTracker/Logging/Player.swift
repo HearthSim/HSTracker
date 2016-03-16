@@ -549,11 +549,9 @@ class Player {
         case .HAND:
             updateCardEntity(entity)
             hand.sortInPlace(zonePosComparison)
-            DDLogVerbose("\(debugName) sorting hand \(hand)")
             if !isLocalPlayer && turn == 0 && hand.count == 5 && hand[4].entity?.id > 67 {
                 hand[4].cardId = CardIds.NonCollectible.Neutral.TheCoin
                 hand[4].created = true
-                deck.append(CardEntity())
                 DDLogVerbose("Coin \(hand[4])")
             }
 

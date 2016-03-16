@@ -17,13 +17,8 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        let locked = Settings.instance.windowsLocked
-        if locked {
-            self.window!.styleMask = NSBorderlessWindowMask
-        } else {
-            self.window!.styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
-        }
-        self.window!.ignoresMouseEvents = locked
+        self.window!.styleMask = NSBorderlessWindowMask
+        self.window!.ignoresMouseEvents = true
         self.window!.acceptsMouseMovedEvents = true
 
         self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
@@ -58,16 +53,6 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
         self.table.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
 
         self.table.reloadData()
-    }
-
-    func windowLockedChange(notification: NSNotification) {
-        let locked = Settings.instance.windowsLocked
-        if locked {
-            self.window!.styleMask = NSBorderlessWindowMask
-        } else {
-            self.window!.styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask | NSBorderlessWindowMask
-        }
-        self.window!.ignoresMouseEvents = locked
     }
 
     func opacityChange(notification: NSNotification) {

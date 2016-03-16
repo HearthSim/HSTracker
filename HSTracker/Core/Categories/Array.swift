@@ -32,11 +32,15 @@ extension Array where Element: Card {
     }
 }
 
-extension Array where Element: Statistic {
+protocol Dictable {
+    func toDict() -> [String: AnyObject]
+}
+
+extension Array where Element: Dictable {
     func toDict() -> [[String: AnyObject]] {
         var result = [[String: AnyObject]]()
-        for statistic in self {
-            result.append(statistic.toDict())
+        for element in self {
+            result.append(element.toDict())
         }
         return result
     }

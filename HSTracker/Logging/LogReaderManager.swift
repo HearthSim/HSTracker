@@ -1,18 +1,18 @@
 /*
- * This file is part of the HSTracker package.
- * (c) Benjamin Michotte <bmichotte@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * Created on 13/02/16.
- */
+* This file is part of the HSTracker package.
+* (c) Benjamin Michotte <bmichotte@gmail.com>
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*
+* Created on 13/02/16.
+*/
 
 import Foundation
 
 class LogReaderManager {
     var readers: [LogReader]
-
+    
     let powerGameStateHandler = PowerGameStateHandler()
     let netHandler = NetHandler()
     let assetHandler = AssetHandler()
@@ -20,7 +20,7 @@ class LogReaderManager {
     let rachelleHandler = RachelleHandler()
     let arenaHandler = ArenaHandler()
     let loadingScreenHandler = LoadingScreenHandler()
-
+    
     var powerLogReader: LogReader
     var gameStatePowerLogReader: LogReader
     var bob: LogReader
@@ -29,34 +29,34 @@ class LogReaderManager {
     var arena: LogReader
     var loadScreen: LogReader
     var net: LogReader
-
+    
     var toProcess = [Int: [LogLine]]()
     var running = false
     var stopped = false
-
+    
     init() {
         self.powerLogReader = LogReader(name: "Power",
             startFilters: ["PowerTaskList.DebugPrintPower"],
             containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"])
-
+        
         self.gameStatePowerLogReader = LogReader(name: "Power", startFilters: ["GameState."])
-
+        
         self.bob = LogReader(name: "Bob")
         self.rachelle = LogReader(name: "Rachelle")
         self.asset = LogReader(name: "Asset")
         self.arena = LogReader(name: "Arena")
         self.net = LogReader(name: "Net")
-
+        
         self.loadScreen = LogReader(name: "LoadingScreen", startFilters: ["LoadingScreen.OnSceneLoaded"])
-
+        
         readers = [self.powerLogReader, self.bob, self.rachelle, self.asset, self.arena, self.net, self.loadScreen]
     }
-
+    
     func start() {
         if self.running {
             return
         }
-
+        
         self.running = true
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
             let entryPoint = self.entryPoint()
@@ -64,9 +64,11 @@ class LogReaderManager {
                 reader.start(entryPoint)
             }
             self.gameStatePowerLogReader.start(entryPoint)
-
+        }
+        
+        let queue = dispatch_queue_create("be.michotte.hstracker.readers.powerstate", nil)
+        dispatch_async(queue) {
             var powerLines = [LogLine]()
-
             while !self.stopped {
                 for reader in self.readers {
                     let lines = reader.collect()
@@ -78,7 +80,7 @@ class LogReaderManager {
                     }
                 }
                 powerLines = self.gameStatePowerLogReader.collect()
-
+                
                 self.processLines()
                 if powerLines.count > 0 {
                     // Core.Game.PowerLog.AddRange(powerLines.Select(x => x.Line));
@@ -88,7 +90,7 @@ class LogReaderManager {
             }
         }
     }
-
+    
     func stop() {
         DDLogVerbose("Stopping all trackers")
         self.stopped = true
@@ -96,43 +98,43 @@ class LogReaderManager {
             reader.stop()
         }
     }
-
+    
     func restart() {
         stop()
         start()
     }
-
+    
     private func entryPoint() -> Double {
         let powerEntry = self.powerLogReader.findEntryPoint(["tag=GOLD_REWARD_STATE", "End Spectator"])
         let netEntry = self.net.findEntryPoint("ConnectAPI.GotoGameServer")
-
+        
         return powerEntry > netEntry ? powerEntry : netEntry
     }
-
+    
     private func processLines() {
         for (_, item) in toProcess.filter({ $0.1 != nil }) {
             for line in item.filter({ $0 != nil }) {
                 // DDLogVerbose("processing line \(line)", line)
                 let game = Game.instance
                 dispatch_async(dispatch_get_main_queue()) {
-                switch (line.namespace) {
-                case "Power":
-                    self.powerGameStateHandler.handle(game, line.line)
-                case "Net":
-                    self.netHandler.handle(game, line.line)
-                case "Asset":
-                    self.assetHandler.handle(game, line.line)
-                case "Bob":
-                    self.bobHandler.handle(game, line.line)
-                case "Rachelle":
-                    self.rachelleHandler.handle(game, line.line)
-                case "Arena":
-                    self.arenaHandler.handle(game, line.line)
-                case "LoadingScreen":
-                    self.loadingScreenHandler.handle(game, line.line)
-                default:
-                    break
-                }
+                    switch (line.namespace) {
+                    case "Power":
+                        self.powerGameStateHandler.handle(game, line.line)
+                    case "Net":
+                        self.netHandler.handle(game, line.line)
+                    case "Asset":
+                        self.assetHandler.handle(game, line.line)
+                    case "Bob":
+                        self.bobHandler.handle(game, line.line)
+                    case "Rachelle":
+                        self.rachelleHandler.handle(game, line.line)
+                    case "Arena":
+                        self.arenaHandler.handle(game, line.line)
+                    case "LoadingScreen":
+                        self.loadingScreenHandler.handle(game, line.line)
+                    default:
+                        break
+                    }
                 }
             }
         }

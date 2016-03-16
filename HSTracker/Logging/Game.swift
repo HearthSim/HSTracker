@@ -124,11 +124,13 @@ class Game {
     var playerMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.player.id!) }.count }
 
     func hearthstoneIsActive(active: Bool) {
-        if let tracker = self.playerTracker {
-            changeTracker(tracker, active, SizeHelper.playerTrackerFrame())
-        }
-        if let tracker = self.opponentTracker {
-            changeTracker(tracker, active, SizeHelper.opponentTrackerFrame())
+        if Settings.instance.autoPositionTrackers {
+            if let tracker = self.playerTracker {
+                changeTracker(tracker, active, SizeHelper.playerTrackerFrame())
+            }
+            if let tracker = self.opponentTracker {
+                changeTracker(tracker, active, SizeHelper.opponentTrackerFrame())
+            }
         }
         if let tracker = self.secretTracker {
             changeTracker(tracker, active, SizeHelper.secretTrackerFrame())
@@ -146,6 +148,9 @@ class Game {
             }
             else {
                 for i in 0 ..< count {
+                    if i > cardHuds.count {
+                        continue
+                    }
                     if let frame = SizeHelper.opponentCardHudFrame(i, count) {
                         cardHuds[i].window?.setFrame(frame, display: true)
                     }
@@ -241,15 +246,17 @@ class Game {
         }
     }
 
-    func debugSecrets() {
-        DDLogVerbose("\(opponentSecrets)")
-    }
-
     func inMenu() {
         if isInMenu {
             return
         }
-
+        DDLogVerbose("Game is now in menu")
+        
+        /*if(Config.Instance.RecordReplays && _game.Entities.Count > 0 && !_game.SavedReplay && _game.CurrentGameStats != null
+        && _game.CurrentGameStats.ReplayFile == null && RecordCurrentGameMode)
+        _game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(_game.PowerLog);*/
+        ReplayMaker.saveToDisk()
+        
         isInMenu = true
     }
 
@@ -330,11 +337,10 @@ class Game {
     }
 
     func waitForRank(seconds: Double, completion: () -> Void) {
-        DDLogInfo("waiting for rank")
         let timeout = NSDate().timeIntervalSince1970 + seconds
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             while NSDate().timeIntervalSince1970 - self.lastAssetUnload < timeout {
-                NSThread.sleepForTimeInterval(0.1)
+                NSThread.sleepForTimeInterval(0.5)
                 if self.currentRank != 0 {
                     break
                 }
@@ -992,9 +998,12 @@ class Game {
                 if self.opponentMinionCount - self.avengeDeathRattleCount > 0 {
                     self.opponentSecrets?.setZero(CardIds.Secrets.Paladin.Avenge)
                     dispatch_async(dispatch_get_main_queue()) {
-                        // TODO if (Core.MainWindow != null)
-                        // Core.Overlay.ShowSecrets();
-                        self.debugSecrets()
+                        if let secretTracker = self.secretTracker,
+                            let opponentSecrets = self.opponentSecrets {
+                                secretTracker.setSecrets(opponentSecrets)
+                                secretTracker.showWindow(self)
+                        }
+                        
                         self.awaitingAvenge = false
                         self.avengeDeathRattleCount = 0
                     }

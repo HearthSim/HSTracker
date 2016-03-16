@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="19"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="XFx-Lr-x7k">
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="480" translatesAutoresizingMaskIntoConstraints="NO" id="XFx-Lr-x7k">
                     <rect key="frame" x="-2" y="0.0" width="484" height="19"/>
                     <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" alignment="center" title="Multiline Label" id="Viv-TB-YIj">
                         <font key="font" size="12" name="BelweBT-Bold"/>
@@ -21,10 +21,10 @@
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="XFx-Lr-x7k" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="2US-jC-jIP"/>
-                <constraint firstAttribute="trailing" secondItem="XFx-Lr-x7k" secondAttribute="trailing" id="Ofj-fg-6qS"/>
-                <constraint firstItem="XFx-Lr-x7k" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="ezn-NL-SeM"/>
-                <constraint firstAttribute="bottom" secondItem="XFx-Lr-x7k" secondAttribute="bottom" id="nrD-QL-8Tx"/>
+                <constraint firstItem="XFx-Lr-x7k" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="FKK-VP-l6v"/>
+                <constraint firstAttribute="width" secondItem="XFx-Lr-x7k" secondAttribute="width" id="My8-EN-JAx"/>
+                <constraint firstItem="XFx-Lr-x7k" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="SAa-Af-uJx"/>
+                <constraint firstAttribute="height" secondItem="XFx-Lr-x7k" secondAttribute="height" id="erw-8H-IVu"/>
             </constraints>
             <connections>
                 <outlet property="textField" destination="XFx-Lr-x7k" id="0uD-nQ-ml1"/>

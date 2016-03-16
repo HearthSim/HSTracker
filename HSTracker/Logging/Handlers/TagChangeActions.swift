@@ -353,8 +353,9 @@ class TagChangeActions {
                     zoneChangeFromSecret(game, id, value, prevValue, controller, entity.cardId)
 
                 case .CREATED:
-                    if !game.setupDone && id <= 68 {
-                        simulateZoneChangesFromDeck(game, id, value, entity.cardId)
+                    let maxId = getMaxHeroPowerId(game)
+                    if !game.setupDone && id <= maxId {
+                        simulateZoneChangesFromDeck(game, id, value, entity.cardId, maxId)
                     }
                     else {
                         zoneChangeFromOther(game, id, value, prevValue, controller, entity.cardId)
@@ -366,23 +367,22 @@ class TagChangeActions {
             }
         }
     }
+    
+    // The last heropower is created after the last hero, therefore +1
+    private func getMaxHeroPowerId(game: Game) -> Int {
+        return max(game.playerEntity?.getTag(.HERO_ENTITY) ?? 66, game.opponentEntity?.getTag(.HERO_ENTITY) ?? 66) + 1
+    }
 
-    private func simulateZoneChangesFromDeck(game: Game, _ id: Int, _ value: Int, _ cardId: String?) {
+    private func simulateZoneChangesFromDeck(game: Game, _ id: Int, _ value: Int, _ cardId: String?, _ maxId: Int) {
+        if value == Zone.DECK.rawValue || value == Zone.SETASIDE.rawValue {
+            return
+        }
         if let entity = game.entities[id] {
             if entity.isHero || entity.isHeroPower || entity.hasTag(.PLAYER_ID) || entity.getTag(.CARDTYPE) == CardType.GAME.rawValue || entity.hasTag(.CREATOR) {
                 return
             }
-
-            if value == Zone.DECK.rawValue {
-                return
-            }
-
-            if id < 68 {
-                zoneChangeFromDeck(game, id, Zone.HAND.rawValue, Zone.DECK.rawValue, entity.getTag(.CONTROLLER), cardId)
-            }
-            else if id == 68 && entity.getTag(.ZONE_POSITION) == 5 {
-                zoneChangeFromOther(game, id, Zone.HAND.rawValue, Zone.CREATED.rawValue, entity.getTag(.CONTROLLER), cardId)
-            }
+            
+            zoneChangeFromDeck(game, id, Zone.HAND.rawValue, Zone.DECK.rawValue, entity.getTag(.CONTROLLER), cardId)
             if value == Zone.HAND.rawValue {
                 return
             }
