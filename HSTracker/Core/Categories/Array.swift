@@ -10,17 +10,9 @@
 
 extension Array where Element: Card {
     func sortCardList() -> [Card] {
-        return self.sort {
-            if $0.cost != $1.cost {
-                return $0.cost < $1.cost
-            }
-
-            if $0.type != $1.type {
-                return $1.type < $0.type
-            }
-
-            return $0.name < $1.name
-        }
+        return self.sort { $0.name < $1.name }
+            .sort { $1.type < $0.type }
+            .sort { $0.cost < $1.cost }
     }
 
     func toDict() -> [String: Int] {

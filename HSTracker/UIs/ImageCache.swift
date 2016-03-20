@@ -46,10 +46,7 @@ class ImageCache {
         return imageNamed("\(card.cardId).png", from: .Bundle)
     }
 
-    static func gemImage(var rarity: Rarity?) -> NSImage? {
-        if rarity == .Golden {
-           rarity = .Legendary
-        }
+    static func gemImage(rarity: Rarity?) -> NSImage? {
         return image("gem", rarity)
     }
 
@@ -60,12 +57,12 @@ class ImageCache {
     private static func image(base:String, _ rarity: Rarity?) -> NSImage? {
         var image: String = "\(base)"
         if let rarity = rarity {
-            switch rarity.rawValue {
-            case "common": image += "_common"
-            case "rare": image += "_rare"
-            case "epic": image += "_epic"
-            case "legendary": image += "_legendary"
-            case "golden": image += "_golden"
+            switch rarity {
+            case .Common: image += "_common"
+            case .Rare: image += "_rare"
+            case .Epic: image += "_epic"
+            case .Legendary: image += "_legendary"
+            case .Golden: image += "_golden"
             default: break
             }
         }

@@ -121,6 +121,8 @@ class CardCellView: NSView {
         addChild(ImageCache.darkenImage(), frameRect)
         if card.highlightFrame {
             addChild(ImageCache.frameImage(.Golden), frameRect)
+            addChild(ImageCache.gemImage(.Legendary), gemRect)
+            addCardCost(card)
         }
     }
     
@@ -158,7 +160,10 @@ class CardCellView: NSView {
     }
     
     private func addGem(card: Card) {
-        if Settings.instance.showRarityColors {
+        if card.highlightFrame {
+            addChild(ImageCache.gemImage(.Legendary), gemRect)
+        }
+        else if Settings.instance.showRarityColors {
             addChild(ImageCache.gemImage(card.rarity), gemRect)
         }
         else {

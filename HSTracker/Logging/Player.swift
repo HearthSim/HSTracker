@@ -64,35 +64,35 @@ class Player {
     let DeckSize = 30
 
     init(_ local: Bool) {
-        self.isLocalPlayer = local
+        isLocalPlayer = local
         reset()
     }
 
     func reset() {
-        self.id = nil
-        self.name = ""
-        self.playerClass = nil
-        self.goingFirst = false
-        self.fatigue = 0
-        // self.drawnCardsMatchDeck = true;
-        self.hand.removeAll()
-        self.board.removeAll()
-        self.deck.removeAll()
-        self.graveyard.removeAll()
-        self.secrets.removeAll()
-        self.drawnCardIds.removeAll()
-        self.drawnCardIdsTotal.removeAll()
-        self.revealedCards.removeAll()
-        self.createdInHandCardIds.removeAll()
-        self.hightlightedCards.removeAll()
-        self.removed.removeAll()
+        id = nil
+        name = ""
+        playerClass = nil
+        goingFirst = false
+        fatigue = 0
+        // drawnCardsMatchDeck = true;
+        hand.removeAll()
+        board.removeAll()
+        deck.removeAll()
+        graveyard.removeAll()
+        secrets.removeAll()
+        drawnCardIds.removeAll()
+        drawnCardIdsTotal.removeAll()
+        revealedCards.removeAll()
+        createdInHandCardIds.removeAll()
+        hightlightedCards.removeAll()
+        removed.removeAll()
         resetDeck()
     }
 
     func resetDeck() {
-        self.deck = []
+        deck = []
         for _ in 0 ..< DeckSize {
-            self.deck.append(CardEntity())
+            deck.append(CardEntity())
         }
     }
 
@@ -101,11 +101,11 @@ class Player {
     }
 
     var handCount: Int {
-        return self.hand.count
+        return hand.count
     }
 
     var deckCount: Int {
-        return self.deck.count
+        return deck.count
     }
 
     func drawnCards() -> [Card] {
@@ -255,8 +255,8 @@ class Player {
         return stillInDeck.sortCardList()
     }
 
-    var debugName: String {
-        return self.isLocalPlayer ? "Player" : "Opponent"
+    private var debugName: String {
+        return isLocalPlayer ? "Player" : "Opponent"
     }
 
     func createInDeck(entity: Entity, _ turn: Int) {
@@ -264,25 +264,25 @@ class Player {
 
         let created = turn > 1
 
-        if self.isLocalPlayer {
+        if isLocalPlayer {
             cardEntity = CardEntity(cardId: nil, entity: entity)
             cardEntity.turn = turn
             cardEntity.created = created
-            self.deck.append(cardEntity)
+            deck.append(cardEntity)
 
             let ce = CardEntity(cardId: nil, entity: entity)
             ce.turn = turn
             ce.created = created
-            self.revealedCards.append(ce)
+            revealedCards.append(ce)
         } else {
-            self.deck.append(CardEntity())
+            deck.append(CardEntity())
             if let cardId = entity.cardId {
-                self.revealDeckCard(cardId, turn, created)
+                revealDeckCard(cardId, turn, created)
             }
             cardEntity = CardEntity(cardId: entity.cardId, entity: nil)
             cardEntity.turn = turn
             cardEntity.created = created
-            self.revealedCards.append(cardEntity)
+            revealedCards.append(cardEntity)
         }
         DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
     }
@@ -301,22 +301,22 @@ class Player {
         let cardEntity = CardEntity(cardId: nil, entity: entity)
         cardEntity.turn = turn
         cardEntity.created = true
-        self.hand.append(cardEntity)
+        hand.append(cardEntity)
 
-        if let entity = entity, let cardId = entity.cardId where self.isLocalPlayer {
-            self.createdInHandCardIds.append(cardId)
+        if let entity = entity, cardId = entity.cardId where isLocalPlayer {
+            createdInHandCardIds.append(cardId)
         }
 
         DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
     }
 
     func boardToDeck(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.board, &self.deck, turn) {
+        if let cardEntity = moveCardEntity(entity, &board, &deck, turn) {
             updateRevealedEntity(cardEntity, turn)
 
-            if let cardId = entity.cardId where !String.isNullOrEmpty(cardId) && self.drawnCardIds.contains(cardId) {
-                if let index = self.drawnCardIds.indexOf(cardId) {
-                    self.drawnCardIds.removeAtIndex(index)
+            if let cardId = entity.cardId where !String.isNullOrEmpty(cardId) && drawnCardIds.contains(cardId) {
+                if let index = drawnCardIds.indexOf(cardId) {
+                    drawnCardIds.removeAtIndex(index)
                 }
             }
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
@@ -324,7 +324,7 @@ class Player {
     }
 
     func play(entity: Entity, _ turn: Int) {
-        var destination = entity.isSecret ? self.secrets : self.board
+        var destination = entity.isSecret ? secrets : board
         if let cardEntity = moveCardEntity(entity, &hand, &destination, turn) {
             if entity.getTag(GameTag.CARDTYPE) == CardType.TOKEN.rawValue {
                 cardEntity.created = true
@@ -335,14 +335,14 @@ class Player {
     }
 
     func handDiscard(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.hand, &self.graveyard, turn) {
+        if let cardEntity = moveCardEntity(entity, &hand, &graveyard, turn) {
             updateRevealedEntity(cardEntity, turn, true)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
 
     func secretPlayedFromDeck(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.deck, &self.secrets, turn) {
+        if let cardEntity = moveCardEntity(entity, &deck, &secrets, turn) {
             updateRevealedEntity(cardEntity, turn)
             verifyCardMatchesDeck(cardEntity)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
@@ -350,13 +350,13 @@ class Player {
     }
 
     func secretPlayedFromHand(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.hand, &self.secrets, turn) {
+        if let cardEntity = moveCardEntity(entity, &hand, &secrets, turn) {
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
 
     func mulligan(entity: Entity) {
-        if let cardEntity = moveCardEntity(entity, &self.hand, &self.deck, 0) {
+        if let cardEntity = moveCardEntity(entity, &hand, &deck, 0) {
 
             // new cards are drawn first
             if let newCard = hand.firstWhere({ $0.entity?.getTag(GameTag.ZONE_POSITION) == entity.getTag(GameTag.ZONE_POSITION) }) {
@@ -370,9 +370,9 @@ class Player {
     }
 
     func draw(entity: Entity, _ turn: Int) {
-        if let ce = moveCardEntity(entity, &self.deck, &self.hand, turn) {
+        if let ce = moveCardEntity(entity, &deck, &hand, turn) {
 
-            if self.isLocalPlayer {
+            if isLocalPlayer {
                 if let cardId = entity.cardId {
                     highlight(cardId)
                 }
@@ -387,23 +387,21 @@ class Player {
 
     func highlight(cardId: String) {
         hightlightedCards.append(cardId)
-        Game.instance.playerTracker?.update()
+        Game.instance.updatePlayerTracker()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             NSThread.sleepForTimeInterval(3)
             if self.hightlightedCards.count > 0 {
                 self.hightlightedCards.removeFirst()
             }
-            dispatch_async(dispatch_get_main_queue()) {
-                Game.instance.playerTracker?.update()
-            }
+            Game.instance.updatePlayerTracker()
         }
     }
 
     func removeFromDeck(entity: Entity, _ turn: Int) {
         if let revealed = revealedCards.firstWhere({ $0.entity == entity }) {
-            self.revealedCards.remove(revealed)
+            revealedCards.remove(revealed)
         }
-        if let cardEntity = moveCardEntity(entity, &self.deck, &self.removed, turn) {
+        if let cardEntity = moveCardEntity(entity, &deck, &removed, turn) {
             updateRevealedEntity(cardEntity, turn, true)
             verifyCardMatchesDeck(cardEntity)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
@@ -411,13 +409,13 @@ class Player {
     }
 
     func removeFromPlay(entity: Entity, _ turn: Int) {
-        if let ce = moveCardEntity(entity, &self.board, &self.removed, turn) {
+        if let ce = moveCardEntity(entity, &board, &removed, turn) {
             DDLogInfo("\(debugName) \(__FUNCTION__) \(ce)")
         }
     }
 
     func deckDiscard(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.deck, &self.graveyard, turn) {
+        if let cardEntity = moveCardEntity(entity, &deck, &graveyard, turn) {
             updateRevealedEntity(cardEntity, turn, true)
             verifyCardMatchesDeck(cardEntity)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
@@ -425,7 +423,7 @@ class Player {
     }
 
     func deckToPlay(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.deck, &self.board, turn) {
+        if let cardEntity = moveCardEntity(entity, &deck, &board, turn) {
             updateRevealedEntity(cardEntity, turn)
 
             verifyCardMatchesDeck(cardEntity)
@@ -434,13 +432,13 @@ class Player {
     }
 
     func playToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.board, &self.graveyard, turn) {
+        if let cardEntity = moveCardEntity(entity, &board, &graveyard, turn) {
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
     }
 
     func joustReveal(entity: Entity, _ turn: Int) {
-        if self.deck.filter({ $0.inDeck }).all({ $0.cardId != entity.cardId }) {
+        if deck.filter({ $0.inDeck }).all({ $0.cardId != entity.cardId }) {
             revealDeckCard(entity.cardId!, turn)
             let ce = CardEntity(cardId: entity.cardId, entity: nil)
             ce.turn = turn
@@ -457,7 +455,7 @@ class Player {
     }
 
     func stolenByOpponent(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.board, &self.removed, turn) {
+        if let cardEntity = moveCardEntity(entity, &board, &removed, turn) {
             cardEntity.stolen = true
             updateRevealedEntity(cardEntity, turn)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
@@ -465,7 +463,7 @@ class Player {
     }
 
     func stolenFromOpponent(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.removed, &self.board, turn) {
+        if let cardEntity = moveCardEntity(entity, &removed, &board, turn) {
             cardEntity.stolen = true
             updateRevealedEntity(cardEntity, turn)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
@@ -473,7 +471,7 @@ class Player {
     }
 
     func boardToHand(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.board, &self.hand, turn) {
+        if let cardEntity = moveCardEntity(entity, &board, &hand, turn) {
             cardEntity.returned = true
             updateRevealedEntity(cardEntity, turn, nil, CardMark.Returned)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
@@ -481,7 +479,7 @@ class Player {
     }
 
     func secretTriggered(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &self.secrets, &self.graveyard, turn) {
+        if let cardEntity = moveCardEntity(entity, &secrets, &graveyard, turn) {
             updateRevealedEntity(cardEntity, turn)
             DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
         }
@@ -500,7 +498,7 @@ class Player {
             cardEntity!.discarded = entity.discarded
             let cardType = CardType(rawValue: entity.entity!.getTag(.CARDTYPE))
             if cardType != .HERO && cardType != .ENCHANTMENT && cardType != .HERO_POWER && cardType != .PLAYER {
-                self.revealedCards.append(entity)
+                revealedCards.append(entity)
             }
         }
 
@@ -580,12 +578,12 @@ class Player {
         if String.isNullOrEmpty(ce.entity?.cardId) || ce.created || ce.returned || ce.stolen {
             return
         }
-        if let activeDeck = Game.instance.activeDeck, let entity = ce.entity, let cardId = entity.cardId {
-            if isLocalPlayer && activeDeck.sortedCards.all({ $0.cardId != cardId}) {
+        if let entity = ce.entity, let cardId = entity.cardId {
+            if let activeDeck = Game.instance.activeDeck where isLocalPlayer && activeDeck.sortedCards.all({ $0.cardId != cardId}) {
                 drawnCardsMatchDeck = false
-                drawnCardIds.append(cardId)
-                drawnCardIdsTotal.append(cardId)
             }
+            drawnCardIds.append(cardId)
+            drawnCardIdsTotal.append(cardId)
         }
     }
 }

@@ -70,9 +70,9 @@ class OpponentSecrets : CustomStringConvertible {
     func newSecretPlayed(heroClass: HeroClass, _ id: Int, _ turn: Int, _ knownCardId: String? = nil) {
         let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn)
         if let knownCardId = knownCardId {
-            for cardId in SecretHelper.getSecretIds(heroClass) {
-                helper.possibleSecrets[cardId] = cardId == knownCardId
-            }
+            SecretHelper.getSecretIds(heroClass).forEach({
+                helper.possibleSecrets[$0] = $0 == knownCardId
+            })
         }
         secrets.append(helper)
         DDLogInfo("Added secret with id: \(id)")
@@ -80,8 +80,7 @@ class OpponentSecrets : CustomStringConvertible {
 
     func secretRemoved(id: Int, _ cardId: String) {
         if let index = secrets.indexOf({ $0.id == id }) {
-            if index == -1
-            {
+            if index == -1 {
                 DDLogWarn("Secret with id=\(id), cardId=\(cardId) not found when trying to remove it.")
                 return
             }
@@ -146,10 +145,7 @@ class OpponentSecrets : CustomStringConvertible {
             }
         }
 
-        // TODO
-        /*if (Core.MainWindow != null) {
-         Core.Overlay.ShowSecrets();
-         }*/
+        Game.instance.showSecrets(true)
     }
 
     func clearSecrets() {
@@ -187,7 +183,7 @@ class OpponentSecrets : CustomStringConvertible {
 
     func getSecrets() -> [Secret] {
         let returnThis = displayedClasses.expand({
-            SecretHelper.getSecretIds($0).map { (cardId) in Secret(cardId: cardId, count: 0) }
+            SecretHelper.getSecretIds($0).map { Secret(cardId: $0, count: 0) }
         })
 
         for secret in secrets {
@@ -207,8 +203,8 @@ class OpponentSecrets : CustomStringConvertible {
 
     var description: String {
         return "<\(NSStringFromClass(self.dynamicType)): "
-            + "secrets=\(self.secrets)"
-            + ", proposedAttackerEntityId=\(self.proposedAttackerEntityId)"
-            + ", proposedDefenderEntityId=\(self.proposedDefenderEntityId)>"
+            + "secrets=\(secrets)"
+            + ", proposedAttackerEntityId=\(proposedAttackerEntityId)"
+            + ", proposedDefenderEntityId=\(proposedDefenderEntityId)>"
     }
 }

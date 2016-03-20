@@ -10,71 +10,70 @@ import Foundation
 
 class TagChangeActions {
 
-    func findAction(tag: GameTag, _ game: Game, _ id: Int, _ value: Int, _ prevValue: Int) -> (() -> Void)? {
+    func callAction(tag: GameTag, _ game: Game, _ id: Int, _ value: Int, _ prevValue: Int) {
+        //print("callAction tag:\(tag), id:\(id), value:\(value), prevValue:\(prevValue)")
         switch tag {
-
         case .ZONE:
-            return { self.zoneChange(game, id, value, prevValue) }
+            self.zoneChange(game, id, value, prevValue)
 
         case .PLAYSTATE:
-            return { self.playstateChange(game, id, value) }
+            self.playstateChange(game, id, value)
 
         case .CARDTYPE:
-            return { self.cardTypeChange(game, id, value) }
+            self.cardTypeChange(game, id, value)
 
         case .LAST_CARD_PLAYED:
-            return { self.lastCardPlayedChange(game, value) }
+            self.lastCardPlayedChange(game, value)
 
         case .DEFENDING:
-            return { self.defendingChange(game, id, value) }
+            self.defendingChange(game, id, value)
 
         case .ATTACKING:
-            return { self.attackingChange(game, id, value) }
+            self.attackingChange(game, id, value)
 
         case .PROPOSED_DEFENDER:
-            return { self.proposedDefenderChange(game, value) }
+            self.proposedDefenderChange(game, value)
 
         case .PROPOSED_ATTACKER:
-            return { self.proposedAttackerChange(game, value) }
+            self.proposedAttackerChange(game, value)
 
         case .NUM_MINIONS_PLAYED_THIS_TURN:
-            return { self.numMinionsPlayedThisTurnChange(game, value) }
+            self.numMinionsPlayedThisTurnChange(game, value)
 
         case .PREDAMAGE:
-            return { self.predamageChange(game, id, value) }
+            self.predamageChange(game, id, value)
 
         case .NUM_TURNS_IN_PLAY:
-            return { self.numTurnsInPlayChange(game, id, value) }
+            self.numTurnsInPlayChange(game, id, value)
 
         case .NUM_ATTACKS_THIS_TURN:
-            return { self.numAttacksThisTurnChange(game, id, value) }
+            self.numAttacksThisTurnChange(game, id, value)
 
         case .ZONE_POSITION:
-            return { self.zonePositionChange(game, id) }
+            self.zonePositionChange(game, id)
 
         case .CARD_TARGET:
-            return { self.cardTargetChange(game, id, value) }
+            self.cardTargetChange(game, id, value)
 
         case .EQUIPPED_WEAPON:
-            return { self.equippedWeaponChange(game, id, value) }
+            self.equippedWeaponChange(game, id, value)
 
         case .EXHAUSTED:
-            return { self.exhaustedChange(game, id, value) }
+            self.exhaustedChange(game, id, value)
 
         case .CONTROLLER:
-            return { self.controllerChange(game, id, prevValue, value) }
+            self.controllerChange(game, id, prevValue, value)
 
         case .FATIGUE:
-            return { self.fatigueChange(game, value, id) }
+            self.fatigueChange(game, value, id)
 
         case .STEP:
-            return { self.stepChange(game) }
+            self.stepChange(game)
 
         case .TURN:
-            return { self.turnChange(game) }
+            self.turnChange(game)
 
-        default:
-            return nil
+        default: break
         }
     }
 

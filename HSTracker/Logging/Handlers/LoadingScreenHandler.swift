@@ -41,8 +41,7 @@ class LoadingScreenHandler {
         }
         if let currentMode = game.currentMode {
             switch currentMode {
-            case .COLLECTIONMANAGER,
-                    .TAVERN_BRAWL:
+            case .COLLECTIONMANAGER, .TAVERN_BRAWL:
                 // gameState.GameHandler.ResetConstructedImporting();
                 break
 

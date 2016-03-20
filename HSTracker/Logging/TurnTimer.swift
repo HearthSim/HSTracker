@@ -52,6 +52,8 @@ import Foundation
                 opponentSeconds++
             }
         }
-        Game.instance.timerHud?.tick(seconds, playerSeconds, opponentSeconds)
+        dispatch_async(dispatch_get_main_queue()) {
+            Game.instance.timerHud?.tick(self.seconds, self.playerSeconds, self.opponentSeconds)
+        }
     }
 }

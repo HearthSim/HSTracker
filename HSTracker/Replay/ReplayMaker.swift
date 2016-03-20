@@ -49,9 +49,14 @@ class ReplayMaker {
                     resolveOpponentName(Cards.heroById(opponentHero!.cardId!)?.name)
                 }
                 
-                let filename = "\(player.name)(\(Cards.heroById(playerHero!.cardId!)?.name)) vs \(opponent.name)(\(Cards.heroById(opponentHero!.cardId!)?.name)) \(NSDate().getUTCFormateDate())"
-                DDLogInfo("will save to \(filename)")
-                print("\(points.toDict())")
+                if let playerName = player.name,
+                    let playerHeroName = Cards.heroById(playerHero!.cardId!)?.name,
+                    let opponentName = opponent.name,
+                    let opponentHeroName = Cards.heroById(opponentHero!.cardId!)?.name {
+                        let filename = "\(playerName)(\(playerHeroName)) vs \(opponentName)(\(opponentHeroName)) \(NSDate().getUTCFormateDate())"
+                        DDLogInfo("will save to \(filename)")
+                        //print("\(points.toDict())")
+                }
         }
     }
 

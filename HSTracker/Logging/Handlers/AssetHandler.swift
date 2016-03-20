@@ -21,7 +21,7 @@ class AssetHandler {
             game.lastAssetUnload = NSDate().timeIntervalSince1970
             game.awaitingRankedDetection = false
         }
-
+        
         if line.match(MedalRank) {
             let match = line.matches(MedalRank)
             if let match = match.first,
@@ -29,9 +29,11 @@ class AssetHandler {
                     game.currentGameMode = .Ranked
                     game.setPlayerRank(rank)
             }
-        } else if line.contains("rank_window") {
+        }
+        else if line.contains("rank_window") {
             game.currentGameMode = .Ranked
-        } else if line.match(UnloadingCard) {
+        }
+        else if line.match(UnloadingCard) {
             let match = line.matches(UnloadingCard)
             if let match = match.first {
                 let cardId = match.value
@@ -42,7 +44,8 @@ class AssetHandler {
                     DDLogInfo("Possible constructed card draft : \(cardId) ?")
                 }
             }
-        } else if line.contains("unloading name=Tavern_Brawl") {
+        }
+        else if line.contains("unloading name=Tavern_Brawl") {
             game.currentGameMode = .Brawl
         }
     }

@@ -9,6 +9,7 @@
 import Cocoa
 import CocoaLumberjack
 import MASPreferences
+//import HockeySDK
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -24,12 +25,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var preferences: MASPreferencesWindowController?
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        let app = NSBundle.mainBundle().infoDictionary!["CFBundleName"] as! String
-        print("\(app)")
         /*for (key,_) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
          NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
          }
          NSUserDefaults.standardUserDefaults().synchronize()*/
+        
+        /*BITHockeyManager.sharedHockeyManager().configureWithIdentifier("f38b1192f0dac671153a94036ced974e")
+        BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
+        BITHockeyManager.sharedHockeyManager().startManager()*/
 
         if let _ = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_v2") {
             // welcome to HSTracker v2
@@ -134,29 +137,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         DDLogInfo("HSTracker is now ready !")
         NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
 
-        // let heartharena = "http://www.heartharena.com/arena-run/260979"
-        // let hearthnews = "http://www.hearthnews.fr/decks/7070"
-        // let hearthstoneDecks = "http://www.hearthstone-decks.com/deck/voir/reno-reincarnation-7844"
-        // let hearthpwn = "http://www.hearthpwn.com/decks/432773-ostkakas-standard-miracle-rogue"
-        // let hearthpwnDeckbuilder = "http://www.hearthpwn.com/deckbuilder/warrior#50:2;73:1;96:1;215:2;227:2;297:2;493:2;632:1;644:1;7734:2;7749:2;12215:2;14448:1;14464:2;22264:1;22276:1;22309:2;27210:1;27211:2"
-        // let hearthstats = "http://hearthstats.net/decks/mage-meca--1049/public_show?locale=en"
-        // let hearthhead = "http://www.hearthhead.com/deck=158864/fun-easy-win-dragon-warrior"
-
-        /*let url = hearthhead
-         do {
-         try NetImporter.netImport(url, { (deck) -> Void in
-         DDLogVerbose("\(deck)")
-         })
-         } catch {
-         DDLogVerbose("error")
-         }*/
-
         // testImportDeck()
+        // testImportFromWeb()
 
         SizeHelper.hearthstoneFrame()
         if let splashscreen = splashscreen {
             splashscreen.close()
             self.splashscreen = nil
+        }
+    }
+    
+    private func testImportFromWeb() {
+        /*let heartharena = "http://www.heartharena.com/arena-run/260979"
+        let hearthnews = "http://www.hearthnews.fr/decks/7070"
+        let hearthstoneDecks = "http://www.hearthstone-decks.com/deck/voir/reno-reincarnation-7844"
+        let hearthpwn = "http://www.hearthpwn.com/decks/432773-ostkakas-standard-miracle-rogue"
+        let hearthpwnDeckbuilder = "http://www.hearthpwn.com/deckbuilder/warrior#50:2;73:1;96:1;215:2;227:2;297:2;493:2;632:1;644:1;7734:2;7749:2;12215:2;14448:1;14464:2;22264:1;22276:1;22309:2;27210:1;27211:2"
+        let hearthstats = "http://hearthstats.net/decks/mage-meca--1049/public_show?locale=en"*/
+        let hearthhead = "http://www.hearthhead.com/deck=158864/fun-easy-win-dragon-warrior"
+        
+        let url = hearthhead
+        do {
+            try NetImporter.netImport(url, { (deck) -> Void in
+                DDLogVerbose("\(deck)")
+            })
+        } catch {
+            DDLogVerbose("error")
         }
     }
 
@@ -234,7 +240,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             tracker.showWindow(self)
         }
 
-        for _ in 0 ... 10 {
+        for _ in 0 ..< 10 {
             let cardHud = CardHud(windowNibName: "CardHud")
             cardHuds.append(cardHud)
         }
@@ -271,6 +277,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func clearTrackers(sender: AnyObject) {
         Game.instance.removeActiveDeck()
+        Settings.instance.activeDeck = nil
     }
 
     @IBAction func openPreferences(sender: AnyObject) {

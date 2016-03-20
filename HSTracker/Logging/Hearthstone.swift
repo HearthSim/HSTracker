@@ -15,12 +15,14 @@ class Hearthstone : NSObject {
     var logReaderManager: LogReaderManager?
 
     var hearthstoneActive = false
+    var queue:dispatch_queue_t?
 
     static let instance = Hearthstone()
 
     // MARK: - Initialisation
     func start() {
         setup()
+        logReaderManager = LogReaderManager()
         startListeners()
         if self.isHearthstoneRunning {
             startTracking()
@@ -31,9 +33,9 @@ class Hearthstone : NSObject {
     }
 
     func setup() {
-        let zones = ["Zone", "Bob", "Power", "Asset", "Rachelle", "Arena", "LoadingScreen", "Net"]
+        let zones = _LogLineNamespaceAllValues
 
-        var missingZones = [String]()
+        var missingZones = [LogLineNamespace]()
 
         var fileContent = ""
         if !NSFileManager.defaultManager().fileExistsAtPath(self.configPath) {
@@ -42,7 +44,7 @@ class Hearthstone : NSObject {
         } else {
             do {
                 fileContent = try String(contentsOfFile: self.configPath)
-                var zonesFound = [String]()
+                var zonesFound = [LogLineNamespace]()
                 fileContent.enumerateLines({
                     (line, stop) -> () in
                     for zone in zones {
@@ -91,16 +93,18 @@ class Hearthstone : NSObject {
     }
 
     func startTracking() {
-        self.logReaderManager = LogReaderManager()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            self.logReaderManager?.start()
+        if queue == nil {
+            queue = dispatch_queue_create("be.michotte.hstracker.readers", nil)
+        }
+        if let queue = queue {
+            dispatch_async(queue) {
+                self.logReaderManager?.start()
+            }
         }
     }
 
     func stopTracking() {
-        if let logReaderManager = self.logReaderManager {
-            logReaderManager.stop()
-        }
+        logReaderManager?.stop()
     }
 
     func restartTracking() {
@@ -176,11 +180,6 @@ class Hearthstone : NSObject {
 
     var isHearthstoneRunning: Bool {
         let apps = NSWorkspace.sharedWorkspace().runningApplications
-        for app in apps {
-            if app.localizedName == "Hearthstone" {
-                return true
-            }
-        }
-        return false
+        return apps.any({$0.localizedName == "Hearthstone"})
     }
 }

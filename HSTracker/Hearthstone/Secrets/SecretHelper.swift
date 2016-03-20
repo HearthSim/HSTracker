@@ -20,9 +20,9 @@ class SecretHelper : Equatable, CustomStringConvertible {
         self.heroClass = heroClass
         possibleSecrets = [String: Bool]()
 
-        for cardId in SecretHelper.getSecretIds(heroClass) {
-            possibleSecrets[cardId] = true
-        }
+        SecretHelper.getSecretIds(heroClass).forEach({
+            possibleSecrets[$0] = true
+        })
     }
 
     static func getMaxSecretCount(heroClass: HeroClass) -> Int {
@@ -40,9 +40,9 @@ class SecretHelper : Equatable, CustomStringConvertible {
 
     var description: String {
         return "<\(NSStringFromClass(self.dynamicType)): "
-            + "id=\(self.id)"
-            + ", turnPlayed=\(self.turnPlayed)"
-            + ", heroClass=\(self.heroClass)"
+            + "id=\(id)"
+            + ", turnPlayed=\(turnPlayed)"
+            + ", heroClass=\(heroClass)"
             + ", possibleSecrets=\(possibleSecrets)>"
     }
 }

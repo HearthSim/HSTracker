@@ -53,6 +53,11 @@ class CardHud : NSWindowController {
             default: break
             }
         }
-        label.stringValue = text
+        label.attributedStringValue = NSAttributedString(string: text, attributes: [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 20)!,
+            NSForegroundColorAttributeName: NSColor.whiteColor(),
+            NSStrokeWidthAttributeName: -2,
+            NSStrokeColorAttributeName: NSColor.blackColor()
+            ])
     }
 }

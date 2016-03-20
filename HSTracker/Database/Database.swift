@@ -22,7 +22,7 @@ class Cards {
         if String.isNullOrEmpty(cardId) {
             return false
         }
-        if let cardId = cardId, let _ = heroById(cardId) {
+        if let cardId = cardId, _ = heroById(cardId) {
             return true
         }
         return false
@@ -34,9 +34,16 @@ class Cards {
         }
         return nil
     }
+    
+    static func anyById(cardId: String) -> Card? {
+        if let card = cards.firstWhere({ $0.cardId == cardId }) {
+            return card.copy()
+        }
+        return nil
+    }
 
     static func byEnglishName(name: String) -> Card? {
-        if let card = collectible().firstWhere({ $0.enName == name && $0.collectible && $0.type != "hero" && $0.type != "hero power" }) {
+        if let card = collectible().firstWhere({ $0.enName == name }) {
             return card.copy()
         }
         return nil
