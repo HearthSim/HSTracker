@@ -12,17 +12,17 @@ import Foundation
 
 enum PlayState: Int {
     case INVALID = 0,
-         PLAYING = 1,
-         WINNING = 2,
-         LOSING = 3,
-         WON = 4,
-         LOST = 5,
-         TIED = 6,
-         DISCONNECTED = 7,
-         CONCEDED = 8
-
+    PLAYING = 1,
+    WINNING = 2,
+    LOSING = 3,
+    WON = 4,
+    LOST = 5,
+    TIED = 6,
+    DISCONNECTED = 7,
+    CONCEDED = 8
+    
     init?(rawString: String) {
-        for _enum in _PlayStateAllValues {
+        for _enum in PlayState.allValues() {
             if "\(_enum)" == rawString {
                 self = _enum
                 return
@@ -34,6 +34,8 @@ enum PlayState: Int {
         }
         self = .INVALID
     }
+    
+    static func allValues() -> [PlayState] {
+        return [.INVALID, .PLAYING, .WINNING, .LOSING, .WON, .LOST, .TIED, .DISCONNECTED, .CONCEDED]
+    }
 }
-
-let _PlayStateAllValues: [PlayState] = [.INVALID, .PLAYING, .WINNING, .LOSING, .WON, .LOST, .TIED, .DISCONNECTED, .CONCEDED]

@@ -13,66 +13,26 @@ class TagChangeActions {
     func callAction(tag: GameTag, _ game: Game, _ id: Int, _ value: Int, _ prevValue: Int) {
         //print("callAction tag:\(tag), id:\(id), value:\(value), prevValue:\(prevValue)")
         switch tag {
-        case .ZONE:
-            self.zoneChange(game, id, value, prevValue)
-
-        case .PLAYSTATE:
-            self.playstateChange(game, id, value)
-
-        case .CARDTYPE:
-            self.cardTypeChange(game, id, value)
-
-        case .LAST_CARD_PLAYED:
-            self.lastCardPlayedChange(game, value)
-
-        case .DEFENDING:
-            self.defendingChange(game, id, value)
-
-        case .ATTACKING:
-            self.attackingChange(game, id, value)
-
-        case .PROPOSED_DEFENDER:
-            self.proposedDefenderChange(game, value)
-
-        case .PROPOSED_ATTACKER:
-            self.proposedAttackerChange(game, value)
-
-        case .NUM_MINIONS_PLAYED_THIS_TURN:
-            self.numMinionsPlayedThisTurnChange(game, value)
-
-        case .PREDAMAGE:
-            self.predamageChange(game, id, value)
-
-        case .NUM_TURNS_IN_PLAY:
-            self.numTurnsInPlayChange(game, id, value)
-
-        case .NUM_ATTACKS_THIS_TURN:
-            self.numAttacksThisTurnChange(game, id, value)
-
-        case .ZONE_POSITION:
-            self.zonePositionChange(game, id)
-
-        case .CARD_TARGET:
-            self.cardTargetChange(game, id, value)
-
-        case .EQUIPPED_WEAPON:
-            self.equippedWeaponChange(game, id, value)
-
-        case .EXHAUSTED:
-            self.exhaustedChange(game, id, value)
-
-        case .CONTROLLER:
-            self.controllerChange(game, id, prevValue, value)
-
-        case .FATIGUE:
-            self.fatigueChange(game, value, id)
-
-        case .STEP:
-            self.stepChange(game)
-
-        case .TURN:
-            self.turnChange(game)
-
+        case .ZONE: self.zoneChange(game, id, value, prevValue)
+        case .PLAYSTATE: self.playstateChange(game, id, value)
+        case .CARDTYPE: self.cardTypeChange(game, id, value)
+        case .LAST_CARD_PLAYED: self.lastCardPlayedChange(game, value)
+        case .DEFENDING: self.defendingChange(game, id, value)
+        case .ATTACKING: self.attackingChange(game, id, value)
+        case .PROPOSED_DEFENDER: self.proposedDefenderChange(game, value)
+        case .PROPOSED_ATTACKER: self.proposedAttackerChange(game, value)
+        case .NUM_MINIONS_PLAYED_THIS_TURN: self.numMinionsPlayedThisTurnChange(game, value)
+        case .PREDAMAGE: self.predamageChange(game, id, value)
+        case .NUM_TURNS_IN_PLAY: self.numTurnsInPlayChange(game, id, value)
+        case .NUM_ATTACKS_THIS_TURN: self.numAttacksThisTurnChange(game, id, value)
+        case .ZONE_POSITION: self.zonePositionChange(game, id)
+        case .CARD_TARGET: self.cardTargetChange(game, id, value)
+        case .EQUIPPED_WEAPON: self.equippedWeaponChange(game, id, value)
+        case .EXHAUSTED: self.exhaustedChange(game, id, value)
+        case .CONTROLLER: self.controllerChange(game, id, prevValue, value)
+        case .FATIGUE: self.fatigueChange(game, value, id)
+        case .STEP: self.stepChange(game)
+        case .TURN: self.turnChange(game)
         default: break
         }
     }
@@ -102,27 +62,23 @@ class TagChangeActions {
     }
 
     private func numMinionsPlayedThisTurnChange(game: Game, _ value: Int) {
-        if value <= 0 {
-            return
-        }
+        guard value > 0 else { return }
+        
         if let playerEntity = game.playerEntity where playerEntity.isCurrentPlayer {
             game.playerMinionPlayed()
         }
     }
 
     private func predamageChange(game: Game, _ id: Int, _ value: Int) {
-        if value <= 0 {
-            return
-        }
+        guard value > 0 else { return }
+        
         if let playerEntity = game.playerEntity, let entity = game.entities[id] where playerEntity.isCurrentPlayer {
             game.opponentDamage(entity)
         }
     }
 
     private func numTurnsInPlayChange(game: Game, _ id: Int, _ value: Int) {
-        if value <= 0 {
-            return
-        }
+        guard value > 0 else { return }
 
         if let opponentEntity = game.opponentEntity, let entity = game.entities[id] where opponentEntity.isCurrentPlayer {
             game.opponentTurnStart(entity)
@@ -142,13 +98,10 @@ class TagChangeActions {
     }
 
     private func controllerChange(game: Game, _ id: Int, _ prevValue: Int, _ value: Int) {
-        if prevValue <= 0 {
-            return
-        }
+        guard prevValue > 0 else { return }
+        
         if let entity = game.entities[id] {
-            if entity.hasTag(.PLAYER_ID) {
-                return
-            }
+            guard !entity.hasTag(.PLAYER_ID) else { return }
 
             if value == game.player.id {
                 if entity.isInZone(.SECRET) {
@@ -172,14 +125,11 @@ class TagChangeActions {
     }
 
     private func exhaustedChange(game: Game, _ id: Int, _ value: Int) {
-        if value <= 0 {
-            return
-        }
+        guard value > 0 else { return }
 
         if let entity = game.entities[id] {
-            if entity.getTag(.CARDTYPE) != CardType.HERO_POWER.rawValue {
-                return
-            }
+            guard entity.getTag(.CARDTYPE) == CardType.HERO_POWER.rawValue else { return }
+            
             let controller = entity.getTag(.CONTROLLER)
             if controller == game.player.id {
                 game.proposeKeyPoint(.HeroPower, id, .Player)
@@ -191,9 +141,8 @@ class TagChangeActions {
     }
 
     private func equippedWeaponChange(game: Game, _ id: Int, _ value: Int) {
-        if value != 0 {
-            return
-        }
+        guard value == 0 else { return }
+        
         if let entity = game.entities[id] {
             let controller = entity.getTag(.CONTROLLER)
             if controller == game.player.id {
@@ -205,11 +154,9 @@ class TagChangeActions {
         }
     }
 
-    private func cardTargetChange(game: Game, _ id: Int, _ value: Int)
-    {
-        if value <= 0 {
-            return
-        }
+    private func cardTargetChange(game: Game, _ id: Int, _ value: Int) {
+        guard value > 0 else { return }
+        
         if let entity = game.entities[id] {
             let controller = entity.getTag(.CONTROLLER)
             if controller == game.player.id {
@@ -250,9 +197,7 @@ class TagChangeActions {
     }
 
     private func numAttacksThisTurnChange(game: Game, _ id: Int, _ value: Int) {
-        if value <= 0 {
-            return
-        }
+        guard value > 0 else { return }
 
         if let entity = game.entities[id] {
             let controller = entity.getTag(.CONTROLLER)
@@ -266,9 +211,8 @@ class TagChangeActions {
     }
 
     private func turnChange(game: Game) {
-        if !game.setupDone || game.playerEntity == nil {
-            return
-        }
+        guard game.setupDone && game.playerEntity != nil else { return }
+        
         if let playerEntity = game.playerEntity {
             let activePlayer: PlayerType = playerEntity.hasTag(.CURRENT_PLAYER) ? .Player : .Opponent
             game.turnStart(activePlayer, game.turnNumber())
@@ -283,9 +227,7 @@ class TagChangeActions {
     }
 
     private func stepChange(game: Game) {
-        if game.setupDone || game.entities.first?.1.name != "GameEntity" {
-            return
-        }
+        guard !game.setupDone && game.entities.first?.1.name == "GameEntity" else { return }
 
         DDLogVerbose("Game was already in progress.")
         // game.wasInProgress = true
@@ -302,9 +244,7 @@ class TagChangeActions {
             game.concede()
         }
 
-        if (game.gameEnded) {
-            return
-        }
+        guard !game.gameEnded else { return }
 
         if let entity = game.entities[id] where !entity.isPlayer {
             return
@@ -585,14 +525,14 @@ class TagChangeActions {
             case .SETASIDE, .REMOVEDFROMGAME:
                 if controller == game.player.id {
                     if game.joustReveals > 0 {
-                        game.joustReveals--
+                        game.joustReveals -= 1
                         break
                     }
                     game.playerRemoveFromDeck(entity, game.turnNumber())
                 }
                 else if controller == game.opponent.id {
                     if game.joustReveals > 0 {
-                        game.joustReveals--
+                        game.joustReveals -= 1
                         break
                     }
                     game.opponentRemoveFromDeck(entity, game.turnNumber())

@@ -12,13 +12,14 @@ import Alamofire
 class ImageDownloader {
     var semaphore: dispatch_semaphore_t?
 
-    func downloadImagesIfNeeded(var images: [String], splashscreen: Splashscreen) {
+    func downloadImagesIfNeeded(_images: [String], splashscreen: Splashscreen) {
         if let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
             do {
                 try NSFileManager.defaultManager().createDirectoryAtPath("\(destination)/HSTracker/cards", withIntermediateDirectories: true, attributes: nil)
             }
             catch { }
 
+            var images = _images
             // check for images already present
             for image in images {
                 let path = "\(destination)/HSTracker/cards/\(image).png"
@@ -49,7 +50,7 @@ class ImageDownloader {
                     }
                 }
 
-                downloadImages(images, language: locale, destination: destination, splashscreen: splashscreen)
+                downloadImages(&images, locale, destination, splashscreen)
             }
             if let semaphore = semaphore {
                 dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
@@ -57,7 +58,7 @@ class ImageDownloader {
         }
     }
 
-    private func downloadImages(var images: [String], language: String, destination: String, splashscreen: Splashscreen) {
+    private func downloadImages(inout images: [String], _ language: String, _ destination: String, _ splashscreen: Splashscreen) {
         if images.isEmpty {
             if let semaphore = semaphore {
                 dispatch_semaphore_signal(semaphore)
@@ -77,7 +78,7 @@ class ImageDownloader {
             let task = NSURLSession.sharedSession().downloadTaskWithRequest(NSURLRequest(URL: url), completionHandler: { (url, response, error) -> Void in
                 if error != nil {
                     DDLogError("download error \(error)")
-                    self.downloadImages(images, language: language, destination: destination, splashscreen: splashscreen)
+                    self.downloadImages(&images, language, destination, splashscreen)
                     return
                 }
 
@@ -86,7 +87,7 @@ class ImageDownloader {
                         data.writeToFile(path, atomically: true)
                     }
                 }
-                self.downloadImages(images, language: language, destination: destination, splashscreen: splashscreen)
+                self.downloadImages(&images, language, destination, splashscreen)
             })
             task.resume()
         }

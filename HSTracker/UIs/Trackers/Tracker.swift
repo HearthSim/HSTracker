@@ -10,6 +10,11 @@
 
 import Cocoa
 
+enum HandCountPosition: Int {
+    case Tracker,
+    Window
+}
+
 class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, CardCellHover {
     
     @IBOutlet weak var table: NSTableView!
@@ -82,6 +87,10 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         self.table.registerNib(nib, forIdentifier: "CountTextCellView")
         
         self.table.reloadData()
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func windowLockedChange(notification: NSNotification) {

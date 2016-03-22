@@ -12,13 +12,13 @@ import Foundation
 
 enum Mulligan: Int {
     case INVALID = 0,
-         INPUT = 1,
-         DEALING = 2,
-         WAITING = 3,
-         DONE = 4
-
+    INPUT = 1,
+    DEALING = 2,
+    WAITING = 3,
+    DONE = 4
+    
     init?(rawString: String) {
-        for _enum in _MulliganAllValues {
+        for _enum in Mulligan.allValues() {
             if "\(_enum)" == rawString {
                 self = _enum
                 return
@@ -30,6 +30,8 @@ enum Mulligan: Int {
         }
         self = .INVALID
     }
+    
+    static func allValues() -> [Mulligan] {
+        return [.INVALID, .INPUT, .DEALING, .WAITING, .DONE]
+    }
 }
-
-let _MulliganAllValues: [Mulligan] = [.INVALID, .INPUT, .DEALING, .WAITING, .DONE]

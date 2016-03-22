@@ -24,10 +24,9 @@ class AssetHandler {
         
         if line.match(MedalRank) {
             let match = line.matches(MedalRank)
-            if let match = match.first,
-                let rank = Int(match.value) {
-                    game.currentGameMode = .Ranked
-                    game.setPlayerRank(rank)
+            if let match = match.first, rank = Int(match.value) {
+                game.currentGameMode = .Ranked
+                game.setPlayerRank(rank)
             }
         }
         else if line.contains("rank_window") {
@@ -37,7 +36,7 @@ class AssetHandler {
             let match = line.matches(UnloadingCard)
             if let match = match.first {
                 let cardId = match.value
-
+                
                 if game.currentMode == Mode.DRAFT && game.previousMode == Mode.HUB {
                     DDLogInfo("Possible arena card draft : \(cardId) ?")
                 } else if (game.currentMode == Mode.COLLECTIONMANAGER || game.currentMode == Mode.TAVERN_BRAWL) && game.previousMode == Mode.HUB {

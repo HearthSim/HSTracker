@@ -19,16 +19,14 @@ class Cards {
     }
 
     static func isHero(cardId: String?) -> Bool {
-        if String.isNullOrEmpty(cardId) {
-            return false
-        }
-        if let cardId = cardId, _ = heroById(cardId) {
-            return true
-        }
-        return false
+        guard !String.isNullOrEmpty(cardId) else { return false }
+        
+        return heroById(cardId!) != .None
     }
 
-    static func byId(cardId: String) -> Card? {
+    static func byId(cardId: String?) -> Card? {
+        guard !String.isNullOrEmpty(cardId) else { return nil }
+        
         if let card = collectible().firstWhere({ $0.cardId == cardId }) {
             return card.copy()
         }

@@ -15,7 +15,7 @@ class BobHandler {
     let LegendRankRegex = "legend rank (\\d+)"
 
     func handle(game: Game, _ line: String) {
-
+        
         if !line.match(LegendRankRegex) {
             /*let match = line.matches(legendRank)
              if let rank = Int(match.groups[1].value) {

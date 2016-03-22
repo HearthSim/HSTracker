@@ -63,7 +63,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         decksTable.target = self
         decksTable.action = "decksTableClick:"
 
-        decks = Decks.decks()
+        decks = Decks.decks().filter({$0.isActive})
         decksTable.reloadData()
 
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
@@ -278,6 +278,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         // TODO confirmation
         if let cell = currentCell, deck = cell.deck {
             Decks.remove(deck)
+            refreshDecks()
         }
     }
 

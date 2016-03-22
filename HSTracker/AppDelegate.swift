@@ -22,7 +22,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var cardHuds = [CardHud]()
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
-    var preferences: MASPreferencesWindowController?
+    var preferences: MASPreferencesWindowController = {
+        let preferences = MASPreferencesWindowController(viewControllers: [
+            GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
+            GamePreferences(nibName: "GamePreferences", bundle: nil)!,
+            TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!
+            ], title: NSLocalizedString("Preferences", comment: ""))
+        return preferences
+    }()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         /*for (key,_) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
@@ -49,7 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             DDTTYLogger.sharedInstance().colorsEnabled = true
             DDLog.addLogger(DDTTYLogger.sharedInstance())
         #else
-            var fileLogger: DDFileLogger = DDFileLogger()
+            let fileLogger: DDFileLogger = DDFileLogger()
             fileLogger.rollingFrequency = 60 * 60 * 24
             fileLogger.logFileManager.maximumNumberOfLogFiles = 7
             DDLog.addLogger(fileLogger)
@@ -59,17 +66,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             loadSplashscreen()
         } else {
             initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
-            initalConfig!.completionHandler = {
+            initalConfig?.completionHandler = {
                 self.loadSplashscreen()
             }
-            initalConfig!.showWindow(nil)
-            initalConfig!.window?.orderFrontRegardless()
+            initalConfig?.showWindow(nil)
+            initalConfig?.window?.orderFrontRegardless()
         }
     }
 
     func loadSplashscreen() {
         splashscreen = Splashscreen(windowNibName: "Splashscreen")
-        splashscreen!.showWindow(self)
+        splashscreen?.showWindow(self)
         let operationQueue = NSOperationQueue()
 
         let startUpCompletionOperation = NSBlockOperation(block: {
@@ -212,61 +219,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func openTrackers() {
+        let settings = Settings.instance
+        
         self.playerTracker = Tracker(windowNibName: "Tracker")
-        if let tracker = self.playerTracker {
-            tracker.playerType = .Player
-            tracker.window?.setFrameAutosaveName("player_tracker")
-            if Settings.instance.showPlayerTracker {
-                tracker.showWindow(self)
-            }
+        self.playerTracker?.playerType = .Player
+        self.playerTracker?.window?.setFrameAutosaveName("player_tracker")
+        if settings.showPlayerTracker {
+            self.playerTracker?.showWindow(self)
         }
-
+        
         self.opponentTracker = Tracker(windowNibName: "Tracker")
-        if let tracker = self.opponentTracker {
-            tracker.playerType = .Opponent
-            tracker.window?.setFrameAutosaveName("opponent_tracker")
-            if Settings.instance.showOpponentTracker {
-                tracker.showWindow(self)
-            }
+        self.opponentTracker?.playerType = .Opponent
+        self.opponentTracker?.window?.setFrameAutosaveName("opponent_tracker")
+        if settings.showOpponentTracker {
+            self.opponentTracker?.showWindow(self)
         }
-
+        
         self.secretTracker = SecretTracker(windowNibName: "SecretTracker")
-        if let tracker = self.secretTracker {
-            tracker.showWindow(self)
-        }
-
+        self.secretTracker?.showWindow(self)
+        
         self.timerHud = TimerHud(windowNibName: "TimerHud")
-        if let tracker = self.timerHud {
-            tracker.showWindow(self)
-        }
-
+        self.timerHud?.showWindow(self)
+        
         for _ in 0 ..< 10 {
             let cardHud = CardHud(windowNibName: "CardHud")
             cardHuds.append(cardHud)
         }
     }
-
+    
     func showPlayerTracker(notification: NSNotification) {
-        if let tracker = self.playerTracker {
-            showHideTracker(tracker, show: Settings.instance.showPlayerTracker)
-        }
+        showHideTracker(self.playerTracker, show: Settings.instance.showPlayerTracker)
     }
-
+    
     func showOpponentTracker(notification: NSNotification) {
-        if let tracker = self.opponentTracker {
-            showHideTracker(tracker, show: Settings.instance.showOpponentTracker)
-        }
+        showHideTracker(self.opponentTracker, show: Settings.instance.showOpponentTracker)
     }
-
-    func showHideTracker(tracker: Tracker, show: Bool) {
+    
+    func showHideTracker(tracker: Tracker?, show: Bool) {
         if show {
-            tracker.showWindow(self)
+            tracker?.showWindow(self)
         } else {
-            tracker.close()
+            tracker?.close()
         }
-    }
-
-    func applicationWillTerminate(aNotification: NSNotification) {
     }
 
     // MARK: - Menu
@@ -281,16 +275,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func openPreferences(sender: AnyObject) {
-        if preferences == nil {
-            preferences = MASPreferencesWindowController(viewControllers: [
-                GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
-                GamePreferences(nibName: "GamePreferences", bundle: nil)!,
-                TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!
-                ], title: NSLocalizedString("Preferences", comment: ""))
-        }
-        if let preferences = preferences {
-            preferences.showWindow(nil)
-        }
+        preferences.showWindow(nil)
     }
 
     @IBAction func lockWindows(sender: AnyObject) {

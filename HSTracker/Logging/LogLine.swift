@@ -10,6 +10,10 @@
 
 enum LogLineNamespace : String {
     case Power, Net, Asset, Bob, Rachelle, Arena, LoadingScreen
+    
+    static func allValues() -> [LogLineNamespace] {
+        return [.Power, .Net, .Asset, .Bob, .Rachelle, .Arena, .LoadingScreen]
+    }
 }
 
 class LogLine {
@@ -23,5 +27,3 @@ class LogLine {
         self.line = line
     }
 }
-
-let _LogLineNamespaceAllValues: [LogLineNamespace] = [.Power, .Net, .Asset, .Bob, .Rachelle, .Arena, .LoadingScreen]

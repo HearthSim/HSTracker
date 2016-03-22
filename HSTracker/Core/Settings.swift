@@ -11,70 +11,33 @@ import Foundation
 class Settings {
 
     static let instance = Settings()
+    
+    private let defaults:NSUserDefaults? = {
+        return NSUserDefaults.standardUserDefaults()
+    }()
 
     private func set(name: String, _ value: AnyObject?) {
-        NSUserDefaults.standardUserDefaults().setObject(value, forKey: name)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        defaults?.setObject(value, forKey: name)
+        defaults?.synchronize()
 
         NSNotificationCenter.defaultCenter().postNotificationName(name, object: value)
     }
 
     private func get(name: String, _ defaultValue: AnyObject?) -> AnyObject? {
-        if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey(name) {
+        if let returnValue = defaults?.objectForKey(name) {
             return returnValue
         } else {
             return defaultValue
         }
     }
-
-    /*var showOpponentDraw: Bool {
-     set { set("show_opponent_draw", newValue) }
-     get { return get("show_opponent_draw", false) as! Bool }
-     }
-     var showOpponentMulligan: Bool {
-     set { set("show_opponent_mulligan", newValue) }
-     get { return get("show_opponent_mulligan", false) as! Bool }
-     }
-     var showOpponentPlay: Bool {
-     set { set("show_opponent_play", newValue) }
-     get { return get("show_opponent_play", true) as! Bool }
-     }
-     var showPlayerDraw: Bool {
-     set { set("show_player_draw", newValue) }
-     get { return get("show_player_draw", false) as! Bool }
-     }
-     var showPlayerMulligan: Bool {
-     set { set("show_player_mulligan", newValue) }
-     get { return get("show_player_mulligan", false) as! Bool }
-     }
-     var showPlayerPlay: Bool {
-     set { set("show_player_play", newValue) }
-     get { return get("show_player_play", true) as! Bool }
-     }*/
-    
     var trackerOpacity: Double {
         set { set("tracker_opacity", newValue) }
         get { return get("tracker_opacity", 0) as! Double }
     }
-
     var activeDeck: String? {
         set { set("active_deck", newValue) }
         get { return get("active_deck", nil) as? String }
     }
-
-    /*var flashColor: NSColor {
-     set {
-     NSUserDefaults.standardUserDefaults().setObject(NSArchiver.archivedDataWithRootObject(newValue), forKey: "flash_color")
-     NSUserDefaults.standardUserDefaults().synchronize()
-     }
-     get {
-     if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("flash_color") as? NSData {
-     return NSUnarchiver.unarchiveObjectWithData(returnValue) as! NSColor
-     } else {
-     return NSColor(red: 55, green: 189, blue: 223, alpha: 1)
-     }
-     }
-     }*/
     var cardSize: CardSize {
         set { set("card_size", newValue.rawValue) }
         get { return CardSize(rawValue: get("card_size", CardSize.Big.rawValue) as! Int)! }
@@ -91,48 +54,19 @@ class Settings {
         set { set("hstracker_language", newValue) }
         get { return get("hstracker_language", nil) as? String }
     }
-
     var showRarityColors: Bool {
         set { set("rarity_colors", newValue) }
         get { return get("rarity_colors", true) as! Bool }
     }
-
     var autoGrayoutSecrets: Bool {
         set { set("auto_grayout_secrets", newValue) }
         get { return get("auto_grayout_secrets", true) as! Bool }
     }
-    
     var autoPositionTrackers: Bool {
         set { set("auto_position_trackers", newValue) }
         get { return get("auto_position_trackers", true) as! Bool }
     }
     
-    /*var showOneCard: Bool {
-     set {
-     NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "show_one_card")
-     NSUserDefaults.standardUserDefaults().synchronize()
-     }
-     get {
-     if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("show_one_card") as? Bool {
-     return returnValue
-     } else {
-     return false
-     }
-     }
-     }
-     var inHandAsPlayed: Bool {
-     set {
-     NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "in_hand_as_played")
-     NSUserDefaults.standardUserDefaults().synchronize()
-     }
-     get {
-     if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("in_hand_as_played") as? Bool {
-     return returnValue
-     } else {
-     return true
-     }
-     }
-     }*/
     var windowsLocked: Bool {
         set { set("window_locked", newValue) }
         get { return get("window_locked", true) as! Bool }

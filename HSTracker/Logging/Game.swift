@@ -395,7 +395,7 @@ class Game {
     
     func tied() {
         DDLogInfo("You lose : ( / game tied: (")
-        gameResult = GameResult.Tied
+        gameResult = GameResult.Draw
     }
     
     func isMulliganDone() -> Bool {
@@ -599,7 +599,7 @@ class Game {
                 }
             }
             guard let _ = heroClass else { return }
-            opponentSecretCount++
+            opponentSecretCount += 1
             opponentSecrets?.newSecretPlayed(heroClass!, entity.id, turn)
             showSecrets(true)
         }
@@ -663,7 +663,7 @@ class Game {
     }
     
     func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromDeck: Bool, _ otherId: Int) {
-        opponentSecretCount++
+        opponentSecretCount += 1
         
         if fromDeck {
             opponent.secretPlayedFromDeck(entity, turn)
@@ -748,7 +748,7 @@ class Game {
     func opponentSecretTrigger(entity: Entity, _ cardId: String?, _ turn: Int, _ otherId: Int) {
         opponent.secretTriggered(entity, turn)
         
-        opponentSecretCount--
+        opponentSecretCount -= 1
         if let cardId = cardId {
             opponentSecrets?.secretRemoved(otherId, cardId)
         }
@@ -776,7 +776,7 @@ class Game {
         player.stolenFromOpponent(entity, turn)
         
         if entity.isSecret {
-            opponentSecretCount--
+            opponentSecretCount -= 1
             opponentSecrets?.secretRemoved(entity.id, cardId!)
             if opponentSecretCount <= 0 {
                 showSecrets(false)
@@ -848,11 +848,11 @@ class Game {
             }
             
             if entities.map({ $0.1 }).any({ $0.cardId == CardIds.NonCollectible.Druid.SoulOfTheForestEnchantment && $0.getTag(.ATTACHED) == entity.id }) {
-                numDeathrattleMinions++
+                numDeathrattleMinions += 1
             }
             
             if entities.map({ $0.1 }).any({ $0.cardId == CardIds.NonCollectible.Shaman.AncestralSpiritEnchantment && $0.getTag(.ATTACHED) == entity.id }) {
-                numDeathrattleMinions++
+                numDeathrattleMinions += 1
             }
             
             if let opponentEntity = opponentEntity where opponentEntity.hasTag(.EXTRA_DEATHRATTLES) {

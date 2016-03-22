@@ -324,9 +324,7 @@ class PowerGameStateHandler {
             game.setupDone = true
         }
 
-        if game.isInMenu {
-            return
-        }
+        guard !game.isInMenu else { return }
 
         if !creationTag && game.determinedPlayers {
             tagChangeHandler.invokeQueuedActions()
@@ -342,12 +340,9 @@ class PowerGameStateHandler {
 
     private func addTargetAsKnownCardId(matches: [Match], _ count: Int = 1) {
         let target: String = matches[3].value.trim()
-        if !target.startsWith("[") || !tagChangeHandler.isEntity(target) {
-            return
-        }
-        if !target.match(CardIdRegex) {
-            return
-        }
+        guard target.startsWith("[") && tagChangeHandler.isEntity(target) else { return }
+        guard target.match(CardIdRegex) else { return }
+        
         let cardIdMatch = target.matches(CardIdRegex)
         let targetCardId: String = cardIdMatch[0].value.trim()
         //print("**** CardIdRegex -> targetCardId:'\(targetCardId)'")

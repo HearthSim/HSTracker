@@ -34,7 +34,7 @@ class LogReader {
         if let containsFilters = containsFilters {
             self.containsFilters = containsFilters
         }
-
+        
         self.path = Hearthstone.instance.logPath + "/\(name).log"
         DDLogInfo("Init reader for \(name) at path \(self.path)")
         if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
@@ -49,7 +49,7 @@ class LogReader {
     }
 
     func findEntryPoint(choices: [String]) -> Double {
-        if !NSFileManager.defaultManager().fileExistsAtPath(self.path) {
+        guard NSFileManager.defaultManager().fileExistsAtPath(self.path) else {
             return NSDate.distantPast().timeIntervalSince1970
         }
         var fileContent: String
@@ -72,9 +72,7 @@ class LogReader {
     }
 
     func parseTime(line: String) -> NSDate {
-        if line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 18 {
-            return fileDate()
-        }
+        guard line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 18 else { return fileDate() }
 
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -113,6 +111,7 @@ class LogReader {
 
     func readFile() {
         guard let _ = _lockQueue else {return}
+        
         var fileHandle: NSFileHandle?
         if NSFileManager.defaultManager().fileExistsAtPath(self.path) {
             fileHandle = NSFileHandle(forReadingAtPath: self.path)
@@ -201,9 +200,7 @@ class LogReader {
     }
 
     func findOffset() -> UInt64 {
-        if !NSFileManager.defaultManager().fileExistsAtPath(self.path) {
-            return 0
-        }
+        guard NSFileManager.defaultManager().fileExistsAtPath(self.path) else { return 0 }
 
         var offset: UInt64 = 0
         let fileContent: String

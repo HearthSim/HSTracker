@@ -37,14 +37,12 @@ class GeneralPreferences : NSViewController, MASPreferencesViewController {
         }
     }
 
-    var toolbarItemImage: NSImage! { get {
+    var toolbarItemImage: NSImage! {
         return NSImage(named: NSImageNameAdvanced)
-        }
+
     }
 
     var toolbarItemLabel: String! {
-        get {
-            return NSLocalizedString("General", comment: "")
-        }
+        return NSLocalizedString("General", comment: "")
     }
 }

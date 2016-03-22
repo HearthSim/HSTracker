@@ -12,20 +12,20 @@ import Foundation
 
 enum TagClass: Int {
     case INVALID,
-         DEATHKNIGHT,
-         DRUID,
-         HUNTER,
-         MAGE,
-         PALADIN,
-         PRIEST,
-         ROGUE,
-         SHAMAN,
-         WARLOCK,
-         WARRIOR,
-         DREAM
-
+    DEATHKNIGHT,
+    DRUID,
+    HUNTER,
+    MAGE,
+    PALADIN,
+    PRIEST,
+    ROGUE,
+    SHAMAN,
+    WARLOCK,
+    WARRIOR,
+    DREAM
+    
     init?(rawString: String) {
-        for _enum in _TagClassAllValues {
+        for _enum in TagClass.allValues() {
             if "\(_enum)" == rawString {
                 self = _enum
                 return
@@ -37,6 +37,8 @@ enum TagClass: Int {
         }
         self = .INVALID
     }
+    
+    static func allValues() -> [TagClass] {
+        return [.INVALID, .DEATHKNIGHT, .DRUID, .HUNTER, .MAGE, .PALADIN, .PRIEST, .ROGUE, .SHAMAN, .WARLOCK, .WARRIOR, .DREAM]
+    }
 }
-
-let _TagClassAllValues: [TagClass] = [.INVALID, .DEATHKNIGHT, .DRUID, .HUNTER, .MAGE, .PALADIN, .PRIEST, .ROGUE, .SHAMAN, .WARLOCK, .WARRIOR, .DREAM]

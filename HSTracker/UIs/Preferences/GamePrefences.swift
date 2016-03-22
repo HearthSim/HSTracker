@@ -55,14 +55,11 @@ class GamePreferences : NSViewController, MASPreferencesViewController {
         }
     }
 
-    var toolbarItemImage: NSImage! { get {
+    var toolbarItemImage: NSImage! {
         return NSImage(named: NSImageNameAdvanced)
-        }
     }
 
     var toolbarItemLabel: String! {
-        get {
-            return NSLocalizedString("Game", comment: "")
-        }
+        return NSLocalizedString("Game", comment: "")
     }
 }

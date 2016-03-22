@@ -12,8 +12,8 @@ import Cocoa
 
 class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
-    @IBOutlet var hstrackerLanguage: NSComboBox?
-    @IBOutlet var hearthstoneLanguage: NSComboBox?
+    @IBOutlet weak var hstrackerLanguage: NSComboBox!
+    @IBOutlet weak var hearthstoneLanguage: NSComboBox!
     @IBOutlet var saveButton: NSButton!
     @IBOutlet var hearthstonePath: NSTextField!
 
@@ -26,12 +26,8 @@ class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBox
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        if let hearthstoneLanguage = self.hearthstoneLanguage {
-            hearthstoneLanguage.reloadData()
-        }
-        if let hstrackerLanguage = self.hstrackerLanguage {
-            hstrackerLanguage.reloadData()
-        }
+        hearthstoneLanguage.reloadData()
+        hstrackerLanguage.reloadData()
     }
 
     // MARK: - Button actions

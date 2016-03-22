@@ -11,6 +11,22 @@
 import Cocoa
 import QuartzCore
 
+let kFrameWidth = 217.0
+let kFrameHeight = 700.0
+let kRowHeight = 34.0
+
+let kMediumRowHeight = 29.0
+let kMediumFrameWidth = (kFrameWidth / kRowHeight * kMediumRowHeight)
+
+let kSmallRowHeight = 23.0
+let kSmallFrameWidth = (kFrameWidth / kRowHeight * kSmallRowHeight)
+
+enum CardSize: Int {
+    case Small,
+    Medium,
+    Big
+}
+
 protocol CardCellHover {
     func hover(card: Card)
 
@@ -20,9 +36,9 @@ protocol CardCellHover {
 extension NSRect {
     func ratio(ratio: CGFloat) -> NSRect {
         return NSMakeRect(self.origin.x / ratio,
-            self.origin.y / ratio,
-            self.size.width / ratio,
-            self.size.height / ratio)
+                          self.origin.y / ratio,
+                          self.size.width / ratio,
+                          self.size.height / ratio)
     }
 }
 
@@ -111,9 +127,11 @@ class CardCellView: NSView {
             NSStrokeWidthAttributeName: -2,
             NSStrokeColorAttributeName: NSColor.blackColor()
             ])
-
+        
         sublayer.frame = NSMakeRect((card.cost > 9 ? 5.0 : 13.0) / self.ratio(),
-            -4 / self.ratio(), 34 / self.ratio(), 37 / self.ratio())
+                                    -4 / self.ratio(),
+                                    34 / self.ratio(),
+                                    37 / self.ratio())
         self.layer?.addSublayer(sublayer)
     }
     
@@ -243,18 +261,14 @@ class CardCellView: NSView {
     }
 
     override func mouseEntered(event: NSEvent) {
-        if let delegate = self.delegate {
-            if let card = self.card {
-                delegate.hover(card)
-            }
+        if let delegate = self.delegate, card = self.card {
+            delegate.hover(card)
         }
     }
 
     override func mouseExited(event: NSEvent) {
-        if let delegate = self.delegate {
-            if let card = self.card {
-                delegate.out(card)
-            }
+        if let delegate = self.delegate, card = self.card {
+            delegate.out(card)
         }
     }
 }

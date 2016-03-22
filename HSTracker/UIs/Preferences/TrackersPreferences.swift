@@ -74,14 +74,11 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         }
     }
 
-    var toolbarItemImage: NSImage! { get {
+    var toolbarItemImage: NSImage! {
         return NSImage(named: NSImageNameAdvanced)
-        }
     }
 
     var toolbarItemLabel: String! {
-        get {
-            return NSLocalizedString("Trackers", comment: "")
-        }
+        return NSLocalizedString("Trackers", comment: "")
     }
 }

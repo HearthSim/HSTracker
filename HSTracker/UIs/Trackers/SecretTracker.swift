@@ -54,6 +54,10 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
 
         self.table.reloadData()
     }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
     func opacityChange(notification: NSNotification) {
         self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: CGFloat(Settings.instance.trackerOpacity / 100.0))
@@ -103,6 +107,6 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
     }
 
     func selectionShouldChangeInTableView(tableView: NSTableView) -> Bool {
-        return false;
+        return false
     }
 }

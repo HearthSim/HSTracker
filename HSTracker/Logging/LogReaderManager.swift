@@ -52,34 +52,24 @@ class LogReaderManager {
     }
     
     func start() {
-        if running {
-            return
-        }
+        guard !running else { return }
         
         running = true
         let entryPoint = self.entryPoint()
         for reader in readers {
             reader.start(entryPoint)
         }
-        //self.gameStatePowerLogReader.start(entryPoint)
         
-        //var powerLines = [LogLine]()
         var toProcess = [LogLine]()
         while !stopped {
             toProcess.removeAll()
-            //[Int: [LogLine]]()
             
             for reader in self.readers {
                 let lines = reader.collect()
                 toProcess.appendContentsOf(lines)
             }
-            //powerLines = self.gameStatePowerLogReader.collect()
             
             processLines(toProcess)
-            /*if powerLines.count > 0 {
-            // Core.Game.PowerLog.AddRange(powerLines.Select(x => x.Line));
-            powerLines.removeAll()
-            }*/
             NSThread.sleepForTimeInterval(0.2)
         }
     }

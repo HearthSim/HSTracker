@@ -33,7 +33,7 @@ class Hearthstone : NSObject {
     }
 
     func setup() {
-        let zones = _LogLineNamespaceAllValues
+        let zones = LogLineNamespace.allValues()
 
         var missingZones = [LogLineNamespace]()
 

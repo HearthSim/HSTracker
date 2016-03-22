@@ -11,19 +11,19 @@
 import Cocoa
 
 class Splashscreen: NSWindowController {
-    @IBOutlet var information: NSTextField?
-    @IBOutlet var progressBar: NSProgressIndicator?
+    @IBOutlet weak var information: NSTextField!
+    @IBOutlet weak var progressBar: NSProgressIndicator!
 
     func display(str: String, total: Double) {
-        information!.stringValue = str
-        progressBar!.maxValue = total
-        progressBar!.doubleValue = 0
+        information.stringValue = str
+        progressBar.maxValue = total
+        progressBar.doubleValue = 0
     }
 
     func increment(str:String? = nil) {
-        progressBar!.incrementBy(1)
+        progressBar.incrementBy(1)
         if let str = str {
-            information!.stringValue = str
+            information.stringValue = str
         }
     }
 }

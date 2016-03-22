@@ -14,9 +14,8 @@ class RachelleHandler {
 
     func handle(game: Game, _ line: String) {
         if line.match(TowardsGolds) {
-            if let match = line.matches(TowardsGolds).first,
-                let victories = Int(match.value) {
-                    DDLogInfo("\(victories) / 3 -> 10 gold")
+            if let match = line.matches(TowardsGolds).first, victories = Int(match.value) {
+                DDLogInfo("\(victories) / 3 -> 10 gold")
             }
         }
 

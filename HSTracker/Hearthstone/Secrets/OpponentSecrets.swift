@@ -104,12 +104,13 @@ class OpponentSecrets : CustomStringConvertible {
         }
     }
 
-    func zeroFromAttack(attacker: Entity, _ defender: Entity, _ fastOnly: Bool = false, var _ stopIndex: Int = -1) {
+    func zeroFromAttack(attacker: Entity, _ defender: Entity, _ fastOnly: Bool = false, _ _stopIndex: Int = -1) {
         if !Settings.instance.autoGrayoutSecrets {
             return
         }
 
-        if stopIndex == -1 {
+        var stopIndex = _stopIndex
+        if _stopIndex == -1 {
             stopIndex = secrets.count
         }
 
@@ -189,7 +190,7 @@ class OpponentSecrets : CustomStringConvertible {
         for secret in secrets {
             for (cardId, possible) in secret.possibleSecrets {
                 if possible {
-                    returnThis.firstWhere({ $0.cardId == cardId })?.count++
+                    returnThis.firstWhere({ $0.cardId == cardId })?.count += 1
                 }
             }
         }

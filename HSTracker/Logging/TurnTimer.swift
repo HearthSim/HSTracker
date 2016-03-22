@@ -19,9 +19,7 @@ import Foundation
     var currentActivePlayer: PlayerType = .Player
 
     func reset() {
-        if let timer = timer {
-            timer.invalidate()
-        }
+        timer?.invalidate()
 
         seconds = turnTime
         playerSeconds = 0
@@ -41,15 +39,15 @@ import Foundation
 
     func timerTick() {
         if seconds > 0 {
-            seconds--
+            seconds -= 1
         }
 
         if Game.instance.isMulliganDone() {
             if currentActivePlayer == .Player {
-                playerSeconds++
+                playerSeconds += 1
             }
             else {
-                opponentSeconds++
+                opponentSeconds += 1
             }
         }
         dispatch_async(dispatch_get_main_queue()) {

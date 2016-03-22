@@ -22,7 +22,7 @@ enum Zone: Int {
         SECRET = 7
 
     init?(rawString: String) {
-        for _enum in _ZoneAllValues {
+        for _enum in Zone.allValues() {
             if "\(_enum)" == rawString {
                 self = _enum
                 return
@@ -34,6 +34,8 @@ enum Zone: Int {
         }
         self = .CREATED
     }
+    
+    static func allValues() -> [Zone] {
+        return [.INVALID, .CREATED, .PLAY, .DECK, .HAND, .GRAVEYARD, .REMOVEDFROMGAME, .SETASIDE, .SECRET]
+    }
 }
-
-let _ZoneAllValues: [Zone] = [.INVALID, .CREATED, .PLAY, .DECK, .HAND, .GRAVEYARD, .REMOVEDFROMGAME, .SETASIDE, .SECRET]
