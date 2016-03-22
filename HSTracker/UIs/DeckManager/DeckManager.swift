@@ -61,7 +61,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
 
         decksTable.target = self
-        decksTable.action = "decksTableClick:"
+        decksTable.action = #selector(DeckManager.decksTableClick(_:))
 
         decks = Decks.decks().filter({$0.isActive})
         decksTable.reloadData()
@@ -216,19 +216,19 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
         let menu = NSMenu()
         var menuItem = NSMenuItem(title: NSLocalizedString("Use deck", comment: ""),
-            action: "useDeck:",
+            action: #selector(DeckManager.useDeck(_:)),
             keyEquivalent: "")
         menu.addItem(menuItem)
         menuItem = NSMenuItem(title: NSLocalizedString("Edit deck", comment: ""),
-            action: "editDeck:",
+            action: #selector(DeckManager.editDeck(_:)),
             keyEquivalent: "")
         menu.addItem(menuItem)
         menuItem = NSMenuItem(title: NSLocalizedString("Rename deck", comment: ""),
-            action: "renameDeck:",
+            action: #selector(DeckManager.renameDeck(_:)),
             keyEquivalent: "")
         menu.addItem(menuItem)
         menuItem = NSMenuItem(title: NSLocalizedString("Delete deck", comment: ""),
-            action: "deleteDeck:",
+            action: #selector(DeckManager.deleteDeck(_:)),
             keyEquivalent: "")
         menu.addItem(menuItem)
 

@@ -28,19 +28,19 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hearthstoneRunning:", name: "hearthstone_running", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hearthstoneActive:", name: "hearthstone_active", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "opacityChange:", name: "tracker_opacity", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cardSizeChange:", name: "card_size", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Tracker.hearthstoneRunning(_:)), name: "hearthstone_running", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Tracker.hearthstoneActive(_:)), name: "hearthstone_active", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Tracker.opacityChange(_:)), name: "tracker_opacity", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Tracker.cardSizeChange(_:)), name: "card_size", object: nil)
         let options = ["show_opponent_draw", "show_opponent_mulligan", "show_opponent_play",
             "show_player_draw", "show_player_mulligan", "show_player_play", "rarity_colors",
             "remove_cards_from_deck", "highlight_last_drawn", "highlight_cards_in_hand",
             "highlight_discarded", "show_player_get"]
         for option in options {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "trackerOptionsChange:", name: option, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Tracker.trackerOptionsChange(_:)), name: option, object: nil)
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "windowLockedChange:", name: "window_locked", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Tracker.windowLockedChange(_:)), name: "window_locked", object: nil)
         
         self.gameEnded = false
         

@@ -44,8 +44,7 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
         self.window!.contentMinSize = NSSize(width: width, height: 350)
         self.window!.contentMaxSize = NSSize(width: width, height: Double(NSHeight(NSScreen.mainScreen()!.frame)))
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "opacityChange:", name: "tracker_opacity", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cardSizeChange:", name: "card_size", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SecretTracker.opacityChange(_:)), name: "tracker_opacity", object: nil)
 
         self.table.intercellSpacing = NSSize(width: 0, height: 0)
 

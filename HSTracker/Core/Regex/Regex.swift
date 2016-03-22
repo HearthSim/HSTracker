@@ -38,7 +38,7 @@ struct Regex {
             for result in results {
                 for index in 1 ..< result.numberOfRanges {
                     let resultRange = result.rangeAtIndex(index)
-                    let range = Range(start: someString.startIndex.advancedBy(resultRange.location), end: someString.startIndex.advancedBy(resultRange.location + resultRange.length))
+                    let range = someString.startIndex.advancedBy(resultRange.location) ..< someString.startIndex.advancedBy(resultRange.location + resultRange.length)
 
                     let value = someString.substringWithRange(range)
                     let match = Match(range: range, value: value)

@@ -73,7 +73,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
         if let cell = searchField.cell as? NSSearchFieldCell {
             cell.cancelButtonCell!.target = self
-            cell.cancelButtonCell!.action = "cancelSearch:"
+            cell.cancelButtonCell!.action = #selector(EditDeck.cancelSearch(_:))
         }
 
         NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in

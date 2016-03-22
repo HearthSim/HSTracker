@@ -25,9 +25,10 @@ extension Array {
         var i = 0
         for x in self {
             let t = x as Element
-            if fn(t, i++) {
+            if fn(t, i) {
                 to.append(t)
             }
+             i += 1
         }
         return to
     }
@@ -46,9 +47,10 @@ extension Array {
         var i = 0
         for x in self {
             let t = x as Element
-            if fn(t, i++) {
+            if fn(t, i) {
                 return t
             }
+            i += 1
         }
         return nil
     }
@@ -77,7 +79,8 @@ extension Array {
         var to = [Element]()
         var i = 0
         while i < self.count && i < count {
-            to.append(self[i++])
+            to.append(self[i])
+             i += 1
         }
         return to
     }
@@ -86,7 +89,8 @@ extension Array {
         var to = [Element]()
         var i = count
         while i < self.count {
-            to.append(self[i++])
+            to.append(self[i])
+             i += 1
         }
         return to
     }
@@ -288,7 +292,7 @@ func intersection<T: Equatable>(arrays: [T] ...) -> [T] {
         outer: for arr in arrays {
             for y in arr {
                 if y == e {
-                    count++
+                    count += 1
                     continue outer
                 }
             }

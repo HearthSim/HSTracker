@@ -34,7 +34,7 @@ import Foundation
         }
 
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self,
-            selector: "timerTick", userInfo: nil, repeats: true)
+            selector: #selector(TurnTimer.timerTick), userInfo: nil, repeats: true)
     }
 
     func timerTick() {

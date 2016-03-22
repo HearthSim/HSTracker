@@ -277,7 +277,7 @@ class Player {
             cardEntity.created = created
             revealedCards.append(cardEntity)
         }
-        DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+        DDLogInfo("\(debugName) \(#function) \(cardEntity)")
     }
 
     func revealDeckCard(cardId: String, _ turn: Int, _ created: Bool = false) {
@@ -299,8 +299,8 @@ class Player {
         if let entity = entity, cardId = entity.cardId where isLocalPlayer {
             createdInHandCardIds.append(cardId)
         }
-
-        DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+        
+        DDLogInfo("\(debugName) \(#function) \(cardEntity)")
     }
     
     func boardToDeck(entity: Entity, _ turn: Int) {
@@ -312,7 +312,7 @@ class Player {
                     drawnCardIds.removeAtIndex(index)
                 }
             }
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
 
@@ -323,14 +323,14 @@ class Player {
                 cardEntity.created = true
             }
             updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
     func handDiscard(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &hand, &graveyard, turn) {
             updateRevealedEntity(cardEntity, turn, true)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
@@ -338,13 +338,13 @@ class Player {
         if let cardEntity = moveCardEntity(entity, &deck, &secrets, turn) {
             updateRevealedEntity(cardEntity, turn)
             verifyCardMatchesDeck(cardEntity)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
     func secretPlayedFromHand(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &hand, &secrets, turn) {
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
@@ -358,7 +358,7 @@ class Player {
             if let cardId = entity.cardId where !String.isNullOrEmpty(cardId) && drawnCardIds.contains(cardId) {
                 drawnCardIds.remove(cardId)
             }
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
@@ -374,7 +374,7 @@ class Player {
             }
             
             verifyCardMatchesDeck(ce)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(ce)")
+            DDLogInfo("\(debugName) \(#function) \(ce)")
         }
     }
     
@@ -397,13 +397,13 @@ class Player {
         if let cardEntity = moveCardEntity(entity, &deck, &removed, turn) {
             updateRevealedEntity(cardEntity, turn, true)
             verifyCardMatchesDeck(cardEntity)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
     func removeFromPlay(entity: Entity, _ turn: Int) {
         if let ce = moveCardEntity(entity, &board, &removed, turn) {
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(ce)")
+            DDLogInfo("\(debugName) \(#function) \(ce)")
         }
     }
     
@@ -411,7 +411,7 @@ class Player {
         if let cardEntity = moveCardEntity(entity, &deck, &graveyard, turn) {
             updateRevealedEntity(cardEntity, turn, true)
             verifyCardMatchesDeck(cardEntity)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
@@ -420,13 +420,13 @@ class Player {
             updateRevealedEntity(cardEntity, turn)
             
             verifyCardMatchesDeck(cardEntity)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
     func playToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &board, &graveyard, turn) {
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
@@ -436,7 +436,7 @@ class Player {
             let ce = CardEntity(cardId: entity.cardId, entity: nil)
             ce.turn = turn
             revealedCards.append(ce)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(ce)")
+            DDLogInfo("\(debugName) \(#function) \(ce)")
         }
     }
     
@@ -444,14 +444,14 @@ class Player {
         let cardEntity = CardEntity(cardId: nil, entity: entity)
         cardEntity.turn = turn
         board.append(cardEntity)
-        DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+        DDLogInfo("\(debugName) \(#function) \(cardEntity)")
     }
     
     func stolenByOpponent(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &board, &removed, turn) {
             cardEntity.stolen = true
             updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
@@ -459,7 +459,7 @@ class Player {
         if let cardEntity = moveCardEntity(entity, &removed, &board, turn) {
             cardEntity.stolen = true
             updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
@@ -467,14 +467,14 @@ class Player {
         if let cardEntity = moveCardEntity(entity, &board, &hand, turn) {
             cardEntity.returned = true
             updateRevealedEntity(cardEntity, turn, nil, CardMark.Returned)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     
     func secretTriggered(entity: Entity, _ turn: Int) {
         if let cardEntity = moveCardEntity(entity, &secrets, &graveyard, turn) {
             updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(__FUNCTION__) \(cardEntity)")
+            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
         }
     }
     

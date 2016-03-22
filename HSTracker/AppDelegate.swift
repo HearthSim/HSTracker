@@ -138,8 +138,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func hstrackerReady() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showPlayerTracker:", name: "show_player_tracker", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showOpponentTracker:", name: "show_opponent_tracker", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.showPlayerTracker(_:)), name: "show_player_tracker", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.showOpponentTracker(_:)), name: "show_opponent_tracker", object: nil)
 
         DDLogInfo("HSTracker is now ready !")
         NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "hstracker_is_ready", object: nil))

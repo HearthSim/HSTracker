@@ -14,19 +14,19 @@ extension NSAlert {
         // Set ourselves as the target for button clicks
         self.buttons.forEach {
             $0.target = self
-            $0.action = "_stopSynchronousSheet:"
+            $0.action = #selector(NSAlert._stopSynchronousSheet(_:))
         }
 
         // Bring up the sheet and wait until stopSynchronousSheet is triggered by a button click
-        self.performSelectorOnMainThread("_beginSheetModalForWindow:", withObject: aWindow, waitUntilDone: true)
+        self.performSelectorOnMainThread(#selector(NSAlert._beginSheetModalForWindow(_:)), withObject: aWindow, waitUntilDone: true)
         let modalCode: Int = NSApp.runModalForWindow(self.window)
 
         // This is called only after stopSynchronousSheet is called (that is,
         // one of the buttons is clicked)
-        NSApp.performSelectorOnMainThread("endSheet:", withObject: self.window, waitUntilDone: true)
+        NSApp.performSelectorOnMainThread(#selector(NSWindow.endSheet(_:)), withObject: self.window, waitUntilDone: true)
 
         // Remove the sheet from the screen
-        self.window.performSelectorOnMainThread("orderOut:", withObject: self, waitUntilDone: true)
+        self.window.performSelectorOnMainThread(#selector(NSWindow.orderOut(_:)), withObject: self, waitUntilDone: true)
 
         return modalCode
     }
