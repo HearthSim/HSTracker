@@ -146,11 +146,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // testImportDeck()
         // testImportFromWeb()
-
-        SizeHelper.hearthstoneFrame()
-        if let splashscreen = splashscreen {
-            splashscreen.close()
-            self.splashscreen = nil
+        // testGetHearthstatsDecks()
+        //testGetHearthstatsMatches()
+        
+        splashscreen?.close()
+        splashscreen = nil
+    }
+    
+    private func testGetHearthstatsMatches() {
+        do {
+            try HearthstatsAPI.getGames(Settings.instance.hearthstatsLastMatchesSync) {_ in }
+        }
+        catch HearthstatsError.NOT_LOGGED {
+            print("not logged")
+        }
+        catch {
+            print("??? logged")
+        }
+    }
+    
+    private func testGetHearthstatsDecks() {
+        do {
+            try HearthstatsAPI.getDecks(Settings.instance.hearthstatsLastDecksSync) { (success, newDecks) in
+            }
+        }
+        catch HearthstatsError.NOT_LOGGED {
+            print("not logged")
+        }
+        catch {
+            print("??? logged")
         }
     }
     

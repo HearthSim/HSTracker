@@ -71,6 +71,13 @@ class Decks {
         }
         save()
     }
+    
+    static func addOrUpdate(deck: Deck) {
+        let existing = decks().filter({ $0.deckId == deck.deckId || $0.hearthstatsId == deck.hearthstatsId }).first
+        if existing == nil {
+            add(deck)
+        }
+    }
 
     static func remove(deck: Deck) {
         let _ = decks()

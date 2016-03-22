@@ -227,6 +227,11 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             action: #selector(DeckManager.renameDeck(_:)),
             keyEquivalent: "")
         menu.addItem(menuItem)
+        menuItem = NSMenuItem(title: NSLocalizedString("Sync deck to Hearthstats", comment: ""),
+            action: #selector(DeckManager.syncDeck(_:)),
+            keyEquivalent: "")
+        menu.addItem(menuItem)
+        menu.addItem(NSMenuItem.separatorItem())
         menuItem = NSMenuItem(title: NSLocalizedString("Delete deck", comment: ""),
             action: #selector(DeckManager.deleteDeck(_:)),
             keyEquivalent: "")
@@ -273,10 +278,33 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             Game.instance.playerTracker?.update()
         }
     }
+    
+    func syncDeck(sender: AnyObject?) {
+        if let cell = currentCell, deck = cell.deck {
+            do {
+                try HearthstatsAPI.postDeck(deck) {(success:Bool) in
+                // TODO alert    
+                }
+            }
+            catch {
+                // TODO alert
+            }
+        }
+    }
 
     func deleteDeck(sender: AnyObject?) {
         // TODO confirmation
         if let cell = currentCell, deck = cell.deck {
+            if let _ = deck.hearthstatsId {
+                // TODO alert
+                do {
+                    try HearthstatsAPI.deleteDeck(deck)
+                }
+                catch {
+                    // TODO alert
+                    print("error")
+                }
+            }
             Decks.remove(deck)
             refreshDecks()
         }

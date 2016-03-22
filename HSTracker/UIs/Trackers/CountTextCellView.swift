@@ -13,11 +13,15 @@ class CountTextCellView: NSView {
     @IBOutlet weak var textField: NSTextField!
 
     func setText(str: String) {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .Center
+        
         textField.attributedStringValue = NSAttributedString(string: str, attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 20)!,
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 14)!,
             NSForegroundColorAttributeName: NSColor.whiteColor(),
             NSStrokeWidthAttributeName: -2,
-            NSStrokeColorAttributeName: NSColor.blackColor()
+            NSStrokeColorAttributeName: NSColor.blackColor(),
+            NSParagraphStyleAttributeName: paragraph
             ])
     }
 }

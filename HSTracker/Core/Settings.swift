@@ -125,6 +125,23 @@ class Settings {
         set { set("show_opponent_tracker", newValue) }
         get { return get("show_opponent_tracker", true) as! Bool }
     }
+    
+    var hearthstatsLogin: String? {
+        set { set("hearthstats_login", newValue) }
+        get { return get("hearthstats_login", nil) as? String }
+    }
+    var hearthstatsToken: String? {
+        set { set("hearthstats_token", newValue) }
+        get { return get("hearthstats_token", nil) as? String }
+    }
+    var hearthstatsLastDecksSync: Double {
+        set { set("hearthstats_last_decks_sync", newValue) }
+        get { return get("hearthstats_last_decks_sync", 0) as! Double }
+    }
+    var hearthstatsLastMatchesSync: Double {
+        set { set("hearthstats_last_matches_sync", newValue) }
+        get { return get("hearthstats_last_matches_sync", 0) as! Double }
+    }
 
     var deckPath: String? {
         set { set("decks_path", newValue) }

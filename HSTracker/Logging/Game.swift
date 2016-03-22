@@ -310,18 +310,28 @@ class Game {
         
         DDLogInfo("End game : mode = \(currentGameMode), rank = \(currentRank), result = \(gameResult), against = \(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayReveleadCards()) ")
         
-        if let deck = activeDeck,
-            let opponentName = opponent.name,
-            let opponentClass = opponent.playerClass?.playerClass {
-                let statistic = Statistic()
-                statistic.opponentName = opponentName
-                statistic.opponentClass = opponentClass
-                statistic.gameResult = gameResult
-                statistic.hasCoin = hasCoin
-                statistic.playerRank = currentRank
-                statistic.playerMode = currentGameMode
-                deck.addStatistic(statistic)
-                deck.save()
+        if let deck = activeDeck, opponentName = opponent.name, opponentClass = opponent.playerClass {
+            let statistic = Statistic()
+            statistic.opponentName = opponentName
+            statistic.opponentClass = opponentClass.playerClass.lowercaseString
+            statistic.gameResult = gameResult
+            statistic.hasCoin = hasCoin
+            statistic.playerRank = currentRank
+            statistic.playerMode = currentGameMode
+            statistic.numTurns = turnNumber()
+            var cards = [String: Int]()
+            opponent.displayCards().forEach({
+                cards[$0.cardId] = $0.count
+            })
+            statistic.cards = cards
+            deck.addStatistic(statistic)
+            deck.save()
+            
+            do {
+                try HearthstatsAPI.postMatch(self, deck, statistic)
+            }
+            catch {
+            }
         }
     }
     
