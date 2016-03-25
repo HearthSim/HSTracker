@@ -26,7 +26,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let preferences = MASPreferencesWindowController(viewControllers: [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
             GamePreferences(nibName: "GamePreferences", bundle: nil)!,
-            TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!
+            TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
+            HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!
             ], title: NSLocalizedString("Preferences", comment: ""))
         return preferences
     }()

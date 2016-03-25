@@ -126,6 +126,7 @@ class Settings {
         get { return get("show_opponent_tracker", true) as! Bool }
     }
     
+    // MARK: - Hearthstats
     var hearthstatsLogin: String? {
         set { set("hearthstats_login", newValue) }
         get { return get("hearthstats_login", nil) as? String }
@@ -142,7 +143,16 @@ class Settings {
         set { set("hearthstats_last_matches_sync", newValue) }
         get { return get("hearthstats_last_matches_sync", 0) as! Double }
     }
+    var hearthstatsAutoSynchronize: Bool {
+        set { set("hearthstats_auto_synchronize_decks", newValue) }
+        get { return get("hearthstats_auto_synchronize_decks", true) as! Bool }
+    }
+    var hearthstatsSynchronizeMatches: Bool {
+        set { set("hearthstats_auto_synchronize_matches", newValue) }
+        get { return get("hearthstats_auto_synchronize_matches", true) as! Bool }
+    }
 
+    // MARK: - Paths / utils
     var deckPath: String? {
         set { set("decks_path", newValue) }
         get {

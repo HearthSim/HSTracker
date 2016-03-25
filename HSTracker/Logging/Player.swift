@@ -114,6 +114,7 @@ class Player {
             .map { g -> (Card?) in
                 if let card = Cards.byId(g.key) {
                     card.count = g.items.count
+                    card.highlightInHand = self.hand.any({g.key == $0.cardId})
                     return card
                 } else {
                     return nil

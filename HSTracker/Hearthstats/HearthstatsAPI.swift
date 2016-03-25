@@ -208,22 +208,76 @@ class HearthstatsAPI {
                 "version": deck.version
             ], encoding: .JSON)
             .responseJSON { response in
+                if let json = response.result.value,
+                    data = json["data"] as? [String:AnyObject],
+                    jsonDeck = data["deck"] as? [String:AnyObject],
+                    hearthstatsId = jsonDeck["id"] as? Int,
+                    deckVersions = data["deck_versions"] as? [[String:AnyObject]],
+                    hearthstatsVersionId = deckVersions.first?["id"] as? Int {
+                    deck.hearthstatsId = hearthstatsId
+                    deck.hearthstatsVersionId = hearthstatsVersionId
+                    callback(success: true)
+                }
+                else {
+                    callback(success: false)
+                }
+        }
+    }
+    
+    static func updateDeck(deck: Deck, _ callback: (success: Bool) -> ()) throws {
+        let settings = Settings.instance
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NOT_LOGGED }
+        
+        Alamofire.request(.POST, "\(baseUrl)/decks/edit?auth_token=\(settings.hearthstatsToken!)",
+            parameters: [
+                "deck_id": deck.hearthstatsId!,
+                "name": deck.name ?? "",
+                "tags": [],
+                "notes": "",
+                "cards": deck.sortedCards.map {["id": $0.cardId, "count": $0.count]},
+                "class": deck.playerClass.capitalizedString
+            ], encoding: .JSON)
+            .responseJSON { response in
+                print(response.request)  // original URL request
+                print(response.response) // URL response
+                print(response.data)     // server data
+                print(response.result)   // result of response serialization
+                print(NSString(data: response.data!, encoding: NSUTF8StringEncoding))
+                if let json = response.result.value {
+                    print("post : \(json)")
+                    callback(success: true)
+                }
+                else {
+                    callback(success: false)
+                }
+        }
+    }
+    
+    static func postDeckVersion(deck: Deck, _ callback: (success: Bool) -> ()) throws {
+        let settings = Settings.instance
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NOT_LOGGED }
+        
+        Alamofire.request(.POST, "\(baseUrl)/decks/create_version?auth_token=\(settings.hearthstatsToken!)",
+            parameters: [
+                "deck_id": deck.hearthstatsId!,
+                "cards": deck.sortedCards.map {["id": $0.cardId, "count": $0.count]},
+                "version": deck.version
+            ], encoding: .JSON)
+            .responseJSON { response in
                 print(response.request)  // original URL request
                 print(response.response) // URL response
                 print(response.data)     // server data
                 print(response.result)   // result of response serialization
                 print(NSString(data: response.data!, encoding: NSUTF8StringEncoding))
                 if let json = response.result.value,
-                data = json["data"] as? [String:AnyObject],
-                jsonDeck = data["deck"] as? [String:AnyObject],
-                    hearthstatsId = jsonDeck["id"] as? Int,
-                deckVersions = data["deck_versions"] as? [[String:AnyObject]],
-                hearthstatsVersionId = deckVersions.first?["id"] as? Int
-                {
-                    print("post : \(json)")
-                    deck.hearthstatsId = hearthstatsId
+                    data = json["data"] as? [String:AnyObject],
+                    hearthstatsVersionId = data["id"] as? Int {
+                    print("json: \(json)")
                     deck.hearthstatsVersionId = hearthstatsVersionId
-                    Decks.add(deck)
+                    callback(success: true)
+                }
+                else {
+                    callback(success: false)
                 }
         }
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
@@ -310,20 +310,27 @@
                     <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="LxM-0W-duh"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="SIs-XB-agx"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="I75-rt-at9"/>
-                    <toolbarItem implicitItemIdentifier="9CFB70C2-474C-48A1-9CAD-960FA33EB20B" explicitItemIdentifier="back" label="Back" paletteLabel="Back" tag="-1" image="back" id="GO8-CU-P6l">
-                        <connections>
-                            <action selector="back:" target="-2" id="C2Q-UK-qr3"/>
-                        </connections>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="EBECF1E7-72BD-406F-B6A5-E29D93787ECC" explicitItemIdentifier="add" label="Add" paletteLabel="Add" tag="-1" image="plus" id="7FY-gv-qwP">
                         <connections>
                             <action selector="addDeck:" target="-2" id="vwS-C5-2yS"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="3AD67F15-DA3C-4D2A-868E-743C5D61F380" explicitItemIdentifier="hearthstats" label="Hearthstats" paletteLabel="Hearthstats" tag="-1" image="hearthstats_icon" id="Xxv-sY-tej">
+                        <connections>
+                            <action selector="hearthstatsLogin:" target="-2" id="Sji-Pf-eSY"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="78B3DA64-7816-4C98-B154-267CEFE9433D" explicitItemIdentifier="donate" label="Donate" paletteLabel="Donate" tag="-1" image="donate" id="wWN-25-Exd">
+                        <connections>
+                            <action selector="donate:" target="-2" id="c4R-LJ-JnO"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
-                    <toolbarItem reference="GO8-CU-P6l"/>
                     <toolbarItem reference="7FY-gv-qwP"/>
+                    <toolbarItem reference="I75-rt-at9"/>
+                    <toolbarItem reference="Xxv-sY-tej"/>
+                    <toolbarItem reference="wWN-25-Exd"/>
                 </defaultToolbarItems>
             </toolbar>
             <connections>
@@ -333,9 +340,10 @@
         </window>
     </objects>
     <resources>
-        <image name="back" width="32" height="32"/>
+        <image name="donate" width="32" height="32"/>
         <image name="druid" width="344.8800048828125" height="344.8800048828125"/>
         <image name="druid_dark" width="1437" height="1437"/>
+        <image name="hearthstats_icon" width="7.679999828338623" height="7.1999998092651367"/>
         <image name="hunter" width="344.8800048828125" height="344.8800048828125"/>
         <image name="hunter_dark" width="1437" height="1437"/>
         <image name="mage" width="344.8800048828125" height="344.8800048828125"/>

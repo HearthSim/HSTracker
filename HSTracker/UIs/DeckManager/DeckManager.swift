@@ -29,6 +29,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
     var editDeck: EditDeck?
     var newDeck: NewDeck?
+    var hearthstatsLogin: HearthstatsLogin?
 
     var decks = [Deck]()
     var classes = [String]()
@@ -188,18 +189,13 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         switch item.itemIdentifier {
         case "add":
             return true
+        case "donate":
+            return true
+        case "hearthstats":
+            return !HearthstatsAPI.isLogged()
         default:
             return false
         }
-    }
-
-    @IBAction func back(sender: AnyObject) {
-        currentDeck = nil
-        deckListTable.reloadData()
-        curveView.deck = nil
-        statsLabel.stringValue = ""
-        curveView.reload()
-        decksTable.reloadData()
     }
 
     @IBAction func addDeck(sender: AnyObject) {
@@ -209,7 +205,19 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             self.window!.beginSheet(newDeck.window!, completionHandler: nil)
         }
     }
-
+    
+    @IBAction func hearthstatsLogin(sender: AnyObject) {
+        hearthstatsLogin = HearthstatsLogin(windowNibName: "HearthstatsLogin")
+        if let hearthstatsLogin = hearthstatsLogin {
+            self.window!.beginSheet(hearthstatsLogin.window!, completionHandler: nil)
+        }
+    }
+    
+    @IBAction func donate(sender: AnyObject) {
+        let url = NSURL(string: "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
+        NSWorkspace.sharedWorkspace().openURL(url!)
+    }
+    
     // MARK: - DeckCellViewDelegate
     func moreClicked(cell: DeckCellView) {
         currentCell = cell
@@ -225,10 +233,6 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         menu.addItem(menuItem)
         menuItem = NSMenuItem(title: NSLocalizedString("Rename deck", comment: ""),
             action: #selector(DeckManager.renameDeck(_:)),
-            keyEquivalent: "")
-        menu.addItem(menuItem)
-        menuItem = NSMenuItem(title: NSLocalizedString("Sync deck to Hearthstats", comment: ""),
-            action: #selector(DeckManager.syncDeck(_:)),
             keyEquivalent: "")
         menu.addItem(menuItem)
         menu.addItem(NSMenuItem.separatorItem())
@@ -255,6 +259,19 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             }
             deck.name = deckNameInput.stringValue
             deck.save()
+            
+            if HearthstatsAPI.isLogged() {
+                if Settings.instance.hearthstatsAutoSynchronize {
+                    do {
+                        try HearthstatsAPI.updateDeck(deck) {_ in}
+                    }
+                    catch {}
+                }
+                else {
+                    // TODO Alert synchro
+                }
+            }
+            
             refreshDecks()
         }
     }
@@ -278,31 +295,39 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             Game.instance.playerTracker?.update()
         }
     }
-    
-    func syncDeck(sender: AnyObject?) {
-        if let cell = currentCell, deck = cell.deck {
-            do {
-                try HearthstatsAPI.postDeck(deck) {(success:Bool) in
-                // TODO alert    
-                }
-            }
-            catch {
-                // TODO alert
-            }
-        }
-    }
 
     func deleteDeck(sender: AnyObject?) {
-        // TODO confirmation
         if let cell = currentCell, deck = cell.deck {
-            if let _ = deck.hearthstatsId {
-                // TODO alert
-                do {
-                    try HearthstatsAPI.deleteDeck(deck)
-                }
-                catch {
-                    // TODO alert
-                    print("error")
+            var alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            if alert.runModalSheetForWindow(self.window!) == NSAlertSecondButtonReturn {
+                return
+            }
+            
+            if let _ = deck.hearthstatsId where HearthstatsAPI.isLogged() {
+                if Settings.instance.hearthstatsAutoSynchronize {
+                    do {
+                        try HearthstatsAPI.deleteDeck(deck)
+                    }
+                    catch {}
+                } else {
+                    alert = NSAlert()
+                    alert.alertStyle = .InformationalAlertStyle
+                    alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
+                    alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                    alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+                    if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
+                        do {
+                            try HearthstatsAPI.deleteDeck(deck)
+                        }
+                        catch {
+                            // TODO alert
+                            print("error")
+                        }
+                    }
                 }
             }
             Decks.remove(deck)
@@ -326,14 +351,13 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func refreshDecks() {
-        decks = Decks.decks()
+        decks = Decks.decks().filter({$0.isActive})
         classes = [String]()
         for deck in decks {
             if !classes.contains(deck.playerClass) {
                 classes.append(deck.playerClass)
             }
         }
-        DDLogVerbose("decks \(decks)")
         decksTable.reloadData()
     }
 }

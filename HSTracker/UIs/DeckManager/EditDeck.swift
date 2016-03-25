@@ -9,7 +9,7 @@
 import Foundation
 import JNWCollectionView
 
-class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate, JNWCollectionViewDataSource, JNWCollectionViewDelegate {
+class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate, JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate {
 
     @IBOutlet weak var countLabel: NSTextField!
     @IBOutlet weak var collectionView: JNWCollectionView!
@@ -26,6 +26,8 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     var currentSet: String?
     var selectedClass: String?
     var currentClassCards: [Card]?
+    
+    var saveDeck: SaveDeck?
 
     convenience init() {
         self.init(windowNibName: "EditDeck")
@@ -128,6 +130,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     // MARK: - NSWindowDelegate
     func windowShouldClose(sender: AnyObject) -> Bool {
         if isSaved {
+            delegate?.refreshDecks()
             return true
         }
 
@@ -250,23 +253,10 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
     // MARK: - Toolbar actions
     @IBAction func save(sender: AnyObject?) {
-        if currentDeck!.creationDate == nil {
-            let deckNameInput = NSTextField(frame: NSMakeRect(0, 0, 220, 24))
-            let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
-            alert.messageText = NSLocalizedString("Deck name", comment: "")
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            alert.accessoryView = deckNameInput
-            if alert.runModalSheetForWindow(self.window!) == NSAlertSecondButtonReturn {
-                return
-            }
-            currentDeck!.name = deckNameInput.stringValue
-            currentDeck!.save()
-            isSaved = true
-        }
-        else {
-        }
+        saveDeck = SaveDeck(windowNibName: "SaveDeck")
+        saveDeck?.setDelegate(self)
+        saveDeck?.deck = currentDeck
+        self.window!.beginSheet(saveDeck!.window!, completionHandler: nil)
     }
 
     @IBAction func cancel(sender: AnyObject?) {
@@ -274,12 +264,35 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     }
 
     @IBAction func delete(sender: AnyObject?) {
-        let alert = NSAlert()
+        var alert = NSAlert()
         alert.alertStyle = .InformationalAlertStyle
         alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
         if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
+            if let _ = currentDeck!.hearthstatsId where HearthstatsAPI.isLogged() {
+                if Settings.instance.hearthstatsAutoSynchronize {
+                    do {
+                        try HearthstatsAPI.deleteDeck(currentDeck!)
+                    }
+                    catch {}
+                } else {
+                    alert = NSAlert()
+                    alert.alertStyle = .InformationalAlertStyle
+                    alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
+                    alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                    alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+                    if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
+                        do {
+                            try HearthstatsAPI.deleteDeck(currentDeck!)
+                        }
+                        catch {
+                            // TODO alert
+                            print("error")
+                        }
+                    }
+                }
+            }
             Decks.remove(currentDeck!)
             isSaved = true
             self.window?.performClose(self)
@@ -306,5 +319,20 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         searchField.stringValue = ""
         searchField.resignFirstResponder()
         reloadCards()
+    }
+    
+    // MARK: - SaveDeckDelegate
+    func deckSaveSaved() {
+        isSaved = true
+        if let saveDeck = saveDeck {
+            self.window?.endSheet(saveDeck.window!)
+        }
+        self.window?.performClose(self)
+    }
+    
+    func deckSaveCanceled() {
+        if let saveDeck = saveDeck {
+            self.window?.endSheet(saveDeck.window!)
+        }
     }
 }

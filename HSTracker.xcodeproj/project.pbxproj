@@ -81,6 +81,12 @@
 		439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */; };
 		439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEF1C78A71300D29859 /* MainMenu.xib */; };
 		439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EF01C78A71300D29859 /* Splashscreen.xib */; };
+		43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
+		43A12C891CA3D25600090BFE /* SaveDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A12C881CA3D25600090BFE /* SaveDeck.xib */; };
+		43A12C8B1CA562AB00090BFE /* HearthstatsLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A12C8A1CA562AB00090BFE /* HearthstatsLogin.xib */; };
+		43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */; };
+		43A12C911CA5689D00090BFE /* HearthstatsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A12C901CA5689D00090BFE /* HearthstatsPreferences.xib */; };
+		43A12C931CA568A800090BFE /* HearthstatsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */; };
 		43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */; };
 		43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
 		43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695511C903A3600F4D0AC /* KeyPointType.swift */; };
@@ -215,6 +221,12 @@
 		439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialConfiguration.xib; sourceTree = "<group>"; };
 		439C7EEF1C78A71300D29859 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		439C7EF01C78A71300D29859 /* Splashscreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Splashscreen.xib; sourceTree = "<group>"; };
+		43A12C861CA3D24800090BFE /* SaveDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveDeck.swift; sourceTree = "<group>"; };
+		43A12C881CA3D25600090BFE /* SaveDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaveDeck.xib; sourceTree = "<group>"; };
+		43A12C8A1CA562AB00090BFE /* HearthstatsLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HearthstatsLogin.xib; sourceTree = "<group>"; };
+		43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsLogin.swift; sourceTree = "<group>"; };
+		43A12C901CA5689D00090BFE /* HearthstatsPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HearthstatsPreferences.xib; sourceTree = "<group>"; };
+		43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsPreferences.swift; sourceTree = "<group>"; };
 		43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeActions.swift; sourceTree = "<group>"; };
 		43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKeyPoint.swift; sourceTree = "<group>"; };
 		43B695511C903A3600F4D0AC /* KeyPointType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPointType.swift; sourceTree = "<group>"; };
@@ -288,6 +300,10 @@
 			isa = PBXGroup;
 			children = (
 				4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */,
+				43A12C8A1CA562AB00090BFE /* HearthstatsLogin.xib */,
+				43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */,
+				43A12C901CA5689D00090BFE /* HearthstatsPreferences.xib */,
+				43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */,
 			);
 			path = Hearthstats;
 			sourceTree = "<group>";
@@ -356,6 +372,8 @@
 				4317196E1C84910600F5988B /* EditDeck.xib */,
 				431719701C84911300F5988B /* EditDeck.swift */,
 				431719721C885BD600F5988B /* CardCell.swift */,
+				43A12C861CA3D24800090BFE /* SaveDeck.swift */,
+				43A12C881CA3D25600090BFE /* SaveDeck.xib */,
 			);
 			path = DeckManager;
 			sourceTree = "<group>";
@@ -734,6 +752,9 @@
 				4317196F1C84910600F5988B /* EditDeck.xib in Resources */,
 				434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */,
 				43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */,
+				43A12C891CA3D25600090BFE /* SaveDeck.xib in Resources */,
+				43A12C911CA5689D00090BFE /* HearthstatsPreferences.xib in Resources */,
+				43A12C8B1CA562AB00090BFE /* HearthstatsLogin.xib in Resources */,
 				43D308021C842DB400480488 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */,
@@ -917,11 +938,13 @@
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */,
 				43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */,
+				43A12C931CA568A800090BFE /* HearthstatsPreferences.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */,
 				4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
 				4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */,
+				43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */,
 				439C7EEB1C777FCF00D29859 /* String.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
@@ -951,6 +974,7 @@
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				434C2F341C7F4816001D1D91 /* HearthpwnDeckBuilder.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
+				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
 				4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,

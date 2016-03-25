@@ -83,6 +83,29 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 try NetImporter.netImport(urlDeck.stringValue, { (deck) -> Void in
                     if let deck = deck {
                         self.delegate?.addNewDeck(deck)
+                        if HearthstatsAPI.isLogged() {
+                            if Settings.instance.hearthstatsAutoSynchronize {
+                                do {
+                                    try HearthstatsAPI.postDeck(deck) {_ in}
+                                }
+                                catch {}
+                            } else {
+                                let alert = NSAlert()
+                                alert.alertStyle = .InformationalAlertStyle
+                                alert.messageText = NSLocalizedString("Do you want to add this deck on Hearthstats ?", comment: "")
+                                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                                alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+                                if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
+                                    do {
+                                        try HearthstatsAPI.postDeck(deck) {_ in}
+                                    }
+                                    catch {
+                                        // TODO alert
+                                        print("error")
+                                    }
+                                }
+                            }
+                        }
                     }
                     else {
                         // TODO show error

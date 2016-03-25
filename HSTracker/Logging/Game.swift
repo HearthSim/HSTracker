@@ -320,17 +320,19 @@ class Game {
             statistic.playerMode = currentGameMode
             statistic.numTurns = turnNumber()
             var cards = [String: Int]()
-            opponent.displayCards().forEach({
+            opponent.displayReveleadCards().forEach({
                 cards[$0.cardId] = $0.count
             })
             statistic.cards = cards
             deck.addStatistic(statistic)
             deck.save()
             
-            do {
-                try HearthstatsAPI.postMatch(self, deck, statistic)
-            }
-            catch {
+            if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
+                do {
+                    try HearthstatsAPI.postMatch(self, deck, statistic)
+                }
+                catch {
+                }
             }
         }
     }
