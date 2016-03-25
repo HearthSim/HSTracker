@@ -38,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
          }
          NSUserDefaults.standardUserDefaults().synchronize()*/
         
-        BITHockeyManager.sharedHockeyManager().configureWithIdentifier("f38b1192f0dac671153a94036ced974e")
+        BITHockeyManager.sharedHockeyManager().configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
         BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
         BITHockeyManager.sharedHockeyManager().startManager()
 
