@@ -9,7 +9,7 @@
 import Cocoa
 import CocoaLumberjack
 import MASPreferences
-//import HockeySDK
+import HockeySDK
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -38,9 +38,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
          }
          NSUserDefaults.standardUserDefaults().synchronize()*/
         
-        /*BITHockeyManager.sharedHockeyManager().configureWithIdentifier("f38b1192f0dac671153a94036ced974e")
+        BITHockeyManager.sharedHockeyManager().configureWithIdentifier("f38b1192f0dac671153a94036ced974e")
         BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
-        BITHockeyManager.sharedHockeyManager().startManager()*/
+        BITHockeyManager.sharedHockeyManager().startManager()
 
         if let _ = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_v2") {
             // welcome to HSTracker v2

@@ -645,6 +645,7 @@
 			buildPhases = (
 				D78270F4819BDE5E91BAEEC3 /* Check Pods Manifest.lock */,
 				439C7E441C7772C000D29859 /* Sources */,
+				43A12C941CA5777700090BFE /* ShellScript */,
 				439C7E451C7772C000D29859 /* Frameworks */,
 				439C7E461C7772C000D29859 /* Resources */,
 				5D33BE4E48C7B59C059D27B3 /* Embed Pods Frameworks */,
@@ -835,6 +836,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTrackerUITests/Pods-HSTrackerUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		43A12C941CA5777700090BFE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(git rev-list HEAD --count)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
 		};
 		52090FC73471AD9F4B5D1C06 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
