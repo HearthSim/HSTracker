@@ -38,9 +38,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
          }
          NSUserDefaults.standardUserDefaults().synchronize()*/
         
+        #if !DEBUG
         BITHockeyManager.sharedHockeyManager().configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
         BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
         BITHockeyManager.sharedHockeyManager().startManager()
+        #endif
 
         if let _ = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_v2") {
             // welcome to HSTracker v2

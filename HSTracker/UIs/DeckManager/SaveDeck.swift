@@ -42,6 +42,9 @@ class SaveDeck : NSWindowController {
             let nextMajorVersion = "\(round(Double(version)! + 1))"
             versions = [version, nextMinorVersion, nextMajorVersion]
         }
+        else {
+            version.selectItemAtIndex(0)
+        }
         version.enabled = exists
         version.reloadData()
     }
