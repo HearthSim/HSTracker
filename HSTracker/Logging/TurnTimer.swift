@@ -11,30 +11,77 @@ import Foundation
 @objc final class TurnTimer : NSObject {
     static let instance = TurnTimer()
 
-    private(set) var seconds: Int = 90
+    private(set) var seconds: Int = 75
     private(set) var playerSeconds: Int = 0
     private(set) var opponentSeconds: Int = 0
-    private var turnTime: Int = 90
+    private var turnTime: Int = 75
     private var timer: NSTimer?
-    var currentActivePlayer: PlayerType = .Player
-
-    func reset() {
-        timer?.invalidate()
-
-        seconds = turnTime
+    private var isPlayersTurn: Bool {
+        return game?.playerEntity?.hasTag(.CURRENT_PLAYER) ?? false
+    }
+    private var game: Game?
+    
+    func setPlayer(player: PlayerType)
+    {
+        guard let _ = game else {return}
+        
+        if player == .Player && game!.playerEntity != nil {
+            seconds = game!.playerEntity!.hasTag(.TIMEOUT) ? game!.playerEntity!.getTag(.TIMEOUT) : Int.max
+        }
+        else if player == .Opponent && game!.opponentEntity != nil {
+            seconds = game!.opponentEntity!.hasTag(.TIMEOUT) ? game!.opponentEntity!.getTag(.TIMEOUT) : Int.max
+        }
+        else {
+            seconds = 75
+            DDLogWarn("Could not update timer, both player entities are null")
+        }
+    }
+    
+    func start(game: Game?) {
+        guard let _ = game else {
+            DDLogWarn("Could not start timer, game is null")
+            return
+        }
+        DDLogInfo("Starting turn timer")
+        if self.game != nil {
+            DDLogWarn("Turn timer is already running")
+            return
+        }
+        self.game = game
         playerSeconds = 0
         opponentSeconds = 0
+        seconds = 75
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            if game!.playerEntity == nil {
+                DDLogWarn("Waiting for player entity")
+                while game!.playerEntity == nil {
+                    NSThread.sleepForTimeInterval(0.1)
+                }
+            }
+            if game!.opponentEntity == nil {
+                DDLogWarn("Waiting for player entity")
+                while game!.opponentEntity == nil {
+                    NSThread.sleepForTimeInterval(0.1)
+                }
+            }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(1,
+                    target: self,
+                    selector: #selector(TurnTimer.timerTick),
+                    userInfo: nil,
+                    repeats: true)
+            }
+        }
     }
 
-    func restart() {
-        seconds = turnTime
-
-        if let timer = timer {
-            timer.invalidate()
-        }
-
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self,
-            selector: #selector(TurnTimer.timerTick), userInfo: nil, repeats: true)
+    func stop() {
+        guard let _ = game else {return}
+        
+        DDLogInfo("Stopping turn timer")
+        timer?.invalidate()
+        game = nil
     }
 
     func timerTick() {
@@ -43,7 +90,7 @@ import Foundation
         }
 
         if Game.instance.isMulliganDone() {
-            if currentActivePlayer == .Player {
+            if isPlayersTurn {
                 playerSeconds += 1
             }
             else {

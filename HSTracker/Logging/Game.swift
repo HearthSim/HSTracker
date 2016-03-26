@@ -209,7 +209,7 @@ class Game {
             self.opponentTracker?.gameStart()
             self.timerHud?.showWindow(self)
             
-            TurnTimer.instance.reset()
+            TurnTimer.instance.start(self)
         }
     }
     
@@ -220,6 +220,8 @@ class Game {
         
         // @opponent_cards = opponent_tracker.cards
         handleEndGame()
+        
+        TurnTimer.instance.stop()
         
         self.playerTracker?.gameEnd()
         self.opponentTracker?.gameEnd()
@@ -238,6 +240,8 @@ class Game {
             return
         }
         DDLogVerbose("Game is now in menu")
+        
+        TurnTimer.instance.stop()
         
         /*if(Config.Instance.RecordReplays && _game.Entities.Count > 0 && !_game.SavedReplay && _game.CurrentGameStats != null
         && _game.CurrentGameStats.ReplayFile == null && RecordCurrentGameMode)
@@ -343,8 +347,7 @@ class Game {
     func turnStart(player: PlayerType, _ turn: Int) {
         DDLogInfo("Turn \(turn) start for player \(player) ")
         dispatch_async(dispatch_get_main_queue()) {
-            TurnTimer.instance.currentActivePlayer = player
-            TurnTimer.instance.restart()
+            TurnTimer.instance.setPlayer(player)
         }
     }
     
@@ -456,9 +459,7 @@ class Game {
     }
     
     func secretsOnPlay(entity: Entity) {
-        if Settings.instance.autoGrayoutSecrets {
-            return
-        }
+        guard !Settings.instance.autoGrayoutSecrets else { return }
         
         if entity.isSpell {
             opponentSecrets?.setZero(CardIds.Secrets.Mage.Counterspell)
@@ -932,13 +933,13 @@ class Game {
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
         let queue = dispatch_get_main_queue()
         dispatch_after(when, queue) {
-            if NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.2 {
+            if NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.1 {
                 return
             }
             if let cardHuds = self.cardHuds {
                 let count = min(10, self.opponent.handCount)
                 for (i, hud) in cardHuds.enumerate() {
-                    if i < count && self.opponent.hand.count > i {
+                    if !self.gameEnded && i < count && self.opponent.hand.count > i {
                         hud.setEntity(self.opponent.hand[i])
                         if let frame = SizeHelper.opponentCardHudFrame(i, count) {
                             hud.window?.setFrame(frame, display: true)
