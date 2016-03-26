@@ -9,7 +9,7 @@
 import Foundation
 import Kanna
 
-class Heartharena: BaseNetImporter, NetImporterAware {
+final class Heartharena: BaseNetImporter, NetImporterAware {
 
     var siteName: String {
         return "HearthArena"

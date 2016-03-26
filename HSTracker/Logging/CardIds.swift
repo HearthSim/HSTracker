@@ -17,11 +17,11 @@
 
 import Foundation
 
-class CardIds {
+struct CardIds {
 
-    class Collectible {
+    struct Collectible {
 
-        class Neutral {
+        struct Neutral {
             static let TwilightGuardian = "AT_017"
             static let SkycapnKragg = "AT_070"
             static let GarrisonCommander = "AT_080"
@@ -334,7 +334,7 @@ class CardIds {
             static let FlesheatingGhoul = "tt_004"
         }
 
-        class Druid {
+        struct Druid {
             static let LivingRoots = "AT_037"
             static let DarnassusAspirant = "AT_038"
             static let SavageCombatant = "AT_039"
@@ -386,7 +386,7 @@ class CardIds {
             static let AncientOfLore = "NEW1_008"
         }
 
-        class Hunter {
+        struct Hunter {
             static let RamWrangler = "AT_010"
             static let Powershot = "AT_056"
             static let Stablemaster = "AT_057"
@@ -440,7 +440,7 @@ class CardIds {
             static let AnimalCompanion = "NEW1_031"
         }
 
-        class Mage {
+        struct Mage {
             static let FlameLance = "AT_001"
             static let Effigy = "AT_002"
             static let FallenHero = "AT_003"
@@ -493,7 +493,7 @@ class CardIds {
             static let Spellbender = "tt_010"
         }
 
-        class Paladin {
+        struct Paladin {
             static let CompetitiveSpirit = "AT_073"
             static let SealOfChampions = "AT_074"
             static let WarhorseTrainer = "AT_075"
@@ -546,7 +546,7 @@ class CardIds {
             static let SacredTrial = "LOE_027"
         }
 
-        class Priest {
+        struct Priest {
             static let HolyChampion = "AT_011"
             static let SpawnOfShadows = "AT_012"
             static let PowerWordGlory = "AT_013"
@@ -598,7 +598,7 @@ class CardIds {
             static let ExcavatedEvil = "LOE_111"
         }
 
-        class Rogue {
+        struct Rogue {
             static let ShadoPanRider = "AT_028"
             static let Buccaneer = "AT_029"
             static let UndercityValiant = "AT_030"
@@ -650,7 +650,7 @@ class CardIds {
             static let MasterOfDisguise = "NEW1_014"
         }
 
-        class Shaman {
+        struct Shaman {
             static let TuskarrTotemic = "AT_046"
             static let DraeneiTotemcarver = "AT_047"
             static let HealingWave = "AT_048"
@@ -702,7 +702,7 @@ class CardIds {
             static let AlakirTheWindlord = "NEW1_010"
         }
 
-        class Warlock {
+        struct Warlock {
             static let Dreadsteed = "AT_019"
             static let FearsomeDoomguard = "AT_020"
             static let TinyKnightOfEvil = "AT_021"
@@ -754,7 +754,7 @@ class CardIds {
             static let SacrificialPact = "NEW1_003"
         }
 
-        class Warrior {
+        struct Warrior {
             static let Bash = "AT_064"
             static let KingsDefender = "AT_065"
             static let OrgrimmarAspirant = "AT_066"
@@ -808,9 +808,9 @@ class CardIds {
         }
     }
 
-    class NonCollectible {
+    struct NonCollectible {
 
-        class Neutral {
+        struct Neutral {
             static let DeadlyPoisonEnchantment = "CS2_074e"
             static let EnhancedEnchantment = "CS2_122e"
             static let MightOfStormwindEnchantment = "CS2_222o"
@@ -1791,7 +1791,7 @@ class CardIds {
             static let LotharsLeftGreave = "LOEA16_9"
         }
 
-        class Druid {
+        struct Druid {
             static let ClawEnchantment = "CS2_005o"
             static let MarkOfTheWildEnchantment = "CS2_009e"
             static let SavageRoarEnchantment = "CS2_011o"
@@ -1859,7 +1859,7 @@ class CardIds {
             static let RavenIdol2 = "LOE_115b"
         }
 
-        class Hunter {
+        struct Hunter {
             static let HuntersMarkEnchantment = "CS2_084e"
             static let MastersPresenceEnchantment = "DS1_070o"
             static let FuriousHowlEnchantment = "DS1_175o"
@@ -1894,7 +1894,7 @@ class CardIds {
             static let MishaLOE = "LOEA02_10c"
         }
 
-        class Mage {
+        struct Mage {
             static let PolymorphEnchantment = "CS2_022e"
             static let Fireblast1 = "CS2_034"
             static let MirrorImage = "CS2_mirror"
@@ -1917,7 +1917,7 @@ class CardIds {
             static let RoaringTorchToken = "LOE_002t"
         }
 
-        class Paladin {
+        struct Paladin {
             static let BlessingOfMightEnchantment = "CS2_087e"
             static let BlessingOfKingsEnchantment = "CS2_092e"
             static let Reinforce1 = "CS2_101"
@@ -1944,7 +1944,7 @@ class CardIds {
             static let WatchedEnchantment = "LOE_017e"
         }
 
-        class Priest {
+        struct Priest {
             static let LesserHeal = "CS1h_001"
             static let PowerWordShieldEnchantment = "CS2_004e"
             static let DivineSpiritEnchantment = "CS2_236e"
@@ -1966,7 +1966,7 @@ class CardIds {
             static let Heal = "AT_132_PRIEST"
         }
 
-        class Rogue {
+        struct Rogue {
             static let WickedKnife = "CS2_082"
             static let DaggerMastery = "CS2_083b"
             static let SharpenedEnchantment = "CS2_083e"
@@ -1992,7 +1992,7 @@ class CardIds {
             static let UnearthedRaptorEnchantment = "LOE_019e"
         }
 
-        class Shaman {
+        struct Shaman {
             static let AncestralInfusionEnchantment = "CS2_041e"
             static let RockbiterWeaponEnchantment = "CS2_045e"
             static let BloodlustEnchantment = "CS2_046e"
@@ -2021,7 +2021,7 @@ class CardIds {
             static let TroggNoStupidEnchantment = "LOE_018e"
         }
 
-        class Warlock {
+        struct Warlock {
             static let LifeTap = "CS2_056"
             static let CorruptionEnchantment = "CS2_063e"
             static let BloodPactEnchantment = "CS2_059o"
@@ -2047,7 +2047,7 @@ class CardIds {
             static let SinisterPowerEnchantment = "LOE_009e"
         }
 
-        class Warrior {
+        struct Warrior {
             static let ArmorUp1 = "CS2_102"
             static let ChargeEnchantmentBasic2 = "CS2_103e2"
             static let HeroicStrikeEnchantment = "CS2_105e"
@@ -2080,7 +2080,7 @@ class CardIds {
             static let CursedBladeEnchantment = "LOE_118e"
         }
 
-        class DreamCards {
+        struct DreamCards {
             static let LaughingSister = "DREAM_01"
             static let YseraAwakens = "DREAM_02"
             static let EmeraldDrake = "DREAM_03"
@@ -2089,7 +2089,7 @@ class CardIds {
         }
     }
 
-    class Secrets
+    struct Secrets
     {
         static let FastCombat = [
             Hunter.FreezingTrap,
@@ -2099,7 +2099,7 @@ class CardIds {
             Mage.Vaporize
         ]
 
-        class Hunter
+        struct Hunter
         {
             static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap, Misdirection, Snipe, SnakeTrap]
             static let BearTrap = CardIds.Collectible.Hunter.BearTrap
@@ -2111,7 +2111,7 @@ class CardIds {
             static let SnakeTrap = CardIds.Collectible.Hunter.SnakeTrap
         }
 
-        class Mage
+        struct Mage
         {
             static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock, MirrorEntity, Spellbender, Vaporize]
             static let Counterspell = CardIds.Collectible.Mage.Counterspell
@@ -2124,7 +2124,7 @@ class CardIds {
             static let Vaporize = CardIds.Collectible.Mage.Vaporize
         }
 
-        class Paladin
+        struct Paladin
         {
             static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, NobleSacrifice, Redemption, Repentance, SacredTrial]
             static let Avenge = CardIds.Collectible.Paladin.Avenge

@@ -22,7 +22,7 @@ class PowerGameStateHandler {
     let TagChangeRegex = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
     let UpdatingEntityRegex = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
 
-    let tagChangeHandler = TagChangeHandler()
+    var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 
     func handle(game: Game, _ line: String) {

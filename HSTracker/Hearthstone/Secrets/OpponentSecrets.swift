@@ -9,13 +9,12 @@
 import Foundation
 
 class OpponentSecrets : CustomStringConvertible {
-    private(set) var secrets: [SecretHelper]
+    private(set) lazy var secrets = [SecretHelper]()
     var proposedAttackerEntityId: Int = 0
     var proposedDefenderEntityId: Int = 0
     private(set) var game: Game
 
     init(game: Game) {
-        secrets = [SecretHelper]()
         self.game = game
     }
 

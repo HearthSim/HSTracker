@@ -16,7 +16,7 @@ enum FromDestination: Int {
         Path
 };
 
-class ImageCache {
+struct ImageCache {
 
     static func cardImage(card: Card) -> NSImage? {
         if let appSupport = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {

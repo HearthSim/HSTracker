@@ -10,7 +10,7 @@
 
 import Foundation
 
-class LogReader {
+final class LogReader {
     var stopped: Bool = true
     var offset: UInt64 = 0
     var startingPoint: Double = 0
@@ -20,7 +20,7 @@ class LogReader {
     var startFilters = [String]()
     var containsFilters = [String]()
     var path: String
-    var lines = [LogLine]()
+    lazy var lines = [LogLine]()
     var collected = false
     
     private var queue:dispatch_queue_t?

@@ -40,18 +40,18 @@ func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
         lhs.cardMark == rhs.cardMark
 }
 
-class Player {
-    var revealedCards = [CardEntity]()
-    var hand = [CardEntity]()
-    var board = [CardEntity]()
-    var deck = [CardEntity]()
-    var graveyard = [CardEntity]()
-    var secrets = [CardEntity]()
-    var removed = [CardEntity]()
-    var drawnCardIds = [String]()
-    var drawnCardIdsTotal = [String]()
-    var createdInHandCardIds = [String]()
-    var hightlightedCards = [String]()
+final class Player {
+    lazy var revealedCards = [CardEntity]()
+    lazy var hand = [CardEntity]()
+    lazy var board = [CardEntity]()
+    lazy var deck = [CardEntity]()
+    lazy var graveyard = [CardEntity]()
+    lazy var secrets = [CardEntity]()
+    lazy var removed = [CardEntity]()
+    lazy var drawnCardIds = [String]()
+    lazy var drawnCardIdsTotal = [String]()
+    lazy var createdInHandCardIds = [String]()
+    lazy var hightlightedCards = [String]()
     var isLocalPlayer: Bool
     var id: Int?
     var playerClass: Card?

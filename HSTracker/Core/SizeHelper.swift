@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SizeHelper {
+struct SizeHelper {
     
     // Get the title bar height
     // I could fix it at 22, but IDK if it's change on retina ie

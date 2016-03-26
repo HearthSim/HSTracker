@@ -12,13 +12,12 @@ class SecretHelper : Equatable, CustomStringConvertible {
     private(set) var id: Int
     private(set) var turnPlayed: Int
     private(set) var heroClass: HeroClass
-    var possibleSecrets: [String: Bool]
+    lazy var possibleSecrets = [String: Bool]()
 
     init(heroClass: HeroClass, id: Int, turnPlayed: Int) {
         self.id = id
         self.turnPlayed = turnPlayed
         self.heroClass = heroClass
-        possibleSecrets = [String: Bool]()
 
         SecretHelper.getSecretIds(heroClass).forEach({
             possibleSecrets[$0] = true

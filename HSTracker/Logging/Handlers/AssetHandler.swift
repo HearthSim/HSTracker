@@ -10,7 +10,7 @@
 
 import Foundation
 
-class AssetHandler {
+struct AssetHandler {
 
     let MedalRank = "Medal_Ranked_(\\d+)"
     let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"

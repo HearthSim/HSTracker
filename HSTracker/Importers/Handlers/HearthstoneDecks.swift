@@ -9,7 +9,7 @@
 import Foundation
 import Kanna
 
-class HearthstoneDecks: BaseNetImporter, NetImporterAware {
+final class HearthstoneDecks: BaseNetImporter, NetImporterAware {
 
     static let classes = [
         "Chaman": "shaman",

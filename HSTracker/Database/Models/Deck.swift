@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Decks {
+final class Decks {
     private static var _decks: [String: Deck]?
 
     private static var savePath: String? {
@@ -111,7 +111,7 @@ func generateId() -> String {
     return "\(NSUUID().UUIDString)-\(NSDate().timeIntervalSince1970)"
 }
 
-class Deck : Hashable, CustomStringConvertible {
+final class Deck : Hashable, CustomStringConvertible {
     var deckId: String = generateId()
     var name: String?
     var playerClass: String

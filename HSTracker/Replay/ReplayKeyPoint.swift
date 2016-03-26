@@ -14,7 +14,7 @@ func deepClone(data: [Entity]) -> [Entity] {
     return copy
 }
 
-class ReplayKeyPoint: Equatable, Dictable  {
+final class ReplayKeyPoint: Equatable, Dictable  {
     var data: [Entity]
     var id: Int
     var player: PlayerType

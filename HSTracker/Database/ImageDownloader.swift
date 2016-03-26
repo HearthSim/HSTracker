@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-class ImageDownloader {
+final class ImageDownloader {
     var semaphore: dispatch_semaphore_t?
 
     func downloadImagesIfNeeded(_images: [String], splashscreen: Splashscreen) {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Cards {
+final class Cards {
     static var cards = [Card]()
 
     static func heroById(cardId: String) -> Card? {
@@ -74,7 +74,7 @@ class Cards {
     }
 }
 
-class Database {
+struct Database {
     static let validCardSet = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS"]
 
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {

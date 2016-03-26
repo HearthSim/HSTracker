@@ -8,7 +8,7 @@
  * Created on 18/02/16.
  */
 
-class CardEntity: Equatable, CustomStringConvertible {
+final class CardEntity: Equatable, CustomStringConvertible {
 
     var cardId: String?
     var entity: Entity?

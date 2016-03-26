@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ReplayMaker {
+final class ReplayMaker {
     private static var points = [ReplayKeyPoint]()
 
     static func reset() { points.removeAll() }

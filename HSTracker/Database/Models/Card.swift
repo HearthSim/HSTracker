@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Card : Hashable, CustomStringConvertible {
+final class Card : Hashable, CustomStringConvertible {
 
     var cardId: String = ""
     var collectible: Bool = false

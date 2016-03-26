@@ -19,10 +19,13 @@ protocol NetImporterAware {
     var siteName:String { get }
 }
 
-class NetImporter {
-    static let importers:[NetImporterAware] = [
-        Hearthpwn(), HearthpwnDeckBuilder(), Hearthnews(), Hearthhead(), Heartharena(),
-        Hearthstats(), HearthstoneDecks()]
+final class NetImporter {
+    static var importers:[NetImporterAware] {
+        return [
+            Hearthpwn(), HearthpwnDeckBuilder(), Hearthnews(), Hearthhead(), Heartharena(),
+            Hearthstats(), HearthstoneDecks()
+        ]
+    }
     
     static func netImport(url:String, _ completion: Deck? -> Void) throws {
         let realUrl = NSURL(string: url)

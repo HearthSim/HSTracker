@@ -10,7 +10,7 @@
 
 import Foundation
 
-class Hearthstone : NSObject {
+final class Hearthstone : NSObject {
 
     var logReaderManager: LogReaderManager?
 

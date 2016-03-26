@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ClassColor {
+struct ClassColor {
     static let Druid = NSColor(red: 255.0 / 255.0, green: 125.0 / 255.0, blue: 10.0 / 255.0, alpha: 1)
     static let Hunter = NSColor(red: 171.0 / 255.0, green: 212.0 / 255.0, blue: 115.0 / 255.0, alpha: 1)
     static let Mage = NSColor(red: 105.0 / 255.0, green: 204.0 / 255.0, blue: 240.0 / 255.0, alpha: 1)

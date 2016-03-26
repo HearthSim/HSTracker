@@ -10,7 +10,7 @@
 
 import Foundation
 
-class BobHandler {
+struct BobHandler {
 
     let LegendRankRegex = "legend rank (\\d+)"
 

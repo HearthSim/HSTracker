@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="autoSynchronize" destination="5NX-hg-fSX" id="fuW-71-5Gb"/>
                 <outlet property="synchronizeMatches" destination="5GL-SO-RA4" id="1Si-IB-8Bj"/>
+                <outlet property="view" destination="c22-O7-iKe" id="Beq-z3-iYK"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>

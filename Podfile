@@ -8,7 +8,6 @@ def pods
     pod 'Kanna', '~> 1.0.0'
     pod 'MASPreferences'
     pod 'JNWCollectionView', git: 'https://github.com/jwilling/JNWCollectionView.git'
-    pod 'HockeySDK-Mac'
 end
 
 target 'HSTracker' do

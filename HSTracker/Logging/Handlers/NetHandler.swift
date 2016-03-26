@@ -10,7 +10,7 @@
 
 import Foundation
 
-class NetHandler {
+struct NetHandler {
 
     let ConnectRegex = "ConnectAPI\\.GotoGameServer -- address=(.+), game=(.+), client=(.+), spectateKey=(.+)"
 

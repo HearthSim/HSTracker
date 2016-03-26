@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc class TurnTimer : NSObject {
+@objc final class TurnTimer : NSObject {
     static let instance = TurnTimer()
 
     private(set) var seconds: Int = 90

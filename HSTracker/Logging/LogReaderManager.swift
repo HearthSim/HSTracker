@@ -10,9 +10,7 @@
 
 import Foundation
 
-class LogReaderManager {
-    var readers: [LogReader]
-    
+final class LogReaderManager {
     let powerGameStateHandler = PowerGameStateHandler()
     let netHandler = NetHandler()
     let assetHandler = AssetHandler()
@@ -21,35 +19,23 @@ class LogReaderManager {
     let arenaHandler = ArenaHandler()
     let loadingScreenHandler = LoadingScreenHandler()
     
-    var powerLogReader: LogReader
-    var gameStatePowerLogReader: LogReader
-    var bob: LogReader
-    var rachelle: LogReader
-    var asset: LogReader
-    var arena: LogReader
-    var loadScreen: LogReader
-    var net: LogReader
+    private lazy var powerLogReader = LogReader(name: .Power,
+                                        startFilters: ["PowerTaskList.DebugPrintPower"],
+                                        containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"])
+    private lazy var gameStatePowerLogReader = LogReader(name: .Power, startFilters: ["GameState."])
+    private lazy var bob = LogReader(name: .Bob)
+    private lazy var rachelle = LogReader(name: .Rachelle)
+    private lazy var asset = LogReader(name: .Asset)
+    private lazy var arena = LogReader(name: .Arena)
+    private lazy var loadScreen = LogReader(name: .LoadingScreen, startFilters: ["LoadingScreen.OnSceneLoaded"])
+    private lazy var net = LogReader(name: .Net)
+    
+    private var readers: [LogReader] {
+        return [powerLogReader, bob, rachelle, asset, arena, net, loadScreen]
+    }
 
     var running = false
     var stopped = false
-    
-    init() {
-        powerLogReader = LogReader(name: .Power,
-            startFilters: ["PowerTaskList.DebugPrintPower"],
-            containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"])
-        
-        gameStatePowerLogReader = LogReader(name: .Power, startFilters: ["GameState."])
-        
-        bob = LogReader(name: .Bob)
-        rachelle = LogReader(name: .Rachelle)
-        asset = LogReader(name: .Asset)
-        arena = LogReader(name: .Arena)
-        net = LogReader(name: .Net)
-        
-        loadScreen = LogReader(name: .LoadingScreen, startFilters: ["LoadingScreen.OnSceneLoaded"])
-        
-        readers = [powerLogReader, bob, rachelle, asset, arena, net, loadScreen]
-    }
     
     func start() {
         guard !running else { return }

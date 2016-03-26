@@ -9,7 +9,7 @@
 import Foundation
 import Kanna
 
-class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
+final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
 
     var siteName: String {
         return "HearthpPwn deckbuilder"

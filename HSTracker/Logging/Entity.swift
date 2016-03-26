@@ -13,7 +13,7 @@ class Entity: Hashable, CustomStringConvertible, Dictable {
     var isPlayer: Bool
     var cardId: String?
     var name: String?
-    var tags = [GameTag: Int]()
+    lazy var tags = [GameTag: Int]()
     
     init(_ id: Int) {
         self.id = id

@@ -10,7 +10,7 @@
 
 import Foundation
 
-class ArenaHandler {
+struct ArenaHandler {
 
     func handle(game: Game, _ line: String) {
     }

@@ -16,14 +16,8 @@ enum LogLineNamespace : String {
     }
 }
 
-class LogLine {
-    var time: Int
-    var namespace: LogLineNamespace
-    var line: String
-
-    init(namespace: LogLineNamespace, time: Int, line: String) {
-        self.namespace = namespace
-        self.time = time
-        self.line = line
-    }
+struct LogLine {
+    let namespace: LogLineNamespace
+    let time: Int
+    let line: String
 }

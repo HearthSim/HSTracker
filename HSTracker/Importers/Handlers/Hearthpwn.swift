@@ -9,7 +9,7 @@
 import Foundation
 import Kanna
 
-class Hearthpwn: BaseNetImporter, NetImporterAware {
+final class Hearthpwn: BaseNetImporter, NetImporterAware {
 
     var siteName: String {
         return "HearthPwn"

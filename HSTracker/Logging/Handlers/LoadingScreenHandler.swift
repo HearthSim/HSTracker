@@ -10,7 +10,7 @@
 
 import Foundation
 
-class LoadingScreenHandler {
+struct LoadingScreenHandler {
 
     let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
 

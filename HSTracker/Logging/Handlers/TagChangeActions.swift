@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TagChangeActions {
+struct TagChangeActions {
 
     func callAction(tag: GameTag, _ game: Game, _ id: Int, _ value: Int, _ prevValue: Int) {
         //print("callAction tag:\(tag), id:\(id), value:\(value), prevValue:\(prevValue)")

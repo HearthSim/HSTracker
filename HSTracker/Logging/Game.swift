@@ -15,6 +15,7 @@ enum PlayerType: Int {
 }
 
 class Game {
+    // MARK: - vars
     var currentTurn = 0
     var currentRank = 0
     var maxId = 0
@@ -62,6 +63,34 @@ class Game {
     var isInMenu = true
     var endGameStats = false
     var wasInProgress = false
+    
+    var lastPlayerUpdateRequest = NSDate.distantPast().timeIntervalSince1970
+    var lastOpponentUpdateRequest = NSDate.distantPast().timeIntervalSince1970
+    var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
+    
+    var playerEntity: Entity? {
+        return entities.map { $0.1 }.firstWhere { $0.isPlayer }
+    }
+    
+    var opponentEntity: Entity? {
+        return entities.map { $0.1 }.firstWhere { $0.hasTag(GameTag.PLAYER_ID) && !$0.isPlayer }
+    }
+    
+    var gameEntity: Entity? {
+        return entities.map { $0.1 }.firstWhere { $0.name == "GameEntity" }
+    }
+    
+    var isMinionInPlay: Bool {
+        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion } != nil
+    }
+    
+    var isOpponentMinionInPlay: Bool {
+        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id!) } != nil
+    }
+    
+    var opponentMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id!) }.count }
+    
+    var playerMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.player.id!) }.count }
     
     static let instance = Game()
     
@@ -114,50 +143,6 @@ class Game {
         }
     }
     
-    var isMinionInPlay: Bool {
-        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion } != nil
-    }
-    
-    var isOpponentMinionInPlay: Bool {
-        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id!) } != nil
-    }
-    
-    var opponentMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id!) }.count }
-    
-    var playerMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.player.id!) }.count }
-    
-    func hearthstoneIsActive(active: Bool) {
-        if Settings.instance.autoPositionTrackers {
-            if let tracker = self.playerTracker {
-                changeTracker(tracker, active, SizeHelper.playerTrackerFrame())
-            }
-            if let tracker = self.opponentTracker {
-                changeTracker(tracker, active, SizeHelper.opponentTrackerFrame())
-            }
-        }
-        if let tracker = self.secretTracker {
-            changeTracker(tracker, active, SizeHelper.secretTrackerFrame())
-        }
-        if let tracker = self.timerHud {
-            changeTracker(tracker, active, SizeHelper.timerHudFrame())
-        }
-        
-        updateCardHuds()
-    }
-    
-    private func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect?) {
-        if active {
-            tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-            // TODO check for setting
-            if let frame = frame {
-                tracker.window?.setFrame(frame, display: true)
-            }
-        }
-        else {
-            tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
-        }
-    }
-    
     func setActiveDeck(deck: Deck) {
         self.activeDeck = deck
         addDeckCards()
@@ -181,18 +166,33 @@ class Game {
         }
     }
     
-    var playerEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.isPlayer }
+    func setPlayerTracker(tracker: Tracker?) {
+        self.playerTracker = tracker
+        if let playerTracker = self.playerTracker {
+            playerTracker.player = self.player
+        }
     }
     
-    var opponentEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.hasTag(GameTag.PLAYER_ID) && !$0.isPlayer }
+    func setOpponentTracker(tracker: Tracker?) {
+        self.opponentTracker = tracker
+        if let opponentTracker = self.opponentTracker {
+            opponentTracker.player = self.opponent
+        }
     }
     
-    var gameEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.name == "GameEntity" }
+    func setSecretTracker(tracker: SecretTracker?) {
+        self.secretTracker = tracker
     }
     
+    func setTimerHud(timerHud: TimerHud?) {
+        self.timerHud = timerHud
+    }
+    
+    func setCardHuds(cardHuds: [CardHud]) {
+        self.cardHuds = cardHuds
+    }
+    
+    // MARK: - game state
     func gameStart() {
         if gameStarted {
             return
@@ -225,10 +225,8 @@ class Game {
         self.opponentTracker?.gameEnd()
         dispatch_async(dispatch_get_main_queue()) {
             self.timerHud?.window?.orderOut(self)
-            if let cardHuds = self.cardHuds {
-                for hud in cardHuds {
-                    hud.window?.orderOut(self)
-                }
+            self.cardHuds?.forEach {
+                $0.window?.orderOut(self)
             }
         }
         
@@ -248,48 +246,7 @@ class Game {
         
         isInMenu = true
     }
-    
-    func proposeKeyPoint(type: KeyPointType, _ id: Int, _ player: PlayerType) {
-        if let proposedKeyPoint = proposedKeyPoint {
-            ReplayMaker.generate(proposedKeyPoint.type, proposedKeyPoint.id, proposedKeyPoint.player, self)
-        }
-        proposedKeyPoint = ReplayKeyPoint(data: nil, type: type, id: id, player: player)
-    }
-    
-    func gameEndKeyPoint(victory: Bool, _ id: Int) {
-        if let proposedKeyPoint = proposedKeyPoint {
-            ReplayMaker.generate(proposedKeyPoint.type, proposedKeyPoint.id, proposedKeyPoint.player, self)
-            self.proposedKeyPoint = nil
-        }
-        ReplayMaker.generate(victory ? .Victory : .Defeat, id, .Player, self)
-    }
-    
-    func setPlayerTracker(tracker: Tracker?) {
-        self.playerTracker = tracker
-        if let playerTracker = self.playerTracker {
-            playerTracker.player = self.player
-        }
-    }
-    
-    func setOpponentTracker(tracker: Tracker?) {
-        self.opponentTracker = tracker
-        if let opponentTracker = self.opponentTracker {
-            opponentTracker.player = self.opponent
-        }
-    }
-    
-    func setSecretTracker(tracker: SecretTracker?) {
-        self.secretTracker = tracker
-    }
-    
-    func setTimerHud(timerHud: TimerHud?) {
-        self.timerHud = timerHud
-    }
-    
-    func setCardHuds(cardHuds: [CardHud]) {
-        self.cardHuds = cardHuds
-    }
-    
+ 
     func handleEndGame() {
         if currentGameMode == .None || currentGameMode == .Casual {
             waitForRank(5) {
@@ -431,6 +388,22 @@ class Game {
         }
     }
     
+    // MARK: - Replay
+    func proposeKeyPoint(type: KeyPointType, _ id: Int, _ player: PlayerType) {
+        if let proposedKeyPoint = proposedKeyPoint {
+            ReplayMaker.generate(proposedKeyPoint.type, proposedKeyPoint.id, proposedKeyPoint.player, self)
+        }
+        proposedKeyPoint = ReplayKeyPoint(data: nil, type: type, id: id, player: player)
+    }
+    
+    func gameEndKeyPoint(victory: Bool, _ id: Int) {
+        if let proposedKeyPoint = proposedKeyPoint {
+            ReplayMaker.generate(proposedKeyPoint.type, proposedKeyPoint.id, proposedKeyPoint.player, self)
+            self.proposedKeyPoint = nil
+        }
+        ReplayMaker.generate(victory ? .Victory : .Defeat, id, .Player, self)
+    }
+
     // MARK: - player
     func setPlayerHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
@@ -955,8 +928,14 @@ class Game {
     func updateCardHuds() {
         guard let _ = cardHuds else { return }
         
-        if let cardHuds = self.cardHuds {
-            dispatch_async(dispatch_get_main_queue()) {
+        lastCardsUpdateRequest = NSDate().timeIntervalSince1970
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            if NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.2 {
+                return
+            }
+            if let cardHuds = self.cardHuds {
                 let count = min(10, self.opponent.handCount)
                 for (i, hud) in cardHuds.enumerate() {
                     if i < count && self.opponent.hand.count > i {
@@ -974,15 +953,70 @@ class Game {
         }
     }
     
-    func updatePlayerTracker() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.playerTracker?.update()
+    
+    private func updateTracker(tracker: Tracker?) {
+        if tracker == playerTracker {
+            lastPlayerUpdateRequest = NSDate().timeIntervalSince1970
+        }
+        else {
+            lastOpponentUpdateRequest = NSDate().timeIntervalSince1970
+        }
+        
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            let time: Double
+            if tracker == self.playerTracker {
+                time = self.lastPlayerUpdateRequest
+            }
+            else {
+                time = self.lastOpponentUpdateRequest
+            }
+            if NSDate().timeIntervalSince1970 - time < 0.1 {
+                return
+            }
+            tracker?.update()
         }
     }
     
+    func updatePlayerTracker() {
+        updateTracker(playerTracker)
+    }
+    
     func updateOpponentTracker() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.opponentTracker?.update()
+        updateTracker(opponentTracker)
+    }
+    
+    func hearthstoneIsActive(active: Bool) {
+        if Settings.instance.autoPositionTrackers {
+            if let tracker = self.playerTracker {
+                changeTracker(tracker, active, SizeHelper.playerTrackerFrame())
+            }
+            if let tracker = self.opponentTracker {
+                changeTracker(tracker, active, SizeHelper.opponentTrackerFrame())
+            }
+        }
+        if let tracker = self.secretTracker {
+            changeTracker(tracker, active, SizeHelper.secretTrackerFrame())
+        }
+        if let tracker = self.timerHud {
+            changeTracker(tracker, active, SizeHelper.timerHudFrame())
+        }
+        
+        updateCardHuds()
+    }
+    
+    private func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect?) {
+        if active {
+            tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            // TODO check for setting
+            if let frame = frame {
+                tracker.window?.setFrame(frame, display: true)
+            }
+        }
+        else {
+            tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
         }
     }
+
 }

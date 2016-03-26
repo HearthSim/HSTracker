@@ -9,7 +9,7 @@
 import Foundation
 import Kanna
 
-class Hearthhead: BaseNetImporter, NetImporterAware {
+final class Hearthhead: BaseNetImporter, NetImporterAware {
     static let classes = [
         1: "warrior",
         2: "paladin",

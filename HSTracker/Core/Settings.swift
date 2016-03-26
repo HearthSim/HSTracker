@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Settings {
+final class Settings {
 
     static let instance = Settings()
     

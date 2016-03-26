@@ -8,7 +8,7 @@
  * Created on 13/02/16.
  */
 
-class RachelleHandler {
+struct RachelleHandler {
     let TowardsGolds = "(\\d)/3 wins towards 10 gold"
     let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
 

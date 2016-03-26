@@ -103,7 +103,7 @@ enum HearthstatsError : ErrorType {
     DECK_NOT_SAVED
 }
 
-class HearthstatsAPI {
+struct HearthstatsAPI {
     static let gameResults:[Int: GameResult] = [
         1: .Win,
         2: .Loss,

@@ -9,7 +9,7 @@
 import Foundation
 import Kanna
 
-class Hearthstats: BaseNetImporter, NetImporterAware {
+final class Hearthstats: BaseNetImporter, NetImporterAware {
 
     var siteName: String {
         return "HearthStats"
