@@ -9,7 +9,9 @@
 import Cocoa
 import CocoaLumberjack
 import MASPreferences
+#if !DEBUG
 import HockeySDK
+#endif
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {

@@ -13,7 +13,8 @@ class CardHud : NSWindowController {
     var entity: CardEntity?
 
     @IBOutlet weak var label: NSTextFieldCell!
-
+    @IBOutlet weak var icon: NSImageView!
+    
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -29,35 +30,35 @@ class CardHud : NSWindowController {
     func setEntity(entity: CardEntity?) {
         self.entity = entity
         var text = ""
+        var image: String? = nil
 
         if let entity = entity {
             text += "\(entity.turn)"
             DDLogVerbose("turn : \(entity.turn), mark: \(entity.cardMark), cardId : \(entity.cardId) / \(entity.entity?.cardId)")
 
             switch entity.cardMark {
-            case .Coin:
-                text += "C"
-
-            case .Kept:
-                text += "K"
-
-            case .Mulliganed:
-                text += "M"
-
-            case .Returned:
-                text += "R"
-
-            case .Created:
-                text += "Cr"
-
+            case .Coin: image = "coin"
+            case .Kept: image = "kept"
+            case .Mulliganed: image = "mulliganed"
+            case .Returned: image = "returned"
+            case .Created: image = "created"
             default: break
             }
         }
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .Center
         label.attributedStringValue = NSAttributedString(string: text, attributes: [
             NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 20)!,
             NSForegroundColorAttributeName: NSColor.whiteColor(),
             NSStrokeWidthAttributeName: -2,
-            NSStrokeColorAttributeName: NSColor.blackColor()
+            NSStrokeColorAttributeName: NSColor.blackColor(),
+            NSParagraphStyleAttributeName: paragraph
             ])
+        if let image = image {
+            icon.image = ImageCache.asset(image)
+        }
+        else {
+            icon.image = nil
+        }
     }
 }

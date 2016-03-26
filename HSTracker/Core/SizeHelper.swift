@@ -157,7 +157,7 @@ struct SizeHelper {
 
     static func opponentCardHudFrame(position: Int, _ cardCount: Int) -> NSRect? {
         if let _ = hearthstoneFrame {
-            var frame = NSMakeRect(0, 0, 70, 80)
+            var frame = NSMakeRect(0, 0, 36, 45)
             if let pos = points[cardCount]?[position] {
                 frame.origin.x = pos.x
                 frame.origin.y = pos.y

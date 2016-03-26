@@ -23,6 +23,8 @@ static const DDLogLevel ddLogLevel = DDLogLevelInfo;
 #import <JNWScrollView/JNWScrollView.h>
 #import <JNWCollectionView/JNWCollectionView.h>
 
+#ifndef DEBUG
 #import <HockeySDK/HockeySDK.h>
+#endif
 
 #endif /* HSTracker_Bridging_Header_h */
