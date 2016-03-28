@@ -459,7 +459,9 @@ class Game {
     }
     
     func secretsOnPlay(entity: Entity) {
-        guard !Settings.instance.autoGrayoutSecrets else { return }
+        if !Settings.instance.autoGrayoutSecrets {
+            return
+        }
         
         if entity.isSpell {
             opponentSecrets?.setZero(CardIds.Secrets.Mage.Counterspell)
@@ -941,10 +943,9 @@ class Game {
                 for (i, hud) in cardHuds.enumerate() {
                     if !self.gameEnded && i < count && self.opponent.hand.count > i {
                         hud.setEntity(self.opponent.hand[i])
-                        if let frame = SizeHelper.opponentCardHudFrame(i, count) {
-                            hud.window?.setFrame(frame, display: true)
-                            hud.showWindow(self)
-                        }
+                        let frame = SizeHelper.opponentCardHudFrame(i, count)
+                        hud.window?.setFrame(frame, display: true)
+                        hud.showWindow(self)
                     }
                     else {
                         hud.window?.orderOut(self)
@@ -1007,13 +1008,10 @@ class Game {
         updateCardHuds()
     }
     
-    private func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect?) {
+    private func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect) {
         if active {
             tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-            // TODO check for setting
-            if let frame = frame {
-                tracker.window?.setFrame(frame, display: true)
-            }
+            tracker.window?.setFrame(frame, display: true)
         }
         else {
             tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))

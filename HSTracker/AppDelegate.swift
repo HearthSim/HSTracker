@@ -131,20 +131,39 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.openTrackers()
             }
         })
+        let menuOperation = NSBlockOperation(block: {
+            NSOperationQueue.mainQueue().addOperationWithBlock() {
+                DDLogInfo("Loading menu")
+                self.buildMenu()
+            }
+        })
 
         startUpCompletionOperation.addDependency(loggingOperation)
         loggingOperation.addDependency(trackerOperation)
+        loggingOperation.addDependency(menuOperation)
         trackerOperation.addDependency(databaseOperation)
+        menuOperation.addDependency(databaseOperation)
 
         operationQueue.addOperation(startUpCompletionOperation)
         operationQueue.addOperation(trackerOperation)
         operationQueue.addOperation(databaseOperation)
         operationQueue.addOperation(loggingOperation)
+        operationQueue.addOperation(menuOperation)
     }
 
     func hstrackerReady() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.showPlayerTracker(_:)), name: "show_player_tracker", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppDelegate.showOpponentTracker(_:)), name: "show_opponent_tracker", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(AppDelegate.showPlayerTracker(_:)),
+                                                         name: "show_player_tracker",
+                                                         object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(AppDelegate.showOpponentTracker(_:)),
+                                                         name: "show_opponent_tracker",
+                                                         object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(AppDelegate.reloadDecks(_:)),
+                                                         name: "reload_decks",
+                                                         object: nil)
 
         DDLogInfo("HSTracker is now ready !")
         NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
@@ -292,7 +311,60 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    func reloadDecks(notification: NSNotification) {
+        buildMenu()
+    }
+    
     // MARK: - Menu
+    func buildMenu() {
+        var decks = [String: [Deck]]()
+        Decks.decks().filter({$0.isActive}).forEach({
+            if decks[$0.playerClass] == nil {
+                decks[$0.playerClass] = [Deck]()
+            }
+            decks[$0.playerClass]?.append($0)
+        })
+        
+        let mainMenu = NSApplication.sharedApplication().mainMenu
+        let deckMenu = mainMenu?.itemWithTitle("Decks")
+        deckMenu?.submenu?.removeAllItems()
+        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Deck Manager", comment: ""),
+                                            action: #selector(AppDelegate.openDeckManager(_:)),
+                                            keyEquivalent: "d")
+        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Reset", comment: ""),
+                                            action: #selector(AppDelegate.resetTrackers(_:)),
+                                            keyEquivalent: "r")
+        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
+                                            action: #selector(AppDelegate.clearTrackers(_:)),
+                                            keyEquivalent: "")
+
+        deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
+        for (playerClass, _decks) in decks.sort({ NSLocalizedString($0.0, comment: "") < NSLocalizedString($1.0, comment: "") }) {
+            if let menu = deckMenu?.submenu?.addItemWithTitle(NSLocalizedString(playerClass, comment: ""),
+                                                              action: nil,
+                                                              keyEquivalent: "") {
+                let classMenu = NSMenu()
+                _decks.sort({$0.name!.lowercaseString < $1.name!.lowercaseString }).forEach({
+                    if let item = classMenu.addItemWithTitle($0.name!,
+                        action: #selector(AppDelegate.playDeck(_:)),
+                        keyEquivalent: "") {
+                        item.representedObject = $0
+                    }
+                    
+                })
+                menu.submenu = classMenu
+            }
+        }
+    }
+    
+    func playDeck(sender: NSMenuItem) {
+        if let deck = sender.representedObject as? Deck {
+            Settings.instance.activeDeck = deck.deckId
+            Game.instance.setActiveDeck(deck)
+            Game.instance.playerTracker?.update()
+        }
+    }
+    
     @IBAction func openDeckManager(sender: AnyObject) {
         deckManager = DeckManager()
         deckManager?.showWindow(self)
@@ -302,14 +374,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Game.instance.removeActiveDeck()
         Settings.instance.activeDeck = nil
     }
+    
+    @IBAction func resetTrackers(sender: AnyObject) {
+        Game.instance.opponent.reset()
+        Game.instance.updateOpponentTracker()
+    }
 
     @IBAction func openPreferences(sender: AnyObject) {
-        preferences.showWindow(nil)
+        preferences.showWindow(self)
     }
 
     @IBAction func lockWindows(sender: AnyObject) {
         let settings = Settings.instance
         settings.windowsLocked = !settings.windowsLocked
         // TODO menu
+    }
+    
+    var windowMove: WindowMove?
+    @IBAction func openDebugPositions(sender: AnyObject) {
+        windowMove = WindowMove(windowNibName: "WindowMove")
+        windowMove?.showWindow(self)
     }
 }

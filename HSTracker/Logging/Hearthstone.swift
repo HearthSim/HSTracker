@@ -136,7 +136,7 @@ final class Hearthstone : NSObject {
     func appLaunched(notification: NSNotification) {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
             DDLogVerbose("Hearthstone is now launched")
-            self.restartTracking()
+            self.startTracking()
             Game.instance.hearthstoneIsActive(true)
             NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_running", object: nil)
         }

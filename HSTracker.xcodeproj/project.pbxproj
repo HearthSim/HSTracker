@@ -38,6 +38,8 @@
 		4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
 		436969151C80653000CE1D29 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436969141C80653000CE1D29 /* LinqExtension.swift */; };
+		43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43873CC01CA6E6C200F01CB4 /* WindowMove.xib */; };
+		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
 		439C7E6C1C7772C100D29859 /* HSTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */; };
@@ -169,6 +171,8 @@
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
 		436969141C80653000CE1D29 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
+		43873CC01CA6E6C200F01CB4 /* WindowMove.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowMove.xib; sourceTree = "<group>"; };
+		43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowMove.swift; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		439C7E571C7772C000D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -378,6 +382,15 @@
 			path = DeckManager;
 			sourceTree = "<group>";
 		};
+		43873CBF1CA6E68D00F01CB4 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				43873CC01CA6E6C200F01CB4 /* WindowMove.xib */,
+				43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
@@ -403,6 +416,7 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
+				43873CBF1CA6E68D00F01CB4 /* Debug */,
 				4312AFED1C9FED3100F3F2BE /* Hearthstats */,
 				434106A01C9868620045655A /* Assets */,
 				43B695551C90653A00F4D0AC /* Hearthstone */,
@@ -758,6 +772,7 @@
 				43A12C8B1CA562AB00090BFE /* HearthstatsLogin.xib in Resources */,
 				43D308021C842DB400480488 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
+				43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */,
 				43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */,
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				434106A61C9868620045655A /* Frames.xcassets in Resources */,
@@ -942,6 +957,7 @@
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
 				43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */,
 				434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */,
+				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
 				439C7EC21C777F8900D29859 /* BobHandler.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,

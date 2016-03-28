@@ -337,6 +337,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
     // MARK: - NewDeckDelegate
     func addNewDeck(deck: Deck) {
+        NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
         refreshDecks()
     }
 
