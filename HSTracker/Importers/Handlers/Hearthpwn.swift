@@ -8,6 +8,7 @@
 
 import Foundation
 import Kanna
+import CleanroomLogger
 
 final class Hearthpwn: BaseNetImporter, NetImporterAware {
 
@@ -28,7 +29,7 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
                         deckName = name
                     }
                 }
-                DDLogVerbose("got deck name \(deckName)")
+                Log.verbose?.message("got deck name \(deckName)")
 
                 var className: String?
                 if let classNode = doc.at_xpath("//section[contains(@class, 'deck-info')]") {
@@ -38,11 +39,11 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
                 }
                 guard let _ = className else {
                     // can't find class, ignore
-                    DDLogWarn("class not found")
+                    Log.error?.message("class not found")
                     completion(nil)
                     return
                 }
-                DDLogVerbose("got class name \(className)")
+                Log.verbose?.message("got class name \(className)")
                 var cards = [String: Int]()
 
                 for clazz in ["class-listing", "neutral-listing"] {
@@ -55,10 +56,10 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
                         }
 
                         if let card = card, count = count {
-                            DDLogVerbose("got card \(card.trim()) with count \(count)")
+                            Log.verbose?.message("got card \(card.trim()) with count \(count)")
                             if let _card = Cards.byEnglishName(card.trim()) {
-                                DDLogVerbose("Got card \(_card)")
                                 cards[_card.cardId] = count
+                                Log.verbose?.message("Got card \(_card)")
                             }
                         }
                     }

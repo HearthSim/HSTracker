@@ -8,15 +8,16 @@
 
 import Foundation
 import Alamofire
+import CleanroomLogger
 
 class BaseNetImporter {
     
     func loadHtml(url:String, _ completion: String? -> Void) {
-        DDLogInfo("Fetching \(url)")
+        Log.info?.message("Fetching \(url)")
         Alamofire.request(.GET, url)
             .responseString(encoding: NSUTF8StringEncoding) { response in
                 if let html = response.result.value {
-                    DDLogInfo("Fetching \(url) complete")
+                    Log.info?.message("Fetching \(url) complete")
                     completion(html)
                 }
                 else {
@@ -43,7 +44,7 @@ class BaseNetImporter {
     
     func isCount(cards:[String:Int]) -> Bool {
         let count = cards.map {$0.1}.reduce(0, combine: +)
-        DDLogVerbose("counting \(count) cards")
+        Log.verbose?.message("counting \(count) cards")
         return count == 30
     }
     

@@ -8,6 +8,9 @@
  * Created on 13/02/16.
  */
 
+import Foundation
+import CleanroomLogger
+
 class TagChangeHandler {
 
     let ParseEntityIDRegex = "id=(\\d+)"

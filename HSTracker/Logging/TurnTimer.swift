@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 @objc final class TurnTimer : NSObject {
     static let instance = TurnTimer()
@@ -33,18 +34,18 @@ import Foundation
         }
         else {
             seconds = 75
-            DDLogWarn("Could not update timer, both player entities are null")
+            Log.warning?.message("Could not update timer, both player entities are null")
         }
     }
     
     func start(game: Game?) {
         guard let _ = game else {
-            DDLogWarn("Could not start timer, game is null")
+            Log.warning?.message("Could not start timer, game is null")
             return
         }
-        DDLogInfo("Starting turn timer")
+        Log.info?.message("Starting turn timer")
         if self.game != nil {
-            DDLogWarn("Turn timer is already running")
+            Log.warning?.message("Turn timer is already running")
             return
         }
         self.game = game
@@ -54,13 +55,13 @@ import Foundation
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if game!.playerEntity == nil {
-                DDLogWarn("Waiting for player entity")
+                Log.verbose?.message("Waiting for player entity")
                 while game!.playerEntity == nil {
                     NSThread.sleepForTimeInterval(0.1)
                 }
             }
             if game!.opponentEntity == nil {
-                DDLogWarn("Waiting for player entity")
+                Log.verbose?.message("Waiting for player entity")
                 while game!.opponentEntity == nil {
                     NSThread.sleepForTimeInterval(0.1)
                 }
@@ -79,7 +80,7 @@ import Foundation
     func stop() {
         guard let _ = game else {return}
         
-        DDLogInfo("Stopping turn timer")
+        Log.info?.message("Stopping turn timer")
         timer?.invalidate()
         game = nil
     }

@@ -9,6 +9,7 @@
  */
 
 import Foundation
+import CleanroomLogger
 
 struct LoadingScreenHandler {
 
@@ -33,7 +34,7 @@ struct LoadingScreenHandler {
         }
 
         if let newMode = newMode where !(game.currentGameMode == .Ranked && newMode == .Casual) {
-            DDLogInfo("Game mode : \(newMode)")
+            Log.info?.message("Game mode : \(newMode)")
             game.currentGameMode = newMode
         }
         if game.previousMode == .GAMEPLAY {

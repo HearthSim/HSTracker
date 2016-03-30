@@ -9,6 +9,7 @@
  */
 
 import Foundation
+import CleanroomLogger
 
 class PowerGameStateHandler {
     
@@ -162,7 +163,7 @@ class PowerGameStateHandler {
                 if String.isNullOrEmpty(cardId) {
                     if game.knownCardIds[id] != .None {
                         cardId = game.knownCardIds[id]!
-                        DDLogVerbose("Found known cardId '\(cardId)' for entity \(id)")
+                        Log.verbose?.message("Found known cardId '\(cardId)' for entity \(id)")
                         game.knownCardIds[id] = nil
                     }
                 }
@@ -374,12 +375,12 @@ class PowerGameStateHandler {
     private func setPlayerName(game: Game, _ playerId: Int, _ name: String) {
         if playerId == game.player.id {
             game.player.name = name
-            DDLogInfo("Player name is \(name)")
+            Log.info?.message("Player name is \(name)")
             //print("player name : '\(name)'")
         }
         else if playerId == game.opponent.id {
             game.opponent.name = name
-            DDLogInfo("Opponent name is \(name)")
+            Log.info?.message("Opponent name is \(name)")
             //print("opponent name : '\(name)'")
         }
     }

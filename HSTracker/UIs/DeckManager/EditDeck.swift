@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import JNWCollectionView
+import CleanroomLogger
 
 class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate, JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate {
 
@@ -105,7 +105,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                 }
 
             default:
-                DDLogVerbose("\(e.keyCode)")
+                Log.verbose?.message("\(e.keyCode)")
                 break
             }
             return e

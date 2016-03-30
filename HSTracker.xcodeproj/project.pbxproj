@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		202A706D36F0F8BFE41AB802 /* Pods_HSTrackerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FFB8F3F8763FD98FAD3C32F /* Pods_HSTrackerUITests.framework */; };
-		3051E5FC75FE21E9802087D0 /* Pods_HSTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */; };
 		4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */; };
 		4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFF21CA0401B00F3F2BE /* Int.swift */; };
 		4317196F1C84910600F5988B /* EditDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4317196E1C84910600F5988B /* EditDeck.xib */; };
@@ -37,6 +35,29 @@
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
 		4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
+		436789951CABFB1600C962D1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
+		436789961CABFB1600C962D1 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
+		436789971CABFB1600C962D1 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
+		436789981CABFB1600C962D1 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
+		436789991CABFB1600C962D1 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
+		4367899A1CABFB1600C962D1 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
+		4367899B1CABFB1600C962D1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
+		4367899D1CAC05D700C962D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
+		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
+		436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */; };
+		436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */; };
+		436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */; };
+		436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */; };
+		436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */; };
+		436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */; };
+		436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */; };
+		436789AF1CAC085300C962D1 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789B01CAC085300C962D1 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789B11CAC085300C962D1 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789B21CAC085300C962D1 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789B31CAC085300C962D1 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789B41CAC085300C962D1 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789B51CAC085300C962D1 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436969151C80653000CE1D29 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436969141C80653000CE1D29 /* LinqExtension.swift */; };
 		43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43873CC01CA6E6C200F01CB4 /* WindowMove.xib */; };
 		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
@@ -49,7 +70,6 @@
 		439C7E8D1C777D1C00D29859 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E8C1C777D1C00D29859 /* Database.swift */; };
 		439C7E8F1C777D6C00D29859 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
 		439C7E921C777EFA00D29859 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E911C777EFA00D29859 /* Settings.swift */; };
-		439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E941C777F8900D29859 /* CardEntity.swift */; };
 		439C7EB51C777F8900D29859 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E951C777F8900D29859 /* Entity.swift */; };
 		439C7EB61C777F8900D29859 /* CardMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E971C777F8900D29859 /* CardMark.swift */; };
 		439C7EB71C777F8900D29859 /* CardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E981C777F8900D29859 /* CardType.swift */; };
@@ -99,6 +119,7 @@
 		43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
 		43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* SecretTracker.swift */; };
 		43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* SecretTracker.xib */; };
+		43CCF2A91CABB4B0006ACB69 /* HSTrackerLogFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D307FF1C842DA700480488 /* GeneralPreferences.xib */; };
@@ -121,7 +142,6 @@
 		43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB9B1C7E4EA20077AC1B /* CurveView.swift */; };
 		43F000301C81BAE8000F2F8F /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F0002F1C81BAE8000F2F8F /* Mode.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
-		B9B4194B0AF1FB50E30AA9CD /* Pods_HSTrackerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D11EF751C5BDA03013DFFFB2 /* Pods_HSTrackerTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,9 +161,33 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		436789A01CAC078800C962D1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				436789AF1CAC085300C962D1 /* Alamofire.framework in CopyFiles */,
+				436789B01CAC085300C962D1 /* CleanroomASL.framework in CopyFiles */,
+				436789B11CAC085300C962D1 /* CleanroomLogger.framework in CopyFiles */,
+				436789B21CAC085300C962D1 /* HockeySDK.framework in CopyFiles */,
+				436789B31CAC085300C962D1 /* JNWCollectionView.framework in CopyFiles */,
+				436789B41CAC085300C962D1 /* Kanna.framework in CopyFiles */,
+				436789B51CAC085300C962D1 /* MASPreferences.framework in CopyFiles */,
+				436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */,
+				436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */,
+				436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */,
+				436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */,
+				436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */,
+				436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */,
+				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		127403DD07CF436D8A62AD88 /* Pods-HSTrackerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsAPI.swift; sourceTree = "<group>"; };
 		4312AFF21CA0401B00F3F2BE /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		4317196E1C84910600F5988B /* EditDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDeck.xib; sourceTree = "<group>"; };
@@ -170,6 +214,22 @@
 		434C2F411C7F50F4001D1D91 /* BaseNetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNetImporter.swift; sourceTree = "<group>"; };
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
+		4367898E1CABFB1600C962D1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
+		4367898F1CABFB1600C962D1 /* CleanroomASL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomASL.framework; path = Carthage/Build/Mac/CleanroomASL.framework; sourceTree = "<group>"; };
+		436789901CABFB1600C962D1 /* CleanroomLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomLogger.framework; path = Carthage/Build/Mac/CleanroomLogger.framework; sourceTree = "<group>"; };
+		436789911CABFB1600C962D1 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = Carthage/Build/Mac/HockeySDK.framework; sourceTree = "<group>"; };
+		436789921CABFB1600C962D1 /* JNWCollectionView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JNWCollectionView.framework; path = Carthage/Build/Mac/JNWCollectionView.framework; sourceTree = "<group>"; };
+		436789931CABFB1600C962D1 /* Kanna.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kanna.framework; path = Carthage/Build/Mac/Kanna.framework; sourceTree = "<group>"; };
+		436789941CABFB1600C962D1 /* MASPreferences.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MASPreferences.framework; path = Carthage/Build/Mac/MASPreferences.framework; sourceTree = "<group>"; };
+		4367899C1CAC05D700C962D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4367899E1CAC05DD00C962D1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Alamofire.framework.dSYM; path = Carthage/Build/Mac/Alamofire.framework.dSYM; sourceTree = "<group>"; };
+		436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = CleanroomASL.framework.dSYM; path = Carthage/Build/Mac/CleanroomASL.framework.dSYM; sourceTree = "<group>"; };
+		436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = CleanroomLogger.framework.dSYM; path = Carthage/Build/Mac/CleanroomLogger.framework.dSYM; sourceTree = "<group>"; };
+		436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HockeySDK.framework.dSYM; path = Carthage/Build/Mac/HockeySDK.framework.dSYM; sourceTree = "<group>"; };
+		436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = JNWCollectionView.framework.dSYM; path = Carthage/Build/Mac/JNWCollectionView.framework.dSYM; sourceTree = "<group>"; };
+		436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kanna.framework.dSYM; path = Carthage/Build/Mac/Kanna.framework.dSYM; sourceTree = "<group>"; };
+		436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MASPreferences.framework.dSYM; path = Carthage/Build/Mac/MASPreferences.framework.dSYM; sourceTree = "<group>"; };
 		436969141C80653000CE1D29 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
 		43873CC01CA6E6C200F01CB4 /* WindowMove.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowMove.xib; sourceTree = "<group>"; };
 		43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowMove.swift; sourceTree = "<group>"; };
@@ -189,7 +249,6 @@
 		439C7E8C1C777D1C00D29859 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		439C7E8E1C777D6C00D29859 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		439C7E911C777EFA00D29859 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		439C7E941C777F8900D29859 /* CardEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardEntity.swift; sourceTree = "<group>"; };
 		439C7E951C777F8900D29859 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		439C7E971C777F8900D29859 /* CardMark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardMark.swift; sourceTree = "<group>"; };
 		439C7E981C777F8900D29859 /* CardType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardType.swift; sourceTree = "<group>"; };
@@ -241,6 +300,7 @@
 		43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentSecrets.swift; sourceTree = "<group>"; };
 		43B695621C920A0500F4D0AC /* SecretTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretTracker.swift; sourceTree = "<group>"; };
 		43B695641C920BD500F4D0AC /* SecretTracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecretTracker.xib; sourceTree = "<group>"; };
+		43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSTrackerLogFormatter.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
 		43D307FF1C842DA700480488 /* GeneralPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPreferences.xib; sourceTree = "<group>"; };
@@ -263,13 +323,6 @@
 		43EECB9B1C7E4EA20077AC1B /* CurveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveView.swift; sourceTree = "<group>"; };
 		43F0002F1C81BAE8000F2F8F /* Mode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
-		6DF6E90CEA5D7299D8A9A854 /* Pods-HSTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTracker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker.debug.xcconfig"; sourceTree = "<group>"; };
-		6FFB8F3F8763FD98FAD3C32F /* Pods_HSTrackerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTrackerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		787C11774664AC0A4051C8E4 /* Pods-HSTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTracker.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker.release.xcconfig"; sourceTree = "<group>"; };
-		A15A4BE30B2A9008669B3239 /* Pods-HSTrackerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests.release.xcconfig"; sourceTree = "<group>"; };
-		A5F153329E34E12AAA4D5B7C /* Pods-HSTrackerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerUITests/Pods-HSTrackerUITests.release.xcconfig"; sourceTree = "<group>"; };
-		B8D89D78995F40C9E9DA4D40 /* Pods-HSTrackerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HSTrackerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HSTrackerUITests/Pods-HSTrackerUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		D11EF751C5BDA03013DFFFB2 /* Pods_HSTrackerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HSTrackerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,7 +330,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3051E5FC75FE21E9802087D0 /* Pods_HSTracker.framework in Frameworks */,
+				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
+				4367899D1CAC05D700C962D1 /* Foundation.framework in Frameworks */,
+				436789951CABFB1600C962D1 /* Alamofire.framework in Frameworks */,
+				436789961CABFB1600C962D1 /* CleanroomASL.framework in Frameworks */,
+				436789971CABFB1600C962D1 /* CleanroomLogger.framework in Frameworks */,
+				436789981CABFB1600C962D1 /* HockeySDK.framework in Frameworks */,
+				436789991CABFB1600C962D1 /* JNWCollectionView.framework in Frameworks */,
+				4367899A1CABFB1600C962D1 /* Kanna.framework in Frameworks */,
+				4367899B1CABFB1600C962D1 /* MASPreferences.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +346,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9B4194B0AF1FB50E30AA9CD /* Pods_HSTrackerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,7 +353,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				202A706D36F0F8BFE41AB802 /* Pods_HSTrackerUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +457,6 @@
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
 				439C7E6A1C7772C100D29859 /* HSTrackerUITests */,
 				439C7E491C7772C000D29859 /* Products */,
-				82F55DC1DE1DEEB878F5386E /* Pods */,
 				F997FED720A990D7DB50C540 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -481,6 +539,7 @@
 				439C7EE71C777FCF00D29859 /* Categories */,
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 				43D307FA1C83159C00480488 /* SizeHelper.swift */,
+				43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -490,7 +549,6 @@
 			children = (
 				439C7E961C777F8900D29859 /* Enums */,
 				439C7EA21C777F8900D29859 /* Handlers */,
-				439C7E941C777F8900D29859 /* CardEntity.swift */,
 				439C7E951C777F8900D29859 /* Entity.swift */,
 				439C7EA11C777F8900D29859 /* Game.swift */,
 				439C7EAC1C777F8900D29859 /* Hearthstone.swift */,
@@ -627,25 +685,25 @@
 			path = Regex;
 			sourceTree = "<group>";
 		};
-		82F55DC1DE1DEEB878F5386E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6DF6E90CEA5D7299D8A9A854 /* Pods-HSTracker.debug.xcconfig */,
-				787C11774664AC0A4051C8E4 /* Pods-HSTracker.release.xcconfig */,
-				127403DD07CF436D8A62AD88 /* Pods-HSTrackerTests.debug.xcconfig */,
-				A15A4BE30B2A9008669B3239 /* Pods-HSTrackerTests.release.xcconfig */,
-				B8D89D78995F40C9E9DA4D40 /* Pods-HSTrackerUITests.debug.xcconfig */,
-				A5F153329E34E12AAA4D5B7C /* Pods-HSTrackerUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1C56C37329B1EFFDD9485DF9 /* Pods_HSTracker.framework */,
-				D11EF751C5BDA03013DFFFB2 /* Pods_HSTrackerTests.framework */,
-				6FFB8F3F8763FD98FAD3C32F /* Pods_HSTrackerUITests.framework */,
+				436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */,
+				436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */,
+				436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */,
+				436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */,
+				436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */,
+				436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */,
+				436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */,
+				4367899E1CAC05DD00C962D1 /* Cocoa.framework */,
+				4367899C1CAC05D700C962D1 /* Foundation.framework */,
+				4367898E1CABFB1600C962D1 /* Alamofire.framework */,
+				4367898F1CABFB1600C962D1 /* CleanroomASL.framework */,
+				436789901CABFB1600C962D1 /* CleanroomLogger.framework */,
+				436789911CABFB1600C962D1 /* HockeySDK.framework */,
+				436789921CABFB1600C962D1 /* JNWCollectionView.framework */,
+				436789931CABFB1600C962D1 /* Kanna.framework */,
+				436789941CABFB1600C962D1 /* MASPreferences.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -657,13 +715,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 439C7E701C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTracker" */;
 			buildPhases = (
-				D78270F4819BDE5E91BAEEC3 /* Check Pods Manifest.lock */,
 				439C7E441C7772C000D29859 /* Sources */,
 				43A12C941CA5777700090BFE /* ShellScript */,
 				439C7E451C7772C000D29859 /* Frameworks */,
 				439C7E461C7772C000D29859 /* Resources */,
-				5D33BE4E48C7B59C059D27B3 /* Embed Pods Frameworks */,
-				2F27056CA6947F361DA9E01F /* Copy Pods Resources */,
+				436789A01CAC078800C962D1 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -678,12 +734,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 439C7E731C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTrackerTests" */;
 			buildPhases = (
-				FB626DDB381C61629F8C2C7D /* Check Pods Manifest.lock */,
 				439C7E581C7772C100D29859 /* Sources */,
 				439C7E591C7772C100D29859 /* Frameworks */,
 				439C7E5A1C7772C100D29859 /* Resources */,
-				56ADEF35187847FD27EE9568 /* Embed Pods Frameworks */,
-				0D6182CFA069C51C6F06B5F9 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -699,11 +752,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 439C7E761C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTrackerUITests" */;
 			buildPhases = (
-				52090FC73471AD9F4B5D1C06 /* Check Pods Manifest.lock */,
 				439C7E631C7772C100D29859 /* Sources */,
 				439C7E641C7772C100D29859 /* Frameworks */,
 				439C7E651C7772C100D29859 /* Resources */,
-				352456CC7040179A36D83074 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -807,51 +858,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0D6182CFA069C51C6F06B5F9 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2F27056CA6947F361DA9E01F /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		352456CC7040179A36D83074 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTrackerUITests/Pods-HSTrackerUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		43A12C941CA5777700090BFE /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -864,81 +870,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(git rev-list HEAD --count)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
-		};
-		52090FC73471AD9F4B5D1C06 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		56ADEF35187847FD27EE9568 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTrackerTests/Pods-HSTrackerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5D33BE4E48C7B59C059D27B3 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HSTracker/Pods-HSTracker-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D78270F4819BDE5E91BAEEC3 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FB626DDB381C61629F8C2C7D /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -954,6 +885,7 @@
 				43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
 				434C2F421C7F50F4001D1D91 /* BaseNetImporter.swift in Sources */,
+				43CCF2A91CABB4B0006ACB69 /* HSTrackerLogFormatter.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
 				43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */,
 				434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */,
@@ -970,7 +902,6 @@
 				43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */,
 				43A12C931CA568A800090BFE /* HearthstatsPreferences.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
-				439C7EB41C777F8900D29859 /* CardEntity.swift in Sources */,
 				4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
 				4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */,
@@ -1151,13 +1082,19 @@
 		};
 		439C7E711C7772C100D29859 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6DF6E90CEA5D7299D8A9A854 /* Pods-HSTracker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-DDEBUG $(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1167,13 +1104,18 @@
 		};
 		439C7E721C7772C100D29859 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 787C11774664AC0A4051C8E4 /* Pods-HSTracker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
@@ -1182,7 +1124,6 @@
 		};
 		439C7E741C7772C100D29859 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 127403DD07CF436D8A62AD88 /* Pods-HSTrackerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1196,7 +1137,6 @@
 		};
 		439C7E751C7772C100D29859 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A15A4BE30B2A9008669B3239 /* Pods-HSTrackerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1210,7 +1150,6 @@
 		};
 		439C7E771C7772C100D29859 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8D89D78995F40C9E9DA4D40 /* Pods-HSTrackerUITests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = HSTrackerUITests/Info.plist;
@@ -1224,7 +1163,6 @@
 		};
 		439C7E781C7772C100D29859 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A5F153329E34E12AAA4D5B7C /* Pods-HSTrackerUITests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = HSTrackerUITests/Info.plist;

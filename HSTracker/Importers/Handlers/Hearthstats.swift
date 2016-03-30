@@ -8,6 +8,7 @@
 
 import Foundation
 import Kanna
+import CleanroomLogger
 
 final class Hearthstats: BaseNetImporter, NetImporterAware {
 
@@ -27,7 +28,7 @@ final class Hearthstats: BaseNetImporter, NetImporterAware {
                 if let node = doc.at_xpath("//div[contains(@class,'win-count')]//img") {
                     if let alt = node["alt"] {
                         playerClass = alt.lowercaseString
-                        DDLogVerbose("got player class : \(playerClass)")
+                        Log.verbose?.message("got player class : \(playerClass)")
                     }
                 }
 
@@ -41,14 +42,14 @@ final class Hearthstats: BaseNetImporter, NetImporterAware {
                     if let name = node.innerHTML?.characters.split("<").map(String.init) {
                         if let name = name.first {
                             deckName = name
-                            DDLogVerbose("got deck name : \(name)")
+                            Log.verbose?.message("got deck name : \(name)")
                         }
                     }
                 }
                 var cards = [String: Int]()
                 for node in doc.xpath("//div[contains(@class,'cardWrapper')]") {
                     if let card = node.at_xpath("div[@class='name']")?.text, let count = node.at_xpath("div[@class='qty']")?.text {
-                        DDLogVerbose("card : \(card) -> count \(count)")
+                        Log.verbose?.message("card : \(card) -> count \(count)")
                         if let card = Cards.byEnglishName(card), let count = Int(count) {
                             cards[card.cardId] = count
                         }

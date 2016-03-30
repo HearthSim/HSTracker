@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 struct SizeHelper {
     
@@ -32,7 +33,7 @@ struct SizeHelper {
                 // add the titlebar to y
                 bounds.origin.y += titleBarHeight
                 
-                DDLogVerbose("HSFrame : \(bounds)")
+                Log.verbose?.message("HSFrame : \(bounds)")
                 return bounds
             }
         }

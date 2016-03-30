@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import JNWCollectionView
 
 class CardCell : JNWCollectionViewCell {
 

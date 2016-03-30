@@ -7,7 +7,7 @@
 //
 
 import Cocoa
-import CocoaLumberjack
+import CleanroomLogger
 import MASPreferences
 #if !DEBUG
 import HockeySDK
@@ -58,13 +58,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // init logger
         #if DEBUG
-            DDTTYLogger.sharedInstance().colorsEnabled = true
-            DDLog.addLogger(DDTTYLogger.sharedInstance())
+            let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .Verbose,
+                                                    logToASL: false,
+                                                    colorTable: HSTrackerColorTable(),
+                                                    formatters: [HSTrackerLogFormatter()])
+            Log.enable(configuration: xcodeConfig)
         #else
-            let fileLogger: DDFileLogger = DDFileLogger()
-            fileLogger.rollingFrequency = 60 * 60 * 24
-            fileLogger.logFileManager.maximumNumberOfLogFiles = 7
-            DDLog.addLogger(fileLogger)
+            /*TODO 
+             let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: .Info,
+                                                            daysToKeep: 7,
+                                                            directoryPath: logDir)
+            
+            Log.enable(configuration: rotatingConf)*/
         #endif
 
         if Settings.instance.hearthstoneLanguage != nil && Settings.instance.hsTrackerLanguage != nil {
@@ -127,13 +132,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
         let trackerOperation = NSBlockOperation(block: {
             NSOperationQueue.mainQueue().addOperationWithBlock() {
-                DDLogInfo("Opening trackers")
+                Log.info?.message("Opening trackers")
                 self.openTrackers()
             }
         })
         let menuOperation = NSBlockOperation(block: {
             NSOperationQueue.mainQueue().addOperationWithBlock() {
-                DDLogInfo("Loading menu")
+                Log.info?.message("Loading menu")
                 self.buildMenu()
             }
         })
@@ -165,7 +170,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                          name: "reload_decks",
                                                          object: nil)
 
-        DDLogInfo("HSTracker is now ready !")
+        Log.info?.message("HSTracker is now ready !")
         NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
 
         // testImportDeck()
@@ -214,10 +219,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let url = hearthhead
         do {
             try NetImporter.netImport(url, { (deck) -> Void in
-                DDLogVerbose("\(deck)")
+                Log.verbose?.value(deck)
             })
         } catch {
-            DDLogVerbose("error")
+            Log.error?.value("error import")
         }
     }
 

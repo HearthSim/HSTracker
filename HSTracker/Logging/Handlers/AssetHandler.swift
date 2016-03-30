@@ -9,6 +9,7 @@
  */
 
 import Foundation
+import CleanroomLogger
 
 struct AssetHandler {
 
@@ -38,9 +39,9 @@ struct AssetHandler {
                 let cardId = match.value
                 
                 if game.currentMode == Mode.DRAFT && game.previousMode == Mode.HUB {
-                    DDLogInfo("Possible arena card draft : \(cardId) ?")
+                    Log.verbose?.message("Possible arena card draft : \(cardId) ?")
                 } else if (game.currentMode == Mode.COLLECTIONMANAGER || game.currentMode == Mode.TAVERN_BRAWL) && game.previousMode == Mode.HUB {
-                    DDLogInfo("Possible constructed card draft : \(cardId) ?")
+                    Log.verbose?.message("Possible constructed card draft : \(cardId) ?")
                 }
             }
         }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 class OpponentSecrets : CustomStringConvertible {
     private(set) lazy var secrets = [SecretHelper]()
@@ -74,13 +75,13 @@ class OpponentSecrets : CustomStringConvertible {
             })
         }
         secrets.append(helper)
-        DDLogInfo("Added secret with id: \(id)")
+        Log.info?.message("Added secret with id: \(id)")
     }
 
     func secretRemoved(id: Int, _ cardId: String) {
         if let index = secrets.indexOf({ $0.id == id }) {
             if index == -1 {
-                DDLogWarn("Secret with id=\(id), cardId=\(cardId) not found when trying to remove it.")
+                Log.warning?.message("Secret with id=\(id), cardId=\(cardId) not found when trying to remove it.")
                 return
             }
             let attacker = game.entities[proposedAttackerEntityId]
@@ -99,7 +100,7 @@ class OpponentSecrets : CustomStringConvertible {
             }
 
             secrets.remove(secrets[index])
-            DDLogInfo("Removed secret with id:\(id)")
+            Log.info?.message("Removed secret with id:\(id)")
         }
     }
 
@@ -150,7 +151,7 @@ class OpponentSecrets : CustomStringConvertible {
 
     func clearSecrets() {
         secrets.removeAll()
-        DDLogInfo("Cleared secrets")
+        Log.info?.message("Cleared secrets")
     }
 
     func setMax(cardId: String) {
@@ -177,7 +178,7 @@ class OpponentSecrets : CustomStringConvertible {
             secrets[index].possibleSecrets[cardId] = false
         }
         if stopIndex > 0 {
-            DDLogInfo("Set secret to zero: \(Cards.byId(cardId))")
+            Log.info?.message("Set secret to zero: \(Cards.byId(cardId))")
         }
     }
 

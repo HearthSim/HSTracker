@@ -25,7 +25,7 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
 
         self.window!.opaque = false
         self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: CGFloat(Settings.instance.trackerOpacity / 100.0))
+        self.window!.backgroundColor = NSColor.clearColor()
 
         var width: Double
         let settings = Settings.instance
@@ -44,8 +44,6 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
         self.window!.contentMinSize = NSSize(width: width, height: 350)
         self.window!.contentMaxSize = NSSize(width: width, height: Double(NSHeight(NSScreen.mainScreen()!.frame)))
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SecretTracker.opacityChange(_:)), name: "tracker_opacity", object: nil)
-
         self.table.intercellSpacing = NSSize(width: 0, height: 0)
 
         self.table.backgroundColor = NSColor.clearColor()
@@ -57,11 +55,7 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-
-    func opacityChange(notification: NSNotification) {
-        self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: CGFloat(Settings.instance.trackerOpacity / 100.0))
-    }
-
+    
     func setSecrets(opponentSecrets: OpponentSecrets) {
         cards.removeAll()
         opponentSecrets.getSecrets().forEach { (secret) in

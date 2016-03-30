@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import CleanroomLogger
 
 final class ImageDownloader {
     var semaphore: dispatch_semaphore_t?
@@ -73,11 +74,11 @@ final class ImageDownloader {
 
             let path = "\(destination)/HSTracker/cards/\(image).png"
             let url = NSURL(string: "https://wow.zamimg.com/images/hearthstone/cards/\(language)/medium/\(image).png")!
-            DDLogDebug("downloading \(url) to \(path)")
+            Log.verbose?.message("downloading \(url) to \(path)")
 
             let task = NSURLSession.sharedSession().downloadTaskWithRequest(NSURLRequest(URL: url), completionHandler: { (url, response, error) -> Void in
                 if error != nil {
-                    DDLogError("download error \(error)")
+                    Log.error?.message("download error \(error)")
                     self.downloadImages(&images, language, destination, splashscreen)
                     return
                 }

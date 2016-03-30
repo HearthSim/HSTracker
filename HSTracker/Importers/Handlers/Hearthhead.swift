@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 import Kanna
 
 final class Hearthhead: BaseNetImporter, NetImporterAware {
@@ -37,13 +38,13 @@ final class Hearthhead: BaseNetImporter, NetImporterAware {
                 if let classNode = doc.at_xpath("//div[@class='deckguide-hero']") {
                     if let clazz = classNode["data-class"], classId = Int(clazz) {
                         className = Hearthhead.classes[classId]
-                        DDLogVerbose("found \(className)")
+                        Log.verbose?.message("found \(className)")
                     }
                 }
                 var deckName: String?
                 if let deckNode = doc.at_xpath("//h1[@id='deckguide-name']") {
                     deckName = deckNode.text?.trim()
-                    DDLogVerbose("found \(deckName)")
+                    Log.verbose?.message("found \(deckName)")
                 }
 
                 var cards = [String: Int]()
@@ -53,7 +54,7 @@ final class Hearthhead: BaseNetImporter, NetImporterAware {
                         let cardName = cardNameNode.text,
                         let card = Cards.byEnglishName(cardName) {
                             cardId = card.cardId
-                            DDLogVerbose("\(cardName)")
+                            Log.verbose?.message("\(cardName)")
                     }
                     var count = 1
                     if let cardNodeHTML = cardNode.text {

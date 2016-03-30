@@ -9,6 +9,7 @@
 */
 
 import Foundation
+import CleanroomLogger
 
 final class LogReaderManager {
     let powerGameStateHandler = PowerGameStateHandler()
@@ -61,7 +62,7 @@ final class LogReaderManager {
     }
     
     func stop() {
-        DDLogVerbose("Stopping all trackers")
+        Log.info?.message("Stopping all trackers")
         stopped = true
         for reader in readers {
             reader.stop()

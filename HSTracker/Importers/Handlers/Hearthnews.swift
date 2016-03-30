@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 import Kanna
 
 final class Hearthnews: BaseNetImporter, NetImporterAware {
@@ -26,13 +27,13 @@ final class Hearthnews: BaseNetImporter, NetImporterAware {
                 if let classNode = doc.at_xpath("//div[@hero_class]") {
                     if let clazz = classNode["hero_class"] {
                         className = clazz.lowercaseString
-                        DDLogVerbose("found \(className)")
+                        Log.verbose?.message("found \(className)")
                     }
                 }
                 var deckName: String?
                 if let deckNode = doc.at_xpath("//div[@class='block_deck_content_deck_name']") {
                     deckName = deckNode.text?.trim()
-                    DDLogVerbose("found \(deckName)")
+                    Log.verbose?.message("found \(deckName)")
                 }
 
                 var cards = [String: Int]()

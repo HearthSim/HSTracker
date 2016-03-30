@@ -9,6 +9,7 @@
  */
 
 import Foundation
+import CleanroomLogger
 
 final class Hearthstone : NSObject {
 
@@ -50,7 +51,7 @@ final class Hearthstone : NSObject {
                     for zone in zones {
                         if line.containsString("[\(zone)]") {
                             zonesFound.append(zone)
-                            DDLogVerbose("Found \(zone)")
+                            Log.verbose?.message("Found \(zone)")
                         }
                     }
                 })
@@ -63,7 +64,7 @@ final class Hearthstone : NSObject {
             }
         }
 
-        DDLogVerbose("Missing zones : \(missingZones)")
+        Log.verbose?.message("Missing zones : \(missingZones)")
         if missingZones.count > 0 {
             for zone in missingZones {
                 fileContent += "\n[\(zone)]"
@@ -135,7 +136,7 @@ final class Hearthstone : NSObject {
 
     func appLaunched(notification: NSNotification) {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
-            DDLogVerbose("Hearthstone is now launched")
+            Log.verbose?.message("Hearthstone is now launched")
             self.startTracking()
             Game.instance.hearthstoneIsActive(true)
             NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_running", object: nil)
@@ -144,7 +145,7 @@ final class Hearthstone : NSObject {
 
     func appTerminated(notification: NSNotification) {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
-            DDLogVerbose("Hearthstone is now closed")
+            Log.verbose?.message("Hearthstone is now closed")
             self.stopTracking()
             Game.instance.hearthstoneIsActive(false)
             NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_running", object: nil)
@@ -153,7 +154,7 @@ final class Hearthstone : NSObject {
 
     func appActivated(notification: NSNotification) {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
-            DDLogVerbose("Hearthstone is now active")
+            Log.verbose?.message("Hearthstone is now active")
             self.hearthstoneActive = true
             Game.instance.hearthstoneIsActive(true)
             NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_active", object: nil)
@@ -162,7 +163,7 @@ final class Hearthstone : NSObject {
 
     func appDeactivated(notification: NSNotification) {
         if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
-            DDLogVerbose("Hearthstone is now inactive")
+            Log.verbose?.message("Hearthstone is now inactive")
             self.hearthstoneActive = false
             Game.instance.hearthstoneIsActive(false)
             NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_active", object: nil)

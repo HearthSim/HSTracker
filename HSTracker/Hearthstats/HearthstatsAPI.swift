@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import CleanroomLogger
 
 extension Deck {
 
@@ -362,7 +363,7 @@ struct HearthstatsAPI {
             "oppcards": stat.cards,
             "created_at": startAt
         ]
-        DDLogInfo("Posting match to Hearthstats \(parameters)")
+        Log.info?.message("Posting match to Hearthstats \(parameters)")
         Alamofire.request(.POST, "\(baseUrl)/matches?auth_token=\(settings.hearthstatsToken!)",
             parameters: parameters, encoding: .JSON)
             .responseJSON { response in

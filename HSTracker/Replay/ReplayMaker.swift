@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 final class ReplayMaker {
     private static var points = [ReplayKeyPoint]()
@@ -29,7 +30,7 @@ final class ReplayMaker {
             let opponent = points.last?.data.firstWhere({$0.hasTag(.PLAYER_ID) && !$0.isPlayer}) {
                 let playerHero = points.last?.data.firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue && $0.isControlledBy(player.getTag(.CONTROLLER))})
                 if playerHero == nil {
-                    DDLogWarn("Replay : playerHero is nil")
+                    Log.warning?.message("Replay : playerHero is nil")
                     return
                 }
                 
@@ -43,7 +44,7 @@ final class ReplayMaker {
                                         || $0.cardId!.startsWith("BRMA"))
                             && Cards.heroById($0.cardId!) != nil})
                     if opponentHero == nil {
-                        DDLogWarn("Replay : opponentHero is nil")
+                        Log.warning?.message("Replay : opponentHero is nil")
                         return
                     }
                     resolveOpponentName(Cards.heroById(opponentHero!.cardId!)?.name)
@@ -54,7 +55,7 @@ final class ReplayMaker {
                     let opponentName = opponent.name,
                     let opponentHeroName = Cards.heroById(opponentHero!.cardId!)?.name {
                         let filename = "\(playerName)(\(playerHeroName)) vs \(opponentName)(\(opponentHeroName)) \(NSDate().getUTCFormateDate())"
-                        DDLogInfo("will save to \(filename)")
+                        Log.info?.message("will save to \(filename)")
                         //print("\(points.toDict())")
                 }
         }

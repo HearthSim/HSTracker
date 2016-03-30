@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 final class Cards {
     static var cards = [Card]()
@@ -90,7 +91,7 @@ struct Database {
 
         for lang in langs {
             let jsonFile = NSBundle.mainBundle().resourcePath! + "/Resources/Cards/cardsDB.\(lang).json"
-            DDLogVerbose("json file : \(jsonFile)")
+            Log.verbose?.message("json file : \(jsonFile)")
             if let jsonData = NSData(contentsOfFile: jsonFile) {
                 do {
                     let cards: [[String: AnyObject]] = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [[String: AnyObject]]

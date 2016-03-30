@@ -1,7 +1,6 @@
-Pods/*
 .DS_Store
 .env
 sparkle/release
 sparkle/release/*
 sparkle/config/dsa_priv.pem
-Podfile.lock
+Carthage/*

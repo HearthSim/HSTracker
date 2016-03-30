@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 class CardHud : NSWindowController {
 
@@ -34,7 +35,7 @@ class CardHud : NSWindowController {
 
         if let entity = entity {
             text += "\(entity.turn)"
-            DDLogVerbose("turn : \(entity.turn), mark: \(entity.cardMark), cardId : \(entity.cardId) / \(entity.entity?.cardId)")
+            //Log.verbose?.message("turn : \(entity.info.turn), mark: \(entity.info.cardMark), cardId : \(entity.cardId)")
 
             switch entity.cardMark {
             case .Coin: image = "coin"

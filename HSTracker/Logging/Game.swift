@@ -9,6 +9,7 @@
 */
 
 import Foundation
+import CleanroomLogger
 
 enum PlayerType: Int {
     case Player, Opponent, DeckManager, Secrets
@@ -101,7 +102,7 @@ class Game {
     }
     
     func reset() {
-        DDLogVerbose("Reseting Game")
+        Log.verbose?.message("Reseting Game")
         maxId = 0
         currentTurn = -1
         entities.removeAll()
@@ -141,6 +142,7 @@ class Game {
             activeDeck.reset()
             addDeckCards()
         }
+        Log.verbose?.message("Game resetted")
     }
     
     func setActiveDeck(deck: Deck) {
@@ -202,7 +204,7 @@ class Game {
         gameStartDate = NSDate()
         isInMenu = false
         
-        DDLogInfo("----- Game Started -----")
+        Log.info?.message("----- Game Started -----")
         
         dispatch_async(dispatch_get_main_queue()) {
             self.playerTracker?.gameStart()
@@ -214,11 +216,10 @@ class Game {
     }
     
     func gameEnd() {
-        DDLogInfo("----- Game End -----")
+        Log.info?.message("----- Game End -----")
         gameStarted = false
         gameEndDate = NSDate()
         
-        // @opponent_cards = opponent_tracker.cards
         handleEndGame()
         
         TurnTimer.instance.stop()
@@ -239,7 +240,7 @@ class Game {
         if isInMenu {
             return
         }
-        DDLogVerbose("Game is now in menu")
+        Log.verbose?.message("Game is now in menu")
         
         TurnTimer.instance.stop()
         
@@ -269,7 +270,7 @@ class Game {
             hasCoin = !_player.hasTag(.FIRST_PLAYER)
         }
         
-        DDLogInfo("End game : mode = \(currentGameMode), rank = \(currentRank), result = \(gameResult), against = \(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayReveleadCards()) ")
+        Log.info?.message("End game : mode = \(currentGameMode), rank = \(currentRank), result = \(gameResult), against = \(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayRevealedCards) ")
         
         if let deck = activeDeck, opponentName = opponent.name, opponentClass = opponent.playerClass {
             let statistic = Statistic()
@@ -314,7 +315,7 @@ class Game {
     }
     
     func detectMode(seconds: Double, completion: () -> Void) {
-        DDLogInfo("waiting for mode")
+        Log.info?.message("waiting for mode")
         awaitingRankedDetection = true
         // rankFound = false
         lastAssetUnload = NSDate().timeIntervalSince1970
@@ -345,28 +346,28 @@ class Game {
     }
     
     func turnStart(player: PlayerType, _ turn: Int) {
-        DDLogInfo("Turn \(turn) start for player \(player) ")
+        Log.info?.message("Turn \(turn) start for player \(player) ")
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.setPlayer(player)
         }
     }
     
     func concede() {
-        DDLogInfo("Game has been conceded : (")
+        Log.info?.message("Game has been conceded : (")
     }
     
     func win() {
-        DDLogInfo("You win ¯\\_(ツ) _ / ¯")
+        Log.info?.message("You win ¯\\_(ツ) _ / ¯")
         gameResult = GameResult.Win
     }
     
     func loss() {
-        DDLogInfo("You lose : (")
+        Log.info?.message("You lose : (")
         gameResult = GameResult.Loss
     }
     
     func tied() {
-        DDLogInfo("You lose : ( / game tied: (")
+        Log.info?.message("You lose : ( / game tied: (")
         gameResult = GameResult.Draw
     }
     
@@ -411,12 +412,12 @@ class Game {
     func setPlayerHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
             player.playerClass = card
-            DDLogInfo("Player class is \(card) ")
+            Log.info?.message("Player class is \(card) ")
         }
     }
     
     func setPlayerRank(rank: Int) {
-        DDLogInfo("Player rank is \(rank) ")
+        Log.info?.message("Player rank is \(rank) ")
         currentRank = rank
     }
     
@@ -557,7 +558,7 @@ class Game {
     }
     
     func playerFatigue(value: Int) {
-        DDLogInfo("Player get \(value) fatigue")
+        Log.info?.message("Player get \(value) fatigue")
         player.fatigue = value
     }
     
@@ -598,7 +599,7 @@ class Game {
     }
     
     func playerHeroPower(cardId: String, _ turn: Int) {
-        DDLogInfo("Player Hero Power \(cardId) \(turn) ")
+        Log.info?.message("Player Hero Power \(cardId) \(turn) ")
         
         if !Settings.instance.autoGrayoutSecrets {
             return
@@ -611,7 +612,7 @@ class Game {
     func setOpponentHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
             opponent.playerClass = card
-            DDLogInfo("Opponent class is \(card) ")
+            Log.info?.message("Opponent class is \(card) ")
         }
     }
     
@@ -639,7 +640,6 @@ class Game {
     
     func opponentPlay(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
         opponent.play(entity, turn)
-        DDLogVerbose("player opponent play tracker -> \(opponentTracker) ")
         updateOpponentTracker()
         updateCardHuds()
     }
@@ -676,7 +676,7 @@ class Game {
                 heroClass = HeroClass(rawValue: playerClass.playerClass.capitalizedString)
             }
         }
-        DDLogVerbose("Secret played by \(entity.getTag(.CLASS)) -> \(heroClass) -> \(opponent.playerClass)")
+        Log.info?.message("Secret played by \(entity.getTag(.CLASS)) -> \(heroClass) -> \(opponent.playerClass)")
         guard let _ = heroClass else { return }
         
         opponentSecrets?.newSecretPlayed(heroClass!, otherId, turn)
@@ -784,7 +784,7 @@ class Game {
     }
     
     func opponentHeroPower(cardId: String, _ turn: Int) {
-        DDLogInfo("Opponent Hero Power \(cardId) \(turn) ")
+        Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
     }
     
     // MARK: - game actions

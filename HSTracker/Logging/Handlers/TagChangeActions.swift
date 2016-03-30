@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 struct TagChangeActions {
 
@@ -229,7 +230,7 @@ struct TagChangeActions {
     private func stepChange(game: Game) {
         guard !game.setupDone && game.entities.first?.1.name == "GameEntity" else { return }
 
-        DDLogVerbose("Game was already in progress.")
+        Log.info?.message("Game was already in progress.")
         // game.wasInProgress = true
     }
 
@@ -576,10 +577,10 @@ struct TagChangeActions {
     }
 
     private func setHeroAsync(game: Game, _ id: Int) {
-        DDLogVerbose("Found hero with id \(id) ")
+        Log.info?.message("Found hero with id \(id) ")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if game.playerEntity == nil {
-                DDLogVerbose("Waiting for playerEntity")
+                Log.info?.message("Waiting for playerEntity")
                 while game.playerEntity == nil {
                     NSThread.sleepForTimeInterval(0.1)
                 }
@@ -587,8 +588,8 @@ struct TagChangeActions {
 
             if let playerEntity = game.playerEntity,
                 let entity = game.entities[id] {
-                    DDLogVerbose("playerEntity found playerClass : \(game.player.playerClass), \(id) -> \(playerEntity.getTag(.HERO_ENTITY)) -> \(entity.cardId) ")
                     if let cardId = entity.cardId where game.player.playerClass == nil && id == playerEntity.getTag(.HERO_ENTITY) {
+                    Log.info?.message("playerEntity found playerClass : \(game.player.playerClass), \(id) -> \(playerEntity.getTag(.HERO_ENTITY)) -> \(entity) ")
                         dispatch_async(dispatch_get_main_queue()) {
                             game.setPlayerHero(cardId)
                         }
@@ -597,14 +598,14 @@ struct TagChangeActions {
             }
 
             if game.opponentEntity == nil {
-                DDLogVerbose("Waiting for opponentEntity")
+                Log.info?.message("Waiting for opponentEntity")
                 while game.opponentEntity == nil {
                     NSThread.sleepForTimeInterval(0.1)
                 }
             }
             if let opponentEntity = game.opponentEntity,
                 let entity = game.entities[id] {
-                    DDLogVerbose("opponentEntity found playerClass : \(game.opponent.playerClass), \(id) -> \(opponentEntity.getTag(.HERO_ENTITY)) -> \(entity.cardId) ")
+                    Log.info?.message("opponentEntity found playerClass : \(game.opponent.playerClass), \(id) -> \(opponentEntity.getTag(.HERO_ENTITY)) -> \(entity) ")
 
                     if let cardId = entity.cardId where game.opponent.playerClass == nil && id == opponentEntity.getTag(.HERO_ENTITY) {
                         dispatch_async(dispatch_get_main_queue()) {

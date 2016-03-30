@@ -8,6 +8,7 @@
 
 import Foundation
 import Kanna
+import CleanroomLogger
 
 final class HearthstoneDecks: BaseNetImporter, NetImporterAware {
 
@@ -38,13 +39,13 @@ final class HearthstoneDecks: BaseNetImporter, NetImporterAware {
                 if let classNode = doc.at_xpath("//input[@id='classe_nom']") {
                     if let clazz = classNode["value"] {
                         className = HearthstoneDecks.classes[clazz]
-                        DDLogVerbose("found \(className)")
+                        Log.verbose?.message("found \(className)")
                     }
                 }
                 var deckName: String?
                 if let deckNode = doc.at_xpath("//div[@id='content']//h1") {
                     deckName = deckNode.text
-                    DDLogVerbose("found \(deckName)")
+                    Log.verbose?.message("found \(deckName)")
                 }
 
                 var cards = [String: Int]()

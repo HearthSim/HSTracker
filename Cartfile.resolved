@@ -1,0 +1,7 @@
+github "Alamofire/Alamofire" "3.3.0"
+github "emaloney/CleanroomASL" "1.4.0"
+github "bitstadium/HockeySDK-Mac" "3.2.1"
+github "jwilling/JNWCollectionView" "1.4"
+github "tid-kijyun/Kanna" "1.0.6"
+github "shpakovski/MASPreferences" "1.1.4"
+github "emaloney/CleanroomLogger" "2.1.0"

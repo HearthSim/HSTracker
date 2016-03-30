@@ -9,6 +9,7 @@
  */
 
 import Foundation
+import CleanroomLogger
 
 final class LogReader {
     var stopped: Bool = true
@@ -102,7 +103,7 @@ final class LogReader {
         queue = dispatch_queue_create(queueName, nil)
         _lockQueue = dispatch_queue_create("\(queueName).lock", DISPATCH_QUEUE_CONCURRENT)
         if let queue = queue {
-            DDLogVerbose("Starting to track \(name) with queue \(queueName) at offset \(startingPoint)")
+            Log.verbose?.message("Starting to track \(name) with queue \(queueName) at offset \(startingPoint)")
             dispatch_async(queue) {
                 self.readFile()
             }
@@ -183,7 +184,7 @@ final class LogReader {
                 fileSize = _attr.fileSize();
             }
         } catch {
-            print("Error: \(error)")
+            Log.error?.message("\(error)")
         }
         return fileSize
     }
@@ -222,7 +223,7 @@ final class LogReader {
     }
 
     func stop() {
-        DDLogVerbose("Stopping tracker \(name)")
+        Log.info?.message("Stopping tracker \(name)")
         stopped = true
     }
 }

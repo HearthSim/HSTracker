@@ -8,6 +8,7 @@
 
 import Foundation
 import Kanna
+import CleanroomLogger
 
 final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
 
@@ -30,7 +31,7 @@ final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
                     return
                 }
 
-                DDLogVerbose("\(playerClass)")
+                Log.verbose?.message("\(playerClass)")
 
                 let cardIds = urlParts.last?.characters.split { $0 == ";" }.map(String.init)
                 var cards = [String: Int]()
@@ -38,7 +39,7 @@ final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
                     let split = str.characters.split(":").map(String.init)
                     if let id = split.first, let count = Int(split.last!) {
                         if let node = doc.at_xpath("//tr[@data-id='\(id)']/td[1]/b"), cardId = node.text {
-                            DDLogVerbose("id : \(id) count : \(count) text : \(node.text)")
+                            Log.verbose?.message("id : \(id) count : \(count) text : \(node.text)")
                             if let card = Cards.byEnglishName(cardId) {
                                 cards[card.cardId] = count
                             }

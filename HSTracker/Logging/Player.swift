@@ -9,6 +9,7 @@
  */
 
 import Foundation
+import CleanroomLogger
 
 class DynamicEntity: Hashable {
     var cardId: String

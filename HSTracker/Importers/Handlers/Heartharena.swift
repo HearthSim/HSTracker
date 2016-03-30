@@ -8,6 +8,7 @@
 
 import Foundation
 import Kanna
+import CleanroomLogger
 
 final class Heartharena: BaseNetImporter, NetImporterAware {
 
@@ -29,7 +30,7 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
                     if let className = className {
                         deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""), className, NSDate().shortDateString())
                     }
-                    DDLogVerbose("found \(className) / name : \(deckName)")
+                    Log.verbose?.message("found \(className) / name : \(deckName)")
                 }
 
                 var cards = [String: Int]()
@@ -38,8 +39,8 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
                         let count = Int(qty),
                         let cardName = cardNode.at_xpath("span[@class='name']")?.text,
                         let card = Cards.byEnglishName(cardName) {
-                            DDLogVerbose("qty : \(count) name: \(card.cardId)")
                             cards[card.cardId] = count
+                            Log.verbose?.message("qty : \(count) name: \(card.id)")
                     }
                 }
 
