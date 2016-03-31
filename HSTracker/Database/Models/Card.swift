@@ -10,19 +10,19 @@ import Foundation
 
 final class Card : Hashable, CustomStringConvertible {
 
-    var cardId: String = ""
+    var id: String = ""
     var collectible: Bool = false
     var cost: Int = 0
     var faction: String = ""
     var flavor: String = ""
     var health: Int = 0
-    var name: String = ""
+    var name: String = "unknown"
     var enName: String = ""
     var playerClass: String = ""
-    var rarity: Rarity?
+    var rarity: Rarity = .Free
     var set: String = ""
     var text: String = ""
-    var type: String = ""
+    var type: String = "unknown"
     // var mechanics: Set<CardMechanic>
     var isStandard: Bool = false
 
@@ -67,7 +67,7 @@ final class Card : Hashable, CustomStringConvertible {
 
     func copy() -> Card {
         let copy = Card()
-        copy.cardId = self.cardId
+        copy.id = self.id
         copy.collectible = self.collectible
         copy.cost = self.cost
         copy.faction = self.faction
@@ -100,13 +100,13 @@ final class Card : Hashable, CustomStringConvertible {
          + ", self.name=\(self.name)"
          + ", self.enName=\(self.enName)"
          + ", self.count=\(self.count)>"*/
-        return "[\(self.name)(\(self.cardId)):\(self.count)]"
+        return "[\(name)(\(id)):\(count)]"
     }
 
     var hashValue: Int {
-        return cardId.hashValue
+        return id.hashValue
     }
 }
 func == (lhs: Card, rhs: Card) -> Bool {
-    return lhs.cardId == rhs.cardId
+    return lhs.id == rhs.id
 }

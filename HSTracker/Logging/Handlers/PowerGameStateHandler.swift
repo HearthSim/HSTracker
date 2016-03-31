@@ -41,8 +41,11 @@ class PowerGameStateHandler {
                     entity.name = "GameEntity"
                     game.entities[id] = entity
                 }
-                game.currentEntityId = id
-                setup = true
+                game.setCurrentEntity(id)
+                if game.determinedPlayers {
+                    tagChangeHandler.invokeQueuedActions(game)
+                }
+                return
             }
         }
 
@@ -53,11 +56,14 @@ class PowerGameStateHandler {
                 if game.entities[id] == .None {
                     game.entities[id] = Entity(id)
                 }
-                game.currentEntityId = id
-                setup = true
                 /*if game.wasInProgress {
                     game.entities[id].name = game.getStoredPlayerName(id)
                 }*/
+                game.setCurrentEntity(id)
+                if game.determinedPlayers {
+                    tagChangeHandler.invokeQueuedActions(game)
+                }
+                return
             }
         }
 
@@ -118,7 +124,7 @@ class PowerGameStateHandler {
                         if let entity = entity, tmpEntity = tmpEntity {
                             entity.name = tmpEntity.name
                             tmpEntity.tags.forEach({ (gameTag, val) in
-                                tagChangeHandler.tagChange(game, gameTag, tmpEntity.getTag(.ENTITY_ID), val)
+                                tagChangeHandler.tagChange(game, gameTag, tmpEntity.id, val)
                             })
                             setPlayerName(game, entity.getTag(.PLAYER_ID), tmpEntity.name!)
                             game.tmpEntities.remove(tmpEntity)
@@ -176,10 +182,13 @@ class PowerGameStateHandler {
                 game.entities[id]!.cardId = cardId
             }
 
-            game.currentEntityId = id
+            game.setCurrentEntity(id)
+            if game.determinedPlayers {
+                tagChangeHandler.invokeQueuedActions(game)
+            }
             game.currentEntityHasCardId = !String.isNullOrEmpty(cardId)
-            game.currentEntityZone = Zone(rawString: zone)
-            setup = true
+            game.currentEntityZone = Zone(rawString: zone)!
+            return
         }
 
         else if line.match(UpdatingEntityRegex) {
@@ -203,24 +212,28 @@ class PowerGameStateHandler {
 
             if let entityId = entityId {
                 //print("**** Updating entity '\(entityId)' with card '\(cardId)'")
-                game.currentEntityId = entityId
                 if game.entities[entityId] == .None {
                     let entity = Entity(entityId)
                     game.entities[entityId] = entity
                 }
                 game.entities[entityId]!.cardId = cardId
+                game.setCurrentEntity(entityId)
+                if game.determinedPlayers {
+                    tagChangeHandler.invokeQueuedActions(game)
+                }
             }
 
             if game.joustReveals > 0 {
                 if let currentEntity = game.entities[entityId!] {
-                    if currentEntity.isControlledBy(game.opponent.id!) {
+                    if currentEntity.isControlledBy(game.opponent.id) {
                         game.opponentJoust(currentEntity, cardId, game.turnNumber())
                     }
-                    else if currentEntity.isControlledBy(game.player.id!) {
+                    else if currentEntity.isControlledBy(game.player.id) {
                         game.playerJoust(currentEntity, cardId, game.turnNumber())
                     }
                 }
             }
+            return
         }
 
         else if line.match(CreationTagRegex) && !line.contains("HIDE_ENTITY") {
@@ -267,8 +280,8 @@ class PowerGameStateHandler {
             if type == "TRIGGER" {
                 if actionStartingCardId == CardIds.Collectible.Rogue.TradePrinceGallywix {
                     if let lastCardPlayed = game.lastCardPlayed,
-                        let entity = game.entities[lastCardPlayed],
-                        let cardId = entity.cardId {
+                        let entity = game.entities[lastCardPlayed] {
+                            let cardId = entity.cardId
                             addKnownCardId(cardId)
                     }
                     addKnownCardId(CardIds.NonCollectible.Neutral.GallywixsCoinToken)
@@ -321,21 +334,24 @@ class PowerGameStateHandler {
             tagChangeHandler.clearQueuedActions()
         }
 
-        if !setup {
-            game.setupDone = true
-        }
-
-        guard !game.isInMenu else { return }
+        if game.isInMenu { return }
 
         if !creationTag && game.determinedPlayers {
-            tagChangeHandler.invokeQueuedActions()
+            tagChangeHandler.invokeQueuedActions(game)
         }
-        else if !game.determinedPlayers && game.setupDone
+        if !creationTag {
+            game.resetCurrentEntity()
+        }
+        if !game.determinedPlayers && game.setupDone
         {
             if let playerCard = game.entities.map({ $0.1 })
                 .firstWhere({ $0.isInHand && !String.isNullOrEmpty($0.cardId) && $0.hasTag(.CONTROLLER) }) {
                     tagChangeHandler.determinePlayers(game, playerCard.getTag(.CONTROLLER), false)
             }
+        }
+        
+        if !setup {
+            game.setupDone = true
         }
     }
 
@@ -370,6 +386,10 @@ class PowerGameStateHandler {
     private func getMaxEntityId() -> Int {
         let game = Game.instance
         return [game.entities.count, game.maxId].maxElement()!
+    }
+    
+    private func reset() {
+        tagChangeHandler.clearQueuedActions()
     }
 
     private func setPlayerName(game: Game, _ playerId: Int, _ name: String) {

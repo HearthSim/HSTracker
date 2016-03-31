@@ -204,7 +204,7 @@ struct HearthstatsAPI {
                 "name": deck.name ?? "",
                 "tags": [],
                 "notes": "",
-                "cards": deck.sortedCards.map {["id": $0.cardId, "count": $0.count]},
+                "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
                 "class": deck.playerClass.capitalizedString,
                 "version": deck.version
             ], encoding: .JSON)
@@ -235,7 +235,7 @@ struct HearthstatsAPI {
                 "name": deck.name ?? "",
                 "tags": [],
                 "notes": "",
-                "cards": deck.sortedCards.map {["id": $0.cardId, "count": $0.count]},
+                "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
                 "class": deck.playerClass.capitalizedString
             ], encoding: .JSON)
             .responseJSON { response in
@@ -261,7 +261,7 @@ struct HearthstatsAPI {
         Alamofire.request(.POST, "\(baseUrl)/decks/create_version?auth_token=\(settings.hearthstatsToken!)",
             parameters: [
                 "deck_id": deck.hearthstatsId!,
-                "cards": deck.sortedCards.map {["id": $0.cardId, "count": $0.count]},
+                "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
                 "version": deck.version
             ], encoding: .JSON)
             .responseJSON { response in

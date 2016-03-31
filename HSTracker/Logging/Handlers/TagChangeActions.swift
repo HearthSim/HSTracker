@@ -99,9 +99,12 @@ struct TagChangeActions {
     }
 
     private func controllerChange(game: Game, _ id: Int, _ prevValue: Int, _ value: Int) {
-        guard prevValue > 0 else { return }
-        
         if let entity = game.entities[id] {
+            if prevValue <= 0 {
+                entity.info.originalController = value
+                return
+            }
+            
             guard !entity.hasTag(.PLAYER_ID) else { return }
 
             if value == game.player.id {
@@ -115,7 +118,7 @@ struct TagChangeActions {
             }
             else if value == game.opponent.id {
                 if entity.isInZone(.SECRET) {
-                    game.opponentStolen(entity, entity.cardId, game.turnNumber())
+                    game.playerStolen(entity, entity.cardId, game.turnNumber())
                     game.proposeKeyPoint(.SecretStolen, id, .Player)
                 }
                 else if entity.isInZone(.PLAY) {
@@ -176,22 +179,18 @@ struct TagChangeActions {
             if zone == Zone.HAND.rawValue {
                 if controller == game.player.id {
                     ReplayMaker.generate(.HandPos, id, .Player, game)
-                    game.zonePositionUpdate(.Player, entity, .HAND, game.turnNumber())
                 }
                 else if controller == game.opponent.id {
                     ReplayMaker.generate(.HandPos, id, .Opponent, game)
-                    game.zonePositionUpdate(.Opponent, entity, .HAND, game.turnNumber())
                 }
             }
             else if zone == Zone.PLAY.rawValue
             {
                 if controller == game.player.id {
                     ReplayMaker.generate(.BoardPos, id, .Player, game)
-                    game.zonePositionUpdate(.Player, entity, .PLAY, game.turnNumber())
                 }
                 else if controller == game.opponent.id {
                     ReplayMaker.generate(.BoardPos, id, .Opponent, game)
-                    game.zonePositionUpdate(.Opponent, entity, .PLAY, game.turnNumber())
                 }
             }
         }
@@ -314,10 +313,15 @@ struct TagChangeActions {
     }
 
     private func simulateZoneChangesFromDeck(game: Game, _ id: Int, _ value: Int, _ cardId: String?, _ maxId: Int) {
-        if value == Zone.DECK.rawValue || value == Zone.SETASIDE.rawValue {
+        if value == Zone.DECK.rawValue {
             return
         }
         if let entity = game.entities[id] {
+            if value == Zone.SETASIDE.rawValue {
+                entity.info.created = true
+                return
+            }
+            
             if entity.isHero || entity.isHeroPower || entity.hasTag(.PLAYER_ID) || entity.getTag(.CARDTYPE) == CardType.GAME.rawValue || entity.hasTag(.CREATOR) {
                 return
             }
@@ -335,7 +339,10 @@ struct TagChangeActions {
     }
 
     private func zoneChangeFromOther(game: Game, _ id: Int, _ value: Int, _ prevValue: Int, _ controller: Int, _ cardId: String?) {
-        if let value = Zone(rawValue: value), let entity = game.entities[id] {
+        if let value = Zone(rawValue: value), entity = game.entities[id] {
+            //print("**** CHANGE \(value), entity \(entity), controller: \(controller), playerId: \(game.player.id), opponentId: \(game.opponent.id)")
+            entity.info.created = true
+            
             switch value {
             case .PLAY:
                 if controller == game.player.id {
@@ -516,9 +523,6 @@ struct TagChangeActions {
                     game.proposeKeyPoint(.Draw, id, .Player)
                 }
                 else if controller == game.opponent.id {
-                    if !String.isNullOrEmpty(entity.cardId) {
-                        entity.cardId = ""
-                    }
                     game.opponentDraw(entity, game.turnNumber())
                     game.proposeKeyPoint(.Draw, id, .Opponent)
                 }
@@ -588,8 +592,9 @@ struct TagChangeActions {
 
             if let playerEntity = game.playerEntity,
                 let entity = game.entities[id] {
-                    if let cardId = entity.cardId where game.player.playerClass == nil && id == playerEntity.getTag(.HERO_ENTITY) {
                     Log.info?.message("playerEntity found playerClass : \(game.player.playerClass), \(id) -> \(playerEntity.getTag(.HERO_ENTITY)) -> \(entity) ")
+                    if game.player.playerClass == nil && id == playerEntity.getTag(.HERO_ENTITY) {
+                        let cardId = entity.cardId
                         dispatch_async(dispatch_get_main_queue()) {
                             game.setPlayerHero(cardId)
                         }
@@ -607,7 +612,8 @@ struct TagChangeActions {
                 let entity = game.entities[id] {
                     Log.info?.message("opponentEntity found playerClass : \(game.opponent.playerClass), \(id) -> \(opponentEntity.getTag(.HERO_ENTITY)) -> \(entity) ")
 
-                    if let cardId = entity.cardId where game.opponent.playerClass == nil && id == opponentEntity.getTag(.HERO_ENTITY) {
+                    if game.opponent.playerClass == nil && id == opponentEntity.getTag(.HERO_ENTITY) {
+                        let cardId = entity.cardId
                         dispatch_async(dispatch_get_main_queue()) {
                             game.setOpponentHero(cardId)
                         }

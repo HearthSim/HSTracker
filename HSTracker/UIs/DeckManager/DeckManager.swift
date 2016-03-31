@@ -292,7 +292,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         if let cell = currentCell, deck = cell.deck {
             Settings.instance.activeDeck = deck.deckId
             Game.instance.setActiveDeck(deck)
-            Game.instance.playerTracker?.update()
+            Game.instance.updatePlayerTracker()
         }
     }
 

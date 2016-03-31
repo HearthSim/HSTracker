@@ -40,20 +40,20 @@ final class ReplayMaker {
                     // adventure bosses
                     opponentHero = points.last?.data.firstWhere({
                         !String.isNullOrEmpty($0.cardId)
-                                    && (($0.cardId!.startsWith("NAX") && $0.cardId!.contains("_01"))
-                                        || $0.cardId!.startsWith("BRMA"))
-                            && Cards.heroById($0.cardId!) != nil})
+                                    && (($0.cardId.startsWith("NAX") && $0.cardId.contains("_01"))
+                                        || $0.cardId.startsWith("BRMA")) && Cards.heroById($0.cardId) != nil
+                    })
                     if opponentHero == nil {
                         Log.warning?.message("Replay : opponentHero is nil")
                         return
                     }
-                    resolveOpponentName(Cards.heroById(opponentHero!.cardId!)?.name)
+                    resolveOpponentName(Cards.heroById(opponentHero!.cardId)?.name)
                 }
                 
                 if let playerName = player.name,
-                    let playerHeroName = Cards.heroById(playerHero!.cardId!)?.name,
+                    let playerHeroName = Cards.heroById(playerHero!.cardId)?.name,
                     let opponentName = opponent.name,
-                    let opponentHeroName = Cards.heroById(opponentHero!.cardId!)?.name {
+                    let opponentHeroName = Cards.heroById(opponentHero!.cardId)?.name {
                         let filename = "\(playerName)(\(playerHeroName)) vs \(opponentName)(\(opponentHeroName)) \(NSDate().getUTCFormateDate())"
                         Log.info?.message("will save to \(filename)")
                         //print("\(points.toDict())")
@@ -157,7 +157,7 @@ final class ReplayMaker {
 
         var onBoard = [Entity]()
         for kp in points {
-            let currentBoard = kp.data.filter { $0.isInZone(.PLAY) && $0.hasTag(.HEALTH) && !String.isNullOrEmpty($0.cardId) && !$0.cardId!.contains("HERO") }
+            let currentBoard = kp.data.filter { $0.isInZone(.PLAY) && $0.hasTag(.HEALTH) && !String.isNullOrEmpty($0.cardId) && !$0.cardId.contains("HERO") }
             if onBoard.all({ (e) in currentBoard.any({ (e2) in e2.id == e.id }) }) && currentBoard.all({ (e) in onBoard.any({ (e2) in e2.id == e.id }) })
             {
                 for entity in currentBoard {

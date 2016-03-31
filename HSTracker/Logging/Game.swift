@@ -46,11 +46,11 @@ class Game {
     var cardHuds: [CardHud]?
     var lastCardPlayed: Int?
     var activeDeck: Deck?
-    var currentEntityId = Int.min
+    var currentEntityId = 0
     var currentEntityHasCardId = false
     var playerUsedHeroPower = false
     var hasCoin = false
-    var currentEntityZone: Zone? = .INVALID
+    var currentEntityZone: Zone = .INVALID
     var opponentUsedHeroPower = false
     var determinedPlayers = false
     var setupDone = false
@@ -65,8 +65,8 @@ class Game {
     var endGameStats = false
     var wasInProgress = false
     
-    var lastPlayerUpdateRequest = NSDate.distantPast().timeIntervalSince1970
-    var lastOpponentUpdateRequest = NSDate.distantPast().timeIntervalSince1970
+    var playerUpdateRequests = 0
+    var opponentUpdateRequests = 0
     var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
     
     var playerEntity: Entity? {
@@ -86,12 +86,12 @@ class Game {
     }
     
     var isOpponentMinionInPlay: Bool {
-        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id!) } != nil
+        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id) } != nil
     }
     
-    var opponentMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id!) }.count }
+    var opponentMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.opponent.id) }.count }
     
-    var playerMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.player.id!) }.count }
+    var playerMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.player.id) }.count }
     
     static let instance = Game()
     
@@ -103,31 +103,43 @@ class Game {
     
     func reset() {
         Log.verbose?.message("Reseting Game")
+        currentTurn = 0
+        currentRank = 0
         maxId = 0
-        currentTurn = -1
+        lastId = 0
+        
         entities.removeAll()
         tmpEntities.removeAll()
-        lastCardPlayed = 0
-        joustReveals = 0
-        awaitingRankedDetection = false
-        lastAssetUnload = -1
-        gameResult = .Unknow
         knownCardIds.removeAll()
+        joustReveals = 0
+        awaitingRankedDetection = true
+        lastAssetUnload = 0
+        gameStarted = false
+        gameEnded = true
         gameStartDate = nil
+        gameResult = .Unknow
         gameEndDate = nil
-        gameEnded = false
-        determinedPlayers = false
-        setupDone = false
-        currentEntityZone = .INVALID
-        currentEntityId = Int.min
+        waitingForFirstAssetUnload = true
+        lastCardPlayed = nil
+        currentEntityId = 0
         currentEntityHasCardId = false
         playerUsedHeroPower = false
         hasCoin = false
+        currentEntityZone = .INVALID
+        opponentUsedHeroPower = false
+        determinedPlayers = false
+        setupDone = false
+        proposedKeyPoint = nil
+        opponentSecrets?.clearSecrets()
+        defendingEntity = nil
+        attackingEntity = nil
+        avengeDeathRattleCount = 0
+        opponentSecretCount = 0
+        awaitingAvenge = false
+        isInMenu = true
         endGameStats = false
         wasInProgress = false
         
-        opponentSecretCount = 0
-        opponentSecrets?.clearSecrets()
         dispatch_async(dispatch_get_main_queue()) {
             self.secretTracker?.window?.orderOut(self)
             self.timerHud?.window?.orderOut(self)
@@ -140,32 +152,29 @@ class Game {
         
         if let activeDeck = activeDeck {
             activeDeck.reset()
-            addDeckCards()
         }
         Log.verbose?.message("Game resetted")
     }
     
+    func setCurrentEntity(id:Int) {
+        currentEntityId = id
+        if let entity = entities[id] {
+            entity.info.hasOutstandingTagChanges = true
+        }
+    }
+    
+    func resetCurrentEntity() {
+        currentEntityId = 0
+    }
+    
     func setActiveDeck(deck: Deck) {
         self.activeDeck = deck
-        addDeckCards()
         updatePlayerTracker()
     }
     
     func removeActiveDeck() {
         self.activeDeck = nil
-        player.resetDeck()
         updatePlayerTracker()
-    }
-    
-    private func addDeckCards() {
-        player.resetDeck()
-        if let deck = activeDeck {
-            for card in deck.sortedCards {
-                for _ in 0 ..< card.count {
-                    player.revealDeckCard(card.cardId, -1)
-                }
-            }
-        }
     }
     
     func setPlayerTracker(tracker: Tracker?) {
@@ -202,13 +211,14 @@ class Game {
         reset()
         gameStarted = true
         gameStartDate = NSDate()
+        gameEnded = false
         isInMenu = false
         
         Log.info?.message("----- Game Started -----")
         
+        self.updatePlayerTracker(true)
+        self.updateOpponentTracker(true)
         dispatch_async(dispatch_get_main_queue()) {
-            self.playerTracker?.gameStart()
-            self.opponentTracker?.gameStart()
             self.timerHud?.showWindow(self)
             
             TurnTimer.instance.start(self)
@@ -224,8 +234,6 @@ class Game {
         
         TurnTimer.instance.stop()
         
-        self.playerTracker?.gameEnd()
-        self.opponentTracker?.gameEnd()
         dispatch_async(dispatch_get_main_queue()) {
             self.timerHud?.window?.orderOut(self)
             self.cardHuds?.forEach {
@@ -275,15 +283,15 @@ class Game {
         if let deck = activeDeck, opponentName = opponent.name, opponentClass = opponent.playerClass {
             let statistic = Statistic()
             statistic.opponentName = opponentName
-            statistic.opponentClass = opponentClass.playerClass.lowercaseString
+            statistic.opponentClass = opponentClass.lowercaseString
             statistic.gameResult = gameResult
             statistic.hasCoin = hasCoin
             statistic.playerRank = currentRank
             statistic.playerMode = currentGameMode
             statistic.numTurns = turnNumber()
             var cards = [String: Int]()
-            opponent.displayReveleadCards().forEach({
-                cards[$0.cardId] = $0.count
+            opponent.displayRevealedCards.forEach({
+                cards[$0.id] = $0.count
             })
             statistic.cards = cards
             deck.addStatistic(statistic)
@@ -382,16 +390,6 @@ class Game {
         return false
     }
     
-    func zonePositionUpdate(playerType: PlayerType, _ entity: Entity, _ zone: Zone, _ turn: Int) {
-        if playerType == .Player {
-            player.updateZonePos(entity, zone, turn)
-        }
-        else if playerType == .Opponent {
-            opponent.updateZonePos(entity, zone, turn)
-            updateCardHuds()
-        }
-    }
-    
     // MARK: - Replay
     func proposeKeyPoint(type: KeyPointType, _ id: Int, _ player: PlayerType) {
         if let proposedKeyPoint = proposedKeyPoint {
@@ -411,7 +409,7 @@ class Game {
     // MARK: - player
     func setPlayerHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
-            player.playerClass = card
+            player.playerClass = card.playerClass
             Log.info?.message("Player class is \(card) ")
         }
     }
@@ -578,13 +576,13 @@ class Game {
                 heroClass = HeroClass(rawValue: className)
                 if heroClass == .None {
                     if let playerClass = opponent.playerClass {
-                        heroClass = HeroClass(rawValue: playerClass.playerClass)
+                        heroClass = HeroClass(rawValue: playerClass)
                     }
                 }
             }
             else {
                 if let playerClass = opponent.playerClass {
-                    heroClass = HeroClass(rawValue: playerClass.playerClass)
+                    heroClass = HeroClass(rawValue: playerClass)
                 }
             }
             guard let _ = heroClass else { return }
@@ -611,7 +609,7 @@ class Game {
     // MARK: - opponent
     func setOpponentHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
-            opponent.playerClass = card
+            opponent.playerClass = card.playerClass
             Log.info?.message("Opponent class is \(card) ")
         }
     }
@@ -621,6 +619,10 @@ class Game {
     }
     
     func opponentGet(entity: Entity, _ turn: Int, _ id: Int) {
+        if !isMulliganDone() && entity.getTag(.ZONE_POSITION) == 5 {
+            entity.cardId = CardIds.NonCollectible.Neutral.TheCoin
+        }
+
         opponent.createInHand(entity, turn)
         updateOpponentTracker()
         updateCardHuds()
@@ -645,7 +647,7 @@ class Game {
     }
     
     func opponentHandDiscard(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int) {
-        opponent.play(entity, turn)
+        opponent.handDiscard(entity, turn)
         updateOpponentTracker()
         updateCardHuds()
     }
@@ -667,13 +669,13 @@ class Game {
             heroClass = HeroClass(rawValue: className)
             if heroClass == .None {
                 if let playerClass = opponent.playerClass {
-                    heroClass = HeroClass(rawValue: playerClass.playerClass.capitalizedString)
+                    heroClass = HeroClass(rawValue: playerClass.capitalizedString)
                 }
             }
         }
         else {
             if let playerClass = opponent.playerClass {
-                heroClass = HeroClass(rawValue: playerClass.playerClass.capitalizedString)
+                heroClass = HeroClass(rawValue: playerClass.capitalizedString)
             }
         }
         Log.info?.message("Secret played by \(entity.getTag(.CLASS)) -> \(heroClass) -> \(opponent.playerClass)")
@@ -825,7 +827,7 @@ class Game {
         
         var numDeathrattleMinions = 0
         if entity.isActiveDeathrattle {
-            if let count = CardIds.DeathrattleSummonCardIds[entity.cardId!] {
+            if let count = CardIds.DeathrattleSummonCardIds[entity.cardId] {
                 numDeathrattleMinions = count
             }
             else {
@@ -895,7 +897,7 @@ class Game {
         if !Settings.instance.autoGrayoutSecrets {
             return
         }
-        if !entity.isHero || !entity.isControlledBy(opponent.id!) {
+        if !entity.isHero || !entity.isControlledBy(opponent.id) {
             return
         }
         opponentSecrets?.setZero(CardIds.Secrets.Paladin.EyeForAnEye)
@@ -955,38 +957,47 @@ class Game {
         }
     }
     
-    
-    private func updateTracker(tracker: Tracker?) {
+    private func updateTracker(tracker: Tracker?, _ reset: Bool = false) {
         if tracker == playerTracker {
-            lastPlayerUpdateRequest = NSDate().timeIntervalSince1970
+            playerUpdateRequests += 1
         }
         else {
-            lastOpponentUpdateRequest = NSDate().timeIntervalSince1970
+            opponentUpdateRequests += 1
         }
         
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
         let queue = dispatch_get_main_queue()
         dispatch_after(when, queue) {
-            let time: Double
+            let updateRequests: Int
+            let cards: [Card]
             if tracker == self.playerTracker {
-                time = self.lastPlayerUpdateRequest
+                self.playerUpdateRequests -= 1
+                updateRequests = self.playerUpdateRequests
             }
             else {
-                time = self.lastOpponentUpdateRequest
+                self.opponentUpdateRequests -= 1
+                updateRequests = self.opponentUpdateRequests
             }
-            if NSDate().timeIntervalSince1970 - time < 0.1 {
+            
+            if updateRequests > 0 {
                 return
             }
-            tracker?.update()
+            if tracker == self.playerTracker {
+                cards = self.player.playerCardList
+            }
+            else {
+                cards = self.opponent.opponentCardList
+            }
+            tracker?.update(cards, reset)
         }
     }
     
-    func updatePlayerTracker() {
-        updateTracker(playerTracker)
+    func updatePlayerTracker(reset: Bool = false) {
+        updateTracker(playerTracker, reset)
     }
     
-    func updateOpponentTracker() {
-        updateTracker(opponentTracker)
+    func updateOpponentTracker(reset: Bool = false) {
+        updateTracker(opponentTracker, reset)
     }
     
     func hearthstoneIsActive(active: Bool) {

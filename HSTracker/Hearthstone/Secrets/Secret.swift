@@ -26,8 +26,7 @@ class Secret {
         return (Settings.instance.autoGrayoutSecrets
             && (game.currentGameMode == .Casual || game.currentGameMode == .Ranked
                 || game.currentGameMode == .Friendly || game.currentGameMode == .Practice || activeDeckIsConstructed)
-            && game.opponent.revealedCards.filter { $0.entity != nil }
-                .filter { $0.entity!.id < 68 && $0.entity!.cardId == self.cardId }
+            && game.opponent.revealedEntities.filter { $0.id < 68 && $0.cardId == self.cardId }
                 .count >= 2) ? 0 : self.count
     }
 }

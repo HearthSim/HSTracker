@@ -37,12 +37,12 @@ final class LogReader {
         }
         
         self.path = Hearthstone.instance.logPath + "/\(name).log"
-        DDLogInfo("Init reader for \(name) at path \(self.path)")
-        if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
+        Log.info?.message("Init reader for \(name) at path \(self.path)")
+        /*if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
             do {
                 try NSFileManager.defaultManager().removeItemAtPath(self.path)
             } catch { }
-        }
+        }*/
     }
 
     func findEntryPoint(choice: String) -> Double {
@@ -146,12 +146,12 @@ final class LogReader {
                                 if (self.startFilters.count == 0 && self.containsFilters.count == 0)
                                     || self.startFilters.any({ cutted.startsWith($0) })
                                     || self.containsFilters.any({ cutted.containsString($0) }) {
-                                        let time = self.parseTime(line)
-                                        if time.timeIntervalSince1970 < self.startingPoint {
-                                            continue
-                                        }
-                                        
-                                        self.lines.append(LogLine(namespace: self.name, time: Int(time.timeIntervalSince1970), line: line))
+                                    let time = self.parseTime(line)
+                                    if time.timeIntervalSince1970 < self.startingPoint {
+                                        continue
+                                    }
+                                    
+                                    self.lines.append(LogLine(namespace: self.name, time: Int(time.timeIntervalSince1970), line: line))
                                 }
                             }
                         }
@@ -160,7 +160,7 @@ final class LogReader {
                     if !NSFileManager.defaultManager().fileExistsAtPath(self.path) || self.offset > self.fileSize() {
                         fileHandle = nil
                     }
-            }
+                }
             }
             NSThread.sleepForTimeInterval(0.1)
         }

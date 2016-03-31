@@ -120,7 +120,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if let deck = Decks.byId(activeDeck) {
                     NSOperationQueue.mainQueue().addOperationWithBlock() {
                         game.setActiveDeck(deck)
-                        self.playerTracker?.update()
+                        game.updatePlayerTracker()
                     }
                 }
             }
@@ -366,7 +366,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let deck = sender.representedObject as? Deck {
             Settings.instance.activeDeck = deck.deckId
             Game.instance.setActiveDeck(deck)
-            Game.instance.playerTracker?.update()
+            Game.instance.updatePlayerTracker()
         }
     }
     

@@ -24,13 +24,16 @@ import CleanroomLogger
     
     func setPlayer(player: PlayerType)
     {
-        guard let _ = game else {return}
+        guard let _ = game else {
+            seconds = 75
+            return
+        }
         
         if player == .Player && game!.playerEntity != nil {
-            seconds = game!.playerEntity!.hasTag(.TIMEOUT) ? game!.playerEntity!.getTag(.TIMEOUT) : Int.max
+            seconds = game!.playerEntity!.hasTag(.TIMEOUT) ? game!.playerEntity!.getTag(.TIMEOUT) : 75
         }
         else if player == .Opponent && game!.opponentEntity != nil {
-            seconds = game!.opponentEntity!.hasTag(.TIMEOUT) ? game!.opponentEntity!.getTag(.TIMEOUT) : Int.max
+            seconds = game!.opponentEntity!.hasTag(.TIMEOUT) ? game!.opponentEntity!.getTag(.TIMEOUT) : 75
         }
         else {
             seconds = 75

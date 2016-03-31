@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 final class Decks {
     private static var _decks: [String: Deck]?
@@ -25,7 +26,7 @@ final class Decks {
     private static func loadJsonDecks() -> [String: [String: AnyObject]] {
         if let jsonFile = savePath,
             let jsonData = NSData(contentsOfFile: jsonFile) {
-                DDLogVerbose("json file : \(jsonFile)")
+                Log.verbose?.message("json file : \(jsonFile)")
                 do {
                     let decks: [String: [String: AnyObject]] = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [String: [String: AnyObject]]
                     return decks
@@ -134,7 +135,7 @@ final class Deck : Hashable, CustomStringConvertible {
     }
 
     func addCard(card: Card) {
-        if let _card = _cards.firstWhere({ $0.cardId == card.cardId }) {
+        if let _card = _cards.firstWhere({ $0.id == card.id }) {
             _card.count += 1
         }
         else {
@@ -147,7 +148,7 @@ final class Deck : Hashable, CustomStringConvertible {
     }
 
     func removeCard(card: Card) {
-        if let _card = _cards.firstWhere({ $0.cardId == card.cardId }) {
+        if let _card = _cards.firstWhere({ $0.id == card.id }) {
             _card.count -= 1
             if _card.count <= 0 {
                 _cards.remove(_card)
@@ -169,7 +170,7 @@ final class Deck : Hashable, CustomStringConvertible {
         else {
             var cards = [Card]()
             for deckCard in _cards {
-                if let card = Cards.byId(deckCard.cardId) {
+                if let card = Cards.byId(deckCard.id) {
                     card.count = deckCard.count
                     cards.append(card)
                 }

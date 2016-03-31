@@ -13,16 +13,21 @@ import CleanroomLogger
 
 class DynamicEntity: Hashable {
     var cardId: String
-    var hidden, created, discarded: Bool
+    var stolen, hidden, created, isInHand, discarded: Bool
     var cardMark: CardMark
+    var entity: Entity?
     
     init(cardId: String, hidden: Bool = false, created: Bool = false,
-         cardMark: CardMark = CardMark.None, discarded: Bool = false) {
+         cardMark: CardMark = CardMark.None, discarded: Bool = false,
+         stolen: Bool = false, isInHand: Bool = false, entity: Entity? = nil) {
         self.cardId = cardId
         self.hidden = hidden
         self.created = created
         self.discarded = discarded
         self.cardMark = cardMark
+        self.stolen = stolen
+        self.isInHand = isInHand
+        self.entity = entity
     }
     
     var hashValue: Int {
@@ -30,7 +35,9 @@ class DynamicEntity: Hashable {
             hidden.hashValue ^
             created.hashValue ^
             discarded.hashValue ^
-            cardMark.hashValue
+            stolen.hashValue ^
+            cardMark.hashValue ^
+            isInHand.hashValue
     }
 }
 func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
@@ -38,28 +45,80 @@ func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
         lhs.hidden == rhs.hidden &&
         lhs.created == lhs.created &&
         lhs.discarded == rhs.discarded &&
-        lhs.cardMark == rhs.cardMark
+        lhs.cardMark == rhs.cardMark &&
+        lhs.stolen == rhs.stolen &&
+        lhs.isInHand == rhs.isInHand
+}
+
+class DeckState {
+    private(set) var remainingInDeck:[Card]
+    private(set) var removedFromDeck:[Card]
+    
+    init(remainingInDeck:[Card], removedFromDeck:[Card]) {
+        self.removedFromDeck = removedFromDeck
+        self.remainingInDeck = remainingInDeck
+    }
+}
+
+class PredictedCard : Hashable {
+    var cardId: String
+    var turn: Int
+    
+    init(cardId: String, turn: Int) {
+        self.cardId = cardId
+        self.turn = turn
+    }
+    
+    var hashValue: Int {
+        return cardId.hashValue ^ turn.hashValue
+    }
+}
+func == (lhs: PredictedCard, rhs: PredictedCard) -> Bool {
+    return lhs.cardId == rhs.cardId && lhs.turn == rhs.turn
 }
 
 final class Player {
-    lazy var revealedCards = [CardEntity]()
-    lazy var hand = [CardEntity]()
-    lazy var board = [CardEntity]()
-    lazy var deck = [CardEntity]()
-    lazy var graveyard = [CardEntity]()
-    lazy var secrets = [CardEntity]()
-    lazy var removed = [CardEntity]()
-    lazy var drawnCardIds = [String]()
-    lazy var drawnCardIdsTotal = [String]()
-    lazy var createdInHandCardIds = [String]()
-    lazy var hightlightedCards = [String]()
+    var playerClass: String?
     var isLocalPlayer: Bool
-    var id: Int?
-    var playerClass: Card?
-    var name: String?
-    var tracker: Tracker?
+    var id: Int = -1
     var goingFirst: Bool = false
     var fatigue: Int = 0
+    
+    var hasCoin: Bool {
+        return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoin }
+    }
+    
+    var handCount: Int {
+        return hand.filter({ $0.isControlledBy(self.id) }).count
+    }
+    
+    var deckCount: Int {
+        return deck.filter({ $0.isControlledBy(self.id) }).count
+    }
+
+    var playerEntities:[Entity] {
+        return Game.instance.entities.map({ $0.1 }).filter({
+            return !$0.info.hasOutstandingTagChanges && $0.isControlledBy(self.id)
+        })
+    }
+    
+    var revealedEntities:[Entity] {
+        return Game.instance.entities.map({ $0.1 }).filter({
+            return !$0.info.hasOutstandingTagChanges && ($0.isControlledBy(self.id) || $0.info.originalController == self.id)
+        }).filter({ $0.hasCardId })
+    }
+    
+    var hand:[Entity] { return playerEntities.filter({ $0.isInHand }) }
+    var board:[Entity] { return playerEntities.filter({ $0.isInPlay }) }
+    var deck:[Entity] { return playerEntities.filter({ $0.isInDeck }) }
+    var graveyard:[Entity] { return playerEntities.filter({ $0.isInGraveyard }) }
+    var secrets:[Entity] { return playerEntities.filter({ $0.isInSecret }) }
+    var setAside:[Entity] { return playerEntities.filter({ $0.isInSetAside }) }
+    
+    private(set) lazy var inDeckPredictions = [PredictedCard]()
+    
+    var name: String?
+    var tracker: Tracker?
     var drawnCardsMatchDeck = true
 
     let DeckSize = 30
@@ -70,69 +129,25 @@ final class Player {
     }
 
     func reset() {
-        id = nil
+        id = -1
         name = ""
         playerClass = nil
         goingFirst = false
         fatigue = 0
-        // drawnCardsMatchDeck = true;
-        hand.removeAll()
-        board.removeAll()
-        deck.removeAll()
-        graveyard.removeAll()
-        secrets.removeAll()
-        drawnCardIds.removeAll()
-        drawnCardIdsTotal.removeAll()
-        revealedCards.removeAll()
-        createdInHandCardIds.removeAll()
-        hightlightedCards.removeAll()
-        removed.removeAll()
-        resetDeck()
+        
+        inDeckPredictions.removeAll()
     }
 
-    func resetDeck() {
-        deck = []
-        for _ in 0 ..< DeckSize {
-            deck.append(CardEntity())
-        }
-    }
-
-    var hasCoin: Bool {
-        return hand.any { $0.cardId == "GAME_005" || $0.entity?.cardId == "GAME_005" }
-    }
-
-    var handCount: Int {
-        return hand.count
-    }
-
-    var deckCount: Int {
-        return deck.count
-    }
-    
-    func drawnCards() -> [Card] {
-        return drawnCardIds.filter { !String.isNullOrEmpty($0) }
-            .groupBy { (s: String) in s }
-            .map { g -> (Card?) in
-                if let card = Cards.byId(g.key) {
-                    card.count = g.items.count
-                    card.highlightInHand = self.hand.any({g.key == $0.cardId})
-                    return card
-                } else {
-                    return nil
-                }
-            }
-            .filter { $0 != nil }
-            .map { $0! }
-    }
-
-    func displayReveleadCards() -> [Card] {
-        return revealedCards.filter { !String.isNullOrEmpty($0.cardId) }
-            .map { (ce: CardEntity) -> (DynamicEntity) in
-                DynamicEntity(cardId: ce.cardId!,
-                    hidden: (ce.inHand || ce.inDeck) && (ce.entity == nil ? true : ce.entity!.isControlledBy(self.id!)),
-                    created: ce.created,
-                    discarded: ce.discarded && Settings.instance.highlightDiscarded)
-            }
+    var displayRevealedCards: [Card] {
+        return revealedEntities.filter({ x in
+            return !x.info.created && (x.isMinion || x.isSpell || x.isWeapon) && (!x.isInDeck || (x.info.stolen && x.info.originalController == self.id))
+        })
+            .map({ (e: Entity) -> (DynamicEntity) in
+                DynamicEntity(cardId: e.cardId,
+                    hidden: (e.isInHand || e.isInDeck),
+                    created: e.info.created || (e.info.stolen && e.info.originalController != self.id),
+                    discarded: e.info.discarded && Settings.instance.highlightDiscarded)
+            })
             .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
                 if let card = Cards.byId(g.key.cardId) {
@@ -149,46 +164,194 @@ final class Player {
             .map { $0! }
             .sortCardList()
     }
-
-    func displayCards() -> [Card] {
-        let settings = Settings.instance
-        let drawnCards = self.drawnCards()
-        
-        var createdInHand = [Card]()
-        if settings.showPlayerGet {
-            createdInHand = createdInHandCardIds.filter { !$0.isEmpty }
-                .groupBy { (s: String) in s }
-                .map { g -> Card? in
-                    if let card = Cards.byId(g.key) {
-                        card.count = g.items.count
-                        card.isCreated = true
-                        card.highlightInHand = self.hand.any { $0.cardId == card.cardId }
-                        return card
-                    } else {
-                        return nil
-                    }
-                }
-                .filter { $0 != nil }
-                .map { $0! }
-        }
-        
-        guard let _ = Game.instance.activeDeck else {
-            return (drawnCards + createdInHand).sortCardList()
-        }
-        
-        var stillInDeck = deck.filter { !String.isNullOrEmpty($0.cardId) }
-            .map {
-                DynamicEntity(cardId: $0.cardId!,
-                    cardMark: $0.cardMark,
-                    discarded: $0.discarded)
+    
+    var predictedCardsInDeck: [Card] {
+        return inDeckPredictions.map { g -> Card? in
+            if let card = Cards.byId(g.cardId) {
+                card.jousted = true
+                return card
+            } else {
+                return nil
             }
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+    }
+    
+    var knownCardsInDeck: [Card] {
+        return deck.filter({ $0.hasCardId })
+            .map({ (e: Entity) -> (DynamicEntity) in
+                DynamicEntity(cardId: e.cardId,
+                    created: e.info.created || e.info.stolen)
+            })
             .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
                 if let card = Cards.byId(g.key.cardId) {
                     card.count = g.items.count
-                    card.isCreated = g.key.cardMark == CardMark.Created
-                    card.highlightDraw = self.hightlightedCards.contains(g.key.cardId)
-                    card.highlightInHand = self.hand.any { $0.cardId == g.key.cardId }
+                    card.isCreated = g.key.created
+                    card.jousted = true
+                    return card
+                } else {
+                    return nil
+                }
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+    }
+    
+    var revealedCards: [Card] {
+        return revealedEntities.filter({ x in
+            let created = x.info.created
+            let type = (x.isMinion || x.isSpell || x.isWeapon)
+            let zone = ((!x.isInDeck && (!x.info.stolen || x.info.originalController == self.id)) || (x.info.stolen && x.info.originalController == self.id))
+            
+            return !created && type && zone
+        })
+            .map({ (e: Entity) -> (DynamicEntity) in
+                DynamicEntity(cardId: e.cardId,
+                    stolen: e.info.stolen && e.info.originalController != self.id,
+                    entity: e)
+            })
+            .groupBy { (d: DynamicEntity) in d }
+            .map { g -> Card? in
+                if let card = Cards.byId(g.key.cardId) {
+                    card.count = g.items.count
+                    card.isCreated = g.key.stolen
+                    card.highlightInHand = g.items.any({ $0.isInHand && $0.entity!.isControlledBy(self.id) })
+                    return card
+                } else {
+                    return nil
+                }
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+    }
+    
+    var createdCardsInHand: [Card] {
+        return hand.filter { ($0.info.created || $0.info.stolen) }
+            .groupBy { (e:Entity) in e.cardId }
+            .map { g -> Card? in
+                if let card = Cards.byId(g.key) {
+                    card.count = g.items.count
+                    card.isCreated = true
+                    card.highlightInHand = true
+                    return card
+                } else {
+                    return nil
+                }
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+    }
+
+    func getHighlightedCardsInHand(cardsInDeck: [Card]) -> [Card] {
+        return Game.instance.activeDeck!.cards!.filter({ (c) -> Bool in
+            cardsInDeck.all({ $0.id != c.id }) && hand.any({ $0.cardId == c.id })
+        })
+            .map { g -> Card in
+                let card = g.copy()
+                card.count = 0
+                card.highlightInHand = true
+                return card
+            }
+    }
+    
+    var playerCardList: [Card] {
+        let settings = Settings.instance
+        let createdInHand = settings.showPlayerGet ? createdCardsInHand : [Card]()
+        if Game.instance.activeDeck == nil {
+            return (revealedCards + createdInHand + knownCardsInDeck + predictedCardsInDeck).sortCardList()
+        }
+        let deckState = getDeckState()
+        let inDeck = deckState.remainingInDeck
+        let notInDeck = deckState.removedFromDeck.filter({ x in inDeck.all({ x.id != $0.id }) })
+        if !settings.removeCardsFromDeck {
+            return (inDeck + notInDeck + createdInHand).sortCardList()
+        }
+        if settings.highlightCardsInHand {
+            return (inDeck + getHighlightedCardsInHand(inDeck) + createdInHand).sortCardList()
+        }
+        return (inDeck + createdInHand).sortCardList()
+    }
+    
+    var opponentCardList: [Card] {
+        let revealed = revealedEntities.filter({ (e: Entity) in
+            (e.isMinion || e.isSpell || e.isWeapon || !e.hasTag(.CARDTYPE))
+                && (e.getTag(.CREATOR) == 1 || (!e.info.created && e.info.originalController == self.id) || e.isInHand || e.isInDeck)
+                && !(e.info.created && e.isInSetAside)
+        })
+            .map({ (e: Entity) -> (DynamicEntity) in
+                DynamicEntity(cardId: e.cardId,
+                    hidden: (e.isInHand || e.isInDeck) && e.isControlledBy(self.id),
+                    created: e.info.created || (e.info.stolen && e.info.originalController != self.id),
+                    discarded: e.info.discarded && Settings.instance.highlightDiscarded
+                )
+            })
+            .groupBy { (d: DynamicEntity) in d }
+            .map { g -> Card? in
+                if let card = Cards.byId(g.key.cardId) {
+                    card.count = g.items.count
+                    card.jousted = g.key.hidden
+                    card.isCreated = g.key.created
+                    card.wasDiscarded = g.key.discarded
+                    return card
+                } else {
+                    return nil
+                }
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+            
+            let inDeck = inDeckPredictions.map({ g -> Card? in
+                if let card = Cards.byId(g.cardId) {
+                    card.jousted = true
+                    return card
+                }
+                else {
+                    return nil
+                }
+            })
+                .filter { $0 != nil }
+                .map { $0! }
+        
+        return (revealed + inDeck).sortCardList()
+    }
+    
+    /*
+    private func cardSelector(entityGrouping: Group<String, Entity>, _ created: Bool) -> Card? {
+        if let card = Cards.byId(entityGrouping.key) {
+            card.count = entityGrouping.items.count
+            card.isCreated = created
+            card.highlightInHand = hand.any({ $0.cardId == card.id })
+            return card
+        }
+        return .None
+    }
+    
+    var displayCards:[Card] {
+        let settings = Settings.instance
+        
+        let createdInHand:[Card] = settings.showPlayerGet ? hand
+            .filter({ $0.info.created })
+            .groupBy({ $0.cardId })
+            .map({ cardSelector($0, true) })
+            .filter { $0 != nil }
+            .map { $0! } : [Card]()
+        
+        let revealed = revealedCards.filter({
+                !$0.info.created && ($0.isMinion || $0.isSpell || $0.isWeapon) && (!$0.isInDeck || ($0.info.stolen && $0.info.originalController == self.id))
+            })
+            .map({ (e: Entity) -> (DynamicEntity) in
+                DynamicEntity(cardId: e.cardId,
+                    stolen: e.info.stolen && e.info.originalController != self.id,
+                    isInHand: e.isInHand )
+            })
+            .groupBy { (d: DynamicEntity) in d }
+            .map { g -> Card? in
+                if let card = Cards.byId(g.key.cardId) {
+                    card.count = g.items.count
+                    card.isCreated = g.key.stolen
+                    card.highlightInHand = g.items.any({ $0.isInHand })
                     return card
                 } else {
                     return nil
@@ -197,57 +360,127 @@ final class Player {
             .filter { $0 != nil }
             .map { $0! }
         
-        if settings.removeCardsFromDeck {
-            if settings.highlightLastDrawn {
-                let drawHighlight = Game.instance.activeDeck!.sortedCards.filter { (card: Card) in
-                    self.hightlightedCards.contains(card.cardId) && stillInDeck.all { (c: Card) in c.cardId != card.cardId }
-                    }
-                    .map { card -> Card in
-                        let c: Card = card.copy()
-                        c.count = 0
-                        c.highlightDraw = true
-                        return c
+        let knownEntitesInDeck = deck.filter({ $0.hasCardId })
+            .map({ (e: Entity) -> (DynamicEntity) in
+                DynamicEntity(cardId: e.cardId,
+                    created: e.info.created || e.info.stolen )
+            })
+            .groupBy { (d: DynamicEntity) in d }
+            .map { g -> Card? in
+                if let card = Cards.byId(g.key.cardId) {
+                    card.count = g.items.count
+                    card.isCreated = g.key.created
+                    card.jousted = true
+                    return card
+                } else {
+                    return nil
                 }
-                stillInDeck += drawHighlight
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+        
+        let knownCardsInDeck:[Card] = self.knownCardsInDeck.map({
+            let card = Cards.byId($0.cardId)
+            card!.jousted = true
+            return card!
+            })
+        
+        guard let _ = Game.instance.activeDeck else {
+            return (revealed + createdInHand + knownEntitesInDeck + knownCardsInDeck).sortCardList()
+        }
+        let cards = getDeckState()
+        let inDeck = cards.inDeck
+        let notInDeck = cards.notInDeck.filter({ c in
+            return inDeck.all({ $0.id != c.id })
+        })
+        if settings.removeCardsFromDeck {
+            if !settings.highlightCardsInHand {
+                return (inDeck + createdInHand).sortCardList()
             }
             
-            if settings.highlightCardsInHand {
-                let inHand = Game.instance.activeDeck!.sortedCards.filter { (card: Card) in
-                    stillInDeck.all { (c: Card) in c.cardId != card.cardId } && self.hand.any { (ce: CardEntity) in card.cardId == ce.cardId }
-                    }
-                    .map { card -> Card in
-                        let c: Card = card.copy()
-                        c.count = 0
-                        c.highlightInHand = true
-                        let count = self.deck.filter { !String.isNullOrEmpty($0.cardId) }
-                            .groupBy { (ce: CardEntity) -> String in ce.cardId! }
-                            .map { g -> Int in g.items.count }
-                            .maxElement()
-                        if let count = count where self.isLocalPlayer && c.cardId == CardIds.Collectible.Neutral.RenoJackson && count <= 1 {
-                            c.highlightFrame = true
-                        }
-                        
-                        return c
-                }
-                stillInDeck += inHand
-            }
-            return stillInDeck.sortCardList()
+            let inHand = Game.instance.activeDeck!.sortedCards.filter({ c in
+                    inDeck.all({ c2 in c2.id != c.id }) && hand.any({ ce in c.id == ce.cardId })
+                })
+                .map({ g -> Card in
+                    let card = g.copy()
+                    card.count = 0
+                    card.highlightInHand = true
+                    return card
+                })
+            return (inDeck + inHand + createdInHand).sortCardList()
         }
         
-        let notInDeck = Game.instance.activeDeck!.sortedCards.filter { (card: Card) in
-            self.deck.all { (c: CardEntity) in c.cardId != card.cardId }
-            }
-            .map { card -> Card in
-                let c: Card = card.copy()
-                c.count = 0
-                c.highlightDraw = self.hightlightedCards.contains(c.cardId)
-                if self.hand.any({ $0.cardId == c.cardId }) {
-                    card.highlightInHand = true
+        return (inDeck + notInDeck + createdInHand).sortCardList()
+    }*/
+    
+    private func getDeckState() -> DeckState {
+        let createdCardsInDeck:[Card] = deck.filter({ $0.hasCardId && ($0.info.created || $0.info.stolen) })
+            .map({ (e: Entity) -> (DynamicEntity) in
+                DynamicEntity(cardId: e.cardId,
+                    created: e.info.created || e.info.stolen,
+                    discarded: e.info.discarded
+                )
+            })
+            .groupBy { (d: DynamicEntity) in d }
+            .map { g -> Card? in
+                if let card = Cards.byId(g.key.cardId) {
+                    card.count = g.items.count
+                    card.isCreated = g.key.created
+                    card.highlightInHand = hand.any({ $0.cardId == g.key.cardId })
+                    return card
+                } else {
+                    return nil
                 }
-                return c
-        }
-        stillInDeck += notInDeck + createdInHand
-        return stillInDeck.sortCardList()
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+        
+        var originalCardsInDeck:[String] = Game.instance.activeDeck!.sortedCards.flatMap {
+                Array(count: $0.count, repeatedValue: $0.id)
+            }
+            .map({ $0 })
+        
+        let revealedNotInDeck = revealedEntities.filter({ !$0.info.created && ($0.isSpell || $0.isWeapon || $0.isMinion) && (!$0.isInDeck || ($0.info.stolen && $0.info.originalController == self.id)) })
+        
+        var removedFromDeck = [String]()
+        revealedNotInDeck.forEach({
+            originalCardsInDeck.remove($0.cardId)
+            if !$0.info.stolen || $0.info.originalController == self.id {
+                removedFromDeck.append($0.cardId)
+            }
+        })
+        
+        let cardsInDeck:[Card] = createdCardsInDeck + (originalCardsInDeck.groupBy { (c:String) in c }
+            .map { g -> Card? in
+                if let card = Cards.byId(g.key) {
+                    card.count = g.items.count
+                    if hand.any({ $0.cardId == g.key }) {
+                        card.highlightInHand = true
+                    }
+                    return card
+                } else {
+                    return nil
+                }
+            }
+            .filter { $0 != nil }
+            .map { $0! } as [Card])
+        
+        let cardsNotInDeck = removedFromDeck.groupBy { (c:String) in c }
+            .map({ g -> Card? in
+                if let card = Cards.byId(g.key) {
+                    card.count = 0
+                    if hand.any({ e in e.cardId == g.key }) {
+                        card.highlightInHand = true
+                    }
+                    return card
+                } else {
+                    return nil
+                }
+            })
+            .filter({ $0 != nil })
+            .map({ $0! })
+        
+        return DeckState(remainingInDeck: cardsInDeck, removedFromDeck: cardsNotInDeck)
     }
 
     private var debugName: String {
@@ -255,133 +488,72 @@ final class Player {
     }
 
     func createInDeck(entity: Entity, _ turn: Int) {
-        var cardEntity: CardEntity
-        
-        let created = turn > 1
-        
-        if isLocalPlayer {
-            cardEntity = CardEntity(cardId: nil, entity: entity)
-            cardEntity.turn = turn
-            cardEntity.created = created
-            deck.append(cardEntity)
-            
-            let ce = CardEntity(cardId: nil, entity: entity)
-            ce.turn = turn
-            ce.created = created
-            revealedCards.append(ce)
-        } else {
-            deck.append(CardEntity())
-            if let cardId = entity.cardId {
-                revealDeckCard(cardId, turn, created)
-            }
-            cardEntity = CardEntity(cardId: entity.cardId, entity: nil)
-            cardEntity.turn = turn
-            cardEntity.created = created
-            revealedCards.append(cardEntity)
-        }
-        DDLogInfo("\(debugName) \(#function) \(cardEntity)")
+        entity.info.created = entity.info.created || turn > 1
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func revealDeckCard(cardId: String, _ turn: Int, _ created: Bool = false) {
-        if let cardEntity = deck.firstWhere({ $0.unknown }) {
-            cardEntity.cardId = cardId
-            cardEntity.turn = turn
-            if created {
-                cardEntity.created = true
-            }
-        }
-    }
-    
-    func createInHand(entity: Entity?, _ turn: Int) {
-        let cardEntity = CardEntity(cardId: nil, entity: entity)
-        cardEntity.turn = turn
-        cardEntity.created = true
-        hand.append(cardEntity)
-        
-        if let entity = entity, cardId = entity.cardId where isLocalPlayer {
-            createdInHandCardIds.append(cardId)
-        }
-        
-        DDLogInfo("\(debugName) \(#function) \(cardEntity)")
+    func createInHand(entity: Entity, _ turn: Int) {
+        entity.info.created = true
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func boardToDeck(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &board, &deck, turn) {
-            updateRevealedEntity(cardEntity, turn)
-            
-            if let cardId = entity.cardId where !String.isNullOrEmpty(cardId) && drawnCardIds.contains(cardId) {
-                if let index = drawnCardIds.indexOf(cardId) {
-                    drawnCardIds.removeAtIndex(index)
-                }
-            }
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        entity.info.turn = turn
+        entity.info.returned = true
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
-
+    
     func play(entity: Entity, _ turn: Int) {
-        var destination = entity.isSecret ? secrets : board
-        if let cardEntity = moveCardEntity(entity, &hand, &destination, turn) {
-            if entity.getTag(GameTag.CARDTYPE) == CardType.TOKEN.rawValue {
-                cardEntity.created = true
-            }
-            updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
+        if !isLocalPlayer {
+            updateKnownEntitesInDeck(entity.cardId, turn)
         }
+        if entity.getTag(.CARDTYPE) == CardType.TOKEN.rawValue {
+            entity.info.created = true
+        }
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func handDiscard(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &hand, &graveyard, turn) {
-            updateRevealedEntity(cardEntity, turn, true)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
+        if !isLocalPlayer {
+            updateKnownEntitesInDeck(entity.cardId, entity.info.turn)
         }
+        entity.info.turn = turn
+        entity.info.discarded = true
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func secretPlayedFromDeck(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &deck, &secrets, turn) {
-            updateRevealedEntity(cardEntity, turn)
-            verifyCardMatchesDeck(cardEntity)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        updateKnownEntitesInDeck(entity.cardId)
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func secretPlayedFromHand(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &hand, &secrets, turn) {
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func mulligan(entity: Entity) {
-        if let cardEntity = moveCardEntity(entity, &hand, &deck, 0) {
-            
-            // new cards are drawn first
-            if let newCard = hand.firstWhere({ $0.entity?.getTag(GameTag.ZONE_POSITION) == entity.getTag(GameTag.ZONE_POSITION) }) {
-                newCard.mulliganed = true
-            }
-            if let cardId = entity.cardId where !String.isNullOrEmpty(cardId) && drawnCardIds.contains(cardId) {
-                drawnCardIds.remove(cardId)
-            }
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        entity.info.mulliganed = true
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func draw(entity: Entity, _ turn: Int) {
-        if let ce = moveCardEntity(entity, &deck, &hand, turn) {
-            
-            if isLocalPlayer {
-                if let cardId = entity.cardId {
-                    highlight(cardId)
-                }
-            } else {
-                ce.reset()
-            }
-            
-            verifyCardMatchesDeck(ce)
-            DDLogInfo("\(debugName) \(#function) \(ce)")
+        if isLocalPlayer {
+            updateKnownEntitesInDeck(entity.cardId)
         }
+        else {
+            entity.info.hidden = true
+        }
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func highlight(cardId: String) {
-        hightlightedCards.append(cardId)
+        /*hightlightedCards.append(cardId)
         Game.instance.updatePlayerTracker()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             NSThread.sleepForTimeInterval(3)
@@ -389,196 +561,81 @@ final class Player {
                 self.hightlightedCards.removeFirst()
             }
             Game.instance.updatePlayerTracker()
-        }
+        }*/
     }
     
     func removeFromDeck(entity: Entity, _ turn: Int) {
-        if let revealed = revealedCards.firstWhere({ $0.entity == entity }) {
-            revealedCards.remove(revealed)
-        }
-        if let cardEntity = moveCardEntity(entity, &deck, &removed, turn) {
-            updateRevealedEntity(cardEntity, turn, true)
-            verifyCardMatchesDeck(cardEntity)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        // Do not check for KnownCardIds here, this is how jousted cards get removed from the deck
+        entity.info.turn = turn
+        entity.info.discarded = true
+        
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func removeFromPlay(entity: Entity, _ turn: Int) {
-        if let ce = moveCardEntity(entity, &board, &removed, turn) {
-            DDLogInfo("\(debugName) \(#function) \(ce)")
-        }
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func deckDiscard(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &deck, &graveyard, turn) {
-            updateRevealedEntity(cardEntity, turn, true)
-            verifyCardMatchesDeck(cardEntity)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        updateKnownEntitesInDeck(entity.cardId)
+        entity.info.turn = turn
+        entity.info.discarded = true
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func deckToPlay(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &deck, &board, turn) {
-            updateRevealedEntity(cardEntity, turn)
-            
-            verifyCardMatchesDeck(cardEntity)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        updateKnownEntitesInDeck(entity.cardId)
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func playToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &board, &graveyard, turn) {
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func joustReveal(entity: Entity, _ turn: Int) {
-        if deck.filter({ $0.inDeck }).all({ $0.cardId != entity.cardId }) {
-            revealDeckCard(entity.cardId!, turn)
-            let ce = CardEntity(cardId: entity.cardId, entity: nil)
-            ce.turn = turn
-            revealedCards.append(ce)
-            DDLogInfo("\(debugName) \(#function) \(ce)")
+        entity.info.turn = turn
+        if let card = inDeckPredictions.firstWhere({ $0.cardId == entity.cardId }) {
+            card.turn = turn
         }
+        else {
+            inDeckPredictions.append(PredictedCard(cardId: entity.cardId, turn: turn))
+        }
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func createInPlay(entity: Entity, _ turn: Int) {
-        let cardEntity = CardEntity(cardId: nil, entity: entity)
-        cardEntity.turn = turn
-        board.append(cardEntity)
-        DDLogInfo("\(debugName) \(#function) \(cardEntity)")
+        entity.info.created = true
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func stolenByOpponent(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &board, &removed, turn) {
-            cardEntity.stolen = true
-            updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func stolenFromOpponent(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &removed, &board, turn) {
-            cardEntity.stolen = true
-            updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func boardToHand(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &board, &hand, turn) {
-            cardEntity.returned = true
-            updateRevealedEntity(cardEntity, turn, nil, CardMark.Returned)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        entity.info.turn = turn
+        entity.info.returned = true
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
     func secretTriggered(entity: Entity, _ turn: Int) {
-        if let cardEntity = moveCardEntity(entity, &secrets, &graveyard, turn) {
-            updateRevealedEntity(cardEntity, turn)
-            DDLogInfo("\(debugName) \(#function) \(cardEntity)")
-        }
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
     }
-    
-    func updateRevealedEntity(entity: CardEntity, _ turn: Int, _ discarded: Bool? = nil, _ cardMark: CardMark? = nil) {
-        var cardEntity = revealedCards.firstWhere { $0.entity == entity.entity ||
-            ($0.cardId == entity.cardId && $0.entity == nil && $0.turn <= entity.prevTurn) }
         
-        if let cardEntity = cardEntity {
-            cardEntity.update(entity.entity)
-        } else {
-            cardEntity = CardEntity(cardId: nil, entity: entity.entity)
-            cardEntity!.turn = turn
-            cardEntity!.created = entity.created
-            cardEntity!.discarded = entity.discarded
-            let cardType = CardType(rawValue: entity.entity!.getTag(.CARDTYPE))
-            if cardType != .HERO && cardType != .ENCHANTMENT && cardType != .HERO_POWER && cardType != .PLAYER {
-                revealedCards.append(entity)
-            }
-        }
-        
-        if let discarded = discarded {
-            cardEntity!.discarded = discarded
-        }
-    }
-    
-    func moveCardEntity(entity: Entity, inout _ from: [CardEntity], inout _ to: [CardEntity], _
-        turn: Int) -> CardEntity? {
-        var cardEntity = getEntityFromCollection(from, entity)
-        if let _cardEntity = cardEntity {
-            _cardEntity.update(entity)
-            from.remove(_cardEntity)
-        } else {
-            cardEntity = from.firstWhere { String.isNullOrEmpty($0.cardId) && $0.entity == nil }
-            if let _cardEntity = cardEntity {
-                from.remove(_cardEntity)
-                _cardEntity.update(entity)
-            } else {
-                cardEntity = CardEntity(cardId: nil, entity: entity)
-                cardEntity!.turn = turn
-            }
-        }
-        
-        if let _cardEntity = cardEntity {
-            _cardEntity.turn = turn
-            to.append(_cardEntity)
-            to.sortInPlace(zonePosComparison)
-        }
-        return cardEntity
-    }
-    
-    func getEntityFromCollection(array: [CardEntity], _ entity: Entity) -> CardEntity? {
-        if let cardEntity = (array.firstWhere({ $0.entity == entity })
-            ?? array.firstWhere({ !String.isNullOrEmpty($0.cardId) && $0.cardId == entity.cardId })
-            ?? array.firstWhere({ String.isNullOrEmpty($0.cardId) && $0.entity == nil })) {
-            cardEntity.update(entity)
-            return cardEntity
-        }
-        return nil
-    }
-    
-    func updateZonePos(entity: Entity, _ zone: Zone, _ turn: Int) {
-        switch zone {
-        case .HAND:
-            updateCardEntity(entity)
-            hand.sortInPlace(zonePosComparison)
-            if !isLocalPlayer && turn == 0 && hand.count == 5 && hand[4].entity?.id > 67 {
-                hand[4].cardId = CardIds.NonCollectible.Neutral.TheCoin
-                hand[4].created = true
-                DDLogVerbose("Coin \(hand[4])")
-            }
-            
-        case .PLAY:
-            updateCardEntity(entity)
-            board.sortInPlace(zonePosComparison)
-            
-        default: break
-        }
-    }
-    
-    let zonePosComparison: ((CardEntity, CardEntity) -> Bool) = {
-        let v1 = $0.entity?.getTag(.ZONE_POSITION) ?? 10
-        let v2 = $1.entity?.getTag(.ZONE_POSITION) ?? 10
-        return v1 < v2
-    }
-    
-    func updateCardEntity(entity: Entity)
-    {
-        if let cardEntity = getEntityFromCollection(hand, entity) {
-            cardEntity.entity = entity
-        }
-    }
-    
-    private func verifyCardMatchesDeck(ce: CardEntity) {
-        if String.isNullOrEmpty(ce.entity?.cardId) || ce.created || ce.returned || ce.stolen {
-            return
-        }
-        if let entity = ce.entity, let cardId = entity.cardId {
-            if let activeDeck = Game.instance.activeDeck where isLocalPlayer && activeDeck.sortedCards.all({ $0.cardId != cardId}) {
-                drawnCardsMatchDeck = false
-            }
-            drawnCardIds.append(cardId)
-            drawnCardIdsTotal.append(cardId)
+    private func updateKnownEntitesInDeck(cardId: String?, _ turn: Int = Int.max) {
+        if let card = inDeckPredictions.firstWhere({ $0.cardId == cardId && turn >= $0.turn }) {
+            inDeckPredictions.remove(card)
         }
     }
 }

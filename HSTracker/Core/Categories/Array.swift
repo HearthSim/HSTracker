@@ -18,7 +18,7 @@ extension Array where Element: Card {
     func toDict() -> [String: Int] {
         var result = [String: Int]()
         for card in self {
-            result[card.cardId] = card.count
+            result[card.id] = card.count
         }
         return result
     }

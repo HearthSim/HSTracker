@@ -75,6 +75,7 @@ final class LogReaderManager {
     }
     
     private func entryPoint() -> Double {
+        // DEBUG return 0
         let powerEntry = powerLogReader.findEntryPoint(["tag=GOLD_REWARD_STATE", "End Spectator"])
         let netEntry = net.findEntryPoint("ConnectAPI.GotoGameServer")
         

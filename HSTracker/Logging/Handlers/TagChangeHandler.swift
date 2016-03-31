@@ -71,15 +71,21 @@ class TagChangeHandler {
         }
     }
 
-    func invokeQueuedActions() {
-        let game = Game.instance
+    func invokeQueuedActions(game: Game) {
         while creationTagActionQueue.count > 0 {
             let act = creationTagActionQueue.removeFirst()
             tagChangeAction.callAction(act.tag, game, act.id, act.value, act.prevValue)
+            
+            if creationTagActionQueue.all({ $0.id != act.id }) && game.entities[act.id] != nil {
+                game.entities[act.id]!.info.hasOutstandingTagChanges = false
+            }
         }
     }
 
     func clearQueuedActions() {
+        if creationTagActionQueue.count > 0 {
+            Log.warning?.message("Clearing tagActionQueue with \(creationTagActionQueue.count) elements in it")
+        }
         creationTagActionQueue.removeAll()
     }
 
@@ -176,6 +182,7 @@ class TagChangeHandler {
             game.opponent.id = playerId % 2 + 1
         }
     
+        Log.info?.message("Setting player id: \(game.player.id), opponent id: \(game.opponent.id)")
         if game.wasInProgress {
             /*let playerName = game.getStoredPlayerName(game.player.id)
             if !String.isNullOrEmpty(playerName) {

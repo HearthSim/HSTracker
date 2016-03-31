@@ -11,7 +11,7 @@ import CleanroomLogger
 
 class CardHud : NSWindowController {
 
-    var entity: CardEntity?
+    var entity: Entity?
 
     @IBOutlet weak var label: NSTextFieldCell!
     @IBOutlet weak var icon: NSImageView!
@@ -28,16 +28,16 @@ class CardHud : NSWindowController {
         self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0)
     }
 
-    func setEntity(entity: CardEntity?) {
+    func setEntity(entity: Entity?) {
         self.entity = entity
         var text = ""
         var image: String? = nil
 
         if let entity = entity {
-            text += "\(entity.turn)"
+            text += "\(entity.info.turn)"
             //Log.verbose?.message("turn : \(entity.info.turn), mark: \(entity.info.cardMark), cardId : \(entity.cardId)")
 
-            switch entity.cardMark {
+            switch entity.info.cardMark {
             case .Coin: image = "coin"
             case .Kept: image = "kept"
             case .Mulliganed: image = "mulliganed"

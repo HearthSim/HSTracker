@@ -51,7 +51,7 @@ final class Hearthstats: BaseNetImporter, NetImporterAware {
                     if let card = node.at_xpath("div[@class='name']")?.text, let count = node.at_xpath("div[@class='qty']")?.text {
                         Log.verbose?.message("card : \(card) -> count \(count)")
                         if let card = Cards.byEnglishName(card), let count = Int(count) {
-                            cards[card.cardId] = count
+                            cards[card.id] = count
                         }
                     }
                 }

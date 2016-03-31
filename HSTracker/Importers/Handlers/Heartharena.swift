@@ -39,8 +39,8 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
                         let count = Int(qty),
                         let cardName = cardNode.at_xpath("span[@class='name']")?.text,
                         let card = Cards.byEnglishName(cardName) {
-                            cards[card.cardId] = count
                             Log.verbose?.message("qty : \(count) name: \(card.id)")
+                            cards[card.id] = count
                     }
                 }
 

@@ -13,7 +13,7 @@ final class Cards {
     static var cards = [Card]()
 
     static func heroById(cardId: String) -> Card? {
-        if let card = cards.firstWhere({ $0.cardId == cardId && $0.type == "hero" }) {
+        if let card = cards.firstWhere({ $0.id == cardId && $0.type == "hero" }) {
             return card.copy()
         }
         return nil
@@ -28,14 +28,14 @@ final class Cards {
     static func byId(cardId: String?) -> Card? {
         guard !String.isNullOrEmpty(cardId) else { return nil }
         
-        if let card = collectible().firstWhere({ $0.cardId == cardId }) {
+        if let card = collectible().firstWhere({ $0.id == cardId }) {
             return card.copy()
         }
         return nil
     }
     
     static func anyById(cardId: String) -> Card? {
-        if let card = cards.firstWhere({ $0.cardId == cardId }) {
+        if let card = cards.firstWhere({ $0.id == cardId }) {
             return card.copy()
         }
         return nil
@@ -69,7 +69,7 @@ final class Cards {
             $0.name.lowercaseString.contains(term.lowercaseString) ||
             $0.enName.lowercaseString.contains(term.lowercaseString) ||
             $0.text.lowercaseString.contains(term.lowercaseString) ||
-            ($0.rarity != nil && $0.rarity!.rawValue.contains(term.lowercaseString)) ||
+            $0.rarity.rawValue.contains(term.lowercaseString) ||
             $0.type.lowercaseString.contains(term.lowercaseString)
         }
     }
@@ -117,7 +117,7 @@ struct Database {
                         if let cardId = jsonCard["id"] as? String {
 
                             if lang == "enUS" && langs.count > 1 {
-                                if let card = Cards.cards.firstWhere({ $0.cardId == cardId }) {
+                                if let card = Cards.cards.firstWhere({ $0.id == cardId }) {
                                     if let name = jsonCard["name"] as? String {
                                         card.enName = name
                                     }
@@ -125,14 +125,14 @@ struct Database {
                             }
                             else {
                                 let card = Card()
-                                card.cardId = cardId
+                                card.id = cardId
 
                                 // future work ;)
                                 card.isStandard = false
 
                                 // "fake" the coin... in the game files, Coin cost is empty
                                 // so we set it to 0
-                                if card.cardId == "GAME_005" {
+                                if card.id == "GAME_005" {
                                     card.cost = 0
                                 } else {
                                     if let cost = jsonCard["cost"] as? Int {
@@ -141,7 +141,7 @@ struct Database {
                                 }
 
                                 if let cardRarity = jsonCard["rarity"] as? String {
-                                    card.rarity = Rarity(rawValue: cardRarity.lowercaseString)
+                                    card.rarity = Rarity(rawValue: cardRarity.lowercaseString)!
                                 }
 
                                 if let cardType = jsonCard["type"] as? String {
@@ -171,7 +171,7 @@ struct Database {
 
                                     // card is collectible, mark it as needed for download
                                     if lang == imageLanguage && card.type != "hero" {
-                                        images.append(card.cardId)
+                                        images.append(card.id)
                                     }
                                 }
                                 if let name = jsonCard["name"] as? String {

@@ -53,7 +53,7 @@ final class Hearthhead: BaseNetImporter, NetImporterAware {
                     if let cardNameNode = cardNode.at_xpath("a"),
                         let cardName = cardNameNode.text,
                         let card = Cards.byEnglishName(cardName) {
-                            cardId = card.cardId
+                            cardId = card.id
                             Log.verbose?.message("\(cardName)")
                     }
                     var count = 1

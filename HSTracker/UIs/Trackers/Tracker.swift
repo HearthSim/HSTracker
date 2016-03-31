@@ -19,7 +19,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     
     @IBOutlet weak var table: NSTableView!
     
-    var gameEnded: Bool = false
+    //var gameEnded: Bool = false
     var heroCard: Card?
     var cards = [Card]()
     var player: Player?
@@ -41,8 +41,6 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Tracker.windowLockedChange(_:)), name: "window_locked", object: nil)
-        
-        self.gameEnded = false
         
         var width: Double
         let settings = Settings.instance
@@ -147,9 +145,9 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
             count += 1
         }
         
-        if let playerType = self.playerType where self.gameEnded && playerType == .Opponent {
+        /*if let playerType = self.playerType where self.gameEnded && playerType == .Opponent {
             count += 1
-        }
+        }*/
         
         return count
     }
@@ -177,16 +175,18 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     
     func countText() -> String {
         if let player = player {
-            var str = "\(NSLocalizedString("Hand", comment: "")) : \(player.handCount)"
-                + " / "
-                + "\(NSLocalizedString("Deck", comment: "")) : \(player.deckCount)\n"
+            var str = "\(NSLocalizedString("Hand", comment: "")) : \(player.handCount) / "
             
-            let cardCount = player.deckCount
-            if cardCount > 0 {
-                var percent = (1 * 100.0) / Double(cardCount)
+            let gameStarted = !Game.instance.isInMenu && Game.instance.entities.count >= 67
+            let count = !gameStarted ? 30 : player.deckCount
+                
+            str += "\(NSLocalizedString("Deck", comment: "")) : \(count)\n"
+            
+            if count > 0 {
+                var percent = (1 * 100.0) / Double(count)
                 str += String(format: "[1] : %.2f%", percent)
                 str += " / "
-                percent = (2 * 100.0) / Double(cardCount)
+                percent = (2 * 100.0) / Double(count)
                 str += String(format: "[2] : %.2f%", percent)
             }
             
@@ -233,7 +233,7 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     }
     
     // MARK: - Game
-    func gameStart() {
+    /*func gameStart() {
         self.gameEnded = false
         cards.removeAll()
         update()
@@ -241,20 +241,12 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     
     func gameEnd() {
         self.gameEnded = true
-    }
+    }*/
     
-    func update() {
+    func update(cards: [Card], _ reset: Bool = false) {
         guard let _ = self.table else { return }
         
-        if let playerType = self.playerType,
-            let player = self.player {
-                switch playerType {
-                case .Player:
-                    self.cards = player.displayCards()
-                default:
-                    self.cards = player.displayReveleadCards()
-                }
-                table.reloadData()
-        }
+        self.cards = cards
+        self.table.reloadData()
     }
 }

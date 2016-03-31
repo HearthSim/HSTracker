@@ -203,7 +203,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     }
 
     func addCardToDeck(card: Card) {
-        let deckCard = currentDeck!.sortedCards.filter({ $0.cardId == card.cardId }).first
+        let deckCard = currentDeck!.sortedCards.filter({ $0.id == card.id }).first
 
         if deckCard == nil || (deckCard!.count == 1 && card.rarity != .Legendary) {
             currentDeck?.addCard(card)
@@ -224,7 +224,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                 let card = currentClassCards[indexPath.jnw_item]
                 cell.setCard(card)
                 var count: Int = 0
-                if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.cardId == card.cardId }) {
+                if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
                     count = deckCard.count
                 }
                 cell.setCount(count)

@@ -20,7 +20,7 @@ struct ImageCache {
 
     static func cardImage(card: Card) -> NSImage? {
         if let appSupport = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
-            let path = "\(appSupport)/HSTracker/cards/\(card.cardId).png"
+            let path = "\(appSupport)/HSTracker/cards/\(card.id).png"
             let image = imageNamed(path, from: .Path)
 
             return cropped(image)
@@ -43,7 +43,7 @@ struct ImageCache {
     }
 
     static func smallCardImage(card: Card) -> NSImage? {
-        return imageNamed("\(card.cardId).png", from: .Bundle)
+        return imageNamed("\(card.id).png", from: .Bundle)
     }
 
     static func gemImage(rarity: Rarity?) -> NSImage? {
