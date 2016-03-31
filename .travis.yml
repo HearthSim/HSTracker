@@ -4,7 +4,7 @@ before_install:
     - brew update
     - if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
     - if brew outdated | grep -qx carthage; then brew upgrade xctool; fi
-    - carthage update
+    - carthage update --platform OSX
 script: 
   - xctool clean build -workspace HSTracker.xcworkspace -scheme HSTracker -sdk macosx
   - xctool test -workspace HSTracker.xcworkspace -scheme HSTracker -sdk macosx
