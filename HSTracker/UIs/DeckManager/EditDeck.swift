@@ -205,7 +205,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     func addCardToDeck(card: Card) {
         let deckCard = currentDeck!.sortedCards.filter({ $0.id == card.id }).first
 
-        if deckCard == nil || (deckCard!.count == 1 && card.rarity != .Legendary) {
+        if deckCard == nil || currentDeck!.isArena || (deckCard!.count == 1 && card.rarity != .Legendary) {
             currentDeck?.addCard(card)
             curveView.reload()
             tableView.reloadData()
@@ -227,6 +227,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                 if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
                     count = deckCard.count
                 }
+                cell.isArena = currentDeck!.isArena
                 cell.setCount(count)
 
                 return cell

@@ -10,7 +10,7 @@ import Foundation
 
 protocol NewDeckDelegate {
     func addNewDeck(deck: Deck)
-    func openDeckBuilder(playerClass: String)
+    func openDeckBuilder(playerClass: String, _ arenaDeck: Bool)
     func refreshDecks()
 }
 
@@ -23,6 +23,7 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBOutlet weak var urlDeck: NSTextField!
     @IBOutlet weak var chooseFile: NSButton!
     @IBOutlet weak var okButton: NSButton!
+    @IBOutlet weak var arenaDeck: NSButton!
 
     var delegate: NewDeckDelegate?
 
@@ -42,11 +43,11 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         super.windowDidLoad()
     }
 
-    func radios() -> [NSButton: NSControl] {
+    func radios() -> [NSButton: [NSControl]] {
         return [
-            hstrackerDeckBuilder: classesCombobox,
-            fromAFile: chooseFile,
-            fromTheWeb: urlDeck
+            hstrackerDeckBuilder: [classesCombobox, arenaDeck],
+            fromAFile: [chooseFile],
+            fromTheWeb: [urlDeck]
         ]
     }
 
@@ -54,11 +55,11 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         for (button, control) in radios() {
             if button == sender as! NSControl {
                 button.state = NSOnState
-                control.enabled = true
+                control.forEach({ $0.enabled = true })
             }
             else {
                 button.state = NSOffState
-                control.enabled = false
+                control.forEach({ $0.enabled = false })
             }
         }
         checkToEnableSave()
@@ -74,7 +75,7 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     @IBAction func okClicked(sender: AnyObject) {
         if hstrackerDeckBuilder.state == NSOnState {
-            delegate?.openDeckBuilder(classes()[classesCombobox.indexOfSelectedItem])
+            delegate?.openDeckBuilder(classes()[classesCombobox.indexOfSelectedItem], arenaDeck.state == NSOnState)
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         }
         else if fromTheWeb.state == NSOnState {

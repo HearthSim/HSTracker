@@ -169,6 +169,7 @@ class Game {
     
     func setActiveDeck(deck: Deck) {
         self.activeDeck = deck
+        player.reset()
         updatePlayerTracker()
     }
     

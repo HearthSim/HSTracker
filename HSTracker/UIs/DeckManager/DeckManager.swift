@@ -341,10 +341,12 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         refreshDecks()
     }
 
-    func openDeckBuilder(playerClass: String) {
+    func openDeckBuilder(playerClass: String, _ arenaDeck: Bool) {
         editDeck = EditDeck()
         if let editDeck = editDeck {
-            editDeck.setDeck(Deck(playerClass: playerClass))
+            let deck = Deck(playerClass: playerClass)
+            deck.isArena = arenaDeck
+            editDeck.setDeck(deck)
             editDeck.setPlayerClass(playerClass)
             editDeck.setDelegate(self)
             editDeck.showWindow(self)

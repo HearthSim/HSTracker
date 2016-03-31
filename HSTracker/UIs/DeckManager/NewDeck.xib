@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NewDeck" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="arenaDeck" destination="Hi4-1P-a8c" id="hZ9-K0-N9b"/>
                 <outlet property="chooseFile" destination="zId-Z2-sHp" id="xkr-Ae-DtQ"/>
                 <outlet property="classesCombobox" destination="spZ-RM-AFF" id="L3R-ze-wDh"/>
                 <outlet property="fromAFile" destination="cZL-u5-ElV" id="wUb-CF-zQY"/>
@@ -18,17 +19,17 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="New Deck" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="new_deck" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="New Deck" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="212"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="205"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="212"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="205"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HQy-Fh-m0E">
-                        <rect key="frame" x="19" y="149" width="203" height="18"/>
+                        <rect key="frame" x="19" y="142" width="203" height="18"/>
                         <buttonCell key="cell" type="radio" title="Using HSTracker deck builder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="N10-sK-1gZ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -38,7 +39,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="YM1-PJ-coX">
-                        <rect key="frame" x="18" y="185" width="444" height="17"/>
+                        <rect key="frame" x="18" y="178" width="444" height="17"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="How do you want to create your new deck ?" id="bnr-YF-pLP">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -46,7 +47,7 @@
                         </textFieldCell>
                     </textField>
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="spZ-RM-AFF">
-                        <rect key="frame" x="252" y="144" width="211" height="26"/>
+                        <rect key="frame" x="252" y="137" width="211" height="26"/>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="bc3-ts-Vw0">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -58,7 +59,7 @@
                         </connections>
                     </comboBox>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zw5-rl-Uh0">
-                        <rect key="frame" x="19" y="114" width="105" height="18"/>
+                        <rect key="frame" x="19" y="89" width="105" height="18"/>
                         <buttonCell key="cell" type="radio" title="From the web" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="dhu-qo-xOJ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -68,7 +69,7 @@
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cZL-u5-ElV">
-                        <rect key="frame" x="19" y="80" width="86" height="18"/>
+                        <rect key="frame" x="19" y="55" width="86" height="18"/>
                         <buttonCell key="cell" type="radio" title="From a file" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tHo-vJ-FwV">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -78,7 +79,7 @@
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rai-VR-bB3">
-                        <rect key="frame" x="252" y="112" width="208" height="22"/>
+                        <rect key="frame" x="252" y="87" width="208" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hR7-sx-HlA">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -89,7 +90,7 @@
                         </connections>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zId-Z2-sHp">
-                        <rect key="frame" x="357" y="72" width="109" height="32"/>
+                        <rect key="frame" x="357" y="47" width="109" height="32"/>
                         <buttonCell key="cell" type="push" title="Choose file" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xPi-Gg-ebR">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -121,9 +122,16 @@ Gw
                             <action selector="cancelClicked:" target="-2" id="lR9-RI-5dM"/>
                         </connections>
                     </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hi4-1P-a8c">
+                        <rect key="frame" x="250" y="117" width="91" height="18"/>
+                        <buttonCell key="cell" type="check" title="Arena deck" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0dN-Ei-UM2">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="315" y="222"/>
+            <point key="canvasLocation" x="315" y="218.5"/>
         </window>
     </objects>
 </document>

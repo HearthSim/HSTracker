@@ -30,7 +30,6 @@ class CardCellView: TrackerFrame {
     private var trackingArea: NSTrackingArea?
     var delegate: CardCellHover?
     var card: Card?
-    var playerType: PlayerType?
     
     private var flashLayer: CALayer?
     private var cardLayer: CALayer?
@@ -79,12 +78,7 @@ class CardCellView: TrackerFrame {
         if let cardLayer = cardLayer {
             cardLayer.sublayers?.forEach({ $0.removeFromSuperlayer() })
         }
-        /*
-        if let layer = self.layer, let sublayers = layer.sublayers {
-            for sublayer in sublayers {
-                sublayer.removeFromSuperlayer()
-            }
-        }*/
+
         guard let card = self.card else {return}
         
         addCardImage(card)

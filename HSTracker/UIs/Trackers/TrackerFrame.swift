@@ -35,6 +35,8 @@ enum CardSize: Int {
 
 class TrackerFrame: NSView {
     
+    var playerType: PlayerType?
+    
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         initLayers()
@@ -65,6 +67,10 @@ class TrackerFrame: NSView {
     }
     
     var ratio: CGFloat {
+        if let playerType = playerType where playerType == .DeckManager {
+            return 1.0
+        }
+        
         var ratio: CGFloat
         switch Settings.instance.cardSize {
         case .Small:
