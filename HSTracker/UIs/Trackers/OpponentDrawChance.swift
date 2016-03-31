@@ -21,18 +21,44 @@ class OpponentDrawChance: TrackerFrame {
     var handChance1 = 0.0
     var handChance2 = 0.0
     
+    private var imageLayer: CALayer?
+    private var drawChance1Layer: CATextLayer?
+    private var drawChance2Layer: CATextLayer?
+    private var handChance1Layer: CATextLayer?
+    private var handChance2Layer: CATextLayer?
+    
     override func updateLayer() {
-        if let layer = self.layer, sublayers = layer.sublayers {
-            for sublayer in sublayers {
-                sublayer.removeFromSuperlayer()
-            }
+        if imageLayer == nil {
+            imageLayer = addChild(ImageCache.asset("opponent-chance-frame"), frameRect)
         }
-            
-        addChild(ImageCache.asset("opponent-chance-frame"), frameRect)
-        addText(String(format: "%.2f%%", drawChance1), draw1Frame)
-        addText(String(format: "%.2f%%", drawChance2), draw2Frame)
-        addText(String(format: "%.2f%%", handChance1), hand1Frame)
-        addText(String(format: "%.2f%%", handChance2), hand2Frame)
+        
+        if drawChance1Layer == nil {
+            drawChance1Layer = addText(String(format: "%.2f%%", drawChance1), draw1Frame)
+        }
+        else {
+            setText(drawChance1Layer!, String(format: "%.2f%%", drawChance1))
+        }
+        
+        if drawChance2Layer == nil {
+            drawChance2Layer = addText(String(format: "%.2f%%", drawChance2), draw2Frame)
+        }
+        else {
+            setText(drawChance2Layer!, String(format: "%.2f%%", drawChance2))
+        }
+        
+        if handChance1Layer == nil {
+            handChance1Layer = addText(String(format: "%.2f%%", handChance1), hand1Frame)
+        }
+        else {
+            setText(handChance1Layer!, String(format: "%.2f%%", handChance1))
+        }
+        
+        if handChance2Layer == nil {
+            handChance2Layer = addText(String(format: "%.2f%%", handChance2), hand2Frame)
+        }
+        else {
+            setText(handChance2Layer!, String(format: "%.2f%%", handChance2))
+        }
     }
 
 }

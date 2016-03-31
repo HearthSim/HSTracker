@@ -24,6 +24,9 @@ class GeneralPreferences : NSViewController, MASPreferencesViewController {
         let settings = Settings.instance
         if sender == autoPositionTrackers {
             settings.autoPositionTrackers = autoPositionTrackers.state == NSOnState
+            if settings.autoPositionTrackers {
+                settings.windowsLocked = true
+            }
         }
     }
 

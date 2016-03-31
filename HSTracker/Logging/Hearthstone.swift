@@ -97,6 +97,9 @@ final class Hearthstone : NSObject {
         if queue == nil {
             queue = dispatch_queue_create("be.michotte.hstracker.readers", nil)
         }
+        if logReaderManager == nil {
+            logReaderManager = LogReaderManager()
+        }
         if let queue = queue {
             dispatch_async(queue) {
                 self.logReaderManager?.start()
@@ -106,11 +109,6 @@ final class Hearthstone : NSObject {
 
     func stopTracking() {
         logReaderManager?.stop()
-    }
-
-    func restartTracking() {
-        stopTracking()
-        startTracking()
     }
 
     // MARK: - Events

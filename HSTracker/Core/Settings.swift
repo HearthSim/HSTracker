@@ -71,32 +71,23 @@ final class Settings {
         set { set("window_locked", newValue) }
         get { return get("window_locked", true) as! Bool }
     }
-    /*var handCountWindow: HandCountPosition {
-     set {
-     NSUserDefaults.standardUserDefaults().setObject(newValue.rawValue, forKey: "hand_count_window")
-     NSUserDefaults.standardUserDefaults().synchronize()
-     }
-     get {
-     if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("hand_count_window") as? Int {
-     return HandCountPosition(rawValue: returnValue)!
-     } else {
-     return .Tracker
-     }
-     }
-     }
-     var fixedWindowNames: Bool {
-     set {
-     NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "fixed_window_names")
-     NSUserDefaults.standardUserDefaults().synchronize()
-     }
-     get {
-     if let returnValue = NSUserDefaults.standardUserDefaults().objectForKey("fixed_window_names") as? Bool {
-     return returnValue
-     } else {
-     return true
-     }
-     }
-     }*/
+    
+    var showPlayerDrawChance: Bool {
+        set { set("player_draw_chance", newValue) }
+        get { return get("player_draw_chance", true) as! Bool }
+    }
+    var showPlayerCardCount: Bool {
+        set { set("player_card_count", newValue) }
+        get { return get("player_card_count", true) as! Bool }
+    }
+    var showOpponentCardCount: Bool {
+        set { set("opponent_card_count", newValue) }
+        get { return get("opponent_card_count", true) as! Bool }
+    }
+    var showOpponentDrawChance: Bool {
+        set { set("opponent_draw_chance", newValue) }
+        get { return get("opponent_draw_chance", true) as! Bool }
+    }
     var removeCardsFromDeck: Bool {
         set { set("remove_cards_from_deck", newValue) }
         get { return get("remove_cards_from_deck", false) as! Bool }

@@ -76,7 +76,9 @@ struct SizeHelper {
             width = kFrameWidth
         }
 
-        let frame = NSMakeRect(NSWidth(hearthstoneFrame) - CGFloat(width), 0, CGFloat(width), NSHeight(hearthstoneFrame))
+        // game menu
+        let offset: CGFloat = 70
+        let frame = NSMakeRect(NSWidth(hearthstoneFrame) - CGFloat(width), 0, CGFloat(width), NSHeight(hearthstoneFrame) - offset)
         return frameRelativeToHearthstone(frame)
     }
 
@@ -91,7 +93,9 @@ struct SizeHelper {
             width = kFrameWidth
         }
 
-        let frame = NSMakeRect(0, 0, CGFloat(width), NSHeight(hearthstoneFrame))
+        // friend list button
+        let offset: CGFloat = 70
+        let frame = NSMakeRect(0, 0, CGFloat(width), NSHeight(hearthstoneFrame) - offset)
         return frameRelativeToHearthstone(frame)
     }
 
@@ -114,19 +118,10 @@ struct SizeHelper {
         let frame = NSMakeRect(1042.0, 337.0, 160.0, 115.0)
         return frameRelativeToHearthstone(frame, true)
     }
-
-    static func playerCardCountFrame() -> NSRect {
-        let frame = NSMakeRect(NSWidth(hearthstoneFrame) - 435 - 225, 275, 225, 60)
-        return frameRelativeToHearthstone(frame)
-    }
-
-    static func opponentCardCountFrame() -> NSRect {
-        let frame = NSMakeRect(415, NSHeight(hearthstoneFrame) - 255, 225, 40)
-        return frameRelativeToHearthstone(frame)
-    }
-
+    
     static let points: [Int: [NSPoint]] = [
         1: [NSMakePoint(647.5, 27.0)],
+        2: [NSMakePoint(608.5, 30.0), NSMakePoint(699.5, 30.0)],
         3: [NSMakePoint(554.5, 8.0), NSMakePoint(652.5, 22.0), NSMakePoint(753.5, 19.0)],
         4: [NSMakePoint(538.5, 1.0), NSMakePoint(612.5, 22.0), NSMakePoint(689.5, 25.0), NSMakePoint(761.5, 24.0)],
         5: [NSMakePoint(533.5, 2.0), NSMakePoint(594.5, 21.0), NSMakePoint(651.5, 26.0), NSMakePoint(712.5, 26.0), NSMakePoint(770.5, 13.0)],
@@ -134,7 +129,7 @@ struct SizeHelper {
         7: [NSMakePoint(527.5, -1.0), NSMakePoint(562.5, 13.0), NSMakePoint(606.5, 25.0), NSMakePoint(651.5, 33.0), NSMakePoint(691.5, 31.0), NSMakePoint(735.5, 22.0), NSMakePoint(776.5, 9.0)],
         
         
-        2: [NSMakePoint(628.5, 20), NSMakePoint(715.5, 20)],
+        
         8: [NSMakePoint(545.5, -11), NSMakePoint(581.5, -3), NSMakePoint(616.5, 9), NSMakePoint(652.5, 17), NSMakePoint(686.5, 20), NSMakePoint(723.5, 18), NSMakePoint(759.5, 11), NSMakePoint(797.5, 0)],
         9: [NSMakePoint(541.5, -10), NSMakePoint(573.5, 0), NSMakePoint(603.5, 10), NSMakePoint(633.5, 19), NSMakePoint(665.5, 20), NSMakePoint(697.5, 20), NSMakePoint(728.5, 13), NSMakePoint(762.5, 3), NSMakePoint(795.5, -12)],
         10: [NSMakePoint(529.5, -10), NSMakePoint(560.5, -9), NSMakePoint(590.5, 0), NSMakePoint(618.5, 9), NSMakePoint(646.5, 16), NSMakePoint(675.5, 20), NSMakePoint(704.5, 17), NSMakePoint(732.5, 10), NSMakePoint(762.5, 3), NSMakePoint(797.5, -11)]

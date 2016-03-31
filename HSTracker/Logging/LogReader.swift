@@ -38,11 +38,11 @@ final class LogReader {
         
         self.path = Hearthstone.instance.logPath + "/\(name).log"
         Log.info?.message("Init reader for \(name) at path \(self.path)")
-        /*if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
+        if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
             do {
                 try NSFileManager.defaultManager().removeItemAtPath(self.path)
             } catch { }
-        }*/
+        }
     }
 
     func findEntryPoint(choice: String) -> Double {
@@ -103,7 +103,8 @@ final class LogReader {
         queue = dispatch_queue_create(queueName, nil)
         _lockQueue = dispatch_queue_create("\(queueName).lock", DISPATCH_QUEUE_CONCURRENT)
         if let queue = queue {
-            Log.verbose?.message("Starting to track \(name) with queue \(queueName) at offset \(startingPoint)")
+            Log.info?.message("Starting to track \(name)")
+            Log.verbose?.message("\(name) has queue \(queueName) starting at \(NSDate(timeIntervalSince1970: startingPoint))")
             dispatch_async(queue) {
                 self.readFile()
             }

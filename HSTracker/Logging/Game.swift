@@ -231,10 +231,9 @@ class Game {
         gameEndDate = NSDate()
         
         handleEndGame()
-        
-        TurnTimer.instance.stop()
-        
+
         dispatch_async(dispatch_get_main_queue()) {
+            TurnTimer.instance.stop()
             self.timerHud?.window?.orderOut(self)
             self.cardHuds?.forEach {
                 $0.window?.orderOut(self)
@@ -942,9 +941,10 @@ class Game {
             }
             if let cardHuds = self.cardHuds {
                 let count = min(10, self.opponent.handCount)
+                
                 for (i, hud) in cardHuds.enumerate() {
-                    if !self.gameEnded && i < count && self.opponent.hand.count > i {
-                        hud.setEntity(self.opponent.hand[i])
+                    if let entity = self.opponent.hand.firstWhere({ $0.getTag(.ZONE_POSITION) == i + 1 }) where !self.gameEnded {
+                        hud.setEntity(entity)
                         let frame = SizeHelper.opponentCardHudFrame(i, count)
                         hud.window?.setFrame(frame, display: true)
                         hud.showWindow(self)

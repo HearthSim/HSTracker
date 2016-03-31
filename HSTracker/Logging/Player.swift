@@ -537,7 +537,6 @@ final class Player {
     }
     
     func mulligan(entity: Entity) {
-        entity.info.mulliganed = true
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
@@ -546,22 +545,15 @@ final class Player {
             updateKnownEntitesInDeck(entity.cardId)
         }
         else {
-            entity.info.hidden = true
+            if Game.instance.opponentEntity?.getTag(.MULLIGAN_STATE) == Mulligan.DEALING.rawValue {
+                entity.info.mulliganed = true
+            }
+            else {
+                entity.info.hidden = true
+            }
         }
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
-    }
-    
-    func highlight(cardId: String) {
-        /*hightlightedCards.append(cardId)
-        Game.instance.updatePlayerTracker()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            NSThread.sleepForTimeInterval(3)
-            if self.hightlightedCards.count > 0 {
-                self.hightlightedCards.removeFirst()
-            }
-            Game.instance.updatePlayerTracker()
-        }*/
     }
     
     func removeFromDeck(entity: Entity, _ turn: Int) {

@@ -79,19 +79,44 @@ class TrackerFrame: NSView {
         return ratio
     }
     
-    func addChild(image: NSImage?, _ rect: NSRect) {
-        guard let _ = image else { return }
+    func addChild(image: NSImage?, _ rect: NSRect, _ onLayer: CALayer? = nil) -> CALayer? {
+        guard let _ = image else { return nil }
 
         let sublayer = CALayer()
-        sublayer.contents = image!
+        setImage(sublayer, image)
         sublayer.frame = rect.ratio(ratio)
-        self.layer?.addSublayer(sublayer)
+        if let onLayer = onLayer {
+            onLayer.addSublayer(sublayer)
+        }
+        else {
+            self.layer?.addSublayer(sublayer)
+        }
+        return sublayer
     }
     
-    func addText(str: String, _ rect: NSRect) {
+    func setImage(sublayer: CALayer, _ image: NSImage?) {
+        guard let _ = image else { return }
+        sublayer.contents = image!
+    }
+    
+    func addText(str: String, _ rect: NSRect, _ onLayer: CALayer? = nil, _ foreground: NSColor? = nil) -> CATextLayer {
         let sublayer = CATextLayer()
-        sublayer.string = NSAttributedString(string: str, attributes: textAttributes)
+        setText(sublayer, str, foreground)
         sublayer.frame = rect.ratio(ratio)
-        self.layer?.addSublayer(sublayer)
+        if let onLayer = onLayer {
+            onLayer.addSublayer(sublayer)
+        }
+        else {
+            self.layer?.addSublayer(sublayer)
+        }
+        return sublayer
+    }
+    
+    func setText(sublayer: CATextLayer, _ str: String, _ foreground: NSColor? = nil) {
+        var attributes = textAttributes
+        if let foreground = foreground {
+            attributes[NSForegroundColorAttributeName] = foreground
+        }
+        sublayer.string = NSAttributedString(string: str, attributes: attributes)
     }
 }

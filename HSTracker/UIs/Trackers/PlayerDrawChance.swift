@@ -17,15 +17,27 @@ class PlayerDrawChance: TrackerFrame {
     var drawChance1 = 0.0
     var drawChance2 = 0.0
     
+    private var imageLayer: CALayer?
+    private var drawChance1Layer: CATextLayer?
+    private var drawChance2Layer: CATextLayer?
+    
     override func updateLayer() {
-        if let layer = self.layer, sublayers = layer.sublayers {
-            for sublayer in sublayers {
-                sublayer.removeFromSuperlayer()
-            }
+        if imageLayer == nil {
+            imageLayer = addChild(ImageCache.asset("player-chance-frame"), frameRect)
         }
-            
-        addChild(ImageCache.asset("player-chance-frame"), frameRect)
-        addText(String(format: "%.2f%%", drawChance1), draw1Frame)
-        addText(String(format: "%.2f%%", drawChance2), draw2Frame)
+        
+        if drawChance1Layer == nil {
+            drawChance1Layer = addText(String(format: "%.2f%%", drawChance1), draw1Frame)
+        }
+        else {
+            setText(drawChance1Layer!, String(format: "%.2f%%", drawChance1))
+        }
+        
+        if drawChance2Layer == nil {
+            drawChance2Layer = addText(String(format: "%.2f%%", drawChance2), draw2Frame)
+        }
+        else {
+            setText(drawChance2Layer!, String(format: "%.2f%%", drawChance2))
+        }
     }
 }

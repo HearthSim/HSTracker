@@ -16,16 +16,26 @@ class CardCounter: TrackerFrame {
     
     var handCount = 30
     var deckCount = 0
+    
+    private var imageLayer: CALayer?
+    private var handCountLayer: CATextLayer?
+    private var deckCountLayer: CATextLayer?
 
     override func updateLayer() {
-        if let layer = self.layer, sublayers = layer.sublayers {
-            for sublayer in sublayers {
-                sublayer.removeFromSuperlayer()
-            }
+        if imageLayer == nil {
+            imageLayer = addChild(ImageCache.asset("card-counter-frame"), frameRect)
         }
-        
-        addChild(ImageCache.asset("card-counter-frame"), frameRect)
-        addText("\(handCount)", handFrame)
-        addText("\(deckCount)", deckFrame)
+        if handCountLayer == nil {
+            handCountLayer = addText("\(handCount)", handFrame)
+        }
+        else {
+            setText(handCountLayer!, "\(handCount)")
+        }
+        if deckCountLayer == nil {
+            deckCountLayer = addText("\(deckCount)", deckFrame)
+        }
+        else {
+            setText(deckCountLayer!, "\(deckCount)")
+        }
     }
 }

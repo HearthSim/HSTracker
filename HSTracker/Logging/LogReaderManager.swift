@@ -64,6 +64,7 @@ final class LogReaderManager {
     func stop() {
         Log.info?.message("Stopping all trackers")
         stopped = true
+        running = false
         for reader in readers {
             reader.stop()
         }

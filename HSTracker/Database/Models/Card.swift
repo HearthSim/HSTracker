@@ -95,11 +95,6 @@ final class Card : Hashable, CustomStringConvertible {
     }
 
     var description : String {
-        /*return "<\(NSStringFromClass(self.dynamicType)): "
-         + "self.cardId=\(self.cardId)"
-         + ", self.name=\(self.name)"
-         + ", self.enName=\(self.enName)"
-         + ", self.count=\(self.count)>"*/
         return "[\(name)(\(id)):\(count)]"
     }
 
