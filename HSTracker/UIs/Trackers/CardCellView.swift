@@ -9,23 +9,6 @@
  */
 
 import Cocoa
-import QuartzCore
-
-let kFrameWidth = 217.0
-let kFrameHeight = 700.0
-let kRowHeight = 34.0
-
-let kMediumRowHeight = 29.0
-let kMediumFrameWidth = (kFrameWidth / kRowHeight * kMediumRowHeight)
-
-let kSmallRowHeight = 23.0
-let kSmallFrameWidth = (kFrameWidth / kRowHeight * kSmallRowHeight)
-
-enum CardSize: Int {
-    case Small,
-    Medium,
-    Big
-}
 
 protocol CardCellHover {
     func hover(card: Card)
@@ -33,46 +16,21 @@ protocol CardCellHover {
     func out(card: Card)
 }
 
-extension NSRect {
-    func ratio(ratio: CGFloat) -> NSRect {
-        return NSMakeRect(self.origin.x / ratio,
-                          self.origin.y / ratio,
-                          self.size.width / ratio,
-                          self.size.height / ratio)
-    }
-}
-
-class CardCellView: NSView {
+class CardCellView: TrackerFrame {
     
-    let frameCountBoxRect = NSMakeRect(183, 0, 34, 34)
-    let frameCounterRect = NSMakeRect(195, 7, 18, 21)
-    let frameRect = NSMakeRect(0, 0, 217, 34)
-    let gemRect = NSMakeRect(0, 0, 34, 34)
-    let imageRect = NSMakeRect(108, 4, 108, 27)
-    let fadeRect = NSMakeRect(28, 0, 189, 34)
-    let iconRect = NSMakeRect(183, 0, 34, 34)
-    let markerRect = NSMakeRect(192, 8, 21, 21)
+    private let frameCountBoxRect = NSMakeRect(183, 0, 34, 34)
+    private let frameCounterRect = NSMakeRect(195, 7, 18, 21)
+    private let frameRect = NSMakeRect(0, 0, CGFloat(kFrameWidth), 34)
+    private let gemRect = NSMakeRect(0, 0, 34, 34)
+    private let imageRect = NSMakeRect(108, 4, 108, 27)
+    private let fadeRect = NSMakeRect(28, 0, 189, 34)
+    private let iconRect = NSMakeRect(183, 0, 34, 34)
+    private let markerRect = NSMakeRect(192, 8, 21, 21)
 
-    var trackingArea: NSTrackingArea?
+    private var trackingArea: NSTrackingArea?
     var delegate: CardCellHover?
     var card: Card?
     var playerType: PlayerType?
-
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-        initLayers()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        initLayers()
-    }
-
-    func initLayers() {
-        self.wantsLayer = true
-
-        self.layer!.backgroundColor = NSColor.clearColor().CGColor
-    }
     
     override func updateLayer() {
         if let layer = self.layer, let sublayers = layer.sublayers {
@@ -208,15 +166,6 @@ class CardCellView: NSView {
         return ratio
     }
 
-    private func addChild(image: NSImage?, _ rect:NSRect) {
-        guard let _ = image else { return }
-        
-        let sublayer = CALayer()
-        sublayer.contents = image!
-        sublayer.frame = rect.ratio(self.ratio())
-        self.layer?.addSublayer(sublayer)
-    }
-    
     private func addCardImage(card:Card) {
         let xOffset:CGFloat = abs(card.count) > 1 || card.rarity == .Legendary ? 19 : 0
         addChild(ImageCache.smallCardImage(card), imageRect.offsetBy(dx: -xOffset, dy: 0))
@@ -261,14 +210,14 @@ class CardCellView: NSView {
     }
 
     override func mouseEntered(event: NSEvent) {
-        if let delegate = self.delegate, card = self.card {
-            delegate.hover(card)
+        if let card = self.card {
+            delegate?.hover(card)
         }
     }
 
     override func mouseExited(event: NSEvent) {
-        if let delegate = self.delegate, card = self.card {
-            delegate.out(card)
+        if let card = self.card {
+            delegate?.out(card)
         }
     }
 }

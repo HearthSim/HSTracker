@@ -81,9 +81,6 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
         self.table.backgroundColor = NSColor.clearColor()
         self.table.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
         
-        let nib = NSNib(nibNamed: "CountTextCellView", bundle: nil)
-        self.table.registerNib(nib, forIdentifier: "CountTextCellView")
-        
         self.table.reloadData()
     }
     
@@ -138,16 +135,14 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         var count = self.cards.count
         
-        /*if ([Settings instance].handCountWindow == HandCountPosition_Tracker) {
-        count += 1;
-        }*/
-        if count > 0 {
-            count += 1
+        // add for frames
+        if playerType == .Opponent {
+            // TODO options
+            count += 2
         }
-        
-        /*if let playerType = self.playerType where self.gameEnded && playerType == .Opponent {
-            count += 1
-        }*/
+        else {
+            count += 2
+        }
         
         return count
     }
@@ -155,9 +150,57 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         if row >= cards.count {
-            let cell = table.makeViewWithIdentifier("CountTextCellView", owner: self) as! CountTextCellView
-            cell.setText(countText())
-            return cell
+            let gameStarted = !Game.instance.isInMenu && Game.instance.entities.count >= 67
+            let deckCount = !gameStarted || player == nil ? 30 : player!.deckCount
+            let handCount = !gameStarted || player == nil ? 0 : player!.handCount
+            
+            if playerType == .Opponent {
+                
+                if row == cards.count {
+                    let cell = CardCounter()
+                    cell.handCount = handCount
+                    cell.deckCount = deckCount
+                    return cell
+                }
+                else if row == cards.count + 1 {
+                    var draw1 = 0.0, draw2 = 0.0, hand1 = 0.0, hand2 = 0.0
+                    if deckCount > 0 {
+                        draw1 = (1 * 100.0) / Double(deckCount)
+                        draw2 = (2 * 100.0) / Double(deckCount)
+                    }
+                    if handCount > 0 {
+                        hand1 = (1 * 100.0) / Double(handCount)
+                        hand2 = (2 * 100.0) / Double(handCount)
+                    }
+                    
+                    let cell = OpponentDrawChance()
+                    cell.drawChance1 = draw1
+                    cell.drawChance2 = draw2
+                    cell.handChance1 = hand1
+                    cell.handChance2 = hand2
+                    return cell
+                }
+            }
+            else {
+                if row == cards.count {
+                    let cell = CardCounter()
+                    cell.handCount = handCount
+                    cell.deckCount = deckCount
+                    return cell
+                }
+                else if row == cards.count + 1 {
+                    var draw1 = 0.0, draw2 = 0.0
+                    if deckCount > 0 {
+                        draw1 = (1 * 100.0) / Double(deckCount)
+                        draw2 = (2 * 100.0) / Double(deckCount)
+                    }
+                    
+                    let cell = PlayerDrawChance()
+                    cell.drawChance1 = draw1
+                    cell.drawChance2 = draw2
+                    return cell
+                }
+            }
         }
         else {
             let card = cards[row]
@@ -171,39 +214,24 @@ class Tracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, C
             }
             return cell
         }
-    }
-    
-    func countText() -> String {
-        if let player = player {
-            var str = "\(NSLocalizedString("Hand", comment: "")) : \(player.handCount) / "
-            
-            let gameStarted = !Game.instance.isInMenu && Game.instance.entities.count >= 67
-            let count = !gameStarted ? 30 : player.deckCount
-                
-            str += "\(NSLocalizedString("Deck", comment: "")) : \(count)\n"
-            
-            if count > 0 {
-                var percent = (1 * 100.0) / Double(count)
-                str += String(format: "[1] : %.2f%", percent)
-                str += " / "
-                percent = (2 * 100.0) / Double(count)
-                str += String(format: "[2] : %.2f%", percent)
-            }
-            
-            return str
-        }
-        return ""
+        
+        return nil
     }
     
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         if row >= cards.count {
+            var height: CGFloat = 40
+            if playerType == .Opponent && row == cards.count + 1 {
+                height = 71
+            }            
+            
             var ratio: CGFloat
             switch Settings.instance.cardSize {
             case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
             case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
             default: ratio = 1.0
             }
-            return 50.0 / ratio
+            return height / ratio
         }
         else {
             switch Settings.instance.cardSize {

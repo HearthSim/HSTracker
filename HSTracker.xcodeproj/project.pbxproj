@@ -15,8 +15,7 @@
 		431719751C89ADA000F5988B /* NSAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719741C89ADA000F5988B /* NSAlert.swift */; };
 		431719791C8C179D00F5988B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
 		4317197B1C8C19B500F5988B /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197A1C8C19B500F5988B /* Statistic.swift */; };
-		4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* CountTextCellView.swift */; };
-		4317197F1C8C651900F5988B /* CountTextCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4317197E1C8C651900F5988B /* CountTextCellView.xib */; };
+		4317197D1C8C54FF00F5988B /* OpponentDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */; };
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		434106A61C9868620045655A /* Frames.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A31C9868620045655A /* Frames.xcassets */; };
@@ -58,6 +57,9 @@
 		436789B31CAC085300C962D1 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789B41CAC085300C962D1 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789B51CAC085300C962D1 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789B71CACF64600C962D1 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
+		436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
+		436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */; };
 		436969151C80653000CE1D29 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436969141C80653000CE1D29 /* LinqExtension.swift */; };
 		43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43873CC01CA6E6C200F01CB4 /* WindowMove.xib */; };
 		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
@@ -196,8 +198,7 @@
 		431719741C89ADA000F5988B /* NSAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSAlert.swift; sourceTree = "<group>"; };
 		431719781C8C179D00F5988B /* Rarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
 		4317197A1C8C19B500F5988B /* Statistic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
-		4317197C1C8C54FF00F5988B /* CountTextCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountTextCellView.swift; sourceTree = "<group>"; };
-		4317197E1C8C651900F5988B /* CountTextCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountTextCellView.xib; sourceTree = "<group>"; };
+		4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentDrawChance.swift; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
 		434106A31C9868620045655A /* Frames.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Frames.xcassets; sourceTree = "<group>"; };
@@ -230,6 +231,9 @@
 		436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = JNWCollectionView.framework.dSYM; path = Carthage/Build/Mac/JNWCollectionView.framework.dSYM; sourceTree = "<group>"; };
 		436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kanna.framework.dSYM; path = Carthage/Build/Mac/Kanna.framework.dSYM; sourceTree = "<group>"; };
 		436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MASPreferences.framework.dSYM; path = Carthage/Build/Mac/MASPreferences.framework.dSYM; sourceTree = "<group>"; };
+		436789B61CACF64600C962D1 /* CardCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCounter.swift; sourceTree = "<group>"; };
+		436789BA1CACF79800C962D1 /* TrackerFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerFrame.swift; sourceTree = "<group>"; };
+		436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDrawChance.swift; sourceTree = "<group>"; };
 		436969141C80653000CE1D29 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
 		43873CC01CA6E6C200F01CB4 /* WindowMove.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowMove.xib; sourceTree = "<group>"; };
 		43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowMove.swift; sourceTree = "<group>"; };
@@ -614,15 +618,17 @@
 			children = (
 				439C7EDC1C777FA900D29859 /* Tracker.swift */,
 				439C7EDD1C777FA900D29859 /* Tracker.xib */,
-				439C7ED61C777FA900D29859 /* CardCellView.swift */,
-				4317197C1C8C54FF00F5988B /* CountTextCellView.swift */,
-				4317197E1C8C651900F5988B /* CountTextCellView.xib */,
 				43B695621C920A0500F4D0AC /* SecretTracker.swift */,
 				43B695641C920BD500F4D0AC /* SecretTracker.xib */,
 				43E77EE11C949C7800C26950 /* TimerHud.swift */,
 				43E77EDF1C949C6D00C26950 /* TimerHud.xib */,
 				43E77EE51C94B4B400C26950 /* CardHud.swift */,
 				43E77EE71C94B4CA00C26950 /* CardHud.xib */,
+				436789BA1CACF79800C962D1 /* TrackerFrame.swift */,
+				439C7ED61C777FA900D29859 /* CardCellView.swift */,
+				436789B61CACF64600C962D1 /* CardCounter.swift */,
+				4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */,
+				436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -835,7 +841,6 @@
 				439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */,
-				4317197F1C8C651900F5988B /* CountTextCellView.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 			);
@@ -904,7 +909,7 @@
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
-				4317197D1C8C54FF00F5988B /* CountTextCellView.swift in Sources */,
+				4317197D1C8C54FF00F5988B /* OpponentDrawChance.swift in Sources */,
 				43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */,
 				439C7EEB1C777FCF00D29859 /* String.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
@@ -921,6 +926,7 @@
 				434C2F381C7F487D001D1D91 /* Hearthstats.swift in Sources */,
 				43D308081C84410000480488 /* TrackersPreferences.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
+				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
@@ -946,6 +952,7 @@
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				431719751C89ADA000F5988B /* NSAlert.swift in Sources */,
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
+				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				434C2F3A1C7F48BE001D1D91 /* Hearthhead.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
@@ -961,6 +968,7 @@
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439C7EC41C777F8900D29859 /* NetHandler.swift in Sources */,
+				436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				43E77EEA1C95713300C26950 /* Date.swift in Sources */,
 				64C11831FAF872B46E57E719 /* CardIds.swift in Sources */,
