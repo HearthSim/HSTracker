@@ -77,7 +77,7 @@ struct SizeHelper {
         }
 
         // game menu
-        let offset: CGFloat = 70
+        let offset: CGFloat = 50
         let frame = NSMakeRect(NSWidth(hearthstoneFrame) - CGFloat(width), 0, CGFloat(width), NSHeight(hearthstoneFrame) - offset)
         return frameRelativeToHearthstone(frame)
     }
@@ -94,7 +94,7 @@ struct SizeHelper {
         }
 
         // friend list button
-        let offset: CGFloat = 70
+        let offset: CGFloat = 50
         let frame = NSMakeRect(0, 0, CGFloat(width), NSHeight(hearthstoneFrame) - offset)
         return frameRelativeToHearthstone(frame)
     }
