@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CardHud">
             <connections>
+                <outlet property="costReduction" destination="YH9-Qj-t1M" id="kR8-NO-4F9"/>
                 <outlet property="icon" destination="NzL-FG-l1J" id="kcW-aj-qMt"/>
                 <outlet property="label" destination="eEe-bA-W4z" id="b5P-Xh-BOO"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="FQM-HP-hAL"/>
@@ -37,6 +38,14 @@
                         <rect key="frame" x="20" y="3" width="16" height="16"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="coin" id="xdg-eG-xLq"/>
                     </imageView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YH9-Qj-t1M">
+                        <rect key="frame" x="0.0" y="25" width="37" height="26"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="-2" id="yaw-th-Xbz">
+                            <font key="font" size="16" name="BelweBT-Bold"/>
+                            <color key="textColor" red="0.21546787023544312" green="0.59531688690185547" blue="0.98550587892532349" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-250" y="327.5"/>

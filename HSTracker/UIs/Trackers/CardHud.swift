@@ -15,6 +15,7 @@ class CardHud : NSWindowController {
 
     @IBOutlet weak var label: NSTextFieldCell!
     @IBOutlet weak var icon: NSImageView!
+    @IBOutlet weak var costReduction: NSTextField!
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -32,6 +33,7 @@ class CardHud : NSWindowController {
         self.entity = entity
         var text = ""
         var image: String? = nil
+        var cost = 0
 
         if let entity = entity {
             text += "\(entity.info.turn)"
@@ -45,6 +47,11 @@ class CardHud : NSWindowController {
             case .Created: image = "created"
             default: break
             }
+            if let impFavor = Game.instance.opponent.board.firstWhere({
+                $0.cardId == CardIds.NonCollectible.Neutral.ImperialFavorEnchantment && $0.getTag(.ATTACHED) == entity.id
+            }) {
+                cost = impFavor.getTag(.NUM_TURNS_IN_PLAY)
+            }
         }
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .Center
@@ -55,6 +62,13 @@ class CardHud : NSWindowController {
             NSStrokeColorAttributeName: NSColor.blackColor(),
             NSParagraphStyleAttributeName: paragraph
             ])
+        costReduction.attributedStringValue = NSAttributedString(string: "-\(cost)", attributes: [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 16)!,
+            NSForegroundColorAttributeName: NSColor(red: 0.117, green: 0.56, blue: 1, alpha: 1),
+            NSStrokeWidthAttributeName: -2,
+            NSStrokeColorAttributeName: NSColor.blackColor()
+            ])
+        costReduction.hidden = cost < 1
         if let image = image {
             icon.image = ImageCache.asset(image)
         }
