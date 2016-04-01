@@ -512,6 +512,7 @@ final class Player {
         if entity.getTag(.CARDTYPE) == CardType.TOKEN.rawValue {
             entity.info.created = true
         }
+        entity.info.hidden = false
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }

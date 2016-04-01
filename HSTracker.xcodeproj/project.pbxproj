@@ -34,32 +34,32 @@
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
 		4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
-		436789951CABFB1600C962D1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
-		436789961CABFB1600C962D1 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
-		436789971CABFB1600C962D1 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
-		436789981CABFB1600C962D1 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
-		436789991CABFB1600C962D1 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
-		4367899A1CABFB1600C962D1 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
-		4367899B1CABFB1600C962D1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
-		4367899D1CAC05D700C962D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
-		436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */; };
-		436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */; };
-		436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */; };
-		436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */; };
-		436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */; };
-		436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */; };
-		436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */; };
-		436789AF1CAC085300C962D1 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436789B01CAC085300C962D1 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436789B11CAC085300C962D1 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436789B21CAC085300C962D1 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436789B31CAC085300C962D1 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436789B41CAC085300C962D1 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436789B51CAC085300C962D1 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789B71CACF64600C962D1 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
 		436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
 		436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */; };
+		436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
+		436789D21CAE484800C962D1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
+		436789D31CAE484800C962D1 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
+		436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
+		436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
+		436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		436789DA1CAE484800C962D1 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
+		436789DB1CAE484800C962D1 /* JNWCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
+		436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
+		436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		436969151C80653000CE1D29 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436969141C80653000CE1D29 /* LinqExtension.swift */; };
 		43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43873CC01CA6E6C200F01CB4 /* WindowMove.xib */; };
 		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
@@ -170,13 +170,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				436789AF1CAC085300C962D1 /* Alamofire.framework in CopyFiles */,
-				436789B01CAC085300C962D1 /* CleanroomASL.framework in CopyFiles */,
-				436789B11CAC085300C962D1 /* CleanroomLogger.framework in CopyFiles */,
-				436789B21CAC085300C962D1 /* HockeySDK.framework in CopyFiles */,
-				436789B31CAC085300C962D1 /* JNWCollectionView.framework in CopyFiles */,
-				436789B41CAC085300C962D1 /* Kanna.framework in CopyFiles */,
-				436789B51CAC085300C962D1 /* MASPreferences.framework in CopyFiles */,
 				436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */,
 				436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */,
 				436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */,
@@ -185,6 +178,23 @@
 				436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */,
 				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		436789E01CAE484800C962D1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
+				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
+				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
+				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
+				436789DB1CAE484800C962D1 /* JNWCollectionView.framework in Embed Frameworks */,
+				436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */,
+				436789D31CAE484800C962D1 /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -334,15 +344,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
+				436789D21CAE484800C962D1 /* Alamofire.framework in Frameworks */,
+				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
+				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
+				436789DA1CAE484800C962D1 /* JNWCollectionView.framework in Frameworks */,
+				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
+				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
+				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
-				4367899D1CAC05D700C962D1 /* Foundation.framework in Frameworks */,
-				436789951CABFB1600C962D1 /* Alamofire.framework in Frameworks */,
-				436789961CABFB1600C962D1 /* CleanroomASL.framework in Frameworks */,
-				436789971CABFB1600C962D1 /* CleanroomLogger.framework in Frameworks */,
-				436789981CABFB1600C962D1 /* HockeySDK.framework in Frameworks */,
-				436789991CABFB1600C962D1 /* JNWCollectionView.framework in Frameworks */,
-				4367899A1CABFB1600C962D1 /* Kanna.framework in Frameworks */,
-				4367899B1CABFB1600C962D1 /* MASPreferences.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,6 +736,7 @@
 				439C7E451C7772C000D29859 /* Frameworks */,
 				439C7E461C7772C000D29859 /* Resources */,
 				436789A01CAC078800C962D1 /* CopyFiles */,
+				436789E01CAE484800C962D1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
