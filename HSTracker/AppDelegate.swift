@@ -107,7 +107,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if self.playerTracker != nil && self.opponentTracker != nil {
                     break
                 }
-                NSThread.sleepForTimeInterval(0.2)
+                NSThread.sleepForTimeInterval(0.5)
             }
             let game = Game.instance
             game.setPlayerTracker(self.playerTracker)
@@ -116,14 +116,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             game.setTimerHud(self.timerHud)
             game.setCardHuds(self.cardHuds)
 
-            if let activeDeck = Settings.instance.activeDeck {
-                if let deck = Decks.byId(activeDeck) {
-                    NSOperationQueue.mainQueue().addOperationWithBlock() {
-                        game.setActiveDeck(deck)
-                        game.updatePlayerTracker()
-                    }
-                }
-            }
             NSOperationQueue.mainQueue().addOperationWithBlock() {
                 game.reset()
             }
@@ -171,6 +163,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                          object: nil)
 
         Log.info?.message("HSTracker is now ready !")
+        
+        if let activeDeck = Settings.instance.activeDeck, deck = Decks.byId(activeDeck) {
+            Game.instance.setActiveDeck(deck)
+        }
+        
         NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
 
         // testImportDeck()
@@ -366,7 +363,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let deck = sender.representedObject as? Deck {
             Settings.instance.activeDeck = deck.deckId
             Game.instance.setActiveDeck(deck)
-            Game.instance.updatePlayerTracker()
         }
     }
     

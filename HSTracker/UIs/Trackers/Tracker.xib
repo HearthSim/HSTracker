@@ -7,10 +7,9 @@
         <customObject id="-2" userLabel="File's Owner" customClass="Tracker" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="cardCounter" destination="fDJ-yZ-50f" id="nBu-Cf-pye"/>
+                <outlet property="cardsView" destination="naK-zt-rPm" id="SQk-kS-AJ7"/>
                 <outlet property="opponentDrawChance" destination="Slp-Ya-S9h" id="R3r-Tb-bap"/>
                 <outlet property="playerDrawChance" destination="UC5-o5-y78" id="9EG-lm-GA7"/>
-                <outlet property="scrollView" destination="n0m-b9-zJy" id="eew-yo-UJu"/>
-                <outlet property="table" destination="695-Rw-J4I" id="IkM-QW-B4L"/>
                 <outlet property="window" destination="KpN-Eq-jNY" id="ToO-5Y-9JJ"/>
             </connections>
         </customObject>
@@ -25,67 +24,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="217" height="478"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="0.0" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="n0m-b9-zJy">
-                        <rect key="frame" x="0.0" y="231" width="217" height="247"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="zDI-mD-WA1">
-                            <rect key="frame" x="0.0" y="0.0" width="217" height="247"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="695-Rw-J4I">
-                                    <rect key="frame" x="0.0" y="0.0" width="217" height="247"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <size key="intercellSpacing" width="3" height="2"/>
-                                    <color key="backgroundColor" red="1" green="0.97536579040000004" blue="0.97632869" alpha="0.0" colorSpace="calibratedRGB"/>
-                                    <color key="gridColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                    <tableColumns>
-                                        <tableColumn width="214" minWidth="40" maxWidth="1000" id="BPd-Xb-fay">
-                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                            </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="rk6-zJ-wij">
-                                                <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <prototypeCellViews>
-                                                <tableCellView id="uLH-fu-xFO">
-                                                    <rect key="frame" x="1" y="1" width="214" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                </tableCellView>
-                                            </prototypeCellViews>
-                                        </tableColumn>
-                                    </tableColumns>
-                                    <connections>
-                                        <outlet property="dataSource" destination="-2" id="xda-bJ-CCH"/>
-                                        <outlet property="delegate" destination="-2" id="1Xa-Vf-EYn"/>
-                                    </connections>
-                                </tableView>
-                            </subviews>
-                            <color key="backgroundColor" red="1" green="0.97536579040000004" blue="0.97632869" alpha="0.0" colorSpace="calibratedRGB"/>
-                        </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="oWb-ja-QYt">
-                            <rect key="frame" x="-100" y="-100" width="0.0" height="16"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="ILD-8R-TIn">
-                            <rect key="frame" x="224" y="17" width="15" height="102"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                    </scrollView>
-                    <customView id="fDJ-yZ-50f" customClass="CardCounter" customModule="HSTracker" customModuleProvider="target">
+                    <customView hidden="YES" id="fDJ-yZ-50f" customClass="CardCounter" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="127" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView id="UC5-o5-y78" customClass="PlayerDrawChance" customModule="HSTracker" customModuleProvider="target">
+                    <customView hidden="YES" id="UC5-o5-y78" customClass="PlayerDrawChance" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="85" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView id="Slp-Ya-S9h" customClass="OpponentDrawChance" customModule="HSTracker" customModuleProvider="target">
+                    <customView hidden="YES" id="Slp-Ya-S9h" customClass="OpponentDrawChance" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="217" height="71"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView id="naK-zt-rPm">
+                        <rect key="frame" x="0.0" y="171" width="217" height="96"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                 </subviews>

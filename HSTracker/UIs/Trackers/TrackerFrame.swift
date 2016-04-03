@@ -18,15 +18,6 @@ let kMediumFrameWidth = (kFrameWidth / kRowHeight * kMediumRowHeight)
 let kSmallRowHeight = 23.0
 let kSmallFrameWidth = (kFrameWidth / kRowHeight * kSmallRowHeight)
 
-extension NSRect {
-    func ratio(ratio: CGFloat) -> NSRect {
-        return NSMakeRect(self.origin.x / ratio,
-                          self.origin.y / ratio,
-                          self.size.width / ratio,
-                          self.size.height / ratio)
-    }
-}
-
 enum CardSize: Int {
     case Small,
     Medium,
@@ -36,6 +27,11 @@ enum CardSize: Int {
 class TrackerFrame: NSView {
     
     var playerType: PlayerType?
+    
+    init() {
+        super.init(frame: NSZeroRect)
+        initLayers()
+    }
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -53,12 +49,19 @@ class TrackerFrame: NSView {
         self.layer!.backgroundColor = NSColor.clearColor().CGColor
     }
     
+    func ratio(rect: NSRect) -> NSRect {
+        return NSMakeRect(rect.origin.x / ratioWidth,
+                          rect.origin.y / ratioHeight,
+                          rect.size.width / ratioWidth,
+                          rect.size.height / ratioHeight)
+    }
+    
      var textAttributes: [String: AnyObject] {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .Right
         
         return [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 16 / ratio)!,
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 16 / ratioHeight)!,
             NSForegroundColorAttributeName: NSColor.whiteColor(),
             NSStrokeWidthAttributeName: -2,
             NSStrokeColorAttributeName: NSColor.blackColor(),
@@ -66,23 +69,22 @@ class TrackerFrame: NSView {
         ]
     }
     
-    var ratio: CGFloat {
+    var ratioWidth: CGFloat {
         if let playerType = playerType where playerType == .DeckManager {
             return 1.0
         }
         
         var ratio: CGFloat
         switch Settings.instance.cardSize {
-        case .Small:
-            ratio = CGFloat(kRowHeight / kSmallRowHeight)
-            
-        case .Medium:
-            ratio = CGFloat(kRowHeight / kMediumRowHeight)
-            
-        default:
-            ratio = 1.0
+        case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
+        case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
+        default: ratio = 1.0
         }
         return ratio
+    }
+    
+    var ratioHeight: CGFloat {
+        return ratioWidth
     }
     
     func addChild(image: NSImage?, _ rect: NSRect, _ onLayer: CALayer? = nil) -> CALayer? {
@@ -90,7 +92,7 @@ class TrackerFrame: NSView {
 
         let sublayer = CALayer()
         setImage(sublayer, image)
-        sublayer.frame = rect.ratio(ratio)
+        sublayer.frame = ratio(rect)
         if let onLayer = onLayer {
             onLayer.addSublayer(sublayer)
         }
@@ -108,7 +110,7 @@ class TrackerFrame: NSView {
     func addText(str: String, _ rect: NSRect, _ onLayer: CALayer? = nil, _ foreground: NSColor? = nil) -> CATextLayer {
         let sublayer = CATextLayer()
         setText(sublayer, str, foreground)
-        sublayer.frame = rect.ratio(ratio)
+        sublayer.frame = ratio(rect)
         if let onLayer = onLayer {
             onLayer.addSublayer(sublayer)
         }

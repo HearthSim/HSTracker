@@ -9,6 +9,7 @@
  */
 
 import Cocoa
+import CleanroomLogger
 
 protocol CardCellHover {
     func hover(card: Card)
@@ -34,14 +35,32 @@ class CardCellView: TrackerFrame {
     private var flashLayer: CALayer?
     private var cardLayer: CALayer?
     
+    override var ratioHeight: CGFloat {
+        if let playerType = playerType where playerType == .DeckManager {
+            return super.ratioHeight
+        }
+        
+        let baseHeight: CGFloat
+        switch Settings.instance.cardSize {
+        case .Small: baseHeight = CGFloat(kSmallRowHeight)
+        case .Medium: baseHeight = CGFloat(kMediumRowHeight)
+        default: baseHeight = CGFloat(kRowHeight)
+        }
+        
+        if baseHeight > NSHeight(self.bounds) {
+            return CGFloat(kRowHeight) / NSHeight(self.bounds)
+        }
+        return super.ratioHeight
+    }
+    
     func update(highlight: Bool) {
         if highlight {
             let flashingLayer = CALayer()
-            flashingLayer.frame = frameRect.ratio(ratio)
+            flashingLayer.frame = ratio(frameRect)
             flashingLayer.backgroundColor = NSColor(red: 1, green: 0.647, blue: 0, alpha: 1).CGColor
             
             let maskLayer = CALayer()
-            maskLayer.frame = frameRect.ratio(ratio)
+            maskLayer.frame = ratio(frameRect)
             maskLayer.contents = ImageCache.asset("frame_mask")
             flashingLayer.mask = maskLayer
             
@@ -62,7 +81,10 @@ class CardCellView: TrackerFrame {
     func fadeOut(highlight: Bool) {
     }
     
-    override func updateLayer() {
+    override func updateLayer() {}
+    
+    override func drawRect(dirtyRect: NSRect) {
+        super.drawRect(dirtyRect)
         if cardLayer == nil {
             cardLayer = CALayer()
             cardLayer?.frame = self.bounds
@@ -80,7 +102,7 @@ class CardCellView: TrackerFrame {
         }
 
         guard let card = self.card else {return}
-        
+
         addCardImage(card)
         addCardName(card)
         addFrame(card)
@@ -102,84 +124,82 @@ class CardCellView: TrackerFrame {
         if self.playerType == .Player {
             foreground = card.textColor()
         }
-        addText(card.name, NSMakeRect(38, -3, 174, 30), cardLayer, foreground)
+        NSAttributedString(string: card.name, attributes: [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 16 / ratioHeight)!,
+            NSForegroundColorAttributeName: foreground,
+            NSStrokeWidthAttributeName: -2,
+            NSStrokeColorAttributeName: NSColor.blackColor()
+            ]).drawInRect(ratio(NSMakeRect(38, 2, 174, 30)))
     }
 
     private func addCardCost(card: Card) {
-        let sublayer = CATextLayer()
         var foreground = NSColor.whiteColor()
         if self.playerType == .Player {
             foreground = card.textColor()
         }
-        sublayer.string = NSAttributedString(string: "\(card.cost)", attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 24 / ratio)!,
+        NSAttributedString(string: "\(card.cost)", attributes: [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 24 / ratioHeight)!,
             NSForegroundColorAttributeName: foreground,
             NSStrokeWidthAttributeName: -2,
             NSStrokeColorAttributeName: NSColor.blackColor()
-            ])
-        
-        sublayer.frame = NSMakeRect(card.cost > 9 ? 5.0 : 13.0, -4, 34, 37).ratio(ratio)
-        cardLayer?.addSublayer(sublayer)
+            ]).drawInRect(ratio(NSMakeRect(card.cost > 9 ? 5.0 : 13.0, 3, 34, 37)))
     }
     
     private func addDarken(card: Card) {
-        addChild(ImageCache.darkenImage(), frameRect, cardLayer)
+        ImageCache.darkenImage()?.drawInRect(ratio(frameRect))
         if card.highlightFrame {
-            addChild(ImageCache.frameImage(.Golden), frameRect, cardLayer)
-            addChild(ImageCache.gemImage(.Legendary), gemRect, cardLayer)
+            addImage(ImageCache.frameImage(.Golden), frameRect)
+            addImage(ImageCache.gemImage(.Legendary), gemRect)
             addCardCost(card)
         }
     }
     
     private func addFrameCounter(card: Card) {
         if Settings.instance.showRarityColors {
-            addChild(ImageCache.frameCountbox(card.rarity), frameCountBoxRect, cardLayer)
+            addImage(ImageCache.frameCountbox(card.rarity), frameCountBoxRect)
         }
         else {
-            addChild(ImageCache.frameCountbox(nil), frameCountBoxRect, cardLayer)
+            addImage(ImageCache.frameCountbox(nil), frameCountBoxRect)
         }
         
         let count = abs(card.count)
         if count <= 1 && card.rarity == Rarity.Legendary {
-            addChild(ImageCache.frameLegendary(), frameCountBoxRect, cardLayer)
+            addImage(ImageCache.frameLegendary(), frameCountBoxRect)
         }
         else {
             let countText = count > 9 ? "9" : "\(count)"
-            addText(countText, 20, 198, -6)
+            addText(countText, 20, 198, -1)
             if count > 9 {
-                addText("+", 13, 202, -6)
+                addText("+", 13, 202, -1)
             }
         }
     }
     
     private func addText(text: String, _ size: CGFloat, _ x: CGFloat, _ y: CGFloat) {
-        let sublayer = CATextLayer()
-        sublayer.string = NSAttributedString(string: text, attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: size / ratio)!,
+        NSAttributedString(string: text, attributes: [
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: size / ratioHeight)!,
             NSForegroundColorAttributeName: NSColor(red: 240.0 / 255.0, green: 195.0 / 255.0, blue: 72.0 / 255.0, alpha: 1.0),
             NSStrokeWidthAttributeName: -2,
             NSStrokeColorAttributeName: NSColor.blackColor()
-        ])
-        sublayer.frame = NSMakeRect(x, y, 30, 37).ratio(ratio)
-        cardLayer?.addSublayer(sublayer)
+        ]).drawInRect(ratio(NSMakeRect(x, y, 30, 37)))
     }
     
     private func addGem(card: Card) {
         if card.highlightFrame {
-            addChild(ImageCache.gemImage(.Legendary), gemRect, cardLayer)
+            addImage(ImageCache.gemImage(.Legendary), gemRect)
         }
         else if Settings.instance.showRarityColors {
-            addChild(ImageCache.gemImage(card.rarity), gemRect, cardLayer)
+            addImage(ImageCache.gemImage(card.rarity), gemRect)
         }
         else {
-            addChild(ImageCache.gemImage(nil), gemRect, cardLayer)
+            addImage(ImageCache.gemImage(nil), gemRect)
         }
     }
 
     private func addCardImage(card:Card) {
         let xOffset:CGFloat = abs(card.count) > 1 || card.rarity == .Legendary ? 19 : 0
-        addChild(ImageCache.smallCardImage(card), imageRect.offsetBy(dx: -xOffset, dy: 0), cardLayer)
-        addChild(ImageCache.fadeImage(), fadeRect.offsetBy(dx: -xOffset, dy: 0), cardLayer)
+        addImage(ImageCache.smallCardImage(card), imageRect.offsetBy(dx: -xOffset, dy: 0))
+        addImage(ImageCache.fadeImage(), fadeRect.offsetBy(dx: -xOffset, dy: 0))
     }
     
     private func addFrame(card:Card) {
@@ -192,7 +212,29 @@ class CardCellView: TrackerFrame {
                 frame = ImageCache.frameImage(card.rarity)
             }
         }
-        addChild(frame, frameRect, cardLayer)
+        addImage(frame, frameRect)
+    }
+    
+    private func addImage(image: NSImage?, _ rect: NSRect) {
+        guard let image = image else {return}
+
+        let resizedRect = ratio(rect)
+        image.drawInRect(resizedRect)
+    }
+    
+    private func resized(source: NSImage) -> NSImage {
+        let from = NSMakeRect(0, 0, source.size.width, source.size.height)
+        let to = NSMakeRect(0, 0, source.size.width / ratioWidth, source.size.height / ratioHeight)
+        // from (0.0, 0.0, 134.0, 34.0) -> to (0.0, 0.0, 114.294117647059, 29.0)[;
+        let resized = NSImage(size: to.size)
+        resized.lockFocus()
+        source.drawInRect(to,
+                          fromRect: from,
+                          operation: .CompositeCopy,
+                          fraction: 1.0)
+        resized.unlockFocus()
+        
+        return resized
     }
     
     // MARK: - CardCellHover

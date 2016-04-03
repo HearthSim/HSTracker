@@ -137,7 +137,9 @@ struct SizeHelper {
 
     static func opponentCardHudFrame(position: Int, _ cardCount: Int) -> NSRect {
         var frame = NSMakeRect(0, 0, 36, 45)
-        if let pos = points[cardCount]?[position] {
+        
+        if let numCards = points[cardCount] where numCards.count > position {
+            let pos = points[cardCount]![position]
             frame.origin.x = pos.x
             frame.origin.y = pos.y
         }

@@ -34,7 +34,8 @@ struct ImageCache {
             target.lockFocus()
             image.drawAtPoint(NSMakePoint(0, 0),
                 fromRect: NSMakeRect(7, 14, 177, 259),
-                operation: .CompositeSourceOver, fraction: 1.0)
+                operation: .CompositeSourceOver,
+                fraction: 1.0)
             target.unlockFocus()
 
             return target

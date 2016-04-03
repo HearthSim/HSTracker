@@ -170,12 +170,12 @@ class Game {
     func setActiveDeck(deck: Deck) {
         self.activeDeck = deck
         player.reset()
-        updatePlayerTracker()
+        updatePlayerTracker(true)
     }
     
     func removeActiveDeck() {
         self.activeDeck = nil
-        updatePlayerTracker()
+        updatePlayerTracker(true)
     }
     
     func setPlayerTracker(tracker: Tracker?) {
@@ -959,37 +959,53 @@ class Game {
     }
     
     private func updateTracker(tracker: Tracker?, _ reset: Bool = false) {
-        if tracker == playerTracker {
-            playerUpdateRequests += 1
-        }
-        else {
-            opponentUpdateRequests += 1
-        }
-        
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
-        let queue = dispatch_get_main_queue()
-        dispatch_after(when, queue) {
-            let updateRequests: Int
+        if reset {
             let cards: [Card]
             if tracker == self.playerTracker {
-                self.playerUpdateRequests -= 1
-                updateRequests = self.playerUpdateRequests
-            }
-            else {
-                self.opponentUpdateRequests -= 1
-                updateRequests = self.opponentUpdateRequests
-            }
-            
-            if updateRequests > 0 {
-                return
-            }
-            if tracker == self.playerTracker {
+                playerUpdateRequests = 0
                 cards = self.player.playerCardList
             }
             else {
+                opponentUpdateRequests = 0
                 cards = self.opponent.opponentCardList
             }
-            tracker?.update(cards, reset)
+            dispatch_async(dispatch_get_main_queue()) {
+                tracker?.update(cards, reset)
+            }
+        }
+        else {
+            if tracker == playerTracker {
+                playerUpdateRequests += 1
+            }
+            else {
+                opponentUpdateRequests += 1
+            }
+            
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
+            let queue = dispatch_get_main_queue()
+            dispatch_after(when, queue) {
+                let updateRequests: Int
+                let cards: [Card]
+                if tracker == self.playerTracker {
+                    self.playerUpdateRequests -= 1
+                    updateRequests = self.playerUpdateRequests
+                }
+                else {
+                    self.opponentUpdateRequests -= 1
+                    updateRequests = self.opponentUpdateRequests
+                }
+                
+                if updateRequests > 0 {
+                    return
+                }
+                if tracker == self.playerTracker {
+                    cards = self.player.playerCardList
+                }
+                else {
+                    cards = self.opponent.opponentCardList
+                }
+                tracker?.update(cards, reset)
+            }
         }
     }
     

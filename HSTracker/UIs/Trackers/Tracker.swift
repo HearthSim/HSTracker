@@ -9,16 +9,16 @@
 */
 
 import Cocoa
+import CleanroomLogger
 
 enum HandCountPosition: Int {
     case Tracker,
     Window
 }
 
-class Tracker: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, CardCellHover {
-    @IBOutlet weak var scrollView: NSScrollView!
+class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     
-    @IBOutlet weak var table: NSTableView!
+    @IBOutlet weak var cardsView: NSView!
     
     @IBOutlet weak var cardCounter: CardCounter!
     @IBOutlet weak var playerDrawChance: PlayerDrawChance!
@@ -71,17 +71,11 @@ class Tracker: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTa
         self.window!.opaque = false
         self.window!.hasShadow = false
         
-        table.intercellSpacing = NSSize(width: 0, height: 0)
-        table.backgroundColor = NSColor.clearColor()
-        table.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
-        
         setWindowSizes()
         _setOpacity()
         _windowLockedChange()
         _hearthstoneRunning(true)
         _frameOptionsChange()
-        
-        table.reloadData()
     }
     
     deinit {
@@ -127,11 +121,11 @@ class Tracker: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTa
     }
     
     func trackerOptionsChange(notification: NSNotification) {
-        self.table.reloadData()
+        _frameOptionsChange()
     }
     
     func cardSizeChange(notification: NSNotification) {
-        self.table.reloadData()
+        _frameOptionsChange()
         setWindowSizes()
     }
     
@@ -166,55 +160,16 @@ class Tracker: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTa
     }
     
     private func _frameOptionsChange() {
-        let settings = Settings.instance
-        
-        guard let windowFrame = self.window?.contentView?.frame else { return }
-        let width = NSWidth(windowFrame)
-        
-        let ratio: CGFloat
-        switch Settings.instance.cardSize {
-        case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
-        case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
-        default: ratio = 1.0
+        if playerType == .Player {
+            Game.instance.updatePlayerTracker()
         }
-        var y: CGFloat = 0
-        
-        if playerType == .Opponent {
-            cardCounter.hidden = !settings.showOpponentCardCount
-            opponentDrawChance.hidden = !settings.showOpponentDrawChance
-            playerDrawChance.hidden = true
-            
-            if !opponentDrawChance.hidden {
-                opponentDrawChance.frame = NSMakeRect(0, 0, width, 71 / ratio)
-                y += NSHeight(opponentDrawChance.frame)
-            }
-            if !cardCounter.hidden {
-                cardCounter.frame = NSMakeRect(0, y, width, 40 / ratio)
-                y += NSHeight(cardCounter.frame)
-            }
+        else if playerType == .Opponent {
+            Game.instance.updateOpponentTracker()
         }
-        else {
-            cardCounter.hidden = !settings.showPlayerCardCount
-            opponentDrawChance.hidden = true
-            playerDrawChance.hidden = !settings.showPlayerDrawChance
-            
-            if !playerDrawChance.hidden {
-                playerDrawChance.frame = NSMakeRect(0, 0, width, 40 / ratio)
-                y += NSHeight(playerDrawChance.frame)
-            }
-            if !cardCounter.hidden {
-                cardCounter.frame = NSMakeRect(0, y, width, 40 / ratio)
-                y += NSHeight(cardCounter.frame)
-            }
-        }
-        
-        scrollView.frame = NSMakeRect(0, y, width, NSHeight(windowFrame) - y)
     }
     
     // MARK: - Game
     func update(cards: [Card], _ reset: Bool = false) {
-        guard let _ = self.table else { return }
-        
         if reset {
             cellsCache.removeAll()
             animatedCards.removeAll()
@@ -272,11 +227,83 @@ class Tracker: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTa
             newCard.fadeIn(!reset)
         })
         
-        table.beginUpdates()
-        table.reloadData()
-        table.endUpdates()
-        
         setCardCount()
+        
+        updateCardFrames()
+    }
+    
+    private func updateCardFrames() {
+        guard let windowFrame = self.window?.contentView?.frame else {
+            Log.verbose?.message("!windowframe")
+            return }
+        let settings = Settings.instance
+        
+        let windowWidth = NSWidth(windowFrame)
+        let windowHeight = NSHeight(windowFrame)
+        
+        let ratio: CGFloat
+        switch settings.cardSize {
+        case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
+        case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
+        default: ratio = 1.0
+        }
+
+        if playerType == .Opponent {
+            cardCounter.hidden = !settings.showOpponentCardCount
+            opponentDrawChance.hidden = !settings.showOpponentDrawChance
+            playerDrawChance.hidden = true
+        }
+        else {
+            cardCounter.hidden = !settings.showPlayerCardCount
+            opponentDrawChance.hidden = true
+            playerDrawChance.hidden = !settings.showPlayerDrawChance
+        }
+
+        var offsetFrames: CGFloat = 0
+        if !opponentDrawChance.hidden {
+            offsetFrames += round(71 / ratio)
+        }
+        if !playerDrawChance.hidden {
+            offsetFrames += round(40 / ratio)
+        }
+        if !cardCounter.hidden {
+            offsetFrames += round(40 / ratio)
+        }
+        
+        var cardHeight: CGFloat
+        switch settings.cardSize {
+        case .Small: cardHeight = CGFloat(kSmallRowHeight)
+        case .Medium: cardHeight = CGFloat(kMediumRowHeight)
+        default: cardHeight = CGFloat(kRowHeight)
+        }
+        cardHeight = round(min(cardHeight, (windowHeight - offsetFrames) / CGFloat(animatedCards.count)))
+        for view in cardsView.subviews {
+            view.removeFromSuperview()
+        }
+        
+        let cardViewHeight = CGFloat(animatedCards.count) * cardHeight
+        var y: CGFloat = cardViewHeight
+        cardsView.frame = NSMakeRect(0, windowHeight - cardViewHeight, windowWidth, cardViewHeight)
+        
+        for cell in animatedCards {
+            cell.frame = NSMakeRect(0, y, windowWidth, cardHeight)
+            cardsView.addSubview(cell)
+            y -= cardHeight
+        }
+        
+        y = windowHeight - cardViewHeight - 10
+        if !cardCounter.hidden {
+            cardCounter.frame = NSMakeRect(0, y, windowWidth, round(40 / ratio))
+            y -= NSHeight(cardCounter.frame)
+        }
+        if !opponentDrawChance.hidden {
+            opponentDrawChance.frame = NSMakeRect(0, y, windowWidth, round(71 / ratio))
+            y -= NSHeight(opponentDrawChance.frame)
+        }
+        if !playerDrawChance.hidden {
+            playerDrawChance.frame = NSMakeRect(0, y, windowWidth, round(40 / ratio))
+            y -= NSHeight(playerDrawChance.frame)
+        }
     }
     
     func setCardCount() {
@@ -334,32 +361,6 @@ class Tracker: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTa
     private func areEqualForList(c1: Card, _ c2: Card) -> Bool {
         return c1.id == c2.id && c1.jousted == c2.jousted && c1.isCreated == c2.isCreated
             && (!Settings.instance.highlightDiscarded || c1.wasDiscarded == c2.wasDiscarded)
-    }
-    
-    // MARK: - NSTableViewDelegate / NSTableViewDataSource
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return animatedCards.count
-    }
-    
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        return animatedCards[row]
-    }
-    
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        switch Settings.instance.cardSize {
-        case .Small:
-            return CGFloat(kSmallRowHeight)
-            
-        case .Medium:
-            return CGFloat(kMediumRowHeight)
-            
-        default:
-            return CGFloat(kRowHeight)
-        }
-    }
-    
-    func selectionShouldChangeInTableView(tableView: NSTableView) -> Bool {
-        return false;
     }
     
     // MARK: - CardCellHover
