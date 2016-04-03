@@ -99,6 +99,7 @@ class SaveDeck : NSWindowController {
             }
         }
         else {
+            Decks.add(self.deck!)
             self._delegate?.deckSaveSaved()
         }
     }

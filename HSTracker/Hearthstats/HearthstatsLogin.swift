@@ -30,12 +30,11 @@ class HearthstatsLogin: NSWindowController {
                 alert.messageText = message
             }
             
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.runModalSheetForWindow(self.window!)
-            
-            if success {
-                self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-            }
+            alert.beginSheetModalForWindow(self.window!, completionHandler: { (response) in
+                if success {
+                    self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+                }
+            })
         }
     }
 }

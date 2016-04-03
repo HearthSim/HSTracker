@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, DeckCellViewDelegate, NewDeckDelegate {
 
@@ -254,25 +255,27 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
             alert.accessoryView = deckNameInput
-            if alert.runModalSheetForWindow(self.window!) == NSAlertSecondButtonReturn {
-                return
-            }
-            deck.name = deckNameInput.stringValue
-            deck.save()
-            
-            if HearthstatsAPI.isLogged() {
-                if Settings.instance.hearthstatsAutoSynchronize {
-                    do {
-                        try HearthstatsAPI.updateDeck(deck) {_ in}
-                    }
-                    catch {}
-                }
-                else {
-                    // TODO Alert synchro
-                }
-            }
-            
-            refreshDecks()
+            alert.beginSheetModalForWindow(self.window!,
+                                           completionHandler: { (returnCode) in
+                                            if returnCode == NSAlertFirstButtonReturn {
+                                                deck.name = deckNameInput.stringValue
+                                                deck.save()
+                                                
+                                                if HearthstatsAPI.isLogged() {
+                                                    if Settings.instance.hearthstatsAutoSynchronize {
+                                                        do {
+                                                            try HearthstatsAPI.updateDeck(deck) {_ in}
+                                                        }
+                                                        catch {}
+                                                    }
+                                                    else {
+                                                        // TODO Alert synchro
+                                                    }
+                                                }
+                                                
+                                                self.refreshDecks()
+                                            }
+            })
         }
     }
 
@@ -298,38 +301,55 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
     func deleteDeck(sender: AnyObject?) {
         if let cell = currentCell, deck = cell.deck {
-            var alert = NSAlert()
+            let alert = NSAlert()
             alert.alertStyle = .InformationalAlertStyle
             alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            if alert.runModalSheetForWindow(self.window!) == NSAlertSecondButtonReturn {
-                return
-            }
-            
-            if let _ = deck.hearthstatsId where HearthstatsAPI.isLogged() {
-                if Settings.instance.hearthstatsAutoSynchronize {
-                    do {
-                        try HearthstatsAPI.deleteDeck(deck)
-                    }
-                    catch {}
-                } else {
-                    alert = NSAlert()
-                    alert.alertStyle = .InformationalAlertStyle
-                    alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
-                    alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                    alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                    if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
-                        do {
-                            try HearthstatsAPI.deleteDeck(deck)
-                        }
-                        catch {
-                            // TODO alert
-                            print("error")
-                        }
-                    }
+            alert.beginSheetModalForWindow(self.window!,
+                                           completionHandler: { (returnCode) in
+                                            if returnCode == NSAlertFirstButtonReturn {
+                                                self._deleteDeck(deck)
+                                            }
+            })
+        }
+    }
+    
+    private func _deleteDeck(deck: Deck) {
+        Log.verbose?.message("in deleete \(deck) -> \(HearthstatsAPI.isLogged()) -> \(Settings.instance.hearthstatsAutoSynchronize)")
+        if let _ = deck.hearthstatsId where HearthstatsAPI.isLogged() {
+            if Settings.instance.hearthstatsAutoSynchronize {
+                do {
+                    try HearthstatsAPI.deleteDeck(deck)
+                    Decks.remove(deck)
+                    refreshDecks()
                 }
+                catch {
+                    print("error delete hearthstats")
+                }
+            } else {
+                let alert = NSAlert()
+                alert.alertStyle = .InformationalAlertStyle
+                alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
+                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+                alert.beginSheetModalForWindow(self.window!,
+                                               completionHandler: { (returnCode) in
+                                                if returnCode == NSAlertFirstButtonReturn {
+                                                    do {
+                                                        try HearthstatsAPI.deleteDeck(deck)
+                                                        Decks.remove(deck)
+                                                        self.refreshDecks()
+                                                    }
+                                                    catch {
+                                                        // TODO alert
+                                                        print("error delete hearthstats")
+                                                    }
+                                                }
+                })
             }
+        }
+        else {
             Decks.remove(deck)
             refreshDecks()
         }

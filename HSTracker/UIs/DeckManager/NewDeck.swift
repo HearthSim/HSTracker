@@ -96,15 +96,18 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                 alert.messageText = NSLocalizedString("Do you want to add this deck on Hearthstats ?", comment: "")
                                 alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
                                 alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                                if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
-                                    do {
-                                        try HearthstatsAPI.postDeck(deck) {_ in}
-                                    }
-                                    catch {
-                                        // TODO alert
-                                        print("error")
-                                    }
-                                }
+                                alert.beginSheetModalForWindow(self.window!,
+                                    completionHandler: { (returnCode) in
+                                        if returnCode == NSAlertFirstButtonReturn {
+                                            do {
+                                                try HearthstatsAPI.postDeck(deck) {_ in}
+                                            }
+                                            catch {
+                                                // TODO alert
+                                                print("error")
+                                            }
+                                        }
+                                })
                             }
                         }
                     }

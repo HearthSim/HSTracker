@@ -139,7 +139,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         alert.messageText = NSLocalizedString("Are you sure you want to close this deck ? Your changes will not be saved.", comment: "")
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-        if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
+        if alert.runModal() == NSAlertFirstButtonReturn {
             Decks.resetDeck(currentDeck!)
             delegate?.refreshDecks()
             return true
@@ -270,33 +270,38 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-        if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
-            if let _ = currentDeck!.hearthstatsId where HearthstatsAPI.isLogged() {
-                if Settings.instance.hearthstatsAutoSynchronize {
-                    do {
-                        try HearthstatsAPI.deleteDeck(currentDeck!)
-                    }
-                    catch {}
-                } else {
-                    alert = NSAlert()
-                    alert.alertStyle = .InformationalAlertStyle
-                    alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
-                    alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                    alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                    if alert.runModalSheetForWindow(self.window!) == NSAlertFirstButtonReturn {
+        alert.beginSheetModalForWindow(self.window!) { (returnCode) in
+            if returnCode == NSAlertFirstButtonReturn {
+                if let _ = self.currentDeck!.hearthstatsId where HearthstatsAPI.isLogged() {
+                    if Settings.instance.hearthstatsAutoSynchronize {
                         do {
-                            try HearthstatsAPI.deleteDeck(currentDeck!)
+                            try HearthstatsAPI.deleteDeck(self.currentDeck!)
                         }
-                        catch {
-                            // TODO alert
-                            print("error")
-                        }
+                        catch {}
+                    } else {
+                        alert = NSAlert()
+                        alert.alertStyle = .InformationalAlertStyle
+                        alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
+                        alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                        alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+                        alert.beginSheetModalForWindow(self.window!,
+                                                       completionHandler: { (response) in
+                                                        if response == NSAlertFirstButtonReturn {
+                                                            do {
+                                                                try HearthstatsAPI.deleteDeck(self.currentDeck!)
+                                                            }
+                                                            catch {
+                                                                // TODO alert
+                                                                print("error")
+                                                            }
+                                                        }
+                        })
                     }
                 }
+                Decks.remove(self.currentDeck!)
+                self.isSaved = true
+                self.window?.performClose(self)
             }
-            Decks.remove(currentDeck!)
-            isSaved = true
-            self.window?.performClose(self)
         }
     }
 
