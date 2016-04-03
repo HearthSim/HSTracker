@@ -355,6 +355,9 @@ class Game {
     
     func turnStart(player: PlayerType, _ turn: Int) {
         Log.info?.message("Turn \(turn) start for player \(player) ")
+        if player == .Player {
+            handleThaurissanCostReduction()
+        }
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.setPlayer(player)
         }
@@ -388,6 +391,19 @@ class Game {
                 && opponent.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
         }
         return false
+    }
+    
+    func handleThaurissanCostReduction() {
+        let thaurissan = opponent.board.firstWhere({ $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan })
+        if thaurissan == nil || thaurissan!.hasTag(.SILENCED) {
+            return
+        }
+        
+        for impFavor in opponent.board.filter({ $0.cardId == CardIds.NonCollectible.Neutral.ImperialFavorEnchantment }) {
+            if let entity = entities[impFavor.getTag(.ATTACHED)] {
+                entity.info.costReduction += 1
+            }
+        }
     }
     
     // MARK: - Replay

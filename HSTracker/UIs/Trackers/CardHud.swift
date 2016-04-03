@@ -37,7 +37,6 @@ class CardHud : NSWindowController {
 
         if let entity = entity {
             text += "\(entity.info.turn)"
-            //Log.verbose?.message("turn : \(entity.info.turn), mark: \(entity.info.cardMark), cardId : \(entity.cardId)")
 
             switch entity.info.cardMark {
             case .Coin: image = "coin"
@@ -47,11 +46,7 @@ class CardHud : NSWindowController {
             case .Created: image = "created"
             default: break
             }
-            if let impFavor = Game.instance.opponent.board.firstWhere({
-                $0.cardId == CardIds.NonCollectible.Neutral.ImperialFavorEnchantment && $0.getTag(.ATTACHED) == entity.id
-            }) {
-                cost = impFavor.getTag(.NUM_TURNS_IN_PLAY)
-            }
+            cost = entity.info.costReduction
         }
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .Center

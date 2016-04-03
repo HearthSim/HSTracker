@@ -136,11 +136,12 @@ class EntityInfo : CustomStringConvertible {
     var returned = false
     var mulliganed = false
     var stolen: Bool { return originalController > 0 && originalController != _entity.getTag(.CONTROLLER) }
-    var created: Bool = false
-    var hasOutstandingTagChanges: Bool = false
-    var originalController: Int = 0
+    var created = false
+    var hasOutstandingTagChanges = false
+    var originalController = 0
     var hidden = false
-    var turn: Int = 0
+    var turn = 0
+    var costReduction = 0
     
     init(_ entity: Entity) {
         _entity = entity
