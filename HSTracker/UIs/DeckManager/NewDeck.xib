@@ -7,7 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="NewDeck" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="arenaDeck" destination="Hi4-1P-a8c" id="hZ9-K0-N9b"/>
-                <outlet property="chooseFile" destination="zId-Z2-sHp" id="xkr-Ae-DtQ"/>
+                <outlet property="chooseFile" destination="zId-Z2-sHp" id="E6R-75-GeI"/>
                 <outlet property="classesCombobox" destination="spZ-RM-AFF" id="L3R-ze-wDh"/>
                 <outlet property="fromAFile" destination="cZL-u5-ElV" id="wUb-CF-zQY"/>
                 <outlet property="fromTheWeb" destination="zw5-rl-Uh0" id="S7o-df-Kcr"/>
@@ -95,6 +95,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="openDeck:" target="-2" id="wGT-y8-mrR"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5rB-EX-IcR">
                         <rect key="frame" x="407" y="13" width="59" height="32"/>

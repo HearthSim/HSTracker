@@ -40,6 +40,13 @@ final class Cards {
         }
         return nil
     }
+    
+    static func byName(name: String) -> Card? {
+        if let card = collectible().firstWhere({ $0.name == name }) {
+            return card.copy()
+        }
+        return nil
+    }
 
     static func byEnglishName(name: String) -> Card? {
         if let card = collectible().firstWhere({ $0.enName == name }) {

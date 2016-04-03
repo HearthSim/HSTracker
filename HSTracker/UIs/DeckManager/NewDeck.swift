@@ -83,47 +83,76 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             do {
                 try NetImporter.netImport(urlDeck.stringValue, { (deck) -> Void in
                     if let deck = deck {
-                        self.delegate?.addNewDeck(deck)
-                        if HearthstatsAPI.isLogged() {
-                            if Settings.instance.hearthstatsAutoSynchronize {
-                                do {
-                                    try HearthstatsAPI.postDeck(deck) {_ in}
-                                }
-                                catch {}
-                            } else {
-                                let alert = NSAlert()
-                                alert.alertStyle = .InformationalAlertStyle
-                                alert.messageText = NSLocalizedString("Do you want to add this deck on Hearthstats ?", comment: "")
-                                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                                alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                                alert.beginSheetModalForWindow(self.window!,
-                                    completionHandler: { (returnCode) in
-                                        if returnCode == NSAlertFirstButtonReturn {
-                                            do {
-                                                try HearthstatsAPI.postDeck(deck) {_ in}
-                                            }
-                                            catch {
-                                                // TODO alert
-                                                print("error")
-                                            }
-                                        }
-                                })
-                            }
-                        }
+                        self._addDeck(deck)
                     }
                     else {
                         // TODO show error
                     }
-                    self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
                 })
             } catch {
                 // TODO show error
             }
         }
         else if fromAFile.state == NSOnState {
-        }
 
-        // self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+        }
+    }
+    
+    @IBAction func openDeck(sender: AnyObject) {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedFileTypes = ["txt"]
+        
+        panel.beginSheetModalForWindow(self.window!,
+                                       completionHandler: { (returnCode) in
+                                        if returnCode == NSFileHandlingPanelOKButton {
+                                            for filename in panel.URLs {
+                                                let importer = FileImporter()
+                                                importer.fileImport(filename) { (deck) in
+                                                    if let deck = deck {
+                                                        self._addDeck(deck)
+                                                    }
+                                                    else {
+                                                        // TODO show error
+                                                    }
+                                                }
+                                            }
+                                        }
+        })
+    }
+    
+    private func _addDeck(deck: Deck) {
+        self.delegate?.addNewDeck(deck)
+        if HearthstatsAPI.isLogged() {
+            if Settings.instance.hearthstatsAutoSynchronize {
+                do {
+                    try HearthstatsAPI.postDeck(deck) {_ in}
+                    self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+                }
+                catch {}
+            } else {
+                let alert = NSAlert()
+                alert.alertStyle = .InformationalAlertStyle
+                alert.messageText = NSLocalizedString("Do you want to add this deck on Hearthstats ?", comment: "")
+                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+                alert.beginSheetModalForWindow(self.window!,
+                                               completionHandler: { (returnCode) in
+                                                if returnCode == NSAlertFirstButtonReturn {
+                                                    do {
+                                                        try HearthstatsAPI.postDeck(deck) {_ in}
+                                                        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+                                                    }
+                                                    catch {
+                                                        // TODO alert
+                                                        print("error")
+                                                    }
+                                                }
+                })
+            }
+        }
     }
 
     func classes() -> [String] {
