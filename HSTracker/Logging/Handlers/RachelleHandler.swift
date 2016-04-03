@@ -25,10 +25,12 @@ struct RachelleHandler {
         if line.match(CardInCache) {
             if let match = line.matches(CardInCache).first {
                 let cardId: String = match.value
-                if game.currentGameMode == .Arena {
-                    Log.verbose?.message("Possible arena card draft : \(cardId) ?")
-                } else {
-                    Log.verbose?.message("Possible constructed card draft : \(cardId) ?")
+                if let card = Cards.byId(cardId) {
+                    if game.currentGameMode == .Arena {
+                        Log.verbose?.message("Possible arena card draft : \(card) ?")
+                    } else {
+                        Log.verbose?.message("Possible constructed card draft : \(card) ?")
+                    }
                 }
             }
         }

@@ -40,6 +40,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             "tracker_opacity": #selector(Tracker.opacityChange(_:)),
             "card_size": #selector(Tracker.cardSizeChange(_:)),
             "window_locked": #selector(Tracker.windowLockedChange(_:)),
+            "auto_position_trackers": #selector(Tracker.autoPositionTrackersChange(_:)),
         ]
         
         for (name, selector) in observers {
@@ -127,6 +128,22 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     func cardSizeChange(notification: NSNotification) {
         _frameOptionsChange()
         setWindowSizes()
+    }
+    
+    
+    func autoPositionTrackersChange(notification: NSNotification) {
+        if Settings.instance.autoPositionTrackers {
+            if playerType == .Player {
+                Game.instance.changeTracker(self,
+                                            Hearthstone.instance.hearthstoneActive,
+                                            SizeHelper.playerTrackerFrame())
+            }
+            else if playerType == .Opponent {
+                Game.instance.changeTracker(self,
+                                            Hearthstone.instance.hearthstoneActive,
+                                            SizeHelper.opponentTrackerFrame())
+            }
+        }
     }
     
     func setWindowSizes() {
@@ -233,9 +250,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     }
     
     private func updateCardFrames() {
-        guard let windowFrame = self.window?.contentView?.frame else {
-            Log.verbose?.message("!windowframe")
-            return }
+        guard let windowFrame = self.window?.contentView?.frame else { return }
         let settings = Settings.instance
         
         let windowWidth = NSWidth(windowFrame)
@@ -259,15 +274,19 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             playerDrawChance.hidden = !settings.showPlayerDrawChance
         }
 
+        let opponentDrawChanceHeight = round(71 / ratio)
+        let playerDrawChanceHeight = round(40 / ratio)
+        let cardCounterHeight = round(40 / ratio)
+        
         var offsetFrames: CGFloat = 0
         if !opponentDrawChance.hidden {
-            offsetFrames += round(71 / ratio)
+            offsetFrames += opponentDrawChanceHeight
         }
         if !playerDrawChance.hidden {
-            offsetFrames += round(40 / ratio)
+            offsetFrames += playerDrawChanceHeight
         }
         if !cardCounter.hidden {
-            offsetFrames += round(40 / ratio)
+            offsetFrames += cardCounterHeight
         }
         
         var cardHeight: CGFloat
@@ -276,7 +295,9 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         case .Medium: cardHeight = CGFloat(kMediumRowHeight)
         default: cardHeight = CGFloat(kRowHeight)
         }
-        cardHeight = round(min(cardHeight, (windowHeight - offsetFrames) / CGFloat(animatedCards.count)))
+        if animatedCards.count > 0 {
+            cardHeight = round(min(cardHeight, (windowHeight - offsetFrames) / CGFloat(animatedCards.count)))
+        }
         for view in cardsView.subviews {
             view.removeFromSuperview()
         }
@@ -286,23 +307,31 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         cardsView.frame = NSMakeRect(0, windowHeight - cardViewHeight, windowWidth, cardViewHeight)
         
         for cell in animatedCards {
+            y -= cardHeight
             cell.frame = NSMakeRect(0, y, windowWidth, cardHeight)
             cardsView.addSubview(cell)
-            y -= cardHeight
         }
         
-        y = windowHeight - cardViewHeight - 10
+        if playerType == .Opponent {
+            Log.verbose?.message("\(animatedCards.count) -> \(y) -> \(cardsView.frame)")
+        }
+        
+        y = windowHeight - cardViewHeight
         if !cardCounter.hidden {
-            cardCounter.frame = NSMakeRect(0, y, windowWidth, round(40 / ratio))
-            y -= NSHeight(cardCounter.frame)
+            y -= cardCounterHeight
+            cardCounter.frame = NSMakeRect(0, y, windowWidth, cardCounterHeight)
         }
         if !opponentDrawChance.hidden {
-            opponentDrawChance.frame = NSMakeRect(0, y, windowWidth, round(71 / ratio))
-            y -= NSHeight(opponentDrawChance.frame)
+            y -= opponentDrawChanceHeight
+            opponentDrawChance.frame = NSMakeRect(0, y, windowWidth, opponentDrawChanceHeight)
         }
         if !playerDrawChance.hidden {
-            playerDrawChance.frame = NSMakeRect(0, y, windowWidth, round(40 / ratio))
-            y -= NSHeight(playerDrawChance.frame)
+            y -= playerDrawChanceHeight
+            playerDrawChance.frame = NSMakeRect(0, y, windowWidth, playerDrawChanceHeight)
+        }
+        
+        if playerType == .Opponent {
+            Log.verbose?.message("\(cardCounter.frame) \(opponentDrawChance.frame) \(playerDrawChance.frame)")
         }
     }
     

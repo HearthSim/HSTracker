@@ -38,10 +38,12 @@ struct AssetHandler {
             if let match = match.first {
                 let cardId = match.value
                 
-                if game.currentMode == Mode.DRAFT && game.previousMode == Mode.HUB {
-                    Log.verbose?.message("Possible arena card draft : \(cardId) ?")
-                } else if (game.currentMode == Mode.COLLECTIONMANAGER || game.currentMode == Mode.TAVERN_BRAWL) && game.previousMode == Mode.HUB {
-                    Log.verbose?.message("Possible constructed card draft : \(cardId) ?")
+                if let card = Cards.byId(cardId) {
+                    if game.currentMode == Mode.DRAFT && game.previousMode == Mode.HUB {
+                        Log.verbose?.message("Possible arena card draft : \(card) ?")
+                    } else if (game.currentMode == Mode.COLLECTIONMANAGER || game.currentMode == Mode.TAVERN_BRAWL) && game.previousMode == Mode.HUB {
+                        Log.verbose?.message("Possible constructed card draft : \(card) ?")
+                    }
                 }
             }
         }

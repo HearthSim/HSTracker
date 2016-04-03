@@ -1052,7 +1052,7 @@ class Game {
         updateCardHuds()
     }
     
-    private func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect) {
+    func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect) {
         if active {
             tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
             tracker.window?.setFrame(frame, display: true)
