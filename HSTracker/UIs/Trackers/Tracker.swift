@@ -225,7 +225,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
                 newAnimated.setDelegate(self)
                 newAnimated.card = newCard
                 
-                let index = cards.indexOf(newCard!)!
+                let index = animatedCards.indexOf(card)!
                 animatedCards.insert(newAnimated, atIndex: index)
                 newAnimated.update(true)
                 newCards.remove(newCard!)

@@ -328,7 +328,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
         
         let mainMenu = NSApplication.sharedApplication().mainMenu
-        let deckMenu = mainMenu?.itemWithTitle("Decks")
+        let deckMenu = mainMenu?.itemWithTitle(NSLocalizedString("Decks", comment: ""))
         deckMenu?.submenu?.removeAllItems()
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Deck Manager", comment: ""),
                                             action: #selector(AppDelegate.openDeckManager(_:)),
@@ -357,6 +357,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 menu.submenu = classMenu
             }
         }
+        
+        let settings = Settings.instance
+        let windowMenu = mainMenu?.itemWithTitle(NSLocalizedString("Window", comment: ""))
+        let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows", comment: ""))
+        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
     }
     
     func playDeck(sender: NSMenuItem) {
@@ -387,8 +392,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func lockWindows(sender: AnyObject) {
         let settings = Settings.instance
+        let mainMenu = NSApplication.sharedApplication().mainMenu
+        let windowMenu = mainMenu?.itemWithTitle(NSLocalizedString("Window", comment: ""))
+        let text = settings.windowsLocked ? "Unlock windows" : "Lock windows"
+        let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString(text, comment: ""))
         settings.windowsLocked = !settings.windowsLocked
-        // TODO menu
+        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
     }
     
     var windowMove: WindowMove?
