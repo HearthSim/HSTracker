@@ -960,7 +960,7 @@ class Game {
                 let count = min(10, self.opponent.handCount)
                 
                 for (i, hud) in cardHuds.enumerate() {
-                    if let entity = self.opponent.hand.firstWhere({ $0.getTag(.ZONE_POSITION) == i + 1 }) where !self.gameEnded {
+                    if let entity = self.opponent.hand.firstWhere({ $0.getTag(.ZONE_POSITION) == i + 1 }) where !self.gameEnded && Settings.instance.showCardHuds {
                         hud.setEntity(entity)
                         let frame = SizeHelper.opponentCardHudFrame(i, count)
                         hud.window?.setFrame(frame, display: true)

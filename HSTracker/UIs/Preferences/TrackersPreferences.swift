@@ -20,6 +20,8 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
     @IBOutlet weak var cardSize: NSComboBox!
     @IBOutlet weak var showOpponentTracker: NSButton!
     @IBOutlet weak var showPlayerTracker: NSButton!
+    @IBOutlet weak var showTimer: NSButton!
+    @IBOutlet weak var showCardHuds: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,8 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         cardSize.selectItemAtIndex(settings.cardSize.rawValue)
         showOpponentTracker.state = settings.showOpponentTracker ? NSOnState : NSOffState
         showPlayerTracker.state = settings.showPlayerTracker ? NSOnState : NSOffState
+        showTimer.state = settings.showTimer ? NSOnState : NSOffState
+        showCardHuds.state = settings.showCardHuds ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(sender: AnyObject) {

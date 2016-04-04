@@ -12,9 +12,11 @@
                 <outlet property="highlightLastDrawn" destination="PL6-uo-7RN" id="uTk-hD-3zS"/>
                 <outlet property="opacity" destination="KBy-Iy-S6O" id="HNP-7K-Wm4"/>
                 <outlet property="removeCards" destination="Q3s-94-J32" id="FLy-Eg-f3R"/>
+                <outlet property="showCardHuds" destination="Jvp-6c-HZ0" id="dCi-2R-3hn"/>
                 <outlet property="showOpponentTracker" destination="bt4-kn-GjS" id="dK1-dQ-v0r"/>
                 <outlet property="showPlayerGet" destination="Jdv-Xu-QUr" id="1ni-Vt-PT6"/>
                 <outlet property="showPlayerTracker" destination="AVh-I0-Pfw" id="sYo-ig-vb8"/>
+                <outlet property="showTimer" destination="xW7-1C-T20" id="p89-Aa-JMK"/>
                 <outlet property="view" destination="c22-O7-iKe" id="8Yr-e6-AQa"/>
             </connections>
         </customObject>
@@ -132,6 +134,20 @@
                     <connections>
                         <action selector="checkboxClicked:" target="-2" id="ktr-VS-gDn"/>
                     </connections>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xW7-1C-T20">
+                    <rect key="frame" x="18" y="44" width="91" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show timer" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x27-iz-7Sv">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jvp-6c-HZ0">
+                    <rect key="frame" x="18" y="24" width="232" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show opponent in-hand card huds" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="50X-Tt-yJa">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
                 </button>
             </subviews>
         </customView>

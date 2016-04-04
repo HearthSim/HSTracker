@@ -71,7 +71,7 @@ final class Settings {
         set { set("window_locked", newValue) }
         get { return get("window_locked", true) as! Bool }
     }
-    
+
     var showPlayerDrawChance: Bool {
         set { set("player_draw_chance", newValue) }
         get { return get("player_draw_chance", true) as! Bool }
@@ -115,6 +115,14 @@ final class Settings {
     var showOpponentTracker: Bool {
         set { set("show_opponent_tracker", newValue) }
         get { return get("show_opponent_tracker", true) as! Bool }
+    }
+    var showTimer: Bool {
+        set { set("show_timer", newValue) }
+        get { return get("show_timer", true) as! Bool }
+    }
+    var showCardHuds: Bool {
+        set { set("show_card_huds", newValue) }
+        get { return get("show_card_huds", true) as! Bool }
     }
     
     // MARK: - Hearthstats

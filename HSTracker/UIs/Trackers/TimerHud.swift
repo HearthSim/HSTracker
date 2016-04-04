@@ -20,6 +20,10 @@ class TimerHud: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
+        opponentLabel.stringValue = ""
+        turnLabel.stringValue = ""
+        playerLabel.stringValue = ""
+        
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .Right
         attributes = [
@@ -47,6 +51,8 @@ class TimerHud: NSWindowController {
     }
 
     func tick(seconds: Int, _ playerSeconds: Int, _ opponentSeconds: Int) {
+        guard Settings.instance.showTimer else { return }
+        
         turnLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (seconds / 60) % 60, seconds % 60), attributes: largeAttributes)
         playerLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (playerSeconds / 60) % 60, playerSeconds % 60), attributes: attributes)
         opponentLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (opponentSeconds / 60) % 60, opponentSeconds % 60), attributes: attributes)
