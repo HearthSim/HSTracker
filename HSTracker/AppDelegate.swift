@@ -277,12 +277,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if settings.showPlayerTracker {
             self.playerTracker?.showWindow(self)
         }
+        else {
+            self.playerTracker?.window?.orderOut(self)
+        }
         
         self.opponentTracker = Tracker(windowNibName: "Tracker")
         self.opponentTracker?.playerType = .Opponent
         self.opponentTracker?.window?.setFrameAutosaveName("opponent_tracker")
         if settings.showOpponentTracker {
             self.opponentTracker?.showWindow(self)
+        }
+        else {
+            self.opponentTracker?.window?.orderOut(self)
         }
         
         self.secretTracker = SecretTracker(windowNibName: "SecretTracker")
