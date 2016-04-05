@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var deckManager: DeckManager?
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
-            GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
+            //GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
             GamePreferences(nibName: "GamePreferences", bundle: nil)!,
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
             HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!

@@ -22,6 +22,8 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
     @IBOutlet weak var showPlayerTracker: NSButton!
     @IBOutlet weak var showTimer: NSButton!
     @IBOutlet weak var showCardHuds: NSButton!
+    @IBOutlet weak var autoPositionTrackers: NSButton!
+    @IBOutlet weak var showSecretHelper: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,8 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         showPlayerTracker.state = settings.showPlayerTracker ? NSOnState : NSOffState
         showTimer.state = settings.showTimer ? NSOnState : NSOffState
         showCardHuds.state = settings.showCardHuds ? NSOnState : NSOffState
+        autoPositionTrackers.state = settings.autoPositionTrackers ? NSOnState : NSOffState
+        showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(sender: AnyObject) {
@@ -51,6 +55,7 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
 
     @IBAction func checkboxClicked(sender: NSButton) {
         let settings = Settings.instance
+        
         if sender == highlightCardsInHand {
             settings.highlightCardsInHand = highlightCardsInHand.state == NSOnState
         } else if sender == highlightLastDrawn {
@@ -65,6 +70,13 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
             settings.showOpponentTracker = showOpponentTracker.state == NSOnState
         } else if sender == showPlayerTracker {
             settings.showPlayerTracker = showPlayerTracker.state == NSOnState
+        } else if sender == autoPositionTrackers {
+            settings.autoPositionTrackers = autoPositionTrackers.state == NSOnState
+            if settings.autoPositionTrackers {
+                settings.windowsLocked = true
+            }
+        } else if sender == showSecretHelper {
+            settings.showSecretHelper = showSecretHelper.state == NSOnState
         }
     }
 

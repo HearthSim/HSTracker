@@ -124,6 +124,10 @@ final class Settings {
         set { set("show_card_huds", newValue) }
         get { return get("show_card_huds", true) as! Bool }
     }
+    var showSecretHelper: Bool {
+        set { set("show_secret_helper", newValue) }
+        get { return get("show_secret_helper", true) as! Bool }
+    }
     
     var playerTrackerFrame: NSRect? {
         set { set("player_tracker_frame", newValue == nil ? nil : NSStringFromRect(newValue!)) }

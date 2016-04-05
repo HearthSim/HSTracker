@@ -933,6 +933,8 @@ class Game {
     
     // MARK: - UI
     func showSecrets(show: Bool) {
+        guard Settings.instance.showSecretHelper else { return }
+        
         dispatch_async(dispatch_get_main_queue()) {
             if show {
                 if let opponentSecrets = self.opponentSecrets {
