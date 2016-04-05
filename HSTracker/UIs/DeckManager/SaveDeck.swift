@@ -53,7 +53,7 @@ class SaveDeck : NSWindowController {
     @IBAction func save(sender: AnyObject) {
         deck?.name = deckName.stringValue
         let currentVersion = deck?.version
-        let selectedVersion = versions[version.indexOfSelectedItem]
+        let selectedVersion = version.indexOfSelectedItem < 0 ? versions[0] : versions[version.indexOfSelectedItem]
         let exists = (deck!.creationDate != nil)
         let isNewVersion = currentVersion != selectedVersion
         deck?.version = selectedVersion
