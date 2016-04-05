@@ -18,6 +18,31 @@
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		434106A61C9868620045655A /* Frames.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A31C9868620045655A /* Frames.xcassets */; };
+		4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
+		4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
+		4345E9DF1CB45122002D0F23 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
+		4345E9E01CB45122002D0F23 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
+		4345E9E11CB45122002D0F23 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
+		4345E9E21CB45122002D0F23 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
+		4345E9E31CB45122002D0F23 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
+		4345E9E41CB45122002D0F23 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
+		4345E9E51CB45122002D0F23 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
+		4345E9E61CB45126002D0F23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
+		4345E9E71CB45126002D0F23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
+		4345E9E81CB45126002D0F23 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
+		4345E9E91CB45126002D0F23 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
+		4345E9EA1CB45126002D0F23 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
+		4345E9EB1CB45126002D0F23 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
+		4345E9EC1CB45126002D0F23 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
+		4345E9ED1CB45126002D0F23 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
+		4345E9EE1CB45126002D0F23 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
+		4345E9F21CB4514D002D0F23 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
+		4345E9F31CB4514D002D0F23 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
+		4345E9F41CB4514D002D0F23 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
+		4345E9F51CB4514D002D0F23 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
+		4345E9F61CB4514D002D0F23 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
+		4345E9F71CB4514D002D0F23 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
+		4345E9F81CB4514D002D0F23 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
 		434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434C2F291C7F0F96001D1D91 /* NewDeck.xib */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
@@ -164,6 +189,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4345E9EF1CB45134002D0F23 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4345E9F21CB4514D002D0F23 /* Alamofire.framework in CopyFiles */,
+				4345E9F31CB4514D002D0F23 /* CleanroomASL.framework in CopyFiles */,
+				4345E9F41CB4514D002D0F23 /* CleanroomLogger.framework in CopyFiles */,
+				4345E9F51CB4514D002D0F23 /* HockeySDK.framework in CopyFiles */,
+				4345E9F61CB4514D002D0F23 /* JNWCollectionView.framework in CopyFiles */,
+				4345E9F71CB4514D002D0F23 /* Kanna.framework in CopyFiles */,
+				4345E9F81CB4514D002D0F23 /* MASPreferences.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		436789A01CAC078800C962D1 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -360,6 +401,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
+				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
+				4345E9DF1CB45122002D0F23 /* Alamofire.framework in Frameworks */,
+				4345E9E01CB45122002D0F23 /* CleanroomASL.framework in Frameworks */,
+				4345E9E11CB45122002D0F23 /* CleanroomLogger.framework in Frameworks */,
+				4345E9E21CB45122002D0F23 /* HockeySDK.framework in Frameworks */,
+				4345E9E31CB45122002D0F23 /* JNWCollectionView.framework in Frameworks */,
+				4345E9E41CB45122002D0F23 /* Kanna.framework in Frameworks */,
+				4345E9E51CB45122002D0F23 /* MASPreferences.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +417,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4345E9E61CB45126002D0F23 /* Cocoa.framework in Frameworks */,
+				4345E9E71CB45126002D0F23 /* Foundation.framework in Frameworks */,
+				4345E9E81CB45126002D0F23 /* Alamofire.framework in Frameworks */,
+				4345E9E91CB45126002D0F23 /* CleanroomASL.framework in Frameworks */,
+				4345E9EA1CB45126002D0F23 /* CleanroomLogger.framework in Frameworks */,
+				4345E9EB1CB45126002D0F23 /* HockeySDK.framework in Frameworks */,
+				4345E9EC1CB45126002D0F23 /* JNWCollectionView.framework in Frameworks */,
+				4345E9ED1CB45126002D0F23 /* Kanna.framework in Frameworks */,
+				4345E9EE1CB45126002D0F23 /* MASPreferences.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,6 +813,7 @@
 				439C7E581C7772C100D29859 /* Sources */,
 				439C7E591C7772C100D29859 /* Frameworks */,
 				439C7E5A1C7772C100D29859 /* Resources */,
+				4345E9EF1CB45134002D0F23 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1146,6 +1206,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
@@ -1159,6 +1223,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
@@ -1171,6 +1239,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = HSTrackerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerUITests;
@@ -1184,6 +1256,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = HSTrackerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerUITests;
