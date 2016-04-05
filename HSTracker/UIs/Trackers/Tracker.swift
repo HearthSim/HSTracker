@@ -86,6 +86,21 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     // MARK: - NSWindowDelegate
     func windowDidResize(notification: NSNotification) {
         _frameOptionsChange()
+        onWindowMove()
+    }
+    
+    func windowDidMove(notification: NSNotification) {
+        onWindowMove()
+    }
+    
+    private func onWindowMove() {
+        let settings = Settings.instance
+        if playerType == .Player {
+            settings.playerTrackerFrame = self.window?.frame
+        }
+        else {
+            settings.opponentTrackerFrame = self.window?.frame
+        }
     }
     
     // MARK: - Notifications
@@ -130,7 +145,6 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         setWindowSizes()
     }
     
-    
     func autoPositionTrackersChange(notification: NSNotification) {
         if Settings.instance.autoPositionTrackers {
             if playerType == .Player {
@@ -160,8 +174,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             width = kFrameWidth
         }
         
-        self.window!.setFrame(NSMakeRect(0, 0, CGFloat(width), 200), display: true)
-        self.window!.contentMinSize = NSMakeSize(CGFloat(width), 200)
+        self.window!.contentMinSize = NSMakeSize(CGFloat(width), 400)
         self.window!.contentMaxSize = NSMakeSize(CGFloat(width), NSHeight(NSScreen.mainScreen()!.frame))
     }
     

@@ -125,6 +125,26 @@ final class Settings {
         get { return get("show_card_huds", true) as! Bool }
     }
     
+    var playerTrackerFrame: NSRect? {
+        set { set("player_tracker_frame", newValue == nil ? nil : NSStringFromRect(newValue!)) }
+        get {
+            if let stringRect = get("player_tracker_frame", nil) as? String {
+                return NSRectFromString(stringRect)
+            }
+            return nil
+        }
+    }
+    
+    var opponentTrackerFrame: NSRect? {
+        set { set("opponent_tracker_frame", newValue == nil ? nil : NSStringFromRect(newValue!)) }
+        get {
+            if let stringRect = get("opponent_tracker_frame", nil) as? String {
+                return NSRectFromString(stringRect)
+            }
+            return nil
+        }
+    }
+    
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {
         set { set("hearthstats_login", newValue) }

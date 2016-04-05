@@ -86,7 +86,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func loadSplashscreen() {
         splashscreen = Splashscreen(windowNibName: "Splashscreen")
+        let screenFrame = NSScreen.mainScreen()!.frame
+        let splashscreenWidth: CGFloat = 350
+        let splashscreenHeight: CGFloat = 250
+        
+        splashscreen?.window?.setFrame(NSMakeRect(
+            (NSWidth(screenFrame) / 2) - (splashscreenWidth / 2),
+            (NSHeight(screenFrame) / 2) - (splashscreenHeight / 2),
+            splashscreenWidth, splashscreenHeight), display: true)
         splashscreen?.showWindow(self)
+        
         let operationQueue = NSOperationQueue()
 
         let startUpCompletionOperation = NSBlockOperation(block: {
@@ -271,25 +280,41 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func openTrackers() {
         let settings = Settings.instance
         
+        let screenFrame = NSScreen.mainScreen()!.frame
+        let y = NSHeight(screenFrame) - 50
+        let width: CGFloat
+        switch settings.cardSize {
+        case .Small:
+            width = CGFloat(kSmallFrameWidth)
+            
+        case .Medium:
+            width = CGFloat(kMediumFrameWidth)
+            
+        default:
+            width = CGFloat(kFrameWidth)
+        }
+        
         self.playerTracker = Tracker(windowNibName: "Tracker")
         self.playerTracker?.playerType = .Player
-        self.playerTracker?.window?.setFrameAutosaveName("player_tracker")
-        if settings.showPlayerTracker {
-            self.playerTracker?.showWindow(self)
+        if let rect = settings.playerTrackerFrame {
+            self.playerTracker?.window?.setFrame(rect, display: true)
         }
         else {
-            self.playerTracker?.window?.orderOut(self)
+            let x = NSWidth(screenFrame) - width
+            self.playerTracker?.window?.setFrame(NSMakeRect(x, y, width, y), display: true)
         }
+        showPlayerTracker(nil)
         
         self.opponentTracker = Tracker(windowNibName: "Tracker")
         self.opponentTracker?.playerType = .Opponent
-        self.opponentTracker?.window?.setFrameAutosaveName("opponent_tracker")
-        if settings.showOpponentTracker {
-            self.opponentTracker?.showWindow(self)
+        
+        if let rect = settings.opponentTrackerFrame {
+            self.opponentTracker?.window?.setFrame(rect, display: true)
         }
         else {
-            self.opponentTracker?.window?.orderOut(self)
+            self.opponentTracker?.window?.setFrame(NSMakeRect(50, y, width, y), display: true)
         }
+        showOpponentTracker(nil)
         
         self.secretTracker = SecretTracker(windowNibName: "SecretTracker")
         self.secretTracker?.showWindow(self)
@@ -303,11 +328,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func showPlayerTracker(notification: NSNotification) {
+    func showPlayerTracker(notification: NSNotification?) {
         showHideTracker(self.playerTracker, show: Settings.instance.showPlayerTracker)
     }
     
-    func showOpponentTracker(notification: NSNotification) {
+    func showOpponentTracker(notification: NSNotification?) {
         showHideTracker(self.opponentTracker, show: Settings.instance.showOpponentTracker)
     }
     
@@ -315,7 +340,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if show {
             tracker?.showWindow(self)
         } else {
-            tracker?.close()
+            tracker?.window?.orderOut(self)
         }
     }
 

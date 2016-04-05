@@ -110,7 +110,7 @@ struct SizeHelper {
             width = kFrameWidth
         }
         
-        let frame = NSMakeRect(200, 50, CGFloat(width), 300)
+        let frame = NSMakeRect(200, 50, CGFloat(width), 450)
         return frameRelativeToHearthstone(frame, true)
     }
 
