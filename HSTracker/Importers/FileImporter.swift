@@ -39,7 +39,7 @@ final class FileImporter: BaseNetImporter {
                         }
                         
                         if let card = card {
-                            if card.playerClass != "" && String.isNullOrEmpty(className) {
+                            if card.playerClass != "" && card.playerClass != "neutral" && String.isNullOrEmpty(className) {
                                 className = card.playerClass
                             }
                             
