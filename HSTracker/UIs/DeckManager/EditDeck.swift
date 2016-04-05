@@ -174,6 +174,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     }
 
     @IBAction func clickCard(sender: NSTableView) {
+        guard sender.clickedRow >= 0 else { return }
         let card = currentDeck!.sortedCards[sender.clickedRow]
         currentDeck!.removeCard(card)
 
