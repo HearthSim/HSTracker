@@ -83,7 +83,7 @@ Gw
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a0m-ZX-LSh">
-                        <rect key="frame" x="171" y="96" width="145" height="18"/>
+                        <rect key="frame" x="171" y="96" width="291" height="18"/>
                         <buttonCell key="cell" type="check" title="Save on Hearthstats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="N6n-fW-1Nf">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>

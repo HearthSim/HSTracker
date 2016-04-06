@@ -29,7 +29,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HQy-Fh-m0E">
-                        <rect key="frame" x="19" y="142" width="203" height="18"/>
+                        <rect key="frame" x="19" y="142" width="227" height="18"/>
                         <buttonCell key="cell" type="radio" title="Using HSTracker deck builder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="N10-sK-1gZ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -59,7 +59,7 @@
                         </connections>
                     </comboBox>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zw5-rl-Uh0">
-                        <rect key="frame" x="19" y="89" width="105" height="18"/>
+                        <rect key="frame" x="19" y="89" width="227" height="18"/>
                         <buttonCell key="cell" type="radio" title="From the web" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="dhu-qo-xOJ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -69,7 +69,7 @@
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cZL-u5-ElV">
-                        <rect key="frame" x="19" y="55" width="86" height="18"/>
+                        <rect key="frame" x="19" y="55" width="227" height="18"/>
                         <buttonCell key="cell" type="radio" title="From a file" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tHo-vJ-FwV">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -126,7 +126,7 @@ Gw
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hi4-1P-a8c">
-                        <rect key="frame" x="250" y="117" width="91" height="18"/>
+                        <rect key="frame" x="250" y="117" width="212" height="18"/>
                         <buttonCell key="cell" type="check" title="Arena deck" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0dN-Ei-UM2">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
