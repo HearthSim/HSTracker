@@ -1,0 +1,12 @@
+
+/* Class = "NSButtonCell"; title = "Choose"; ObjectID = "9aT-vn-YLp"; */
+"9aT-vn-YLp.title" = "Choose";
+
+/* Class = "NSButtonCell"; title = "Choose"; ObjectID = "L10-Eu-Nrc"; */
+"L10-Eu-Nrc.title" = "Choose";
+
+/* Class = "NSTextFieldCell"; title = "Decks backup directory"; ObjectID = "ZIv-Kx-0sm"; */
+"ZIv-Kx-0sm.title" = "Decks backup directory";
+
+/* Class = "NSTextFieldCell"; title = "Hearthstone directory"; ObjectID = "s5e-Q8-cm8"; */
+"s5e-Q8-cm8.title" = "Hearthstone directory";

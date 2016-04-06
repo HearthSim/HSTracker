@@ -31,22 +31,22 @@
 
 /* classes */
 "shaman" = "Shaman";
-"hunter" = "Hunter";
-"warlock" = "Warlock";
-"druid" = "Druid";
-"warrior" = "Warrior";
-"mage" = "Mage";
-"paladin" = "Paladin";
-"priest" = "Priest";
-"rogue" = "Rogue";
+"hunter" = "Caçador";
+"warlock" = "Bruxo";
+"druid" = "Druida";
+"warrior" = "Guerreiro";
+"mage" = "Mago";
+"paladin" = "Paladino";
+"priest" = "Sacerdote";
+"rogue" = "Ladino";
 
 /* rarity */
-"neutral" = "Neutral";
+"neutral" = "Neutro";
 "free" = "Free";
-"common" = "Common";
-"rare" = "Rare";
-"epic" = "Epic";
-"legendary" = "Legendary";
+"common" = "Comum";
+"rare" = "Raro";
+"epic" = "Epico";
+"legendary" = "Lendária";
 
 /* sets */
 "ALL" = "All";

@@ -30,23 +30,23 @@
 "You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
 
 /* classes */
-"shaman" = "Shaman";
-"hunter" = "Hunter";
-"warlock" = "Warlock";
-"druid" = "Druid";
-"warrior" = "Warrior";
-"mage" = "Mage";
-"paladin" = "Paladin";
-"priest" = "Priest";
-"rogue" = "Rogue";
+"shaman" = "Sciamano";
+"hunter" = "Cacciatore";
+"warlock" = "Stregone";
+"druid" = "Druido";
+"warrior" = "Guerriero";
+"mage" = "Mago";
+"paladin" = "Paladino";
+"priest" = "Sacerdote";
+"rogue" = "Ladro";
 
 /* rarity */
-"neutral" = "Neutral";
-"free" = "Free";
-"common" = "Common";
-"rare" = "Rare";
-"epic" = "Epic";
-"legendary" = "Legendary";
+"neutral" = "Neutrali";
+"free" = "Base";
+"common" = "Comune";
+"rare" = "Rara";
+"epic" = "Epica";
+"legendary" = "Leggendaria";
 
 /* sets */
 "ALL" = "All";

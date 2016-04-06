@@ -64,7 +64,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
         classChooser.segmentCount = 2
         classChooser.setLabel(NSLocalizedString(currentPlayerClass!, comment: ""), forSegment: 0)
-        classChooser.setLabel(NSLocalizedString("Neutral", comment: ""), forSegment: 1)
+        classChooser.setLabel(NSLocalizedString("neutral", comment: ""), forSegment: 1)
         classChooser.setSelected(true, forSegment: 0)
 
         tableView.reloadData()

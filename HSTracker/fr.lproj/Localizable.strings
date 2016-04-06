@@ -16,7 +16,6 @@
 "General" = "Général";
 "Loading %@ cards" = "Chargement des cartes %@";
 "Lock windows" = "Verrouiller les fenêtres";
-"Neutral" = "Neutre";
 "OK" = "OK";
 "Please choose your Hearthstone directory" = "Merci de choisir le répertoire de Hearthstone";
 "Preferences" = "Préférences";
@@ -58,5 +57,5 @@
 "BRM" = "Mont Rochenoire";
 "TGT" = "Le Grand Tournoi";
 "LOE" = "Ligue Des Explorateurs";
-"" = "Les murmures des Dieux très anciens";
+"WOG" = "Les murmures des Dieux très anciens";
 "PROMO" = "Promotion";

@@ -1,0 +1,96 @@
+
+/* Class = "NSMenuItem"; title = "HSTracker"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "HSTracker";
+
+/* Class = "NSMenuItem"; title = "Decks"; ObjectID = "1a9-Jp-R8O"; */
+"1a9-Jp-R8O.title" = "Decks";
+
+/* Class = "NSMenuItem"; title = "Quit HSTracker"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "Sair do HSTracker";
+
+/* Class = "NSMenuItem"; title = "Edit"; ObjectID = "5QF-Oa-p0T"; */
+"5QF-Oa-p0T.title" = "Edit";
+
+/* Class = "NSMenuItem"; title = "About HSTracker"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "Sobre HSTracker";
+
+/* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
+"6dh-zS-Vam.title" = "Redo";
+
+/* Class = "NSMenu"; title = "Decks"; ObjectID = "8x4-Eu-hed"; */
+"8x4-Eu-hed.title" = "Decks";
+
+/* Class = "NSMenuItem"; title = "Lock windows"; ObjectID = "9Mn-Tj-Fg1"; */
+"9Mn-Tj-Fg1.title" = "Lock windows";
+
+/* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
+"AYu-sK-qS6.title" = "Main Menu";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
+"BOF-NM-1cW.title" = "Preferences…";
+
+/* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
+"F2S-fz-NVQ.title" = "Help";
+
+/* Class = "NSMenuItem"; title = "HSTracker Help"; ObjectID = "FKE-Sm-Kum"; */
+"FKE-Sm-Kum.title" = "HSTracker Help";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "Show All";
+
+/* Class = "NSMenuItem"; title = "Deck Manager"; ObjectID = "LKO-TA-MDe"; */
+"LKO-TA-MDe.title" = "Deck Manager";
+
+/* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "OY7-WF-poV"; */
+"OY7-WF-poV.title" = "Minimize";
+
+/* Class = "NSMenuItem"; title = "Hide HSTracker"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "Hide HSTracker";
+
+/* Class = "NSMenuItem"; title = "Select All"; ObjectID = "Ruw-6m-B2m"; */
+"Ruw-6m-B2m.title" = "Select All";
+
+/* Class = "NSMenuItem"; title = "Clear trackers"; ObjectID = "Slg-Ni-HzQ"; */
+"Slg-Ni-HzQ.title" = "Clear trackers";
+
+/* Class = "NSMenu"; title = "Window"; ObjectID = "Td7-aD-5lo"; */
+"Td7-aD-5lo.title" = "Window";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "Hide Others";
+
+/* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
+"W48-6f-4Dl.title" = "Edit";
+
+/* Class = "NSMenuItem"; title = "Window"; ObjectID = "aUF-d1-5bR"; */
+"aUF-d1-5bR.title" = "Window";
+
+/* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
+"dRJ-4n-Yzg.title" = "Undo";
+
+/* Class = "NSMenuItem"; title = "Window positions"; ObjectID = "fkd-3m-6YS"; */
+"fkd-3m-6YS.title" = "Window positions";
+
+/* Class = "NSMenuItem"; title = "Paste"; ObjectID = "gVA-U4-sdL"; */
+"gVA-U4-sdL.title" = "Paste";
+
+/* Class = "NSMenu"; title = "Debug"; ObjectID = "hYW-YU-3Sy"; */
+"hYW-YU-3Sy.title" = "Debug";
+
+/* Class = "NSMenuItem"; title = "Debug"; ObjectID = "jNP-dX-InV"; */
+"jNP-dX-InV.title" = "Debug";
+
+/* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
+"pa3-QI-u2k.title" = "Delete";
+
+/* Class = "NSMenu"; title = "HSTracker"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "HSTracker";
+
+/* Class = "NSMenuItem"; title = "Cut"; ObjectID = "uRl-iY-unG"; */
+"uRl-iY-unG.title" = "Cut";
+
+/* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
+"wpr-3q-Mcd.title" = "Help";
+
+/* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
+"x3v-GG-iWU.title" = "Copy";

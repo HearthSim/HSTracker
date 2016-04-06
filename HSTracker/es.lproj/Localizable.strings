@@ -15,7 +15,7 @@
 "Game" = "Game";
 "General" = "General";
 "Loading %@ cards" = "Loading %@ cards";
-"Lock windows" = "Lock windows";
+"Lock windows" = "Bloquear Ventana";
 "OK" = "OK";
 "Please choose your Hearthstone directory" = "Please choose your Hearthstone directory";
 "Preferences" = "Preferences";
@@ -23,30 +23,30 @@
 "Reset" = "Reset";
 "server error" = "server error";
 "Trackers" = "Trackers";
-"Unlock windows" = "Unlock windows";
+"Unlock windows" = "Desbloquear Ventanas";
 "Use deck" = "Use deck";
 "Window" = "Window";
 "You are now connected to Hearthstats" = "You are now connected to Hearthstats";
 "You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
 
 /* classes */
-"shaman" = "Shaman";
-"hunter" = "Hunter";
-"warlock" = "Warlock";
-"druid" = "Druid";
-"warrior" = "Warrior";
-"mage" = "Mage";
-"paladin" = "Paladin";
-"priest" = "Priest";
-"rogue" = "Rogue";
+"shaman" = "Chamán";
+"hunter" = "Cazador";
+"warlock" = "Brujo";
+"druid" = "Druida";
+"warrior" = "Guerrero";
+"mage" = "Mago";
+"paladin" = "Paladín";
+"priest" = "Sacerdote";
+"rogue" = "Pícaro";
 
 /* rarity */
 "neutral" = "Neutral";
-"free" = "Free";
-"common" = "Common";
-"rare" = "Rare";
-"epic" = "Epic";
-"legendary" = "Legendary";
+"free" = "Gratuita";
+"common" = "Común";
+"rare" = "Rara";
+"epic" = "Épica";
+"legendary" = "Legendaria";
 
 /* sets */
 "ALL" = "All";
@@ -59,10 +59,3 @@
 "LOE" = "League Of Explorers";
 "WOG" = "Whispers of the Old Gods";
 "PROMO" = "Promotion";
-
-
-
-
-
-
-
