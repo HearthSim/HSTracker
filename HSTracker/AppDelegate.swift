@@ -57,20 +57,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         // init logger
-        #if DEBUG
-            let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .Verbose,
-                                                    logToASL: false,
-                                                    colorTable: HSTrackerColorTable(),
-                                                    formatters: [HSTrackerLogFormatter()])
-            Log.enable(configuration: xcodeConfig)
-        #else
-            /*TODO 
-             let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: .Info,
-                                                            daysToKeep: 7,
-                                                            directoryPath: logDir)
-            
-            Log.enable(configuration: rotatingConf)*/
+        var loggers = [LogConfiguration]()
+        let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .Verbose,
+                                                logToASL: false,
+                                                colorTable: HSTrackerColorTable(),
+                                                formatters: [HSTrackerLogFormatter()])
+        loggers.append(xcodeConfig)
+        #if !DEBUG
+            if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first {
+                do {
+                    try NSFileManager.defaultManager().createDirectoryAtPath("\(path)/Logs/HSTracker", withIntermediateDirectories: true, attributes: nil)
+                    let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: .Info,
+                                                                    daysToKeep: 7,
+                                                                    directoryPath: "\(path)/Logs/HSTracker",
+                                                                    formatters: [HSTrackerLogFormatter()])
+                    loggers.append(rotatingConf)
+                }
+                catch { }
+            }
         #endif
+        Log.enable(configuration: loggers)
 
         if Settings.instance.hearthstoneLanguage != nil && Settings.instance.hsTrackerLanguage != nil {
             loadSplashscreen()
