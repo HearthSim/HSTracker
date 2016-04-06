@@ -29,7 +29,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MOS-w7-D1d">
-                    <rect key="frame" x="18" y="270" width="162" height="18"/>
+                    <rect key="frame" x="18" y="270" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight cards in hand" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hJI-dG-QeP">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -39,7 +39,7 @@
                     </buttonCell>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PL6-uo-7RN">
-                    <rect key="frame" x="18" y="250" width="173" height="18"/>
+                    <rect key="frame" x="18" y="250" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight last drawn card" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="WKT-Hm-Z7h">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -49,7 +49,7 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q3s-94-J32">
-                    <rect key="frame" x="18" y="230" width="182" height="18"/>
+                    <rect key="frame" x="18" y="230" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Remove cards if count is 0" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="s9w-5p-pJs">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -59,7 +59,7 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jdv-Xu-QUr">
-                    <rect key="frame" x="18" y="210" width="161" height="18"/>
+                    <rect key="frame" x="18" y="210" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Include obtained cards" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ndN-hu-6Rx">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -69,7 +69,7 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Ry-pR-4H6">
-                    <rect key="frame" x="18" y="190" width="205" height="18"/>
+                    <rect key="frame" x="18" y="190" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Highlight discarded from deck" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="yeJ-ZI-Pca">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -79,7 +79,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avV-MQ-3U6">
-                    <rect key="frame" x="18" y="167" width="51" height="17"/>
+                    <rect key="frame" x="18" y="167" width="239" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Opacity" id="zP3-ns-ggP">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -94,7 +94,7 @@
                     </connections>
                 </slider>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7tL-jS-waw">
-                    <rect key="frame" x="18" y="142" width="68" height="17"/>
+                    <rect key="frame" x="18" y="142" width="239" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cards size" id="NLB-ON-zWk">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -118,7 +118,7 @@
                     </connections>
                 </comboBox>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TNp-Jh-qS9">
-                    <rect key="frame" x="18" y="118" width="212" height="18"/>
+                    <rect key="frame" x="18" y="118" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Auto position trackers" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="5rZ-fg-pB4">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -128,7 +128,7 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jqc-dr-ATS">
-                    <rect key="frame" x="18" y="18" width="139" height="18"/>
+                    <rect key="frame" x="18" y="18" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Show secret helper" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ySU-4j-Jbh">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -138,7 +138,7 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AVh-I0-Pfw">
-                    <rect key="frame" x="18" y="98" width="142" height="18"/>
+                    <rect key="frame" x="18" y="98" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Show player tracker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MiE-Lr-Vdi">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -148,7 +148,7 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bt4-kn-GjS">
-                    <rect key="frame" x="18" y="78" width="164" height="18"/>
+                    <rect key="frame" x="18" y="78" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Show opponent tracker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MLJ-7t-LVJ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -158,14 +158,14 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xW7-1C-T20">
-                    <rect key="frame" x="18" y="58" width="91" height="18"/>
+                    <rect key="frame" x="18" y="58" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Show timer" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x27-iz-7Sv">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jvp-6c-HZ0">
-                    <rect key="frame" x="18" y="38" width="232" height="18"/>
+                    <rect key="frame" x="18" y="38" width="440" height="18"/>
                     <buttonCell key="cell" type="check" title="Show opponent in-hand card huds" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="50X-Tt-yJa">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>

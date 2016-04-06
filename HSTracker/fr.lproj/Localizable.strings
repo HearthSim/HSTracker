@@ -1,0 +1,61 @@
+"Are you sure you want to close this deck ? Your changes will not be saved." = "Êtes-vous sur de vouloir fermer ce deck ? Vos modifications ne seront pas sauvegardées.";
+"Are you sure you want to delete this deck ?" = "Êtes-vous sur de vouloir supprimer ce deck ?";
+"Arena %@ %@" = "Arène %@ %@";
+"Cancel" = "Annuler";
+"Clear" = "Vider";
+"Deck Manager" = "Deck Manager";
+"Deck name" = "Nom du deck";
+"Decks" = "Decks";
+"Delete deck" = "Supprimer le deck";
+"Do you want to add this deck on Hearthstats ?" = "Voulez-vous ajouter ce deck sur Hearthstats ?";
+"Do you want to delete the deck on Hearthstats ?" = "Voulez-vous supprimer ce deck sur Hearthstats ?";
+"Downloading %@.png" = "Téléchargement de %@.png";
+"Downloading images" = "Téléchargement des images";
+"Edit deck" = "Editer le deck";
+"Game" = "Jeu";
+"General" = "Général";
+"Loading %@ cards" = "Chargement des cartes %@";
+"Lock windows" = "Verrouiller les fenêtres";
+"OK" = "OK";
+"Please choose your Hearthstone directory" = "Merci de choisir le répertoire de Hearthstone";
+"Preferences" = "Préférences";
+"Rename deck" = "Renommer le deck";
+"Reset" = "Reset";
+"server error" = "Erreur serveur";
+"Trackers" = "Trackers";
+"Unlock windows" = "Déverrouiller les fenêtres";
+"Use deck" = "Utiliser le deck";
+"Window" = "Fenêtre";
+"You are now connected to Hearthstats" = "Vous êtes connecté avec Hearthstats";
+"You must restart Hearthstone for logs to be used" = "Vous devez redémarrer Hearthstone pour que les logs soient utilisés";
+
+/* classes */
+"shaman" = "Chaman";
+"hunter" = "Chasseur";
+"warlock" = "Démoniste";
+"druid" = "Druide";
+"warrior" = "Guerrier";
+"mage" = "Mage";
+"paladin" = "Paladin";
+"priest" = "Prêtre";
+"rogue" = "Voleur";
+
+/* rarity */
+"neutral" = "Neutre";
+"free" = "Libre";
+"common" = "Commune";
+"rare" = "Rare";
+"epic" = "Épique";
+"legendary" = "Légendaire";
+
+/* sets */
+"ALL" = "Tous";
+"CORE" = "Base";
+"EXPERT1" = "Classique";
+"NAXX" = "La malédiction de Naxxramas";
+"GVG" = "Gobelins et Gnomes";
+"BRM" = "Mont Rochenoire";
+"TGT" = "Le Grand Tournoi";
+"LOE" = "Ligue Des Explorateurs";
+"WOG" = "Les murmures des Dieux très anciens";
+"PROMO" = "Promotion";

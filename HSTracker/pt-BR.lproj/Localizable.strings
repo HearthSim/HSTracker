@@ -1,0 +1,68 @@
+"Are you sure you want to close this deck ? Your changes will not be saved." = "Are you sure you want to close this deck ? Your changes will not be saved.";
+"Are you sure you want to delete this deck ?" = "Are you sure you want to delete this deck ?";
+"Arena %@ %@" = "Arena %@ %@";
+"Cancel" = "Cancel";
+"Clear" = "Clear";
+"Deck Manager" = "Deck Manager";
+"Deck name" = "Deck name";
+"Decks" = "Decks";
+"Delete deck" = "Delete deck";
+"Do you want to add this deck on Hearthstats ?" = "Do you want to add this deck on Hearthstats ?";
+"Do you want to delete the deck on Hearthstats ?" = "Do you want to delete the deck on Hearthstats ?";
+"Downloading %@.png" = "Downloading %@.png";
+"Downloading images" = "Downloading images";
+"Edit deck" = "Edit deck";
+"Game" = "Game";
+"General" = "General";
+"Loading %@ cards" = "Loading %@ cards";
+"Lock windows" = "Lock windows";
+"OK" = "OK";
+"Please choose your Hearthstone directory" = "Please choose your Hearthstone directory";
+"Preferences" = "Preferences";
+"Rename deck" = "Rename deck";
+"Reset" = "Reset";
+"server error" = "server error";
+"Trackers" = "Trackers";
+"Unlock windows" = "Unlock windows";
+"Use deck" = "Use deck";
+"Window" = "Window";
+"You are now connected to Hearthstats" = "You are now connected to Hearthstats";
+"You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+
+/* classes */
+"shaman" = "Shaman";
+"hunter" = "Caçador";
+"warlock" = "Bruxo";
+"druid" = "Druida";
+"warrior" = "Guerreiro";
+"mage" = "Mago";
+"paladin" = "Paladino";
+"priest" = "Sacerdote";
+"rogue" = "Ladino";
+
+/* rarity */
+"neutral" = "Neutro";
+"free" = "Free";
+"common" = "Comum";
+"rare" = "Raro";
+"epic" = "Epico";
+"legendary" = "Lendária";
+
+/* sets */
+"ALL" = "All";
+"CORE" = "Basic";
+"EXPERT1" = "Classic";
+"NAXX" = "Curse Of Naxxramas";
+"GVG" = "Goblins Vs Gnomes";
+"BRM" = "Blackrock Mountain";
+"TGT" = "The Grand Tournament";
+"LOE" = "League Of Explorers";
+"WOG" = "Whispers of the Old Gods";
+"PROMO" = "Promotion";
+
+
+
+
+
+
+

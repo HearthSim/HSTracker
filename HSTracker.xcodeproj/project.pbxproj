@@ -9,12 +9,22 @@
 /* Begin PBXBuildFile section */
 		4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */; };
 		4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFF21CA0401B00F3F2BE /* Int.swift */; };
-		4317196F1C84910600F5988B /* EditDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4317196E1C84910600F5988B /* EditDeck.xib */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
 		431719731C885BD600F5988B /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719721C885BD600F5988B /* CardCell.swift */; };
 		431719791C8C179D00F5988B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
 		4317197B1C8C19B500F5988B /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197A1C8C19B500F5988B /* Statistic.swift */; };
 		4317197D1C8C54FF00F5988B /* OpponentDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */; };
+		432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FAD1CB5351800B05D19 /* Localizable.strings */; };
+		432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB21CB536E700B05D19 /* MainMenu.xib */; };
+		432B5FB31CB5371C00B05D19 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB51CB5371C00B05D19 /* TrackersPreferences.xib */; };
+		432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB81CB5372600B05D19 /* GamePreferences.xib */; };
+		432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FBB1CB5372C00B05D19 /* GeneralPreferences.xib */; };
+		432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FBE1CB5373200B05D19 /* Splashscreen.xib */; };
+		432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FC11CB5373500B05D19 /* InitialConfiguration.xib */; };
+		432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FC41CB5373D00B05D19 /* SaveDeck.xib */; };
+		432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FC71CB5374100B05D19 /* EditDeck.xib */; };
+		432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FCA1CB5374600B05D19 /* NewDeck.xib */; };
+		432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FCD1CB5375500B05D19 /* DeckManager.xib */; };
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		434106A61C9868620045655A /* Frames.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A31C9868620045655A /* Frames.xcassets */; };
@@ -36,14 +46,13 @@
 		4345E9EC1CB45126002D0F23 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
 		4345E9ED1CB45126002D0F23 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
 		4345E9EE1CB45126002D0F23 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
-		4345E9F21CB4514D002D0F23 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
-		4345E9F31CB4514D002D0F23 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
-		4345E9F41CB4514D002D0F23 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
-		4345E9F51CB4514D002D0F23 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
-		4345E9F61CB4514D002D0F23 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
-		4345E9F71CB4514D002D0F23 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
-		4345E9F81CB4514D002D0F23 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
-		434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434C2F291C7F0F96001D1D91 /* NewDeck.xib */; };
+		4345E9F21CB4514D002D0F23 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4345E9F31CB4514D002D0F23 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4345E9F41CB4514D002D0F23 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4345E9F51CB4514D002D0F23 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4345E9F61CB4514D002D0F23 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4345E9F71CB4514D002D0F23 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4345E9F81CB4514D002D0F23 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
 		434C2F321C7F475E001D1D91 /* Hearthpwn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F311C7F475E001D1D91 /* Hearthpwn.swift */; };
@@ -127,11 +136,7 @@
 		439C7EE41C777FA900D29859 /* Tracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EDD1C777FA900D29859 /* Tracker.xib */; };
 		439C7EEA1C777FCF00D29859 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE81C777FCF00D29859 /* Array.swift */; };
 		439C7EEB1C777FCF00D29859 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE91C777FCF00D29859 /* String.swift */; };
-		439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */; };
-		439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EEF1C78A71300D29859 /* MainMenu.xib */; };
-		439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EF01C78A71300D29859 /* Splashscreen.xib */; };
 		43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
-		43A12C891CA3D25600090BFE /* SaveDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A12C881CA3D25600090BFE /* SaveDeck.xib */; };
 		43A12C8B1CA562AB00090BFE /* HearthstatsLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A12C8A1CA562AB00090BFE /* HearthstatsLogin.xib */; };
 		43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */; };
 		43A12C911CA5689D00090BFE /* HearthstatsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A12C901CA5689D00090BFE /* HearthstatsPreferences.xib */; };
@@ -149,12 +154,9 @@
 		43CCF2A91CABB4B0006ACB69 /* HSTrackerLogFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
-		43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D307FF1C842DA700480488 /* GeneralPreferences.xib */; };
-		43D308021C842DB400480488 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D308011C842DB400480488 /* GamePreferences.xib */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
 		43D308061C842DC900480488 /* GamePrefences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePrefences.swift */; };
 		43D308081C84410000480488 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* TrackersPreferences.swift */; };
-		43D3080A1C84411200480488 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D308091C84411200480488 /* TrackersPreferences.xib */; };
 		43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EDF1C949C6D00C26950 /* TimerHud.xib */; };
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
@@ -162,7 +164,6 @@
 		43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EE71C94B4CA00C26950 /* CardHud.xib */; };
 		43E77EEA1C95713300C26950 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE91C95713300C26950 /* Date.swift */; };
 		43E77EED1C969C4100C26950 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EEC1C969C4100C26950 /* Regex.swift */; };
-		43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB931C7DE1E40077AC1B /* DeckManager.xib */; };
 		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
 		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
 		43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB991C7E3F620077AC1B /* DeckCellView.xib */; };
@@ -243,16 +244,91 @@
 /* Begin PBXFileReference section */
 		4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsAPI.swift; sourceTree = "<group>"; };
 		4312AFF21CA0401B00F3F2BE /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
-		4317196E1C84910600F5988B /* EditDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditDeck.xib; sourceTree = "<group>"; };
 		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
 		431719721C885BD600F5988B /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		431719781C8C179D00F5988B /* Rarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
 		4317197A1C8C19B500F5988B /* Statistic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
 		4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentDrawChance.swift; sourceTree = "<group>"; };
+		432B5FAE1CB5351800B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		432B5FB11CB536E700B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		432B5FB41CB5371C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TrackersPreferences.xib; sourceTree = "<group>"; };
+		432B5FB71CB5372600B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GamePreferences.xib; sourceTree = "<group>"; };
+		432B5FBA1CB5372C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GeneralPreferences.xib; sourceTree = "<group>"; };
+		432B5FBD1CB5373200B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Splashscreen.xib; sourceTree = "<group>"; };
+		432B5FC01CB5373500B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/InitialConfiguration.xib; sourceTree = "<group>"; };
+		432B5FC31CB5373D00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SaveDeck.xib; sourceTree = "<group>"; };
+		432B5FC61CB5374100B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EditDeck.xib; sourceTree = "<group>"; };
+		432B5FC91CB5374600B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/NewDeck.xib; sourceTree = "<group>"; };
+		432B5FCC1CB5375500B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DeckManager.xib; sourceTree = "<group>"; };
+		432B5FCE1CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/DeckManager.strings; sourceTree = "<group>"; };
+		432B5FCF1CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/NewDeck.strings; sourceTree = "<group>"; };
+		432B5FD01CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/EditDeck.strings; sourceTree = "<group>"; };
+		432B5FD11CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SaveDeck.strings; sourceTree = "<group>"; };
+		432B5FD21CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InitialConfiguration.strings; sourceTree = "<group>"; };
+		432B5FD31CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Splashscreen.strings; sourceTree = "<group>"; };
+		432B5FD41CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
+		432B5FD51CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GamePreferences.strings; sourceTree = "<group>"; };
+		432B5FD61CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		432B5FD71CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		432B5FD81CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		432B5FD91CB5492500B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/DeckManager.strings; sourceTree = "<group>"; };
+		432B5FDA1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/NewDeck.strings; sourceTree = "<group>"; };
+		432B5FDB1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/EditDeck.strings; sourceTree = "<group>"; };
+		432B5FDC1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SaveDeck.strings; sourceTree = "<group>"; };
+		432B5FDD1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InitialConfiguration.strings; sourceTree = "<group>"; };
+		432B5FDE1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Splashscreen.strings; sourceTree = "<group>"; };
+		432B5FDF1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
+		432B5FE01CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/GamePreferences.strings; sourceTree = "<group>"; };
+		432B5FE11CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		432B5FE21CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		432B5FE31CB5492700B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		432B5FE41CB549F000B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/DeckManager.strings; sourceTree = "<group>"; };
+		432B5FE51CB549F000B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/NewDeck.strings; sourceTree = "<group>"; };
+		432B5FE61CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/EditDeck.strings; sourceTree = "<group>"; };
+		432B5FE71CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/SaveDeck.strings; sourceTree = "<group>"; };
+		432B5FE81CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InitialConfiguration.strings; sourceTree = "<group>"; };
+		432B5FE91CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Splashscreen.strings; sourceTree = "<group>"; };
+		432B5FEA1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
+		432B5FEB1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GamePreferences.strings; sourceTree = "<group>"; };
+		432B5FEC1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		432B5FED1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		432B5FEE1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		432B5FEF1CB54A3500B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/DeckManager.strings; sourceTree = "<group>"; };
+		432B5FF01CB54A3500B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/NewDeck.strings; sourceTree = "<group>"; };
+		432B5FF11CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/EditDeck.strings; sourceTree = "<group>"; };
+		432B5FF21CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/SaveDeck.strings; sourceTree = "<group>"; };
+		432B5FF31CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InitialConfiguration.strings; sourceTree = "<group>"; };
+		432B5FF41CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Splashscreen.strings; sourceTree = "<group>"; };
+		432B5FF51CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
+		432B5FF61CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/GamePreferences.strings; sourceTree = "<group>"; };
+		432B5FF71CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		432B5FF81CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		432B5FF91CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		432B5FFA1CB54A6700B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/DeckManager.strings"; sourceTree = "<group>"; };
+		432B5FFB1CB54A6700B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/NewDeck.strings"; sourceTree = "<group>"; };
+		432B5FFC1CB54A6700B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/EditDeck.strings"; sourceTree = "<group>"; };
+		432B5FFD1CB54A6700B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/SaveDeck.strings"; sourceTree = "<group>"; };
+		432B5FFE1CB54A6700B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InitialConfiguration.strings"; sourceTree = "<group>"; };
+		432B5FFF1CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Splashscreen.strings"; sourceTree = "<group>"; };
+		432B60001CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/GeneralPreferences.strings"; sourceTree = "<group>"; };
+		432B60011CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/GamePreferences.strings"; sourceTree = "<group>"; };
+		432B60021CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/TrackersPreferences.strings"; sourceTree = "<group>"; };
+		432B60031CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		432B60041CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		432B60051CB54AD600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/DeckManager.strings"; sourceTree = "<group>"; };
+		432B60061CB54AD600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/NewDeck.strings"; sourceTree = "<group>"; };
+		432B60071CB54AD600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/EditDeck.strings"; sourceTree = "<group>"; };
+		432B60081CB54AD600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SaveDeck.strings"; sourceTree = "<group>"; };
+		432B60091CB54AD600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InitialConfiguration.strings"; sourceTree = "<group>"; };
+		432B600A1CB54AD600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Splashscreen.strings"; sourceTree = "<group>"; };
+		432B600B1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GeneralPreferences.strings"; sourceTree = "<group>"; };
+		432B600C1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GamePreferences.strings"; sourceTree = "<group>"; };
+		432B600D1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TrackersPreferences.strings"; sourceTree = "<group>"; };
+		432B600E1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		432B600F1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
 		434106A31C9868620045655A /* Frames.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Frames.xcassets; sourceTree = "<group>"; };
-		434C2F291C7F0F96001D1D91 /* NewDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDeck.xib; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
 		434C2F2E1C7F437D001D1D91 /* NetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImporter.swift; sourceTree = "<group>"; };
 		434C2F311C7F475E001D1D91 /* Hearthpwn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthpwn.swift; sourceTree = "<group>"; };
@@ -336,11 +412,7 @@
 		439C7EDD1C777FA900D29859 /* Tracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Tracker.xib; sourceTree = "<group>"; };
 		439C7EE81C777FCF00D29859 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		439C7EE91C777FCF00D29859 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialConfiguration.xib; sourceTree = "<group>"; };
-		439C7EEF1C78A71300D29859 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		439C7EF01C78A71300D29859 /* Splashscreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Splashscreen.xib; sourceTree = "<group>"; };
 		43A12C861CA3D24800090BFE /* SaveDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveDeck.swift; sourceTree = "<group>"; };
-		43A12C881CA3D25600090BFE /* SaveDeck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaveDeck.xib; sourceTree = "<group>"; };
 		43A12C8A1CA562AB00090BFE /* HearthstatsLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HearthstatsLogin.xib; sourceTree = "<group>"; };
 		43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsLogin.swift; sourceTree = "<group>"; };
 		43A12C901CA5689D00090BFE /* HearthstatsPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HearthstatsPreferences.xib; sourceTree = "<group>"; };
@@ -358,12 +430,9 @@
 		43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSTrackerLogFormatter.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
-		43D307FF1C842DA700480488 /* GeneralPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GeneralPreferences.xib; sourceTree = "<group>"; };
-		43D308011C842DB400480488 /* GamePreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePreferences.xib; sourceTree = "<group>"; };
 		43D308031C842DC000480488 /* GeneralPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferences.swift; sourceTree = "<group>"; };
 		43D308051C842DC900480488 /* GamePrefences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrefences.swift; sourceTree = "<group>"; };
 		43D308071C84410000480488 /* TrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackersPreferences.swift; sourceTree = "<group>"; };
-		43D308091C84411200480488 /* TrackersPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrackersPreferences.xib; sourceTree = "<group>"; };
 		43E77EDF1C949C6D00C26950 /* TimerHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerHud.xib; sourceTree = "<group>"; };
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
@@ -371,7 +440,6 @@
 		43E77EE71C94B4CA00C26950 /* CardHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHud.xib; sourceTree = "<group>"; };
 		43E77EE91C95713300C26950 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		43E77EEC1C969C4100C26950 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
-		43EECB931C7DE1E40077AC1B /* DeckManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckManager.xib; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
 		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
 		43EECB991C7E3F620077AC1B /* DeckCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckCellView.xib; sourceTree = "<group>"; };
@@ -482,16 +550,16 @@
 		436032991C7B4C34005F1893 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				439C7EEE1C78A71300D29859 /* InitialConfiguration.xib */,
 				439C7ED11C777FA900D29859 /* InitialConfiguration.swift */,
-				439C7EF01C78A71300D29859 /* Splashscreen.xib */,
+				432B5FC11CB5373500B05D19 /* InitialConfiguration.xib */,
 				439C7ED31C777FA900D29859 /* Splashscreen.swift */,
-				43D307FF1C842DA700480488 /* GeneralPreferences.xib */,
+				432B5FBE1CB5373200B05D19 /* Splashscreen.xib */,
 				43D308031C842DC000480488 /* GeneralPreferences.swift */,
-				43D308011C842DB400480488 /* GamePreferences.xib */,
+				432B5FBB1CB5372C00B05D19 /* GeneralPreferences.xib */,
 				43D308051C842DC900480488 /* GamePrefences.swift */,
+				432B5FB81CB5372600B05D19 /* GamePreferences.xib */,
 				43D308071C84410000480488 /* TrackersPreferences.swift */,
-				43D308091C84411200480488 /* TrackersPreferences.xib */,
+				432B5FB51CB5371C00B05D19 /* TrackersPreferences.xib */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -500,17 +568,17 @@
 			isa = PBXGroup;
 			children = (
 				431719721C885BD600F5988B /* CardCell.swift */,
+				43EECB9B1C7E4EA20077AC1B /* CurveView.swift */,
 				436032A11C7D0332005F1893 /* DeckManager.swift */,
-				43EECB931C7DE1E40077AC1B /* DeckManager.xib */,
+				432B5FCD1CB5375500B05D19 /* DeckManager.xib */,
 				43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */,
 				43EECB991C7E3F620077AC1B /* DeckCellView.xib */,
-				43EECB9B1C7E4EA20077AC1B /* CurveView.swift */,
-				434C2F291C7F0F96001D1D91 /* NewDeck.xib */,
 				434C2F2B1C7F122A001D1D91 /* NewDeck.swift */,
+				432B5FCA1CB5374600B05D19 /* NewDeck.xib */,
 				431719701C84911300F5988B /* EditDeck.swift */,
-				4317196E1C84910600F5988B /* EditDeck.xib */,
+				432B5FC71CB5374100B05D19 /* EditDeck.xib */,
 				43A12C861CA3D24800090BFE /* SaveDeck.swift */,
-				43A12C881CA3D25600090BFE /* SaveDeck.xib */,
+				432B5FC41CB5373D00B05D19 /* SaveDeck.xib */,
 			);
 			path = DeckManager;
 			sourceTree = "<group>";
@@ -560,6 +628,7 @@
 				439C7E901C777EE800D29859 /* Core */,
 				439C7E7A1C777CC000D29859 /* Database */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
+				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
 				439C7E571C7772C000D29859 /* Info.plist */,
 				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
 			);
@@ -676,7 +745,7 @@
 				4360329E1C7D0113005F1893 /* DeckManager */,
 				436032991C7B4C34005F1893 /* Preferences */,
 				439C7ED41C777FA900D29859 /* Trackers */,
-				439C7EEF1C78A71300D29859 /* MainMenu.xib */,
+				432B5FB21CB536E700B05D19 /* MainMenu.xib */,
 				439C7ECF1C777FA900D29859 /* ImageCache.swift */,
 				43EECB971C7DEF7F0077AC1B /* ClassColor.swift */,
 			);
@@ -850,7 +919,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Benjamin Michotte";
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
@@ -874,6 +943,12 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
+				de,
+				es,
+				it,
+				"pt-BR",
+				"zh-Hans",
 			);
 			mainGroup = 439C7E3F1C7772C000D29859;
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
@@ -892,26 +967,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4317196F1C84910600F5988B /* EditDeck.xib in Resources */,
-				434C2F2A1C7F0F96001D1D91 /* NewDeck.xib in Resources */,
-				43D308001C842DA700480488 /* GeneralPreferences.xib in Resources */,
-				43A12C891CA3D25600090BFE /* SaveDeck.xib in Resources */,
+				432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */,
+				432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */,
+				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
+				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
+				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				43A12C911CA5689D00090BFE /* HearthstatsPreferences.xib in Resources */,
 				43A12C8B1CA562AB00090BFE /* HearthstatsLogin.xib in Resources */,
-				43D308021C842DB400480488 /* GamePreferences.xib in Resources */,
+				432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */,
 				43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */,
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				434106A61C9868620045655A /* Frames.xcassets in Resources */,
-				43D3080A1C84411200480488 /* TrackersPreferences.xib in Resources */,
-				439C7EF31C78A71300D29859 /* Splashscreen.xib in Resources */,
+				432B5FB31CB5371C00B05D19 /* TrackersPreferences.xib in Resources */,
+				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
-				43EECB941C7DE1E40077AC1B /* DeckManager.xib in Resources */,
+				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
 				43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */,
-				439C7EF11C78A71300D29859 /* InitialConfiguration.xib in Resources */,
+				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
-				439C7EF21C78A71300D29859 /* MainMenu.xib in Resources */,
+				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 			);
@@ -1077,6 +1153,163 @@
 			targetProxy = 439C7E681C7772C100D29859 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		432B5FAD1CB5351800B05D19 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FAE1CB5351800B05D19 /* Base */,
+				432B5FD81CB5378C00B05D19 /* fr */,
+				432B5FE31CB5492700B05D19 /* de */,
+				432B5FEE1CB549F100B05D19 /* es */,
+				432B5FF91CB54A3600B05D19 /* it */,
+				432B60041CB54A6800B05D19 /* pt-BR */,
+				432B600F1CB54AD700B05D19 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		432B5FB21CB536E700B05D19 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FB11CB536E700B05D19 /* Base */,
+				432B5FD71CB5378C00B05D19 /* fr */,
+				432B5FE21CB5492600B05D19 /* de */,
+				432B5FED1CB549F100B05D19 /* es */,
+				432B5FF81CB54A3600B05D19 /* it */,
+				432B60031CB54A6800B05D19 /* pt-BR */,
+				432B600E1CB54AD700B05D19 /* zh-Hans */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		432B5FB51CB5371C00B05D19 /* TrackersPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FB41CB5371C00B05D19 /* Base */,
+				432B5FD61CB5378B00B05D19 /* fr */,
+				432B5FE11CB5492600B05D19 /* de */,
+				432B5FEC1CB549F100B05D19 /* es */,
+				432B5FF71CB54A3600B05D19 /* it */,
+				432B60021CB54A6800B05D19 /* pt-BR */,
+				432B600D1CB54AD700B05D19 /* zh-Hans */,
+			);
+			name = TrackersPreferences.xib;
+			sourceTree = "<group>";
+		};
+		432B5FB81CB5372600B05D19 /* GamePreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FB71CB5372600B05D19 /* Base */,
+				432B5FD51CB5378B00B05D19 /* fr */,
+				432B5FE01CB5492600B05D19 /* de */,
+				432B5FEB1CB549F100B05D19 /* es */,
+				432B5FF61CB54A3600B05D19 /* it */,
+				432B60011CB54A6800B05D19 /* pt-BR */,
+				432B600C1CB54AD700B05D19 /* zh-Hans */,
+			);
+			name = GamePreferences.xib;
+			sourceTree = "<group>";
+		};
+		432B5FBB1CB5372C00B05D19 /* GeneralPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FBA1CB5372C00B05D19 /* Base */,
+				432B5FD41CB5378B00B05D19 /* fr */,
+				432B5FDF1CB5492600B05D19 /* de */,
+				432B5FEA1CB549F100B05D19 /* es */,
+				432B5FF51CB54A3600B05D19 /* it */,
+				432B60001CB54A6800B05D19 /* pt-BR */,
+				432B600B1CB54AD700B05D19 /* zh-Hans */,
+			);
+			name = GeneralPreferences.xib;
+			sourceTree = "<group>";
+		};
+		432B5FBE1CB5373200B05D19 /* Splashscreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FBD1CB5373200B05D19 /* Base */,
+				432B5FD31CB5378B00B05D19 /* fr */,
+				432B5FDE1CB5492600B05D19 /* de */,
+				432B5FE91CB549F100B05D19 /* es */,
+				432B5FF41CB54A3600B05D19 /* it */,
+				432B5FFF1CB54A6800B05D19 /* pt-BR */,
+				432B600A1CB54AD600B05D19 /* zh-Hans */,
+			);
+			name = Splashscreen.xib;
+			sourceTree = "<group>";
+		};
+		432B5FC11CB5373500B05D19 /* InitialConfiguration.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FC01CB5373500B05D19 /* Base */,
+				432B5FD21CB5378B00B05D19 /* fr */,
+				432B5FDD1CB5492600B05D19 /* de */,
+				432B5FE81CB549F100B05D19 /* es */,
+				432B5FF31CB54A3600B05D19 /* it */,
+				432B5FFE1CB54A6700B05D19 /* pt-BR */,
+				432B60091CB54AD600B05D19 /* zh-Hans */,
+			);
+			name = InitialConfiguration.xib;
+			sourceTree = "<group>";
+		};
+		432B5FC41CB5373D00B05D19 /* SaveDeck.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FC31CB5373D00B05D19 /* Base */,
+				432B5FD11CB5378B00B05D19 /* fr */,
+				432B5FDC1CB5492600B05D19 /* de */,
+				432B5FE71CB549F100B05D19 /* es */,
+				432B5FF21CB54A3600B05D19 /* it */,
+				432B5FFD1CB54A6700B05D19 /* pt-BR */,
+				432B60081CB54AD600B05D19 /* zh-Hans */,
+			);
+			name = SaveDeck.xib;
+			sourceTree = "<group>";
+		};
+		432B5FC71CB5374100B05D19 /* EditDeck.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FC61CB5374100B05D19 /* Base */,
+				432B5FD01CB5378B00B05D19 /* fr */,
+				432B5FDB1CB5492600B05D19 /* de */,
+				432B5FE61CB549F100B05D19 /* es */,
+				432B5FF11CB54A3600B05D19 /* it */,
+				432B5FFC1CB54A6700B05D19 /* pt-BR */,
+				432B60071CB54AD600B05D19 /* zh-Hans */,
+			);
+			name = EditDeck.xib;
+			sourceTree = "<group>";
+		};
+		432B5FCA1CB5374600B05D19 /* NewDeck.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FC91CB5374600B05D19 /* Base */,
+				432B5FCF1CB5378B00B05D19 /* fr */,
+				432B5FDA1CB5492600B05D19 /* de */,
+				432B5FE51CB549F000B05D19 /* es */,
+				432B5FF01CB54A3500B05D19 /* it */,
+				432B5FFB1CB54A6700B05D19 /* pt-BR */,
+				432B60061CB54AD600B05D19 /* zh-Hans */,
+			);
+			name = NewDeck.xib;
+			sourceTree = "<group>";
+		};
+		432B5FCD1CB5375500B05D19 /* DeckManager.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B5FCC1CB5375500B05D19 /* Base */,
+				432B5FCE1CB5378B00B05D19 /* fr */,
+				432B5FD91CB5492500B05D19 /* de */,
+				432B5FE41CB549F000B05D19 /* es */,
+				432B5FEF1CB54A3500B05D19 /* it */,
+				432B5FFA1CB54A6700B05D19 /* pt-BR */,
+				432B60051CB54AD600B05D19 /* zh-Hans */,
+			);
+			name = DeckManager.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		439C7E6E1C7772C100D29859 /* Debug */ = {

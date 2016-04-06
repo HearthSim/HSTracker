@@ -83,7 +83,7 @@ final class Cards {
 }
 
 struct Database {
-    static let validCardSet = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS"]
+    static let validCardSets = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS"]
 
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
@@ -117,7 +117,7 @@ struct Database {
                         }
 
                         let set = jsonCard["set"] as! String
-                        if !Database.validCardSet.contains(set) {
+                        if !Database.validCardSets.contains(set) {
                             continue
                         }
 

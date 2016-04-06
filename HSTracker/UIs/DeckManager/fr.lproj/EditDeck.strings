@@ -1,0 +1,27 @@
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "722-4W-cap"; */
+"722-4W-cap.title" = "Text Cell";
+
+/* Class = "NSToolbarItem"; label = "Delete"; ObjectID = "CT1-aM-w9a"; */
+"CT1-aM-w9a.label" = "Supprimer";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Delete"; ObjectID = "CT1-aM-w9a"; */
+"CT1-aM-w9a.paletteLabel" = "Supprimer";
+
+/* Class = "NSWindow"; title = "Edit Deck"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Edition deck";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "R90-PG-oAN"; */
+"R90-PG-oAN.title" = "Table View Cell";
+
+/* Class = "NSToolbarItem"; label = "Save"; ObjectID = "d1a-mc-Snn"; */
+"d1a-mc-Snn.label" = "Enregistrer";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Save"; ObjectID = "d1a-mc-Snn"; */
+"d1a-mc-Snn.paletteLabel" = "Enregistrer";
+
+/* Class = "NSToolbarItem"; label = "Cancel"; ObjectID = "o0Z-hh-Cdy"; */
+"o0Z-hh-Cdy.label" = "Annuler";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Cancel"; ObjectID = "o0Z-hh-Cdy"; */
+"o0Z-hh-Cdy.paletteLabel" = "Annuler";

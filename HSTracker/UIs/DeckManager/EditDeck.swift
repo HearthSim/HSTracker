@@ -28,6 +28,8 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     var currentClassCards: [Card]?
     
     var saveDeck: SaveDeck?
+    
+    let validCardSets = ["ALL", "CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO"]
 
     convenience init() {
         self.init(windowNibName: "EditDeck")
@@ -62,7 +64,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
         classChooser.segmentCount = 2
         classChooser.setLabel(NSLocalizedString(currentPlayerClass!, comment: ""), forSegment: 0)
-        classChooser.setLabel(NSLocalizedString("Neutral", comment: ""), forSegment: 1)
+        classChooser.setLabel(NSLocalizedString("neutral", comment: ""), forSegment: 1)
         classChooser.setSelected(true, forSegment: 0)
 
         tableView.reloadData()
@@ -184,21 +186,21 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         collectionView.reloadData()
         curveView.reload()
     }
-
+    
     // MARK: - NSComboBoxDataSource/Delegate
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
-        return Database.validCardSet.count + 1
+        return validCardSets.count + 1
     }
 
     func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
-        return (["ALL"] + Database.validCardSet)[index]
+        return validCardSets[index]
     }
 
     func comboBoxSelectionDidChange(notification: NSNotification) {
         if setChooser.indexOfSelectedItem == 0 {
             currentSet = nil
         } else {
-            currentSet = Database.validCardSet[setChooser.indexOfSelectedItem - 1].lowercaseString
+            currentSet = validCardSets[setChooser.indexOfSelectedItem - 1].lowercaseString
         }
         reloadCards()
     }
