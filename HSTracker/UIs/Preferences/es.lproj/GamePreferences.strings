@@ -1,12 +1,12 @@
 
 /* Class = "NSButtonCell"; title = "Choose"; ObjectID = "9aT-vn-YLp"; */
-"9aT-vn-YLp.title" = "Choose";
+"9aT-vn-YLp.title" = "Seleccionar";
 
 /* Class = "NSButtonCell"; title = "Choose"; ObjectID = "L10-Eu-Nrc"; */
-"L10-Eu-Nrc.title" = "Choose";
+"L10-Eu-Nrc.title" = "Seleccionar";
 
 /* Class = "NSTextFieldCell"; title = "Decks backup directory"; ObjectID = "ZIv-Kx-0sm"; */
-"ZIv-Kx-0sm.title" = "Decks backup directory";
+"ZIv-Kx-0sm.title" = "Directorio de copia de seguridad de mazos";
 
 /* Class = "NSTextFieldCell"; title = "Hearthstone directory"; ObjectID = "s5e-Q8-cm8"; */
-"s5e-Q8-cm8.title" = "Hearthstone directory";
+"s5e-Q8-cm8.title" = "Directorio de Hearthstone";
