@@ -3,76 +3,82 @@
 "1Xt-HY-uBw.title" = "HSTracker";
 
 /* Class = "NSMenuItem"; title = "Decks"; ObjectID = "1a9-Jp-R8O"; */
-"1a9-Jp-R8O.title" = "Decks";
+"1a9-Jp-R8O.title" = "Mazos";
 
 /* Class = "NSMenuItem"; title = "Quit HSTracker"; ObjectID = "4sb-4s-VLi"; */
-"4sb-4s-VLi.title" = "Quit HSTracker";
+"4sb-4s-VLi.title" = "Salir de HSTracker";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "5QF-Oa-p0T"; */
-"5QF-Oa-p0T.title" = "Edit";
+"5QF-Oa-p0T.title" = "Edición";
 
 /* Class = "NSMenuItem"; title = "About HSTracker"; ObjectID = "5kV-Vb-QxS"; */
-"5kV-Vb-QxS.title" = "About HSTracker";
+"5kV-Vb-QxS.title" = "Acerca de HSTracker";
 
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
-"6dh-zS-Vam.title" = "Redo";
+"6dh-zS-Vam.title" = "Rehacer";
 
 /* Class = "NSMenu"; title = "Decks"; ObjectID = "8x4-Eu-hed"; */
 "8x4-Eu-hed.title" = "Mazos";
 
 /* Class = "NSMenuItem"; title = "Lock windows"; ObjectID = "9Mn-Tj-Fg1"; */
-"9Mn-Tj-Fg1.title" = "Bloquear Ventana";
+"9Mn-Tj-Fg1.title" = "Bloquear ventanas";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
-"AYu-sK-qS6.title" = "Main Menu";
+"AYu-sK-qS6.title" = "Menú principal";
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
-"BOF-NM-1cW.title" = "Preferences…";
+"BOF-NM-1cW.title" = "Preferencias…";
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
-"F2S-fz-NVQ.title" = "Help";
+"F2S-fz-NVQ.title" = "Ayuda";
 
 /* Class = "NSMenuItem"; title = "HSTracker Help"; ObjectID = "FKE-Sm-Kum"; */
-"FKE-Sm-Kum.title" = "HSTracker Help";
+"FKE-Sm-Kum.title" = "Ayuda de HSTracker";
+
+/* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "LE2-aR-0XJ"; */
+"LE2-aR-0XJ.title" = "Traer todo al frente";
 
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
-"Kd2-mp-pUS.title" = "Show All";
+"Kd2-mp-pUS.title" = "Mostrar todo";
 
 /* Class = "NSMenuItem"; title = "Deck Manager"; ObjectID = "LKO-TA-MDe"; */
-"LKO-TA-MDe.title" = "Deck Manager";
+"LKO-TA-MDe.title" = "Gestor de Mazos";
 
 /* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "OY7-WF-poV"; */
-"OY7-WF-poV.title" = "Minimize";
+"OY7-WF-poV.title" = "Minimizar";
 
 /* Class = "NSMenuItem"; title = "Hide HSTracker"; ObjectID = "Olw-nP-bQN"; */
-"Olw-nP-bQN.title" = "Hide HSTracker";
+"Olw-nP-bQN.title" = "Ocultar HSTracker";
+
+/* Class = "NSMenuItem"; title = "Zoom"; ObjectID = "R4o-n2-Eq4"; */
+"R4o-n2-Eq4.title" = "Zoom";
 
 /* Class = "NSMenuItem"; title = "Select All"; ObjectID = "Ruw-6m-B2m"; */
-"Ruw-6m-B2m.title" = "Select All";
+"Ruw-6m-B2m.title" = "Seleccionar todo";
 
 /* Class = "NSMenuItem"; title = "Clear trackers"; ObjectID = "Slg-Ni-HzQ"; */
-"Slg-Ni-HzQ.title" = "Clear trackers";
+"Slg-Ni-HzQ.title" = "Limpiar trackers";
 
 /* Class = "NSMenu"; title = "Window"; ObjectID = "Td7-aD-5lo"; */
-"Td7-aD-5lo.title" = "Window";
+"Td7-aD-5lo.title" = "Ventana";
 
 /* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
-"Vdr-fp-XzO.title" = "Hide Others";
+"Vdr-fp-XzO.title" = "Ocultar otros";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
-"W48-6f-4Dl.title" = "Edit";
+"W48-6f-4Dl.title" = "Edición";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "aUF-d1-5bR"; */
-"aUF-d1-5bR.title" = "Window";
+"aUF-d1-5bR.title" = "Ventana";
 
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
-"dRJ-4n-Yzg.title" = "Undo";
+"dRJ-4n-Yzg.title" = "Deshacer";
 
 /* Class = "NSMenuItem"; title = "Window positions"; ObjectID = "fkd-3m-6YS"; */
-"fkd-3m-6YS.title" = "Window positions";
+"fkd-3m-6YS.title" = "Posición de las ventanas";
 
 /* Class = "NSMenuItem"; title = "Paste"; ObjectID = "gVA-U4-sdL"; */
-"gVA-U4-sdL.title" = "Paste";
+"gVA-U4-sdL.title" = "Pegar";
 
 /* Class = "NSMenu"; title = "Debug"; ObjectID = "hYW-YU-3Sy"; */
 "hYW-YU-3Sy.title" = "Debug";
@@ -81,16 +87,16 @@
 "jNP-dX-InV.title" = "Debug";
 
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
-"pa3-QI-u2k.title" = "Delete";
+"pa3-QI-u2k.title" = "Borrar";
 
 /* Class = "NSMenu"; title = "HSTracker"; ObjectID = "uQy-DD-JDr"; */
 "uQy-DD-JDr.title" = "HSTracker";
 
 /* Class = "NSMenuItem"; title = "Cut"; ObjectID = "uRl-iY-unG"; */
-"uRl-iY-unG.title" = "Cut";
+"uRl-iY-unG.title" = "Cortar";
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
-"wpr-3q-Mcd.title" = "Help";
+"wpr-3q-Mcd.title" = "Ayuda";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
-"x3v-GG-iWU.title" = "Copy";
+"x3v-GG-iWU.title" = "Copiar";
