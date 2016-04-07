@@ -147,6 +147,15 @@ class WindowMove: NSWindowController {
         currentWindow?.window?.setFrame(frame, display: true)
     }
     
+    @IBAction func addEntity(sender: AnyObject) {
+        for hud in Game.instance.cardHuds! {
+            let entity = Entity()
+            entity.info.hidden = false
+            entity.cardId = Cards.collectible().shuffleOne()!.id
+            hud.setEntity(entity)
+        }
+    }
+    
     @IBAction func show(sender: AnyObject) {
         currentWindow?.showWindow(self)
     }

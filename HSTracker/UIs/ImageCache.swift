@@ -18,12 +18,17 @@ enum FromDestination: Int {
 
 struct ImageCache {
 
-    static func cardImage(card: Card) -> NSImage? {
+    static func cardImage(card: Card, _ crop: Bool = true) -> NSImage? {
         if let appSupport = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
             let path = "\(appSupport)/HSTracker/cards/\(card.id).png"
             let image = imageNamed(path, from: .Path)
 
-            return cropped(image)
+            if crop {
+                return cropped(image)
+            }
+            else {
+                return image
+            }
         }
         return nil
     }

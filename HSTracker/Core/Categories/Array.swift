@@ -23,6 +23,10 @@ extension Array where Element: Card {
         }
         return result
     }
+    
+    func shuffleOne() -> Card? {
+        return self[Int(arc4random()) % Int(count)]
+    }
 }
 
 protocol Dictable {

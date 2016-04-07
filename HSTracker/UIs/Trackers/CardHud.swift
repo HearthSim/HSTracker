@@ -11,7 +11,10 @@ import CleanroomLogger
 
 class CardHud : NSWindowController {
 
+    @IBOutlet weak var hud: CardHudHoverView!
     var entity: Entity?
+    var card: Card?
+    var floatingCard: FloatingCard?
 
     @IBOutlet weak var label: NSTextFieldCell!
     @IBOutlet weak var icon: NSImageView!
@@ -22,11 +25,14 @@ class CardHud : NSWindowController {
 
         self.window!.styleMask = NSBorderlessWindowMask
         self.window!.ignoresMouseEvents = true
+        self.window!.acceptsMouseMovedEvents = true
         self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
 
         self.window!.opaque = false
         self.window!.hasShadow = false
         self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0)
+        
+        hud.setDelegate(self)
     }
 
     func setEntity(entity: Entity?) {
@@ -34,7 +40,7 @@ class CardHud : NSWindowController {
         var text = ""
         var image: String? = nil
         var cost = 0
-
+        
         if let entity = entity {
             text += "\(entity.info.turn)"
 
@@ -47,6 +53,15 @@ class CardHud : NSWindowController {
             default: break
             }
             cost = entity.info.costReduction
+            
+            if entity.info.cardMark == .Coin {
+                image = "small-card"
+                card = Cards.byId(CardIds.NonCollectible.Neutral.TheCoin)
+            }
+            else if !String.isNullOrEmpty(entity.cardId) && !entity.info.hidden {
+                image = "small-card"
+                card = Cards.byId(entity.cardId)
+            }
         }
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .Center
@@ -70,5 +85,60 @@ class CardHud : NSWindowController {
         else {
             icon.image = nil
         }
+    }
+    
+    // MARK: - mouse hover
+    func hover() {
+        if let card = self.card, windowFrame = self.window?.frame {
+            floatingCard = FloatingCard(windowNibName: "FloatingCard")
+            floatingCard?.showWindow(self)
+            floatingCard?.setCard(card)
+            
+            let frame = NSMakeRect(windowFrame.origin.x + NSWidth(windowFrame) - 30,
+                                   windowFrame.origin.y - 250,
+                                   200, 303)
+            floatingCard?.window?.setFrame(frame, display: true)
+        }
+    }
+    
+    func out() {
+        floatingCard?.window?.orderOut(self)
+    }
+}
+
+class CardHudHoverView : NSView {
+    private var _delegate: CardHud?
+    private var trackingArea: NSTrackingArea?
+    
+    func setDelegate(delegate: CardHud?) {
+        self._delegate = delegate
+    }
+    
+    // MARK: - mouse hover
+    func ensureTrackingArea() {
+        if trackingArea == nil {
+            trackingArea = NSTrackingArea(rect: NSZeroRect,
+                                          options: [NSTrackingAreaOptions.InVisibleRect, NSTrackingAreaOptions.ActiveAlways, NSTrackingAreaOptions.MouseEnteredAndExited],
+                                          owner: self,
+                                          userInfo: nil)
+        }
+    }
+    
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        
+        ensureTrackingArea()
+        
+        if !self.trackingAreas.contains(trackingArea!) {
+            self.addTrackingArea(trackingArea!)
+        }
+    }
+    
+    override func mouseEntered(event: NSEvent) {
+        _delegate?.hover()
+    }
+    
+    override func mouseExited(event: NSEvent) {
+        _delegate?.out()
     }
 }

@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="CardHud">
             <connections>
                 <outlet property="costReduction" destination="YH9-Qj-t1M" id="kR8-NO-4F9"/>
+                <outlet property="hud" destination="FND-fp-raG" id="gaf-6t-CYh"/>
                 <outlet property="icon" destination="NzL-FG-l1J" id="kcW-aj-qMt"/>
                 <outlet property="label" destination="eEe-bA-W4z" id="b5P-Xh-BOO"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="FQM-HP-hAL"/>
@@ -46,6 +47,9 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FND-fp-raG" customClass="CardHudHoverView" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="36" height="45"/>
+                    </customView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-250" y="327.5"/>

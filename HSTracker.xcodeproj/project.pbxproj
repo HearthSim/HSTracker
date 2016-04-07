@@ -27,6 +27,8 @@
 		432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FCD1CB5375500B05D19 /* DeckManager.xib */; };
 		432B60101CB63D4C00B05D19 /* HearthstatsLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60121CB63D4C00B05D19 /* HearthstatsLogin.xib */; };
 		432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */; };
+		432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60321CB69FA600B05D19 /* FloatingCard.swift */; };
+		432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60341CB6A8CC00B05D19 /* FloatingCard.xib */; };
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		434106A61C9868620045655A /* Frames.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A31C9868620045655A /* Frames.xcassets */; };
@@ -340,6 +342,8 @@
 		432B602B1CB63D8C00B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HearthstatsPreferences.strings; sourceTree = "<group>"; };
 		432B602D1CB63D8D00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HearthstatsPreferences.strings; sourceTree = "<group>"; };
 		432B60311CB63DD100B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HearthstatsLogin.strings; sourceTree = "<group>"; };
+		432B60321CB69FA600B05D19 /* FloatingCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingCard.swift; sourceTree = "<group>"; };
+		432B60341CB6A8CC00B05D19 /* FloatingCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloatingCard.xib; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
 		434106A31C9868620045655A /* Frames.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Frames.xcassets; sourceTree = "<group>"; };
@@ -780,6 +784,8 @@
 				436789B61CACF64600C962D1 /* CardCounter.swift */,
 				4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */,
 				436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */,
+				432B60321CB69FA600B05D19 /* FloatingCard.swift */,
+				432B60341CB6A8CC00B05D19 /* FloatingCard.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1002,6 +1008,7 @@
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
+				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1127,6 +1134,7 @@
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439C7EC41C777F8900D29859 /* NetHandler.swift in Sources */,
+				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
 				436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				43E77EEA1C95713300C26950 /* Date.swift in Sources */,

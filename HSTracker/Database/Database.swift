@@ -55,7 +55,7 @@ final class Cards {
         return nil
     }
 
-    private static func collectible() -> [Card] {
+    static func collectible() -> [Card] {
         return cards.filter { $0.collectible && $0.type != "hero" && $0.type != "hero power" }
     }
 

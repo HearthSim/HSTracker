@@ -71,6 +71,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         
         self.window!.opaque = false
         self.window!.hasShadow = false
+        self.window!.acceptsMouseMovedEvents = true
         
         setWindowSizes()
         _setOpacity()
