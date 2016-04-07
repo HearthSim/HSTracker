@@ -1,30 +1,30 @@
 
 /* Class = "NSToolbarItem"; label = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.label" = "Add";
+"7FY-gv-qwP.label" = "Añadir";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.paletteLabel" = "Add";
+"7FY-gv-qwP.paletteLabel" = "Añadir";
 
 /* Class = "NSButtonCell"; title = "Priest"; ObjectID = "9XJ-kc-UgY"; */
-"9XJ-kc-UgY.title" = "Priest";
+"9XJ-kc-UgY.title" = "Sacerdote";
 
 /* Class = "NSButtonCell"; title = "Paladin"; ObjectID = "CbC-0a-X7t"; */
-"CbC-0a-X7t.title" = "Paladin";
+"CbC-0a-X7t.title" = "Paladín";
 
 /* Class = "NSButtonCell"; title = "Shaman"; ObjectID = "JET-g1-bWo"; */
-"JET-g1-bWo.title" = "Shaman";
+"JET-g1-bWo.title" = "Chamán";
 
 /* Class = "NSButtonCell"; title = "Rogue"; ObjectID = "Nap-OM-LG5"; */
-"Nap-OM-LG5.title" = "Rogue";
+"Nap-OM-LG5.title" = "Pícaro";
 
 /* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "Deck Manager";
+"QvC-M9-y7g.title" = "Gestor de mazos";
 
 /* Class = "NSButtonCell"; title = "Hunter"; ObjectID = "SFV-9g-O6Q"; */
-"SFV-9g-O6Q.title" = "Hunter";
+"SFV-9g-O6Q.title" = "Cazador";
 
 /* Class = "NSButtonCell"; title = "Druid"; ObjectID = "Vlh-O0-He6"; */
-"Vlh-O0-He6.title" = "Druid";
+"Vlh-O0-He6.title" = "Druida";
 
 /* Class = "NSToolbarItem"; label = "Hearthstats"; ObjectID = "Xxv-sY-tej"; */
 "Xxv-sY-tej.label" = "Hearthstats";
@@ -39,22 +39,22 @@
 "fXC-1a-kDU.title" = "Text Cell";
 
 /* Class = "NSButtonCell"; title = "Mage"; ObjectID = "hrd-FU-dK1"; */
-"hrd-FU-dK1.title" = "Mage";
+"hrd-FU-dK1.title" = "Mago";
 
 /* Class = "NSTextFieldCell"; title = "deck stats"; ObjectID = "iJM-ZN-CuN"; */
-"iJM-ZN-CuN.title" = "deck stats";
+"iJM-ZN-CuN.title" = "Estadísticas del mazo";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "sFg-Jc-b7d"; */
 "sFg-Jc-b7d.title" = "Table View Cell";
 
 /* Class = "NSButtonCell"; title = "Warrior"; ObjectID = "uXG-vp-oEe"; */
-"uXG-vp-oEe.title" = "Warrior";
+"uXG-vp-oEe.title" = "Guerrero";
 
 /* Class = "NSButtonCell"; title = "Warlock"; ObjectID = "vb9-th-XQj"; */
 "vb9-th-XQj.title" = "Warlock";
 
 /* Class = "NSToolbarItem"; label = "Donate"; ObjectID = "wWN-25-Exd"; */
-"wWN-25-Exd.label" = "Donate";
+"wWN-25-Exd.label" = "Donar";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Donate"; ObjectID = "wWN-25-Exd"; */
-"wWN-25-Exd.paletteLabel" = "Donate";
+"wWN-25-Exd.paletteLabel" = "Donar";
