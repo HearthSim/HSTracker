@@ -18,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5NX-hg-fSX">
-                    <rect key="frame" x="18" y="236" width="297" height="18"/>
+                    <rect key="frame" x="18" y="236" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Auto synchronize decks (add, update, delete)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="unH-eU-OrN">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -28,7 +28,7 @@
                     </connections>
                 </button>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5GL-SO-RA4">
-                    <rect key="frame" x="18" y="210" width="197" height="18"/>
+                    <rect key="frame" x="18" y="210" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Synchronize matches results" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hXO-uH-3An">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>

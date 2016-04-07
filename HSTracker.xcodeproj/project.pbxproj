@@ -25,6 +25,8 @@
 		432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FC71CB5374100B05D19 /* EditDeck.xib */; };
 		432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FCA1CB5374600B05D19 /* NewDeck.xib */; };
 		432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FCD1CB5375500B05D19 /* DeckManager.xib */; };
+		432B60101CB63D4C00B05D19 /* HearthstatsLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60121CB63D4C00B05D19 /* HearthstatsLogin.xib */; };
+		432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */; };
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		434106A61C9868620045655A /* Frames.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A31C9868620045655A /* Frames.xcassets */; };
@@ -137,9 +139,7 @@
 		439C7EEA1C777FCF00D29859 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE81C777FCF00D29859 /* Array.swift */; };
 		439C7EEB1C777FCF00D29859 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE91C777FCF00D29859 /* String.swift */; };
 		43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
-		43A12C8B1CA562AB00090BFE /* HearthstatsLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A12C8A1CA562AB00090BFE /* HearthstatsLogin.xib */; };
 		43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */; };
-		43A12C911CA5689D00090BFE /* HearthstatsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A12C901CA5689D00090BFE /* HearthstatsPreferences.xib */; };
 		43A12C931CA568A800090BFE /* HearthstatsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */; };
 		43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */; };
 		43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
@@ -326,6 +326,20 @@
 		432B600D1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TrackersPreferences.strings"; sourceTree = "<group>"; };
 		432B600E1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		432B600F1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		432B60111CB63D4C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HearthstatsLogin.xib; sourceTree = "<group>"; };
+		432B60141CB63D7000B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HearthstatsPreferences.xib; sourceTree = "<group>"; };
+		432B60171CB63D7700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/HearthstatsLogin.strings"; sourceTree = "<group>"; };
+		432B60191CB63D7900B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/HearthstatsLogin.strings"; sourceTree = "<group>"; };
+		432B601B1CB63D7D00B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/HearthstatsLogin.strings; sourceTree = "<group>"; };
+		432B601D1CB63D7E00B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HearthstatsLogin.strings; sourceTree = "<group>"; };
+		432B601F1CB63D7F00B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HearthstatsLogin.strings; sourceTree = "<group>"; };
+		432B60231CB63D8600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/HearthstatsPreferences.strings"; sourceTree = "<group>"; };
+		432B60251CB63D8700B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/HearthstatsPreferences.strings"; sourceTree = "<group>"; };
+		432B60271CB63D8800B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/HearthstatsPreferences.strings; sourceTree = "<group>"; };
+		432B60291CB63D8A00B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HearthstatsPreferences.strings; sourceTree = "<group>"; };
+		432B602B1CB63D8C00B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HearthstatsPreferences.strings; sourceTree = "<group>"; };
+		432B602D1CB63D8D00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HearthstatsPreferences.strings; sourceTree = "<group>"; };
+		432B60311CB63DD100B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HearthstatsLogin.strings; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
 		434106A31C9868620045655A /* Frames.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Frames.xcassets; sourceTree = "<group>"; };
@@ -413,9 +427,7 @@
 		439C7EE81C777FCF00D29859 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		439C7EE91C777FCF00D29859 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		43A12C861CA3D24800090BFE /* SaveDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveDeck.swift; sourceTree = "<group>"; };
-		43A12C8A1CA562AB00090BFE /* HearthstatsLogin.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HearthstatsLogin.xib; sourceTree = "<group>"; };
 		43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsLogin.swift; sourceTree = "<group>"; };
-		43A12C901CA5689D00090BFE /* HearthstatsPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HearthstatsPreferences.xib; sourceTree = "<group>"; };
 		43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsPreferences.swift; sourceTree = "<group>"; };
 		43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeActions.swift; sourceTree = "<group>"; };
 		43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKeyPoint.swift; sourceTree = "<group>"; };
@@ -504,9 +516,9 @@
 			isa = PBXGroup;
 			children = (
 				4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */,
-				43A12C8A1CA562AB00090BFE /* HearthstatsLogin.xib */,
+				432B60121CB63D4C00B05D19 /* HearthstatsLogin.xib */,
 				43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */,
-				43A12C901CA5689D00090BFE /* HearthstatsPreferences.xib */,
+				432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */,
 				43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */,
 			);
 			path = Hearthstats;
@@ -972,8 +984,8 @@
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
-				43A12C911CA5689D00090BFE /* HearthstatsPreferences.xib in Resources */,
-				43A12C8B1CA562AB00090BFE /* HearthstatsLogin.xib in Resources */,
+				432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */,
+				432B60101CB63D4C00B05D19 /* HearthstatsLogin.xib in Resources */,
 				432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */,
@@ -1307,6 +1319,34 @@
 				432B60051CB54AD600B05D19 /* zh-Hans */,
 			);
 			name = DeckManager.xib;
+			sourceTree = "<group>";
+		};
+		432B60121CB63D4C00B05D19 /* HearthstatsLogin.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B60111CB63D4C00B05D19 /* Base */,
+				432B60171CB63D7700B05D19 /* zh-Hans */,
+				432B60191CB63D7900B05D19 /* pt-BR */,
+				432B601B1CB63D7D00B05D19 /* it */,
+				432B601D1CB63D7E00B05D19 /* es */,
+				432B601F1CB63D7F00B05D19 /* de */,
+				432B60311CB63DD100B05D19 /* fr */,
+			);
+			name = HearthstatsLogin.xib;
+			sourceTree = "<group>";
+		};
+		432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				432B60141CB63D7000B05D19 /* Base */,
+				432B60231CB63D8600B05D19 /* zh-Hans */,
+				432B60251CB63D8700B05D19 /* pt-BR */,
+				432B60271CB63D8800B05D19 /* it */,
+				432B60291CB63D8A00B05D19 /* es */,
+				432B602B1CB63D8C00B05D19 /* de */,
+				432B602D1CB63D8D00B05D19 /* fr */,
+			);
+			name = HearthstatsPreferences.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
