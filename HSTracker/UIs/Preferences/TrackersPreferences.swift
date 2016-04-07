@@ -48,9 +48,11 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         settings.trackerOpacity = opacity.doubleValue
     }
 
-    @IBAction func comboboxChange(sender: AnyObject) {
+    @IBAction func comboboxChange(sender: NSComboBox) {
         let settings = Settings.instance
+        if sender == cardSize {
         settings.cardSize = CardSize(rawValue: cardSize.indexOfSelectedItem)!
+        }
     }
 
     @IBAction func checkboxClicked(sender: NSButton) {

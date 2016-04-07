@@ -10,3 +10,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Hearthstone directory"; ObjectID = "s5e-Q8-cm8"; */
 "s5e-Q8-cm8.title" = "Répertoire de Hearthstone";
+
+/* Class = "NSTextFieldCell"; title = "Hearthstone language"; ObjectID = "biS-yx-frk"; */
+"biS-yx-frk.title" = "Hearthstone language";
+
+/* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "r3b-jQ-tUY"; */
+"r3b-jQ-tUY.title" = "HSTracker language";

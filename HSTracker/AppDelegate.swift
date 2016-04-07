@@ -16,6 +16,7 @@ import HockeySDK
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    var appWillRestart = false
     var splashscreen: Splashscreen?
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
@@ -89,7 +90,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             initalConfig?.window?.orderFrontRegardless()
         }
     }
+    
+    func applicationWillTerminate(notification: NSNotification) {
+        if appWillRestart {
+            let appPath = NSBundle.mainBundle().bundlePath
+            let task = NSTask()
+            task.launchPath = "/usr/bin/open"
+            task.arguments = [appPath]
+            task.launch()
+        }
+    }
 
+    // MARK: - Application init
     func loadSplashscreen() {
         splashscreen = Splashscreen(windowNibName: "Splashscreen")
         let screenFrame = NSScreen.mainScreen()!.frame
@@ -164,18 +176,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func hstrackerReady() {
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(AppDelegate.showPlayerTracker(_:)),
-                                                         name: "show_player_tracker",
-                                                         object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(AppDelegate.showOpponentTracker(_:)),
-                                                         name: "show_opponent_tracker",
-                                                         object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(AppDelegate.reloadDecks(_:)),
-                                                         name: "reload_decks",
-                                                         object: nil)
+        let events = [
+            "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
+            "show_opponent_tracker": #selector(AppDelegate.showOpponentTracker(_:)),
+            "reload_decks": #selector(AppDelegate.reloadDecks(_:)),
+            "hstracker_language": #selector(AppDelegate.languageChange(_:))
+        ]
+        
+        for (event, selector) in events {
+            NSNotificationCenter.defaultCenter().addObserver(self,
+                                                             selector: selector,
+                                                             name: event,
+                                                             object: nil)
+        }
 
         Log.info?.message("HSTracker is now ready !")
         
@@ -352,6 +365,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func reloadDecks(notification: NSNotification) {
         buildMenu()
+    }
+    
+    func languageChange(notification: NSNotification) {
+        let alert = NSAlert()
+        alert.alertStyle = .InformationalAlertStyle
+        alert.messageText = NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: "")
+        alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+        alert.runModal()
+        
+        appWillRestart = true
+        NSApplication.sharedApplication().terminate(nil)
+        exit(0)
     }
     
     // MARK: - Menu

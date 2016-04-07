@@ -28,6 +28,7 @@
 "Window" = "窗口";
 "You are now connected to Hearthstats" = "You are now connected to Hearthstats";
 "You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+"You must restart HSTracker for the language change to take effect" = "您必须重启 HSTracker 已使得设置的语言生效";
 
 /* classes */
 "shaman" = "萨满";

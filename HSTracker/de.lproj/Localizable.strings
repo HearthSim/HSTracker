@@ -28,6 +28,7 @@
 "Window" = "Window";
 "You are now connected to Hearthstats" = "You are now connected to Hearthstats";
 "You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+"You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
 
 /* classes */
 "shaman" = "Shamane";

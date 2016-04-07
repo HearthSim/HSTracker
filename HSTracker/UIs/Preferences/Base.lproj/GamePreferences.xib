@@ -9,7 +9,9 @@
                 <outlet property="chooseDecksPath" destination="XFd-vI-43q" id="Rub-jZ-5k4"/>
                 <outlet property="chooseHearthstonePath" destination="btV-TN-8Ol" id="KWg-zW-vUh"/>
                 <outlet property="decksPath" destination="v7U-UP-fjj" id="eXO-Nm-znX"/>
+                <outlet property="hearthstoneLanguage" destination="aGA-sR-AWM" id="cT7-zO-ow3"/>
                 <outlet property="hearthstonePath" destination="O8a-FA-pQF" id="6An-Bm-Gwe"/>
+                <outlet property="hstrackerLanguage" destination="7in-D6-SFv" id="4TA-T6-cXk"/>
                 <outlet property="view" destination="c22-O7-iKe" id="Wh1-yn-M5b"/>
             </connections>
         </customObject>
@@ -71,6 +73,46 @@
                         <action selector="choosePath:" target="-2" id="YHY-F8-Fos"/>
                     </connections>
                 </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HgM-aY-crX">
+                    <rect key="frame" x="18" y="132" width="205" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="HSTracker language" id="r3b-jQ-tUY">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SP4-ge-wIF">
+                    <rect key="frame" x="18" y="107" width="205" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hearthstone language" id="biS-yx-frk">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7in-D6-SFv">
+                    <rect key="frame" x="229" y="128" width="303" height="26"/>
+                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="wdm-gt-Ui9">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </comboBoxCell>
+                    <connections>
+                        <outlet property="dataSource" destination="-2" id="LOX-49-0uB"/>
+                        <outlet property="delegate" destination="-2" id="gwc-RI-C6C"/>
+                    </connections>
+                </comboBox>
+                <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aGA-sR-AWM">
+                    <rect key="frame" x="229" y="101" width="303" height="26"/>
+                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="v4t-e0-PdC">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </comboBoxCell>
+                    <connections>
+                        <outlet property="dataSource" destination="-2" id="dAL-B0-OHZ"/>
+                        <outlet property="delegate" destination="-2" id="ix1-p5-i6H"/>
+                    </connections>
+                </comboBox>
             </subviews>
             <point key="canvasLocation" x="510.5" y="280"/>
         </customView>

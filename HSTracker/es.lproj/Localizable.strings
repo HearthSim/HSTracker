@@ -28,6 +28,7 @@
 "Window" = "Ventana";
 "You are now connected to Hearthstats" = "Ahora estás conectado con Hearthstats";
 "You must restart Hearthstone for logs to be used" = "Debes reiniciar Hearthstone para que los archivos de registro (logs) puedan ser usados";
+"You must restart HSTracker for the language change to take effect" = "Debes reiniciar HSTracker para que el cambio de idioma tenga efecto";
 
 /* classes */
 "shaman" = "Chamán";

@@ -51,7 +51,12 @@ final class Settings {
         get { return get("hearthstone_language", nil) as? String }
     }
     var hsTrackerLanguage: String? {
-        set { set("hstracker_language", newValue) }
+        set {
+            if let locale = newValue {
+                defaults?.setObject([locale], forKey: "AppleLanguages")
+            }
+            set("hstracker_language", newValue)
+        }
         get { return get("hstracker_language", nil) as? String }
     }
     var showRarityColors: Bool {
