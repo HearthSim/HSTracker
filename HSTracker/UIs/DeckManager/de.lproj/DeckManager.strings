@@ -5,53 +5,14 @@
 /* Class = "NSToolbarItem"; paletteLabel = "Add"; ObjectID = "7FY-gv-qwP"; */
 "7FY-gv-qwP.paletteLabel" = "Add";
 
-/* Class = "NSButtonCell"; title = "Priest"; ObjectID = "9XJ-kc-UgY"; */
-"9XJ-kc-UgY.title" = "Priest";
-
-/* Class = "NSButtonCell"; title = "Paladin"; ObjectID = "CbC-0a-X7t"; */
-"CbC-0a-X7t.title" = "Paladin";
-
-/* Class = "NSButtonCell"; title = "Shaman"; ObjectID = "JET-g1-bWo"; */
-"JET-g1-bWo.title" = "Shaman";
-
-/* Class = "NSButtonCell"; title = "Rogue"; ObjectID = "Nap-OM-LG5"; */
-"Nap-OM-LG5.title" = "Rogue";
-
 /* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
 "QvC-M9-y7g.title" = "Deck Manager";
-
-/* Class = "NSButtonCell"; title = "Hunter"; ObjectID = "SFV-9g-O6Q"; */
-"SFV-9g-O6Q.title" = "Hunter";
-
-/* Class = "NSButtonCell"; title = "Druid"; ObjectID = "Vlh-O0-He6"; */
-"Vlh-O0-He6.title" = "Druid";
 
 /* Class = "NSToolbarItem"; label = "Hearthstats"; ObjectID = "Xxv-sY-tej"; */
 "Xxv-sY-tej.label" = "Hearthstats";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Hearthstats"; ObjectID = "Xxv-sY-tej"; */
 "Xxv-sY-tej.paletteLabel" = "Hearthstats";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "YgP-rU-92k"; */
-"YgP-rU-92k.title" = "Text Cell";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "fXC-1a-kDU"; */
-"fXC-1a-kDU.title" = "Text Cell";
-
-/* Class = "NSButtonCell"; title = "Mage"; ObjectID = "hrd-FU-dK1"; */
-"hrd-FU-dK1.title" = "Mage";
-
-/* Class = "NSTextFieldCell"; title = "deck stats"; ObjectID = "iJM-ZN-CuN"; */
-"iJM-ZN-CuN.title" = "deck stats";
-
-/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "sFg-Jc-b7d"; */
-"sFg-Jc-b7d.title" = "Table View Cell";
-
-/* Class = "NSButtonCell"; title = "Warrior"; ObjectID = "uXG-vp-oEe"; */
-"uXG-vp-oEe.title" = "Warrior";
-
-/* Class = "NSButtonCell"; title = "Warlock"; ObjectID = "vb9-th-XQj"; */
-"vb9-th-XQj.title" = "Warlock";
 
 /* Class = "NSToolbarItem"; label = "Donate"; ObjectID = "wWN-25-Exd"; */
 "wWN-25-Exd.label" = "Donate";

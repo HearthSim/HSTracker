@@ -20,7 +20,7 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ofZ-Ys-z4f"/>
                 </imageView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="INY-Db-abU">
-                    <rect key="frame" x="46" y="18" width="356" height="17"/>
+                    <rect key="frame" x="46" y="18" width="358" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="P6q-Jq-hGD">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -45,7 +45,7 @@
             <constraints>
                 <constraint firstItem="INY-Db-abU" firstAttribute="leading" secondItem="nCl-Jb-FhK" secondAttribute="trailing" constant="8" symbolic="YES" id="03c-lR-mcu"/>
                 <constraint firstItem="nCl-Jb-FhK" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="LnU-MX-bcS"/>
-                <constraint firstItem="uHf-Sx-UcF" firstAttribute="leading" secondItem="INY-Db-abU" secondAttribute="trailing" constant="10" id="RlL-1N-3RR"/>
+                <constraint firstItem="uHf-Sx-UcF" firstAttribute="leading" secondItem="INY-Db-abU" secondAttribute="trailing" constant="8" symbolic="YES" id="RlL-1N-3RR"/>
                 <constraint firstItem="uHf-Sx-UcF" firstAttribute="centerY" secondItem="INY-Db-abU" secondAttribute="centerY" id="eAx-Ph-EZq"/>
                 <constraint firstAttribute="trailing" secondItem="uHf-Sx-UcF" secondAttribute="trailing" constant="10" id="fnR-8u-BjV"/>
                 <constraint firstItem="nCl-Jb-FhK" firstAttribute="centerY" secondItem="INY-Db-abU" secondAttribute="centerY" id="iaL-tc-K9r"/>

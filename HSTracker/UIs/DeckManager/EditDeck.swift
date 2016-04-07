@@ -18,6 +18,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBOutlet weak var searchField: NSSearchField!
     @IBOutlet weak var setChooser: NSComboBox!
     @IBOutlet weak var curveView: CurveView!
+    @IBOutlet weak var standardOnlyCards: NSButton!
 
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
