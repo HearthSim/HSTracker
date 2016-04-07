@@ -1,1 +1,18 @@
 
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "08B-rI-8LA"; */
+"08B-rI-8LA.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+
+/* Class = "NSButtonCell"; title = "Notify me when my opponent concede"; ObjectID = "GhP-a6-Faw"; */
+"GhP-a6-Faw.title" = "Notify me when my opponent concede";
+
+/* Class = "NSButtonCell"; title = "Notify me when my turn start"; ObjectID = "Rbw-dw-oAI"; */
+"Rbw-dw-oAI.title" = "Notify me when my turn start";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "Yit-xi-gbj"; */
+"Yit-xi-gbj.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+
+/* Class = "NSButtonCell"; title = "Notify me when the game start"; ObjectID = "aaX-mu-c31"; */
+"aaX-mu-c31.title" = "Notify me when the game start";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
+"c8y-VJ-p2U.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";

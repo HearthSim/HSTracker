@@ -14,7 +14,7 @@ import HockeySDK
 #endif
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
 
     var appWillRestart = false
     var splashscreen: Splashscreen?
@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var deckManager: DeckManager?
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
-            //GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
+            GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
             GamePreferences(nibName: "GamePreferences", bundle: nil)!,
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
             HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!
@@ -176,6 +176,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func hstrackerReady() {
+        NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
+        
         let events = [
             "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
             "show_opponent_tracker": #selector(AppDelegate.showOpponentTracker(_:)),
@@ -466,5 +468,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func openDebugPositions(sender: AnyObject) {
         windowMove = WindowMove(windowNibName: "WindowMove")
         windowMove?.showWindow(self)
+    }
+    
+    // MARK: NSUserNotificationCenterDelegate
+    func sendNotification(title: String, _ info: String) {
+        let notification = NSUserNotification()
+        notification.title = title
+        notification.informativeText = info
+        NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
+    }
+    
+    func userNotificationCenter(center: NSUserNotificationCenter, shouldPresentNotification notification: NSUserNotification) -> Bool {
+        return true
     }
 }

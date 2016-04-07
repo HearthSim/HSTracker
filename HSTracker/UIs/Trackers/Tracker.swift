@@ -326,10 +326,6 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             cardsView.addSubview(cell)
         }
         
-        if playerType == .Opponent {
-            Log.verbose?.message("\(animatedCards.count) -> \(y) -> \(cardsView.frame)")
-        }
-        
         y = windowHeight - cardViewHeight
         if !cardCounter.hidden {
             y -= cardCounterHeight
@@ -342,10 +338,6 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         if !playerDrawChance.hidden {
             y -= playerDrawChanceHeight
             playerDrawChance.frame = NSMakeRect(0, y, windowWidth, playerDrawChanceHeight)
-        }
-        
-        if playerType == .Opponent {
-            Log.verbose?.message("\(cardCounter.frame) \(opponentDrawChance.frame) \(playerDrawChance.frame)")
         }
     }
     

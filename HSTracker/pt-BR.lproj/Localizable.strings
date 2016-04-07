@@ -30,6 +30,13 @@
 "You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
 "You must restart HSTracker for the language change to take effect" = "Você deve resetar o HSTracker para as mudanças serem efetivadas.";
 
+/* notifications */
+"Your game begins" = "Your game begins";
+"Victory" = "Victory";
+"Hearthstone" = "Hearthstone";
+"Your opponent have conceded" = "Your opponent have conceded";
+"It's your turn to play" = "It's your turn to play";
+
 /* classes */
 "shaman" = "Shaman";
 "hunter" = "Caçador";

@@ -14,6 +14,9 @@ import CleanroomLogger
 enum PlayerType: Int {
     case Player, Opponent, DeckManager, Secrets
 }
+enum NotificationType {
+    case GameStart, TurnStart, OpponentConcede
+}
 
 class Game {
     // MARK: - vars
@@ -64,6 +67,7 @@ class Game {
     var isInMenu = true
     var endGameStats = false
     var wasInProgress = false
+    var hasBeenConceded = false
     
     var playerUpdateRequests = 0
     var opponentUpdateRequests = 0
@@ -139,6 +143,7 @@ class Game {
         isInMenu = true
         endGameStats = false
         wasInProgress = false
+        hasBeenConceded = false
         
         dispatch_async(dispatch_get_main_queue()) {
             self.secretTracker?.window?.orderOut(self)
@@ -217,6 +222,7 @@ class Game {
         
         Log.info?.message("----- Game Started -----")
         
+        showNotification(.GameStart)
         self.updatePlayerTracker(true)
         self.updateOpponentTracker(true)
         dispatch_async(dispatch_get_main_queue()) {
@@ -357,6 +363,7 @@ class Game {
         Log.info?.message("Turn \(turn) start for player \(player) ")
         if player == .Player {
             handleThaurissanCostReduction()
+            showNotification(.TurnStart)
         }
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.setPlayer(player)
@@ -365,11 +372,16 @@ class Game {
     
     func concede() {
         Log.info?.message("Game has been conceded : (")
+        hasBeenConceded = true
     }
     
     func win() {
         Log.info?.message("You win ¯\\_(ツ) _ / ¯")
         gameResult = GameResult.Win
+        
+        if hasBeenConceded {
+            showNotification(.OpponentConcede)
+        }
     }
     
     func loss() {
@@ -1064,4 +1076,30 @@ class Game {
         }
     }
 
+     func showNotification(type: NotificationType) {
+        guard !Hearthstone.instance.hearthstoneActive else { return }
+        
+        let settings = Settings.instance
+        guard type == .GameStart && settings.notifyGameStart
+            || type == .OpponentConcede && settings.notifyOpponentConcede
+            || type == .TurnStart && settings.notifyTurnStart else {
+            return
+        }
+        
+        let title: String, info: String
+        
+        switch type {
+        case .GameStart:
+            title = NSLocalizedString("Hearthstone", comment: "")
+            info = NSLocalizedString("Your game begins", comment: "")
+        case .OpponentConcede:
+            title = NSLocalizedString("Victory", comment: "")
+            info = NSLocalizedString("Your opponent have conceded", comment: "")
+        case .TurnStart:
+            title = NSLocalizedString("Hearthstone", comment: "")
+            info = NSLocalizedString("It's your turn to play", comment: "")
+        }
+        
+        (NSApplication.sharedApplication().delegate as? AppDelegate)?.sendNotification(title, info)
+    }
 }

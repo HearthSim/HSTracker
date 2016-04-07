@@ -154,6 +154,20 @@ final class Settings {
         }
     }
     
+    // MARK: - Notifications
+    var notifyGameStart: Bool {
+        set { set("notify_game_start", newValue) }
+        get { return get("notify_game_start", true) as! Bool }
+    }
+    var notifyTurnStart: Bool {
+        set { set("notify_turn_start", newValue) }
+        get { return get("notify_turn_start", true) as! Bool }
+    }
+    var notifyOpponentConcede: Bool {
+        set { set("notify_opponent_concede", newValue) }
+        get { return get("notify_opponent_concede", true) as! Bool }
+    }
+    
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {
         set { set("hearthstats_login", newValue) }

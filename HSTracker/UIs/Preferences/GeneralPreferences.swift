@@ -11,13 +11,30 @@ import MASPreferences
 
 class GeneralPreferences : NSViewController, MASPreferencesViewController {
     
-    @IBOutlet weak var autoPositionTrackers: NSButton!
+    @IBOutlet weak var notifyGameStart: NSButton!
+    @IBOutlet weak var notifyTurnStart: NSButton!
+    @IBOutlet weak var notifyOpponentConcede: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let settings = Settings.instance
+        notifyGameStart.state = settings.notifyGameStart ? NSOnState : NSOffState
+        notifyTurnStart.state = settings.notifyTurnStart ? NSOnState : NSOffState
+        notifyOpponentConcede.state = settings.notifyOpponentConcede ? NSOnState : NSOffState
     }
     
     @IBAction func checkboxClicked(sender: NSButton) {
+        let settings = Settings.instance
+        if sender == notifyGameStart {
+            settings.notifyGameStart = notifyGameStart.state == NSOnState
+        }
+        else if sender == notifyTurnStart {
+            settings.notifyTurnStart = notifyTurnStart.state == NSOnState
+        }
+        else if sender == notifyOpponentConcede {
+            settings.notifyOpponentConcede = notifyOpponentConcede.state == NSOnState
+        }
     }
 
     // MARK: - MASPreferencesViewController
