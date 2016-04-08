@@ -15,4 +15,4 @@
 "aaX-mu-c31.title" = "Benachrichtige mich, wenn die Runde beginnt";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
-"c8y-VJ-p2U.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+"c8y-VJ-p2U.ibShadowedToolTip" = "Benachrichtigungen sind nur sichtbar, wenn Hearthstone sich im Hintergrund befindet";
