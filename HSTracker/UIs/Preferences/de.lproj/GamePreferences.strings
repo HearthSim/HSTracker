@@ -1,18 +1,18 @@
 
 /* Class = "NSButtonCell"; title = "Choose"; ObjectID = "9aT-vn-YLp"; */
-"9aT-vn-YLp.title" = "Choose";
+"9aT-vn-YLp.title" = "Auswählen";
 
 /* Class = "NSButtonCell"; title = "Choose"; ObjectID = "L10-Eu-Nrc"; */
-"L10-Eu-Nrc.title" = "Choose";
+"L10-Eu-Nrc.title" = "Auswählen";
 
 /* Class = "NSTextFieldCell"; title = "Decks backup directory"; ObjectID = "ZIv-Kx-0sm"; */
-"ZIv-Kx-0sm.title" = "Decks backup directory";
+"ZIv-Kx-0sm.title" = "Deck Backup Verzeichnis";
 
 /* Class = "NSTextFieldCell"; title = "Hearthstone directory"; ObjectID = "s5e-Q8-cm8"; */
-"s5e-Q8-cm8.title" = "Hearthstone directory";
+"s5e-Q8-cm8.title" = "Hearthstone Verzeichnis";
 
 /* Class = "NSTextFieldCell"; title = "Hearthstone language"; ObjectID = "biS-yx-frk"; */
-"biS-yx-frk.title" = "Hearthstone language";
+"biS-yx-frk.title" = "Hearthstone Sprache";
 
 /* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "r3b-jQ-tUY"; */
-"r3b-jQ-tUY.title" = "HSTracker language";
+"r3b-jQ-tUY.title" = "HSTracker Sprache";
