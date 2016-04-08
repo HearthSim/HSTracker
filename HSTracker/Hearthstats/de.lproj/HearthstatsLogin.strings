@@ -1,9 +1,9 @@
 
 /* Class = "NSButtonCell"; title = "Login"; ObjectID = "DxZ-Do-AVD"; */
-"DxZ-Do-AVD.title" = "Login";
+"DxZ-Do-AVD.title" = "Log-In";
 
 /* Class = "NSTextFieldCell"; title = "Email"; ObjectID = "O1F-Dv-at5"; */
-"O1F-Dv-at5.title" = "Email";
+"O1F-Dv-at5.title" = "eMail";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
 "QvC-M9-y7g.title" = "Hearthstats";
@@ -12,4 +12,4 @@
 "TqJ-qS-6nU.title" = "Abbrechen";
 
 /* Class = "NSTextFieldCell"; title = "Password"; ObjectID = "r7j-kZ-2Tf"; */
-"r7j-kZ-2Tf.title" = "Password";
+"r7j-kZ-2Tf.title" = "Passwort";
