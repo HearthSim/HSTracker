@@ -12,7 +12,7 @@
 "QvC-M9-y7g.title" = "Neues Deck";
 
 /* Class = "NSTextFieldCell"; title = "How do you want to create your new deck ?"; ObjectID = "bnr-YF-pLP"; */
-"bnr-YF-pLP.title" = "Wie möchtest du Dein neues Deck erstellen ?";
+"bnr-YF-pLP.title" = "Wie möchtest Du Dein neues Deck erstellen ?";
 
 /* Class = "NSButtonCell"; title = "From the web"; ObjectID = "dhu-qo-xOJ"; */
 "dhu-qo-xOJ.title" = "Per Internet";
