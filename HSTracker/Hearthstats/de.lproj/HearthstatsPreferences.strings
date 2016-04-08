@@ -1,6 +1,6 @@
 
 /* Class = "NSButtonCell"; title = "Synchronize matches results"; ObjectID = "hXO-uH-3An"; */
-"hXO-uH-3An.title" = "Synchronize matches results";
+"hXO-uH-3An.title" = "Synchronisiere Match-Ergebnisse";
 
 /* Class = "NSButtonCell"; title = "Auto synchronize decks (add, update, delete)"; ObjectID = "unH-eU-OrN"; */
-"unH-eU-OrN.title" = "Auto synchronize decks (add, update, delete)";
+"unH-eU-OrN.title" = "Automatische Synchronisierung von Decks (Hinzufügen, aktualisieren, löschen)";
