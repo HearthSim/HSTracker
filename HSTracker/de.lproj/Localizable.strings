@@ -6,7 +6,7 @@
 "Deck Manager" = "Deck Manager";
 "Deck name" = "Deck Name";
 "Decks" = "Decks";
-"Delete deck" = "Lösche Deck";
+"Delete deck" = "Deck löschen";
 "Do you want to add this deck on Hearthstats ?" = "Möchtest Du dieses Deck zu Hearthstats hinzufügen ?";
 "Do you want to delete the deck on Hearthstats ?" = "Möchtest Du dieses Deck aus Hearthstats löschen ?";
 "Downloading %@.png" = "Lädt %@.png herunter";
@@ -24,7 +24,7 @@
 "server error" = "Server Fehler";
 "Trackers" = "Tracker";
 "Unlock windows" = "Fenster entsperren";
-"Use deck" = "Verwende Deck";
+"Use deck" = "Deck verwenden";
 "Window" = "Fenster";
 "You are now connected to Hearthstats" = "Du bist nun mit Hearthstats verbunden";
 "You must restart Hearthstone for logs to be used" = "Du musst Hearthstone neu Starten, damit die entsprechenden Logs verwendet werden können";
