@@ -190,18 +190,18 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     
     // MARK: - NSComboBoxDataSource/Delegate
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
-        return validCardSets.count + 1
+        return validCardSets.count
     }
 
     func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
-        return validCardSets[index]
+        return NSLocalizedString(validCardSets[index], comment: "")
     }
-
+    
     func comboBoxSelectionDidChange(notification: NSNotification) {
         if setChooser.indexOfSelectedItem == 0 {
             currentSet = nil
         } else {
-            currentSet = validCardSets[setChooser.indexOfSelectedItem - 1].lowercaseString
+            currentSet = validCardSets[setChooser.indexOfSelectedItem].lowercaseString
         }
         reloadCards()
     }
