@@ -69,7 +69,7 @@ final class Settings {
     }
     var autoPositionTrackers: Bool {
         set { set("auto_position_trackers", newValue) }
-        get { return get("auto_position_trackers", true) as! Bool }
+        get { return get("auto_position_trackers", false) as! Bool }
     }
     
     var windowsLocked: Bool {
