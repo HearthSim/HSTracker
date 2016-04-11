@@ -11,7 +11,7 @@
                 <outlet property="countLabel" destination="gsP-ol-oef" id="BpH-tf-lQH"/>
                 <outlet property="curveView" destination="fMz-JX-Pxt" id="0AF-sW-sLW"/>
                 <outlet property="searchField" destination="ht0-2D-wE5" id="VHj-DL-KfM"/>
-                <outlet property="setChooser" destination="8tw-77-48z" id="bZa-fv-EYd"/>
+                <outlet property="sets" destination="Dnd-ge-iq0" id="YFt-JH-Ime"/>
                 <outlet property="standardOnlyCards" destination="Z1I-mm-zAm" id="Vy3-pw-M93"/>
                 <outlet property="tableView" destination="zDn-Ut-2rX" id="ahx-CP-aqS"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="UoB-iy-CDG"/>
@@ -128,21 +128,6 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="HJQ-6C-Yh8" userLabel="Options">
                         <rect key="frame" x="0.0" y="539" width="711" height="41"/>
                         <subviews>
-                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8tw-77-48z">
-                                <rect key="frame" x="511" y="7" width="193" height="26"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="190" id="iGb-kM-HmH"/>
-                                </constraints>
-                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="LJH-fy-LzV">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </comboBoxCell>
-                                <connections>
-                                    <outlet property="dataSource" destination="-2" id="qSd-cm-Etv"/>
-                                    <outlet property="delegate" destination="-2" id="XHY-De-cJK"/>
-                                </connections>
-                            </comboBox>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="m1i-JO-q7s">
                                 <rect key="frame" x="4" y="8" width="187" height="24"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="yzG-4h-Ppr">
@@ -177,21 +162,37 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dnd-ge-iq0">
+                                <rect key="frame" x="509" y="7" width="195" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="190" id="vdY-sC-fKQ"/>
+                                </constraints>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="KK0-JD-9om" id="9Mh-RE-npJ">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="vgU-ff-pdM">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="KK0-JD-9om"/>
+                                            <menuItem title="Item 2" id="rOD-OT-4iY"/>
+                                            <menuItem title="Item 3" id="ESY-rM-sVQ"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="8tw-77-48z" secondAttribute="trailing" constant="10" id="152-2k-N8B"/>
                             <constraint firstItem="ht0-2D-wE5" firstAttribute="leading" secondItem="Z1I-mm-zAm" secondAttribute="trailing" constant="10" id="2Vc-h1-qEF"/>
+                            <constraint firstItem="Dnd-ge-iq0" firstAttribute="leading" secondItem="ht0-2D-wE5" secondAttribute="trailing" constant="10" id="5f6-t5-Zjf"/>
                             <constraint firstAttribute="height" constant="41" id="9PF-7h-xcF"/>
                             <constraint firstItem="Z1I-mm-zAm" firstAttribute="centerY" secondItem="HJQ-6C-Yh8" secondAttribute="centerY" id="9m1-rU-cVv"/>
-                            <constraint firstAttribute="bottom" secondItem="8tw-77-48z" secondAttribute="bottom" constant="11" id="AOk-NS-D9G"/>
                             <constraint firstItem="m1i-JO-q7s" firstAttribute="top" secondItem="HJQ-6C-Yh8" secondAttribute="top" constant="10" id="CfF-PT-zCx"/>
                             <constraint firstItem="ht0-2D-wE5" firstAttribute="top" secondItem="HJQ-6C-Yh8" secondAttribute="top" constant="10" id="dmv-XT-VsE"/>
-                            <constraint firstItem="8tw-77-48z" firstAttribute="top" secondItem="HJQ-6C-Yh8" secondAttribute="top" constant="10" id="eJd-aP-bfo"/>
                             <constraint firstItem="m1i-JO-q7s" firstAttribute="leading" secondItem="HJQ-6C-Yh8" secondAttribute="leading" constant="6" id="eKi-PM-8W7"/>
-                            <constraint firstItem="8tw-77-48z" firstAttribute="leading" secondItem="ht0-2D-wE5" secondAttribute="trailing" constant="10" id="i3A-k3-csl"/>
+                            <constraint firstItem="Dnd-ge-iq0" firstAttribute="centerY" secondItem="HJQ-6C-Yh8" secondAttribute="centerY" id="fep-bn-rqP"/>
                             <constraint firstAttribute="bottom" secondItem="ht0-2D-wE5" secondAttribute="bottom" constant="9" id="i9j-cj-pCs"/>
                             <constraint firstItem="Z1I-mm-zAm" firstAttribute="leading" secondItem="m1i-JO-q7s" secondAttribute="trailing" constant="10" id="nAg-bS-Cdh"/>
                             <constraint firstAttribute="bottom" secondItem="m1i-JO-q7s" secondAttribute="bottom" constant="10" id="sDs-Ei-Ui8"/>
+                            <constraint firstAttribute="trailing" secondItem="Dnd-ge-iq0" secondAttribute="trailing" constant="10" id="swH-Ku-acf"/>
                         </constraints>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="1y1-93-7Id" userLabel="CardsView">

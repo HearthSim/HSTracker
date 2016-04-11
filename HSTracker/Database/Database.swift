@@ -60,17 +60,33 @@ final class Cards {
     }
 
     static func byClass(className: String?, set: String?) -> [Card] {
-        var _cards = collectible().filter { $0.playerClass == className }
+        var sets = [String]()
         if let set = set {
-            _cards = _cards.filter { $0.set == set }
+            sets.append(set)
+        }
+        return byClass(className, sets: sets)
+    }
+    
+    static func byClass(className: String?, sets: [String]) -> [Card] {
+        var _cards = collectible().filter { $0.playerClass == className }
+        if !sets.isEmpty {
+            _cards = _cards.filter { sets.contains($0.set) }
         }
         return _cards
     }
-
+    
     static func search(className: String?, set: String?, term: String) -> [Card] {
-        var _cards = collectible().filter { $0.playerClass == className || $0.playerClass == "neutral" }
+        var sets = [String]()
         if let set = set {
-            _cards = _cards.filter { $0.set == set }
+            sets.append(set)
+        }
+        return search(className, sets: sets, term: term)
+    }
+
+    static func search(className: String?, sets: [String], term: String) -> [Card] {
+        var _cards = collectible().filter { $0.playerClass == className || $0.playerClass == "neutral" }
+        if !sets.isEmpty {
+            _cards = _cards.filter { sets.contains($0.set) }
         }
         return _cards.filter {
             $0.name.lowercaseString.contains(term.lowercaseString) ||

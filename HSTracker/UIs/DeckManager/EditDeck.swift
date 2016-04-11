@@ -16,21 +16,21 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBOutlet weak var classChooser: NSSegmentedControl!
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var searchField: NSSearchField!
-    @IBOutlet weak var setChooser: NSComboBox!
     @IBOutlet weak var curveView: CurveView!
     @IBOutlet weak var standardOnlyCards: NSButton!
-
+    @IBOutlet weak var sets: NSPopUpButton!
+    
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
     var currentDeck: Deck?
     var currentPlayerClass: String?
-    var currentSet: String?
+    var currentSet = [String]()
     var selectedClass: String?
     var currentClassCards: [Card]?
     
     var saveDeck: SaveDeck?
     
-    let validCardSets = ["ALL", "CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO"]
+    let validCardSets = ["ALL", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "OG"]
 
     convenience init() {
         self.init(windowNibName: "EditDeck")
@@ -75,6 +75,17 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         curveView?.reload()
 
         countCards()
+        
+        let popupMenu = NSMenu()
+        for set in validCardSets {
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(set, comment: ""),
+                                           action: #selector(EditDeck.changeSet(_:)),
+                                           keyEquivalent: "")
+            popupMenuItem.representedObject = set
+            popupMenuItem.image = ImageCache.asset("Set_\(set)")
+            popupMenu.addItem(popupMenuItem)
+        }
+        sets.menu = popupMenu
 
         if let cell = searchField.cell as? NSSearchFieldCell {
             cell.cancelButtonCell!.target = self
@@ -120,7 +131,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     }
 
     private func reloadCards() {
-        currentClassCards = Cards.byClass(selectedClass, set: currentSet).sortCardList()
+        currentClassCards = Cards.byClass(selectedClass, sets: currentSet).sortCardList()
         collectionView.reloadData()
     }
 
@@ -188,21 +199,14 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         curveView.reload()
     }
     
-    // MARK: - NSComboBoxDataSource/Delegate
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
-        return validCardSets.count
-    }
-
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
-        return NSLocalizedString(validCardSets[index], comment: "")
-    }
-    
-    func comboBoxSelectionDidChange(notification: NSNotification) {
-        if setChooser.indexOfSelectedItem == 0 {
-            currentSet = nil
-        } else {
-            currentSet = validCardSets[setChooser.indexOfSelectedItem].lowercaseString
+    // MARK: - Sets
+    @IBAction func changeSet(sender: NSMenuItem) {
+        switch sender.representedObject as! String {
+        case "ALL": currentSet = []
+        case "EXPERT1": currentSet = ["core", "expert1", "promo"]
+        default: currentSet = [(sender.representedObject as! String).lowercaseString]
         }
+        
         reloadCards()
     }
 
@@ -316,7 +320,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         if !str.isEmpty {
             classChooser.enabled = false
 
-            currentClassCards = Cards.search(currentPlayerClass, set: currentSet, term: str).sortCardList()
+            currentClassCards = Cards.search(currentPlayerClass, sets: currentSet, term: str).sortCardList()
             collectionView.reloadData()
         }
         else {
