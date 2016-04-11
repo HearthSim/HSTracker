@@ -19,7 +19,7 @@ struct SizeHelper {
 
     // Get the frame of the Hearthstone window.
     // The size is reduced with the title bar height
-    private static var hearthstoneFrame: NSRect = {
+    private static var hearthstoneFrame: NSRect {
         let options = CGWindowListOption(arrayLiteral: .ExcludeDesktopElements, .OptionOnScreenOnly)
         let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
         if let info = (windowListInfo as NSArray? as? [[String: AnyObject]])?.filter({
@@ -39,7 +39,7 @@ struct SizeHelper {
         }
 
         return NSZeroRect
-    }()
+    }
 
     /**
      * Get a frame relative to Hearthstone window

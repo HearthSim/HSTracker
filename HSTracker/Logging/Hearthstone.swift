@@ -114,22 +114,23 @@ final class Hearthstone : NSObject {
     // MARK: - Events
     func startListeners() {
         let notificationCenter = NSWorkspace.sharedWorkspace().notificationCenter
-        notificationCenter.addObserver(self,
-            selector: #selector(Hearthstone.appLaunched(_:)),
-            name: NSWorkspaceDidLaunchApplicationNotification,
-            object: nil)
-        notificationCenter.addObserver(self,
-            selector: #selector(Hearthstone.appTerminated(_:)),
-            name: NSWorkspaceDidTerminateApplicationNotification,
-            object: nil)
-        notificationCenter.addObserver(self,
-            selector: #selector(Hearthstone.appActivated(_:)),
-            name: NSWorkspaceDidActivateApplicationNotification,
-            object: nil)
-        notificationCenter.addObserver(self,
-            selector: #selector(Hearthstone.appDeactivated(_:)),
-            name: NSWorkspaceDidDeactivateApplicationNotification,
-            object: nil)
+        let notifications = [
+            NSWorkspaceActiveSpaceDidChangeNotification: #selector(Hearthstone.spaceChange(_:)),
+            NSWorkspaceDidLaunchApplicationNotification: #selector(Hearthstone.appLaunched(_:)),
+            NSWorkspaceDidTerminateApplicationNotification: #selector(Hearthstone.appTerminated(_:)),
+            NSWorkspaceDidActivateApplicationNotification: #selector(Hearthstone.appActivated(_:)),
+            NSWorkspaceDidDeactivateApplicationNotification: #selector(Hearthstone.appDeactivated(_:)),
+        ]
+        for (name, selector) in notifications {
+            notificationCenter.addObserver(self,
+                                           selector: selector,
+                                           name: name,
+                                           object: nil)
+        }
+    }
+    
+    func spaceChange(notification: NSNotification) {
+        Game.instance.hearthstoneIsActive(self.hearthstoneActive)
     }
 
     func appLaunched(notification: NSNotification) {
