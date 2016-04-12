@@ -1,0 +1,21 @@
+
+/* Class = "NSWindow"; title = "Configuration"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Configuration";
+
+/* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "R6t-pR-FHf"; */
+"R6t-pR-FHf.title" = "Langue de HSTracker";
+
+/* Class = "NSButtonCell"; title = "Choose"; ObjectID = "Xxb-Tp-8oD"; */
+"Xxb-Tp-8oD.title" = "Choisir";
+
+/* Class = "NSTextFieldCell"; title = "HearthStone language"; ObjectID = "iQb-5L-jZW"; */
+"iQb-5L-jZW.title" = "Langue Hearthstone";
+
+/* Class = "NSButtonCell"; title = "Exit HSTracker"; ObjectID = "kBx-Gq-Zlx"; */
+"kBx-Gq-Zlx.title" = "Quitter HSTracker";
+
+/* Class = "NSButtonCell"; title = "Save"; ObjectID = "qo1-rO-693"; */
+"qo1-rO-693.title" = "Enregistrer";
+
+/* Class = "NSTextFieldCell"; title = "Hearthstone folder"; ObjectID = "xAb-l3-ccL"; */
+"xAb-l3-ccL.title" = "Répertoire de Hearthstone";

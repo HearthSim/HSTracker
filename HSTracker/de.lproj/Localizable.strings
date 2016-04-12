@@ -1,0 +1,69 @@
+"Are you sure you want to close this deck ? Your changes will not be saved." = "Bist Du sicher, dass Du dieses Deck schließen möchtest ? Deine Änderungen werden nicht gespeichert.";
+"Are you sure you want to delete this deck ?" = "Bist Du sicher, dass Du dieses Deck löschen möchtest ?";
+"Arena %@ %@" = "Arena %@ %@";
+"Cancel" = "Abbrechen";
+"Clear" = "Löschen";
+"Deck Manager" = "Deck Manager";
+"Deck name" = "Deck Name";
+"Decks" = "Decks";
+"Delete deck" = "Deck löschen";
+"Do you want to add this deck on Hearthstats ?" = "Möchtest Du dieses Deck zu Hearthstats hinzufügen ?";
+"Do you want to delete the deck on Hearthstats ?" = "Möchtest Du dieses Deck aus Hearthstats löschen ?";
+"Downloading %@.png" = "Lädt %@.png herunter";
+"Downloading images" = "Lade Bilder herunter";
+"Edit deck" = "Deck bearbeiten";
+"Game" = "Spiel";
+"General" = "Allgemein";
+"Loading %@ cards" = "Lade %@ Karten";
+"Lock windows" = "Fenster sperren";
+"OK" = "OK";
+"Please choose your Hearthstone directory" = "Wähle das Verzeichnis aus, indem sich Hearthstone befindet";
+"Preferences" = "Einstellungen";
+"Rename deck" = "Deck umbenennen";
+"Reset" = "Zurücksetzen";
+"server error" = "Server Fehler";
+"Trackers" = "Tracker";
+"Unlock windows" = "Fenster entsperren";
+"Use deck" = "Deck verwenden";
+"Window" = "Fenster";
+"You are now connected to Hearthstats" = "Du bist nun mit Hearthstats verbunden";
+"You must restart Hearthstone for logs to be used" = "Du musst Hearthstone neu Starten, damit die entsprechenden Logs verwendet werden können";
+"You must restart HSTracker for the language change to take effect" = "Du musst HSTracker erneut starten, damit die Spracheinstellung übernommen wird";
+
+/* notifications */
+"Your game begins" = "Dein Spiel beginnt";
+"Victory" = "Gewonnen";
+"Hearthstone" = "Hearthstone";
+"Your opponent have conceded" = "Dein Gegner hat aufgegeben";
+"It's your turn to play" = "Du bist dran";
+
+/* classes */
+"shaman" = "Schamane";
+"hunter" = "Jäger";
+"warlock" = "Hexenmeister";
+"druid" = "Druide";
+"warrior" = "Krieger";
+"mage" = "Magier";
+"paladin" = "Paladin";
+"priest" = "Priester";
+"rogue" = "Schurke";
+
+/* rarity */
+"neutral" = "Neutral";
+"free" = "Basis";
+"common" = "Gewöhnlich";
+"rare" = "Selten";
+"epic" = "Episch";
+"legendary" = "Legendär";
+
+/* sets */
+"ALL" = "Alle Sets";
+"CORE" = "Basis";
+"EXPERT1" = "Klassik";
+"NAXX" = "Naxxramas";
+"GVG" = "Goblins gegen Gnome";
+"BRM" = "Der Schwarzfels";
+"TGT" = "Das große Turnier";
+"LOE" = "Die Forscherliga";
+"OG" = "Das Flüstern der alten Götter";
+"PROMO" = "Belohnung";

@@ -1,0 +1,18 @@
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "08B-rI-8LA"; */
+"08B-rI-8LA.ibShadowedToolTip" = "Benachrichtigungen sind nur sichtbar, wenn Hearthstone sich im Hintergrund befindet";
+
+/* Class = "NSButtonCell"; title = "Notify me when my opponent concede"; ObjectID = "GhP-a6-Faw"; */
+"GhP-a6-Faw.title" = "Benachrichtige mich, wenn mein Gegner aufgegeben hat";
+
+/* Class = "NSButtonCell"; title = "Notify me when my turn start"; ObjectID = "Rbw-dw-oAI"; */
+"Rbw-dw-oAI.title" = "Benachrichtige mich, wenn mein Zug anfängt";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "Yit-xi-gbj"; */
+"Yit-xi-gbj.ibShadowedToolTip" = "Benachrichtigungen sind nur sichtbar, wenn Hearthstone sich im Hintergrund befindet";
+
+/* Class = "NSButtonCell"; title = "Notify me when the game start"; ObjectID = "aaX-mu-c31"; */
+"aaX-mu-c31.title" = "Benachrichtige mich, wenn die Runde beginnt";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
+"c8y-VJ-p2U.ibShadowedToolTip" = "Benachrichtigungen sind nur sichtbar, wenn Hearthstone sich im Hintergrund befindet";

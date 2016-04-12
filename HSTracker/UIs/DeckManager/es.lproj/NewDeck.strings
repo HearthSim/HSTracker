@@ -1,0 +1,27 @@
+
+/* Class = "NSButtonCell"; title = "Arena deck"; ObjectID = "0dN-Ei-UM2"; */
+"0dN-Ei-UM2.title" = "Mazo para Arena";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "0dg-Pr-Io8"; */
+"0dg-Pr-Io8.title" = "Cancelar";
+
+/* Class = "NSButtonCell"; title = "Using HSTracker deck builder"; ObjectID = "N10-sK-1gZ"; */
+"N10-sK-1gZ.title" = "Usar el editor de mazos de HSTracker";
+
+/* Class = "NSWindow"; title = "New Deck"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Nuevo mazo";
+
+/* Class = "NSTextFieldCell"; title = "How do you want to create your new deck ?"; ObjectID = "bnr-YF-pLP"; */
+"bnr-YF-pLP.title" = "¿Cómo quieres crear tu nuevo mazo?";
+
+/* Class = "NSButtonCell"; title = "From the web"; ObjectID = "dhu-qo-xOJ"; */
+"dhu-qo-xOJ.title" = "Importar de página web";
+
+/* Class = "NSButtonCell"; title = "From a file"; ObjectID = "tHo-vJ-FwV"; */
+"tHo-vJ-FwV.title" = "Importar archivo";
+
+/* Class = "NSButtonCell"; title = "OK"; ObjectID = "trs-D1-mgZ"; */
+"trs-D1-mgZ.title" = "OK";
+
+/* Class = "NSButtonCell"; title = "Choose file"; ObjectID = "xPi-Gg-ebR"; */
+"xPi-Gg-ebR.title" = "Seleccionar archivo";

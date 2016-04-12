@@ -1,0 +1,76 @@
+"Are you sure you want to close this deck ? Your changes will not be saved." = "Are you sure you want to close this deck ? Your changes will not be saved.";
+"Are you sure you want to delete this deck ?" = "Are you sure you want to delete this deck ?";
+"Arena %@ %@" = "Arena %@ %@";
+"Cancel" = "取消";
+"Clear" = "Clear";
+"Deck Manager" = "Deck Manager";
+"Deck name" = "Deck name";
+"Decks" = "卡组";
+"Delete deck" = "Delete deck";
+"Do you want to add this deck on Hearthstats ?" = "Do you want to add this deck on Hearthstats ?";
+"Do you want to delete the deck on Hearthstats ?" = "Do you want to delete the deck on Hearthstats ?";
+"Downloading %@.png" = "Downloading %@.png";
+"Downloading images" = "Downloading images";
+"Edit deck" = "Edit deck";
+"Game" = "Game";
+"General" = "通用";
+"Loading %@ cards" = "Loading %@ cards";
+"Lock windows" = "锁定窗口";
+"OK" = "确定";
+"Please choose your Hearthstone directory" = "Please choose your Hearthstone directory";
+"Preferences" = "偏好设置";
+"Rename deck" = "Rename deck";
+"Reset" = "重置";
+"server error" = "server error";
+"Trackers" = "Trackers";
+"Unlock windows" = "解锁窗口";
+"Use deck" = "Use deck";
+"Window" = "窗口";
+"You are now connected to Hearthstats" = "You are now connected to Hearthstats";
+"You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+"You must restart HSTracker for the language change to take effect" = "您必须重启 HSTracker 已使得设置的语言生效";
+
+/* notifications */
+"Your game begins" = "Your game begins";
+"Victory" = "Victory";
+"Hearthstone" = "Hearthstone";
+"Your opponent have conceded" = "Your opponent have conceded";
+"It's your turn to play" = "It's your turn to play";
+
+/* classes */
+"shaman" = "萨满";
+"hunter" = "猎人";
+"warlock" = "术士";
+"druid" = "德鲁伊";
+"warrior" = "战士";
+"mage" = "法师";
+"paladin" = "圣骑士";
+"priest" = "牧师";
+"rogue" = "盗贼";
+
+/* rarity */
+"neutral" = "中立";
+"free" = "免费";
+"common" = "普通";
+"rare" = "稀有";
+"epic" = "史诗";
+"legendary" = "传说";
+
+/* sets */
+"ALL" = "All";
+"CORE" = "Basic";
+"EXPERT1" = "Classic";
+"NAXX" = "Curse Of Naxxramas";
+"GVG" = "Goblins Vs Gnomes";
+"BRM" = "Blackrock Mountain";
+"TGT" = "The Grand Tournament";
+"LOE" = "League Of Explorers";
+"OG" = "Whispers of the Old Gods";
+"PROMO" = "Promotion";
+
+
+
+
+
+
+

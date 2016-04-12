@@ -1,0 +1,24 @@
+
+/* Class = "NSButtonCell"; title = "Standard only"; ObjectID = "37M-wa-5DN"; */
+"37M-wa-5DN.title" = "Standard only";
+
+/* Class = "NSToolbarItem"; label = "Delete"; ObjectID = "CT1-aM-w9a"; */
+"CT1-aM-w9a.label" = "Delete";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Delete"; ObjectID = "CT1-aM-w9a"; */
+"CT1-aM-w9a.paletteLabel" = "Delete";
+
+/* Class = "NSWindow"; title = "Edit Deck"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Edit Deck";
+
+/* Class = "NSToolbarItem"; label = "Save"; ObjectID = "d1a-mc-Snn"; */
+"d1a-mc-Snn.label" = "Save";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Save"; ObjectID = "d1a-mc-Snn"; */
+"d1a-mc-Snn.paletteLabel" = "Save";
+
+/* Class = "NSToolbarItem"; label = "Cancel"; ObjectID = "o0Z-hh-Cdy"; */
+"o0Z-hh-Cdy.label" = "Cancel";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Cancel"; ObjectID = "o0Z-hh-Cdy"; */
+"o0Z-hh-Cdy.paletteLabel" = "Cancel";

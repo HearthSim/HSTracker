@@ -1,0 +1,21 @@
+
+/* Class = "NSToolbarItem"; label = "Add"; ObjectID = "7FY-gv-qwP"; */
+"7FY-gv-qwP.label" = "Add";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Add"; ObjectID = "7FY-gv-qwP"; */
+"7FY-gv-qwP.paletteLabel" = "Add";
+
+/* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Deck Manager";
+
+/* Class = "NSToolbarItem"; label = "Hearthstats"; ObjectID = "Xxv-sY-tej"; */
+"Xxv-sY-tej.label" = "Hearthstats";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Hearthstats"; ObjectID = "Xxv-sY-tej"; */
+"Xxv-sY-tej.paletteLabel" = "Hearthstats";
+
+/* Class = "NSToolbarItem"; label = "Donate"; ObjectID = "wWN-25-Exd"; */
+"wWN-25-Exd.label" = "Donate";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Donate"; ObjectID = "wWN-25-Exd"; */
+"wWN-25-Exd.paletteLabel" = "Donate";

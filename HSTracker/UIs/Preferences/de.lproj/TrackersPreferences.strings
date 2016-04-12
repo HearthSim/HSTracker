@@ -1,0 +1,48 @@
+
+/* Class = "NSButtonCell"; title = "Show opponent in-hand card huds"; ObjectID = "50X-Tt-yJa"; */
+"50X-Tt-yJa.title" = "Zeige gegnerisches Handkarten-HUD";
+
+/* Class = "NSButtonCell"; title = "Auto position trackers"; ObjectID = "5rZ-fg-pB4"; */
+"5rZ-fg-pB4.title" = "Automatische Trackerpositionierung";
+
+/* Class = "NSButtonCell"; title = "Show opponent tracker"; ObjectID = "MLJ-7t-LVJ"; */
+"MLJ-7t-LVJ.title" = "Zeige gegnerischen Tracker";
+
+/* Class = "NSButtonCell"; title = "Show player tracker"; ObjectID = "MiE-Lr-Vdi"; */
+"MiE-Lr-Vdi.title" = "Zeige eigenen Tracker";
+
+/* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
+"NLB-ON-zWk.title" = "Kartengröße";
+
+/* Class = "NSButtonCell"; title = "Highlight last drawn card"; ObjectID = "WKT-Hm-Z7h"; */
+"WKT-Hm-Z7h.title" = "Markierung der zuletzt gezogenen Karte";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Small"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[0]" = "Klein";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[1] = "Medium"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[1]" = "Mittel";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Big"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[2]" = "Groß";
+
+/* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
+"hJI-dG-QeP.title" = "Markiere Handkarten";
+
+/* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "ndN-hu-6Rx"; */
+"ndN-hu-6Rx.title" = "Erhaltene bzw. Fremde Karten einbeziehen";
+
+/* Class = "NSButtonCell"; title = "Remove cards if count is 0"; ObjectID = "s9w-5p-pJs"; */
+"s9w-5p-pJs.title" = "Entferne Karten wenn der Zäler 0 erreicht";
+
+/* Class = "NSButtonCell"; title = "Show timer"; ObjectID = "x27-iz-7Sv"; */
+"x27-iz-7Sv.title" = "Zeige Timer";
+
+/* Class = "NSButtonCell"; title = "Show secret helper"; ObjectID = "ySU-4j-Jbh"; */
+"ySU-4j-Jbh.title" = "Zeige Secret-Helper";
+
+/* Class = "NSButtonCell"; title = "Highlight discarded from deck"; ObjectID = "yeJ-ZI-Pca"; */
+"yeJ-ZI-Pca.title" = "Markiere abgeworfene Karten";
+
+/* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
+"zP3-ns-ggP.title" = "Deckkraft";

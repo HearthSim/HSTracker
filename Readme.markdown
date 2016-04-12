@@ -1,6 +1,8 @@
 # HSTracker
 
-HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for Mac OsX 10.8+.
+HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for Mac OsX 10.10+.
+
+[![Build Status](https://travis-ci.org/bmichotte/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
 
 Don't forget to follow [@hstracker_mac](https://twitter.com/hstracker_mac) for updates / questions :)
 
@@ -24,36 +26,15 @@ Is it against the TOS ?
 - Create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com) (deck and deckbuilder), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthstats](https://hearthstats.net), [Hearthhead](http://www.hearthhead.com/) (all languages), [Hearthnews](http://www.hearthnews.fr/) or using [Netdeck](https://chrome.google.com/webstore/detail/netdeck/lpdbiakcpmcppnpchohihcbdnojlgeel)
 - Starting of version 0.5, you can move/resize your windows and then lock them through the preferences panel. You can also change the transparency of the windows in the preferences.
 
-## Update
-As of 0.12, HSTracker will now prompt you to auto-update itself as soon as a new version is released. You can also check for new versions in _HSTracker menu_ -> _Check for update_
-
-[![Build Status](https://travis-ci.org/bmichotte/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
-
-## TODO
-- translate in more languages
-- test ;)
-
 ## Versions
 [Complete changelog is here](versions.markdown)
 
 ## Contribution
 Feel free to fork and pull-request, as well as filling [new issues](https://github.com/bmichotte/HSTracker/issues)
 
-HSTracker is written in Ruby, using [Rubymotion](http://www.rubymotion.com/). You will need a valid Rubymotion license to build it.
-
-To compile/run
-```
-bundle
-rake pod:install
-```
-
 ## Thanks
 
-I took some inspiration/copy-paste from [Hearthstone-Deck-Tracker-Mac](https://github.com/Jeswang/Hearthstone-Deck-Tracker-Mac).
-
-The base of the log analyser came from [hearthstone-tracker-osx](https://github.com/hellozimi/hearthstone-tracker-osx).
-
-Lot of resources came from [Hearthstone-Deck-Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker).
+HSTracker is mainly a Swift rewrite of [Hearthstone-Deck-Tracker](https://github.com/Epix37/Hearthstone-Deck-Tracker), so there are a lot of code coming from it.
 
 Cards came from [Hearthhead](http://www.hearthhead.com/).
 
