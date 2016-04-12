@@ -6,5 +6,5 @@ before_install:
   - brew outdated xctool || brew upgrade xctool
   - travis_wait 35 carthage update --platform OSX
 script: 
-  - xctool clean build -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx
-  - xctool test -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx
+  - travis_wait 35 xctool clean build -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx
+  - travis_wait 35 xctool test -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx
