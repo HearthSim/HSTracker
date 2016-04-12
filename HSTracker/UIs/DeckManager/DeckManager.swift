@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, DeckCellViewDelegate, NewDeckDelegate {
+class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, NewDeckDelegate {
 
     @IBOutlet weak var decksTable: NSTableView!
     @IBOutlet weak var deckListTable: NSTableView!
@@ -27,6 +27,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     @IBOutlet weak var shamanButton: NSButton!
     @IBOutlet weak var warlockButton: NSButton!
     @IBOutlet weak var warriorButton: NSButton!
+    @IBOutlet weak var toolbar: NSToolbar!
 
     var editDeck: EditDeck?
     var newDeck: NewDeck?
@@ -140,19 +141,19 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             return currentDeck.sortedCards.count
         }
 
-        return 0;
+        return 0
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView == decksTable {
             let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self) as! DeckCellView
             let deck = filteredDecks()[row]
-            cell.moreButton.hidden = false
             cell.deck = deck
             cell.label.stringValue = deck.name!
             cell.image.image = ImageCache.classImage(deck.playerClass)
             cell.color = ClassColor.color(deck.playerClass)
-            cell.setDelegate(self)
+            cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
+            
             return cell
         }
         else {
@@ -173,6 +174,19 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         return 20
     }
 
+    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        return true
+    }
+    
+    func tableViewSelectionDidChange(notification: NSNotification) {
+        let decks = filteredDecks().count
+        for i in 0 ..< decks {
+            let row = decksTable.viewAtColumn(0, row: i, makeIfNecessary: false) as? DeckCellView
+            row?.selected = decksTable.selectedRow == -1 || decksTable.selectedRow == i
+        }
+        decksTable.setNeedsDisplay()
+    }
+
     func decksTableClick(sender: AnyObject?) {
         guard sender?.clickedRow >= 0 else {
             return
@@ -183,6 +197,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         curveView.deck = currentDeck
         statsLabel.stringValue = currentDeck!.displayStats()
         curveView.reload()
+        
+        toolbar.validateVisibleItems()
     }
 
     // MARK: - Toolbar actions
@@ -194,6 +210,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             return true
         case "hearthstats":
             return !HearthstatsAPI.isLogged()
+        case "edit", "use", "delete", "rename":
+            return currentDeck != nil
         default:
             return false
         }
@@ -220,33 +238,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
     
     // MARK: - DeckCellViewDelegate
-    func moreClicked(cell: DeckCellView) {
-        currentCell = cell
-
-        let menu = NSMenu()
-        var menuItem = NSMenuItem(title: NSLocalizedString("Use deck", comment: ""),
-            action: #selector(DeckManager.useDeck(_:)),
-            keyEquivalent: "")
-        menu.addItem(menuItem)
-        menuItem = NSMenuItem(title: NSLocalizedString("Edit deck", comment: ""),
-            action: #selector(DeckManager.editDeck(_:)),
-            keyEquivalent: "")
-        menu.addItem(menuItem)
-        menuItem = NSMenuItem(title: NSLocalizedString("Rename deck", comment: ""),
-            action: #selector(DeckManager.renameDeck(_:)),
-            keyEquivalent: "")
-        menu.addItem(menuItem)
-        menu.addItem(NSMenuItem.separatorItem())
-        menuItem = NSMenuItem(title: NSLocalizedString("Delete deck", comment: ""),
-            action: #selector(DeckManager.deleteDeck(_:)),
-            keyEquivalent: "")
-        menu.addItem(menuItem)
-
-        NSMenu.popUpContextMenu(menu, withEvent: NSApp.currentEvent!, forView: cell.moreButton)
-    }
-
-    func renameDeck(sender: AnyObject?) {
-        if let cell = currentCell, deck = cell.deck {
+    @IBAction func renameDeck(sender: AnyObject?) {
+        if let deck = currentDeck {
             let deckNameInput = NSTextField(frame: NSMakeRect(0, 0, 220, 24))
             deckNameInput.stringValue = deck.name!
             let alert = NSAlert()
@@ -279,8 +272,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         }
     }
 
-    func editDeck(sender: AnyObject?) {
-        if let cell = currentCell, deck = cell.deck {
+    @IBAction func editDeck(sender: AnyObject?) {
+        if let deck = currentDeck {
             editDeck = EditDeck()
             if let editDeck = editDeck {
                 editDeck.setDeck(deck)
@@ -291,16 +284,16 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         }
     }
 
-    func useDeck(sender: AnyObject?) {
-        if let cell = currentCell, deck = cell.deck {
+    @IBAction func useDeck(sender: AnyObject?) {
+        if let deck = currentDeck {
             Settings.instance.activeDeck = deck.deckId
             Game.instance.setActiveDeck(deck)
             Game.instance.updatePlayerTracker()
         }
     }
 
-    func deleteDeck(sender: AnyObject?) {
-        if let cell = currentCell, deck = cell.deck {
+    @IBAction func deleteDeck(sender: AnyObject?) {
+        if let deck = currentDeck {
             let alert = NSAlert()
             alert.alertStyle = .InformationalAlertStyle
             alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")

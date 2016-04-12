@@ -8,35 +8,26 @@
 
 import Foundation
 
-protocol DeckCellViewDelegate {
-    func moreClicked(cell:DeckCellView)
-}
-
 class DeckCellView: NSView {
     
     @IBOutlet weak var image: NSImageView!
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var moreButton: NSButton!
+    var selected = true
     
     var deck: Deck?
     var color: NSColor?
-    var delegate: DeckCellViewDelegate?
 
     override func drawRect(dirtyRect: NSRect) {
-        if let color = color {
+        if var color = color {
+            if !selected {
+                color = color.darken(0.50)
+            }
             color.set()
             NSRectFill(dirtyRect)
         }
         super.drawRect(dirtyRect)
     }
     
-    func setDelegate(delegate: DeckCellViewDelegate?) {
-        self.delegate = delegate
-    }
     
-    @IBAction func action(sender: AnyObject) {
-        if let delegate = delegate {
-            delegate.moreClicked(self)
-        }
-    }
 }

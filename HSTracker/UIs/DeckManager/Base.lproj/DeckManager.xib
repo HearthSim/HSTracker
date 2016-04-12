@@ -17,6 +17,7 @@
                 <outlet property="rogueButton" destination="DDU-f7-Nwx" id="vdW-fp-DAg"/>
                 <outlet property="shamanButton" destination="HZK-Si-jIN" id="a7g-bp-RjD"/>
                 <outlet property="statsLabel" destination="Y6G-cK-9fE" id="HHC-8d-lga"/>
+                <outlet property="toolbar" destination="UfZ-Rs-kI0" id="ZcC-69-KQb"/>
                 <outlet property="warlockButton" destination="UjQ-5M-0Yn" id="4Xh-UJ-cmN"/>
                 <outlet property="warriorButton" destination="NXa-nS-g6K" id="n0B-j3-Meq"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="Xbg-rx-0ml"/>
@@ -63,7 +64,7 @@
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" id="Znw-pX-Aav">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="394"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
                                                 <tableColumn width="240" minWidth="40" maxWidth="1000" id="0je-pV-xMY">
@@ -86,7 +87,7 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                    <nil key="backgroundColor"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="VUX-x2-aTP">
                                     <rect key="frame" x="-100" y="-100" width="229" height="16"/>
@@ -340,7 +341,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="607" height="540"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af">
                                             <rect key="frame" x="0.0" y="0.0" width="607" height="540"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -440,9 +441,33 @@
                             <action selector="donate:" target="-2" id="c4R-LJ-JnO"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="AF6C9D32-A463-4FBC-9D95-D9A35EF1829C" explicitItemIdentifier="edit" label="Edit Deck" paletteLabel="Edit Deck" tag="-1" image="edit-deck" id="cbH-rI-BvP">
+                        <connections>
+                            <action selector="editDeck:" target="-2" id="VXP-sN-kLm"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="399CE4E4-A9EF-4863-AD24-05BF318AC87D" explicitItemIdentifier="use" label="Use Deck" paletteLabel="Use Deck" tag="-1" image="use-deck" id="3nu-q9-wC1">
+                        <connections>
+                            <action selector="useDeck:" target="-2" id="S2C-rH-wWU"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="1A67C377-19A4-4614-8F84-BFBDD179928D" explicitItemIdentifier="delete" label="Delete Deck" paletteLabel="Delete Deck" tag="-1" image="delete-deck" id="aaa-LK-buD">
+                        <connections>
+                            <action selector="deleteDeck:" target="-2" id="nBq-Af-QbQ"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="7EA0A274-90CB-4F64-A438-801752BC414D" explicitItemIdentifier="rename" label="Rename Deck" paletteLabel="Rename Deck" tag="-1" image="rename-deck" id="Qp2-0h-Sid">
+                        <connections>
+                            <action selector="renameDeck:" target="-2" id="uFe-yj-DRI"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
+                    <toolbarItem reference="3nu-q9-wC1"/>
+                    <toolbarItem reference="Qp2-0h-Sid"/>
+                    <toolbarItem reference="cbH-rI-BvP"/>
+                    <toolbarItem reference="aaa-LK-buD"/>
                     <toolbarItem reference="I75-rt-at9"/>
                     <toolbarItem reference="Xxv-sY-tej"/>
                     <toolbarItem reference="wWN-25-Exd"/>
@@ -455,9 +480,11 @@
         </window>
     </objects>
     <resources>
+        <image name="delete-deck" width="32" height="32"/>
         <image name="donate" width="32" height="32"/>
         <image name="druid" width="344.8800048828125" height="344.8800048828125"/>
         <image name="druid_dark" width="1437" height="1437"/>
+        <image name="edit-deck" width="32" height="32"/>
         <image name="hearthstats_icon" width="7.679999828338623" height="7.1999998092651367"/>
         <image name="hunter" width="344.8800048828125" height="344.8800048828125"/>
         <image name="hunter_dark" width="1437" height="1437"/>
@@ -468,10 +495,12 @@
         <image name="plus" width="32" height="32"/>
         <image name="priest" width="344.8800048828125" height="344.8800048828125"/>
         <image name="priest_dark" width="1437" height="1437"/>
+        <image name="rename-deck" width="32" height="32"/>
         <image name="rogue" width="344.8800048828125" height="344.8800048828125"/>
         <image name="rogue_dark" width="1437" height="1437"/>
         <image name="shaman" width="344.8800048828125" height="344.8800048828125"/>
         <image name="shaman_dark" width="1437" height="1437"/>
+        <image name="use-deck" width="32" height="32"/>
         <image name="warlock" width="344.8800048828125" height="344.8800048828125"/>
         <image name="warlock_dark" width="1437" height="1437"/>
         <image name="warrior" width="344.8800048828125" height="344.8800048828125"/>
