@@ -17,7 +17,7 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5NX-hg-fSX">
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="5NX-hg-fSX">
                     <rect key="frame" x="18" y="236" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Auto synchronize decks (add, update, delete)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="unH-eU-OrN">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -27,8 +27,8 @@
                         <action selector="checkboxClicked:" target="-2" id="FmL-xA-iXf"/>
                     </connections>
                 </button>
-                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5GL-SO-RA4">
-                    <rect key="frame" x="18" y="210" width="444" height="18"/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="5GL-SO-RA4">
+                    <rect key="frame" x="18" y="212" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Synchronize matches results" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hXO-uH-3An">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -38,6 +38,14 @@
                     </connections>
                 </button>
             </subviews>
+            <constraints>
+                <constraint firstItem="5NX-hg-fSX" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="9hV-DS-GBZ"/>
+                <constraint firstAttribute="trailing" secondItem="5NX-hg-fSX" secondAttribute="trailing" constant="20" id="GJ5-Jz-gDI"/>
+                <constraint firstAttribute="trailing" secondItem="5GL-SO-RA4" secondAttribute="trailing" constant="20" id="TFu-Oe-Ump"/>
+                <constraint firstItem="5GL-SO-RA4" firstAttribute="top" secondItem="5NX-hg-fSX" secondAttribute="bottom" constant="10" id="Xiu-5C-pMX"/>
+                <constraint firstItem="5NX-hg-fSX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="eCh-La-n0e"/>
+                <constraint firstItem="5GL-SO-RA4" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="tcu-UT-wTv"/>
+            </constraints>
         </customView>
     </objects>
 </document>
