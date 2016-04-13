@@ -10,7 +10,7 @@ Don't forget to follow [@hstracker_mac](https://twitter.com/hstracker_mac) for u
 ![Deck Tracker](https://github.com/bmichotte/HSTracker/blob/master/hstracker.jpg)
 
 ### Deck Manager
-![Deck Manager](https://github.com/bmichotte/HSTracker/blob/master/manager.png)
+![Deck Manager](https://github.com/bmichotte/HSTracker/blob/master/manager.jpg)
 
 Is Blizzard okay with this ?
 [Yes](https://twitter.com/bdbrode/status/511151446038179840)
