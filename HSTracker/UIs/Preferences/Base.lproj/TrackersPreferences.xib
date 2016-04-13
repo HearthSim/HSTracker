@@ -160,6 +160,9 @@
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="PSY-Ht-imV"/>
+                    </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Jvp-6c-HZ0">
                     <rect key="frame" x="18" y="66" width="444" height="18"/>
@@ -167,6 +170,9 @@
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="jxG-xw-6rg"/>
+                    </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="jqc-dr-ATS">
                     <rect key="frame" x="18" y="42" width="444" height="18"/>

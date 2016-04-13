@@ -93,6 +93,9 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         else if sender == showRarityColors {
             settings.showRarityColors = showRarityColors.state == NSOnState
         }
+        else if sender == showTimer {
+            settings.showTimer = showTimer.state == NSOnState
+        }
     }
 
     // MARK: - MASPreferencesViewController

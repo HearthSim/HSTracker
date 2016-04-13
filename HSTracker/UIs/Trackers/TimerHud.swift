@@ -51,7 +51,12 @@ class TimerHud: NSWindowController {
     }
 
     func tick(seconds: Int, _ playerSeconds: Int, _ opponentSeconds: Int) {
-        guard Settings.instance.showTimer else { return }
+        guard Settings.instance.showTimer else {
+            turnLabel.attributedStringValue = NSAttributedString(string: "")
+            playerLabel.attributedStringValue = NSAttributedString(string: "")
+            opponentLabel.attributedStringValue = NSAttributedString(string: "")
+            return
+        }
         
         turnLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (seconds / 60) % 60, seconds % 60), attributes: largeAttributes)
         playerLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (playerSeconds / 60) % 60, playerSeconds % 60), attributes: attributes)
