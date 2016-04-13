@@ -46,3 +46,7 @@
 
 /* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
 "zP3-ns-ggP.title" = "Opacity";
+
+/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
+"h5J-7C-d2f.title" = "Show rarity colors";
+

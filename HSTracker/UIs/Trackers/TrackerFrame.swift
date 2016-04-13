@@ -61,7 +61,7 @@ class TrackerFrame: NSView {
         paragraph.alignment = .Right
         
         return [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 16 / ratioHeight)!,
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: round(16 / ratioHeight))!,
             NSForegroundColorAttributeName: NSColor.whiteColor(),
             NSStrokeWidthAttributeName: -2,
             NSStrokeColorAttributeName: NSColor.blackColor(),

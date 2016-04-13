@@ -125,9 +125,9 @@ class CardCellView: TrackerFrame {
             foreground = card.textColor()
         }
         NSAttributedString(string: card.name, attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 16 / ratioHeight)!,
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: round(16 / ratioHeight))!,
             NSForegroundColorAttributeName: foreground,
-            NSStrokeWidthAttributeName: -2,
+            NSStrokeWidthAttributeName: -1,
             NSStrokeColorAttributeName: NSColor.blackColor()
             ]).drawInRect(ratio(NSMakeRect(38, 2, 174, 30)))
     }
@@ -138,9 +138,9 @@ class CardCellView: TrackerFrame {
             foreground = card.textColor()
         }
         NSAttributedString(string: "\(card.cost)", attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 24 / ratioHeight)!,
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: round(24 / ratioHeight))!,
             NSForegroundColorAttributeName: foreground,
-            NSStrokeWidthAttributeName: -2,
+            NSStrokeWidthAttributeName: -1,
             NSStrokeColorAttributeName: NSColor.blackColor()
             ]).drawInRect(ratio(NSMakeRect(card.cost > 9 ? 5.0 : 13.0, 3, 34, 37)))
     }
@@ -177,7 +177,7 @@ class CardCellView: TrackerFrame {
     
     private func addText(text: String, _ size: CGFloat, _ x: CGFloat, _ y: CGFloat) {
         NSAttributedString(string: text, attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: size / ratioHeight)!,
+            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: round(size / ratioHeight))!,
             NSForegroundColorAttributeName: NSColor(red: 240.0 / 255.0, green: 195.0 / 255.0, blue: 72.0 / 255.0, alpha: 1.0),
             NSStrokeWidthAttributeName: -2,
             NSStrokeColorAttributeName: NSColor.blackColor()

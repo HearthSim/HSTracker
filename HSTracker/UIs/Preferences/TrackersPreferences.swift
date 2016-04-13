@@ -24,7 +24,8 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
     @IBOutlet weak var showCardHuds: NSButton!
     @IBOutlet weak var autoPositionTrackers: NSButton!
     @IBOutlet weak var showSecretHelper: NSButton!
-
+    @IBOutlet weak var showRarityColors: NSButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let settings = Settings.instance
@@ -41,6 +42,7 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         showCardHuds.state = settings.showCardHuds ? NSOnState : NSOffState
         autoPositionTrackers.state = settings.autoPositionTrackers ? NSOnState : NSOffState
         showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
+        showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(sender: AnyObject) {
@@ -60,25 +62,36 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         
         if sender == highlightCardsInHand {
             settings.highlightCardsInHand = highlightCardsInHand.state == NSOnState
-        } else if sender == highlightLastDrawn {
+        }
+        else if sender == highlightLastDrawn {
             settings.highlightLastDrawn = highlightLastDrawn.state == NSOnState
-        } else if sender == removeCards {
+        }
+        else if sender == removeCards {
             settings.removeCardsFromDeck = removeCards.state == NSOnState
-        } else if sender == showPlayerGet {
+        }
+        else if sender == showPlayerGet {
             settings.showPlayerGet = showPlayerGet.state == NSOnState
-        } else if sender == highlightDiscarded {
+        }
+        else if sender == highlightDiscarded {
             settings.highlightDiscarded = highlightDiscarded.state == NSOnState
-        } else if sender == showOpponentTracker {
+        }
+        else if sender == showOpponentTracker {
             settings.showOpponentTracker = showOpponentTracker.state == NSOnState
-        } else if sender == showPlayerTracker {
+        }
+        else if sender == showPlayerTracker {
             settings.showPlayerTracker = showPlayerTracker.state == NSOnState
-        } else if sender == autoPositionTrackers {
+        }
+        else if sender == autoPositionTrackers {
             settings.autoPositionTrackers = autoPositionTrackers.state == NSOnState
             if settings.autoPositionTrackers {
                 settings.windowsLocked = true
             }
-        } else if sender == showSecretHelper {
+        }
+        else if sender == showSecretHelper {
             settings.showSecretHelper = showSecretHelper.state == NSOnState
+        }
+        else if sender == showRarityColors {
+            settings.showRarityColors = showRarityColors.state == NSOnState
         }
     }
 
