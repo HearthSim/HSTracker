@@ -28,8 +28,16 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="205"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HQy-Fh-m0E">
-                        <rect key="frame" x="19" y="142" width="227" height="18"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="YM1-PJ-coX">
+                        <rect key="frame" x="18" y="178" width="444" height="17"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="How do you want to create your new deck ?" id="bnr-YF-pLP">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="HQy-Fh-m0E">
+                        <rect key="frame" x="19" y="151" width="213" height="18"/>
                         <buttonCell key="cell" type="radio" title="Using HSTracker deck builder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="N10-sK-1gZ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -38,16 +46,11 @@
                             <action selector="radioChange:" target="-2" id="zgR-F0-hTq"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="YM1-PJ-coX">
-                        <rect key="frame" x="18" y="178" width="444" height="17"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="How do you want to create your new deck ?" id="bnr-YF-pLP">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="spZ-RM-AFF">
-                        <rect key="frame" x="252" y="137" width="211" height="26"/>
+                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="spZ-RM-AFF">
+                        <rect key="frame" x="240" y="146" width="223" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="220" id="TkC-sj-9Sg"/>
+                        </constraints>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="bc3-ts-Vw0">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -58,8 +61,15 @@
                             <outlet property="delegate" destination="-2" id="YMD-mJ-eVI"/>
                         </connections>
                     </comboBox>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zw5-rl-Uh0">
-                        <rect key="frame" x="19" y="89" width="227" height="18"/>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="Hi4-1P-a8c">
+                        <rect key="frame" x="238" y="124" width="224" height="18"/>
+                        <buttonCell key="cell" type="check" title="Arena deck" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0dN-Ei-UM2">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="zw5-rl-Uh0">
+                        <rect key="frame" x="19" y="96" width="213" height="18"/>
                         <buttonCell key="cell" type="radio" title="From the web" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="dhu-qo-xOJ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -68,18 +78,11 @@
                             <action selector="radioChange:" target="-2" id="4Wv-Es-dm5"/>
                         </connections>
                     </button>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cZL-u5-ElV">
-                        <rect key="frame" x="19" y="55" width="227" height="18"/>
-                        <buttonCell key="cell" type="radio" title="From a file" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tHo-vJ-FwV">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="radioChange:" target="-2" id="6Xf-fY-ucy"/>
-                        </connections>
-                    </button>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rai-VR-bB3">
-                        <rect key="frame" x="252" y="87" width="208" height="22"/>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rai-VR-bB3">
+                        <rect key="frame" x="240" y="94" width="220" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="220" id="aua-GR-wE5"/>
+                        </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hR7-sx-HlA">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -89,8 +92,18 @@
                             <outlet property="delegate" destination="-2" id="ycj-Yw-sgI"/>
                         </connections>
                     </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zId-Z2-sHp">
-                        <rect key="frame" x="357" y="47" width="109" height="32"/>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="cZL-u5-ElV">
+                        <rect key="frame" x="19" y="65" width="336" height="18"/>
+                        <buttonCell key="cell" type="radio" title="From a file" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tHo-vJ-FwV">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="radioChange:" target="-2" id="6Xf-fY-ucy"/>
+                        </connections>
+                    </button>
+                    <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zId-Z2-sHp">
+                        <rect key="frame" x="357" y="56" width="109" height="32"/>
                         <buttonCell key="cell" type="push" title="Choose file" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xPi-Gg-ebR">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -99,7 +112,7 @@
                             <action selector="openDeck:" target="-2" id="wGT-y8-mrR"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5rB-EX-IcR">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5rB-EX-IcR">
                         <rect key="frame" x="407" y="13" width="59" height="32"/>
                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="trs-D1-mgZ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -112,8 +125,8 @@ DQ
                             <action selector="okClicked:" target="-2" id="JtR-vw-f9S"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kOn-oh-tpj">
-                        <rect key="frame" x="326" y="13" width="82" height="32"/>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kOn-oh-tpj">
+                        <rect key="frame" x="327" y="13" width="82" height="32"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0dg-Pr-Io8">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -125,14 +138,34 @@ Gw
                             <action selector="cancelClicked:" target="-2" id="lR9-RI-5dM"/>
                         </connections>
                     </button>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hi4-1P-a8c">
-                        <rect key="frame" x="250" y="117" width="212" height="18"/>
-                        <buttonCell key="cell" type="check" title="Arena deck" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0dN-Ei-UM2">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="5rB-EX-IcR" firstAttribute="leading" secondItem="kOn-oh-tpj" secondAttribute="trailing" constant="10" id="2gF-fo-XnN"/>
+                    <constraint firstItem="zw5-rl-Uh0" firstAttribute="centerY" secondItem="rai-VR-bB3" secondAttribute="centerY" id="6We-Jn-4i0"/>
+                    <constraint firstItem="Hi4-1P-a8c" firstAttribute="top" secondItem="spZ-RM-AFF" secondAttribute="bottom" constant="10" id="715-bj-O4b"/>
+                    <constraint firstAttribute="trailing" secondItem="rai-VR-bB3" secondAttribute="trailing" constant="20" id="A8L-xg-deL"/>
+                    <constraint firstItem="cZL-u5-ElV" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="G3x-hd-0jO"/>
+                    <constraint firstItem="YM1-PJ-coX" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="ItC-de-k6z"/>
+                    <constraint firstAttribute="trailing" secondItem="5rB-EX-IcR" secondAttribute="trailing" constant="20" id="JXa-dK-mbl"/>
+                    <constraint firstItem="HQy-Fh-m0E" firstAttribute="top" secondItem="YM1-PJ-coX" secondAttribute="bottom" constant="10" id="Ltl-zQ-xMI"/>
+                    <constraint firstAttribute="trailing" secondItem="YM1-PJ-coX" secondAttribute="trailing" constant="20" id="PpV-mm-l2l"/>
+                    <constraint firstItem="zId-Z2-sHp" firstAttribute="top" secondItem="rai-VR-bB3" secondAttribute="bottom" constant="10" id="U0b-Fo-DuT"/>
+                    <constraint firstAttribute="bottom" secondItem="5rB-EX-IcR" secondAttribute="bottom" constant="20" id="Wfz-He-sc7"/>
+                    <constraint firstItem="HQy-Fh-m0E" firstAttribute="centerY" secondItem="spZ-RM-AFF" secondAttribute="centerY" id="Xgv-Di-lEr"/>
+                    <constraint firstItem="kOn-oh-tpj" firstAttribute="centerY" secondItem="5rB-EX-IcR" secondAttribute="centerY" id="ZCH-VK-dn4"/>
+                    <constraint firstAttribute="trailing" secondItem="spZ-RM-AFF" secondAttribute="trailing" constant="20" id="ZHf-Ul-fav"/>
+                    <constraint firstAttribute="trailing" secondItem="zId-Z2-sHp" secondAttribute="trailing" constant="20" id="b5w-7y-O2u"/>
+                    <constraint firstItem="rai-VR-bB3" firstAttribute="leading" secondItem="zw5-rl-Uh0" secondAttribute="trailing" constant="10" id="dWv-hx-e9T"/>
+                    <constraint firstItem="HQy-Fh-m0E" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="e7w-6Y-G27"/>
+                    <constraint firstItem="rai-VR-bB3" firstAttribute="top" secondItem="Hi4-1P-a8c" secondAttribute="bottom" constant="10" id="k2L-46-7p3"/>
+                    <constraint firstItem="Hi4-1P-a8c" firstAttribute="leading" secondItem="spZ-RM-AFF" secondAttribute="leading" id="mMR-f9-Dn1"/>
+                    <constraint firstItem="cZL-u5-ElV" firstAttribute="centerY" secondItem="zId-Z2-sHp" secondAttribute="centerY" id="naQ-Lq-E1E"/>
+                    <constraint firstItem="spZ-RM-AFF" firstAttribute="leading" secondItem="HQy-Fh-m0E" secondAttribute="trailing" constant="10" id="oDT-fi-8Ol"/>
+                    <constraint firstItem="Hi4-1P-a8c" firstAttribute="trailing" secondItem="spZ-RM-AFF" secondAttribute="trailing" id="oXF-YR-jqn"/>
+                    <constraint firstItem="zw5-rl-Uh0" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="rZk-2i-uQw"/>
+                    <constraint firstItem="YM1-PJ-coX" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="10" id="sTh-38-q2F"/>
+                    <constraint firstItem="zId-Z2-sHp" firstAttribute="leading" secondItem="cZL-u5-ElV" secondAttribute="trailing" constant="10" id="yWj-iN-yvF"/>
+                </constraints>
             </view>
             <point key="canvasLocation" x="315" y="218.5"/>
         </window>

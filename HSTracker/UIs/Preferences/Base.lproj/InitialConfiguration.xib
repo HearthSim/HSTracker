@@ -23,24 +23,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="149"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v9A-OJ-Poo">
-                        <rect key="frame" x="18" y="112" width="156" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v9A-OJ-Poo">
+                        <rect key="frame" x="18" y="112" width="184" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="HSTracker language" id="R6t-pR-FHf">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oDt-UF-JRP">
-                        <rect key="frame" x="18" y="87" width="156" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hearthstone language" id="iQb-5L-jZW">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oTb-hA-tu9">
-                        <rect key="frame" x="180" y="108" width="283" height="26"/>
+                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oTb-hA-tu9">
+                        <rect key="frame" x="210" y="107" width="253" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="CIC-VX-AvV"/>
+                        </constraints>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="ibM-Ew-QoU">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -51,8 +46,19 @@
                             <outlet property="delegate" destination="-2" id="ZeA-uz-usx"/>
                         </connections>
                     </comboBox>
-                    <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dKf-yJ-Fmy">
-                        <rect key="frame" x="180" y="82" width="283" height="26"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDt-UF-JRP">
+                        <rect key="frame" x="18" y="85" width="184" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hearthstone language" id="iQb-5L-jZW">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dKf-yJ-Fmy">
+                        <rect key="frame" x="210" y="80" width="253" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="bKx-Sm-pvQ"/>
+                        </constraints>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="5" id="Dsu-X3-SXO">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -63,44 +69,16 @@
                             <outlet property="delegate" destination="-2" id="A8e-tN-t81"/>
                         </connections>
                     </comboBox>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VwM-gj-cGE">
-                        <rect key="frame" x="379" y="18" width="84" height="25"/>
-                        <buttonCell key="cell" type="roundTextured" title="Save" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qo1-rO-693">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="save:" target="-2" id="Dps-9p-dWS"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cx8-6M-Z3v">
-                        <rect key="frame" x="14" y="13" width="130" height="32"/>
-                        <buttonCell key="cell" type="push" title="Exit HSTracker" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kBx-Gq-Zlx">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="exit:" target="-2" id="Nij-rj-8A2"/>
-                        </connections>
-                    </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vVp-bE-GD9">
-                        <rect key="frame" x="18" y="62" width="156" height="17"/>
+                    <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vVp-bE-GD9">
+                        <rect key="frame" x="18" y="58" width="184" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hearthstone folder" id="xAb-l3-ccL">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xSk-uS-hSi">
-                        <rect key="frame" x="180" y="59" width="200" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Jwm-ZQ-6pB">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pwV-vH-ooa">
-                        <rect key="frame" x="379" y="52" width="87" height="32"/>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pwV-vH-ooa">
+                        <rect key="frame" x="379" y="50" width="87" height="32"/>
                         <buttonCell key="cell" type="push" title="Choose" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xxb-Tp-8oD">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -109,7 +87,59 @@
                             <action selector="choosePath:" target="-2" id="MxG-Ap-1ZY"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VwM-gj-cGE">
+                        <rect key="frame" x="416" y="18" width="44" height="25"/>
+                        <buttonCell key="cell" type="roundTextured" title="Save" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qo1-rO-693">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="save:" target="-2" id="Dps-9p-dWS"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cx8-6M-Z3v">
+                        <rect key="frame" x="282" y="13" width="130" height="32"/>
+                        <buttonCell key="cell" type="push" title="Exit HSTracker" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kBx-Gq-Zlx">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="exit:" target="-2" id="Nij-rj-8A2"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xSk-uS-hSi">
+                        <rect key="frame" x="210" y="56" width="170" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Jwm-ZQ-6pB">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="dKf-yJ-Fmy" firstAttribute="centerY" secondItem="oDt-UF-JRP" secondAttribute="centerY" id="3m3-It-L8h"/>
+                    <constraint firstItem="vVp-bE-GD9" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="72S-hi-KQq"/>
+                    <constraint firstItem="oDt-UF-JRP" firstAttribute="top" secondItem="v9A-OJ-Poo" secondAttribute="bottom" constant="10" id="8Xg-Hv-NCY"/>
+                    <constraint firstItem="xSk-uS-hSi" firstAttribute="centerY" secondItem="vVp-bE-GD9" secondAttribute="centerY" id="Cuw-yV-hvC"/>
+                    <constraint firstItem="oTb-hA-tu9" firstAttribute="leading" secondItem="v9A-OJ-Poo" secondAttribute="trailing" constant="10" id="DuN-io-HXe"/>
+                    <constraint firstItem="xSk-uS-hSi" firstAttribute="leading" secondItem="vVp-bE-GD9" secondAttribute="trailing" constant="10" id="H7G-a7-Inr"/>
+                    <constraint firstItem="vVp-bE-GD9" firstAttribute="top" secondItem="oDt-UF-JRP" secondAttribute="bottom" constant="10" id="JNd-FO-Z6g"/>
+                    <constraint firstAttribute="trailing" secondItem="VwM-gj-cGE" secondAttribute="trailing" constant="20" id="Pjs-pl-9w5"/>
+                    <constraint firstItem="cx8-6M-Z3v" firstAttribute="centerY" secondItem="VwM-gj-cGE" secondAttribute="centerY" id="SRj-dP-Ie9"/>
+                    <constraint firstItem="v9A-OJ-Poo" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="Uan-mD-pcD"/>
+                    <constraint firstItem="dKf-yJ-Fmy" firstAttribute="leading" secondItem="oDt-UF-JRP" secondAttribute="trailing" constant="10" id="cUP-ST-7Jk"/>
+                    <constraint firstItem="oDt-UF-JRP" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="f4H-jR-NjY"/>
+                    <constraint firstItem="xSk-uS-hSi" firstAttribute="leading" secondItem="dKf-yJ-Fmy" secondAttribute="leading" id="isH-jS-l8y"/>
+                    <constraint firstItem="pwV-vH-ooa" firstAttribute="centerY" secondItem="xSk-uS-hSi" secondAttribute="centerY" id="kW2-7Q-4b8"/>
+                    <constraint firstAttribute="trailing" secondItem="pwV-vH-ooa" secondAttribute="trailing" constant="20" id="lOl-EL-xsg"/>
+                    <constraint firstItem="VwM-gj-cGE" firstAttribute="leading" secondItem="cx8-6M-Z3v" secondAttribute="trailing" constant="10" id="mo7-lS-7AD"/>
+                    <constraint firstItem="v9A-OJ-Poo" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="rUJ-HL-eO6"/>
+                    <constraint firstItem="oTb-hA-tu9" firstAttribute="centerY" secondItem="v9A-OJ-Poo" secondAttribute="centerY" id="tYz-FY-s9C"/>
+                    <constraint firstAttribute="trailing" secondItem="oTb-hA-tu9" secondAttribute="trailing" constant="20" id="ugB-DL-0I3"/>
+                    <constraint firstAttribute="trailing" secondItem="dKf-yJ-Fmy" secondAttribute="trailing" constant="20" id="uhZ-s5-b3J"/>
+                    <constraint firstItem="pwV-vH-ooa" firstAttribute="leading" secondItem="xSk-uS-hSi" secondAttribute="trailing" constant="5" id="vJe-F9-Xms"/>
+                    <constraint firstAttribute="bottom" secondItem="VwM-gj-cGE" secondAttribute="bottom" constant="20" id="yJI-yO-X2x"/>
+                </constraints>
             </view>
             <point key="canvasLocation" x="315" y="339.5"/>
         </window>

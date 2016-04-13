@@ -1,4 +1,28 @@
 
+/* Class = "NSToolbarItem"; label = "Use Deck"; ObjectID = "3nu-q9-wC1"; */
+"3nu-q9-wC1.label" = "Utiliser deck";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Use Deck"; ObjectID = "3nu-q9-wC1"; */
+"3nu-q9-wC1.paletteLabel" = "Utiliser deck";
+
+/* Class = "NSToolbarItem"; label = "Rename Deck"; ObjectID = "Qp2-0h-Sid"; */
+"Qp2-0h-Sid.label" = "Renommer Deck";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Rename Deck"; ObjectID = "Qp2-0h-Sid"; */
+"Qp2-0h-Sid.paletteLabel" = "Renommer Deck";
+
+/* Class = "NSToolbarItem"; label = "Delete Deck"; ObjectID = "aaa-LK-buD"; */
+"aaa-LK-buD.label" = "Supprimer Deck";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Delete Deck"; ObjectID = "aaa-LK-buD"; */
+"aaa-LK-buD.paletteLabel" = "Supprimer Deck";
+
+/* Class = "NSToolbarItem"; label = "Edit Deck"; ObjectID = "cbH-rI-BvP"; */
+"cbH-rI-BvP.label" = "Editer Deck";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Edit Deck"; ObjectID = "cbH-rI-BvP"; */
+"cbH-rI-BvP.paletteLabel" = "Editer Deck";
+
 /* Class = "NSToolbarItem"; label = "Add"; ObjectID = "7FY-gv-qwP"; */
 "7FY-gv-qwP.label" = "Ajouter";
 
