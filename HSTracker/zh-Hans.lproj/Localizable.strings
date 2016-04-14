@@ -1,4 +1,4 @@
-"Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭套牌？您的更改不会被保存.";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭套牌？您的修改不会被保存.";
 "Are you sure you want to delete this deck ?" = "你确定要删除这个套牌?";
 "Arena %@ %@" = "競技場 %@ %@";
 "Cancel" = "取消";
@@ -11,7 +11,7 @@
 "Do you want to delete the deck on Hearthstats ?" = "你想要删除这个套牌在 Hearthstats 吗?";
 "Downloading %@.png" = "下载 %@.png";
 "Downloading images" = "下载图片";
-"Edit deck" = "改套牌";
+"Edit deck" = "修改套牌";
 "Game" = "游戏";
 "General" = "通用";
 "Loading %@ cards" = "加载 %@ 卡";
