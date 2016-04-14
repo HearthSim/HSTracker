@@ -104,6 +104,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                 return nil
 
             case 3: // cmd-f
+                self.searchField.selectText(self)
                 self.searchField.becomeFirstResponder()
                 return nil
 
