@@ -1,14 +1,14 @@
-"Are you sure you want to close this deck ? Your changes will not be saved." = "Are you sure you want to close this deck ? Your changes will not be saved.";
-"Are you sure you want to delete this deck ?" = "Are you sure you want to delete this deck ?";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭卡组？您的更改不会被保存.";
+"Are you sure you want to delete this deck ?" = "你确定要删除这个卡组?";
 "Arena %@ %@" = "Arena %@ %@";
 "Cancel" = "取消";
-"Clear" = "Clear";
+"Clear" = "清除";
 "Deck Manager" = "Deck Manager";
-"Deck name" = "Deck name";
+"Deck name" = "卡组名字";
 "Decks" = "卡组";
-"Delete deck" = "Delete deck";
-"Do you want to add this deck on Hearthstats ?" = "Do you want to add this deck on Hearthstats ?";
-"Do you want to delete the deck on Hearthstats ?" = "Do you want to delete the deck on Hearthstats ?";
+"Delete deck" = "删除卡组";
+"Do you want to add this deck on Hearthstats ?" = "你想加这个卡组上 Hearthstats 吗?";
+"Do you want to delete the deck on Hearthstats ?" = "你想要删除这个卡组在 Hearthstats 吗?";
 "Downloading %@.png" = "Downloading %@.png";
 "Downloading images" = "Downloading images";
 "Edit deck" = "Edit deck";
@@ -57,8 +57,8 @@
 "legendary" = "传说";
 
 /* sets */
-"ALL" = "All";
-"CORE" = "Basic";
+"ALL" = "所有";
+"CORE" = "基本";
 "EXPERT1" = "Classic";
 "NAXX" = "Curse Of Naxxramas";
 "GVG" = "Goblins Vs Gnomes";
