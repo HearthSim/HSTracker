@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate, JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate {
+class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate, JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSTextFieldDelegate {
 
     @IBOutlet weak var countLabel: NSTextField!
     @IBOutlet weak var collectionView: JNWCollectionView!
@@ -20,6 +20,22 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBOutlet weak var standardOnlyCards: NSButton!
     @IBOutlet weak var sets: NSPopUpButton!
     
+    @IBOutlet weak var manaGem0: ManaGemButton!
+    @IBOutlet weak var manaGem1: ManaGemButton!
+    @IBOutlet weak var manaGem2: ManaGemButton!
+    @IBOutlet weak var manaGem3: ManaGemButton!
+    @IBOutlet weak var manaGem4: ManaGemButton!
+    @IBOutlet weak var manaGem5: ManaGemButton!
+    @IBOutlet weak var manaGem6: ManaGemButton!
+    @IBOutlet weak var manaGem7: ManaGemButton!
+    
+    @IBOutlet weak var damage: NSTextField!
+    @IBOutlet weak var health: NSTextField!
+    
+    @IBOutlet weak var cardType: NSPopUpButton!
+    @IBOutlet weak var rarity: NSPopUpButton!
+    @IBOutlet weak var races: NSPopUpButton!
+    
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
     var currentDeck: Deck?
@@ -27,22 +43,16 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     var currentSet = [String]()
     var selectedClass: String?
     var currentClassCards: [Card]?
+    var currentCardCost = -1
+    var currentSearchTerm = ""
+    var currentRarity: Rarity?
+    var standardOnly = false
+    var currentDamage = -1
+    var currentHealth = -1
+    var currentRace = ""
+    var currentCardType = ""
     
     var saveDeck: SaveDeck?
-    
-    let validCardSets = ["ALL", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "OG"]
-
-    convenience init() {
-        self.init(windowNibName: "EditDeck")
-    }
-
-    override init(window: NSWindow!) {
-        super.init(window: window)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
 
     func setPlayerClass(playerClass: String) {
         currentPlayerClass = playerClass
@@ -76,17 +86,11 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
         countCards()
         
-        let popupMenu = NSMenu()
-        for set in validCardSets {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(set, comment: ""),
-                                           action: #selector(EditDeck.changeSet(_:)),
-                                           keyEquivalent: "")
-            popupMenuItem.representedObject = set
-            popupMenuItem.image = ImageCache.asset("Set_\(set)")
-            popupMenu.addItem(popupMenuItem)
-        }
-        sets.menu = popupMenu
-
+        loadSets()
+        loadCardTypes()
+        loadRarities()
+        loadRaces()
+        
         if let cell = searchField.cell as? NSSearchFieldCell {
             cell.cancelButtonCell!.target = self
             cell.cancelButtonCell!.action = #selector(EditDeck.cancelSearch(_:))
@@ -120,7 +124,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                 }
 
             default:
-                Log.verbose?.message("\(e.keyCode)")
+                Log.verbose?.message("unsupported keycode \(e.keyCode)")
                 break
             }
             return e
@@ -132,7 +136,16 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     }
 
     private func reloadCards() {
-        currentClassCards = Cards.byClass(selectedClass, sets: currentSet).sortCardList()
+        currentClassCards = Cards.search(className: currentSearchTerm == "" ? selectedClass : currentPlayerClass,
+                                         sets: currentSet,
+                                         term: currentSearchTerm,
+                                         cost: currentCardCost,
+                                         rarity: currentRarity,
+                                         standardOnly: standardOnly,
+                                         damage: currentDamage,
+                                         health: currentHealth,
+                                         type: currentCardType,
+                                         race: currentRace)
         collectionView.reloadData()
     }
 
@@ -200,7 +213,81 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         curveView.reload()
     }
     
+    func addCardToDeck(card: Card) {
+        let deckCard = currentDeck!.sortedCards.filter({ $0.id == card.id }).first
+        
+        if deckCard == nil || currentDeck!.isArena || (deckCard!.count == 1 && card.rarity != .Legendary) {
+            currentDeck?.addCard(card)
+            curveView.reload()
+            tableView.reloadData()
+            collectionView.reloadData()
+            countCards()
+            isSaved = false
+        }
+    }
+    
+    // MARK: - Standard/Wild
+    @IBAction func standardWildChange(sender: NSButton) {
+        standardOnly = sender.state == NSOnState
+        reloadCards()
+    }
+    
+    // MARK: - Health/Damage - NSTextFieldDelegate
+    override func controlTextDidChange(notification: NSNotification) {
+        if let editor = notification.object as? NSTextField {
+            if editor == health {
+                if let value = Int(editor.stringValue) {
+                    currentHealth = value
+                }
+                else {
+                    currentHealth = -1
+                }
+            }
+            else if editor == damage {
+                if let value = Int(editor.stringValue) {
+                    currentDamage = value
+                }
+                else {
+                    currentDamage = -1
+                }
+            }
+            
+            reloadCards()
+        }
+    }
+    
+    // MARK: - Gems
+    @IBAction func manaGemClicked(sender: ManaGemButton) {
+        let gems = [manaGem0, manaGem1, manaGem2, manaGem3, manaGem4, manaGem5, manaGem6, manaGem7]
+        
+        if sender.selected {
+            sender.selected = false
+            currentCardCost = -1
+        }
+        else {
+            currentCardCost = sender.tag
+            for gem in gems {
+                gem.selected = sender == gem
+            }
+        }
+        
+        reloadCards()
+    }
+    
     // MARK: - Sets
+    private func loadSets() {
+        let popupMenu = NSMenu()
+        for set in Database.deckManagerValidCardSets {
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(set, comment: ""),
+                                           action: #selector(EditDeck.changeSet(_:)),
+                                           keyEquivalent: "")
+            popupMenuItem.representedObject = set
+            popupMenuItem.image = ImageCache.asset("Set_\(set)")
+            popupMenu.addItem(popupMenuItem)
+        }
+        sets.menu = popupMenu
+    }
+    
     @IBAction func changeSet(sender: NSMenuItem) {
         switch sender.representedObject as! String {
         case "ALL": currentSet = []
@@ -210,18 +297,85 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         
         reloadCards()
     }
-
-    func addCardToDeck(card: Card) {
-        let deckCard = currentDeck!.sortedCards.filter({ $0.id == card.id }).first
-
-        if deckCard == nil || currentDeck!.isArena || (deckCard!.count == 1 && card.rarity != .Legendary) {
-            currentDeck?.addCard(card)
-            curveView.reload()
-            tableView.reloadData()
-            collectionView.reloadData()
-            countCards()
-            isSaved = false
+    
+    // MARK: - Card Types
+    private func loadCardTypes() {
+        let popupMenu = NSMenu()
+        for cardType in Database.deckManagerCardTypes {
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(cardType, comment: ""),
+                                           action: #selector(EditDeck.changeCardType(_:)),
+                                           keyEquivalent: "")
+            popupMenuItem.representedObject = cardType
+            popupMenu.addItem(popupMenuItem)
         }
+        cardType.menu = popupMenu
+    }
+    
+    @IBAction func changeCardType(sender: NSMenuItem) {
+        switch sender.representedObject as! String {
+        case "all_types": currentCardType = ""
+        default: currentCardType = sender.representedObject as! String
+        }
+        
+        reloadCards()
+    }
+    
+    // MARK: - Races
+    private func loadRaces() {
+        let popupMenu = NSMenu()
+        let popupMenuItem = NSMenuItem(title: NSLocalizedString("all_races", comment: ""),
+                                       action: #selector(EditDeck.changeRarity(_:)),
+                                       keyEquivalent: "")
+        popupMenuItem.representedObject = "all"
+        popupMenu.addItem(popupMenuItem)
+        
+        for race in Database.deckManagerRaces {
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(race, comment: ""),
+                                           action: #selector(EditDeck.changeRace(_:)),
+                                           keyEquivalent: "")
+            popupMenuItem.representedObject = race
+            popupMenu.addItem(popupMenuItem)
+        }
+        races.menu = popupMenu
+    }
+    
+    @IBAction func changeRace(sender: NSMenuItem) {
+        switch sender.representedObject as! String {
+        case "all": currentRace = ""
+        default: currentRace = sender.representedObject as! String
+        }
+        
+        reloadCards()
+    }
+    
+    // MARK: - Rarity
+    private func loadRarities() {
+        let popupMenu = NSMenu()
+        let popupMenuItem = NSMenuItem(title: NSLocalizedString("all_rarities", comment: ""),
+                                       action: #selector(EditDeck.changeRarity(_:)),
+                                       keyEquivalent: "")
+        popupMenuItem.representedObject = "all"
+        popupMenu.addItem(popupMenuItem)
+        
+        for rarity in Rarity.allValues() {
+            let popupMenuItem = NSMenuItem(title: "",
+                                           action: #selector(EditDeck.changeRarity(_:)),
+                                           keyEquivalent: "")
+            popupMenuItem.representedObject = rarity.rawValue
+            let gemName = rarity == .Free ? "gem" : "gem_\(rarity.rawValue)"
+            popupMenuItem.image = ImageCache.asset(gemName)
+            popupMenu.addItem(popupMenuItem)
+        }
+        rarity.menu = popupMenu
+    }
+    
+    @IBAction func changeRarity(sender: NSMenuItem) {
+        switch sender.representedObject as! String {
+        case "all_rarities": currentRarity = .None
+        default: currentRarity = Rarity(rawValue: sender.representedObject as! String)
+        }
+        
+        reloadCards()
     }
 
     // MARK: - JNWCollectionViewDataSource/Delegate
@@ -316,13 +470,11 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
     // MARK: - Search
     @IBAction func search(sender: NSSearchField) {
-        let str = sender.stringValue
+        currentSearchTerm = sender.stringValue
 
-        if !str.isEmpty {
+        if !currentSearchTerm.isEmpty {
             classChooser.enabled = false
-
-            currentClassCards = Cards.search(currentPlayerClass, sets: currentSet, term: str).sortCardList()
-            collectionView.reloadData()
+            reloadCards()
         }
         else {
             cancelSearch(sender)
@@ -333,6 +485,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         classChooser.enabled = true
         searchField.stringValue = ""
         searchField.resignFirstResponder()
+        currentSearchTerm = ""
         reloadCards()
     }
     

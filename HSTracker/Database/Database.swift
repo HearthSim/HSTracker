@@ -75,31 +75,76 @@ final class Cards {
         return _cards
     }
     
-    static func search(className: String?, set: String?, term: String) -> [Card] {
-        var sets = [String]()
-        if let set = set {
-            sets.append(set)
+    static func search(className className: String?, sets: [String] = [], term: String = "", cost: Int = -1,
+                                 rarity: Rarity? = .None, standardOnly: Bool = false,
+                                 damage: Int = -1, health: Int = -1, type: String = "",
+                                 race: String = "") -> [Card] {
+        var cards = collectible()
+        
+        if term.isEmpty {
+            cards = cards.filter { $0.playerClass == className }
         }
-        return search(className, sets: sets, term: term)
-    }
-
-    static func search(className: String?, sets: [String], term: String) -> [Card] {
-        var _cards = collectible().filter { $0.playerClass == className || $0.playerClass == "neutral" }
+        else {
+            cards = cards.filter { $0.playerClass == className || $0.playerClass == "neutral" }
+                .filter {
+                    $0.name.lowercaseString.contains(term.lowercaseString) ||
+                        $0.enName.lowercaseString.contains(term.lowercaseString) ||
+                        $0.text.lowercaseString.contains(term.lowercaseString) ||
+                        $0.rarity.rawValue.contains(term.lowercaseString) ||
+                        $0.type.lowercaseString.contains(term.lowercaseString) ||
+                        $0.race.contains(term.lowercaseString)
+            }
+        }
+        
+        if !type.isEmpty {
+            cards = cards.filter { $0.type == type }
+        }
+        
+        if !race.isEmpty {
+            cards = cards.filter { $0.race == race }
+        }
+        
+        if health != -1 {
+            cards = cards.filter { $0.health == health }
+        }
+        
+        if damage != -1 {
+            cards = cards.filter { $0.attack == damage }
+        }
+        
+        if standardOnly {
+            cards = cards.filter { $0.isStandard }
+        }
+        
+        if let rarity = rarity {
+            cards = cards.filter { $0.rarity == rarity }
+        }
+        
         if !sets.isEmpty {
-            _cards = _cards.filter { sets.contains($0.set) }
+            cards = cards.filter { sets.contains($0.set) }
         }
-        return _cards.filter {
-            $0.name.lowercaseString.contains(term.lowercaseString) ||
-            $0.enName.lowercaseString.contains(term.lowercaseString) ||
-            $0.text.lowercaseString.contains(term.lowercaseString) ||
-            $0.rarity.rawValue.contains(term.lowercaseString) ||
-            $0.type.lowercaseString.contains(term.lowercaseString)
+        
+        if cost != -1 {
+            cards = cards.filter {
+                if cost == 7 {
+                    return $0.cost >= 7
+                }
+                return $0.cost == cost
+            }
         }
+        
+        return cards.sortCardList()
     }
 }
 
 struct Database {
     static let validCardSets = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS"]
+    
+    static let deckManagerValidCardSets = ["ALL", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "OG"]
+    static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
+    static var deckManagerRaces = [String]()
+    
+    static let wildSets:[String] = []
 
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
@@ -111,7 +156,6 @@ struct Database {
         langs += ["enUS"]
 
         var images = [String]()
-
         for lang in langs {
             let jsonFile = NSBundle.mainBundle().resourcePath! + "/Resources/Cards/cardsDB.\(lang).json"
             Log.verbose?.message("json file : \(jsonFile)")
@@ -150,8 +194,7 @@ struct Database {
                                 let card = Card()
                                 card.id = cardId
 
-                                // future work ;)
-                                card.isStandard = false
+                                card.isStandard = !Database.wildSets.contains(set)
 
                                 // "fake" the coin... in the game files, Coin cost is empty
                                 // so we set it to 0
@@ -185,6 +228,15 @@ struct Database {
                                 card.set = set.lowercaseString
                                 if let health = jsonCard["health"] as? Int {
                                     card.health = health
+                                }
+                                if let attack = jsonCard["attack"] as? Int {
+                                    card.attack = attack
+                                }
+                                if let race = jsonCard["race"] as? String {
+                                    card.race = race.lowercaseString
+                                    if !Database.deckManagerRaces.contains(card.race) {
+                                        Database.deckManagerRaces.append(card.race)
+                                    }
                                 }
                                 if let flavor = jsonCard["flavor"] as? String {
                                     card.flavor = flavor

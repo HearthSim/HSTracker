@@ -49,6 +49,7 @@
 "rogue" = "Pícaro";
 
 /* rarity */
+"all_rarities" = "Todos";
 "neutral" = "Neutral";
 "free" = "Gratuita";
 "common" = "Común";
@@ -67,3 +68,19 @@
 "LOE" = "Liga de los Expedicionarios";
 "OG" = "Susurros de los Dioses Antiguos";
 "PROMO" = "Promocional";
+
+/* card type */
+"all_types" = "Todos";
+"spell" = "Spell";
+"minion" = "Minion";
+"weapon" = "Weapon";
+
+/* races */
+"all_races" = "All";
+"demon" = "Demon";
+"dragon" = "Dragon";
+"mechanical" = "Mechanical";
+"beast" = "Beast";
+"murloc" = "Murloc";
+"pirate" = "Pirate";
+"totem" = "Totem";

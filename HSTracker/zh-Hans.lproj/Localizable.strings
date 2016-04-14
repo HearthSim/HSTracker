@@ -49,6 +49,7 @@
 "rogue" = "盗贼";
 
 /* rarity */
+"all_rarities" = "所有";
 "neutral" = "中立";
 "free" = "免费";
 "common" = "普通";
@@ -68,9 +69,18 @@
 "OG" = "Whispers of the Old Gods";
 "PROMO" = "Promotion";
 
+/* card type */
+"all_types" = "所有";
+"spell" = "Spell";
+"minion" = "Minion";
+"weapon" = "Weapon";
 
-
-
-
-
-
+/* races */
+"all_races" = "All";
+"demon" = "Demon";
+"dragon" = "Dragon";
+"mechanical" = "Mechanical";
+"beast" = "Beast";
+"murloc" = "Murloc";
+"pirate" = "Pirate";
+"totem" = "Totem";

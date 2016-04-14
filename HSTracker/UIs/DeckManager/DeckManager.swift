@@ -274,7 +274,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
     @IBAction func editDeck(sender: AnyObject?) {
         if let deck = currentDeck {
-            editDeck = EditDeck()
+            editDeck = EditDeck(windowNibName: "EditDeck")
             if let editDeck = editDeck {
                 editDeck.setDeck(deck)
                 editDeck.setPlayerClass(deck.playerClass)
@@ -355,7 +355,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func openDeckBuilder(playerClass: String, _ arenaDeck: Bool) {
-        editDeck = EditDeck()
+        editDeck = EditDeck(windowNibName: "EditDeck")
         if let editDeck = editDeck {
             let deck = Deck(playerClass: playerClass)
             deck.isArena = arenaDeck

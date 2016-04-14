@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "mana.png",
+      "filename" : "mana-dark.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "mana@2x.png",
+      "filename" : "mana-dark@2x.png",
       "scale" : "2x"
     }
   ],

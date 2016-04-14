@@ -49,6 +49,7 @@
 "rogue" = "Rogue";
 
 /* rarity */
+"all_rarities" = "All";
 "neutral" = "Neutral";
 "free" = "Free";
 "common" = "Common";
@@ -68,9 +69,19 @@
 "OG" = "Whispers of the Old Gods";
 "PROMO" = "Promotion";
 
+/* card type */
+"all_types" = "All";
+"spell" = "Spell";
+"minion" = "Minion";
+"weapon" = "Weapon";
 
-
-
-
-
+/* races */
+"all_races" = "All";
+"demon" = "Demon";
+"dragon" = "Dragon";
+"mechanical" = "Mechanical";
+"beast" = "Beast";
+"murloc" = "Murloc";
+"pirate" = "Pirate";
+"totem" = "Totem";
 
