@@ -1,41 +1,41 @@
-"Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭卡组？您的更改不会被保存.";
-"Are you sure you want to delete this deck ?" = "你确定要删除这个卡组?";
-"Arena %@ %@" = "Arena %@ %@";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭套牌？您的修改不会被保存.";
+"Are you sure you want to delete this deck ?" = "你确定要删除这个套牌?";
+"Arena %@ %@" = "競技場 %@ %@";
 "Cancel" = "取消";
 "Clear" = "清除";
-"Deck Manager" = "Deck Manager";
-"Deck name" = "卡组名字";
-"Decks" = "卡组";
-"Delete deck" = "删除卡组";
-"Do you want to add this deck on Hearthstats ?" = "你想加这个卡组上 Hearthstats 吗?";
-"Do you want to delete the deck on Hearthstats ?" = "你想要删除这个卡组在 Hearthstats 吗?";
-"Downloading %@.png" = "Downloading %@.png";
-"Downloading images" = "Downloading images";
-"Edit deck" = "Edit deck";
-"Game" = "Game";
+"Deck Manager" = "套牌管理";
+"Deck name" = "套牌名字";
+"Decks" = "套牌";
+"Delete deck" = "删除套牌";
+"Do you want to add this deck on Hearthstats ?" = "你想加这个套牌上 Hearthstats 吗?";
+"Do you want to delete the deck on Hearthstats ?" = "你想要删除这个套牌在 Hearthstats 吗?";
+"Downloading %@.png" = "下载 %@.png";
+"Downloading images" = "下载图片";
+"Edit deck" = "修改套牌";
+"Game" = "游戏";
 "General" = "通用";
-"Loading %@ cards" = "Loading %@ cards";
+"Loading %@ cards" = "加载 %@ 卡";
 "Lock windows" = "锁定窗口";
 "OK" = "确定";
-"Please choose your Hearthstone directory" = "Please choose your Hearthstone directory";
+"Please choose your Hearthstone directory" = "请选择炉石传说目录";
 "Preferences" = "偏好设置";
-"Rename deck" = "Rename deck";
+"Rename deck" = "改名套牌";
 "Reset" = "重置";
-"server error" = "server error";
-"Trackers" = "Trackers";
+"server error" = "服务器错误";
+"Trackers" = "跟踪器";
 "Unlock windows" = "解锁窗口";
-"Use deck" = "Use deck";
+"Use deck" = "用牌组";
 "Window" = "窗口";
-"You are now connected to Hearthstats" = "You are now connected to Hearthstats";
-"You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+"You are now connected to Hearthstats" = "现在您连接到 Hearthstats";
+"You must restart Hearthstone for logs to be used" = "您必须重新启动炉石传说为要使用场记";
 "You must restart HSTracker for the language change to take effect" = "您必须重启 HSTracker 已使得设置的语言生效";
 
 /* notifications */
-"Your game begins" = "Your game begins";
-"Victory" = "Victory";
-"Hearthstone" = "Hearthstone";
-"Your opponent have conceded" = "Your opponent have conceded";
-"It's your turn to play" = "It's your turn to play";
+"Your game begins" = "游戏开始";
+"Victory" = "胜利";
+"Hearthstone" = "炉石传说";
+"Your opponent have conceded" = "你的对手得失球";
+"It's your turn to play" = "轮到你玩";
 
 /* classes */
 "shaman" = "萨满";
@@ -60,14 +60,14 @@
 /* sets */
 "ALL" = "所有";
 "CORE" = "基本";
-"EXPERT1" = "Classic";
-"NAXX" = "Curse Of Naxxramas";
-"GVG" = "Goblins Vs Gnomes";
-"BRM" = "Blackrock Mountain";
-"TGT" = "The Grand Tournament";
-"LOE" = "League Of Explorers";
-"OG" = "Whispers of the Old Gods";
-"PROMO" = "Promotion";
+"EXPERT1" = "經典";
+"NAXX" = "納克薩瑪斯的诅咒";
+"GVG" = "地精大战侏儒";
+"BRM" = "黑石山的火焰";
+"TGT" = "冠军的试炼";
+"LOE" = "探险者协会";
+"OG" = "上古之神";
+"PROMO" = "促销";
 
 /* card type */
 "all_types" = "所有";
