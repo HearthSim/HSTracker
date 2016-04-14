@@ -55,8 +55,7 @@ class CardHud : NSWindowController {
             cost = entity.info.costReduction
             
             if entity.info.cardMark == .Coin {
-                image = "small-card"
-                card = Cards.byId(CardIds.NonCollectible.Neutral.TheCoin)
+                card = Cards.anyById(CardIds.NonCollectible.Neutral.TheCoin)
             }
             else if !String.isNullOrEmpty(entity.cardId) && !entity.info.hidden {
                 image = "small-card"
