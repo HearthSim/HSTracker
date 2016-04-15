@@ -411,7 +411,7 @@ class Game {
             return
         }
         
-        for impFavor in opponent.board.filter({ $0.cardId == CardIds.NonCollectible.Neutral.ImperialFavorEnchantment }) {
+        for impFavor in opponent.board.filter({ $0.cardId == CardIds.NonCollectible.Neutral.EmperorThaurissan_ImperialFavorEnchantment }) {
             if let entity = entities[impFavor.getTag(.ATTACHED)] {
                 entity.info.costReduction += 1
             }
@@ -865,11 +865,11 @@ class Game {
                 }
             }
             
-            if entities.map({ $0.1 }).any({ $0.cardId == CardIds.NonCollectible.Druid.SoulOfTheForestEnchantment && $0.getTag(.ATTACHED) == entity.id }) {
+            if entities.map({ $0.1 }).any({ $0.cardId == CardIds.NonCollectible.Druid.SouloftheForest_SoulOfTheForestEnchantment && $0.getTag(.ATTACHED) == entity.id }) {
                 numDeathrattleMinions += 1
             }
             
-            if entities.map({ $0.1 }).any({ $0.cardId == CardIds.NonCollectible.Shaman.AncestralSpiritEnchantment && $0.getTag(.ATTACHED) == entity.id }) {
+            if entities.map({ $0.1 }).any({ $0.cardId == CardIds.NonCollectible.Shaman.AncestralSpirit_AncestralSpiritEnchantment && $0.getTag(.ATTACHED) == entity.id }) {
                 numDeathrattleMinions += 1
             }
             
