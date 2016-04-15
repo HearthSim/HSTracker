@@ -17,7 +17,7 @@
 "Loading %@ cards" = "加载 %@ 卡";
 "Lock windows" = "锁定窗口";
 "OK" = "确定";
-"Please choose your Hearthstone directory" = "请选择炉石传说目录";
+"Please choose your Hearthstone directory" = "选择一个炉石传说目录";
 "Preferences" = "偏好设置";
 "Rename deck" = "改名套牌";
 "Reset" = "重置";
@@ -71,16 +71,16 @@
 
 /* card type */
 "all_types" = "所有";
-"spell" = "Spell";
-"minion" = "Minion";
-"weapon" = "Weapon";
+"spell" = "法術";
+"minion" = "手下";
+"weapon" = "武器";
 
 /* races */
-"all_races" = "All";
-"demon" = "Demon";
-"dragon" = "Dragon";
-"mechanical" = "Mechanical";
-"beast" = "Beast";
-"murloc" = "Murloc";
-"pirate" = "Pirate";
-"totem" = "Totem";
+"all_races" = "所有";
+"demon" = "恶魔";
+"dragon" = "龙";
+"mechanical" = "机械";
+"beast" = "野兽";
+"murloc" = "鱼人";
+"pirate" = "海盗";
+"totem" = "图腾";
