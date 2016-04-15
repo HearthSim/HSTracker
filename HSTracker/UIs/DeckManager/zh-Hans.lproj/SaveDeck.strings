@@ -1,18 +1,18 @@
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "ERD-70-cWu"; */
-"ERD-70-cWu.title" = "Cancel";
+"ERD-70-cWu.title" = "取消";
 
 /* Class = "NSTextFieldCell"; title = "Deck Name"; ObjectID = "LWn-HE-BcI"; */
-"LWn-HE-BcI.title" = "Deck Name";
+"LWn-HE-BcI.title" = "套牌名字";
 
 /* Class = "NSButtonCell"; title = "Save on Hearthstats"; ObjectID = "N6n-fW-1Nf"; */
-"N6n-fW-1Nf.title" = "Save on Hearthstats";
+"N6n-fW-1Nf.title" = "存在 Hearthstats 上";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "Window";
+"QvC-M9-y7g.title" = "窗口";
 
 /* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "wfX-9F-Kz4"; */
-"wfX-9F-Kz4.title" = "Version";
+"wfX-9F-Kz4.title" = "版本";
 
 /* Class = "NSButtonCell"; title = "Save"; ObjectID = "yqW-4L-4ba"; */
-"yqW-4L-4ba.title" = "Save";
+"yqW-4L-4ba.title" = "保存";
