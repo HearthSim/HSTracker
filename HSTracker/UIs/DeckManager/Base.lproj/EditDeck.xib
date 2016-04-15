@@ -28,6 +28,7 @@
                 <outlet property="standardOnlyCards" destination="Z1I-mm-zAm" id="Vy3-pw-M93"/>
                 <outlet property="tableView" destination="zDn-Ut-2rX" id="ahx-CP-aqS"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="UoB-iy-CDG"/>
+                <outlet property="zoom" destination="xdl-38-Ttc" id="nnh-dS-igh"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -496,22 +497,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="711" height="498"/>
                         <subviews>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wba-1l-ab9" customClass="JNWCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="711" height="498"/>
+                                <rect key="frame" x="0.0" y="26" width="711" height="472"/>
                                 <clipView key="contentView" id="uEq-7Y-lbf">
-                                    <rect key="frame" x="1" y="1" width="709" height="496"/>
+                                    <rect key="frame" x="1" y="1" width="709" height="470"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xwh-YL-XUK">
-                                            <rect key="frame" x="168" y="4" width="50" height="46"/>
+                                            <rect key="frame" x="168" y="-22" width="50" height="46"/>
                                         </view>
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="gyF-t6-TKY">
-                                    <rect key="frame" x="1" y="481" width="709" height="16"/>
+                                    <rect key="frame" x="1" y="455" width="709" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Eie-dc-C6m">
-                                    <rect key="frame" x="695" y="1" width="15" height="496"/>
+                                    <rect key="frame" x="694" y="1" width="16" height="470"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <connections>
@@ -519,12 +520,35 @@
                                     <outlet property="delegate" destination="-2" id="6fP-vX-0gY"/>
                                 </connections>
                             </scrollView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Oev-xi-WHU" userLabel="Options 3">
+                                <rect key="frame" x="0.0" y="0.0" width="711" height="26"/>
+                                <subviews>
+                                    <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xdl-38-Ttc">
+                                        <rect key="frame" x="597" y="3" width="104" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="0vM-dM-9N9"/>
+                                        </constraints>
+                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="50" maxValue="200" doubleValue="100" tickMarkPosition="above" sliderType="linear" id="LNa-Ud-bXZ"/>
+                                        <connections>
+                                            <action selector="zoomChange:" target="-2" id="OTT-T9-oba"/>
+                                        </connections>
+                                    </slider>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="xdl-38-Ttc" firstAttribute="centerY" secondItem="Oev-xi-WHU" secondAttribute="centerY" id="UJU-L1-x8w"/>
+                                    <constraint firstAttribute="height" constant="26" id="er6-Qa-sND"/>
+                                    <constraint firstAttribute="trailing" secondItem="xdl-38-Ttc" secondAttribute="trailing" constant="12" id="jSu-fw-rKf"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="wba-1l-ab9" secondAttribute="bottom" id="NSv-Hq-pKd"/>
+                            <constraint firstItem="Oev-xi-WHU" firstAttribute="leading" secondItem="1y1-93-7Id" secondAttribute="leading" id="3ia-Yl-I08"/>
+                            <constraint firstAttribute="trailing" secondItem="Oev-xi-WHU" secondAttribute="trailing" id="HKS-Ky-R51"/>
                             <constraint firstItem="wba-1l-ab9" firstAttribute="width" secondItem="1y1-93-7Id" secondAttribute="width" id="PHW-eD-doK"/>
+                            <constraint firstItem="Oev-xi-WHU" firstAttribute="top" secondItem="wba-1l-ab9" secondAttribute="bottom" id="U8d-yj-7im"/>
                             <constraint firstItem="wba-1l-ab9" firstAttribute="leading" secondItem="1y1-93-7Id" secondAttribute="leading" id="iap-TR-V2v"/>
                             <constraint firstItem="wba-1l-ab9" firstAttribute="top" secondItem="1y1-93-7Id" secondAttribute="top" id="phj-BS-CMr"/>
+                            <constraint firstAttribute="bottom" secondItem="Oev-xi-WHU" secondAttribute="bottom" id="vbl-hQ-Ebj"/>
                         </constraints>
                     </customView>
                 </subviews>

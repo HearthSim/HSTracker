@@ -36,6 +36,8 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBOutlet weak var rarity: NSPopUpButton!
     @IBOutlet weak var races: NSPopUpButton!
     
+    @IBOutlet weak var zoom: NSSlider!
+    
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
     var currentDeck: Deck?
@@ -53,6 +55,9 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     var currentCardType = ""
     
     var saveDeck: SaveDeck?
+    
+    let baseCardWidth: CGFloat = 177
+    let baseCardHeight: CGFloat = 259
 
     func setPlayerClass(playerClass: String) {
         currentPlayerClass = playerClass
@@ -68,7 +73,9 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         super.windowDidLoad()
 
         let gridLayout = JNWCollectionViewGridLayout()
-        gridLayout.itemSize = NSMakeSize(177, 259)
+        let settings = Settings.instance
+        
+        gridLayout.itemSize = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom), 259 / 100 * CGFloat(settings.deckManagerZoom))
         collectionView.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
         collectionView.collectionViewLayout = gridLayout
         collectionView.registerClass(CardCell.self, forCellWithReuseIdentifier: "card_cell")
@@ -90,6 +97,8 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         loadCardTypes()
         loadRarities()
         loadRaces()
+        
+        zoom.doubleValue = settings.deckManagerZoom
         
         if let cell = searchField.cell as? NSSearchFieldCell {
             cell.cancelButtonCell!.target = self
@@ -502,5 +511,14 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         if let saveDeck = saveDeck {
             self.window?.endSheet(saveDeck.window!)
         }
+    }
+    
+    // MARK: - zoom
+    @IBAction func zoomChange(sender: NSSlider) {
+        let settings = Settings.instance
+        settings.deckManagerZoom = round(sender.doubleValue)
+        (collectionView.collectionViewLayout as! JNWCollectionViewGridLayout).itemSize = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom), 259 / 100 * CGFloat(settings.deckManagerZoom))
+        collectionView.reloadData()
+        
     }
 }

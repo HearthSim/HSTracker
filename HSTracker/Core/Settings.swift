@@ -30,6 +30,10 @@ final class Settings {
             return defaultValue
         }
     }
+    var deckManagerZoom: Double {
+        set { set("deck_manager_zoom", newValue) }
+        get { return get("deck_manager_zoom", 100) as! Double }
+    }
     var trackerOpacity: Double {
         set { set("tracker_opacity", newValue) }
         get { return get("tracker_opacity", 0) as! Double }
