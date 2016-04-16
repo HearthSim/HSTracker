@@ -12,9 +12,9 @@ import CleanroomLogger
 class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate, JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSTextFieldDelegate {
 
     @IBOutlet weak var countLabel: NSTextField!
-    @IBOutlet weak var collectionView: JNWCollectionView!
+    @IBOutlet weak var cardsCollectionView: JNWCollectionView!
     @IBOutlet weak var classChooser: NSSegmentedControl!
-    @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var deckCardsView: NSTableView!
     @IBOutlet weak var searchField: NSSearchField!
     @IBOutlet weak var curveView: CurveView!
     @IBOutlet weak var standardOnlyCards: NSButton!
@@ -37,6 +37,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBOutlet weak var races: NSPopUpButton!
     
     @IBOutlet weak var zoom: NSSlider!
+    @IBOutlet weak var presentationView: NSSegmentedControl!
     
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
@@ -44,7 +45,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     var currentPlayerClass: String?
     var currentSet = [String]()
     var selectedClass: String?
-    var currentClassCards: [Card]?
+    var currentClassCards = [Card]()
     var currentCardCost = -1
     var currentSearchTerm = ""
     var currentRarity: Rarity?
@@ -72,21 +73,22 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        let gridLayout = JNWCollectionViewGridLayout()
         let settings = Settings.instance
         
-        gridLayout.itemSize = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom), 259 / 100 * CGFloat(settings.deckManagerZoom))
-        collectionView.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
-        collectionView.collectionViewLayout = gridLayout
-        collectionView.registerClass(CardCell.self, forCellWithReuseIdentifier: "card_cell")
+        let gridLayout = JNWCollectionViewGridLayout()
+        cardsCollectionView.collectionViewLayout = gridLayout
+        cardsCollectionView.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
+        cardsCollectionView.registerClass(CardCell.self, forCellWithReuseIdentifier: "card_cell")
+        changeLayout()
+        presentationView.selectedSegment = settings.deckManagerPreferCards ? 0 : 1
+        reloadCards()
 
         classChooser.segmentCount = 2
         classChooser.setLabel(NSLocalizedString(currentPlayerClass!, comment: ""), forSegment: 0)
         classChooser.setLabel(NSLocalizedString("neutral", comment: ""), forSegment: 1)
         classChooser.setSelected(true, forSegment: 0)
 
-        tableView.reloadData()
-        reloadCards()
+        deckCardsView.reloadData()
 
         curveView?.deck = currentDeck
         curveView?.reload()
@@ -126,8 +128,8 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                 return nil
 
             case 12: // cmd-a
-                if let selected = self.collectionView.indexPathsForSelectedItems() as? [NSIndexPath],
-                    let cell: CardCell = self.collectionView.cellForItemAtIndexPath(selected.first) as? CardCell,
+                if let selected = self.cardsCollectionView.indexPathsForSelectedItems() as? [NSIndexPath],
+                    let cell: CardCell = self.cardsCollectionView.cellForItemAtIndexPath(selected.first) as? CardCell,
                     let card = cell.card {
                         self.addCardToDeck(card)
                 }
@@ -155,7 +157,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                                          health: currentHealth,
                                          type: currentCardType,
                                          race: currentRace)
-        collectionView.reloadData()
+        cardsCollectionView.reloadData()
     }
 
     func countCards() {
@@ -217,8 +219,8 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
         isSaved = false
 
-        tableView.reloadData()
-        collectionView.reloadData()
+        deckCardsView.reloadData()
+        cardsCollectionView.reloadData()
         curveView.reload()
     }
     
@@ -228,8 +230,8 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         if deckCard == nil || currentDeck!.isArena || (deckCard!.count == 1 && card.rarity != .Legendary) {
             currentDeck?.addCard(card)
             curveView.reload()
-            tableView.reloadData()
-            collectionView.reloadData()
+            deckCardsView.reloadData()
+            cardsCollectionView.reloadData()
             countCards()
             isSaved = false
         }
@@ -388,30 +390,43 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     }
 
     // MARK: - JNWCollectionViewDataSource/Delegate
+    func changeLayout() {
+        let settings = Settings.instance
+        
+        zoom.enabled = settings.deckManagerPreferCards
+        
+        let size: NSSize
+        if settings.deckManagerPreferCards {
+            size = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
+                              baseCardHeight / 100 * CGFloat(settings.deckManagerZoom))
+        }
+        else {
+            size = NSMakeSize(CGFloat(kFrameWidth), CGFloat(kRowHeight))
+        }
+        
+        (cardsCollectionView.collectionViewLayout as! JNWCollectionViewGridLayout).itemSize = size
+    }
+    
     func collectionView(collectionView: JNWCollectionView!,
         cellForItemAtIndexPath indexPath: NSIndexPath!) -> JNWCollectionViewCell! {
+        
+        let card = currentClassCards[indexPath.jnw_item]
+        let settings = Settings.instance
 
-            let cell: CardCell = collectionView.dequeueReusableCellWithIdentifier("card_cell") as! CardCell
-            if let currentClassCards = currentClassCards {
-                let card = currentClassCards[indexPath.jnw_item]
-                cell.setCard(card)
-                var count: Int = 0
-                if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
-                    count = deckCard.count
-                }
-                cell.isArena = currentDeck!.isArena
-                cell.setCount(count)
-
-                return cell
-            }
-            return nil
+        let cell: CardCell = collectionView.dequeueReusableCellWithIdentifier("card_cell") as! CardCell
+        cell.showCard = settings.deckManagerPreferCards
+        cell.setCard(card)
+        var count: Int = 0
+        if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
+            count = deckCard.count
+        }
+        cell.isArena = currentDeck!.isArena
+        cell.setCount(count)
+        return cell
     }
 
     func collectionView(collectionView: JNWCollectionView!, numberOfItemsInSection section: Int) -> UInt {
-        if let currentClassCards = currentClassCards {
-            return UInt(currentClassCards.count)
-        }
-        return 0
+        return UInt(currentClassCards.count)
     }
 
     func collectionView(collectionView: JNWCollectionView!, mouseUpInItemAtIndexPath indexPath: NSIndexPath!) {
@@ -517,8 +532,15 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBAction func zoomChange(sender: NSSlider) {
         let settings = Settings.instance
         settings.deckManagerZoom = round(sender.doubleValue)
-        (collectionView.collectionViewLayout as! JNWCollectionViewGridLayout).itemSize = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom), 259 / 100 * CGFloat(settings.deckManagerZoom))
-        collectionView.reloadData()
-        
+        (cardsCollectionView.collectionViewLayout as! JNWCollectionViewGridLayout).itemSize = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom), 259 / 100 * CGFloat(settings.deckManagerZoom))
+        cardsCollectionView.reloadData()
+    }
+    
+    // MARK: - preferred view
+    @IBAction func changePreferredView(sender: NSSegmentedControl) {
+        let settings = Settings.instance
+        settings.deckManagerPreferCards = sender.selectedSegment == 0
+        changeLayout()
+        reloadCards()
     }
 }

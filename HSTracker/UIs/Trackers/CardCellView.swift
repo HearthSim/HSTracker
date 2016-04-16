@@ -114,7 +114,7 @@ class CardCellView: TrackerFrame {
         }
         addCardCost(card)
         
-        if card.count <= 0 || card.jousted {
+        if (card.count <= 0 || card.jousted) && playerType != .CardList {
             addDarken(card)
         }
     }
@@ -155,22 +155,35 @@ class CardCellView: TrackerFrame {
     }
     
     private func addFrameCounter(card: Card) {
-        if Settings.instance.showRarityColors {
-            addImage(ImageCache.frameCountbox(card.rarity), frameCountBoxRect)
+        if playerType == .CardList {
+            if card.rarity == Rarity.Legendary {
+                if Settings.instance.showRarityColors {
+                    addImage(ImageCache.frameCountbox(card.rarity), frameCountBoxRect)
+                }
+                else {
+                    addImage(ImageCache.frameCountbox(nil), frameCountBoxRect)
+                }
+                addImage(ImageCache.frameLegendary(), frameCountBoxRect)
+            }
         }
         else {
-            addImage(ImageCache.frameCountbox(nil), frameCountBoxRect)
-        }
-        
-        let count = abs(card.count)
-        if count <= 1 && card.rarity == Rarity.Legendary {
-            addImage(ImageCache.frameLegendary(), frameCountBoxRect)
-        }
-        else {
-            let countText = count > 9 ? "9" : "\(count)"
-            addText(countText, 20, 198, -1)
-            if count > 9 {
-                addText("+", 13, 202, -1)
+            if Settings.instance.showRarityColors {
+                addImage(ImageCache.frameCountbox(card.rarity), frameCountBoxRect)
+            }
+            else {
+                addImage(ImageCache.frameCountbox(nil), frameCountBoxRect)
+            }
+            
+            let count = abs(card.count)
+            if count <= 1 && card.rarity == Rarity.Legendary {
+                addImage(ImageCache.frameLegendary(), frameCountBoxRect)
+            }
+            else {
+                let countText = count > 9 ? "9" : "\(count)"
+                addText(countText, 20, 198, -1)
+                if count > 9 {
+                    addText("+", 13, 202, -1)
+                }
             }
         }
     }
@@ -197,7 +210,13 @@ class CardCellView: TrackerFrame {
     }
 
     private func addCardImage(card:Card) {
-        let xOffset:CGFloat = abs(card.count) > 1 || card.rarity == .Legendary ? 19 : 0
+        let xOffset:CGFloat
+        if playerType == .CardList {
+            xOffset = card.rarity == .Legendary ? 19 : 0
+        }
+        else {
+            xOffset = abs(card.count) > 1 || card.rarity == .Legendary ? 19 : 0
+        }
         addImage(ImageCache.smallCardImage(card), imageRect.offsetBy(dx: -xOffset, dy: 0))
         addImage(ImageCache.fadeImage(), fadeRect.offsetBy(dx: -xOffset, dy: 0))
     }

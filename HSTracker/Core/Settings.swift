@@ -75,6 +75,10 @@ final class Settings {
         set { set("auto_position_trackers", newValue) }
         get { return get("auto_position_trackers", false) as! Bool }
     }
+    var deckManagerPreferCards: Bool {
+        set { set("deckmanager_prefer_cards", newValue) }
+        get { return get("deckmanager_prefer_cards", true) as! Bool }
+    }
     
     var windowsLocked: Bool {
         set { set("window_locked", newValue) }

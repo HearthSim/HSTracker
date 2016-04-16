@@ -11,6 +11,7 @@
 import Cocoa
 import CleanroomLogger
 
+// TODO not yet implemented
 enum HandCountPosition: Int {
     case Tracker,
     Window

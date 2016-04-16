@@ -12,7 +12,7 @@ import Foundation
 import CleanroomLogger
 
 enum PlayerType: Int {
-    case Player, Opponent, DeckManager, Secrets
+    case Player, Opponent, DeckManager, Secrets, CardList
 }
 enum NotificationType {
     case GameStart, TurnStart, OpponentConcede
