@@ -49,7 +49,7 @@
 "rogue" = "Schurke";
 
 /* rarity */
-"all_rarities" = "All";
+"all_rarities" = "Alle";
 "neutral" = "Neutral";
 "free" = "Basis";
 "common" = "Gewöhnlich";
@@ -70,17 +70,17 @@
 "PROMO" = "Belohnung";
 
 /* card type */
-"all_types" = "All";
-"spell" = "Spell";
-"minion" = "Minion";
-"weapon" = "Weapon";
+"all_types" = "Alle";
+"spell" = "Zauber";
+"minion" = "Diener";
+"weapon" = "Waffe";
 
 /* races */
-"all_races" = "All";
-"demon" = "Demon";
-"dragon" = "Dragon";
-"mechanical" = "Mechanical";
-"beast" = "Beast";
+"all_races" = "Alle";
+"demon" = "Dämon";
+"dragon" = "Drache";
+"mechanical" = "Mech";
+"beast" = "Wildtier";
 "murloc" = "Murloc";
-"pirate" = "Pirate";
+"pirate" = "Pirat";
 "totem" = "Totem";
