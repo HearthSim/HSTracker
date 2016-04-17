@@ -161,6 +161,7 @@
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
 		43D308061C842DC900480488 /* GamePrefences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePrefences.swift */; };
 		43D308081C84410000480488 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* TrackersPreferences.swift */; };
+		43D601D91CC3A57C0059F36A /* Decks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D601D81CC3A57C0059F36A /* Decks.swift */; };
 		43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EDF1C949C6D00C26950 /* TimerHud.xib */; };
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
@@ -453,6 +454,7 @@
 		43D308031C842DC000480488 /* GeneralPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferences.swift; sourceTree = "<group>"; };
 		43D308051C842DC900480488 /* GamePrefences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrefences.swift; sourceTree = "<group>"; };
 		43D308071C84410000480488 /* TrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackersPreferences.swift; sourceTree = "<group>"; };
+		43D601D81CC3A57C0059F36A /* Decks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decks.swift; sourceTree = "<group>"; };
 		43E77EDF1C949C6D00C26950 /* TimerHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerHud.xib; sourceTree = "<group>"; };
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
@@ -524,10 +526,10 @@
 			isa = PBXGroup;
 			children = (
 				4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */,
-				432B60121CB63D4C00B05D19 /* HearthstatsLogin.xib */,
 				43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */,
-				432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */,
+				432B60121CB63D4C00B05D19 /* HearthstatsLogin.xib */,
 				43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */,
+				432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */,
 			);
 			path = Hearthstats;
 			sourceTree = "<group>";
@@ -692,6 +694,7 @@
 				439C7E811C777CFC00D29859 /* Card.swift */,
 				439C7E831C777CFC00D29859 /* CardMechanic.swift */,
 				4317197A1C8C19B500F5988B /* Statistic.swift */,
+				43D601D81CC3A57C0059F36A /* Decks.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1117,6 +1120,7 @@
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
 				435907EC1CB13835008D4363 /* FileImporter.swift in Sources */,
+				43D601D91CC3A57C0059F36A /* Decks.swift in Sources */,
 				4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,

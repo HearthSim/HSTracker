@@ -39,18 +39,6 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     var currentDeck: Deck?
     var currentCell: DeckCellView?
 
-    convenience init() {
-        self.init(windowNibName: "DeckManager")
-    }
-
-    override init(window: NSWindow!) {
-        super.init(window: window)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -66,7 +54,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         decksTable.target = self
         decksTable.action = #selector(DeckManager.decksTableClick(_:))
 
-        decks = Decks.decks().filter({$0.isActive})
+        decks = Decks.instance.decks().filter({$0.isActive})
         decksTable.reloadData()
 
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
@@ -218,7 +206,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     @IBAction func addDeck(sender: AnyObject) {
-        newDeck = NewDeck()
+        newDeck = NewDeck(windowNibName: "NewDeck")
         if let newDeck = newDeck {
             newDeck.setDelegate(self)
             self.window!.beginSheet(newDeck.window!, completionHandler: nil)
@@ -252,7 +240,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
                                            completionHandler: { (returnCode) in
                                             if returnCode == NSAlertFirstButtonReturn {
                                                 deck.name = deckNameInput.stringValue
-                                                deck.save()
+                                                Decks.instance.update(deck)
                                                 
                                                 if HearthstatsAPI.isLogged() {
                                                     if Settings.instance.hearthstatsAutoSynchronize {
@@ -314,7 +302,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             if Settings.instance.hearthstatsAutoSynchronize {
                 do {
                     try HearthstatsAPI.deleteDeck(deck)
-                    Decks.remove(deck)
+                    Decks.instance.remove(deck)
                     refreshDecks()
                 }
                 catch {
@@ -331,7 +319,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
                                                 if returnCode == NSAlertFirstButtonReturn {
                                                     do {
                                                         try HearthstatsAPI.deleteDeck(deck)
-                                                        Decks.remove(deck)
+                                                        Decks.instance.remove(deck)
                                                         self.refreshDecks()
                                                     }
                                                     catch {
@@ -343,14 +331,13 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             }
         }
         else {
-            Decks.remove(deck)
+            Decks.instance.remove(deck)
             refreshDecks()
         }
     }
 
     // MARK: - NewDeckDelegate
     func addNewDeck(deck: Deck) {
-        NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
         refreshDecks()
     }
 
@@ -367,7 +354,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func refreshDecks() {
-        decks = Decks.decks().filter({$0.isActive})
+        decks = Decks.instance.decks().filter({$0.isActive})
         classes = [String]()
         for deck in decks {
             if !classes.contains(deck.playerClass) {

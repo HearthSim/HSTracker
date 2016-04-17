@@ -11,6 +11,24 @@ import Alamofire
 import CleanroomLogger
 
 extension Deck {
+    
+    func merge(deck: Deck) {
+        self.name = deck.name
+        self.playerClass = deck.playerClass
+        self.version = deck.version
+        self.creationDate = deck.creationDate
+        self.hearthstatsId = deck.hearthstatsId
+        self.hearthstatsVersionId = deck.hearthstatsVersionId
+        self.isActive = deck.isActive
+        self.isArena = deck.isArena
+        self.removeAllCards()
+        for card in deck.sortedCards {
+            for _ in 0...card.count {
+                self.addCard(card)
+            }
+        }
+        self.statistics = deck.statistics
+    }
 
     static func fromHearthstatsDict(json: [String: AnyObject]) -> Deck? {
         if let name = json["deck"]?["name"] as? String,
@@ -64,7 +82,11 @@ extension Deck {
 
 extension Decks {
     
-    static func addOrUpdateMatches(dict: [String: AnyObject]) {
+    func byHearthstatsId(id: Int) -> Deck? {
+        return decks().filter({ $0.hearthstatsId == id }).first
+    }
+    
+    func addOrUpdateMatches(dict: [String: AnyObject]) {
         let existing = decks().filter({ $0.hearthstatsId == (dict["deck_id"] as? Int) && $0.hearthstatsVersionId == (dict["deck_version_id"] as? Int) }).first
         if existing == nil {
             return
@@ -84,17 +106,18 @@ extension Decks {
             playerMode = HearthstatsAPI.gameModes[mode],
             date = dict["match"]?["created_at"] as? String,
             creationDate = formatter.dateFromString(date) {
-                
-                let stat = Statistic()
-                stat.gameResult = result
-                stat.hasCoin = coin
-                stat.opponentClass = opponentClass
-                stat.opponentName = opponentName
-                stat.playerRank = playerRank
-                stat.playerMode = playerMode
-                stat.date = creationDate
-                
-                existing?.addStatistic(stat)
+            
+            let stat = Statistic()
+            stat.gameResult = result
+            stat.hasCoin = coin
+            stat.opponentClass = opponentClass
+            stat.opponentName = opponentName
+            stat.playerRank = playerRank
+            stat.playerMode = playerMode
+            stat.date = creationDate
+            
+            existing?.addStatistic(stat)
+            save()
         }
     }
 }
@@ -166,24 +189,38 @@ struct HearthstatsAPI {
         return settings.hearthstatsLogin != nil && settings.hearthstatsToken != nil
     }
     
+    static func loadDecks(force: Bool = false, _ callback: (success: Bool, added: Int) -> ()) throws {
+        let settings = Settings.instance
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NOT_LOGGED }
+        if force {
+            settings.hearthstatsLastDecksSync = NSDate.distantPast().timeIntervalSince1970
+        }
+        try getDecks(settings.hearthstatsLastDecksSync, callback)
+    }
+    
     // MARK: - decks
-    static func getDecks(unixTime: Double, _ callback: (success: Bool, added: Int) -> ()) throws {
+    private static func getDecks(unixTime: Double, _ callback: (success: Bool, added: Int) -> ()) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NOT_LOGGED }
         
         Alamofire.request(.POST, "\(baseUrl)/decks/after_date?auth_token=\(settings.hearthstatsToken!)",
             parameters: ["date": "\(unixTime)"], encoding: .JSON)
             .responseJSON { response in
-
+                
                 if let json = response.result.value {
                     if let status = json["status"] as? Int where status == 200 {
                         var newDecks = 0
                         (json["data"] as? [[String: AnyObject]])?.forEach({
-                            if let deck = Deck.fromHearthstatsDict($0) {
-                                newDecks += 1
-                                Decks.addOrUpdate(deck)
+                            newDecks += 1
+                            if let deck = Deck.fromHearthstatsDict($0), hearthstatsId = deck.hearthstatsId {
+                                if let existing = Decks.instance.byHearthstatsId(hearthstatsId) {
+                                    existing.merge(deck)
+                                    Decks.instance.update(existing)
+                                }
+                                else {
+                                    Decks.instance.add(deck)
+                                }
                             }
-                            Decks.save()
                         })
                         Settings.instance.hearthstatsLastDecksSync = NSDate().timeIntervalSince1970
                         callback(success: true, added: newDecks)
@@ -309,9 +346,9 @@ struct HearthstatsAPI {
                 if let json = response.result.value {
                     print("delete : \(json)")
                     (json["data"] as? [[String: AnyObject]])?.forEach({
-                        Decks.addOrUpdateMatches($0)
+                        Decks.instance.addOrUpdateMatches($0)
                     })
-                    Decks.save()
+                    
                     Settings.instance.hearthstatsLastMatchesSync = NSDate().timeIntervalSince1970
                     callback(success: true)
                 }

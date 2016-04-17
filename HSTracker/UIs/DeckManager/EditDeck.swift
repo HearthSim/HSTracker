@@ -179,7 +179,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
         if alert.runModal() == NSAlertFirstButtonReturn {
-            Decks.resetDeck(currentDeck!)
+            Decks.instance.resetDecks()
             delegate?.refreshDecks()
             return true
         }
@@ -485,7 +485,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                         })
                     }
                 }
-                Decks.remove(self.currentDeck!)
+                Decks.instance.remove(self.currentDeck!)
                 self.isSaved = true
                 self.window?.performClose(self)
             }

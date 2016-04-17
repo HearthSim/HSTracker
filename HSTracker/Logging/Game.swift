@@ -301,7 +301,7 @@ class Game {
             })
             statistic.cards = cards
             deck.addStatistic(statistic)
-            deck.save()
+            Decks.instance.update(deck)
             
             if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
                 do {
