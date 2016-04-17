@@ -62,7 +62,7 @@ class SaveDeck : NSWindowController {
                 do {
                     try HearthstatsAPI.postDeck(deck!, { (success) in
                         if success {
-                            Decks.add(self.deck!)
+                            Decks.instance.add(self.deck!)
                             self._delegate?.deckSaveSaved()
                         }
                     })
@@ -75,7 +75,7 @@ class SaveDeck : NSWindowController {
                 do {
                     try HearthstatsAPI.postDeckVersion(deck!, { (success) in
                         if success {
-                            Decks.add(self.deck!)
+                            Decks.instance.update(self.deck!)
                             self._delegate?.deckSaveSaved()
                         }
                     })
@@ -88,7 +88,7 @@ class SaveDeck : NSWindowController {
                 do {
                     try HearthstatsAPI.updateDeck(deck!, { (success) in
                         if success {
-                            Decks.add(self.deck!)
+                            Decks.instance.update(self.deck!)
                             self._delegate?.deckSaveSaved()
                         }
                     })
@@ -99,7 +99,12 @@ class SaveDeck : NSWindowController {
             }
         }
         else {
-            Decks.add(self.deck!)
+            if exists {
+                Decks.instance.update(deck!)
+            }
+            else {
+                Decks.instance.add(deck!)
+            }
             self._delegate?.deckSaveSaved()
         }
     }

@@ -9,105 +9,6 @@
 import Foundation
 import CleanroomLogger
 
-final class Decks {
-    private static var _decks: [String: Deck]?
-
-    private static var savePath: String? {
-        if let path = Settings.instance.deckPath {
-            return "\(path)/decks.json"
-        }
-        return nil
-    }
-
-    static func byId(id: String) -> Deck? {
-        return decks().filter({ $0.deckId == id }).first
-    }
-
-    private static func loadJsonDecks() -> [String: [String: AnyObject]] {
-        if let jsonFile = savePath,
-            let jsonData = NSData(contentsOfFile: jsonFile) {
-                Log.verbose?.message("json file : \(jsonFile)")
-                do {
-                    let decks: [String: [String: AnyObject]] = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [String: [String: AnyObject]]
-                    return decks
-                } catch {
-                }
-        }
-        return [String: [String: AnyObject]]()
-    }
-
-    static func resetDeck(deck: Deck) {
-        let decks = loadJsonDecks()
-        if let jsonDeck = decks[deck.deckId],
-            let _deck = Deck.fromDict(jsonDeck) where _deck.isValid() {
-                _decks![_deck.deckId] = _deck
-        }
-    }
-
-    static func decks() -> [Deck] {
-        if let _decks = _decks {
-            return _decks.map { $0.1 }
-        }
-
-        let decks = loadJsonDecks()
-        var validDecks = [String: Deck]()
-        for (_, _deck) in decks {
-            if let deck = Deck.fromDict(_deck) where deck.isValid() {
-                validDecks[deck.deckId] = deck
-            }
-        }
-
-        _decks = validDecks
-        return validDecks.map { $0.1 }
-    }
-
-    static func add(deck: Deck) {
-        // be sure decks are loaded
-        let _ = decks()
-        if _decks == nil {
-            _decks = [String: Deck]()
-        }
-        if let _ = _decks {
-            self._decks![deck.deckId] = deck
-        }
-        save()
-    }
-    
-    static func addOrUpdate(deck: Deck) {
-        let existing = decks().filter({ $0.deckId == deck.deckId || $0.hearthstatsId == deck.hearthstatsId }).first
-        if existing == nil {
-            add(deck)
-        }
-    }
-
-    static func remove(deck: Deck) {
-        let _ = decks()
-        guard let _ = _decks else { return }
-        if let _ = _decks {
-            self._decks![deck.deckId] = nil
-        }
-        save()
-    }
-
-    static func save() {
-        if let decks = _decks {
-            var jsonDecks = [String: [String: AnyObject]]()
-            for (deckId, deck) in decks {
-                jsonDecks[deckId] = deck.toDict()
-            }
-            if let jsonFile = savePath {
-                do {
-                    let data = try NSJSONSerialization.dataWithJSONObject(jsonDecks, options: .PrettyPrinted)
-                    data.writeToFile(jsonFile, atomically: true)
-                }
-                catch {
-                    // TODO error
-                }
-            }
-        }
-    }
-}
-
 func generateId() -> String {
     return "\(NSUUID().UUIDString)-\(NSDate().timeIntervalSince1970)"
 }
@@ -156,11 +57,6 @@ final class Deck : Hashable, CustomStringConvertible {
         }
 
         reset()
-    }
-
-    func save() {
-        creationDate = NSDate()
-        Decks.add(self)
     }
 
     var sortedCards: [Card] {

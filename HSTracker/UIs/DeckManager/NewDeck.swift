@@ -24,30 +24,16 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBOutlet weak var chooseFile: NSButton!
     @IBOutlet weak var okButton: NSButton!
     @IBOutlet weak var arenaDeck: NSButton!
+    @IBOutlet weak var fromHearthstats: NSButton!
 
     var delegate: NewDeckDelegate?
-
-    convenience init() {
-        self.init(windowNibName: "NewDeck")
-    }
-
-    override init(window: NSWindow!) {
-        super.init(window: window)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func windowDidLoad() {
-        super.windowDidLoad()
-    }
 
     func radios() -> [NSButton: [NSControl]] {
         return [
             hstrackerDeckBuilder: [classesCombobox, arenaDeck],
             fromAFile: [chooseFile],
-            fromTheWeb: [urlDeck]
+            fromTheWeb: [urlDeck],
+            fromHearthstats: []
         ]
     }
 
@@ -94,7 +80,10 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             }
         }
         else if fromAFile.state == NSOnState {
-
+            // add here to remember this case exists
+        }
+        else if fromHearthstats.state == NSOnState {
+            
         }
     }
     
@@ -152,6 +141,9 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                                 }
                 })
             }
+        }
+        else {
+            self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         }
     }
 

@@ -198,7 +198,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         Log.info?.message("HSTracker is now ready !")
         
-        if let activeDeck = Settings.instance.activeDeck, deck = Decks.byId(activeDeck) {
+        if let activeDeck = Settings.instance.activeDeck, deck = Decks.instance.byId(activeDeck) {
             Game.instance.setActiveDeck(deck)
         }
         
@@ -299,7 +299,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 }
             }
         }
-        deck.save()
+        Decks.instance.add(deck)
     }
 
     func openTrackers() {
@@ -409,7 +409,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     // MARK: - Menu
     func buildMenu() {
         var decks = [String: [Deck]]()
-        Decks.decks().filter({$0.isActive}).forEach({
+        Decks.instance.decks().filter({$0.isActive}).forEach({
             if decks[$0.playerClass] == nil {
                 decks[$0.playerClass] = [Deck]()
             }
