@@ -51,3 +51,6 @@
 "h5J-7C-d2f.title" = "Zeige seltenheit durch Färbung an";
 /* WIP wording, for lack of better wording atm */
 
+/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
+"HY0-s6-p7U.title" = "Show card on tracker hover";
+

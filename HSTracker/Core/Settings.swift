@@ -79,7 +79,10 @@ final class Settings {
         set { set("deckmanager_prefer_cards", newValue) }
         get { return get("deckmanager_prefer_cards", true) as! Bool }
     }
-    
+    var showFloatingCard: Bool {
+        set { set("show_floating_card", newValue) }
+        get { return get("show_floating_card", true) as! Bool }
+    }
     var windowsLocked: Bool {
         set { set("window_locked", newValue) }
         get { return get("window_locked", true) as! Bool }

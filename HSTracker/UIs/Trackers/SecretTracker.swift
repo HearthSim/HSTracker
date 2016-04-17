@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDelegate {
+class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, CardCellHover {
 
     @IBOutlet weak var table: NSTableView!
 
@@ -73,12 +73,11 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-
         let card = cards[row]
         let cell = CardCellView()
         cell.card = card
         cell.playerType = .Secrets
-        // cell.setDelegate(self)
+        cell.setDelegate(self)
 
         if card.hasChanged {
             card.hasChanged = false
@@ -101,5 +100,47 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
 
     func selectionShouldChangeInTableView(tableView: NSTableView) -> Bool {
         return false
+    }
+    
+    // MARK: - CardCellHover
+    func hover(cell: CardCellView, _ card: Card) {
+        let row = table.rowForView(cell)
+        let rect = table.frameOfCellAtColumn(0, row: row)
+        
+        let offset = rect.origin.y - table.enclosingScrollView!.documentVisibleRect.origin.y
+        let windowRect = self.window!.frame
+        
+        let hoverFrame = NSMakeRect(0, 0, 200, 300)
+        
+        var x: CGFloat
+        if windowRect.origin.x < hoverFrame.size.width {
+            x = windowRect.origin.x + windowRect.size.width
+        }
+        else {
+            x = windowRect.origin.x - hoverFrame.size.width
+        }
+        
+        var y = windowRect.origin.y + NSHeight(windowRect) - offset - 30
+        if y < NSHeight(hoverFrame) {
+            y = NSHeight(hoverFrame)
+        }
+        if let screen = self.window?.screen {
+            if y + NSHeight(hoverFrame) > NSHeight(screen.frame) {
+                y = NSHeight(screen.frame) - NSHeight(hoverFrame)
+            }
+        }
+        
+        let frame = [x, y, NSWidth(hoverFrame), NSHeight(hoverFrame)]
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName("show_floating_card",
+                                  object: nil,
+                                  userInfo: [
+                                    "card": card,
+                                    "frame": frame
+                ])
+    }
+    
+    func out(card: Card) {
+        NSNotificationCenter.defaultCenter().postNotificationName("hide_floating_card", object: nil)
     }
 }

@@ -12,7 +12,7 @@ import Cocoa
 import CleanroomLogger
 
 protocol CardCellHover {
-    func hover(card: Card)
+    func hover(cell: CardCellView, _ card: Card)
 
     func out(card: Card)
 }
@@ -283,7 +283,7 @@ class CardCellView: TrackerFrame {
 
     override func mouseEntered(event: NSEvent) {
         if let card = self.card {
-            delegate?.hover(card)
+            delegate?.hover(self, card)
         }
     }
 

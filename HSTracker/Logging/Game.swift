@@ -1103,3 +1103,4 @@ class Game {
         (NSApplication.sharedApplication().delegate as? AppDelegate)?.sendNotification(title, info)
     }
 }
+

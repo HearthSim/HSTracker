@@ -25,6 +25,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var cardHuds = [CardHud]()
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
+    var floatingCard: FloatingCard?
+    
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
@@ -182,7 +184,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
             "show_opponent_tracker": #selector(AppDelegate.showOpponentTracker(_:)),
             "reload_decks": #selector(AppDelegate.reloadDecks(_:)),
-            "hstracker_language": #selector(AppDelegate.languageChange(_:))
+            "hstracker_language": #selector(AppDelegate.languageChange(_:)),
+            "show_floating_card": #selector(AppDelegate.showFloatingCard(_:)),
+            "hide_floating_card": #selector(AppDelegate.hideFloatingCard(_:)),
         ]
         
         for (event, selector) in events {
@@ -315,38 +319,42 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             width = CGFloat(kFrameWidth)
         }
         
-        self.playerTracker = Tracker(windowNibName: "Tracker")
-        self.playerTracker?.playerType = .Player
+        playerTracker = Tracker(windowNibName: "Tracker")
+        playerTracker?.playerType = .Player
         if let rect = settings.playerTrackerFrame {
-            self.playerTracker?.window?.setFrame(rect, display: true)
+            playerTracker?.window?.setFrame(rect, display: true)
         }
         else {
             let x = NSWidth(screenFrame) - width
-            self.playerTracker?.window?.setFrame(NSMakeRect(x, y, width, y), display: true)
+            playerTracker?.window?.setFrame(NSMakeRect(x, y, width, y), display: true)
         }
         showPlayerTracker(nil)
         
-        self.opponentTracker = Tracker(windowNibName: "Tracker")
-        self.opponentTracker?.playerType = .Opponent
+        opponentTracker = Tracker(windowNibName: "Tracker")
+        opponentTracker?.playerType = .Opponent
         
         if let rect = settings.opponentTrackerFrame {
-            self.opponentTracker?.window?.setFrame(rect, display: true)
+            opponentTracker?.window?.setFrame(rect, display: true)
         }
         else {
-            self.opponentTracker?.window?.setFrame(NSMakeRect(50, y, width, y), display: true)
+            opponentTracker?.window?.setFrame(NSMakeRect(50, y, width, y), display: true)
         }
         showOpponentTracker(nil)
         
-        self.secretTracker = SecretTracker(windowNibName: "SecretTracker")
-        self.secretTracker?.showWindow(self)
+        secretTracker = SecretTracker(windowNibName: "SecretTracker")
+        secretTracker?.showWindow(self)
         
-        self.timerHud = TimerHud(windowNibName: "TimerHud")
-        self.timerHud?.showWindow(self)
+        timerHud = TimerHud(windowNibName: "TimerHud")
+        timerHud?.showWindow(self)
         
         for _ in 0 ..< 10 {
             let cardHud = CardHud(windowNibName: "CardHud")
             cardHuds.append(cardHud)
         }
+        
+        floatingCard = FloatingCard(windowNibName: "FloatingCard")
+        floatingCard?.showWindow(self)
+        floatingCard?.window?.orderOut(self)
     }
     
     func showPlayerTracker(notification: NSNotification?) {
@@ -367,6 +375,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     func reloadDecks(notification: NSNotification) {
         buildMenu()
+    }
+    
+    func showFloatingCard(notification: NSNotification) {
+        guard Settings.instance.showFloatingCard else {return}
+        
+        if let card = notification.userInfo?["card"] as? Card,
+            arrayFrame = notification.userInfo?["frame"] as? [CGFloat] {
+            floatingCard?.showWindow(self)
+            let frame = NSMakeRect(arrayFrame[0], arrayFrame[1], arrayFrame[2], arrayFrame[3])
+            floatingCard?.window?.setFrame(frame, display: true)
+            floatingCard?.setCard(card)
+        }
+    }
+    
+    func hideFloatingCard(notification: NSNotification) {
+        guard Settings.instance.showFloatingCard else {return}
+        floatingCard?.window?.orderOut(self)
     }
     
     func languageChange(notification: NSNotification) {

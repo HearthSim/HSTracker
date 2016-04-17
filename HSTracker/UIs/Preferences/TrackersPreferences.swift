@@ -25,6 +25,7 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
     @IBOutlet weak var autoPositionTrackers: NSButton!
     @IBOutlet weak var showSecretHelper: NSButton!
     @IBOutlet weak var showRarityColors: NSButton!
+    @IBOutlet weak var showFloatingCard: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +44,7 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         autoPositionTrackers.state = settings.autoPositionTrackers ? NSOnState : NSOffState
         showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
         showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
+        showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(sender: AnyObject) {
@@ -95,6 +97,9 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         }
         else if sender == showTimer {
             settings.showTimer = showTimer.state == NSOnState
+        }
+        else if sender == showFloatingCard {
+            settings.showFloatingCard = showFloatingCard.state == NSOnState
         }
     }
 

@@ -200,6 +200,7 @@ struct Database {
                                 // so we set it to 0
                                 if card.id == "GAME_005" {
                                     card.cost = 0
+                                    images.append(card.id)
                                 } else {
                                     if let cost = jsonCard["cost"] as? Int {
                                         card.cost = cost
