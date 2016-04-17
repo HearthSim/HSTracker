@@ -25,3 +25,6 @@
 
 /* Class = "NSButtonCell"; title = "Choose file"; ObjectID = "xPi-Gg-ebR"; */
 "xPi-Gg-ebR.title" = "Choose file";
+
+/* Class = "NSButtonCell"; title = "From Hearthstats"; ObjectID = "sLd-eV-3AX"; */
+"sLd-eV-3AX.title" = "From Hearthstats";
