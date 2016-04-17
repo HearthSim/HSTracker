@@ -245,7 +245,7 @@ final class Player {
     }
 
     func getHighlightedCardsInHand(cardsInDeck: [Card]) -> [Card] {
-        return Game.instance.activeDeck!.cards!.filter({ (c) -> Bool in
+        return Game.instance.activeDeck!.sortedCards.filter({ (c) -> Bool in
             cardsInDeck.all({ $0.id != c.id }) && hand.any({ $0.cardId == c.id })
         })
             .map { g -> Card in

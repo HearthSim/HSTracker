@@ -83,7 +83,18 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             // add here to remember this case exists
         }
         else if fromHearthstats.state == NSOnState {
-            
+            do {
+                try HearthstatsAPI.loadDecks(false) { (success, newDecks) in
+                    self.delegate?.refreshDecks()
+                    self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+                }
+            }
+            catch HearthstatsError.NOT_LOGGED {
+                print("not logged")
+            }
+            catch {
+                print("??? logged")
+            }
         }
     }
     
@@ -175,6 +186,9 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
         else if fromAFile.state == NSOnState {
             enabled = false
+        }
+        else if fromHearthstats.state == NSOnState {
+            enabled = true
         }
 
         if let enabled = enabled {

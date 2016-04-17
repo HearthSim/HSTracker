@@ -24,7 +24,7 @@ final class Deck : Hashable, CustomStringConvertible {
     var isActive: Bool = true
     var isArena: Bool = false
     private var _cards = [Card]()
-    var cards: [Card]?
+    private var cards: [Card]?
     var statistics = [Statistic]()
 
     init(playerClass: String, name: String? = nil, deckId: String? = nil) {
@@ -46,6 +46,10 @@ final class Deck : Hashable, CustomStringConvertible {
             _cards.append(card)
         }
         reset()
+    }
+    
+    func removeAllCards() {
+        _cards = [Card]()
     }
 
     func removeCard(card: Card) {

@@ -190,7 +190,7 @@ final class Settings {
     }
     var hearthstatsLastDecksSync: Double {
         set { set("hearthstats_last_decks_sync", newValue) }
-        get { return get("hearthstats_last_decks_sync", 0) as! Double }
+        get { return get("hearthstats_last_decks_sync", NSDate.distantPast().timeIntervalSince1970) as! Double }
     }
     var hearthstatsLastMatchesSync: Double {
         set { set("hearthstats_last_matches_sync", newValue) }

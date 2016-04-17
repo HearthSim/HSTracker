@@ -12,7 +12,23 @@ import CleanroomLogger
 
 extension Deck {
     
-    func merge(deck: Deck) {}
+    func merge(deck: Deck) {
+        self.name = deck.name
+        self.playerClass = deck.playerClass
+        self.version = deck.version
+        self.creationDate = deck.creationDate
+        self.hearthstatsId = deck.hearthstatsId
+        self.hearthstatsVersionId = deck.hearthstatsVersionId
+        self.isActive = deck.isActive
+        self.isArena = deck.isArena
+        self.removeAllCards()
+        for card in deck.sortedCards {
+            for _ in 0...card.count {
+                self.addCard(card)
+            }
+        }
+        self.statistics = deck.statistics
+    }
 
     static func fromHearthstatsDict(json: [String: AnyObject]) -> Deck? {
         if let name = json["deck"]?["name"] as? String,
@@ -173,15 +189,24 @@ struct HearthstatsAPI {
         return settings.hearthstatsLogin != nil && settings.hearthstatsToken != nil
     }
     
+    static func loadDecks(force: Bool = false, _ callback: (success: Bool, added: Int) -> ()) throws {
+        let settings = Settings.instance
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NOT_LOGGED }
+        if force {
+            settings.hearthstatsLastDecksSync = NSDate.distantPast().timeIntervalSince1970
+        }
+        try getDecks(settings.hearthstatsLastDecksSync, callback)
+    }
+    
     // MARK: - decks
-    static func getDecks(unixTime: Double, _ callback: (success: Bool, added: Int) -> ()) throws {
+    private static func getDecks(unixTime: Double, _ callback: (success: Bool, added: Int) -> ()) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NOT_LOGGED }
         
         Alamofire.request(.POST, "\(baseUrl)/decks/after_date?auth_token=\(settings.hearthstatsToken!)",
             parameters: ["date": "\(unixTime)"], encoding: .JSON)
             .responseJSON { response in
-
+                
                 if let json = response.result.value {
                     if let status = json["status"] as? Int where status == 200 {
                         var newDecks = 0

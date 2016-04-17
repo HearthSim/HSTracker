@@ -32,7 +32,17 @@ class HearthstatsLogin: NSWindowController {
             
             alert.beginSheetModalForWindow(self.window!, completionHandler: { (response) in
                 if success {
-                    self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+                    do {
+                        try HearthstatsAPI.loadDecks(true) { (success, newDecks) in
+                            self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+                        }
+                    }
+                    catch HearthstatsError.NOT_LOGGED {
+                        print("not logged")
+                    }
+                    catch {
+                        print("??? logged")
+                    }
                 }
             })
         }

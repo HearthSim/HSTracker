@@ -526,10 +526,10 @@
 			isa = PBXGroup;
 			children = (
 				4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */,
-				432B60121CB63D4C00B05D19 /* HearthstatsLogin.xib */,
 				43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */,
-				432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */,
+				432B60121CB63D4C00B05D19 /* HearthstatsLogin.xib */,
 				43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */,
+				432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */,
 			);
 			path = Hearthstats;
 			sourceTree = "<group>";

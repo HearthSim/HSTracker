@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
          NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
          }
          NSUserDefaults.standardUserDefaults().synchronize()*/
-        
+
         #if !DEBUG
         BITHockeyManager.sharedHockeyManager().configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
         BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
@@ -227,8 +227,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     private func testGetHearthstatsDecks() {
         do {
-            try HearthstatsAPI.getDecks(Settings.instance.hearthstatsLastDecksSync) { (success, newDecks) in
-            }
+            try HearthstatsAPI.loadDecks(true) { (success, newDecks) in }
         }
         catch HearthstatsError.NOT_LOGGED {
             print("not logged")
@@ -461,7 +460,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
     
     @IBAction func openDeckManager(sender: AnyObject) {
-        deckManager = DeckManager()
+        if deckManager == nil {
+            deckManager = DeckManager(windowNibName: "DeckManager")
+        }
         deckManager?.showWindow(self)
     }
 
@@ -491,7 +492,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     var windowMove: WindowMove?
     @IBAction func openDebugPositions(sender: AnyObject) {
-        windowMove = WindowMove(windowNibName: "WindowMove")
+        if windowMove == nil {
+            windowMove = WindowMove(windowNibName: "WindowMove")
+        }
         windowMove?.showWindow(self)
     }
     

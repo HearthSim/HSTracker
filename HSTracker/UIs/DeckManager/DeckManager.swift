@@ -39,18 +39,6 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     var currentDeck: Deck?
     var currentCell: DeckCellView?
 
-    convenience init() {
-        self.init(windowNibName: "DeckManager")
-    }
-
-    override init(window: NSWindow!) {
-        super.init(window: window)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
     override func windowDidLoad() {
         super.windowDidLoad()
 

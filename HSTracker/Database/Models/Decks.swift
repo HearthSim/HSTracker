@@ -65,22 +65,32 @@ final class Decks {
         save()
     }
     
+    private var lastSavedRequest = NSDate.distantPast().timeIntervalSince1970
     internal func save() {
-        var jsonDecks = [String: [String: AnyObject]]()
-        for (deckId, deck) in _decks {
-            jsonDecks[deckId] = deck.toDict()
-        }
-        if let jsonFile = savePath {
-            do {
-                let data = try NSJSONSerialization.dataWithJSONObject(jsonDecks, options: .PrettyPrinted)
-                data.writeToFile(jsonFile, atomically: true)
+        lastSavedRequest = NSDate().timeIntervalSince1970
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            if NSDate().timeIntervalSince1970 - self.lastSavedRequest < 0.2 {
+                return
             }
-            catch {
-                // TODO error
+            
+            var jsonDecks = [String: [String: AnyObject]]()
+            for (deckId, deck) in self._decks {
+                jsonDecks[deckId] = deck.toDict()
             }
+            if let jsonFile = self.savePath {
+                do {
+                    let data = try NSJSONSerialization.dataWithJSONObject(jsonDecks, options: .PrettyPrinted)
+                    data.writeToFile(jsonFile, atomically: true)
+                }
+                catch {
+                    // TODO error
+                }
+            }
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
         }
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
     }
     
     func byId(id: String) -> Deck? {
