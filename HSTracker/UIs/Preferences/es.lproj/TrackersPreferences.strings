@@ -48,8 +48,7 @@
 "zP3-ns-ggP.title" = "Opacidad";
 
 /* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
-"h5J-7C-d2f.title" = "Show rarity colors";
+"h5J-7C-d2f.title" = "Colorear cartas según rareza";
 
 /* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
-"HY0-s6-p7U.title" = "Show card on tracker hover";
-
+"HY0-s6-p7U.title" = "Mostrar cartas al pasar por encima del tracker";
