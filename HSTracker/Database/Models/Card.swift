@@ -9,34 +9,36 @@
 import Foundation
 
 final class Card : Hashable, CustomStringConvertible {
-
-    var id: String = ""
-    var collectible: Bool = false
-    var cost: Int = 0
-    var faction: String = ""
-    var flavor: String = ""
-    var health: Int = 0
-    var name: String = "unknown"
-    var enName: String = ""
-    var playerClass: String = ""
+    // MARK: - Card data
+    var id = ""
+    var collectible = false
+    var cost = 0
+    var faction = ""
+    var flavor = ""
+    var health = 0
+    var attack = 0
+    var name = "unknown"
+    var enName = ""
+    var playerClass = ""
     var rarity: Rarity = .Free
-    var set: String = ""
-    var text: String = ""
-    var type: String = "unknown"
+    var set = ""
+    var text = ""
+    var race = ""
+    var type = "unknown"
     // var mechanics: Set<CardMechanic>
-    var isStandard: Bool = false
+    var isStandard = false
 
-    var count: Int = 0
-    var hasChanged: Bool = false
+    // MARK: - deck / games
+    var count = 0
+    var hasChanged = false
 
-    var jousted: Bool = false
-    var isStolen: Bool = false
-    var isCreated: Bool = false
-    var wasDiscarded: Bool = false
-
-    var highlightDraw: Bool = false
-    var highlightInHand: Bool = false
-    var highlightFrame: Bool = false
+    var jousted = false
+    var isStolen = false
+    var isCreated = false
+    var wasDiscarded = false
+    var highlightDraw = false
+    var highlightInHand = false
+    var highlightFrame = false
 
     var englishName: String {
         if let language = Settings.instance.hearthstoneLanguage where language == "enUS" {
@@ -73,6 +75,7 @@ final class Card : Hashable, CustomStringConvertible {
         copy.faction = self.faction
         copy.flavor = self.flavor
         copy.health = self.health
+        copy.attack = self.attack
         copy.name = self.name
         copy.enName = self.enName
         copy.playerClass = self.playerClass
@@ -80,6 +83,7 @@ final class Card : Hashable, CustomStringConvertible {
         copy.set = self.set
         copy.text = self.text
         copy.type = self.type
+        copy.race = self.race
         // copy.mechanics = self.mechanics
         copy.isStandard = self.isStandard
         copy.count = self.count

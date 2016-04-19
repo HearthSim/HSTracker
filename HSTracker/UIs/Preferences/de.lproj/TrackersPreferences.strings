@@ -48,5 +48,9 @@
 "zP3-ns-ggP.title" = "Deckkraft";
 
 /* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
-"h5J-7C-d2f.title" = "Show rarity colors";
+"h5J-7C-d2f.title" = "Zeige seltenheit durch Färbung an";
+/* WIP wording, for lack of better wording atm */
 
+/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
+"HY0-s6-p7U.title" = "Zeige Karten-Vollansicht per Mouseover-Tooltip";
+/* WIP wording, for lack of better wording atm */

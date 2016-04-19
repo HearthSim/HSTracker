@@ -55,8 +55,7 @@ class CardHud : NSWindowController {
             cost = entity.info.costReduction
             
             if entity.info.cardMark == .Coin {
-                image = "small-card"
-                card = Cards.byId(CardIds.NonCollectible.Neutral.TheCoin)
+                card = Cards.anyById(CardIds.NonCollectible.Neutral.TheCoin)
             }
             else if !String.isNullOrEmpty(entity.cardId) && !entity.info.hidden {
                 image = "small-card"
@@ -90,19 +89,24 @@ class CardHud : NSWindowController {
     // MARK: - mouse hover
     func hover() {
         if let card = self.card, windowFrame = self.window?.frame {
-            floatingCard = FloatingCard(windowNibName: "FloatingCard")
-            floatingCard?.showWindow(self)
-            floatingCard?.setCard(card)
-            
-            let frame = NSMakeRect(windowFrame.origin.x + NSWidth(windowFrame) - 30,
+            let frame = [windowFrame.origin.x + NSWidth(windowFrame) - 30,
                                    windowFrame.origin.y - 250,
-                                   200, 303)
-            floatingCard?.window?.setFrame(frame, display: true)
+                                   200, 303]
+            
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("show_floating_card",
+                                      object: nil,
+                                      userInfo: [
+                                        "card": card,
+                                        "frame": frame
+                    ])
         }
     }
     
     func out() {
-        floatingCard?.window?.orderOut(self)
+        if let _ = self.card {
+            NSNotificationCenter.defaultCenter().postNotificationName("hide_floating_card", object: nil)
+        }
     }
 }
 

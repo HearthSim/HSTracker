@@ -30,6 +30,10 @@ final class Settings {
             return defaultValue
         }
     }
+    var deckManagerZoom: Double {
+        set { set("deck_manager_zoom", newValue) }
+        get { return get("deck_manager_zoom", 100) as! Double }
+    }
     var trackerOpacity: Double {
         set { set("tracker_opacity", newValue) }
         get { return get("tracker_opacity", 0) as! Double }
@@ -71,7 +75,14 @@ final class Settings {
         set { set("auto_position_trackers", newValue) }
         get { return get("auto_position_trackers", false) as! Bool }
     }
-    
+    var deckManagerPreferCards: Bool {
+        set { set("deckmanager_prefer_cards", newValue) }
+        get { return get("deckmanager_prefer_cards", true) as! Bool }
+    }
+    var showFloatingCard: Bool {
+        set { set("show_floating_card", newValue) }
+        get { return get("show_floating_card", true) as! Bool }
+    }
     var windowsLocked: Bool {
         set { set("window_locked", newValue) }
         get { return get("window_locked", true) as! Bool }
@@ -179,7 +190,7 @@ final class Settings {
     }
     var hearthstatsLastDecksSync: Double {
         set { set("hearthstats_last_decks_sync", newValue) }
-        get { return get("hearthstats_last_decks_sync", 0) as! Double }
+        get { return get("hearthstats_last_decks_sync", NSDate.distantPast().timeIntervalSince1970) as! Double }
     }
     var hearthstatsLastMatchesSync: Double {
         set { set("hearthstats_last_matches_sync", newValue) }

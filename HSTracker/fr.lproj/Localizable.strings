@@ -49,6 +49,7 @@
 "rogue" = "Voleur";
 
 /* rarity */
+"all_rarities" = "Tout";
 "neutral" = "Neutre";
 "free" = "Libre";
 "common" = "Commune";
@@ -57,7 +58,7 @@
 "legendary" = "Légendaire";
 
 /* sets */
-"ALL" = "Tous";
+"ALL" = "Tout";
 "CORE" = "Base";
 "EXPERT1" = "Classique";
 "NAXX" = "La malédiction de Naxxramas";
@@ -67,3 +68,19 @@
 "LOE" = "Ligue Des Explorateurs";
 "OG" = "Les murmures des Dieux très anciens";
 "PROMO" = "Promotion";
+
+/* card type */
+"all_types" = "Tout";
+"spell" = "Sort";
+"minion" = "Créature";
+"weapon" = "Arme";
+
+/* races */
+"all_races" = "Tout";
+"demon" = "Démon";
+"dragon" = "Dragon";
+"mechanical" = "Mecanique";
+"beast" = "Bête";
+"murloc" = "Murloc";
+"pirate" = "Pirate";
+"totem" = "Totem";

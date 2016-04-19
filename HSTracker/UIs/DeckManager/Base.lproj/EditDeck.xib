@@ -6,15 +6,30 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EditDeck" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="cardType" destination="f3u-0Z-zdn" id="SuA-p9-Ig0"/>
+                <outlet property="cardsCollectionView" destination="wba-1l-ab9" id="NYz-gE-6Ke"/>
                 <outlet property="classChooser" destination="m1i-JO-q7s" id="gMZ-0f-C5b"/>
-                <outlet property="collectionView" destination="wba-1l-ab9" id="JvW-IB-OLs"/>
                 <outlet property="countLabel" destination="gsP-ol-oef" id="BpH-tf-lQH"/>
                 <outlet property="curveView" destination="fMz-JX-Pxt" id="0AF-sW-sLW"/>
+                <outlet property="damage" destination="XdO-sb-Lei" id="682-OV-ka5"/>
+                <outlet property="deckCardsView" destination="zDn-Ut-2rX" id="DyH-rf-tXW"/>
+                <outlet property="health" destination="YXe-qt-7Cy" id="WkB-6o-dkq"/>
+                <outlet property="manaGem0" destination="WWT-qq-QQA" id="G6f-N2-jcW"/>
+                <outlet property="manaGem1" destination="glO-QH-q26" id="yXG-yg-D6N"/>
+                <outlet property="manaGem2" destination="3Om-vN-fak" id="eb3-DC-kfE"/>
+                <outlet property="manaGem3" destination="0N3-8C-dNU" id="F0L-Y3-gZL"/>
+                <outlet property="manaGem4" destination="Aab-dS-Ezl" id="i2I-iO-2VP"/>
+                <outlet property="manaGem5" destination="qVw-gN-8Ob" id="Ups-ED-abJ"/>
+                <outlet property="manaGem6" destination="KXp-z2-4ok" id="e1m-96-p1A"/>
+                <outlet property="manaGem7" destination="Vft-zR-ETv" id="3pz-fa-pwj"/>
+                <outlet property="presentationView" destination="Pk1-ik-3St" id="O7M-7E-6bx"/>
+                <outlet property="races" destination="6Kv-ZJ-WVe" id="A0N-St-544"/>
+                <outlet property="rarity" destination="Ugc-k4-3ze" id="aKd-hZ-LwT"/>
                 <outlet property="searchField" destination="ht0-2D-wE5" id="VHj-DL-KfM"/>
                 <outlet property="sets" destination="Dnd-ge-iq0" id="YFt-JH-Ime"/>
                 <outlet property="standardOnlyCards" destination="Z1I-mm-zAm" id="Vy3-pw-M93"/>
-                <outlet property="tableView" destination="zDn-Ut-2rX" id="ahx-CP-aqS"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="UoB-iy-CDG"/>
+                <outlet property="zoom" destination="xdl-38-Ttc" id="nnh-dS-igh"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -52,7 +67,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="413"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="zDn-Ut-2rX">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="zDn-Ut-2rX">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -142,7 +157,7 @@
                                 </connections>
                             </segmentedControl>
                             <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ht0-2D-wE5">
-                                <rect key="frame" x="311" y="9" width="190" height="22"/>
+                                <rect key="frame" x="316" y="9" width="190" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="190" id="uWF-gm-boe"/>
                                 </constraints>
@@ -156,14 +171,17 @@
                                 </connections>
                             </searchField>
                             <button horizontalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Z1I-mm-zAm">
-                                <rect key="frame" x="197" y="12" width="106" height="18"/>
-                                <buttonCell key="cell" type="check" title="Standard only" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="37M-wa-5DN">
+                                <rect key="frame" x="197" y="12" width="111" height="18"/>
+                                <buttonCell key="cell" type="check" title="Standard only" bezelStyle="regularSquare" imagePosition="left" inset="2" id="37M-wa-5DN">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="standardWildChange:" target="-2" id="nMb-Um-P6J"/>
+                                </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dnd-ge-iq0">
-                                <rect key="frame" x="509" y="7" width="195" height="26"/>
+                                <rect key="frame" x="514" y="7" width="195" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="190" id="vdY-sC-fKQ"/>
                                 </constraints>
@@ -192,54 +210,391 @@
                             <constraint firstAttribute="bottom" secondItem="ht0-2D-wE5" secondAttribute="bottom" constant="9" id="i9j-cj-pCs"/>
                             <constraint firstItem="Z1I-mm-zAm" firstAttribute="leading" secondItem="m1i-JO-q7s" secondAttribute="trailing" constant="10" id="nAg-bS-Cdh"/>
                             <constraint firstAttribute="bottom" secondItem="m1i-JO-q7s" secondAttribute="bottom" constant="10" id="sDs-Ei-Ui8"/>
-                            <constraint firstAttribute="trailing" secondItem="Dnd-ge-iq0" secondAttribute="trailing" constant="10" id="swH-Ku-acf"/>
+                            <constraint firstAttribute="trailing" secondItem="Dnd-ge-iq0" secondAttribute="trailing" constant="5" id="swH-Ku-acf"/>
+                        </constraints>
+                    </customView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="OvO-Ri-gGs" userLabel="Options 2">
+                        <rect key="frame" x="0.0" y="498" width="711" height="41"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WWT-qq-QQA" userLabel="Mana Gem0" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="5" y="5" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="Pcf-Kd-Tgm"/>
+                                    <constraint firstAttribute="height" constant="32" id="wxV-GV-1xW"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="0" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="nh4-xI-0ip" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="manaGemClicked:" target="-2" id="vOV-qV-M9k"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="glO-QH-q26" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="37" y="5" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="3NJ-JR-DA4"/>
+                                    <constraint firstAttribute="height" constant="32" id="S3m-cn-AkC"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="1" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="y1h-hB-XLJ" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="manaGemClicked:" target="-2" id="DeW-tL-YCQ"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="3Om-vN-fak" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="69" y="5" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="EmG-DI-GQJ"/>
+                                    <constraint firstAttribute="width" constant="32" id="qDZ-uo-lE3"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="2" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="Ozt-yZ-Bvj" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="manaGemClicked:" target="-2" id="iIk-pg-zmT"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="0N3-8C-dNU" userLabel="Mana Gem3" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="101" y="5" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="QZC-lr-bVa"/>
+                                    <constraint firstAttribute="width" constant="32" id="fmW-ct-7ls"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="3" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="qse-SY-u1g" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="manaGemClicked:" target="-2" id="Xql-3V-xcZ"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="Aab-dS-Ezl" userLabel="Mana Gem4" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="133" y="4" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="Tjx-99-KOU"/>
+                                    <constraint firstAttribute="height" constant="32" id="jFA-Ed-kgw"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="4" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="DpA-dM-lQm" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="manaGemClicked:" target="-2" id="jAZ-Ip-D7u"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="qVw-gN-8Ob" userLabel="Mana Gem5" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="165" y="4" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="6Te-KM-53j"/>
+                                    <constraint firstAttribute="height" constant="32" id="JVV-RC-yGP"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="5" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="41a-Fy-s1b" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="manaGemClicked:" target="-2" id="rOP-Fp-8bF"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="KXp-z2-4ok" userLabel="Mana Gem6" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="197" y="4" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="6eH-gD-RB8"/>
+                                    <constraint firstAttribute="height" constant="32" id="ec0-8P-lh1"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="6" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="Arp-VG-v1c" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="manaGemClicked:" target="-2" id="eZv-cf-dzf"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" tag="7" translatesAutoresizingMaskIntoConstraints="NO" id="Vft-zR-ETv" userLabel="Mana Gem7+" customClass="ManaGemButton" customModule="HSTracker" customModuleProvider="target">
+                                <rect key="frame" x="229" y="4" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="M4f-wc-aGc"/>
+                                    <constraint firstAttribute="height" constant="32" id="j7g-BU-kc0"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="7" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="6IG-XF-IZv" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                </buttonCell>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="manaGemClicked:" target="-2" id="0O8-aN-OCr"/>
+                                </connections>
+                            </button>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FWe-CV-ssG" userLabel="Damage Icon">
+                                <rect key="frame" x="281" y="5" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="o9h-YQ-6uX"/>
+                                    <constraint firstAttribute="height" constant="32" id="rLM-Sb-zOH"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="damage" id="XWM-pd-pbV"/>
+                            </imageView>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XdO-sb-Lei">
+                                <rect key="frame" x="315" y="10" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="QKY-0r-qQd"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="zfN-ev-JSZ">
+                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="rvI-y9-8dT"/>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="-2" id="tfV-4E-VwA"/>
+                                </connections>
+                            </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dSz-3r-EGs" userLabel="Health Icon">
+                                <rect key="frame" x="355" y="5" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="Yah-u4-K8E"/>
+                                    <constraint firstAttribute="width" constant="32" id="rbo-xX-Pke"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="health" id="fBR-qa-4gA"/>
+                            </imageView>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YXe-qt-7Cy">
+                                <rect key="frame" x="389" y="9" width="30" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="pbY-p1-9yW"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ZgQ-rq-xlg">
+                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="HDs-5K-DtO"/>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="-2" id="CSj-uV-z93"/>
+                                </connections>
+                            </textField>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Kv-ZJ-WVe">
+                                <rect key="frame" x="472" y="7" width="76" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="xtb-5h-aMT" id="dEi-RV-p0J">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="PJJ-JU-4Qr">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="xtb-5h-aMT"/>
+                                            <menuItem title="Item 2" id="CZP-YK-qKd"/>
+                                            <menuItem title="Item 3" id="AWD-Ik-C4V"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f3u-0Z-zdn">
+                                <rect key="frame" x="553" y="7" width="76" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="XLx-6A-9fG" id="jI9-Rh-FcE">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="L2Y-ie-HGb">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="XLx-6A-9fG"/>
+                                            <menuItem title="Item 2" id="RVe-XS-HoX"/>
+                                            <menuItem title="Item 3" id="v1p-j9-G0u"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ugc-k4-3ze">
+                                <rect key="frame" x="634" y="7" width="75" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="trz-GZ-qvG"/>
+                                </constraints>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="GKt-Mr-Jci" id="V5v-Bd-Vby">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="BsR-VT-pky">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="GKt-Mr-Jci"/>
+                                            <menuItem title="Item 2" id="1Ts-wg-GXS"/>
+                                            <menuItem title="Item 3" id="DHL-8C-Ge9"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                            </popUpButton>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="YXe-qt-7Cy" firstAttribute="leading" secondItem="dSz-3r-EGs" secondAttribute="trailing" constant="2" id="5q3-yM-0ez"/>
+                            <constraint firstItem="XdO-sb-Lei" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="7jK-aB-EiN"/>
+                            <constraint firstItem="qVw-gN-8Ob" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="AHt-qG-IKQ"/>
+                            <constraint firstItem="f3u-0Z-zdn" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="EQi-vp-Zta"/>
+                            <constraint firstItem="6Kv-ZJ-WVe" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="FMR-qL-B5c"/>
+                            <constraint firstItem="3Om-vN-fak" firstAttribute="leading" secondItem="glO-QH-q26" secondAttribute="trailing" id="LZV-iR-9ut"/>
+                            <constraint firstItem="3Om-vN-fak" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="MEW-Ut-w1S"/>
+                            <constraint firstItem="KXp-z2-4ok" firstAttribute="leading" secondItem="qVw-gN-8Ob" secondAttribute="trailing" id="PI4-aU-Bdb"/>
+                            <constraint firstItem="0N3-8C-dNU" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="RHl-Vm-xDW"/>
+                            <constraint firstItem="YXe-qt-7Cy" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="To3-H1-ecp"/>
+                            <constraint firstItem="Ugc-k4-3ze" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="UGt-56-P9V"/>
+                            <constraint firstItem="FWe-CV-ssG" firstAttribute="leading" secondItem="Vft-zR-ETv" secondAttribute="trailing" constant="20" id="WKT-Zd-dxs"/>
+                            <constraint firstItem="dSz-3r-EGs" firstAttribute="leading" secondItem="XdO-sb-Lei" secondAttribute="trailing" constant="10" id="XoE-m5-fat"/>
+                            <constraint firstItem="Vft-zR-ETv" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="Z2s-1B-owT"/>
+                            <constraint firstItem="qVw-gN-8Ob" firstAttribute="leading" secondItem="Aab-dS-Ezl" secondAttribute="trailing" id="ZMX-ek-xFS"/>
+                            <constraint firstItem="Aab-dS-Ezl" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="aUE-vP-xiw"/>
+                            <constraint firstItem="Ugc-k4-3ze" firstAttribute="leading" secondItem="f3u-0Z-zdn" secondAttribute="trailing" constant="10" id="adb-lu-unp"/>
+                            <constraint firstAttribute="trailing" secondItem="Ugc-k4-3ze" secondAttribute="trailing" constant="5" id="d5g-lt-UQn"/>
+                            <constraint firstAttribute="height" constant="41" id="di4-PY-H0D"/>
+                            <constraint firstItem="KXp-z2-4ok" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="fWA-cP-ZHy"/>
+                            <constraint firstItem="WWT-qq-QQA" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="fqu-jo-NHz"/>
+                            <constraint firstItem="WWT-qq-QQA" firstAttribute="leading" secondItem="OvO-Ri-gGs" secondAttribute="leading" constant="5" id="gGu-mq-xvb"/>
+                            <constraint firstItem="f3u-0Z-zdn" firstAttribute="leading" secondItem="6Kv-ZJ-WVe" secondAttribute="trailing" constant="10" id="gbz-Uy-6eV"/>
+                            <constraint firstItem="glO-QH-q26" firstAttribute="leading" secondItem="WWT-qq-QQA" secondAttribute="trailing" id="gqw-e9-Xe5"/>
+                            <constraint firstItem="Aab-dS-Ezl" firstAttribute="leading" secondItem="0N3-8C-dNU" secondAttribute="trailing" id="iMo-RF-A0z"/>
+                            <constraint firstItem="Vft-zR-ETv" firstAttribute="leading" secondItem="KXp-z2-4ok" secondAttribute="trailing" id="l2b-LV-4a6"/>
+                            <constraint firstItem="glO-QH-q26" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="nDF-6a-cYz"/>
+                            <constraint firstItem="dSz-3r-EGs" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="nW2-Ss-8g7"/>
+                            <constraint firstItem="FWe-CV-ssG" firstAttribute="centerY" secondItem="OvO-Ri-gGs" secondAttribute="centerY" id="pJC-gk-8aq"/>
+                            <constraint firstItem="0N3-8C-dNU" firstAttribute="leading" secondItem="3Om-vN-fak" secondAttribute="trailing" id="qwi-Kc-rib"/>
+                            <constraint firstItem="XdO-sb-Lei" firstAttribute="leading" secondItem="FWe-CV-ssG" secondAttribute="trailing" constant="2" id="rJ1-pl-AD8"/>
                         </constraints>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="1y1-93-7Id" userLabel="CardsView">
-                        <rect key="frame" x="0.0" y="0.0" width="711" height="539"/>
+                        <rect key="frame" x="0.0" y="0.0" width="711" height="498"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wba-1l-ab9" customClass="JNWCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="711" height="539"/>
-                                <clipView key="contentView" id="uEq-7Y-lbf">
-                                    <rect key="frame" x="1" y="1" width="709" height="537"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xwh-YL-XUK">
-                                            <rect key="frame" x="9" y="158" width="194" height="178"/>
-                                        </view>
-                                    </subviews>
-                                </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="gyF-t6-TKY">
-                                    <rect key="frame" x="1" y="522" width="709" height="16"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Eie-dc-C6m">
-                                    <rect key="frame" x="694" y="1" width="16" height="537"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <connections>
-                                    <outlet property="dataSource" destination="-2" id="NIO-Wt-U2f"/>
-                                    <outlet property="delegate" destination="-2" id="6fP-vX-0gY"/>
-                                </connections>
-                            </scrollView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="X2Z-zk-gmt">
+                                <rect key="frame" x="0.0" y="26" width="711" height="472"/>
+                                <subviews>
+                                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wba-1l-ab9" customClass="JNWCollectionView">
+                                        <rect key="frame" x="0.0" y="0.0" width="711" height="472"/>
+                                        <clipView key="contentView" id="uEq-7Y-lbf">
+                                            <rect key="frame" x="1" y="1" width="709" height="470"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xwh-YL-XUK">
+                                                    <rect key="frame" x="168" y="-22" width="50" height="46"/>
+                                                </view>
+                                            </subviews>
+                                        </clipView>
+                                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="gyF-t6-TKY">
+                                            <rect key="frame" x="1" y="455" width="709" height="16"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </scroller>
+                                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Eie-dc-C6m">
+                                            <rect key="frame" x="694" y="1" width="16" height="470"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </scroller>
+                                        <connections>
+                                            <outlet property="dataSource" destination="-2" id="NIO-Wt-U2f"/>
+                                            <outlet property="delegate" destination="-2" id="6fP-vX-0gY"/>
+                                        </connections>
+                                    </scrollView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="wba-1l-ab9" firstAttribute="leading" secondItem="X2Z-zk-gmt" secondAttribute="leading" id="LVH-qB-usO"/>
+                                    <constraint firstAttribute="bottom" secondItem="wba-1l-ab9" secondAttribute="bottom" id="qWZ-4l-ujk"/>
+                                    <constraint firstAttribute="trailing" secondItem="wba-1l-ab9" secondAttribute="trailing" id="xu0-8r-aVr"/>
+                                    <constraint firstItem="wba-1l-ab9" firstAttribute="top" secondItem="X2Z-zk-gmt" secondAttribute="top" id="zrY-vf-N0p"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Oev-xi-WHU" userLabel="Options 3">
+                                <rect key="frame" x="0.0" y="0.0" width="711" height="26"/>
+                                <subviews>
+                                    <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xdl-38-Ttc">
+                                        <rect key="frame" x="597" y="3" width="104" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="0vM-dM-9N9"/>
+                                        </constraints>
+                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="50" maxValue="200" doubleValue="100" tickMarkPosition="above" sliderType="linear" id="LNa-Ud-bXZ"/>
+                                        <connections>
+                                            <action selector="zoomChange:" target="-2" id="OTT-T9-oba"/>
+                                        </connections>
+                                    </slider>
+                                    <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pk1-ik-3St">
+                                        <rect key="frame" x="522" y="2" width="67" height="23"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" style="smallSquare" trackingMode="selectOne" id="el0-bR-TTh">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment image="NSIconViewTemplate" width="32" selected="YES">
+                                                    <nil key="label"/>
+                                                </segment>
+                                                <segment image="NSListViewTemplate" width="32" tag="1">
+                                                    <nil key="label"/>
+                                                </segment>
+                                            </segments>
+                                        </segmentedCell>
+                                        <connections>
+                                            <action selector="changePreferredView:" target="-2" id="6d5-R1-UAy"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Pk1-ik-3St" firstAttribute="centerY" secondItem="Oev-xi-WHU" secondAttribute="centerY" id="MqF-ye-2oN"/>
+                                    <constraint firstItem="xdl-38-Ttc" firstAttribute="centerY" secondItem="Oev-xi-WHU" secondAttribute="centerY" id="UJU-L1-x8w"/>
+                                    <constraint firstItem="xdl-38-Ttc" firstAttribute="leading" secondItem="Pk1-ik-3St" secondAttribute="trailing" constant="10" id="YOU-xY-jg7"/>
+                                    <constraint firstAttribute="height" constant="26" id="er6-Qa-sND"/>
+                                    <constraint firstAttribute="trailing" secondItem="xdl-38-Ttc" secondAttribute="trailing" constant="12" id="jSu-fw-rKf"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="wba-1l-ab9" secondAttribute="bottom" id="NSv-Hq-pKd"/>
-                            <constraint firstItem="wba-1l-ab9" firstAttribute="width" secondItem="1y1-93-7Id" secondAttribute="width" id="PHW-eD-doK"/>
-                            <constraint firstItem="wba-1l-ab9" firstAttribute="height" secondItem="1y1-93-7Id" secondAttribute="height" id="YUE-OT-nmt"/>
-                            <constraint firstItem="wba-1l-ab9" firstAttribute="leading" secondItem="1y1-93-7Id" secondAttribute="leading" id="iap-TR-V2v"/>
+                            <constraint firstItem="Oev-xi-WHU" firstAttribute="leading" secondItem="1y1-93-7Id" secondAttribute="leading" id="3ia-Yl-I08"/>
+                            <constraint firstItem="Oev-xi-WHU" firstAttribute="top" secondItem="X2Z-zk-gmt" secondAttribute="bottom" id="4gG-vh-ls9"/>
+                            <constraint firstAttribute="trailing" secondItem="Oev-xi-WHU" secondAttribute="trailing" id="HKS-Ky-R51"/>
+                            <constraint firstAttribute="bottom" secondItem="Oev-xi-WHU" secondAttribute="bottom" id="QRk-Iw-IGI"/>
+                            <constraint firstItem="X2Z-zk-gmt" firstAttribute="leading" secondItem="1y1-93-7Id" secondAttribute="leading" id="kFm-NI-wOP"/>
+                            <constraint firstAttribute="trailing" secondItem="X2Z-zk-gmt" secondAttribute="trailing" id="qF0-uH-O8n"/>
+                            <constraint firstItem="X2Z-zk-gmt" firstAttribute="top" secondItem="1y1-93-7Id" secondAttribute="top" id="vtW-o4-z23"/>
                         </constraints>
                     </customView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="QeX-zg-mEf" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="7UC-iV-qPw"/>
                     <constraint firstAttribute="trailing" secondItem="QeX-zg-mEf" secondAttribute="trailing" id="Cow-Hn-n2h"/>
+                    <constraint firstItem="OvO-Ri-gGs" firstAttribute="top" secondItem="HJQ-6C-Yh8" secondAttribute="bottom" id="DEh-7g-7Yy"/>
                     <constraint firstItem="QeX-zg-mEf" firstAttribute="leading" secondItem="1y1-93-7Id" secondAttribute="trailing" constant="10" id="FrU-La-Gds"/>
                     <constraint firstItem="HJQ-6C-Yh8" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="JYy-3t-ujb"/>
+                    <constraint firstItem="1y1-93-7Id" firstAttribute="top" secondItem="OvO-Ri-gGs" secondAttribute="bottom" id="Mci-yy-7Vm"/>
+                    <constraint firstItem="OvO-Ri-gGs" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Nk2-Vd-kHh"/>
                     <constraint firstItem="HJQ-6C-Yh8" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="SlR-X4-saz"/>
                     <constraint firstAttribute="bottom" secondItem="QeX-zg-mEf" secondAttribute="bottom" id="YIP-qk-czu"/>
                     <constraint firstItem="QeX-zg-mEf" firstAttribute="leading" secondItem="HJQ-6C-Yh8" secondAttribute="trailing" constant="10" id="ZQR-JW-I9d"/>
-                    <constraint firstItem="1y1-93-7Id" firstAttribute="top" secondItem="HJQ-6C-Yh8" secondAttribute="bottom" id="fyx-qJ-ndO"/>
+                    <constraint firstItem="QeX-zg-mEf" firstAttribute="leading" secondItem="OvO-Ri-gGs" secondAttribute="trailing" constant="10" id="tgL-qV-oRb"/>
                     <constraint firstItem="1y1-93-7Id" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="ubO-JE-zyx"/>
                     <constraint firstAttribute="bottom" secondItem="1y1-93-7Id" secondAttribute="bottom" id="unl-IG-dD9"/>
                 </constraints>
@@ -280,8 +635,13 @@
         </window>
     </objects>
     <resources>
+        <image name="NSIconViewTemplate" width="10" height="10"/>
+        <image name="NSListViewTemplate" width="14" height="10"/>
         <image name="close" width="32" height="32"/>
+        <image name="damage" width="50" height="50"/>
         <image name="delete" width="32" height="32"/>
+        <image name="health" width="50" height="50"/>
+        <image name="mana-dark" width="50" height="50"/>
         <image name="save" width="32" height="32"/>
     </resources>
 </document>

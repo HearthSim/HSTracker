@@ -11,11 +11,30 @@ import Foundation
 class CardCell : JNWCollectionViewCell {
 
     private var _card: Card?
-    var isArena: Bool = false
+    var showCard = true
+    var isArena = false
+    var cellView: CardCellView?
 
     func setCard(card: Card) {
         _card = card
-        self.backgroundImage = ImageCache.cardImage(card)
+        if showCard {
+            if let cellView = cellView {
+                cellView.removeFromSuperview()
+                self.cellView = nil
+            }
+            self.backgroundImage = ImageCache.cardImage(card)
+        }
+        else {
+            if let cellView = cellView {
+                cellView.card = card
+            }
+            else {
+                cellView = CardCellView(frame: NSMakeRect(0, 0, CGFloat(kFrameWidth), CGFloat(kRowHeight)))
+                cellView?.card = card
+                cellView?.playerType = .CardList
+                self.addSubview(cellView!)
+            }
+        }
     }
     var card: Card? {
         return _card

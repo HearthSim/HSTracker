@@ -31,11 +31,11 @@
 "You must restart HSTracker for the language change to take effect" = "Debes reiniciar HSTracker para que el cambio de idioma tenga efecto";
 
 /* notifications */
-"Your game begins" = "Your game begins";
-"Victory" = "Victory";
+"Your game begins" = "Empieza la partida";
+"Victory" = "Victoria";
 "Hearthstone" = "Hearthstone";
-"Your opponent have conceded" = "Your opponent have conceded";
-"It's your turn to play" = "It's your turn to play";
+"Your opponent have conceded" = "Tu oponente ha concedido";
+"It's your turn to play" = "Es tu turno";
 
 /* classes */
 "shaman" = "Chamán";
@@ -49,6 +49,7 @@
 "rogue" = "Pícaro";
 
 /* rarity */
+"all_rarities" = "Todos";
 "neutral" = "Neutral";
 "free" = "Gratuita";
 "common" = "Común";
@@ -67,3 +68,19 @@
 "LOE" = "Liga de los Expedicionarios";
 "OG" = "Susurros de los Dioses Antiguos";
 "PROMO" = "Promocional";
+
+/* card type */
+"all_types" = "Todos";
+"spell" = "Hechizo";
+"minion" = "Esbirro";
+"weapon" = "Arma";
+
+/* races */
+"all_races" = "Todas";
+"demon" = "Demonio";
+"dragon" = "Dragón";
+"mechanical" = "Robot";
+"beast" = "Bestia";
+"murloc" = "Murloc";
+"pirate" = "Pirata";
+"totem" = "Tótem";

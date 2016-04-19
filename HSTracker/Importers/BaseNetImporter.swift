@@ -38,7 +38,7 @@ class BaseNetImporter {
                 deck.addCard(card)
             }
         }
-        deck.save()
+        Decks.instance.add(deck)
         completion(deck)
     }
     

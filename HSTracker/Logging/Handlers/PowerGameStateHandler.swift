@@ -284,29 +284,29 @@ class PowerGameStateHandler {
                             let cardId = entity.cardId
                             addKnownCardId(cardId)
                     }
-                    addKnownCardId(CardIds.NonCollectible.Neutral.GallywixsCoinToken)
+                    addKnownCardId(CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken)
                 }
             } else {
                 if actionStartingCardId == CardIds.Collectible.Rogue.GangUp {
                     addTargetAsKnownCardId(matches, 3)
                 } else if actionStartingCardId == CardIds.Collectible.Rogue.BeneathTheGrounds {
-                    addKnownCardId(CardIds.NonCollectible.Rogue.AmbushToken, 3)
+                    addKnownCardId(CardIds.NonCollectible.Rogue.BeneaththeGrounds_AmbushToken, 3)
                 } else if actionStartingCardId == CardIds.Collectible.Warrior.IronJuggernaut {
-                    addKnownCardId(CardIds.NonCollectible.Warrior.BurrowingMineToken)
+                    addKnownCardId(CardIds.NonCollectible.Warrior.IronJuggernaut_BurrowingMineToken)
                 } else if actionStartingCardId == CardIds.Collectible.Druid.Recycle {
                     addTargetAsKnownCardId(matches)
                 } else if actionStartingCardId == CardIds.Collectible.Mage.ForgottenTorch {
-                    addKnownCardId(CardIds.NonCollectible.Mage.RoaringTorchToken)
+                    addKnownCardId(CardIds.NonCollectible.Mage.ForgottenTorch_RoaringTorchToken)
                 } else if actionStartingCardId == CardIds.Collectible.Warlock.CurseOfRafaam {
-                    addKnownCardId(CardIds.NonCollectible.Warlock.CursedToken)
+                    addKnownCardId(CardIds.NonCollectible.Warlock.CurseofRafaam_CursedToken)
                 } else if actionStartingCardId == CardIds.Collectible.Neutral.AncientShade {
-                    addKnownCardId(CardIds.NonCollectible.Neutral.AncientCurseToken)
+                    addKnownCardId(CardIds.NonCollectible.Neutral.AncientShade_AncientCurseToken)
                 } else if actionStartingCardId == CardIds.Collectible.Priest.ExcavatedEvil {
                     addKnownCardId(CardIds.Collectible.Priest.ExcavatedEvil)
                 } else if actionStartingCardId == CardIds.Collectible.Neutral.EliseStarseeker {
-                    addKnownCardId(CardIds.NonCollectible.Neutral.MapToTheGoldenMonkeyToken)
-                } else if actionStartingCardId == CardIds.NonCollectible.Neutral.MapToTheGoldenMonkeyToken {
-                    addKnownCardId(CardIds.NonCollectible.Neutral.GoldenMonkeyToken)
+                    addKnownCardId(CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken)
+                } else if actionStartingCardId == CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken {
+                    addKnownCardId(CardIds.NonCollectible.Neutral.EliseStarseeker_GoldenMonkeyToken)
                 } else {
                     if let actionStartingCardId = actionStartingCardId,
                         let card = Cards.anyById(actionStartingCardId) {

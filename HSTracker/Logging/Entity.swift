@@ -152,7 +152,7 @@ class EntityInfo : CustomStringConvertible {
             return .None
         }
         
-        if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoin || _entity.cardId == CardIds.NonCollectible.Neutral.GallywixsCoinToken {
+        if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoin || _entity.cardId == CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken {
             return .Coin
         }
         if returned {

@@ -11,6 +11,7 @@
 import Cocoa
 import CleanroomLogger
 
+// TODO not yet implemented
 enum HandCountPosition: Int {
     case Tracker,
     Window
@@ -399,11 +400,38 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     }
     
     // MARK: - CardCellHover
-    func hover(card: Card) {
-        // DDLogInfo("hovering \(card)")
+    func hover(cell: CardCellView, _ card: Card) {
+        let rect = cell.frame
+        
+        let windowRect = self.window!.frame
+        
+        let hoverFrame = NSMakeRect(0, 0, 200, 300)
+        
+        var x: CGFloat
+        if windowRect.origin.x < hoverFrame.size.width {
+            x = windowRect.origin.x + windowRect.size.width
+        }
+        else {
+            x = windowRect.origin.x - hoverFrame.size.width
+        }
+        
+        var y: CGFloat = max(30, windowRect.origin.y + cardsView.frame.origin.y + rect.origin.y - (NSHeight(hoverFrame) / 2))
+        if let screen = self.window?.screen {
+            if y + NSHeight(hoverFrame) > NSHeight(screen.frame) {
+                y = NSHeight(screen.frame) - NSHeight(hoverFrame)
+            }
+        }
+        let frame = [x, y, NSWidth(hoverFrame), NSHeight(hoverFrame)]
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName("show_floating_card",
+                                  object: nil,
+                                  userInfo: [
+                                    "card": card,
+                                    "frame": frame
+                ])
     }
     
     func out(card: Card) {
-        // DDLogInfo(@"out \(card)")
+        NSNotificationCenter.defaultCenter().postNotificationName("hide_floating_card", object: nil)
     }
 }
