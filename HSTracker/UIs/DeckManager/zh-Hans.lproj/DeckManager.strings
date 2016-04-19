@@ -30,7 +30,7 @@
 "7FY-gv-qwP.paletteLabel" = "Add";
 
 /* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "卡组管理器";
+"QvC-M9-y7g.title" = "牌组管理器";
 
 /* Class = "NSToolbarItem"; label = "Hearthstats"; ObjectID = "Xxv-sY-tej"; */
 "Xxv-sY-tej.label" = "Hearthstats";
