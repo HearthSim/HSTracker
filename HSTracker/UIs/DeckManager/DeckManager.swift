@@ -59,6 +59,25 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
         deckListTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
+        
+        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
+            let isCmd = (e.modifierFlags.rawValue & NSEventModifierFlags.CommandKeyMask.rawValue == NSEventModifierFlags.CommandKeyMask.rawValue)
+            // let isShift = (e.modifierFlags.rawValue & NSEventModifierFlags.ShiftKeyMask.rawValue == NSEventModifierFlags.ShiftKeyMask.rawValue)
+            
+            guard isCmd else { return e }
+            
+            switch e.keyCode {
+            case 45:
+                self.addDeck(self)
+                return nil
+                
+            default:
+                Log.verbose?.message("unsupported keycode \(e.keyCode)")
+                break
+            }
+            
+            return e
+        }
     }
 
     func filteredDecks() -> [Deck] {
