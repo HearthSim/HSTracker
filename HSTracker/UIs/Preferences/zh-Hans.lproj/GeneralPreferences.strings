@@ -1,18 +1,18 @@
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "08B-rI-8LA"; */
-"08B-rI-8LA.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+"08B-rI-8LA.ibShadowedToolTip" = "你只能看到通知如果游戏最小化";
 
-/* Class = "NSButtonCell"; title = "Notify me when my opponent concede"; ObjectID = "GhP-a6-Faw"; */
-"GhP-a6-Faw.title" = "Notify me when my opponent concede";
+/* Class = "NSButtonCell"; title = "Notify me when my opponent concedes"; ObjectID = "GhP-a6-Faw"; */
+"GhP-a6-Faw.title" = "通知我当我的对手认输";
 
-/* Class = "NSButtonCell"; title = "Notify me when my turn start"; ObjectID = "Rbw-dw-oAI"; */
-"Rbw-dw-oAI.title" = "Notify me when my turn start";
+/* Class = "NSButtonCell"; title = "Notify me when my turn starts"; ObjectID = "Rbw-dw-oAI"; */
+"Rbw-dw-oAI.title" = "通知我当轮到我了";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "Yit-xi-gbj"; */
-"Yit-xi-gbj.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+"Yit-xi-gbj.ibShadowedToolTip" = "你只能看到通知如果游戏最小化";
 
-/* Class = "NSButtonCell"; title = "Notify me when the game start"; ObjectID = "aaX-mu-c31"; */
-"aaX-mu-c31.title" = "Notify me when the game start";
+/* Class = "NSButtonCell"; title = "Notify me when the game starts"; ObjectID = "aaX-mu-c31"; */
+"aaX-mu-c31.title" = "通知我要是游戏开始了";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
-"c8y-VJ-p2U.ibShadowedToolTip" = "Notifications are only visible if Hearthstone is not focused";
+"c8y-VJ-p2U.ibShadowedToolTip" = "你只能看到通知如果游戏最小化";
