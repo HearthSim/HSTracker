@@ -1,5 +1,5 @@
 "Are you sure you want to close this deck ? Your changes will not be saved." = "Êtes-vous sur de vouloir fermer ce deck ? Vos modifications ne seront pas sauvegardées.";
-"Are you sure you want to delete this deck ?" = "Êtes-vous sur de vouloir supprimer ce deck ?";
+"Are you sure you want to delete the deck %@ ?" = "Êtes-vous sur de vouloir supprimer le deck %@ ?";
 "Arena %@ %@" = "Arène %@ %@";
 "Cancel" = "Annuler";
 "Clear" = "Vider";

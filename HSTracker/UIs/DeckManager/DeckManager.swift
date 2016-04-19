@@ -303,7 +303,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         if let deck = currentDeck {
             let alert = NSAlert()
             alert.alertStyle = .InformationalAlertStyle
-            alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
+            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the deck %@ ?", comment: ""), deck.name!) as String
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
             alert.beginSheetModalForWindow(self.window!,
