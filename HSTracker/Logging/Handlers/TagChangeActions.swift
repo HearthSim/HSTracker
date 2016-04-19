@@ -43,15 +43,11 @@ struct TagChangeActions {
     }
 
     private func defendingChange(game: Game, _ id: Int, _ value: Int) {
-        if let entity = game.entities[id] where entity.getTag(.CONTROLLER) == game.opponent.id {
-            game.defendingEntity(value == 1 ? entity : nil)
-        }
+        game.defendingEntity(value == 1 ? game.entities[id] : nil)
     }
 
     private func attackingChange(game: Game, _ id: Int, _ value: Int) {
-        if let entity = game.entities[id] where entity.getTag(.CONTROLLER) == game.player.id {
-            game.attackingEntity(value == 1 ? entity : nil)
-        }
+        game.attackingEntity(value == 1 ? game.entities[id] : nil)
     }
 
     private func proposedDefenderChange(game: Game, _ value: Int) {

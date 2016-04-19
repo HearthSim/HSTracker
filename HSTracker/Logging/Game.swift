@@ -820,15 +820,19 @@ class Game {
     // MARK: - game actions
     func defendingEntity(entity: Entity?) {
         self.defendingEntity = entity
-        if let attackingEntity = self.attackingEntity, let defendingEntity = self.defendingEntity {
-            opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+        if let attackingEntity = self.attackingEntity, defendingEntity = self.defendingEntity, entity = entity {
+            if entity.isControlledBy(opponent.id) {
+                opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+            }
         }
     }
     
     func attackingEntity(entity: Entity?) {
         self.attackingEntity = entity
-        if let attackingEntity = self.attackingEntity, let defendingEntity = self.defendingEntity {
-            opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+        if let attackingEntity = self.attackingEntity, defendingEntity = self.defendingEntity, entity = entity {
+            if entity.isControlledBy(player.id) {
+                opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+            }
         }
     }
     
