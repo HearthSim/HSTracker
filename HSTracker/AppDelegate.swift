@@ -70,7 +70,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first {
                 do {
                     try NSFileManager.defaultManager().createDirectoryAtPath("\(path)/Logs/HSTracker", withIntermediateDirectories: true, attributes: nil)
-                    let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: .Info,
+                    let severity: LogSeverity = Settings.instance.logSeverity
+                    let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
                                                                     daysToKeep: 7,
                                                                     directoryPath: "\(path)/Logs/HSTracker",
                                                                     formatters: [HSTrackerLogFormatter()])
