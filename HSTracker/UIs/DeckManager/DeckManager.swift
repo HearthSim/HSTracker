@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, NewDeckDelegate {
+class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
 
     @IBOutlet weak var decksTable: NSTableView!
     @IBOutlet weak var deckListTable: NSTableView!

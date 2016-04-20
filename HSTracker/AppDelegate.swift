@@ -499,6 +499,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         windowMove?.showWindow(self)
     }
     
+    @IBAction func closeWindow(sender: AnyObject) {
+        
+    }
+    
     // MARK: NSUserNotificationCenterDelegate
     func sendNotification(title: String, _ info: String) {
         let notification = NSUserNotification()
