@@ -61,8 +61,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         deckListTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
         
         NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
-            let isCmd = (e.modifierFlags.rawValue & NSEventModifierFlags.CommandKeyMask.rawValue == NSEventModifierFlags.CommandKeyMask.rawValue)
-            // let isShift = (e.modifierFlags.rawValue & NSEventModifierFlags.ShiftKeyMask.rawValue == NSEventModifierFlags.ShiftKeyMask.rawValue)
+            let isCmd = e.modifierFlags.contains(.CommandKeyMask)
+            // let isShift = e.modifierFlags.contains(.ShiftKeyMask)
             
             guard isCmd else { return e }
             
