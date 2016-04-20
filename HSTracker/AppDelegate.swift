@@ -377,11 +377,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         buildMenu()
     }
     
+    var closeFloatingCardRequest = 0
     func showFloatingCard(notification: NSNotification) {
         guard Settings.instance.showFloatingCard else {return}
         
         if let card = notification.userInfo?["card"] as? Card,
             arrayFrame = notification.userInfo?["frame"] as? [CGFloat] {
+            closeFloatingCardRequest += 1
             floatingCard?.showWindow(self)
             let frame = NSMakeRect(arrayFrame[0], arrayFrame[1], arrayFrame[2], arrayFrame[3])
             floatingCard?.window?.setFrame(frame, display: true)
@@ -391,7 +393,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func hideFloatingCard(notification: NSNotification) {
         guard Settings.instance.showFloatingCard else {return}
-        floatingCard?.window?.orderOut(self)
+        
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            self.closeFloatingCardRequest -= 1
+            
+            if self.closeFloatingCardRequest > 0 {
+                return
+            }
+            self.floatingCard?.window?.orderOut(self)
+        }
     }
     
     func languageChange(notification: NSNotification) {
