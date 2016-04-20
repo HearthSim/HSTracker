@@ -12,6 +12,7 @@ import Foundation
 import CleanroomLogger
 
 final class Hearthstone : NSObject {
+    let applicationName = "Hearthstone"
 
     var logReaderManager: LogReaderManager?
 
@@ -134,16 +135,17 @@ final class Hearthstone : NSObject {
     }
 
     func appLaunched(notification: NSNotification) {
-        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
+        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now launched")
             self.startTracking()
+            SizeHelper.hearthstoneWindow.reload()
             Game.instance.hearthstoneIsActive(true)
             NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_running", object: nil)
         }
     }
 
     func appTerminated(notification: NSNotification) {
-        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
+        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now closed")
             self.stopTracking()
             Game.instance.hearthstoneIsActive(false)
@@ -152,16 +154,17 @@ final class Hearthstone : NSObject {
     }
 
     func appActivated(notification: NSNotification) {
-        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
+        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now active")
             self.hearthstoneActive = true
+            SizeHelper.hearthstoneWindow.reload()
             Game.instance.hearthstoneIsActive(true)
             NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_active", object: nil)
         }
     }
 
     func appDeactivated(notification: NSNotification) {
-        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == "Hearthstone" {
+        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now inactive")
             self.hearthstoneActive = false
             Game.instance.hearthstoneIsActive(false)
@@ -180,6 +183,6 @@ final class Hearthstone : NSObject {
 
     var isHearthstoneRunning: Bool {
         let apps = NSWorkspace.sharedWorkspace().runningApplications
-        return apps.any({$0.localizedName == "Hearthstone"})
+        return apps.any({$0.localizedName == self.applicationName})
     }
 }

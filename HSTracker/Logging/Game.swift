@@ -1071,6 +1071,8 @@ class Game {
     }
     
     func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect) {
+        guard frame != NSZeroRect else {return}
+        
         tracker.window?.setFrame(frame, display: true)
         if active {
             tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))

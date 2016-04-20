@@ -40,7 +40,7 @@ struct SizeHelper {
             let options = CGWindowListOption(arrayLiteral: .ExcludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
             if let info = (windowListInfo as NSArray? as? [[String: AnyObject]])?.filter({
-                !$0.filter({ $0.0 == "kCGWindowName" && $0.1 as? String == "Hearthstone" }).isEmpty
+                !$0.filter({ $0.0 == "kCGWindowName" && $0.1 as? String == Hearthstone.instance.applicationName }).isEmpty
             }).first {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = id
@@ -58,7 +58,7 @@ struct SizeHelper {
         }
     }
     
-    private static let hearthstoneWindow = HearthstoneWindow()
+    static let hearthstoneWindow = HearthstoneWindow()
 
     /**
      * Get a frame relative to Hearthstone window
@@ -68,8 +68,8 @@ struct SizeHelper {
     static func frameRelativeToHearthstone(frame: NSRect, _ relative: Bool = false) -> NSRect {
         var pointX = frame.origin.x
         var pointY = frame.origin.y
-        let width = NSWidth(frame)
-        let height = NSHeight(frame)
+        let width: CGFloat = round(NSWidth(frame))
+        let height: CGFloat = round(NSHeight(frame))
         
         let hearthstoneFrame = hearthstoneWindow.frame
         let screenRect = hearthstoneWindow.screen.frame
@@ -79,9 +79,9 @@ struct SizeHelper {
             pointY = pointY / 840.0 * NSHeight(hearthstoneFrame)
         }
         
-        let x = hearthstoneFrame.origin.x + pointX
-        let y = NSHeight(screenRect) - hearthstoneFrame.origin.y - height - pointY
-        
+        let x: CGFloat = round(hearthstoneFrame.origin.x + pointX)
+        let y: CGFloat = round(NSHeight(screenRect) - hearthstoneFrame.origin.y - height - pointY)
+        Log.verbose?.message("HS: \(hearthstoneFrame) -> SC:\(screenRect) -> POS:\(NSMakeRect(x, y, width, height))")
         return NSMakeRect(x, y, width, height)
     }
 
