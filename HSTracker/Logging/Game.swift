@@ -820,15 +820,19 @@ class Game {
     // MARK: - game actions
     func defendingEntity(entity: Entity?) {
         self.defendingEntity = entity
-        if let attackingEntity = self.attackingEntity, let defendingEntity = self.defendingEntity {
-            opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+        if let attackingEntity = self.attackingEntity, defendingEntity = self.defendingEntity, entity = entity {
+            if entity.isControlledBy(opponent.id) {
+                opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+            }
         }
     }
     
     func attackingEntity(entity: Entity?) {
         self.attackingEntity = entity
-        if let attackingEntity = self.attackingEntity, let defendingEntity = self.defendingEntity {
-            opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+        if let attackingEntity = self.attackingEntity, defendingEntity = self.defendingEntity, entity = entity {
+            if entity.isControlledBy(player.id) {
+                opponentSecrets?.zeroFromAttack(attackingEntity, defendingEntity)
+            }
         }
     }
     
@@ -1067,6 +1071,8 @@ class Game {
     }
     
     func changeTracker(tracker: NSWindowController, _ active: Bool, _ frame: NSRect) {
+        guard frame != NSZeroRect else {return}
+        
         tracker.window?.setFrame(frame, display: true)
         if active {
             tracker.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))

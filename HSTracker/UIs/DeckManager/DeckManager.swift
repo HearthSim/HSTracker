@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, NewDeckDelegate {
+class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
 
     @IBOutlet weak var decksTable: NSTableView!
     @IBOutlet weak var deckListTable: NSTableView!
@@ -59,6 +59,25 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
         deckListTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
+        
+        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
+            let isCmd = e.modifierFlags.contains(.CommandKeyMask)
+            // let isShift = e.modifierFlags.contains(.ShiftKeyMask)
+            
+            guard isCmd else { return e }
+            
+            switch e.keyCode {
+            case 45:
+                self.addDeck(self)
+                return nil
+                
+            default:
+                Log.verbose?.message("unsupported keycode \(e.keyCode)")
+                break
+            }
+            
+            return e
+        }
     }
 
     func filteredDecks() -> [Deck] {
@@ -284,7 +303,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         if let deck = currentDeck {
             let alert = NSAlert()
             alert.alertStyle = .InformationalAlertStyle
-            alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
+            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the deck %@ ?", comment: ""), deck.name!) as String
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
             alert.beginSheetModalForWindow(self.window!,

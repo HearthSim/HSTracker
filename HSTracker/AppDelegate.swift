@@ -70,7 +70,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first {
                 do {
                     try NSFileManager.defaultManager().createDirectoryAtPath("\(path)/Logs/HSTracker", withIntermediateDirectories: true, attributes: nil)
-                    let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: .Info,
+                    let severity: LogSeverity = Settings.instance.logSeverity
+                    let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
                                                                     daysToKeep: 7,
                                                                     directoryPath: "\(path)/Logs/HSTracker",
                                                                     formatters: [HSTrackerLogFormatter()])
@@ -376,11 +377,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         buildMenu()
     }
     
+    var closeFloatingCardRequest = 0
     func showFloatingCard(notification: NSNotification) {
         guard Settings.instance.showFloatingCard else {return}
         
         if let card = notification.userInfo?["card"] as? Card,
             arrayFrame = notification.userInfo?["frame"] as? [CGFloat] {
+            closeFloatingCardRequest += 1
             floatingCard?.showWindow(self)
             let frame = NSMakeRect(arrayFrame[0], arrayFrame[1], arrayFrame[2], arrayFrame[3])
             floatingCard?.window?.setFrame(frame, display: true)
@@ -390,7 +393,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     func hideFloatingCard(notification: NSNotification) {
         guard Settings.instance.showFloatingCard else {return}
-        floatingCard?.window?.orderOut(self)
+        
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            self.closeFloatingCardRequest -= 1
+            
+            if self.closeFloatingCardRequest > 0 {
+                return
+            }
+            self.floatingCard?.window?.orderOut(self)
+        }
     }
     
     func languageChange(notification: NSNotification) {
@@ -496,6 +509,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             windowMove = WindowMove(windowNibName: "WindowMove")
         }
         windowMove?.showWindow(self)
+    }
+    
+    @IBAction func closeWindow(sender: AnyObject) {
+        
     }
     
     // MARK: NSUserNotificationCenterDelegate

@@ -94,3 +94,6 @@
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
 "x3v-GG-iWU.title" = "拷贝";
+
+/* Class = "NSMenuItem"; title = "Close"; ObjectID = "cHz-nn-4Ia"; */
+"cHz-nn-4Ia.title" = "Close";

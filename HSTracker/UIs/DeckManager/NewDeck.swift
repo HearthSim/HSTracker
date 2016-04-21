@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol NewDeckDelegate {
+protocol NewDeckDelegate  {
     func addNewDeck(deck: Deck)
     func openDeckBuilder(playerClass: String, _ arenaDeck: Bool)
     func refreshDecks()

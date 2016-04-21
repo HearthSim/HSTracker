@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 final class Settings {
 
@@ -206,6 +207,17 @@ final class Settings {
     }
 
     // MARK: - Paths / utils
+    var logSeverity: LogSeverity {
+        set { set("file_logger_severity", newValue.rawValue) }
+        get {
+            let severity = get("file_logger_severity", LogSeverity.Info.rawValue) as! Int
+            if let severity = LogSeverity(rawValue: severity) {
+                return severity
+            }
+            return .Info
+        }
+    }
+    
     var deckPath: String? {
         set { set("decks_path", newValue) }
         get {
