@@ -51,6 +51,7 @@
                                 <string>Card Hud 8</string>
                                 <string>Card Hud 9</string>
                                 <string>Card Hud 10</string>
+                                <string>Full overlay</string>
                             </objectValues>
                         </comboBoxCell>
                         <connections>

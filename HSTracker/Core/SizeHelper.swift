@@ -14,16 +14,8 @@ struct SizeHelper {
     class HearthstoneWindow {
         var frame = NSZeroRect
         var windowId: Int?
-        var screen: NSScreen {
-            let hsFrame = frame
-            for screen in NSScreen.screens()! {
-                let screenBounds = screen.frame
-                if screenBounds.contains(hsFrame) {
-                    return screen
-                }
-            }
-            return NSScreen.mainScreen()!
-        }
+        var screen = NSScreen.mainScreen()!
+        var screenFrame = NSZeroRect
         
         init() {
             reload()
@@ -49,11 +41,38 @@ struct SizeHelper {
                 let bounds = info["kCGWindowBounds"] as! CFDictionary
                 CGRectMakeWithDictionaryRepresentation(bounds, &rect)
                 
+                let maxDisplays: UInt32 = 16
+                var onlineDisplays = [CGDirectDisplayID](count: Int(maxDisplays), repeatedValue: 0)
+                var displayCount: UInt32 = 0
+                CGGetOnlineDisplayList(maxDisplays, &onlineDisplays, &displayCount)
+                
+                for currentDisplay in onlineDisplays[0 ..< Int(displayCount)] {
+                    let bounds = CGDisplayBounds(currentDisplay)
+                    if bounds.contains(rect) {
+                        screenFrame = bounds
+                        for screen in NSScreen.screens()! {
+                            var displays = [CGDirectDisplayID](count: Int(maxDisplays), repeatedValue: 0)
+                            let frame = screen.frame
+                            
+                            CGGetDisplaysWithRect(frame, maxDisplays, &displays, &displayCount)
+                            if displays.first == currentDisplay {
+                                self.screen = screen
+                                break
+                            }
+                        }
+                    }
+                }
+                
+                // cgwindow 0,0 is top:left, convert to bottom:left
+                rect.origin.y = NSHeight(screenFrame) - NSMinY(rect) - NSHeight(rect)
+                if NSMinY(screenFrame) < 0 {
+                    rect.origin.y += NSMinY(screenFrame)
+                }
+                
                 // remove the titlebar from the height
                 rect.size.height -= titleBarHeight
-                // add the titlebar to y
-                rect.origin.y += titleBarHeight
                 self.frame = rect
+
             }
         }
     }
@@ -66,23 +85,31 @@ struct SizeHelper {
      * and translated to your resolution
      */
     static func frameRelativeToHearthstone(frame: NSRect, _ relative: Bool = false) -> NSRect {
-        var pointX = frame.origin.x
-        var pointY = frame.origin.y
-        let width: CGFloat = round(NSWidth(frame))
-        let height: CGFloat = round(NSHeight(frame))
+        var pointX = NSMinX(frame)
+        var pointY = NSMinY(frame)
+        let width = NSWidth(frame)
+        let height = NSHeight(frame)
         
         let hearthstoneFrame = hearthstoneWindow.frame
-        let screenRect = hearthstoneWindow.screen.frame
+        let screenRect = hearthstoneWindow.screenFrame
         
         if relative {
             pointX = pointX / 1404.0 * NSWidth(hearthstoneFrame)
             pointY = pointY / 840.0 * NSHeight(hearthstoneFrame)
         }
         
-        let x: CGFloat = round(hearthstoneFrame.origin.x + pointX)
-        let y: CGFloat = round(NSHeight(screenRect) - hearthstoneFrame.origin.y - height - pointY)
-        Log.verbose?.message("HS: \(hearthstoneFrame) -> SC:\(screenRect) -> POS:\(NSMakeRect(x, y, width, height))")
-        return NSMakeRect(x, y, width, height)
+        let x: CGFloat = NSMinX(hearthstoneFrame) + pointX
+        let y: CGFloat = NSMaxY(hearthstoneFrame) - pointY - height
+
+        let relativeFrame = NSMakeRect(x, y, width, height)
+        Log.verbose?.message("FR: \(frame) -> HS: \(hearthstoneFrame) -> SC:\(screenRect) -> POS:\(relativeFrame)")
+        return relativeFrame
+    }
+    
+    static func overHearthstoneFrame() -> NSRect {
+        let frame = hearthstoneWindow.frame
+        
+        return frameRelativeToHearthstone(frame)
     }
 
     static func playerTrackerFrame() -> NSRect {
