@@ -16,4 +16,6 @@
 #import <HockeySDK/HockeySDK.h>
 #endif
 
+#import <Sparkle/Sparkle.h>
+
 #endif /* HSTracker_Bridging_Header_h */

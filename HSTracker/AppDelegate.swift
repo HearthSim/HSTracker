@@ -46,6 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         #if !DEBUG
         BITHockeyManager.sharedHockeyManager().configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
         BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
+        BITHockeyManager.sharedHockeyManager().debugLogEnabled = true
         BITHockeyManager.sharedHockeyManager().startManager()
         #endif
 

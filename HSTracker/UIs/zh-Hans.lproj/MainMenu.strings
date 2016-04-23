@@ -97,3 +97,6 @@
 
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "cHz-nn-4Ia"; */
 "cHz-nn-4Ia.title" = "Close";
+
+/* Class = "NSMenuItem"; title = "Check for Updates..."; ObjectID = "4yc-yU-eH1"; */
+"4yc-yU-eH1.title" = "检测更新…";
