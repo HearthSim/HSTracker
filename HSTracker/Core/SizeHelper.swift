@@ -91,7 +91,7 @@ struct SizeHelper {
         let height = NSHeight(frame)
         
         let hearthstoneFrame = hearthstoneWindow.frame
-        let screenRect = hearthstoneWindow.screenFrame
+        let screenRect = hearthstoneWindow.screen.frame
         
         if relative {
             pointX = pointX / 1404.0 * NSWidth(hearthstoneFrame)

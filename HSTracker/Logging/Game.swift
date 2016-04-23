@@ -301,6 +301,7 @@ class Game {
             })
             statistic.cards = cards
             deck.addStatistic(statistic)
+            Log.verbose?.message("saving stat : \(statistic.toDict())")
             Decks.instance.update(deck)
             
             if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
