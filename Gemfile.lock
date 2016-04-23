@@ -1,14 +1,8 @@
 GIT
-  remote: git://github.com/bmichotte/motion-sparkle.git
-  revision: a962cfb5298fe1efe564e30fc588259063963a13
-  specs:
-    motion-sparkle (0.0.5)
-
-GIT
   remote: git://github.com/rubymotion/motion-support.git
-  revision: e2afaeab1088f7436c9385aa1201da3e718090a4
+  revision: ee274dc5055664d63264256de7ee01ed9ac2a6c3
   specs:
-    motion-support (0.3.0)
+    motion-support (1.1.0)
       motion-require (>= 0.0.6)
 
 GIT
@@ -21,7 +15,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     MotionLocalize (0.0.3)
-    activesupport (4.2.5.1)
+    activesupport (4.2.6)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -62,13 +56,13 @@ GEM
     cocoapods-try (0.5.1)
     colored (1.2)
     dbt (1.1.5)
-    dotenv (2.1.0)
+    dotenv (2.1.1)
     escape (0.0.4)
     fuzzy_match (2.0.4)
     i18n (0.7.0)
     json (1.8.3)
     minitest (5.8.4)
-    molinillo (0.4.2)
+    molinillo (0.4.4)
     motion-cocoapods (1.7.8)
       cocoapods (>= 0.34)
     motion-env (0.0.4)
@@ -79,12 +73,13 @@ GEM
       dbt
       motion-kit
     motion-require (0.2.0)
+    motion-sparkle (0.0.6)
     motion-yaml (1.4)
     motion_print (1.2.0)
     nap (1.1.0)
     netrc (0.7.8)
     plist (3.2.0)
-    rake (10.5.0)
+    rake (11.1.2)
     redcarpet (3.3.4)
     ruby-xcdm (0.0.9)
       activesupport (~> 4.1)
@@ -110,7 +105,7 @@ DEPENDENCIES
   motion-fileutils
   motion-kit (= 0.18.0)
   motion-kit-events
-  motion-sparkle!
+  motion-sparkle
   motion-support!
   motion_print
   rake

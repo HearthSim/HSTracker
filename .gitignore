@@ -22,3 +22,4 @@ sparkle/release
 sparkle/release/*
 sparkle/config/dsa_priv.pem
 .rbenv-gemsets
+Carthage
