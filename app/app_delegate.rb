@@ -17,9 +17,86 @@ class AppDelegate
     #AFNetworkActivityLogger.sharedLogger.startLogging
 
     init_database do
+      if Store[:migrate_to_016].nil?
+        Store[:migrate_to_016] = true
+        response = NSAlert.alert("Upgrade",
+                               buttons: ["Upgrade", "Keep"],
+                               informative: "Your version of HSTracker is now obsolete and replaced by a new one.\nTo upgrade to this version, please use the 'Upgrade' button.\nYour data will be saved and you will be prompted to download the following release after that.\nWARNING: If you are on 0SX 10.8 or 10.9, you will have to keep this version (choose the 'Keep' button)"
+                               )
+        if response == NSAlertFirstButtonReturn
+          migrate
+          return
+        end
+      end
+
       build_ui
     end
 
+  end
+
+  def migrate
+    # init hstracker 0.16 dir
+    appSupport = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, true)
+    path = "#{appSupport.first}/HSTracker/decks"
+    NSFileManager.defaultManager.createDirectoryAtPath(path,
+                                                         withIntermediateDirectories: true,
+                                                         attributes: nil,
+                                                         error: nil)
+    file = "#{path}/decks.json"
+    splash_screen.window.orderOut(self)
+
+    # export all decks as json
+    backup = []
+    Deck.each do |deck|
+      json_deck = {
+        name: deck.name,
+        playerClass: deck.player_class,
+        isArena: deck.arena,
+        version: deck.version.to_s,
+        isActive: deck.is_active,
+        hearthstatsId: deck.hearthstats_id,
+        hearthstatsVersionId: deck.hearthstats_version_id,
+        creationDate: NSDate.date.timeIntervalSince1970,
+        deckId: "#{NSUUID.new.UUIDString}-#{NSDate.date.timeIntervalSince1970}",
+        statistics: [],
+        cards: {}
+      }
+
+      deck.cards.to_a.each do |card|
+        json_deck[:cards][card.card_id] = card.count
+      end
+
+      deck.statistics.to_a.each do |stat|
+        next if stat.opponent_class.nil?
+
+        json_deck[:statistics] << {
+          playerRank: stat.rank,
+          numTurns: stat.turns,
+          date: stat.created_at.timeIntervalSince1970,
+          hasCoin: stat.has_coin ? 1 : 0,
+          gameResult: stat.win ? 1 : 2,         # (0 = Unknow, 1= Win, 2 = Loss, 3 = Draw)
+          opponentName: stat.opponent_name,
+          cards: {},
+          playerMode: 1,         # (1 = Ranked, 2 = Casual, 3 = Arena, 4 = Brawl)
+          opponentClass: stat.opponent_class.lowercaseString,
+          duration: stat.duration
+        }
+      end
+
+      backup << json_deck
+    end
+
+    # save json
+    json = JSON.generate(backup)
+    json.write_to(file)
+
+    # tell about the new version !
+    NSAlert.alert("Upgrade",
+                  buttons: ["Continue"],
+                  informative: "Your data has been migrated with success.\nPlease click continue to open your browser on the new download link !\nHSTracker will close."
+                  )
+    NSWorkspace.sharedWorkspace.openURL 'https://rink.hockeyapp.net/apps/2f0021b9bb1842829aa1cfbbd85d3bed'.nsurl
+    exit
   end
 
   def build_ui
