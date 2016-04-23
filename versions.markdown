@@ -1,3 +1,9 @@
+#### 0.16
+HSTracker has been fully rewritten (from A to Z)
+- New UI for trackers
+- New log parser
+- New everything in fact :D
+
 #### 0.13.4
 - Update Sparkle to prevent vulnerabilities
 - Update some english words
