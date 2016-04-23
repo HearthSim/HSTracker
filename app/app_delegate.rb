@@ -46,7 +46,8 @@ class AppDelegate
     splash_screen.window.orderOut(self)
 
     # export all decks as json
-    backup = []
+    backup = {}
+
     Deck.each do |deck|
       json_deck = {
         name: deck.name,
@@ -83,7 +84,7 @@ class AppDelegate
         }
       end
 
-      backup << json_deck
+      backup[json_deck[:deckId]] = json_deck
     end
 
     # save json
