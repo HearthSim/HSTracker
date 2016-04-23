@@ -295,13 +295,29 @@ class Game {
             statistic.playerRank = currentRank
             statistic.playerMode = currentGameMode
             statistic.numTurns = turnNumber()
+            let startTime: NSDate
+            if let gameStartDate = gameStartDate {
+                startTime = gameStartDate
+            }
+            else {
+                startTime = NSDate()
+            }
+            
+            let endTime: NSDate
+            if let gameEndDate = gameEndDate {
+                endTime = gameEndDate
+            }
+            else {
+                endTime = NSDate()
+            }
+            
+            statistic.duration = Int(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970)
             var cards = [String: Int]()
             opponent.displayRevealedCards.forEach({
                 cards[$0.id] = $0.count
             })
             statistic.cards = cards
             deck.addStatistic(statistic)
-            Log.verbose?.message("saving stat : \(statistic.toDict())")
             Decks.instance.update(deck)
             
             if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {

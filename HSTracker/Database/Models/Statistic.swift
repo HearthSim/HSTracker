@@ -10,14 +10,15 @@ import Foundation
 
 final class Statistic : Dictable {
     var gameResult: GameResult = .Unknow
-    var hasCoin: Bool = false
-    var opponentClass: String = ""
-    var opponentName: String = ""
-    var playerRank: Int = 0
+    var hasCoin = false
+    var opponentClass = ""
+    var opponentName = ""
+    var playerRank = 0
     var playerMode: GameMode = .None
-    var numTurns: Int = 0
+    var numTurns = 0
     var date = NSDate()
     var cards = [String: Int]()
+    var duration = 0
     
     func toDict() -> [String: AnyObject] {
         return [
@@ -29,7 +30,8 @@ final class Statistic : Dictable {
             "playerMode": playerMode.rawValue,
             "date": date.timeIntervalSince1970,
             "numTurns": numTurns,
-            "cards": cards
+            "cards": cards,
+            "duration": duration
         ]
     }
     
@@ -56,6 +58,9 @@ final class Statistic : Dictable {
             }
             if let numTurns = dict["numTurns"] as? Int {
                 statistic.numTurns = numTurns
+            }
+            if let duration = dict["duration"] as? Int {
+                statistic.duration = duration
             }
             if let cards = dict["cards"] as? [String: Int] {
                 statistic.cards = cards

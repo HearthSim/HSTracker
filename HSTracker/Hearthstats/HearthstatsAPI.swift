@@ -376,21 +376,13 @@ struct HearthstatsAPI {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
         let startAt = formatter.stringFromDate(startTime)
         
-        let endTime: NSDate
-        if let gameEndDate = game.gameEndDate {
-            endTime = gameEndDate
-        }
-        else {
-            endTime = NSDate()
-        }
-        
         let parameters: [String: AnyObject] = [
             "class": deck.playerClass.capitalizedString,
             "mode": "\(game.currentGameMode)",
             "result": "\(game.gameResult)",
             "coin": "\(stat.hasCoin)",
             "numturns": stat.numTurns,
-            "duration": Int(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970),
+            "duration": stat.duration,
             "deck_id": deck.hearthstatsId!,
             "deck_version_id": deck.hearthstatsVersionId!,
             "oppclass": stat.opponentClass.capitalizedString,

@@ -65,13 +65,14 @@ final class Decks {
         save()
     }
     
-    private var lastSavedRequest = NSDate.distantPast().timeIntervalSince1970
+    private var savedCountRequest = 0
     internal func save() {
-        lastSavedRequest = NSDate().timeIntervalSince1970
+        savedCountRequest += 1
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
         let queue = dispatch_get_main_queue()
         dispatch_after(when, queue) {
-            if NSDate().timeIntervalSince1970 - self.lastSavedRequest < 0.2 {
+            self.savedCountRequest -= 1
+            if self.savedCountRequest > 0 {
                 return
             }
             
