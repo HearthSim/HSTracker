@@ -47,7 +47,7 @@ class TimerHud: NSWindowController {
 
         self.window!.opaque = false
         self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0)
+        self.window!.backgroundColor = NSColor.clearColor()
     }
 
     func tick(seconds: Int, _ playerSeconds: Int, _ opponentSeconds: Int) {
