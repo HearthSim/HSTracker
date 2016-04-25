@@ -28,7 +28,9 @@ final class Cards {
     static func byId(cardId: String?) -> Card? {
         guard !String.isNullOrEmpty(cardId) else { return nil }
         
-        if let card = collectible().firstWhere({ $0.id == cardId }) {
+        if let card = cards.filter({
+            $0.type != "hero" && $0.type != "hero power"
+        }).firstWhere({ $0.id == cardId }) {
             return card.copy()
         }
         return nil
