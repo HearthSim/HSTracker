@@ -19,6 +19,10 @@ extension String {
     func startsWith(str: String) -> Bool {
         return self.hasPrefix(str)
     }
+    
+    func endsWith(str: String) -> Bool {
+        return self.hasSuffix(str)
+    }
 
     func substringWithRange(start: Int, end: Int) -> String {
         if (start < 0 || start > self.characters.count) {

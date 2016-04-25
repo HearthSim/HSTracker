@@ -83,6 +83,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         #endif
         Log.enable(configuration: loggers)
 
+        if Settings.instance.hearthstoneLogPath.endsWith("/Logs") {
+           Settings.instance.hearthstoneLogPath = Settings.instance.hearthstoneLogPath.replace("/Logs", with: "")
+        }
+
         if Settings.instance.hearthstoneLanguage != nil && Settings.instance.hsTrackerLanguage != nil {
             loadSplashscreen()
         } else {

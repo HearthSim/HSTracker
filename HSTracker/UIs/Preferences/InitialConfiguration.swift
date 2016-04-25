@@ -58,7 +58,7 @@ class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBox
         openDialog.title = NSLocalizedString("Please choose your Hearthstone directory", comment: "")
         if openDialog.runModal() == NSModalResponseOK {
             if let url = openDialog.URLs.first {
-                hearthstonePath.stringValue = url.path! + "/Logs"
+                hearthstonePath.stringValue = url.path!
             }
         }
         checkToEnableSave()

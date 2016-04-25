@@ -47,7 +47,7 @@ class GamePreferences : NSViewController, MASPreferencesViewController, NSComboB
             if let url = openDialog.URLs.first {
                 let settings = Settings.instance
                 if sender == chooseHearthstonePath {
-                    hearthstonePath.stringValue = url.path! + "/Logs"
+                    hearthstonePath.stringValue = url.path!
                     settings.hearthstoneLogPath = hearthstonePath.stringValue
                 }
                 else if sender == chooseDecksPath {

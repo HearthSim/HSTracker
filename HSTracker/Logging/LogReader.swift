@@ -36,7 +36,7 @@ final class LogReader {
             self.containsFilters = containsFilters
         }
         
-        self.path = Hearthstone.instance.logPath + "/\(name).log"
+        self.path = Hearthstone.instance.logPath + "/Logs/\(name).log"
         Log.info?.message("Init reader for \(name) at path \(self.path)")
         if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
             do {
