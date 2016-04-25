@@ -27,6 +27,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     @IBOutlet weak var shamanButton: NSButton!
     @IBOutlet weak var warlockButton: NSButton!
     @IBOutlet weak var warriorButton: NSButton!
+    @IBOutlet weak var archiveButton: NSButton!
     @IBOutlet weak var toolbar: NSToolbar!
 
     var editDeck: EditDeck?
@@ -38,6 +39,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     var currentClass: String?
     var currentDeck: Deck?
     var currentCell: DeckCellView?
+    var showArchivedDecks = false
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -92,7 +94,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     @IBAction func filterClassesAction(sender: NSButton) {
         let buttons = [druidButton, hunterButton, mageButton,
             paladinButton, priestButton, rogueButton,
-            shamanButton, warlockButton, warriorButton
+            shamanButton, warlockButton, warriorButton,
+            archiveButton
         ]
         for button in buttons {
             if sender != button {
@@ -131,12 +134,14 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         else {
             currentClass = nil
         }
+        
+        showArchivedDecks = sender == archiveButton
 
         if currentClass == oldCurrentClass {
             currentClass = nil
         }
 
-        decksTable.reloadData()
+        refreshDecks()
     }
 
     // MARK: - NSTableViewDelegate / NSTableViewDataSource
@@ -373,7 +378,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     }
 
     func refreshDecks() {
-        decks = Decks.instance.decks().filter({$0.isActive})
+        decks = Decks.instance.decks().filter({$0.isActive != showArchivedDecks})
         classes = [String]()
         for deck in decks {
             if !classes.contains(deck.playerClass) {
