@@ -22,22 +22,14 @@ Motion::Project::App.setup do |app|
   require 'dotenv'
   Dotenv.load
 
+  app.deployment_target = '10.8'
   app.release do
-    app.deployment_target = '10.8'
-
     app.env['hockey_app_id'] = ENV['HOCKEY_APP']
-    app.sparkle do
-      release :base_url, "https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}"
-      release :feed_base_url, 'https://rink.hockeyapp.net/api/2/apps/'
-      release :feed_filename, ENV['HOCKEY_APP']
-    end
   end
-  app.development do
-    app.deployment_target = '10.9'
-
-    app.sparkle do
-      release :base_url, 'https://github.com/bmichotte/HSTracker'
-    end
+  app.sparkle do
+    release :base_url, "https://rink.hockeyapp.net/api/2/apps/#{ENV['HOCKEY_APP']}"
+    release :feed_base_url, 'https://rink.hockeyapp.net/api/2/apps/'
+    release :feed_filename, ENV['HOCKEY_APP']
   end
   App.info 'Building for target', app.deployment_target
 
