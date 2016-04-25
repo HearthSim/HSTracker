@@ -130,6 +130,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             let database = Database()
             if let images = database.loadDatabase(self.splashscreen!) {
                 let imageDownloader = ImageDownloader()
+                imageDownloader.deleteImages()
                 imageDownloader.downloadImagesIfNeeded(images, splashscreen: self.splashscreen!)
             }
         })

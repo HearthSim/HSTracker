@@ -13,7 +13,7 @@ import CleanroomLogger
 
 class PowerGameStateHandler {
     
-    let ActionStartRegex = ".*ACTION_START.*BlockType=(POWER|TRIGGER).*id=(\\d*).*cardId=(\\w*).*Target=(.+)"
+    let BlockStartRegex = ".*BLOCK_START.*BlockType=(POWER|TRIGGER).*id=(\\d*).*cardId=(\\w*).*Target=(.+)"
     let CardIdRegex = "cardId=(\\w+)"
     let CreationRegex = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
     let CreationTagRegex = "tag=(\\w+) value=(\\w+)"
@@ -255,8 +255,8 @@ class PowerGameStateHandler {
             game.gameEnd()
         }
 
-        else if line.match(ActionStartRegex) {
-            let matches = line.matches(ActionStartRegex)
+        else if line.match(BlockStartRegex) {
+            let matches = line.matches(BlockStartRegex)
             let type = matches[0].value
             let actionStartingEntityId = Int(matches[1].value)!
             var actionStartingCardId: String? = matches[2].value

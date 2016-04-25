@@ -138,13 +138,13 @@ final class Cards {
 }
 
 struct Database {
-    static let validCardSets = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS"]
+    static let validCardSets = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS", "OG"]
     
     static let deckManagerValidCardSets = ["ALL", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "OG"]
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [String]()
     
-    static let wildSets:[String] = []
+    static let wildSets:[String] = ["NAXX", "GVG"]
 
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
