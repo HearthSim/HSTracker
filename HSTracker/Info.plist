@@ -23,7 +23,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>728</string>
+	<string>729</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.entertainment</string>
 	<key>LSMinimumSystemVersion</key>
@@ -43,7 +43,5 @@
 	<true/>
 	<key>SUFeedURL</key>
 	<string>https://rink.hockeyapp.net/api/2/apps/2f0021b9bb1842829aa1cfbbd85d3bed</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>Resources/dsa_pub.pem</string>
 </dict>
 </plist>
