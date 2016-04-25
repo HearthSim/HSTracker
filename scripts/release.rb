@@ -71,5 +71,5 @@ json = {
   prerelease: false
 }.to_json
 
-puts "Creating release #{version} on Github"
-`curl --data '#{json}' https://api.github.com/repos/bmichotte/HSTracker/releases?access_token=#{ENV['HSTRACKER_GITHUB_TOKEN']}`
+#puts "Creating release #{version} on Github"
+#`curl --data '#{json}' https://api.github.com/repos/bmichotte/HSTracker/releases?access_token=#{ENV['HSTRACKER_GITHUB_TOKEN']}`
