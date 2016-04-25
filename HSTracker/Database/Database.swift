@@ -49,7 +49,7 @@ final class Cards {
     }
 
     static func byEnglishName(name: String) -> Card? {
-        if let card = collectible().firstWhere({ $0.enName == name }) {
+        if let card = collectible().firstWhere({ $0.enName == name || $0.name == name }) {
             return card.copy()
         }
         return nil
