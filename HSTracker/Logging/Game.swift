@@ -997,14 +997,14 @@ class Game {
         }
     }
     
-    func updateCardHuds() {
+    func updateCardHuds(force: Bool = false) {
         guard let _ = cardHuds else { return }
         
         lastCardsUpdateRequest = NSDate().timeIntervalSince1970
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
         let queue = dispatch_get_main_queue()
         dispatch_after(when, queue) {
-            if NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.1 {
+            if !force && NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.1 {
                 return
             }
             if let cardHuds = self.cardHuds {

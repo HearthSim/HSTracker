@@ -89,6 +89,9 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
                 settings.windowsLocked = true
             }
         }
+        else if sender == showCardHuds {
+            settings.showCardHuds = showCardHuds.state == NSOnState
+        }
         else if sender == showSecretHelper {
             settings.showSecretHelper = showSecretHelper.state == NSOnState
         }

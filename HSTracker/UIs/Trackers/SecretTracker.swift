@@ -50,6 +50,22 @@ class SecretTracker : NSWindowController, NSTableViewDataSource, NSTableViewDele
         self.table.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
 
         self.table.reloadData()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(SecretTracker.hearthstoneActive(_:)),
+                                                         name: "hearthstone_active",
+                                                         object: nil)
+    }
+    
+    func hearthstoneActive(notification: NSNotification) {
+        let hs = Hearthstone.instance
+        
+        if hs.hearthstoneActive {
+            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        }
+        else {
+            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
+        }
     }
     
     deinit {

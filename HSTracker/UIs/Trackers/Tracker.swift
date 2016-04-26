@@ -77,7 +77,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         setWindowSizes()
         _setOpacity()
         _windowLockedChange()
-        _hearthstoneRunning(true)
+        _hearthstoneRunning()
         _frameOptionsChange()
     }
     
@@ -120,12 +120,12 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     }
     
     func hearthstoneRunning(notification: NSNotification) {
-        _hearthstoneRunning(false)
+        _hearthstoneRunning()
     }
-    private func _hearthstoneRunning(forceActive: Bool) {
+    private func _hearthstoneRunning() {
         let hs = Hearthstone.instance
         
-        if hs.isHearthstoneRunning && (forceActive || hs.hearthstoneActive) {
+        if hs.hearthstoneActive {
             self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
         }
         else {
@@ -135,7 +135,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     
     func hearthstoneActive(notification: NSNotification) {
         _windowLockedChange()
-        _hearthstoneRunning(false)
+        _hearthstoneRunning()
     }
     
     func trackerOptionsChange(notification: NSNotification) {

@@ -412,6 +412,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
     }
     
+    func showHideCardHuds(notification: NSNotification) {
+        Game.instance.updateCardHuds(true)
+    }
+    
     func languageChange(notification: NSNotification) {
         let alert = NSAlert()
         alert.alertStyle = .InformationalAlertStyle

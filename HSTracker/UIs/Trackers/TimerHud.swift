@@ -48,6 +48,22 @@ class TimerHud: NSWindowController {
         self.window!.opaque = false
         self.window!.hasShadow = false
         self.window!.backgroundColor = NSColor.clearColor()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(TimerHud.hearthstoneActive(_:)),
+                                                         name: "hearthstone_active",
+                                                         object: nil)
+    }
+    
+    func hearthstoneActive(notification: NSNotification) {
+        let hs = Hearthstone.instance
+        
+        if hs.hearthstoneActive {
+            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        }
+        else {
+            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
+        }
     }
 
     func tick(seconds: Int, _ playerSeconds: Int, _ opponentSeconds: Int) {

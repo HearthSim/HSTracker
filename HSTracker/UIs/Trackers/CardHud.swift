@@ -33,6 +33,22 @@ class CardHud : NSWindowController {
         self.window!.backgroundColor = NSColor.clearColor()
         
         hud.setDelegate(self)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(CardHud.hearthstoneActive(_:)),
+                                                         name: "hearthstone_active",
+                                                         object: nil)
+    }
+    
+    func hearthstoneActive(notification: NSNotification) {
+        let hs = Hearthstone.instance
+        
+        if hs.hearthstoneActive {
+            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        }
+        else {
+            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
+        }
     }
 
     func setEntity(entity: Entity?) {
