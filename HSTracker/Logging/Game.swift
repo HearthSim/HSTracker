@@ -250,6 +250,7 @@ class Game {
         gameEndDate = NSDate()
         
         handleEndGame()
+        updateOpponentTracker(true)
 
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.stop()
@@ -1034,7 +1035,7 @@ class Game {
             }
             else {
                 opponentUpdateRequests = 0
-                cards = self.opponent.opponentCardList
+                cards = Settings.instance.clearTrackersOnGameEnd && !gameStarted ? [] : self.opponent.opponentCardList
             }
             dispatch_async(dispatch_get_main_queue()) {
                 tracker?.update(cards, reset)
@@ -1052,7 +1053,7 @@ class Game {
             let queue = dispatch_get_main_queue()
             dispatch_after(when, queue) {
                 let updateRequests: Int
-                let cards: [Card]
+                
                 if tracker == self.playerTracker {
                     self.playerUpdateRequests -= 1
                     updateRequests = self.playerUpdateRequests
@@ -1065,11 +1066,12 @@ class Game {
                 if updateRequests > 0 {
                     return
                 }
+                let cards: [Card]
                 if tracker == self.playerTracker {
                     cards = self.player.playerCardList
                 }
                 else {
-                    cards = self.opponent.opponentCardList
+                    cards = Settings.instance.clearTrackersOnGameEnd && !self.gameStarted ? [] : self.opponent.opponentCardList
                 }
                 tracker?.update(cards, reset)
             }
@@ -1116,7 +1118,9 @@ class Game {
     }
 
      func showNotification(type: NotificationType) {
-        guard !Hearthstone.instance.hearthstoneActive else { return }
+        if Hearthstone.instance.hearthstoneActive {
+            return
+        }
         
         let settings = Settings.instance
         guard type == .GameStart && settings.notifyGameStart

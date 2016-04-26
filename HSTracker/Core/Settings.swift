@@ -129,6 +129,10 @@ final class Settings {
         set { set("show_player_tracker", newValue) }
         get { return get("show_player_tracker", true) as! Bool }
     }
+    var clearTrackersOnGameEnd: Bool {
+        set { set("clear_trackers_end", newValue) }
+        get { return get("clear_trackers_end", false) as! Bool }
+    }
     var showOpponentTracker: Bool {
         set { set("show_opponent_tracker", newValue) }
         get { return get("show_opponent_tracker", true) as! Bool }

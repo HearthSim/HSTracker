@@ -26,6 +26,7 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
     @IBOutlet weak var showSecretHelper: NSButton!
     @IBOutlet weak var showRarityColors: NSButton!
     @IBOutlet weak var showFloatingCard: NSButton!
+    @IBOutlet weak var clearTrackersOnGameEnd: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,7 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
         showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
         showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
+        clearTrackersOnGameEnd.state = settings.clearTrackersOnGameEnd ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(sender: AnyObject) {
@@ -103,6 +105,9 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         }
         else if sender == showFloatingCard {
             settings.showFloatingCard = showFloatingCard.state == NSOnState
+        }
+        else if sender == clearTrackersOnGameEnd {
+            settings.clearTrackersOnGameEnd = clearTrackersOnGameEnd.state == NSOnState
         }
     }
 

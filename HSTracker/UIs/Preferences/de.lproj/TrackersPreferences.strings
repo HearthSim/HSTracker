@@ -54,3 +54,6 @@
 /* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
 "HY0-s6-p7U.title" = "Zeige Karten-Vollansicht per Mouseover-Tooltip";
 /* WIP wording, for lack of better wording atm */
+
+/* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
+"eGQ-pE-MU0.title" = "Clear opponent tracker on game end";
