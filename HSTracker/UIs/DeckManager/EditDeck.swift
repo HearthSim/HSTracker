@@ -335,7 +335,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     private func loadRaces() {
         let popupMenu = NSMenu()
         let popupMenuItem = NSMenuItem(title: NSLocalizedString("all_races", comment: ""),
-                                       action: #selector(EditDeck.changeRarity(_:)),
+                                       action: #selector(EditDeck.changeRace(_:)),
                                        keyEquivalent: "")
         popupMenuItem.representedObject = "all"
         popupMenu.addItem(popupMenuItem)
