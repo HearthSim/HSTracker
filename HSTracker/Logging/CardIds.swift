@@ -2349,6 +2349,12 @@ struct CardIds {
             static let Misdirection = CardIds.Collectible.Hunter.Misdirection
             static let Snipe = CardIds.Collectible.Hunter.Snipe
             static let SnakeTrap = CardIds.Collectible.Hunter.SnakeTrap
+            
+            static func getCards(standardOnly: Bool) -> [String] {
+                return standardOnly ? All.filter {
+                        Database.wildSets.contains(Cards.byId($0)?.set ?? "")
+                    } : All
+            }
         }
         
         struct Mage {
@@ -2361,6 +2367,12 @@ struct CardIds {
             static let MirrorEntity = CardIds.Collectible.Mage.MirrorEntity
             static let Spellbender = CardIds.Collectible.Mage.Spellbender
             static let Vaporize = CardIds.Collectible.Mage.Vaporize
+            
+            static func getCards(standardOnly: Bool) -> [String] {
+                return standardOnly ? All.filter {
+                    Database.wildSets.contains(Cards.byId($0)?.set ?? "")
+                    } : All
+            }
         }
         
         struct Paladin {
@@ -2372,6 +2384,12 @@ struct CardIds {
             static let Redemption = CardIds.Collectible.Paladin.Redemption
             static let Repentance = CardIds.Collectible.Paladin.Repentance
             static let SacredTrial = CardIds.Collectible.Paladin.SacredTrial
+            
+            static func getCards(standardOnly: Bool) -> [String] {
+                return standardOnly ? All.filter {
+                    Database.wildSets.contains(Cards.byId($0)?.set ?? "")
+                    } : All
+            }
         }
     }
     

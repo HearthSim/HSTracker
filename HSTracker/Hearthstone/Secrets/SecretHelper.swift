@@ -29,10 +29,11 @@ class SecretHelper : Equatable, CustomStringConvertible {
     }
 
     static func getSecretIds(heroClass: HeroClass) -> [String] {
+        let standardOnly = Game.instance.currentFormat == .Standard
         switch heroClass {
-        case .Hunter: return CardIds.Secrets.Hunter.All
-        case .Mage: return CardIds.Secrets.Mage.All
-        case .Paladin: return CardIds.Secrets.Paladin.All
+        case .Hunter: return CardIds.Secrets.Hunter.getCards(standardOnly)
+        case .Mage: return CardIds.Secrets.Mage.getCards(standardOnly)
+        case .Paladin: return CardIds.Secrets.Paladin.getCards(standardOnly)
         default: return [String]()
         }
     }

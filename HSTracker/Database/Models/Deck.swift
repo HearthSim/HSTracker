@@ -182,6 +182,10 @@ final class Deck : Hashable, CustomStringConvertible {
 
         return "\(wins) - \(totalGames - wins) / \(wins / totalGames * 100)%"
     }
+    
+    func standardViable() -> Bool {
+        return !isArena && !_cards.any({ Database.wildSets.contains($0.set) })
+    }
 }
 func == (lhs: Deck, rhs: Deck) -> Bool {
     return lhs.deckId == rhs.deckId && lhs.version == rhs.version

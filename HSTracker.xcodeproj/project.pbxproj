@@ -31,6 +31,7 @@
 		432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60341CB6A8CC00B05D19 /* FloatingCard.xib */; };
 		432B60371CBD269700B05D19 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60361CBD269700B05D19 /* Color.swift */; };
 		432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60381CBF9AD700B05D19 /* ManaGemButton.swift */; };
+		432C11AB1CCF6B460067C5FE /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C11AA1CCF6B460067C5FE /* Format.swift */; };
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		434106A61C9868620045655A /* Frames.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A31C9868620045655A /* Frames.xcassets */; };
@@ -354,6 +355,7 @@
 		432B60341CB6A8CC00B05D19 /* FloatingCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloatingCard.xib; sourceTree = "<group>"; };
 		432B60361CBD269700B05D19 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		432B60381CBF9AD700B05D19 /* ManaGemButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManaGemButton.swift; sourceTree = "<group>"; };
+		432C11AA1CCF6B460067C5FE /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
 		434106A31C9868620045655A /* Frames.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Frames.xcassets; sourceTree = "<group>"; };
@@ -751,6 +753,7 @@
 				439C7E9F1C777F8900D29859 /* Zone.swift */,
 				43F0002F1C81BAE8000F2F8F /* Mode.swift */,
 				431719781C8C179D00F5988B /* Rarity.swift */,
+				432C11AA1CCF6B460067C5FE /* Format.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1140,6 +1143,7 @@
 				434C2F361C7F4857001D1D91 /* HearthstoneDecks.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
+				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				434C2F3A1C7F48BE001D1D91 /* Hearthhead.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,

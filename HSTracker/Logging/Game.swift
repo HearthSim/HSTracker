@@ -97,6 +97,18 @@ class Game {
     
     var playerMinionCount: Int { return entities.map { $0.1 }.filter { $0.isInPlay && $0.isMinion && $0.isControlledBy(self.player.id) }.count }
     
+    var currentFormat: Format? {
+        if currentGameMode != GameMode.Casual && currentGameMode != GameMode.Ranked {
+            return nil
+        }
+        if let deck = activeDeck where !deck.standardViable() {
+            return .Wild
+        }
+        return entities.map { $0.1 }
+            .filter { !String.isNullOrEmpty($0.cardId) && !$0.info.created && !String.isNullOrEmpty($0.card.set) }
+            .any { Database.wildSets.contains($0.card.set) } ? .Wild : .Standard
+    }
+    
     static let instance = Game()
     
     init() {
@@ -282,6 +294,10 @@ class Game {
         let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         if let _player = _player {
             hasCoin = !_player.hasTag(.FIRST_PLAYER)
+        }
+        
+        if currentGameMode == .Ranked || currentGameMode == .Casual {
+            Log.info?.message("Format: \(currentFormat)")
         }
         
         Log.info?.message("End game : mode = \(currentGameMode), rank = \(currentRank), result = \(gameResult), against = \(opponent.name)(\(opponent.playerClass)), opponent played : \(opponent.displayRevealedCards) ")
