@@ -272,6 +272,15 @@ struct TagChangeActions {
 
     private func zoneChange(game: Game, _ id: Int, _ value: Int, _ prevValue: Int) {
         if let entity = game.entities[id] {
+            if entity.info.originalZone == nil {
+                if prevValue != Zone.INVALID.rawValue && prevValue != Zone.SETASIDE.rawValue {
+                    entity.info.originalZone = Zone(rawValue: prevValue)
+                }
+                else if value != Zone.INVALID.rawValue && value != Zone.SETASIDE.rawValue {
+                    entity.info.originalZone = Zone(rawValue: value)
+                }
+            }
+            
             let controller = entity.getTag(.CONTROLLER)
             if let zoneValue = Zone(rawValue: prevValue) {
                 switch zoneValue {
@@ -287,17 +296,20 @@ struct TagChangeActions {
                 case .SECRET:
                     zoneChangeFromSecret(game, id, value, prevValue, controller, entity.cardId)
 
-                case .CREATED:
+                case .INVALID:
                     let maxId = getMaxHeroPowerId(game)
                     if !game.setupDone && id <= maxId {
+                        entity.info.originalZone = .DECK
                         simulateZoneChangesFromDeck(game, id, value, entity.cardId, maxId)
                     }
                     else {
                         zoneChangeFromOther(game, id, value, prevValue, controller, entity.cardId)
                     }
 
-                case .GRAVEYARD, .SETASIDE, .INVALID, .REMOVEDFROMGAME:
+                case .GRAVEYARD, .SETASIDE, .REMOVEDFROMGAME:
                     zoneChangeFromOther(game, id, value, prevValue, controller, entity.cardId)
+                    
+                default: break
                 }
             }
         }
@@ -334,9 +346,15 @@ struct TagChangeActions {
         }
     }
 
-    private func zoneChangeFromOther(game: Game, _ id: Int, _ value: Int, _ prevValue: Int, _ controller: Int, _ cardId: String?) {
-        if let value = Zone(rawValue: value), entity = game.entities[id] {
+    private func zoneChangeFromOther(game: Game, _ id: Int, _ rawValue: Int, _ prevValue: Int, _ controller: Int, _ cardId: String?) {
+        if let value = Zone(rawValue: rawValue), entity = game.entities[id] {
             //print("**** CHANGE \(value), entity \(entity), controller: \(controller), playerId: \(game.player.id), opponentId: \(game.opponent.id)")
+            if entity.info.originalZone == .DECK  && rawValue != Zone.DECK.rawValue {
+                // This entity was moved from DECK to SETASIDE to HAND, e.g. by Tracking
+                entity.info.discarded = false
+                zoneChangeFromDeck(game, id, rawValue, prevValue, controller, cardId)
+                return
+            }
             entity.info.created = true
             
             switch value {

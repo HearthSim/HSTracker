@@ -536,7 +536,7 @@ class Game {
                 let queue = dispatch_get_main_queue()
                 dispatch_after(when, queue) {
                     // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
-                    if entity.hasTag(.CARD_TARGET) && self.entities[entity.getTag(.CARD_TARGET)]!.isMinion {
+                    if entity.hasTag(.CARD_TARGET) && self.entities[entity.getTag(.CARD_TARGET)] != nil && self.entities[entity.getTag(.CARD_TARGET)]!.isMinion {
                         self.opponentSecrets?.setZero(CardIds.Secrets.Mage.Spellbender)
                     }
                     

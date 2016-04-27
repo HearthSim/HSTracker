@@ -282,31 +282,33 @@ class PowerGameStateHandler {
                     if let lastCardPlayed = game.lastCardPlayed,
                         let entity = game.entities[lastCardPlayed] {
                             let cardId = entity.cardId
-                            addKnownCardId(cardId)
+                            addKnownCardId(game, cardId)
                     }
-                    addKnownCardId(CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken)
+                    addKnownCardId(game, CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken)
                 }
             } else {
                 if actionStartingCardId == CardIds.Collectible.Rogue.GangUp {
-                    addTargetAsKnownCardId(matches, 3)
+                    addTargetAsKnownCardId(game, matches, 3)
                 } else if actionStartingCardId == CardIds.Collectible.Rogue.BeneathTheGrounds {
-                    addKnownCardId(CardIds.NonCollectible.Rogue.BeneaththeGrounds_AmbushToken, 3)
+                    addKnownCardId(game, CardIds.NonCollectible.Rogue.BeneaththeGrounds_AmbushToken, 3)
                 } else if actionStartingCardId == CardIds.Collectible.Warrior.IronJuggernaut {
-                    addKnownCardId(CardIds.NonCollectible.Warrior.IronJuggernaut_BurrowingMineToken)
+                    addKnownCardId(game, CardIds.NonCollectible.Warrior.IronJuggernaut_BurrowingMineToken)
                 } else if actionStartingCardId == CardIds.Collectible.Druid.Recycle {
-                    addTargetAsKnownCardId(matches)
+                    addTargetAsKnownCardId(game, matches)
                 } else if actionStartingCardId == CardIds.Collectible.Mage.ForgottenTorch {
-                    addKnownCardId(CardIds.NonCollectible.Mage.ForgottenTorch_RoaringTorchToken)
+                    addKnownCardId(game, CardIds.NonCollectible.Mage.ForgottenTorch_RoaringTorchToken)
                 } else if actionStartingCardId == CardIds.Collectible.Warlock.CurseOfRafaam {
-                    addKnownCardId(CardIds.NonCollectible.Warlock.CurseofRafaam_CursedToken)
+                    addKnownCardId(game, CardIds.NonCollectible.Warlock.CurseofRafaam_CursedToken)
                 } else if actionStartingCardId == CardIds.Collectible.Neutral.AncientShade {
-                    addKnownCardId(CardIds.NonCollectible.Neutral.AncientShade_AncientCurseToken)
+                    addKnownCardId(game, CardIds.NonCollectible.Neutral.AncientShade_AncientCurseToken)
                 } else if actionStartingCardId == CardIds.Collectible.Priest.ExcavatedEvil {
-                    addKnownCardId(CardIds.Collectible.Priest.ExcavatedEvil)
+                    addKnownCardId(game, CardIds.Collectible.Priest.ExcavatedEvil)
                 } else if actionStartingCardId == CardIds.Collectible.Neutral.EliseStarseeker {
-                    addKnownCardId(CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken)
+                    addKnownCardId(game, CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken)
                 } else if actionStartingCardId == CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken {
-                    addKnownCardId(CardIds.NonCollectible.Neutral.EliseStarseeker_GoldenMonkeyToken)
+                    addKnownCardId(game, CardIds.NonCollectible.Neutral.EliseStarseeker_GoldenMonkeyToken)
+                } else if actionStartingCardId == CardIds.Collectible.Neutral.Doomcaller {
+                    addKnownCardId(game, CardIds.NonCollectible.Neutral.Cthun)
                 } else {
                     if let actionStartingCardId = actionStartingCardId,
                         let card = Cards.anyById(actionStartingCardId) {
@@ -355,7 +357,7 @@ class PowerGameStateHandler {
         }
     }
 
-    private func addTargetAsKnownCardId(matches: [Match], _ count: Int = 1) {
+    private func addTargetAsKnownCardId(game: Game, _ matches: [Match], _ count: Int = 1) {
         let target: String = matches[3].value.trim()
         guard target.startsWith("[") && tagChangeHandler.isEntity(target) else { return }
         guard target.match(CardIdRegex) else { return }
@@ -363,7 +365,6 @@ class PowerGameStateHandler {
         let cardIdMatch = target.matches(CardIdRegex)
         let targetCardId: String = cardIdMatch[0].value.trim()
         //print("**** CardIdRegex -> targetCardId:'\(targetCardId)'")
-        let game = Game.instance
         for i in 0 ..< count {
             let id = getMaxEntityId() + i + 1
             if game.knownCardIds[id] != nil {
@@ -372,9 +373,7 @@ class PowerGameStateHandler {
         }
     }
 
-    private func addKnownCardId(cardId: String, _ count: Int = 1) {
-        //print("**** Add know card -> cardId:'\(cardId)'")
-        let game = Game.instance
+    private func addKnownCardId(game: Game, _ cardId: String, _ count: Int = 1) {
         for i in 0 ..< count {
             let id = getMaxEntityId() + 1 + i
             if game.knownCardIds[id] != nil {

@@ -142,6 +142,9 @@ class EntityInfo : CustomStringConvertible {
     var hidden = false
     var turn = 0
     var costReduction = 0
+    var originalZone:Zone?
+    var createdInDeck: Bool { return originalZone == .DECK }
+    var createdInHand: Bool { return originalZone == .HAND }
     
     init(_ entity: Entity) {
         _entity = entity
