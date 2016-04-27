@@ -308,8 +308,6 @@ struct TagChangeActions {
 
                 case .GRAVEYARD, .SETASIDE, .REMOVEDFROMGAME:
                     zoneChangeFromOther(game, id, value, prevValue, controller, entity.cardId)
-                    
-                default: break
                 }
             }
         }
