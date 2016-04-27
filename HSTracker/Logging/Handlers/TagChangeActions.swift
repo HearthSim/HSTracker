@@ -296,7 +296,7 @@ struct TagChangeActions {
                 case .SECRET:
                     zoneChangeFromSecret(game, id, value, prevValue, controller, entity.cardId)
 
-                case .INVALID:
+                case .INVALID, .CREATED:
                     let maxId = getMaxHeroPowerId(game)
                     if !game.setupDone && id <= maxId {
                         entity.info.originalZone = .DECK
