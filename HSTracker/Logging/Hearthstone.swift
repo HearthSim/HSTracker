@@ -20,6 +20,17 @@ final class Hearthstone : NSObject {
     var queue:dispatch_queue_t?
 
     static let instance = Hearthstone()
+    
+    static func findHearthstone() -> String? {
+        if NSFileManager.defaultManager().fileExistsAtPath("/Applications/Hearthstone/Hearthstone.app") {
+            return "/Applications/Hearthstone"
+        }
+        return nil
+    }
+    
+    static func validatedHearthstonePath() -> Bool {
+        return NSFileManager.defaultManager().fileExistsAtPath("\(Settings.instance.hearthstoneLogPath)/Hearthstone.app")
+    }
 
     // MARK: - Initialisation
     func start() {

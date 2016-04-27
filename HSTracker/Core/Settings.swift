@@ -13,6 +13,10 @@ final class Settings {
 
     static let instance = Settings()
     
+    func validated() -> Bool {
+        return Hearthstone.validatedHearthstonePath() && hearthstoneLanguage != nil && hsTrackerLanguage != nil
+    }
+    
     private let defaults:NSUserDefaults? = {
         return NSUserDefaults.standardUserDefaults()
     }()
@@ -49,7 +53,7 @@ final class Settings {
     }
     var hearthstoneLogPath: String {
         set { set("hearthstone_log_path", newValue) }
-        get { return get("hearthstone_log_path", "/Applications/Hearthstone/Logs/") as! String }
+        get { return get("hearthstone_log_path", "/Applications/Hearthstone") as! String }
     }
     var hearthstoneLanguage: String? {
         set { set("hearthstone_language", newValue) }

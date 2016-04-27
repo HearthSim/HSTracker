@@ -17,7 +17,8 @@
 "Loading %@ cards" = "Chargement des cartes %@";
 "Lock windows" = "Verrouiller les fenêtres";
 "OK" = "OK";
-"Please choose your Hearthstone directory" = "Merci de choisir le répertoire de Hearthstone";
+"Please select your Hearthstone app" = "Veuillez sélectionner votre application Hearthstone";
+"Can't find Hearthstone, please select Hearthstone.app" = "Impossible de trouver Hearthstone, veuillez sélectionner Hearthstone.app";
 "Preferences" = "Préférences";
 "Rename deck" = "Renommer le deck";
 "Reset" = "Reset";

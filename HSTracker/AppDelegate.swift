@@ -59,6 +59,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             NSUserDefaults.standardUserDefaults().synchronize()
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hstracker_v2")
         }
+        
+        let settings = Settings.instance
 
         // init logger
         var loggers = [LogConfiguration]()
@@ -83,11 +85,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         #endif
         Log.enable(configuration: loggers)
 
-        if Settings.instance.hearthstoneLogPath.endsWith("/Logs") {
-           Settings.instance.hearthstoneLogPath = Settings.instance.hearthstoneLogPath.replace("/Logs", with: "")
+        if settings.hearthstoneLogPath.endsWith("/Logs") {
+           settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
         }
 
-        if Settings.instance.hearthstoneLanguage != nil && Settings.instance.hsTrackerLanguage != nil {
+        if settings.validated() {
             loadSplashscreen()
         } else {
             initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")

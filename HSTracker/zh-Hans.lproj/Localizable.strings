@@ -17,7 +17,8 @@
 "Loading %@ cards" = "加载 %@ 卡牌";
 "Lock windows" = "锁定窗口";
 "OK" = "确定";
-"Please choose your Hearthstone directory" = "选择一个炉石传说目录";
+"Please select your Hearthstone app" = "Please select your Hearthstone app";
+"Can't find Hearthstone, please select Hearthstone.app" = "Can't find Hearthstone, please select Hearthstone.app";
 "Preferences" = "偏好设置";
 "Rename deck" = "改名套牌";
 "Reset" = "重置";
