@@ -37,7 +37,11 @@ class Game {
     var awaitingRankedDetection = true
     var lastAssetUnload: Double = 0
     var gameStarted = false
-    var gameEnded = true
+    var gameEnded = true {
+        didSet {
+            updateOpponentTracker(true)
+        }
+    }
     var gameStartDate: NSDate?
     var gameResult: GameResult = .Unknow
     var gameEndDate: NSDate?
@@ -1035,7 +1039,7 @@ class Game {
             }
             else {
                 opponentUpdateRequests = 0
-                cards = Settings.instance.clearTrackersOnGameEnd && !gameStarted ? [] : self.opponent.opponentCardList
+                cards = Settings.instance.clearTrackersOnGameEnd && gameEnded ? [] : self.opponent.opponentCardList
             }
             dispatch_async(dispatch_get_main_queue()) {
                 tracker?.update(cards, reset)
@@ -1071,7 +1075,7 @@ class Game {
                     cards = self.player.playerCardList
                 }
                 else {
-                    cards = Settings.instance.clearTrackersOnGameEnd && !self.gameStarted ? [] : self.opponent.opponentCardList
+                    cards = Settings.instance.clearTrackersOnGameEnd && self.gameEnded ? [] : self.opponent.opponentCardList
                 }
                 tracker?.update(cards, reset)
             }
