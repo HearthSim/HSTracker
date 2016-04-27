@@ -42,8 +42,13 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             "card_size": #selector(Tracker.cardSizeChange(_:)),
             "window_locked": #selector(Tracker.windowLockedChange(_:)),
             "auto_position_trackers": #selector(Tracker.autoPositionTrackersChange(_:)),
+            
+            "player_draw_chance": #selector(Tracker.playerOptionFrameChange(_:)),
+            "player_card_count": #selector(Tracker.playerOptionFrameChange(_:)),
+            "opponent_card_count": #selector(Tracker.opponentOptionFrameChange(_:)),
+            "opponent_draw_chance": #selector(Tracker.opponentOptionFrameChange(_:)),
         ]
-        
+    
         for (name, selector) in observers {
             center.addObserver(self,
                                selector: selector,
@@ -145,6 +150,18 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     func cardSizeChange(notification: NSNotification) {
         _frameOptionsChange()
         setWindowSizes()
+    }
+    
+    func playerOptionFrameChange(notification: NSNotification) {
+        if playerType == .Player {
+            Game.instance.updatePlayerTracker(true)
+        }
+    }
+    
+    func opponentOptionFrameChange(notification: NSNotification) {
+        if playerType == .Opponent {
+            Game.instance.updateOpponentTracker(true)
+        }
     }
     
     func autoPositionTrackersChange(notification: NSNotification) {

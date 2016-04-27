@@ -27,6 +27,10 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
     @IBOutlet weak var showRarityColors: NSButton!
     @IBOutlet weak var showFloatingCard: NSButton!
     @IBOutlet weak var clearTrackersOnGameEnd: NSButton!
+    @IBOutlet weak var showOpponentCardCount: NSButton!
+    @IBOutlet weak var showOpponentDrawChance: NSButton!
+    @IBOutlet weak var showPlayerCardCount: NSButton!
+    @IBOutlet weak var showPlayerDrawChance: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +51,10 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
         showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
         clearTrackersOnGameEnd.state = settings.clearTrackersOnGameEnd ? NSOnState : NSOffState
+        showOpponentCardCount.state = settings.showOpponentCardCount ? NSOnState : NSOffState
+        showOpponentDrawChance.state = settings.showOpponentDrawChance ? NSOnState : NSOffState
+        showPlayerCardCount.state = settings.showPlayerCardCount ? NSOnState : NSOffState
+        showPlayerDrawChance.state = settings.showPlayerDrawChance ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(sender: AnyObject) {
@@ -108,6 +116,18 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
         }
         else if sender == clearTrackersOnGameEnd {
             settings.clearTrackersOnGameEnd = clearTrackersOnGameEnd.state == NSOnState
+        }
+        else if sender == showOpponentCardCount {
+            settings.showOpponentCardCount = showOpponentCardCount.state == NSOnState
+        }
+        else if sender == showOpponentDrawChance {
+            settings.showOpponentDrawChance = showOpponentDrawChance.state == NSOnState
+        }
+        else if sender == showPlayerCardCount {
+            settings.showPlayerCardCount = showPlayerCardCount.state == NSOnState
+        }
+        else if sender == showPlayerDrawChance {
+            settings.showPlayerDrawChance = showPlayerDrawChance.state == NSOnState
         }
     }
 

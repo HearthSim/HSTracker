@@ -55,3 +55,15 @@
 
 /* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
 "eGQ-pE-MU0.title" = "Vider le tracker de l'opposant en fin de partie";
+
+/* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
+"avf-qA-8vU.title" = "Voir la chance de pioche de l'opposant";
+
+/* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
+"TmO-9A-Ffe.title" = "Voir le nombre de cartes du joueur";
+
+/* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
+"iqA-b1-owW.title" = "Voir le nombre de cartes de l'opposant";
+
+/* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
+"acK-XF-6wQ.title" = "Voir la chance de pioche du joueur";
