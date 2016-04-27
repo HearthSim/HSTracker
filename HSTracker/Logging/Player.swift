@@ -83,6 +83,7 @@ final class Player {
     var id: Int = -1
     var goingFirst: Bool = false
     var fatigue: Int = 0
+    private(set) var spellsPlayedCount = 0
     
     var hasCoin: Bool {
         return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoin }
@@ -413,8 +414,13 @@ final class Player {
         if !isLocalPlayer {
             updateKnownEntitesInDeck(entity.cardId, turn)
         }
-        if entity.getTag(.CARDTYPE) == CardType.TOKEN.rawValue {
-            entity.info.created = true
+        
+        if let cardType = CardType(rawValue: entity.getTag(.CARDTYPE)) {
+            switch cardType {
+            case .TOKEN: entity.info.created = true
+            case .SPELL: spellsPlayedCount += 1
+            default: break
+            }
         }
         entity.info.hidden = false
         entity.info.turn = turn
@@ -438,6 +444,7 @@ final class Player {
     
     func secretPlayedFromHand(entity: Entity, _ turn: Int) {
         entity.info.turn = turn
+        spellsPlayedCount += 1
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
