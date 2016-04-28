@@ -11,8 +11,7 @@
 import Foundation
 
 enum Zone: Int {
-    case INVALID = -1,
-        CREATED = 0,
+    case INVALID = 0,
         PLAY = 1,
         DECK = 2,
         HAND = 3,
@@ -32,10 +31,10 @@ enum Zone: Int {
             self = _enum
             return
         }
-        self = .CREATED
+        self = .INVALID
     }
     
     static func allValues() -> [Zone] {
-        return [.INVALID, .CREATED, .PLAY, .DECK, .HAND, .GRAVEYARD, .REMOVEDFROMGAME, .SETASIDE, .SECRET]
+        return [.INVALID, .PLAY, .DECK, .HAND, .GRAVEYARD, .REMOVEDFROMGAME, .SETASIDE, .SECRET]
     }
 }

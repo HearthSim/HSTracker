@@ -296,9 +296,9 @@ struct TagChangeActions {
                 case .SECRET:
                     zoneChangeFromSecret(game, id, value, prevValue, controller, entity.cardId)
 
-                case .INVALID, .CREATED:
+                case .INVALID:
                     let maxId = getMaxHeroPowerId(game)
-                    if !game.setupDone && id <= maxId {
+                    if !game.setupDone && (id <= maxId || game.gameEntity?.getTag(.STEP) == Step.INVALID.rawValue) && entity.getTag(.ZONE_POSITION) < 5 {
                         entity.info.originalZone = .DECK
                         simulateZoneChangesFromDeck(game, id, value, entity.cardId, maxId)
                     }
