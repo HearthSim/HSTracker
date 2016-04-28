@@ -135,6 +135,7 @@ final class Player {
         playerClass = nil
         goingFirst = false
         fatigue = 0
+        spellsPlayedCount = 0
         
         inDeckPredictions.removeAll()
     }

@@ -70,6 +70,9 @@ class Entity: Hashable, CustomStringConvertible, Dictable {
     var isInSetAside: Bool { return isInZone(.SETASIDE) }
     var isInSecret: Bool { return isInZone(.SECRET) }
     
+    var health: Int { return getTag(.HEALTH) - getTag(.DAMAGE) }
+    var attack: Int { return getTag(.ATK) }
+    
     var hasCardId: Bool { return !String.isNullOrEmpty(cardId) }
     
     private var _cachedCard: Card?

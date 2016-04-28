@@ -109,6 +109,22 @@ final class Settings {
         set { set("opponent_draw_chance", newValue) }
         get { return get("opponent_draw_chance", true) as! Bool }
     }
+    var showPlayerCthun: Bool {
+        set { set("player_cthun_frame", newValue) }
+        get { return get("player_cthun_frame", true) as! Bool }
+    }
+    var showPlayerYogg: Bool {
+        set { set("player_yogg_frame", newValue) }
+        get { return get("player_yogg_frame", true) as! Bool }
+    }
+    var showOpponentCthun: Bool {
+        set { set("opponent_cthun_frame", newValue) }
+        get { return get("opponent_cthun_frame", true) as! Bool }
+    }
+    var showOpponentYogg: Bool {
+        set { set("opponent_yogg_frame", newValue) }
+        get { return get("opponent_yogg_frame", true) as! Bool }
+    }
     var removeCardsFromDeck: Bool {
         set { set("remove_cards_from_deck", newValue) }
         get { return get("remove_cards_from_deck", false) as! Bool }

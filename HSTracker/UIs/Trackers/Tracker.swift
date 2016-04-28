@@ -24,6 +24,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     @IBOutlet weak var cardCounter: CardCounter!
     @IBOutlet weak var playerDrawChance: PlayerDrawChance!
     @IBOutlet weak var opponentDrawChance: OpponentDrawChance!
+    @IBOutlet weak var wotogCounter: WotogCounter!
     
     var heroCard: Card?
     var animatedCards = [CardCellView]()
@@ -45,8 +46,13 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             
             "player_draw_chance": #selector(Tracker.playerOptionFrameChange(_:)),
             "player_card_count": #selector(Tracker.playerOptionFrameChange(_:)),
+            "player_cthun_frame": #selector(Tracker.playerOptionFrameChange(_:)),
+            "player_yogg_frame": #selector(Tracker.playerOptionFrameChange(_:)),
+            
             "opponent_card_count": #selector(Tracker.opponentOptionFrameChange(_:)),
             "opponent_draw_chance": #selector(Tracker.opponentOptionFrameChange(_:)),
+            "opponent_cthun_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
+            "opponent_yogg_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
         ]
     
         for (name, selector) in observers {
@@ -294,20 +300,39 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         default: ratio = 1.0
         }
 
+        let showCthunCounter: Bool
+        let showSpellCounter: Bool
+        let proxy:Entity?
+        
         if playerType == .Opponent {
             cardCounter.hidden = !settings.showOpponentCardCount
             opponentDrawChance.hidden = !settings.showOpponentDrawChance
             playerDrawChance.hidden = true
+            
+            showCthunCounter = WotogCounterHelper.showOpponentCthunCounter
+            showSpellCounter = WotogCounterHelper.showOpponentSpellsCounter
+            proxy = WotogCounterHelper.opponentCthunProxy
         }
         else {
             cardCounter.hidden = !settings.showPlayerCardCount
             opponentDrawChance.hidden = true
             playerDrawChance.hidden = !settings.showPlayerDrawChance
+            
+            showCthunCounter = WotogCounterHelper.showPlayerCthunCounter
+            showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
+            proxy = WotogCounterHelper.playerCthunProxy
         }
+        wotogCounter.counterStyle = showCthunCounter && showSpellCounter ? .Full : (showCthunCounter ? .Cthun : (showSpellCounter ? .Spells : .None))
+        wotogCounter.hidden = wotogCounter.counterStyle == .None
+        wotogCounter.attack = proxy?.attack ?? 6
+        wotogCounter.health = proxy?.health ?? 6
+        wotogCounter.spell = player?.spellsPlayedCount ?? 0
 
         let opponentDrawChanceHeight = round(71 / ratio)
         let playerDrawChanceHeight = round(40 / ratio)
         let cardCounterHeight = round(40 / ratio)
+        let cthunCounterHeight = round(40 / ratio)
+        let yoggCounterHeight = round(40 / ratio)
         
         var offsetFrames: CGFloat = 0
         if !opponentDrawChance.hidden {
@@ -318,6 +343,12 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         }
         if !cardCounter.hidden {
             offsetFrames += cardCounterHeight
+        }
+        if showSpellCounter {
+            offsetFrames += yoggCounterHeight
+        }
+        if showCthunCounter {
+            offsetFrames += cthunCounterHeight
         }
         
         var cardHeight: CGFloat
@@ -355,6 +386,19 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         if !playerDrawChance.hidden {
             y -= playerDrawChanceHeight
             playerDrawChance.frame = NSMakeRect(0, y, windowWidth, playerDrawChanceHeight)
+        }
+        if showCthunCounter || showSpellCounter {
+            var height: CGFloat = 0
+            if showCthunCounter {
+                height += cthunCounterHeight
+            }
+            if showSpellCounter {
+                height += yoggCounterHeight
+            }
+            y -= height
+            
+            wotogCounter.frame = NSMakeRect(0, y, windowWidth, height)
+            wotogCounter.needsDisplay = true
         }
     }
     

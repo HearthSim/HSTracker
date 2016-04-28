@@ -16,7 +16,7 @@
 		4317197D1C8C54FF00F5988B /* OpponentDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */; };
 		432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FAD1CB5351800B05D19 /* Localizable.strings */; };
 		432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB21CB536E700B05D19 /* MainMenu.xib */; };
-		432B5FB31CB5371C00B05D19 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB51CB5371C00B05D19 /* TrackersPreferences.xib */; };
+		432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */; };
 		432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB81CB5372600B05D19 /* GamePreferences.xib */; };
 		432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FBB1CB5372C00B05D19 /* GeneralPreferences.xib */; };
 		432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FBE1CB5373200B05D19 /* Splashscreen.xib */; };
@@ -102,6 +102,13 @@
 		436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
 		436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		436969151C80653000CE1D29 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436969141C80653000CE1D29 /* LinqExtension.swift */; };
+		437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAB1CD1E6AF00DE0A41 /* Step.swift */; };
+		437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */; };
+		437B5BB31CD2439800DE0A41 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
+		437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */; };
+		437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */; };
+		437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */; };
+		437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */; };
 		4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
 		4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -164,7 +171,7 @@
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
 		43D308061C842DC900480488 /* GamePrefences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePrefences.swift */; };
-		43D308081C84410000480488 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* TrackersPreferences.swift */; };
+		43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* PlayerTrackersPreferences.swift */; };
 		43D601D91CC3A57C0059F36A /* Decks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D601D81CC3A57C0059F36A /* Decks.swift */; };
 		43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EDF1C949C6D00C26950 /* TimerHud.xib */; };
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
@@ -262,7 +269,7 @@
 		4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentDrawChance.swift; sourceTree = "<group>"; };
 		432B5FAE1CB5351800B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FB11CB536E700B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		432B5FB41CB5371C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TrackersPreferences.xib; sourceTree = "<group>"; };
+		432B5FB41CB5371C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PlayerTrackersPreferences.xib; sourceTree = "<group>"; };
 		432B5FB71CB5372600B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GamePreferences.xib; sourceTree = "<group>"; };
 		432B5FBA1CB5372C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GeneralPreferences.xib; sourceTree = "<group>"; };
 		432B5FBD1CB5373200B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Splashscreen.xib; sourceTree = "<group>"; };
@@ -279,7 +286,7 @@
 		432B5FD31CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Splashscreen.strings; sourceTree = "<group>"; };
 		432B5FD41CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		432B5FD51CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GamePreferences.strings; sourceTree = "<group>"; };
-		432B5FD61CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		432B5FD61CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
 		432B5FD71CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		432B5FD81CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FD91CB5492500B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/DeckManager.strings; sourceTree = "<group>"; };
@@ -290,7 +297,7 @@
 		432B5FDE1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Splashscreen.strings; sourceTree = "<group>"; };
 		432B5FDF1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		432B5FE01CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/GamePreferences.strings; sourceTree = "<group>"; };
-		432B5FE11CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		432B5FE11CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
 		432B5FE21CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		432B5FE31CB5492700B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FE41CB549F000B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/DeckManager.strings; sourceTree = "<group>"; };
@@ -301,7 +308,7 @@
 		432B5FE91CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Splashscreen.strings; sourceTree = "<group>"; };
 		432B5FEA1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		432B5FEB1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GamePreferences.strings; sourceTree = "<group>"; };
-		432B5FEC1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		432B5FEC1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
 		432B5FED1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		432B5FEE1CB549F100B05D19 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FEF1CB54A3500B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/DeckManager.strings; sourceTree = "<group>"; };
@@ -312,7 +319,7 @@
 		432B5FF41CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Splashscreen.strings; sourceTree = "<group>"; };
 		432B5FF51CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		432B5FF61CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/GamePreferences.strings; sourceTree = "<group>"; };
-		432B5FF71CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		432B5FF71CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
 		432B5FF81CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		432B5FF91CB54A3600B05D19 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FFA1CB54A6700B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/DeckManager.strings"; sourceTree = "<group>"; };
@@ -323,7 +330,7 @@
 		432B5FFF1CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Splashscreen.strings"; sourceTree = "<group>"; };
 		432B60001CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/GeneralPreferences.strings"; sourceTree = "<group>"; };
 		432B60011CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/GamePreferences.strings"; sourceTree = "<group>"; };
-		432B60021CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/TrackersPreferences.strings"; sourceTree = "<group>"; };
+		432B60021CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/PlayerTrackersPreferences.strings"; sourceTree = "<group>"; };
 		432B60031CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		432B60041CB54A6800B05D19 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		432B60051CB54AD600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/DeckManager.strings"; sourceTree = "<group>"; };
@@ -334,7 +341,7 @@
 		432B600A1CB54AD600B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Splashscreen.strings"; sourceTree = "<group>"; };
 		432B600B1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GeneralPreferences.strings"; sourceTree = "<group>"; };
 		432B600C1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GamePreferences.strings"; sourceTree = "<group>"; };
-		432B600D1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TrackersPreferences.strings"; sourceTree = "<group>"; };
+		432B600D1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PlayerTrackersPreferences.strings"; sourceTree = "<group>"; };
 		432B600E1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		432B600F1CB54AD700B05D19 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		432B60111CB63D4C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HearthstatsLogin.xib; sourceTree = "<group>"; };
@@ -392,6 +399,25 @@
 		436789BA1CACF79800C962D1 /* TrackerFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerFrame.swift; sourceTree = "<group>"; };
 		436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDrawChance.swift; sourceTree = "<group>"; };
 		436969141C80653000CE1D29 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
+		437B5BAB1CD1E6AF00DE0A41 /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WotogCounter.swift; sourceTree = "<group>"; };
+		437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WotogCounterHelper.swift; sourceTree = "<group>"; };
+		437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentTrackersPreferences.swift; sourceTree = "<group>"; };
+		437B5BB71CD2559300DE0A41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpponentTrackersPreferences.xib; sourceTree = "<group>"; };
+		437B5BBB1CD255AF00DE0A41 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
+		437B5BBC1CD255B200DE0A41 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
+		437B5BBD1CD255B300DE0A41 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
+		437B5BBE1CD255B500DE0A41 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
+		437B5BBF1CD255B600DE0A41 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/OpponentTrackersPreferences.strings"; sourceTree = "<group>"; };
+		437B5BC01CD255B800DE0A41 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/OpponentTrackersPreferences.strings"; sourceTree = "<group>"; };
+		437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackersPreferences.swift; sourceTree = "<group>"; };
+		437B5BC41CD2568E00DE0A41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TrackersPreferences.xib; sourceTree = "<group>"; };
+		437B5BC61CD256AE00DE0A41 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TrackersPreferences.strings"; sourceTree = "<group>"; };
+		437B5BC71CD256AF00DE0A41 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/TrackersPreferences.strings"; sourceTree = "<group>"; };
+		437B5BC81CD256B000DE0A41 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		437B5BC91CD256B100DE0A41 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		437B5BCA1CD256B200DE0A41 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		437B5BCB1CD256B400DE0A41 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = "<group>"; };
 		438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Sparkle.framework.dSYM; path = Carthage/Build/Mac/Sparkle.framework.dSYM; sourceTree = "<group>"; };
 		43873CC01CA6E6C200F01CB4 /* WindowMove.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowMove.xib; sourceTree = "<group>"; };
@@ -462,7 +488,7 @@
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
 		43D308031C842DC000480488 /* GeneralPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneralPreferences.swift; sourceTree = "<group>"; };
 		43D308051C842DC900480488 /* GamePrefences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrefences.swift; sourceTree = "<group>"; };
-		43D308071C84410000480488 /* TrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackersPreferences.swift; sourceTree = "<group>"; };
+		43D308071C84410000480488 /* PlayerTrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTrackersPreferences.swift; sourceTree = "<group>"; };
 		43D601D81CC3A57C0059F36A /* Decks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decks.swift; sourceTree = "<group>"; };
 		43E77EDF1C949C6D00C26950 /* TimerHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerHud.xib; sourceTree = "<group>"; };
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
@@ -590,8 +616,12 @@
 				432B5FBB1CB5372C00B05D19 /* GeneralPreferences.xib */,
 				43D308051C842DC900480488 /* GamePrefences.swift */,
 				432B5FB81CB5372600B05D19 /* GamePreferences.xib */,
-				43D308071C84410000480488 /* TrackersPreferences.swift */,
-				432B5FB51CB5371C00B05D19 /* TrackersPreferences.xib */,
+				437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */,
+				437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */,
+				43D308071C84410000480488 /* PlayerTrackersPreferences.swift */,
+				432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */,
+				437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */,
+				437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -614,6 +644,14 @@
 				432B60381CBF9AD700B05D19 /* ManaGemButton.swift */,
 			);
 			path = DeckManager;
+			sourceTree = "<group>";
+		};
+		437B5BB11CD2437D00DE0A41 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		43873CBF1CA6E68D00F01CB4 /* Debug */ = {
@@ -649,6 +687,7 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
+				437B5BB11CD2437D00DE0A41 /* Utility */,
 				43873CBF1CA6E68D00F01CB4 /* Debug */,
 				4312AFED1C9FED3100F3F2BE /* Hearthstats */,
 				434106A01C9868620045655A /* Assets */,
@@ -754,6 +793,7 @@
 				43F0002F1C81BAE8000F2F8F /* Mode.swift */,
 				431719781C8C179D00F5988B /* Rarity.swift */,
 				432C11AA1CCF6B460067C5FE /* Format.swift */,
+				437B5BAB1CD1E6AF00DE0A41 /* Step.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -805,6 +845,7 @@
 				436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */,
 				432B60321CB69FA600B05D19 /* FloatingCard.swift */,
 				432B60341CB6A8CC00B05D19 /* FloatingCard.xib */,
+				437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1012,6 +1053,7 @@
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
+				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */,
 				432B60101CB63D4C00B05D19 /* HearthstatsLogin.xib in Resources */,
 				432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */,
@@ -1020,9 +1062,10 @@
 				43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */,
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				434106A61C9868620045655A /* Frames.xcassets in Resources */,
-				432B5FB31CB5371C00B05D19 /* TrackersPreferences.xib in Resources */,
+				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
+				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
 				43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
@@ -1078,6 +1121,7 @@
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
 				43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
+				437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */,
 				434C2F421C7F50F4001D1D91 /* BaseNetImporter.swift in Sources */,
 				43CCF2A91CABB4B0006ACB69 /* HSTrackerLogFormatter.swift in Sources */,
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
@@ -1102,11 +1146,13 @@
 				43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */,
 				439C7EEB1C777FCF00D29859 /* String.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
+				437B5BB31CD2439800DE0A41 /* WotogCounterHelper.swift in Sources */,
 				432B60371CBD269700B05D19 /* Color.swift in Sources */,
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				439C7EE11C777FA900D29859 /* CardCellView.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
+				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
 				439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */,
@@ -1114,7 +1160,7 @@
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,
 				439C7EC81C777F8900D29859 /* Hearthstone.swift in Sources */,
 				434C2F381C7F487D001D1D91 /* Hearthstats.swift in Sources */,
-				43D308081C84410000480488 /* TrackersPreferences.swift in Sources */,
+				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
@@ -1129,6 +1175,7 @@
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
+				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
 				434C2F341C7F4816001D1D91 /* HearthpwnDeckBuilder.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
@@ -1149,6 +1196,7 @@
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */,
+				437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
 				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
 				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,
@@ -1229,7 +1277,7 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		432B5FB51CB5371C00B05D19 /* TrackersPreferences.xib */ = {
+		432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				432B5FB41CB5371C00B05D19 /* Base */,
@@ -1240,7 +1288,7 @@
 				432B60021CB54A6800B05D19 /* pt-BR */,
 				432B600D1CB54AD700B05D19 /* zh-Hans */,
 			);
-			name = TrackersPreferences.xib;
+			name = PlayerTrackersPreferences.xib;
 			sourceTree = "<group>";
 		};
 		432B5FB81CB5372600B05D19 /* GamePreferences.xib */ = {
@@ -1381,6 +1429,34 @@
 				432B602D1CB63D8D00B05D19 /* fr */,
 			);
 			name = HearthstatsPreferences.xib;
+			sourceTree = "<group>";
+		};
+		437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				437B5BB71CD2559300DE0A41 /* Base */,
+				437B5BBB1CD255AF00DE0A41 /* fr */,
+				437B5BBC1CD255B200DE0A41 /* de */,
+				437B5BBD1CD255B300DE0A41 /* es */,
+				437B5BBE1CD255B500DE0A41 /* it */,
+				437B5BBF1CD255B600DE0A41 /* pt-BR */,
+				437B5BC01CD255B800DE0A41 /* zh-Hans */,
+			);
+			name = OpponentTrackersPreferences.xib;
+			sourceTree = "<group>";
+		};
+		437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				437B5BC41CD2568E00DE0A41 /* Base */,
+				437B5BC61CD256AE00DE0A41 /* zh-Hans */,
+				437B5BC71CD256AF00DE0A41 /* pt-BR */,
+				437B5BC81CD256B000DE0A41 /* it */,
+				437B5BC91CD256B100DE0A41 /* es */,
+				437B5BCA1CD256B200DE0A41 /* de */,
+				437B5BCB1CD256B400DE0A41 /* fr */,
+			);
+			name = TrackersPreferences.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
