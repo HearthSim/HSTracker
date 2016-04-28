@@ -73,7 +73,7 @@ class AppDelegate
         json_deck[:statistics] << {
           playerRank: stat.rank,
           numTurns: stat.turns,
-          date: stat.created_at.timeIntervalSince1970,
+          date: stat.created_at.nil? ? NSDate.date.timeIntervalSince1970 : stat.created_at.timeIntervalSince1970,
           hasCoin: stat.has_coin ? 1 : 0,
           gameResult: stat.win ? 1 : 2,         # (0 = Unknow, 1= Win, 2 = Loss, 3 = Draw)
           opponentName: stat.opponent_name,
