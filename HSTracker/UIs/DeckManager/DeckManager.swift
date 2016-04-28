@@ -158,15 +158,16 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView == decksTable {
-            let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self) as! DeckCellView
-            let deck = filteredDecks()[row]
-            cell.deck = deck
-            cell.label.stringValue = deck.name!
-            cell.image.image = ImageCache.classImage(deck.playerClass)
-            cell.color = ClassColor.color(deck.playerClass)
-            cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
-            
-            return cell
+            if let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self) as? DeckCellView {
+                let deck = filteredDecks()[row]
+                cell.deck = deck
+                cell.label.stringValue = deck.name!
+                cell.image.image = ImageCache.classImage(deck.playerClass)
+                cell.color = ClassColor.color(deck.playerClass)
+                cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
+                
+                return cell
+            }
         }
         else {
             let cell = CardCellView()
@@ -174,6 +175,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             cell.card = currentDeck!.sortedCards[row]
             return cell
         }
+        
+        return nil
     }
 
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
