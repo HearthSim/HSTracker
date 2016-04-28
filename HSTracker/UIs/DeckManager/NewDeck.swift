@@ -61,6 +61,9 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     @IBAction func okClicked(sender: AnyObject) {
         if hstrackerDeckBuilder.state == NSOnState {
+            if classesCombobox.indexOfSelectedItem < 0 {
+                return
+            }
             delegate?.openDeckBuilder(classes()[classesCombobox.indexOfSelectedItem], arenaDeck.state == NSOnState)
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         }
