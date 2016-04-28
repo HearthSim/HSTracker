@@ -216,7 +216,10 @@ final class LogReader {
         for line in lines {
             let time = parseTime(line)
             if time.timeIntervalSince1970 < startingPoint {
-                offset += UInt64(line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+                let length = line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+                if length > 0 {
+                    offset += UInt64(length)
+                }
             }
         }
 
