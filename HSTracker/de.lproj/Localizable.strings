@@ -17,8 +17,8 @@
 "Loading %@ cards" = "Lade %@ Karten";
 "Lock windows" = "Fenster sperren";
 "OK" = "OK";
-"Please select your Hearthstone app" = "Please select your Hearthstone app";
-"Can't find Hearthstone, please select Hearthstone.app" = "Can't find Hearthstone, please select Hearthstone.app";
+"Please select your Hearthstone app" = "Bitte selektiere die Hearthstone App.";
+"Can't find Hearthstone, please select Hearthstone.app" = "Hearthstone kann nicht gefunden werden, bitte selektiere die Datei Hearthstone.app.";
 "Preferences" = "Einstellungen";
 "Rename deck" = "Deck umbenennen";
 "Reset" = "Zurücksetzen";
