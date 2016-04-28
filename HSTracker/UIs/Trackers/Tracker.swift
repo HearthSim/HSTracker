@@ -361,8 +361,16 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     
     func setCardCount() {
         let gameStarted = !Game.instance.isInMenu && Game.instance.entities.count >= 67
-        let deckCount = !gameStarted || player == nil ? 30 : player!.deckCount
-        let handCount = !gameStarted || player == nil ? 0 : player!.handCount
+        let deckCount: Int
+        let handCount: Int
+        if let player = player {
+            deckCount = !gameStarted ? 30 : player.deckCount
+            handCount = !gameStarted ? 0 : player.handCount
+        }
+        else {
+            deckCount = 30
+            handCount = 0
+        }
         
         cardCounter.deckCount = deckCount
         cardCounter.handCount = handCount
