@@ -53,8 +53,12 @@ class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBox
     }
 
     @IBAction func save(sender: AnyObject) {
-        let hstracker = hstrackerLanguages[hstrackerLanguage!.indexOfSelectedItem]
-        let hearthstone = hsLanguages[hearthstoneLanguage!.indexOfSelectedItem]
+        if hearthstoneLanguage.indexOfSelectedItem < 0 || hstrackerLanguage.indexOfSelectedItem < 0 || hearthstonePath.stringValue == "" {
+            saveButton.enabled = false
+            return
+        }
+        let hstracker = hstrackerLanguages[hstrackerLanguage.indexOfSelectedItem]
+        let hearthstone = hsLanguages[hearthstoneLanguage.indexOfSelectedItem]
 
         Settings.instance.hearthstoneLanguage = hearthstone
         Settings.instance.hsTrackerLanguage = hstracker
@@ -119,9 +123,7 @@ class InitialConfiguration: NSWindowController, NSComboBoxDataSource, NSComboBox
     }
 
     func checkToEnableSave() {
-        if let saveButton = self.saveButton {
-            saveButton.enabled = (hearthstoneLanguage.indexOfSelectedItem != -1 && hstrackerLanguage.indexOfSelectedItem != -1 && hearthstonePath.stringValue != "")
-        }
+        saveButton.enabled = (hearthstoneLanguage.indexOfSelectedItem != -1 && hstrackerLanguage.indexOfSelectedItem != -1 && hearthstonePath.stringValue != "")
     }
     
     // MARK: - NSOpenSavePanelDelegate
