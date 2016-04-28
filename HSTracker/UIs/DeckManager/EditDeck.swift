@@ -442,9 +442,11 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     // MARK: - Toolbar actions
     @IBAction func save(sender: AnyObject?) {
         saveDeck = SaveDeck(windowNibName: "SaveDeck")
-        saveDeck?.setDelegate(self)
-        saveDeck?.deck = currentDeck
-        self.window!.beginSheet(saveDeck!.window!, completionHandler: nil)
+        if let saveDeck = saveDeck {
+            saveDeck.setDelegate(self)
+            saveDeck.deck = currentDeck
+            self.window!.beginSheet(saveDeck.window!, completionHandler: nil)
+        }
     }
 
     @IBAction func cancel(sender: AnyObject?) {
