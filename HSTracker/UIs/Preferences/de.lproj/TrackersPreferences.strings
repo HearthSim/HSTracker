@@ -56,16 +56,20 @@
 /* WIP wording, for lack of better wording atm */
 
 /* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
-"eGQ-pE-MU0.title" = "Clear opponent tracker on game end";
+"eGQ-pE-MU0.title" = "Lösche den gegnerischen Tracker bei Spielende";
 
 /* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
-"avf-qA-8vU.title" = "Show opponent draw chance";
+"avf-qA-8vU.title" = "Zeige gegnerische Draw-Chance";
+/* WIP wording, for lack of better wording atm */
 
 /* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
-"TmO-9A-Ffe.title" = "Show player card count";
+"TmO-9A-Ffe.title" = "Zeige eigenen Card-Count";
+/* WIP wording, for lack of better wording atm */
 
 /* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
-"iqA-b1-owW.title" = "Show opponent card count";
+"iqA-b1-owW.title" = "Zeige gegnerischen Card-Count";
+/* WIP wording, for lack of better wording atm */
 
 /* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
-"acK-XF-6wQ.title" = "Show player draw chance";
+"acK-XF-6wQ.title" = "Zeige eigene Draw-Chance";
+/* WIP wording, for lack of better wording atm */ /* a little bit of denglish is a must in here, i think… */
