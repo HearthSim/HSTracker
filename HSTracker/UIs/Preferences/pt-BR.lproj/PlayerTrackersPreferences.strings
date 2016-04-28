@@ -1,0 +1,18 @@
+
+/* Class = "NSButtonCell"; title = "Show player tracker"; ObjectID = "MiE-Lr-Vdi"; */
+"MiE-Lr-Vdi.title" = "Show player tracker";
+
+/* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
+"TmO-9A-Ffe.title" = "Show player card count";
+
+/* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
+"acK-XF-6wQ.title" = "Show player draw chance";
+
+/* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "r3h-Qd-YPW"; */
+"r3h-Qd-YPW.title" = "Include obtained cards";
+
+/* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
+"LGM-aC-rL6.title" = "Show Spell counter";
+
+/* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
+"Tex-bu-toa.title" = "Show C'Thun counter";

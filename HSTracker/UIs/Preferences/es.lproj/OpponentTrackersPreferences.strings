@@ -1,0 +1,21 @@
+
+/* Class = "NSButtonCell"; title = "Show opponent in-hand card huds"; ObjectID = "50X-Tt-yJa"; */
+"50X-Tt-yJa.title" = "Mostrar información en las cartas en mano del rival";
+
+/* Class = "NSButtonCell"; title = "Show opponent tracker"; ObjectID = "MLJ-7t-LVJ"; */
+"MLJ-7t-LVJ.title" = "Mostrar el tracker del rival";
+
+/* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
+"avf-qA-8vU.title" = "Show opponent draw chance";
+
+/* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
+"eGQ-pE-MU0.title" = "Clear opponent tracker on game end";
+
+/* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
+"iqA-b1-owW.title" = "Show opponent card count";
+
+/* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "9eg-6X-x7A"; */
+"9eg-6X-x7A.title" = "Show Spell counter";
+
+/* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "RyA-1i-LPY"; */
+"RyA-1i-LPY.title" = "Show C'Thun counter";

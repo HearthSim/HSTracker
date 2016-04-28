@@ -24,6 +24,8 @@
 "Reset" = "Reset";
 "server error" = "Erreur serveur";
 "Trackers" = "Trackers";
+"Opponent tracker" = "Tracker opposant";
+"Player tracker" = "Tracker joueur";
 "Unlock windows" = "Déverrouiller les fenêtres";
 "Use deck" = "Utiliser le deck";
 "Window" = "Fenêtre";

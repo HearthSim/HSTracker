@@ -1,0 +1,20 @@
+
+/* Class = "NSButtonCell"; title = "Show player tracker"; ObjectID = "MiE-Lr-Vdi"; */
+"MiE-Lr-Vdi.title" = "Zeige eigenen Tracker";
+
+/* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
+"TmO-9A-Ffe.title" = "Zeige eigenen Card-Count";
+/* WIP wording, for lack of better wording atm */
+
+/* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
+"acK-XF-6wQ.title" = "Zeige eigene Draw-Chance";
+/* WIP wording, for lack of better wording atm */ /* a little bit of denglish is a must in here, i think… */
+
+/* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "r3h-Qd-YPW"; */
+"r3h-Qd-YPW.title" = "Erhaltene bzw. Fremde Karten einbeziehen";
+
+/* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
+"LGM-aC-rL6.title" = "Show Spell counter";
+
+/* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
+"Tex-bu-toa.title" = "Show C'Thun counter";

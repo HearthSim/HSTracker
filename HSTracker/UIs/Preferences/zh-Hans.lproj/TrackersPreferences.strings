@@ -1,15 +1,9 @@
 
-/* Class = "NSButtonCell"; title = "Show opponent in-hand card huds"; ObjectID = "50X-Tt-yJa"; */
-"50X-Tt-yJa.title" = "显示对手的卡牌 HUD";
-
 /* Class = "NSButtonCell"; title = "Auto position trackers"; ObjectID = "5rZ-fg-pB4"; */
 "5rZ-fg-pB4.title" = "自动移跟踪器";
 
-/* Class = "NSButtonCell"; title = "Show opponent tracker"; ObjectID = "MLJ-7t-LVJ"; */
-"MLJ-7t-LVJ.title" = "显示对手的跟踪器";
-
-/* Class = "NSButtonCell"; title = "Show player tracker"; ObjectID = "MiE-Lr-Vdi"; */
-"MiE-Lr-Vdi.title" = "显示跟踪器";
+/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
+"HY0-s6-p7U.title" = "显示卡牌如果悬停";
 
 /* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
 "NLB-ON-zWk.title" = "卡牌大小";
@@ -25,6 +19,9 @@
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Big"; ObjectID = "ar6-6g-GKv"; */
 "ar6-6g-GKv.ibShadowedObjectValues[2]" = "大型";
+
+/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
+"h5J-7C-d2f.title" = "显示稀有的颜色";
 
 /* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
 "hJI-dG-QeP.title" = "显示手卡牌";
@@ -46,25 +43,3 @@
 
 /* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
 "zP3-ns-ggP.title" = "透明度";
-
-/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
-"h5J-7C-d2f.title" = "显示稀有的颜色";
-
-/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
-"HY0-s6-p7U.title" = "显示卡牌如果悬停";
-
-/* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
-"eGQ-pE-MU0.title" = "Clear opponent tracker on game end";
-
-/* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
-"avf-qA-8vU.title" = "Show opponent draw chance";
-
-/* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
-"TmO-9A-Ffe.title" = "Show player card count";
-
-/* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
-"iqA-b1-owW.title" = "Show opponent card count";
-
-/* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
-"acK-XF-6wQ.title" = "Show player draw chance";
-

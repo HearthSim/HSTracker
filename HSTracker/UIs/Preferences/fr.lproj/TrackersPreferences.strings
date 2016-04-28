@@ -1,15 +1,9 @@
 
-/* Class = "NSButtonCell"; title = "Show opponent in-hand card huds"; ObjectID = "50X-Tt-yJa"; */
-"50X-Tt-yJa.title" = "Voir les infos des cartes de l'opposant";
-
 /* Class = "NSButtonCell"; title = "Auto position trackers"; ObjectID = "5rZ-fg-pB4"; */
 "5rZ-fg-pB4.title" = "Positionnement automatique des trackers";
 
-/* Class = "NSButtonCell"; title = "Show opponent tracker"; ObjectID = "MLJ-7t-LVJ"; */
-"MLJ-7t-LVJ.title" = "Voir le tracker opposant";
-
-/* Class = "NSButtonCell"; title = "Show player tracker"; ObjectID = "MiE-Lr-Vdi"; */
-"MiE-Lr-Vdi.title" = "voir le tracker joueur";
+/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
+"HY0-s6-p7U.title" = "Voir les cartes au survol des trackers";
 
 /* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
 "NLB-ON-zWk.title" = "Taille des cartes";
@@ -26,11 +20,11 @@
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Big"; ObjectID = "ar6-6g-GKv"; */
 "ar6-6g-GKv.ibShadowedObjectValues[2]" = "Grand";
 
+/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
+"h5J-7C-d2f.title" = "Voir les couleurs de rareté";
+
 /* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
 "hJI-dG-QeP.title" = "Surligner les cartes en main";
-
-/* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "ndN-hu-6Rx"; */
-"ndN-hu-6Rx.title" = "Ajouter les cartes reçues";
 
 /* Class = "NSButtonCell"; title = "Remove cards if count is 0"; ObjectID = "s9w-5p-pJs"; */
 "s9w-5p-pJs.title" = "Supprimer les cartes si le nombre est 0";
@@ -47,23 +41,3 @@
 /* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
 "zP3-ns-ggP.title" = "Opacité";
 
-/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
-"h5J-7C-d2f.title" = "Voir la couleur de rareté";
-
-/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
-"HY0-s6-p7U.title" = "Voir les cartes au survol des trackers";
-
-/* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
-"eGQ-pE-MU0.title" = "Vider le tracker de l'opposant en fin de partie";
-
-/* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
-"avf-qA-8vU.title" = "Voir la chance de pioche de l'opposant";
-
-/* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
-"TmO-9A-Ffe.title" = "Voir le nombre de cartes du joueur";
-
-/* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
-"iqA-b1-owW.title" = "Voir le nombre de cartes de l'opposant";
-
-/* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
-"acK-XF-6wQ.title" = "Voir la chance de pioche du joueur";
