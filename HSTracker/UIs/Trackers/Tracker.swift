@@ -276,8 +276,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             newCard.fadeIn(!reset)
         })
         
-        setCardCount()
-        
+        updateCountFrames()
         updateCardFrames()
     }
     
@@ -359,7 +358,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         }
     }
     
-    func setCardCount() {
+    func updateCountFrames() {
         let gameStarted = !Game.instance.isInMenu && Game.instance.entities.count >= 67
         let deckCount: Int
         let handCount: Int
@@ -374,7 +373,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         
         cardCounter.deckCount = deckCount
         cardCounter.handCount = handCount
-        cardCounter.layer?.setNeedsDisplay()
+        cardCounter.needsDisplay = true
         
         if playerType == .Opponent {
             var draw1 = 0.0, draw2 = 0.0, hand1 = 0.0, hand2 = 0.0
@@ -390,7 +389,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             opponentDrawChance.drawChance2 = draw2
             opponentDrawChance.handChance1 = hand1
             opponentDrawChance.handChance2 = hand2
-            opponentDrawChance.layer?.setNeedsDisplay()
+            opponentDrawChance.needsDisplay = true
         }
         else {
             var draw1 = 0.0, draw2 = 0.0
@@ -401,7 +400,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             
             playerDrawChance.drawChance1 = draw1
             playerDrawChance.drawChance2 = draw2
-            playerDrawChance.layer?.setNeedsDisplay()
+            playerDrawChance.needsDisplay = true
         }
     }
     

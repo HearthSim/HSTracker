@@ -180,21 +180,21 @@ class CardCellView: TrackerFrame {
             }
             else {
                 let countText = count > 9 ? "9" : "\(count)"
-                addText(countText, 20, 198, -1)
+                addCountText(countText, 20, 198, -1)
                 if count > 9 {
-                    addText("+", 13, 202, -1)
+                    addCountText("+", 13, 202, -1)
                 }
             }
         }
     }
     
-    private func addText(text: String, _ size: CGFloat, _ x: CGFloat, _ y: CGFloat) {
+    func addCountText(text: String, _ size: CGFloat, _ x: CGFloat, _ y: CGFloat) {
         NSAttributedString(string: text, attributes: [
             NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: round(size / ratioHeight))!,
             NSForegroundColorAttributeName: NSColor(red: 240.0 / 255.0, green: 195.0 / 255.0, blue: 72.0 / 255.0, alpha: 1.0),
             NSStrokeWidthAttributeName: -2,
             NSStrokeColorAttributeName: NSColor.blackColor()
-        ]).drawInRect(ratio(NSMakeRect(x, y, 30, 37)))
+            ]).drawInRect(ratio(NSMakeRect(x, y, 30, 37)))
     }
     
     private func addGem(card: Card) {
@@ -232,28 +232,6 @@ class CardCellView: TrackerFrame {
             }
         }
         addImage(frame, frameRect)
-    }
-    
-    private func addImage(image: NSImage?, _ rect: NSRect) {
-        guard let image = image else {return}
-
-        let resizedRect = ratio(rect)
-        image.drawInRect(resizedRect)
-    }
-    
-    private func resized(source: NSImage) -> NSImage {
-        let from = NSMakeRect(0, 0, source.size.width, source.size.height)
-        let to = NSMakeRect(0, 0, source.size.width / ratioWidth, source.size.height / ratioHeight)
-        // from (0.0, 0.0, 134.0, 34.0) -> to (0.0, 0.0, 114.294117647059, 29.0)[;
-        let resized = NSImage(size: to.size)
-        resized.lockFocus()
-        source.drawInRect(to,
-                          fromRect: from,
-                          operation: .CompositeCopy,
-                          fraction: 1.0)
-        resized.unlockFocus()
-        
-        return resized
     }
     
     // MARK: - CardCellHover

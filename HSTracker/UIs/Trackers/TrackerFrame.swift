@@ -56,19 +56,6 @@ class TrackerFrame: NSView {
                           rect.size.height / ratioHeight)
     }
     
-     var textAttributes: [String: AnyObject] {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = .Right
-        
-        return [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: round(16 / ratioHeight))!,
-            NSForegroundColorAttributeName: NSColor.whiteColor(),
-            NSStrokeWidthAttributeName: -2,
-            NSStrokeColorAttributeName: NSColor.blackColor(),
-            NSParagraphStyleAttributeName: paragraph
-        ]
-    }
-    
     var ratioWidth: CGFloat {
         if let playerType = playerType where playerType == .DeckManager {
             return 1.0
@@ -87,44 +74,31 @@ class TrackerFrame: NSView {
         return ratioWidth
     }
     
-    func addChild(image: NSImage?, _ rect: NSRect, _ onLayer: CALayer? = nil) -> CALayer? {
-        guard let _ = image else { return nil }
+    func addImage(image: NSImage?, _ rect: NSRect) {
+        guard let image = image else {return}
+        
+        let resizedRect = ratio(rect)
+        image.drawInRect(resizedRect)
+    }
+}
 
-        let sublayer = CALayer()
-        setImage(sublayer, image)
-        sublayer.frame = ratio(rect)
-        if let onLayer = onLayer {
-            onLayer.addSublayer(sublayer)
-        }
-        else {
-            self.layer?.addSublayer(sublayer)
-        }
-        return sublayer
+class TextFrame: TrackerFrame {
+    func addInt(val: Int, _ rect: NSRect) {
+        addString("\(val)", rect)
     }
     
-    func setImage(sublayer: CALayer, _ image: NSImage?) {
-        guard let _ = image else { return }
-        sublayer.contents = image!
+    func addDouble(val: Double, _ rect: NSRect) {
+        addString(String(format: "%.2f%%", val), rect)
     }
     
-    func addText(str: String, _ rect: NSRect, _ onLayer: CALayer? = nil, _ foreground: NSColor? = nil) -> CATextLayer {
-        let sublayer = CATextLayer()
-        setText(sublayer, str, foreground)
-        sublayer.frame = ratio(rect)
-        if let onLayer = onLayer {
-            onLayer.addSublayer(sublayer)
+    func addString(val: String, _ rect: NSRect) {
+        if let font = NSFont(name: "Belwe Bd BT", size: round(18 / ratioHeight)) {
+            NSAttributedString(string: val, attributes: [
+                NSFontAttributeName: font,
+                NSForegroundColorAttributeName: NSColor.whiteColor(),
+                NSStrokeWidthAttributeName: -2,
+                NSStrokeColorAttributeName: NSColor.blackColor()
+                ]).drawInRect(ratio(rect))
         }
-        else {
-            self.layer?.addSublayer(sublayer)
-        }
-        return sublayer
-    }
-    
-    func setText(sublayer: CATextLayer, _ str: String, _ foreground: NSColor? = nil) {
-        var attributes = textAttributes
-        if let foreground = foreground {
-            attributes[NSForegroundColorAttributeName] = foreground
-        }
-        sublayer.string = NSAttributedString(string: str, attributes: attributes)
     }
 }
