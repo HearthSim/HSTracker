@@ -392,6 +392,20 @@ struct TagChangeActions {
                     game.opponentGet(entity, game.turnNumber(), id)
                     game.proposeKeyPoint(.Obtain, id, .Opponent)
                 }
+                
+            case .SECRET:
+                if controller == game.player.id {
+                    if let prevZone = Zone(rawValue: prevValue) {
+                        game.playerSecretPlayed(entity, cardId, game.turnNumber(), prevZone)
+                    }
+                    game.proposeKeyPoint(.SecretPlayed, id, .Player)
+                }
+                else if controller == game.opponent.id {
+                    if let prevZone = Zone(rawValue: prevValue) {
+                        game.opponentSecretPlayed(entity, cardId, -1, game.turnNumber(), prevZone, id)
+                    }
+                    game.proposeKeyPoint(.SecretPlayed, id, .Opponent)
+                }
 
             default:
                 // DDLogWarn("unhandled zone change(id = \(id)): \(prevValue) -> \(value) ")
@@ -501,11 +515,15 @@ struct TagChangeActions {
 
             case .SECRET:
                 if controller == game.player.id {
-                    game.playerSecretPlayed(entity, cardId, game.turnNumber(), false)
+                    if let prevZone = Zone(rawValue: prevValue) {
+                        game.playerSecretPlayed(entity, cardId, game.turnNumber(), prevZone)
+                    }
                     game.proposeKeyPoint(.SecretPlayed, id, .Player)
                 }
                 else if controller == game.opponent.id {
-                    game.opponentSecretPlayed(entity, cardId, entity.getTag(.ZONE_POSITION), game.turnNumber(), false, id)
+                    if let prevZone = Zone(rawValue: prevValue) {
+                        game.opponentSecretPlayed(entity, cardId, entity.getTag(.ZONE_POSITION), game.turnNumber(), prevZone, id)
+                    }
                     game.proposeKeyPoint(.SecretPlayed, id, .Opponent)
                 }
 
@@ -577,11 +595,15 @@ struct TagChangeActions {
 
             case .SECRET:
                 if controller == game.player.id {
-                    game.playerSecretPlayed(entity, cardId, game.turnNumber(), true)
+                    if let prevZone = Zone(rawValue: prevValue) {
+                        game.playerSecretPlayed(entity, cardId, game.turnNumber(), prevZone)
+                    }
                     game.proposeKeyPoint(.SecretPlayed, id, .Player)
                 }
                 else if controller == game.opponent.id {
-                    game.opponentSecretPlayed(entity, cardId, -1, game.turnNumber(), true, id)
+                    if let prevZone = Zone(rawValue: prevValue) {
+                        game.opponentSecretPlayed(entity, cardId, -1, game.turnNumber(), prevZone, id)
+                    }
                     game.proposeKeyPoint(.SecretPlayed, id, .Opponent)
                 }
 

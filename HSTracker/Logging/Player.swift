@@ -517,6 +517,12 @@ final class Player {
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
     
+    func createInSecret(entity: Entity, _ turn: Int) {
+        entity.info.created = true
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
+    }
+    
     func stolenByOpponent(entity: Entity, _ turn: Int) {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")

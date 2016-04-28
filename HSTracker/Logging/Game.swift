@@ -558,15 +558,20 @@ class Game {
         updatePlayerTracker()
     }
     
-    func playerSecretPlayed(entity: Entity, _ cardId: String?, _ turn: Int, _ fromDeck: Bool) {
+    func playerSecretPlayed(entity: Entity, _ cardId: String?, _ turn: Int, _ fromZone: Zone) {
         if String.isNullOrEmpty(cardId) {
             return
         }
-        if fromDeck {
+        
+        switch fromZone {
+        case .DECK:
             player.secretPlayedFromDeck(entity, turn)
-        } else {
+        case Zone.HAND:
             player.secretPlayedFromHand(entity, turn)
             secretsOnPlay(entity)
+        default:
+            player.createInSecret(entity, turn)
+            return
         }
         updatePlayerTracker()
     }
@@ -718,13 +723,17 @@ class Game {
         updateCardHuds()
     }
     
-    func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromDeck: Bool, _ otherId: Int) {
+    func opponentSecretPlayed(entity: Entity, _ cardId: String?, _ from: Int, _ turn: Int, _ fromZone: Zone, _ otherId: Int) {
         opponentSecretCount += 1
         
-        if fromDeck {
+        switch fromZone {
+        case .DECK:
             opponent.secretPlayedFromDeck(entity, turn)
-        } else {
+        case .HAND:
             opponent.secretPlayedFromHand(entity, turn)
+            break;
+        default:
+            opponent.createInSecret(entity, turn)
         }
         updateCardHuds()
         
