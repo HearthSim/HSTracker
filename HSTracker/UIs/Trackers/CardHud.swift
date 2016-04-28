@@ -80,19 +80,31 @@ class CardHud : NSWindowController {
         }
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .Center
-        label.attributedStringValue = NSAttributedString(string: text, attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 20)!,
-            NSForegroundColorAttributeName: NSColor.whiteColor(),
-            NSStrokeWidthAttributeName: -2,
-            NSStrokeColorAttributeName: NSColor.blackColor(),
-            NSParagraphStyleAttributeName: paragraph
-            ])
-        costReduction.attributedStringValue = NSAttributedString(string: "-\(cost)", attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 16)!,
-            NSForegroundColorAttributeName: NSColor(red: 0.117, green: 0.56, blue: 1, alpha: 1),
-            NSStrokeWidthAttributeName: -2,
-            NSStrokeColorAttributeName: NSColor.blackColor()
-            ])
+        var font = NSFont(name: "Belwe Bd BT", size: 20)
+        if font == nil {
+            font = NSFont.systemFontOfSize(20)
+        }
+        if let font = font {
+            label.attributedStringValue = NSAttributedString(string: text, attributes: [
+                NSFontAttributeName: font,
+                NSForegroundColorAttributeName: NSColor.whiteColor(),
+                NSStrokeWidthAttributeName: -2,
+                NSStrokeColorAttributeName: NSColor.blackColor(),
+                NSParagraphStyleAttributeName: paragraph
+                ])
+        }
+        font = NSFont(name: "Belwe Bd BT", size: 16)
+        if font == nil {
+            font = NSFont.systemFontOfSize(20)
+        }
+        if let font = font {
+            costReduction.attributedStringValue = NSAttributedString(string: "-\(cost)", attributes: [
+                NSFontAttributeName: font,
+                NSForegroundColorAttributeName: NSColor(red: 0.117, green: 0.56, blue: 1, alpha: 1),
+                NSStrokeWidthAttributeName: -2,
+                NSStrokeColorAttributeName: NSColor.blackColor()
+                ])
+        }
         costReduction.hidden = cost < 1
         if let image = image {
             icon.image = ImageCache.asset(image)
