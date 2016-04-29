@@ -8,6 +8,8 @@
 
 import Foundation
 
+// swiftlint:disable type_name
+
 enum Step: Int {
     case INVALID = 0,
     BEGIN_FIRST = 1,
@@ -27,6 +29,4 @@ enum Step: Int {
     FINAL_GAMEOVER = 15,
     MAIN_CLEANUP = 16,
     MAIN_START_TRIGGERS = 17
-    
-    
 }

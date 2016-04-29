@@ -20,7 +20,7 @@ class Splashscreen: NSWindowController {
         progressBar.doubleValue = 0
     }
 
-    func increment(str:String? = nil) {
+    func increment(str: String? = nil) {
         progressBar.incrementBy(1)
         if let str = str {
             information.stringValue = str

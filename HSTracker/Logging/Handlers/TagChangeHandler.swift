@@ -13,31 +13,36 @@ import CleanroomLogger
 
 class TagChangeHandler {
 
-    let ParseEntityIDRegex = "id=(\\d+)"
-    let ParseEntityZonePosRegex = "zonePos=(\\d+)"
-    let ParseEntityPlayerRegex = "player=(\\d+)"
-    let ParseEntityNameRegex = "name=(\\w+)"
-    let ParseEntityZoneRegex = "zone=(\\w+)"
-    let ParseEntityCardIDRegex = "cardId=(\\w+)"
-    let ParseEntityTypeRegex = "type=(\\w+)"
+    static let ParseEntityIDRegex = "id=(\\d+)"
+    static let ParseEntityZonePosRegex = "zonePos=(\\d+)"
+    static let ParseEntityPlayerRegex = "player=(\\d+)"
+    static let ParseEntityNameRegex = "name=(\\w+)"
+    static let ParseEntityZoneRegex = "zone=(\\w+)"
+    static let ParseEntityCardIDRegex = "cardId=(\\w+)"
+    static let ParseEntityTypeRegex = "type=(\\w+)"
 
-    private var creationTagActionQueue = [(tag: GameTag, game: Game, id: Int, value: Int, prevValue: Int)]()
+    private var creationTagActionQueue = [
+        (tag: GameTag, game: Game, id: Int, value: Int, prevValue: Int)
+        ]()
     private var tagChangeAction = TagChangeActions()
 
-    func tagChange(game: Game, _ rawTag: String, _ id: Int, _ rawValue: String, _ isCreationTag: Bool = false) {
+    func tagChange(game: Game, _ rawTag: String, _ id: Int,
+                   _ rawValue: String, _ isCreationTag: Bool = false) {
         if let tag = GameTag(rawString: rawTag) {
             let value = self.parseTag(tag, rawValue)
             tagChange(game, tag, id, value, isCreationTag)
-        }
-        else {
+        } else {
             print("Can't parse \(rawTag) -> \(rawValue)")
         }
     }
 
-    func tagChange(game: Game, _ tag: GameTag, _ id: Int, _ value: Int, _ isCreationTag: Bool = false) {
+    func tagChange(game: Game, _ tag: GameTag, _ id: Int,
+                   _ value: Int, _ isCreationTag: Bool = false) {
         if game.lastId != id {
             if let proposedKeyPoint = game.proposedKeyPoint {
-                ReplayMaker.generate(proposedKeyPoint.type, proposedKeyPoint.id, proposedKeyPoint.player, game)
+                ReplayMaker.generate(proposedKeyPoint.type,
+                                     proposedKeyPoint.id,
+                                     proposedKeyPoint.player, game)
                 game.proposedKeyPoint = nil
             }
         }
@@ -52,7 +57,8 @@ class TagChangeHandler {
         }
 
         if !game.determinedPlayers {
-            if let entity = game.entities[id] where tag == .CONTROLLER && entity.isInHand && String.isNullOrEmpty(entity.cardId) {
+            if let entity = game.entities[id]
+                where tag == .CONTROLLER && entity.isInHand && String.isNullOrEmpty(entity.cardId) {
                 determinePlayers(game, value)
             }
         }
@@ -64,8 +70,7 @@ class TagChangeHandler {
 
             if isCreationTag {
                 creationTagActionQueue.append((tag, game, id, value, prevValue))
-            }
-            else {
+            } else {
                 tagChangeAction.callAction(tag, game, id, value, prevValue)
             }
         }
@@ -75,7 +80,7 @@ class TagChangeHandler {
         while creationTagActionQueue.count > 0 {
             let act = creationTagActionQueue.removeFirst()
             tagChangeAction.callAction(act.tag, game, act.id, act.value, act.prevValue)
-            
+
             if creationTagActionQueue.all({ $0.id != act.id }) && game.entities[act.id] != nil {
                 game.entities[act.id]!.info.hasOutstandingTagChanges = false
             }
@@ -84,49 +89,52 @@ class TagChangeHandler {
 
     func clearQueuedActions() {
         if creationTagActionQueue.count > 0 {
+            // swiftlint:disable line_length
             Log.warning?.message("Clearing tagActionQueue with \(creationTagActionQueue.count) elements in it")
+            // swiftlint:enable line_length
         }
         creationTagActionQueue.removeAll()
     }
 
     // parse an entity
-    func parseEntity(entity: String) -> (id: Int?, zonePos: Int?, player: Int?, name: String?, zone: String?, cardId: String?, type: String?) {
-        
+    func parseEntity(entity: String) -> (id: Int?, zonePos: Int?, player: Int?,
+        name: String?, zone: String?, cardId: String?, type: String?) {
+
         var id: Int?, zonePos: Int?, player: Int?
-        if entity.match(ParseEntityIDRegex) {
-            if let match = entity.matches(ParseEntityIDRegex).first {
+        if entity.match(self.dynamicType.ParseEntityIDRegex) {
+            if let match = entity.matches(self.dynamicType.ParseEntityIDRegex).first {
                 id = Int(match.value)
             }
         }
-        if entity.match(ParseEntityZonePosRegex) {
-            if let match = entity.matches(ParseEntityZonePosRegex).first {
+        if entity.match(self.dynamicType.ParseEntityZonePosRegex) {
+            if let match = entity.matches(self.dynamicType.ParseEntityZonePosRegex).first {
                 zonePos = Int(match.value)
             }
         }
-        if entity.match(ParseEntityPlayerRegex) {
-            if let match = entity.matches(ParseEntityPlayerRegex).first {
+        if entity.match(self.dynamicType.ParseEntityPlayerRegex) {
+            if let match = entity.matches(self.dynamicType.ParseEntityPlayerRegex).first {
                 player = Int(match.value)
             }
         }
 
         var name: String?, zone: String?, cardId: String?, type: String?
-        if entity.match(ParseEntityNameRegex) {
-            if let match = entity.matches(ParseEntityNameRegex).first {
+        if entity.match(self.dynamicType.ParseEntityNameRegex) {
+            if let match = entity.matches(self.dynamicType.ParseEntityNameRegex).first {
                 name = match.value
             }
         }
-        if entity.match(ParseEntityZoneRegex) {
-            if let match = entity.matches(ParseEntityZoneRegex).first {
+        if entity.match(self.dynamicType.ParseEntityZoneRegex) {
+            if let match = entity.matches(self.dynamicType.ParseEntityZoneRegex).first {
                 zone = match.value
             }
         }
-        if entity.match(ParseEntityCardIDRegex) {
-            if let match = entity.matches(ParseEntityCardIDRegex).first {
+        if entity.match(self.dynamicType.ParseEntityCardIDRegex) {
+            if let match = entity.matches(self.dynamicType.ParseEntityCardIDRegex).first {
                 cardId = match.value
             }
         }
-        if entity.match(ParseEntityTypeRegex) {
-            if let match = entity.matches(ParseEntityTypeRegex).first {
+        if entity.match(self.dynamicType.ParseEntityTypeRegex) {
+            if let match = entity.matches(self.dynamicType.ParseEntityTypeRegex).first {
                 type = match.value
             }
         }
@@ -137,12 +145,13 @@ class TagChangeHandler {
     // check if the entity is a raw entity
     func isEntity(rawEntity: String) -> Bool {
         let entity = parseEntity(rawEntity)
-        let a:[AnyObject?] = [entity.id, entity.zonePos, entity.player, entity.name, entity.zone, entity.cardId, entity.type]
+        let a: [AnyObject?] = [entity.id, entity.zonePos, entity.player,
+                               entity.name, entity.zone, entity.cardId, entity.type]
         return a.any {$0 != nil}
     }
 
     func parseTag(tag: GameTag, _ rawValue: String) -> Int {
-        switch (tag) {
+        switch tag {
         case .ZONE:
             return Zone(rawString: rawValue)!.rawValue
 
@@ -168,20 +177,23 @@ class TagChangeHandler {
 
     func determinePlayers(game: Game, _ playerId: Int, _ isOpponentId: Bool = true) {
         if isOpponentId {
-            game.entities.map { $0.1 }.firstWhere { $0.getTag(.PLAYER_ID) == 1 }?.setPlayer(playerId != 1)
-            game.entities.map { $0.1 }.firstWhere { $0.getTag(.PLAYER_ID) == 2 }?.setPlayer(playerId == 1)
+            game.entities.map { $0.1 }
+                .firstWhere { $0.getTag(.PLAYER_ID) == 1 }?.setPlayer(playerId != 1)
+            game.entities.map { $0.1 }
+                .firstWhere { $0.getTag(.PLAYER_ID) == 2 }?.setPlayer(playerId == 1)
 
             game.player.id = playerId % 2 + 1
             game.opponent.id = playerId
-        }
-        else {
-            game.entities.map { $0.1 }.firstWhere { $0.getTag(.PLAYER_ID) == 1 }?.setPlayer(playerId == 1)
-            game.entities.map { $0.1 }.firstWhere { $0.getTag(.PLAYER_ID) == 2 }?.setPlayer(playerId != 1)
+        } else {
+            game.entities.map { $0.1 }
+                .firstWhere { $0.getTag(.PLAYER_ID) == 1 }?.setPlayer(playerId == 1)
+            game.entities.map { $0.1 }
+                .firstWhere { $0.getTag(.PLAYER_ID) == 2 }?.setPlayer(playerId != 1)
 
             game.player.id = playerId
             game.opponent.id = playerId % 2 + 1
         }
-    
+
         Log.info?.message("Setting player id: \(game.player.id), opponent id: \(game.opponent.id)")
         if game.wasInProgress {
             /*let playerName = game.getStoredPlayerName(game.player.id)

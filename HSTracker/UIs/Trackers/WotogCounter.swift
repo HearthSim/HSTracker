@@ -19,15 +19,15 @@ class WotogCounter: TextFrame {
     private let frameRect = NSMakeRect(0, 0, CGFloat(kFrameWidth), 40)
     private let attackFrame = NSMakeRect(60, 11, 68, 25)
     private let healthFrame = NSMakeRect(140, 11, 68, 25)
-    
+
     var attack = 6
     var health = 6
     var spell = 0
     var counterStyle = WotogCounterStyle.Full
-    
+
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
-        
+
         var frame = frameRect
         var textFrame = attackFrame
         if counterStyle == .Full || counterStyle == .Cthun {

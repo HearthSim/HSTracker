@@ -10,6 +10,8 @@
 
 import Foundation
 
+// swiftlint:disable type_name
+
 enum GameTag: Int {
     case IGNORE_DAMAGE = 1,
     TAG_SCRIPT_DATA_NUM_1 = 2,
@@ -252,7 +254,7 @@ enum GameTag: Int {
     DevState = 268,
     GrantCharge = 355,
     HealTarget = 361,
-    
+
     CARDTEXT_INHAND = 184,
     CARDNAME = 185,
     CardTextInPlay = 252,
@@ -262,7 +264,7 @@ enum GameTag: Int {
     HOW_TO_EARN = 364,
     HOW_TO_EARN_GOLDEN = 365,
     EQUIPPED_WEAPON = 334
-    
+
     init?(rawString: String) {
         for _enum in GameTag.allValues() {
             if "\(_enum)" == rawString {
@@ -276,7 +278,7 @@ enum GameTag: Int {
         }
         return nil
     }
-    
+
     static func allValues() -> [GameTag] {
         return [.IGNORE_DAMAGE,
                 .TAG_SCRIPT_DATA_NUM_1,
@@ -530,5 +532,3 @@ enum GameTag: Int {
                 .EQUIPPED_WEAPON]
     }
 }
-
-

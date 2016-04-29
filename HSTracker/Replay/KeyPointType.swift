@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum KeyPointType : String {
+enum KeyPointType: String {
     case Play,
         Draw,
         Mulligan,

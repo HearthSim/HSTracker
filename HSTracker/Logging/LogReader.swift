@@ -23,9 +23,9 @@ final class LogReader {
     var path: String
     lazy var lines = [LogLine]()
     var collected = false
-    
-    private var queue:dispatch_queue_t?
-    private var _lockQueue:dispatch_queue_t?
+
+    private var queue: dispatch_queue_t?
+    private var _lockQueue: dispatch_queue_t?
 
     init(name: LogLineNamespace, startFilters: [String]? = nil, containsFilters: [String]? = nil) {
         self.name = name
@@ -35,10 +35,11 @@ final class LogReader {
         if let containsFilters = containsFilters {
             self.containsFilters = containsFilters
         }
-        
+
         self.path = Hearthstone.instance.logPath + "/Logs/\(name).log"
         Log.info?.message("Init reader for \(name) at path \(self.path)")
-        if NSFileManager.defaultManager().fileExistsAtPath(self.path) && !Hearthstone.instance.isHearthstoneRunning {
+        if NSFileManager.defaultManager().fileExistsAtPath(self.path)
+            && !Hearthstone.instance.isHearthstoneRunning {
             do {
                 try NSFileManager.defaultManager().removeItemAtPath(self.path)
             } catch { }
@@ -60,7 +61,10 @@ final class LogReader {
             return NSDate.distantPast().timeIntervalSince1970
         }
 
-        let lines: [String] = fileContent.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).reverse()
+        // swiftlint:disable line_length
+        let lines: [String] = fileContent.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+            .reverse()
+        // swiftlint:enable line_length
         for line in lines {
             for str in choices {
                 if line.rangeOfString(str) != nil {
@@ -104,7 +108,9 @@ final class LogReader {
         _lockQueue = dispatch_queue_create("\(queueName).lock", DISPATCH_QUEUE_CONCURRENT)
         if let queue = queue {
             Log.info?.message("Starting to track \(name)")
+            // swiftlint:disable line_length
             Log.verbose?.message("\(name) has queue \(queueName) starting at \(NSDate(timeIntervalSince1970: startingPoint))")
+            // swiftlint:enable line_length
             dispatch_async(queue) {
                 self.readFile()
             }
@@ -113,32 +119,35 @@ final class LogReader {
 
     func readFile() {
         guard let _ = _lockQueue else {return}
-        
+
         var fileHandle: NSFileHandle?
         if NSFileManager.defaultManager().fileExistsAtPath(self.path) {
             fileHandle = NSFileHandle(forReadingAtPath: self.path)
             offset = findOffset()
         }
-        
+
         while !stopped {
             dispatch_barrier_async(_lockQueue!) {
                 if self.collected {
                     self.lines.removeAll()
                     self.collected = false
                 }
-                
-                if fileHandle == .None && NSFileManager.defaultManager().fileExistsAtPath(self.path) {
+
+                // swiftlint:disable line_length
+                if fileHandle == .None && NSFileManager.defaultManager()
+                    .fileExistsAtPath(self.path) {
+
                     fileHandle = NSFileHandle(forReadingAtPath: self.path)
                     self.offset = self.findOffset()
                 }
-                
+
                 if let handle = fileHandle {
                     handle.seekToFileOffset(self.offset)
-                    
+
                     let data = handle.readDataToEndOfFile()
                     if let linesStr = String(data: data, encoding: NSUTF8StringEncoding) {
                         self.offset += UInt64(linesStr.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
-                        
+
                         let lines = linesStr.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
                             .filter { !$0.isEmpty && $0.startsWith("D ") }
                         if !lines.isEmpty {
@@ -151,17 +160,19 @@ final class LogReader {
                                     if time.timeIntervalSince1970 < self.startingPoint {
                                         continue
                                     }
-                                    
+
                                     self.lines.append(LogLine(namespace: self.name, time: Int(time.timeIntervalSince1970), line: line))
                                 }
                             }
                         }
                     }
-                    
-                    if !NSFileManager.defaultManager().fileExistsAtPath(self.path) || self.offset > self.fileSize() {
+
+                    if !NSFileManager.defaultManager().fileExistsAtPath(self.path)
+                        || self.offset > self.fileSize() {
                         fileHandle = nil
                     }
                 }
+                // swiftlint:enable line_length
             }
             NSThread.sleepForTimeInterval(0.1)
         }
@@ -179,10 +190,11 @@ final class LogReader {
         var fileSize: UInt64 = 0
 
         do {
-            let attr: NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(self.path)
+            let attr: NSDictionary? = try NSFileManager.defaultManager()
+                .attributesOfItemAtPath(self.path)
 
             if let _attr = attr {
-                fileSize = _attr.fileSize();
+                fileSize = _attr.fileSize()
             }
         } catch {
             Log.error?.message("\(error)")
@@ -192,9 +204,10 @@ final class LogReader {
 
     func fileDate() -> NSDate {
         do {
-            let attr: NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(self.path)
-            if let _attr = attr {
-                return _attr[NSFileModificationDate] as! NSDate
+            if let attr: NSDictionary? = try NSFileManager.defaultManager()
+                .attributesOfItemAtPath(self.path),
+                dict = attr {
+                return dict[NSFileModificationDate] as? NSDate ?? NSDate.distantPast()
             }
         } catch {
             return NSDate.distantPast()
@@ -212,7 +225,9 @@ final class LogReader {
             return offset
         }
 
+        // swiftlint:disable line_length
         let lines = fileContent.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+        // swiftlint:enable line_length
         for line in lines {
             let time = parseTime(line)
             if time.timeIntervalSince1970 < startingPoint {

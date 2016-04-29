@@ -21,13 +21,13 @@ final class Cards {
 
     static func isHero(cardId: String?) -> Bool {
         guard !String.isNullOrEmpty(cardId) else { return false }
-        
+
         return heroById(cardId!) != .None
     }
 
     static func byId(cardId: String?) -> Card? {
         guard !String.isNullOrEmpty(cardId) else { return nil }
-        
+
         if let card = cards.filter({
             $0.type != "hero" && $0.type != "hero power"
         }).firstWhere({ $0.id == cardId }) {
@@ -35,14 +35,14 @@ final class Cards {
         }
         return nil
     }
-    
+
     static func anyById(cardId: String) -> Card? {
         if let card = cards.firstWhere({ $0.id == cardId }) {
             return card.copy()
         }
         return nil
     }
-    
+
     static func byName(name: String) -> Card? {
         if let card = collectible().firstWhere({ $0.name == name }) {
             return card.copy()
@@ -68,7 +68,7 @@ final class Cards {
         }
         return byClass(className, sets: sets)
     }
-    
+
     static func byClass(className: String?, sets: [String]) -> [Card] {
         var _cards = collectible().filter { $0.playerClass == className }
         if !sets.isEmpty {
@@ -76,17 +76,17 @@ final class Cards {
         }
         return _cards
     }
-    
-    static func search(className className: String?, sets: [String] = [], term: String = "", cost: Int = -1,
+
+    static func search(className className: String?, sets: [String] = [],
+                                 term: String = "", cost: Int = -1,
                                  rarity: Rarity? = .None, standardOnly: Bool = false,
                                  damage: Int = -1, health: Int = -1, type: String = "",
                                  race: String = "") -> [Card] {
         var cards = collectible()
-        
+
         if term.isEmpty {
             cards = cards.filter { $0.playerClass == className }
-        }
-        else {
+        } else {
             cards = cards.filter { $0.playerClass == className || $0.playerClass == "neutral" }
                 .filter {
                     $0.name.lowercaseString.contains(term.lowercaseString) ||
@@ -97,35 +97,35 @@ final class Cards {
                         $0.race.contains(term.lowercaseString)
             }
         }
-        
+
         if !type.isEmpty {
             cards = cards.filter { $0.type == type }
         }
-        
+
         if !race.isEmpty {
             cards = cards.filter { $0.race == race }
         }
-        
+
         if health != -1 {
             cards = cards.filter { $0.health == health }
         }
-        
+
         if damage != -1 {
             cards = cards.filter { $0.attack == damage }
         }
-        
+
         if standardOnly {
             cards = cards.filter { $0.isStandard }
         }
-        
+
         if let rarity = rarity {
             cards = cards.filter { $0.rarity == rarity }
         }
-        
+
         if !sets.isEmpty {
             cards = cards.filter { sets.contains($0.set) }
         }
-        
+
         if cost != -1 {
             cards = cards.filter {
                 if cost == 7 {
@@ -134,20 +134,24 @@ final class Cards {
                 return $0.cost == cost
             }
         }
-        
+
         return cards.sortCardList()
     }
 }
 
 struct Database {
-    static let validCardSets = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS", "OG"]
-    
-    static let deckManagerValidCardSets = ["ALL", "EXPERT1", "NAXX", "GVG", "BRM", "TGT", "LOE", "OG"]
+    static let validCardSets = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM",
+                                "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS",
+                                "OG"]
+
+    static let deckManagerValidCardSets = ["ALL", "EXPERT1", "NAXX", "GVG",
+                                           "BRM", "TGT", "LOE", "OG"]
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [String]()
-    
-    static let wildSets:[String] = ["NAXX", "GVG"]
 
+    static let wildSets: [String] = ["NAXX", "GVG"]
+
+    // swiftlint:disable line_length
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
         var langs = [String]()
@@ -163,7 +167,8 @@ struct Database {
             Log.verbose?.message("json file : \(jsonFile)")
             if let jsonData = NSData(contentsOfFile: jsonFile) {
                 do {
-                    let cards: [[String: AnyObject]] = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as! [[String: AnyObject]]
+                    if let cards: [[String: AnyObject]]
+                        = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as? [[String: AnyObject]] {
 
                     if let splashscreen = splashscreen {
                         dispatch_async(dispatch_get_main_queue()) {
@@ -178,7 +183,7 @@ struct Database {
                             }
                         }
 
-                        let set = jsonCard["set"] as! String
+                        if let set = jsonCard["set"] as? String {
                         if !Database.validCardSets.contains(set) {
                             continue
                         }
@@ -191,8 +196,7 @@ struct Database {
                                         card.enName = name
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 let card = Card()
                                 card.id = cardId
 
@@ -219,8 +223,7 @@ struct Database {
 
                                 if let cardPlayerClass = jsonCard["playerClass"] as? String {
                                     card.playerClass = cardPlayerClass.lowercaseString
-                                }
-                                else {
+                                } else {
                                     card.playerClass = "neutral"
                                 }
 
@@ -272,6 +275,8 @@ struct Database {
                                  }*/
                             }
                         }
+                        }
+                    }
                     }
                 } catch {
                     print(error)
@@ -282,4 +287,5 @@ struct Database {
         }
         return images
     }
+    // swiftlint:enable line_length
 }

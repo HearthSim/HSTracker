@@ -9,7 +9,9 @@
 import Foundation
 import CleanroomLogger
 
-class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate, JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSTextFieldDelegate {
+class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource,
+NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate,
+JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSTextFieldDelegate {
 
     @IBOutlet weak var countLabel: NSTextField!
     @IBOutlet weak var cardsCollectionView: JNWCollectionView!
@@ -19,7 +21,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBOutlet weak var curveView: CurveView!
     @IBOutlet weak var standardOnlyCards: NSButton!
     @IBOutlet weak var sets: NSPopUpButton!
-    
+
     @IBOutlet weak var manaGem0: ManaGemButton!
     @IBOutlet weak var manaGem1: ManaGemButton!
     @IBOutlet weak var manaGem2: ManaGemButton!
@@ -28,17 +30,17 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBOutlet weak var manaGem5: ManaGemButton!
     @IBOutlet weak var manaGem6: ManaGemButton!
     @IBOutlet weak var manaGem7: ManaGemButton!
-    
+
     @IBOutlet weak var damage: NSTextField!
     @IBOutlet weak var health: NSTextField!
-    
+
     @IBOutlet weak var cardType: NSPopUpButton!
     @IBOutlet weak var rarity: NSPopUpButton!
     @IBOutlet weak var races: NSPopUpButton!
-    
+
     @IBOutlet weak var zoom: NSSlider!
     @IBOutlet weak var presentationView: NSSegmentedControl!
-    
+
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
     var currentDeck: Deck?
@@ -54,9 +56,9 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     var currentHealth = -1
     var currentRace = ""
     var currentCardType = ""
-    
+
     var saveDeck: SaveDeck?
-    
+
     let baseCardWidth: CGFloat = 177
     let baseCardHeight: CGFloat = 259
 
@@ -74,7 +76,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         super.windowDidLoad()
 
         let settings = Settings.instance
-        
+
         let gridLayout = JNWCollectionViewGridLayout()
         cardsCollectionView.collectionViewLayout = gridLayout
         cardsCollectionView.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
@@ -94,14 +96,14 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         curveView?.reload()
 
         countCards()
-        
+
         loadSets()
         loadCardTypes()
         loadRarities()
         loadRaces()
-        
+
         zoom.doubleValue = settings.deckManagerZoom
-        
+
         if let cell = searchField.cell as? NSSearchFieldCell {
             cell.cancelButtonCell!.target = self
             cell.cancelButtonCell!.action = #selector(EditDeck.cancelSearch(_:))
@@ -128,11 +130,13 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                 return nil
 
             case 12: // cmd-a
+                // swiftlint:disable line_length
                 if let selected = self.cardsCollectionView.indexPathsForSelectedItems() as? [NSIndexPath],
-                    let cell: CardCell = self.cardsCollectionView.cellForItemAtIndexPath(selected.first) as? CardCell,
-                    let card = cell.card {
+                    cell: CardCell = self.cardsCollectionView.cellForItemAtIndexPath(selected.first) as? CardCell,
+                    card = cell.card {
                         self.addCardToDeck(card)
                 }
+                // swiftlint:enable line_length
 
             default:
                 Log.verbose?.message("unsupported keycode \(e.keyCode)")
@@ -147,16 +151,17 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     }
 
     private func reloadCards() {
-        currentClassCards = Cards.search(className: currentSearchTerm == "" ? selectedClass : currentPlayerClass,
-                                         sets: currentSet,
-                                         term: currentSearchTerm,
-                                         cost: currentCardCost,
-                                         rarity: currentRarity,
-                                         standardOnly: standardOnly,
-                                         damage: currentDamage,
-                                         health: currentHealth,
-                                         type: currentCardType,
-                                         race: currentRace)
+        currentClassCards = Cards.search(
+            className: currentSearchTerm == "" ? selectedClass : currentPlayerClass,
+            sets: currentSet,
+            term: currentSearchTerm,
+            cost: currentCardCost,
+            rarity: currentRarity,
+            standardOnly: standardOnly,
+            damage: currentDamage,
+            health: currentHealth,
+            type: currentCardType,
+            race: currentRace)
         cardsCollectionView.reloadData()
     }
 
@@ -175,7 +180,9 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
 
         let alert = NSAlert()
         alert.alertStyle = .InformationalAlertStyle
+        // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("Are you sure you want to close this deck ? Your changes will not be saved.", comment: "")
+        // swiftlint:enable line_length
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
         if alert.runModal() == NSAlertFirstButtonReturn {
@@ -201,7 +208,8 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         return currentDeck!.sortedCards.count
     }
 
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(tableView: NSTableView,
+                   viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = CardCellView()
         cell.playerType = .DeckManager
         cell.card = currentDeck!.sortedCards[row]
@@ -223,11 +231,12 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         cardsCollectionView.reloadData()
         curveView.reload()
     }
-    
+
     func addCardToDeck(card: Card) {
         let deckCard = currentDeck!.sortedCards.filter({ $0.id == card.id }).first
-        
-        if deckCard == nil || currentDeck!.isArena || (deckCard!.count == 1 && card.rarity != .Legendary) {
+
+        if deckCard == nil || currentDeck!.isArena ||
+            (deckCard!.count == 1 && card.rarity != .Legendary) {
             currentDeck?.addCard(card)
             curveView.reload()
             deckCardsView.reloadData()
@@ -236,55 +245,51 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
             isSaved = false
         }
     }
-    
+
     // MARK: - Standard/Wild
     @IBAction func standardWildChange(sender: NSButton) {
         standardOnly = sender.state == NSOnState
         reloadCards()
     }
-    
+
     // MARK: - Health/Damage - NSTextFieldDelegate
     override func controlTextDidChange(notification: NSNotification) {
         if let editor = notification.object as? NSTextField {
             if editor == health {
                 if let value = Int(editor.stringValue) {
                     currentHealth = value
-                }
-                else {
+                } else {
                     currentHealth = -1
                 }
-            }
-            else if editor == damage {
+            } else if editor == damage {
                 if let value = Int(editor.stringValue) {
                     currentDamage = value
-                }
-                else {
+                } else {
                     currentDamage = -1
                 }
             }
-            
+
             reloadCards()
         }
     }
-    
+
     // MARK: - Gems
     @IBAction func manaGemClicked(sender: ManaGemButton) {
         let gems = [manaGem0, manaGem1, manaGem2, manaGem3, manaGem4, manaGem5, manaGem6, manaGem7]
-        
+
         if sender.selected {
             sender.selected = false
             currentCardCost = -1
-        }
-        else {
+        } else {
             currentCardCost = sender.tag
             for gem in gems {
                 gem.selected = sender == gem
             }
         }
-        
+
         reloadCards()
     }
-    
+
     // MARK: - Sets
     private func loadSets() {
         let popupMenu = NSMenu()
@@ -298,17 +303,19 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         }
         sets.menu = popupMenu
     }
-    
+
     @IBAction func changeSet(sender: NSMenuItem) {
-        switch sender.representedObject as! String {
-        case "ALL": currentSet = []
-        case "EXPERT1": currentSet = ["core", "expert1", "promo"]
-        default: currentSet = [(sender.representedObject as! String).lowercaseString]
+        if let type = sender.representedObject as? String {
+            switch type {
+            case "ALL": currentSet = []
+            case "EXPERT1": currentSet = ["core", "expert1", "promo"]
+            default: currentSet = [type.lowercaseString]
+            }
         }
-        
+
         reloadCards()
     }
-    
+
     // MARK: - Card Types
     private func loadCardTypes() {
         let popupMenu = NSMenu()
@@ -321,16 +328,18 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         }
         cardType.menu = popupMenu
     }
-    
+
     @IBAction func changeCardType(sender: NSMenuItem) {
-        switch sender.representedObject as! String {
-        case "all_types": currentCardType = ""
-        default: currentCardType = sender.representedObject as! String
+        if let type = sender.representedObject as? String {
+            switch type {
+            case "all_types": currentCardType = ""
+            default: currentCardType = type
+            }
         }
-        
+
         reloadCards()
     }
-    
+
     // MARK: - Races
     private func loadRaces() {
         let popupMenu = NSMenu()
@@ -339,7 +348,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                                        keyEquivalent: "")
         popupMenuItem.representedObject = "all"
         popupMenu.addItem(popupMenuItem)
-        
+
         for race in Database.deckManagerRaces {
             let popupMenuItem = NSMenuItem(title: NSLocalizedString(race, comment: ""),
                                            action: #selector(EditDeck.changeRace(_:)),
@@ -349,16 +358,18 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         }
         races.menu = popupMenu
     }
-    
+
     @IBAction func changeRace(sender: NSMenuItem) {
-        switch sender.representedObject as! String {
-        case "all": currentRace = ""
-        default: currentRace = sender.representedObject as! String
+        if let type = sender.representedObject as? String {
+            switch type {
+            case "all": currentRace = ""
+            default: currentRace = type
+            }
         }
-        
+
         reloadCards()
     }
-    
+
     // MARK: - Rarity
     private func loadRarities() {
         let popupMenu = NSMenu()
@@ -367,7 +378,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                                        keyEquivalent: "")
         popupMenuItem.representedObject = "all"
         popupMenu.addItem(popupMenuItem)
-        
+
         for rarity in Rarity.allValues() {
             let popupMenuItem = NSMenuItem(title: "",
                                            action: #selector(EditDeck.changeRarity(_:)),
@@ -379,62 +390,67 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         }
         rarity.menu = popupMenu
     }
-    
+
     @IBAction func changeRarity(sender: NSMenuItem) {
-        switch sender.representedObject as! String {
-        case "all_rarities": currentRarity = .None
-        default: currentRarity = Rarity(rawValue: sender.representedObject as! String)
+        if let type = sender.representedObject as? String {
+            switch type {
+            case "all_rarities": currentRarity = .None
+            default: currentRarity = Rarity(rawValue: type)
+            }
         }
-        
+
         reloadCards()
     }
 
     // MARK: - JNWCollectionViewDataSource/Delegate
     func changeLayout() {
         let settings = Settings.instance
-        
+
         zoom.enabled = settings.deckManagerPreferCards
-        
+
         let size: NSSize
         if settings.deckManagerPreferCards {
             size = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
                               baseCardHeight / 100 * CGFloat(settings.deckManagerZoom))
-        }
-        else {
+        } else {
             size = NSMakeSize(CGFloat(kFrameWidth), CGFloat(kRowHeight))
         }
-        
-        (cardsCollectionView.collectionViewLayout as! JNWCollectionViewGridLayout).itemSize = size
+
+        (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize = size
     }
-    
+
     func collectionView(collectionView: JNWCollectionView!,
         cellForItemAtIndexPath indexPath: NSIndexPath!) -> JNWCollectionViewCell! {
-        
+
         let card = currentClassCards[indexPath.jnw_item]
         let settings = Settings.instance
 
-        let cell: CardCell = collectionView.dequeueReusableCellWithIdentifier("card_cell") as! CardCell
-        cell.showCard = settings.deckManagerPreferCards
-        cell.setCard(card)
-        var count: Int = 0
-        if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
-            count = deckCard.count
+        if let cell = collectionView.dequeueReusableCellWithIdentifier("card_cell") as? CardCell {
+            cell.showCard = settings.deckManagerPreferCards
+            cell.setCard(card)
+            var count: Int = 0
+            if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
+                count = deckCard.count
+            }
+            cell.isArena = currentDeck!.isArena
+            cell.setCount(count)
+            return cell
         }
-        cell.isArena = currentDeck!.isArena
-        cell.setCount(count)
-        return cell
+        return nil
     }
 
-    func collectionView(collectionView: JNWCollectionView!, numberOfItemsInSection section: Int) -> UInt {
+    func collectionView(collectionView: JNWCollectionView!,
+                        numberOfItemsInSection section: Int) -> UInt {
         return UInt(currentClassCards.count)
     }
 
-    func collectionView(collectionView: JNWCollectionView!, mouseUpInItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(collectionView: JNWCollectionView!,
+                        mouseUpInItemAtIndexPath indexPath: NSIndexPath!) {
         if currentDeck!.countCards() == 30 {
             return
         }
-        let cell: CardCell = collectionView.cellForItemAtIndexPath(indexPath) as! CardCell
-        if let card = cell.card {
+        if let cell: CardCell = collectionView.cellForItemAtIndexPath(indexPath) as? CardCell,
+            card = cell.card {
             addCardToDeck(card)
         }
     }
@@ -456,6 +472,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
     @IBAction func delete(sender: AnyObject?) {
         var alert = NSAlert()
         alert.alertStyle = .InformationalAlertStyle
+        // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
@@ -465,8 +482,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                     if Settings.instance.hearthstatsAutoSynchronize {
                         do {
                             try HearthstatsAPI.deleteDeck(self.currentDeck!)
-                        }
-                        catch {}
+                        } catch {}
                     } else {
                         alert = NSAlert()
                         alert.alertStyle = .InformationalAlertStyle
@@ -478,8 +494,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                                                         if response == NSAlertFirstButtonReturn {
                                                             do {
                                                                 try HearthstatsAPI.deleteDeck(self.currentDeck!)
-                                                            }
-                                                            catch {
+                                                            } catch {
                                                                 // TODO alert
                                                                 print("error")
                                                             }
@@ -492,6 +507,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
                 self.window?.performClose(self)
             }
         }
+        // swiftlint:enable line_length
     }
 
     // MARK: - Search
@@ -501,8 +517,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         if !currentSearchTerm.isEmpty {
             classChooser.enabled = false
             reloadCards()
-        }
-        else {
+        } else {
             cancelSearch(sender)
         }
     }
@@ -514,7 +529,7 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         currentSearchTerm = ""
         reloadCards()
     }
-    
+
     // MARK: - SaveDeckDelegate
     func deckSaveSaved() {
         isSaved = true
@@ -523,21 +538,23 @@ class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource, NST
         }
         self.window?.performClose(self)
     }
-    
+
     func deckSaveCanceled() {
         if let saveDeck = saveDeck {
             self.window?.endSheet(saveDeck.window!)
         }
     }
-    
+
     // MARK: - zoom
     @IBAction func zoomChange(sender: NSSlider) {
         let settings = Settings.instance
         settings.deckManagerZoom = round(sender.doubleValue)
-        (cardsCollectionView.collectionViewLayout as! JNWCollectionViewGridLayout).itemSize = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom), 259 / 100 * CGFloat(settings.deckManagerZoom))
+        (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize
+            = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
+                         259 / 100 * CGFloat(settings.deckManagerZoom))
         cardsCollectionView.reloadData()
     }
-    
+
     // MARK: - preferred view
     @IBAction func changePreferredView(sender: NSSegmentedControl) {
         let settings = Settings.instance

@@ -28,7 +28,7 @@ extension Array where Element: Card {
         }
         return result
     }
-    
+
     func shuffleOne() -> Card? {
         return self[Int(arc4random()) % Int(count)]
     }
@@ -49,8 +49,8 @@ extension Array where Element: Dictable {
 }
 
 extension Array where Element: Equatable {
-    mutating func remove(e: Element) {
-        if let index = indexOf(e) {
+    mutating func remove(element: Element) {
+        if let index = indexOf(element) {
             removeAtIndex(index)
         }
     }

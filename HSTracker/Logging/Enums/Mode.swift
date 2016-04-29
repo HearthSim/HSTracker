@@ -8,7 +8,9 @@
 
 import Foundation
 
-enum Mode : String {
+// swiftlint:disable type_name
+
+enum Mode: String {
     case INVALID,
     STARTUP,
     LOGIN,

@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum GameMode : Int {
+enum GameMode: Int {
     case All, //for filtering @ deck stats
     Ranked,
     Casual,

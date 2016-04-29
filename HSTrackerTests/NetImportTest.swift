@@ -14,14 +14,14 @@ import XCTest
 class NetImportTest: XCTestCase {
     var expectation: XCTestExpectation?
     var notification: NSObjectProtocol?
-    
+
     override func setUp() {
         super.setUp()    }
-    
+
     override func tearDown() {
         super.tearDown()
     }
-    
+
     func testHearthArena() {
         print("Waiting 10 seconds for Database to be started")
         expectationForNotification("hstracker_is_ready", object: nil, handler: nil)
@@ -38,7 +38,7 @@ class NetImportTest: XCTestCase {
             }
         }
     }
-    
+
     func testHearthNews() {
         let url = "http://www.hearthnews.fr/decks/7070"
         self.measureBlock {
@@ -51,7 +51,7 @@ class NetImportTest: XCTestCase {
             }
         }
     }
-    
+
     func testHearthstoneDecks() {
         let url = "http://www.hearthstone-decks.com/deck/voir/reno-reincarnation-7844"
         self.measureBlock {
@@ -64,7 +64,7 @@ class NetImportTest: XCTestCase {
             }
         }
     }
-    
+
     func testHearthpwn() {
         let url = "http://www.hearthpwn.com/decks/432773-ostkakas-standard-miracle-rogue"
         self.measureBlock {
@@ -77,7 +77,7 @@ class NetImportTest: XCTestCase {
             }
         }
     }
-    
+
     func testHearthpwnDecks() {
         let url = "http://www.hearthpwn.com/deckbuilder/warrior#50:2;73:1;96:1;215:2;227:2;297:2;493:2;632:1;644:1;7734:2;7749:2;12215:2;14448:1;14464:2;22264:1;22276:1;22309:2;27210:1;27211:2"
         self.measureBlock {
@@ -90,7 +90,7 @@ class NetImportTest: XCTestCase {
             }
         }
     }
-    
+
     func testHearthStats() {
         let url = "http://hearthstats.net/decks/mage-meca--1049/public_show?locale=en"
         self.measureBlock {
@@ -103,7 +103,7 @@ class NetImportTest: XCTestCase {
             }
         }
     }
-    
+
     func testHearthHead() {
         let url = "http://www.hearthhead.com/deck=158864/fun-easy-win-dragon-warrior"
         self.measureBlock {

@@ -39,8 +39,8 @@ final class Hearthnews: BaseNetImporter, NetImporterAware {
                 var cards = [String: Int]()
                 for cardNode in doc.xpath("//a[@class='real_id']") {
                     if let qty = cardNode["nb_card"],
-                        let cardId = cardNode["real_id"],
-                        let count = Int(qty) {
+                        cardId = cardNode["real_id"],
+                        count = Int(qty) {
                             cards[cardId] = count
                     }
                 }

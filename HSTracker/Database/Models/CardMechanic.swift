@@ -11,5 +11,5 @@ import Foundation
 class CardMechanic {
 
     var name: String = ""
-    
+
 }

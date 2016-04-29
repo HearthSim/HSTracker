@@ -19,11 +19,11 @@ class TimerHud: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        
+
         opponentLabel.stringValue = ""
         turnLabel.stringValue = ""
         playerLabel.stringValue = ""
-        
+
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .Right
         attributes = [
@@ -48,22 +48,25 @@ class TimerHud: NSWindowController {
         self.window!.opaque = false
         self.window!.hasShadow = false
         self.window!.backgroundColor = NSColor.clearColor()
-        
+
+        // swiftlint:disable line_length
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                          selector: #selector(TimerHud.hearthstoneActive(_:)),
                                                          name: "hearthstone_active",
                                                          object: nil)
+        // swiftlint:enable line_length
     }
-    
+
     func hearthstoneActive(notification: NSNotification) {
         let hs = Hearthstone.instance
-        
+
+        let level: Int
         if hs.hearthstoneActive {
-            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        } else {
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
         }
-        else {
-            self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
-        }
+        self.window!.level = level
     }
 
     func tick(seconds: Int, _ playerSeconds: Int, _ opponentSeconds: Int) {
@@ -73,9 +76,15 @@ class TimerHud: NSWindowController {
             opponentLabel.attributedStringValue = NSAttributedString(string: "")
             return
         }
-        
-        turnLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (seconds / 60) % 60, seconds % 60), attributes: largeAttributes)
-        playerLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (playerSeconds / 60) % 60, playerSeconds % 60), attributes: attributes)
-        opponentLabel.attributedStringValue = NSAttributedString(string: String(format: "%d:%02d", (opponentSeconds / 60) % 60, opponentSeconds % 60), attributes: attributes)
+
+        turnLabel.attributedStringValue = NSAttributedString(string:
+            String(format: "%d:%02d", (seconds / 60) % 60, seconds % 60),
+                                                             attributes: largeAttributes)
+        playerLabel.attributedStringValue = NSAttributedString(string:
+            String(format: "%d:%02d", (playerSeconds / 60) % 60, playerSeconds % 60),
+                                                               attributes: attributes)
+        opponentLabel.attributedStringValue = NSAttributedString(string:
+            String(format: "%d:%02d", (opponentSeconds / 60) % 60, opponentSeconds % 60),
+                                                                 attributes: attributes)
     }
 }

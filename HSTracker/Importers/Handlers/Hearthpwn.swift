@@ -34,7 +34,9 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
                 var className: String?
                 if let classNode = doc.at_xpath("//section[contains(@class, 'deck-info')]") {
                     if let clazz = classNode["class"] {
-                        className = clazz.stringByReplacingOccurrencesOfString("deck-info", withString: "").trim()
+                        className = clazz
+                            .stringByReplacingOccurrencesOfString("deck-info",
+                                                                  withString: "").trim()
                     }
                 }
                 guard let _ = className else {
@@ -47,7 +49,10 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
                 var cards = [String: Int]()
 
                 for clazz in ["class-listing", "neutral-listing"] {
-                    let cardNodes = doc.xpath("//*[contains(@class, '\(clazz)')]//td[contains(@class, 'col-name')]//a")
+                    // swiftlint:disable line_length
+                    let xpath = "//*[contains(@class, '\(clazz)')]//td[contains(@class, 'col-name')]//a"
+                    // swiftlint:enable line_length
+                    let cardNodes = doc.xpath(xpath)
                     for cardNode in cardNodes {
                         let card: String? = cardNode.text?.trim()
                         var count: Int?

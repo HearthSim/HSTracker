@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class OpponentSecrets : CustomStringConvertible {
+class OpponentSecrets: CustomStringConvertible {
     private(set) lazy var secrets = [SecretHelper]()
     var proposedAttackerEntityId: Int = 0
     var proposedDefenderEntityId: Int = 0
@@ -36,7 +36,8 @@ class OpponentSecrets : CustomStringConvertible {
 
         case .Paladin:
             if displayedClasses.contains(.Hunter) && displayedClasses.contains(.Mage) {
-                return SecretHelper.getMaxSecretCount(.Hunter) + SecretHelper.getMaxSecretCount(.Mage)
+                return SecretHelper.getMaxSecretCount(.Hunter)
+                    + SecretHelper.getMaxSecretCount(.Mage)
             }
             if displayedClasses.contains(.Hunter) {
                 return SecretHelper.getMaxSecretCount(.Hunter)
@@ -59,15 +60,16 @@ class OpponentSecrets : CustomStringConvertible {
     }
 
     func trigger(cardId: String) {
-        if secrets.any({ $0.possibleSecrets[cardId] != nil ? $0.possibleSecrets[cardId]! : false }) {
+        if secrets.any({ $0.possibleSecrets[cardId] != nil
+            ? $0.possibleSecrets[cardId]! : false }) {
             setZero(cardId)
-        }
-        else {
+        } else {
             setMax(cardId)
         }
     }
 
-    func newSecretPlayed(heroClass: HeroClass, _ id: Int, _ turn: Int, _ knownCardId: String? = nil) {
+    func newSecretPlayed(heroClass: HeroClass, _ id: Int, _ turn: Int,
+                         _ knownCardId: String? = nil) {
         let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn)
         if let knownCardId = knownCardId {
             SecretHelper.getSecretIds(heroClass).forEach({
@@ -81,22 +83,26 @@ class OpponentSecrets : CustomStringConvertible {
     func secretRemoved(id: Int, _ cardId: String) {
         if let index = secrets.indexOf({ $0.id == id }) {
             if index == -1 {
-                Log.warning?.message("Secret with id=\(id), cardId=\(cardId) not found when trying to remove it.")
+                Log.warning?.message("Secret with id=\(id), cardId=\(cardId)"
+                    + " not found when trying to remove it.")
                 return
             }
             let attacker = game.entities[proposedAttackerEntityId]
             let defender = game.entities[proposedDefenderEntityId]
 
-            // see http://hearthstone.gamepedia.com/Advanced_rulebook#Combat for fast vs. slow secrets
+            // see http://hearthstone.gamepedia.com/Advanced_rulebook#Combat
+            // for fast vs. slow secrets
 
             // a few fast secrets can modify combat
             // freezing trap and vaporize remove the attacking minion
             // misdirection, noble sacrifice change the target
 
             // if multiple secrets are in play and a fast secret triggers,
-            // we need to eliminate older secrets which would have been triggered by the attempted combat
+            // we need to eliminate older secrets which would have
+            // been triggered by the attempted combat
             if CardIds.Secrets.FastCombat.contains(cardId) && attacker != nil && defender != nil {
-                zeroFromAttack(game.entities[proposedAttackerEntityId]!, game.entities[proposedDefenderEntityId]!, true, index)
+                zeroFromAttack(game.entities[proposedAttackerEntityId]!,
+                               game.entities[proposedDefenderEntityId]!, true, index)
             }
 
             secrets.remove(secrets[index])
@@ -104,7 +110,8 @@ class OpponentSecrets : CustomStringConvertible {
         }
     }
 
-    func zeroFromAttack(attacker: Entity, _ defender: Entity, _ fastOnly: Bool = false, _ _stopIndex: Int = -1) {
+    func zeroFromAttack(attacker: Entity, _ defender: Entity,
+                        _ fastOnly: Bool = false, _ _stopIndex: Int = -1) {
         if !Settings.instance.autoGrayoutSecrets {
             return
         }
@@ -134,9 +141,7 @@ class OpponentSecrets : CustomStringConvertible {
                 setZeroOlder(CardIds.Secrets.Mage.Vaporize, stopIndex)
                 setZeroOlder(CardIds.Secrets.Hunter.FreezingTrap, stopIndex)
             }
-        }
-        else
-        {
+        } else {
             if !fastOnly && game.opponentMinionCount < 7 {
                 setZeroOlder(CardIds.Secrets.Hunter.SnakeTrap, stopIndex)
             }

@@ -9,7 +9,7 @@
 import Foundation
 import MASPreferences
 
-class OpponentTrackersPreferences : NSViewController, MASPreferencesViewController {
+class OpponentTrackersPreferences: NSViewController, MASPreferencesViewController {
 
     @IBOutlet weak var showOpponentTracker: NSButton!
     @IBOutlet weak var showCardHuds: NSButton!
@@ -18,7 +18,7 @@ class OpponentTrackersPreferences : NSViewController, MASPreferencesViewControll
     @IBOutlet weak var showOpponentDrawChance: NSButton!
     @IBOutlet weak var showCthunCounter: NSButton!
     @IBOutlet weak var showSpellCounter: NSButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let settings = Settings.instance
@@ -33,26 +33,20 @@ class OpponentTrackersPreferences : NSViewController, MASPreferencesViewControll
 
     @IBAction func checkboxClicked(sender: NSButton) {
         let settings = Settings.instance
-        
+
         if sender == showOpponentTracker {
             settings.showOpponentTracker = showOpponentTracker.state == NSOnState
-        }
-        else if sender == showCardHuds {
+        } else if sender == showCardHuds {
             settings.showCardHuds = showCardHuds.state == NSOnState
-        }
-        else if sender == clearTrackersOnGameEnd {
+        } else if sender == clearTrackersOnGameEnd {
             settings.clearTrackersOnGameEnd = clearTrackersOnGameEnd.state == NSOnState
-        }
-        else if sender == showOpponentCardCount {
+        } else if sender == showOpponentCardCount {
             settings.showOpponentCardCount = showOpponentCardCount.state == NSOnState
-        }
-        else if sender == showOpponentDrawChance {
+        } else if sender == showOpponentDrawChance {
             settings.showOpponentDrawChance = showOpponentDrawChance.state == NSOnState
-        }
-        else if sender == showCthunCounter {
+        } else if sender == showCthunCounter {
             settings.showOpponentCthun = showCthunCounter.state == NSOnState
-        }
-        else if sender == showSpellCounter {
+        } else if sender == showSpellCounter {
             settings.showOpponentYogg = showSpellCounter.state == NSOnState
         }
     }

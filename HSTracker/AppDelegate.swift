@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
     var floatingCard: FloatingCard?
-    
+
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
@@ -46,7 +46,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
          NSUserDefaults.standardUserDefaults().synchronize()*/
 
         #if !DEBUG
-        BITHockeyManager.sharedHockeyManager().configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
+        BITHockeyManager.sharedHockeyManager()
+            .configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
         BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
         BITHockeyManager.sharedHockeyManager().debugLogEnabled = true
         BITHockeyManager.sharedHockeyManager().startManager()
@@ -61,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             NSUserDefaults.standardUserDefaults().synchronize()
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hstracker_v2")
         }
-        
+
         let settings = Settings.instance
 
         // init logger
@@ -72,17 +73,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                                 formatters: [HSTrackerLogFormatter()])
         loggers.append(xcodeConfig)
         #if !DEBUG
-            if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true).first {
+            if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory,
+                                                              .UserDomainMask, true).first {
                 do {
-                    try NSFileManager.defaultManager().createDirectoryAtPath("\(path)/Logs/HSTracker", withIntermediateDirectories: true, attributes: nil)
+                    try NSFileManager.defaultManager().createDirectoryAtPath(
+                        "\(path)/Logs/HSTracker",
+                        withIntermediateDirectories: true,
+                        attributes: nil)
                     let severity: LogSeverity = Settings.instance.logSeverity
+                    // swiftlint:disable line_length
                     let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
                                                                     daysToKeep: 7,
                                                                     directoryPath: "\(path)/Logs/HSTracker",
                                                                     formatters: [HSTrackerLogFormatter()])
+                    // swiftlint:disable line_length
                     loggers.append(rotatingConf)
-                }
-                catch { }
+                } catch { }
             }
         #endif
         Log.enable(configuration: loggers)
@@ -102,7 +108,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             initalConfig?.window?.orderFrontRegardless()
         }
     }
-    
+
     func applicationWillTerminate(notification: NSNotification) {
         if appWillRestart {
             let appPath = NSBundle.mainBundle().bundlePath
@@ -119,13 +125,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let screenFrame = NSScreen.mainScreen()!.frame
         let splashscreenWidth: CGFloat = 350
         let splashscreenHeight: CGFloat = 250
-        
+
         splashscreen?.window?.setFrame(NSMakeRect(
             (NSWidth(screenFrame) / 2) - (splashscreenWidth / 2),
             (NSHeight(screenFrame) / 2) - (splashscreenHeight / 2),
             splashscreenWidth, splashscreenHeight), display: true)
         splashscreen?.showWindow(self)
-        
+
         let operationQueue = NSOperationQueue()
 
         let startUpCompletionOperation = NSBlockOperation(block: {
@@ -190,7 +196,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     func hstrackerReady() {
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
-        
+
         let events = [
             "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
             "show_opponent_tracker": #selector(AppDelegate.showOpponentTracker(_:)),
@@ -199,7 +205,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             "show_floating_card": #selector(AppDelegate.showFloatingCard(_:)),
             "hide_floating_card": #selector(AppDelegate.hideFloatingCard(_:)),
         ]
-        
+
         for (event, selector) in events {
             NSNotificationCenter.defaultCenter().addObserver(self,
                                                              selector: selector,
@@ -208,47 +214,45 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
 
         Log.info?.message("HSTracker is now ready !")
-        
+
         if let activeDeck = Settings.instance.activeDeck, deck = Decks.instance.byId(activeDeck) {
             Game.instance.setActiveDeck(deck)
         }
-        
-        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
+
+        NSNotificationCenter.defaultCenter()
+            .postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
 
         // testImportDeck()
         // testImportFromWeb()
         // testGetHearthstatsDecks()
         //testGetHearthstatsMatches()
-        
+
         splashscreen?.close()
         splashscreen = nil
     }
-    
+
     private func testGetHearthstatsMatches() {
         do {
             try HearthstatsAPI.getGames(Settings.instance.hearthstatsLastMatchesSync) {_ in }
-        }
-        catch HearthstatsError.NOT_LOGGED {
+        } catch HearthstatsError.NotLogged {
             print("not logged")
-        }
-        catch {
+        } catch {
             print("??? logged")
         }
     }
-    
+
     private func testGetHearthstatsDecks() {
         do {
             try HearthstatsAPI.loadDecks(true) { (success, newDecks) in }
-        }
-        catch HearthstatsError.NOT_LOGGED {
+        } catch HearthstatsError.NotLogged {
             print("not logged")
-        }
-        catch {
+        } catch {
             print("??? logged")
         }
     }
-    
+
     private func testImportFromWeb() {
+        // swiftlint:disable line_length
         /*let heartharena = "http://www.heartharena.com/arena-run/260979"
         let hearthnews = "http://www.hearthnews.fr/decks/7070"
         let hearthstoneDecks = "http://www.hearthstone-decks.com/deck/voir/reno-reincarnation-7844"
@@ -256,7 +260,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let hearthpwnDeckbuilder = "http://www.hearthpwn.com/deckbuilder/warrior#50:2;73:1;96:1;215:2;227:2;297:2;493:2;632:1;644:1;7734:2;7749:2;12215:2;14448:1;14464:2;22264:1;22276:1;22309:2;27210:1;27211:2"
         let hearthstats = "http://hearthstats.net/decks/mage-meca--1049/public_show?locale=en"*/
         let hearthhead = "http://www.hearthhead.com/deck=158864/fun-easy-win-dragon-warrior"
-        
+        // swiftlint:enable line_length
+
         let url = hearthhead
         do {
             try NetImporter.netImport(url, { (deck) -> Void in
@@ -314,67 +319,65 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     func openTrackers() {
         let settings = Settings.instance
-        
+
         let screenFrame = NSScreen.mainScreen()!.frame
         let y = NSHeight(screenFrame) - 50
         let width: CGFloat
         switch settings.cardSize {
         case .Small:
             width = CGFloat(kSmallFrameWidth)
-            
+
         case .Medium:
             width = CGFloat(kMediumFrameWidth)
-            
+
         default:
             width = CGFloat(kFrameWidth)
         }
-        
+
         playerTracker = Tracker(windowNibName: "Tracker")
         playerTracker?.playerType = .Player
         if let rect = settings.playerTrackerFrame {
             playerTracker?.window?.setFrame(rect, display: true)
-        }
-        else {
+        } else {
             let x = NSWidth(screenFrame) - width
             playerTracker?.window?.setFrame(NSMakeRect(x, y, width, y), display: true)
         }
         showPlayerTracker(nil)
-        
+
         opponentTracker = Tracker(windowNibName: "Tracker")
         opponentTracker?.playerType = .Opponent
-        
+
         if let rect = settings.opponentTrackerFrame {
             opponentTracker?.window?.setFrame(rect, display: true)
-        }
-        else {
+        } else {
             opponentTracker?.window?.setFrame(NSMakeRect(50, y, width, y), display: true)
         }
         showOpponentTracker(nil)
-        
+
         secretTracker = SecretTracker(windowNibName: "SecretTracker")
         secretTracker?.showWindow(self)
-        
+
         timerHud = TimerHud(windowNibName: "TimerHud")
         timerHud?.showWindow(self)
-        
+
         for _ in 0 ..< 10 {
             let cardHud = CardHud(windowNibName: "CardHud")
             cardHuds.append(cardHud)
         }
-        
+
         floatingCard = FloatingCard(windowNibName: "FloatingCard")
         floatingCard?.showWindow(self)
         floatingCard?.window?.orderOut(self)
     }
-    
+
     func showPlayerTracker(notification: NSNotification?) {
         showHideTracker(self.playerTracker, show: Settings.instance.showPlayerTracker)
     }
-    
+
     func showOpponentTracker(notification: NSNotification?) {
         showHideTracker(self.opponentTracker, show: Settings.instance.showOpponentTracker)
     }
-    
+
     func showHideTracker(tracker: Tracker?, show: Bool) {
         if show {
             tracker?.showWindow(self)
@@ -386,11 +389,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     func reloadDecks(notification: NSNotification) {
         buildMenu()
     }
-    
+
     var closeFloatingCardRequest = 0
     func showFloatingCard(notification: NSNotification) {
         guard Settings.instance.showFloatingCard else {return}
-        
+
         if let card = notification.userInfo?["card"] as? Card,
             arrayFrame = notification.userInfo?["frame"] as? [CGFloat] {
             closeFloatingCardRequest += 1
@@ -400,10 +403,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             floatingCard?.setCard(card)
         }
     }
-    
+
     func hideFloatingCard(notification: NSNotification) {
         guard Settings.instance.showFloatingCard else {return}
-        
+
         self.closeFloatingCardRequest -= 1
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
         let queue = dispatch_get_main_queue()
@@ -414,23 +417,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             self.floatingCard?.window?.orderOut(self)
         }
     }
-    
+
     func showHideCardHuds(notification: NSNotification) {
         Game.instance.updateCardHuds(true)
     }
-    
+
     func languageChange(notification: NSNotification) {
         let alert = NSAlert()
         alert.alertStyle = .InformationalAlertStyle
+        // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: "")
+        // swiftlint:enable line_length
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.runModal()
-        
+
         appWillRestart = true
         NSApplication.sharedApplication().terminate(nil)
         exit(0)
     }
-    
+
     // MARK: - Menu
     func buildMenu() {
         var decks = [String: [Deck]]()
@@ -440,7 +445,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
             decks[$0.playerClass]?.append($0)
         })
-        
+
         let mainMenu = NSApplication.sharedApplication().mainMenu
         let deckMenu = mainMenu?.itemWithTitle(NSLocalizedString("Decks", comment: ""))
         deckMenu?.submenu?.removeAllItems()
@@ -455,10 +460,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                             keyEquivalent: "")
 
         deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
-        for (playerClass, _decks) in decks.sort({ NSLocalizedString($0.0, comment: "") < NSLocalizedString($1.0, comment: "") }) {
-            if let menu = deckMenu?.submenu?.addItemWithTitle(NSLocalizedString(playerClass, comment: ""),
-                                                              action: nil,
-                                                              keyEquivalent: "") {
+        for (playerClass, _decks) in decks
+            .sort({ NSLocalizedString($0.0, comment: "") < NSLocalizedString($1.0, comment: "") }) {
+                if let menu = deckMenu?.submenu?
+                    .addItemWithTitle(NSLocalizedString(playerClass, comment: ""),
+                                      action: nil,
+                                      keyEquivalent: "") {
                 let classMenu = NSMenu()
                 _decks.sort({$0.name!.lowercaseString < $1.name!.lowercaseString }).forEach({
                     if let item = classMenu.addItemWithTitle($0.name!,
@@ -466,25 +473,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                         keyEquivalent: "") {
                         item.representedObject = $0
                     }
-                    
+
                 })
                 menu.submenu = classMenu
             }
         }
-        
+
         let settings = Settings.instance
         let windowMenu = mainMenu?.itemWithTitle(NSLocalizedString("Window", comment: ""))
+        // swiftlint:disable line_length
         let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows", comment: ""))
         item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
+        // swiftlint:enable line_length
     }
-    
+
     func playDeck(sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
             Settings.instance.activeDeck = deck.deckId
             Game.instance.setActiveDeck(deck)
         }
     }
-    
+
     @IBAction func openDeckManager(sender: AnyObject) {
         if deckManager == nil {
             deckManager = DeckManager(windowNibName: "DeckManager")
@@ -496,7 +505,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         Game.instance.removeActiveDeck()
         Settings.instance.activeDeck = nil
     }
-    
+
     @IBAction func resetTrackers(sender: AnyObject) {
         Game.instance.opponent.reset()
         Game.instance.updateOpponentTracker()
@@ -513,9 +522,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let text = settings.windowsLocked ? "Unlock windows" : "Lock windows"
         let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString(text, comment: ""))
         settings.windowsLocked = !settings.windowsLocked
+        // swiftlint:disable line_length
         item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
+        // swiftlint:enable line_length
     }
-    
+
     var windowMove: WindowMove?
     @IBAction func openDebugPositions(sender: AnyObject) {
         if windowMove == nil {
@@ -523,11 +534,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
         windowMove?.showWindow(self)
     }
-    
+
     @IBAction func closeWindow(sender: AnyObject) {
-        
+
     }
-    
+
     // MARK: NSUserNotificationCenterDelegate
     func sendNotification(title: String, _ info: String) {
         let notification = NSUserNotification()
@@ -535,8 +546,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         notification.informativeText = info
         NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
     }
-    
-    func userNotificationCenter(center: NSUserNotificationCenter, shouldPresentNotification notification: NSUserNotification) -> Bool {
+
+    // swiftlint:disable line_length
+    func userNotificationCenter(center: NSUserNotificationCenter,
+                                shouldPresentNotification notification: NSUserNotification) -> Bool {
         return true
     }
+    // swiftlint:enable line_length
 }

@@ -13,7 +13,7 @@ func generateId() -> String {
     return "\(NSUUID().UUIDString)-\(NSDate().timeIntervalSince1970)"
 }
 
-final class Deck : Hashable, CustomStringConvertible {
+final class Deck: Hashable, CustomStringConvertible {
     var deckId: String = generateId()
     var name: String?
     var playerClass: String
@@ -38,8 +38,7 @@ final class Deck : Hashable, CustomStringConvertible {
     func addCard(card: Card) {
         if let _card = _cards.firstWhere({ $0.id == card.id }) {
             _card.count += 1
-        }
-        else {
+        } else {
             if card.count == 0 {
                 card.count = 1
             }
@@ -47,7 +46,7 @@ final class Deck : Hashable, CustomStringConvertible {
         }
         reset()
     }
-    
+
     func removeAllCards() {
         _cards = [Card]()
     }
@@ -66,8 +65,7 @@ final class Deck : Hashable, CustomStringConvertible {
     var sortedCards: [Card] {
         if let cards = self.cards {
             return cards
-        }
-        else {
+        } else {
             var cards = [Card]()
             for deckCard in _cards {
                 if let card = Cards.byId(deckCard.id) {
@@ -127,46 +125,49 @@ final class Deck : Hashable, CustomStringConvertible {
     static func fromDict(dict: [String: AnyObject]) -> Deck? {
         guard let _ = dict["playerClass"] else { return nil }
 
-        let playerClass = dict["playerClass"] as! String
-        let deck = Deck(playerClass: playerClass,
-            name: dict["name"] as? String,
-            deckId: dict["deckId"] as? String)
+        if let playerClass = dict["playerClass"] as? String {
+            let deck = Deck(playerClass: playerClass,
+                            name: dict["name"] as? String,
+                            deckId: dict["deckId"] as? String)
 
-        if let version = dict["version"] as? String {
-            deck.version = version
-        }
-        if let hearthstatsId = dict["hearthstatsId"] as? Int where hearthstatsId != -1 {
-            deck.hearthstatsId = hearthstatsId
-        }
-        if let hearthstatsVersionId = dict["hearthstatsVersionId"] as? Int where hearthstatsVersionId != -1 {
-            deck.hearthstatsVersionId = hearthstatsVersionId
-        }
-        if let isActive = dict["isActive"] as? Int {
-            deck.isActive = Bool(isActive)
-        }
-        if let isArena = dict["isArena"] as? Int {
-            deck.isArena = Bool(isArena)
-        }
-        if let creationDate = dict["creationDate"] as? Double {
-            deck.creationDate = NSDate(timeIntervalSince1970: creationDate)
-        }
-        if let cards = dict["cards"] as? [String: Int] {
-            for (cardId, count) in cards {
-                if let card = Cards.byId(cardId) {
-                    card.count = count
-                    deck.addCard(card)
+            if let version = dict["version"] as? String {
+                deck.version = version
+            }
+            if let hearthstatsId = dict["hearthstatsId"] as? Int where hearthstatsId != -1 {
+                deck.hearthstatsId = hearthstatsId
+            }
+            if let hearthstatsVersionId = dict["hearthstatsVersionId"] as? Int
+                where hearthstatsVersionId != -1 {
+                deck.hearthstatsVersionId = hearthstatsVersionId
+            }
+            if let isActive = dict["isActive"] as? Int {
+                deck.isActive = Bool(isActive)
+            }
+            if let isArena = dict["isArena"] as? Int {
+                deck.isArena = Bool(isArena)
+            }
+            if let creationDate = dict["creationDate"] as? Double {
+                deck.creationDate = NSDate(timeIntervalSince1970: creationDate)
+            }
+            if let cards = dict["cards"] as? [String: Int] {
+                for (cardId, count) in cards {
+                    if let card = Cards.byId(cardId) {
+                        card.count = count
+                        deck.addCard(card)
+                    }
                 }
             }
-        }
-        if let statistics = dict["statistics"] as? [[String: AnyObject]] {
-            for stat in statistics {
-                if let statistic = Statistic.fromDict(stat) {
-                    deck.addStatistic(statistic)
+            if let statistics = dict["statistics"] as? [[String: AnyObject]] {
+                for stat in statistics {
+                    if let statistic = Statistic.fromDict(stat) {
+                        deck.addStatistic(statistic)
+                    }
                 }
             }
-        }
 
-        return deck
+            return deck
+        }
+        return nil
     }
 
     func addStatistic(statistic: Statistic) {
@@ -182,7 +183,7 @@ final class Deck : Hashable, CustomStringConvertible {
 
         return "\(wins) - \(totalGames - wins) / \(wins / totalGames * 100)%"
     }
-    
+
     func standardViable() -> Bool {
         return !isArena && !_cards.any({ Database.wildSets.contains($0.set) })
     }

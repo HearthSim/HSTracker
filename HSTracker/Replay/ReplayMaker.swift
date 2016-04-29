@@ -15,9 +15,13 @@ final class ReplayMaker {
     static func reset() { points.removeAll() }
 
     static func generate(type: KeyPointType, _ id: Int, _ player: PlayerType, _ game: Game) {
-        points.append(ReplayKeyPoint(data: game.entities.map { $0.1 }, type: type, id: id, player: player))
+        let replay = ReplayKeyPoint(data: game.entities.map { $0.1 },
+                                    type: type,
+                                    id: id,
+                                    player: player)
+        points.append(replay)
     }
-    
+
     static func saveToDisk() {
         if points.count == 0 {
             return
@@ -25,38 +29,48 @@ final class ReplayMaker {
         resolveZonePos()
         resolveCardIds()
         removeObsoletePlays()
-        
+
         if let player = points.last?.data.firstWhere({$0.isPlayer}),
-            let opponent = points.last?.data.firstWhere({$0.hasTag(.PLAYER_ID) && !$0.isPlayer}) {
-                let playerHero = points.last?.data.firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue && $0.isControlledBy(player.getTag(.CONTROLLER))})
+            opponent = points.last?.data
+                .firstWhere({$0.hasTag(.PLAYER_ID) && !$0.isPlayer}) {
+                let playerHero = points.last?.data
+                    .firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue
+                        && $0.isControlledBy(player.getTag(.CONTROLLER))
+                    })
                 if playerHero == nil {
                     Log.warning?.message("Replay : playerHero is nil")
                     return
                 }
-                
-                var opponentHero = points.last?.data.firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue && $0.isControlledBy(opponent.getTag(.CONTROLLER))})
-                
+
+                var opponentHero = points.last?.data
+                    .firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue &&
+                        $0.isControlledBy(opponent.getTag(.CONTROLLER))
+                    })
+
                 if opponentHero == nil {
                     // adventure bosses
-                    opponentHero = points.last?.data.firstWhere({
-                        !String.isNullOrEmpty($0.cardId)
-                                    && (($0.cardId.startsWith("NAX") && $0.cardId.contains("_01"))
-                                        || $0.cardId.startsWith("BRMA")) && Cards.heroById($0.cardId) != nil
-                    })
+                    opponentHero = points.last?.data
+                        .firstWhere({
+                            !String.isNullOrEmpty($0.cardId)
+                                && (($0.cardId.startsWith("NAX") && $0.cardId.contains("_01"))
+                                    || $0.cardId.startsWith("BRMA"))
+                                && Cards.heroById($0.cardId) != nil
+                        })
                     if opponentHero == nil {
                         Log.warning?.message("Replay : opponentHero is nil")
                         return
                     }
                     resolveOpponentName(Cards.heroById(opponentHero!.cardId)?.name)
                 }
-                
+
                 if let playerName = player.name,
-                    let playerHeroName = Cards.heroById(playerHero!.cardId)?.name,
-                    let opponentName = opponent.name,
-                    let opponentHeroName = Cards.heroById(opponentHero!.cardId)?.name {
+                    playerHeroName = Cards.heroById(playerHero!.cardId)?.name,
+                    opponentName = opponent.name,
+                    opponentHeroName = Cards.heroById(opponentHero!.cardId)?.name {
+                    // swiftlint:disable line_length
                         let filename = "\(playerName)(\(playerHeroName)) vs \(opponentName)(\(opponentHeroName)) \(NSDate().getUTCFormateDate())"
                         Log.info?.message("will save to \(filename)")
-                        //print("\(points.toDict())")
+                    // swiftlint:enable line_length
                 }
         }
     }
@@ -95,17 +109,14 @@ final class ReplayMaker {
         for kp in points {
             if kp.type == .HandPos {
                 handPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?.getTag(.ZONE_POSITION)
-            }
-            else if kp.type == .BoardPos {
+            } else if kp.type == .BoardPos {
                 boardPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?.getTag(.ZONE_POSITION)
-            }
-            else if kp.type == .Draw || kp.type == .Obtain {
+            } else if kp.type == .Draw || kp.type == .Obtain {
                 if let zp = handPos[kp.id] {
                     kp.data.firstWhere { $0.id == kp.id }?.setTag(.ZONE_POSITION, zp)
                     handPos[zp] = nil
                 }
-            }
-            else if kp.type == .Summon || kp.type == .Play {
+            } else if kp.type == .Summon || kp.type == .Play {
                 if let zp = boardPos[kp.id] {
                     kp.data.firstWhere { $0.id == kp.id }?.setTag(.ZONE_POSITION, zp)
                     boardPos[zp] = nil
@@ -130,13 +141,12 @@ final class ReplayMaker {
             noUniqueZonePos.removeAll()
             noUniqueZonePos.append(currentEntity!)
             for entity in kp.data.filter({ $0.id != kp.id && $0.hasTag(.ZONE_POSITION) }) {
-                let zonePos = entity.getTag(.ZONE_POSITION);
+                let zonePos = entity.getTag(.ZONE_POSITION)
                 if entity.getTag(.ZONE) == currentEntity!.getTag(.ZONE)
                 && entity.getTag(.CONTROLLER) == currentEntity!.getTag(.CONTROLLER) {
                     if !occupiedZonePos.contains(zonePos) {
                         occupiedZonePos.append(zonePos)
-                    }
-                    else {
+                    } else {
                         noUniqueZonePos.append(entity)
                     }
                 }
@@ -148,8 +158,7 @@ final class ReplayMaker {
                         currentEntity!.setTag(.ZONE_POSITION, targetPos)
                         occupiedZonePos.append(targetPos)
                     }
-                }
-                else {
+                } else {
                     occupiedZonePos.append(entity.getTag(.ZONE_POSITION))
                 }
             }
@@ -157,16 +166,20 @@ final class ReplayMaker {
 
         var onBoard = [Entity]()
         for kp in points {
-            let currentBoard = kp.data.filter { $0.isInZone(.PLAY) && $0.hasTag(.HEALTH) && !String.isNullOrEmpty($0.cardId) && !$0.cardId.contains("HERO") }
-            if onBoard.all({ (e) in currentBoard.any({ (e2) in e2.id == e.id }) }) && currentBoard.all({ (e) in onBoard.any({ (e2) in e2.id == e.id }) })
-            {
+            let currentBoard = kp.data
+                .filter { $0.isInZone(.PLAY) && $0.hasTag(.HEALTH)
+                    && !String.isNullOrEmpty($0.cardId) && !$0.cardId.contains("HERO")
+            }
+            if onBoard.all({ (e) in
+                currentBoard.any({ (e2) in e2.id == e.id }) })
+                && currentBoard.all({ (e) in onBoard.any({ (e2) in e2.id == e.id }) }) {
                 for entity in currentBoard {
-                    if let pos = onBoard.firstWhere({ (e) in e.id == entity.id })?.getTag(.ZONE_POSITION) {
+                    if let pos = onBoard
+                        .firstWhere({ (e) in e.id == entity.id })?.getTag(.ZONE_POSITION) {
                         entity.setTag(.ZONE_POSITION, pos)
                     }
                 }
-            }
-            else {
+            } else {
                 onBoard = currentBoard
             }
         }
@@ -177,7 +190,10 @@ final class ReplayMaker {
 
     private static func removeObsoletePlays() {
         let spellsWithTarget = points.filter { $0.type == .PlaySpell }.map { $0.id }
-        let obsoletePlays = points.filter { (kp) in kp.type == .Play && spellsWithTarget.any { (id) in id == kp.id } }
+        let obsoletePlays = points
+            .filter { (kp) in
+                kp.type == .Play && spellsWithTarget.any { (id) in id == kp.id }
+        }
         for play in obsoletePlays {
             points.remove(play)
         }

@@ -9,25 +9,27 @@
 import Foundation
 import CleanroomLogger
 
+// swiftlint:disable line_length
 struct SizeHelper {
-    
+
     class HearthstoneWindow {
         var frame = NSZeroRect
         var windowId: Int?
         var screen = NSScreen.mainScreen()!
         var screenFrame = NSZeroRect
-        
+
         init() {
             reload()
         }
-        
+
         // Get the title bar height
         // I could fix it at 22, but IDK if it's change on retina ie
         private var titleBarHeight: CGFloat = {
             let height: CGFloat = 100
-            return NSHeight(NSWindow.frameRectForContentRect(NSMakeRect(0, 0, height, height), styleMask: NSTitledWindowMask)) - height
+            return NSHeight(NSWindow.frameRectForContentRect(NSMakeRect(0, 0, height, height),
+                styleMask: NSTitledWindowMask)) - height
         }()
-        
+
         func reload() {
             let options = CGWindowListOption(arrayLiteral: .ExcludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
@@ -38,14 +40,16 @@ struct SizeHelper {
                     self.windowId = id
                 }
                 var rect = NSRect()
+                // swiftlint:disable force_cast
                 let bounds = info["kCGWindowBounds"] as! CFDictionary
+                // swiftlint:enable force_cast
                 CGRectMakeWithDictionaryRepresentation(bounds, &rect)
-                
+
                 let maxDisplays: UInt32 = 16
                 var onlineDisplays = [CGDirectDisplayID](count: Int(maxDisplays), repeatedValue: 0)
                 var displayCount: UInt32 = 0
                 CGGetOnlineDisplayList(maxDisplays, &onlineDisplays, &displayCount)
-                
+
                 for currentDisplay in onlineDisplays[0 ..< Int(displayCount)] {
                     let bounds = CGDisplayBounds(currentDisplay)
                     if bounds.contains(rect) {
@@ -53,7 +57,7 @@ struct SizeHelper {
                         for screen in NSScreen.screens()! {
                             var displays = [CGDirectDisplayID](count: Int(maxDisplays), repeatedValue: 0)
                             let frame = screen.frame
-                            
+
                             CGGetDisplaysWithRect(frame, maxDisplays, &displays, &displayCount)
                             if displays.first == currentDisplay {
                                 self.screen = screen
@@ -62,42 +66,41 @@ struct SizeHelper {
                         }
                     }
                 }
-                
+
                 // cgwindow 0,0 is top:left, convert to bottom:left
                 rect.origin.y = NSHeight(screenFrame) - NSMinY(rect) - NSHeight(rect)
                 if NSMinY(screenFrame) < 0 {
                     rect.origin.y += NSMinY(screenFrame)
                 }
-                
+
                 // remove the titlebar from the height
                 rect.size.height -= titleBarHeight
                 self.frame = rect
-
             }
         }
     }
-    
+
     static let hearthstoneWindow = HearthstoneWindow()
 
-    /**
-     * Get a frame relative to Hearthstone window
-     * All size are taken from a resolution of 1404*840 (my MBA resolution)
-     * and translated to your resolution
-     */
+    //
+    // Get a frame relative to Hearthstone window
+    // All size are taken from a resolution of 1404*840 (my MBA resolution)
+    // and translated to your resolution
+    //
     static func frameRelativeToHearthstone(frame: NSRect, _ relative: Bool = false) -> NSRect {
         var pointX = NSMinX(frame)
         var pointY = NSMinY(frame)
         let width = NSWidth(frame)
         let height = NSHeight(frame)
-        
+
         let hearthstoneFrame = hearthstoneWindow.frame
         let screenRect = hearthstoneWindow.screen.frame
-        
+
         if relative {
             pointX = pointX / 1404.0 * NSWidth(hearthstoneFrame)
             pointY = pointY / 840.0 * NSHeight(hearthstoneFrame)
         }
-        
+
         let x: CGFloat = NSMinX(hearthstoneFrame) + pointX
         let y: CGFloat = NSMaxY(hearthstoneFrame) - pointY - height
 
@@ -105,10 +108,10 @@ struct SizeHelper {
         Log.verbose?.message("FR: \(frame) -> HS: \(hearthstoneFrame) -> SC:\(screenRect) -> POS:\(relativeFrame)")
         return relativeFrame
     }
-    
+
     static func overHearthstoneFrame() -> NSRect {
         let frame = hearthstoneWindow.frame
-        
+
         return frameRelativeToHearthstone(frame)
     }
 
@@ -156,7 +159,7 @@ struct SizeHelper {
         default:
             width = kFrameWidth
         }
-        
+
         let frame = NSMakeRect(200, 50, CGFloat(width), 450)
         return frameRelativeToHearthstone(frame, true)
     }
@@ -165,7 +168,7 @@ struct SizeHelper {
         let frame = NSMakeRect(1042.0, 337.0, 160.0, 115.0)
         return frameRelativeToHearthstone(frame, true)
     }
-    
+
     static let points: [Int: [NSPoint]] = [
         1: [NSMakePoint(647.5, 27.0)],
         2: [NSMakePoint(608.5, 30.0), NSMakePoint(699.5, 30.0)],
@@ -181,13 +184,13 @@ struct SizeHelper {
 
     static func opponentCardHudFrame(position: Int, _ cardCount: Int) -> NSRect {
         var frame = NSMakeRect(0, 0, 36, 45)
-        
+
         if let numCards = points[cardCount] where numCards.count > position {
             let pos = points[cardCount]![position]
             frame.origin.x = pos.x
             frame.origin.y = pos.y
         }
-        
+
         return frameRelativeToHearthstone(frame, true)
     }
 }

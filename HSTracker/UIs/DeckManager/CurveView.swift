@@ -13,7 +13,7 @@ struct CardCount {
     var count, minion, spell, weapon: Int
 }
 
-class CurveView : NSView {
+class CurveView: NSView {
     var deck: Deck?
     var counts = [Int: CardCount]()
 
@@ -33,7 +33,7 @@ class CurveView : NSView {
             }
             var cardCount = self.counts[cost]
             cardCount!.count += card.count
-            switch (card.type) {
+            switch card.type {
             case "minion": cardCount!.minion += card.count
             case "spell": cardCount!.spell += card.count
             case "weapon": cardCount!.weapon += card.count
@@ -133,7 +133,7 @@ class CurveView : NSView {
                 var y = padding * 2 + manaHeight
                 for (type, colors) in types {
                     var currentType: Int?
-                    switch (type) {
+                    switch type {
                     case "minion": currentType = current?.minion
                     case "spell": currentType = current?.spell
                     case "weapon": currentType = current?.weapon

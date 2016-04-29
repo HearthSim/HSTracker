@@ -9,7 +9,8 @@
 import Foundation
 import CleanroomLogger
 
-class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
+class DeckManager: NSWindowController, NSTableViewDataSource,
+NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
 
     @IBOutlet weak var decksTable: NSTableView!
     @IBOutlet weak var deckListTable: NSTableView!
@@ -48,7 +49,8 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         decksTable.registerNib(nib, forIdentifier: "DeckCellView")
 
         decksTable.backgroundColor = NSColor.clearColor()
-        decksTable.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
+        decksTable.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable,
+                                       NSAutoresizingMaskOptions.ViewHeightSizable]
 
         decksTable.tableColumns.first?.width = NSWidth(decksTable.bounds)
         decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
@@ -60,24 +62,24 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         decksTable.reloadData()
 
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
-        deckListTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
-        
+        deckListTable.tableColumns.first?.resizingMask = .AutoresizingMask
+
         NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
             let isCmd = e.modifierFlags.contains(.CommandKeyMask)
             // let isShift = e.modifierFlags.contains(.ShiftKeyMask)
-            
+
             guard isCmd else { return e }
-            
+
             switch e.keyCode {
             case 45:
                 self.addDeck(self)
                 return nil
-                
+
             default:
                 Log.verbose?.message("unsupported keycode \(e.keyCode)")
                 break
             }
-            
+
             return e
         }
     }
@@ -85,8 +87,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     func filteredDecks() -> [Deck] {
         if let currentClass = currentClass {
             return decks.filter({ $0.playerClass == currentClass }).sort { $0.name < $1.name }
-        }
-        else {
+        } else {
             return decks.sort { $0.name < $1.name }
         }
     }
@@ -106,35 +107,26 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         let oldCurrentClass = currentClass
         if sender == druidButton {
             currentClass = "druid"
-        }
-        else if sender == hunterButton {
+        } else if sender == hunterButton {
             currentClass = "hunter"
-        }
-        else if sender == mageButton {
+        } else if sender == mageButton {
             currentClass = "mage"
-        }
-        else if sender == paladinButton {
+        } else if sender == paladinButton {
             currentClass = "paladin"
-        }
-        else if sender == priestButton {
+        } else if sender == priestButton {
             currentClass = "priest"
-        }
-        else if sender == rogueButton {
+        } else if sender == rogueButton {
             currentClass = "rogue"
-        }
-        else if sender == shamanButton {
+        } else if sender == shamanButton {
             currentClass = "shaman"
-        }
-        else if sender == warlockButton {
+        } else if sender == warlockButton {
             currentClass = "warlock"
-        }
-        else if sender == warriorButton {
+        } else if sender == warriorButton {
             currentClass = "warrior"
-        }
-        else {
+        } else {
             currentClass = nil
         }
-        
+
         showArchivedDecks = sender == archiveButton
 
         if currentClass == oldCurrentClass {
@@ -148,42 +140,42 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         if tableView == decksTable {
             return filteredDecks().count
-        }
-        else if let currentDeck = currentDeck {
+        } else if let currentDeck = currentDeck {
             return currentDeck.sortedCards.count
         }
 
         return 0
     }
 
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(tableView: NSTableView,
+                   viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView == decksTable {
-            if let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self) as? DeckCellView {
+            if let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self)
+                as? DeckCellView {
+
                 let deck = filteredDecks()[row]
                 cell.deck = deck
                 cell.label.stringValue = deck.name!
                 cell.image.image = ImageCache.classImage(deck.playerClass)
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
-                
+
                 return cell
             }
-        }
-        else {
+        } else {
             let cell = CardCellView()
             cell.playerType = .DeckManager
             cell.card = currentDeck!.sortedCards[row]
             return cell
         }
-        
+
         return nil
     }
 
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         if tableView == self.decksTable {
             return 55
-        }
-        else if tableView == self.deckListTable {
+        } else if tableView == self.deckListTable {
             return CGFloat(kRowHeight)
         }
         return 20
@@ -192,7 +184,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
     func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return true
     }
-    
+
     func tableViewSelectionDidChange(notification: NSNotification) {
         let decks = filteredDecks().count
         for i in 0 ..< decks {
@@ -212,7 +204,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         curveView.deck = currentDeck
         statsLabel.stringValue = currentDeck!.displayStats()
         curveView.reload()
-        
+
         toolbar.validateVisibleItems()
     }
 
@@ -239,21 +231,24 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             self.window!.beginSheet(newDeck.window!, completionHandler: nil)
         }
     }
-    
+
     @IBAction func hearthstatsLogin(sender: AnyObject) {
         hearthstatsLogin = HearthstatsLogin(windowNibName: "HearthstatsLogin")
         if let hearthstatsLogin = hearthstatsLogin {
             self.window!.beginSheet(hearthstatsLogin.window!, completionHandler: nil)
         }
     }
-    
+
     @IBAction func donate(sender: AnyObject) {
+        // swiftlint:disable line_length
         let url = NSURL(string: "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
+        // swiftlint:enable line_length
         NSWorkspace.sharedWorkspace().openURL(url!)
     }
-    
+
     // MARK: - DeckCellViewDelegate
     @IBAction func renameDeck(sender: AnyObject?) {
+        // swiftlint:disable line_length
         if let deck = currentDeck {
             let deckNameInput = NSTextField(frame: NSMakeRect(0, 0, 220, 24))
             deckNameInput.stringValue = deck.name!
@@ -268,23 +263,22 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
                                             if returnCode == NSAlertFirstButtonReturn {
                                                 deck.name = deckNameInput.stringValue
                                                 Decks.instance.update(deck)
-                                                
+
                                                 if HearthstatsAPI.isLogged() {
                                                     if Settings.instance.hearthstatsAutoSynchronize {
                                                         do {
                                                             try HearthstatsAPI.updateDeck(deck) {_ in}
-                                                        }
-                                                        catch {}
-                                                    }
-                                                    else {
+                                                        } catch {}
+                                                    } else {
                                                         // TODO Alert synchro
                                                     }
                                                 }
-                                                
+
                                                 self.refreshDecks()
                                             }
             })
         }
+        // swiftlint:enable line_length
     }
 
     @IBAction func editDeck(sender: AnyObject?) {
@@ -311,7 +305,9 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
         if let deck = currentDeck {
             let alert = NSAlert()
             alert.alertStyle = .InformationalAlertStyle
+            // swiftlint:disable line_length
             alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the deck %@ ?", comment: ""), deck.name!) as String
+            // swiftlint:enable line_length
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
             alert.beginSheetModalForWindow(self.window!,
@@ -322,8 +318,9 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
             })
         }
     }
-    
+
     private func _deleteDeck(deck: Deck) {
+        // swiftlint:disable line_length
         Log.verbose?.message("in deleete \(deck) -> \(HearthstatsAPI.isLogged()) -> \(Settings.instance.hearthstatsAutoSynchronize)")
         if let _ = deck.hearthstatsId where HearthstatsAPI.isLogged() {
             if Settings.instance.hearthstatsAutoSynchronize {
@@ -331,8 +328,7 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
                     try HearthstatsAPI.deleteDeck(deck)
                     Decks.instance.remove(deck)
                     refreshDecks()
-                }
-                catch {
+                } catch {
                     print("error delete hearthstats")
                 }
             } else {
@@ -348,19 +344,18 @@ class DeckManager : NSWindowController, NSTableViewDataSource, NSTableViewDelega
                                                         try HearthstatsAPI.deleteDeck(deck)
                                                         Decks.instance.remove(deck)
                                                         self.refreshDecks()
-                                                    }
-                                                    catch {
+                                                    } catch {
                                                         // TODO alert
                                                         print("error delete hearthstats")
                                                     }
                                                 }
                 })
             }
-        }
-        else {
+        } else {
             Decks.instance.remove(deck)
             refreshDecks()
         }
+        // swiftlint:enable line_length
     }
 
     // MARK: - NewDeckDelegate

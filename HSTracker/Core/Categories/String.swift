@@ -19,13 +19,13 @@ extension String {
     func startsWith(str: String) -> Bool {
         return self.hasPrefix(str)
     }
-    
+
     func endsWith(str: String) -> Bool {
         return self.hasSuffix(str)
     }
 
     func substringWithRange(start: Int, end: Int) -> String {
-        if (start < 0 || start > self.characters.count) {
+        if start < 0 || start > self.characters.count {
             print("start index \(start) out of bounds")
             return ""
         } else if end < 0 || end > self.characters.count {
@@ -37,7 +37,7 @@ extension String {
     }
 
     func substringWithRange(start: Int, location: Int) -> String {
-        if (start < 0 || start > self.characters.count) {
+        if start < 0 || start > self.characters.count {
             print("start index \(start) out of bounds")
             return ""
         } else if location < 0 || start + location > self.characters.count {
@@ -45,7 +45,9 @@ extension String {
             return ""
         }
 
-        let range = self.startIndex.advancedBy(start) ..< self.startIndex.advancedBy(start + location)
+        let startPos = self.startIndex.advancedBy(start)
+        let endPos = self.startIndex.advancedBy(start + location)
+        let range = startPos ..< endPos
         return self.substringWithRange(range)
     }
 }

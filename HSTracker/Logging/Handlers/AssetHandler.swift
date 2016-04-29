@@ -13,8 +13,8 @@ import CleanroomLogger
 
 struct AssetHandler {
 
-    let MedalRank = "Medal_Ranked_(\\d+)"
-    let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"
+    static let MedalRank = "Medal_Ranked_(\\d+)"
+    static let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"
 
     func handle(game: Game, _ line: String) {
 
@@ -22,32 +22,31 @@ struct AssetHandler {
             game.lastAssetUnload = NSDate().timeIntervalSince1970
             game.awaitingRankedDetection = false
         }
-        
-        if line.match(MedalRank) {
-            let match = line.matches(MedalRank)
+
+        if line.match(self.dynamicType.MedalRank) {
+            let match = line.matches(self.dynamicType.MedalRank)
             if let match = match.first, rank = Int(match.value) {
                 game.currentGameMode = .Ranked
                 game.setPlayerRank(rank)
             }
-        }
-        else if line.contains("rank_window") {
+        } else if line.contains("rank_window") {
             game.currentGameMode = .Ranked
-        }
-        else if line.match(UnloadingCard) {
-            let match = line.matches(UnloadingCard)
+        } else if line.match(self.dynamicType.UnloadingCard) {
+            let match = line.matches(self.dynamicType.UnloadingCard)
             if let match = match.first {
                 let cardId = match.value
-                
+
                 if let card = Cards.byId(cardId) {
                     if game.currentMode == Mode.DRAFT && game.previousMode == Mode.HUB {
                         Log.verbose?.message("Possible arena card draft : \(card) ?")
-                    } else if (game.currentMode == Mode.COLLECTIONMANAGER || game.currentMode == Mode.TAVERN_BRAWL) && game.previousMode == Mode.HUB {
+                    } else if (game.currentMode == Mode.COLLECTIONMANAGER
+                        || game.currentMode == Mode.TAVERN_BRAWL)
+                        && game.previousMode == Mode.HUB {
                         Log.verbose?.message("Possible constructed card draft : \(card) ?")
                     }
                 }
             }
-        }
-        else if line.contains("unloading name=Tavern_Brawl") {
+        } else if line.contains("unloading name=Tavern_Brawl") {
             game.currentGameMode = .Brawl
         }
     }

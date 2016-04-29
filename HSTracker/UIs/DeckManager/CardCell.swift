@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CardCell : JNWCollectionViewCell {
+class CardCell: JNWCollectionViewCell {
 
     private var _card: Card?
     var showCard = true
@@ -23,13 +23,12 @@ class CardCell : JNWCollectionViewCell {
                 self.cellView = nil
             }
             self.backgroundImage = ImageCache.cardImage(card)
-        }
-        else {
+        } else {
             if let cellView = cellView {
                 cellView.card = card
-            }
-            else {
-                cellView = CardCellView(frame: NSMakeRect(0, 0, CGFloat(kFrameWidth), CGFloat(kRowHeight)))
+            } else {
+                cellView = CardCellView(frame: NSMakeRect(0, 0,
+                    CGFloat(kFrameWidth), CGFloat(kRowHeight)))
                 cellView?.card = card
                 cellView?.playerType = .CardList
                 self.addSubview(cellView!)

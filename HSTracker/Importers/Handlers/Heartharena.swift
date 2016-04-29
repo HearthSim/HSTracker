@@ -28,7 +28,8 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
                 if let classNode = doc.at_xpath("//h1[@class='class']") {
                     className = classNode.text?.lowercaseString
                     if let className = className {
-                        deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""), className, NSDate().shortDateString())
+                        deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
+                                          className, NSDate().shortDateString())
                     }
                     Log.verbose?.message("found \(className) / name : \(deckName)")
                 }
@@ -36,9 +37,9 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
                 var cards = [String: Int]()
                 for cardNode in doc.xpath("//ul[@class='deckList']/li") {
                     if let qty = cardNode.at_xpath("span[@class='quantity']")?.text,
-                        let count = Int(qty),
-                        let cardName = cardNode.at_xpath("span[@class='name']")?.text,
-                        let card = Cards.byEnglishName(cardName) {
+                        count = Int(qty),
+                        cardName = cardNode.at_xpath("span[@class='name']")?.text,
+                        card = Cards.byEnglishName(cardName) {
                             Log.verbose?.message("qty : \(count) name: \(card.id)")
                             cards[card.id] = count
                     }

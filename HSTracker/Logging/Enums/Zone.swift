@@ -33,8 +33,9 @@ enum Zone: Int {
         }
         self = .INVALID
     }
-    
+
     static func allValues() -> [Zone] {
-        return [.INVALID, .PLAY, .DECK, .HAND, .GRAVEYARD, .REMOVEDFROMGAME, .SETASIDE, .SECRET]
+        return [.INVALID, .PLAY, .DECK, .HAND, .GRAVEYARD,
+                .REMOVEDFROMGAME, .SETASIDE, .SECRET]
     }
 }

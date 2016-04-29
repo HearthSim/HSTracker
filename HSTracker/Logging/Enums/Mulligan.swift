@@ -16,7 +16,7 @@ enum Mulligan: Int {
     DEALING = 2,
     WAITING = 3,
     DONE = 4
-    
+
     init?(rawString: String) {
         for _enum in Mulligan.allValues() {
             if "\(_enum)" == rawString {
@@ -30,7 +30,7 @@ enum Mulligan: Int {
         }
         self = .INVALID
     }
-    
+
     static func allValues() -> [Mulligan] {
         return [.INVALID, .INPUT, .DEALING, .WAITING, .DONE]
     }

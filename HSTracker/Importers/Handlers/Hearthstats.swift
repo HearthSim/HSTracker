@@ -48,15 +48,17 @@ final class Hearthstats: BaseNetImporter, NetImporterAware {
                 }
                 var cards = [String: Int]()
                 for node in doc.xpath("//div[contains(@class,'cardWrapper')]") {
-                    if let card = node.at_xpath("div[@class='name']")?.text, let count = node.at_xpath("div[@class='qty']")?.text {
+                    if let card = node.at_xpath("div[@class='name']")?.text,
+                        count = node.at_xpath("div[@class='qty']")?.text {
                         Log.verbose?.message("card : \(card) -> count \(count)")
-                        if let card = Cards.byEnglishName(card), let count = Int(count) {
+                        if let card = Cards.byEnglishName(card),
+                            count = Int(count) {
                             cards[card.id] = count
                         }
                     }
                 }
 
-                if (self.isCount(cards)) {
+                if self.isCount(cards) {
                     self.saveDeck(deckName, playerClass!, cards, false, completion)
                     return
                 }

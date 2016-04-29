@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol NewDeckDelegate  {
+protocol NewDeckDelegate {
     func addNewDeck(deck: Deck)
     func openDeckBuilder(playerClass: String, _ arenaDeck: Bool)
     func refreshDecks()
@@ -38,14 +38,15 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     @IBAction func radioChange(sender: AnyObject) {
-        for (button, control) in radios() {
-            if button == sender as! NSControl {
-                button.state = NSOnState
-                control.forEach({ $0.enabled = true })
-            }
-            else {
-                button.state = NSOffState
-                control.forEach({ $0.enabled = false })
+        if let buttonSender = sender as? NSButton {
+            for (button, control) in radios() {
+                if button == buttonSender {
+                    button.state = NSOnState
+                    control.forEach({ $0.enabled = true })
+                } else {
+                    button.state = NSOffState
+                    control.forEach({ $0.enabled = false })
+                }
             }
         }
         checkToEnableSave()
@@ -64,50 +65,45 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             if classesCombobox.indexOfSelectedItem < 0 {
                 return
             }
-            delegate?.openDeckBuilder(classes()[classesCombobox.indexOfSelectedItem], arenaDeck.state == NSOnState)
+            delegate?.openDeckBuilder(classes()[classesCombobox.indexOfSelectedItem],
+                                      arenaDeck.state == NSOnState)
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-        }
-        else if fromTheWeb.state == NSOnState {
+        } else if fromTheWeb.state == NSOnState {
             // TODO add loader
             do {
                 try NetImporter.netImport(urlDeck.stringValue, { (deck) -> Void in
                     if let deck = deck {
                         self._addDeck(deck)
-                    }
-                    else {
+                    } else {
                         // TODO show error
                     }
                 })
             } catch {
                 // TODO show error
             }
-        }
-        else if fromAFile.state == NSOnState {
+        } else if fromAFile.state == NSOnState {
             // add here to remember this case exists
-        }
-        else if fromHearthstats.state == NSOnState {
+        } else if fromHearthstats.state == NSOnState {
             do {
                 try HearthstatsAPI.loadDecks(false) { (success, newDecks) in
                     self.delegate?.refreshDecks()
                     self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
                 }
-            }
-            catch HearthstatsError.NOT_LOGGED {
+            } catch HearthstatsError.NotLogged {
                 print("not logged")
-            }
-            catch {
+            } catch {
                 print("??? logged")
             }
         }
     }
-    
+
     @IBAction func openDeck(sender: AnyObject) {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
         panel.allowedFileTypes = ["txt"]
-        
+
         panel.beginSheetModalForWindow(self.window!,
                                        completionHandler: { (returnCode) in
                                         if returnCode == NSFileHandlingPanelOKButton {
@@ -116,8 +112,7 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                                 importer.fileImport(filename) { (deck) in
                                                     if let deck = deck {
                                                         self._addDeck(deck)
-                                                    }
-                                                    else {
+                                                    } else {
                                                         // TODO show error
                                                     }
                                                 }
@@ -125,7 +120,7 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                         }
         })
     }
-    
+
     private func _addDeck(deck: Deck) {
         self.delegate?.addNewDeck(deck)
         if HearthstatsAPI.isLogged() {
@@ -133,11 +128,11 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 do {
                     try HearthstatsAPI.postDeck(deck) {_ in}
                     self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-                }
-                catch {}
+                } catch {}
             } else {
                 let alert = NSAlert()
                 alert.alertStyle = .InformationalAlertStyle
+                // swiftlint:disable line_length
                 alert.messageText = NSLocalizedString("Do you want to add this deck on Hearthstats ?", comment: "")
                 alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
                 alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
@@ -147,23 +142,23 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                                     do {
                                                         try HearthstatsAPI.postDeck(deck) {_ in}
                                                         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-                                                    }
-                                                    catch {
+                                                    } catch {
                                                         // TODO alert
                                                         print("error")
                                                     }
                                                 }
                 })
+                // swiftlint:enable line_length
             }
-        }
-        else {
+        } else {
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         }
     }
 
     func classes() -> [String] {
         return ["druid", "hunter", "mage", "paladin", "priest",
-            "rogue", "shaman", "warlock", "warrior"].sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
+            "rogue", "shaman", "warlock", "warrior"]
+            .sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
     }
 
     // MARK: - NSComboBoxDataSource, NSComboBoxDelegate
@@ -183,14 +178,11 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         var enabled: Bool?
         if hstrackerDeckBuilder.state == NSOnState {
             enabled = classesCombobox.indexOfSelectedItem != -1
-        }
-        else if fromTheWeb.state == NSOnState {
+        } else if fromTheWeb.state == NSOnState {
             enabled = !urlDeck.stringValue.isEmpty
-        }
-        else if fromAFile.state == NSOnState {
+        } else if fromAFile.state == NSOnState {
             enabled = false
-        }
-        else if fromHearthstats.state == NSOnState {
+        } else if fromHearthstats.state == NSOnState {
             enabled = true
         }
 

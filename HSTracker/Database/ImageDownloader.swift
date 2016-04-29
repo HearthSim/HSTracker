@@ -12,38 +12,44 @@ import CleanroomLogger
 
 final class ImageDownloader {
     var semaphore: dispatch_semaphore_t?
-    
+
     let removeImages = [
-        "5.0.0.12574": ["NEW1_008", "EX1_571", "EX1_166", "CS2_203", "EX1_005", "CS2_084", "CS2_233", "NEW1_019", "EX1_029", "EX1_089", "EX1_620", "NEW1_014"]
+        "5.0.0.12574": ["NEW1_008", "EX1_571", "EX1_166", "CS2_203", "EX1_005",
+            "CS2_084", "CS2_233", "NEW1_019", "EX1_029", "EX1_089", "EX1_620", "NEW1_014"]
     ]
     func deleteImages() {
-        if let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
+        if let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory,
+                                                                 .UserDomainMask, true).first {
             for (patch, images) in removeImages {
                 let key = "remove_images_\(patch)"
                 if let _ = NSUserDefaults.standardUserDefaults().objectForKey(key) {
                     continue
                 }
-                
+
                 images.forEach {
                     do {
-                        try NSFileManager.defaultManager().removeItemAtPath("\(destination)/HSTracker/cards/\($0).png")
+                        let path = "\(destination)/HSTracker/cards/\($0).png"
+                        try NSFileManager.defaultManager().removeItemAtPath(path)
                         Log.verbose?.message("Patch \(patch), deleting \($0) image")
-                    }
-                    catch {}
+                    } catch {}
                 }
                 NSUserDefaults.standardUserDefaults().setBool(true, forKey: key)
             }
         }
     }
 
-    func downloadImagesIfNeeded(_images: [String], splashscreen: Splashscreen) {
-        if let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
+    func downloadImagesIfNeeded(allImages: [String], splashscreen: Splashscreen) {
+        if let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory,
+                                                                 .UserDomainMask, true).first {
             do {
-                try NSFileManager.defaultManager().createDirectoryAtPath("\(destination)/HSTracker/cards", withIntermediateDirectories: true, attributes: nil)
-            }
-            catch { }
+                let path = "\(destination)/HSTracker/cards"
+                try NSFileManager.defaultManager()
+                    .createDirectoryAtPath(path,
+                                           withIntermediateDirectories: true,
+                                           attributes: nil)
+            } catch { }
 
-            var images = _images
+            var images = allImages
             // check for images already present
             for image in images {
                 let path = "\(destination)/HSTracker/cards/\(image).png"
@@ -52,7 +58,7 @@ final class ImageDownloader {
                 }
             }
 
-            if (images.isEmpty) {
+            if images.isEmpty {
                 // we already have all images
                 return
             }
@@ -61,7 +67,8 @@ final class ImageDownloader {
                 semaphore = dispatch_semaphore_create(0)
                 let total = Double(images.count)
                 dispatch_async(dispatch_get_main_queue()) {
-                    splashscreen.display(NSLocalizedString("Downloading images", comment: ""), total: total)
+                    splashscreen.display(NSLocalizedString("Downloading images", comment: ""),
+                                         total: total)
                 }
 
                 let langs = ["dede", "enus", "eses", "frfr", "ptbr", "ruru", "zhcn"]
@@ -82,7 +89,8 @@ final class ImageDownloader {
         }
     }
 
-    private func downloadImages(inout images: [String], _ language: String, _ destination: String, _ splashscreen: Splashscreen) {
+    private func downloadImages(inout images: [String], _ language: String,
+                                      _ destination: String, _ splashscreen: Splashscreen) {
         if images.isEmpty {
             if let semaphore = semaphore {
                 dispatch_semaphore_signal(semaphore)
@@ -92,14 +100,18 @@ final class ImageDownloader {
 
         if let image = images.popLast() {
             dispatch_async(dispatch_get_main_queue()) {
-                splashscreen.increment(String(format: NSLocalizedString("Downloading %@.png", comment: ""), image))
+                splashscreen.increment(String(format:
+                    NSLocalizedString("Downloading %@.png", comment: ""), image))
             }
 
             let path = "\(destination)/HSTracker/cards/\(image).png"
+            // swiftlint:disable line_length
             let url = NSURL(string: "https://wow.zamimg.com/images/hearthstone/cards/\(language)/medium/\(image).png?12576")!
             Log.verbose?.message("downloading \(url) to \(path)")
 
-            let task = NSURLSession.sharedSession().downloadTaskWithRequest(NSURLRequest(URL: url), completionHandler: { (url, response, error) -> Void in
+            let task = NSURLSession.sharedSession().downloadTaskWithRequest(NSURLRequest(URL: url),
+                                                                            completionHandler: {
+                                                                                (url, response, error) -> Void in
                 if error != nil {
                     Log.error?.message("download error \(error)")
                     self.downloadImages(&images, language, destination, splashscreen)
@@ -113,6 +125,7 @@ final class ImageDownloader {
                 }
                 self.downloadImages(&images, language, destination, splashscreen)
             })
+            // swiftlint:enable line_length
             task.resume()
         }
     }

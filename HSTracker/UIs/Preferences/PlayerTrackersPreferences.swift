@@ -9,7 +9,7 @@
 import Foundation
 import MASPreferences
 
-class PlayerTrackersPreferences : NSViewController, MASPreferencesViewController {
+class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController {
 
     @IBOutlet weak var showPlayerTracker: NSButton!
     @IBOutlet weak var showPlayerCardCount: NSButton!
@@ -17,7 +17,7 @@ class PlayerTrackersPreferences : NSViewController, MASPreferencesViewController
     @IBOutlet weak var showPlayerGet: NSButton!
     @IBOutlet weak var showCthunCounter: NSButton!
     @IBOutlet weak var showSpellCounter: NSButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let settings = Settings.instance
@@ -31,23 +31,18 @@ class PlayerTrackersPreferences : NSViewController, MASPreferencesViewController
 
     @IBAction func checkboxClicked(sender: NSButton) {
         let settings = Settings.instance
-        
+
         if sender == showPlayerTracker {
             settings.showPlayerTracker = showPlayerTracker.state == NSOnState
-        }
-        else if sender == showPlayerGet {
+        } else if sender == showPlayerGet {
             settings.showPlayerGet = showPlayerGet.state == NSOnState
-        }
-        else if sender == showPlayerCardCount {
+        } else if sender == showPlayerCardCount {
             settings.showPlayerCardCount = showPlayerCardCount.state == NSOnState
-        }
-        else if sender == showPlayerDrawChance {
+        } else if sender == showPlayerDrawChance {
             settings.showPlayerDrawChance = showPlayerDrawChance.state == NSOnState
-        }
-        else if sender == showCthunCounter {
+        } else if sender == showCthunCounter {
             settings.showPlayerCthun = showCthunCounter.state == NSOnState
-        }
-        else if sender == showSpellCounter {
+        } else if sender == showSpellCounter {
             settings.showPlayerYogg = showSpellCounter.state == NSOnState
         }
     }

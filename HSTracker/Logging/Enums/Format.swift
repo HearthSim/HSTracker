@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Format : String {
+enum Format: String {
     case All,
     Standard,
     Wild

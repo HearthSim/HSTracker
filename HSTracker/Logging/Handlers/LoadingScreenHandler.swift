@@ -13,14 +13,14 @@ import CleanroomLogger
 
 struct LoadingScreenHandler {
 
-    let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
+    static let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
 
     func handle(game: Game, _ line: String) {
-        if !line.match(GameModeRegex) {
+        if !line.match(self.dynamicType.GameModeRegex) {
             return
         }
 
-        let matches = line.matches(GameModeRegex)
+        let matches = line.matches(self.dynamicType.GameModeRegex)
 
         game.currentMode = Mode(rawValue: matches[1].value)
         game.previousMode = Mode(rawValue: matches[0].value)
@@ -28,8 +28,7 @@ struct LoadingScreenHandler {
         var newMode: GameMode?
         if let mode = game.currentMode, currentMode = getGameMode(mode) {
             newMode = currentMode
-        }
-        else if let mode = game.currentMode, currentMode = getGameMode(mode) {
+        } else if let mode = game.currentMode, currentMode = getGameMode(mode) {
             newMode = currentMode
         }
 

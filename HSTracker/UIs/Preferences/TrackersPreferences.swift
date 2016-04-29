@@ -9,7 +9,7 @@
 import Foundation
 import MASPreferences
 
-class TrackersPreferences : NSViewController, MASPreferencesViewController {
+class TrackersPreferences: NSViewController, MASPreferencesViewController {
 
     @IBOutlet weak var highlightCardsInHand: NSButton!
     @IBOutlet weak var highlightLastDrawn: NSButton!
@@ -23,7 +23,7 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
     @IBOutlet weak var showSecretHelper: NSButton!
     @IBOutlet weak var showRarityColors: NSButton!
     @IBOutlet weak var showFloatingCard: NSButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let settings = Settings.instance
@@ -54,35 +54,27 @@ class TrackersPreferences : NSViewController, MASPreferencesViewController {
 
     @IBAction func checkboxClicked(sender: NSButton) {
         let settings = Settings.instance
-        
+
         if sender == highlightCardsInHand {
             settings.highlightCardsInHand = highlightCardsInHand.state == NSOnState
-        }
-        else if sender == highlightLastDrawn {
+        } else if sender == highlightLastDrawn {
             settings.highlightLastDrawn = highlightLastDrawn.state == NSOnState
-        }
-        else if sender == removeCards {
+        } else if sender == removeCards {
             settings.removeCardsFromDeck = removeCards.state == NSOnState
-        }
-        else if sender == highlightDiscarded {
+        } else if sender == highlightDiscarded {
             settings.highlightDiscarded = highlightDiscarded.state == NSOnState
-        }
-        else if sender == autoPositionTrackers {
+        } else if sender == autoPositionTrackers {
             settings.autoPositionTrackers = autoPositionTrackers.state == NSOnState
             if settings.autoPositionTrackers {
                 settings.windowsLocked = true
             }
-        }
-        else if sender == showSecretHelper {
+        } else if sender == showSecretHelper {
             settings.showSecretHelper = showSecretHelper.state == NSOnState
-        }
-        else if sender == showRarityColors {
+        } else if sender == showRarityColors {
             settings.showRarityColors = showRarityColors.state == NSOnState
-        }
-        else if sender == showTimer {
+        } else if sender == showTimer {
             settings.showTimer = showTimer.state == NSOnState
-        }
-        else if sender == showFloatingCard {
+        } else if sender == showFloatingCard {
             settings.showFloatingCard = showFloatingCard.state == NSOnState
         }
     }

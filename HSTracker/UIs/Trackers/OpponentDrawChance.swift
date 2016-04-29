@@ -9,7 +9,7 @@
 import Cocoa
 
 class OpponentDrawChance: TextFrame {
-    
+
     private let frameRect = NSMakeRect(0, 0, CGFloat(kFrameWidth), 71)
     private let draw1Frame = NSMakeRect(70, 42, 68, 25)
     private let draw2Frame = NSMakeRect(148, 42, 68, 25)
@@ -20,10 +20,10 @@ class OpponentDrawChance: TextFrame {
     var drawChance2 = 0.0
     var handChance1 = 0.0
     var handChance2 = 0.0
-    
+
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
-        
+
         addImage(ImageCache.asset("opponent-chance-frame"), frameRect)
         addDouble(drawChance1, draw1Frame)
         addDouble(drawChance2, draw2Frame)

@@ -50,7 +50,9 @@ final class HearthstoneDecks: BaseNetImporter, NetImporterAware {
 
                 var cards = [String: Int]()
                 for cardNode in doc.xpath("//table[contains(@class,'tabcartes')]//tbody//tr//a") {
-                    if let qty = cardNode["nb_card"], let cardId = cardNode["real_id"], count = Int(qty) {
+                    if let qty = cardNode["nb_card"],
+                        cardId = cardNode["real_id"],
+                        count = Int(qty) {
                         cards[cardId] = count
                     }
                 }

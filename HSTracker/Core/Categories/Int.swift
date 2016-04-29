@@ -9,7 +9,7 @@
 import Foundation
 
 extension Int {
-    
+
     var boolValue: Bool? {
         switch self {
         case 0: return false
@@ -17,5 +17,5 @@ extension Int {
         default: return nil
         }
     }
-    
+
 }

@@ -20,7 +20,7 @@ enum PlayState: Int {
     TIED = 6,
     DISCONNECTED = 7,
     CONCEDED = 8
-    
+
     init?(rawString: String) {
         for _enum in PlayState.allValues() {
             if "\(_enum)" == rawString {
@@ -34,7 +34,7 @@ enum PlayState: Int {
         }
         self = .INVALID
     }
-    
+
     static func allValues() -> [PlayState] {
         return [.INVALID, .PLAYING, .WINNING, .LOSING, .WON, .LOST, .TIED, .DISCONNECTED, .CONCEDED]
     }

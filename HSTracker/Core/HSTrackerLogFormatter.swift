@@ -15,7 +15,7 @@ struct HSTrackerColorTable: CleanroomLogger.ColorTable {
     static let InfoColor     = Color(r: 0xDB, g: 0xDF, b: 0xFF)
     static let WarningColor  = Color(r: 0xF3, g: 0xA2, b: 0x5F)
     static let ErrorColor    = Color(r: 0xCC, g: 0x31, b: 0x7C)
-    
+
     func foregroundColorForSeverity(severity: LogSeverity) -> Color? {
         switch severity {
         case .Verbose: return self.dynamicType.VerboseColor
@@ -27,15 +27,15 @@ struct HSTrackerColorTable: CleanroomLogger.ColorTable {
     }
 }
 
-class HSTrackerLogFormatter : XcodeLogFormatter, LogFormatter {
-    
-    let dateFormatter:NSDateFormatter = {
+class HSTrackerLogFormatter: XcodeLogFormatter, LogFormatter {
+
+    let dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
         //formatter.timeZone = NSTimeZone(name: "UTC")
         formatter.dateFormat = "HH:mm:ss.SSS"
         return formatter
     }()
-    
+
     override func formatLogEntry(entry: LogEntry) -> String? {
         let severity: String
         switch entry.severity {
@@ -45,14 +45,14 @@ class HSTrackerLogFormatter : XcodeLogFormatter, LogFormatter {
         case .Warning: severity = "W"
         case .Error: severity = "E"
         }
-        
+
         let message: String
         switch entry.payload {
         case .Trace: message = entry.callingStackFrame
         case .Message(let msg): message = msg
         case .Value(let value): message = "\(value)"
         }
-        
+
         return "|\(severity)|\(dateFormatter.stringFromDate(entry.timestamp))| \(message)"
     }
 }

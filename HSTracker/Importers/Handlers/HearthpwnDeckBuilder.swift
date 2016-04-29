@@ -37,8 +37,10 @@ final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
                 var cards = [String: Int]()
                 cardIds?.forEach({ (str) -> () in
                     let split = str.characters.split(":").map(String.init)
-                    if let id = split.first, let count = Int(split.last!) {
-                        if let node = doc.at_xpath("//tr[@data-id='\(id)']/td[1]/b"), cardId = node.text {
+                    if let id = split.first,
+                        count = Int(split.last!) {
+                        if let node = doc.at_xpath("//tr[@data-id='\(id)']/td[1]/b"),
+                            cardId = node.text {
                             Log.verbose?.message("id : \(id) count : \(count) text : \(node.text)")
                             if let card = Cards.byEnglishName(cardId) {
                                 cards[card.id] = count

@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Statistic : Dictable {
+final class Statistic: Dictable {
     var gameResult: GameResult = .Unknow
     var hasCoin = false
     var opponentClass = ""
@@ -19,7 +19,7 @@ final class Statistic : Dictable {
     var date = NSDate()
     var cards = [String: Int]()
     var duration = 0
-    
+
     func toDict() -> [String: AnyObject] {
         return [
             "opponentName": opponentName,
@@ -34,7 +34,7 @@ final class Statistic : Dictable {
             "duration": duration
         ]
     }
-    
+
     static func fromDict(dict: [String: AnyObject]) -> Statistic? {
         if let opponentName = dict["opponentName"] as? String,
             opponentClass = dict["opponentClass"] as? String,
@@ -43,7 +43,7 @@ final class Statistic : Dictable {
             statistic.opponentName = opponentName
             statistic.opponentClass = opponentClass
             statistic.gameResult = GameResult(rawValue: gameResult)!
-            
+
             if let hasCoin = dict["hasCoin"] as? Int {
                 statistic.hasCoin = Bool(hasCoin)
             }

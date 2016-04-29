@@ -9,18 +9,18 @@
 import Foundation
 
 class FloatingCard: NSWindowController {
-    
+
     @IBOutlet weak var image: NSImageView!
-    
+
     override func windowDidLoad() {
         super.windowDidLoad()
-        
+
         self.window!.ignoresMouseEvents = true
         self.window!.acceptsMouseMovedEvents = true
         self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
         self.window!.backgroundColor = NSColor.clearColor()
     }
-    
+
     func setCard(card: Card) {
         image.image = ImageCache.cardImage(card, false)
     }

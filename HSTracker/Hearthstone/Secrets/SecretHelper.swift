@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SecretHelper : Equatable, CustomStringConvertible {
+class SecretHelper: Equatable, CustomStringConvertible {
     private(set) var id: Int
     private(set) var turnPlayed: Int
     private(set) var heroClass: HeroClass

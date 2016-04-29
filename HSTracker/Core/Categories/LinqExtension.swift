@@ -101,8 +101,7 @@ extension Array {
             let t = x as Element
             if fn(t) {
                 to.append(t)
-            }
-            else {
+            } else {
                 break
             }
         }
@@ -216,8 +215,7 @@ extension Array {
         return to
     }
 
-    func sum<T: Addable>() -> T
-    {
+    func sum<T: Addable>() -> T {
         return self.map { $0 as! T }.reduce(T()) { $0 + $1 }
     }
 
@@ -239,8 +237,7 @@ extension Array {
 }
 
 extension Array where Element : Averagable {
-    func avg() -> Double
-    {
+    func avg() -> Double {
         return self.reduce(Element()) { $0 + $1 } / self.count
     }
 }
@@ -250,11 +247,11 @@ protocol Addable {
     init()
 }
 
-protocol Reducable : Addable, Averagable, Comparable {
+protocol Reducable: Addable, Averagable, Comparable {
     static func max() -> Self
 }
 
-protocol Averagable : Addable {
+protocol Averagable: Addable {
     func / (lhs: Self, rhs: Int) -> Double
 }
 

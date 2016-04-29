@@ -51,8 +51,8 @@ final class Hearthhead: BaseNetImporter, NetImporterAware {
                 for cardNode in doc.xpath("//div[contains(@class,'deckguide-cards-type')]/ul/li") {
                     var cardId: String?
                     if let cardNameNode = cardNode.at_xpath("a"),
-                        let cardName = cardNameNode.text,
-                        let card = Cards.byEnglishName(cardName) {
+                        cardName = cardNameNode.text,
+                        card = Cards.byEnglishName(cardName) {
                             cardId = card.id
                             Log.verbose?.message("\(cardName)")
                     }

@@ -8,9 +8,9 @@
  * Created on 13/02/16.
  */
 
-enum LogLineNamespace : String {
+enum LogLineNamespace: String {
     case Power, Net, Asset, Bob, Rachelle, Arena, LoadingScreen
-    
+
     static func allValues() -> [LogLineNamespace] {
         return [.Power, .Net, .Asset, .Bob, .Rachelle, .Arena, .LoadingScreen]
     }

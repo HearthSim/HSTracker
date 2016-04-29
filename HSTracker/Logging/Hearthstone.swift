@@ -11,25 +11,27 @@
 import Foundation
 import CleanroomLogger
 
-final class Hearthstone : NSObject {
+final class Hearthstone: NSObject {
     let applicationName = "Hearthstone"
 
     var logReaderManager: LogReaderManager?
 
     var hearthstoneActive = false
-    var queue:dispatch_queue_t?
+    var queue: dispatch_queue_t?
 
     static let instance = Hearthstone()
-    
+
     static func findHearthstone() -> String? {
-        if NSFileManager.defaultManager().fileExistsAtPath("/Applications/Hearthstone/Hearthstone.app") {
+        let path = "/Applications/Hearthstone/Hearthstone.app"
+        if NSFileManager.defaultManager().fileExistsAtPath(path) {
             return "/Applications/Hearthstone"
         }
         return nil
     }
-    
+
     static func validatedHearthstonePath() -> Bool {
-        return NSFileManager.defaultManager().fileExistsAtPath("\(Settings.instance.hearthstoneLogPath)/Hearthstone.app")
+        let path = "\(Settings.instance.hearthstoneLogPath)/Hearthstone.app"
+        return NSFileManager.defaultManager().fileExistsAtPath(path)
     }
 
     // MARK: - Initialisation
@@ -86,7 +88,9 @@ final class Hearthstone : NSObject {
                     + "\nScreenPrinting=false"
             }
             do {
-                try fileContent.writeToFile(self.configPath, atomically: true, encoding: NSUTF8StringEncoding)
+                try fileContent.writeToFile(self.configPath,
+                                            atomically: true,
+                                            encoding: NSUTF8StringEncoding)
             } catch {
                 // TODO error handling
             }
@@ -95,9 +99,13 @@ final class Hearthstone : NSObject {
                 dispatch_async(dispatch_get_main_queue()) {
                     let alert = NSAlert()
                     alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                    // swiftlint:disable line_length
                     alert.informativeText = NSLocalizedString("You must restart Hearthstone for logs to be used", comment: "")
+                    // swiftlint:enable line_length
                     alert.alertStyle = NSAlertStyle.InformationalAlertStyle
-                    NSRunningApplication.currentApplication().activateWithOptions([NSApplicationActivationOptions.ActivateAllWindows, NSApplicationActivationOptions.ActivateIgnoringOtherApps])
+                    NSRunningApplication.currentApplication().activateWithOptions([
+                        NSApplicationActivationOptions.ActivateAllWindows,
+                        NSApplicationActivationOptions.ActivateIgnoringOtherApps])
                     NSApplication.sharedApplication().activateIgnoringOtherApps(true)
                     alert.runModal()
                 }
@@ -127,11 +135,13 @@ final class Hearthstone : NSObject {
     func startListeners() {
         let notificationCenter = NSWorkspace.sharedWorkspace().notificationCenter
         let notifications = [
+            // swiftlint:disable line_length
             NSWorkspaceActiveSpaceDidChangeNotification: #selector(Hearthstone.spaceChange(_:)),
             NSWorkspaceDidLaunchApplicationNotification: #selector(Hearthstone.appLaunched(_:)),
             NSWorkspaceDidTerminateApplicationNotification: #selector(Hearthstone.appTerminated(_:)),
             NSWorkspaceDidActivateApplicationNotification: #selector(Hearthstone.appActivated(_:)),
             NSWorkspaceDidDeactivateApplicationNotification: #selector(Hearthstone.appDeactivated(_:)),
+            // swiftlint:enable line_length
         ]
         for (name, selector) in notifications {
             notificationCenter.addObserver(self,
@@ -140,52 +150,61 @@ final class Hearthstone : NSObject {
                                            object: nil)
         }
     }
-    
+
     func spaceChange(notification: NSNotification) {
         Game.instance.hearthstoneIsActive(self.hearthstoneActive)
     }
 
     func appLaunched(notification: NSNotification) {
-        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == applicationName {
+        if let application = notification.userInfo!["NSWorkspaceApplicationKey"]
+            where application.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now launched")
             self.startTracking()
             SizeHelper.hearthstoneWindow.reload()
             Game.instance.hearthstoneIsActive(true)
-            NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_running", object: nil)
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("hearthstone_running", object: nil)
         }
     }
 
     func appTerminated(notification: NSNotification) {
-        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == applicationName {
+        if let application = notification.userInfo!["NSWorkspaceApplicationKey"]
+            where application.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now closed")
             self.stopTracking()
             Game.instance.hearthstoneIsActive(false)
-            NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_running", object: nil)
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("hearthstone_running", object: nil)
         }
     }
 
     func appActivated(notification: NSNotification) {
-        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == applicationName {
+        if let application = notification.userInfo!["NSWorkspaceApplicationKey"]
+            where application.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now active")
             self.hearthstoneActive = true
             SizeHelper.hearthstoneWindow.reload()
             Game.instance.hearthstoneIsActive(true)
-            NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_active", object: nil)
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("hearthstone_active", object: nil)
         }
     }
 
     func appDeactivated(notification: NSNotification) {
-        if let application = notification.userInfo!["NSWorkspaceApplicationKey"] where application.localizedName == applicationName {
+        if let application = notification.userInfo!["NSWorkspaceApplicationKey"]
+            where application.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now inactive")
             self.hearthstoneActive = false
             Game.instance.hearthstoneIsActive(false)
-            NSNotificationCenter.defaultCenter().postNotificationName("hearthstone_active", object: nil)
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName("hearthstone_active", object: nil)
         }
     }
 
     // MARK: - Paths / Utils
     var configPath: String {
-        return NSString(string: "~/Library/Preferences/Blizzard/Hearthstone/log.config").stringByExpandingTildeInPath
+        return NSString(string: "~/Library/Preferences/Blizzard/Hearthstone/log.config")
+            .stringByExpandingTildeInPath
     }
 
     var logPath: String {

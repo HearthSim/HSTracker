@@ -14,19 +14,21 @@ enum FromDestination: Int {
     case Bundle,
         Assets,
         Path
-};
+}
 
 struct ImageCache {
 
     static func cardImage(card: Card, _ crop: Bool = true) -> NSImage? {
-        if let appSupport = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first {
+        if let appSupport = NSSearchPathForDirectoriesInDomains(
+            .ApplicationSupportDirectory,
+            .UserDomainMask, true).first {
+
             let path = "\(appSupport)/HSTracker/cards/\(card.id).png"
             let image = imageNamed(path, from: .Path)
 
             if crop {
                 return cropped(image)
-            }
-            else {
+            } else {
                 return image
             }
         }
@@ -59,8 +61,8 @@ struct ImageCache {
     static func frameImage(rarity: Rarity?) -> NSImage? {
         return image("frame", rarity)
     }
-    
-    private static func image(base:String, _ rarity: Rarity?) -> NSImage? {
+
+    private static func image(base: String, _ rarity: Rarity?) -> NSImage? {
         var image: String = "\(base)"
         if let rarity = rarity {
             switch rarity {
@@ -78,7 +80,7 @@ struct ImageCache {
     static func darkenImage() -> NSImage? {
         return imageNamed("dark", from: .Assets)
     }
-    
+
     static func fadeImage() -> NSImage? {
         return imageNamed("fade", from: .Assets)
     }

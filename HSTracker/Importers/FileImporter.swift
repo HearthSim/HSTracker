@@ -9,15 +9,16 @@
 import Foundation
 
 final class FileImporter: BaseNetImporter {
-    
+
     func fileImport(url: NSURL, _ completion: Deck? -> Void) {
         let deckName = url.lastPathComponent?.replace("\\.txt$", with: "")
         var className = ""
         var isArena = false
         do {
             let content = try NSString(contentsOfURL: url, encoding: NSUTF8StringEncoding)
-            let lines = content.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-            
+            let lines = content
+                .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+
             var cards = [String: Int]()
             let regex = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
             for line in lines {
@@ -29,7 +30,7 @@ final class FileImporter: BaseNetImporter {
                         if count > 2 {
                             isArena = true
                         }
-                        
+
                         var card = Cards.byId(cardName)
                         if card == nil {
                             card = Cards.byEnglishName(cardName)
@@ -37,26 +38,26 @@ final class FileImporter: BaseNetImporter {
                         if card == nil {
                             card = Cards.byName(cardName)
                         }
-                        
+
                         if let card = card {
-                            if card.playerClass != "" && card.playerClass != "neutral" && String.isNullOrEmpty(className) {
+                            if card.playerClass != "" && card.playerClass != "neutral"
+                                && String.isNullOrEmpty(className) {
                                 className = card.playerClass
                             }
-                            
+
                             cards[card.id] = count
                         }
                     }
                 }
             }
-            
+
             if !String.isNullOrEmpty(className) && self.isCount(cards) {
                 saveDeck(deckName, className, cards, isArena, completion)
                 return
             }
+        } catch {
         }
-        catch {
-        }
-        
+
         // TODO add error
         completion(nil)
     }

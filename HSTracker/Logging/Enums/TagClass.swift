@@ -23,7 +23,7 @@ enum TagClass: Int {
     WARLOCK,
     WARRIOR,
     DREAM
-    
+
     init?(rawString: String) {
         for _enum in TagClass.allValues() {
             if "\(_enum)" == rawString {
@@ -37,8 +37,10 @@ enum TagClass: Int {
         }
         self = .INVALID
     }
-    
+
     static func allValues() -> [TagClass] {
-        return [.INVALID, .DEATHKNIGHT, .DRUID, .HUNTER, .MAGE, .PALADIN, .PRIEST, .ROGUE, .SHAMAN, .WARLOCK, .WARRIOR, .DREAM]
+        return [.INVALID, .DEATHKNIGHT, .DRUID, .HUNTER, .MAGE,
+                .PALADIN, .PRIEST, .ROGUE, .SHAMAN, .WARLOCK,
+                .WARRIOR, .DREAM]
     }
 }

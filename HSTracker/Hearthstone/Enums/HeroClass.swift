@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum HeroClass : String {
+enum HeroClass: String {
     case Druid,
         Hunter,
         Mage,

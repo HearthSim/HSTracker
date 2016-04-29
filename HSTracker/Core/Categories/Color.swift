@@ -14,7 +14,7 @@ extension NSColor {
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
         var alpha: CGFloat = 0
-        
+
         getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         return NSColor(hue: hue,
                        saturation: saturation,

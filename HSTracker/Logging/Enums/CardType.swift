@@ -10,6 +10,8 @@
 
 import Foundation
 
+// swiftlint:disable type_name
+
 enum CardType: Int {
     case INVALID = 0,
     GAME = 1,
@@ -22,7 +24,7 @@ enum CardType: Int {
     ITEM = 8,
     TOKEN = 9,
     HERO_POWER = 10
-    
+
     init?(rawString: String) {
         for _enum in CardType.allValues() {
             if "\(_enum)" == rawString {
@@ -36,8 +38,9 @@ enum CardType: Int {
         }
         self = .INVALID
     }
-    
+
     static func allValues() -> [CardType] {
-        return [.INVALID, .GAME, .PLAYER, .HERO, .MINION, .SPELL, .ENCHANTMENT, .WEAPON, .ITEM, .TOKEN, .HERO_POWER]
+        return [.INVALID, .GAME, .PLAYER, .HERO, .MINION, .SPELL,
+                .ENCHANTMENT, .WEAPON, .ITEM, .TOKEN, .HERO_POWER]
     }
 }
