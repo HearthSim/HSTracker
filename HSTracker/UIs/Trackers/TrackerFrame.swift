@@ -88,7 +88,7 @@ class TextFrame: TrackerFrame {
     }
 
     func addDouble(val: Double, _ rect: NSRect) {
-        let format = val == Double(Int(val)) ? "%.0f%" : "%.2f%%"
+        let format = val == Double(Int(val)) ? "%.0f%%" : "%.2f%%"
         addString(String(format: format, val), rect)
     }
 
