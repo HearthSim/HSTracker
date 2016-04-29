@@ -20,7 +20,6 @@ enum HandCountPosition: Int {
 class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
     
     @IBOutlet weak var cardsView: NSView!
-    
     @IBOutlet weak var cardCounter: CardCounter!
     @IBOutlet weak var playerDrawChance: PlayerDrawChance!
     @IBOutlet weak var opponentDrawChance: OpponentDrawChance!

@@ -27,7 +27,6 @@ class WotogCounter: TextFrame {
     
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
-        NSLog("coucou \(dirtyRect)")
         
         var frame = frameRect
         var textFrame = attackFrame

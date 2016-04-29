@@ -404,11 +404,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     func hideFloatingCard(notification: NSNotification) {
         guard Settings.instance.showFloatingCard else {return}
         
+        self.closeFloatingCardRequest -= 1
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
         let queue = dispatch_get_main_queue()
         dispatch_after(when, queue) {
-            self.closeFloatingCardRequest -= 1
-            
             if self.closeFloatingCardRequest > 0 {
                 return
             }
