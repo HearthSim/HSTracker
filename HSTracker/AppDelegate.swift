@@ -391,17 +391,38 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     var closeFloatingCardRequest = 0
+    var closeRequestTimer: NSTimer?
     func showFloatingCard(notification: NSNotification) {
         guard Settings.instance.showFloatingCard else {return}
 
         if let card = notification.userInfo?["card"] as? Card,
             arrayFrame = notification.userInfo?["frame"] as? [CGFloat] {
+            if closeRequestTimer != nil {
+                closeRequestTimer?.invalidate()
+                closeRequestTimer = nil
+            }
+
             closeFloatingCardRequest += 1
             floatingCard?.showWindow(self)
             let frame = NSMakeRect(arrayFrame[0], arrayFrame[1], arrayFrame[2], arrayFrame[3])
             floatingCard?.window?.setFrame(frame, display: true)
             floatingCard?.setCard(card)
+
+            closeRequestTimer = NSTimer.scheduledTimerWithTimeInterval(
+                3,
+                target: self,
+                selector: #selector(AppDelegate.forceHideFloatingCard),
+                userInfo: nil,
+                repeats: false)
+
         }
+    }
+
+    func forceHideFloatingCard() {
+        closeFloatingCardRequest = 0
+        floatingCard?.window?.orderOut(self)
+        closeRequestTimer?.invalidate()
+        closeRequestTimer = nil
     }
 
     func hideFloatingCard(notification: NSNotification) {
@@ -414,7 +435,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             if self.closeFloatingCardRequest > 0 {
                 return
             }
+            self.closeFloatingCardRequest = 0
             self.floatingCard?.window?.orderOut(self)
+            self.closeRequestTimer?.invalidate()
+            self.closeRequestTimer = nil
         }
     }
 
