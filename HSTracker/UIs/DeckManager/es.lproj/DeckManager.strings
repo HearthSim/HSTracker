@@ -1,27 +1,27 @@
 
 /* Class = "NSToolbarItem"; label = "Use Deck"; ObjectID = "3nu-q9-wC1"; */
-"3nu-q9-wC1.label" = "Usar Mazo";
+"3nu-q9-wC1.label" = "Usar";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Use Deck"; ObjectID = "3nu-q9-wC1"; */
-"3nu-q9-wC1.paletteLabel" = "Usar Mazo";
+"3nu-q9-wC1.paletteLabel" = "Usar";
 
 /* Class = "NSToolbarItem"; label = "Rename Deck"; ObjectID = "Qp2-0h-Sid"; */
-"Qp2-0h-Sid.label" = "Renombrar Mazo";
+"Qp2-0h-Sid.label" = "Renombrar";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Rename Deck"; ObjectID = "Qp2-0h-Sid"; */
-"Qp2-0h-Sid.paletteLabel" = "Renombrar Mazo";
+"Qp2-0h-Sid.paletteLabel" = "Renombrar";
 
 /* Class = "NSToolbarItem"; label = "Delete Deck"; ObjectID = "aaa-LK-buD"; */
-"aaa-LK-buD.label" = "Borrar Mazo";
+"aaa-LK-buD.label" = "Borrar";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Delete Deck"; ObjectID = "aaa-LK-buD"; */
-"aaa-LK-buD.paletteLabel" = "Borrar Mazo";
+"aaa-LK-buD.paletteLabel" = "Borrar";
 
 /* Class = "NSToolbarItem"; label = "Edit Deck"; ObjectID = "cbH-rI-BvP"; */
-"cbH-rI-BvP.label" = "Editar Mazo";
+"cbH-rI-BvP.label" = "Editar";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Edit Deck"; ObjectID = "cbH-rI-BvP"; */
-"cbH-rI-BvP.paletteLabel" = "Editar Mazo";
+"cbH-rI-BvP.paletteLabel" = "Editar";
 
 /* Class = "NSToolbarItem"; label = "Add"; ObjectID = "7FY-gv-qwP"; */
 "7FY-gv-qwP.label" = "Añadir";
