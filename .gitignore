@@ -4,7 +4,3 @@ sparkle/release
 sparkle/release/*
 sparkle/config/dsa_priv.pem
 Carthage/*
-vendor
-resources
-build
-.repl_history

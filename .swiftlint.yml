@@ -11,3 +11,4 @@ disabled_rules:
   - todo
   - variable_name
   - function_parameter_count
+  - trailing_newline
