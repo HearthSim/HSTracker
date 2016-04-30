@@ -18,34 +18,14 @@ enum FromDestination: Int {
 
 struct ImageCache {
 
-    static func cardImage(card: Card, _ crop: Bool = true) -> NSImage? {
+    static func cardImage(card: Card) -> NSImage? {
         if let appSupport = NSSearchPathForDirectoriesInDomains(
             .ApplicationSupportDirectory,
             .UserDomainMask, true).first {
 
             let path = "\(appSupport)/HSTracker/cards/\(card.id).png"
             let image = imageNamed(path, from: .Path)
-
-            if crop {
-                return cropped(image)
-            } else {
-                return image
-            }
-        }
-        return nil
-    }
-
-    private static func cropped(image: NSImage?) -> NSImage? {
-        if let image = image {
-            let target = NSImage(size: NSMakeSize(177, 259))
-            target.lockFocus()
-            image.drawAtPoint(NSMakePoint(0, 0),
-                fromRect: NSMakeRect(7, 14, 177, 259),
-                operation: .CompositeSourceOver,
-                fraction: 1.0)
-            target.unlockFocus()
-
-            return target
+            return image
         }
         return nil
     }

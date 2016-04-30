@@ -59,8 +59,8 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
 
     var saveDeck: SaveDeck?
 
-    let baseCardWidth: CGFloat = 177
-    let baseCardHeight: CGFloat = 259
+    let baseCardWidth: CGFloat = 181
+    let baseCardHeight: CGFloat = 250
 
     func setPlayerClass(playerClass: String) {
         currentPlayerClass = playerClass

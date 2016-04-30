@@ -106,7 +106,7 @@ final class ImageDownloader {
 
             let path = "\(destination)/HSTracker/cards/\(image).png"
             // swiftlint:disable line_length
-            let url = NSURL(string: "https://wow.zamimg.com/images/hearthstone/cards/\(language)/medium/\(image).png?12576")!
+            let url = NSURL(string: "http://vps208291.ovh.net/cards/\(language)/\(image).png")!
             Log.verbose?.message("downloading \(url) to \(path)")
 
             let task = NSURLSession.sharedSession().downloadTaskWithRequest(NSURLRequest(URL: url),

@@ -94,7 +94,7 @@ struct SizeHelper {
         let height = NSHeight(frame)
 
         let hearthstoneFrame = hearthstoneWindow.frame
-        let screenRect = hearthstoneWindow.screen.frame
+        //let screenRect = hearthstoneWindow.screen.frame
 
         if relative {
             pointX = pointX / 1404.0 * NSWidth(hearthstoneFrame)
@@ -105,7 +105,7 @@ struct SizeHelper {
         let y: CGFloat = NSMaxY(hearthstoneFrame) - pointY - height
 
         let relativeFrame = NSMakeRect(x, y, width, height)
-        Log.verbose?.message("FR: \(frame) -> HS: \(hearthstoneFrame) -> SC:\(screenRect) -> POS:\(relativeFrame)")
+        //Log.verbose?.message("FR: \(frame) -> HS: \(hearthstoneFrame) -> SC:\(screenRect) -> POS:\(relativeFrame)")
         return relativeFrame
     }
 

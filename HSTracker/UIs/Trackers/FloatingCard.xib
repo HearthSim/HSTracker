@@ -14,14 +14,14 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="200" height="303"/>
+            <rect key="contentRect" x="196" y="240" width="179" height="250"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="200" height="303"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <rect key="frame" x="0.0" y="0.0" width="179" height="250"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oLt-dD-jrg">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="303"/>
+                        <rect key="frame" x="0.0" y="0.0" width="179" height="250"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="TheCoin" id="wJF-cp-16P"/>
                     </imageView>
                 </subviews>
@@ -36,6 +36,6 @@
         </window>
     </objects>
     <resources>
-        <image name="TheCoin" width="200" height="303"/>
+        <image name="TheCoin" width="179" height="250"/>
     </resources>
 </document>
