@@ -74,7 +74,7 @@
 
 /* card type */
 "all_types" = "所有";
-"spell" = "法術";
+"spell" = "法术";
 "minion" = "手下";
 "weapon" = "武器";
 
