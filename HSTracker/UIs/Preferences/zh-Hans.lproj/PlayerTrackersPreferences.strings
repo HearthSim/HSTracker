@@ -3,16 +3,16 @@
 "MiE-Lr-Vdi.title" = "显示跟踪器";
 
 /* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
-"TmO-9A-Ffe.title" = "Show player card count";
+"TmO-9A-Ffe.title" = "显示你的卡牌数量";
 
 /* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
-"acK-XF-6wQ.title" = "Show player draw chance";
+"acK-XF-6wQ.title" = "显示你的卡牌机会";
 
 /* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "r3h-Qd-YPW"; */
 "r3h-Qd-YPW.title" = "包括获得卡牌";
 
 /* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
-"LGM-aC-rL6.title" = "Show Spell counter";
+"LGM-aC-rL6.title" = "显示法术反制";
 
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
-"Tex-bu-toa.title" = "Show C'Thun counter";
+"Tex-bu-toa.title" = "显示克苏恩反制";

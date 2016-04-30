@@ -6,16 +6,16 @@
 "MLJ-7t-LVJ.title" = "显示对手的跟踪器";
 
 /* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
-"avf-qA-8vU.title" = "Show opponent draw chance";
+"avf-qA-8vU.title" = "显示对手的卡牌机会";
 
 /* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
-"eGQ-pE-MU0.title" = "Clear opponent tracker on game end";
+"eGQ-pE-MU0.title" = "清除对手的跟踪器";
 
 /* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
-"iqA-b1-owW.title" = "Show opponent card count";
+"iqA-b1-owW.title" = "显示对手的卡牌数量";
 
 /* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "9eg-6X-x7A"; */
-"9eg-6X-x7A.title" = "Show Spell counter";
+"9eg-6X-x7A.title" = "显示法术反制";
 
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "RyA-1i-LPY"; */
-"RyA-1i-LPY.title" = "Show C'Thun counter";
+"RyA-1i-LPY.title" = "显示克苏恩反制";

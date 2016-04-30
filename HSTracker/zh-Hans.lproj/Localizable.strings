@@ -1,5 +1,5 @@
 "Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭套牌？您的修改不会被保存.";
-"Are you sure you want to delete the deck %@ ?" = "Are you sure you want to delete the deck %@ ?";
+"Are you sure you want to delete the deck %@ ?" = "你确定要删除 %@ 套牌?";
 "Arena %@ %@" = "競技場 %@ %@";
 "Cancel" = "取消";
 "Clear" = "清除";
@@ -17,15 +17,15 @@
 "Loading %@ cards" = "加载 %@ 卡牌";
 "Lock windows" = "锁定窗口";
 "OK" = "确定";
-"Please select your Hearthstone app" = "Please select your Hearthstone app";
-"Can't find Hearthstone, please select Hearthstone.app" = "Can't find Hearthstone, please select Hearthstone.app";
+"Please select your Hearthstone app" = "选择炉石传说的应用程式";
+"Can't find Hearthstone, please select Hearthstone.app" = "找不到炉石传说, 选择炉石传说的应用程式";
 "Preferences" = "偏好设置";
 "Rename deck" = "改名套牌";
 "Reset" = "重置";
 "server error" = "服务器错误";
 "Trackers" = "跟踪器";
-"Opponent tracker" = "Opponent tracker";
-"Player tracker" = "Player tracker";
+"Opponent tracker" = "对手的跟踪器";
+"Player tracker" = "你的跟踪器";
 "Unlock windows" = "解锁窗口";
 "Use deck" = "用牌组";
 "Window" = "窗口";
@@ -74,7 +74,7 @@
 
 /* card type */
 "all_types" = "所有";
-"spell" = "法術";
+"spell" = "法术";
 "minion" = "手下";
 "weapon" = "武器";
 
