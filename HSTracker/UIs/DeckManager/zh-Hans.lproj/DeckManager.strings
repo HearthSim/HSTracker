@@ -27,7 +27,7 @@
 "7FY-gv-qwP.label" = "加套牌";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.paletteLabel" = "Add";
+"7FY-gv-qwP.paletteLabel" = "加套牌";
 
 /* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
 "QvC-M9-y7g.title" = "牌组管理器";
