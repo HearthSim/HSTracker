@@ -428,9 +428,24 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
                 draw1 = (1 * 100.0) / Double(deckCount)
                 draw2 = (2 * 100.0) / Double(deckCount)
             }
-            if handCount > 0 {
-                hand1 = (1 * 100.0) / Double(handCount)
-                hand2 = (2 * 100.0) / Double(handCount)
+            if gameStarted {
+                // opponent's chances of having a particular card (of which they have either one
+                // or two in the deck) after the next draw, i.e. at the start of their next turn
+                if deckCount <= 1 {
+                    // opponent will have drawn all his cards
+                    hand1 = 100
+                    hand2 = 100
+                } else {
+                    let handMinusCoin = handCount - (player?.hasCoin == true ? 1 : 0)
+                    let deckPlusHand = deckCount + handMinusCoin
+
+                    // probabilities a given card (and a second one) are still in the deck
+                    let prob1 = Double(deckCount - 1) / Double(deckPlusHand)
+                    let prob2 = prob1 * Double(deckCount - 2) / Double(deckPlusHand - 1)
+
+                    hand1 = 100 * (1 - prob1)
+                    hand2 = 100 * (1 - prob2)
+                }
             }
             opponentDrawChance.drawChance1 = draw1
             opponentDrawChance.drawChance2 = draw2
