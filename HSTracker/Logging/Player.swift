@@ -358,10 +358,10 @@ final class Player {
             }
             .map({ $0 })
 
-        let revealedNotInDeck = revealedEntities.filter({
+        let revealedNotInDeck = revealedEntities.filter {
             !$0.info.created && ($0.isSpell || $0.isWeapon || $0.isMinion)
-                && (!$0.isInDeck || ($0.info.stolen && $0.info.originalController == self.id))
-        })
+                && ((!$0.isInDeck || $0.info.stolen) && $0.info.originalController == self.id)
+        }
 
         var removedFromDeck = [String]()
         revealedNotInDeck.forEach({
