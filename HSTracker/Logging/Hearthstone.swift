@@ -60,15 +60,25 @@ final class Hearthstone: NSObject {
             do {
                 fileContent = try String(contentsOfFile: self.configPath)
                 var zonesFound = [LogLineNamespace]()
-                fileContent.enumerateLines({
-                    (line, stop) -> () in
-                    for zone in zones {
-                        if line.containsString("[\(zone)]") {
-                            zonesFound.append(zone)
-                            Log.verbose?.message("Found \(zone)")
+
+                // swiftlint:disable line_length
+                let splittedZones = fileContent.characters.split { $0 == "[" }.map(String.init)
+                for splittedZone in splittedZones {
+                    let splittedZoneLines = splittedZone.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+                    if let zone = splittedZoneLines.first {
+                        let startPos = zone.startIndex.advancedBy(0)
+                        let endPos = zone.endIndex.advancedBy(-1)
+                        let range = startPos ..< endPos
+                        if let currentZone = LogLineNamespace(rawValue: zone.substringWithRange(range)) {
+                            for splittedZoneLine in splittedZoneLines {
+                                if splittedZoneLine.containsString("FilePrinting=true") {
+                                    zonesFound.append(currentZone)
+                                }
+                            }
                         }
                     }
-                })
+                }
+                // swiftlint:enable line_length
                 for zone in zones {
                     if !zonesFound.contains(zone) {
                         missingZones.append(zone)
