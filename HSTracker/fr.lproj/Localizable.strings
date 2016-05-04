@@ -24,7 +24,7 @@
 "Reset" = "Reset";
 "server error" = "Erreur serveur";
 "Trackers" = "Trackers";
-"Opponent tracker" = "Tracker opposant";
+"Opponent tracker" = "Tracker adversaire";
 "Player tracker" = "Tracker joueur";
 "Unlock windows" = "Déverrouiller les fenêtres";
 "Use deck" = "Utiliser le deck";
@@ -37,7 +37,7 @@
 "Your game begins" = "Votre partie commence";
 "Victory" = "Victoire";
 "Hearthstone" = "Hearthstone";
-"Your opponent have conceded" = "Votre opposant a concedé";
+"Your opponent have conceded" = "Votre adversaire a concedé";
 "It's your turn to play" = "C'est à votre tour de jouer";
 
 /* classes */
