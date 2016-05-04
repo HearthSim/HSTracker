@@ -49,19 +49,19 @@ final class Hearthstone: NSObject {
 
     func setup() {
         let zones = LogLineNamespace.allValues()
-
-        var missingZones = [LogLineNamespace]()
+        var missingZones = [LogLineZone]()
 
         var fileContent = ""
         if !NSFileManager.defaultManager().fileExistsAtPath(self.configPath) {
-            missingZones = zones
-            fileContent = ""
+            for zone in zones {
+                missingZones.append(LogLineZone(namespace: zone))
+            }
         } else {
             do {
                 fileContent = try String(contentsOfFile: self.configPath)
-                var zonesFound = [LogLineNamespace]()
 
                 // swiftlint:disable line_length
+                var zonesFound = [LogLineZone]()
                 let splittedZones = fileContent.characters.split { $0 == "[" }.map(String.init)
                 for splittedZone in splittedZones {
                     let splittedZoneLines = splittedZone.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
@@ -70,33 +70,54 @@ final class Hearthstone: NSObject {
                         let endPos = zone.endIndex.advancedBy(-1)
                         let range = startPos ..< endPos
                         if let currentZone = LogLineNamespace(rawValue: zone.substringWithRange(range)) {
+                            let logLineZone = LogLineZone(namespace: currentZone)
                             for splittedZoneLine in splittedZoneLines {
-                                if splittedZoneLine.containsString("FilePrinting=true") {
-                                    zonesFound.append(currentZone)
+                                let kv = splittedZoneLine.characters.split { $0 == "=" }.map(String.init)
+                                if let key = kv.first, value = kv.last {
+                                    switch key {
+                                    case "LogLevel": logLineZone.logLevel = Int(value) ?? 1
+                                    case "FilePrinting": logLineZone.filePrinting = value
+                                    case "ConsolePrinting": logLineZone.consolePrinting = value
+                                    case "ScreenPrinting": logLineZone.screenPrinting = value
+                                    default: break
+                                    }
                                 }
                             }
+                            zonesFound.append(logLineZone)
                         }
                     }
                 }
-                // swiftlint:enable line_length
+
                 for zone in zones {
-                    if !zonesFound.contains(zone) {
-                        missingZones.append(zone)
+                    var currentZoneFound: LogLineZone? = nil
+
+                    for zoneFound in zonesFound {
+                        if zoneFound.namespace == zone {
+                            currentZoneFound = zoneFound
+                            break
+                        }
+                    }
+
+                    if let currentZone = currentZoneFound {
+                        if !currentZone.isValid() {
+                            missingZones.append(currentZone)
+                        }
+                    } else {
+                        missingZones.append(LogLineZone(namespace: zone))
                     }
                 }
+                // swiftlint:enable line_length
             } catch {
             }
         }
 
         Log.verbose?.message("Missing zones : \(missingZones)")
-        if missingZones.count > 0 {
-            for zone in missingZones {
-                fileContent += "\n[\(zone)]"
-                    + "\nLogLevel=1"
-                    + "\nFilePrinting=true"
-                    + "\nConsolePrinting=false"
-                    + "\nScreenPrinting=false"
+        if !missingZones.isEmpty {
+            var fileContent: String = ""
+            for zone in zones {
+                fileContent += LogLineZone(namespace: zone).toString()
             }
+
             do {
                 try fileContent.writeToFile(self.configPath,
                                             atomically: true,
