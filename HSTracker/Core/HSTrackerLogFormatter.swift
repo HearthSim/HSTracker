@@ -27,7 +27,7 @@ struct HSTrackerColorTable: CleanroomLogger.ColorTable {
     }
 }
 
-class HSTrackerLogFormatter: XcodeLogFormatter, LogFormatter {
+class HSTrackerLogFormatter: XcodeLogFormatter {
 
     let dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
