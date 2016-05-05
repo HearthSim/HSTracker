@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DeckManager" customModule="HSTracker" customModuleProvider="target">
@@ -488,6 +488,11 @@
                             <action selector="renameDeck:" target="-2" id="uFe-yj-DRI"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="45DF23CE-A826-4CB4-AEFF-09C01A34BF0D" explicitItemIdentifier="twitter" label="Twitter" paletteLabel="Twitter" tag="-1" image="twitter" id="d38-Pq-vZv">
+                        <connections>
+                            <action selector="twitter:" target="-2" id="MFr-PO-0OR"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
@@ -497,6 +502,7 @@
                     <toolbarItem reference="aaa-LK-buD"/>
                     <toolbarItem reference="I75-rt-at9"/>
                     <toolbarItem reference="Xxv-sY-tej"/>
+                    <toolbarItem reference="d38-Pq-vZv"/>
                     <toolbarItem reference="wWN-25-Exd"/>
                 </defaultToolbarItems>
             </toolbar>
@@ -528,6 +534,7 @@
         <image name="rogue_dark" width="1437" height="1437"/>
         <image name="shaman" width="344.8800048828125" height="344.8800048828125"/>
         <image name="shaman_dark" width="1437" height="1437"/>
+        <image name="twitter" width="32" height="32"/>
         <image name="use-deck" width="32" height="32"/>
         <image name="warlock" width="344.8800048828125" height="344.8800048828125"/>
         <image name="warlock_dark" width="1437" height="1437"/>
