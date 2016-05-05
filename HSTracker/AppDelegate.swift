@@ -371,17 +371,30 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     func showPlayerTracker(notification: NSNotification?) {
-        showHideTracker(self.playerTracker, show: Settings.instance.showPlayerTracker)
+        showHideTracker(self.playerTracker,
+                        show: Settings.instance.showPlayerTracker,
+                        title: "Player tracker")
     }
 
     func showOpponentTracker(notification: NSNotification?) {
-        showHideTracker(self.opponentTracker, show: Settings.instance.showOpponentTracker)
+        showHideTracker(self.opponentTracker,
+                        show: Settings.instance.showOpponentTracker,
+                        title: "Opponent tracker")
     }
 
-    func showHideTracker(tracker: Tracker?, show: Bool) {
+    func showHideTracker(tracker: Tracker?, show: Bool, title: String) {
         if show {
             tracker?.showWindow(self)
+            if let window = tracker?.window {
+                NSApp.addWindowsItem(window,
+                                     title: NSLocalizedString(title, comment: ""),
+                                     filename: false)
+                window.title = NSLocalizedString(title, comment: "")
+            }
         } else {
+            if let window = tracker?.window {
+                NSApp.removeWindowsItem(window)
+            }
             tracker?.window?.orderOut(self)
         }
     }
