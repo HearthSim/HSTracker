@@ -401,8 +401,8 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             }
             y -= height
 
-            wotogCounter.frame = NSMakeRect(0, y, windowWidth, height)
-            wotogCounter.needsDisplay = true
+            wotogCounter?.frame = NSMakeRect(0, y, windowWidth, height)
+            wotogCounter?.needsDisplay = true
         }
     }
 
@@ -418,9 +418,9 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             handCount = 0
         }
 
-        cardCounter.deckCount = deckCount
-        cardCounter.handCount = handCount
-        cardCounter.needsDisplay = true
+        cardCounter?.deckCount = deckCount
+        cardCounter?.handCount = handCount
+        cardCounter?.needsDisplay = true
 
         if playerType == .Opponent {
             var draw1 = 0.0, draw2 = 0.0, hand1 = 0.0, hand2 = 0.0
@@ -447,11 +447,11 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
                     hand2 = 100 * (1 - prob2)
                 }
             }
-            opponentDrawChance.drawChance1 = draw1
-            opponentDrawChance.drawChance2 = draw2
-            opponentDrawChance.handChance1 = hand1
-            opponentDrawChance.handChance2 = hand2
-            opponentDrawChance.needsDisplay = true
+            opponentDrawChance?.drawChance1 = draw1
+            opponentDrawChance?.drawChance2 = draw2
+            opponentDrawChance?.handChance1 = hand1
+            opponentDrawChance?.handChance2 = hand2
+            opponentDrawChance?.needsDisplay = true
         } else {
             var draw1 = 0.0, draw2 = 0.0
             if deckCount > 0 {
@@ -459,9 +459,9 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
                 draw2 = (2 * 100.0) / Double(deckCount)
             }
 
-            playerDrawChance.drawChance1 = draw1
-            playerDrawChance.drawChance2 = draw2
-            playerDrawChance.needsDisplay = true
+            playerDrawChance?.drawChance1 = draw1
+            playerDrawChance?.drawChance2 = draw2
+            playerDrawChance?.needsDisplay = true
         }
     }
 
