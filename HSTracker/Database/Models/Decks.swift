@@ -26,6 +26,17 @@ final class Decks {
     }
 
     private func loadDecks() {
+        // backup decks.json
+        if let jsonFile = savePath {
+            if NSFileManager.defaultManager().fileExistsAtPath(jsonFile) {
+                do {
+                    try NSFileManager.defaultManager()
+                        .copyItemAtPath(jsonFile, toPath: "\(jsonFile).bkp")
+                } catch {}
+            }
+        }
+
+        // load decks
         if let jsonFile = savePath, jsonData = NSData(contentsOfFile: jsonFile) {
             Log.verbose?.message("json file : \(jsonFile)")
             do {
