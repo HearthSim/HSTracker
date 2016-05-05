@@ -87,7 +87,7 @@ final class LogReaderManager {
     }
 
     private func processLines(process: [LogLine]) {
-        for line in process.filter({ $0 != nil }) {
+        for line in process.filter({ $0 != nil && !String.isNullOrEmpty($0.line) }) {
             //print("\(line.namespace) \(line.line)")
 
             let game = Game.instance
