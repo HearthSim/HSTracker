@@ -25,10 +25,17 @@ final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
                 var urlParts = url.characters.split { $0 == "#" }.map(String.init)
                 let split = urlParts[0].characters.split { $0 == "/" }.map(String.init)
-                let playerClass = split.last
-                if playerClass == nil {
+                guard let playerClass = split.last else {
                     completion(nil)
                     return
+                }
+
+                var deckName = ""
+                if let node = doc.at_xpath("//div[contains(@class,'deck-name-container')]/h2") {
+                    if let name = node.innerHTML {
+                        Log.verbose?.message("got deck name : \(name)")
+                        deckName = name
+                    }
                 }
 
                 Log.verbose?.message("\(playerClass)")
@@ -50,7 +57,7 @@ final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
                 })
 
                 if self.isCount(cards) {
-                    self.saveDeck(nil, playerClass!, cards, false, completion)
+                    self.saveDeck(deckName, playerClass, cards, false, completion)
                     return
                 }
             }
