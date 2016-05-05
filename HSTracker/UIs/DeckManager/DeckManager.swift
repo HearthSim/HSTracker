@@ -211,9 +211,7 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
     // MARK: - Toolbar actions
     override func validateToolbarItem(item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
-        case "add":
-            return true
-        case "donate":
+        case "add", "donate", "twitter":
             return true
         case "hearthstats":
             return !HearthstatsAPI.isLogged()
@@ -243,6 +241,11 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
         // swiftlint:disable line_length
         let url = NSURL(string: "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
         // swiftlint:enable line_length
+        NSWorkspace.sharedWorkspace().openURL(url!)
+    }
+
+    @IBAction func twitter(sender: AnyObject) {
+        let url = NSURL(string: "https://twitter.com/hstracker_mac")
         NSWorkspace.sharedWorkspace().openURL(url!)
     }
 
@@ -326,11 +329,11 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
             if Settings.instance.hearthstatsAutoSynchronize {
                 do {
                     try HearthstatsAPI.deleteDeck(deck)
-                    Decks.instance.remove(deck)
-                    refreshDecks()
                 } catch {
                     print("error delete hearthstats")
                 }
+                Decks.instance.remove(deck)
+                refreshDecks()
             } else {
                 let alert = NSAlert()
                 alert.alertStyle = .InformationalAlertStyle
@@ -342,12 +345,12 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
                                                 if returnCode == NSAlertFirstButtonReturn {
                                                     do {
                                                         try HearthstatsAPI.deleteDeck(deck)
-                                                        Decks.instance.remove(deck)
-                                                        self.refreshDecks()
                                                     } catch {
                                                         // TODO alert
                                                         print("error delete hearthstats")
                                                     }
+                                                    Decks.instance.remove(deck)
+                                                    self.refreshDecks()
                                                 }
                 })
             }
@@ -384,5 +387,6 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
             }
         }
         decksTable.reloadData()
+        currentDeck = nil
     }
 }
