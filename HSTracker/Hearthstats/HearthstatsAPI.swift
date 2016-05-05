@@ -284,13 +284,8 @@ struct HearthstatsAPI {
                 "class": deck.playerClass.capitalizedString
             ], encoding: .JSON)
             .responseJSON { response in
-                print(response.request)  // original URL request
-                print(response.response) // URL response
-                print(response.data)     // server data
-                print(response.result)   // result of response serialization
-                print(NSString(data: response.data!, encoding: NSUTF8StringEncoding))
                 if let json = response.result.value {
-                    print("post : \(json)")
+                    Log.debug?.message("update deck : \(json)")
                     callback(success: true)
                 } else {
                     callback(success: false)
@@ -310,15 +305,10 @@ struct HearthstatsAPI {
                 "version": deck.version
             ], encoding: .JSON)
             .responseJSON { response in
-                print(response.request)  // original URL request
-                print(response.response) // URL response
-                print(response.data)     // server data
-                print(response.result)   // result of response serialization
-                print(NSString(data: response.data!, encoding: NSUTF8StringEncoding))
                 if let json = response.result.value,
                     data = json["data"] as? [String:AnyObject],
                     hearthstatsVersionId = data["id"] as? Int {
-                    print("json: \(json)")
+                    Log.debug?.message("post deck version : \(json)")
                     deck.hearthstatsVersionId = hearthstatsVersionId
                     callback(success: true)
                 } else {
@@ -336,7 +326,7 @@ struct HearthstatsAPI {
             .responseJSON { response in
 
                 if let json = response.result.value {
-                    print("delete : \(json)")
+                    Log.debug?.message("delete deck : \(json)")
                 }
         }
     }
@@ -352,7 +342,7 @@ struct HearthstatsAPI {
             .responseJSON { response in
 
                 if let json = response.result.value {
-                    print("delete : \(json)")
+                    Log.debug?.message("get games : \(json)")
                     (json["data"] as? [[String: AnyObject]])?.forEach({
                         Decks.instance.addOrUpdateMatches($0)
                     })
@@ -404,7 +394,7 @@ struct HearthstatsAPI {
             .responseJSON { response in
 
                 if let json = response.result.value {
-                    print("post match : \(json)")
+                    Log.debug?.message("post match : \(json)")
                 }
         }
     }
