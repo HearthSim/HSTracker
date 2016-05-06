@@ -1,3 +1,15 @@
+#### 0.16.4
+- Some Swift refactoring + add some test to help avoiding some crashes
+- Floating card should correctly disappear
+- Some UI improvements
+- Images download should be faster
+- Better Hearthstone log.config check and modification
+- Decks windows should be visible for streamers
+- A backup of decks.json is now done when HSTracker starts
+- Correct a crash when importing a deck from Hearthpwn deckbuilder
+- Correct an issue where HSTracker could crash when parsing some log lines
+- Use a text framework to (try to) avoid some crashes
+
 #### 0.16.3
 - Correct issues reported with HockeyApp
 - Code cleanup
