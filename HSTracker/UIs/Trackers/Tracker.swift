@@ -17,7 +17,7 @@ enum HandCountPosition: Int {
     Window
 }
 
-class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
+class Tracker: NSWindowController {
 
     @IBOutlet weak var cardsView: NSView!
     @IBOutlet weak var cardCounter: CardCounter!
@@ -94,25 +94,6 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    // MARK: - NSWindowDelegate
-    func windowDidResize(notification: NSNotification) {
-        _frameOptionsChange()
-        onWindowMove()
-    }
-
-    func windowDidMove(notification: NSNotification) {
-        onWindowMove()
-    }
-
-    private func onWindowMove() {
-        let settings = Settings.instance
-        if playerType == .Player {
-            settings.playerTrackerFrame = self.window?.frame
-        } else {
-            settings.opponentTrackerFrame = self.window?.frame
-        }
     }
 
     // MARK: - Notifications
@@ -491,8 +472,31 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         return c1.id == c2.id && c1.jousted == c2.jousted && c1.isCreated == c2.isCreated
             && (!Settings.instance.highlightDiscarded || c1.wasDiscarded == c2.wasDiscarded)
     }
+}
 
-    // MARK: - CardCellHover
+// MARK: - NSWindowDelegate
+extension Tracker: NSWindowDelegate {
+    func windowDidResize(notification: NSNotification) {
+        _frameOptionsChange()
+        onWindowMove()
+    }
+
+    func windowDidMove(notification: NSNotification) {
+        onWindowMove()
+    }
+
+    private func onWindowMove() {
+        let settings = Settings.instance
+        if playerType == .Player {
+            settings.playerTrackerFrame = self.window?.frame
+        } else {
+            settings.opponentTrackerFrame = self.window?.frame
+        }
+    }
+}
+
+// MARK: - CardCellHover
+extension Tracker: CardCellHover {
     func hover(cell: CardCellView, _ card: Card) {
         let rect = cell.frame
 

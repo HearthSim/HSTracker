@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SecretTracker: NSWindowController, NSTableViewDataSource, NSTableViewDelegate, CardCellHover {
+class SecretTracker: NSWindowController {
 
     @IBOutlet weak var table: NSTableView!
 
@@ -87,12 +87,17 @@ class SecretTracker: NSWindowController, NSTableViewDataSource, NSTableViewDeleg
         }
         table.reloadData()
     }
+}
 
-    // MARK: - NSTableViewDelegate / NSTableViewDataSource
+// MARK: - NSTableViewDataSource
+extension SecretTracker: NSTableViewDataSource {
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         return cards.count
     }
+}
 
+// MARK: - NSTableViewDelegate
+extension SecretTracker: NSTableViewDelegate {
     func tableView(tableView: NSTableView,
                    viewForTableColumn tableColumn: NSTableColumn?,
                                       row: Int) -> NSView? {
@@ -124,8 +129,10 @@ class SecretTracker: NSWindowController, NSTableViewDataSource, NSTableViewDeleg
     func selectionShouldChangeInTableView(tableView: NSTableView) -> Bool {
         return false
     }
+}
 
-    // MARK: - CardCellHover
+// MARK: - CardCellHover
+extension SecretTracker: CardCellHover {
     func hover(cell: CardCellView, _ card: Card) {
         let row = table.rowForView(cell)
         let rect = table.frameOfCellAtColumn(0, row: row)
