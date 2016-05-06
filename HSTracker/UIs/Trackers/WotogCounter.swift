@@ -16,9 +16,9 @@ enum WotogCounterStyle {
 }
 
 class WotogCounter: TextFrame {
-    private let frameRect = NSMakeRect(0, 0, CGFloat(kFrameWidth), 40)
-    private let attackFrame = NSMakeRect(60, 11, 68, 25)
-    private let healthFrame = NSMakeRect(140, 11, 68, 25)
+    private let frameRect = NSRect(x: 0, y: 0, width: CGFloat(kFrameWidth), height: 40)
+    private let attackFrame = NSRect(x: 60, y: 11, width: 68, height: 25)
+    private let healthFrame = NSRect(x: 140, y: 11, width: 68, height: 25)
 
     var attack = 6
     var health = 6

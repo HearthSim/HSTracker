@@ -69,40 +69,40 @@ class WindowMove: NSWindowController {
 
             if window == "Secret Tracker" {
                 currentWindow = Game.instance.secretTracker!.window
-                defaultFrame = NSMakeRect(200, 50, CGFloat(kMediumRowHeight), 300)
+                defaultFrame = NSRect(x: 200, y: 50, width: CGFloat(kMediumRowHeight), height: 300)
             } else if window == "Timer Hud" {
                 currentWindow = Game.instance.timerHud!.window
-                defaultFrame = NSMakeRect(1042.0, 337.0, 160.0, 115.0)
+                defaultFrame = NSRect(x: 1042.0, y: 337.0, width: 160.0, height: 115.0)
             } else if window == "Card Hud 1" {
                 currentWindow = Game.instance.cardHuds![0].window
-                defaultFrame = NSMakeRect(529.5, -10, 36, 45)
+                defaultFrame = NSRect(x: 529.5, y: -10, width: 36, height: 45)
             } else if window == "Card Hud 2" {
                 currentWindow = Game.instance.cardHuds![1].window
-                defaultFrame = NSMakeRect(560.5, -9, 36, 45)
+                defaultFrame = NSRect(x: 560.5, y: -9, width: 36, height: 45)
             } else if window == "Card Hud 3" {
                 currentWindow = Game.instance.cardHuds![2].window
-                defaultFrame = NSMakeRect(590.5, 0, 36, 45)
+                defaultFrame = NSRect(x: 590.5, y: 0, width: 36, height: 45)
             } else if window == "Card Hud 4" {
                 currentWindow = Game.instance.cardHuds![3].window
-                defaultFrame = NSMakeRect(618.5, 9, 36, 45)
+                defaultFrame = NSRect(x: 618.5, y: 9, width: 36, height: 45)
             } else if window == "Card Hud 5" {
                 currentWindow = Game.instance.cardHuds![4].window
-                defaultFrame = NSMakeRect(646.5, 16, 36, 45)
+                defaultFrame = NSRect(x: 646.5, y: 16, width: 36, height: 45)
             } else if window == "Card Hud 6" {
                 currentWindow = Game.instance.cardHuds![5].window
-                defaultFrame = NSMakeRect(675.5, 20, 36, 45)
+                defaultFrame = NSRect(x: 675.5, y: 20, width: 36, height: 45)
             } else if window == "Card Hud 7" {
                 currentWindow = Game.instance.cardHuds![6].window
-                defaultFrame = NSMakeRect(704.5, 17, 36, 45)
+                defaultFrame = NSRect(x: 704.5, y: 17, width: 36, height: 45)
             } else if window == "Card Hud 8" {
                 currentWindow = Game.instance.cardHuds![7].window
-                defaultFrame = NSMakeRect(732.5, 10, 36, 45)
+                defaultFrame = NSRect(x: 732.5, y: 10, width: 36, height: 45)
             } else if window == "Card Hud 9" {
                 currentWindow = Game.instance.cardHuds![8].window
-                defaultFrame = NSMakeRect(762.5, 3, 36, 45)
+                defaultFrame = NSRect(x: 762.5, y: 3, width: 36, height: 45)
             } else if window == "Card Hud 10" {
                 currentWindow = Game.instance.cardHuds![9].window
-                defaultFrame = NSMakeRect(797.5, -11, 36, 45)
+                defaultFrame = NSRect(x: 797.5, y: -11, width: 36, height: 45)
             } else if window == "Full overlay" {
                 currentWindow = overlayWindow
                 var rect = SizeHelper.hearthstoneWindow.frame
@@ -157,12 +157,12 @@ class WindowMove: NSWindowController {
     private func update() {
         let _x = defaultFrame.origin.x + x
         let _y = defaultFrame.origin.y + y
-        textbox.string = "NSMakeRect(\(_x), \(_y), "
-            + "\(NSWidth(defaultFrame)), \(NSHeight(defaultFrame)))\n"
-            + "NSMakePoint(\(_x), \(_y))"
+        textbox.string = "NSRect(x: \(_x), y: \(_y), "
+            + "width: \(NSWidth(defaultFrame)), height: \(NSHeight(defaultFrame)))\n"
+            + "NSPoint(x: \(_x), y: \(_y))"
 
         let frame = SizeHelper.frameRelativeToHearthstone(
-            NSMakeRect(_x, _y, NSWidth(defaultFrame), NSHeight(defaultFrame)),
+            NSRect(x: _x, y: _y, width: NSWidth(defaultFrame), height: NSHeight(defaultFrame)),
             true)
         currentWindow?.setFrame(frame, display: true)
     }

@@ -50,10 +50,10 @@ class TrackerFrame: NSView {
     }
 
     func ratio(rect: NSRect) -> NSRect {
-        return NSMakeRect(rect.origin.x / ratioWidth,
-                          rect.origin.y / ratioHeight,
-                          rect.size.width / ratioWidth,
-                          rect.size.height / ratioHeight)
+        return NSRect(x: rect.origin.x / ratioWidth,
+                      y: rect.origin.y / ratioHeight,
+                      width: rect.size.width / ratioWidth,
+                      height: rect.size.height / ratioHeight)
     }
 
     var ratioWidth: CGFloat {
