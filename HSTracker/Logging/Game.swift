@@ -1084,7 +1084,7 @@ class Game {
 
     private func updateTracker(tracker: Tracker?, _ reset: Bool = false) {
         if reset {
-            let cards: [Card]
+            let cards: [Card]?
             if tracker == self.playerTracker {
                 playerUpdateRequests = 0
                 cards = self.player.playerCardList
@@ -1093,8 +1093,10 @@ class Game {
                 cards = Settings.instance.clearTrackersOnGameEnd && gameEnded
                     ? [] : self.opponent.opponentCardList
             }
-            dispatch_async(dispatch_get_main_queue()) {
-                tracker?.update(cards, reset)
+            if let cards = cards {
+                dispatch_async(dispatch_get_main_queue()) {
+                    tracker?.update(cards, reset)
+                }
             }
         } else {
             if tracker == playerTracker {
@@ -1119,14 +1121,16 @@ class Game {
                 if updateRequests > 0 {
                     return
                 }
-                let cards: [Card]
+                let cards: [Card]?
                 if tracker == self.playerTracker {
                     cards = self.player.playerCardList
                 } else {
                     cards = Settings.instance.clearTrackersOnGameEnd
                         && self.gameEnded ? [] : self.opponent.opponentCardList
                 }
-                tracker?.update(cards, reset)
+                if let cards = cards {
+                    tracker?.update(cards, reset)
+                }
             }
         }
     }
