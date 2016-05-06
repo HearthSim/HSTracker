@@ -119,10 +119,18 @@ class CurveView: NSView {
             if count == 7 {
                 costX = x - 4
             }
-            cost.drawInRect(NSRect(x: costX, y: padding + 6, width: manaHeight, height: manaHeight + 2))
+            cost.drawInRect(NSRect(
+                x: costX,
+                y: padding + 6,
+                width: manaHeight,
+                height: manaHeight + 2))
             if count == 7 {
                 cost = NSAttributedString(string: "+", attributes: costAttributes)
-                cost.drawInRect(NSRect(x: x + 5, y: padding + 3, width: manaHeight, height: manaHeight + 2))
+                cost.drawInRect(NSRect(
+                    x: x + 5,
+                    y: padding + 3,
+                    width: manaHeight,
+                    height: manaHeight + 2))
             }
 
             var current = counts[count]
@@ -155,7 +163,8 @@ class CurveView: NSView {
                         gradient.drawInBezierPath(path, angle: 270)
                     }
                 }
-                let countCards = NSAttributedString(string: "\(howMany)", attributes: countAttributes)
+                let countCards = NSAttributedString(string: "\(howMany)",
+                                                    attributes: countAttributes)
 
                 let doublePadding: CGFloat = padding * 2
                 let tHowMany: CGFloat = CGFloat(howMany * oneUnit)

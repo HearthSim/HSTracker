@@ -370,7 +370,10 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
 
         let cardViewHeight = CGFloat(animatedCards.count) * cardHeight
         var y: CGFloat = cardViewHeight
-        cardsView.frame = NSRect(x: 0, y: windowHeight - cardViewHeight, width: windowWidth, height: cardViewHeight)
+        cardsView.frame = NSRect(x: 0,
+                                 y: windowHeight - cardViewHeight,
+                                 width: windowWidth,
+                                 height: cardViewHeight)
 
         for cell in animatedCards {
             y -= cardHeight
@@ -385,11 +388,17 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
         }
         if !opponentDrawChance.hidden {
             y -= opponentDrawChanceHeight
-            opponentDrawChance.frame = NSRect(x: 0, y: y, width: windowWidth, height: opponentDrawChanceHeight)
+            opponentDrawChance.frame = NSRect(x: 0,
+                                              y: y,
+                                              width: windowWidth,
+                                              height: opponentDrawChanceHeight)
         }
         if !playerDrawChance.hidden {
             y -= playerDrawChanceHeight
-            playerDrawChance.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerDrawChanceHeight)
+            playerDrawChance.frame = NSRect(x: 0,
+                                            y: y,
+                                            width: windowWidth,
+                                            height: playerDrawChanceHeight)
         }
         if showCthunCounter || showSpellCounter {
             var height: CGFloat = 0
@@ -401,7 +410,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             }
             y -= height
 
-            wotogCounter?.frame = NSRect(0, y, windowWidth, height)
+            wotogCounter?.frame = NSRect(x: 0, y: y, width: windowWidth, height: height)
             wotogCounter?.needsDisplay = true
         }
     }
@@ -489,7 +498,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
 
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSRect(0, 0, 200, 300)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 200, height: 300)
 
         var x: CGFloat
         if windowRect.origin.x < hoverFrame.size.width {
