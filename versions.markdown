@@ -1,3 +1,20 @@
+#### 0.16.3
+- Correct issues reported with HockeyApp
+- Code cleanup
+- C’Thun and Spell (Yogg-Saron) counter frames
+
+#### 0.16.2
+- WoTOG corrections
+- Helper to select Hearthstone folder
+- Add options to show/hide player and opponent draw and card cout
+- Correct an error where frames were not hide when Hearthstone lost focus
+- Secret based on format
+
+#### 0.16.1
+- Update to The Whispers of the Old Gods
+- Correct an issue where net decks would not be imported
+- Remove /Logs from Hearthstone path in the settings
+
 #### 0.16
 HSTracker has been fully rewritten (from A to Z)
 - New UI for trackers
