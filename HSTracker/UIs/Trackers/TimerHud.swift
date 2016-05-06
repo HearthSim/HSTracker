@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import TextAttributes
 
 class TimerHud: NSWindowController {
 
@@ -14,8 +15,8 @@ class TimerHud: NSWindowController {
     @IBOutlet weak var turnLabel: NSTextField!
     @IBOutlet weak var playerLabel: NSTextField!
     var currentPlayer: PlayerType?
-    var attributes = [String:AnyObject]()
-    var largeAttributes = [String:AnyObject]()
+    let attributes = TextAttributes()
+    let largeAttributes = TextAttributes()
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -24,22 +25,18 @@ class TimerHud: NSWindowController {
         turnLabel.stringValue = ""
         playerLabel.stringValue = ""
 
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = .Right
-        attributes = [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 18)!,
-            NSForegroundColorAttributeName: NSColor.whiteColor(),
-            NSStrokeWidthAttributeName: -1.5,
-            NSStrokeColorAttributeName: NSColor.blackColor(),
-            NSParagraphStyleAttributeName: paragraph
-        ]
-        largeAttributes = [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: 26)!,
-            NSForegroundColorAttributeName: NSColor.whiteColor(),
-            NSStrokeWidthAttributeName: -1.5,
-            NSStrokeColorAttributeName: NSColor.blackColor(),
-            NSParagraphStyleAttributeName: paragraph
-        ]
+        attributes
+            .font(NSFont(name: "Belwe Bd BT", size: 18))
+            .foregroundColor(NSColor.whiteColor())
+            .strokeWidth(-1.5)
+            .strokeColor(NSColor.blackColor())
+            .alignment(.Right)
+        largeAttributes
+            .font(NSFont(name: "Belwe Bd BT", size: 26))
+            .foregroundColor(NSColor.whiteColor())
+            .strokeWidth(-1.5)
+            .strokeColor(NSColor.blackColor())
+            .alignment(.Right)
 
         self.window!.styleMask = NSBorderlessWindowMask
         self.window!.ignoresMouseEvents = true

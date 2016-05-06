@@ -75,6 +75,9 @@
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
 		4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
+		43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
+		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
 		436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -233,6 +236,7 @@
 				436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */,
 				436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */,
 				438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */,
+				43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */,
 				436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */,
 				436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */,
 				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */,
@@ -250,6 +254,7 @@
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
 				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
 				436789DB1CAE484800C962D1 /* JNWCollectionView.framework in Embed Frameworks */,
+				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */,
 				436789D31CAE484800C962D1 /* Alamofire.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
@@ -379,6 +384,8 @@
 		435907EB1CB13835008D4363 /* FileImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImporter.swift; sourceTree = "<group>"; };
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
+		43647A521CDC9A3D00C2B78E /* TextAttributes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TextAttributes.framework; path = Carthage/Build/Mac/TextAttributes.framework; sourceTree = "<group>"; };
+		43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = TextAttributes.framework.dSYM; path = Carthage/Build/Mac/TextAttributes.framework.dSYM; sourceTree = "<group>"; };
 		4367898E1CABFB1600C962D1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		4367898F1CABFB1600C962D1 /* CleanroomASL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomASL.framework; path = Carthage/Build/Mac/CleanroomASL.framework; sourceTree = "<group>"; };
 		436789901CABFB1600C962D1 /* CleanroomLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomLogger.framework; path = Carthage/Build/Mac/CleanroomLogger.framework; sourceTree = "<group>"; };
@@ -519,6 +526,7 @@
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
 				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
+				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -657,8 +665,8 @@
 		43873CBF1CA6E68D00F01CB4 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
-				43873CC01CA6E6C200F01CB4 /* WindowMove.xib */,
 				43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */,
+				43873CC01CA6E6C200F01CB4 /* WindowMove.xib */,
 			);
 			path = Debug;
 			sourceTree = "<group>";
@@ -919,6 +927,8 @@
 				436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */,
 				436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */,
 				436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */,
+				43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */,
+				43647A521CDC9A3D00C2B78E /* TextAttributes.framework */,
 				4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */,
 				4367899E1CAC05DD00C962D1 /* Cocoa.framework */,
 				4367899C1CAC05D700C962D1 /* Foundation.framework */,

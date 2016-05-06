@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import TextAttributes
 
 class CardHud: NSWindowController {
 
@@ -79,36 +80,24 @@ class CardHud: NSWindowController {
                 card = Cards.byId(entity.cardId)
             }
         }
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = .Center
-        var font = NSFont(name: "Belwe Bd BT", size: 20)
-        if font == nil {
-            font = NSFont.systemFontOfSize(20)
-        }
-        if let font = font {
-            label.attributedStringValue = NSAttributedString(string: text, attributes: [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: NSColor.whiteColor(),
-                NSStrokeWidthAttributeName: -2,
-                NSStrokeColorAttributeName: NSColor.blackColor(),
-                NSParagraphStyleAttributeName: paragraph
-                ])
-        }
-        font = NSFont(name: "Belwe Bd BT", size: 16)
-        if font == nil {
-            font = NSFont.systemFontOfSize(20)
-        }
-        if let font = font {
-            let color = NSColor(red: 0.117, green: 0.56, blue: 1, alpha: 1)
-            costReduction.attributedStringValue = NSAttributedString(
-                string: "-\(cost)",
-                attributes: [
-                    NSFontAttributeName: font,
-                    NSForegroundColorAttributeName: color,
-                    NSStrokeWidthAttributeName: -2,
-                    NSStrokeColorAttributeName: NSColor.blackColor()
-                ])
-        }
+        let attributes = TextAttributes()
+            .font(NSFont(name: "Belwe Bd BT", size: 20))
+            .foregroundColor(NSColor.whiteColor())
+            .strokeWidth(-2)
+            .strokeColor(NSColor.blackColor())
+            .alignment(.Center)
+        label.attributedStringValue = NSAttributedString(string: text, attributes: attributes)
+
+        let costReductionAttributes = TextAttributes()
+            .font(NSFont(name: "Belwe Bd BT", size: 16))
+            .foregroundColor(NSColor(red: 0.117, green: 0.56, blue: 1, alpha: 1))
+            .strokeWidth(-2)
+            .strokeColor(NSColor.blackColor())
+
+        costReduction.attributedStringValue = NSAttributedString(
+            string: "-\(cost)",
+            attributes: costReductionAttributes)
+
         costReduction.hidden = cost < 1
         if let image = image {
             icon.image = ImageCache.asset(image)
