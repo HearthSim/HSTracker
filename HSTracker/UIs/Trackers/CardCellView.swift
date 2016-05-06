@@ -19,14 +19,14 @@ protocol CardCellHover {
 
 class CardCellView: TrackerFrame {
 
-    private let frameCountBoxRect = NSMakeRect(183, 0, 34, 34)
-    private let frameCounterRect = NSMakeRect(195, 7, 18, 21)
-    private let frameRect = NSMakeRect(0, 0, CGFloat(kFrameWidth), 34)
-    private let gemRect = NSMakeRect(0, 0, 34, 34)
-    private let imageRect = NSMakeRect(108, 4, 108, 27)
-    private let fadeRect = NSMakeRect(28, 0, 189, 34)
-    private let iconRect = NSMakeRect(183, 0, 34, 34)
-    private let markerRect = NSMakeRect(192, 8, 21, 21)
+    private let frameCountBoxRect = NSRect(x: 183, y: 0, width: 34, height: 34)
+    private let frameCounterRect = NSRect(x: 195, y: 7, width: 18, height: 21)
+    private let frameRect = NSRect(x: 0, y: 0, width: CGFloat(kFrameWidth), height: 34)
+    private let gemRect = NSRect(x: 0, y: 0, width: 34, height: 34)
+    private let imageRect = NSRect(x: 108, y: 4, width: 108, height: 27)
+    private let fadeRect = NSRect(x: 28, y: 0, width: 189, height: 34)
+    private let iconRect = NSRect(x: 183, y: 0, width: 34, height: 34)
+    private let markerRect = NSRect(x: 192, y: 8, width: 21, height: 21)
 
     private var trackingArea: NSTrackingArea?
     var delegate: CardCellHover?

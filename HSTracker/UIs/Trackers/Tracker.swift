@@ -199,9 +199,9 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             width = kFrameWidth
         }
 
-        self.window!.contentMinSize = NSMakeSize(CGFloat(width), 400)
-        self.window!.contentMaxSize = NSMakeSize(CGFloat(width),
-                                                 NSHeight(NSScreen.mainScreen()!.frame))
+        self.window!.contentMinSize = NSSize(width: CGFloat(width), height: 400)
+        self.window!.contentMaxSize = NSSize(width: CGFloat(width),
+                                             height: NSHeight(NSScreen.mainScreen()!.frame))
     }
 
     func opacityChange(notification: NSNotification) {
@@ -370,26 +370,26 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
 
         let cardViewHeight = CGFloat(animatedCards.count) * cardHeight
         var y: CGFloat = cardViewHeight
-        cardsView.frame = NSMakeRect(0, windowHeight - cardViewHeight, windowWidth, cardViewHeight)
+        cardsView.frame = NSRect(x: 0, y: windowHeight - cardViewHeight, width: windowWidth, height: cardViewHeight)
 
         for cell in animatedCards {
             y -= cardHeight
-            cell.frame = NSMakeRect(0, y, windowWidth, cardHeight)
+            cell.frame = NSRect(x: 0, y: y, width: windowWidth, height: cardHeight)
             cardsView.addSubview(cell)
         }
 
         y = windowHeight - cardViewHeight
         if !cardCounter.hidden {
             y -= cardCounterHeight
-            cardCounter.frame = NSMakeRect(0, y, windowWidth, cardCounterHeight)
+            cardCounter.frame = NSRect(x: 0, y: y, width: windowWidth, height: cardCounterHeight)
         }
         if !opponentDrawChance.hidden {
             y -= opponentDrawChanceHeight
-            opponentDrawChance.frame = NSMakeRect(0, y, windowWidth, opponentDrawChanceHeight)
+            opponentDrawChance.frame = NSRect(x: 0, y: y, width: windowWidth, height: opponentDrawChanceHeight)
         }
         if !playerDrawChance.hidden {
             y -= playerDrawChanceHeight
-            playerDrawChance.frame = NSMakeRect(0, y, windowWidth, playerDrawChanceHeight)
+            playerDrawChance.frame = NSRect(x: 0, y: y, width: windowWidth, height: playerDrawChanceHeight)
         }
         if showCthunCounter || showSpellCounter {
             var height: CGFloat = 0
@@ -401,7 +401,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
             }
             y -= height
 
-            wotogCounter?.frame = NSMakeRect(0, y, windowWidth, height)
+            wotogCounter?.frame = NSRect(0, y, windowWidth, height)
             wotogCounter?.needsDisplay = true
         }
     }
@@ -489,7 +489,7 @@ class Tracker: NSWindowController, NSWindowDelegate, CardCellHover {
 
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSMakeRect(0, 0, 200, 300)
+        let hoverFrame = NSRect(0, 0, 200, 300)
 
         var x: CGFloat
         if windowRect.origin.x < hoverFrame.size.width {

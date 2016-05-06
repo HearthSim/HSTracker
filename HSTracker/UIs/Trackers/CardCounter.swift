@@ -10,9 +10,9 @@ import Cocoa
 
 class CardCounter: TextFrame {
 
-    private let frameRect = NSMakeRect(0, 0, CGFloat(kFrameWidth), 40)
-    private let handFrame = NSMakeRect(60, 11, 68, 25)
-    private let deckFrame = NSMakeRect(154, 11, 68, 25)
+    private let frameRect = NSRect(x: 0, y: 0, width: CGFloat(kFrameWidth), height: 40)
+    private let handFrame = NSRect(x: 60, y: 11, width: 68, height: 25)
+    private let deckFrame = NSRect(x: 154, y: 11, width: 68, height: 25)
 
     var handCount = 30
     var deckCount = 0

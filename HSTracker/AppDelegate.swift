@@ -126,10 +126,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let splashscreenWidth: CGFloat = 350
         let splashscreenHeight: CGFloat = 250
 
-        splashscreen?.window?.setFrame(NSMakeRect(
-            (NSWidth(screenFrame) / 2) - (splashscreenWidth / 2),
-            (NSHeight(screenFrame) / 2) - (splashscreenHeight / 2),
-            splashscreenWidth, splashscreenHeight), display: true)
+        splashscreen?.window?.setFrame(NSRect(
+            x: (NSWidth(screenFrame) / 2) - (splashscreenWidth / 2),
+            y: (NSHeight(screenFrame) / 2) - (splashscreenHeight / 2),
+            width: splashscreenWidth,
+            height: splashscreenHeight),
+                                       display: true)
         splashscreen?.showWindow(self)
 
         let operationQueue = NSOperationQueue()
@@ -340,7 +342,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             playerTracker?.window?.setFrame(rect, display: true)
         } else {
             let x = NSWidth(screenFrame) - width
-            playerTracker?.window?.setFrame(NSMakeRect(x, y, width, y), display: true)
+            playerTracker?.window?.setFrame(NSRect(x: x, y: y, width: width, height: y),
+                                            display: true)
         }
         showPlayerTracker(nil)
 
@@ -350,7 +353,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         if let rect = settings.opponentTrackerFrame {
             opponentTracker?.window?.setFrame(rect, display: true)
         } else {
-            opponentTracker?.window?.setFrame(NSMakeRect(50, y, width, y), display: true)
+            opponentTracker?.window?.setFrame(NSRect(x: 50, y: y, width: width, height: y),
+                                              display: true)
         }
         showOpponentTracker(nil)
 
@@ -417,7 +421,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
             closeFloatingCardRequest += 1
             floatingCard?.showWindow(self)
-            let frame = NSMakeRect(arrayFrame[0], arrayFrame[1], arrayFrame[2], arrayFrame[3])
+            let frame = NSRect(x: arrayFrame[0],
+                               y: arrayFrame[1],
+                               width: arrayFrame[2],
+                               height: arrayFrame[3])
             floatingCard?.window?.setFrame(frame, display: true)
             floatingCard?.setCard(card)
 

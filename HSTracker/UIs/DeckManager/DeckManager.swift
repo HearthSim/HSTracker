@@ -253,7 +253,7 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
     @IBAction func renameDeck(sender: AnyObject?) {
         // swiftlint:disable line_length
         if let deck = currentDeck {
-            let deckNameInput = NSTextField(frame: NSMakeRect(0, 0, 220, 24))
+            let deckNameInput = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
             deckNameInput.stringValue = deck.name!
             let alert = NSAlert()
             alert.alertStyle = .InformationalAlertStyle

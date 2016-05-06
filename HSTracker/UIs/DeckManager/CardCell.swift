@@ -27,8 +27,8 @@ class CardCell: JNWCollectionViewCell {
             if let cellView = cellView {
                 cellView.card = card
             } else {
-                cellView = CardCellView(frame: NSMakeRect(0, 0,
-                    CGFloat(kFrameWidth), CGFloat(kRowHeight)))
+                cellView = CardCellView(frame: NSRect(x: 0, y: 0,
+                    width: CGFloat(kFrameWidth), height: CGFloat(kRowHeight)))
                 cellView?.card = card
                 cellView?.playerType = .CardList
                 self.addSubview(cellView!)

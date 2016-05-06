@@ -26,7 +26,7 @@ struct SizeHelper {
         // I could fix it at 22, but IDK if it's change on retina ie
         private var titleBarHeight: CGFloat = {
             let height: CGFloat = 100
-            return NSHeight(NSWindow.frameRectForContentRect(NSMakeRect(0, 0, height, height),
+            return NSHeight(NSWindow.frameRectForContentRect(NSRect(x: 0, y: 0, width: height, height: height),
                 styleMask: NSTitledWindowMask)) - height
         }()
 
@@ -104,7 +104,7 @@ struct SizeHelper {
         let x: CGFloat = NSMinX(hearthstoneFrame) + pointX
         let y: CGFloat = NSMaxY(hearthstoneFrame) - pointY - height
 
-        let relativeFrame = NSMakeRect(x, y, width, height)
+        let relativeFrame = NSRect(x: x, y: y, width: width, height: height)
         //Log.verbose?.message("FR: \(frame) -> HS: \(hearthstoneFrame) -> SC:\(screenRect) -> POS:\(relativeFrame)")
         return relativeFrame
     }
@@ -128,7 +128,10 @@ struct SizeHelper {
 
         // game menu
         let offset: CGFloat = 50
-        let frame = NSMakeRect(NSWidth(hearthstoneWindow.frame) - CGFloat(width), 0, CGFloat(width), NSHeight(hearthstoneWindow.frame) - offset)
+        let frame = NSRect(x: NSWidth(hearthstoneWindow.frame) - CGFloat(width),
+                           y: 0,
+                           width: CGFloat(width),
+                           height: NSHeight(hearthstoneWindow.frame) - offset)
         return frameRelativeToHearthstone(frame)
     }
 
@@ -145,7 +148,10 @@ struct SizeHelper {
 
         // friend list button
         let offset: CGFloat = 50
-        let frame = NSMakeRect(0, 0, CGFloat(width), NSHeight(hearthstoneWindow.frame) - offset)
+        let frame = NSRect(x: 0,
+                           y: 0,
+                           width: CGFloat(width),
+                           height: NSHeight(hearthstoneWindow.frame) - offset)
         return frameRelativeToHearthstone(frame)
     }
 
@@ -160,30 +166,36 @@ struct SizeHelper {
             width = kFrameWidth
         }
 
-        let frame = NSMakeRect(200, 50, CGFloat(width), 450)
+        let frame = NSRect(x: 200,
+                           y: 50,
+                           width: CGFloat(width),
+                           height: 450)
         return frameRelativeToHearthstone(frame, true)
     }
 
     static func timerHudFrame() -> NSRect {
-        let frame = NSMakeRect(1042.0, 337.0, 160.0, 115.0)
+        let frame = NSRect(x: 1042.0,
+                           y: 337.0,
+                           width: 160.0,
+                           height: 115.0)
         return frameRelativeToHearthstone(frame, true)
     }
 
     static let points: [Int: [NSPoint]] = [
-        1: [NSMakePoint(647.5, 27.0)],
-        2: [NSMakePoint(608.5, 30.0), NSMakePoint(699.5, 30.0)],
-        3: [NSMakePoint(554.5, 8.0), NSMakePoint(652.5, 22.0), NSMakePoint(753.5, 19.0)],
-        4: [NSMakePoint(538.5, 1.0), NSMakePoint(612.5, 22.0), NSMakePoint(689.5, 25.0), NSMakePoint(761.5, 24.0)],
-        5: [NSMakePoint(533.5, 2.0), NSMakePoint(594.5, 21.0), NSMakePoint(651.5, 26.0), NSMakePoint(712.5, 26.0), NSMakePoint(770.5, 13.0)],
-        6: [NSMakePoint(530.5, -7.0), NSMakePoint(573.5, 11.0), NSMakePoint(624.5, 27.0), NSMakePoint(673.5, 30.0), NSMakePoint(723.5, 30.0), NSMakePoint(774.5, 24.0)],
-        7: [NSMakePoint(527.5, -1.0), NSMakePoint(562.5, 13.0), NSMakePoint(606.5, 25.0), NSMakePoint(651.5, 33.0), NSMakePoint(691.5, 31.0), NSMakePoint(735.5, 22.0), NSMakePoint(776.5, 9.0)],
-        8: [NSMakePoint(535.5, -10.0), NSMakePoint(574.5, 1.0), NSMakePoint(613.5, 10.0), NSMakePoint(649.5, 19.0), NSMakePoint(685.5, 26.0), NSMakePoint(721.5, 23.0), NSMakePoint(758.5, 17.0), NSMakePoint(800.5, 5.0)],
-        9: [NSMakePoint(536.5, -15.0), NSMakePoint(572.5, 1.0), NSMakePoint(604.5, 10.0), NSMakePoint(633.5, 19.0), NSMakePoint(664.5, 26.0), NSMakePoint(698.5, 24.0), NSMakePoint(731.5, 18.0), NSMakePoint(763.5, 7.0), NSMakePoint(796.5, -5.0)],
-        10: [NSMakePoint(537.5, -18.0), NSMakePoint(562.5, -10.0), NSMakePoint(591.5, -1.0), NSMakePoint(620.5, 8.0), NSMakePoint(645.5, 15.0), NSMakePoint(675.5, 19.0), NSMakePoint(705.5, 16.0), NSMakePoint(734.5, 9.0), NSMakePoint(765.5, 2.0), NSMakePoint(799.5, -12.0)]
+        1: [NSPoint(x: 647.5, y: 27.0)],
+        2: [NSPoint(x: 608.5, y: 30.0), NSPoint(x: 699.5, y: 30.0)],
+        3: [NSPoint(x: 554.5, y: 8.0), NSPoint(x: 652.5, y: 22.0), NSPoint(x: 753.5, y: 19.0)],
+        4: [NSPoint(x: 538.5, y: 1.0), NSPoint(x: 612.5, y: 22.0), NSPoint(x: 689.5, y: 25.0), NSPoint(x: 761.5, y: 24.0)],
+        5: [NSPoint(x: 533.5, y: 2.0), NSPoint(x: 594.5, y: 21.0), NSPoint(x: 651.5, y: 26.0), NSPoint(x: 712.5, y: 26.0), NSPoint(x: 770.5, y: 13.0)],
+        6: [NSPoint(x: 530.5, y: -7.0), NSPoint(x: 573.5, y: 11.0), NSPoint(x: 624.5, y: 27.0), NSPoint(x: 673.5, y: 30.0), NSPoint(x: 723.5, y: 30.0), NSPoint(x: 774.5, y: 24.0)],
+        7: [NSPoint(x: 527.5, y: -1.0), NSPoint(x: 562.5, y: 13.0), NSPoint(x: 606.5, y: 25.0), NSPoint(x: 651.5, y: 33.0), NSPoint(x: 691.5, y: 31.0), NSPoint(x: 735.5, y: 22.0), NSPoint(x: 776.5, y: 9.0)],
+        8: [NSPoint(x: 535.5, y: -10.0), NSPoint(x: 574.5, y: 1.0), NSPoint(x: 613.5, y: 10.0), NSPoint(x: 649.5, y: 19.0), NSPoint(x: 685.5, y: 26.0), NSPoint(x: 721.5, y: 23.0), NSPoint(x: 758.5, y: 17.0), NSPoint(x: 800.5, y: 5.0)],
+        9: [NSPoint(x: 536.5, y: -15.0), NSPoint(x: 572.5, y: 1.0), NSPoint(x: 604.5, y: 10.0), NSPoint(x: 633.5, y: 19.0), NSPoint(x: 664.5, y: 26.0), NSPoint(x: 698.5, y: 24.0), NSPoint(x: 731.5, y: 18.0), NSPoint(x: 763.5, y: 7.0), NSPoint(x: 796.5, y: -5.0)],
+        10: [NSPoint(x: 537.5, y: -18.0), NSPoint(x: 562.5, y: -10.0), NSPoint(x: 591.5, y: -1.0), NSPoint(x: 620.5, y: 8.0), NSPoint(x: 645.5, y: 15.0), NSPoint(x: 675.5, y: 19.0), NSPoint(x: 705.5, y: 16.0), NSPoint(x: 734.5, y: 9.0), NSPoint(x: 765.5, y: 2.0), NSPoint(x: 799.5, y: -12.0)]
     ]
 
     static func opponentCardHudFrame(position: Int, _ cardCount: Int) -> NSRect {
-        var frame = NSMakeRect(0, 0, 36, 45)
+        var frame = NSRect(x: 0, y: 0, width: 36, height: 45)
 
         if let numCards = points[cardCount] where numCards.count > position {
             let pos = points[cardCount]![position]

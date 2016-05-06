@@ -10,9 +10,9 @@ import Foundation
 
 class PlayerDrawChance: TextFrame {
 
-    private let frameRect = NSMakeRect(0, 0, CGFloat(kFrameWidth), 40)
-    private let draw1Frame = NSMakeRect(70, 11, 68, 25)
-    private let draw2Frame = NSMakeRect(148, 11, 68, 25)
+    private let frameRect = NSRect(x: 0, y: 0, width: CGFloat(kFrameWidth), height: 40)
+    private let draw1Frame = NSRect(x: 70, y: 11, width: 68, height: 25)
+    private let draw2Frame = NSRect(x: 148, y: 11, width: 68, height: 25)
 
     var drawChance1 = 0.0
     var drawChance2 = 0.0

@@ -133,7 +133,7 @@ class SecretTracker: NSWindowController, NSTableViewDataSource, NSTableViewDeleg
         let offset = rect.origin.y - table.enclosingScrollView!.documentVisibleRect.origin.y
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSMakeRect(0, 0, 200, 300)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 200, height: 300)
 
         var x: CGFloat
         if windowRect.origin.x < hoverFrame.size.width {

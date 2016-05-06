@@ -410,10 +410,10 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
 
         let size: NSSize
         if settings.deckManagerPreferCards {
-            size = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
-                              baseCardHeight / 100 * CGFloat(settings.deckManagerZoom))
+            size = NSSize(width: baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
+                          height: baseCardHeight / 100 * CGFloat(settings.deckManagerZoom))
         } else {
-            size = NSMakeSize(CGFloat(kFrameWidth), CGFloat(kRowHeight))
+            size = NSSize(width: CGFloat(kFrameWidth), height: CGFloat(kRowHeight))
         }
 
         (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize = size
@@ -550,8 +550,8 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
         let settings = Settings.instance
         settings.deckManagerZoom = round(sender.doubleValue)
         (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize
-            = NSMakeSize(baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
-                         259 / 100 * CGFloat(settings.deckManagerZoom))
+            = NSSize(width: baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
+                     height: 259 / 100 * CGFloat(settings.deckManagerZoom))
         cardsCollectionView.reloadData()
     }
 

@@ -92,7 +92,7 @@ class CurveView: NSView {
             x += padding
 
             if let mana = ImageCache.asset("mana") {
-                mana.drawInRect(NSMakeRect(x, padding, manaHeight, manaHeight),
+                mana.drawInRect(NSRect(x: x, y: padding, width: manaHeight, height: manaHeight),
                     fromRect: NSZeroRect,
                     operation: NSCompositingOperation.CompositeSourceOver,
                     fraction: 1.0)
@@ -110,7 +110,7 @@ class CurveView: NSView {
             if count == 7 {
                 costX = x - 4
             }
-            cost.drawInRect(NSMakeRect(costX, padding + 6, manaHeight, manaHeight + 2))
+            cost.drawInRect(NSRect(x: costX, y: padding + 6, width: manaHeight, height: manaHeight + 2))
             if count == 7 {
                 cost = NSAttributedString(string: "+", attributes: [
                     NSParagraphStyleAttributeName: style,
@@ -143,7 +143,9 @@ class CurveView: NSView {
                         continue
                     }
 
-                    let barRect = NSMakeRect(x, y, barWidth, CGFloat(currentType! * oneUnit))
+                    let barRect = NSRect(x: x, y: y,
+                                         width: barWidth,
+                                         height: CGFloat(currentType! * oneUnit))
                     y += CGFloat(currentType! * oneUnit)
 
                     let path = NSBezierPath(roundedRect: barRect, xRadius: 0, yRadius: 0)
