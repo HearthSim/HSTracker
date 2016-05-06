@@ -9,8 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class DeckManager: NSWindowController, NSTableViewDataSource,
-NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
+class DeckManager: NSWindowController {
 
     @IBOutlet weak var decksTable: NSTableView!
     @IBOutlet weak var deckListTable: NSTableView!
@@ -136,64 +135,6 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
         refreshDecks()
     }
 
-    // MARK: - NSTableViewDelegate / NSTableViewDataSource
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        if tableView == decksTable {
-            return filteredDecks().count
-        } else if let currentDeck = currentDeck {
-            return currentDeck.sortedCards.count
-        }
-
-        return 0
-    }
-
-    func tableView(tableView: NSTableView,
-                   viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if tableView == decksTable {
-            if let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self)
-                as? DeckCellView {
-
-                let deck = filteredDecks()[row]
-                cell.deck = deck
-                cell.label.stringValue = deck.name!
-                cell.image.image = ImageCache.classImage(deck.playerClass)
-                cell.color = ClassColor.color(deck.playerClass)
-                cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
-
-                return cell
-            }
-        } else {
-            let cell = CardCellView()
-            cell.playerType = .DeckManager
-            cell.card = currentDeck!.sortedCards[row]
-            return cell
-        }
-
-        return nil
-    }
-
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        if tableView == self.decksTable {
-            return 55
-        } else if tableView == self.deckListTable {
-            return CGFloat(kRowHeight)
-        }
-        return 20
-    }
-
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        return true
-    }
-
-    func tableViewSelectionDidChange(notification: NSNotification) {
-        let decks = filteredDecks().count
-        for i in 0 ..< decks {
-            let row = decksTable.viewAtColumn(0, row: i, makeIfNecessary: false) as? DeckCellView
-            row?.selected = decksTable.selectedRow == -1 || decksTable.selectedRow == i
-        }
-        decksTable.setNeedsDisplay()
-    }
-
     func decksTableClick(sender: AnyObject?) {
         guard sender?.clickedRow >= 0 else {
             return
@@ -249,7 +190,6 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
         NSWorkspace.sharedWorkspace().openURL(url!)
     }
 
-    // MARK: - DeckCellViewDelegate
     @IBAction func renameDeck(sender: AnyObject?) {
         // swiftlint:disable line_length
         if let deck = currentDeck {
@@ -360,8 +300,73 @@ NSTableViewDelegate, NewDeckDelegate, NSWindowDelegate {
         }
         // swiftlint:enable line_length
     }
+}
 
-    // MARK: - NewDeckDelegate
+// MARK: - NSTableViewDelegate
+extension DeckManager: NSTableViewDelegate {
+    func tableView(tableView: NSTableView,
+                   viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if tableView == decksTable {
+            if let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self)
+                as? DeckCellView {
+
+                let deck = filteredDecks()[row]
+                cell.deck = deck
+                cell.label.stringValue = deck.name!
+                cell.image.image = ImageCache.classImage(deck.playerClass)
+                cell.color = ClassColor.color(deck.playerClass)
+                cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
+
+                return cell
+            }
+        } else {
+            let cell = CardCellView()
+            cell.playerType = .DeckManager
+            cell.card = currentDeck!.sortedCards[row]
+            return cell
+        }
+
+        return nil
+    }
+
+    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        if tableView == self.decksTable {
+            return 55
+        } else if tableView == self.deckListTable {
+            return CGFloat(kRowHeight)
+        }
+        return 20
+    }
+
+    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        return true
+    }
+
+    func tableViewSelectionDidChange(notification: NSNotification) {
+        let decks = filteredDecks().count
+        for i in 0 ..< decks {
+            let row = decksTable.viewAtColumn(0, row: i, makeIfNecessary: false) as? DeckCellView
+            row?.selected = decksTable.selectedRow == -1 || decksTable.selectedRow == i
+        }
+        decksTable.setNeedsDisplay()
+    }
+}
+
+// MARK: - NSTableViewDataSource
+extension DeckManager: NSTableViewDataSource {
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+        if tableView == decksTable {
+            return filteredDecks().count
+        } else if let currentDeck = currentDeck {
+            return currentDeck.sortedCards.count
+        }
+
+        return 0
+    }
+}
+
+// MARK: - NewDeckDelegate
+extension DeckManager: NewDeckDelegate {
     func addNewDeck(deck: Deck) {
         refreshDecks()
     }

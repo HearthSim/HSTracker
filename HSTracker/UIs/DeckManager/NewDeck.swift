@@ -14,7 +14,7 @@ protocol NewDeckDelegate {
     func refreshDecks()
 }
 
-class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
+class NewDeck: NSWindowController {
 
     @IBOutlet weak var hstrackerDeckBuilder: NSButton!
     @IBOutlet weak var fromAFile: NSButton!
@@ -161,19 +161,6 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             .sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
     }
 
-    // MARK: - NSComboBoxDataSource, NSComboBoxDelegate
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
-        return classes().count
-    }
-
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
-        return NSLocalizedString(classes()[index], comment: "")
-    }
-
-    func comboBoxSelectionDidChange(notification: NSNotification) {
-        checkToEnableSave()
-    }
-
     func checkToEnableSave() {
         var enabled: Bool?
         if hstrackerDeckBuilder.state == NSOnState {
@@ -193,5 +180,23 @@ class NewDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     override func controlTextDidChange(obj: NSNotification) {
         checkToEnableSave()
+    }
+}
+
+// MARK: - NSComboBoxDelegate
+extension NewDeck: NSComboBoxDelegate {
+    func comboBoxSelectionDidChange(notification: NSNotification) {
+        checkToEnableSave()
+    }
+}
+
+// MARK: - NSComboBoxDataSource
+extension NewDeck: NSComboBoxDataSource {
+    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
+        return classes().count
+    }
+
+    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
+        return NSLocalizedString(classes()[index], comment: "")
     }
 }

@@ -9,9 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class EditDeck: NSWindowController, NSWindowDelegate, NSTableViewDataSource,
-NSTableViewDelegate, NSComboBoxDataSource, NSComboBoxDelegate,
-JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSTextFieldDelegate {
+class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     @IBOutlet weak var countLabel: NSTextField!
     @IBOutlet weak var cardsCollectionView: JNWCollectionView!
@@ -171,28 +169,6 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
         }
     }
 
-    // MARK: - NSWindowDelegate
-    func windowShouldClose(sender: AnyObject) -> Bool {
-        if isSaved {
-            delegate?.refreshDecks()
-            return true
-        }
-
-        let alert = NSAlert()
-        alert.alertStyle = .InformationalAlertStyle
-        // swiftlint:disable line_length
-        alert.messageText = NSLocalizedString("Are you sure you want to close this deck ? Your changes will not be saved.", comment: "")
-        // swiftlint:enable line_length
-        alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-        alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-        if alert.runModal() == NSAlertFirstButtonReturn {
-            Decks.instance.resetDecks()
-            delegate?.refreshDecks()
-            return true
-        }
-        return false
-    }
-
     // MARK: - NSSegmentedControl
     @IBAction func changeClassTab(sender: NSSegmentedControl) {
         if sender.selectedSegment == 0 {
@@ -201,23 +177,6 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
             selectedClass = "neutral"
         }
         reloadCards()
-    }
-
-    // MARK: - NSTableViewDataSource/Delegate
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return currentDeck!.sortedCards.count
-    }
-
-    func tableView(tableView: NSTableView,
-                   viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cell = CardCellView()
-        cell.playerType = .DeckManager
-        cell.card = currentDeck!.sortedCards[row]
-        return cell
-    }
-
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return CGFloat(kRowHeight)
     }
 
     @IBAction func clickCard(sender: NSTableView) {
@@ -250,27 +209,6 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
     @IBAction func standardWildChange(sender: NSButton) {
         standardOnly = sender.state == NSOnState
         reloadCards()
-    }
-
-    // MARK: - Health/Damage - NSTextFieldDelegate
-    override func controlTextDidChange(notification: NSNotification) {
-        if let editor = notification.object as? NSTextField {
-            if editor == health {
-                if let value = Int(editor.stringValue) {
-                    currentHealth = value
-                } else {
-                    currentHealth = -1
-                }
-            } else if editor == damage {
-                if let value = Int(editor.stringValue) {
-                    currentDamage = value
-                } else {
-                    currentDamage = -1
-                }
-            }
-
-            reloadCards()
-        }
     }
 
     // MARK: - Gems
@@ -402,59 +340,6 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
         reloadCards()
     }
 
-    // MARK: - JNWCollectionViewDataSource/Delegate
-    func changeLayout() {
-        let settings = Settings.instance
-
-        zoom.enabled = settings.deckManagerPreferCards
-
-        let size: NSSize
-        if settings.deckManagerPreferCards {
-            size = NSSize(width: baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
-                          height: baseCardHeight / 100 * CGFloat(settings.deckManagerZoom))
-        } else {
-            size = NSSize(width: CGFloat(kFrameWidth), height: CGFloat(kRowHeight))
-        }
-
-        (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize = size
-    }
-
-    func collectionView(collectionView: JNWCollectionView!,
-        cellForItemAtIndexPath indexPath: NSIndexPath!) -> JNWCollectionViewCell! {
-
-        let card = currentClassCards[indexPath.jnw_item]
-        let settings = Settings.instance
-
-        if let cell = collectionView.dequeueReusableCellWithIdentifier("card_cell") as? CardCell {
-            cell.showCard = settings.deckManagerPreferCards
-            cell.setCard(card)
-            var count: Int = 0
-            if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
-                count = deckCard.count
-            }
-            cell.isArena = currentDeck!.isArena
-            cell.setCount(count)
-            return cell
-        }
-        return nil
-    }
-
-    func collectionView(collectionView: JNWCollectionView!,
-                        numberOfItemsInSection section: Int) -> UInt {
-        return UInt(currentClassCards.count)
-    }
-
-    func collectionView(collectionView: JNWCollectionView!,
-                        mouseUpInItemAtIndexPath indexPath: NSIndexPath!) {
-        if currentDeck!.countCards() == 30 {
-            return
-        }
-        if let cell: CardCell = collectionView.cellForItemAtIndexPath(indexPath) as? CardCell,
-            card = cell.card {
-            addCardToDeck(card)
-        }
-    }
-
     // MARK: - Toolbar actions
     @IBAction func save(sender: AnyObject?) {
         saveDeck = SaveDeck(windowNibName: "SaveDeck")
@@ -530,21 +415,6 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
         reloadCards()
     }
 
-    // MARK: - SaveDeckDelegate
-    func deckSaveSaved() {
-        isSaved = true
-        if let saveDeck = saveDeck {
-            self.window?.endSheet(saveDeck.window!)
-        }
-        self.window?.performClose(self)
-    }
-
-    func deckSaveCanceled() {
-        if let saveDeck = saveDeck {
-            self.window?.endSheet(saveDeck.window!)
-        }
-    }
-
     // MARK: - zoom
     @IBAction func zoomChange(sender: NSSlider) {
         let settings = Settings.instance
@@ -561,5 +431,149 @@ JNWCollectionViewDataSource, JNWCollectionViewDelegate, SaveDeckDelegate, NSText
         settings.deckManagerPreferCards = sender.selectedSegment == 0
         changeLayout()
         reloadCards()
+    }
+}
+
+// MARK: - NSWindowDelegate
+extension EditDeck: NSWindowDelegate {
+    func windowShouldClose(sender: AnyObject) -> Bool {
+        if isSaved {
+            delegate?.refreshDecks()
+            return true
+        }
+
+        let alert = NSAlert()
+        alert.alertStyle = .InformationalAlertStyle
+        // swiftlint:disable line_length
+        alert.messageText = NSLocalizedString("Are you sure you want to close this deck ? Your changes will not be saved.", comment: "")
+        // swiftlint:enable line_length
+        alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+        alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+        if alert.runModal() == NSAlertFirstButtonReturn {
+            Decks.instance.resetDecks()
+            delegate?.refreshDecks()
+            return true
+        }
+        return false
+    }
+}
+
+// MARK: - NSTableViewDataSource
+extension EditDeck: NSTableViewDataSource {
+    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+        return currentDeck!.sortedCards.count
+    }
+}
+
+// MARK: - NSTableViewDelegate
+extension EditDeck: NSTableViewDelegate {
+    func tableView(tableView: NSTableView,
+                   viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let cell = CardCellView()
+        cell.playerType = .DeckManager
+        cell.card = currentDeck!.sortedCards[row]
+        return cell
+    }
+
+    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return CGFloat(kRowHeight)
+    }
+}
+
+// MARK: - JNWCollectionViewDataSource
+extension EditDeck: JNWCollectionViewDataSource {
+    func collectionView(collectionView: JNWCollectionView!,
+                        numberOfItemsInSection section: Int) -> UInt {
+        return UInt(currentClassCards.count)
+    }
+}
+
+// MARK: - JNWCollectionViewDelegate
+extension EditDeck: JNWCollectionViewDelegate {
+    func changeLayout() {
+        let settings = Settings.instance
+
+        zoom.enabled = settings.deckManagerPreferCards
+
+        let size: NSSize
+        if settings.deckManagerPreferCards {
+            size = NSSize(width: baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
+                          height: baseCardHeight / 100 * CGFloat(settings.deckManagerZoom))
+        } else {
+            size = NSSize(width: CGFloat(kFrameWidth), height: CGFloat(kRowHeight))
+        }
+
+        (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize = size
+    }
+
+    func collectionView(collectionView: JNWCollectionView!,
+                        cellForItemAtIndexPath indexPath: NSIndexPath!) -> JNWCollectionViewCell! {
+
+        let card = currentClassCards[indexPath.jnw_item]
+        let settings = Settings.instance
+
+        if let cell = collectionView.dequeueReusableCellWithIdentifier("card_cell") as? CardCell {
+            cell.showCard = settings.deckManagerPreferCards
+            cell.setCard(card)
+            var count: Int = 0
+            if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
+                count = deckCard.count
+            }
+            cell.isArena = currentDeck!.isArena
+            cell.setCount(count)
+            return cell
+        }
+        return nil
+    }
+
+    func collectionView(collectionView: JNWCollectionView!,
+                        mouseUpInItemAtIndexPath indexPath: NSIndexPath!) {
+        if currentDeck!.countCards() == 30 {
+            return
+        }
+        if let cell: CardCell = collectionView.cellForItemAtIndexPath(indexPath) as? CardCell,
+            card = cell.card {
+            addCardToDeck(card)
+        }
+    }
+}
+
+// MARK: - SaveDeckDelegate
+extension EditDeck: SaveDeckDelegate {
+    func deckSaveSaved() {
+        isSaved = true
+        if let saveDeck = saveDeck {
+            self.window?.endSheet(saveDeck.window!)
+        }
+        self.window?.performClose(self)
+    }
+
+    func deckSaveCanceled() {
+        if let saveDeck = saveDeck {
+            self.window?.endSheet(saveDeck.window!)
+        }
+    }
+}
+
+// MARK: - Health/Damage - NSTextFieldDelegate
+extension EditDeck: NSTextFieldDelegate {
+    override func controlTextDidChange(notification: NSNotification) {
+        if let editor = notification.object as? NSTextField {
+            if editor == health {
+                if let value = Int(editor.stringValue) {
+                    currentHealth = value
+                } else {
+                    currentHealth = -1
+                }
+            } else if editor == damage {
+                if let value = Int(editor.stringValue) {
+                    currentDamage = value
+                } else {
+                    currentDamage = -1
+                }
+            }
+
+            reloadCards()
+        }
     }
 }
