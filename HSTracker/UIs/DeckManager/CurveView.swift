@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import TextAttributes
 import QuartzCore
 
 struct CardCount {
@@ -81,10 +82,24 @@ class CurveView: NSView {
         // and get a unit based on this value
         let oneUnit = Int(barHeight) / biggest
 
-        let style = NSMutableParagraphStyle()
-        style.alignment = NSCenterTextAlignment
-
-        let font = NSFont(name: "Belwe Bd BT", size: 20)
+        let attributes = TextAttributes()
+            .alignment(.Center)
+            .font(NSFont(name: "Belwe Bd BT", size: 20))
+            .foregroundColor(NSColor.whiteColor())
+            .strokeColor(NSColor.blackColor())
+            .strokeWidth(-1.5)
+        let costAttributes = TextAttributes()
+            .alignment(.Center)
+            .font(NSFont.boldSystemFontOfSize(22))
+            .foregroundColor(NSColor.whiteColor())
+            .strokeColor(NSColor.blackColor())
+            .strokeWidth(-1.5)
+        let countAttributes = TextAttributes()
+            .alignment(.Center)
+            .font(NSFont.boldSystemFontOfSize(22))
+            .foregroundColor(NSColor.whiteColor())
+            .strokeColor(NSColor.blackColor())
+            .strokeWidth(-1.5)
 
         for count in 0 ... 7 {
             NSGraphicsContext.saveGraphicsState()
@@ -98,13 +113,7 @@ class CurveView: NSView {
                     fraction: 1.0)
             }
 
-            var cost = NSAttributedString(string: "\(count)", attributes: [
-                NSParagraphStyleAttributeName: style,
-                NSForegroundColorAttributeName: NSColor.whiteColor(),
-                NSStrokeColorAttributeName: NSColor.blackColor(),
-                NSFontAttributeName: font!,
-                NSStrokeWidthAttributeName: -1.5
-            ])
+            var cost = NSAttributedString(string: "\(count)", attributes: attributes)
 
             var costX = x + 1
             if count == 7 {
@@ -112,15 +121,8 @@ class CurveView: NSView {
             }
             cost.drawInRect(NSRect(x: costX, y: padding + 6, width: manaHeight, height: manaHeight + 2))
             if count == 7 {
-                cost = NSAttributedString(string: "+", attributes: [
-                    NSParagraphStyleAttributeName: style,
-                    NSForegroundColorAttributeName: NSColor.whiteColor(),
-                    NSStrokeColorAttributeName: NSColor.blackColor(),
-                    NSFontAttributeName: NSFont.boldSystemFontOfSize(22),
-                    NSStrokeWidthAttributeName: -1.5
-                ])
-
-                cost.drawInRect(NSMakeRect(x + 5, padding + 3, manaHeight, manaHeight + 2))
+                cost = NSAttributedString(string: "+", attributes: costAttributes)
+                cost.drawInRect(NSRect(x: x + 5, y: padding + 3, width: manaHeight, height: manaHeight + 2))
             }
 
             var current = counts[count]
@@ -153,18 +155,12 @@ class CurveView: NSView {
                         gradient.drawInBezierPath(path, angle: 270)
                     }
                 }
-                let countCards = NSAttributedString(string: "\(howMany)", attributes: [
-                    NSParagraphStyleAttributeName: style,
-                    NSForegroundColorAttributeName: NSColor.whiteColor(),
-                    NSStrokeColorAttributeName: NSColor.blackColor(),
-                    NSFontAttributeName: NSFont.boldSystemFontOfSize(22),
-                    NSStrokeWidthAttributeName: -1.5
-                ])
+                let countCards = NSAttributedString(string: "\(howMany)", attributes: countAttributes)
 
                 let doublePadding: CGFloat = padding * 2
                 let tHowMany: CGFloat = CGFloat(howMany * oneUnit)
                 let currentY: CGFloat = doublePadding + manaHeight + tHowMany - 20
-                countCards.drawInRect(NSMakeRect(x, currentY, barWidth, 30))
+                countCards.drawInRect(NSRect(x: x, y: currentY, width: barWidth, height: 30))
             }
             x += barWidth
             NSGraphicsContext.restoreGraphicsState()

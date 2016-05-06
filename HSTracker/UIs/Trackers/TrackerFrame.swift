@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import TextAttributes
 
 let kFrameWidth = 217.0
 let kFrameHeight = 700.0
@@ -93,13 +94,14 @@ class TextFrame: TrackerFrame {
     }
 
     func addString(val: String, _ rect: NSRect) {
-        if let font = NSFont(name: "Belwe Bd BT", size: round(18 / ratioHeight)) {
-            NSAttributedString(string: val, attributes: [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: NSColor.whiteColor(),
-                NSStrokeWidthAttributeName: -2,
-                NSStrokeColorAttributeName: NSColor.blackColor()
-                ]).drawInRect(ratio(rect))
-        }
+        let attributes = TextAttributes()
+            .font(NSFont(name: "Belwe Bd BT", size: round(18 / ratioHeight)))
+            .foregroundColor(NSColor.whiteColor())
+            .strokeColor(NSColor.blackColor())
+            .strokeWidth(-2)
+
+
+        NSAttributedString(string: val, attributes: attributes)
+            .drawInRect(ratio(rect))
     }
 }

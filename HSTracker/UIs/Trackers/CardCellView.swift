@@ -10,6 +10,7 @@
 
 import Cocoa
 import CleanroomLogger
+import TextAttributes
 
 protocol CardCellHover {
     func hover(cell: CardCellView, _ card: Card)
@@ -81,8 +82,6 @@ class CardCellView: TrackerFrame {
     func fadeOut(highlight: Bool) {
     }
 
-    override func updateLayer() {}
-
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
         if cardLayer == nil {
@@ -124,12 +123,14 @@ class CardCellView: TrackerFrame {
         if self.playerType == .Player {
             foreground = card.textColor()
         }
-        NSAttributedString(string: card.name, attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: round(16 / ratioHeight))!,
-            NSForegroundColorAttributeName: foreground,
-            NSStrokeWidthAttributeName: -1,
-            NSStrokeColorAttributeName: NSColor.blackColor()
-            ]).drawInRect(ratio(NSMakeRect(38, 2, 174, 30)))
+        let attributes = TextAttributes()
+            .font(NSFont(name: "Belwe Bd BT", size: round(16 / ratioHeight)))
+            .foregroundColor(foreground)
+            .strokeColor(NSColor.blackColor())
+            .strokeWidth(-1)
+
+        NSAttributedString(string: card.name, attributes: attributes)
+            .drawInRect(ratio(NSRect(x: 38, y: 2, width: 174, height: 30)))
     }
 
     private func addCardCost(card: Card) {
@@ -137,12 +138,13 @@ class CardCellView: TrackerFrame {
         if self.playerType == .Player {
             foreground = card.textColor()
         }
-        NSAttributedString(string: "\(card.cost)", attributes: [
-            NSFontAttributeName: NSFont(name: "Belwe Bd BT", size: round(24 / ratioHeight))!,
-            NSForegroundColorAttributeName: foreground,
-            NSStrokeWidthAttributeName: -1,
-            NSStrokeColorAttributeName: NSColor.blackColor()
-            ]).drawInRect(ratio(NSMakeRect(card.cost > 9 ? 5.0 : 13.0, 3, 34, 37)))
+        let attributes = TextAttributes()
+            .font(NSFont(name: "Belwe Bd BT", size: round(24 / ratioHeight)))
+            .foregroundColor(foreground)
+            .strokeColor(NSColor.blackColor())
+            .strokeWidth(-1)
+        NSAttributedString(string: "\(card.cost)", attributes: attributes)
+            .drawInRect(ratio(NSRect(x: card.cost > 9 ? 5.0 : 13.0, y: 3, width: 34, height: 37)))
     }
 
     private func addDarken(card: Card) {
@@ -185,18 +187,18 @@ class CardCellView: TrackerFrame {
     }
 
     func addCountText(text: String, _ size: CGFloat, _ x: CGFloat, _ y: CGFloat) {
-        if let font = NSFont(name: "Belwe Bd BT", size: round(size / ratioHeight)) {
-            let foreground = NSColor(red: 240.0 / 255.0,
-                                     green: 195.0 / 255.0,
-                                     blue: 72.0 / 255.0,
-                                     alpha: 1.0)
-            NSAttributedString(string: text, attributes: [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: foreground,
-                NSStrokeWidthAttributeName: -2,
-                NSStrokeColorAttributeName: NSColor.blackColor()
-                ]).drawInRect(ratio(NSMakeRect(x, y, 30, 37)))
-        }
+        let foreground = NSColor(red: 240.0 / 255.0,
+                                 green: 195.0 / 255.0,
+                                 blue: 72.0 / 255.0,
+                                 alpha: 1.0)
+        let attributes = TextAttributes()
+            .font(NSFont(name: "Belwe Bd BT", size: round(size / ratioHeight)))
+            .foregroundColor(foreground)
+            .strokeColor(NSColor.blackColor())
+            .strokeWidth(-2)
+
+        NSAttributedString(string: text, attributes: attributes)
+            .drawInRect(ratio(NSRect(x: x, y: y, width: 30, height: 37)))
     }
 
     private func addGem(card: Card) {
