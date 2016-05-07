@@ -168,7 +168,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 game.reset()
             }
 
-            Hearthstone.instance.start()
         })
         let trackerOperation = NSBlockOperation(block: {
             NSOperationQueue.mainQueue().addOperationWithBlock() {
@@ -197,6 +196,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     func hstrackerReady() {
+        Hearthstone.instance.start()
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
 
         let events = [

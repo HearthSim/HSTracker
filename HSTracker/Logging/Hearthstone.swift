@@ -48,20 +48,38 @@ final class Hearthstone: NSObject {
     }
 
     func setup() {
-        let zones = LogLineNamespace.allValues()
-        var missingZones = [LogLineZone]()
+        let fileManager = NSFileManager.defaultManager()
 
-        var fileContent = ""
-        if !NSFileManager.defaultManager().fileExistsAtPath(self.configPath) {
+        // make sure the path exists
+        let dir = NSString(string: configPath).stringByDeletingLastPathComponent
+        Log.verbose?.message("Check if \(dir) exists")
+        var isDir: ObjCBool = false
+        if !fileManager.fileExistsAtPath(dir, isDirectory: &isDir) || !isDir {
+            do {
+                Log.verbose?.message("Creating \(dir)")
+                try fileManager.createDirectoryAtPath(dir,
+                                                      withIntermediateDirectories: true,
+                                                      attributes: nil)
+            } catch let error as NSError {
+                Log.error?.message("\(error.description)")
+            }
+        }
+
+        let zones = LogLineNamespace.allValues()
+        var missingZones: [LogLineZone] = []
+
+        Log.verbose?.message("Check if \(configPath) exists")
+        if !fileManager.fileExistsAtPath(configPath) {
             for zone in zones {
                 missingZones.append(LogLineZone(namespace: zone))
             }
         } else {
             do {
-                fileContent = try String(contentsOfFile: self.configPath)
+                let fileContent = try String(contentsOfFile: configPath)
+                Log.verbose?.message("Getting contents of \(configPath) -> \(fileContent)")
 
                 // swiftlint:disable line_length
-                var zonesFound = [LogLineZone]()
+                var zonesFound: [LogLineZone] = []
                 let splittedZones = fileContent.characters.split { $0 == "[" }.map(String.init)
                 for splittedZone in splittedZones {
                     let splittedZoneLines = splittedZone.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
@@ -87,9 +105,10 @@ final class Hearthstone: NSObject {
                         }
                     }
                 }
+                Log.verbose?.message("Zones found : \(zonesFound)")
 
                 for zone in zones {
-                    var currentZoneFound: LogLineZone? = nil
+                    var currentZoneFound: LogLineZone?
 
                     for zoneFound in zonesFound {
                         if zoneFound.namespace == zone {
@@ -99,15 +118,18 @@ final class Hearthstone: NSObject {
                     }
 
                     if let currentZone = currentZoneFound {
+                        Log.verbose?.message("Is \(currentZone.namespace) valid ? \(currentZone.isValid())")
                         if !currentZone.isValid() {
                             missingZones.append(currentZone)
                         }
                     } else {
+                        Log.verbose?.message("Zone \(zone) is missing")
                         missingZones.append(LogLineZone(namespace: zone))
                     }
                 }
                 // swiftlint:enable line_length
-            } catch {
+            } catch let error as NSError {
+                Log.error?.message("\(error.description)")
             }
         }
 
@@ -119,15 +141,15 @@ final class Hearthstone: NSObject {
             }
 
             do {
-                try fileContent.writeToFile(self.configPath,
+                try fileContent.writeToFile(configPath,
                                             atomically: true,
                                             encoding: NSUTF8StringEncoding)
-            } catch {
-                // TODO error handling
+            } catch let error as NSError {
+                Log.error?.message("\(error.description)")
             }
 
             if isHearthstoneRunning {
-                dispatch_async(dispatch_get_main_queue()) {
+                NSOperationQueue.mainQueue().addOperationWithBlock() {
                     let alert = NSAlert()
                     alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
                     // swiftlint:disable line_length

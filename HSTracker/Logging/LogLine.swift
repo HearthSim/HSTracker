@@ -22,7 +22,7 @@ struct LogLine {
     let line: String
 }
 
-class LogLineZone {
+class LogLineZone: CustomStringConvertible {
     var namespace: LogLineNamespace
     var logLevel = 1
     var filePrinting = "true"
@@ -44,5 +44,13 @@ class LogLineZone {
             "FilePrinting=true\n" +
             "ConsolePrinting=false\n" +
             "ScreenPrinting=false\n"
+    }
+
+    var description: String {
+        return "[\(namespace)," +
+            "LogLevel=\(logLevel)" +
+            "FilePrinting=\(filePrinting)" +
+            "ConsolePrinting=\(consolePrinting)" +
+            "ScreenPrinting=\(screenPrinting)]"
     }
 }
