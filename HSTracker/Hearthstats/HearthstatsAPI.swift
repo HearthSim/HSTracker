@@ -168,20 +168,23 @@ struct HearthstatsAPI {
         Alamofire.request(.POST, "\(baseUrl)/users/sign_in",
             parameters: ["user_login": ["email": email, "password": password ]], encoding: .JSON)
             .responseJSON { response in
-                if let json = response.result.value {
-                    if let success = json["success"] as? Bool where success {
-                        let settings = Settings.instance
-                        settings.hearthstatsLogin = json["email"] as? String
-                        settings.hearthstatsToken = json["auth_token"] as? String
-                        callback(success: true, message: "")
-                    } else {
-                        callback(success: false,
-                            message: json["message"] as? String ?? "Unknown error")
+                if response.result.isSuccess {
+                    if let json = response.result.value {
+                        if let success = json["success"] as? Bool where success {
+                            let settings = Settings.instance
+                            settings.hearthstatsLogin = json["email"] as? String
+                            settings.hearthstatsToken = json["auth_token"] as? String
+                            callback(success: true, message: "")
+                        } else {
+                            callback(success: false,
+                                message: json["message"] as? String ?? "Unknown error")
+                        }
+                        return
                     }
-                } else {
-                    callback(success: false,
-                        message: NSLocalizedString("server error", comment: ""))
                 }
+                Log.error?.message("\(response.result.error)")
+                callback(success: false,
+                    message: NSLocalizedString("server error", comment: ""))
         }
     }
 
@@ -216,9 +219,9 @@ struct HearthstatsAPI {
             "\(baseUrl)/decks/after_date?auth_token=\(settings.hearthstatsToken!)",
             parameters: ["date": "\(unixTime)"], encoding: .JSON)
             .responseJSON { response in
-
-                if let json = response.result.value {
-                    if let status = json["status"] as? Int where status == 200 {
+                if response.result.isSuccess {
+                    if let json = response.result.value,
+                        status = json["status"] as? Int where status == 200 {
                         var newDecks = 0
                         (json["data"] as? [[String: AnyObject]])?.forEach({
                             newDecks += 1
@@ -234,10 +237,11 @@ struct HearthstatsAPI {
                         })
                         Settings.instance.hearthstatsLastDecksSync = NSDate().timeIntervalSince1970
                         callback(success: true, added: newDecks)
-                    } else {
-                        callback(success: false, added: 0)
+                        return
                     }
                 }
+                Log.error?.message("\(response.result.error)")
+                callback(success: false, added: 0)
         }
     }
 
@@ -255,18 +259,21 @@ struct HearthstatsAPI {
                 "version": deck.version
             ], encoding: .JSON)
             .responseJSON { response in
-                if let json = response.result.value,
-                    data = json["data"] as? [String:AnyObject],
-                    jsonDeck = data["deck"] as? [String:AnyObject],
-                    hearthstatsId = jsonDeck["id"] as? Int,
-                    deckVersions = data["deck_versions"] as? [[String:AnyObject]],
-                    hearthstatsVersionId = deckVersions.first?["id"] as? Int {
-                    deck.hearthstatsId = hearthstatsId
-                    deck.hearthstatsVersionId = hearthstatsVersionId
-                    callback(success: true)
-                } else {
-                    callback(success: false)
+                if response.result.isSuccess {
+                    if let json = response.result.value,
+                        data = json["data"] as? [String:AnyObject],
+                        jsonDeck = data["deck"] as? [String:AnyObject],
+                        hearthstatsId = jsonDeck["id"] as? Int,
+                        deckVersions = data["deck_versions"] as? [[String:AnyObject]],
+                        hearthstatsVersionId = deckVersions.first?["id"] as? Int {
+                        deck.hearthstatsId = hearthstatsId
+                        deck.hearthstatsVersionId = hearthstatsVersionId
+                        callback(success: true)
+                        return
+                    }
                 }
+                Log.error?.message("\(response.result.error)")
+                callback(success: false)
         }
     }
 
@@ -284,12 +291,15 @@ struct HearthstatsAPI {
                 "class": deck.playerClass.capitalizedString
             ], encoding: .JSON)
             .responseJSON { response in
-                if let json = response.result.value {
-                    Log.debug?.message("update deck : \(json)")
-                    callback(success: true)
-                } else {
-                    callback(success: false)
+                if response.result.isSuccess {
+                    if let json = response.result.value {
+                        Log.debug?.message("update deck : \(json)")
+                        callback(success: true)
+                        return
+                    }
                 }
+                Log.error?.message("\(response.result.error)")
+                callback(success: false)
         }
     }
 
@@ -305,15 +315,18 @@ struct HearthstatsAPI {
                 "version": deck.version
             ], encoding: .JSON)
             .responseJSON { response in
-                if let json = response.result.value,
-                    data = json["data"] as? [String:AnyObject],
-                    hearthstatsVersionId = data["id"] as? Int {
-                    Log.debug?.message("post deck version : \(json)")
-                    deck.hearthstatsVersionId = hearthstatsVersionId
-                    callback(success: true)
-                } else {
-                    callback(success: false)
+                if response.result.isSuccess {
+                    if let json = response.result.value,
+                        data = json["data"] as? [String:AnyObject],
+                        hearthstatsVersionId = data["id"] as? Int {
+                        Log.debug?.message("post deck version : \(json)")
+                        deck.hearthstatsVersionId = hearthstatsVersionId
+                        callback(success: true)
+                        return
+                    }
                 }
+                Log.error?.message("\(response.result.error)")
+                callback(success: false)
         }
     }
 
@@ -324,9 +337,11 @@ struct HearthstatsAPI {
         Alamofire.request(.POST, "\(baseUrl)/decks/delete?auth_token=\(settings.hearthstatsToken!)",
             parameters: ["deck_id": "[\(deck.hearthstatsId)]"], encoding: .JSON)
             .responseJSON { response in
-
-                if let json = response.result.value {
-                    Log.debug?.message("delete deck : \(json)")
+                if response.result.isSuccess {
+                    if let json = response.result.value {
+                        Log.debug?.message("delete deck : \(json)")
+                        return
+                    }
                 }
         }
     }
@@ -340,18 +355,22 @@ struct HearthstatsAPI {
             "\(baseUrl)/matches/after_date?auth_token=\(settings.hearthstatsToken!)",
             parameters: ["date": "\(unixTime)"], encoding: .JSON)
             .responseJSON { response in
+                if response.result.isSuccess {
+                    if let json = response.result.value {
+                        Log.debug?.message("get games : \(json)")
+                        (json["data"] as? [[String: AnyObject]])?.forEach({
+                            Decks.instance.addOrUpdateMatches($0)
+                        })
 
-                if let json = response.result.value {
-                    Log.debug?.message("get games : \(json)")
-                    (json["data"] as? [[String: AnyObject]])?.forEach({
-                        Decks.instance.addOrUpdateMatches($0)
-                    })
-
-                    Settings.instance.hearthstatsLastMatchesSync = NSDate().timeIntervalSince1970
-                    callback(success: true)
-                } else {
-                    callback(success: false)
+                        // swiftlint:disable line_length
+                        Settings.instance.hearthstatsLastMatchesSync = NSDate().timeIntervalSince1970
+                        // swiftlint:enable line_length
+                        callback(success: true)
+                        return
+                    }
                 }
+                Log.error?.message("\(response.result.error)")
+                callback(success: false)
         }
     }
 
@@ -392,9 +411,11 @@ struct HearthstatsAPI {
         Alamofire.request(.POST, "\(baseUrl)/matches?auth_token=\(settings.hearthstatsToken!)",
             parameters: parameters, encoding: .JSON)
             .responseJSON { response in
-
-                if let json = response.result.value {
-                    Log.debug?.message("post match : \(json)")
+                if response.result.isSuccess {
+                    if let json = response.result.value {
+                        Log.debug?.message("post match : \(json)")
+                        return
+                    }
                 }
         }
     }
