@@ -20,19 +20,19 @@ final class LogReaderManager {
     let arenaHandler = ArenaHandler()
     let loadingScreenHandler = LoadingScreenHandler()
 
-    private lazy var powerLogReader = LogReader(name: .Power,
+    private let powerLogReader = LogReader(name: .Power,
                                         startFilters: ["PowerTaskList.DebugPrintPower"],
                                         containsFilters: ["Begin Spectating",
                                             "Start Spectator", "End Spectator"])
-    private lazy var gameStatePowerLogReader = LogReader(name: .Power,
+    private let gameStatePowerLogReader = LogReader(name: .Power,
                                                          startFilters: ["GameState."])
-    private lazy var bob = LogReader(name: .Bob)
-    private lazy var rachelle = LogReader(name: .Rachelle)
-    private lazy var asset = LogReader(name: .Asset)
-    private lazy var arena = LogReader(name: .Arena)
-    private lazy var loadScreen = LogReader(name: .LoadingScreen,
+    private let bob = LogReader(name: .Bob)
+    private let rachelle = LogReader(name: .Rachelle)
+    private let asset = LogReader(name: .Asset)
+    private let arena = LogReader(name: .Arena)
+    private let loadScreen = LogReader(name: .LoadingScreen,
                                             startFilters: ["LoadingScreen.OnSceneLoaded"])
-    private lazy var net = LogReader(name: .Net)
+    private let net = LogReader(name: .Net)
 
     private var readers: [LogReader] {
         return [powerLogReader, bob, rachelle, asset, arena, net, loadScreen]

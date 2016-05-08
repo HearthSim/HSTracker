@@ -25,6 +25,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var deckManager: DeckManager?
     var floatingCard: FloatingCard?
     @IBOutlet weak var sparkleUpdater: SUUpdater!
+    var operationQueue: NSOperationQueue?
+    var hstrackerIsStarted = false
 
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
@@ -88,6 +90,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
         Log.enable(configuration: loggers)
 
+        Log.info?.message("*** Starting HSTracker ***")
+
         if settings.hearthstoneLogPath.endsWith("/Logs") {
            settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
         }
@@ -129,14 +133,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                        display: true)
         splashscreen?.showWindow(self)
 
-        let operationQueue = NSOperationQueue()
-
-        let startUpCompletionOperation = NSBlockOperation(block: {
-            NSOperationQueue.mainQueue().addOperationWithBlock() {
-                self.hstrackerReady()
-            }
-        })
-
         let databaseOperation = NSBlockOperation(block: {
             let database = Database()
             if let images = database.loadDatabase(self.splashscreen!) {
@@ -177,20 +173,47 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
         })
 
-        startUpCompletionOperation.addDependency(loggingOperation)
         loggingOperation.addDependency(trackerOperation)
         loggingOperation.addDependency(menuOperation)
         trackerOperation.addDependency(databaseOperation)
         menuOperation.addDependency(databaseOperation)
 
-        operationQueue.addOperation(startUpCompletionOperation)
-        operationQueue.addOperation(trackerOperation)
-        operationQueue.addOperation(databaseOperation)
-        operationQueue.addOperation(loggingOperation)
-        operationQueue.addOperation(menuOperation)
+        operationQueue = NSOperationQueue()
+        operationQueue?.addOperation(trackerOperation)
+        operationQueue?.addOperation(databaseOperation)
+        operationQueue?.addOperation(loggingOperation)
+        operationQueue?.addOperation(menuOperation)
+
+        operationQueue?.addObserver(self,
+                                   forKeyPath: "operations",
+                                   options: NSKeyValueObservingOptions.New,
+                                   context: nil)
+    }
+
+    override func observeValueForKeyPath(keyPath: String?,
+                                         ofObject object: AnyObject?,
+                                                  change: [String : AnyObject]?,
+                                                  context: UnsafeMutablePointer<Void>) {
+        if let keyPath = keyPath, operationQueue = operationQueue,
+            object = object as? NSOperationQueue {
+
+            if object == operationQueue && keyPath == "operations" {
+                if operationQueue.operationCount == 0 {
+                    self.hstrackerReady()
+                }
+                return
+            }
+        }
+        super.observeValueForKeyPath(keyPath,
+                                     ofObject: object,
+                                     change: change,
+                                     context: context)
     }
 
     func hstrackerReady() {
+        guard !hstrackerIsStarted else { return }
+        hstrackerIsStarted = true
+
         var message: String?
         var alertStyle = NSAlertStyle.CriticalAlertStyle
         do {
@@ -214,11 +237,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             splashscreen?.close()
             splashscreen = nil
 
+            if alertStyle == .CriticalAlertStyle {
+                Log.error?.message(message)
+            }
+
             let alert = NSAlert()
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            // swiftlint:disable line_length
             alert.informativeText = NSLocalizedString(message, comment: "")
-            // swiftlint:enable line_length
             alert.alertStyle = alertStyle
             NSRunningApplication.currentApplication().activateWithOptions([
                 NSApplicationActivationOptions.ActivateAllWindows,
