@@ -9,9 +9,7 @@
 import Cocoa
 import CleanroomLogger
 import MASPreferences
-#if !DEBUG
 import HockeySDK
-#endif
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
@@ -26,6 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
     var floatingCard: FloatingCard?
+    @IBOutlet weak var sparkleUpdater: SUUpdater!
 
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
@@ -40,16 +39,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        /*for (key,_) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
-         NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
-         }
-         NSUserDefaults.standardUserDefaults().synchronize()*/
-
         #if !DEBUG
+        sparkleUpdater.sendsSystemProfile = true
         BITHockeyManager.sharedHockeyManager()
             .configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
         BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
         BITHockeyManager.sharedHockeyManager().debugLogEnabled = true
+        BITHockeyManager.sharedHockeyManager().delegate = self
         BITHockeyManager.sharedHockeyManager().startManager()
         #endif
 
@@ -72,25 +68,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                                 colorTable: HSTrackerColorTable(),
                                                 formatters: [HSTrackerLogFormatter()])
         loggers.append(xcodeConfig)
-        #if !DEBUG
-            if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory,
-                                                              .UserDomainMask, true).first {
-                do {
-                    try NSFileManager.defaultManager().createDirectoryAtPath(
-                        "\(path)/Logs/HSTracker",
-                        withIntermediateDirectories: true,
-                        attributes: nil)
-                    let severity: LogSeverity = Settings.instance.logSeverity
-                    // swiftlint:disable line_length
-                    let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
-                                                                    daysToKeep: 7,
-                                                                    directoryPath: "\(path)/Logs/HSTracker",
-                                                                    formatters: [HSTrackerLogFormatter()])
-                    // swiftlint:disable line_length
-                    loggers.append(rotatingConf)
-                } catch { }
-            }
-        #endif
+
+        if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory,
+                                                          .UserDomainMask, true).first {
+            do {
+                try NSFileManager.defaultManager().createDirectoryAtPath(
+                    "\(path)/Logs/HSTracker",
+                    withIntermediateDirectories: true,
+                    attributes: nil)
+                let severity: LogSeverity = Settings.instance.logSeverity
+                // swiftlint:disable line_length
+                let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
+                                                                daysToKeep: 7,
+                                                                directoryPath: "\(path)/Logs/HSTracker",
+                                                                formatters: [HSTrackerLogFormatter()])
+                // swiftlint:disable line_length
+                loggers.append(rotatingConf)
+            } catch { }
+        }
         Log.enable(configuration: loggers)
 
         if settings.hearthstoneLogPath.endsWith("/Logs") {
@@ -595,6 +590,41 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     func userNotificationCenter(center: NSUserNotificationCenter,
                                 shouldPresentNotification notification: NSUserNotification) -> Bool {
         return true
+    }
+    // swiftlint:enable line_length
+}
+
+extension AppDelegate: SUUpdaterDelegate {
+    func feedParametersForUpdater(updater: SUUpdater!,
+                                  sendingSystemProfile sendingProfile: Bool) -> [AnyObject]! {
+        return BITSystemProfile.sharedSystemProfile().systemUsageData()
+            as NSMutableArray as [AnyObject]
+    }
+}
+
+extension AppDelegate: BITHockeyManagerDelegate {
+    // swiftlint:disable line_length
+    func applicationLogForCrashManager(crashManager: BITCrashManager!) -> String! {
+        let fmt = NSDateFormatter()
+        fmt.dateFormat = "yyyy-MM-dd'.log'"
+
+        if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory,
+                                                          .UserDomainMask, true).first {
+            let file = "\(path)/Logs/HSTracker/\(fmt.stringFromDate(NSDate()))"
+
+            if NSFileManager.defaultManager().fileExistsAtPath(file) {
+                do {
+                    let content = try String(contentsOfFile: file)
+                    return Array(content
+                        .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+                        .reverse()
+                        .prefix(200))
+                        .joinWithSeparator("\n")
+                } catch {}
+            }
+        }
+
+        return ""
     }
     // swiftlint:enable line_length
 }
