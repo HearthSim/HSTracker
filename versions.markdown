@@ -1,3 +1,6 @@
+#### 0.16.5
+- Better error handling
+
 #### 0.16.4
 - Some Swift refactoring + add some test to help avoiding some crashes
 - Floating card should correctly disappear
