@@ -50,7 +50,7 @@ final class LogReaderManager {
             reader.start(entryPoint)
         }
 
-        var toProcess = [LogLine]()
+        var toProcess: [LogLine] = []
         while !stopped {
             toProcess.removeAll()
 

@@ -12,17 +12,18 @@ import Foundation
 import CleanroomLogger
 
 final class LogReader {
-    var stopped: Bool = true
+    var stopped = true
     var offset: UInt64 = 0
-    var startingPoint: Double = 0
+    var startingPoint = 0.0
 
-    private let _lock = String()
     var name: LogLineNamespace
-    var startFilters = [String]()
-    var containsFilters = [String]()
+    var startFilters: [String] = []
+    var containsFilters: [String] = []
     var path: String
-    lazy var lines = [LogLine]()
+    lazy var lines: [LogLine] = []
     var collected = false
+    let fileManager = NSFileManager()
+    let dateFormatter = NSDateFormatter()
 
     private var queue: dispatch_queue_t?
     private var _lockQueue: dispatch_queue_t?
@@ -38,10 +39,10 @@ final class LogReader {
 
         self.path = Hearthstone.instance.logPath + "/Logs/\(name).log"
         Log.info?.message("Init reader for \(name) at path \(self.path)")
-        if NSFileManager.defaultManager().fileExistsAtPath(self.path)
+        if fileManager.fileExistsAtPath(self.path)
             && !Hearthstone.instance.isHearthstoneRunning {
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(self.path)
+                try fileManager.removeItemAtPath(self.path)
             } catch { }
         }
     }
@@ -51,19 +52,19 @@ final class LogReader {
     }
 
     func findEntryPoint(choices: [String]) -> Double {
-        guard NSFileManager.defaultManager().fileExistsAtPath(self.path) else {
+        guard fileManager.fileExistsAtPath(path) else {
             return NSDate.distantPast().timeIntervalSince1970
         }
         var fileContent: String
         do {
-            fileContent = try String(contentsOfFile: self.path)
+            fileContent = try String(contentsOfFile: path)
         } catch {
             return NSDate.distantPast().timeIntervalSince1970
         }
 
         // swiftlint:disable line_length
         let lines: [String] = fileContent.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-            .reverse()
+            .filter({ !String.isNullOrEmpty($0) }).reverse()
         // swiftlint:enable line_length
         for line in lines {
             for str in choices {
@@ -79,7 +80,6 @@ final class LogReader {
     func parseTime(line: String) -> NSDate {
         guard line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 18 else { return fileDate() }
 
-        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let day = dateFormatter.stringFromDate(NSDate())
 
@@ -121,7 +121,7 @@ final class LogReader {
         guard let _ = _lockQueue else {return}
 
         var fileHandle: NSFileHandle?
-        if NSFileManager.defaultManager().fileExistsAtPath(self.path) {
+        if fileManager.fileExistsAtPath(self.path) {
             fileHandle = NSFileHandle(forReadingAtPath: self.path)
             offset = findOffset()
         }
@@ -134,8 +134,7 @@ final class LogReader {
                 }
 
                 // swiftlint:disable line_length
-                if fileHandle == .None && NSFileManager.defaultManager()
-                    .fileExistsAtPath(self.path) {
+                if fileHandle == .None && self.fileManager.fileExistsAtPath(self.path) {
 
                     fileHandle = NSFileHandle(forReadingAtPath: self.path)
                     self.offset = self.findOffset()
@@ -167,8 +166,7 @@ final class LogReader {
                         }
                     }
 
-                    if !NSFileManager.defaultManager().fileExistsAtPath(self.path)
-                        || self.offset > self.fileSize() {
+                    if !self.fileManager.fileExistsAtPath(self.path) || self.offset > self.fileSize() {
                         fileHandle = nil
                     }
                 }
@@ -190,7 +188,7 @@ final class LogReader {
         var fileSize: UInt64 = 0
 
         do {
-            let attr: NSDictionary? = try NSFileManager.defaultManager()
+            let attr: NSDictionary? = try fileManager
                 .attributesOfItemAtPath(self.path)
 
             if let _attr = attr {
@@ -204,8 +202,7 @@ final class LogReader {
 
     func fileDate() -> NSDate {
         do {
-            if let attr: NSDictionary? = try NSFileManager.defaultManager()
-                .attributesOfItemAtPath(self.path),
+            if let attr: NSDictionary? = try fileManager.attributesOfItemAtPath(self.path),
                 dict = attr {
                 return dict[NSFileModificationDate] as? NSDate ?? NSDate.distantPast()
             }
@@ -215,7 +212,7 @@ final class LogReader {
     }
 
     func findOffset() -> UInt64 {
-        guard NSFileManager.defaultManager().fileExistsAtPath(self.path) else { return 0 }
+        guard fileManager.fileExistsAtPath(path) else { return 0 }
 
         var offset: UInt64 = 0
         let fileContent: String
