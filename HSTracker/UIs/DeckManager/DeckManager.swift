@@ -264,7 +264,7 @@ class DeckManager: NSWindowController {
 
     private func _deleteDeck(deck: Deck) {
         // swiftlint:disable line_length
-        Log.verbose?.message("in deleete \(deck) -> \(HearthstatsAPI.isLogged()) -> \(Settings.instance.hearthstatsAutoSynchronize)")
+        Log.verbose?.message("in delete \(deck) -> \(HearthstatsAPI.isLogged()) -> \(Settings.instance.hearthstatsAutoSynchronize)")
         if let _ = deck.hearthstatsId where HearthstatsAPI.isLogged() {
             if Settings.instance.hearthstatsAutoSynchronize {
                 do {
@@ -384,6 +384,8 @@ extension DeckManager: NewDeckDelegate {
     }
 
     func refreshDecks() {
+        currentDeck = nil
+        decksTable.deselectAll(self)
         decks = Decks.instance.decks().filter({$0.isActive != showArchivedDecks})
         classes = [String]()
         for deck in decks {
@@ -392,6 +394,5 @@ extension DeckManager: NewDeckDelegate {
             }
         }
         decksTable.reloadData()
-        currentDeck = nil
     }
 }
