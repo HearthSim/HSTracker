@@ -654,8 +654,9 @@ extension AppDelegate: BITHockeyManagerDelegate {
                     let content = try String(contentsOfFile: file)
                     return Array(content
                         .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-                        .reverse()
+                        .reverse() // reverse to keep 200 last lines
                         .prefix(200))
+                        .reverse() // re-reverse them
                         .joinWithSeparator("\n")
                 } catch {}
             }
