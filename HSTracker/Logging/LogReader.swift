@@ -43,7 +43,9 @@ final class LogReader {
             && !Hearthstone.instance.isHearthstoneRunning {
             do {
                 try fileManager.removeItemAtPath(self.path)
-            } catch { }
+            } catch let error as NSError {
+                Log.error?.message("\(error.description)")
+            }
         }
     }
 

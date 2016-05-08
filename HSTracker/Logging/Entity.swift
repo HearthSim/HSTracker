@@ -179,7 +179,7 @@ class EntityInfo: CustomStringConvertible {
 
     var description: String {
         var description = "[EntityInfo: "
-            + ", turn=\(turn)"
+            + "turn=\(turn)"
 
         if cardMark != .None {
             description += ", cardMark=\(cardMark)"
