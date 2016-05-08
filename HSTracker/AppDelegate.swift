@@ -191,6 +191,43 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     func hstrackerReady() {
+        var message: String?
+        var alertStyle = NSAlertStyle.CriticalAlertStyle
+        do {
+            let canStart = try Hearthstone.instance.setup()
+
+            if !canStart {
+                message = "You must restart Hearthstone for logs to be used"
+                alertStyle = .InformationalAlertStyle
+            }
+        } catch HearthstoneLogError.CanNotCreateDir {
+            message = "Can not create Hearthstone config dir"
+        } catch HearthstoneLogError.CanNotReadFile {
+            message = "Can not read Hearthstone config file"
+        } catch HearthstoneLogError.CanNotCreateFile {
+            message = "Can not write Hearthstone config file"
+        } catch {
+            message = "Unknown error"
+        }
+
+        if let message = message {
+            splashscreen?.close()
+            splashscreen = nil
+
+            let alert = NSAlert()
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            // swiftlint:disable line_length
+            alert.informativeText = NSLocalizedString(message, comment: "")
+            // swiftlint:enable line_length
+            alert.alertStyle = alertStyle
+            NSRunningApplication.currentApplication().activateWithOptions([
+                NSApplicationActivationOptions.ActivateAllWindows,
+                NSApplicationActivationOptions.ActivateIgnoringOtherApps])
+            NSApp.activateIgnoringOtherApps(true)
+            alert.runModal()
+            return
+        }
+
         Hearthstone.instance.start()
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
 

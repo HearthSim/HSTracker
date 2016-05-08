@@ -11,6 +11,12 @@
 import Foundation
 import CleanroomLogger
 
+enum HearthstoneLogError: ErrorType {
+    case CanNotCreateDir,
+    CanNotReadFile,
+    CanNotCreateFile
+}
+
 final class Hearthstone: NSObject {
     let applicationName = "Hearthstone"
 
@@ -36,7 +42,6 @@ final class Hearthstone: NSObject {
 
     // MARK: - Initialisation
     func start() {
-        setup()
         logReaderManager = LogReaderManager()
         startListeners()
         if self.isHearthstoneRunning {
@@ -47,7 +52,7 @@ final class Hearthstone: NSObject {
         }
     }
 
-    func setup() {
+    func setup() throws -> Bool {
         let fileManager = NSFileManager.defaultManager()
 
         // make sure the path exists
@@ -62,6 +67,7 @@ final class Hearthstone: NSObject {
                                                       attributes: nil)
             } catch let error as NSError {
                 Log.error?.message("\(error.description)")
+                throw HearthstoneLogError.CanNotCreateDir
             }
         }
 
@@ -74,8 +80,13 @@ final class Hearthstone: NSObject {
                 missingZones.append(LogLineZone(namespace: zone))
             }
         } else {
+            var fileContent: String?
             do {
-                let fileContent = try String(contentsOfFile: configPath)
+                fileContent = try String(contentsOfFile: configPath)
+            } catch let error as NSError {
+                Log.error?.message("\(error.description)")
+            }
+            if let fileContent = fileContent {
                 Log.verbose?.message("Getting contents of \(configPath) -> \(fileContent)")
 
                 // swiftlint:disable line_length
@@ -128,8 +139,6 @@ final class Hearthstone: NSObject {
                     }
                 }
                 // swiftlint:enable line_length
-            } catch let error as NSError {
-                Log.error?.message("\(error.description)")
             }
         }
 
@@ -146,24 +155,15 @@ final class Hearthstone: NSObject {
                                             encoding: NSUTF8StringEncoding)
             } catch let error as NSError {
                 Log.error?.message("\(error.description)")
+                throw HearthstoneLogError.CanNotCreateFile
             }
 
             if isHearthstoneRunning {
-                NSOperationQueue.mainQueue().addOperationWithBlock() {
-                    let alert = NSAlert()
-                    alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                    // swiftlint:disable line_length
-                    alert.informativeText = NSLocalizedString("You must restart Hearthstone for logs to be used", comment: "")
-                    // swiftlint:enable line_length
-                    alert.alertStyle = NSAlertStyle.InformationalAlertStyle
-                    NSRunningApplication.currentApplication().activateWithOptions([
-                        NSApplicationActivationOptions.ActivateAllWindows,
-                        NSApplicationActivationOptions.ActivateIgnoringOtherApps])
-                    NSApplication.sharedApplication().activateIgnoringOtherApps(true)
-                    alert.runModal()
-                }
+                return false
             }
         }
+
+        return true
     }
 
     func startTracking() {
