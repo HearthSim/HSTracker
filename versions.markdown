@@ -1,3 +1,6 @@
+#### 0.16.6
+- This should avoid crash on startup
+
 #### 0.16.5
 - Better error handling
 
