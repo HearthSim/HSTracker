@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="OpponentTrackersPreferences" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="clearTrackersOnGameEnd" destination="npw-Sr-U97" id="m9b-Sg-mbd"/>
+                <outlet property="includeCreated" destination="Vgg-OU-9bx" id="N7Z-I9-nhP"/>
                 <outlet property="showCardHuds" destination="Jvp-6c-HZ0" id="dCi-2R-3hn"/>
                 <outlet property="showCthunCounter" destination="gyI-vB-68v" id="OjC-Sb-qUz"/>
                 <outlet property="showOpponentCardCount" destination="vlC-Xd-bPQ" id="nGN-hb-FIG"/>
@@ -92,16 +93,28 @@
                         <action selector="checkboxClicked:" target="-2" id="FPd-4l-SSM"/>
                     </connections>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="Vgg-OU-9bx">
+                    <rect key="frame" x="18" y="71" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Include created cards" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="PrR-2g-WEA">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="8CX-UR-uw4"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="wnH-Tv-Haz" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="35e-nJ-AOI"/>
                 <constraint firstAttribute="trailing" secondItem="Jvp-6c-HZ0" secondAttribute="trailing" constant="20" id="AMp-bq-Y5H"/>
                 <constraint firstItem="gyI-vB-68v" firstAttribute="top" secondItem="wnH-Tv-Haz" secondAttribute="bottom" constant="10" id="Avc-Jm-rar"/>
                 <constraint firstItem="npw-Sr-U97" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="FNo-R8-mKY"/>
+                <constraint firstItem="Vgg-OU-9bx" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="FnL-2R-M3n"/>
                 <constraint firstItem="vlC-Xd-bPQ" firstAttribute="top" secondItem="npw-Sr-U97" secondAttribute="bottom" constant="10" id="Hf2-3Y-aeL"/>
                 <constraint firstItem="wnH-Tv-Haz" firstAttribute="top" secondItem="vlC-Xd-bPQ" secondAttribute="bottom" constant="10" id="IHu-kG-DQ7"/>
                 <constraint firstItem="5FC-P8-tb7" firstAttribute="top" secondItem="gyI-vB-68v" secondAttribute="bottom" constant="10" id="IXI-AQ-k7O"/>
                 <constraint firstItem="bt4-kn-GjS" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="JyJ-pq-DMz"/>
+                <constraint firstAttribute="trailing" secondItem="Vgg-OU-9bx" secondAttribute="trailing" constant="20" id="MyH-JN-dCw"/>
                 <constraint firstItem="vlC-Xd-bPQ" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Qb5-Dh-bMt"/>
                 <constraint firstAttribute="trailing" secondItem="npw-Sr-U97" secondAttribute="trailing" constant="20" id="TL4-4M-qG2"/>
                 <constraint firstItem="gyI-vB-68v" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="UtP-T4-wth"/>
@@ -109,6 +122,7 @@
                 <constraint firstAttribute="trailing" secondItem="wnH-Tv-Haz" secondAttribute="trailing" constant="20" id="Y1P-a2-O0B"/>
                 <constraint firstAttribute="trailing" secondItem="5FC-P8-tb7" secondAttribute="trailing" constant="20" id="bUR-HT-1Ry"/>
                 <constraint firstItem="bt4-kn-GjS" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="c8H-0w-Zvp"/>
+                <constraint firstItem="Vgg-OU-9bx" firstAttribute="top" secondItem="5FC-P8-tb7" secondAttribute="bottom" constant="10" id="eJ5-xH-LWe"/>
                 <constraint firstAttribute="trailing" secondItem="gyI-vB-68v" secondAttribute="trailing" constant="20" id="fBk-sv-jbb"/>
                 <constraint firstItem="5FC-P8-tb7" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="gKd-cF-eQD"/>
                 <constraint firstItem="npw-Sr-U97" firstAttribute="top" secondItem="Jvp-6c-HZ0" secondAttribute="bottom" constant="10" id="ldb-kG-Ti9"/>

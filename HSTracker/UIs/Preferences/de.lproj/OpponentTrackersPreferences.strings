@@ -21,3 +21,6 @@
 
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "RyA-1i-LPY"; */
 "RyA-1i-LPY.title" = "Show C'Thun counter";
+
+/* Class = "NSButtonCell"; title = "Include created cards"; ObjectID = "PrR-2g-WEA"; */
+"PrR-2g-WEA.title" = "Include created cards";

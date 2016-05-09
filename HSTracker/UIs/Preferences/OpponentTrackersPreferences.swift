@@ -18,6 +18,7 @@ class OpponentTrackersPreferences: NSViewController, MASPreferencesViewControlle
     @IBOutlet weak var showOpponentDrawChance: NSButton!
     @IBOutlet weak var showCthunCounter: NSButton!
     @IBOutlet weak var showSpellCounter: NSButton!
+    @IBOutlet weak var includeCreated: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,7 @@ class OpponentTrackersPreferences: NSViewController, MASPreferencesViewControlle
         showOpponentDrawChance.state = settings.showOpponentDrawChance ? NSOnState : NSOffState
         showCthunCounter.state = settings.showOpponentCthun ? NSOnState : NSOffState
         showSpellCounter.state = settings.showOpponentYogg ? NSOnState : NSOffState
+        includeCreated.state = settings.showOpponentCreated ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(sender: NSButton) {
@@ -48,6 +50,8 @@ class OpponentTrackersPreferences: NSViewController, MASPreferencesViewControlle
             settings.showOpponentCthun = showCthunCounter.state == NSOnState
         } else if sender == showSpellCounter {
             settings.showOpponentYogg = showSpellCounter.state == NSOnState
+        } else if sender == includeCreated {
+            settings.showOpponentCreated = includeCreated.state == NSOnState
         }
     }
 

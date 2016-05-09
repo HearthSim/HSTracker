@@ -288,9 +288,10 @@ final class Player {
         let revealed = revealedEntities.filter({ (e: Entity) in
             (e.isMinion || e.isSpell || e.isWeapon || !e.hasTag(.CARDTYPE))
                 && (e.getTag(.CREATOR) == 1
-                    || (!e.info.created && e.info.originalController == self.id)
-                    || e.isInHand || e.isInDeck)
-                && !(e.info.created && e.isInSetAside)
+                    || ((!e.info.created || (Settings.instance.showOpponentCreated
+                        && (e.info.createdInDeck || e.info.createdInHand)))
+                    && e.info.originalController == self.id)
+                    || e.isInHand || e.isInDeck) && !(e.info.created && e.isInSetAside)
         })
             .map({ (e: Entity) -> (DynamicEntity) in
                 DynamicEntity(cardId: e.cardId,

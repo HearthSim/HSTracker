@@ -146,6 +146,10 @@ final class Settings {
         set { set("show_player_get", newValue) }
         get { return get("show_player_get") as? Bool ?? false }
     }
+    var showOpponentCreated: Bool {
+        set { set("show_opponent_created", newValue) }
+        get { return get("show_opponent_created") as? Bool ?? true }
+    }
     var showPlayerTracker: Bool {
         set { set("show_player_tracker", newValue) }
         get { return get("show_player_tracker") as? Bool ?? true }
