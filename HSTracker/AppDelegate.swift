@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         BITHockeyManager.sharedHockeyManager()
             .configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
         BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
-        BITHockeyManager.sharedHockeyManager().debugLogEnabled = true
+        BITHockeyManager.sharedHockeyManager().debugLogEnabled = false
         BITHockeyManager.sharedHockeyManager().delegate = self
         BITHockeyManager.sharedHockeyManager().startManager()
         #endif
@@ -679,8 +679,8 @@ extension AppDelegate: BITHockeyManagerDelegate {
                     let content = try String(contentsOfFile: file)
                     return Array(content
                         .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-                        .reverse() // reverse to keep 200 last lines
-                        .prefix(200))
+                        .reverse() // reverse to keep 400 last lines
+                        .prefix(400))
                         .reverse() // re-reverse them
                         .joinWithSeparator("\n")
                 } catch {}
