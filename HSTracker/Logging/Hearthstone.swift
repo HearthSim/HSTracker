@@ -87,33 +87,37 @@ final class Hearthstone: NSObject {
                 Log.error?.message("\(error.description)")
             }
             if let fileContent = fileContent {
-                Log.verbose?.message("Getting contents of \(configPath) -> \(fileContent)")
 
                 // swiftlint:disable line_length
                 var zonesFound: [LogLineZone] = []
-                let splittedZones = fileContent.characters.split { $0 == "[" }.map(String.init)
+                let splittedZones = fileContent.characters.split { $0 == "[" }
+                    .map(String.init)
+                    .map {
+                        $0.stringByReplacingOccurrencesOfString("]", withString: "")
+                            .characters.split { $0 == "\n" }.map(String.init)
+                }
+
                 for splittedZone in splittedZones {
-                    let splittedZoneLines = splittedZone.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-                    if let zone = splittedZoneLines.first {
-                        let startPos = zone.startIndex.advancedBy(0)
-                        let endPos = zone.endIndex.advancedBy(-1)
-                        let range = startPos ..< endPos
-                        if let currentZone = LogLineNamespace(rawValue: zone.substringWithRange(range)) {
-                            let logLineZone = LogLineZone(namespace: currentZone)
-                            for splittedZoneLine in splittedZoneLines {
-                                let kv = splittedZoneLine.characters.split { $0 == "=" }.map(String.init)
-                                if let key = kv.first, value = kv.last {
-                                    switch key {
-                                    case "LogLevel": logLineZone.logLevel = Int(value) ?? 1
-                                    case "FilePrinting": logLineZone.filePrinting = value
-                                    case "ConsolePrinting": logLineZone.consolePrinting = value
-                                    case "ScreenPrinting": logLineZone.screenPrinting = value
-                                    default: break
-                                    }
+                    var zoneData = splittedZone.filter {!String.isNullOrEmpty($0) }
+                    if zoneData.count < 1 {
+                        continue
+                    }
+                    let zone = zoneData.removeFirst()
+                    if let currentZone = LogLineNamespace(rawValue: zone) {
+                        let logLineZone = LogLineZone(namespace: currentZone)
+                        for line in zoneData {
+                            let kv = line.characters.split { $0 == "=" }.map(String.init)
+                            if let key = kv.first, value = kv.last {
+                                switch key {
+                                case "LogLevel": logLineZone.logLevel = Int(value) ?? 1
+                                case "FilePrinting": logLineZone.filePrinting = value
+                                case "ConsolePrinting": logLineZone.consolePrinting = value
+                                case "ScreenPrinting": logLineZone.screenPrinting = value
+                                default: break
                                 }
                             }
-                            zonesFound.append(logLineZone)
                         }
+                        zonesFound.append(logLineZone)
                     }
                 }
                 Log.verbose?.message("Zones found : \(zonesFound)")
