@@ -1,3 +1,7 @@
+#### 0.16.7
+- Startup crash finally corrected
+- Add an option to see opponent created cards
+
 #### 0.16.6
 - This should avoid crash on startup
 
