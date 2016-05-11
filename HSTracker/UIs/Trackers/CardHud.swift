@@ -86,7 +86,7 @@ class CardHud: NSWindowController {
             .strokeWidth(-2)
             .strokeColor(NSColor.blackColor())
             .alignment(.Center)
-        label.attributedStringValue = NSAttributedString(string: text, attributes: attributes)
+        label?.attributedStringValue = NSAttributedString(string: text, attributes: attributes)
 
         let costReductionAttributes = TextAttributes()
             .font(NSFont(name: "Belwe Bd BT", size: 16))
@@ -94,15 +94,15 @@ class CardHud: NSWindowController {
             .strokeWidth(-2)
             .strokeColor(NSColor.blackColor())
 
-        costReduction.attributedStringValue = NSAttributedString(
+        costReduction?.attributedStringValue = NSAttributedString(
             string: "-\(cost)",
             attributes: costReductionAttributes)
 
-        costReduction.hidden = cost < 1
+        costReduction?.hidden = cost < 1
         if let image = image {
-            icon.image = ImageCache.asset(image)
+            icon?.image = ImageCache.asset(image)
         } else {
-            icon.image = nil
+            icon?.image = nil
         }
     }
 
