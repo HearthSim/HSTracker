@@ -32,6 +32,7 @@
 "Window" = "Window";
 "You are now connected to Hearthstats" = "You are now connected to Hearthstats";
 "You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+"Are you sure you want to disconnect from Hearthstats ?" = "Are you sure you want to disconnect from Hearthstats ?";
 
 /* notifications */
 "Your game begins" = "Your game begins";

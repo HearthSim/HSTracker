@@ -152,10 +152,8 @@ class DeckManager: NSWindowController {
     // MARK: - Toolbar actions
     override func validateToolbarItem(item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
-        case "add", "donate", "twitter":
+        case "add", "donate", "twitter", "hearthstats":
             return true
-        case "hearthstats":
-            return !HearthstatsAPI.isLogged()
         case "edit", "use", "delete", "rename":
             return currentDeck != nil
         default:
@@ -172,9 +170,25 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func hearthstatsLogin(sender: AnyObject) {
-        hearthstatsLogin = HearthstatsLogin(windowNibName: "HearthstatsLogin")
-        if let hearthstatsLogin = hearthstatsLogin {
-            self.window!.beginSheet(hearthstatsLogin.window!, completionHandler: nil)
+        if HearthstatsAPI.isLogged() {
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            // swiftlint:disable line_length
+            alert.messageText = NSLocalizedString("Are you sure you want to disconnect from Hearthstats ?", comment: "")
+            // swiftlint:enable line_length
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModalForWindow(self.window!,
+                                           completionHandler: { (returnCode) in
+                                            if returnCode == NSAlertFirstButtonReturn {
+                                                HearthstatsAPI.logout()
+                                            }
+            })
+        } else {
+            hearthstatsLogin = HearthstatsLogin(windowNibName: "HearthstatsLogin")
+            if let hearthstatsLogin = hearthstatsLogin {
+                self.window!.beginSheet(hearthstatsLogin.window!, completionHandler: nil)
+            }
         }
     }
 

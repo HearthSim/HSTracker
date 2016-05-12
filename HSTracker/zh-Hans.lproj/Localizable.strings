@@ -32,6 +32,7 @@
 "You are now connected to Hearthstats" = "现在您连接到 Hearthstats";
 "You must restart Hearthstone for logs to be used" = "您必须重新启动炉石传说为要使用场记";
 "You must restart HSTracker for the language change to take effect" = "您必须重启 HSTracker 已使得设置的语言生效";
+"Are you sure you want to disconnect from Hearthstats ?" = "Are you sure you want to disconnect from Hearthstats ?";
 
 /* notifications */
 "Your game begins" = "游戏开始";
