@@ -32,7 +32,7 @@
 "You are now connected to Hearthstats" = "Du bist nun mit Hearthstats verbunden";
 "You must restart Hearthstone for logs to be used" = "Du musst Hearthstone neu Starten, damit die entsprechenden Logs verwendet werden können";
 "You must restart HSTracker for the language change to take effect" = "Du musst HSTracker erneut starten, damit die Spracheinstellung übernommen wird";
-"Are you sure you want to disconnect from Hearthstats ?" = "Are you sure you want to disconnect from Hearthstats ?";
+"Are you sure you want to disconnect from Hearthstats ?" = "Bist Du sicher, dass Du die Verbindung zu Hearthstats trennen möchtest?";
 
 /* notifications */
 "Your game begins" = "Dein Spiel beginnt";
