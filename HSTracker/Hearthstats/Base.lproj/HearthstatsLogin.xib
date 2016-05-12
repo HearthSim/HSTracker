@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="HearthstatsLogin" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="cancelButton" destination="BuD-jL-AQY" id="dRa-Du-uCW"/>
                 <outlet property="email" destination="rCi-rB-vcu" id="6ot-Ju-dk4"/>
+                <outlet property="loginButton" destination="hK8-6A-gSq" id="ae9-AN-3BA"/>
                 <outlet property="password" destination="TAe-tk-Aud" id="Yqv-Wm-qiX"/>
+                <outlet property="progressIndicator" destination="ahA-du-Ndb" id="wvn-hu-i2I"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="iMu-gw-U4H"/>
             </connections>
         </customObject>
@@ -70,6 +73,9 @@
                         <buttonCell key="cell" type="push" title="Login" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DxZ-Do-AVD">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
                         </buttonCell>
                         <connections>
                             <action selector="connect:" target="-2" id="j5P-be-gjm"/>
@@ -88,6 +94,9 @@ Gw
                             <action selector="cancel:" target="-2" id="XWd-av-czT"/>
                         </connections>
                     </button>
+                    <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="ahA-du-Ndb">
+                        <rect key="frame" x="243" y="22" width="16" height="16"/>
+                    </progressIndicator>
                 </subviews>
                 <constraints>
                     <constraint firstItem="rCi-rB-vcu" firstAttribute="leading" secondItem="5eW-i3-itH" secondAttribute="leading" id="0xd-hQ-BT3"/>
