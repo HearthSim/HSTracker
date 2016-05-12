@@ -1,4 +1,4 @@
-github "Alamofire/Alamofire" "3.3.1"
+github "Alamofire/Alamofire" "3.4.0"
 github "emaloney/CleanroomASL" "1.4.0"
 github "bitstadium/HockeySDK-Mac" "4.0.1"
 github "jwilling/JNWCollectionView" "1.5"
