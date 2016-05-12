@@ -21,7 +21,7 @@
 "ar6-6g-GKv.ibShadowedObjectValues[2]" = "Groß";
 
 /* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
-"h5J-7C-d2f.title" = "Zeige seltenheit durch Färbung an";
+"h5J-7C-d2f.title" = "Zeige Seltenheit durch Färbung an";
 /* WIP wording, for lack of better wording atm */
 
 /* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
