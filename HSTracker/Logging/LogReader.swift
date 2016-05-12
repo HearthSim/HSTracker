@@ -23,7 +23,11 @@ final class LogReader {
     lazy var lines: [LogLine] = []
     var collected = false
     let fileManager = NSFileManager()
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.timeZone = NSTimeZone(name: "UTC")
+        return formatter
+    }()
 
     private var queue: dispatch_queue_t?
     private var _lockQueue: dispatch_queue_t?
@@ -120,12 +124,14 @@ final class LogReader {
     }
 
     func readFile() {
+        Log.verbose?.message("reading \(path)")
         guard let _ = _lockQueue else {return}
 
         var fileHandle: NSFileHandle?
-        if fileManager.fileExistsAtPath(self.path) {
-            fileHandle = NSFileHandle(forReadingAtPath: self.path)
+        if fileManager.fileExistsAtPath(path) {
+            fileHandle = NSFileHandle(forReadingAtPath: path)
             offset = findOffset()
+            Log.verbose?.message("file exists \(path), offset for \(startingPoint) is \(offset)")
         }
 
         while !stopped {
@@ -137,9 +143,9 @@ final class LogReader {
 
                 // swiftlint:disable line_length
                 if fileHandle == .None && self.fileManager.fileExistsAtPath(self.path) {
-
                     fileHandle = NSFileHandle(forReadingAtPath: self.path)
                     self.offset = self.findOffset()
+                    Log.verbose?.message("file exists \(self.path) after reset, offset for \(self.startingPoint) is \(self.offset)")
                 }
 
                 if let handle = fileHandle {
@@ -162,7 +168,9 @@ final class LogReader {
                                         continue
                                     }
 
-                                    self.lines.append(LogLine(namespace: self.name, time: Int(time.timeIntervalSince1970), line: line))
+                                    self.lines.append(LogLine(namespace: self.name,
+                                        time: Int(time.timeIntervalSince1970),
+                                        line: line))
                                 }
                             }
                         }
