@@ -94,7 +94,7 @@ Gw
                             <action selector="cancel:" target="-2" id="XWd-av-czT"/>
                         </connections>
                     </button>
-                    <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="ahA-du-Ndb">
+                    <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="ahA-du-Ndb">
                         <rect key="frame" x="243" y="22" width="16" height="16"/>
                     </progressIndicator>
                 </subviews>
@@ -105,11 +105,13 @@ Gw
                     <constraint firstItem="rCi-rB-vcu" firstAttribute="width" secondItem="5eW-i3-itH" secondAttribute="width" id="4fP-uc-Hv1"/>
                     <constraint firstItem="TAe-tk-Aud" firstAttribute="width" secondItem="5eW-i3-itH" secondAttribute="width" id="8sF-d4-XgW"/>
                     <constraint firstItem="lNu-33-0xi" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="92n-ih-zWj"/>
+                    <constraint firstItem="BuD-jL-AQY" firstAttribute="leading" secondItem="ahA-du-Ndb" secondAttribute="trailing" constant="8" id="AlB-v0-dzq"/>
                     <constraint firstItem="rCi-rB-vcu" firstAttribute="top" secondItem="5eW-i3-itH" secondAttribute="bottom" constant="10" id="B11-UU-jri"/>
                     <constraint firstItem="5eW-i3-itH" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="F0O-Yl-vp8"/>
                     <constraint firstAttribute="bottom" secondItem="hK8-6A-gSq" secondAttribute="bottom" constant="20" id="KAG-bz-ZhA"/>
                     <constraint firstItem="lNu-33-0xi" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="MET-li-bKa"/>
                     <constraint firstItem="niV-dS-vI0" firstAttribute="width" secondItem="5eW-i3-itH" secondAttribute="width" id="QUP-Fv-tj9"/>
+                    <constraint firstItem="ahA-du-Ndb" firstAttribute="centerY" secondItem="BuD-jL-AQY" secondAttribute="centerY" id="RcW-cZ-GPB"/>
                     <constraint firstItem="hK8-6A-gSq" firstAttribute="leading" secondItem="BuD-jL-AQY" secondAttribute="trailing" constant="10" id="Vus-xX-T7G"/>
                     <constraint firstItem="5eW-i3-itH" firstAttribute="leading" secondItem="lNu-33-0xi" secondAttribute="trailing" constant="10" id="Zd6-87-IDa"/>
                     <constraint firstItem="BuD-jL-AQY" firstAttribute="centerY" secondItem="hK8-6A-gSq" secondAttribute="centerY" id="ahm-pN-jhF"/>
