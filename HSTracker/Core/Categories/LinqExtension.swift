@@ -426,7 +426,7 @@ extension String {
 
 // MARK: - NSDate
 extension NSDate {
-
+/*
     convenience init(dateString: String, format: String = "yyyy-MM-dd") {
         let fmt = NSDateFormatter()
         fmt.timeZone = NSTimeZone.defaultTimeZone()
@@ -460,7 +460,7 @@ extension NSDate {
     var day: Int {
         return components().day
     }
-
+*/
     func shortDateString() -> String {
         let fmt = NSDateFormatter()
         fmt.timeZone = NSTimeZone.defaultTimeZone()
@@ -468,7 +468,7 @@ extension NSDate {
         return fmt.stringFromDate(self)
     }
 }
-
+/*
 func > (lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs.compare(rhs) == NSComparisonResult.OrderedDescending
 }
@@ -485,4 +485,4 @@ func <= (lhs: NSDate, rhs: NSDate) -> Bool {
 }
 func == (lhs: NSDate, rhs: NSDate) -> Bool {
     return lhs.compare(rhs) == NSComparisonResult.OrderedSame
-}
+}*/

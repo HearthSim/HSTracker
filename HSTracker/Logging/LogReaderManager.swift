@@ -20,19 +20,19 @@ final class LogReaderManager {
     let arenaHandler = ArenaHandler()
     let loadingScreenHandler = LoadingScreenHandler()
 
-    private let powerLogReader = LogReader(name: .Power,
-                                        startFilters: ["PowerTaskList.DebugPrintPower"],
+    private let powerLogReader = LogReader(info: LogReaderInfo(name: .Power,
+                                        startsWithFilters: ["PowerTaskList.DebugPrintPower"],
                                         containsFilters: ["Begin Spectating",
-                                            "Start Spectator", "End Spectator"])
-    private let gameStatePowerLogReader = LogReader(name: .Power,
-                                                         startFilters: ["GameState."])
-    private let bob = LogReader(name: .Bob)
-    private let rachelle = LogReader(name: .Rachelle)
-    private let asset = LogReader(name: .Asset)
-    private let arena = LogReader(name: .Arena)
-    private let loadScreen = LogReader(name: .LoadingScreen,
-                                            startFilters: ["LoadingScreen.OnSceneLoaded"])
-    private let net = LogReader(name: .Net)
+                                            "Start Spectator", "End Spectator"]))
+    private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .Power,
+                                                         startsWithFilters: ["GameState."]))
+    private let bob = LogReader(info: LogReaderInfo(name: .Bob))
+    private let rachelle = LogReader(info: LogReaderInfo(name: .Rachelle))
+    private let asset = LogReader(info: LogReaderInfo(name: .Asset))
+    private let arena = LogReader(info: LogReaderInfo(name: .Arena))
+    private let loadScreen = LogReader(info: LogReaderInfo(name: .LoadingScreen,
+                                            startsWithFilters: ["LoadingScreen.OnSceneLoaded"]))
+    private let net = LogReader(info: LogReaderInfo(name: .Net))
 
     private var readers: [LogReader] {
         return [powerLogReader, bob, rachelle, asset, arena, net, loadScreen]

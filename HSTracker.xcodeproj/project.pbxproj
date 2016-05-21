@@ -14,6 +14,7 @@
 		431719791C8C179D00F5988B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
 		4317197B1C8C19B500F5988B /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197A1C8C19B500F5988B /* Statistic.swift */; };
 		4317197D1C8C54FF00F5988B /* OpponentDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */; };
+		432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */; };
 		432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FAD1CB5351800B05D19 /* Localizable.strings */; };
 		432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB21CB536E700B05D19 /* MainMenu.xib */; };
 		432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */; };
@@ -272,6 +273,7 @@
 		431719781C8C179D00F5988B /* Rarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
 		4317197A1C8C19B500F5988B /* Statistic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
 		4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentDrawChance.swift; sourceTree = "<group>"; };
+		432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderInfo.swift; sourceTree = "<group>"; };
 		432B5FAE1CB5351800B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FB11CB536E700B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		432B5FB41CB5371C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PlayerTrackersPreferences.xib; sourceTree = "<group>"; };
@@ -790,6 +792,7 @@
 				439C7EB31C777F8900D29859 /* Player.swift */,
 				64C117BCDB7C91174D0EAD99 /* CardIds.swift */,
 				43E77EE31C94A19700C26950 /* TurnTimer.swift */,
+				432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1205,6 +1208,7 @@
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
+				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
