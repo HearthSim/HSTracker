@@ -24,8 +24,8 @@
 "Reset" = "Zurücksetzen";
 "server error" = "Server Fehler";
 "Trackers" = "Tracker";
-"Opponent tracker" = "Opponent tracker";
-"Player tracker" = "Player tracker";
+"Opponent tracker" = "Gegnerischer Tracker";
+"Player tracker" = "Eigener Tracker";
 "Unlock windows" = "Fenster entsperren";
 "Use deck" = "Deck verwenden";
 "Window" = "Fenster";

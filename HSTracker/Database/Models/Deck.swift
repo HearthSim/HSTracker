@@ -181,7 +181,7 @@ final class Deck: Hashable, CustomStringConvertible {
         }
         let wins = statistics.filter { $0.gameResult == .Win }.count
 
-        return "\(wins) - \(totalGames - wins) / \(wins / totalGames * 100)%"
+        return "\(wins) - \(totalGames - wins) / \(Int(round(Double(wins) / Double(totalGames) * 100)))%"
     }
 
     func standardViable() -> Bool {
