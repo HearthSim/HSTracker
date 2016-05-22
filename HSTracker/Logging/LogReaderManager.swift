@@ -47,20 +47,7 @@ final class LogReaderManager {
         running = true
         let entryPoint = self.entryPoint()
         for reader in readers {
-            reader.start(entryPoint)
-        }
-
-        var toProcess: [LogLine] = []
-        while !stopped {
-            toProcess.removeAll()
-
-            for reader in self.readers {
-                let lines = reader.collect()
-                toProcess.appendContentsOf(lines)
-            }
-
-            processLines(toProcess)
-            NSThread.sleepForTimeInterval(0.2)
+            reader.start(self, entryPoint: entryPoint)
         }
     }
 
@@ -86,20 +73,16 @@ final class LogReaderManager {
         return powerEntry > netEntry ? powerEntry : netEntry
     }
 
-    private func processLines(process: [LogLine]) {
-        for line in process.filter({ $0 != nil && !String.isNullOrEmpty($0.line) }) {
-            //print("\(line.namespace) \(line.line)")
-
-            let game = Game.instance
-            switch line.namespace {
-            case .Power: powerGameStateHandler.handle(game, line.line)
-            case .Net: netHandler.handle(game, line.line)
-            case .Asset: assetHandler.handle(game, line.line)
-            case .Bob: bobHandler.handle(game, line.line)
-            case .Rachelle: rachelleHandler.handle(game, line.line)
-            case .Arena: arenaHandler.handle(game, line.line)
-            case .LoadingScreen: loadingScreenHandler.handle(game, line.line)
-            }
+    func processLine(line: LogLine) {
+        let game = Game.instance
+        switch line.namespace {
+        case .Power: powerGameStateHandler.handle(game, line.line)
+        case .Net: netHandler.handle(game, line.line)
+        case .Asset: assetHandler.handle(game, line.line)
+        case .Bob: bobHandler.handle(game, line.line)
+        case .Rachelle: rachelleHandler.handle(game, line.line)
+        case .Arena: arenaHandler.handle(game, line.line)
+        case .LoadingScreen: loadingScreenHandler.handle(game, line.line)
         }
     }
 }

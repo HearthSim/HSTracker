@@ -18,7 +18,7 @@ enum LogLineNamespace: String {
     }
 }
 
-struct LogLine {
+struct LogLine: CustomStringConvertible {
     let namespace: LogLineNamespace
     let time: Double
     let line: String
@@ -57,17 +57,16 @@ struct LogLine {
         dateComponents.timeZone = NSTimeZone(name: "UTC")
 
         if let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents) {
-            /*let formatter = NSDateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSS"
-            formatter.timeZone = NSTimeZone(name: "UTC")
-            Log.verbose?.message("\(fromLine) -> \(formatter.stringFromDate(date)) \(date)")
-            */
             if date > NSDate.now {
                 date.addDays(-1)
             }
             return date.timeIntervalSince1970
         }
         return NSDate.now.timeIntervalSince1970
+    }
+
+    var description: String {
+        return "\(namespace): \(NSDate(timeIntervalSince1970: time)): \(line)"
     }
 }
 

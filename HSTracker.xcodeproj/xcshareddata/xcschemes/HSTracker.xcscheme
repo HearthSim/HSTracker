@@ -90,7 +90,7 @@
          <EnvironmentVariable
             key = "CA_DEBUG_TRANSACTIONS"
             value = "1"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>
