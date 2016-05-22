@@ -84,13 +84,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                                                 daysToKeep: 7,
                                                                 directoryPath: "\(path)/Logs/HSTracker",
                                                                 formatters: [HSTrackerLogFormatter()])
-                // swiftlint:disable line_length
+                // swiftlint:enable line_length
                 loggers.append(rotatingConf)
             } catch { }
         }
         Log.enable(configuration: loggers)
 
-        Log.info?.message("*** Starting HSTracker ***")
+        // swiftlint:disable line_length
+        var version = ""
+        if let release = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String,
+            build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            version = "\(release).\(build) "
+        }
+        Log.info?.message("*** Starting HSTracker \(version)***")
+        // swiftlint:enable line_length
 
         if settings.hearthstoneLogPath.endsWith("/Logs") {
            settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
@@ -199,7 +206,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
             if object == operationQueue && keyPath == "operations" {
                 if operationQueue.operationCount == 0 {
-                    self.hstrackerReady()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.hstrackerReady()
+                    }
                 }
                 return
             }
@@ -213,6 +222,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     func hstrackerReady() {
         guard !hstrackerIsStarted else { return }
         hstrackerIsStarted = true
+
+        operationQueue?.removeObserver(self, forKeyPath: "operations")
+        operationQueue = nil
 
         var message: String?
         var alertStyle = NSAlertStyle.CriticalAlertStyle
