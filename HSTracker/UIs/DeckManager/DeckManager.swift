@@ -321,7 +321,7 @@ extension DeckManager: NSTableViewDelegate {
     func tableView(tableView: NSTableView,
                    viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView == decksTable {
-            if let cell = decksTable.makeViewWithIdentifier("DeckCellView", owner: self)
+            if let cell = decksTable?.makeViewWithIdentifier("DeckCellView", owner: self)
                 as? DeckCellView {
 
                 let deck = filteredDecks()[row]
@@ -359,10 +359,10 @@ extension DeckManager: NSTableViewDelegate {
     func tableViewSelectionDidChange(notification: NSNotification) {
         let decks = filteredDecks().count
         for i in 0 ..< decks {
-            let row = decksTable.viewAtColumn(0, row: i, makeIfNecessary: false) as? DeckCellView
-            row?.selected = decksTable.selectedRow == -1 || decksTable.selectedRow == i
+            let row = decksTable?.viewAtColumn(0, row: i, makeIfNecessary: false) as? DeckCellView
+            row?.selected = decksTable?.selectedRow == -1 || decksTable?.selectedRow == i
         }
-        decksTable.setNeedsDisplay()
+        decksTable?.setNeedsDisplay()
     }
 }
 
