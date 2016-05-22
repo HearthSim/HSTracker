@@ -145,7 +145,7 @@ final class LogReader {
                     if let linesStr = String(data: data, encoding: NSUTF8StringEncoding) {
 
                         let lines = linesStr.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-                            .filter { !$0.isEmpty && $0.startsWith("D ") }
+                            .filter { !$0.isEmpty && $0.startsWith("D ") && $0.length > 20 }
                         if !lines.isEmpty {
                             for line in lines {
                                 let cutted = line.substringFromIndex(line.startIndex.advancedBy(19))
