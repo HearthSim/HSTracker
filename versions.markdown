@@ -1,3 +1,9 @@
+#### 0.16.8
+- UTC is now used, which improve parsing logs
+- Improve Hearthstats UI
+- It's now possible to disconnect from Hearthstats
+- Fix some crashes
+
 #### 0.16.7
 - Startup crash finally corrected
 - Add an option to see opponent created cards
