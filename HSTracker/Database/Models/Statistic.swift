@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import Unbox
 
-final class Statistic: Dictable {
+final class Statistic: Unboxable {
     var gameResult: GameResult = .Unknow
     var hasCoin = false
     var opponentClass = ""
@@ -16,57 +17,30 @@ final class Statistic: Dictable {
     var playerRank = 0
     var playerMode: GameMode = .None
     var numTurns = 0
-    var date = NSDate()
-    var cards = [String: Int]()
+    var date: NSDate?
+    var cards: [String: Int] = [:]
     var duration = 0
 
-    func toDict() -> [String: AnyObject] {
-        return [
-            "opponentName": opponentName,
-            "opponentClass": opponentClass,
-            "gameResult": gameResult.rawValue,
-            "hasCoin": Int(hasCoin),
-            "playerRank": playerRank,
-            "playerMode": playerMode.rawValue,
-            "date": date.timeIntervalSince1970,
-            "numTurns": numTurns,
-            "cards": cards,
-            "duration": duration
-        ]
+    init(unboxer: Unboxer) {
+        self.gameResult = unboxer.unbox("gameResult")
+        self.hasCoin = unboxer.unbox("hasCoin")
+        self.opponentClass = unboxer.unbox("opponentClass")
+        self.opponentName = unboxer.unbox("opponentName")
+        self.playerRank = unboxer.unbox("playerRank")
+        self.playerMode = unboxer.unbox("playerMode")
+        self.numTurns = unboxer.unbox("numTurns")
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        self.date = unboxer.unbox("date", formatter: dateFormatter)
+        if self.date == nil {
+            // support old version
+            self.date = NSDate(timeIntervalSince1970: unboxer.unbox("date"))
+        }
+        self.cards = unboxer.unbox("cards")
+        self.duration = unboxer.unbox("duration")
     }
 
-    static func fromDict(dict: [String: AnyObject]) -> Statistic? {
-        if let opponentName = dict["opponentName"] as? String,
-            opponentClass = dict["opponentClass"] as? String,
-            gameResult = dict["gameResult"] as? Int {
-            let statistic = Statistic()
-            statistic.opponentName = opponentName
-            statistic.opponentClass = opponentClass
-            statistic.gameResult = GameResult(rawValue: gameResult)!
-
-            if let hasCoin = dict["hasCoin"] as? Int {
-                statistic.hasCoin = Bool(hasCoin)
-            }
-            if let playerRank = dict["playerRank"] as? Int {
-                statistic.playerRank = playerRank
-            }
-            if let playerMode = dict["playerMode"] as? Int {
-                statistic.playerMode = GameMode(rawValue: playerMode)!
-            }
-            if let date = dict["date"] as? Double {
-                statistic.date = NSDate(timeIntervalSince1970: date)
-            }
-            if let numTurns = dict["numTurns"] as? Int {
-                statistic.numTurns = numTurns
-            }
-            if let duration = dict["duration"] as? Int {
-                statistic.duration = duration
-            }
-            if let cards = dict["cards"] as? [String: Int] {
-                statistic.cards = cards
-            }
-            return statistic
-        }
-        return nil
+    init() {
+        date = NSDate()
     }
 }
