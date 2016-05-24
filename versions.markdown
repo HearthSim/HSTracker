@@ -3,6 +3,8 @@
 - Improve Hearthstats UI
 - It's now possible to disconnect from Hearthstats
 - Fix some crashes
+- Refactoring of log reading
+- Refactoring of some code to be more Swift-compliant
 
 #### 0.16.7
 - Startup crash finally corrected
