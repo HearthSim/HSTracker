@@ -385,7 +385,7 @@ extension DeckManager: NewDeckDelegate {
         refreshDecks()
     }
 
-    func openDeckBuilder(playerClass: String, _ arenaDeck: Bool) {
+    func openDeckBuilder(playerClass: String, arenaDeck: Bool) {
         editDeck = EditDeck(windowNibName: "EditDeck")
         if let editDeck = editDeck {
             let deck = Deck(playerClass: playerClass)

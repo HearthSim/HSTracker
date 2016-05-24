@@ -20,7 +20,7 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
         return url.match("hearthpwn\\.com\\/decks")
     }
 
-    func loadDeck(url: String, _ completion: Deck? -> Void) throws {
+    func loadDeck(url: String, completion: Deck? -> Void) throws {
         loadHtml(url) { (html) -> Void in
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
                 var deckName: String?
@@ -71,7 +71,9 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
                 }
 
                 if self.isCount(cards) {
-                    self.saveDeck(deckName, className!, cards, false, completion)
+                    self.saveDeck(deckName, playerClass: className!,
+                                  cards: cards, isArena: false,
+                                  completion: completion)
                     return
                 }
             }

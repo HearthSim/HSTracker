@@ -35,14 +35,14 @@ struct ImageCache {
     }
 
     static func gemImage(rarity: Rarity?) -> NSImage? {
-        return image("gem", rarity)
+        return image("gem", rarity: rarity)
     }
 
     static func frameImage(rarity: Rarity?) -> NSImage? {
-        return image("frame", rarity)
+        return image("frame", rarity: rarity)
     }
 
-    private static func image(base: String, _ rarity: Rarity?) -> NSImage? {
+    private static func image(base: String, rarity: Rarity?) -> NSImage? {
         var image: String = "\(base)"
         if let rarity = rarity {
             switch rarity {
@@ -70,7 +70,7 @@ struct ImageCache {
     }
 
     static func frameCountbox(rarity: Rarity?) -> NSImage? {
-        return image("countbox", rarity)
+        return image("countbox", rarity: rarity)
     }
 
     static func classImage(playerClass: String) -> NSImage? {

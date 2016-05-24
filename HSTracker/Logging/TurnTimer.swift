@@ -100,7 +100,9 @@ import CleanroomLogger
             }
         }
         dispatch_async(dispatch_get_main_queue()) {
-            Game.instance.timerHud?.tick(self.seconds, self.playerSeconds, self.opponentSeconds)
+            Game.instance.timerHud?.tick(self.seconds,
+                                         playerSeconds: self.playerSeconds,
+                                         opponentSeconds: self.opponentSeconds)
         }
     }
 }

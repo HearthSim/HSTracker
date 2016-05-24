@@ -76,13 +76,13 @@ final class LogReaderManager {
     func processLine(line: LogLine) {
         let game = Game.instance
         switch line.namespace {
-        case .Power: powerGameStateHandler.handle(game, line.line)
-        case .Net: netHandler.handle(game, line.line)
-        case .Asset: assetHandler.handle(game, line.line)
-        case .Bob: bobHandler.handle(game, line.line)
-        case .Rachelle: rachelleHandler.handle(game, line.line)
-        case .Arena: arenaHandler.handle(game, line.line)
-        case .LoadingScreen: loadingScreenHandler.handle(game, line.line)
+        case .Power: powerGameStateHandler.handle(game, line: line.line)
+        case .Net: netHandler.handle(game, line: line.line)
+        case .Asset: assetHandler.handle(game, line: line.line)
+        case .Bob: bobHandler.handle(game, line: line.line)
+        case .Rachelle: rachelleHandler.handle(game, line: line.line)
+        case .Arena: arenaHandler.handle(game, line: line.line)
+        case .LoadingScreen: loadingScreenHandler.handle(game, line: line.line)
         }
     }
 }

@@ -20,8 +20,8 @@ class CardCounter: TextFrame {
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        addImage(ImageCache.asset("card-counter-frame"), frameRect)
-        addInt(handCount, handFrame)
-        addInt(deckCount, deckFrame)
+        addImage(ImageCache.asset("card-counter-frame"), rect: frameRect)
+        addInt(handCount, rect: handFrame)
+        addInt(deckCount, rect: deckFrame)
     }
 }

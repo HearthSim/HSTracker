@@ -156,12 +156,12 @@ class Tracker: NSWindowController {
         if Settings.instance.autoPositionTrackers {
             if playerType == .Player {
                 Game.instance.changeTracker(self,
-                                            Hearthstone.instance.hearthstoneActive,
-                                            SizeHelper.playerTrackerFrame())
+                                            active: Hearthstone.instance.hearthstoneActive,
+                                            frame: SizeHelper.playerTrackerFrame())
             } else if playerType == .Opponent {
                 Game.instance.changeTracker(self,
-                                            Hearthstone.instance.hearthstoneActive,
-                                            SizeHelper.opponentTrackerFrame())
+                                            active: Hearthstone.instance.hearthstoneActive,
+                                            frame: SizeHelper.opponentTrackerFrame())
             }
         }
     }
@@ -209,7 +209,7 @@ class Tracker: NSWindowController {
     }
 
     // MARK: - Game
-    func update(cards: [Card], _ reset: Bool = false) {
+    func update(cards: [Card], reset: Bool = false) {
         if reset {
             cellsCache.removeAll()
             animatedCards.removeAll()
@@ -254,7 +254,7 @@ class Tracker: NSWindowController {
             }
         }
         for (cardCellView, fadeOut) in toRemove {
-            removeCard(cardCellView, fadeOut)
+            removeCard(cardCellView, fadeOut: fadeOut)
         }
         newCards.forEach({
             let newCard = CardCellView()
@@ -455,7 +455,7 @@ class Tracker: NSWindowController {
         }
     }
 
-    private func removeCard(card: CardCellView, _ fadeOut: Bool) {
+    private func removeCard(card: CardCellView, fadeOut: Bool) {
         if fadeOut {
             card.fadeOut(card.card!.count > 0)
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(600 * Double(NSEC_PER_MSEC)))
@@ -497,7 +497,7 @@ extension Tracker: NSWindowDelegate {
 
 // MARK: - CardCellHover
 extension Tracker: CardCellHover {
-    func hover(cell: CardCellView, _ card: Card) {
+    func hover(cell: CardCellView, card: Card) {
         let rect = cell.frame
 
         let windowRect = self.window!.frame

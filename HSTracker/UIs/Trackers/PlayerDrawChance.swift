@@ -20,8 +20,8 @@ class PlayerDrawChance: TextFrame {
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        addImage(ImageCache.asset("player-chance-frame"), frameRect)
-        addDouble(drawChance1, draw1Frame)
-        addDouble(drawChance2, draw2Frame)
+        addImage(ImageCache.asset("player-chance-frame"), rect: frameRect)
+        addDouble(drawChance1, rect: draw1Frame)
+        addDouble(drawChance2, rect: draw2Frame)
     }
 }

@@ -163,8 +163,8 @@ struct HearthstatsAPI {
     private static let baseUrl = "http://api.hearthstats.net/api/v3"
 
     // MARK: - Authentication
-    static func login(email: String, _ password: String,
-                      _ callback: (success: Bool, message: String) -> ()) {
+    static func login(email: String, password: String,
+                      callback: (success: Bool, message: String) -> ()) {
         Alamofire.request(.POST, "\(baseUrl)/users/sign_in",
             parameters: ["user_login": ["email": email, "password": password ]], encoding: .JSON)
             .responseJSON { response in
@@ -200,18 +200,18 @@ struct HearthstatsAPI {
     }
 
     static func loadDecks(force: Bool = false,
-                          _ callback: (success: Bool, added: Int) -> ()) throws {
+                          callback: (success: Bool, added: Int) -> ()) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
         if force {
             settings.hearthstatsLastDecksSync = NSDate.distantPast().timeIntervalSince1970
         }
-        try getDecks(settings.hearthstatsLastDecksSync, callback)
+        try getDecks(settings.hearthstatsLastDecksSync, callback: callback)
     }
 
     // MARK: - decks
     private static func getDecks(unixTime: Double,
-                                 _ callback: (success: Bool, added: Int) -> ()) throws {
+                                 callback: (success: Bool, added: Int) -> ()) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
@@ -245,7 +245,7 @@ struct HearthstatsAPI {
         }
     }
 
-    static func postDeck(deck: Deck, _ callback: (success: Bool) -> ()) throws {
+    static func postDeck(deck: Deck, callback: (success: Bool) -> ()) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
@@ -277,7 +277,7 @@ struct HearthstatsAPI {
         }
     }
 
-    static func updateDeck(deck: Deck, _ callback: (success: Bool) -> ()) throws {
+    static func updateDeck(deck: Deck, callback: (success: Bool) -> ()) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
@@ -303,7 +303,7 @@ struct HearthstatsAPI {
         }
     }
 
-    static func postDeckVersion(deck: Deck, _ callback: (success: Bool) -> ()) throws {
+    static func postDeckVersion(deck: Deck, callback: (success: Bool) -> ()) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
@@ -347,7 +347,7 @@ struct HearthstatsAPI {
     }
 
     // MARK: - matches
-    static func getGames(unixTime: Double, _ callback: (success: Bool) -> ()) throws {
+    static func getGames(unixTime: Double, callback: (success: Bool) -> ()) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
@@ -374,7 +374,7 @@ struct HearthstatsAPI {
         }
     }
 
-    static func postMatch(game: Game, _ deck: Deck, _ stat: Statistic) throws {
+    static func postMatch(game: Game, deck: Deck, stat: Statistic) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
         guard let _ = deck.hearthstatsId else { throw HearthstatsError.DeckNotSaved }

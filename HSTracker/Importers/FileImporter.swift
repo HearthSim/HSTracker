@@ -10,7 +10,7 @@ import Foundation
 
 final class FileImporter: BaseNetImporter {
 
-    func fileImport(url: NSURL, _ completion: Deck? -> Void) {
+    func fileImport(url: NSURL, completion: Deck? -> Void) {
         let deckName = url.lastPathComponent?.replace("\\.txt$", with: "")
         var className = ""
         var isArena = false
@@ -52,7 +52,8 @@ final class FileImporter: BaseNetImporter {
             }
 
             if !String.isNullOrEmpty(className) && self.isCount(cards) {
-                saveDeck(deckName, className, cards, isArena, completion)
+                saveDeck(deckName, playerClass: className, cards: cards,
+                         isArena: isArena, completion: completion)
                 return
             }
         } catch {

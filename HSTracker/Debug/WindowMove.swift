@@ -163,7 +163,7 @@ class WindowMove: NSWindowController {
 
         let frame = SizeHelper.frameRelativeToHearthstone(
             NSRect(x: _x, y: _y, width: NSWidth(defaultFrame), height: NSHeight(defaultFrame)),
-            true)
+            relative: true)
         currentWindow?.setFrame(frame, display: true)
     }
 

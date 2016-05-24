@@ -13,7 +13,7 @@ import CleanroomLogger
 import TextAttributes
 
 protocol CardCellHover {
-    func hover(cell: CardCellView, _ card: Card)
+    func hover(cell: CardCellView, card: Card)
 
     func out(card: Card)
 }
@@ -150,8 +150,8 @@ class CardCellView: TrackerFrame {
     private func addDarken(card: Card) {
         ImageCache.darkenImage()?.drawInRect(ratio(frameRect))
         if card.highlightFrame {
-            addImage(ImageCache.frameImage(.Golden), frameRect)
-            addImage(ImageCache.gemImage(.Legendary), gemRect)
+            addImage(ImageCache.frameImage(.Golden), rect: frameRect)
+            addImage(ImageCache.gemImage(.Legendary), rect: gemRect)
             addCardCost(card)
         }
     }
@@ -160,33 +160,33 @@ class CardCellView: TrackerFrame {
         if playerType == .CardList {
             if card.rarity == Rarity.Legendary {
                 if Settings.instance.showRarityColors {
-                    addImage(ImageCache.frameCountbox(card.rarity), frameCountBoxRect)
+                    addImage(ImageCache.frameCountbox(card.rarity), rect: frameCountBoxRect)
                 } else {
-                    addImage(ImageCache.frameCountbox(nil), frameCountBoxRect)
+                    addImage(ImageCache.frameCountbox(nil), rect: frameCountBoxRect)
                 }
-                addImage(ImageCache.frameLegendary(), frameCountBoxRect)
+                addImage(ImageCache.frameLegendary(), rect: frameCountBoxRect)
             }
         } else {
             if Settings.instance.showRarityColors {
-                addImage(ImageCache.frameCountbox(card.rarity), frameCountBoxRect)
+                addImage(ImageCache.frameCountbox(card.rarity), rect: frameCountBoxRect)
             } else {
-                addImage(ImageCache.frameCountbox(nil), frameCountBoxRect)
+                addImage(ImageCache.frameCountbox(nil), rect: frameCountBoxRect)
             }
 
             let count = abs(card.count)
             if count <= 1 && card.rarity == Rarity.Legendary {
-                addImage(ImageCache.frameLegendary(), frameCountBoxRect)
+                addImage(ImageCache.frameLegendary(), rect: frameCountBoxRect)
             } else {
                 let countText = count > 9 ? "9" : "\(count)"
-                addCountText(countText, 20, 198, -1)
+                addCountText(countText, size: 20, x: 198, y: -1)
                 if count > 9 {
-                    addCountText("+", 13, 202, -1)
+                    addCountText("+", size: 13, x: 202, y: -1)
                 }
             }
         }
     }
 
-    func addCountText(text: String, _ size: CGFloat, _ x: CGFloat, _ y: CGFloat) {
+    func addCountText(text: String, size: CGFloat, x: CGFloat, y: CGFloat) {
         let foreground = NSColor(red: 240.0 / 255.0,
                                  green: 195.0 / 255.0,
                                  blue: 72.0 / 255.0,
@@ -203,11 +203,11 @@ class CardCellView: TrackerFrame {
 
     private func addGem(card: Card) {
         if card.highlightFrame {
-            addImage(ImageCache.gemImage(.Legendary), gemRect)
+            addImage(ImageCache.gemImage(.Legendary), rect: gemRect)
         } else if Settings.instance.showRarityColors {
-            addImage(ImageCache.gemImage(card.rarity), gemRect)
+            addImage(ImageCache.gemImage(card.rarity), rect: gemRect)
         } else {
-            addImage(ImageCache.gemImage(nil), gemRect)
+            addImage(ImageCache.gemImage(nil), rect: gemRect)
         }
     }
 
@@ -218,8 +218,8 @@ class CardCellView: TrackerFrame {
         } else {
             xOffset = abs(card.count) > 1 || card.rarity == .Legendary ? 19 : 0
         }
-        addImage(ImageCache.smallCardImage(card), imageRect.offsetBy(dx: -xOffset, dy: 0))
-        addImage(ImageCache.fadeImage(), fadeRect.offsetBy(dx: -xOffset, dy: 0))
+        addImage(ImageCache.smallCardImage(card), rect: imageRect.offsetBy(dx: -xOffset, dy: 0))
+        addImage(ImageCache.fadeImage(), rect: fadeRect.offsetBy(dx: -xOffset, dy: 0))
     }
 
     private func addFrame(card: Card) {
@@ -231,7 +231,7 @@ class CardCellView: TrackerFrame {
                 frame = ImageCache.frameImage(card.rarity)
             }
         }
-        addImage(frame, frameRect)
+        addImage(frame, rect: frameRect)
     }
 
     // MARK: - CardCellHover
@@ -263,7 +263,7 @@ class CardCellView: TrackerFrame {
 
     override func mouseEntered(event: NSEvent) {
         if let card = self.card {
-            delegate?.hover(self, card)
+            delegate?.hover(self, card: card)
         }
     }
 

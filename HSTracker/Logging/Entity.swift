@@ -14,17 +14,17 @@ class Entity: Hashable, CustomStringConvertible, Dictable {
     var cardId: String = ""
     var name: String?
     lazy var tags = [GameTag: Int]()
-    lazy var info: EntityInfo = { return EntityInfo(self) }()
+    lazy var info: EntityInfo = { return EntityInfo(entity: self) }()
 
     init() {
         self.id = -1
     }
 
-    init(_ id: Int) {
+    init(id: Int) {
         self.id = id
     }
 
-    func setTag(tag: GameTag, _ value: Int) {
+    func setTag(tag: GameTag, value: Int) {
         self.tags[tag] = value
     }
 
@@ -101,7 +101,7 @@ class Entity: Hashable, CustomStringConvertible, Dictable {
     }
 
     func copy() -> Entity {
-        let e = Entity(id)
+        let e = Entity(id: id)
         e.isPlayer = isPlayer
         e.cardId = cardId
         e.name = name
@@ -152,7 +152,7 @@ class EntityInfo: CustomStringConvertible {
     var createdInDeck: Bool { return originalZone == .DECK }
     var createdInHand: Bool { return originalZone == .HAND }
 
-    init(_ entity: Entity) {
+    init(entity: Entity) {
         _entity = entity
     }
 

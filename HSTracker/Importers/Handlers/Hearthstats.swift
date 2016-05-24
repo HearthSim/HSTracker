@@ -20,7 +20,7 @@ final class Hearthstats: BaseNetImporter, NetImporterAware {
         return url.match("hearthstats\\.net|hss\\.io")
     }
 
-    func loadDeck(url: String, _ completion: Deck? -> Void) throws {
+    func loadDeck(url: String, completion: Deck? -> Void) throws {
         let httpsUrl = url.stringByReplacingOccurrencesOfString("http://", withString: "https://")
         loadHtml(httpsUrl) { (html) -> Void in
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
@@ -59,7 +59,8 @@ final class Hearthstats: BaseNetImporter, NetImporterAware {
                 }
 
                 if self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass!, cards, false, completion)
+                    self.saveDeck(deckName, playerClass: playerClass!,
+                                  cards: cards, isArena: false, completion: completion)
                     return
                 }
             }

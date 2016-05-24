@@ -17,7 +17,7 @@ struct RachelleHandler {
     static let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
     // swiftlint:enable line_length
 
-    func handle(game: Game, _ line: String) {
+    func handle(game: Game, line: String) {
         if line.match(self.dynamicType.TowardsGolds) {
             if let match = line.matches(self.dynamicType.TowardsGolds).first,
                 victories = Int(match.value) {

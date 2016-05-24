@@ -81,7 +81,9 @@ final class ImageDownloader {
                     }
                 }
 
-                downloadImages(&images, locale, destination, splashscreen)
+                downloadImages(&images, language: locale,
+                               destination: destination,
+                               splashscreen: splashscreen)
             }
             if let semaphore = semaphore {
                 dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
@@ -89,8 +91,8 @@ final class ImageDownloader {
         }
     }
 
-    private func downloadImages(inout images: [String], _ language: String,
-                                      _ destination: String, _ splashscreen: Splashscreen) {
+    private func downloadImages(inout images: [String], language: String,
+                                      destination: String, splashscreen: Splashscreen) {
         if images.isEmpty {
             if let semaphore = semaphore {
                 dispatch_semaphore_signal(semaphore)
@@ -114,7 +116,9 @@ final class ImageDownloader {
                                                                                 (url, response, error) -> Void in
                 if error != nil {
                     Log.error?.message("download error \(error)")
-                    self.downloadImages(&images, language, destination, splashscreen)
+                    self.downloadImages(&images, language: language,
+                        destination: destination,
+                        splashscreen: splashscreen)
                     return
                 }
 
@@ -123,7 +127,8 @@ final class ImageDownloader {
                         data.writeToFile(path, atomically: true)
                     }
                 }
-                self.downloadImages(&images, language, destination, splashscreen)
+                self.downloadImages(&images, language: language,
+                    destination: destination, splashscreen: splashscreen)
             })
             // swiftlint:enable line_length
             task.resume()

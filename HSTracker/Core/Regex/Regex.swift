@@ -16,7 +16,7 @@ struct Match {
 struct Regex {
     let expression: String
 
-    init(_ expression: String) {
+    init(expression: String) {
         self.expression = expression
     }
 
@@ -59,11 +59,11 @@ struct Regex {
 
 extension String {
     func match(pattern: String) -> Bool {
-        return Regex(pattern).match(self)
+        return Regex(expression: pattern).match(self)
     }
 
     func matches(pattern: String) -> [Match] {
-        return Regex(pattern).matches(self)
+        return Regex(expression: pattern).matches(self)
     }
 
     func replace(pattern: String, with: String) -> String {

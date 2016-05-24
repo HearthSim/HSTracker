@@ -24,10 +24,10 @@ class OpponentDrawChance: TextFrame {
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        addImage(ImageCache.asset("opponent-chance-frame"), frameRect)
-        addDouble(drawChance1, draw1Frame)
-        addDouble(drawChance2, draw2Frame)
-        addDouble(handChance1, hand1Frame)
-        addDouble(handChance2, hand2Frame)
+        addImage(ImageCache.asset("opponent-chance-frame"), rect: frameRect)
+        addDouble(drawChance1, rect: draw1Frame)
+        addDouble(drawChance2, rect: draw2Frame)
+        addDouble(handChance1, rect: hand1Frame)
+        addDouble(handChance2, rect: hand2Frame)
     }
 }

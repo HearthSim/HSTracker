@@ -75,7 +75,7 @@ class TrackerFrame: NSView {
         return ratioWidth
     }
 
-    func addImage(image: NSImage?, _ rect: NSRect) {
+    func addImage(image: NSImage?, rect: NSRect) {
         guard let image = image else {return}
 
         let resizedRect = ratio(rect)
@@ -84,16 +84,16 @@ class TrackerFrame: NSView {
 }
 
 class TextFrame: TrackerFrame {
-    func addInt(val: Int, _ rect: NSRect) {
-        addString("\(val)", rect)
+    func addInt(val: Int, rect: NSRect) {
+        addString("\(val)", rect: rect)
     }
 
-    func addDouble(val: Double, _ rect: NSRect) {
+    func addDouble(val: Double, rect: NSRect) {
         let format = val == Double(Int(val)) ? "%.0f%%" : "%.2f%%"
-        addString(String(format: format, val), rect)
+        addString(String(format: format, val), rect: rect)
     }
 
-    func addString(val: String, _ rect: NSRect) {
+    func addString(val: String, rect: NSRect) {
         let attributes = TextAttributes()
             .font(NSFont(name: "Belwe Bd BT", size: round(18 / ratioHeight)))
             .foregroundColor(NSColor.whiteColor())

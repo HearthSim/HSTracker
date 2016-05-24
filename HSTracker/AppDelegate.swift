@@ -335,7 +335,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         let url = hearthhead
         do {
-            try NetImporter.netImport(url, { (deck) -> Void in
+            try NetImporter.netImport(url, completion: { (deck) -> Void in
                 Log.verbose?.value(deck)
             })
         } catch {
@@ -653,7 +653,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     // MARK: NSUserNotificationCenterDelegate
-    func sendNotification(title: String, _ info: String) {
+    func sendNotification(title: String, info: String) {
         let notification = NSUserNotification()
         notification.title = title
         notification.informativeText = info

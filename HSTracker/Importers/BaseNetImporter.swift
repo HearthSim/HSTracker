@@ -12,7 +12,7 @@ import CleanroomLogger
 
 class BaseNetImporter {
 
-    func loadHtml(url: String, _ completion: String? -> Void) {
+    func loadHtml(url: String, completion: String? -> Void) {
         Log.info?.message("Fetching \(url)")
         Alamofire.request(.GET, url)
             .responseString(encoding: NSUTF8StringEncoding) { response in
@@ -25,8 +25,8 @@ class BaseNetImporter {
         }
     }
 
-    func saveDeck(name: String?, _ playerClass: String, _ cards: [String:Int],
-                  _ isArena: Bool, _ completion: Deck? -> Void) {
+    func saveDeck(name: String?, playerClass: String, cards: [String:Int],
+                  isArena: Bool, completion: Deck? -> Void) {
         let deck = Deck(playerClass: playerClass, name: name)
 
         deck.isActive = true

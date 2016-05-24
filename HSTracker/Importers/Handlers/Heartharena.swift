@@ -20,7 +20,7 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
         return url.match("heartharena\\.com")
     }
 
-    func loadDeck(url: String, _ completion: Deck? -> Void) throws {
+    func loadDeck(url: String, completion: Deck? -> Void) throws {
         loadHtml(url) { (html) -> Void in
             if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
                 var className: String?
@@ -46,7 +46,8 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
                 }
 
                 if self.isCount(cards) {
-                    self.saveDeck(deckName, className!, cards, true, completion)
+                    self.saveDeck(deckName, playerClass: className!, cards: cards,
+                                  isArena: true, completion: completion)
                     return
                 }
             }

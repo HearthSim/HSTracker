@@ -133,7 +133,7 @@ extension SecretTracker: NSTableViewDelegate {
 
 // MARK: - CardCellHover
 extension SecretTracker: CardCellHover {
-    func hover(cell: CardCellView, _ card: Card) {
+    func hover(cell: CardCellView, card: Card) {
         let row = table.rowForView(cell)
         let rect = table.frameOfCellAtColumn(0, row: row)
 

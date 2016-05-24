@@ -87,7 +87,7 @@ struct SizeHelper {
     // All size are taken from a resolution of 1404*840 (my MBA resolution)
     // and translated to your resolution
     //
-    static func frameRelativeToHearthstone(frame: NSRect, _ relative: Bool = false) -> NSRect {
+    static func frameRelativeToHearthstone(frame: NSRect, relative: Bool = false) -> NSRect {
         var pointX = NSMinX(frame)
         var pointY = NSMinY(frame)
         let width = NSWidth(frame)
@@ -170,7 +170,7 @@ struct SizeHelper {
                            y: 50,
                            width: CGFloat(width),
                            height: 450)
-        return frameRelativeToHearthstone(frame, true)
+        return frameRelativeToHearthstone(frame, relative: true)
     }
 
     static func timerHudFrame() -> NSRect {
@@ -178,7 +178,7 @@ struct SizeHelper {
                            y: 337.0,
                            width: 160.0,
                            height: 115.0)
-        return frameRelativeToHearthstone(frame, true)
+        return frameRelativeToHearthstone(frame, relative: true)
     }
 
     static let points: [Int: [NSPoint]] = [
@@ -194,7 +194,7 @@ struct SizeHelper {
         10: [NSPoint(x: 537.5, y: -18.0), NSPoint(x: 562.5, y: -10.0), NSPoint(x: 591.5, y: -1.0), NSPoint(x: 620.5, y: 8.0), NSPoint(x: 645.5, y: 15.0), NSPoint(x: 675.5, y: 19.0), NSPoint(x: 705.5, y: 16.0), NSPoint(x: 734.5, y: 9.0), NSPoint(x: 765.5, y: 2.0), NSPoint(x: 799.5, y: -12.0)]
     ]
 
-    static func opponentCardHudFrame(position: Int, _ cardCount: Int) -> NSRect {
+    static func opponentCardHudFrame(position: Int, cardCount: Int) -> NSRect {
         var frame = NSRect(x: 0, y: 0, width: 36, height: 45)
 
         if let numCards = points[cardCount] where numCards.count > position {
@@ -203,6 +203,6 @@ struct SizeHelper {
             frame.origin.y = pos.y
         }
 
-        return frameRelativeToHearthstone(frame, true)
+        return frameRelativeToHearthstone(frame, relative: true)
     }
 }

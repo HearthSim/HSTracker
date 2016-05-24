@@ -23,7 +23,8 @@ class HearthstatsLogin: NSWindowController {
     @IBAction func connect(sender: AnyObject) {
         configureUserInterfaceForNetworkActivity(true)
 
-        HearthstatsAPI.login(email.stringValue, password.stringValue) { (success, message) in
+        HearthstatsAPI.login(email.stringValue,
+                             password: password.stringValue) { (success, message) in
             if success {
                 self.loadDecks() { (success) -> (Void) in
                     let message = NSLocalizedString("You are now connected to Hearthstats",

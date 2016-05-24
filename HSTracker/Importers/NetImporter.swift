@@ -15,7 +15,7 @@ enum NetImporterError: ErrorType {
 
 protocol NetImporterAware {
     func handleUrl(url: String) -> Bool
-    func loadDeck(url: String, _ completion: Deck? -> Void) throws -> Void
+    func loadDeck(url: String, completion: Deck? -> Void) throws -> Void
     var siteName: String { get }
 }
 
@@ -27,7 +27,7 @@ final class NetImporter {
         ]
     }
 
-    static func netImport(url: String, _ completion: Deck? -> Void) throws {
+    static func netImport(url: String, completion: Deck? -> Void) throws {
         let realUrl = NSURL(string: url)
         guard let _ = realUrl else {
             throw NetImporterError.InvalidUrl
@@ -35,7 +35,7 @@ final class NetImporter {
 
         for importer in importers {
             if importer.handleUrl(url.lowercaseString) {
-                try importer.loadDeck(url, completion)
+                try importer.loadDeck(url, completion: completion)
                 return
             }
         }

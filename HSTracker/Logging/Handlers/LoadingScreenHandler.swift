@@ -15,7 +15,7 @@ struct LoadingScreenHandler {
 
     static let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
 
-    func handle(game: Game, _ line: String) {
+    func handle(game: Game, line: String) {
         if !line.match(self.dynamicType.GameModeRegex) {
             return
         }

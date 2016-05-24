@@ -14,7 +14,7 @@ final class ReplayMaker {
 
     static func reset() { points.removeAll() }
 
-    static func generate(type: KeyPointType, _ id: Int, _ player: PlayerType, _ game: Game) {
+    static func generate(type: KeyPointType, id: Int, player: PlayerType, game: Game) {
         let replay = ReplayKeyPoint(data: game.entities.map { $0.1 },
                                     type: type,
                                     id: id,
@@ -113,12 +113,12 @@ final class ReplayMaker {
                 boardPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?.getTag(.ZONE_POSITION)
             } else if kp.type == .Draw || kp.type == .Obtain {
                 if let zp = handPos[kp.id] {
-                    kp.data.firstWhere { $0.id == kp.id }?.setTag(.ZONE_POSITION, zp)
+                    kp.data.firstWhere { $0.id == kp.id }?.setTag(.ZONE_POSITION, value: zp)
                     handPos[zp] = nil
                 }
             } else if kp.type == .Summon || kp.type == .Play {
                 if let zp = boardPos[kp.id] {
-                    kp.data.firstWhere { $0.id == kp.id }?.setTag(.ZONE_POSITION, zp)
+                    kp.data.firstWhere { $0.id == kp.id }?.setTag(.ZONE_POSITION, value: zp)
                     boardPos[zp] = nil
                 }
             }
@@ -155,7 +155,7 @@ final class ReplayMaker {
                 if occupiedZonePos.contains(entity.getTag(.ZONE_POSITION)) {
                     if let max = occupiedZonePos.maxElement() {
                         let targetPos = max + 1
-                        currentEntity!.setTag(.ZONE_POSITION, targetPos)
+                        currentEntity!.setTag(.ZONE_POSITION, value: targetPos)
                         occupiedZonePos.append(targetPos)
                     }
                 } else {
@@ -176,7 +176,7 @@ final class ReplayMaker {
                 for entity in currentBoard {
                     if let pos = onBoard
                         .firstWhere({ (e) in e.id == entity.id })?.getTag(.ZONE_POSITION) {
-                        entity.setTag(.ZONE_POSITION, pos)
+                        entity.setTag(.ZONE_POSITION, value: pos)
                     }
                 }
             } else {

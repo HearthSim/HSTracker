@@ -14,7 +14,7 @@ struct BobHandler {
 
     static let LegendRankRegex = "legend rank (\\d+)"
 
-    func handle(game: Game, _ line: String) {
+    func handle(game: Game, line: String) {
 
         if !line.match(self.dynamicType.LegendRankRegex) {
             /*let match = line.matches(legendRank)

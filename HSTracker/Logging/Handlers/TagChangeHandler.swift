@@ -26,23 +26,24 @@ class TagChangeHandler {
         ]()
     private var tagChangeAction = TagChangeActions()
 
-    func tagChange(game: Game, _ rawTag: String, _ id: Int,
-                   _ rawValue: String, _ isCreationTag: Bool = false) {
+    func tagChange(game: Game, rawTag: String, id: Int,
+                   rawValue: String, isCreationTag: Bool = false) {
         if let tag = GameTag(rawString: rawTag) {
-            let value = self.parseTag(tag, rawValue)
-            tagChange(game, tag, id, value, isCreationTag)
+            let value = self.parseTag(tag, rawValue: rawValue)
+            tagChange(game, tag: tag, id: id, value: value,
+                      isCreationTag: isCreationTag)
         } else {
             print("Can't parse \(rawTag) -> \(rawValue)")
         }
     }
 
-    func tagChange(game: Game, _ tag: GameTag, _ id: Int,
-                   _ value: Int, _ isCreationTag: Bool = false) {
+    func tagChange(game: Game, tag: GameTag, id: Int,
+                   value: Int, isCreationTag: Bool = false) {
         if game.lastId != id {
             if let proposedKeyPoint = game.proposedKeyPoint {
                 ReplayMaker.generate(proposedKeyPoint.type,
-                                     proposedKeyPoint.id,
-                                     proposedKeyPoint.player, game)
+                                     id: proposedKeyPoint.id,
+                                     player: proposedKeyPoint.player, game: game)
                 game.proposedKeyPoint = nil
             }
         }
@@ -53,25 +54,27 @@ class TagChangeHandler {
         }
 
         if game.entities[id] == .None {
-            game.entities[id] = Entity(id)
+            game.entities[id] = Entity(id: id)
         }
 
         if !game.determinedPlayers {
             if let entity = game.entities[id]
                 where tag == .CONTROLLER && entity.isInHand && String.isNullOrEmpty(entity.cardId) {
-                determinePlayers(game, value)
+                determinePlayers(game, playerId: value)
             }
         }
 
         if let entity = game.entities[id] {
             let prevValue = entity.getTag(tag)
-            entity.setTag(tag, value)
+            entity.setTag(tag, value: value)
             //print("Set tag \(tag) with value \(value) to entity \(id)")
 
             if isCreationTag {
                 creationTagActionQueue.append((tag, game, id, value, prevValue))
             } else {
-                tagChangeAction.callAction(tag, game, id, value, prevValue)
+                tagChangeAction.callAction(game, tag: tag,
+                                           id: id, value: value,
+                                           prevValue: prevValue)
             }
         }
     }
@@ -79,7 +82,8 @@ class TagChangeHandler {
     func invokeQueuedActions(game: Game) {
         while creationTagActionQueue.count > 0 {
             let act = creationTagActionQueue.removeFirst()
-            tagChangeAction.callAction(act.tag, game, act.id, act.value, act.prevValue)
+            tagChangeAction.callAction(game, tag: act.tag, id: act.id,
+                                       value: act.value, prevValue: act.prevValue)
 
             if creationTagActionQueue.all({ $0.id != act.id }) && game.entities[act.id] != nil {
                 game.entities[act.id]!.info.hasOutstandingTagChanges = false
@@ -150,7 +154,7 @@ class TagChangeHandler {
         return a.any {$0 != nil}
     }
 
-    func parseTag(tag: GameTag, _ rawValue: String) -> Int {
+    func parseTag(tag: GameTag, rawValue: String) -> Int {
         switch tag {
         case .ZONE:
             return Zone(rawString: rawValue)!.rawValue
@@ -178,7 +182,7 @@ class TagChangeHandler {
         }
     }
 
-    func determinePlayers(game: Game, _ playerId: Int, _ isOpponentId: Bool = true) {
+    func determinePlayers(game: Game, playerId: Int, isOpponentId: Bool = true) {
         if isOpponentId {
             game.entities.map { $0.1 }
                 .firstWhere { $0.getTag(.PLAYER_ID) == 1 }?.setPlayer(playerId != 1)

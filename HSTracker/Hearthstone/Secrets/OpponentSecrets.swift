@@ -68,8 +68,8 @@ class OpponentSecrets: CustomStringConvertible {
         }
     }
 
-    func newSecretPlayed(heroClass: HeroClass, _ id: Int, _ turn: Int,
-                         _ knownCardId: String? = nil) {
+    func newSecretPlayed(heroClass: HeroClass, id: Int, turn: Int,
+                         knownCardId: String? = nil) {
         let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn)
         if let knownCardId = knownCardId {
             SecretHelper.getSecretIds(heroClass).forEach({
@@ -80,7 +80,7 @@ class OpponentSecrets: CustomStringConvertible {
         Log.info?.message("Added secret with id: \(id)")
     }
 
-    func secretRemoved(id: Int, _ cardId: String) {
+    func secretRemoved(id: Int, cardId: String) {
         if let index = secrets.indexOf({ $0.id == id }) {
             if index == -1 {
                 Log.warning?.message("Secret with id=\(id), cardId=\(cardId)"
@@ -102,7 +102,9 @@ class OpponentSecrets: CustomStringConvertible {
             // been triggered by the attempted combat
             if CardIds.Secrets.FastCombat.contains(cardId) && attacker != nil && defender != nil {
                 zeroFromAttack(game.entities[proposedAttackerEntityId]!,
-                               game.entities[proposedDefenderEntityId]!, true, index)
+                               defender: game.entities[proposedDefenderEntityId]!,
+                               fastOnly: true,
+                               _stopIndex: index)
             }
 
             secrets.remove(secrets[index])
@@ -110,8 +112,8 @@ class OpponentSecrets: CustomStringConvertible {
         }
     }
 
-    func zeroFromAttack(attacker: Entity, _ defender: Entity,
-                        _ fastOnly: Bool = false, _ _stopIndex: Int = -1) {
+    func zeroFromAttack(attacker: Entity, defender: Entity,
+                        fastOnly: Bool = false, _stopIndex: Int = -1) {
         if !Settings.instance.autoGrayoutSecrets {
             return
         }
@@ -122,32 +124,32 @@ class OpponentSecrets: CustomStringConvertible {
         }
 
         if game.opponentMinionCount < 7 {
-            setZeroOlder(CardIds.Secrets.Paladin.NobleSacrifice, stopIndex)
+            setZeroOlder(CardIds.Secrets.Paladin.NobleSacrifice, stopIndex: stopIndex)
         }
 
         if defender.isHero {
             if !fastOnly {
-                setZeroOlder(CardIds.Secrets.Hunter.BearTrap, stopIndex)
-                setZeroOlder(CardIds.Secrets.Mage.IceBarrier, stopIndex)
+                setZeroOlder(CardIds.Secrets.Hunter.BearTrap, stopIndex: stopIndex)
+                setZeroOlder(CardIds.Secrets.Mage.IceBarrier, stopIndex: stopIndex)
             }
 
-            setZeroOlder(CardIds.Secrets.Hunter.ExplosiveTrap, stopIndex)
+            setZeroOlder(CardIds.Secrets.Hunter.ExplosiveTrap, stopIndex: stopIndex)
 
             if game.isMinionInPlay {
-                setZeroOlder(CardIds.Secrets.Hunter.Misdirection, stopIndex)
+                setZeroOlder(CardIds.Secrets.Hunter.Misdirection, stopIndex: stopIndex)
             }
 
             if attacker.isMinion {
-                setZeroOlder(CardIds.Secrets.Mage.Vaporize, stopIndex)
-                setZeroOlder(CardIds.Secrets.Hunter.FreezingTrap, stopIndex)
+                setZeroOlder(CardIds.Secrets.Mage.Vaporize, stopIndex: stopIndex)
+                setZeroOlder(CardIds.Secrets.Hunter.FreezingTrap, stopIndex: stopIndex)
             }
         } else {
             if !fastOnly && game.opponentMinionCount < 7 {
-                setZeroOlder(CardIds.Secrets.Hunter.SnakeTrap, stopIndex)
+                setZeroOlder(CardIds.Secrets.Hunter.SnakeTrap, stopIndex: stopIndex)
             }
 
             if attacker.isMinion {
-                setZeroOlder(CardIds.Secrets.Hunter.FreezingTrap, stopIndex)
+                setZeroOlder(CardIds.Secrets.Hunter.FreezingTrap, stopIndex: stopIndex)
             }
         }
 
@@ -172,10 +174,10 @@ class OpponentSecrets: CustomStringConvertible {
         if String.isNullOrEmpty(cardId) {
             return
         }
-        setZeroOlder(cardId, secrets.count)
+        setZeroOlder(cardId, stopIndex: secrets.count)
     }
 
-    func setZeroOlder(cardId: String, _ stopIndex: Int) {
+    func setZeroOlder(cardId: String, stopIndex: Int) {
         if String.isNullOrEmpty(cardId) {
             return
         }

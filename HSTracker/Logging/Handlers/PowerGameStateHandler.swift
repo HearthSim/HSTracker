@@ -28,7 +28,7 @@ class PowerGameStateHandler {
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 
-    func handle(game: Game, _ line: String) {
+    func handle(game: Game, line: String) {
         var setup = false
         var creationTag = false
 
@@ -40,7 +40,7 @@ class PowerGameStateHandler {
                 id = Int(match.value) {
                 //print("**** GameEntityRegex id:'\(id)'")
                 if game.entities[id] == .None {
-                    let entity = Entity(id)
+                    let entity = Entity(id: id)
                     entity.name = "GameEntity"
                     game.entities[id] = entity
                 }
@@ -57,7 +57,7 @@ class PowerGameStateHandler {
             if let match = line.matches(self.dynamicType.PlayerEntityRegex).first,
                 id = Int(match.value) {
                 if game.entities[id] == .None {
-                    game.entities[id] = Entity(id)
+                    game.entities[id] = Entity(id: id)
                 }
                 /*if game.wasInProgress {
                     game.entities[id].name = game.getStoredPlayerName(id)
@@ -78,16 +78,16 @@ class PowerGameStateHandler {
             if rawEntity.startsWith("[") && tagChangeHandler.isEntity(rawEntity) {
                 let entity = tagChangeHandler.parseEntity(rawEntity)
                 if let id = entity.id {
-                    tagChangeHandler.tagChange(game, tag, id, value)
+                    tagChangeHandler.tagChange(game, rawTag: tag, id: id, rawValue: value)
                 }
             } else if let id = Int(rawEntity) {
                 //print("**** TagChangeRegex \\d+ id:'\(id)', tag:'\(tag)', value:'\(value)'")
-                tagChangeHandler.tagChange(game, tag, id, value)
+                tagChangeHandler.tagChange(game, rawTag: tag, id: id, rawValue: value)
             } else {
                 var entity = game.entities.map { $0.1 }.firstWhere { $0.name == rawEntity }
 
                 if let entity = entity {
-                    tagChangeHandler.tagChange(game, tag, entity.id, value)
+                    tagChangeHandler.tagChange(game, rawTag: tag, id: entity.id, rawValue: value)
                 } else {
                     let players = game.entities.map { $0.1 }
                         .filter { $0.hasTag(GameTag.PLAYER_ID) }.take(2)
@@ -98,19 +98,21 @@ class PowerGameStateHandler {
                     if unnamedPlayers.count == 0 && unknownHumanPlayer != .None {
                         entity = unknownHumanPlayer
                         if let entity = entity {
-                            setPlayerName(game, entity.getTag(.PLAYER_ID), rawEntity)
+                            setPlayerName(game,
+                                          playerId: entity.getTag(.PLAYER_ID),
+                                          name: rawEntity)
                         }
                     }
 
                     var tmpEntity = game.tmpEntities.firstWhere { $0.name == rawEntity }
                     if tmpEntity == .None {
-                        tmpEntity = Entity(game.tmpEntities.count + 1)
+                        tmpEntity = Entity(id: game.tmpEntities.count + 1)
                         tmpEntity!.name = rawEntity
                         game.tmpEntities.append(tmpEntity!)
                     }
 
                     if let _tag: GameTag = GameTag(rawString: tag) {
-                        let tagValue = tagChangeHandler.parseTag(_tag, value)
+                        let tagValue = tagChangeHandler.parseTag(_tag, rawValue: value)
 
                         if unnamedPlayers.count == 1 {
                             entity = unnamedPlayers.first
@@ -123,21 +125,31 @@ class PowerGameStateHandler {
                         if let entity = entity, tmpEntity = tmpEntity {
                             entity.name = tmpEntity.name
                             tmpEntity.tags.forEach({ (gameTag, val) in
-                                tagChangeHandler.tagChange(game, gameTag, tmpEntity.id, val)
+                                tagChangeHandler.tagChange(game,
+                                    tag: gameTag, id: tmpEntity.id,
+                                    value: val)
                             })
-                            setPlayerName(game, entity.getTag(.PLAYER_ID), tmpEntity.name!)
+                            setPlayerName(game,
+                                          playerId: entity.getTag(.PLAYER_ID),
+                                          name: tmpEntity.name!)
                             game.tmpEntities.remove(tmpEntity)
-                            tagChangeHandler.tagChange(game, tag, entity.id, value)
+                            tagChangeHandler.tagChange(game,
+                                                       rawTag: tag,
+                                                       id: entity.id,
+                                                       rawValue: value)
                         }
 
                         if let tmpEntity = tmpEntity where game.tmpEntities.contains(tmpEntity) {
-                            tmpEntity.setTag(_tag, tagValue)
+                            tmpEntity.setTag(_tag, value: tagValue)
                             if tmpEntity.hasTag(.ENTITY_ID) {
                                 let id = tmpEntity.getTag(.ENTITY_ID)
                                 if game.entities[id] != .None {
                                     game.entities[id]!.name = tmpEntity.name
                                     tmpEntity.tags.forEach({ (gameTag, val) -> () in
-                                        tagChangeHandler.tagChange(game, gameTag, id, val)
+                                        tagChangeHandler.tagChange(game,
+                                            tag: gameTag,
+                                            id: id,
+                                            value: val)
                                     })
                                     game.tmpEntities.remove(tmpEntity)
                                 }
@@ -151,7 +163,7 @@ class PowerGameStateHandler {
                 let matches = line.matches(self.dynamicType.EntityNameRegex)
                 let name = matches[0].value
                 if let player = Int(matches[1].value) {
-                    setPlayerName(game, player, name)
+                    setPlayerName(game, playerId: player, name: name)
                 }
             }
         } else if line.match(self.dynamicType.CreationRegex) {
@@ -169,7 +181,7 @@ class PowerGameStateHandler {
                     }
                 }
 
-                let entity = Entity(id)
+                let entity = Entity(id: id)
                 game.entities[id] = entity
             }
 
@@ -201,7 +213,7 @@ class PowerGameStateHandler {
 
             if let entityId = entityId {
                 if game.entities[entityId] == .None {
-                    let entity = Entity(entityId)
+                    let entity = Entity(id: entityId)
                     game.entities[entityId] = entity
                 }
                 game.entities[entityId]!.cardId = cardId
@@ -214,9 +226,9 @@ class PowerGameStateHandler {
             if game.joustReveals > 0 {
                 if let currentEntity = game.entities[entityId!] {
                     if currentEntity.isControlledBy(game.opponent.id) {
-                        game.opponentJoust(currentEntity, cardId, game.turnNumber())
+                        game.opponentJoust(currentEntity, cardId: cardId, turn: game.turnNumber())
                     } else if currentEntity.isControlledBy(game.player.id) {
-                        game.playerJoust(currentEntity, cardId, game.turnNumber())
+                        game.playerJoust(currentEntity, cardId: cardId, turn: game.turnNumber())
                     }
                 }
             }
@@ -225,7 +237,8 @@ class PowerGameStateHandler {
             let matches = line.matches(self.dynamicType.CreationTagRegex)
             let tag = matches[0].value
             let value = matches[1].value
-            tagChangeHandler.tagChange(game, tag, game.currentEntityId, value, true)
+            tagChangeHandler.tagChange(game, rawTag: tag, id: game.currentEntityId,
+                                       rawValue: value, isCreationTag: true)
             setup = true
             creationTag = true
         } else if line.contains("Begin Spectating") || line.contains("Start Spectator")
@@ -261,33 +274,34 @@ class PowerGameStateHandler {
                     if let lastCardPlayed = game.lastCardPlayed,
                         entity = game.entities[lastCardPlayed] {
                             let cardId = entity.cardId
-                            addKnownCardId(game, cardId)
+                            addKnownCardId(game, cardId: cardId)
                     }
-                    addKnownCardId(game, CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken)
+                    addKnownCardId(game,
+                                   cardId: CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken)
                 }
             } else {
                 if actionStartingCardId == CardIds.Collectible.Rogue.GangUp {
-                    addTargetAsKnownCardId(game, matches, 3)
+                    addTargetAsKnownCardId(game, matches: matches, count: 3)
                 } else if actionStartingCardId == CardIds.Collectible.Rogue.BeneathTheGrounds {
-                    addKnownCardId(game, CardIds.NonCollectible.Rogue.BeneaththeGrounds_AmbushToken, 3)
+                    addKnownCardId(game, cardId: CardIds.NonCollectible.Rogue.BeneaththeGrounds_AmbushToken, count: 3)
                 } else if actionStartingCardId == CardIds.Collectible.Warrior.IronJuggernaut {
-                    addKnownCardId(game, CardIds.NonCollectible.Warrior.IronJuggernaut_BurrowingMineToken)
+                    addKnownCardId(game, cardId: CardIds.NonCollectible.Warrior.IronJuggernaut_BurrowingMineToken)
                 } else if actionStartingCardId == CardIds.Collectible.Druid.Recycle {
-                    addTargetAsKnownCardId(game, matches)
+                    addTargetAsKnownCardId(game, matches: matches)
                 } else if actionStartingCardId == CardIds.Collectible.Mage.ForgottenTorch {
-                    addKnownCardId(game, CardIds.NonCollectible.Mage.ForgottenTorch_RoaringTorchToken)
+                    addKnownCardId(game, cardId: CardIds.NonCollectible.Mage.ForgottenTorch_RoaringTorchToken)
                 } else if actionStartingCardId == CardIds.Collectible.Warlock.CurseOfRafaam {
-                    addKnownCardId(game, CardIds.NonCollectible.Warlock.CurseofRafaam_CursedToken)
+                    addKnownCardId(game, cardId: CardIds.NonCollectible.Warlock.CurseofRafaam_CursedToken)
                 } else if actionStartingCardId == CardIds.Collectible.Neutral.AncientShade {
-                    addKnownCardId(game, CardIds.NonCollectible.Neutral.AncientShade_AncientCurseToken)
+                    addKnownCardId(game, cardId: CardIds.NonCollectible.Neutral.AncientShade_AncientCurseToken)
                 } else if actionStartingCardId == CardIds.Collectible.Priest.ExcavatedEvil {
-                    addKnownCardId(game, CardIds.Collectible.Priest.ExcavatedEvil)
+                    addKnownCardId(game, cardId: CardIds.Collectible.Priest.ExcavatedEvil)
                 } else if actionStartingCardId == CardIds.Collectible.Neutral.EliseStarseeker {
-                    addKnownCardId(game, CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken)
+                    addKnownCardId(game, cardId: CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken)
                 } else if actionStartingCardId == CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken {
-                    addKnownCardId(game, CardIds.NonCollectible.Neutral.EliseStarseeker_GoldenMonkeyToken)
+                    addKnownCardId(game, cardId: CardIds.NonCollectible.Neutral.EliseStarseeker_GoldenMonkeyToken)
                 } else if actionStartingCardId == CardIds.Collectible.Neutral.Doomcaller {
-                    addKnownCardId(game, CardIds.NonCollectible.Neutral.Cthun)
+                    addKnownCardId(game, cardId: CardIds.NonCollectible.Neutral.Cthun)
                 } else {
                     if let actionStartingCardId = actionStartingCardId,
                         card = Cards.anyById(actionStartingCardId) {
@@ -296,10 +310,10 @@ class PowerGameStateHandler {
                                     && !game.opponentUsedHeroPower) {
                                 if card.type == "hero power" {
                                     if player != nil && player!.getTag(GameTag.CURRENT_PLAYER) == 1 {
-                                        game.playerHeroPower(actionStartingCardId, game.turnNumber())
+                                        game.playerHeroPower(actionStartingCardId, turn: game.turnNumber())
                                         game.playerUsedHeroPower = true
                                     } else if opponent != nil {
-                                        game.opponentHeroPower(actionStartingCardId, game.turnNumber())
+                                        game.opponentHeroPower(actionStartingCardId, turn: game.turnNumber())
                                         game.opponentUsedHeroPower = true
                                     }
                                 }
@@ -327,7 +341,9 @@ class PowerGameStateHandler {
             if let playerCard = game.entities.map({ $0.1 })
                 .firstWhere({ $0.isInHand
                     && !String.isNullOrEmpty($0.cardId) && $0.hasTag(.CONTROLLER) }) {
-                    tagChangeHandler.determinePlayers(game, playerCard.getTag(.CONTROLLER), false)
+                    tagChangeHandler.determinePlayers(game,
+                                                      playerId: playerCard.getTag(.CONTROLLER),
+                                                      isOpponentId: false)
             }
         }
 
@@ -336,7 +352,7 @@ class PowerGameStateHandler {
         }
     }
 
-    private func addTargetAsKnownCardId(game: Game, _ matches: [Match], _ count: Int = 1) {
+    private func addTargetAsKnownCardId(game: Game, matches: [Match], count: Int = 1) {
         let target: String = matches[3].value.trim()
         guard target.startsWith("[") && tagChangeHandler.isEntity(target) else { return }
         guard target.match(self.dynamicType.CardIdRegex) else { return }
@@ -352,7 +368,7 @@ class PowerGameStateHandler {
         }
     }
 
-    private func addKnownCardId(game: Game, _ cardId: String, _ count: Int = 1) {
+    private func addKnownCardId(game: Game, cardId: String, count: Int = 1) {
         for i in 0 ..< count {
             let id = getMaxEntityId() + 1 + i
             if game.knownCardIds[id] != nil {
@@ -370,7 +386,7 @@ class PowerGameStateHandler {
         tagChangeHandler.clearQueuedActions()
     }
 
-    private func setPlayerName(game: Game, _ playerId: Int, _ name: String) {
+    private func setPlayerName(game: Game, playerId: Int, name: String) {
         if playerId == game.player.id {
             game.player.name = name
             Log.info?.message("Player name is \(name)")

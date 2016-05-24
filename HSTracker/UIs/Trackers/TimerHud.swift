@@ -66,7 +66,7 @@ class TimerHud: NSWindowController {
         self.window!.level = level
     }
 
-    func tick(seconds: Int, _ playerSeconds: Int, _ opponentSeconds: Int) {
+    func tick(seconds: Int, playerSeconds: Int, opponentSeconds: Int) {
         guard Settings.instance.showTimer else {
             turnLabel.attributedStringValue = NSAttributedString(string: "")
             playerLabel.attributedStringValue = NSAttributedString(string: "")

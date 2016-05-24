@@ -124,7 +124,7 @@ final class Player {
     var tracker: Tracker?
     var drawnCardsMatchDeck = true
 
-    init(_ local: Bool) {
+    init(local: Bool) {
         isLocalPlayer = local
         reset()
     }
@@ -410,27 +410,27 @@ final class Player {
         return isLocalPlayer ? "Player" : "Opponent"
     }
 
-    func createInDeck(entity: Entity, _ turn: Int) {
+    func createInDeck(entity: Entity, turn: Int) {
         entity.info.created = entity.info.created || turn > 1
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func createInHand(entity: Entity, _ turn: Int) {
+    func createInHand(entity: Entity, turn: Int) {
         entity.info.created = true
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func boardToDeck(entity: Entity, _ turn: Int) {
+    func boardToDeck(entity: Entity, turn: Int) {
         entity.info.turn = turn
         entity.info.returned = true
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func play(entity: Entity, _ turn: Int) {
+    func play(entity: Entity, turn: Int) {
         if !isLocalPlayer {
-            updateKnownEntitesInDeck(entity.cardId, turn)
+            updateKnownEntitesInDeck(entity.cardId, turn: turn)
         }
 
         if let cardType = CardType(rawValue: entity.getTag(.CARDTYPE)) {
@@ -445,22 +445,22 @@ final class Player {
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func handDiscard(entity: Entity, _ turn: Int) {
+    func handDiscard(entity: Entity, turn: Int) {
         if !isLocalPlayer {
-            updateKnownEntitesInDeck(entity.cardId, entity.info.turn)
+            updateKnownEntitesInDeck(entity.cardId, turn: entity.info.turn)
         }
         entity.info.turn = turn
         entity.info.discarded = true
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func secretPlayedFromDeck(entity: Entity, _ turn: Int) {
+    func secretPlayedFromDeck(entity: Entity, turn: Int) {
         updateKnownEntitesInDeck(entity.cardId)
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func secretPlayedFromHand(entity: Entity, _ turn: Int) {
+    func secretPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         spellsPlayedCount += 1
         Log.info?.message("\(debugName) \(#function) \(entity)")
@@ -470,7 +470,7 @@ final class Player {
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func draw(entity: Entity, _ turn: Int) {
+    func draw(entity: Entity, turn: Int) {
         if isLocalPlayer {
             updateKnownEntitesInDeck(entity.cardId)
         } else {
@@ -484,7 +484,7 @@ final class Player {
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func removeFromDeck(entity: Entity, _ turn: Int) {
+    func removeFromDeck(entity: Entity, turn: Int) {
         // Do not check for KnownCardIds here, this is how jousted cards get removed from the deck
         entity.info.turn = turn
         entity.info.discarded = true
@@ -492,30 +492,30 @@ final class Player {
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func removeFromPlay(entity: Entity, _ turn: Int) {
+    func removeFromPlay(entity: Entity, turn: Int) {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func deckDiscard(entity: Entity, _ turn: Int) {
+    func deckDiscard(entity: Entity, turn: Int) {
         updateKnownEntitesInDeck(entity.cardId)
         entity.info.turn = turn
         entity.info.discarded = true
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func deckToPlay(entity: Entity, _ turn: Int) {
+    func deckToPlay(entity: Entity, turn: Int) {
         updateKnownEntitesInDeck(entity.cardId)
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func playToGraveyard(entity: Entity, _ cardId: String?, _ turn: Int) {
+    func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func joustReveal(entity: Entity, _ turn: Int) {
+    func joustReveal(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if let card = inDeckPredictions.firstWhere({ $0.cardId == entity.cardId }) {
             card.turn = turn
@@ -525,40 +525,40 @@ final class Player {
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func createInPlay(entity: Entity, _ turn: Int) {
+    func createInPlay(entity: Entity, turn: Int) {
         entity.info.created = true
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func createInSecret(entity: Entity, _ turn: Int) {
+    func createInSecret(entity: Entity, turn: Int) {
         entity.info.created = true
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func stolenByOpponent(entity: Entity, _ turn: Int) {
+    func stolenByOpponent(entity: Entity, turn: Int) {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func stolenFromOpponent(entity: Entity, _ turn: Int) {
+    func stolenFromOpponent(entity: Entity, turn: Int) {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func boardToHand(entity: Entity, _ turn: Int) {
+    func boardToHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         entity.info.returned = true
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    func secretTriggered(entity: Entity, _ turn: Int) {
+    func secretTriggered(entity: Entity, turn: Int) {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
-    private func updateKnownEntitesInDeck(cardId: String?, _ turn: Int = Int.max) {
+    private func updateKnownEntitesInDeck(cardId: String?, turn: Int = Int.max) {
         if let card = inDeckPredictions.firstWhere({ $0.cardId == cardId && turn >= $0.turn }) {
             inDeckPredictions.remove(card)
         }

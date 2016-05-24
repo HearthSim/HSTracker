@@ -12,6 +12,6 @@ import Foundation
 
 struct ArenaHandler {
 
-    func handle(game: Game, _ line: String) {
+    func handle(game: Game, line: String) {
     }
 }

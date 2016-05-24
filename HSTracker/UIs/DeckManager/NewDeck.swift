@@ -10,7 +10,7 @@ import Foundation
 
 protocol NewDeckDelegate {
     func addNewDeck(deck: Deck)
-    func openDeckBuilder(playerClass: String, _ arenaDeck: Bool)
+    func openDeckBuilder(playerClass: String, arenaDeck: Bool)
     func refreshDecks()
 }
 
@@ -66,12 +66,13 @@ class NewDeck: NSWindowController {
                 return
             }
             delegate?.openDeckBuilder(classes()[classesCombobox.indexOfSelectedItem],
-                                      arenaDeck.state == NSOnState)
+                                      arenaDeck: (arenaDeck.state == NSOnState))
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         } else if fromTheWeb.state == NSOnState {
             // TODO add loader
             do {
-                try NetImporter.netImport(urlDeck.stringValue, { (deck) -> Void in
+                try NetImporter.netImport(urlDeck.stringValue,
+                                          completion: { (deck) -> Void in
                     if let deck = deck {
                         self._addDeck(deck)
                     } else {

@@ -31,15 +31,15 @@ class WotogCounter: TextFrame {
         var frame = frameRect
         var textFrame = attackFrame
         if counterStyle == .Full || counterStyle == .Cthun {
-            addImage(ImageCache.asset("cthun-frame"), frame)
+            addImage(ImageCache.asset("cthun-frame"), rect: frame)
             frame = frameRect.offsetBy(dx: 0, dy: NSHeight(frame))
-            addInt(attack, textFrame)
+            addInt(attack, rect: textFrame)
             textFrame.origin.y += NSHeight(frame)
-            addInt(health, healthFrame)
+            addInt(health, rect: healthFrame)
         }
         if counterStyle == .Full || counterStyle == .Spells {
-            addImage(ImageCache.asset("yogg-frame"), frame)
-            addInt(spell, textFrame)
+            addImage(ImageCache.asset("yogg-frame"), rect: frame)
+            addInt(spell, rect: textFrame)
         }
     }
 }
