@@ -8,6 +8,8 @@
 
 import Foundation
 import CleanroomLogger
+import Unbox
+import Wrap
 
 final class Decks {
     static let instance = Decks()
@@ -46,7 +48,9 @@ final class Decks {
                         as? [String: [String: AnyObject]] {
 
                     for (_, _deck) in decks {
-                        if let deck = Deck.fromDict(_deck) where deck.isValid() {
+
+                        let deck: Deck = try Unbox(_deck)
+                        if deck.isValid() {
                             _decks[deck.deckId] = deck
                         }
                     }
@@ -94,7 +98,9 @@ final class Decks {
 
             var jsonDecks = [String: [String: AnyObject]]()
             for (deckId, deck) in self._decks {
-                jsonDecks[deckId] = deck.toDict()
+                do {
+                    jsonDecks[deckId] = try Wrap(deck)
+                } catch {}
             }
             if let jsonFile = self.savePath {
                 do {

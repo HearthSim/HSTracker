@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4305CA3E1CF42AC70048E7EC /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; };
+		4305CA3F1CF42AC70048E7EC /* Unbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
+		4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4305CA441CF42AE50048E7EC /* Unbox.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */; };
 		4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFF21CA0401B00F3F2BE /* Int.swift */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
@@ -234,6 +241,8 @@
 				436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */,
 				436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */,
 				436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */,
+				4305CA441CF42AE50048E7EC /* Unbox.framework.dSYM in CopyFiles */,
+				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */,
 				436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */,
 				438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */,
 				43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */,
@@ -252,10 +261,12 @@
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
+				4305CA3F1CF42AC70048E7EC /* Unbox.framework in Embed Frameworks */,
 				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
 				436789DB1CAE484800C962D1 /* JNWCollectionView.framework in Embed Frameworks */,
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */,
+				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
 				436789D31CAE484800C962D1 /* Alamofire.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
 			);
@@ -265,6 +276,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4305CA3C1CF42AC60048E7EC /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/Mac/Unbox.framework; sourceTree = "<group>"; };
+		4305CA3D1CF42AC60048E7EC /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/Mac/Wrap.framework; sourceTree = "<group>"; };
+		4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Unbox.framework.dSYM; path = Carthage/Build/Mac/Unbox.framework.dSYM; sourceTree = "<group>"; };
+		4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Wrap.framework.dSYM; path = Carthage/Build/Mac/Wrap.framework.dSYM; sourceTree = "<group>"; };
+		4305CA461CF434E30048E7EC /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsAPI.swift; sourceTree = "<group>"; };
 		4312AFF21CA0401B00F3F2BE /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
@@ -520,8 +536,10 @@
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				436789D21CAE484800C962D1 /* Alamofire.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
+				4305CA3E1CF42AC70048E7EC /* Unbox.framework in Frameworks */,
 				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
 				436789DA1CAE484800C962D1 /* JNWCollectionView.framework in Frameworks */,
+				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
@@ -748,6 +766,7 @@
 				439C7E7B1C777CD500D29859 /* Models */,
 				439C7E8C1C777D1C00D29859 /* Database.swift */,
 				436032971C79D59C005F1893 /* ImageDownloader.swift */,
+				4305CA461CF434E30048E7EC /* Cards.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -936,6 +955,10 @@
 				436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */,
 				436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */,
 				43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */,
+				4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */,
+				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
+				4305CA3C1CF42AC60048E7EC /* Unbox.framework */,
+				4305CA3D1CF42AC60048E7EC /* Wrap.framework */,
 				43647A521CDC9A3D00C2B78E /* TextAttributes.framework */,
 				4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */,
 				4367899E1CAC05DD00C962D1 /* Cocoa.framework */,
@@ -1201,6 +1224,7 @@
 				43647A581CDF4A0E00C2B78E /* HSTrackerLogFormatter.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
 				434C2F321C7F475E001D1D91 /* Hearthpwn.swift in Sources */,
+				4305CA471CF434E30048E7EC /* Cards.swift in Sources */,
 				43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
