@@ -167,6 +167,9 @@ class TagChangeHandler {
         case .CLASS:
             return TagClass(rawString: rawValue)!.rawValue
 
+        case .STATE:
+            return State(rawString: rawValue)!.rawValue
+
         default:
             if let value = Int(rawValue) {
                 return value

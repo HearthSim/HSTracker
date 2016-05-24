@@ -33,6 +33,7 @@ struct TagChangeActions {
         case .FATIGUE: self.fatigueChange(game, value, id)
         case .STEP: self.stepChange(game)
         case .TURN: self.turnChange(game)
+        case .STATE: self.stateChange(game, value: value)
         default: break
         }
     }
@@ -195,6 +196,14 @@ struct TagChangeActions {
         }
     }
 
+    private func stateChange(game: Game, value: Int) {
+        if value != State.COMPLETE.rawValue {
+            return
+        }
+        game.gameEnd()
+        game.gameEnded = true
+    }
+
     private func turnChange(game: Game) {
         guard game.setupDone && game.playerEntity != nil else { return }
 
@@ -240,20 +249,12 @@ struct TagChangeActions {
             case .WON:
                 game.gameEndKeyPoint(true, id)
                 game.win()
-                game.gameEnd()
-                game.gameEnded = true
-
             case .LOST:
                 game.gameEndKeyPoint(false, id)
                 game.loss()
-                game.gameEnd()
-                game.gameEnded = true
-
             case .TIED:
                 game.gameEndKeyPoint(false, id)
                 game.tied()
-                game.gameEnd()
-
             default: break
             }
         }
