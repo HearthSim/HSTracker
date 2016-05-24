@@ -6,3 +6,5 @@ github "tid-kijyun/Kanna" ~> 1.0.0
 github "bitstadium/HockeySDK-Mac"
 github "sparkle-project/Sparkle"
 github "delba/TextAttributes"
+github "JohnSundell/Wrap"
+github "JohnSundell/Unbox"

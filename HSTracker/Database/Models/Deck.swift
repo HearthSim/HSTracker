@@ -8,12 +8,14 @@
 
 import Foundation
 import CleanroomLogger
+import Unbox
+import Wrap
 
 func generateId() -> String {
     return "\(NSUUID().UUIDString)-\(NSDate().timeIntervalSince1970)"
 }
 
-final class Deck: Hashable, CustomStringConvertible {
+final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible {
     var deckId: String = generateId()
     var name: String?
     var playerClass: String
@@ -26,6 +28,35 @@ final class Deck: Hashable, CustomStringConvertible {
     private var _cards = [Card]()
     private var cards: [Card]?
     var statistics = [Statistic]()
+
+    init(unboxer: Unboxer) {
+        self.deckId = unboxer.unbox("deckId")
+        self.name = unboxer.unbox("name")
+        self.playerClass = unboxer.unbox("playerClass")
+        self.version = unboxer.unbox("version")
+
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        self.creationDate = unboxer.unbox("creationDate", formatter: dateFormatter)
+        if self.creationDate == nil {
+            // support old version
+            self.creationDate = NSDate(timeIntervalSince1970: unboxer.unbox("creationDate"))
+        }
+        self.hearthstatsId = unboxer.unbox("hearthstatsId")
+        self.hearthstatsVersionId = unboxer.unbox("hearthstatsVersionId")
+        self.isActive = unboxer.unbox("isActive")
+        self.isArena = unboxer.unbox("isArena")
+
+        let tmpCards: [String: Int] = unboxer.unbox("cards")
+        for (cardId, count) in tmpCards {
+            if let card = Cards.byId(cardId) {
+                card.count = count
+                _cards.append(card)
+            }
+        }
+
+        self.statistics = unboxer.unbox("statistics")
+    }
 
     init(playerClass: String, name: String? = nil, deckId: String? = nil) {
         if let deckId = deckId {
@@ -105,69 +136,23 @@ final class Deck: Hashable, CustomStringConvertible {
         return deckId.hashValue
     }
 
-    func toDict() -> [String: AnyObject] {
-        self.reset()
-        return [
-            "deckId": deckId,
-            "name": name == nil ? "" : name!,
-            "playerClass": playerClass,
-            "version": version,
-            "hearthstatsId": (hearthstatsId == nil ? -1 : hearthstatsId!),
-            "hearthstatsVersionId": (hearthstatsVersionId == nil ? -1 : hearthstatsVersionId!),
-            "isActive": Int(isActive),
-            "isArena": Int(isArena),
-            "cards": sortedCards.toDict(),
-            "creationDate": (creationDate == nil ? -1 : creationDate!.timeIntervalSince1970),
-            "statistics": statistics.toDict()
-        ]
+    func wrap() -> AnyObject? {
+        reset()
+        do {
+            var wrapped = try Wrapper().wrap(self)
+            wrapped["cards"] = sortedCards.toDict()
+            return wrapped
+        } catch {
+            return nil
+        }
     }
 
-    static func fromDict(dict: [String: AnyObject]) -> Deck? {
-        guard let _ = dict["playerClass"] else { return nil }
-
-        if let playerClass = dict["playerClass"] as? String {
-            let deck = Deck(playerClass: playerClass,
-                            name: dict["name"] as? String,
-                            deckId: dict["deckId"] as? String)
-
-            if let version = dict["version"] as? String {
-                deck.version = version
-            }
-            if let hearthstatsId = dict["hearthstatsId"] as? Int where hearthstatsId != -1 {
-                deck.hearthstatsId = hearthstatsId
-            }
-            if let hearthstatsVersionId = dict["hearthstatsVersionId"] as? Int
-                where hearthstatsVersionId != -1 {
-                deck.hearthstatsVersionId = hearthstatsVersionId
-            }
-            if let isActive = dict["isActive"] as? Int {
-                deck.isActive = Bool(isActive)
-            }
-            if let isArena = dict["isArena"] as? Int {
-                deck.isArena = Bool(isArena)
-            }
-            if let creationDate = dict["creationDate"] as? Double {
-                deck.creationDate = NSDate(timeIntervalSince1970: creationDate)
-            }
-            if let cards = dict["cards"] as? [String: Int] {
-                for (cardId, count) in cards {
-                    if let card = Cards.byId(cardId) {
-                        card.count = count
-                        deck.addCard(card)
-                    }
-                }
-            }
-            if let statistics = dict["statistics"] as? [[String: AnyObject]] {
-                for stat in statistics {
-                    if let statistic = Statistic.fromDict(stat) {
-                        deck.addStatistic(statistic)
-                    }
-                }
-            }
-
-            return deck
+    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+        if propertyName == "_cards" {
+            return nil
         }
-        return nil
+
+        return propertyName
     }
 
     func addStatistic(statistic: Statistic) {
