@@ -127,7 +127,7 @@ final class LogReader {
                                 let logLine = LogLine(namespace: info.name, line: line)
                                 if logLine.time >= startingPoint {
                                     logReaderManager?.processLine(logLine)
-                                    Log.verbose?.message("Appending \(logLine)")
+                                    //Log.verbose?.message("Appending \(logLine)")
                                 }
                             }
                         }
