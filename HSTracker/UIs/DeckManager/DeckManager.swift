@@ -81,6 +81,12 @@ class DeckManager: NSWindowController {
 
             return e
         }
+
+        NSNotificationCenter.defaultCenter()
+            .addObserver(self,
+                         selector: #selector(DeckManager.updateStatsLabel),
+                         name: "reload_decks",
+                         object: nil)
     }
 
     func filteredDecks() -> [Deck] {
@@ -143,10 +149,14 @@ class DeckManager: NSWindowController {
         currentDeck = filteredDecks()[clickedRow]
         deckListTable.reloadData()
         curveView.deck = currentDeck
-        statsLabel.stringValue = currentDeck!.displayStats()
-        curveView.reload()
+        updateStatsLabel()
 
         toolbar.validateVisibleItems()
+    }
+
+    func updateStatsLabel() {
+        statsLabel.stringValue = currentDeck!.displayStats()
+        curveView.reload()
     }
 
     // MARK: - Toolbar actions
