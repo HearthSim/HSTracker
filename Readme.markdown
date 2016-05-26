@@ -1,5 +1,7 @@
 # HSTracker
 
+[![Join the chat at https://gitter.im/bmichotte/HSTracker](https://badges.gitter.im/bmichotte/HSTracker.svg)](https://gitter.im/bmichotte/HSTracker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for Mac OsX 10.10+.
 
 [![Build Status](https://travis-ci.org/bmichotte/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
