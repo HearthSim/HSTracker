@@ -1,6 +1,7 @@
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck
 - Decks are back again in the menu
+- Add a deathrattle counter for N'Zoth
 
 #### 0.16.8
 - UTC is now used, which improve parsing logs
