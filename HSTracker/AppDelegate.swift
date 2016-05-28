@@ -140,15 +140,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                        display: true)
         splashscreen?.showWindow(self)
 
-        let databaseOperation = NSBlockOperation(block: {
+        let databaseOperation = NSBlockOperation {
             let database = Database()
             if let images = database.loadDatabase(self.splashscreen!) {
                 let imageDownloader = ImageDownloader()
                 imageDownloader.deleteImages()
                 imageDownloader.downloadImagesIfNeeded(images, splashscreen: self.splashscreen!)
             }
-        })
-        let loggingOperation = NSBlockOperation(block: {
+        }
+        let decksOperation = NSBlockOperation {
+            Log.info?.message("Loading decks")
+            dispatch_async(dispatch_get_main_queue()) {
+                self.splashscreen?.display(NSLocalizedString("Loading decks", comment: ""),
+                    indeterminate: true)
+            }
+            Decks.instance.loadDecks()
+        }
+        let loggingOperation = NSBlockOperation {
             while true {
                 if self.playerTracker != nil && self.opponentTracker != nil {
                     break
@@ -165,29 +173,31 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             NSOperationQueue.mainQueue().addOperationWithBlock() {
                 game.reset()
             }
+        }
 
-        })
-        let trackerOperation = NSBlockOperation(block: {
+        let trackerOperation = NSBlockOperation {
             NSOperationQueue.mainQueue().addOperationWithBlock() {
                 Log.info?.message("Opening trackers")
                 self.openTrackers()
             }
-        })
-        let menuOperation = NSBlockOperation(block: {
+        }
+        let menuOperation = NSBlockOperation {
             NSOperationQueue.mainQueue().addOperationWithBlock() {
                 Log.info?.message("Loading menu")
                 self.buildMenu()
             }
-        })
+        }
 
         loggingOperation.addDependency(trackerOperation)
         loggingOperation.addDependency(menuOperation)
-        trackerOperation.addDependency(databaseOperation)
+        decksOperation.addDependency(databaseOperation)
+        trackerOperation.addDependency(decksOperation)
         menuOperation.addDependency(databaseOperation)
 
         operationQueue = NSOperationQueue()
         operationQueue?.addOperation(trackerOperation)
         operationQueue?.addOperation(databaseOperation)
+        operationQueue?.addOperation(decksOperation)
         operationQueue?.addOperation(loggingOperation)
         operationQueue?.addOperation(menuOperation)
 

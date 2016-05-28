@@ -23,11 +23,7 @@ final class Decks {
         return nil
     }
 
-    init() {
-        loadDecks()
-    }
-
-    private func loadDecks() {
+    func loadDecks() {
         // backup decks.json
         if let jsonFile = savePath {
             if NSFileManager.defaultManager().fileExistsAtPath(jsonFile) {

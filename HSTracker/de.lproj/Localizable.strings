@@ -15,6 +15,7 @@
 "Game" = "Spiel";
 "General" = "Allgemein";
 "Loading %@ cards" = "Lade %@ Karten";
+"Loading decks" = "Loading decks";
 "Lock windows" = "Fenster sperren";
 "OK" = "OK";
 "Please select your Hearthstone app" = "Bitte selektiere die Hearthstone App.";
