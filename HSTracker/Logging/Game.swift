@@ -981,7 +981,7 @@ class Game {
             } else {
                 // TODO need to properly break ties when effigy + deathrattle played in same turn
                 let minionTurnPlayed = turn - entity.getTag(.NUM_TURNS_IN_PLAY)
-                var secretOffset: Int = 0
+                var secretOffset = 0
                 if let secret = opponentSecrets!.secrets
                     .firstWhere({ $0.turnPlayed >= minionTurnPlayed }) {
                     secretOffset = opponentSecrets!.secrets.indexOf(secret)!

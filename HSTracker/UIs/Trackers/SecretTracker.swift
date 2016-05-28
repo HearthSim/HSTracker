@@ -79,12 +79,12 @@ class SecretTracker: NSWindowController {
 
     func setSecrets(opponentSecrets: OpponentSecrets) {
         cards.removeAll()
-        opponentSecrets.getSecrets().forEach { (secret) in
-            if let card = Cards.byId(secret.cardId) {
+        opponentSecrets.getSecrets().forEach({ (secret) in
+            if let card = Cards.byId(secret.cardId) where secret.count > 0 {
                 card.count = secret.count
                 cards.append(card)
             }
-        }
+        })
         table.reloadData()
     }
 }

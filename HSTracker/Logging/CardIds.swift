@@ -2382,7 +2382,7 @@ struct CardIds {
 
             static func getCards(standardOnly: Bool) -> [String] {
                 return standardOnly ? All.filter {
-                    Database.wildSets.contains(Cards.byId($0)?.set ?? "")
+                    !Database.wildSets.contains(Cards.byId($0)?.set ?? "")
                     } : All
             }
         }
