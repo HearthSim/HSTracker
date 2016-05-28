@@ -186,6 +186,17 @@ final class LogReader {
 
     func stop() {
         Log.info?.message("Stopping tracker \(info.name)")
+        fileHandle?.closeFile()
+        fileHandle = nil
+
+        // try to truncate log file when stopping
+        if fileManager.fileExistsAtPath(path)
+            && !Hearthstone.instance.isHearthstoneRunning {
+            let file = NSFileHandle(forWritingAtPath: path)
+            file?.truncateFileAtOffset(UInt64(0))
+            file?.closeFile()
+            offset = 0
+        }
         stopped = true
     }
 }
