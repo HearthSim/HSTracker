@@ -5,6 +5,9 @@
 - Fix some crashes
 - Refactoring of log reading
 - Refactoring of some code to be more Swift-compliant
+- Secret helper should appear again
+- Update deck statistics on game end
+- Better end game handling
 
 #### 0.16.7
 - Startup crash finally corrected
