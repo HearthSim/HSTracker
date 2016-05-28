@@ -640,6 +640,7 @@ class Game {
 
     func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         player.playToGraveyard(entity, cardId: cardId, turn: turn)
+        updatePlayerTracker()
     }
 
     func playerJoust(entity: Entity, cardId: String?, turn: Int) {
@@ -824,6 +825,7 @@ class Game {
             opponentMinionDeath(entity, turn: turn)
         }
         updateCardHuds()
+        updateOpponentTracker()
     }
 
     func opponentJoust(entity: Entity, cardId: String?, turn: Int) {

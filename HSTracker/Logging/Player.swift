@@ -84,6 +84,7 @@ final class Player {
     var goingFirst: Bool = false
     var fatigue: Int = 0
     private(set) var spellsPlayedCount = 0
+    private(set) var deathrattlesPlayedCount = 0
 
     var hasCoin: Bool {
         return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoin }
@@ -136,6 +137,7 @@ final class Player {
         goingFirst = false
         fatigue = 0
         spellsPlayedCount = 0
+        deathrattlesPlayedCount = 0
 
         inDeckPredictions.removeAll()
     }
@@ -512,6 +514,9 @@ final class Player {
 
     func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         entity.info.turn = turn
+        if entity.isMinion && entity.hasTag(.DEATHRATTLE) {
+            deathrattlesPlayedCount += 1
+        }
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
@@ -10,6 +10,7 @@
                 <outlet property="includeCreated" destination="Vgg-OU-9bx" id="N7Z-I9-nhP"/>
                 <outlet property="showCardHuds" destination="Jvp-6c-HZ0" id="dCi-2R-3hn"/>
                 <outlet property="showCthunCounter" destination="gyI-vB-68v" id="OjC-Sb-qUz"/>
+                <outlet property="showDeathrattleCounter" destination="U2A-tO-ePh" id="deO-Wh-znY"/>
                 <outlet property="showOpponentCardCount" destination="vlC-Xd-bPQ" id="nGN-hb-FIG"/>
                 <outlet property="showOpponentDrawChance" destination="wnH-Tv-Haz" id="ZAv-yW-h6X"/>
                 <outlet property="showOpponentTracker" destination="bt4-kn-GjS" id="dK1-dQ-v0r"/>
@@ -103,11 +104,24 @@
                         <action selector="checkboxClicked:" target="-2" id="8CX-UR-uw4"/>
                     </connections>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="U2A-tO-ePh">
+                    <rect key="frame" x="18" y="47" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Deathrattle counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aZW-kf-zpy">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Tdo-sp-KVH"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
+                <constraint firstItem="U2A-tO-ePh" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="32v-o9-tFI"/>
                 <constraint firstItem="wnH-Tv-Haz" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="35e-nJ-AOI"/>
                 <constraint firstAttribute="trailing" secondItem="Jvp-6c-HZ0" secondAttribute="trailing" constant="20" id="AMp-bq-Y5H"/>
                 <constraint firstItem="gyI-vB-68v" firstAttribute="top" secondItem="wnH-Tv-Haz" secondAttribute="bottom" constant="10" id="Avc-Jm-rar"/>
+                <constraint firstAttribute="trailing" secondItem="U2A-tO-ePh" secondAttribute="trailing" constant="20" id="DFa-em-zfx"/>
+                <constraint firstItem="U2A-tO-ePh" firstAttribute="top" secondItem="Vgg-OU-9bx" secondAttribute="bottom" constant="10" id="Eda-0p-VwI"/>
                 <constraint firstItem="npw-Sr-U97" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="FNo-R8-mKY"/>
                 <constraint firstItem="Vgg-OU-9bx" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="FnL-2R-M3n"/>
                 <constraint firstItem="vlC-Xd-bPQ" firstAttribute="top" secondItem="npw-Sr-U97" secondAttribute="bottom" constant="10" id="Hf2-3Y-aeL"/>

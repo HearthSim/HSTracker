@@ -16,3 +16,6 @@
 
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
 "Tex-bu-toa.title" = "显示克苏恩反制";
+
+/* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "IPf-hF-E74"; */
+"IPf-hF-E74.title" = "Show Deathrattle counter";

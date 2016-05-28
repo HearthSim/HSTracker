@@ -22,3 +22,6 @@
 
 /* Class = "NSButtonCell"; title = "Include created cards"; ObjectID = "PrR-2g-WEA"; */
 "PrR-2g-WEA.title" = "Include created cards";
+
+/* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
+"aZW-kf-zpy.title" = "Show Deathrattle counter";

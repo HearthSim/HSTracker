@@ -116,6 +116,10 @@ final class Settings {
         set { set("player_cthun_frame", value: newValue) }
         get { return get("player_cthun_frame") as? Bool ?? true }
     }
+    var showPlayerDeathrattle: Bool {
+        set { set("player_deathrattle_frame", value: newValue) }
+        get { return get("player_deathrattle_frame") as? Bool ?? true }
+    }
     var showPlayerYogg: Bool {
         set { set("player_yogg_frame", value: newValue) }
         get { return get("player_yogg_frame") as? Bool ?? true }
@@ -127,6 +131,10 @@ final class Settings {
     var showOpponentYogg: Bool {
         set { set("opponent_yogg_frame", value: newValue) }
         get { return get("opponent_yogg_frame") as? Bool ?? true }
+    }
+    var showOpponentDeathrattle: Bool {
+        set { set("opponent_deathrattle_frame", value: newValue) }
+        get { return get("opponent_deathrattle_frame") as? Bool ?? true }
     }
     var removeCardsFromDeck: Bool {
         set { set("remove_cards_from_deck", value: newValue) }

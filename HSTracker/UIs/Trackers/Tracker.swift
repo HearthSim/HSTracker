@@ -47,11 +47,13 @@ class Tracker: NSWindowController {
             "player_card_count": #selector(Tracker.playerOptionFrameChange(_:)),
             "player_cthun_frame": #selector(Tracker.playerOptionFrameChange(_:)),
             "player_yogg_frame": #selector(Tracker.playerOptionFrameChange(_:)),
+            "player_deathrattle_frame": #selector(Tracker.playerOptionFrameChange(_:)),
 
             "opponent_card_count": #selector(Tracker.opponentOptionFrameChange(_:)),
             "opponent_draw_chance": #selector(Tracker.opponentOptionFrameChange(_:)),
             "opponent_cthun_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
             "opponent_yogg_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
+            "opponent_deathrattle_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
         ]
 
         for (name, selector) in observers {
@@ -286,6 +288,7 @@ class Tracker: NSWindowController {
 
         let showCthunCounter: Bool
         let showSpellCounter: Bool
+        let showDeathrattleCounter: Bool
         let proxy: Entity?
 
         if playerType == .Opponent {
@@ -295,6 +298,7 @@ class Tracker: NSWindowController {
 
             showCthunCounter = WotogCounterHelper.showOpponentCthunCounter
             showSpellCounter = WotogCounterHelper.showOpponentSpellsCounter
+            showDeathrattleCounter = WotogCounterHelper.showOpponentDeathrattleCounter
             proxy = WotogCounterHelper.opponentCthunProxy
         } else {
             cardCounter.hidden = !settings.showPlayerCardCount
@@ -303,20 +307,40 @@ class Tracker: NSWindowController {
 
             showCthunCounter = WotogCounterHelper.showPlayerCthunCounter
             showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
+            showDeathrattleCounter = WotogCounterHelper.showPlayerDeathrattleCounter
             proxy = WotogCounterHelper.playerCthunProxy
         }
-        wotogCounter.counterStyle = showCthunCounter && showSpellCounter
-            ? .Full : (showCthunCounter ? .Cthun : (showSpellCounter ? .Spells : .None))
-        wotogCounter.hidden = wotogCounter.counterStyle == .None
+
+        var counterStyle: [WotogCounterStyle] = []
+        if showCthunCounter && showSpellCounter && showDeathrattleCounter {
+            counterStyle.append(.Full)
+        } else if !showCthunCounter && !showSpellCounter && !showDeathrattleCounter {
+            counterStyle.append(.None)
+        } else {
+            if showDeathrattleCounter {
+                counterStyle.append(.Deathrattles)
+            }
+            if showSpellCounter {
+                counterStyle.append(.Spells)
+            }
+            if showCthunCounter {
+                counterStyle.append(.Cthun)
+            }
+        }
+
+        wotogCounter.counterStyle = counterStyle
+        wotogCounter.hidden = wotogCounter.counterStyle.contains(.None)
         wotogCounter.attack = proxy?.attack ?? 6
         wotogCounter.health = proxy?.health ?? 6
         wotogCounter.spell = player?.spellsPlayedCount ?? 0
+        wotogCounter.deathrattle = player?.deathrattlesPlayedCount ?? 0
 
         let opponentDrawChanceHeight = round(71 / ratio)
         let playerDrawChanceHeight = round(40 / ratio)
         let cardCounterHeight = round(40 / ratio)
         let cthunCounterHeight = round(40 / ratio)
         let yoggCounterHeight = round(40 / ratio)
+        let deathrattleCounterHeight = round(40 / ratio)
 
         var offsetFrames: CGFloat = 0
         if !opponentDrawChance.hidden {
@@ -333,6 +357,9 @@ class Tracker: NSWindowController {
         }
         if showCthunCounter {
             offsetFrames += cthunCounterHeight
+        }
+        if showDeathrattleCounter {
+            offsetFrames += deathrattleCounterHeight
         }
 
         var cardHeight: CGFloat
@@ -381,10 +408,13 @@ class Tracker: NSWindowController {
                                             width: windowWidth,
                                             height: playerDrawChanceHeight)
         }
-        if showCthunCounter || showSpellCounter {
+        if showCthunCounter || showSpellCounter || showDeathrattleCounter {
             var height: CGFloat = 0
             if showCthunCounter {
                 height += cthunCounterHeight
+            }
+            if showDeathrattleCounter {
+                height += deathrattleCounterHeight
             }
             if showSpellCounter {
                 height += yoggCounterHeight
