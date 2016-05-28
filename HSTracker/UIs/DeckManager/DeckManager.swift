@@ -89,6 +89,10 @@ class DeckManager: NSWindowController {
                          object: nil)
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     func filteredDecks() -> [Deck] {
         if let currentClass = currentClass {
             return decks.filter({ $0.playerClass == currentClass }).sort { $0.name < $1.name }
@@ -155,8 +159,12 @@ class DeckManager: NSWindowController {
     }
 
     func updateStatsLabel() {
-        statsLabel.stringValue = currentDeck!.displayStats()
-        curveView.reload()
+        if let currentDeck = self.currentDeck {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.statsLabel.stringValue = currentDeck.displayStats()
+                self.curveView.reload()
+            }
+        }
     }
 
     // MARK: - Toolbar actions

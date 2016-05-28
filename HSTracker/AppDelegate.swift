@@ -192,7 +192,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         loggingOperation.addDependency(menuOperation)
         decksOperation.addDependency(databaseOperation)
         trackerOperation.addDependency(decksOperation)
-        menuOperation.addDependency(databaseOperation)
+        menuOperation.addDependency(decksOperation)
 
         operationQueue = NSOperationQueue()
         operationQueue?.addOperation(trackerOperation)
@@ -274,6 +274,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             alert.runModal()
             return
         }
+
+
 
         Hearthstone.instance.start()
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
