@@ -75,6 +75,26 @@ class TrackerFrame: NSView {
         return ratioWidth
     }
 
+    var localTextOffset: CGFloat {
+        if Settings.instance.isAsianLanguage {
+            return 0.0
+        } else if Settings.instance.isCyrillicLanguage {
+            return -6.0
+        } else {
+            return 0.0
+        }
+    }
+
+    func localFont(size: CGFloat) -> NSFont? {
+        if Settings.instance.isAsianLanguage {
+            return NSFont(name: "NanumGothic", size: round(size / ratioHeight))
+        } else if Settings.instance.isCyrillicLanguage {
+            return NSFont(name: "Benguiat Rus", size: round(size / ratioHeight))
+        } else {
+            return NSFont(name: "Belwe Bd BT", size: round(size / ratioHeight))
+        }
+    }
+
     func addImage(image: NSImage?, rect: NSRect) {
         guard let image = image else {return}
 
@@ -99,7 +119,6 @@ class TextFrame: TrackerFrame {
             .foregroundColor(NSColor.whiteColor())
             .strokeColor(NSColor.blackColor())
             .strokeWidth(-2)
-
 
         NSAttributedString(string: val, attributes: attributes)
             .drawInRect(ratio(rect))

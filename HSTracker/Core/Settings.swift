@@ -284,11 +284,15 @@ final class Settings {
         }
     }
 
-    var isCyrillicOrAsian: Bool {
-        if let language = hearthstoneLanguage {
-            return language.match("^(zh|ko|ru|ja|th)")
-        } else {
-            return false
-        }
+    var isCyrillicLanguage: Bool {
+        guard let language = hearthstoneLanguage else { return false }
+
+        return language == "ruRU"
+    }
+
+    var isAsianLanguage: Bool {
+        guard let language = hearthstoneLanguage else { return false }
+
+        return language.match("^(zh|ko|ja|th)")
     }
 }

@@ -123,14 +123,15 @@ class CardCellView: TrackerFrame {
         if self.playerType == .Player {
             foreground = card.textColor()
         }
+
         let attributes = TextAttributes()
-            .font(NSFont(name: "Belwe Bd BT", size: round(16 / ratioHeight)))
+            .font(localFont(16))
             .foregroundColor(foreground)
             .strokeColor(NSColor.blackColor())
             .strokeWidth(-1)
 
         NSAttributedString(string: card.name, attributes: attributes)
-            .drawInRect(ratio(NSRect(x: 38, y: 2, width: 174, height: 30)))
+            .drawInRect(ratio(NSRect(x: 38, y: 2 + localTextOffset, width: 174, height: 30)))
     }
 
     private func addCardCost(card: Card) {
@@ -226,10 +227,8 @@ class CardCellView: TrackerFrame {
         var frame = ImageCache.frameImage(nil)
         if card.highlightFrame {
             frame = ImageCache.frameImage(.Golden)
-        } else {
-            if Settings.instance.showRarityColors {
-                frame = ImageCache.frameImage(card.rarity)
-            }
+        } else if Settings.instance.showRarityColors {
+            frame = ImageCache.frameImage(card.rarity)
         }
         addImage(frame, rect: frameRect)
     }
