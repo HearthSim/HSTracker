@@ -29,6 +29,8 @@ struct AssetHandler {
                 game.currentGameMode = .Ranked
                 game.setPlayerRank(rank)
             }
+        } else if line.contains("victory_screen_start") {
+            game.victoryScreenShow = true
         } else if line.contains("rank_window") {
             game.currentGameMode = .Ranked
         } else if line.match(self.dynamicType.UnloadingCard) {

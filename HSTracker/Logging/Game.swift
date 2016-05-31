@@ -73,6 +73,7 @@ class Game {
     var wasInProgress = false
     var hasBeenConceded = false
 
+    var victoryScreenShow = false
     var playerUpdateRequests = 0
     var opponentUpdateRequests = 0
     var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
@@ -134,6 +135,7 @@ class Game {
         Log.verbose?.message("Reseting Game")
         currentTurn = 0
         currentRank = 0
+        victoryScreenShow = false
         maxId = 0
         lastId = 0
 
@@ -295,7 +297,7 @@ class Game {
     }
 
     func handleEndGame() {
-        if currentGameMode == .None || currentGameMode == .Casual {
+        if currentRank == 0 || currentGameMode == .None || currentGameMode == .Casual {
             waitForRank(5) {
                 self.handleEndGame()
             }
@@ -320,6 +322,11 @@ class Game {
             + "rank = \(currentRank), result = \(gameResult), "
             + "against = \(opponent.name)(\(opponent.playerClass)), "
             + "opponent played : \(opponent.displayRevealedCards) ")
+
+        if currentRank == 0 && currentGameMode == .Ranked {
+            Log.info?.message("rank is 0 and mode is ranked, ignore")
+            return
+        }
 
         if let deck = activeDeck,
             opponentName = opponent.name,
@@ -370,14 +377,14 @@ class Game {
     func waitForRank(seconds: Double, completion: () -> Void) {
         let timeout = NSDate().timeIntervalSince1970 + seconds
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            while NSDate().timeIntervalSince1970 - self.lastAssetUnload < timeout {
+            while NSDate().timeIntervalSince1970 < timeout {
                 NSThread.sleepForTimeInterval(0.5)
-                if self.currentRank != 0 {
+                if self.victoryScreenShow && self.currentRank != 0 {
                     break
                 }
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion()
-                }
+            }
+            dispatch_async(dispatch_get_main_queue()) {
+                completion()
             }
         }
     }
@@ -506,8 +513,10 @@ class Game {
     }
 
     func setPlayerRank(rank: Int) {
-        Log.info?.message("Player rank is \(rank) ")
-        currentRank = rank
+        if victoryScreenShow {
+            Log.info?.message("Player rank is \(rank) ")
+            currentRank = rank
+        }
     }
 
     func setPlayerName(name: String) {
