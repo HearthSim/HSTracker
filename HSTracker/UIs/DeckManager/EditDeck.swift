@@ -142,6 +142,15 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             }
             return e
         }
+        NSNotificationCenter.defaultCenter()
+            .addObserver(self,
+                         selector: #selector(EditDeck.updateTheme(_:)),
+                         name: "theme",
+                         object: nil)
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     func setDelegate(delegate: NewDeckDelegate) {
@@ -167,6 +176,11 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let count = currentDeck?.countCards() {
             countLabel.stringValue = "\(count) / 30"
         }
+    }
+
+    func updateTheme(notification: NSNotification) {
+        deckCardsView.reloadData()
+        cardsCollectionView.reloadData()
     }
 
     // MARK: - NSSegmentedControl
@@ -236,7 +250,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                            action: #selector(EditDeck.changeSet(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = set
-            popupMenuItem.image = ImageCache.asset("Set_\(set)")
+            popupMenuItem.image = NSImage(named: "Set_\(set)")
             popupMenu.addItem(popupMenuItem)
         }
         sets.menu = popupMenu
@@ -323,7 +337,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                            keyEquivalent: "")
             popupMenuItem.representedObject = rarity.rawValue
             let gemName = rarity == .Free ? "gem" : "gem_\(rarity.rawValue)"
-            popupMenuItem.image = ImageCache.asset(gemName)
+            popupMenuItem.image = NSImage(named: gemName)
             popupMenu.addItem(popupMenuItem)
         }
         rarity.menu = popupMenu
@@ -469,7 +483,7 @@ extension EditDeck: NSTableViewDataSource {
 extension EditDeck: NSTableViewDelegate {
     func tableView(tableView: NSTableView,
                    viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cell = CardCellView()
+        let cell = CardBar.factory()
         cell.playerType = .DeckManager
         cell.card = currentDeck!.sortedCards[row]
         return cell

@@ -11,8 +11,8 @@ import Foundation
 class PlayerDrawChance: TextFrame {
 
     private let frameRect = NSRect(x: 0, y: 0, width: CGFloat(kFrameWidth), height: 40)
-    private let draw1Frame = NSRect(x: 70, y: 11, width: 68, height: 25)
-    private let draw2Frame = NSRect(x: 148, y: 11, width: 68, height: 25)
+    private let draw1Frame = NSRect(x: 70, y: 1, width: 68, height: 25)
+    private let draw2Frame = NSRect(x: 148, y: 1, width: 68, height: 25)
 
     var drawChance1 = 0.0
     var drawChance2 = 0.0
@@ -20,7 +20,7 @@ class PlayerDrawChance: TextFrame {
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        addImage(ImageCache.asset("player-chance-frame"), rect: frameRect)
+        addImage("player-chance-frame.png", rect: frameRect)
         addDouble(drawChance1, rect: draw1Frame)
         addDouble(drawChance2, rect: draw2Frame)
     }

@@ -23,6 +23,9 @@ class TrackersPreferences: NSViewController, MASPreferencesViewController {
     @IBOutlet weak var showSecretHelper: NSButton!
     @IBOutlet weak var showRarityColors: NSButton!
     @IBOutlet weak var showFloatingCard: NSButton!
+    @IBOutlet weak var theme: NSComboBox!
+
+    let themes = ["classic", "frost", "dark", "minimal"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +41,7 @@ class TrackersPreferences: NSViewController, MASPreferencesViewController {
         showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
         showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
         showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
+        theme.selectItemAtIndex(themes.indexOf(settings.theme) ?? 0)
     }
 
     @IBAction func sliderChange(sender: AnyObject) {
@@ -49,6 +53,8 @@ class TrackersPreferences: NSViewController, MASPreferencesViewController {
         let settings = Settings.instance
         if sender == cardSize {
             settings.cardSize = CardSize(rawValue: cardSize.indexOfSelectedItem)!
+        } else if sender == theme {
+            settings.theme = themes[theme.indexOfSelectedItem] ?? "classic"
         }
     }
 

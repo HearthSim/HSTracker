@@ -248,6 +248,11 @@ final class Settings {
         get { return get("hearthstats_auto_synchronize_matches") as? Bool ?? true }
     }
 
+    var theme: String {
+        set { set("theme", value: newValue) }
+        get { return get("theme") as? String ?? "classic" }
+    }
+
     // MARK: - Paths / utils
     var logSeverity: LogSeverity {
         set { set("file_logger_severity", value: newValue.rawValue) }

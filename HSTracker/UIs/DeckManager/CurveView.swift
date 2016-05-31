@@ -106,7 +106,7 @@ class CurveView: NSView {
 
             x += padding
 
-            if let mana = ImageCache.asset("mana") {
+            if let mana = NSImage(named: "mana") {
                 mana.drawInRect(NSRect(x: x, y: padding, width: manaHeight, height: manaHeight),
                     fromRect: NSZeroRect,
                     operation: NSCompositingOperation.CompositeSourceOver,

@@ -18,8 +18,8 @@ enum WotogCounterStyle {
 
 class WotogCounter: TextFrame {
     private let frameRect = NSRect(x: 0, y: 0, width: CGFloat(kFrameWidth), height: 40)
-    private let attackFrame = NSRect(x: 60, y: 11, width: 68, height: 25)
-    private let healthFrame = NSRect(x: 140, y: 11, width: 68, height: 25)
+    private let attackFrame = NSRect(x: 60, y: 1, width: 68, height: 25)
+    private let healthFrame = NSRect(x: 140, y: 1, width: 68, height: 25)
 
     var attack = 6
     var health = 6
@@ -33,7 +33,7 @@ class WotogCounter: TextFrame {
         var frame = frameRect
         var textFrame = attackFrame
         if counterStyle.contains(.Full) || counterStyle.contains(.Cthun) {
-            addImage(ImageCache.asset("cthun-frame"), rect: frame)
+            addImage("cthun-frame.png", rect: frame)
             addInt(attack, rect: textFrame)
             addInt(health, rect: healthFrame)
 
@@ -41,14 +41,14 @@ class WotogCounter: TextFrame {
             textFrame.origin.y += NSHeight(frame)
         }
         if counterStyle.contains(.Full) || counterStyle.contains(.Spells) {
-            addImage(ImageCache.asset("yogg-frame"), rect: frame)
+            addImage("yogg-frame.png", rect: frame)
             addInt(spell, rect: textFrame)
 
             frame = frameRect.offsetBy(dx: 0, dy: NSHeight(frame))
             textFrame.origin.y += NSHeight(frame)
         }
         if counterStyle.contains(.Full) || counterStyle.contains(.Deathrattles) {
-            addImage(ImageCache.asset("deathrattle-frame"), rect: frame)
+            addImage("deathrattle-frame.png", rect: frame)
             addInt(deathrattle, rect: textFrame)
         }
     }

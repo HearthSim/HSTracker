@@ -41,3 +41,17 @@
 /* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
 "zP3-ns-ggP.title" = "Opacité";
 
+/* Class = "NSTextFieldCell"; title = "Theme"; ObjectID = "Lah-xh-QVg"; */
+"Lah-xh-QVg.title" = "Thème";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[0] = "Classic"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[0]" = "Classique";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[1] = "Frost"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[1]" = "Givre";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[2] = "Dark"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[2]" = "Sombre";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[3] = "Minimal"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[3]" = "Minimaliste";

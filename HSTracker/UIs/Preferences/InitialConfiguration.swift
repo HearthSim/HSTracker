@@ -41,7 +41,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             hearthstonePath.enabled = false
             choosePath.enabled = false
         } else {
-            checkImage.image = ImageCache.asset("error")
+            checkImage.image = NSImage(named: "error")
 
             let alert = NSAlert()
             alert.alertStyle = .CriticalAlertStyle
@@ -92,7 +92,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             if let url = openDialog.URLs.first {
                 if let path = url.path {
                     hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
-                    checkImage.image = ImageCache.asset("check")
+                    checkImage.image = NSImage(named: "check")
                 }
             }
         }

@@ -11,8 +11,8 @@ import Cocoa
 class CardCounter: TextFrame {
 
     private let frameRect = NSRect(x: 0, y: 0, width: CGFloat(kFrameWidth), height: 40)
-    private let handFrame = NSRect(x: 60, y: 11, width: 68, height: 25)
-    private let deckFrame = NSRect(x: 154, y: 11, width: 68, height: 25)
+    private let handFrame = NSRect(x: 60, y: 1, width: 68, height: 25)
+    private let deckFrame = NSRect(x: 154, y: 1, width: 68, height: 25)
 
     var handCount = 30
     var deckCount = 0
@@ -20,7 +20,7 @@ class CardCounter: TextFrame {
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        addImage(ImageCache.asset("card-counter-frame"), rect: frameRect)
+        addImage("card-counter-frame.png", rect: frameRect)
         addInt(handCount, rect: handFrame)
         addInt(deckCount, rect: deckFrame)
     }

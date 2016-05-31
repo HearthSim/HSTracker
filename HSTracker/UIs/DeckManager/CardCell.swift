@@ -13,7 +13,7 @@ class CardCell: JNWCollectionViewCell {
     private var _card: Card?
     var showCard = true
     var isArena = false
-    var cellView: CardCellView?
+    var cellView: CardBar?
 
     func setCard(card: Card) {
         _card = card
@@ -22,13 +22,15 @@ class CardCell: JNWCollectionViewCell {
                 cellView.removeFromSuperview()
                 self.cellView = nil
             }
-            self.backgroundImage = ImageCache.cardImage(card)
+            self.backgroundImage = ImageUtils.cardImage(card)
         } else {
             if let cellView = cellView {
                 cellView.card = card
             } else {
-                cellView = CardCellView(frame: NSRect(x: 0, y: 0,
-                    width: CGFloat(kFrameWidth), height: CGFloat(kRowHeight)))
+                cellView = CardBar.factory()
+                cellView?.frame = NSRect(x: 0, y: 0,
+                                         width: CGFloat(kFrameWidth),
+                                         height: CGFloat(kRowHeight))
                 cellView?.card = card
                 cellView?.playerType = .CardList
                 self.addSubview(cellView!)

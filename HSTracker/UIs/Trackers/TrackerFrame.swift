@@ -25,9 +25,7 @@ enum CardSize: Int {
     Big
 }
 
-class TrackerFrame: NSView {
-
-    var playerType: PlayerType?
+class TextFrame: NSView {
 
     init() {
         super.init(frame: NSZeroRect)
@@ -58,10 +56,6 @@ class TrackerFrame: NSView {
     }
 
     var ratioWidth: CGFloat {
-        if let playerType = playerType where playerType == .DeckManager {
-            return 1.0
-        }
-
         var ratio: CGFloat
         switch Settings.instance.cardSize {
         case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
@@ -75,35 +69,20 @@ class TrackerFrame: NSView {
         return ratioWidth
     }
 
-    var localTextOffset: CGFloat {
-        if Settings.instance.isAsianLanguage {
-            return 0.0
-        } else if Settings.instance.isCyrillicLanguage {
-            return -6.0
-        } else {
-            return 0.0
+    func addImage(filename: String, rect: NSRect) {
+        let theme = Settings.instance.theme
+
+        var fullPath = NSBundle.mainBundle().resourcePath!
+            + "/Resources/Themes/Overlay/\(theme)/\(filename)"
+        if !NSFileManager.defaultManager().fileExistsAtPath(fullPath) {
+            fullPath = NSBundle.mainBundle().resourcePath!
+                + "/Resources/Themes/Overlay/default/\(filename)"
         }
+
+        guard let image = NSImage(contentsOfFile: fullPath) else {return}
+        image.drawInRect(ratio(rect))
     }
 
-    func localFont(size: CGFloat) -> NSFont? {
-        if Settings.instance.isAsianLanguage {
-            return NSFont(name: "NanumGothic", size: round(size / ratioHeight))
-        } else if Settings.instance.isCyrillicLanguage {
-            return NSFont(name: "Benguiat Rus", size: round(size / ratioHeight))
-        } else {
-            return NSFont(name: "Belwe Bd BT", size: round(size / ratioHeight))
-        }
-    }
-
-    func addImage(image: NSImage?, rect: NSRect) {
-        guard let image = image else {return}
-
-        let resizedRect = ratio(rect)
-        image.drawInRect(resizedRect)
-    }
-}
-
-class TextFrame: TrackerFrame {
     func addInt(val: Int, rect: NSRect) {
         addString("\(val)", rect: rect)
     }
@@ -115,7 +94,7 @@ class TextFrame: TrackerFrame {
 
     func addString(val: String, rect: NSRect) {
         let attributes = TextAttributes()
-            .font(NSFont(name: "Belwe Bd BT", size: round(18 / ratioHeight)))
+            .font(NSFont(name: "ChunkFive", size: round(18 / ratioHeight)))
             .foregroundColor(NSColor.whiteColor())
             .strokeColor(NSColor.blackColor())
             .strokeWidth(-2)

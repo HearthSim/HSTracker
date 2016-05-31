@@ -100,7 +100,7 @@ class CardHud: NSWindowController {
 
         costReduction?.hidden = cost < 1
         if let image = image {
-            icon?.image = ImageCache.asset(image)
+            icon?.image = NSImage(named: image)
         } else {
             icon?.image = nil
         }

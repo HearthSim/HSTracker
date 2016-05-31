@@ -87,6 +87,12 @@ class DeckManager: NSWindowController {
                          selector: #selector(DeckManager.updateStatsLabel),
                          name: "reload_decks",
                          object: nil)
+
+        NSNotificationCenter.defaultCenter()
+            .addObserver(self,
+                         selector: #selector(DeckManager.updateTheme(_:)),
+                         name: "theme",
+                         object: nil)
     }
 
     deinit {
@@ -165,6 +171,10 @@ class DeckManager: NSWindowController {
                 self.curveView.reload()
             }
         }
+    }
+
+    func updateTheme(notification: NSNotification) {
+        deckListTable.reloadData()
     }
 
     // MARK: - Toolbar actions
@@ -345,14 +355,14 @@ extension DeckManager: NSTableViewDelegate {
                 let deck = filteredDecks()[row]
                 cell.deck = deck
                 cell.label.stringValue = deck.name!
-                cell.image.image = ImageCache.classImage(deck.playerClass)
+                cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
 
                 return cell
             }
         } else {
-            let cell = CardCellView()
+            let cell = CardBar.factory()
             cell.playerType = .DeckManager
             cell.card = currentDeck!.sortedCards[row]
             return cell

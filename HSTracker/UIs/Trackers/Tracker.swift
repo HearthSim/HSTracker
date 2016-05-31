@@ -26,7 +26,7 @@ class Tracker: NSWindowController {
     @IBOutlet weak var wotogCounter: WotogCounter!
 
     var heroCard: Card?
-    var animatedCards = [CardCellView]()
+    var animatedCards: [CardBar] = []
     var player: Player?
     var playerType: PlayerType?
     private var cellsCache = [String: NSView]()
@@ -233,18 +233,18 @@ class Tracker: NSWindowController {
             }
         })
 
-        var toUpdate = [CardCellView]()
-        animatedCards.forEach({ (c: CardCellView) in
+        var toUpdate = [CardBar]()
+        animatedCards.forEach({ (c: CardBar) in
             if !cards.any({ self.areEqualForList($0, c.card!) }) {
                 toUpdate.append(c)
             }
         })
-        var toRemove: [CardCellView: Bool] = [:]
-        toUpdate.forEach { (card: CardCellView) in
+        var toRemove: [CardBar: Bool] = [:]
+        toUpdate.forEach { (card: CardBar) in
             let newCard = newCards.firstWhere({ $0.id == card.card!.id })
             toRemove[card] = newCard == nil
             if newCard != nil {
-                let newAnimated = CardCellView()
+                let newAnimated = CardBar.factory()
                 newAnimated.playerType = self.playerType
                 newAnimated.setDelegate(self)
                 newAnimated.card = newCard
@@ -259,7 +259,7 @@ class Tracker: NSWindowController {
             removeCard(cardCellView, fadeOut: fadeOut)
         }
         newCards.forEach({
-            let newCard = CardCellView()
+            let newCard = CardBar.factory()
             newCard.playerType = self.playerType
             newCard.setDelegate(self)
             newCard.card = $0
@@ -485,7 +485,7 @@ class Tracker: NSWindowController {
         }
     }
 
-    private func removeCard(card: CardCellView, fadeOut: Bool) {
+    private func removeCard(card: CardBar, fadeOut: Bool) {
         if fadeOut {
             card.fadeOut(card.card!.count > 0)
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(600 * Double(NSEC_PER_MSEC)))
@@ -527,7 +527,7 @@ extension Tracker: NSWindowDelegate {
 
 // MARK: - CardCellHover
 extension Tracker: CardCellHover {
-    func hover(cell: CardCellView, card: Card) {
+    func hover(cell: CardBar, card: Card) {
         let rect = cell.frame
 
         let windowRect = self.window!.frame

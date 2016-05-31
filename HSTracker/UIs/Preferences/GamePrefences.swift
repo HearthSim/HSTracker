@@ -36,9 +36,9 @@ NSComboBoxDataSource, NSComboBoxDelegate, NSOpenSavePanelDelegate {
             hearthstonePath.stringValue = settings.hearthstoneLogPath
             hearthstonePath.enabled = false
             chooseHearthstonePath.enabled = false
-            checkImage.image = ImageCache.asset("check")
+            checkImage.image = NSImage(named: "check")
         } else {
-            checkImage.image = ImageCache.asset("error")
+            checkImage.image = NSImage(named: "error")
 
             let alert = NSAlert()
             alert.alertStyle = .CriticalAlertStyle
@@ -82,7 +82,7 @@ NSComboBoxDataSource, NSComboBoxDelegate, NSOpenSavePanelDelegate {
                 if sender == chooseHearthstonePath {
                     if let path = url.path {
                         hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
-                        checkImage.image = ImageCache.asset("check")
+                        checkImage.image = NSImage(named: "check")
                         settings.hearthstoneLogPath = hearthstonePath.stringValue
                     }
                 } else if sender == chooseDecksPath {

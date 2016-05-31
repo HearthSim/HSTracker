@@ -22,6 +22,6 @@ class FloatingCard: NSWindowController {
     }
 
     func setCard(card: Card) {
-        image.image = ImageCache.cardImage(card)
+        image.image = ImageUtils.cardImage(card)
     }
 }

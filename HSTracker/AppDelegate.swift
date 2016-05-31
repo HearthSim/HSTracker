@@ -287,6 +287,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
             "show_floating_card": #selector(AppDelegate.showFloatingCard(_:)),
             "hide_floating_card": #selector(AppDelegate.hideFloatingCard(_:)),
+            "theme": #selector(AppDelegate.reloadTheme(_:))
         ]
 
         for (event, selector) in events {
@@ -486,6 +487,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     func reloadDecks(notification: NSNotification) {
         buildMenu()
+    }
+
+    func reloadTheme(notification: NSNotification) {
+        Game.instance.updatePlayerTracker(true)
+        Game.instance.updateOpponentTracker(true)
     }
 
     var closeFloatingCardRequest = 0
