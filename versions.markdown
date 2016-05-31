@@ -1,3 +1,8 @@
+#### 0.16.10
+- Added themes
+- Better font for russian players
+- Better rank detection (at least, I hope)
+
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck
 - Decks are back again in the menu
