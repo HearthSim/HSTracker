@@ -250,7 +250,7 @@ final class Settings {
 
     var theme: String {
         set { set("theme", value: newValue) }
-        get { return get("theme") as? String ?? "classic" }
+        get { return get("theme") as? String ?? "dark" }
     }
 
     // MARK: - Paths / utils

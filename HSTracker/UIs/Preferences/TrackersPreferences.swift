@@ -54,7 +54,7 @@ class TrackersPreferences: NSViewController, MASPreferencesViewController {
         if sender == cardSize {
             settings.cardSize = CardSize(rawValue: cardSize.indexOfSelectedItem)!
         } else if sender == theme {
-            settings.theme = themes[theme.indexOfSelectedItem] ?? "classic"
+            settings.theme = themes[theme.indexOfSelectedItem] ?? "dark"
         }
     }
 
