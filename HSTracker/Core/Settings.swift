@@ -220,6 +220,10 @@ final class Settings {
         set { set("notify_opponent_concede", value: newValue) }
         get { return get("notify_opponent_concede") as? Bool ?? true }
     }
+    var flashOnDraw: Bool {
+        set { set("flash_draw", value: newValue) }
+        get { return get("flash_draw") as? Bool ?? true }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {

@@ -19,3 +19,6 @@
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "IPf-hF-E74"; */
 "IPf-hF-E74.title" = "Show Deathrattle counter";
+
+/* Class = "NSButtonCell"; title = "Flash on card draw"; ObjectID = "gpo-Wo-m50"; */
+"gpo-Wo-m50.title" = "Flash on card draw";

@@ -199,7 +199,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func update(highlight: Bool) {
-        if highlight {
+        if highlight && Settings.instance.flashOnDraw {
             if let themeElement = required[.FlashFrame] {
                 let fullPath = NSBundle.mainBundle().resourcePath!
                     + "/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
