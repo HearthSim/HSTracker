@@ -99,6 +99,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         loadCardTypes()
         loadRarities()
         loadRaces()
+        
+        if let name = self.currentDeck?.name {
+            self.window?.title = name
+        }
 
         zoom.doubleValue = settings.deckManagerZoom
 
