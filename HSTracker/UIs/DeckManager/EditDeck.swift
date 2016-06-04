@@ -109,37 +109,60 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
         NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
             let isCmd = e.modifierFlags.contains(.CommandKeyMask)
-            // let isShift = e.modifierFlags.contains(.ShiftKeyMask)
 
-            guard isCmd else { return e }
+            if isCmd {
+                switch e.keyCode {
+                case 6:
+                    self.window!.performClose(nil)
+                    return nil
 
-            switch e.keyCode {
-            case 6:
-                self.window!.performClose(nil)
-                return nil
+                case 3: // cmd-f
+                    self.searchField.selectText(self)
+                    self.searchField.becomeFirstResponder()
+                    return nil
 
-            case 3: // cmd-f
-                self.searchField.selectText(self)
-                self.searchField.becomeFirstResponder()
-                return nil
+                case 1: // cmd-s
+                    self.save(nil)
+                    return nil
 
-            case 1: // cmd-s
-                self.save(nil)
-                return nil
-
-            case 12: // cmd-a
-                // swiftlint:disable line_length
-                if let selected = self.cardsCollectionView.indexPathsForSelectedItems() as? [NSIndexPath],
+                case 12: // cmd-a
+                    // swiftlint:disable line_length
+                    if let selected = self.cardsCollectionView.indexPathsForSelectedItems() as? [NSIndexPath],
                     cell: CardCell = self.cardsCollectionView.cellForItemAtIndexPath(selected.first) as? CardCell,
                     card = cell.card {
                         self.addCardToDeck(card)
-                }
-                // swiftlint:enable line_length
+                    }
+                    // swiftlint:enable line_length
 
-            default:
+                default:
+                    break
+                }
+
+                // cmd-[1 to 9] for adding a card to a deck.
+                //
+                // Using characters pressed rather than keycodes, as keycodes
+                // distinguish between numpads and numbers above qwerty etc..
+                //
+                guard let charsPressed = e.charactersIgnoringModifiers,
+                          numberPressed = Int(charsPressed.charAt(0)),
+                          visibleCardIndexPaths = self.cardsCollectionView
+                                                      .indexPathsForVisibleItems()
+                                                  as? [NSIndexPath]
+                    where 1 ... visibleCardIndexPaths.count ~= numberPressed
+                    else { return e }
+
+                if let cell = self.cardsCollectionView
+                                  .cellForItemAtIndexPath(visibleCardIndexPaths[numberPressed - 1])
+                              as? CardCell,
+                       card = cell.card {
+
+                    self.addCardToDeck(card)
+                    return nil
+                }
+                
                 Log.verbose?.message("unsupported keycode \(e.keyCode)")
-                break
             }
+
             return e
         }
         NSNotificationCenter.defaultCenter()
