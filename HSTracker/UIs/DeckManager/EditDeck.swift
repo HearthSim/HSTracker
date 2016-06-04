@@ -107,6 +107,20 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             cell.cancelButtonCell!.action = #selector(EditDeck.cancelSearch(_:))
         }
 
+        NSNotificationCenter.defaultCenter()
+            .addObserver(self,
+                         selector: #selector(EditDeck.updateTheme(_:)),
+                         name: "theme",
+                         object: nil)
+
+        initKeyboardShortcuts()
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    func initKeyboardShortcuts() {
         NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
             let isCmd = e.modifierFlags.contains(.CommandKeyMask)
 
@@ -125,15 +139,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                     self.save(nil)
                     return nil
 
-                case 12: // cmd-a
-                    // swiftlint:disable line_length
-                    if let selected = self.cardsCollectionView.indexPathsForSelectedItems() as? [NSIndexPath],
-                    cell: CardCell = self.cardsCollectionView.cellForItemAtIndexPath(selected.first) as? CardCell,
-                    card = cell.card {
-                        self.addCardToDeck(card)
-                    }
-                    // swiftlint:enable line_length
-
                 default:
                     break
                 }
@@ -144,36 +149,27 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 // distinguish between numpads and numbers above qwerty etc..
                 //
                 guard let charsPressed = e.charactersIgnoringModifiers,
-                          numberPressed = Int(charsPressed.charAt(0)),
-                          visibleCardIndexPaths = self.cardsCollectionView
-                                                      .indexPathsForVisibleItems()
-                                                  as? [NSIndexPath]
+                    numberPressed = Int(charsPressed.charAt(0)),
+                    visibleCardIndexPaths = self.cardsCollectionView
+                        .indexPathsForVisibleItems()
+                        as? [NSIndexPath]
                     where 1 ... visibleCardIndexPaths.count ~= numberPressed
                     else { return e }
 
                 if let cell = self.cardsCollectionView
-                                  .cellForItemAtIndexPath(visibleCardIndexPaths[numberPressed - 1])
-                              as? CardCell,
-                       card = cell.card {
+                    .cellForItemAtIndexPath(visibleCardIndexPaths[numberPressed - 1])
+                    as? CardCell,
+                    card = cell.card {
 
                     self.addCardToDeck(card)
                     return nil
                 }
-                
+
                 Log.verbose?.message("unsupported keycode \(e.keyCode)")
             }
 
             return e
         }
-        NSNotificationCenter.defaultCenter()
-            .addObserver(self,
-                         selector: #selector(EditDeck.updateTheme(_:)),
-                         name: "theme",
-                         object: nil)
-    }
-
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     func setDelegate(delegate: NewDeckDelegate) {
