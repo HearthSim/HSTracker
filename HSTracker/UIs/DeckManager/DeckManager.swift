@@ -17,6 +17,7 @@ class DeckManager: NSWindowController {
     @IBOutlet weak var statsLabel: NSTextField!
     @IBOutlet weak var progressView: NSView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
+    @IBOutlet weak var archiveToolBarItem: NSToolbarItem!
 
     @IBOutlet weak var druidButton: NSButton!
     @IBOutlet weak var hunterButton: NSButton!
@@ -159,6 +160,8 @@ class DeckManager: NSWindowController {
         }
         let clickedRow = sender!.clickedRow!
         currentDeck = filteredDecks()[clickedRow]
+        let labelName = (currentDeck?.isArchived ?? false) ? "Unarchive" : "Archive"
+        self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
         deckListTable.reloadData()
         curveView.deck = currentDeck
         updateStatsLabel()
@@ -310,13 +313,18 @@ class DeckManager: NSWindowController {
         if let deck = currentDeck {
             let alert = NSAlert()
             alert.alertStyle = .InformationalAlertStyle
-            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to archive the deck %@ ?", comment: ""), deck.name!) as String
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            
+            if deck.isArchived ?? false {
+                alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to unarchive the deck %@ ?", comment: ""), deck.name!) as String
+            } else {
+                alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to archive the deck %@ ?", comment: ""), deck.name!) as String
+            }
             alert.beginSheetModalForWindow(self.window!,
                                            completionHandler: { (returnCode) in
                                             if returnCode == NSAlertFirstButtonReturn {
-                                                deck.isArchived = true
+                                                deck.isArchived = !(deck.isArchived ?? false)
                                                 Settings.instance.activeDeck = nil
                                                 self.refreshDecks()
                                                 Decks.instance.save()
