@@ -102,11 +102,11 @@ class DeckManager: NSWindowController {
 
     func filteredDecks() -> [Deck] {
         if let currentClass = currentClass {
-            return decks.filter({ $0.playerClass == currentClass && $0.isArchived != true }).sort { $0.name < $1.name }
+            return decks.filter({ $0.playerClass == currentClass && $0.isActive == true }).sort { $0.name < $1.name }
         } else if showArchivedDecks {
-            return decks.filter({ $0.isArchived == true }).sort { $0.name < $1.name }
+            return decks.filter({ $0.isActive != true }).sort { $0.name < $1.name }
         } else {
-            return decks.filter({ $0.isArchived != true }).sort { $0.name < $1.name }
+            return decks.filter({ $0.isActive == true }).sort { $0.name < $1.name }
         }
     }
 
@@ -160,7 +160,7 @@ class DeckManager: NSWindowController {
         }
         let clickedRow = sender!.clickedRow!
         currentDeck = filteredDecks()[clickedRow]
-        let labelName = (currentDeck?.isArchived ?? false) ? "Unarchive" : "Archive"
+        let labelName = ((currentDeck?.isActive) == true) ? "Archive" : "Unarchive"
         self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
         deckListTable.reloadData()
         curveView.deck = currentDeck
@@ -316,15 +316,15 @@ class DeckManager: NSWindowController {
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
             
-            if deck.isArchived ?? false {
-                alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to unarchive the deck %@ ?", comment: ""), deck.name!) as String
-            } else {
+            if deck.isActive {
                 alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to archive the deck %@ ?", comment: ""), deck.name!) as String
+            } else {
+                alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to unarchive the deck %@ ?", comment: ""), deck.name!) as String
             }
             alert.beginSheetModalForWindow(self.window!,
                                            completionHandler: { (returnCode) in
                                             if returnCode == NSAlertFirstButtonReturn {
-                                                deck.isArchived = !(deck.isArchived ?? false)
+                                                deck.isActive = !deck.isActive
                                                 Settings.instance.activeDeck = nil
                                                 self.refreshDecks()
                                                 Decks.instance.save()
