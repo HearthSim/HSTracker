@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="DeckManager" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="archiveButton" destination="J1s-i7-Cn1" id="Etp-1s-KmK"/>
+                <outlet property="archiveToolBarItem" destination="Fe5-be-5CS" id="xAW-pf-TRk"/>
                 <outlet property="curveView" destination="gl3-d5-lam" id="KjY-HS-ImR"/>
                 <outlet property="deckListTable" destination="Znw-pX-Aav" id="6Yh-1v-5F5"/>
                 <outlet property="decksTable" destination="Pdd-Yb-1af" id="CWs-js-WpT"/>
