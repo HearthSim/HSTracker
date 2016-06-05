@@ -1,5 +1,6 @@
 github "Alamofire/Alamofire" "3.4.0"
 github "emaloney/CleanroomASL" "1.4.0"
+github "BradLarson/GPUImage2" "3a90a50c73e79455fba5e927ad0b957ceeb3dea4"
 github "bitstadium/HockeySDK-Mac" "4.0.3"
 github "jwilling/JNWCollectionView" "1.6"
 github "tid-kijyun/Kanna" "1.0.6"

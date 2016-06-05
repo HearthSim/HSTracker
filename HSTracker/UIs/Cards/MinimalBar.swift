@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GPUImage
 
 class MinimalBar: CardBar {
     override var themeDir: String {
@@ -21,19 +22,11 @@ class MinimalBar: CardBar {
         guard let card = card else { return }
 
         let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(card.id).png"
-        if let image = NSImage(contentsOfFile: fullPath),
-            data = image.TIFFRepresentation,
-            ciImage = CIImage(data: data) {
-            let filter = CIFilter(name: "CIGaussianBlur", withInputParameters: [
-                kCIInputImageKey: ciImage,
-                "inputRadius": 2
-                ])
-            if let output = filter?.valueForKey(kCIOutputImageKey) as? CIImage {
-                output.drawInRect(ratio(frameRect),
-                                  fromRect: ciImage.extent,
-                                  operation: .CompositeSourceOver,
-                                  fraction: 1.0)
-            }
+        if let image = NSImage(contentsOfFile: fullPath) {
+            let guassian = GaussianBlur()
+            guassian.blurRadiusInPixels = 2
+            let filteredImage = image.filterWithOperation(guassian)
+            filteredImage.drawInRect(ratio(frameRect))
         }
     }
 
