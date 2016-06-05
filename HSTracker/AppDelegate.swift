@@ -598,7 +598,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                       action: nil,
                                       keyEquivalent: "") {
                 let classMenu = NSMenu()
-                _decks.sort({$0.name!.lowercaseString < $1.name!.lowercaseString }).forEach({
+                _decks.filter({ $0.isArchived != true }).sort({$0.name!.lowercaseString < $1.name!.lowercaseString }).forEach({
                     if let item = classMenu.addItemWithTitle($0.name!,
                         action: #selector(AppDelegate.playDeck(_:)),
                         keyEquivalent: "") {
