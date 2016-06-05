@@ -364,7 +364,7 @@ extension DeckManager: NSTableViewDelegate {
         } else {
             let cell = CardBar.factory()
             cell.playerType = .DeckManager
-            cell.card = currentDeck!.sortedCards[row]
+            cell.card = currentDeck?.sortedCards[row]
             return cell
         }
 
