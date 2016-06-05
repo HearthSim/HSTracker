@@ -131,7 +131,11 @@ final class Player {
     }
 
     func reset() {
-        id = -1
+        self.reset(true)
+    }
+    
+    func reset(resetID: Bool) {
+        if resetID { id = -1 }
         name = ""
         playerClass = nil
         goingFirst = false
