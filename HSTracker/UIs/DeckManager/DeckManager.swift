@@ -144,7 +144,7 @@ class DeckManager: NSWindowController {
 
         showArchivedDecks = sender == archiveButton
 
-        if currentClass == oldCurrentClass {
+        if currentClass == oldCurrentClass && currentDeck == nil {
             currentClass = nil
         }
 
@@ -386,6 +386,7 @@ extension DeckManager: NSTableViewDelegate {
 
     func tableViewSelectionDidChange(notification: NSNotification) {
         let decks = filteredDecks().count
+        guard decks == notification.object?.numberOfRows else { return }
         for i in 0 ..< decks {
             let row = decksTable?.viewAtColumn(0, row: i, makeIfNecessary: false) as? DeckCellView
             row?.selected = decksTable?.selectedRow == -1 || decksTable?.selectedRow == i
