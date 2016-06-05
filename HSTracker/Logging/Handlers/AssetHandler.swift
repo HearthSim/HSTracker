@@ -26,7 +26,6 @@ struct AssetHandler {
         if line.match(self.dynamicType.MedalRank) {
             let match = line.matches(self.dynamicType.MedalRank)
             if let match = match.first, rank = Int(match.value) {
-                game.currentGameMode = .Ranked
                 game.setPlayerRank(rank)
             }
         } else if line.contains("victory_screen_start") {

@@ -92,6 +92,7 @@ class LogLineZone: CustomStringConvertible {
             "FilePrinting=true\n" +
             "ConsolePrinting=false\n" +
             "ScreenPrinting=false\n"
+            //"Verbose=true\n"
     }
 
     var description: String {
