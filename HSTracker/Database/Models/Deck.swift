@@ -25,6 +25,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     var hearthstatsVersionId: Int?
     var isActive: Bool = true
     var isArena: Bool = false
+    var isArchived: Bool?
     private var _cards = [Card]()
     private var cards: [Card]?
     var statistics = [Statistic]()
@@ -46,6 +47,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         self.hearthstatsVersionId = unboxer.unbox("hearthstatsVersionId")
         self.isActive = unboxer.unbox("isActive")
         self.isArena = unboxer.unbox("isArena")
+        self.isArchived = unboxer.unbox("isArchived")
 
         let tmpCards: [String: Int] = unboxer.unbox("cards")
         for (cardId, count) in tmpCards {
