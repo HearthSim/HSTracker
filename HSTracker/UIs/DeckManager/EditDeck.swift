@@ -101,9 +101,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         loadCardTypes()
         loadRarities()
         loadRaces()
-        
-        if let name = self.currentDeck?.name {
-            self.window?.title = name
+
+        if let deck = self.currentDeck, name = deck.name {
+            self.window?.title = "\(NSLocalizedString(deck.playerClass, comment: ""))"
+                + " - \(name)"
         }
 
         zoom.doubleValue = settings.deckManagerZoom
