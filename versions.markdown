@@ -1,7 +1,9 @@
 #### 0.16.10
-- Added themes
+- Added themes and set Dark as default
 - Better font for russian players
 - Better rank detection (at least, I hope)
+- Show class and deck name when editing a deck
+- Add shortcuts to add cards on deck edition (⌘+F to search, ⌘+1 -> 9 to select card)
 
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck
