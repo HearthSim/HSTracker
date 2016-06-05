@@ -59,6 +59,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     let baseCardWidth: CGFloat = 181
     let baseCardHeight: CGFloat = 250
+    
+    var monitor: AnyObject? = nil
 
     func setPlayerClass(playerClass: String) {
         currentPlayerClass = playerClass
@@ -105,42 +107,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let cell = searchField.cell as? NSSearchFieldCell {
             cell.cancelButtonCell!.target = self
             cell.cancelButtonCell!.action = #selector(EditDeck.cancelSearch(_:))
-        }
-
-        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
-            let isCmd = e.modifierFlags.contains(.CommandKeyMask)
-            // let isShift = e.modifierFlags.contains(.ShiftKeyMask)
-
-            guard isCmd else { return e }
-
-            switch e.keyCode {
-            case 6:
-                self.window!.performClose(nil)
-                return nil
-
-            case 3: // cmd-f
-                self.searchField.selectText(self)
-                self.searchField.becomeFirstResponder()
-                return nil
-
-            case 1: // cmd-s
-                self.save(nil)
-                return nil
-
-            case 12: // cmd-a
-                // swiftlint:disable line_length
-                if let selected = self.cardsCollectionView.indexPathsForSelectedItems() as? [NSIndexPath],
-                    cell: CardCell = self.cardsCollectionView.cellForItemAtIndexPath(selected.first) as? CardCell,
-                    card = cell.card {
-                        self.addCardToDeck(card)
-                }
-                // swiftlint:enable line_length
-
-            default:
-                Log.verbose?.message("unsupported keycode \(e.keyCode)")
-                break
-            }
-            return e
         }
         NSNotificationCenter.defaultCenter()
             .addObserver(self,
@@ -469,6 +435,50 @@ extension EditDeck: NSWindowDelegate {
             return true
         }
         return false
+    }
+    
+    func windowDidBecomeMain(notification: NSNotification) {
+        self.monitor = NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
+            let isCmd = e.modifierFlags.contains(.CommandKeyMask)
+            // let isShift = e.modifierFlags.contains(.ShiftKeyMask)
+            
+            guard isCmd else { return e }
+            
+            switch e.keyCode {
+            case 6:
+                self.window!.performClose(nil)
+                return nil
+                
+            case 3: // cmd-f
+                self.searchField.selectText(self)
+                self.searchField.becomeFirstResponder()
+                return nil
+                
+            case 1: // cmd-s
+                self.save(nil)
+                return nil
+                
+            case 12: // cmd-a
+                // swiftlint:disable line_length
+                if let selected = self.cardsCollectionView.indexPathsForSelectedItems() as? [NSIndexPath],
+                    cell: CardCell = self.cardsCollectionView.cellForItemAtIndexPath(selected.first) as? CardCell,
+                    card = cell.card {
+                    self.addCardToDeck(card)
+                }
+                // swiftlint:enable line_length
+                
+            default:
+                Log.verbose?.message("unsupported keycode \(e.keyCode)")
+                break
+            }
+            return e
+        }
+    }
+    
+    func windowDidResignMain(notification: NSNotification) {
+        if let mon = self.monitor {
+            NSEvent.removeMonitor(mon)
+        }
     }
 }
 
