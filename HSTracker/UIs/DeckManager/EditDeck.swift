@@ -55,6 +55,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var currentRace = ""
     var currentCardType = ""
 
+    var monitor: AnyObject? = nil
+
     var saveDeck: SaveDeck?
 
     let baseCardWidth: CGFloat = 181
@@ -118,10 +120,13 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        removeKeyboardShortcuts()
     }
 
     func initKeyboardShortcuts() {
-        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
+        self.monitor = NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) {
+            (e) -> NSEvent? in
+
             let isCmd = e.modifierFlags.contains(.CommandKeyMask)
 
             if isCmd {
@@ -169,6 +174,12 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             }
 
             return e
+        }
+    }
+
+    func removeKeyboardShortcuts() {
+        if let monitor = self.monitor {
+            NSEvent.removeMonitor(monitor)
         }
     }
 
@@ -469,6 +480,14 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
 // MARK: - NSWindowDelegate
 extension EditDeck: NSWindowDelegate {
+    func windowDidBecomeMain(notification: NSNotification) {
+        initKeyboardShortcuts()
+    }
+
+    func windowDidResignMain(notification: NSNotification) {
+        removeKeyboardShortcuts()
+    }
+
     func windowShouldClose(sender: AnyObject) -> Bool {
         if isSaved {
             delegate?.refreshDecks()
