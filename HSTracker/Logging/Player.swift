@@ -129,12 +129,8 @@ final class Player {
         isLocalPlayer = local
         reset()
     }
-
-    func reset() {
-        self.reset(true)
-    }
     
-    func reset(resetID: Bool) {
+    func reset(resetID: Bool = true) {
         if resetID { id = -1 }
         name = ""
         playerClass = nil
