@@ -305,6 +305,7 @@ class Tracker: NSWindowController {
             showDeathrattleCounter = WotogCounterHelper.showOpponentDeathrattleCounter
             proxy = WotogCounterHelper.opponentCthunProxy
             playerClass.hidden = !settings.showOpponentClassInTracker
+            recordTracker.hidden = true
         } else {
             cardCounter.hidden = !settings.showPlayerCardCount
             opponentDrawChance.hidden = true
