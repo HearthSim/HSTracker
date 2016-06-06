@@ -35,6 +35,7 @@ class Game {
     var knownCardIds = [Int: String]()
     var joustReveals = 0
     var awaitingRankedDetection = true
+    var rankDetectionMaxTry = 0
     var lastAssetUnload: Double = 0
     var gameStarted = false
     var gameEnded = true {
@@ -139,6 +140,7 @@ class Game {
         maxId = 0
         lastId = 0
 
+        rankDetectionMaxTry = 0
         entities.removeAll()
         tmpEntities.removeAll()
         knownCardIds.removeAll()
@@ -297,6 +299,14 @@ class Game {
     }
 
     func handleEndGame() {
+        Log.verbose?.message("currentRank: \(currentRank), currentGameMode: \(currentGameMode)")
+        if rankDetectionMaxTry >= 3 {
+            Log.warning?.message("Can't get rank after 15 seconds, ignore game")
+            return
+        }
+
+        rankDetectionMaxTry += 1
+
         if currentRank == 0 || currentGameMode == .None || currentGameMode == .Casual {
             waitForRank(5) {
                 self.handleEndGame()
