@@ -4,7 +4,7 @@ before_install:
   - brew update
   - brew install carthage || brew upgrade carthage
   - brew outdated xctool || brew upgrade xctool
-  - carthage update --platform Mac
+  - carthage bootstrap --platform Mac
 script:
   - travis_wait 35 xctool -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
   - travis_wait 35 xctool -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
