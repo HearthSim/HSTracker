@@ -587,16 +587,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Reset", comment: ""),
                                             action: #selector(AppDelegate.resetTrackers(_:)),
                                             keyEquivalent: "r")
-        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save Opponent's Deck", comment: ""),
-                                            action: #selector(AppDelegate.saveCurrentDeck(_:)),
-                                            keyEquivalent: "")?.tag = 1
-        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save Current Deck", comment: ""),
-                                            action: #selector(AppDelegate.saveCurrentDeck(_:)),
-                                            keyEquivalent: "")?.tag = 2
+        let saveMenus = NSMenu()
+        saveMenus.addItemWithTitle(NSLocalizedString("Save Current Deck", comment: ""),
+                                   action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                                   keyEquivalent: "")?.tag = 2
+        saveMenus.addItemWithTitle(NSLocalizedString("Save Opponent's Deck", comment: ""),
+                                   action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                                   keyEquivalent: "")?.tag = 1
+        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save", comment: ""),
+                                            action: nil,
+                                            keyEquivalent: "")?.submenu = saveMenus
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
                                             keyEquivalent: "")
-
+        
         deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
         for (playerClass, _decks) in decks
             .sort({ NSLocalizedString($0.0, comment: "") < NSLocalizedString($1.0, comment: "") }) {
