@@ -129,9 +129,9 @@ final class Player {
         isLocalPlayer = local
         reset()
     }
-
-    func reset() {
-        id = -1
+    
+    func reset(resetID: Bool = true) {
+        if resetID { id = -1 }
         name = ""
         playerClass = nil
         goingFirst = false
