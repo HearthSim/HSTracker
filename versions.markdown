@@ -4,6 +4,9 @@
 - Better rank detection (at least, I hope)
 - Show class and deck name when editing a deck
 - Add shortcuts to add cards on deck edition (⌘+F to search, ⌘+1 -> 9 to select card)
+- Add an option to show your opponent class and name in his tracker
+- Option to save your current deck or your opponent's one
+- Ability to archive and unarchive decks
 
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck
