@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="DeckManager" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="archiveButton" destination="J1s-i7-Cn1" id="Etp-1s-KmK"/>
+                <outlet property="archiveToolBarItem" destination="Fe5-be-5CS" id="xAW-pf-TRk"/>
                 <outlet property="curveView" destination="gl3-d5-lam" id="KjY-HS-ImR"/>
                 <outlet property="deckListTable" destination="Znw-pX-Aav" id="6Yh-1v-5F5"/>
                 <outlet property="decksTable" destination="Pdd-Yb-1af" id="CWs-js-WpT"/>
@@ -30,7 +31,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="932" height="615"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minFullScreenContentSize" type="size" width="850" height="600"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="932" height="615"/>
@@ -493,6 +494,11 @@
                             <action selector="twitter:" target="-2" id="MFr-PO-0OR"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="3A56AE7E-7F31-476E-8958-F697125F53ED" explicitItemIdentifier="archive" label="Archive" paletteLabel="Archive" tag="-1" image="archive" id="Fe5-be-5CS">
+                        <connections>
+                            <action selector="archiveDeck:" target="-2" id="ypI-Pe-P3H"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
@@ -500,6 +506,7 @@
                     <toolbarItem reference="Qp2-0h-Sid"/>
                     <toolbarItem reference="cbH-rI-BvP"/>
                     <toolbarItem reference="aaa-LK-buD"/>
+                    <toolbarItem reference="Fe5-be-5CS"/>
                     <toolbarItem reference="I75-rt-at9"/>
                     <toolbarItem reference="Xxv-sY-tej"/>
                     <toolbarItem reference="d38-Pq-vZv"/>

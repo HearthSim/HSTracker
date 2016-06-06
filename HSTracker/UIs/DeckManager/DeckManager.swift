@@ -17,6 +17,7 @@ class DeckManager: NSWindowController {
     @IBOutlet weak var statsLabel: NSTextField!
     @IBOutlet weak var progressView: NSView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
+    @IBOutlet weak var archiveToolBarItem: NSToolbarItem!
 
     @IBOutlet weak var druidButton: NSButton!
     @IBOutlet weak var hunterButton: NSButton!
@@ -101,9 +102,11 @@ class DeckManager: NSWindowController {
 
     func filteredDecks() -> [Deck] {
         if let currentClass = currentClass {
-            return decks.filter({ $0.playerClass == currentClass }).sort { $0.name < $1.name }
+            return decks.filter({ $0.playerClass == currentClass && $0.isActive == true }).sort { $0.name < $1.name }
+        } else if showArchivedDecks {
+            return decks.filter({ $0.isActive != true }).sort { $0.name < $1.name }
         } else {
-            return decks.sort { $0.name < $1.name }
+            return decks.filter({ $0.isActive == true }).sort { $0.name < $1.name }
         }
     }
 
@@ -157,6 +160,8 @@ class DeckManager: NSWindowController {
         }
         let clickedRow = sender!.clickedRow!
         currentDeck = filteredDecks()[clickedRow]
+        let labelName = ((currentDeck?.isActive) == true) ? "Archive" : "Unarchive"
+        self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
         deckListTable.reloadData()
         curveView.deck = currentDeck
         updateStatsLabel()
@@ -182,7 +187,7 @@ class DeckManager: NSWindowController {
         switch item.itemIdentifier {
         case "add", "donate", "twitter", "hearthstats":
             return true
-        case "edit", "use", "delete", "rename":
+        case "edit", "use", "delete", "rename", "archive":
             return currentDeck != nil
         default:
             return false
@@ -299,6 +304,30 @@ class DeckManager: NSWindowController {
                                            completionHandler: { (returnCode) in
                                             if returnCode == NSAlertFirstButtonReturn {
                                                 self._deleteDeck(deck)
+                                            }
+            })
+        }
+    }
+    
+    @IBAction func archiveDeck(sender: AnyObject) {
+        if let deck = currentDeck {
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            
+            if deck.isActive {
+                alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to archive the deck %@ ?", comment: ""), deck.name!) as String
+            } else {
+                alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to unarchive the deck %@ ?", comment: ""), deck.name!) as String
+            }
+            alert.beginSheetModalForWindow(self.window!,
+                                           completionHandler: { (returnCode) in
+                                            if returnCode == NSAlertFirstButtonReturn {
+                                                deck.isActive = !deck.isActive
+                                                Settings.instance.activeDeck = nil
+                                                self.refreshDecks()
+                                                Decks.instance.save()
                                             }
             })
         }
@@ -428,7 +457,7 @@ extension DeckManager: NewDeckDelegate {
     func refreshDecks() {
         currentDeck = nil
         decksTable.deselectAll(self)
-        decks = Decks.instance.decks().filter({$0.isActive != showArchivedDecks})
+        decks = Decks.instance.decks()
         classes = [String]()
         for deck in decks {
             if !classes.contains(deck.playerClass) {
