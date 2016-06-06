@@ -22,3 +22,6 @@
 
 /* Class = "NSButtonCell"; title = "Flash on card draw"; ObjectID = "gpo-Wo-m50"; */
 "gpo-Wo-m50.title" = "Flash on card draw";
+
+/* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "oIi-8e-cCP"; */
+"oIi-8e-cCP.title" = "Show win-loss ratio";
