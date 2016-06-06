@@ -43,3 +43,9 @@
 
 /* Class = "NSToolbarItem"; paletteLabel = "Donate"; ObjectID = "wWN-25-Exd"; */
 "wWN-25-Exd.paletteLabel" = "Donar";
+
+/* Class = "NSToolbarItem"; label = "Archive"; ObjectID = "Fe5-be-5CS"; */
+"Fe5-be-5CS.label" = "Archive";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Archive"; ObjectID = "Fe5-be-5CS"; */
+"Fe5-be-5CS.paletteLabel" = "Archive";

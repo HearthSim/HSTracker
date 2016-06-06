@@ -34,6 +34,10 @@
 "You must restart Hearthstone for logs to be used" = "Vous devez redémarrer Hearthstone pour que les logs soient utilisés";
 "You must restart HSTracker for the language change to take effect" = "Vous devez redémarrer HSTracker pour que le changement de langue soit effectif";
 "Are you sure you want to disconnect from Hearthstats ?" = "Êtes-vous certain de vouloir vous déconnecter de Hearthstats ?";
+"Save Opponent's Deck" = "Enregistrer le deck de l'adversaire";
+"Save Current Deck" = "Enregistrer le deck actuel";
+"Are you sure you want to archive the deck %@ ?" = "Êtes-vous certain de vouloir archiver le deck %@ ?";
+"Are you sure you want to unarchive the deck %@ ?" = "Êtes-vous certain de vouloir désarchiver le deck %@ ?";
 
 /* notifications */
 "Your game begins" = "Votre partie commence";
