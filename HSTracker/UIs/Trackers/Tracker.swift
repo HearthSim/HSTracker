@@ -37,28 +37,34 @@ class Tracker: NSWindowController {
         super.windowDidLoad()
 
         let center = NSNotificationCenter.defaultCenter()
-        let observers = [
+        var observers = [
             "hearthstone_running": #selector(Tracker.hearthstoneRunning(_:)),
             "hearthstone_active": #selector(Tracker.hearthstoneActive(_:)),
             "tracker_opacity": #selector(Tracker.opacityChange(_:)),
             "card_size": #selector(Tracker.cardSizeChange(_:)),
             "window_locked": #selector(Tracker.windowLockedChange(_:)),
-            "auto_position_trackers": #selector(Tracker.autoPositionTrackersChange(_:)),
-
-            "player_draw_chance": #selector(Tracker.playerOptionFrameChange(_:)),
-            "player_card_count": #selector(Tracker.playerOptionFrameChange(_:)),
-            "player_cthun_frame": #selector(Tracker.playerOptionFrameChange(_:)),
-            "player_yogg_frame": #selector(Tracker.playerOptionFrameChange(_:)),
-            "player_deathrattle_frame": #selector(Tracker.playerOptionFrameChange(_:)),
-            "show_win_loss_ratio": #selector(Tracker.playerOptionFrameChange(_:)),
-
-            "opponent_card_count": #selector(Tracker.opponentOptionFrameChange(_:)),
-            "opponent_draw_chance": #selector(Tracker.opponentOptionFrameChange(_:)),
-            "opponent_cthun_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
-            "opponent_yogg_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
-            "opponent_deathrattle_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
-            "show_opponent_class": #selector(Tracker.opponentOptionFrameChange(_:)),
+            "auto_position_trackers": #selector(Tracker.autoPositionTrackersChange(_:))
         ]
+        if playerType == .Player {
+            observers.update([
+                "player_draw_chance": #selector(Tracker.playerOptionFrameChange(_:)),
+                "player_card_count": #selector(Tracker.playerOptionFrameChange(_:)),
+                "player_cthun_frame": #selector(Tracker.playerOptionFrameChange(_:)),
+                "player_yogg_frame": #selector(Tracker.playerOptionFrameChange(_:)),
+                "player_deathrattle_frame": #selector(Tracker.playerOptionFrameChange(_:)),
+                "show_win_loss_ratio": #selector(Tracker.playerOptionFrameChange(_:)),
+                "reload_decks": #selector(Tracker.playerOptionFrameChange(_:))
+                ])
+        } else if playerType == .Opponent {
+            observers.update([
+                "opponent_card_count": #selector(Tracker.opponentOptionFrameChange(_:)),
+                "opponent_draw_chance": #selector(Tracker.opponentOptionFrameChange(_:)),
+                "opponent_cthun_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
+                "opponent_yogg_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
+                "opponent_deathrattle_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
+                "show_opponent_class": #selector(Tracker.opponentOptionFrameChange(_:))
+                ])
+        }
 
         for (name, selector) in observers {
             center.addObserver(self,
@@ -318,7 +324,7 @@ class Tracker: NSWindowController {
             playerClass.hidden = true
             recordTracker.hidden = !settings.showWinLossRatio
         }
-        
+
         if let activeDeck = Game.instance.activeDeck {
             recordTracker.stats = activeDeck.displayStats()
             recordTracker.needsDisplay = true

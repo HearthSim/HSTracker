@@ -7,6 +7,7 @@
 - Add an option to show your opponent class and name in his tracker
 - Option to save your current deck or your opponent's one
 - Ability to archive and unarchive decks
+- Show win loss ratio for in tracker
 
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck

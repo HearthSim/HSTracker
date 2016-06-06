@@ -8,6 +8,14 @@
  * Created on 18/02/16.
  */
 
+extension Dictionary {
+    mutating func update(other: Dictionary) {
+        for (key, value) in other {
+            self.updateValue(value, forKey:key)
+        }
+    }
+}
+
 extension Array where Element: Card {
     func sortCardList() -> [Card] {
         return sort {

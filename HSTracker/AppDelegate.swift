@@ -600,7 +600,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
                                             keyEquivalent: "")
-        
+
         deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
         for (playerClass, _decks) in decks
             .sort({ NSLocalizedString($0.0, comment: "") < NSLocalizedString($1.0, comment: "") }) {
