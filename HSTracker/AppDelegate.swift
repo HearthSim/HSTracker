@@ -659,9 +659,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     func saveDeck(player: Player) {
         if let playerClass = player.playerClass {
             let deck = Deck(playerClass: playerClass)
-            for card in player.playerCardList {
-                deck.addCard(card)
-            }
+            player.playerCardList.filter({ $0.collectible == true }).forEach({ deck.addCard($0) })
             
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
