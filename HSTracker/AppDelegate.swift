@@ -116,6 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     func applicationWillTerminate(notification: NSNotification) {
+        Hearthstone.instance.stopTracking()
         if appWillRestart {
             let appPath = NSBundle.mainBundle().bundlePath
             let task = NSTask()
