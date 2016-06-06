@@ -92,12 +92,14 @@ class TextFrame: NSView {
         addString(String(format: format, val), rect: rect)
     }
 
-    func addString(val: String, rect: NSRect) {
+    
+    func addString(val: String, rect: NSRect, alignment: NSTextAlignment = .Left) {
         let attributes = TextAttributes()
             .font(NSFont(name: "ChunkFive", size: round(18 / ratioHeight)))
             .foregroundColor(NSColor.whiteColor())
             .strokeColor(NSColor.blackColor())
             .strokeWidth(-2)
+            .alignment(alignment)
 
         NSAttributedString(string: val, attributes: attributes)
             .drawInRect(ratio(rect))

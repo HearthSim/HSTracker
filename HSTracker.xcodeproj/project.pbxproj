@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		340AAC051D0544AD0015FE33 /* RecordTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* RecordTracker.swift */; };
 		4305CA3E1CF42AC70048E7EC /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; };
 		4305CA3F1CF42AC70048E7EC /* Unbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
@@ -286,6 +287,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		340AAC041D0544AD0015FE33 /* RecordTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTracker.swift; sourceTree = "<group>"; };
 		4305CA3C1CF42AC60048E7EC /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/Mac/Unbox.framework; sourceTree = "<group>"; };
 		4305CA3D1CF42AC60048E7EC /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/Mac/Wrap.framework; sourceTree = "<group>"; };
 		4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Unbox.framework.dSYM; path = Carthage/Build/Mac/Unbox.framework.dSYM; sourceTree = "<group>"; };
@@ -913,6 +915,7 @@
 				432B60321CB69FA600B05D19 /* FloatingCard.swift */,
 				432B60341CB6A8CC00B05D19 /* FloatingCard.xib */,
 				437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */,
+				340AAC041D0544AD0015FE33 /* RecordTracker.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1240,6 +1243,7 @@
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
+				340AAC051D0544AD0015FE33 /* RecordTracker.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,

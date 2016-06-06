@@ -184,6 +184,10 @@ final class Settings {
         set { set("show_secret_helper", value: newValue) }
         get { return get("show_secret_helper") as? Bool ?? true }
     }
+    var showWinLossRatio: Bool {
+        set { set("show_win_loss_ratio", value: newValue) }
+        get { return get("show_win_loss_ratio") as? Bool ?? true }
+    }
 
     var playerTrackerFrame: NSRect? {
         set { set("player_tracker_frame",
