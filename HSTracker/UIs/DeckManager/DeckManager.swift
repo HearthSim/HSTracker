@@ -342,17 +342,6 @@ class DeckManager: NSWindowController {
         }
         // swiftlint:enable line_length
     }
-    
-    func openDeckBuilder(deck: Deck) {
-        editDeck = EditDeck(windowNibName: "EditDeck")
-        if let editDeck = editDeck {
-            deck.isArena = false
-            editDeck.setDeck(deck)
-            editDeck.setPlayerClass(deck.playerClass)
-            editDeck.setDelegate(self)
-            editDeck.showWindow(self)
-        }
-    }
 }
 
 // MARK: - NSTableViewDelegate

@@ -650,7 +650,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
             }
-            deckManager?.openDeckBuilder(deck)
+            deckManager?.currentDeck = deck
+            deckManager?.editDeck(self)
         }
     }
     
