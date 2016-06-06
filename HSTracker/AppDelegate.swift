@@ -586,6 +586,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Reset", comment: ""),
                                             action: #selector(AppDelegate.resetTrackers(_:)),
                                             keyEquivalent: "r")
+        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save Opponent's Deck", comment: ""),
+                                            action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                                            keyEquivalent: "")?.tag = 1
+        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save Current Deck", comment: ""),
+                                            action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                                            keyEquivalent: "")?.tag = 2
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
                                             keyEquivalent: "")
@@ -637,6 +643,32 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         Settings.instance.activeDeck = nil
     }
 
+    @IBAction func saveCurrentDeck(sender: AnyObject) {
+        switch sender.tag {
+        case 1: // Opponent
+            saveDeck(Game.instance.opponent)
+            break;
+        case 2: // Self
+            saveDeck(Game.instance.player)
+            break;
+        default:
+            break;
+        }
+    }
+    
+    func saveDeck(player: Player) {
+        if let playerClass = player.playerClass {
+            let deck = Deck(playerClass: playerClass)
+            player.playerCardList.filter({ $0.collectible == true }).forEach({ deck.addCard($0) })
+            
+            if deckManager == nil {
+                deckManager = DeckManager(windowNibName: "DeckManager")
+            }
+            deckManager?.currentDeck = deck
+            deckManager?.editDeck(self)
+        }
+    }
+    
     @IBAction func resetTrackers(sender: AnyObject) {
         Game.instance.opponent.reset()
         Game.instance.updateOpponentTracker()

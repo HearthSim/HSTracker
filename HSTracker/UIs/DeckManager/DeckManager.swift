@@ -456,6 +456,7 @@ extension DeckManager: NewDeckDelegate {
     }
 
     func refreshDecks() {
+        guard windowLoaded else { return } // Guard incase we are creating a new deck without the window loaded
         currentDeck = nil
         decksTable.deselectAll(self)
         decks = Decks.instance.decks()
