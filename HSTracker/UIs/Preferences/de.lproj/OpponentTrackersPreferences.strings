@@ -26,3 +26,6 @@
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
 "aZW-kf-zpy.title" = "Show Deathrattle counter";
+
+/* Class = "NSButtonCell"; title = "Show player class and name"; ObjectID = "aW1-2y-nKx"; */
+"aW1-2y-nKx.title" = "Show player class and name";

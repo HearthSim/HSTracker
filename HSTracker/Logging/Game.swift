@@ -12,7 +12,7 @@ import Foundation
 import CleanroomLogger
 
 enum PlayerType: Int {
-    case Player, Opponent, DeckManager, Secrets, CardList
+    case Player, Opponent, DeckManager, Secrets, CardList, Hero
 }
 enum NotificationType {
     case GameStart, TurnStart, OpponentConcede
@@ -508,6 +508,7 @@ class Game {
     func setPlayerHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
             player.playerClass = card.playerClass
+            player.playerClassId = cardId
             Log.info?.message("Player class is \(card) ")
         }
     }
@@ -716,6 +717,7 @@ class Game {
     func setOpponentHero(cardId: String) {
         if let card = Cards.heroById(cardId) {
             opponent.playerClass = card.playerClass
+            opponent.playerClassId = cardId
             Log.info?.message("Opponent class is \(card) ")
         }
     }

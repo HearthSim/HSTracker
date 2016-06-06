@@ -24,6 +24,7 @@ class Tracker: NSWindowController {
     @IBOutlet weak var playerDrawChance: PlayerDrawChance!
     @IBOutlet weak var opponentDrawChance: OpponentDrawChance!
     @IBOutlet weak var wotogCounter: WotogCounter!
+    @IBOutlet weak var playerClass: NSView!
 
     var heroCard: Card?
     var animatedCards: [CardBar] = []
@@ -54,6 +55,7 @@ class Tracker: NSWindowController {
             "opponent_cthun_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
             "opponent_yogg_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
             "opponent_deathrattle_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
+            "show_opponent_class": #selector(Tracker.opponentOptionFrameChange(_:)),
         ]
 
         for (name, selector) in observers {
@@ -300,6 +302,7 @@ class Tracker: NSWindowController {
             showSpellCounter = WotogCounterHelper.showOpponentSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showOpponentDeathrattleCounter
             proxy = WotogCounterHelper.opponentCthunProxy
+            playerClass.hidden = !settings.showOpponentClassInTracker
         } else {
             cardCounter.hidden = !settings.showPlayerCardCount
             opponentDrawChance.hidden = true
@@ -309,6 +312,7 @@ class Tracker: NSWindowController {
             showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showPlayerDeathrattleCounter
             proxy = WotogCounterHelper.playerCthunProxy
+            playerClass.hidden = true
         }
 
         var counterStyle: [WotogCounterStyle] = []
@@ -336,6 +340,7 @@ class Tracker: NSWindowController {
         wotogCounter.deathrattle = player?.deathrattlesPlayedCount ?? 0
 
         let opponentDrawChanceHeight = round(71 / ratio)
+        let playerClassHeight = round(40 / ratio)
         let playerDrawChanceHeight = round(40 / ratio)
         let cardCounterHeight = round(40 / ratio)
         let cthunCounterHeight = round(40 / ratio)
@@ -343,6 +348,33 @@ class Tracker: NSWindowController {
         let deathrattleCounterHeight = round(40 / ratio)
 
         var offsetFrames: CGFloat = 0
+        var startHeight: CGFloat = 0
+        if !playerClass.hidden {
+            if let playerClassId = Game.instance.opponent.playerClassId,
+                playerName = Game.instance.opponent.name {
+
+                if playerType == .Opponent {
+                    offsetFrames += playerClassHeight
+
+                    playerClass.frame = NSRect(x: 0,
+                                               y: windowHeight - playerClassHeight,
+                                               width: windowHeight,
+                                               height: playerClassHeight)
+                    startHeight += playerClassHeight
+
+                    playerClass.subviews.forEach({$0.removeFromSuperview()})
+                    let hero = CardBar.factory()
+                    hero.playerType = .Hero
+                    hero.playerClass = playerClassId
+                    hero.playerName = playerName
+                    Log.verbose?.message("showing player class")
+                    playerClass.addSubview(hero)
+                    hero.frame = NSRect(x: 0, y: 0,
+                                        width: windowWidth, height: playerClassHeight)
+                    hero.update(false)
+                }
+            }
+        }
         if !opponentDrawChance.hidden {
             offsetFrames += opponentDrawChanceHeight
         }
@@ -379,7 +411,7 @@ class Tracker: NSWindowController {
         let cardViewHeight = CGFloat(animatedCards.count) * cardHeight
         var y: CGFloat = cardViewHeight
         cardsView.frame = NSRect(x: 0,
-                                 y: windowHeight - cardViewHeight,
+                                 y: windowHeight - startHeight - cardViewHeight,
                                  width: windowWidth,
                                  height: cardViewHeight)
 
@@ -389,7 +421,7 @@ class Tracker: NSWindowController {
             cardsView.addSubview(cell)
         }
 
-        y = windowHeight - cardViewHeight
+        y = windowHeight - startHeight - cardViewHeight
         if !cardCounter.hidden {
             y -= cardCounterHeight
             cardCounter.frame = NSRect(x: 0, y: y, width: windowWidth, height: cardCounterHeight)

@@ -69,7 +69,7 @@ final class ReplayMaker {
                     opponentHeroName = Cards.heroById(opponentHero!.cardId)?.name {
                     // swiftlint:disable line_length
                         let filename = "\(playerName)(\(playerHeroName)) vs \(opponentName)(\(opponentHeroName)) \(NSDate().getUTCFormateDate())"
-                        Log.info?.message("will save to \(filename)")
+                        Log.verbose?.message("will save to \(filename)")
                     // swiftlint:enable line_length
                 }
         }

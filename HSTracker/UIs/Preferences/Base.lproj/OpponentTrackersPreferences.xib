@@ -14,6 +14,7 @@
                 <outlet property="showOpponentCardCount" destination="vlC-Xd-bPQ" id="nGN-hb-FIG"/>
                 <outlet property="showOpponentDrawChance" destination="wnH-Tv-Haz" id="ZAv-yW-h6X"/>
                 <outlet property="showOpponentTracker" destination="bt4-kn-GjS" id="dK1-dQ-v0r"/>
+                <outlet property="showPlayerClass" destination="AOs-wd-f13" id="vyY-xh-9tG"/>
                 <outlet property="showSpellCounter" destination="5FC-P8-tb7" id="YQz-Lc-MF8"/>
                 <outlet property="view" destination="c22-O7-iKe" id="8Yr-e6-AQa"/>
             </connections>
@@ -114,8 +115,20 @@
                         <action selector="checkboxClicked:" target="-2" id="Tdo-sp-KVH"/>
                     </connections>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="AOs-wd-f13">
+                    <rect key="frame" x="18" y="23" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show player class and name" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aW1-2y-nKx">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="w0W-Ur-GAG"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
+                <constraint firstItem="AOs-wd-f13" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="0Js-eO-zSN"/>
+                <constraint firstAttribute="trailing" secondItem="AOs-wd-f13" secondAttribute="trailing" constant="20" id="2Tl-q2-G3B"/>
                 <constraint firstItem="U2A-tO-ePh" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="32v-o9-tFI"/>
                 <constraint firstItem="wnH-Tv-Haz" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="35e-nJ-AOI"/>
                 <constraint firstAttribute="trailing" secondItem="Jvp-6c-HZ0" secondAttribute="trailing" constant="20" id="AMp-bq-Y5H"/>
@@ -130,6 +143,7 @@
                 <constraint firstItem="bt4-kn-GjS" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="JyJ-pq-DMz"/>
                 <constraint firstAttribute="trailing" secondItem="Vgg-OU-9bx" secondAttribute="trailing" constant="20" id="MyH-JN-dCw"/>
                 <constraint firstItem="vlC-Xd-bPQ" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Qb5-Dh-bMt"/>
+                <constraint firstItem="AOs-wd-f13" firstAttribute="top" secondItem="U2A-tO-ePh" secondAttribute="bottom" constant="10" id="Rtn-uk-Y2p"/>
                 <constraint firstAttribute="trailing" secondItem="npw-Sr-U97" secondAttribute="trailing" constant="20" id="TL4-4M-qG2"/>
                 <constraint firstItem="gyI-vB-68v" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="UtP-T4-wth"/>
                 <constraint firstAttribute="trailing" secondItem="vlC-Xd-bPQ" secondAttribute="trailing" constant="20" id="WxD-Y6-Hbe"/>

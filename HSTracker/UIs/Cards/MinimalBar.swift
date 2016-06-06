@@ -19,14 +19,22 @@ class MinimalBar: CardBar {
     }
 
     override func addCardImage() {
-        guard let card = card else { return }
+        var cardId: String?
 
-        let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(card.id).png"
-        if let image = NSImage(contentsOfFile: fullPath) {
-            let guassian = GaussianBlur()
-            guassian.blurRadiusInPixels = 2
-            let filteredImage = image.filterWithOperation(guassian)
-            filteredImage.drawInRect(ratio(frameRect))
+        if let card = card {
+            cardId = card.id
+        } else if let playerClass = playerClass {
+            cardId = playerClass
+        }
+
+        if let cardId = cardId {
+            let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(cardId).png"
+            if let image = NSImage(contentsOfFile: fullPath) {
+                let guassian = GaussianBlur()
+                guassian.blurRadiusInPixels = 1.5
+                let filteredImage = image.filterWithOperation(guassian)
+                filteredImage.drawInRect(ratio(frameRect))
+            }
         }
     }
 

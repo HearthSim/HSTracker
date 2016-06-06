@@ -79,6 +79,7 @@ func == (lhs: PredictedCard, rhs: PredictedCard) -> Bool {
 
 final class Player {
     var playerClass: String?
+    var playerClassId: String?
     var isLocalPlayer: Bool
     var id: Int = -1
     var goingFirst: Bool = false

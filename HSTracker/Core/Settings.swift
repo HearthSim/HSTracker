@@ -224,6 +224,10 @@ final class Settings {
         set { set("flash_draw", value: newValue) }
         get { return get("flash_draw") as? Bool ?? true }
     }
+    var showOpponentClassInTracker: Bool {
+        set { set("show_opponent_class", value: newValue) }
+        get { return get("show_opponent_class") as? Bool ?? false }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {

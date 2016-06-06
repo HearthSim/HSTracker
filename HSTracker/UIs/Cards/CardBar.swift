@@ -19,6 +19,8 @@ protocol CardCellHover {
 protocol CardBarTheme {
     var card: Card? {get set}
     var playerType: PlayerType? {get set}
+    var playerClass: String? {get set}
+    var playerName: String? {get set}
 }
 
 class CardBar: NSView, CardBarTheme {
@@ -52,6 +54,8 @@ class CardBar: NSView, CardBarTheme {
         }
     }
     var playerType: PlayerType?
+    var playerClass: String?
+    var playerName: String?
 
     var hasAllRequired: Bool {
         let path = NSBundle.mainBundle().resourcePath!
@@ -238,32 +242,38 @@ class CardBar: NSView, CardBarTheme {
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        guard let card = card else { return }
         guard hasAllRequired else { return }
 
-        if areEquals(card, oldCard) { return }
+        if let card = card where areEquals(card, oldCard) { return }
 
         cardLayer?.sublayers?.forEach { $0.removeFromSuperlayer() }
 
         addCardImage()
         addFadeOverlay()
 
-        if abs(card.count) > 1 || card.rarity == .Legendary {
-            addCountBox()
-            addCountText()
-        }
-        if card.isCreated {
-            addCreatedIcon()
-        }
-        if abs(card.count) <= 1 && card.rarity == .Legendary {
-            addLegendaryIcon()
+        if let card = card {
+            if abs(card.count) > 1 || card.rarity == .Legendary {
+                addCountBox()
+                addCountText()
+            }
+            if card.isCreated {
+                addCreatedIcon()
+            }
+            if abs(card.count) <= 1 && card.rarity == .Legendary {
+                addLegendaryIcon()
+            }
         }
         addFrame()
-        addGem()
-        addCost()
+
+        if let _ = card {
+            addGem()
+            addCost()
+        }
         addCardName()
-        if (card.count <= 0 || card.jousted) && playerType != .CardList {
-            addDarken()
+        if let card = card {
+            if (card.count <= 0 || card.jousted) && playerType != .CardList {
+                addDarken()
+            }
         }
     }
 
@@ -271,14 +281,26 @@ class CardBar: NSView, CardBarTheme {
         addCardImage(imageRect)
     }
     func addCardImage(rect: NSRect, offsetByCountBox: Bool = false) {
-        guard let card = card else { return }
+        var cardId: String?
+        var rarity = Rarity.Free
+        var count = 1
 
-        let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(card.id).png"
-        if let image = NSImage(contentsOfFile: fullPath) {
-            if offsetByCountBox && abs(card.count) > 1 || card.rarity == .Legendary {
-                addChild(image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
-            } else {
-                addChild(image, rect: rect)
+        if let card = card {
+            cardId = card.id
+            count = card.count
+            rarity = card.rarity
+        } else if let playerClass = playerClass {
+            cardId = playerClass
+        }
+
+        if let cardId = cardId {
+            let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(cardId).png"
+            if let image = NSImage(contentsOfFile: fullPath) {
+                if offsetByCountBox && abs(count) > 1 || rarity == .Legendary {
+                    addChild(image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
+                } else {
+                    addChild(image, rect: rect)
+                }
             }
         }
     }
@@ -289,10 +311,16 @@ class CardBar: NSView, CardBarTheme {
         }
     }
     func addFadeOverlay(rect: NSRect, offsetByCountBox: Bool = false) {
-        guard let card = card else { return }
+        var rarity = Rarity.Free
+        var count = 1
+
+        if let card = card {
+            count = card.count
+            rarity = card.rarity
+        }
 
         if let fadeOverlay = required[.FadeOverlay] {
-            if offsetByCountBox && (abs(card.count) > 1 || card.rarity == .Legendary) {
+            if offsetByCountBox && (abs(count) > 1 || rarity == .Legendary) {
                 addChild(fadeOverlay, rect: rect.offsetBy(dx: fadeOffset, dy: 0))
             } else {
                 addChild(fadeOverlay, rect: rect)
@@ -370,11 +398,14 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addFrame() {
-        guard let card = card else { return }
+        var rarity = Rarity.Common
+        if let card = card {
+            rarity = card.rarity
+        }
 
         var frame = required[.DefaultFrame]
         if Settings.instance.showRarityColors && hasAllOptionalFrames {
-            switch card.rarity {
+            switch rarity {
             case .Rare:
                 frame = optionalFrame[.RareFrame]
             case .Epic:
@@ -437,15 +468,24 @@ class CardBar: NSView, CardBarTheme {
             height: 30))
     }
     func addCardName(rect: NSRect) {
-        guard let card = card else { return }
+        var name: String?
+        var textColor: NSColor = NSColor.whiteColor()
 
-        var textColor = card.textColor()
+        if let card = card {
+            name = card.name
+            textColor = card.textColor()
+        } else if let playerName = playerName {
+            name = playerName
+        }
+
         if playerType == .CardList {
             textColor = NSColor.whiteColor()
         }
 
-        addText(card.name, fontSize: textFontSize,
-                rect: rect, textColor: textColor, font: textFont)
+        if let name = name {
+            addText(name, fontSize: textFontSize,
+                    rect: rect, textColor: textColor, font: textFont)
+        }
     }
 
     func addDarken() {
