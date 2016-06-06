@@ -186,7 +186,7 @@ final class Settings {
     }
     var showWinLossRatio: Bool {
         set { set("show_win_loss_ratio", value: newValue) }
-        get { return get("show_win_loss_ratio") as? Bool ?? true }
+        get { return get("show_win_loss_ratio") as? Bool ?? false }
     }
 
     var playerTrackerFrame: NSRect? {
