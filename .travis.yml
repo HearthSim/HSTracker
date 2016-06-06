@@ -4,7 +4,8 @@ before_install:
   - brew update
   - brew install carthage || brew upgrade carthage
   - brew outdated xctool || brew upgrade xctool
+  - gem install xcpretty
   - carthage bootstrap --platform Mac
 script:
-  - xctool -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
-  - xctool -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+  - xcodebuild -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - xcodebuild -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
