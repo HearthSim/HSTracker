@@ -586,6 +586,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Reset", comment: ""),
                                             action: #selector(AppDelegate.resetTrackers(_:)),
                                             keyEquivalent: "r")
+        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save Current Deck", comment: ""),
+                                            action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                                            keyEquivalent: "")
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
                                             keyEquivalent: "")
@@ -637,6 +640,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         Settings.instance.activeDeck = nil
     }
 
+    @IBAction func saveCurrentDeck(sender: AnyObject) {
+        if let playerClass = Game.instance.player.playerClass {
+            let deck = Deck(playerClass: playerClass)
+            for card in Game.instance.player.playerCardList {
+                deck.addCard(card)
+            }
+            
+            if deckManager == nil {
+                deckManager = DeckManager(windowNibName: "DeckManager")
+            }
+            deckManager?.openDeckBuilder(deck)
+        }
+    }
+    
     @IBAction func resetTrackers(sender: AnyObject) {
         Game.instance.opponent.reset()
         Game.instance.updateOpponentTracker()
