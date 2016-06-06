@@ -25,6 +25,7 @@ class Tracker: NSWindowController {
     @IBOutlet weak var opponentDrawChance: OpponentDrawChance!
     @IBOutlet weak var wotogCounter: WotogCounter!
     @IBOutlet weak var playerClass: NSView!
+    @IBOutlet weak var recordTracker: RecordTracker!
 
     var heroCard: Card?
     var animatedCards: [CardBar] = []
@@ -49,6 +50,7 @@ class Tracker: NSWindowController {
             "player_cthun_frame": #selector(Tracker.playerOptionFrameChange(_:)),
             "player_yogg_frame": #selector(Tracker.playerOptionFrameChange(_:)),
             "player_deathrattle_frame": #selector(Tracker.playerOptionFrameChange(_:)),
+            "show_win_loss_ratio": #selector(Tracker.playerOptionFrameChange(_:)),
 
             "opponent_card_count": #selector(Tracker.opponentOptionFrameChange(_:)),
             "opponent_draw_chance": #selector(Tracker.opponentOptionFrameChange(_:)),
@@ -303,6 +305,7 @@ class Tracker: NSWindowController {
             showDeathrattleCounter = WotogCounterHelper.showOpponentDeathrattleCounter
             proxy = WotogCounterHelper.opponentCthunProxy
             playerClass.hidden = !settings.showOpponentClassInTracker
+            recordTracker.hidden = true
         } else {
             cardCounter.hidden = !settings.showPlayerCardCount
             opponentDrawChance.hidden = true
@@ -313,6 +316,12 @@ class Tracker: NSWindowController {
             showDeathrattleCounter = WotogCounterHelper.showPlayerDeathrattleCounter
             proxy = WotogCounterHelper.playerCthunProxy
             playerClass.hidden = true
+            recordTracker.hidden = !settings.showWinLossRatio
+        }
+        
+        if let activeDeck = Game.instance.activeDeck {
+            recordTracker.stats = activeDeck.displayStats()
+            recordTracker.needsDisplay = true
         }
 
         var counterStyle: [WotogCounterStyle] = []
@@ -346,6 +355,7 @@ class Tracker: NSWindowController {
         let cthunCounterHeight = round(40 / ratio)
         let yoggCounterHeight = round(40 / ratio)
         let deathrattleCounterHeight = round(40 / ratio)
+        let recordTrackerHeight = round(40 / ratio)
 
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
@@ -455,6 +465,13 @@ class Tracker: NSWindowController {
 
             wotogCounter?.frame = NSRect(x: 0, y: y, width: windowWidth, height: height)
             wotogCounter?.needsDisplay = true
+        }
+        if !recordTracker.hidden {
+            y -= recordTrackerHeight
+            recordTracker.frame = NSRect(x: 0,
+                                         y: y,
+                                         width: windowWidth,
+                                         height: recordTrackerHeight)
         }
     }
 

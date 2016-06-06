@@ -19,6 +19,7 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
     @IBOutlet weak var showSpellCounter: NSButton!
     @IBOutlet weak var showDeathrattleCounter: NSButton!
     @IBOutlet weak var flashOnDraw: NSButton!
+    @IBOutlet weak var showRecord: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
         showSpellCounter.state = settings.showPlayerYogg ? NSOnState : NSOffState
         showDeathrattleCounter.state = settings.showPlayerDeathrattle ? NSOnState : NSOffState
         flashOnDraw.state = settings.flashOnDraw ? NSOnState : NSOffState
+        showRecord.state = settings.showWinLossRatio ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(sender: NSButton) {
@@ -52,6 +54,8 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
             settings.showPlayerDeathrattle = showDeathrattleCounter.state == NSOnState
         } else if sender == flashOnDraw {
             settings.flashOnDraw = flashOnDraw.state == NSOnState
+        } else if sender == showRecord {
+            settings.showWinLossRatio = showRecord.state == NSOnState
         }
     }
 
