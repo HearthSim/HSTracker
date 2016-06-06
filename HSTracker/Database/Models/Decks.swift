@@ -52,6 +52,7 @@ final class Decks {
                     }
                 }
             } catch {
+                Log.error?.message("Error loading decks: \(error)")
             }
         }
     }
