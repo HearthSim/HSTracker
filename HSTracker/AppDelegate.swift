@@ -586,9 +586,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Reset", comment: ""),
                                             action: #selector(AppDelegate.resetTrackers(_:)),
                                             keyEquivalent: "r")
+        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save Opponent's Deck", comment: ""),
+                                            action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                                            keyEquivalent: "")?.tag = 1
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save Current Deck", comment: ""),
                                             action: #selector(AppDelegate.saveCurrentDeck(_:)),
-                                            keyEquivalent: "")
+                                            keyEquivalent: "")?.tag = 2
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
                                             keyEquivalent: "")
@@ -641,9 +644,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     @IBAction func saveCurrentDeck(sender: AnyObject) {
-        if let playerClass = Game.instance.player.playerClass {
+        switch sender.tag {
+        case 1: // Opponent
+            saveDeck(Game.instance.opponent)
+            break;
+        case 2: // Self
+            saveDeck(Game.instance.player)
+            break;
+        default:
+            break;
+        }
+    }
+    
+    func saveDeck(player: Player) {
+        if let playerClass = player.playerClass {
             let deck = Deck(playerClass: playerClass)
-            for card in Game.instance.player.playerCardList {
+            for card in player.playerCardList {
                 deck.addCard(card)
             }
             

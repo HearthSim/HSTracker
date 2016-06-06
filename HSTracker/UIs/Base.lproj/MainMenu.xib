@@ -122,12 +122,6 @@
                                     <action selector="openDeckManager:" target="Voe-Tx-rLC" id="Eeb-Ft-BPb"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Save Current Deck" keyEquivalent="s" id="joJ-Gi-Bpl">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="saveCurrentDeck:" target="Voe-Tx-rLC" id="fnf-Bf-mVE"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Clear trackers" id="Slg-Ni-HzQ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
