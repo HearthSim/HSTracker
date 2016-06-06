@@ -102,7 +102,8 @@ class DeckManager: NSWindowController {
 
     func filteredDecks() -> [Deck] {
         if let currentClass = currentClass {
-            return decks.filter({ $0.playerClass == currentClass && $0.isActive == true }).sort { $0.name < $1.name }
+            return decks.filter({ $0.playerClass == currentClass && $0.isActive == true })
+                .sort { $0.name < $1.name }
         } else if showArchivedDecks {
             return decks.filter({ $0.isActive != true }).sort { $0.name < $1.name }
         } else {
@@ -308,18 +309,22 @@ class DeckManager: NSWindowController {
             })
         }
     }
-    
+
     @IBAction func archiveDeck(sender: AnyObject) {
         if let deck = currentDeck {
             let alert = NSAlert()
             alert.alertStyle = .InformationalAlertStyle
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            
+
             if deck.isActive {
-                alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to archive the deck %@ ?", comment: ""), deck.name!) as String
+                alert.messageText = NSString(format:
+                    NSLocalizedString("Are you sure you want to archive the deck %@ ?",
+                        comment: ""), deck.name!) as String
             } else {
-                alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to unarchive the deck %@ ?", comment: ""), deck.name!) as String
+                alert.messageText = NSString(format:
+                    NSLocalizedString("Are you sure you want to unarchive the deck %@ ?",
+                        comment: ""), deck.name!) as String
             }
             alert.beginSheetModalForWindow(self.window!,
                                            completionHandler: { (returnCode) in
@@ -456,7 +461,8 @@ extension DeckManager: NewDeckDelegate {
     }
 
     func refreshDecks() {
-        guard windowLoaded else { return } // Guard incase we are creating a new deck without the window loaded
+        // Guard incase we are creating a new deck without the window loaded
+        guard windowLoaded else { return }
         currentDeck = nil
         decksTable.deselectAll(self)
         decks = Decks.instance.decks()

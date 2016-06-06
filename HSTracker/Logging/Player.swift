@@ -130,7 +130,7 @@ final class Player {
         isLocalPlayer = local
         reset()
     }
-    
+
     func reset(resetID: Bool = true) {
         if resetID { id = -1 }
         name = ""

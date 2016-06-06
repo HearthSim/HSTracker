@@ -605,7 +605,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                       action: nil,
                                       keyEquivalent: "") {
                 let classMenu = NSMenu()
-                _decks.filter({ $0.isActive == true }).sort({$0.name!.lowercaseString < $1.name!.lowercaseString }).forEach({
+                _decks.filter({ $0.isActive == true })
+                    .sort({$0.name!.lowercaseString < $1.name!.lowercaseString })
+                    .forEach({
                     if let item = classMenu.addItemWithTitle($0.name!,
                         action: #selector(AppDelegate.playDeck(_:)),
                         keyEquivalent: "") {
@@ -648,20 +650,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         switch sender.tag {
         case 1: // Opponent
             saveDeck(Game.instance.opponent)
-            break;
         case 2: // Self
             saveDeck(Game.instance.player)
-            break;
         default:
-            break;
+            break
         }
     }
-    
+
     func saveDeck(player: Player) {
         if let playerClass = player.playerClass {
             let deck = Deck(playerClass: playerClass)
             player.playerCardList.filter({ $0.collectible == true }).forEach({ deck.addCard($0) })
-            
+
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
             }
@@ -669,7 +669,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             deckManager?.editDeck(self)
         }
     }
-    
+
     @IBAction func resetTrackers(sender: AnyObject) {
         Game.instance.opponent.reset()
         Game.instance.updateOpponentTracker()
