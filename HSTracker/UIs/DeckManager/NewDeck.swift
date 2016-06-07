@@ -27,6 +27,14 @@ class NewDeck: NSWindowController {
     @IBOutlet weak var fromHearthstats: NSButton!
 
     var delegate: NewDeckDelegate?
+    var defaultClass: String?
+
+    override func windowDidLoad() {
+        super.windowDidLoad()
+        if let hsClass = defaultClass, index = classes().indexOf(hsClass) {
+            classesCombobox.selectItemAtIndex(index)
+        }
+    }
 
     func radios() -> [NSButton: [NSControl]] {
         return [
