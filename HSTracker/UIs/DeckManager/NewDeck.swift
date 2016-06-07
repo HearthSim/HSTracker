@@ -27,6 +27,16 @@ class NewDeck: NSWindowController {
     @IBOutlet weak var fromHearthstats: NSButton!
 
     var delegate: NewDeckDelegate?
+    var defaultClass: String?
+
+    override func windowDidLoad() {
+        super.windowDidLoad()
+        if let hsClass = defaultClass, index = classes().indexOf(hsClass) {
+            classesCombobox.selectItemAtIndex(index)
+        } else {
+            classesCombobox.becomeFirstResponder()
+        }
+    }
 
     func radios() -> [NSButton: [NSControl]] {
         return [
@@ -188,6 +198,21 @@ class NewDeck: NSWindowController {
 extension NewDeck: NSComboBoxDelegate {
     func comboBoxSelectionDidChange(notification: NSNotification) {
         checkToEnableSave()
+    }
+
+    func comboBox(aComboBox: NSComboBox, completedString string: String) -> String? {
+        for (idx, hsClass) in classes().enumerate() {
+            if NSLocalizedString(hsClass, comment: "")
+                .commonPrefixWithString(string, options: .CaseInsensitiveSearch)
+                .length == string.length {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.classesCombobox.selectItemAtIndex(idx)
+                })
+                checkToEnableSave()
+                return NSLocalizedString(hsClass, comment: "")
+            }
+        }
+        return string
     }
 }
 
