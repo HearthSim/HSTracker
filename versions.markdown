@@ -8,6 +8,7 @@
 - Option to save your current deck or your opponent's one
 - Ability to archive and unarchive decks
 - Show win loss ratio for in tracker
+- Add an option to close HSTracker when Hearthstone is closed
 
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck
