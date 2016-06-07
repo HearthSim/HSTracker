@@ -33,6 +33,8 @@ class NewDeck: NSWindowController {
         super.windowDidLoad()
         if let hsClass = defaultClass, index = classes().indexOf(hsClass) {
             classesCombobox.selectItemAtIndex(index)
+        } else {
+            classesCombobox.becomeFirstResponder()
         }
     }
 
@@ -196,6 +198,20 @@ class NewDeck: NSWindowController {
 extension NewDeck: NSComboBoxDelegate {
     func comboBoxSelectionDidChange(notification: NSNotification) {
         checkToEnableSave()
+    }
+
+    func comboBox(aComboBox: NSComboBox, completedString string: String) -> String? {
+        for (idx, hsClass) in classes().enumerate() {
+            if hsClass.commonPrefixWithString(string, options: .CaseInsensitiveSearch)
+                .length == string.length {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.classesCombobox.selectItemAtIndex(idx)
+                })
+                checkToEnableSave()
+                return NSLocalizedString(hsClass, comment: "")
+            }
+        }
+        return string
     }
 }
 
