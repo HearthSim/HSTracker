@@ -202,7 +202,8 @@ extension NewDeck: NSComboBoxDelegate {
 
     func comboBox(aComboBox: NSComboBox, completedString string: String) -> String? {
         for (idx, hsClass) in classes().enumerate() {
-            if hsClass.commonPrefixWithString(string, options: .CaseInsensitiveSearch)
+            if NSLocalizedString(hsClass, comment: "")
+                .commonPrefixWithString(string, options: .CaseInsensitiveSearch)
                 .length == string.length {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.classesCombobox.selectItemAtIndex(idx)
