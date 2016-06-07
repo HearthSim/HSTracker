@@ -35,6 +35,10 @@ final class Settings {
         }
         return nil
     }
+    var quitWhenHearthstoneCloses: Bool {
+        set { set("quit_when_hs_closes", value: newValue) }
+        get { return get("quit_when_hs_closes") as? Bool ?? false }
+    }
     var deckManagerZoom: Double {
         set { set("deck_manager_zoom", value: newValue) }
         get { return get("deck_manager_zoom") as? Double ?? 100.0 }
