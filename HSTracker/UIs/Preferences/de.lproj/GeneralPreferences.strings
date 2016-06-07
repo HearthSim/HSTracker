@@ -16,3 +16,6 @@
 
 /* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
 "c8y-VJ-p2U.ibShadowedToolTip" = "Benachrichtigungen sind nur sichtbar, wenn Hearthstone sich im Hintergrund befindet";
+
+/* Class = "NSButtonCell"; title = "Close HSTracker when Hearthstone closes"; ObjectID = "hzK-vu-1RX"; */
+"hzK-vu-1RX.title" = "Close HSTracker when Hearthstone closes";

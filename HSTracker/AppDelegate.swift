@@ -113,6 +113,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             initalConfig?.showWindow(nil)
             initalConfig?.window?.orderFrontRegardless()
         }
+
+        NSWorkspace.sharedWorkspace().notificationCenter
+            .addObserver(self,
+                         selector: #selector(AppDelegate.appDidDTerminate(_:)),
+                         name:NSWorkspaceDidTerminateApplicationNotification,
+                         object: nil)
+    }
+
+    func appDidDTerminate(notification: NSNotification) {
+        if let bundleID = notification.userInfo?["NSApplicationBundleIdentifier"] as? String
+            where bundleID == "unity.Blizzard Entertainment.Hearthstone" {
+            if Settings.instance.quitWhenHearthstoneCloses {
+                NSApplication.sharedApplication().terminate(self)
+            } else {
+                Log.info?.message("Not closing app since setting says so.")
+            }
+        }
     }
 
     func applicationWillTerminate(notification: NSNotification) {
