@@ -232,6 +232,12 @@ final class Hearthstone: NSObject {
             Game.instance.hearthstoneIsActive(false)
             NSNotificationCenter.defaultCenter()
                 .postNotificationName("hearthstone_running", object: nil)
+
+            if Settings.instance.quitWhenHearthstoneCloses {
+                NSApplication.sharedApplication().terminate(self)
+            } else {
+                Log.info?.message("Not closing app since setting says so.")
+            }
         }
     }
 
