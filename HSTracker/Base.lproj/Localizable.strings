@@ -96,3 +96,11 @@
 "pirate" = "Pirate";
 "totem" = "Totem";
 
+/* sorting */
+"name" = "Name";
+"creation date" = "Creation Date";
+"win percentage" = "Win Percentage";
+"wins" = "Wins";
+"losses" = "Losses";
+"ascending" = "Ascending";
+"descending" = "Descending";

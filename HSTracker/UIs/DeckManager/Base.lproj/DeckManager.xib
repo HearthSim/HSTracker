@@ -18,6 +18,7 @@
                 <outlet property="priestButton" destination="kic-Sa-OCu" id="RHh-JV-4f2"/>
                 <outlet property="rogueButton" destination="DDU-f7-Nwx" id="vdW-fp-DAg"/>
                 <outlet property="shamanButton" destination="HZK-Si-jIN" id="a7g-bp-RjD"/>
+                <outlet property="sortPopUp" destination="xO3-ES-jrX" id="Jcd-51-f2j"/>
                 <outlet property="statsLabel" destination="Y6G-cK-9fE" id="HHC-8d-lga"/>
                 <outlet property="toolbar" destination="UfZ-Rs-kI0" id="ZcC-69-KQb"/>
                 <outlet property="warlockButton" destination="UjQ-5M-0Yn" id="4Xh-UJ-cmN"/>
@@ -499,6 +500,26 @@
                             <action selector="archiveDeck:" target="-2" id="ypI-Pe-P3H"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="8004B22B-F98D-4214-9261-255D430DC65D" label="Sort" paletteLabel="Sort" id="cu3-FG-2Cn">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="100" height="26"/>
+                        <size key="maxSize" width="100" height="26"/>
+                        <popUpButton key="view" verticalHuggingPriority="750" id="xO3-ES-jrX">
+                            <rect key="frame" x="0.0" y="14" width="100" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" allowsMixedState="YES" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="cCu-vJ-U3L" id="DqI-gA-1iM">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="EE3-OV-76S">
+                                    <items>
+                                        <menuItem title="Item 1" state="on" hidden="YES" id="cCu-vJ-U3L"/>
+                                        <menuItem title="Item 2" id="R1X-pL-sY1"/>
+                                        <menuItem title="Item 3" id="WQ3-Qd-aVZ"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
@@ -507,6 +528,7 @@
                     <toolbarItem reference="cbH-rI-BvP"/>
                     <toolbarItem reference="aaa-LK-buD"/>
                     <toolbarItem reference="Fe5-be-5CS"/>
+                    <toolbarItem reference="cu3-FG-2Cn"/>
                     <toolbarItem reference="I75-rt-at9"/>
                     <toolbarItem reference="Xxv-sY-tej"/>
                     <toolbarItem reference="d38-Pq-vZv"/>

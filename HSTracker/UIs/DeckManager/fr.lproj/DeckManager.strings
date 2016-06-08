@@ -49,3 +49,9 @@
 
 /* Class = "NSToolbarItem"; paletteLabel = "Archive"; ObjectID = "Fe5-be-5CS"; */
 "Fe5-be-5CS.paletteLabel" = "Archiver";
+
+/* Class = "NSToolbarItem"; label = "Sort"; ObjectID = "cu3-FG-2Cn"; */
+"cu3-FG-2Cn.label" = "Sort";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
+"cu3-FG-2Cn.paletteLabel" = "Sort";

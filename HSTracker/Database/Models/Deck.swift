@@ -164,10 +164,24 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         if totalGames == 0 {
             return "0 - 0"
         }
-        let wins = statistics.filter { $0.gameResult == .Win }.count
 
-        return "\(wins) - \(totalGames - wins) (" +
-            "\(Int(round(Double(wins) / Double(totalGames) * 100)))%)"
+        return "\(wins()) - \(totalGames - wins()) (\(winPercentage())%)"
+    }
+    
+    func wins() -> Int {
+        return statistics.filter { $0.gameResult == .Win }.count
+    }
+    
+    func losses() -> Int {
+        return statistics.filter { $0.gameResult == .Loss }.count
+    }
+    
+    func winPercentage() -> Int {
+        let totalGames = statistics.count
+        if totalGames == 0 {
+            return 0
+        }
+        return Int(round(Double(wins()) / Double(totalGames) * 100))
     }
 
     func standardViable() -> Bool {
