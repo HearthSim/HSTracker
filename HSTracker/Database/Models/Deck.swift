@@ -165,8 +165,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
             return "0 - 0"
         }
 
-        return "\(wins()) - \(totalGames - wins()) (" +
-            "\(winPercentage())%)"
+        return "\(wins()) - \(totalGames - wins()) (\(winPercentage())%)"
     }
     
     func wins() -> Int {
