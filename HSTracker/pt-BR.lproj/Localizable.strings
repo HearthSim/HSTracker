@@ -38,6 +38,8 @@
 "Save Current Deck" = "Save Current Deck";
 "Are you sure you want to archive the deck %@ ?" = "Are you sure you want to archive the deck %@ ?";
 "Are you sure you want to unarchive the deck %@ ?" = "Are you sure you want to unarchive the deck %@ ?";
+"Add Card" = "Add Card";
+"Remove Card" = "Remove Card";
 
 /* notifications */
 "Your game begins" = "Your game begins";
