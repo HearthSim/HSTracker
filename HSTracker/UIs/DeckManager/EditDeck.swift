@@ -54,6 +54,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var currentHealth = -1
     var currentRace = ""
     var currentCardType = ""
+    var deckUndoManager: NSUndoManager?
 
     var monitor: AnyObject? = nil
 
@@ -120,6 +121,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                          name: "theme",
                          object: nil)
 
+        deckUndoManager = window?.undoManager
         initKeyboardShortcuts()
     }
 
@@ -136,10 +138,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
             if isCmd {
                 switch e.keyCode {
-                case 6:
-                    self.window!.performClose(nil)
-                    return nil
-
                 case 3: // cmd-f
                     self.searchField.selectText(self)
                     self.searchField.becomeFirstResponder()
@@ -231,13 +229,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBAction func clickCard(sender: NSTableView) {
         guard sender.clickedRow >= 0 else { return }
         let card = currentDeck!.sortedCards[sender.clickedRow]
-        currentDeck!.removeCard(card)
-
-        isSaved = false
-
-        deckCardsView.reloadData()
-        cardsCollectionView.reloadData()
-        curveView.reload()
+        
+        undoCardAdd(card)
     }
 
     func addCardToDeck(card: Card) {
@@ -245,7 +238,44 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
         if deckCard == nil || currentDeck!.isArena ||
             (deckCard!.count == 1 && card.rarity != .Legendary) {
-            currentDeck?.addCard(card)
+
+            redoCardAdd(card)
+        }
+    }
+    
+    // MARK: - Undo/Redo
+    func undoCardAdd(card: AnyObject) {
+        if let c = card as? Card {
+            deckUndoManager?.registerUndoWithTarget(
+                self, selector: #selector(EditDeck.redoCardAdd(_:)), object: card)
+            
+            if deckUndoManager?.undoing == true {
+                deckUndoManager?.setActionName(NSLocalizedString("Add Card", comment: ""))
+            } else {
+                deckUndoManager?.setActionName(NSLocalizedString("Remove Card", comment: ""))
+            }
+            
+            currentDeck?.removeCard(c)
+            curveView.reload()
+            deckCardsView.reloadData()
+            cardsCollectionView.reloadData()
+            countCards()
+            isSaved = false
+        }
+    }
+    
+    func redoCardAdd(card: AnyObject) {
+        if let c = card as? Card {
+            deckUndoManager?.registerUndoWithTarget(
+                self, selector: #selector(EditDeck.undoCardAdd(_:)), object: card)
+            
+            if deckUndoManager?.undoing == true {
+                deckUndoManager?.setActionName(NSLocalizedString("Remove Card", comment: ""))
+            } else {
+                deckUndoManager?.setActionName(NSLocalizedString("Add Card", comment: ""))
+            }
+            
+            currentDeck?.addCard(c)
             curveView.reload()
             deckCardsView.reloadData()
             cardsCollectionView.reloadData()
