@@ -25,3 +25,6 @@
 
 /* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "oIi-8e-cCP"; */
 "oIi-8e-cCP.title" = "Show win-loss ratio";
+
+/* Class = "NSTextFieldCell"; title = "In-hand color"; ObjectID = "gfe-fe-rJe"; */
+"gfe-fe-rJe.title" = "In-hand color";

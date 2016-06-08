@@ -200,6 +200,19 @@ final class Settings {
         set { set("show_win_loss_ratio", value: newValue) }
         get { return get("show_win_loss_ratio") as? Bool ?? false }
     }
+    var playerInHandColor: NSColor {
+        set { set("player_in_hand_color", value: [
+            newValue.redComponent,
+            newValue.greenComponent,
+            newValue.blueComponent])
+        }
+        get {
+            if let hexColor = get("player_in_hand_color") as? [CGFloat] where hexColor.count == 3 {
+                return NSColor(red: hexColor[0], green: hexColor[1], blue: hexColor[2], alpha: 1)
+            }
+            return NSColor(red: 0.678, green: 1, blue: 0.184, alpha: 1)
+        }
+    }
 
     var playerTrackerFrame: NSRect? {
         set { set("player_tracker_frame",

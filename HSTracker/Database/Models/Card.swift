@@ -52,7 +52,7 @@ final class Card: Hashable, CustomStringConvertible {
         if highlightDraw && Settings.instance.highlightLastDrawn {
             color = NSColor(red: 1, green: 0.647, blue: 0, alpha: 1)
         } else if highlightInHand && Settings.instance.highlightCardsInHand {
-            color = NSColor(red: 0.678, green: 1, blue: 0.184, alpha: 1)
+            color = Settings.instance.playerInHandColor
         } else if count <= 0 || jousted {
             color = NSColor(red: 0.501, green: 0.501, blue: 0.501, alpha: 1)
         } else if wasDiscarded && Settings.instance.highlightDiscarded {

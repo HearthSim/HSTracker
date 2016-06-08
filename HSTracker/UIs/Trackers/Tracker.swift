@@ -53,7 +53,8 @@ class Tracker: NSWindowController {
                 "player_yogg_frame": #selector(Tracker.playerOptionFrameChange(_:)),
                 "player_deathrattle_frame": #selector(Tracker.playerOptionFrameChange(_:)),
                 "show_win_loss_ratio": #selector(Tracker.playerOptionFrameChange(_:)),
-                "reload_decks": #selector(Tracker.playerOptionFrameChange(_:))
+                "reload_decks": #selector(Tracker.playerOptionFrameChange(_:)),
+                "player_in_hand_color": #selector(Tracker.playerOptionFrameChange(_:))
                 ])
         } else if playerType == .Opponent {
             observers.update([

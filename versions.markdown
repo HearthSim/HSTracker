@@ -11,6 +11,7 @@
 - Add an option to close HSTracker when Hearthstone is closed
 - Undo/Redo in deck creation/edition
 - Ability to sort decks in manager
+- Add an option to change in-hand color
 
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck
