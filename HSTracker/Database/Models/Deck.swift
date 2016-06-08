@@ -166,7 +166,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         }
 
         return "\(wins()) - \(totalGames - wins()) (" +
-            "\(Int(round(Double(wins()) / Double(totalGames) * 100)))%)"
+            "\(winPercentage())%)"
     }
     
     func wins() -> Int {
