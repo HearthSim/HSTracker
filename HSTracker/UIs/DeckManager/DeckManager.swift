@@ -43,8 +43,10 @@ class DeckManager: NSWindowController {
     var currentCell: DeckCellView?
     var showArchivedDecks = false
     
-    var sortOrder = "name"
-    var sortCriteria = "ascending"
+    let criterias = ["name", "creation date", "win percentage", "wins", "losses"]
+    let orders = ["ascending", "descending"]
+    var sortCriteria = "name"
+    var sortOrder = "ascending"
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -107,21 +109,26 @@ class DeckManager: NSWindowController {
     }
 
     func sortedFilteredDecks() -> [Deck] {
-        let filteredDecks = unsortedFilteredDecks()
+        let filteredDeck = unsortedFilteredDecks()
+        var sortedDeck: [Deck]
+        let ascend = sortOrder == "ascending"
         
-        switch self.sortOrder {
+        switch self.sortCriteria {
         case "name":
-            return filteredDecks.sort({ $0.name < $1.name})
+            sortedDeck = filteredDeck.sort({ $0.name < $1.name })
         case "creation date":
-            return filteredDecks.sort({ $0.creationDate! < $1.creationDate! })
+            sortedDeck = filteredDeck.sort({ $0.creationDate! < $1.creationDate! })
         case "win percentage":
-            return filteredDecks.sort({ $0.winPercentage() < $1.winPercentage() })
+            sortedDeck = filteredDeck.sort({ $0.winPercentage() < $1.winPercentage() })
         case "wins":
-            return filteredDecks.sort({ $0.wins() < $1.wins() })
+            sortedDeck = filteredDeck.sort({ $0.wins() < $1.wins() })
         case "losses":
-            return filteredDecks.sort({ $0.losses() < $1.losses() })
-        default: return filteredDecks
+            sortedDeck = filteredDeck.sort({ $0.losses() < $1.losses() })
+        default:
+            sortedDeck = filteredDeck
         }
+        
+        return ascend ? sortedDeck : sortedDeck.reverse()
     }
     
     func unsortedFilteredDecks() -> [Deck] {
@@ -404,8 +411,11 @@ class DeckManager: NSWindowController {
     
     private func loadSortPopUp() {
         let popupMenu = NSMenu()
-        let criterias = ["name", "creation date", "win percentage", "wins", "losses"]
-        let orders = ["ascending", "descending"]
+        let popupMenuItem = NSMenuItem(title: NSLocalizedString("name", comment: ""),
+                                       action: #selector(DeckManager.changeSort(_:)),
+                                       keyEquivalent: "")
+        popupMenuItem.representedObject = "name"
+        popupMenu.addItem(popupMenuItem)
         
         for criteria in criterias {
             let popupMenuItem = NSMenuItem(title: NSLocalizedString(criteria, comment: ""),
@@ -425,15 +435,44 @@ class DeckManager: NSWindowController {
             popupMenu.addItem(popupMenuItem)
         }
         
+        popupMenu.itemAtIndex(1)?.state = NSOnState
+        popupMenu.itemAtIndex(criterias.count + 2)?.state = NSOnState
+        sortCriteria = criterias[0]
+        sortOrder = orders[0]
         sortPopUp.menu = popupMenu
     }
     
     @IBAction func changeSort(sender: NSMenuItem) {
-        if let sort = sender.representedObject as? String {
-            sortOrder = sort
-            
+        // Unset the previously selected one, select the new one
+        var previous: String = ""
+        let idx = sender.menu?.indexOfItem(sender)
+        
+        if idx <= criterias.count {
+            previous = sortCriteria
+            if let criteria = sender.representedObject as? String {
+                sortCriteria = criteria
+                
+                let firstMenuItem = sortPopUp.menu?.itemAtIndex(0)
+                firstMenuItem?.representedObject = sender.representedObject
+                firstMenuItem?.title = sender.title
+                
+            }
+        } else {
+            // Ascending/Descending
+            previous = sortOrder
+            if let order = sender.representedObject as? String {
+                sortOrder = order
+            }
+        }
+        
+        let prevSelected = sortPopUp.menu?.itemWithTitle(NSLocalizedString(previous, comment: ""))
+        
+        if sender.state != NSOnState {
             self.refreshDecks()
         }
+        
+        prevSelected?.state = NSOffState
+        sender.state = NSOnState
     }
 }
 
