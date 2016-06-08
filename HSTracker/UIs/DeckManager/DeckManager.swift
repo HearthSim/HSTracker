@@ -56,7 +56,6 @@ class DeckManager: NSWindowController {
         decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
 
         decksTable.target = self
-        decksTable.action = #selector(DeckManager.decksTableClick(_:))
 
         decks = Decks.instance.decks().filter({$0.isActive})
         decksTable.reloadData()
@@ -153,21 +152,6 @@ class DeckManager: NSWindowController {
         }
 
         refreshDecks()
-    }
-
-    func decksTableClick(sender: AnyObject?) {
-        guard sender?.clickedRow >= 0 else {
-            return
-        }
-        let clickedRow = sender!.clickedRow!
-        currentDeck = filteredDecks()[clickedRow]
-        let labelName = ((currentDeck?.isActive) == true) ? "Archive" : "Unarchive"
-        self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
-        deckListTable.reloadData()
-        curveView.deck = currentDeck
-        updateStatsLabel()
-
-        toolbar.validateVisibleItems()
     }
 
     func updateStatsLabel() {
@@ -422,11 +406,24 @@ extension DeckManager: NSTableViewDelegate {
     func tableViewSelectionDidChange(notification: NSNotification) {
         let decks = filteredDecks().count
         guard decks == notification.object?.numberOfRows else { return }
+        
         for i in 0 ..< decks {
             let row = decksTable?.viewAtColumn(0, row: i, makeIfNecessary: false) as? DeckCellView
             row?.selected = decksTable?.selectedRow == -1 || decksTable?.selectedRow == i
+
         }
-        decksTable?.setNeedsDisplay()
+        
+        if let clickedRow = notification.object?.selectedRow where clickedRow >= 0 {
+            currentDeck = filteredDecks()[clickedRow]
+            let labelName = ((currentDeck?.isActive) == true) ? "Archive" : "Unarchive"
+            self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
+            deckListTable.reloadData()
+            curveView.deck = currentDeck
+            updateStatsLabel()
+            
+            toolbar.validateVisibleItems()
+            decksTable?.setNeedsDisplay()
+        }
     }
 }
 
