@@ -45,8 +45,8 @@ class DeckManager: NSWindowController {
     
     let criterias = ["name", "creation date", "win percentage", "wins", "losses"]
     let orders = ["ascending", "descending"]
-    var sortCriteria = "name"
-    var sortOrder = "ascending"
+    var sortCriteria = Settings.instance.deckSortCriteria
+    var sortOrder = Settings.instance.deckSortOrder
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -395,11 +395,6 @@ class DeckManager: NSWindowController {
     
     private func loadSortPopUp() {
         let popupMenu = NSMenu()
-        let popupMenuItem = NSMenuItem(title: NSLocalizedString("name", comment: ""),
-                                       action: #selector(DeckManager.changeSort(_:)),
-                                       keyEquivalent: "")
-        popupMenuItem.representedObject = "name"
-        popupMenu.addItem(popupMenuItem)
         
         for criteria in criterias {
             let popupMenuItem = NSMenuItem(title: NSLocalizedString(criteria, comment: ""),
@@ -419,10 +414,15 @@ class DeckManager: NSWindowController {
             popupMenu.addItem(popupMenuItem)
         }
         
-        popupMenu.itemAtIndex(1)?.state = NSOnState
-        popupMenu.itemAtIndex(criterias.count + 2)?.state = NSOnState
-        sortCriteria = criterias[0]
-        sortOrder = orders[0]
+        popupMenu.itemWithTitle(NSLocalizedString(sortCriteria, comment: ""))?.state = NSOnState
+        popupMenu.itemWithTitle(NSLocalizedString(sortOrder, comment: ""))?.state = NSOnState
+        
+        let firstItemMenu = NSMenuItem(title: NSLocalizedString(sortCriteria, comment: ""),
+                                       action: #selector(DeckManager.changeSort(_:)),
+                                       keyEquivalent: "")
+        firstItemMenu.representedObject = sortCriteria
+        popupMenu.insertItem(firstItemMenu, atIndex: 0)
+        
         sortPopUp.menu = popupMenu
     }
     
@@ -435,17 +435,18 @@ class DeckManager: NSWindowController {
             previous = sortCriteria
             if let criteria = sender.representedObject as? String {
                 sortCriteria = criteria
+                Settings.instance.deckSortCriteria = sortCriteria
                 
                 let firstMenuItem = sortPopUp.menu?.itemAtIndex(0)
                 firstMenuItem?.representedObject = sender.representedObject
                 firstMenuItem?.title = sender.title
-                
             }
         } else {
             // Ascending/Descending
             previous = sortOrder
             if let order = sender.representedObject as? String {
                 sortOrder = order
+                Settings.instance.deckSortOrder = sortOrder
             }
         }
         

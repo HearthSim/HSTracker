@@ -56,6 +56,14 @@ final class Settings {
         get { return CardSize(rawValue: get("card_size") as? Int
             ?? CardSize.Big.rawValue) ?? CardSize.Big }
     }
+    var deckSortCriteria: String {
+        set { set("deck_sort_criteria", value: newValue) }
+        get { return get("deck_sort_criteria") as? String ?? "name" }
+    }
+    var deckSortOrder: String {
+        set { set("deck_sort_order", value: newValue) }
+        get { return get("deck_sort_order") as? String ?? "ascending" }
+    }
     var hearthstoneLogPath: String {
         set { set("hearthstone_log_path", value: newValue) }
         get { return get("hearthstone_log_path") as? String ?? "/Applications/Hearthstone" }
