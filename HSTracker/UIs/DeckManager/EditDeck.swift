@@ -43,9 +43,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var delegate: NewDeckDelegate?
     var currentDeck: Deck?
     var currentPlayerClass: String?
-    var currentSet = [String]()
+    var currentSet: [CardSet] = []
     var selectedClass: String?
-    var currentClassCards = [Card]()
+    var currentClassCards: [Card] = []
     var currentCardCost = -1
     var currentSearchTerm = ""
     var currentRarity: Rarity?
@@ -310,11 +310,11 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     // MARK: - Sets
     private func loadSets() {
         let popupMenu = NSMenu()
-        for set in Database.deckManagerValidCardSets {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(set, comment: ""),
+        for set in CardSet.deckManagerValidCardSets() {
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(set.rawValue, comment: ""),
                                            action: #selector(EditDeck.changeSet(_:)),
                                            keyEquivalent: "")
-            popupMenuItem.representedObject = set
+            popupMenuItem.representedObject = set.rawValue
             popupMenuItem.image = NSImage(named: "Set_\(set)")
             popupMenu.addItem(popupMenuItem)
         }
@@ -325,8 +325,13 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let type = sender.representedObject as? String {
             switch type {
             case "ALL": currentSet = []
-            case "EXPERT1": currentSet = ["core", "expert1", "promo"]
-            default: currentSet = [type.lowercaseString]
+            case "EXPERT1": currentSet = [.CORE, .EXPERT1, .PROMO]
+            default:
+                if let set = CardSet(rawValue: type) {
+                    currentSet = [set]
+                } else {
+                    currentSet = []
+                }
             }
         }
 

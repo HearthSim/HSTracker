@@ -119,8 +119,8 @@ class Game {
         }
         return entities.map { $0.1 }
             .filter { !String.isNullOrEmpty($0.cardId)
-                && !$0.info.created && !String.isNullOrEmpty($0.card.set) }
-            .any { Database.wildSets.contains($0.card.set) } ? .Wild : .Standard
+                && !$0.info.created && $0.card.set != nil }
+            .any { CardSet.wildSets().contains($0.card.set!) } ? .Wild : .Standard
     }
 
     static let instance = Game()

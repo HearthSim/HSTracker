@@ -61,22 +61,22 @@ final class Cards {
     }
 
     static func byClass(className: String?, set: String?) -> [Card] {
-        var sets = [String]()
-        if let set = set {
+        var sets: [CardSet] = []
+        if let set = CardSet(rawValue: set ?? "") {
             sets.append(set)
         }
         return byClass(className, sets: sets)
     }
 
-    static func byClass(className: String?, sets: [String]) -> [Card] {
+    static func byClass(className: String?, sets: [CardSet]) -> [Card] {
         var _cards = collectible().filter { $0.playerClass == className }
         if !sets.isEmpty {
-            _cards = _cards.filter { sets.contains($0.set) }
+            _cards = _cards.filter { $0.set != nil && sets.contains($0.set!) }
         }
         return _cards
     }
 
-    static func search(className className: String?, sets: [String] = [],
+    static func search(className className: String?, sets: [CardSet] = [],
                                  term: String = "", cost: Int = -1,
                                  rarity: Rarity? = .None, standardOnly: Bool = false,
                                  damage: Int = -1, health: Int = -1, type: String = "",
@@ -122,7 +122,7 @@ final class Cards {
         }
 
         if !sets.isEmpty {
-            cards = cards.filter { sets.contains($0.set) }
+            cards = cards.filter { $0.set != nil && sets.contains($0.set!) }
         }
 
         if cost != -1 {

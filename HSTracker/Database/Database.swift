@@ -10,16 +10,10 @@ import Foundation
 import CleanroomLogger
 
 struct Database {
-    static let validCardSets = ["CORE", "EXPERT1", "NAXX", "GVG", "BRM",
-                                "TGT", "LOE", "PROMO", "REWARD", "HERO_SKINS",
-                                "OG"]
+    static let validCardSets = CardSet.allValues()
 
-    static let deckManagerValidCardSets = ["ALL", "EXPERT1", "NAXX", "GVG",
-                                           "BRM", "TGT", "LOE", "OG"]
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [String]()
-
-    static let wildSets: [String] = ["NAXX", "GVG"]
 
     // swiftlint:disable line_length
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
@@ -53,7 +47,7 @@ struct Database {
                             }
                         }
 
-                        if let set = jsonCard["set"] as? String {
+                        if let jsonSet = jsonCard["set"] as? String, set = CardSet(rawValue: jsonSet) {
                         if !Database.validCardSets.contains(set) {
                             continue
                         }
@@ -70,7 +64,7 @@ struct Database {
                                 let card = Card()
                                 card.id = cardId
 
-                                card.isStandard = !Database.wildSets.contains(set)
+                                card.isStandard = !CardSet.wildSets().contains(set)
 
                                 // "fake" the coin... in the game files, Coin cost is empty
                                 // so we set it to 0
@@ -101,7 +95,7 @@ struct Database {
                                     card.faction = cardFaction.lowercaseString
                                 }
 
-                                card.set = set.lowercaseString
+                                card.set = set
                                 if let health = jsonCard["health"] as? Int {
                                     card.health = health
                                 }

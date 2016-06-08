@@ -186,6 +186,7 @@
 		43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
 		43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* SecretTracker.swift */; };
 		43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* SecretTracker.xib */; };
+		43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C36D2B1D08623D00F6723C /* CardSet.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
@@ -526,6 +527,7 @@
 		43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentSecrets.swift; sourceTree = "<group>"; };
 		43B695621C920A0500F4D0AC /* SecretTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretTracker.swift; sourceTree = "<group>"; };
 		43B695641C920BD500F4D0AC /* SecretTracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecretTracker.xib; sourceTree = "<group>"; };
+		43C36D2B1D08623D00F6723C /* CardSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSet.swift; sourceTree = "<group>"; };
 		43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSTrackerLogFormatter.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
@@ -863,6 +865,7 @@
 				432C11AA1CCF6B460067C5FE /* Format.swift */,
 				437B5BAB1CD1E6AF00DE0A41 /* Step.swift */,
 				4387BED11CF4D7A00002ECBB /* State.swift */,
+				43C36D2B1D08623D00F6723C /* CardSet.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1298,6 +1301,7 @@
 				437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
 				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
+				43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */,
 				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,
 				436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */,
 				43E77EED1C969C4100C26950 /* Regex.swift in Sources */,

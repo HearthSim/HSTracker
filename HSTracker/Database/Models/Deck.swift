@@ -185,7 +185,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     }
 
     func standardViable() -> Bool {
-        return !isArena && !_cards.any({ Database.wildSets.contains($0.set) })
+        return !isArena && !_cards.any({ $0.set != nil && CardSet.wildSets().contains($0.set!) })
     }
 }
 func == (lhs: Deck, rhs: Deck) -> Bool {

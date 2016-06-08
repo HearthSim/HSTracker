@@ -2364,7 +2364,10 @@ struct CardIds {
 
             static func getCards(standardOnly: Bool) -> [String] {
                 return standardOnly ? All.filter {
-                        Database.wildSets.contains(Cards.byId($0)?.set ?? "")
+                    if let set = Cards.byId($0)?.set {
+                        return !CardSet.wildSets().contains(set)
+                    }
+                    return false
                     } : All
             }
         }
@@ -2382,7 +2385,10 @@ struct CardIds {
 
             static func getCards(standardOnly: Bool) -> [String] {
                 return standardOnly ? All.filter {
-                    !Database.wildSets.contains(Cards.byId($0)?.set ?? "")
+                    if let set = Cards.byId($0)?.set {
+                        return !CardSet.wildSets().contains(set)
+                    }
+                    return false
                     } : All
             }
         }
@@ -2399,8 +2405,11 @@ struct CardIds {
 
             static func getCards(standardOnly: Bool) -> [String] {
                 return standardOnly ? All.filter {
-                    Database.wildSets.contains(Cards.byId($0)?.set ?? "")
-                    } : All
+                    if let set = Cards.byId($0)?.set {
+                        return !CardSet.wildSets().contains(set)
+                    }
+                    return false
+                } : All
             }
         }
     }

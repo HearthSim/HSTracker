@@ -21,7 +21,7 @@ final class Card: Hashable, CustomStringConvertible {
     var enName = ""
     var playerClass = ""
     var rarity: Rarity = .Free
-    var set = ""
+    var set: CardSet?
     var text = ""
     var race = ""
     var type = "unknown"
