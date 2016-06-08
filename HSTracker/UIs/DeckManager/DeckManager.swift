@@ -214,7 +214,7 @@ class DeckManager: NSWindowController {
         newDeck = NewDeck(windowNibName: "NewDeck")
         if let newDeck = newDeck {
             newDeck.setDelegate(self)
-            newDeck.defaultClass = currentClass != nil ? currentClass : nil
+            newDeck.defaultClass = currentClass ?? nil
             self.window!.beginSheet(newDeck.window!, completionHandler: nil)
         }
     }
