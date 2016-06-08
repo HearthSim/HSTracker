@@ -51,7 +51,7 @@
 "Fe5-be-5CS.paletteLabel" = "Archiver";
 
 /* Class = "NSToolbarItem"; label = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.label" = "Sort";
+"cu3-FG-2Cn.label" = "Trier";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.paletteLabel" = "Sort";
+"cu3-FG-2Cn.paletteLabel" = "Trier";
