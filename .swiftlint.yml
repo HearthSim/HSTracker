@@ -12,3 +12,4 @@ disabled_rules:
   - variable_name
   - function_parameter_count
   - trailing_newline
+  - trailing_whitespace
