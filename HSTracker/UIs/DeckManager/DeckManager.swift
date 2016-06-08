@@ -512,7 +512,7 @@ extension DeckManager: NSTableViewDelegate {
         }
         
         if let clickedRow = notification.object?.selectedRow where clickedRow >= 0 {
-            currentDeck = filteredDecks()[clickedRow]
+            currentDeck = sortedFilteredDecks()[clickedRow]
             let labelName = ((currentDeck?.isActive) == true) ? "Archive" : "Unarchive"
             self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
             deckListTable.reloadData()
