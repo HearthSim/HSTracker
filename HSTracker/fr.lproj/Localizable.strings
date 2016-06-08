@@ -38,6 +38,8 @@
 "Save Current Deck" = "Enregistrer le deck actuel";
 "Are you sure you want to archive the deck %@ ?" = "Êtes-vous certain de vouloir archiver le deck %@ ?";
 "Are you sure you want to unarchive the deck %@ ?" = "Êtes-vous certain de vouloir désarchiver le deck %@ ?";
+"Add Card" = "Add Card"
+"Remove Card" = "Remove Card"
 
 /* notifications */
 "Your game begins" = "Votre partie commence";
