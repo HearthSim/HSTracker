@@ -95,3 +95,12 @@
 "murloc" = "鱼人";
 "pirate" = "海盗";
 "totem" = "图腾";
+
+/* sorting */
+"name" = "Name";
+"creation date" = "Creation Date";
+"win percentage" = "Win Percentage";
+"wins" = "Wins";
+"losses" = "Losses";
+"ascending" = "Ascending";
+"descending" = "Descending";
