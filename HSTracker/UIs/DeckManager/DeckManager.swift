@@ -18,6 +18,7 @@ class DeckManager: NSWindowController {
     @IBOutlet weak var progressView: NSView!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     @IBOutlet weak var archiveToolBarItem: NSToolbarItem!
+    @IBOutlet weak var sortPopUp: NSPopUpButton!
 
     @IBOutlet weak var druidButton: NSButton!
     @IBOutlet weak var hunterButton: NSButton!
@@ -41,6 +42,9 @@ class DeckManager: NSWindowController {
     var currentDeck: Deck?
     var currentCell: DeckCellView?
     var showArchivedDecks = false
+    
+    var sortOrder = "name"
+    var sortCriteria = "ascending"
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -62,6 +66,8 @@ class DeckManager: NSWindowController {
 
         deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
         deckListTable.tableColumns.first?.resizingMask = .AutoresizingMask
+        
+        loadSortPopUp()
 
         NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
             let isCmd = e.modifierFlags.contains(.CommandKeyMask)
@@ -99,7 +105,25 @@ class DeckManager: NSWindowController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    func filteredDecks() -> [Deck] {
+    func sortedFilteredDecks() -> [Deck] {
+        let filteredDecks = unsortedFilteredDecks()
+        
+        switch self.sortOrder {
+        case "name":
+            return filteredDecks.sort({ $0.name < $1.name})
+        case "creation date":
+            return filteredDecks.sort({ $0.creationDate! < $1.creationDate! })
+        case "win percentage":
+            return filteredDecks.sort({ $0.winPercentage() < $1.winPercentage() })
+        case "wins":
+            return filteredDecks.sort({ $0.wins() < $1.wins() })
+        case "losses":
+            return filteredDecks.sort({ $0.losses() < $1.losses() })
+        default: return filteredDecks
+        }
+    }
+    
+    func unsortedFilteredDecks() -> [Deck] {
         if let currentClass = currentClass {
             return decks.filter({ $0.playerClass == currentClass && $0.isActive == true })
                 .sort { $0.name < $1.name }
@@ -153,7 +177,7 @@ class DeckManager: NSWindowController {
 
         refreshDecks()
     }
-
+    
     func updateStatsLabel() {
         if let currentDeck = self.currentDeck {
             dispatch_async(dispatch_get_main_queue()) {
@@ -361,6 +385,40 @@ class DeckManager: NSWindowController {
         }
         // swiftlint:enable line_length
     }
+    
+    private func loadSortPopUp() {
+        let popupMenu = NSMenu()
+        let criterias = ["name", "creation date", "win percentage", "wins", "losses"]
+        let orders = ["ascending", "descending"]
+        
+        for criteria in criterias {
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(criteria, comment: ""),
+                action: #selector(DeckManager.changeSort(_:)),
+                keyEquivalent: "")
+            popupMenuItem.representedObject = criteria
+            popupMenu.addItem(popupMenuItem)
+        }
+        
+        popupMenu.addItem(NSMenuItem.separatorItem())
+        
+        for order in orders {
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(order, comment: ""),
+                                           action: #selector(DeckManager.changeSort(_:)),
+                                           keyEquivalent: "")
+            popupMenuItem.representedObject = order
+            popupMenu.addItem(popupMenuItem)
+        }
+        
+        sortPopUp.menu = popupMenu
+    }
+    
+    @IBAction func changeSort(sender: NSMenuItem) {
+        if let sort = sender.representedObject as? String {
+            sortOrder = sort
+            
+            self.refreshDecks()
+        }
+    }
 }
 
 // MARK: - NSTableViewDelegate
@@ -371,7 +429,7 @@ extension DeckManager: NSTableViewDelegate {
             if let cell = decksTable?.makeViewWithIdentifier("DeckCellView", owner: self)
                 as? DeckCellView {
 
-                let deck = filteredDecks()[row]
+                let deck = sortedFilteredDecks()[row]
                 cell.deck = deck
                 cell.label.stringValue = deck.name!
                 cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
@@ -404,7 +462,7 @@ extension DeckManager: NSTableViewDelegate {
     }
 
     func tableViewSelectionDidChange(notification: NSNotification) {
-        let decks = filteredDecks().count
+        let decks = sortedFilteredDecks().count
         guard decks == notification.object?.numberOfRows else { return }
         
         for i in 0 ..< decks {
@@ -431,7 +489,7 @@ extension DeckManager: NSTableViewDelegate {
 extension DeckManager: NSTableViewDataSource {
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         if tableView == decksTable {
-            return filteredDecks().count
+            return sortedFilteredDecks().count
         } else if let currentDeck = currentDeck {
             return currentDeck.sortedCards.count
         }
