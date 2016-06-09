@@ -520,6 +520,11 @@
                             </popUpButtonCell>
                         </popUpButton>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="FBE926F0-EDEB-49B0-B1AE-DAB2EA7D69CF" explicitItemIdentifier="gitter" label="Gitter" paletteLabel="Gitter" tag="-1" image="gitter" id="0zG-7b-xsf">
+                        <connections>
+                            <action selector="gitter:" target="-2" id="NtE-6f-IiX"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
@@ -532,6 +537,7 @@
                     <toolbarItem reference="I75-rt-at9"/>
                     <toolbarItem reference="Xxv-sY-tej"/>
                     <toolbarItem reference="d38-Pq-vZv"/>
+                    <toolbarItem reference="0zG-7b-xsf"/>
                     <toolbarItem reference="wWN-25-Exd"/>
                 </defaultToolbarItems>
             </toolbar>
@@ -548,6 +554,7 @@
         <image name="druid" width="344.8800048828125" height="344.8800048828125"/>
         <image name="druid_dark" width="1437" height="1437"/>
         <image name="edit-deck" width="32" height="32"/>
+        <image name="gitter" width="32" height="32"/>
         <image name="hearthstats_icon" width="7.679999828338623" height="7.1999998092651367"/>
         <image name="hunter" width="344.8800048828125" height="344.8800048828125"/>
         <image name="hunter_dark" width="1437" height="1437"/>
