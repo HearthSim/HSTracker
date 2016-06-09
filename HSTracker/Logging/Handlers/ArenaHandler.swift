@@ -35,17 +35,16 @@ struct ArenaHandler {
         else if line.match(self.dynamicType.DeckContainsRegex) {
             if let match = line.matches(self.dynamicType.DeckContainsRegex).first {
                 if let card = Cards.byId(match.value) {
-                    Log.debug?.message("Adding card \(card)")
+                    Log.verbose?.message("Adding card \(card)")
                     draft.addCard(card)
                 }
             }
         }
-            
         // Client selects a card
         else if line.match(self.dynamicType.ClientChoosesRegex) {
             if let match = line.matches(self.dynamicType.ClientChoosesRegex).first {
                 if let card = Cards.byId(match.value) {
-                    Log.debug?.message("Client selected card \(card)")
+                    Log.verbose?.message("Client selected card \(card)")
                     draft.addCard(card)
                 }
             }
