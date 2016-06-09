@@ -478,7 +478,11 @@ extension DeckManager: NSTableViewDelegate {
                 
                 switch sortCriteria {
                 case "creation date":
-                    cell.detailTextLabel.stringValue = "\(deck.creationDate)"
+                    let formatter = NSDateFormatter()
+                    formatter.dateStyle = .MediumStyle
+                    formatter.timeStyle = .NoStyle
+                    cell.detailTextLabel.stringValue =
+                        "\(formatter.stringFromDate(deck.creationDate!))"
                 case "win percentage":
                     cell.detailTextLabel.stringValue = "\(deck.displayStats())"
                 case "wins":
