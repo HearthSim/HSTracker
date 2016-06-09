@@ -39,7 +39,6 @@ class Draft {
             Log.debug?.message("We're trying to start a draft when we " +
                 "already had one started. Starting a new one.")
             resetDraft()
-            return
         }
         drafting = true
         deck = Deck(playerClass: playerClass)
