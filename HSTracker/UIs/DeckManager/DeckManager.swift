@@ -43,7 +43,7 @@ class DeckManager: NSWindowController {
     var currentCell: DeckCellView?
     var showArchivedDecks = false
     
-    let criterias = ["name", "creation date", "win percentage", "wins", "losses"]
+    let criterias = ["name", "creation date", "win percentage", "wins", "losses", "games played"]
     let orders = ["ascending", "descending"]
     var sortCriteria = Settings.instance.deckSortCriteria
     var sortOrder = Settings.instance.deckSortOrder
@@ -123,6 +123,8 @@ class DeckManager: NSWindowController {
             sortedDeck = filteredDeck.sort({ $0.wins() < $1.wins() })
         case "losses":
             sortedDeck = filteredDeck.sort({ $0.losses() < $1.losses() })
+        case "games played":
+            sortedDeck = filteredDeck.sort({ $0.statistics.count < $1.statistics.count })
         default:
             sortedDeck = filteredDeck
         }
@@ -473,8 +475,29 @@ extension DeckManager: NSTableViewDelegate {
                 cell.deck = deck
                 cell.label.stringValue = deck.name!
                 cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
+                cell.wildImage.image = !deck.standardViable() ? NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
+                
+                switch sortCriteria {
+                case "creation date":
+                    let formatter = NSDateFormatter()
+                    formatter.dateStyle = .MediumStyle
+                    formatter.timeStyle = .NoStyle
+                    cell.detailTextLabel.stringValue =
+                        "\(formatter.stringFromDate(deck.creationDate!))"
+                case "wins":
+                    cell.detailTextLabel.stringValue = "\(deck.wins()) " +
+                        NSLocalizedString("wins", comment: "").lowercaseString
+                case "losses":
+                    cell.detailTextLabel.stringValue = "\(deck.losses()) " +
+                        NSLocalizedString("losses", comment: "").lowercaseString
+                case "games played":
+                    cell.detailTextLabel.stringValue = "\(deck.statistics.count) " +
+                        NSLocalizedString("games", comment: "").lowercaseString
+                default:
+                    cell.detailTextLabel.stringValue = "\(deck.displayStats())"
+                }
 
                 return cell
             }

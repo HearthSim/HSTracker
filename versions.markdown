@@ -12,6 +12,7 @@
 - Undo/Redo in deck creation/edition
 - Ability to sort decks in manager
 - Add an option to change in-hand color
+- Add an icon for Wild decks in manager
 
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck
