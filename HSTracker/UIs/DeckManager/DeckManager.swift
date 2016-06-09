@@ -475,6 +475,21 @@ extension DeckManager: NSTableViewDelegate {
                 cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
+                
+                switch sortCriteria {
+                case "creation date":
+                    cell.detailTextLabel.stringValue = "\(deck.creationDate)"
+                case "win percentage":
+                    cell.detailTextLabel.stringValue = "\(deck.displayStats())"
+                case "wins":
+                    cell.detailTextLabel.stringValue = "\(deck.wins()) " +
+                        NSLocalizedString("wins", comment: "").lowercaseString
+                case "losses":
+                    cell.detailTextLabel.stringValue = "\(deck.losses()) " +
+                        NSLocalizedString("losses", comment: "").lowercaseString
+                default:
+                    cell.detailTextLabel.stringValue = ""
+                }
 
                 return cell
             }
