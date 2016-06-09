@@ -28,7 +28,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="217" height="624"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView id="YeM-kJ-hCT">
+                    <customView hidden="YES" id="YeM-kJ-hCT">
                         <rect key="frame" x="0.0" y="574" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
@@ -48,7 +48,7 @@
                         <rect key="frame" x="0.0" y="299" width="217" height="71"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView id="fgq-EG-nDe" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
+                    <customView hidden="YES" id="fgq-EG-nDe" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="201" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
@@ -56,7 +56,7 @@
                         <rect key="frame" x="0.0" y="249" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView id="5Jh-EI-M0W" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
+                    <customView hidden="YES" id="5Jh-EI-M0W" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="150" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
