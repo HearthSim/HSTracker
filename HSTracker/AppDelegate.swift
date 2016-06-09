@@ -288,8 +288,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
             "show_floating_card": #selector(AppDelegate.showFloatingCard(_:)),
             "hide_floating_card": #selector(AppDelegate.hideFloatingCard(_:)),
-            "theme": #selector(AppDelegate.reloadTheme(_:)),
-            "arena_deck_full": #selector(AppDelegate.addArenaMenu(_:))
+            "theme": #selector(AppDelegate.reloadTheme(_:))
         ]
 
         for (event, selector) in events {
@@ -595,6 +594,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         saveMenus.addItemWithTitle(NSLocalizedString("Save Opponent's Deck", comment: ""),
                                    action: #selector(AppDelegate.saveCurrentDeck(_:)),
                                    keyEquivalent: "")?.tag = 1
+        saveMenus.addItemWithTitle(NSLocalizedString("Save Arena Deck", comment: ""),
+                                   action: #selector(AppDelegate.saveArenaDeck(_:)),
+                                   keyEquivalent: "")
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save", comment: ""),
                                             action: nil,
                                             keyEquivalent: "")?.submenu = saveMenus
@@ -630,15 +632,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows", comment: ""))
         item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
         // swiftlint:enable line_length
-    }
-    
-    func addArenaMenu(notification: NSNotification) {
-        let mainMenu = NSApplication.sharedApplication().mainMenu
-        let deckMenu = mainMenu?.itemWithTitle(NSLocalizedString("Decks", comment: ""))
-        
-        deckMenu?.submenu?.insertItemWithTitle((NSLocalizedString("Save Arena Deck", comment: "")),
-                                               action: #selector(AppDelegate.saveArenaDeck(_:)),
-                                               keyEquivalent: "", atIndex: 3)
     }
 
     func playDeck(sender: NSMenuItem) {

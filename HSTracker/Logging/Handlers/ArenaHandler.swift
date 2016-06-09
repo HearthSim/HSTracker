@@ -19,11 +19,8 @@ struct ArenaHandler {
     static let ClientChoosesRegex = "Client chooses: .* \\((\\w*)\\)"
     // swiftlint:enable line_length
     
-    static var token: dispatch_once_t = 0
-    
     func handle(game: Game, line: String) {
         let draft = Draft.instance
-        print(line)
         
         // Hero match
         if line.match(self.dynamicType.HeroRegex) {
@@ -51,15 +48,6 @@ struct ArenaHandler {
                     Log.debug?.message("Client selected card \(card)")
                     draft.addCard(card)
                 }
-            }
-        }
-        
-        // We're doing 25 because there's an issue where the logger doesn't
-        // log duplicate cards multiple times.
-        if draft.deck?.countCards() == 15 {
-            dispatch_once(&self.dynamicType.token) { () -> Void in
-                NSNotificationCenter.defaultCenter()
-                    .postNotification(NSNotification(name: "arena_deck_full", object: nil))
             }
         }
     }
