@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner"/>
@@ -17,7 +17,7 @@
                         <constraint firstAttribute="width" constant="30" id="cj6-6D-ct1"/>
                         <constraint firstAttribute="height" constant="30" id="zsg-sJ-upt"/>
                     </constraints>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ofZ-Ys-z4f"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="druid" id="ofZ-Ys-z4f"/>
                 </imageView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="INY-Db-abU">
                     <rect key="frame" x="46" y="18" width="406" height="17"/>
@@ -27,19 +27,34 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F2z-BW-B43">
+                    <rect key="frame" x="24" y="6" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="20" id="dI8-Ir-lxv"/>
+                        <constraint firstAttribute="height" constant="20" id="gNj-dC-XoO"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Mode_Wild" id="nDF-cm-A35"/>
+                </imageView>
             </subviews>
             <constraints>
                 <constraint firstItem="INY-Db-abU" firstAttribute="leading" secondItem="nCl-Jb-FhK" secondAttribute="trailing" constant="8" symbolic="YES" id="03c-lR-mcu"/>
+                <constraint firstItem="F2z-BW-B43" firstAttribute="trailing" secondItem="nCl-Jb-FhK" secondAttribute="trailing" constant="4" id="An3-Uj-Usd"/>
                 <constraint firstItem="nCl-Jb-FhK" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="LnU-MX-bcS"/>
                 <constraint firstAttribute="trailing" secondItem="INY-Db-abU" secondAttribute="trailing" constant="10" id="aBf-Yb-kmQ"/>
                 <constraint firstItem="nCl-Jb-FhK" firstAttribute="centerY" secondItem="INY-Db-abU" secondAttribute="centerY" id="iaL-tc-K9r"/>
                 <constraint firstItem="nCl-Jb-FhK" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="knM-Ny-qq6"/>
+                <constraint firstItem="F2z-BW-B43" firstAttribute="bottom" secondItem="nCl-Jb-FhK" secondAttribute="bottom" constant="6" id="lky-ll-vhy"/>
             </constraints>
             <connections>
                 <outlet property="image" destination="nCl-Jb-FhK" id="G57-vN-pOw"/>
                 <outlet property="label" destination="INY-Db-abU" id="UW6-9v-cxN"/>
+                <outlet property="wildImage" destination="F2z-BW-B43" id="tzk-b5-Ifh"/>
             </connections>
             <point key="canvasLocation" x="312" y="145.5"/>
         </customView>
     </objects>
+    <resources>
+        <image name="Mode_Wild" width="64" height="64"/>
+        <image name="druid" width="344.8800048828125" height="344.8800048828125"/>
+    </resources>
 </document>
