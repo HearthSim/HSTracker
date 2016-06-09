@@ -43,7 +43,7 @@ class DeckManager: NSWindowController {
     var currentCell: DeckCellView?
     var showArchivedDecks = false
     
-    let criterias = ["name", "creation date", "win percentage", "wins", "losses"]
+    let criterias = ["name", "creation date", "win percentage", "wins", "losses", "games played"]
     let orders = ["ascending", "descending"]
     var sortCriteria = Settings.instance.deckSortCriteria
     var sortOrder = Settings.instance.deckSortOrder
@@ -123,6 +123,8 @@ class DeckManager: NSWindowController {
             sortedDeck = filteredDeck.sort({ $0.wins() < $1.wins() })
         case "losses":
             sortedDeck = filteredDeck.sort({ $0.losses() < $1.losses() })
+        case "games played":
+            sortedDeck = filteredDeck.sort({ $0.statistics.count < $1.statistics.count })
         default:
             sortedDeck = filteredDeck
         }
