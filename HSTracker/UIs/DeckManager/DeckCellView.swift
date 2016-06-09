@@ -14,6 +14,7 @@ class DeckCellView: NSView {
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var moreButton: NSButton!
     @IBOutlet weak var detailTextLabel: NSTextField!
+    @IBOutlet weak var wildImage: NSImageView!
     var selected = true
 
     var deck: Deck?
