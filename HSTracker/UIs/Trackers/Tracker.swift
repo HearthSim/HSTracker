@@ -25,8 +25,9 @@ class Tracker: NSWindowController {
     @IBOutlet weak var opponentDrawChance: OpponentDrawChance!
     @IBOutlet weak var wotogCounter: WotogCounter!
     @IBOutlet weak var playerClass: NSView!
-    @IBOutlet weak var recordTracker: RecordTracker!
-
+    @IBOutlet weak var recordTracker: StringTracker!
+    @IBOutlet weak var fatigueTracker: StringTracker!
+    
     var heroCard: Card?
     var animatedCards: [CardBar] = []
     var player: Player?
@@ -168,13 +169,13 @@ class Tracker: NSWindowController {
     func autoPositionTrackersChange(notification: NSNotification) {
         if Settings.instance.autoPositionTrackers {
             if playerType == .Player {
-                Game.instance.changeTracker(self,
-                                            active: Hearthstone.instance.hearthstoneActive,
-                                            frame: SizeHelper.playerTrackerFrame())
+                Game.instance.moveWindow(self,
+                                         active: Hearthstone.instance.hearthstoneActive,
+                                         frame: SizeHelper.playerTrackerFrame())
             } else if playerType == .Opponent {
-                Game.instance.changeTracker(self,
-                                            active: Hearthstone.instance.hearthstoneActive,
-                                            frame: SizeHelper.opponentTrackerFrame())
+                Game.instance.moveWindow(self,
+                                         active: Hearthstone.instance.hearthstoneActive,
+                                         frame: SizeHelper.opponentTrackerFrame())
             }
         }
     }
@@ -325,10 +326,16 @@ class Tracker: NSWindowController {
             playerClass.hidden = true
             recordTracker.hidden = !settings.showWinLossRatio
         }
+        fatigueTracker.hidden = !(settings.fatigueIndicator && player?.fatigue > 0)
 
-        if let activeDeck = Game.instance.activeDeck {
-            recordTracker.stats = activeDeck.displayStats()
+        if let activeDeck = Game.instance.activeDeck where !recordTracker.hidden {
+            recordTracker.message = activeDeck.displayStats()
             recordTracker.needsDisplay = true
+        }
+        if let player = player where !fatigueTracker.hidden {
+            fatigueTracker.message = "\(NSLocalizedString("Fatigue : ", comment: ""))"
+                + "\(player.fatigue)"
+            fatigueTracker.needsDisplay = true
         }
 
         var counterStyle: [WotogCounterStyle] = []
@@ -355,14 +362,8 @@ class Tracker: NSWindowController {
         wotogCounter.spell = player?.spellsPlayedCount ?? 0
         wotogCounter.deathrattle = player?.deathrattlesPlayedCount ?? 0
 
-        let opponentDrawChanceHeight = round(71 / ratio)
-        let playerClassHeight = round(40 / ratio)
-        let playerDrawChanceHeight = round(40 / ratio)
-        let cardCounterHeight = round(40 / ratio)
-        let cthunCounterHeight = round(40 / ratio)
-        let yoggCounterHeight = round(40 / ratio)
-        let deathrattleCounterHeight = round(40 / ratio)
-        let recordTrackerHeight = round(40 / ratio)
+        let bigFrameHeight = round(71 / ratio)
+        let smallFrameHeight = round(40 / ratio)
 
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
@@ -371,44 +372,51 @@ class Tracker: NSWindowController {
                 playerName = Game.instance.opponent.name {
 
                 if playerType == .Opponent {
-                    offsetFrames += playerClassHeight
+                    offsetFrames += smallFrameHeight
 
                     playerClass.frame = NSRect(x: 0,
-                                               y: windowHeight - playerClassHeight,
+                                               y: windowHeight - smallFrameHeight,
                                                width: windowHeight,
-                                               height: playerClassHeight)
-                    startHeight += playerClassHeight
+                                               height: smallFrameHeight)
+                    startHeight += smallFrameHeight
 
                     playerClass.subviews.forEach({$0.removeFromSuperview()})
                     let hero = CardBar.factory()
                     hero.playerType = .Hero
                     hero.playerClass = playerClassId
                     hero.playerName = playerName
-                    Log.verbose?.message("showing player class")
+
                     playerClass.addSubview(hero)
                     hero.frame = NSRect(x: 0, y: 0,
-                                        width: windowWidth, height: playerClassHeight)
+                                        width: windowWidth,
+                                        height: smallFrameHeight)
                     hero.update(false)
                 }
             }
         }
         if !opponentDrawChance.hidden {
-            offsetFrames += opponentDrawChanceHeight
+            offsetFrames += bigFrameHeight
         }
         if !playerDrawChance.hidden {
-            offsetFrames += playerDrawChanceHeight
+            offsetFrames += smallFrameHeight
         }
         if !cardCounter.hidden {
-            offsetFrames += cardCounterHeight
+            offsetFrames += smallFrameHeight
         }
         if showSpellCounter {
-            offsetFrames += yoggCounterHeight
+            offsetFrames += smallFrameHeight
         }
         if showCthunCounter {
-            offsetFrames += cthunCounterHeight
+            offsetFrames += smallFrameHeight
         }
         if showDeathrattleCounter {
-            offsetFrames += deathrattleCounterHeight
+            offsetFrames += smallFrameHeight
+        }
+        if !recordTracker.hidden {
+            offsetFrames += smallFrameHeight
+        }
+        if !fatigueTracker.hidden {
+            offsetFrames += smallFrameHeight
         }
 
         var cardHeight: CGFloat
@@ -440,33 +448,33 @@ class Tracker: NSWindowController {
 
         y = windowHeight - startHeight - cardViewHeight
         if !cardCounter.hidden {
-            y -= cardCounterHeight
-            cardCounter.frame = NSRect(x: 0, y: y, width: windowWidth, height: cardCounterHeight)
+            y -= smallFrameHeight
+            cardCounter.frame = NSRect(x: 0, y: y, width: windowWidth, height: smallFrameHeight)
         }
         if !opponentDrawChance.hidden {
-            y -= opponentDrawChanceHeight
+            y -= bigFrameHeight
             opponentDrawChance.frame = NSRect(x: 0,
                                               y: y,
                                               width: windowWidth,
-                                              height: opponentDrawChanceHeight)
+                                              height: bigFrameHeight)
         }
         if !playerDrawChance.hidden {
-            y -= playerDrawChanceHeight
+            y -= smallFrameHeight
             playerDrawChance.frame = NSRect(x: 0,
                                             y: y,
                                             width: windowWidth,
-                                            height: playerDrawChanceHeight)
+                                            height: smallFrameHeight)
         }
         if showCthunCounter || showSpellCounter || showDeathrattleCounter {
             var height: CGFloat = 0
             if showCthunCounter {
-                height += cthunCounterHeight
+                height += smallFrameHeight
             }
             if showDeathrattleCounter {
-                height += deathrattleCounterHeight
+                height += smallFrameHeight
             }
             if showSpellCounter {
-                height += yoggCounterHeight
+                height += smallFrameHeight
             }
             y -= height
 
@@ -474,11 +482,18 @@ class Tracker: NSWindowController {
             wotogCounter?.needsDisplay = true
         }
         if !recordTracker.hidden {
-            y -= recordTrackerHeight
+            y -= smallFrameHeight
             recordTracker.frame = NSRect(x: 0,
                                          y: y,
                                          width: windowWidth,
-                                         height: recordTrackerHeight)
+                                         height: smallFrameHeight)
+        }
+        if !fatigueTracker.hidden {
+            y -= smallFrameHeight
+            fatigueTracker.frame = NSRect(x: 0,
+                                         y: y,
+                                         width: windowWidth,
+                                         height: smallFrameHeight)
         }
     }
 
