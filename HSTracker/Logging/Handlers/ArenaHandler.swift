@@ -11,7 +11,27 @@
 import Foundation
 
 struct ArenaHandler {
-
+    
+    // swiftlint:disable line_length
+    static let HeroRegex = "Draft Deck ID: (\\d+), Hero Card = (HERO_\\d+)"
+    static let DeckContainsRegex = "Draft deck contains card (\\w*)"
+    // swiftlint:enable line_length
+    
     func handle(game: Game, line: String) {
+        let draft = Draft.instance
+        print(line)
+        
+        // Hero match
+        if line.match(self.dynamicType.HeroRegex) {
+            let matches = line.matches(self.dynamicType.HeroRegex)
+            draft.startDraft(Cards.heroById(matches[1].value))
+            print("hero match \(matches)")
+        }
+        // Deck contains card
+        else if line.match(self.dynamicType.DeckContainsRegex) {
+            if let match = line.matches(self.dynamicType.DeckContainsRegex).first {
+                print(match)
+            }
+        }
     }
 }
