@@ -40,6 +40,7 @@
 "Are you sure you want to unarchive the deck %@ ?" = "Are you sure you want to unarchive the deck %@ ?";
 "Add Card" = "Add Card";
 "Remove Card" = "Remove Card";
+"Fatigue : " = "Fatigue : ";
 
 /* notifications */
 "Your game begins" = "Dein Spiel beginnt";

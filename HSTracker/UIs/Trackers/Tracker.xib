@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="cardCounter" destination="fDJ-yZ-50f" id="nBu-Cf-pye"/>
                 <outlet property="cardsView" destination="naK-zt-rPm" id="SQk-kS-AJ7"/>
+                <outlet property="fatigueTracker" destination="5Jh-EI-M0W" id="ygD-EJ-ZeH"/>
                 <outlet property="opponentDrawChance" destination="Slp-Ya-S9h" id="R3r-Tb-bap"/>
                 <outlet property="playerClass" destination="YeM-kJ-hCT" id="xGi-5X-mTq"/>
                 <outlet property="playerDrawChance" destination="UC5-o5-y78" id="9EG-lm-GA7"/>
@@ -47,23 +48,16 @@
                         <rect key="frame" x="0.0" y="299" width="217" height="71"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView id="fgq-EG-nDe" customClass="RecordTracker" customModule="HSTracker" customModuleProvider="target">
+                    <customView id="fgq-EG-nDe" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="201" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="xPx-5J-mxH">
-                                <rect key="frame" x="73" y="12" width="4" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="record" id="DTP-VJ-EQR">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </subviews>
                     </customView>
                     <customView hidden="YES" id="zLO-5L-hth" customClass="WotogCounter" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="249" width="217" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView id="5Jh-EI-M0W" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="150" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                 </subviews>

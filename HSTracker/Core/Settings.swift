@@ -235,6 +235,19 @@ final class Settings {
             return nil
         }
     }
+    
+    var playerBoardDamage: Bool {
+        set { set("player_board_damage", value: newValue) }
+        get { return get("player_board_damage") as? Bool ?? true }
+    }
+    var opponentBoardDamage: Bool {
+        set { set("opponent_board_damage", value: newValue) }
+        get { return get("opponent_board_damage") as? Bool ?? true }
+    }
+    var fatigueIndicator: Bool {
+        set { set("show_fatigue", value: newValue) }
+        get { return get("show_fatigue") as? Bool ?? true }
+    }
 
     // MARK: - Notifications
     var notifyGameStart: Bool {

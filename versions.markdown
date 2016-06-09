@@ -14,6 +14,8 @@
 - Add an option to change in-hand color
 - Add an icon for Wild decks in manager
 - Show detailled information on deck manager
+- On-board damage information
+- Fatigue counter
 
 #### 0.16.9
 - Fixed a bug where HSTracker would crash when adding a deck
