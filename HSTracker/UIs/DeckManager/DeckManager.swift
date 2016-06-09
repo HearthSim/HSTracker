@@ -493,6 +493,9 @@ extension DeckManager: NSTableViewDelegate {
                 case "losses":
                     cell.detailTextLabel.stringValue = "\(deck.losses()) " +
                         NSLocalizedString("losses", comment: "").lowercaseString
+                case "games played":
+                    cell.detailTextLabel.stringValue = "\(deck.statistics.count) " +
+                        NSLocalizedString("games", comment: "").lowercaseString
                 default:
                     cell.detailTextLabel.stringValue = ""
                 }
