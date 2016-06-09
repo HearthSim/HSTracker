@@ -46,7 +46,7 @@ struct LoadingScreenHandler {
                 break
 
             case .DRAFT:
-                // game.ResetArenaCards();
+                Draft.instance.resetDraft();
                 break
 
             default: break

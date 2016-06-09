@@ -288,7 +288,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
             "show_floating_card": #selector(AppDelegate.showFloatingCard(_:)),
             "hide_floating_card": #selector(AppDelegate.hideFloatingCard(_:)),
-            "theme": #selector(AppDelegate.reloadTheme(_:))
+            "theme": #selector(AppDelegate.reloadTheme(_:)),
+            "arena_deck_full": #selector(AppDelegate.addArenaMenu(_:))
         ]
 
         for (event, selector) in events {
@@ -630,6 +631,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
         // swiftlint:enable line_length
     }
+    
+    func addArenaMenu(notification: NSNotification) {
+        let mainMenu = NSApplication.sharedApplication().mainMenu
+        let deckMenu = mainMenu?.itemWithTitle(NSLocalizedString("Decks", comment: ""))
+        
+        deckMenu?.submenu?.insertItemWithTitle((NSLocalizedString("Save Arena Deck", comment: "")),
+                                               action: #selector(AppDelegate.saveArenaDeck(_:)),
+                                               keyEquivalent: "", atIndex: 3)
+    }
 
     func playDeck(sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
@@ -671,6 +681,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
             deckManager?.currentDeck = deck
             deckManager?.editDeck(self)
+        }
+    }
+    
+    @IBAction func saveArenaDeck(sender: AnyObject) {
+        if let deck = Draft.instance.deck {
+            if deckManager == nil {
+                deckManager = DeckManager(windowNibName: "DeckManager")
+            }
+            deckManager?.currentDeck = deck
+            deckManager?.editDeck(self)
+        } else {
+            Log.error?.message("Arena deck doesn't exist. How?")
         }
     }
 

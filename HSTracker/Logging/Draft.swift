@@ -17,7 +17,7 @@ class Draft {
     
     static let instance = Draft()
     init() {
-        deck = nil
+        
     }
     
     init(playerClass: String) {
@@ -27,11 +27,16 @@ class Draft {
     func resetDraft() {
         Log.verbose?.message("Resetting draft")
         
+        drafting = false
         deck?.reset()
     }
     
     func startDraft(playerClass: String) {
+        // If we're already drafting and we start, we need to reset
         if drafting {
+            Log.debug?.message("We're trying to start a draft when we " +
+                "already had one started. Starting a new one.")
+            resetDraft()
             return
         }
         drafting = true
@@ -40,6 +45,12 @@ class Draft {
     
     func addCard(card: Card) {
         deck?.addCard(card)
+        
+        if deck?.countCards() == 30 {
+            NSNotificationCenter.defaultCenter()
+                .postNotification(NSNotification(name: "arena_deck_full", object: nil))
+            
+        }
     }
     
 }
