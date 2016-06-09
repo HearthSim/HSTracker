@@ -15,6 +15,8 @@ class Draft {
     
     var drafting = false
     
+    static let token: dispatch_once_t = 0
+    
     static let instance = Draft()
     init() {
         
@@ -45,12 +47,6 @@ class Draft {
     
     func addCard(card: Card) {
         deck?.addCard(card)
-        
-        if deck?.countCards() == 30 {
-            NSNotificationCenter.defaultCenter()
-                .postNotification(NSNotification(name: "arena_deck_full", object: nil))
-            
-        }
     }
     
 }

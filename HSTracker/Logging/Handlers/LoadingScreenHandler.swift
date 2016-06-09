@@ -46,7 +46,8 @@ struct LoadingScreenHandler {
                 break
 
             case .DRAFT:
-                Draft.instance.resetDraft();
+                Log.info?.message("Resetting arena draft.")
+                Draft.instance.resetDraft()
                 break
 
             default: break
