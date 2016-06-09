@@ -475,6 +475,7 @@ extension DeckManager: NSTableViewDelegate {
                 cell.deck = deck
                 cell.label.stringValue = deck.name!
                 cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
+                cell.wildImage.image = !deck.standardViable() ? NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
                 
@@ -485,8 +486,6 @@ extension DeckManager: NSTableViewDelegate {
                     formatter.timeStyle = .NoStyle
                     cell.detailTextLabel.stringValue =
                         "\(formatter.stringFromDate(deck.creationDate!))"
-                case "win percentage":
-                    cell.detailTextLabel.stringValue = "\(deck.displayStats())"
                 case "wins":
                     cell.detailTextLabel.stringValue = "\(deck.wins()) " +
                         NSLocalizedString("wins", comment: "").lowercaseString
@@ -497,7 +496,7 @@ extension DeckManager: NSTableViewDelegate {
                     cell.detailTextLabel.stringValue = "\(deck.statistics.count) " +
                         NSLocalizedString("games", comment: "").lowercaseString
                 default:
-                    cell.detailTextLabel.stringValue = ""
+                    cell.detailTextLabel.stringValue = "\(deck.displayStats())"
                 }
 
                 return cell
