@@ -36,6 +36,7 @@
 "Are you sure you want to disconnect from Hearthstats ?" = "Êtes-vous certain de vouloir vous déconnecter de Hearthstats ?";
 "Save Opponent's Deck" = "Enregistrer le deck de l'adversaire";
 "Save Current Deck" = "Enregistrer le deck actuel";
+"Save Arena Deck" = "Save Arena Deck";
 "Are you sure you want to archive the deck %@ ?" = "Êtes-vous certain de vouloir archiver le deck %@ ?";
 "Are you sure you want to unarchive the deck %@ ?" = "Êtes-vous certain de vouloir désarchiver le deck %@ ?";
 "Add Card" = "Ajout carte";
