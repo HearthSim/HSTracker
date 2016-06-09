@@ -474,7 +474,7 @@ extension DeckManager: NSTableViewDelegate {
                 cell.label.stringValue = deck.name!
                 cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
                 cell.wildImage.image = !deck.standardViable() ?
-                    NSImage(named: deck.playerClass.lowercaseString) : nil
+                    NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
 
