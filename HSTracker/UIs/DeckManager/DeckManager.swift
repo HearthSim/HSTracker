@@ -473,6 +473,9 @@ extension DeckManager: NSTableViewDelegate {
                 cell.deck = deck
                 cell.label.stringValue = deck.name!
                 cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
+                if !deck.standardViable() {
+                    cell.wildImage.image = NSImage(named: deck.playerClass.lowercaseString)
+                }
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
 
