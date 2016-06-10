@@ -81,9 +81,9 @@ final class Player {
     var playerClass: String?
     var playerClassId: String?
     var isLocalPlayer: Bool
-    var id: Int = -1
-    var goingFirst: Bool = false
-    var fatigue: Int = 0
+    var id = -1
+    var goingFirst = false
+    var fatigue = 0
     private(set) var spellsPlayedCount = 0
     private(set) var deathrattlesPlayedCount = 0
 

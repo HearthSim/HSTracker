@@ -154,6 +154,16 @@ struct SizeHelper {
                            height: NSHeight(hearthstoneWindow.frame) - offset)
         return frameRelativeToHearthstone(frame)
     }
+    
+    static func playerBoardDamageFrame() -> NSRect {
+        let frame = NSRect(x: 910, y: 580.0, width: 50.0, height: 50.0)
+        return frameRelativeToHearthstone(frame)
+    }
+    
+    static func opponentBoardDamageFrame() -> NSRect {
+        let frame = NSRect(x: 910, y: 190.0, width: 50.0, height: 50.0)
+        return frameRelativeToHearthstone(frame)
+    }
 
     static func secretTrackerFrame() -> NSRect {
         var width: Double

@@ -19,6 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
     var secretTracker: SecretTracker?
+    var playerBoardDamage: BoardDamage?
+    var opponentBoardDamage: BoardDamage?
     var timerHud: TimerHud?
     var cardHuds = [CardHud]()
     var initalConfig: InitialConfiguration?
@@ -167,9 +169,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             let game = Game.instance
             game.setPlayerTracker(self.playerTracker)
             game.setOpponentTracker(self.opponentTracker)
-            game.setSecretTracker(self.secretTracker)
-            game.setTimerHud(self.timerHud)
-            game.setCardHuds(self.cardHuds)
+            game.secretTracker = self.secretTracker
+            game.timerHud = self.timerHud
+            game.cardHuds = self.cardHuds
+            game.playerBoardDamage = self.playerBoardDamage
+            game.opponentBoardDamage = self.opponentBoardDamage
 
             NSOperationQueue.mainQueue().addOperationWithBlock() {
                 game.reset()
@@ -275,8 +279,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             alert.runModal()
             return
         }
-
-
 
         Hearthstone.instance.start()
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
@@ -446,6 +448,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         timerHud = TimerHud(windowNibName: "TimerHud")
         timerHud?.showWindow(self)
+        
+        playerBoardDamage = BoardDamage(windowNibName: "BoardDamage")
+        playerBoardDamage?.showWindow(self)
+        playerBoardDamage?.window?.orderOut(self)
+        
+        opponentBoardDamage = BoardDamage(windowNibName: "BoardDamage")
+        opponentBoardDamage?.showWindow(self)
+        opponentBoardDamage?.window?.orderOut(self)
 
         for _ in 0 ..< 10 {
             let cardHud = CardHud(windowNibName: "CardHud")

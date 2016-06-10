@@ -203,7 +203,7 @@ class DeckManager: NSWindowController {
     // MARK: - Toolbar actions
     override func validateToolbarItem(item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
-        case "add", "donate", "twitter", "hearthstats":
+        case "add", "donate", "twitter", "hearthstats", "gitter":
             return true
         case "edit", "use", "delete", "rename", "archive":
             return currentDeck != nil
@@ -246,16 +246,23 @@ class DeckManager: NSWindowController {
 
     @IBAction func donate(sender: AnyObject) {
         // swiftlint:disable line_length
-        let url = NSURL(string: "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
+        openUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
         // swiftlint:enable line_length
-        NSWorkspace.sharedWorkspace().openURL(url!)
     }
 
     @IBAction func twitter(sender: AnyObject) {
-        let url = NSURL(string: "https://twitter.com/hstracker_mac")
-        NSWorkspace.sharedWorkspace().openURL(url!)
+        openUrl("https://twitter.com/hstracker_mac")
     }
 
+    @IBAction func gitter(sender: AnyObject) {
+        openUrl("https://gitter.im/bmichotte/HSTracker")
+    }
+    
+    private func openUrl(url: String) {
+        let url = NSURL(string: url)
+        NSWorkspace.sharedWorkspace().openURL(url!)
+    }
+    
     @IBAction func renameDeck(sender: AnyObject?) {
         // swiftlint:disable line_length
         if let deck = currentDeck {

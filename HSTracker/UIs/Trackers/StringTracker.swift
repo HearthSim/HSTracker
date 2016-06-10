@@ -8,14 +8,16 @@
 
 import Foundation
 
-class RecordTracker: TextFrame {
+class StringTracker: TextFrame {
     private let frameRect = NSRect(x: 0, y: 0, width: CGFloat(kFrameWidth), height: 40)
+    private let textRect = NSRect(x: 10, y: 1, width: CGFloat(kFrameWidth) - 20, height: 25)
 
-    var stats: String = ""
+    var message: String = ""
 
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        addString(stats, rect: frameRect, alignment: .Center)
+        addImage("text-frame.png", rect: frameRect)
+        addString(message, rect: textRect, alignment: .Center)
     }
 }

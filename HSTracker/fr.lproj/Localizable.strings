@@ -41,6 +41,7 @@
 "Are you sure you want to unarchive the deck %@ ?" = "Êtes-vous certain de vouloir désarchiver le deck %@ ?";
 "Add Card" = "Ajout carte";
 "Remove Card" = "Suppression carte";
+"Fatigue : " = "Fatigue : ";
 
 /* notifications */
 "Your game begins" = "Votre partie commence";

@@ -1,0 +1,18 @@
+{
+  "images" : [
+    {
+      "idiom" : "mac",
+      "filename" : "gitter.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "mac",
+      "filename" : "gitter@2x.png",
+      "scale" : "2x"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}
