@@ -98,6 +98,8 @@ class StatsHelper {
     }
     
     static func erfinv(y: Double) -> Double {
+        // http://stackoverflow.com/questions/36784763/is-there-an-inverse-error-function-available-in-swifts-foundation-import
+        
         let center = 0.7
         let a = [ 0.886226899, -1.645349621,  0.914624893, -0.140543331]
         let b = [-2.118377725,  1.442710462, -0.329097515,  0.012229801]

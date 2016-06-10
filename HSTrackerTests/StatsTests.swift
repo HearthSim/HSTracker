@@ -25,12 +25,14 @@ class StatsTests: XCTestCase {
     }
 
     func testErfinv() {
+        // random x, erfinv(x) from scipy
         let values: [[Double]] = [
             [0.91315112686 , 1.21075024057],
             [0.582751704807 , 0.573608137167],
             [0.718243287706 , 0.761116595129],
             [0.00856985966945 , 0.00759498641983],
             [0.51475402072 , 0.493482762145]]
+        
         for i in 0...values.count-1 {
             Log.info?.message("\(StatsHelper.erfinv(values[i][0])) ?= \(values[i][1])")
             XCTAssert(fuzzyFloatEquals(StatsHelper.erfinv(values[i][0]), b: values[i][1]))
