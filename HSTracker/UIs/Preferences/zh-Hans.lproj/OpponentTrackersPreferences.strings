@@ -21,10 +21,10 @@
 "RyA-1i-LPY.title" = "显示克苏恩反制";
 
 /* Class = "NSButtonCell"; title = "Include created cards"; ObjectID = "PrR-2g-WEA"; */
-"PrR-2g-WEA.title" = "Include created cards";
+"PrR-2g-WEA.title" = "包括创建卡牌";
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
-"aZW-kf-zpy.title" = "Show Deathrattle counter";
+"aZW-kf-zpy.title" = "显示亡语反制";
 
 /* Class = "NSButtonCell"; title = "Show player class and name"; ObjectID = "aW1-2y-nKx"; */
-"aW1-2y-nKx.title" = "Show player class and name";
+"aW1-2y-nKx.title" = "显示对手的英雄和名字";
