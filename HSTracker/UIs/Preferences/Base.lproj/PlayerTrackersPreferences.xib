@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="flashOnDraw" destination="UDp-f2-KNr" id="HNp-KZ-OmR"/>
                 <outlet property="inHandColor" destination="MGl-GB-lMD" id="HFo-55-rAi"/>
+                <outlet property="showBoardDamage" destination="MtK-l1-SKk" id="QIY-Sd-Emn"/>
                 <outlet property="showCthunCounter" destination="SWg-Jw-fc8" id="bDv-eo-Xhs"/>
                 <outlet property="showDeathrattleCounter" destination="E5o-tN-vdV" id="dkS-7r-Nop"/>
                 <outlet property="showPlayerCardCount" destination="zkd-LR-z4k" id="miU-C7-KDt"/>
@@ -130,18 +131,30 @@
                         <action selector="colorChange:" target="-2" id="ecw-VS-VjY"/>
                     </connections>
                 </colorWell>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="MtK-l1-SKk">
+                    <rect key="frame" x="18" y="16" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show board damage" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rj2-8a-HGB">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="T3n-mO-0L4"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="SWg-Jw-fc8" firstAttribute="top" secondItem="FGp-0L-JIH" secondAttribute="bottom" constant="10" id="1bX-do-opO"/>
                 <constraint firstAttribute="trailing" secondItem="kix-rG-uSl" secondAttribute="trailing" constant="20" id="79Y-fv-qdc"/>
                 <constraint firstItem="MGl-GB-lMD" firstAttribute="leading" secondItem="mRM-Lj-SBH" secondAttribute="trailing" constant="10" id="7jR-Td-Yxt"/>
                 <constraint firstItem="zkd-LR-z4k" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Alp-7K-h7O"/>
+                <constraint firstAttribute="trailing" secondItem="MtK-l1-SKk" secondAttribute="trailing" constant="20" id="BYG-VU-Sus"/>
                 <constraint firstItem="oIi-8e-cCP" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="CzJ-Ur-WoC"/>
                 <constraint firstItem="kix-rG-uSl" firstAttribute="top" secondItem="SWg-Jw-fc8" secondAttribute="bottom" constant="10" id="DwJ-QN-hQd"/>
                 <constraint firstItem="MGl-GB-lMD" firstAttribute="centerY" secondItem="mRM-Lj-SBH" secondAttribute="centerY" id="EGj-0V-1Et"/>
                 <constraint firstAttribute="trailing" secondItem="UDp-f2-KNr" secondAttribute="trailing" constant="20" id="Ecg-43-I9X"/>
                 <constraint firstItem="kix-rG-uSl" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="EwY-3K-Q2v"/>
                 <constraint firstItem="mRM-Lj-SBH" firstAttribute="top" secondItem="oIi-8e-cCP" secondAttribute="bottom" constant="10" id="FLz-OQ-p5c"/>
+                <constraint firstItem="MtK-l1-SKk" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="JDO-kY-JCR"/>
                 <constraint firstItem="FGp-0L-JIH" firstAttribute="top" secondItem="xcN-Th-tgi" secondAttribute="bottom" constant="10" id="JhX-EK-mPA"/>
                 <constraint firstItem="xcN-Th-tgi" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="K64-qX-wdo"/>
                 <constraint firstAttribute="trailing" secondItem="SWg-Jw-fc8" secondAttribute="trailing" constant="20" id="OWx-yS-1OM"/>
@@ -149,6 +162,7 @@
                 <constraint firstItem="SWg-Jw-fc8" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="U4D-MS-guv"/>
                 <constraint firstAttribute="trailing" secondItem="AVh-I0-Pfw" secondAttribute="trailing" constant="20" id="UWi-X9-qUs"/>
                 <constraint firstItem="mRM-Lj-SBH" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="X8F-yE-VWs"/>
+                <constraint firstItem="MtK-l1-SKk" firstAttribute="top" secondItem="MGl-GB-lMD" secondAttribute="bottom" constant="10" id="XD2-SE-5fT"/>
                 <constraint firstItem="E5o-tN-vdV" firstAttribute="top" secondItem="kix-rG-uSl" secondAttribute="bottom" constant="10" id="Yoz-yp-mzi"/>
                 <constraint firstItem="oIi-8e-cCP" firstAttribute="top" secondItem="UDp-f2-KNr" secondAttribute="bottom" constant="10" id="Zbt-hC-yoo"/>
                 <constraint firstAttribute="trailing" secondItem="FGp-0L-JIH" secondAttribute="trailing" constant="20" id="afb-g3-3ba"/>
