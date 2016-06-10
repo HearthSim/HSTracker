@@ -206,6 +206,7 @@
 		43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB9B1C7E4EA20077AC1B /* CurveView.swift */; };
 		43F000301C81BAE8000F2F8F /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F0002F1C81BAE8000F2F8F /* Mode.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
+		C979C3A11D0A6BEC00CA36DC /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C979C3A01D0A6BEC00CA36DC /* StatsTests.swift */; };
 		C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C971D0A6079000DD6FB /* Statistics.swift */; };
 		C99C0C9A1D0A6079000DD6FB /* Statistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99C0C981D0A6079000DD6FB /* Statistics.xib */; };
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
@@ -551,6 +552,7 @@
 		43EECB9B1C7E4EA20077AC1B /* CurveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveView.swift; sourceTree = "<group>"; };
 		43F0002F1C81BAE8000F2F8F /* Mode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
+		C979C3A01D0A6BEC00CA36DC /* StatsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTests.swift; sourceTree = "<group>"; };
 		C99C0C971D0A6079000DD6FB /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statistics.swift; path = StatsManager/Statistics.swift; sourceTree = "<group>"; };
 		C99C0C981D0A6079000DD6FB /* Statistics.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Statistics.xib; path = StatsManager/Statistics.xib; sourceTree = "<group>"; };
 		C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsHelper.swift; path = Statistics/StatsHelper.swift; sourceTree = "<group>"; };
@@ -788,6 +790,7 @@
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				439C7E621C7772C100D29859 /* Info.plist */,
 				43D307FC1C835DBA00480488 /* NetImportTest.swift */,
+				C979C3A01D0A6BEC00CA36DC /* StatsTests.swift */,
 			);
 			path = HSTrackerTests;
 			sourceTree = "<group>";
@@ -1353,6 +1356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */,
+				C979C3A11D0A6BEC00CA36DC /* StatsTests.swift in Sources */,
 				439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
