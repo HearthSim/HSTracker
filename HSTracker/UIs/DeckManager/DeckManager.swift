@@ -43,7 +43,7 @@ class DeckManager: NSWindowController {
     var currentCell: DeckCellView?
     var showArchivedDecks = false
     
-    let criterias = ["name", "creation date", "win percentage", "wins", "losses"]
+    let criterias = ["name", "creation date", "win percentage", "wins", "losses", "games played"]
     let orders = ["ascending", "descending"]
     var sortCriteria = Settings.instance.deckSortCriteria
     var sortOrder = Settings.instance.deckSortOrder
@@ -123,6 +123,8 @@ class DeckManager: NSWindowController {
             sortedDeck = filteredDeck.sort({ $0.wins() < $1.wins() })
         case "losses":
             sortedDeck = filteredDeck.sort({ $0.losses() < $1.losses() })
+        case "games played":
+            sortedDeck = filteredDeck.sort({ $0.statistics.count < $1.statistics.count })
         default:
             sortedDeck = filteredDeck
         }
@@ -201,7 +203,7 @@ class DeckManager: NSWindowController {
     // MARK: - Toolbar actions
     override func validateToolbarItem(item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
-        case "add", "donate", "twitter", "hearthstats":
+        case "add", "donate", "twitter", "hearthstats", "gitter":
             return true
         case "edit", "use", "delete", "rename", "archive":
             return currentDeck != nil
@@ -244,16 +246,23 @@ class DeckManager: NSWindowController {
 
     @IBAction func donate(sender: AnyObject) {
         // swiftlint:disable line_length
-        let url = NSURL(string: "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
+        openUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
         // swiftlint:enable line_length
-        NSWorkspace.sharedWorkspace().openURL(url!)
     }
 
     @IBAction func twitter(sender: AnyObject) {
-        let url = NSURL(string: "https://twitter.com/hstracker_mac")
-        NSWorkspace.sharedWorkspace().openURL(url!)
+        openUrl("https://twitter.com/hstracker_mac")
     }
 
+    @IBAction func gitter(sender: AnyObject) {
+        openUrl("https://gitter.im/bmichotte/HSTracker")
+    }
+    
+    private func openUrl(url: String) {
+        let url = NSURL(string: url)
+        NSWorkspace.sharedWorkspace().openURL(url!)
+    }
+    
     @IBAction func renameDeck(sender: AnyObject?) {
         // swiftlint:disable line_length
         if let deck = currentDeck {
@@ -473,8 +482,29 @@ extension DeckManager: NSTableViewDelegate {
                 cell.deck = deck
                 cell.label.stringValue = deck.name!
                 cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
+                cell.wildImage.image = !deck.standardViable() ? NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
+                
+                switch sortCriteria {
+                case "creation date":
+                    let formatter = NSDateFormatter()
+                    formatter.dateStyle = .MediumStyle
+                    formatter.timeStyle = .NoStyle
+                    cell.detailTextLabel.stringValue =
+                        "\(formatter.stringFromDate(deck.creationDate!))"
+                case "wins":
+                    cell.detailTextLabel.stringValue = "\(deck.wins()) " +
+                        NSLocalizedString("wins", comment: "").lowercaseString
+                case "losses":
+                    cell.detailTextLabel.stringValue = "\(deck.losses()) " +
+                        NSLocalizedString("losses", comment: "").lowercaseString
+                case "games played":
+                    cell.detailTextLabel.stringValue = "\(deck.statistics.count) " +
+                        NSLocalizedString("games", comment: "").lowercaseString
+                default:
+                    cell.detailTextLabel.stringValue = "\(deck.displayStats())"
+                }
 
                 return cell
             }

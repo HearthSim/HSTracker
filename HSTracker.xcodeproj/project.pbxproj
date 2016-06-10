@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		340AAC051D0544AD0015FE33 /* RecordTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* RecordTracker.swift */; };
+		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
 		4305CA3E1CF42AC70048E7EC /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; };
 		4305CA3F1CF42AC70048E7EC /* Unbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
@@ -68,6 +68,14 @@
 		4345E9F61CB4514D002D0F23 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4345E9F71CB4514D002D0F23 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4345E9F81CB4514D002D0F23 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		434910451D09505100B22DB2 /* BoardDamage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434910441D09505100B22DB2 /* BoardDamage.xib */; };
+		434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910461D09505E00B22DB2 /* BoardDamage.swift */; };
+		4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910491D09545C00B22DB2 /* BoardCard.swift */; };
+		4349104C1D09739C00B22DB2 /* BoardHero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349104B1D09739C00B22DB2 /* BoardHero.swift */; };
+		4349104E1D09757800B22DB2 /* BoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349104D1D09757800B22DB2 /* BoardState.swift */; };
+		434910501D09770000B22DB2 /* PlayerBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349104F1D09770000B22DB2 /* PlayerBoard.swift */; };
+		434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910511D09773D00B22DB2 /* IBoardEntity.swift */; };
+		434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910531D097B0500B22DB2 /* EntityHelper.swift */; };
 		434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
 		434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
 		434C2F321C7F475E001D1D91 /* Hearthpwn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F311C7F475E001D1D91 /* Hearthpwn.swift */; };
@@ -291,7 +299,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		340AAC041D0544AD0015FE33 /* RecordTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTracker.swift; sourceTree = "<group>"; };
+		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
 		4305CA3C1CF42AC60048E7EC /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/Mac/Unbox.framework; sourceTree = "<group>"; };
 		4305CA3D1CF42AC60048E7EC /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/Mac/Wrap.framework; sourceTree = "<group>"; };
 		4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Unbox.framework.dSYM; path = Carthage/Build/Mac/Unbox.framework.dSYM; sourceTree = "<group>"; };
@@ -403,6 +411,14 @@
 		432C11AA1CCF6B460067C5FE /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
+		434910441D09505100B22DB2 /* BoardDamage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardDamage.xib; sourceTree = "<group>"; };
+		434910461D09505E00B22DB2 /* BoardDamage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardDamage.swift; sourceTree = "<group>"; };
+		434910491D09545C00B22DB2 /* BoardCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCard.swift; sourceTree = "<group>"; };
+		4349104B1D09739C00B22DB2 /* BoardHero.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardHero.swift; sourceTree = "<group>"; };
+		4349104D1D09757800B22DB2 /* BoardState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardState.swift; sourceTree = "<group>"; };
+		4349104F1D09770000B22DB2 /* PlayerBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerBoard.swift; sourceTree = "<group>"; };
+		434910511D09773D00B22DB2 /* IBoardEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBoardEntity.swift; sourceTree = "<group>"; };
+		434910531D097B0500B22DB2 /* EntityHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityHelper.swift; sourceTree = "<group>"; };
 		434C2F2B1C7F122A001D1D91 /* NewDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeck.swift; sourceTree = "<group>"; };
 		434C2F2E1C7F437D001D1D91 /* NetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImporter.swift; sourceTree = "<group>"; };
 		434C2F311C7F475E001D1D91 /* Hearthpwn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthpwn.swift; sourceTree = "<group>"; };
@@ -633,6 +649,19 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		434910481D09544200B22DB2 /* BoardDamage */ = {
+			isa = PBXGroup;
+			children = (
+				434910491D09545C00B22DB2 /* BoardCard.swift */,
+				4349104B1D09739C00B22DB2 /* BoardHero.swift */,
+				4349104D1D09757800B22DB2 /* BoardState.swift */,
+				4349104F1D09770000B22DB2 /* PlayerBoard.swift */,
+				434910511D09773D00B22DB2 /* IBoardEntity.swift */,
+				434910531D097B0500B22DB2 /* EntityHelper.swift */,
+			);
+			path = BoardDamage;
+			sourceTree = "<group>";
+		};
 		434C2F2D1C7F433E001D1D91 /* Importers */ = {
 			isa = PBXGroup;
 			children = (
@@ -723,6 +752,7 @@
 		437B5BB11CD2437D00DE0A41 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				434910481D09544200B22DB2 /* BoardDamage */,
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
 			);
 			path = Utility;
@@ -926,7 +956,9 @@
 				432B60321CB69FA600B05D19 /* FloatingCard.swift */,
 				432B60341CB6A8CC00B05D19 /* FloatingCard.xib */,
 				437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */,
-				340AAC041D0544AD0015FE33 /* RecordTracker.swift */,
+				340AAC041D0544AD0015FE33 /* StringTracker.swift */,
+				434910461D09505E00B22DB2 /* BoardDamage.swift */,
+				434910441D09505100B22DB2 /* BoardDamage.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1112,7 +1144,7 @@
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = GZ37WWWK6W;
+						DevelopmentTeam = 7FV37CHJSZ;
 					};
 					439C7E5B1C7772C100D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -1158,6 +1190,7 @@
 				432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */,
 				432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */,
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
+				434910451D09505100B22DB2 /* BoardDamage.xib in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
 				C99C0C9A1D0A6079000DD6FB /* Statistics.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
@@ -1266,19 +1299,21 @@
 				4317197D1C8C54FF00F5988B /* OpponentDrawChance.swift in Sources */,
 				43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */,
 				439C7EEB1C777FCF00D29859 /* String.swift in Sources */,
+				4349104C1D09739C00B22DB2 /* BoardHero.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				437B5BB31CD2439800DE0A41 /* WotogCounterHelper.swift in Sources */,
 				432B60371CBD269700B05D19 /* Color.swift in Sources */,
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
-				340AAC051D0544AD0015FE33 /* RecordTracker.swift in Sources */,
+				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
 				439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */,
 				43F000301C81BAE8000F2F8F /* Mode.swift in Sources */,
+				434910501D09770000B22DB2 /* PlayerBoard.swift in Sources */,
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,
 				439C7EC81C777F8900D29859 /* Hearthstone.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
@@ -1286,6 +1321,7 @@
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
+				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */,
@@ -1327,15 +1363,19 @@
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */,
 				437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */,
+				4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
 				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
 				43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */,
 				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,
 				436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */,
+				4349104E1D09757800B22DB2 /* BoardState.swift in Sources */,
 				43E77EED1C969C4100C26950 /* Regex.swift in Sources */,
+				434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageUtils.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
+				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				436969151C80653000CE1D29 /* LinqExtension.swift in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
@@ -1678,7 +1718,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1693,6 +1734,7 @@
 				OTHER_SWIFT_FLAGS = "-DDEBUG $(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1702,7 +1744,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1715,6 +1758,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 			};
 			name = Release;

@@ -46,12 +46,11 @@ class TimerHud: NSWindowController {
         self.window!.hasShadow = false
         self.window!.backgroundColor = NSColor.clearColor()
 
-        // swiftlint:disable line_length
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(TimerHud.hearthstoneActive(_:)),
-                                                         name: "hearthstone_active",
-                                                         object: nil)
-        // swiftlint:enable line_length
+        NSNotificationCenter.defaultCenter()
+            .addObserver(self,
+                         selector: #selector(TimerHud.hearthstoneActive(_:)),
+                         name: "hearthstone_active",
+                         object: nil)
     }
 
     func hearthstoneActive(notification: NSNotification) {
