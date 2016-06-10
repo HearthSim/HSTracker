@@ -15,7 +15,7 @@
 "Game" = "游戏";
 "General" = "通用";
 "Loading %@ cards" = "加载 %@ 卡牌";
-"Loading decks" = "Loading decks";
+"Loading decks" = "加载套牌";
 "Lock windows" = "锁定窗口";
 "OK" = "确定";
 "Please select your Hearthstone app" = "选择炉石传说的应用程式";
@@ -33,14 +33,14 @@
 "You are now connected to Hearthstats" = "现在您连接到 Hearthstats";
 "You must restart Hearthstone for logs to be used" = "您必须重新启动炉石传说为要使用场记";
 "You must restart HSTracker for the language change to take effect" = "您必须重启 HSTracker 已使得设置的语言生效";
-"Are you sure you want to disconnect from Hearthstats ?" = "Are you sure you want to disconnect from Hearthstats ?";
-"Save Opponent's Deck" = "Save Opponent's Deck";
-"Save Current Deck" = "Save Current Deck";
-"Are you sure you want to archive the deck %@ ?" = "Are you sure you want to archive the deck %@ ?";
-"Are you sure you want to unarchive the deck %@ ?" = "Are you sure you want to unarchive the deck %@ ?";
-"Add Card" = "Add Card";
-"Remove Card" = "Remove Card";
-"Fatigue : " = "Fatigue : ";
+"Are you sure you want to disconnect from Hearthstats ?" = "你确定要从断开 Hearthstats ?";
+"Save Opponent's Deck" = "保存对手的套牌";
+"Save Current Deck" = "保存现在的套牌";
+"Are you sure you want to archive the deck %@ ?" = "你确定要存档 %@ 套牌?";
+"Are you sure you want to unarchive the deck %@ ?" = "你确定要解除封存 %@ 套牌?";
+"Add Card" = "加卡";
+"Remove Card" = "取出卡";
+"Fatigue : " = "疲劳 : ";
 
 /* notifications */
 "Your game begins" = "游戏开始";
@@ -98,12 +98,12 @@
 "totem" = "图腾";
 
 /* sorting */
-"name" = "Name";
-"creation date" = "Creation Date";
-"win percentage" = "Win Percentage";
-"wins" = "Wins";
-"losses" = "Losses";
-"games played" = "Games Played";
-"games" = "Games";
-"ascending" = "Ascending";
-"descending" = "Descending";
+"name" = "名字";
+"creation date" = "创建日期";
+"win percentage" = "胜率";
+"wins" = "游戏赢了";
+"losses" = "游戏输了";
+"games played" = "游戏玩过";
+"games" = "游戏";
+"ascending" = "升序";
+"descending" = "降序";

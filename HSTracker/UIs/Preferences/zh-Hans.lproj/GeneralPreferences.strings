@@ -18,4 +18,4 @@
 "c8y-VJ-p2U.ibShadowedToolTip" = "你只能看到通知如果游戏最小化";
 
 /* Class = "NSButtonCell"; title = "Close HSTracker when Hearthstone closes"; ObjectID = "hzK-vu-1RX"; */
-"hzK-vu-1RX.title" = "Close HSTracker when Hearthstone closes";
+"hzK-vu-1RX.title" = "退出 HSTracker 当退出炉石传说";
