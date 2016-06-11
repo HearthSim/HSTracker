@@ -167,7 +167,7 @@ class WindowMove: NSWindowController {
             + "width: \(NSWidth(defaultFrame)), height: \(NSHeight(defaultFrame)))\n"
             + "NSPoint(x: \(_x), y: \(_y))"
 
-        let frame = SizeHelper.frameRelativeToHearthstone(
+        let frame = SizeHelper.hearthstoneWindow.relativeFrame(
             NSRect(x: _x, y: _y, width: NSWidth(defaultFrame), height: NSHeight(defaultFrame)),
             relative: true)
         currentWindow?.setFrame(frame, display: true)
