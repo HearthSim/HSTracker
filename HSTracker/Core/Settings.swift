@@ -270,6 +270,10 @@ final class Settings {
         set { set("show_opponent_class", value: newValue) }
         get { return get("show_opponent_class") as? Bool ?? false }
     }
+    var showDeckNameInTracker: Bool {
+        set { set("show_deck_name", value: newValue) }
+        get { return get("show_deck_name") as? Bool ?? false }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {
