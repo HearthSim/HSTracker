@@ -28,3 +28,6 @@
 
 /* Class = "NSTextFieldCell"; title = "In-hand color"; ObjectID = "gfe-fe-rJe"; */
 "gfe-fe-rJe.title" = "In-hand color";
+
+/* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "rj2-8a-HGB"; */
+"rj2-8a-HGB.title" = "Show board damage";

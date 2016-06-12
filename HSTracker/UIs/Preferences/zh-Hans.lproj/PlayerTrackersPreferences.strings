@@ -18,13 +18,16 @@
 "Tex-bu-toa.title" = "显示克苏恩反制";
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "IPf-hF-E74"; */
-"IPf-hF-E74.title" = "Show Deathrattle counter";
+"IPf-hF-E74.title" = "显示亡语反制";
 
 /* Class = "NSButtonCell"; title = "Flash on card draw"; ObjectID = "gpo-Wo-m50"; */
-"gpo-Wo-m50.title" = "Flash on card draw";
+"gpo-Wo-m50.title" = "闪抽的卡牌";
 
 /* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "oIi-8e-cCP"; */
-"oIi-8e-cCP.title" = "Show win-loss ratio";
+"oIi-8e-cCP.title" = "显示胜率";
 
 /* Class = "NSTextFieldCell"; title = "In-hand color"; ObjectID = "gfe-fe-rJe"; */
-"gfe-fe-rJe.title" = "In-hand color";
+"gfe-fe-rJe.title" = "卡在手里的颜色";
+
+/* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "rj2-8a-HGB"; */
+"rj2-8a-HGB.title" = "显示白板伤害";

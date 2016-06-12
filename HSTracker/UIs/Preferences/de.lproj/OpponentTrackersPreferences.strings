@@ -29,3 +29,6 @@
 
 /* Class = "NSButtonCell"; title = "Show player class and name"; ObjectID = "aW1-2y-nKx"; */
 "aW1-2y-nKx.title" = "Show player class and name";
+
+/* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "fah-Dr-Amh"; */
+"fah-Dr-Amh.title" = "Show board damage";

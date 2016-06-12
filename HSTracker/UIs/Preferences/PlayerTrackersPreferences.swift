@@ -21,6 +21,7 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
     @IBOutlet weak var flashOnDraw: NSButton!
     @IBOutlet weak var showRecord: NSButton!
     @IBOutlet weak var inHandColor: NSColorWell!
+    @IBOutlet weak var showBoardDamage: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,7 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
         flashOnDraw.state = settings.flashOnDraw ? NSOnState : NSOffState
         showRecord.state = settings.showWinLossRatio ? NSOnState : NSOffState
         inHandColor.color = settings.playerInHandColor
+        showBoardDamage.state = settings.playerBoardDamage ? NSOnState : NSOffState
     }
     
     @IBAction func colorChange(sender: NSColorWell) {
@@ -65,6 +67,8 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
             settings.flashOnDraw = flashOnDraw.state == NSOnState
         } else if sender == showRecord {
             settings.showWinLossRatio = showRecord.state == NSOnState
+        } else if sender == showBoardDamage {
+            settings.playerBoardDamage = showBoardDamage.state == NSOnState
         }
     }
 

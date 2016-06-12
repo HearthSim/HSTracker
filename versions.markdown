@@ -1,3 +1,8 @@
+#### 0.16.11
+- Option to hide board damage
+- Chinese translation update
+- Add Gitter link in the deck manager
+
 #### 0.16.10
 - Added themes and set Dark as default
 - Better font for russian players
