@@ -406,7 +406,7 @@ class Tracker: NSWindowController {
                 playerClass.subviews.forEach({$0.removeFromSuperview()})
                 let hero = CardBar.factory()
                 hero.playerType = .Hero
-                hero.playerClassID = Cards.byPlayerClass(activeDeck.playerClass)?.id
+                hero.playerClassID = Cards.heroByPlayerClass(activeDeck.playerClass)?.id
                 hero.playerName = activeDeck.name
                 
                 playerClass.addSubview(hero)

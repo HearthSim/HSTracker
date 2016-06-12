@@ -42,7 +42,7 @@ final class Cards {
         return nil
     }
     
-    static func byPlayerClass(name: String) -> Card? {
+    static func heroByPlayerClass(name: String) -> Card? {
         switch name {
         case "druid": return self.heroById(CardIds.Collectible.Druid.MalfurionStormrage)
         case "hunter": return self.heroById(CardIds.Collectible.Hunter.Rexxar)
