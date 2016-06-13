@@ -609,7 +609,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                             keyEquivalent: "")?.submenu = saveMenus
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
-                                            keyEquivalent: "")
+                                            keyEquivalent: "R")
 
         deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
         for (playerClass, _decks) in decks
