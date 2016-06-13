@@ -234,6 +234,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                      context: context)
     }
 
+    // debug stuff var window: NSWindow?
     func hstrackerReady() {
         guard !hstrackerIsStarted else { return }
         hstrackerIsStarted = true
@@ -282,6 +283,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         Hearthstone.instance.start()
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
+        
+        // Debug stuff
+        /*let hearthstoneWindow = SizeHelper.HearthstoneWindow()
+        window = NSWindow()
+        if let window = window {
+            window.orderFrontRegardless()
+            window.backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.6)
+            window.opaque = false
+            window.hasShadow = false
+            window.styleMask = NSBorderlessWindowMask
+            window.ignoresMouseEvents = true
+            window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            let frame = hearthstoneWindow.relativeFrame(NSRect(x: 0, y: 0,
+                width: NSWidth(hearthstoneWindow.frame),
+                height: NSHeight(hearthstoneWindow.frame)),
+                                                        relative: false)
+            window.setFrame(frame, display: true)
+            Log.verbose?.message("\(hearthstoneWindow.frame) -> \(frame)")
+        }*/
 
         let events = [
             "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
