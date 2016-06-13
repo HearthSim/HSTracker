@@ -331,6 +331,8 @@ class Tracker: NSWindowController {
         if let activeDeck = Game.instance.activeDeck where !recordTracker.hidden {
             recordTracker.message = activeDeck.displayStats()
             recordTracker.needsDisplay = true
+        } else {
+            recordTracker.hidden = true
         }
         if let player = player where !fatigueTracker.hidden {
             fatigueTracker.message = "\(NSLocalizedString("Fatigue : ", comment: ""))"
