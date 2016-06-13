@@ -21,7 +21,7 @@ enum NotificationType {
 class Game {
     // MARK: - vars
     var currentTurn = 0
-    var currentRank = 0
+    var ranks: [Int] = []
     var maxId = 0
     var lastId = 0
 
@@ -34,8 +34,6 @@ class Game {
     var tmpEntities = [Entity]()
     var knownCardIds = [Int: String]()
     var joustReveals = 0
-    var awaitingRankedDetection = true
-    var lastAssetUnload: Double = 0
     var gameStarted = false
     var gameEnded = true {
         didSet {
@@ -45,7 +43,6 @@ class Game {
     var gameStartDate: NSDate?
     var gameResult: GameResult = .Unknow
     var gameEndDate: NSDate?
-    var waitingForFirstAssetUnload = true
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
     var secretTracker: SecretTracker?
@@ -75,7 +72,6 @@ class Game {
     var wasInProgress = false
     var hasBeenConceded = false
 
-    var victoryScreenShow = false
     var playerUpdateRequests = 0
     var opponentUpdateRequests = 0
     var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
@@ -136,7 +132,7 @@ class Game {
     func reset() {
         Log.verbose?.message("Reseting Game")
         currentTurn = 0
-        victoryScreenShow = false
+        ranks = []
         maxId = 0
         lastId = 0
 
@@ -144,14 +140,11 @@ class Game {
         tmpEntities.removeAll()
         knownCardIds.removeAll()
         joustReveals = 0
-        awaitingRankedDetection = true
-        lastAssetUnload = 0
         gameStarted = false
         gameEnded = true
         gameStartDate = nil
         gameResult = .Unknow
         gameEndDate = nil
-        waitingForFirstAssetUnload = true
         lastCardPlayed = nil
         currentEntityId = 0
         currentEntityHasCardId = false
@@ -248,6 +241,31 @@ class Game {
 
             TurnTimer.instance.start(self)
         }
+        
+        checkForRank()
+    }
+    
+    func checkForRank() {
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(30 * Double(NSEC_PER_SEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            guard !self.gameEnded else { return }
+            
+            if self.currentGameMode == .Casual || self.currentGameMode == .Ranked {
+                if let image = ImageUtilities.screenshotPlayerRank() {
+                    let imageCmp = ImageCompare(original: image)
+                    let rank = imageCmp.rank()
+                    Log.info?.message("detected rank : \(rank)")
+                    if rank > 0 {
+                        self.ranks.append(rank)
+                    }
+                }
+            }
+            
+            // check again every 30 seconds during the game to get 
+            // something accurate
+            self.checkForRank()
+        }
     }
 
     func gameEnd() {
@@ -288,15 +306,8 @@ class Game {
     }
 
     func handleEndGame() {
-        Log.verbose?.message("currentRank: \(currentRank), currentGameMode: \(currentGameMode)")
-        // when we loose the rank is not show, so we just wait 10 seconds max to
-        // get the rank and then we save
-        waitForRank(10) {
-            self.saveStats()
-        }
-    }
-
-    private func saveStats() {
+        Log.verbose?.message("rank: \(ranks), currentGameMode: \(currentGameMode)")
+  
         if endGameStats {
             return
         }
@@ -310,13 +321,17 @@ class Game {
         if currentGameMode == .Ranked || currentGameMode == .Casual {
             Log.info?.message("Format: \(currentFormat)")
         }
-
+        
+        var result: [Int: Int] = [:]
+        ranks.forEach({ result[$0] = (result[$0] ?? 0) + 1 })
+        let currentRank = Array(result).sort { $0.1 < $1.1 }.last?.0 ?? -1
+        
         Log.info?.message("End game : mode = \(currentGameMode), "
             + "rank = \(currentRank), result = \(gameResult), "
             + "against = \(opponent.name)(\(opponent.playerClass)), "
             + "opponent played : \(opponent.displayRevealedCards) ")
 
-        if currentRank == 0 && currentGameMode == .Ranked {
+        if currentRank == -1 && currentGameMode == .Ranked {
             Log.info?.message("rank is 0 and mode is ranked, ignore")
             return
         }
@@ -363,43 +378,6 @@ class Game {
                     try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
                 } catch {
                 }
-            }
-        }
-    }
-
-    func waitForRank(seconds: Double, completion: () -> Void) {
-        let timeout = NSDate().timeIntervalSince1970 + seconds
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            while NSDate().timeIntervalSince1970 < timeout {
-                NSThread.sleepForTimeInterval(0.5)
-                if self.victoryScreenShow && self.currentRank != 0 {
-                    break
-                }
-            }
-            dispatch_async(dispatch_get_main_queue()) {
-                completion()
-            }
-        }
-    }
-
-    func detectMode(seconds: Double, completion: () -> Void) {
-        Log.info?.message("waiting for mode")
-        awaitingRankedDetection = true
-        // rankFound = false
-        lastAssetUnload = NSDate().timeIntervalSince1970
-        waitingForFirstAssetUnload = true
-        let timeout = NSDate().timeIntervalSince1970 + seconds
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            while self.waitingForFirstAssetUnload
-                || NSDate().timeIntervalSince1970 - self.lastAssetUnload < timeout {
-                NSThread.sleepForTimeInterval(0.1)
-                if self.currentGameMode != .None {
-                    break
-                }
-            }
-
-            dispatch_async(dispatch_get_main_queue()) {
-                completion()
             }
         }
     }
@@ -503,13 +481,6 @@ class Game {
             player.playerClass = card.playerClass
             player.playerClassId = cardId
             Log.info?.message("Player class is \(card) ")
-        }
-    }
-
-    func setPlayerRank(rank: Int) {
-        if victoryScreenShow {
-            Log.info?.message("Player rank is \(rank) ")
-            currentRank = rank
         }
     }
 

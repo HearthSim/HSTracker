@@ -22,6 +22,7 @@ class WindowMove: NSWindowController {
     @IBOutlet weak var _show: NSButton!
     @IBOutlet weak var _hide: NSButton!
     @IBOutlet var textbox: NSTextView!
+    @IBOutlet weak var screenshot: NSImageView!
 
     lazy var overlayWindow: NSWindow = {
         let window = NSWindow()
@@ -168,8 +169,7 @@ class WindowMove: NSWindowController {
             + "NSPoint(x: \(_x), y: \(_y))"
 
         let frame = SizeHelper.hearthstoneWindow.relativeFrame(
-            NSRect(x: _x, y: _y, width: NSWidth(defaultFrame), height: NSHeight(defaultFrame)),
-            relative: true)
+            NSRect(x: _x, y: _y, width: NSWidth(defaultFrame), height: NSHeight(defaultFrame)))
         currentWindow?.setFrame(frame, display: true)
     }
 
@@ -188,5 +188,11 @@ class WindowMove: NSWindowController {
 
     @IBAction func hide(sender: AnyObject) {
         currentWindow?.orderOut(self)
+    }
+
+    @IBAction func screenshotPlayerRank(sender: AnyObject) {
+        if let image = ImageUtilities.screenshotPlayerRank() {
+            screenshot.image = image
+        }
     }
 }

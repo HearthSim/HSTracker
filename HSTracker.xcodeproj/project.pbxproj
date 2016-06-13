@@ -86,6 +86,9 @@
 		434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F3B1C7F48E9001D1D91 /* Hearthnews.swift */; };
 		434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F3D1C7F491C001D1D91 /* Heartharena.swift */; };
 		434C2F421C7F50F4001D1D91 /* BaseNetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F411C7F50F4001D1D91 /* BaseNetImporter.swift */; };
+		434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CAE1D0C500300222B8E /* ImageUtilities.swift */; };
+		434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CB01D0C507900222B8E /* ImageCompare.swift */; };
+		434D1CB31D0C70DA00222B8E /* Ranks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB21D0C70DA00222B8E /* Ranks.xcassets */; };
 		435907EC1CB13835008D4363 /* FileImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435907EB1CB13835008D4363 /* FileImporter.swift */; };
 		436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
@@ -426,6 +429,9 @@
 		434C2F3B1C7F48E9001D1D91 /* Hearthnews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthnews.swift; sourceTree = "<group>"; };
 		434C2F3D1C7F491C001D1D91 /* Heartharena.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Heartharena.swift; sourceTree = "<group>"; };
 		434C2F411C7F50F4001D1D91 /* BaseNetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNetImporter.swift; sourceTree = "<group>"; };
+		434D1CAE1D0C500300222B8E /* ImageUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtilities.swift; sourceTree = "<group>"; };
+		434D1CB01D0C507900222B8E /* ImageCompare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCompare.swift; sourceTree = "<group>"; };
+		434D1CB21D0C70DA00222B8E /* Ranks.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Ranks.xcassets; sourceTree = "<group>"; };
 		435907EB1CB13835008D4363 /* FileImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImporter.swift; sourceTree = "<group>"; };
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
@@ -639,6 +645,7 @@
 			children = (
 				434106A11C9868620045655A /* Assets.xcassets */,
 				434106A21C9868620045655A /* Classes.xcassets */,
+				434D1CB21D0C70DA00222B8E /* Ranks.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -748,6 +755,8 @@
 			children = (
 				434910481D09544200B22DB2 /* BoardDamage */,
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
+				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
+				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1178,6 +1187,7 @@
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
+				434D1CB31D0C70DA00222B8E /* Ranks.xcassets in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
@@ -1299,6 +1309,7 @@
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
+				434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */,
 				431719731C885BD600F5988B /* CardCell.swift in Sources */,
 				43647A581CDF4A0E00C2B78E /* HSTrackerLogFormatter.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
@@ -1357,6 +1368,7 @@
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				43E77EEA1C95713300C26950 /* Date.swift in Sources */,
 				64C11831FAF872B46E57E719 /* CardIds.swift in Sources */,
+				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

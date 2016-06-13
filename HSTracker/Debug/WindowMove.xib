@@ -16,6 +16,7 @@
                 <outlet property="_right" destination="Sy0-mo-ynk" id="SoX-Xl-add"/>
                 <outlet property="_show" destination="Ao3-I2-tnR" id="HBW-jU-STH"/>
                 <outlet property="_up" destination="Dy8-jP-3PZ" id="hWc-p0-Vhx"/>
+                <outlet property="screenshot" destination="Amg-Ud-jv4" id="xoo-2D-JFb"/>
                 <outlet property="textbox" destination="dkp-oI-Ssj" id="aYI-ts-xJx"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="GOj-RG-Dun"/>
                 <outlet property="windowChooser" destination="iSV-bG-1ZW" id="OQb-RZ-7pp"/>
@@ -26,11 +27,11 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="345"/>
+            <rect key="contentRect" x="196" y="240" width="774" height="345"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="345"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <rect key="frame" x="0.0" y="0.0" width="774" height="345"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iSV-bG-1ZW">
                         <rect key="frame" x="93" y="316" width="202" height="26"/>
@@ -213,9 +214,29 @@
                             <action selector="addEntity:" target="-2" id="qbW-Xy-u1f"/>
                         </connections>
                     </button>
+                    <box horizontalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Sua-42-VnS">
+                        <rect key="frame" x="489" y="28" width="5" height="312"/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <font key="titleFont" metaFont="system"/>
+                    </box>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Amg-Ud-jv4">
+                        <rect key="frame" x="497" y="92" width="265" height="248"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="JTO-GN-xYg"/>
+                    </imageView>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BoY-c7-jqz">
+                        <rect key="frame" x="494" y="13" width="111" height="32"/>
+                        <buttonCell key="cell" type="push" title="Player Rank" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3BV-WW-guG">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="screenshotPlayerRank:" target="-2" id="PdM-k9-asQ"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="464" y="422.5"/>
+            <point key="canvasLocation" x="611" y="422.5"/>
         </window>
     </objects>
 </document>
