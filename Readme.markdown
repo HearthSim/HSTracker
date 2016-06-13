@@ -1,6 +1,6 @@
 # HSTracker
 
-HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for Mac OsX 10.10+.
+HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for macOS 10.10+.
 
 [![Build Status](https://travis-ci.org/bmichotte/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
 
