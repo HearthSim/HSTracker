@@ -182,7 +182,7 @@ struct SizeHelper {
         let frame = NSRect(x: x,
                            y: 0,
                            width: trackerWidth,
-                           height: SizeHelper.BaseHeight - offset)
+                           height: NSHeight(hearthstoneWindow.frame) - offset)
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
 
