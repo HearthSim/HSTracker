@@ -55,3 +55,9 @@
 
 /* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
 "cu3-FG-2Cn.paletteLabel" = "Trier";
+
+/* Class = "NSToolbarItem"; label = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
+"T0e-lu-Gfj.label" = "Statistiques";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
+"T0e-lu-Gfj.paletteLabel" = "Statistiques";
