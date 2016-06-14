@@ -19,7 +19,7 @@ protocol CardCellHover {
 protocol CardBarTheme {
     var card: Card? {get set}
     var playerType: PlayerType? {get set}
-    var playerClass: String? {get set}
+    var playerClassID: String? {get set}
     var playerName: String? {get set}
 }
 
@@ -54,7 +54,7 @@ class CardBar: NSView, CardBarTheme {
         }
     }
     var playerType: PlayerType?
-    var playerClass: String?
+    var playerClassID: String?
     var playerName: String?
 
     var hasAllRequired: Bool {
@@ -289,8 +289,8 @@ class CardBar: NSView, CardBarTheme {
             cardId = card.id
             count = card.count
             rarity = card.rarity
-        } else if let playerClass = playerClass {
-            cardId = playerClass
+        } else if let playerClassID = playerClassID {
+            cardId = playerClassID
         }
 
         if let cardId = cardId {

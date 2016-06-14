@@ -31,3 +31,6 @@
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "rj2-8a-HGB"; */
 "rj2-8a-HGB.title" = "显示白板伤害";
+
+/* Class = "NSButtonCell"; title = "Show deck name"; ObjectID = "e7g-zd-YkC"; */
+"e7g-zd-YkC.title" = "Show deck name";

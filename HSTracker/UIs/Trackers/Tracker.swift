@@ -55,7 +55,8 @@ class Tracker: NSWindowController {
                 "player_deathrattle_frame": #selector(Tracker.playerOptionFrameChange(_:)),
                 "show_win_loss_ratio": #selector(Tracker.playerOptionFrameChange(_:)),
                 "reload_decks": #selector(Tracker.playerOptionFrameChange(_:)),
-                "player_in_hand_color": #selector(Tracker.playerOptionFrameChange(_:))
+                "player_in_hand_color": #selector(Tracker.playerOptionFrameChange(_:)),
+                "show_deck_name": #selector(Tracker.playerOptionFrameChange(_:))
                 ])
         } else if playerType == .Opponent {
             observers.update([
@@ -323,7 +324,7 @@ class Tracker: NSWindowController {
             showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showPlayerDeathrattleCounter
             proxy = WotogCounterHelper.playerCthunProxy
-            playerClass.hidden = true
+            playerClass.hidden = !settings.showDeckNameInTracker
             recordTracker.hidden = !settings.showWinLossRatio
         }
         fatigueTracker.hidden = !(settings.fatigueIndicator && player?.fatigue > 0)
@@ -369,31 +370,52 @@ class Tracker: NSWindowController {
 
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
-        if !playerClass.hidden {
+        if !playerClass.hidden && playerType == .Opponent {
             if let playerClassId = Game.instance.opponent.playerClassId,
                 playerName = Game.instance.opponent.name {
+                
+                offsetFrames += smallFrameHeight
+                
+                playerClass.frame = NSRect(x: 0,
+                                           y: windowHeight - smallFrameHeight,
+                                           width: windowHeight,
+                                           height: smallFrameHeight)
+                startHeight += smallFrameHeight
+                
+                playerClass.subviews.forEach({$0.removeFromSuperview()})
+                let hero = CardBar.factory()
+                hero.playerType = .Hero
+                hero.playerClassID = playerClassId
+                hero.playerName = playerName
+                
+                playerClass.addSubview(hero)
+                hero.frame = NSRect(x: 0, y: 0,
+                                    width: windowWidth,
+                                    height: smallFrameHeight)
+                hero.update(false)
+            }
+        } else if !playerClass.hidden && playerType == .Player {
+            if let activeDeck = Game.instance.activeDeck {
 
-                if playerType == .Opponent {
-                    offsetFrames += smallFrameHeight
-
-                    playerClass.frame = NSRect(x: 0,
-                                               y: windowHeight - smallFrameHeight,
-                                               width: windowHeight,
-                                               height: smallFrameHeight)
-                    startHeight += smallFrameHeight
-
-                    playerClass.subviews.forEach({$0.removeFromSuperview()})
-                    let hero = CardBar.factory()
-                    hero.playerType = .Hero
-                    hero.playerClass = playerClassId
-                    hero.playerName = playerName
-
-                    playerClass.addSubview(hero)
-                    hero.frame = NSRect(x: 0, y: 0,
-                                        width: windowWidth,
-                                        height: smallFrameHeight)
-                    hero.update(false)
-                }
+                offsetFrames += smallFrameHeight
+                
+                playerClass.frame = NSRect(x: 0,
+                                           y: windowHeight - smallFrameHeight,
+                                           width: windowHeight,
+                                           height: smallFrameHeight)
+                startHeight += smallFrameHeight
+                
+                playerClass.subviews.forEach({$0.removeFromSuperview()})
+                let hero = CardBar.factory()
+                hero.playerType = .Hero
+                hero.playerClassID = Cards.heroByPlayerClass(activeDeck.playerClass)?.id
+                hero.playerName = activeDeck.name
+                
+                playerClass.addSubview(hero)
+                hero.frame = NSRect(x: 0, y: 0,
+                                    width: windowWidth,
+                                    height: smallFrameHeight)
+                hero.update(false)
             }
         }
         if !opponentDrawChance.hidden {

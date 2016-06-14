@@ -41,6 +41,21 @@ final class Cards {
         }
         return nil
     }
+    
+    static func heroByPlayerClass(name: String) -> Card? {
+        switch name {
+        case "druid": return self.heroById(CardIds.Collectible.Druid.MalfurionStormrage)
+        case "hunter": return self.heroById(CardIds.Collectible.Hunter.Rexxar)
+        case "mage": return self.heroById(CardIds.Collectible.Mage.JainaProudmoore)
+        case "paladin": return self.heroById(CardIds.Collectible.Paladin.UtherLightbringer)
+        case "priest": return self.heroById(CardIds.Collectible.Priest.AnduinWrynn)
+        case "rogue": return self.heroById(CardIds.Collectible.Rogue.ValeeraSanguinar)
+        case "shaman": return self.heroById(CardIds.Collectible.Shaman.Thrall)
+        case "warlock": return self.heroById(CardIds.Collectible.Warlock.Guldan)
+        case "warrior": return self.heroById(CardIds.Collectible.Warrior.GarroshHellscream)
+        default: return nil
+        }
+    }
 
     static func byName(name: String) -> Card? {
         if let card = collectible().firstWhere({ $0.name == name }) {
