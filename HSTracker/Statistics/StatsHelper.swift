@@ -9,12 +9,13 @@
 import Foundation
 
 class StatsHelper {
-    static let playerClassList = ["druid", "hunter", "mage", "rogue", "paladin", "priest", "shaman", "warlock", "warrior"]
+    static let playerClassList = ["druid", "hunter", "mage", "rogue", "paladin",
+                                  "priest", "shaman", "warlock", "warrior"]
     
-    static func getStatsUITableData(deck: Deck) -> [Dictionary<String,String>] {
-        var tableData = [Dictionary<String,String>]()
+    static func getStatsUITableData(deck: Deck) -> [Dictionary<String, String>] {
+        var tableData = [Dictionary<String, String>]()
         
-        for againstClass in ["all"] + StatsHelper.playerClassList{
+        for againstClass in ["all"] + StatsHelper.playerClassList {
             var dataRow = [String: String]()
             
             if againstClass == "all"{
@@ -52,7 +53,8 @@ class StatsHelper {
         return winRateString
     }
     
-    static func getDeckRecord(deck: Deck, againstClass: String = "all") -> (wins: Int, losses: Int, draws: Int) {
+    static func getDeckRecord(deck: Deck, againstClass: String = "all")
+        -> (wins: Int, losses: Int, draws: Int) {
         var stats = deck.statistics
         if againstClass.lowercaseString != "all" {
             stats = deck.statistics.filter({$0.opponentClass == againstClass.lowercaseString})

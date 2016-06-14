@@ -14,7 +14,7 @@ class Statistics: NSWindowController {
     @IBOutlet weak var selectedDeckIcon: NSImageView!
     @IBOutlet weak var selectedDeckName: NSTextField!
     
-    
+    var deck: Deck?
     
     var statsTableItems = [Dictionary<String, String>]()
 
@@ -26,23 +26,24 @@ class Statistics: NSWindowController {
         statsTable.setDataSource(self)
         
         // We need to update the display both when the 
-        // stats change and when the deck is changed
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(update), name: "reload_decks", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(update), name: "active_deck_changed", object: nil)
-        
+        // stats change
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(update),
+                                                         name: "reload_decks",
+                                                         object: nil)
     }
     
-    func update(){
-        if let deck = Game.instance.activeDeck{
+    func update() {
+        if let deck = self.deck {
             // XXX: This might be unsafe
             // I'm assuming that the player class names
             // and class assets are always the same
             var imageName = deck.playerClass
-            if !StatsHelper.playerClassList.contains(imageName){
+            if !StatsHelper.playerClassList.contains(imageName) {
                 imageName = "error"
             }
             selectedDeckIcon.image = NSImage(named: imageName)
-            if let deckName = deck.name{
+            if let deckName = deck.name {
                 selectedDeckName.stringValue = deckName
             } else {
                 selectedDeckName.stringValue = "Deck name missing."
@@ -60,7 +61,9 @@ class Statistics: NSWindowController {
         statsTable.reloadData()
     }
     
-    
+    @IBAction func closeWindow(sender: AnyObject) {
+        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+    }
 }
 
 
@@ -71,12 +74,13 @@ extension Statistics : NSTableViewDataSource {
 }
 
 extension Statistics : NSTableViewDelegate {
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?,
+                   row: Int) -> NSView? {
 
-        var image:NSImage?
-        var text:String = ""
-        var cellIdentifier:String = ""
-        var alignment:NSTextAlignment = NSTextAlignment.Left
+        var image: NSImage?
+        var text: String = ""
+        var cellIdentifier: String = ""
+        var alignment: NSTextAlignment = NSTextAlignment.Left
         
         let item = statsTableItems[row]
         
@@ -95,7 +99,8 @@ extension Statistics : NSTableViewDelegate {
             cellIdentifier = "StatsWinRateCellID"
         }
         
-        if let cell = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil) as? NSTableCellView {
+        if let cell = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil)
+            as? NSTableCellView {
             cell.textField?.stringValue = text
             cell.imageView?.image = image ?? nil
             cell.textField?.alignment = alignment

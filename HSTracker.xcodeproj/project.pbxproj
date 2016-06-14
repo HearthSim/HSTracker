@@ -89,6 +89,7 @@
 		434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CAE1D0C500300222B8E /* ImageUtilities.swift */; };
 		434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CB01D0C507900222B8E /* ImageCompare.swift */; };
 		434D1CB31D0C70DA00222B8E /* Ranks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB21D0C70DA00222B8E /* Ranks.xcassets */; };
+		434D1CB41D10947200222B8E /* Statistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB61D10947200222B8E /* Statistics.xib */; };
 		435907EC1CB13835008D4363 /* FileImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435907EB1CB13835008D4363 /* FileImporter.swift */; };
 		436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
@@ -218,7 +219,6 @@
 		43F000301C81BAE8000F2F8F /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F0002F1C81BAE8000F2F8F /* Mode.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
 		C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C971D0A6079000DD6FB /* Statistics.swift */; };
-		C99C0C9A1D0A6079000DD6FB /* Statistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99C0C981D0A6079000DD6FB /* Statistics.xib */; };
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 /* End PBXBuildFile section */
 
@@ -435,6 +435,13 @@
 		434D1CAE1D0C500300222B8E /* ImageUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtilities.swift; sourceTree = "<group>"; };
 		434D1CB01D0C507900222B8E /* ImageCompare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCompare.swift; sourceTree = "<group>"; };
 		434D1CB21D0C70DA00222B8E /* Ranks.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Ranks.xcassets; sourceTree = "<group>"; };
+		434D1CB51D10947200222B8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Statistics.xib; sourceTree = "<group>"; };
+		434D1CB81D10947700222B8E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Statistics.strings; sourceTree = "<group>"; };
+		434D1CBA1D10947D00222B8E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Statistics.strings; sourceTree = "<group>"; };
+		434D1CBC1D10948000222B8E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Statistics.strings; sourceTree = "<group>"; };
+		434D1CBE1D10948200222B8E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Statistics.strings; sourceTree = "<group>"; };
+		434D1CC01D10948400222B8E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Statistics.strings"; sourceTree = "<group>"; };
+		434D1CC21D10948700222B8E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Statistics.strings"; sourceTree = "<group>"; };
 		435907EB1CB13835008D4363 /* FileImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImporter.swift; sourceTree = "<group>"; };
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
@@ -574,7 +581,6 @@
 		43F0002F1C81BAE8000F2F8F /* Mode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
 		C99C0C971D0A6079000DD6FB /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statistics.swift; path = StatsManager/Statistics.swift; sourceTree = "<group>"; };
-		C99C0C981D0A6079000DD6FB /* Statistics.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Statistics.xib; path = StatsManager/Statistics.xib; sourceTree = "<group>"; };
 		C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsHelper.swift; path = Statistics/StatsHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1034,7 +1040,7 @@
 			isa = PBXGroup;
 			children = (
 				C99C0C971D0A6079000DD6FB /* Statistics.swift */,
-				C99C0C981D0A6079000DD6FB /* Statistics.xib */,
+				434D1CB61D10947200222B8E /* Statistics.xib */,
 			);
 			name = StatsManager;
 			sourceTree = "<group>";
@@ -1201,7 +1207,7 @@
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
 				434910451D09505100B22DB2 /* BoardDamage.xib in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
-				C99C0C9A1D0A6079000DD6FB /* Statistics.xib in Resources */,
+				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */,
@@ -1613,6 +1619,21 @@
 				432B602D1CB63D8D00B05D19 /* fr */,
 			);
 			name = HearthstatsPreferences.xib;
+			sourceTree = "<group>";
+		};
+		434D1CB61D10947200222B8E /* Statistics.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				434D1CB51D10947200222B8E /* Base */,
+				434D1CB81D10947700222B8E /* fr */,
+				434D1CBA1D10947D00222B8E /* de */,
+				434D1CBC1D10948000222B8E /* es */,
+				434D1CBE1D10948200222B8E /* it */,
+				434D1CC01D10948400222B8E /* pt-BR */,
+				434D1CC21D10948700222B8E /* zh-Hans */,
+			);
+			name = Statistics.xib;
+			path = StatsManager;
 			sourceTree = "<group>";
 		};
 		437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */ = {

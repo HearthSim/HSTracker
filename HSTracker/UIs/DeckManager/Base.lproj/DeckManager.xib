@@ -525,10 +525,16 @@
                             <action selector="gitter:" target="-2" id="NtE-6f-IiX"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="BFDE5318-FCC7-464C-B272-87005FBA3E24" explicitItemIdentifier="statistics" label="Statistics" paletteLabel="Statistics" tag="-1" image="statistics" id="T0e-lu-Gfj">
+                        <connections>
+                            <action selector="showStatistics:" target="-2" id="736-au-4Ld"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
                     <toolbarItem reference="3nu-q9-wC1"/>
+                    <toolbarItem reference="T0e-lu-Gfj"/>
                     <toolbarItem reference="Qp2-0h-Sid"/>
                     <toolbarItem reference="cbH-rI-BvP"/>
                     <toolbarItem reference="aaa-LK-buD"/>
@@ -570,6 +576,7 @@
         <image name="rogue_dark" width="1437" height="1437"/>
         <image name="shaman" width="344.8800048828125" height="344.8800048828125"/>
         <image name="shaman_dark" width="1437" height="1437"/>
+        <image name="statistics" width="32" height="32"/>
         <image name="twitter" width="32" height="32"/>
         <image name="use-deck" width="32" height="32"/>
         <image name="warlock" width="344.8800048828125" height="344.8800048828125"/>

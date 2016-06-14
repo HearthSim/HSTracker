@@ -25,7 +25,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var cardHuds = [CardHud]()
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
-    var statistics: Statistics?
     var floatingCard: FloatingCard?
     @IBOutlet weak var sparkleUpdater: SUUpdater!
     var operationQueue: NSOperationQueue?
@@ -615,9 +614,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Deck Manager", comment: ""),
                                             action: #selector(AppDelegate.openDeckManager(_:)),
                                             keyEquivalent: "d")
-        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Statistics", comment: ""),
-                                            action: #selector(AppDelegate.openStatistics(_:)),
-                                            keyEquivalent:"t")
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Reset", comment: ""),
                                             action: #selector(AppDelegate.resetTrackers(_:)),
                                             keyEquivalent: "r")
@@ -678,14 +674,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
         deckManager?.showWindow(self)
     }
-
-    @IBAction func openStatistics(sender: AnyObject) {
-        if statistics == nil {
-            statistics = Statistics(windowNibName: "Statistics")
-        }
-        statistics?.showWindow(self)
-    }
-    
 
     @IBAction func clearTrackers(sender: AnyObject) {
         Game.instance.removeActiveDeck()

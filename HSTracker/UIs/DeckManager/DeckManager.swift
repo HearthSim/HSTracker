@@ -41,6 +41,7 @@ class DeckManager: NSWindowController {
     var currentClass: String?
     var currentDeck: Deck?
     var currentCell: DeckCellView?
+    var statistics: Statistics?
     var showArchivedDecks = false
     
     let criterias = ["name", "creation date", "win percentage", "wins", "losses", "games played"]
@@ -205,7 +206,7 @@ class DeckManager: NSWindowController {
         switch item.itemIdentifier {
         case "add", "donate", "twitter", "hearthstats", "gitter":
             return true
-        case "edit", "use", "delete", "rename", "archive":
+        case "edit", "use", "delete", "rename", "archive", "statistics":
             return currentDeck != nil
         default:
             return false
@@ -221,6 +222,14 @@ class DeckManager: NSWindowController {
         }
     }
 
+    @IBAction func showStatistics(sender: AnyObject) {
+        statistics = Statistics(windowNibName: "Statistics")
+        if let statistics = statistics {
+            statistics.deck = currentDeck
+            self.window!.beginSheet(statistics.window!, completionHandler: nil)
+        }
+    }
+    
     @IBAction func hearthstatsLogin(sender: AnyObject) {
         if HearthstatsAPI.isLogged() {
             let alert = NSAlert()
