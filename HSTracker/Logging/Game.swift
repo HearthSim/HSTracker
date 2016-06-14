@@ -199,11 +199,13 @@ class Game {
         self.activeDeck = deck
         player.reset(self.gameEnded ? true : false)
         updatePlayerTracker(true)
+        NSNotificationCenter.defaultCenter().postNotificationName("active_deck_changed", object: nil)
     }
 
     func removeActiveDeck() {
         self.activeDeck = nil
         updatePlayerTracker(true)
+        NSNotificationCenter.defaultCenter().postNotificationName("active_deck_changed", object: nil)
     }
 
     func setPlayerTracker(tracker: Tracker?) {
