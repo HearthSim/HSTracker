@@ -18,19 +18,19 @@
 "Tex-bu-toa.title" = "Zeige C'Thun-Counter";
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "IPf-hF-E74"; */
-"IPf-hF-E74.title" = "Show Deathrattle counter";
+"IPf-hF-E74.title" = "Zeige Todesröcheln-Counter";
 
 /* Class = "NSButtonCell"; title = "Flash on card draw"; ObjectID = "gpo-Wo-m50"; */
-"gpo-Wo-m50.title" = "Flash on card draw";
+"gpo-Wo-m50.title" = "Zeige optisches Signal beim ziehen einer Karte";
 
 /* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "oIi-8e-cCP"; */
-"oIi-8e-cCP.title" = "Show win-loss ratio";
+"oIi-8e-cCP.title" = "Zeige Sieg-Niederlage Verhältnis";
 
 /* Class = "NSTextFieldCell"; title = "In-hand color"; ObjectID = "gfe-fe-rJe"; */
-"gfe-fe-rJe.title" = "In-hand color";
+"gfe-fe-rJe.title" = "Handkarten Farbe";
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "rj2-8a-HGB"; */
-"rj2-8a-HGB.title" = "Show board damage";
+"rj2-8a-HGB.title" = "Zeige Board-Damage";
 
 /* Class = "NSButtonCell"; title = "Show deck name"; ObjectID = "e7g-zd-YkC"; */
-"e7g-zd-YkC.title" = "Show deck name";
+"e7g-zd-YkC.title" = "Zeige Deckname";
