@@ -129,7 +129,9 @@ class OpponentSecrets: CustomStringConvertible {
 
         if defender.isHero {
             if !fastOnly {
-                setZeroOlder(CardIds.Secrets.Hunter.BearTrap, stopIndex: stopIndex)
+                if game.opponentMinionCount < 7 {
+                    setZeroOlder(CardIds.Secrets.Hunter.BearTrap, stopIndex: stopIndex)
+                }
                 setZeroOlder(CardIds.Secrets.Mage.IceBarrier, stopIndex: stopIndex)
             }
 
