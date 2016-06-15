@@ -1024,6 +1024,7 @@ class Game {
             if show {
                 if let opponentSecrets = self.opponentSecrets {
                     self.secretTracker?.setSecrets(opponentSecrets)
+                    self.secretTracker?.window?.orderOut(self)
                     self.secretTracker?.showWindow(self)
                 }
             } else {
@@ -1052,6 +1053,7 @@ class Game {
                         hud.setEntity(entity)
                         let frame = SizeHelper.opponentCardHudFrame(i, cardCount: count)
                         hud.window?.setFrame(frame, display: true)
+                        hud.window?.orderOut(self)
                         hud.showWindow(self)
                     } else {
                         hud.window?.orderOut(self)
@@ -1068,6 +1070,7 @@ class Game {
         if settings.playerBoardDamage {
             dispatch_async(dispatch_get_main_queue()) {
                 if !self.gameEnded {
+                    self.playerBoardDamage?.window?.orderOut(self)
                     self.playerBoardDamage?.showWindow(self)
                     self.playerBoardDamage?.update(board.player.damage)
                 } else {
@@ -1081,6 +1084,7 @@ class Game {
         if settings.opponentBoardDamage {
             dispatch_async(dispatch_get_main_queue()) {
                 if !self.gameEnded {
+                    self.opponentBoardDamage?.window?.orderOut(self)
                     self.opponentBoardDamage?.showWindow(self)
                     self.opponentBoardDamage?.update(board.opponent.damage)
                 } else {
@@ -1171,6 +1175,8 @@ class Game {
         }
         if let tracker = self.timerHud {
             moveWindow(tracker, active: active, frame: SizeHelper.timerHudFrame())
+            tracker.window?.orderOut(self)
+            tracker.showWindow(self)
         }
 
         updateCardHuds()
@@ -1178,11 +1184,13 @@ class Game {
             moveWindow(playerBoardDamage,
                        active: active,
                        frame: SizeHelper.playerBoardDamageFrame())
+            updateBoardAttack()
         }
         if let opponentBoardDamage = opponentBoardDamage {
             moveWindow(opponentBoardDamage,
                        active: active,
                        frame: SizeHelper.opponentBoardDamageFrame())
+            updateBoardAttack()
         }
     }
 
