@@ -49,7 +49,7 @@ class Game {
     var timerHud: TimerHud?
     var playerBoardDamage: BoardDamage?
     var opponentBoardDamage: BoardDamage?
-    var cardHuds: [CardHud]?
+    var cardHudContainer: CardHudContainer?
     var lastCardPlayed: Int?
     var activeDeck: Deck?
     var currentEntityId = 0
@@ -168,14 +168,13 @@ class Game {
 
         player.reset()
         opponent.reset()
-
-        updateCardHuds()
         
         dispatch_async(dispatch_get_main_queue()) {
             self.secretTracker?.window?.orderOut(self)
             self.timerHud?.window?.orderOut(self)
             self.playerBoardDamage?.window?.orderOut(self)
             self.opponentBoardDamage?.window?.orderOut(self)
+            self.cardHudContainer?.reset()
         }
         
         if let activeDeck = activeDeck {
@@ -237,9 +236,14 @@ class Game {
         self.updatePlayerTracker(true)
         self.updateOpponentTracker(true)
         dispatch_async(dispatch_get_main_queue()) {
-            self.timerHud?.showWindow(self)
-
-            TurnTimer.instance.start(self)
+            if Settings.instance.showTimer {
+                self.timerHud?.showWindow(self)
+                TurnTimer.instance.start(self)
+            }
+            if Settings.instance.showCardHuds {
+                self.cardHudContainer?.showWindow(self)
+                self.updateCardHuds()
+            }
         }
         
         checkForRank()
@@ -252,13 +256,8 @@ class Game {
             guard !self.gameEnded else { return }
             
             if self.currentGameMode == .Casual || self.currentGameMode == .Ranked {
-                if let image = ImageUtilities.screenshotPlayerRank() {
-                    let imageCmp = ImageCompare(original: image)
-                    let rank = imageCmp.rank()
-                    Log.info?.message("detected rank : \(rank)")
-                    if rank > 0 {
-                        self.ranks.append(rank)
-                    }
+                if let rank = RankDetection.playerRank() {
+                    self.ranks.append(rank)
                 }
             }
             
@@ -279,9 +278,7 @@ class Game {
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.stop()
             self.timerHud?.window?.orderOut(self)
-            self.cardHuds?.forEach {
-                $0.window?.orderOut(self)
-            }
+            self.cardHudContainer?.reset()
         }
 
         showSecrets(false)
@@ -308,10 +305,10 @@ class Game {
     func handleEndGame() {
         Log.verbose?.message("rank: \(ranks), currentGameMode: \(currentGameMode)")
   
-        if endGameStats {
-            return
-        }
+        guard !endGameStats else { return }
         endGameStats = true
+        
+        guard currentGameMode != .Practice else { return }
 
         let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         if let _player = _player {
@@ -1033,7 +1030,8 @@ class Game {
     }
 
     func updateCardHuds(force: Bool = false) {
-        guard let _ = cardHuds else { return }
+        guard let _ = cardHudContainer else { return }
+        guard Settings.instance.showCardHuds else { return }
 
         lastCardsUpdateRequest = NSDate().timeIntervalSince1970
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
@@ -1042,22 +1040,7 @@ class Game {
             if !force && NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.1 {
                 return
             }
-            if let cardHuds = self.cardHuds {
-                let count = min(10, self.opponent.handCount)
-
-                for (i, hud) in cardHuds.enumerate() {
-                    if let entity = self.opponent.hand
-                        .firstWhere({ $0.getTag(.ZONE_POSITION) == i + 1 })
-                        where !self.gameEnded && Settings.instance.showCardHuds {
-                        hud.setEntity(entity)
-                        let frame = SizeHelper.opponentCardHudFrame(i, cardCount: count)
-                        hud.window?.setFrame(frame, display: true)
-                        hud.showWindow(self)
-                    } else {
-                        hud.window?.orderOut(self)
-                    }
-                }
-            }
+            self.cardHudContainer?.update(self.opponent.hand, cardCount: self.opponent.handCount)
         }
     }
     
@@ -1157,46 +1140,53 @@ class Game {
 
     func hearthstoneIsActive(active: Bool) {
         if Settings.instance.autoPositionTrackers {
-            if let tracker = self.playerTracker {
-                moveWindow(tracker, active: active,
-                              frame: SizeHelper.playerTrackerFrame())
-            }
-            if let tracker = self.opponentTracker {
-                moveWindow(tracker, active: active,
-                              frame: SizeHelper.opponentTrackerFrame())
-            }
+            moveWindow(playerTracker,
+                       active: active,
+                       frame: SizeHelper.playerTrackerFrame())
+            moveWindow(opponentTracker,
+                       active: active,
+                       frame: SizeHelper.opponentTrackerFrame())
         }
-        if let tracker = self.secretTracker {
-            moveWindow(tracker, active: active, frame: SizeHelper.secretTrackerFrame())
+        if Settings.instance.showSecretHelper {
+            moveWindow(secretTracker,
+                       active: active,
+                       frame: SizeHelper.secretTrackerFrame())
         }
-        if let tracker = self.timerHud {
-            moveWindow(tracker, active: active, frame: SizeHelper.timerHudFrame())
+        if Settings.instance.showTimer {
+            moveWindow(timerHud,
+                       active: active,
+                       frame: SizeHelper.timerHudFrame())
         }
-
-        updateCardHuds()
-        if let playerBoardDamage = playerBoardDamage {
+        if Settings.instance.showCardHuds {
+            moveWindow(cardHudContainer,
+                       active: active,
+                       frame: SizeHelper.cardHudContainerFrame())
+            updateCardHuds()
+        }
+        if Settings.instance.playerBoardDamage {
             moveWindow(playerBoardDamage,
                        active: active,
                        frame: SizeHelper.playerBoardDamageFrame())
         }
-        if let opponentBoardDamage = opponentBoardDamage {
+        if Settings.instance.opponentBoardDamage {
             moveWindow(opponentBoardDamage,
                        active: active,
                        frame: SizeHelper.opponentBoardDamageFrame())
         }
     }
 
-    func moveWindow(tracker: NSWindowController, active: Bool, frame: NSRect) {
-        guard frame != NSZeroRect else {return}
+    func moveWindow(windowController: NSWindowController?, active: Bool, frame: NSRect) {
+        guard let windowController = windowController else { return }
+        guard frame != NSZeroRect else { return }
 
-        tracker.window?.setFrame(frame, display: true)
+        windowController.window?.setFrame(frame, display: true)
         let level: Int
         if active {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
         } else {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
         }
-        tracker.window?.level = level
+        windowController.window?.level = level
     }
 
      func showNotification(type: NotificationType) {

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 class WindowMove: NSWindowController {
 
@@ -17,12 +18,18 @@ class WindowMove: NSWindowController {
     @IBOutlet weak var _right: NSButton!
     @IBOutlet weak var _fup: NSButton!
     @IBOutlet weak var _fdown: NSButton!
+    @IBOutlet weak var _ffup: NSButton!
+    @IBOutlet weak var _ffdown: NSButton!
     @IBOutlet weak var _fleft: NSButton!
     @IBOutlet weak var _fright: NSButton!
     @IBOutlet weak var _show: NSButton!
     @IBOutlet weak var _hide: NSButton!
     @IBOutlet var textbox: NSTextView!
     @IBOutlet weak var screenshot: NSImageView!
+    @IBOutlet weak var screenX: NSTextField!
+    @IBOutlet weak var screenY: NSTextField!
+    @IBOutlet weak var screenWidth: NSTextField!
+    @IBOutlet weak var screenHeight: NSTextField!
 
     lazy var overlayWindow: NSWindow = {
         let window = NSWindow()
@@ -56,7 +63,7 @@ class WindowMove: NSWindowController {
         }
         [_up, _down, _left, _right,
             _fup, _fdown, _fleft, _fright,
-            _show, _hide
+            _show, _hide, _ffdown, _ffup
             ].forEach { $0.enabled = buttonEnabled }
 
         guard windowChooser.indexOfSelectedItem > 0 else { return }
@@ -68,42 +75,20 @@ class WindowMove: NSWindowController {
             y = 0
             x = 0
 
+            currentWindow = nil
             if window == "Secret Tracker" {
                 currentWindow = Game.instance.secretTracker!.window
-                defaultFrame = NSRect(x: 200, y: 50, width: CGFloat(kMediumRowHeight), height: 300)
+                defaultFrame = NSRect(x: 200,
+                                      y: NSHeight(SizeHelper.hearthstoneWindow.frame) - 50,
+                                      width: CGFloat(kMediumRowHeight), height: 300)
             } else if window == "Timer Hud" {
                 currentWindow = Game.instance.timerHud!.window
-                defaultFrame = NSRect(x: 1042.0, y: 337.0, width: 160.0, height: 115.0)
-            } else if window == "Card Hud 1" {
-                currentWindow = Game.instance.cardHuds![0].window
-                defaultFrame = NSRect(x: 529.5, y: -10, width: 36, height: 45)
-            } else if window == "Card Hud 2" {
-                currentWindow = Game.instance.cardHuds![1].window
-                defaultFrame = NSRect(x: 560.5, y: -9, width: 36, height: 45)
-            } else if window == "Card Hud 3" {
-                currentWindow = Game.instance.cardHuds![2].window
-                defaultFrame = NSRect(x: 590.5, y: 0, width: 36, height: 45)
-            } else if window == "Card Hud 4" {
-                currentWindow = Game.instance.cardHuds![3].window
-                defaultFrame = NSRect(x: 618.5, y: 9, width: 36, height: 45)
-            } else if window == "Card Hud 5" {
-                currentWindow = Game.instance.cardHuds![4].window
-                defaultFrame = NSRect(x: 646.5, y: 16, width: 36, height: 45)
-            } else if window == "Card Hud 6" {
-                currentWindow = Game.instance.cardHuds![5].window
-                defaultFrame = NSRect(x: 675.5, y: 20, width: 36, height: 45)
-            } else if window == "Card Hud 7" {
-                currentWindow = Game.instance.cardHuds![6].window
-                defaultFrame = NSRect(x: 704.5, y: 17, width: 36, height: 45)
-            } else if window == "Card Hud 8" {
-                currentWindow = Game.instance.cardHuds![7].window
-                defaultFrame = NSRect(x: 732.5, y: 10, width: 36, height: 45)
-            } else if window == "Card Hud 9" {
-                currentWindow = Game.instance.cardHuds![8].window
-                defaultFrame = NSRect(x: 762.5, y: 3, width: 36, height: 45)
-            } else if window == "Card Hud 10" {
-                currentWindow = Game.instance.cardHuds![9].window
-                defaultFrame = NSRect(x: 797.5, y: -11, width: 36, height: 45)
+                defaultFrame = NSRect(x: 1082.0, y: 399.0, width: 160.0, height: 115.0)
+            } else if window == "Card Hud Container" {
+                currentWindow = Game.instance.cardHudContainer!.window
+                defaultFrame = NSRect(x: 529.5,
+                                      y: NSHeight(SizeHelper.hearthstoneWindow.frame) - 80,
+                                      width: 400, height: 80)
             } else if window == "Full overlay" {
                 currentWindow = overlayWindow
                 var rect = SizeHelper.hearthstoneWindow.frame
@@ -111,10 +96,10 @@ class WindowMove: NSWindowController {
                 defaultFrame = rect
             } else if window == "Player Board Damage" {
                 currentWindow = Game.instance.playerBoardDamage!.window
-                defaultFrame = NSRect(x: 887.5, y: 569.0, width: 50.0, height: 50.0)
+                defaultFrame = NSRect(x: 915, y: 205.0, width: 50.0, height: 50.0)
             } else if window == "Opponent Board Damage" {
                 currentWindow = Game.instance.opponentBoardDamage!.window
-                defaultFrame = NSRect(x: 766.5, y: 67.0, width: 50.0, height: 50.0)
+                defaultFrame = NSRect(x: 910, y: 617.0, width: 50.0, height: 50.0)
             }
 
             update()
@@ -122,12 +107,12 @@ class WindowMove: NSWindowController {
     }
 
     @IBAction func up(sender: AnyObject) {
-        y -= 1
+        y += 1
         update()
     }
 
     @IBAction func down(sender: AnyObject) {
-        y += 1
+        y -= 1
         update()
     }
 
@@ -142,15 +127,25 @@ class WindowMove: NSWindowController {
     }
 
     @IBAction func fup(sender: AnyObject) {
-        y -= 10
-        update()
-    }
-
-    @IBAction func fdown(sender: AnyObject) {
         y += 10
         update()
     }
 
+    @IBAction func ffup(sender: AnyObject) {
+        y += 100
+        update()
+    }
+    
+    @IBAction func fdown(sender: AnyObject) {
+        y -= 10
+        update()
+    }
+
+    @IBAction func ffdown(sender: AnyObject) {
+        y -= 100
+        update()
+    }
+    
     @IBAction func fleft(sender: AnyObject) {
         x -= 10
         update()
@@ -168,17 +163,10 @@ class WindowMove: NSWindowController {
             + "width: \(NSWidth(defaultFrame)), height: \(NSHeight(defaultFrame)))\n"
             + "NSPoint(x: \(_x), y: \(_y))"
 
-        let frame = SizeHelper.hearthstoneWindow.relativeFrame(
-            NSRect(x: _x, y: _y, width: NSWidth(defaultFrame), height: NSHeight(defaultFrame)))
-        currentWindow?.setFrame(frame, display: true)
-    }
-
-    @IBAction func addEntity(sender: AnyObject) {
-        for hud in Game.instance.cardHuds! {
-            let entity = Entity()
-            entity.info.hidden = false
-            entity.cardId = Cards.collectible().shuffleOne()!.id
-            hud.setEntity(entity)
+        if let window = currentWindow {
+            let frame = SizeHelper.hearthstoneWindow.relativeFrame(
+                NSRect(x: _x, y: _y, width: NSWidth(defaultFrame), height: NSHeight(defaultFrame)))
+            window.setFrame(frame, display: true)
         }
     }
 
@@ -190,9 +178,54 @@ class WindowMove: NSWindowController {
         currentWindow?.orderOut(self)
     }
 
+    @IBAction func screenshot(sender: AnyObject) {
+        if let x = Float(screenX.stringValue),
+            y = Float(screenY.stringValue),
+            w = Float(screenWidth.stringValue),
+            h = Float(screenHeight.stringValue) {
+ 
+            print("x: \(x), y: \(y), w: \(w), h: \(h)")
+            if let image = SizeHelper.hearthstoneWindow.screenshot() {
+                let rect = NSRect(x: CGFloat(x),
+                                  y: CGFloat(y),
+                                  width: CGFloat(w),
+                                  height: CGFloat(h))
+                let cropped = ImageUtilities.cropRect(image, rect: rect)
+                screenshot.image = cropped
+            }
+        }
+    }
+    
+    @IBAction func crop(sender: AnyObject) {
+            let hearthstoneWindow = SizeHelper.hearthstoneWindow
+        if let x = Float(screenX.stringValue),
+            y = Float(screenY.stringValue),
+            w = Float(screenWidth.stringValue),
+            h = Float(screenHeight.stringValue) {
+            if let image = hearthstoneWindow.screenshot() {
+                let scaled = ImageUtilities.resizeImage(image)
+                let rect = NSRect(x: CGFloat(x),
+                                  y: CGFloat(y),
+                                  width: CGFloat(w),
+                                  height: CGFloat(h))
+                let cropped = ImageUtilities.cropRect(scaled, rect: rect)
+                screenshot.image = cropped
+                
+                let imageCmp = ImageCompare(original: image)
+                let rank = imageCmp.rank()
+                Log.debug?.message("rank : \(rank)")
+                
+            }
+        }
+    }
+    
     @IBAction func screenshotPlayerRank(sender: AnyObject) {
         if let image = ImageUtilities.screenshotPlayerRank() {
             screenshot.image = image
+            
+            let imageCmp = ImageCompare(original: image)
+            let rank = imageCmp.rank()
+            Log.debug?.message("rank : \(rank)")
         }
     }
 }

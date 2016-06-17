@@ -24,7 +24,7 @@ class ImageCompare {
     var original: NSImage?
     
     init(original: NSImage) {
-        self.original = ImageUtilities.resize(original, size: NSSize(width: 24, height: 24))
+        self.original = original
     }
     
     func rank() -> Int {

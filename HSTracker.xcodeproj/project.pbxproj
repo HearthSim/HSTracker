@@ -209,9 +209,11 @@
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
 		43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
-		43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EE71C94B4CA00C26950 /* CardHud.xib */; };
 		43E77EEA1C95713300C26950 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE91C95713300C26950 /* Date.swift */; };
 		43E77EED1C969C4100C26950 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EEC1C969C4100C26950 /* Regex.swift */; };
+		43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */; };
+		43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */; };
+		43EBA3A71D13CFAA0093B1C2 /* RankDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBA3A61D13CFAA0093B1C2 /* RankDetection.swift */; };
 		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
 		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
 		43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB991C7E3F620077AC1B /* DeckCellView.xib */; };
@@ -571,9 +573,11 @@
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
 		43E77EE51C94B4B400C26950 /* CardHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHud.swift; sourceTree = "<group>"; };
-		43E77EE71C94B4CA00C26950 /* CardHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHud.xib; sourceTree = "<group>"; };
 		43E77EE91C95713300C26950 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		43E77EEC1C969C4100C26950 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHudContainer.swift; sourceTree = "<group>"; };
+		43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHudContainer.xib; sourceTree = "<group>"; };
+		43EBA3A61D13CFAA0093B1C2 /* RankDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RankDetection.swift; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
 		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
 		43EECB991C7E3F620077AC1B /* DeckCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckCellView.xib; sourceTree = "<group>"; };
@@ -769,6 +773,7 @@
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
 				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
+				43EBA3A61D13CFAA0093B1C2 /* RankDetection.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -962,8 +967,6 @@
 				43B695641C920BD500F4D0AC /* SecretTracker.xib */,
 				43E77EE11C949C7800C26950 /* TimerHud.swift */,
 				43E77EDF1C949C6D00C26950 /* TimerHud.xib */,
-				43E77EE51C94B4B400C26950 /* CardHud.swift */,
-				43E77EE71C94B4CA00C26950 /* CardHud.xib */,
 				436789BA1CACF79800C962D1 /* TrackerFrame.swift */,
 				436789B61CACF64600C962D1 /* CardCounter.swift */,
 				4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */,
@@ -974,6 +977,9 @@
 				340AAC041D0544AD0015FE33 /* StringTracker.swift */,
 				434910461D09505E00B22DB2 /* BoardDamage.swift */,
 				434910441D09505100B22DB2 /* BoardDamage.xib */,
+				43E77EE51C94B4B400C26950 /* CardHud.swift */,
+				43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */,
+				43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1210,6 +1216,7 @@
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
+				43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */,
 				432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */,
 				432B60101CB63D4C00B05D19 /* HearthstatsLogin.xib in Resources */,
 				432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */,
@@ -1223,7 +1230,6 @@
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
-				43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
@@ -1287,6 +1293,7 @@
 				43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */,
 				436F5D141CFD803C00DEB9A1 /* FrostBar.swift in Sources */,
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
+				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
@@ -1385,6 +1392,7 @@
 				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
 				43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */,
 				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,
+				43EBA3A71D13CFAA0093B1C2 /* RankDetection.swift in Sources */,
 				436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */,
 				4349104E1D09757800B22DB2 /* BoardState.swift in Sources */,
 				43E77EED1C969C4100C26950 /* Regex.swift in Sources */,

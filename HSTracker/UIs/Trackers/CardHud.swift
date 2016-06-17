@@ -10,59 +10,49 @@ import Foundation
 import CleanroomLogger
 import TextAttributes
 
-class CardHud: NSWindowController {
-
-    @IBOutlet weak var hud: CardHudHoverView!
+class CardHud: NSView {
     var entity: Entity?
     var card: Card?
-    var floatingCard: FloatingCard?
-
-    @IBOutlet weak var label: NSTextFieldCell!
-    @IBOutlet weak var icon: NSImageView!
-    @IBOutlet weak var costReduction: NSTextField!
-
-    override func windowDidLoad() {
-        super.windowDidLoad()
-
-        self.window!.styleMask = NSBorderlessWindowMask
-        self.window!.ignoresMouseEvents = true
-        self.window!.acceptsMouseMovedEvents = true
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-
-        self.window!.opaque = false
-        self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clearColor()
-
-        hud.setDelegate(self)
-
-        NSNotificationCenter.defaultCenter()
-            .addObserver(self,
-                         selector: #selector(CardHud.hearthstoneActive(_:)),
-                         name: "hearthstone_active",
-                         object: nil)
+    
+    private var trackingArea: NSTrackingArea?
+    
+    private let cardMarkerFrame = NSRect(x: 1, y: 7, width: 32, height: 32)
+    private let iconFrame = NSRect(x: 20, y: 3, width: 16, height: 16)
+    private let costReductionFrame = NSRect(x: 0, y: 25, width: 37, height: 26)
+    private let turnFrame = NSRect(x: 1, y: 13, width: 33, height: 31)
+    
+    init() {
+        super.init(frame: NSZeroRect)
+        initLayers()
     }
-
-    func hearthstoneActive(notification: NSNotification) {
-        let hs = Hearthstone.instance
-
-        let level: Int
-        if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-        } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
-        }
-        self.window!.level = level
+    
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        initLayers()
     }
-
-    func setEntity(entity: Entity?) {
-        self.entity = entity
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        initLayers()
+    }
+    
+    func initLayers() {
+        self.wantsLayer = true
+        self.layer!.backgroundColor = NSColor.clearColor().CGColor
+    }
+    
+    override func drawRect(dirtyRect: NSRect) {
+        super.drawRect(dirtyRect)
+        
+        addImage("card-marker", rect: cardMarkerFrame)
+        
         var text = ""
         var image: String? = nil
         var cost = 0
-
+        
         if let entity = entity {
-            text += "\(entity.info.turn)"
-
+            text = "\(entity.info.turn)"
+            
             switch entity.info.cardMark {
             case .Coin: image = "coin"
             case .Kept: image = "kept"
@@ -72,7 +62,7 @@ class CardHud: NSWindowController {
             default: break
             }
             cost = entity.info.costReduction
-
+            
             if entity.info.cardMark == .Coin {
                 card = Cards.anyById(CardIds.NonCollectible.Neutral.TheCoin)
             } else if !String.isNullOrEmpty(entity.cardId) && !entity.info.hidden {
@@ -80,63 +70,33 @@ class CardHud: NSWindowController {
                 card = Cards.byId(entity.cardId)
             }
         }
+        if let image = image {
+            addImage(image, rect: iconFrame)
+        }
+        
         let attributes = TextAttributes()
             .font(NSFont(name: "Belwe Bd BT", size: 20))
             .foregroundColor(NSColor.whiteColor())
             .strokeWidth(-2)
             .strokeColor(NSColor.blackColor())
             .alignment(.Center)
-        label?.attributedStringValue = NSAttributedString(string: text, attributes: attributes)
-
-        let costReductionAttributes = TextAttributes()
-            .font(NSFont(name: "Belwe Bd BT", size: 16))
-            .foregroundColor(NSColor(red: 0.117, green: 0.56, blue: 1, alpha: 1))
-            .strokeWidth(-2)
-            .strokeColor(NSColor.blackColor())
-
-        costReduction?.attributedStringValue = NSAttributedString(
-            string: "-\(cost)",
-            attributes: costReductionAttributes)
-
-        costReduction?.hidden = cost < 1
-        if let image = image {
-            icon?.image = NSImage(named: image)
-        } else {
-            icon?.image = nil
+        NSAttributedString(string: text, attributes: attributes)
+            .drawInRect(turnFrame)
+        
+        if cost > 0 {
+            let costReductionAttributes = TextAttributes()
+                .font(NSFont(name: "Belwe Bd BT", size: 16))
+                .foregroundColor(NSColor(red: 0.117, green: 0.56, blue: 1, alpha: 1))
+                .strokeWidth(-2)
+                .strokeColor(NSColor.blackColor())
+            NSAttributedString(string: "-\(cost)", attributes: costReductionAttributes)
+                .drawInRect(costReductionFrame)
         }
     }
-
-    // MARK: - mouse hover
-    func hover() {
-        if let card = self.card, windowFrame = self.window?.frame {
-            let frame = [windowFrame.origin.x + NSWidth(windowFrame) - 30,
-                                   windowFrame.origin.y - 250,
-                                   200, 303]
-
-            NSNotificationCenter.defaultCenter()
-                .postNotificationName("show_floating_card",
-                                      object: nil,
-                                      userInfo: [
-                                        "card": card,
-                                        "frame": frame
-                    ])
-        }
-    }
-
-    func out() {
-        if let _ = self.card {
-            NSNotificationCenter.defaultCenter()
-                .postNotificationName("hide_floating_card", object: nil)
-        }
-    }
-}
-
-class CardHudHoverView: NSView {
-    private var _delegate: CardHud?
-    private var trackingArea: NSTrackingArea?
-
-    func setDelegate(delegate: CardHud?) {
-        self._delegate = delegate
+    
+    private func addImage(filename: String, rect: NSRect) {
+        guard let image = NSImage(named: filename) else { return }
+        image.drawInRect(rect)
     }
 
     // MARK: - mouse hover
@@ -160,12 +120,60 @@ class CardHudHoverView: NSView {
             self.addTrackingArea(trackingArea!)
         }
     }
+    
+    /*
+    // dragging this view is only usefull for debuging
+    var lastDragLocation: NSPoint = NSPoint.zero
+    override func acceptsFirstMouse(theEvent: NSEvent?) -> Bool {
+        return true
+    }
+    
+    override func mouseDown(theEvent: NSEvent) {
+        lastDragLocation = self.superview?.convertPoint(theEvent.locationInWindow,
+                                                        fromView: nil) ?? NSPoint.zero
+        Log.verbose?.message("mouseDown \(lastDragLocation)")
+    }
+    
+    override func mouseDragged(theEvent: NSEvent) {
+        if let newDragLocation = self.superview?.convertPoint(theEvent.locationInWindow,
+                                                              fromView: nil) {
+            var thisOrigin = self.frame.origin
+            thisOrigin.x += (-lastDragLocation.x + newDragLocation.x)
+            thisOrigin.y += (-lastDragLocation.y + newDragLocation.y)
+            self.setFrameOrigin(thisOrigin)
+            Log.verbose?.message("NSPoint(x: \(round(thisOrigin.x)), y: \(round(thisOrigin.y)))")
+            self.lastDragLocation = newDragLocation
+        }
+    }*/
 
     override func mouseEntered(event: NSEvent) {
-        _delegate?.hover()
+        guard let card = self.card else { return }
+        guard let rect = self.superview?.convertRect(self.frame, toView: nil) else { return }
+        guard let frame = self.superview?.window?.convertRectToScreen(rect) else { return }
+
+        var screenRect = frame
+        screenRect.origin.x += NSWidth(rect) - 30
+        screenRect.origin.y -= 250
+        screenRect.size = NSSize(width: 200, height: 300)
+        
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName("show_floating_card",
+                                  object: nil,
+                                  userInfo: [
+                                    "card": card,
+                                    "frame": [
+                                        screenRect.origin.x + NSWidth(rect) - 30,
+                                        screenRect.origin.y - 250,
+                                        200,
+                                        300
+                                    ]
+                ])
     }
 
     override func mouseExited(event: NSEvent) {
-        _delegate?.out()
+        guard let _ = card else { return }
+ 
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName("hide_floating_card", object: nil)
     }
 }
