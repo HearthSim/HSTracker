@@ -1032,6 +1032,7 @@ class Game {
     func updateCardHuds(force: Bool = false) {
         guard let _ = cardHudContainer else { return }
         guard Settings.instance.showCardHuds else { return }
+        guard gameStarted else { return }
 
         lastCardsUpdateRequest = NSDate().timeIntervalSince1970
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))

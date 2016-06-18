@@ -163,7 +163,7 @@ class CardHud: NSView {
                                     "card": card,
                                     "frame": [
                                         screenRect.origin.x + NSWidth(rect) - 30,
-                                        screenRect.origin.y - 250,
+                                        screenRect.origin.y,
                                         200,
                                         300
                                     ]
