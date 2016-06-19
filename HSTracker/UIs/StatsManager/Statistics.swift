@@ -16,7 +16,7 @@ class Statistics: NSWindowController {
     
     var deck: Deck?
     
-    var statsTableItems = [Dictionary<String, String>]()
+    var statsTableItems = [StatsTableRow]()
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -24,6 +24,18 @@ class Statistics: NSWindowController {
 
         statsTable.setDelegate(self)
         statsTable.setDataSource(self)
+        
+        let descClass   = NSSortDescriptor(key: "opponentClassName", ascending: true)
+        let descRecord  = NSSortDescriptor(key: "totalGames", ascending: false)
+        let descWinrate = NSSortDescriptor(key: "winRateNumber", ascending: false)
+        let descCI      = NSSortDescriptor(key: "confidenceWindow", ascending: true)
+        
+        statsTable.tableColumns[0].sortDescriptorPrototype = descClass;
+        statsTable.tableColumns[1].sortDescriptorPrototype = descRecord;
+        statsTable.tableColumns[2].sortDescriptorPrototype = descWinrate;
+        statsTable.tableColumns[3].sortDescriptorPrototype = descCI;
+        
+        statsTable.tableColumns[3].headerToolTip = "It is 90% certain that the true winrate falls between these values."
         
         // We need to update the display both when the 
         // stats change
@@ -85,20 +97,25 @@ extension Statistics : NSTableViewDelegate {
         let item = statsTableItems[row]
         
         if tableColumn == tableView.tableColumns[0] {
-            image = NSImage(named: item["classIcon"]!)
-            text  = item["className"]!
+            image = NSImage(named: item.classIcon)
+            text  = item.opponentClassName
             alignment = NSTextAlignment.Left
             cellIdentifier = "StatsClassCellID"
         } else if tableColumn == tableView.tableColumns[1] {
-            text = item["record"]!
+            text = item.record
             alignment = NSTextAlignment.Right
             cellIdentifier = "StatsRecordCellID"
         } else if tableColumn == tableView.tableColumns[2] {
-            text = item["winRate"]!
+            text = item.winRate
             alignment = NSTextAlignment.Right
             cellIdentifier = "StatsWinRateCellID"
+        } else if tableColumn == tableView.tableColumns[3] {
+            text = item.confidenceInterval
+            alignment = NSTextAlignment.Right
+            cellIdentifier = "StatsCICellID"
         }
-        
+
+    
         if let cell = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
@@ -109,6 +126,12 @@ extension Statistics : NSTableViewDelegate {
         }
         
         return nil
+    }
+    
+    func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
+        let sorted = (statsTableItems as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors)
+        statsTableItems = sorted as! [StatsTableRow]
+        statsTable.reloadData()
     }
     
 }
