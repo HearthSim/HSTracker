@@ -13,15 +13,32 @@ struct ImageUtilities {
     static func screenshotPlayerRank() -> NSImage? {
         let hearthstoneWindow = SizeHelper.hearthstoneWindow
         if let image = hearthstoneWindow.screenshot() {
+            Log.verbose?.message("\(image)")
             if let scaled = resize(image, size: NSSize(width: SizeHelper.BaseWidth,
                 height: SizeHelper.BaseHeight)) {
+            Log.verbose?.message("resize : \(scaled)")
             let cropped = cropRect(scaled, rect: NSRect(x: 31, y: 112, width: 24, height: 24))
+            Log.verbose?.message("cropped : \(cropped)")
             return cropped
             }
         }
+        Log.verbose?.message("! image")
         return nil
     }
     
+    static func screenshotPlayerRankArea() -> NSImage? {
+        let hearthstoneWindow = SizeHelper.hearthstoneWindow
+        if let image = hearthstoneWindow.screenshot() {
+            Log.verbose?.message("\(image)")
+            let cropped = cropRect(image, rect: NSRect(x: 0, y: 0, width: image.size.width/5, height: image.size.height/3))
+            Log.verbose?.message("cropped : \(cropped)")
+            return cropped
+            
+        }
+        Log.verbose?.message("! image")
+        return nil
+    }
+
     static func cropRect(image: NSImage, rect: NSRect) -> NSImage {
         let target = NSImage(size: rect.size)
         target.lockFocus()
