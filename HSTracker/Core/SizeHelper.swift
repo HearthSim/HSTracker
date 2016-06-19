@@ -28,6 +28,9 @@ struct SizeHelper {
             if let info = (windowListInfo as NSArray? as? [[String: AnyObject]])?.filter({
                 !$0.filter({ $0.0 == "kCGWindowName"
                     && $0.1 as? String == Hearthstone.instance.applicationName }).isEmpty
+            }).filter({
+                !$0.filter({ $0.0 == "kCGWindowOwnerName"
+                    && $0.1 as? String == Hearthstone.instance.applicationName }).isEmpty
             }).first {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
