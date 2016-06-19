@@ -35,6 +35,8 @@ class Statistics: NSWindowController {
         statsTable.tableColumns[2].sortDescriptorPrototype = descWinrate;
         statsTable.tableColumns[3].sortDescriptorPrototype = descCI;
         
+        statsTable.tableColumns[3].headerToolTip = "It is 90% certain that the true winrate falls between these values."
+        
         // We need to update the display both when the 
         // stats change
         NSNotificationCenter.defaultCenter().addObserver(self,
