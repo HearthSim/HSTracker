@@ -28,10 +28,12 @@ class Statistics: NSWindowController {
         let descClass   = NSSortDescriptor(key: "opponentClassName", ascending: true)
         let descRecord  = NSSortDescriptor(key: "totalGames", ascending: false)
         let descWinrate = NSSortDescriptor(key: "winRateNumber", ascending: false)
+        let descCI      = NSSortDescriptor(key: "confidenceWindow", ascending: true)
         
         statsTable.tableColumns[0].sortDescriptorPrototype = descClass
         statsTable.tableColumns[1].sortDescriptorPrototype = descRecord
         statsTable.tableColumns[2].sortDescriptorPrototype = descWinrate
+        statsTable.tableColumns[3].sortDescriptorPrototype = descCI;
         
         // We need to update the display both when the 
         // stats change
@@ -105,8 +107,13 @@ extension Statistics : NSTableViewDelegate {
             text = item.winRate
             alignment = NSTextAlignment.Right
             cellIdentifier = "StatsWinRateCellID"
+        } else if tableColumn == tableView.tableColumns[3] {
+            text = item.confidenceInterval
+            alignment = NSTextAlignment.Right
+            cellIdentifier = "StatsCICellID"
         }
-        
+
+    
         if let cell = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
