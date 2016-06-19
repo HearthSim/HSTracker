@@ -232,10 +232,23 @@ class CardBar: NSView, CardBarTheme {
     }
 
     // MARK: - animation
-    func fadeIn(fadeIn: Bool) {
+    func fadeIn(highlight: Bool) {
+        if highlight {
+            self.alphaValue = 0.3
+            NSAnimationContext.runAnimationGroup({ (context) in
+                context.duration = 0.5
+                self.animator().alphaValue = 1.0
+                }, completionHandler: nil)
+        }
     }
 
     func fadeOut(highlight: Bool) {
+        if highlight {
+            NSAnimationContext.runAnimationGroup({ (context) in
+                context.duration = 0.5
+                self.animator().alphaValue = 0.3
+                }, completionHandler: nil)
+        }
     }
 
     // MARK: - drawing
