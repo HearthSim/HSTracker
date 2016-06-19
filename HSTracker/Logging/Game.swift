@@ -308,7 +308,7 @@ class Game {
         guard !endGameStats else { return }
         endGameStats = true
         
-        guard currentGameMode != .Practice else { return }
+        guard currentGameMode != .Practice && currentGameMode != .None else { return }
 
         let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         if let _player = _player {
@@ -514,7 +514,18 @@ class Game {
             return
         }
         player.play(entity, turn: turn)
-        updatePlayerTracker()
+        
+        if entity.hasTag(.RITUAL) {
+            // if this entity has the RITUAL tag, it will trigger some C'Thun change
+            // we wait 300ms so the proxy have the time to be updated
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
+            let queue = dispatch_get_main_queue()
+            dispatch_after(when, queue) {
+                self.updatePlayerTracker()
+            }
+        } else {
+            updatePlayerTracker()
+        }
 
         secretsOnPlay(entity)
     }
@@ -712,7 +723,17 @@ class Game {
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.play(entity, turn: turn)
-        updateOpponentTracker()
+        if entity.hasTag(.RITUAL) {
+            // if this entity has the RITUAL tag, it will trigger some C'Thun change
+            // we wait 300ms so the proxy have the time to be updated
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
+            let queue = dispatch_get_main_queue()
+            dispatch_after(when, queue) {
+                self.updateOpponentTracker()
+            }
+        } else {
+            updateOpponentTracker()
+        }
         updateCardHuds()
     }
 
