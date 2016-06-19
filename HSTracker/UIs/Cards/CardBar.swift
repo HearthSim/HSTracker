@@ -462,9 +462,20 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addCardName() {
+        var width = NSWidth(frameRect) - 38
+        if let card = card {
+            if abs(card.count) > 0 || card.rarity == .Legendary {
+                width -= NSWidth(boxRect)
+            }
+            if card.isCreated {
+                // createdIconOffset is negative, add abs for readability
+                width -= abs(createdIconOffset)
+            }
+        }
+        
         addCardName(NSRect(x: 38,
             y: 10,
-            width: frameRect.width - boxRect.width - 38,
+            width: width,
             height: 30))
     }
     func addCardName(rect: NSRect) {
