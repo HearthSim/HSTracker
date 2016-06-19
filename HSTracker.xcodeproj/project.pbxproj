@@ -222,6 +222,10 @@
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
 		C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C971D0A6079000DD6FB /* Statistics.swift */; };
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
+		C9F1B9661D172EAA00616B6C /* CVRankDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1B9611D172EAA00616B6C /* CVRankDetection.swift */; };
+		C9F1B9671D172EAA00616B6C /* CVRankDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F1B9621D172EAA00616B6C /* CVRankDetector.cpp */; };
+		C9F1B9681D172EAA00616B6C /* CVRankDetectorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9F1B9651D172EAA00616B6C /* CVRankDetectorWrapper.mm */; };
+		C9F1B96A1D172F0400616B6C /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F1B9691D172F0400616B6C /* opencv2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -586,6 +590,12 @@
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
 		C99C0C971D0A6079000DD6FB /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statistics.swift; path = StatsManager/Statistics.swift; sourceTree = "<group>"; };
 		C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsHelper.swift; path = Statistics/StatsHelper.swift; sourceTree = "<group>"; };
+		C9F1B9611D172EAA00616B6C /* CVRankDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVRankDetection.swift; sourceTree = "<group>"; };
+		C9F1B9621D172EAA00616B6C /* CVRankDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVRankDetector.cpp; sourceTree = "<group>"; };
+		C9F1B9631D172EAA00616B6C /* CVRankDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CVRankDetector.hpp; sourceTree = "<group>"; };
+		C9F1B9641D172EAA00616B6C /* CVRankDetectorWrapper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CVRankDetectorWrapper.hpp; sourceTree = "<group>"; };
+		C9F1B9651D172EAA00616B6C /* CVRankDetectorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CVRankDetectorWrapper.mm; sourceTree = "<group>"; };
+		C9F1B9691D172F0400616B6C /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -601,6 +611,7 @@
 				436789DA1CAE484800C962D1 /* JNWCollectionView.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
+				C9F1B96A1D172F0400616B6C /* opencv2.framework in Frameworks */,
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
 				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
@@ -774,6 +785,11 @@
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
 				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
 				43EBA3A61D13CFAA0093B1C2 /* RankDetection.swift */,
+				C9F1B9611D172EAA00616B6C /* CVRankDetection.swift */,
+				C9F1B9621D172EAA00616B6C /* CVRankDetector.cpp */,
+				C9F1B9631D172EAA00616B6C /* CVRankDetector.hpp */,
+				C9F1B9651D172EAA00616B6C /* CVRankDetectorWrapper.mm */,
+				C9F1B9641D172EAA00616B6C /* CVRankDetectorWrapper.hpp */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -811,6 +827,7 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
+				C9F1B9691D172F0400616B6C /* opencv2.framework */,
 				C99C0C9B1D0A607D000DD6FB /* Statistics */,
 				437B5BB11CD2437D00DE0A41 /* Utility */,
 				43873CBF1CA6E68D00F01CB4 /* Debug */,
@@ -1298,6 +1315,7 @@
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
 				43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */,
+				C9F1B9661D172EAA00616B6C /* CVRankDetection.swift in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
 				437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */,
 				434C2F421C7F50F4001D1D91 /* BaseNetImporter.swift in Sources */,
@@ -1382,6 +1400,7 @@
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				434C2F3A1C7F48BE001D1D91 /* Hearthhead.swift in Sources */,
+				C9F1B9671D172EAA00616B6C /* CVRankDetector.cpp in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
@@ -1402,6 +1421,7 @@
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				436969151C80653000CE1D29 /* LinqExtension.swift in Sources */,
+				C9F1B9681D172EAA00616B6C /* CVRankDetectorWrapper.mm in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439C7EC41C777F8900D29859 /* NetHandler.swift in Sources */,
@@ -1788,6 +1808,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/HSTracker",
 				);
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;
