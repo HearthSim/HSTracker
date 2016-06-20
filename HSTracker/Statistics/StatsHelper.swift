@@ -18,8 +18,10 @@ class StatsTableRow: NSObject { // Class instead of struct so we can use sortUsi
 }
 
 class StatsHelper {
-    static let playerClassList = ["druid", "hunter", "mage", "paladin", "priest",
-                                  "rogue", "shaman", "warlock", "warrior"]
+    static let playerClassList = [
+        "druid", "hunter", "mage", "paladin", "priest",
+        "rogue", "shaman", "warlock", "warrior"
+        ].sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
     
     static func getStatsUITableData(deck: Deck) -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
@@ -32,7 +34,7 @@ class StatsHelper {
             } else {
                 dataRow.classIcon = againstClass
             }
-            dataRow.opponentClassName = againstClass.capitalizedString
+            dataRow.opponentClassName = NSLocalizedString(againstClass, comment: "")
             dataRow.record            = getDeckRecordString(deck, againstClass: againstClass)
             dataRow.winRate           = getDeckWinRateString(deck, againstClass: againstClass)
             dataRow.winRateNumber     = getDeckWinRate(deck, againstClass: againstClass)

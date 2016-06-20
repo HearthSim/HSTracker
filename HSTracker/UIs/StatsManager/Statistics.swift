@@ -29,9 +29,9 @@ class Statistics: NSWindowController {
         let descRecord  = NSSortDescriptor(key: "totalGames", ascending: false)
         let descWinrate = NSSortDescriptor(key: "winRateNumber", ascending: false)
         
-        statsTable.tableColumns[0].sortDescriptorPrototype = descClass;
-        statsTable.tableColumns[1].sortDescriptorPrototype = descRecord;
-        statsTable.tableColumns[2].sortDescriptorPrototype = descWinrate;
+        statsTable.tableColumns[0].sortDescriptorPrototype = descClass
+        statsTable.tableColumns[1].sortDescriptorPrototype = descRecord
+        statsTable.tableColumns[2].sortDescriptorPrototype = descWinrate
         
         // We need to update the display both when the 
         // stats change
@@ -119,9 +119,13 @@ extension Statistics : NSTableViewDelegate {
         return nil
     }
     
-    func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
-        let sorted = (statsTableItems as NSArray).sortedArrayUsingDescriptors(tableView.sortDescriptors)
-        statsTableItems = sorted as! [StatsTableRow]
+    func tableView(tableView: NSTableView, sortDescriptorsDidChange
+        oldDescriptors: [NSSortDescriptor]) {
+        let sorted = (statsTableItems as NSArray)
+            .sortedArrayUsingDescriptors(tableView.sortDescriptors)
+        if let _statsTableItems = sorted as? [StatsTableRow] {
+            statsTableItems = _statsTableItems
+        }
         statsTable.reloadData()
     }
     
