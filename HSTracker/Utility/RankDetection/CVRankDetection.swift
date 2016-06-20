@@ -17,7 +17,7 @@ class CVRankDetection {
     }
     
     func playerRank() -> Int? {
-        if let screenshot = ImageUtilities.screenshotPlayerRankArea() {
+        if let screenshot = ImageUtilities.screenshotPlayerRank() {
             // Passing image by file because converting NSImage to cv::Mat was
             // causing random bugs and segfaults
             //
