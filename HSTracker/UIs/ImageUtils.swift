@@ -11,12 +11,6 @@
 import Foundation
 import CleanroomLogger
 
-enum FromDestination: Int {
-    case Bundle,
-        Assets,
-        Path
-}
-
 struct ImageUtils {
 
     static func cardImage(card: Card) -> NSImage? {
@@ -32,9 +26,8 @@ struct ImageUtils {
                 if NSFileManager.defaultManager().fileExistsAtPath(path) {
                     do {
                         try NSFileManager.defaultManager().removeItemAtPath(path)
-                    }
-                    catch {
-                        Log.verbose?.message("Failed to remove potentially corrupt image at \(path)")
+                    } catch {
+                        Log.verbose?.message("Failed to remove corrupted image at \(path)")
                     }
                 }
                 return NSImage(named: "MissingCard")

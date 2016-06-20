@@ -30,7 +30,10 @@ struct ImageUtilities {
         let hearthstoneWindow = SizeHelper.hearthstoneWindow
         if let image = hearthstoneWindow.screenshot() {
             Log.verbose?.message("\(image)")
-            let cropped = cropRect(image, rect: NSRect(x: 0, y: 0, width: image.size.width/5, height: image.size.height/3))
+            let cropped = cropRect(image,
+                                   rect: NSRect(x: 0, y: 0,
+                                    width: image.size.width / 5,
+                                    height: image.size.height / 3))
             Log.verbose?.message("cropped : \(cropped)")
             return cropped
             
