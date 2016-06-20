@@ -54,7 +54,9 @@ final class ImageDownloader {
             for image in images {
                 let path = "\(destination)/HSTracker/cards/\(image).png"
                 if NSFileManager.defaultManager().fileExistsAtPath(path) {
-                    images.remove(image)
+                    if NSImage(contentsOfFile: path) != nil {
+                        images.remove(image)
+                    }
                 }
             }
 
