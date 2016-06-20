@@ -21,7 +21,6 @@ enum NotificationType {
 class Game {
     // MARK: - vars
     var currentTurn = 0
-    var ranks: [Int] = []
     var maxId = 0
     var lastId = 0
 
@@ -73,6 +72,8 @@ class Game {
     var hasBeenConceded = false
     
     var rankDetector = CVRankDetection()
+    var playerRanks: [Int] = []
+    var opponentRanks: [Int] = []
 
     var playerUpdateRequests = 0
     var opponentUpdateRequests = 0
@@ -134,7 +135,10 @@ class Game {
     func reset() {
         Log.verbose?.message("Reseting Game")
         currentTurn = 0
-        ranks = []
+        
+        playerRanks = []
+        opponentRanks = []
+        
         maxId = 0
         lastId = 0
 
@@ -258,8 +262,16 @@ class Game {
             guard !self.gameEnded else { return }
             
             if self.currentGameMode == .Casual || self.currentGameMode == .Ranked {
-                if let rank = self.rankDetector.playerRank() {
-                    self.ranks.append(rank)
+                if let playerRank = self.rankDetector.playerRank(),
+                    opponentRank = self.rankDetector.opponentRank() {
+                    self.playerRanks.append(playerRank)
+                    self.opponentRanks.append(opponentRank)
+                    
+                    // check if player rank is in range "opponent rank - 1 -> opponent rank + 1)
+                    if (opponentRank - 1) ... (opponentRank + 1) ~= playerRank {
+                        // we can imagine we are on ranked games
+                        self.currentGameMode = .Ranked
+                    }
                 }
             }
             
@@ -305,7 +317,7 @@ class Game {
     }
 
     func handleEndGame() {
-        Log.verbose?.message("rank: \(ranks), currentGameMode: \(currentGameMode)")
+        Log.verbose?.message("rank: \(playerRanks), currentGameMode: \(currentGameMode)")
   
         guard !endGameStats else { return }
         endGameStats = true
@@ -322,7 +334,7 @@ class Game {
         }
         
         var result: [Int: Int] = [:]
-        ranks.forEach({ result[$0] = (result[$0] ?? 0) + 1 })
+        playerRanks.forEach({ result[$0] = (result[$0] ?? 0) + 1 })
         let currentRank = Array(result).sort { $0.1 < $1.1 }.last?.0 ?? -1
         
         Log.info?.message("End game : mode = \(currentGameMode), "
@@ -331,7 +343,7 @@ class Game {
             + "opponent played : \(opponent.displayRevealedCards) ")
 
         if currentRank == -1 && currentGameMode == .Ranked {
-            Log.info?.message("rank is 0 and mode is ranked, ignore")
+            Log.info?.message("rank is -1 and mode is ranked, ignore")
             return
         }
 
