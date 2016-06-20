@@ -33,7 +33,7 @@ class Statistics: NSWindowController {
         statsTable.tableColumns[0].sortDescriptorPrototype = descClass
         statsTable.tableColumns[1].sortDescriptorPrototype = descRecord
         statsTable.tableColumns[2].sortDescriptorPrototype = descWinrate
-        statsTable.tableColumns[3].sortDescriptorPrototype = descCI;
+        statsTable.tableColumns[3].sortDescriptorPrototype = descCI
         
         statsTable.tableColumns[3].headerToolTip = "It is 90% certain that the true winrate falls between these values."
         
