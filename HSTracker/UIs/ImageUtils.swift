@@ -9,6 +9,7 @@
  */
 
 import Foundation
+import CleanroomLogger
 
 enum FromDestination: Int {
     case Bundle,
@@ -24,8 +25,14 @@ struct ImageUtils {
             .UserDomainMask, true).first {
 
             let path = "\(appSupport)/HSTracker/cards/\(card.id).png"
-            return NSImage(contentsOfFile: path)
+            if let image = NSImage(contentsOfFile: path) {
+                return image
+            } else {
+                Log.info?.message("Image at \(path) may be corrupted or missing")
+                return NSImage(named: "MissingCard")
+            }
         }
         return nil
     }
+
 }
