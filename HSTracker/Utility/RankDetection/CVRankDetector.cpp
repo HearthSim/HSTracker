@@ -83,10 +83,5 @@ int CVRankDetector::detectRank(std::string tempfile)
             best_rank = test_rank;
         }
     }
-
-    if (best_match > nmatches_threshold) {
-        return best_rank;
-    } else {
-        return -1;
-    }
+    return best_rank;
 }
