@@ -119,7 +119,7 @@ class StatsHelper {
         -> (lower: Double, upper: Double, mean: Double) {
         // Implements the Wilson interval
 
-        let alpha = 1.0-confidence
+        let alpha = 1.0 - confidence
         assert(alpha >= 0.0)
         assert(alpha <= 1.0)
 
@@ -129,18 +129,18 @@ class StatsHelper {
             return (0.0, 1.0, 0.5)
         }
 
-        let quantile = 1 - 0.5*alpha
-        let z = sqrt(2)*erfinv(2*quantile-1)
+        let quantile = 1 - 0.5 * alpha
+        let z = sqrt(2) * erfinv(2 * quantile - 1)
 
-        let p = Double(wins)/Double(n)
+        let p = Double(wins) / Double(n)
 
-        let center = p + z*z/(2*n)
-        let spread = z*sqrt(p*(1-p)/n + z*z/(4*n*n))
-        let prefactor = 1/(1+z*z/n)
+        let center = p + z * z / (2 * n)
+        let spread = z * sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+        let prefactor = 1 / (1 + z * z / n)
 
-        var lower = prefactor*(center-spread)
-        var upper = prefactor*(center+spread)
-        let mean = prefactor*(center)
+        var lower = prefactor * (center - spread)
+        var upper = prefactor * (center + spread)
+        let mean = prefactor * (center)
 
         lower = max(lower, 0.0)
         upper = min(upper, 1.0)
@@ -161,23 +161,23 @@ class StatsHelper {
         let d = [ 3.543889200, 1.637067800]
         if abs(y) <= center {
             let z = pow(y, 2)
-            let num = (((a[3]*z + a[2])*z + a[1])*z) + a[0]
-            let den = ((((b[3]*z + b[2])*z + b[1])*z + b[0])*z + 1.0)
-            var x = y*num/den
-            x = x - (erf(x) - y)/(2.0/sqrt(M_PI)*exp(-x*x))
-            x = x - (erf(x) - y)/(2.0/sqrt(M_PI)*exp(-x*x))
+            let num = (((a[3] * z + a[2]) * z + a[1]) * z) + a[0]
+            let den = ((((b[3] * z + b[2]) * z + b[1]) * z + b[0]) * z + 1.0)
+            var x = y * num / den
+            x = x - (erf(x) - y) / (2.0 / sqrt(M_PI) * exp(-x * x))
+            x = x - (erf(x) - y) / (2.0 / sqrt(M_PI) * exp(-x * x))
             return x
         } else if abs(y) > center && abs(y) < 1.0 {
-            let z = pow(-log((1.0-abs(y))/2), 0.5)
-            let num = ((c[3]*z + c[2])*z + c[1])*z + c[0]
-            let den = (d[1]*z + d[0])*z + 1
+            let z = pow(-log((1.0 - abs(y)) / 2), 0.5)
+            let num = ((c[3] * z + c[2]) * z + c[1]) * z + c[0]
+            let den = (d[1] * z + d[0]) * z + 1
             // should use the sign function instead of pow(pow(y,2),0.5)
-            var x = y/pow(pow(y, 2), 0.5)*num/den
-            x = x - (erf(x) - y)/(2.0/sqrt(M_PI)*exp(-x*x))
-            x = x - (erf(x) - y)/(2.0/sqrt(M_PI)*exp(-x*x))
+            var x = y / pow(pow(y, 2), 0.5) * num / den
+            x = x - (erf(x) - y) / (2.0 / sqrt(M_PI) * exp(-x * x))
+            x = x - (erf(x) - y) / (2.0 / sqrt(M_PI) * exp(-x * x))
             return x
         } else if abs(y) == 1 {
-            return y*Double(Int.max)
+            return y * Double(Int.max)
         } else {
             return Double.NaN
         }
