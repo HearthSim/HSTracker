@@ -38,7 +38,7 @@ class CVRankDetection {
             } catch {
                 Log.info?.message("Failed to remove temp")
             }
-            return Int(rank);
+            return Int(rank)
         }
         return nil
     }
