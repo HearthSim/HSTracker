@@ -41,6 +41,7 @@
 "Add Card" = "Add Card";
 "Remove Card" = "Remove Card";
 "Fatigue : " = "Fatigue : ";
+"It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
 
 /* notifications */
 "Your game begins" = "Empieza la partida";

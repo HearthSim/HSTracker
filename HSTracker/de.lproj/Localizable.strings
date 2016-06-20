@@ -41,6 +41,7 @@
 "Add Card" = "Karte hinzufügen";
 "Remove Card" = "Karte entfernen";
 "Fatigue : " = "Fatigue : "; /* Fatique = Ermüden, but I think that the term Fatigue is used in German, too */
+"It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
 
 /* notifications */
 "Your game begins" = "Dein Spiel beginnt";

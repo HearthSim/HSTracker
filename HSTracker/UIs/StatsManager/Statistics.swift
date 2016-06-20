@@ -35,7 +35,9 @@ class Statistics: NSWindowController {
         statsTable.tableColumns[2].sortDescriptorPrototype = descWinrate
         statsTable.tableColumns[3].sortDescriptorPrototype = descCI
         
-        statsTable.tableColumns[3].headerToolTip = "It is 90% certain that the true winrate falls between these values."
+        // swiftlint:disable line_length
+        statsTable.tableColumns[3].headerToolTip = NSLocalizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
+        // swiftlint:enable line_length
         
         // We need to update the display both when the 
         // stats change
