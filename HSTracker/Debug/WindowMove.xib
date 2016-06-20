@@ -283,16 +283,6 @@
                             <action selector="screenshot:" target="-2" id="eyt-69-F99"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v7t-ir-E9l">
-                        <rect key="frame" x="606" y="29" width="70" height="32"/>
-                        <buttonCell key="cell" type="push" title="Crop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wt0-yt-fWL">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="crop:" target="-2" id="8yM-8A-re6"/>
-                        </connections>
-                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="611" y="422.5"/>

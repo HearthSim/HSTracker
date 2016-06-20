@@ -196,29 +196,6 @@ class WindowMove: NSWindowController {
         }
     }
     
-    @IBAction func crop(sender: AnyObject) {
-            let hearthstoneWindow = SizeHelper.hearthstoneWindow
-        if let x = Float(screenX.stringValue),
-            y = Float(screenY.stringValue),
-            w = Float(screenWidth.stringValue),
-            h = Float(screenHeight.stringValue) {
-            if let image = hearthstoneWindow.screenshot() {
-                let scaled = ImageUtilities.resizeImage(image)
-                let rect = NSRect(x: CGFloat(x),
-                                  y: CGFloat(y),
-                                  width: CGFloat(w),
-                                  height: CGFloat(h))
-                let cropped = ImageUtilities.cropRect(scaled, rect: rect)
-                screenshot.image = cropped
-                
-                let imageCmp = ImageCompare(original: image)
-                let rank = imageCmp.rank()
-                Log.debug?.message("rank : \(rank)")
-                
-            }
-        }
-    }
-    
     @IBAction func screenshotPlayerRank(sender: AnyObject) {
         if let image = ImageUtilities.screenshotPlayerRank() {
             screenshot.image = image
