@@ -71,6 +71,8 @@ class Game {
     var endGameStats = false
     var wasInProgress = false
     var hasBeenConceded = false
+    
+    var rankDetector = CVRankDetection()
 
     var playerUpdateRequests = 0
     var opponentUpdateRequests = 0
@@ -256,7 +258,7 @@ class Game {
             guard !self.gameEnded else { return }
             
             if self.currentGameMode == .Casual || self.currentGameMode == .Ranked {
-                if let rank = RankDetection.playerRank() {
+                if let rank = self.rankDetector.playerRank() {
                     self.ranks.append(rank)
                 }
             }
