@@ -29,6 +29,14 @@ struct ImageUtils {
                 return image
             } else {
                 Log.info?.message("Image at \(path) may be corrupted or missing")
+                if NSFileManager.defaultManager().fileExistsAtPath(path) {
+                    do {
+                        try NSFileManager.defaultManager().removeItemAtPath(path)
+                    }
+                    catch {
+                        Log.verbose?.message("Failed to remove potentially corrupt image at \(path)")
+                    }
+                }
                 return NSImage(named: "MissingCard")
             }
         }
