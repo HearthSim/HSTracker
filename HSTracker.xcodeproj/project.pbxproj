@@ -150,6 +150,8 @@
 		4394C79A1D18700200007FAD /* CVRankDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7951D18700200007FAD /* CVRankDetection.swift */; };
 		4394C79B1D18700200007FAD /* CVRankDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7961D18700200007FAD /* CVRankDetector.cpp */; };
 		4394C79C1D18700200007FAD /* CVRankDetectorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7991D18700200007FAD /* CVRankDetectorWrapper.mm */; };
+		4394C79E1D188F9400007FAD /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; };
+		4394C79F1D188FD700007FAD /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
 		439C7E6C1C7772C100D29859 /* HSTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */; };
@@ -225,7 +227,6 @@
 		C94596821D174FBA008CD47A /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94596811D174FBA008CD47A /* StatsTests.swift */; };
 		C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C971D0A6079000DD6FB /* Statistics.swift */; };
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
-		C9F1B96A1D172F0400616B6C /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F1B9691D172F0400616B6C /* opencv2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -289,6 +290,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4394C79F1D188FD700007FAD /* opencv2.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
@@ -510,6 +512,7 @@
 		4394C7971D18700200007FAD /* CVRankDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CVRankDetector.hpp; sourceTree = "<group>"; };
 		4394C7981D18700200007FAD /* CVRankDetectorWrapper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CVRankDetectorWrapper.hpp; sourceTree = "<group>"; };
 		4394C7991D18700200007FAD /* CVRankDetectorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CVRankDetectorWrapper.mm; sourceTree = "<group>"; };
+		4394C79D1D188F9400007FAD /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "HSTracker-OpenCV/opencv2.framework"; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = HSTracker/AppDelegate.swift; sourceTree = "<group>"; };
 		439C7E571C7772C000D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = HSTracker/Info.plist; sourceTree = "<group>"; };
@@ -595,7 +598,6 @@
 		C94596811D174FBA008CD47A /* StatsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTests.swift; sourceTree = "<group>"; };
 		C99C0C971D0A6079000DD6FB /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statistics.swift; path = StatsManager/Statistics.swift; sourceTree = "<group>"; };
 		C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsHelper.swift; path = Statistics/StatsHelper.swift; sourceTree = "<group>"; };
-		C9F1B9691D172F0400616B6C /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = HSTracker/opencv2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -611,7 +613,7 @@
 				436789DA1CAE484800C962D1 /* JNWCollectionView.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
-				C9F1B96A1D172F0400616B6C /* opencv2.framework in Frameworks */,
+				4394C79E1D188F9400007FAD /* opencv2.framework in Frameworks */,
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
 				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
@@ -1098,7 +1100,7 @@
 				43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */,
 				4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
-				C9F1B9691D172F0400616B6C /* opencv2.framework */,
+				4394C79D1D188F9400007FAD /* opencv2.framework */,
 				436F5D401D001A6D00DEB9A1 /* GPUImage.framework */,
 				4305CA3C1CF42AC60048E7EC /* Unbox.framework */,
 				4305CA3D1CF42AC60048E7EC /* Wrap.framework */,
@@ -1794,6 +1796,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
+					"$(PROJECT_DIR)/HSTracker-OpenCV",
 				);
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;
@@ -1819,6 +1822,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
+					"$(PROJECT_DIR)/HSTracker-OpenCV",
 				);
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;
