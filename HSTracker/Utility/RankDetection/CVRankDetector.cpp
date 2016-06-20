@@ -76,7 +76,7 @@ int CVRankDetector::detectRank(std::string tempfile)
             }
         }
         
-        //std::cout << "Matches for rank " << test_rank << ": " << good_matches.size()  << std::endl;
+        // std::cout << "Matches for rank " << test_rank << ": " << good_matches.size()  << std::endl;
         
         if (good_matches.size() > best_match) {
             best_match = int(good_matches.size());
