@@ -267,8 +267,8 @@ class Game {
                     self.playerRanks.append(playerRank)
                     self.opponentRanks.append(opponentRank)
                     
-                    // check if player rank is in range "opponent rank - 1 -> opponent rank + 1)
-                    if (opponentRank - 1) ... (opponentRank + 1) ~= playerRank {
+                    // check if player rank is in range "opponent rank - 3 -> opponent rank + 3)
+                    if (opponentRank - 3) ... (opponentRank + 3) ~= playerRank {
                         // we can imagine we are on ranked games
                         self.currentGameMode = .Ranked
                     }

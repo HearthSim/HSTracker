@@ -15,9 +15,9 @@ struct ImageUtilities {
         if let image = hearthstoneWindow.screenshot() {
             let cropped = cropRect(image,
                                    rect: NSRect(x: 0,
-                                    y: NSHeight(hearthstoneWindow.frame) - (image.size.height / 3),
-                                    width: image.size.width / 5,
-                                    height: image.size.height / 3))
+                                    y: NSHeight(hearthstoneWindow.frame) - (image.size.height / 5),
+                                    width: image.size.width / 10,
+                                    height: image.size.height / 5))
             return cropped
         }
         return nil
@@ -28,8 +28,8 @@ struct ImageUtilities {
         if let image = hearthstoneWindow.screenshot() {
             let cropped = cropRect(image,
                                    rect: NSRect(x: 0, y: 0,
-                                    width: image.size.width / 5,
-                                    height: image.size.height / 3))
+                                    width: image.size.width / 10,
+                                    height: image.size.height / 5))
             return cropped
         }
         return nil

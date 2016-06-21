@@ -44,13 +44,20 @@ class CVRankDetection {
             
             data.writeToFile(tempfile, atomically: true)
             let rank = detector.detectRank(tempfile)
-            Log.info?.message("detected rank for \(player) : \(rank)")
+            
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(fullURL!)
             } catch {
                 Log.info?.message("Failed to remove temp")
             }
-            return Int(rank)
+            
+            if (rank != -1) {
+                Log.info?.message("detected rank for \(player) : \(rank)")
+                return Int(rank)
+            } else {
+                Log.info?.message("Found no rank for \(player)")
+                return nil
+            }
         }
         return nil
     }
