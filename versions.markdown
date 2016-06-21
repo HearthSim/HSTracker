@@ -1,3 +1,14 @@
+#### 0.17
+- Fix positions for trackers, board damage, opponent card huds, ...
+- Add an option to show your deck name in tracker
+- Add statistics window
+- Correct a bug with Bear Trap on the secret helper if your opponent have 7 minions
+- Correct the attack/health for C'Thun when a card is played
+- Add a check for corrupted card images in Deck Manager
+- Rank detection is now done by image recognition
+- Correct a bug where cost reduction from Thaurissan was not correct if your opponent have more than 1 Thaurissan on board
+- HSTracker can now detect your arena deck. After you finished to draft your deck go to menu Decks -> Save -> Save arena deck
+
 #### 0.16.11
 - Option to hide board damage
 - Chinese translation update
