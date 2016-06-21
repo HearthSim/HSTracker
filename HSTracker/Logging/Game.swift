@@ -1079,6 +1079,7 @@ class Game {
                 return
             }
             self.cardHudContainer?.window?.orderOut(self)
+            self.cardHudContainer?.showWindow(self)
             self.cardHudContainer?.update(self.opponent.hand, cardCount: self.opponent.handCount)
         }
     }
@@ -1220,9 +1221,13 @@ class Game {
         guard let windowController = windowController else { return }
         guard frame != NSZeroRect else { return }
 
-        windowController.window?.orderOut(self)
-        windowController.window?.setFrame(frame, display: true)
-        windowController.showWindow(self)
+        if windowController.window?.visible ?? false {
+            windowController.window?.orderOut(self)
+            windowController.window?.setFrame(frame, display: true)
+            windowController.showWindow(self)
+        } else {
+            windowController.window?.setFrame(frame, display: true)
+        }
         let level: Int
         if active {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
