@@ -1057,6 +1057,7 @@ class Game {
             if show {
                 if let opponentSecrets = self.opponentSecrets {
                     self.secretTracker?.setSecrets(opponentSecrets)
+                    self.secretTracker?.window?.orderOut(self)
                     self.secretTracker?.showWindow(self)
                 }
             } else {
@@ -1077,6 +1078,7 @@ class Game {
             if !force && NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.1 {
                 return
             }
+            self.cardHudContainer?.window?.orderOut(self)
             self.cardHudContainer?.update(self.opponent.hand, cardCount: self.opponent.handCount)
         }
     }
@@ -1088,6 +1090,7 @@ class Game {
         if settings.playerBoardDamage {
             dispatch_async(dispatch_get_main_queue()) {
                 if !self.gameEnded {
+                    self.playerBoardDamage?.window?.orderOut(self)
                     self.playerBoardDamage?.showWindow(self)
                     self.playerBoardDamage?.update(board.player.damage)
                 } else {
@@ -1101,6 +1104,7 @@ class Game {
         if settings.opponentBoardDamage {
             dispatch_async(dispatch_get_main_queue()) {
                 if !self.gameEnded {
+                    self.opponentBoardDamage?.window?.orderOut(self)
                     self.opponentBoardDamage?.showWindow(self)
                     self.opponentBoardDamage?.update(board.opponent.damage)
                 } else {
@@ -1216,7 +1220,9 @@ class Game {
         guard let windowController = windowController else { return }
         guard frame != NSZeroRect else { return }
 
+        windowController.window?.orderOut(self)
         windowController.window?.setFrame(frame, display: true)
+        windowController.showWindow(self)
         let level: Int
         if active {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
