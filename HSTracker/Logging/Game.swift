@@ -451,9 +451,10 @@ class Game {
     }
 
     func handleThaurissanCostReduction() {
-        let thaurissan = opponent.board
-            .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan })
-        if thaurissan == nil || thaurissan!.hasTag(.SILENCED) {
+        let thaurissans = opponent.board.filter({
+            $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan && !$0.hasTag(.SILENCED)
+        })
+        if thaurissans.isEmpty {
             return
         }
 
@@ -461,7 +462,7 @@ class Game {
             .filter({ $0.cardId ==
                 CardIds.NonCollectible.Neutral.EmperorThaurissan_ImperialFavorEnchantment }) {
             if let entity = entities[impFavor.getTag(.ATTACHED)] {
-                entity.info.costReduction += 1
+                entity.info.costReduction += thaurissans.count
             }
         }
     }
