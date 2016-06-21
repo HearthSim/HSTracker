@@ -50,7 +50,7 @@ class CVRankDetection {
             } catch {
                 Log.info?.message("Failed to remove temp")
             }
-            if (rank != -1) {
+            if rank != -1 {
                 Log.info?.message("detected rank for \(player) : \(rank)")
                 return Int(rank)
             } else {
