@@ -23,6 +23,7 @@ public:
     
 private:
     const double ratio_test_ratio = 0.6;
+    const int nmatches_threshold  = 10;
     
     std::vector<cv::Mat> descriptorsForRank;
     cv::Ptr<cv::Feature2D> detector;
