@@ -25,10 +25,10 @@
 /* WIP -> For lack of better wording for "created cards" */
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
-"aZW-kf-zpy.title" = "Show Deathrattle counter";
+"aZW-kf-zpy.title" = "Zeige Todesröcheln-Counter";
 
 /* Class = "NSButtonCell"; title = "Show player class and name"; ObjectID = "aW1-2y-nKx"; */
-"aW1-2y-nKx.title" = "Show player class and name";
+"aW1-2y-nKx.title" = "Zeige die gegnerische Klasse und den gegnerischen Namen an";
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "fah-Dr-Amh"; */
-"fah-Dr-Amh.title" = "Show board damage";
+"fah-Dr-Amh.title" = "Zeige Board-Damage";

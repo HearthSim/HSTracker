@@ -45,13 +45,19 @@
 "wWN-25-Exd.paletteLabel" = "Spenden";
 
 /* Class = "NSToolbarItem"; label = "Archive"; ObjectID = "Fe5-be-5CS"; */
-"Fe5-be-5CS.label" = "Archive";
+"Fe5-be-5CS.label" = "Archivieren";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Archive"; ObjectID = "Fe5-be-5CS"; */
-"Fe5-be-5CS.paletteLabel" = "Archive";
+"Fe5-be-5CS.paletteLabel" = "Archivieren";
 
 /* Class = "NSToolbarItem"; label = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.label" = "Sort";
+"cu3-FG-2Cn.label" = "Sortierung";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.paletteLabel" = "Sort";
+"cu3-FG-2Cn.paletteLabel" = "Sortierung";
+
+/* Class = "NSToolbarItem"; label = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
+"T0e-lu-Gfj.label" = "Statistiken";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
+"T0e-lu-Gfj.paletteLabel" = "Statistiken";

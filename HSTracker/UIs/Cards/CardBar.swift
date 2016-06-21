@@ -19,7 +19,7 @@ protocol CardCellHover {
 protocol CardBarTheme {
     var card: Card? {get set}
     var playerType: PlayerType? {get set}
-    var playerClass: String? {get set}
+    var playerClassID: String? {get set}
     var playerName: String? {get set}
 }
 
@@ -54,7 +54,7 @@ class CardBar: NSView, CardBarTheme {
         }
     }
     var playerType: PlayerType?
-    var playerClass: String?
+    var playerClassID: String?
     var playerName: String?
 
     var hasAllRequired: Bool {
@@ -232,10 +232,23 @@ class CardBar: NSView, CardBarTheme {
     }
 
     // MARK: - animation
-    func fadeIn(fadeIn: Bool) {
+    func fadeIn(highlight: Bool) {
+        if highlight {
+            self.alphaValue = 0.3
+            NSAnimationContext.runAnimationGroup({ (context) in
+                context.duration = 0.5
+                self.animator().alphaValue = 1.0
+                }, completionHandler: nil)
+        }
     }
 
     func fadeOut(highlight: Bool) {
+        if highlight {
+            NSAnimationContext.runAnimationGroup({ (context) in
+                context.duration = 0.5
+                self.animator().alphaValue = 0.3
+                }, completionHandler: nil)
+        }
     }
 
     // MARK: - drawing
@@ -289,8 +302,8 @@ class CardBar: NSView, CardBarTheme {
             cardId = card.id
             count = card.count
             rarity = card.rarity
-        } else if let playerClass = playerClass {
-            cardId = playerClass
+        } else if let playerClassID = playerClassID {
+            cardId = playerClassID
         }
 
         if let cardId = cardId {
@@ -462,9 +475,20 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addCardName() {
+        var width = NSWidth(frameRect) - 38
+        if let card = card {
+            if abs(card.count) > 0 || card.rarity == .Legendary {
+                width -= NSWidth(boxRect)
+            }
+            if card.isCreated {
+                // createdIconOffset is negative, add abs for readability
+                width -= abs(createdIconOffset)
+            }
+        }
+        
         addCardName(NSRect(x: 38,
             y: 10,
-            width: frameRect.width - boxRect.width - 38,
+            width: width,
             height: 30))
     }
     func addCardName(rect: NSRect) {

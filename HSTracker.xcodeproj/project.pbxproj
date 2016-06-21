@@ -88,6 +88,10 @@
 		434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F3B1C7F48E9001D1D91 /* Hearthnews.swift */; };
 		434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F3D1C7F491C001D1D91 /* Heartharena.swift */; };
 		434C2F421C7F50F4001D1D91 /* BaseNetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F411C7F50F4001D1D91 /* BaseNetImporter.swift */; };
+		434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CAE1D0C500300222B8E /* ImageUtilities.swift */; };
+		434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CB01D0C507900222B8E /* ImageCompare.swift */; };
+		434D1CB31D0C70DA00222B8E /* Ranks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB21D0C70DA00222B8E /* Ranks.xcassets */; };
+		434D1CB41D10947200222B8E /* Statistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB61D10947200222B8E /* Statistics.xib */; };
 		435907EC1CB13835008D4363 /* FileImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435907EB1CB13835008D4363 /* FileImporter.swift */; };
 		436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
@@ -145,6 +149,11 @@
 		43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43873CC01CA6E6C200F01CB4 /* WindowMove.xib */; };
 		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
 		4387BED21CF4D7A00002ECBB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4387BED11CF4D7A00002ECBB /* State.swift */; };
+		4394C79A1D18700200007FAD /* CVRankDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7951D18700200007FAD /* CVRankDetection.swift */; };
+		4394C79B1D18700200007FAD /* CVRankDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7961D18700200007FAD /* CVRankDetector.cpp */; };
+		4394C79C1D18700200007FAD /* CVRankDetectorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7991D18700200007FAD /* CVRankDetectorWrapper.mm */; };
+		4394C79E1D188F9400007FAD /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; };
+		4394C79F1D188FD700007FAD /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
 		439C7E6C1C7772C100D29859 /* HSTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */; };
@@ -207,15 +216,19 @@
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
 		43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
-		43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EE71C94B4CA00C26950 /* CardHud.xib */; };
 		43E77EEA1C95713300C26950 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE91C95713300C26950 /* Date.swift */; };
 		43E77EED1C969C4100C26950 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EEC1C969C4100C26950 /* Regex.swift */; };
+		43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */; };
+		43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */; };
 		43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
 		43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
 		43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EECB991C7E3F620077AC1B /* DeckCellView.xib */; };
 		43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB9B1C7E4EA20077AC1B /* CurveView.swift */; };
 		43F000301C81BAE8000F2F8F /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F0002F1C81BAE8000F2F8F /* Mode.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
+		C94596821D174FBA008CD47A /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94596811D174FBA008CD47A /* StatsTests.swift */; };
+		C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C971D0A6079000DD6FB /* Statistics.swift */; };
+		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -279,6 +292,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4394C79F1D188FD700007FAD /* opencv2.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
@@ -430,6 +444,16 @@
 		434C2F3B1C7F48E9001D1D91 /* Hearthnews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthnews.swift; sourceTree = "<group>"; };
 		434C2F3D1C7F491C001D1D91 /* Heartharena.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Heartharena.swift; sourceTree = "<group>"; };
 		434C2F411C7F50F4001D1D91 /* BaseNetImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNetImporter.swift; sourceTree = "<group>"; };
+		434D1CAE1D0C500300222B8E /* ImageUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtilities.swift; sourceTree = "<group>"; };
+		434D1CB01D0C507900222B8E /* ImageCompare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCompare.swift; sourceTree = "<group>"; };
+		434D1CB21D0C70DA00222B8E /* Ranks.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Ranks.xcassets; sourceTree = "<group>"; };
+		434D1CB51D10947200222B8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Statistics.xib; sourceTree = "<group>"; };
+		434D1CB81D10947700222B8E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Statistics.strings; sourceTree = "<group>"; };
+		434D1CBA1D10947D00222B8E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Statistics.strings; sourceTree = "<group>"; };
+		434D1CBC1D10948000222B8E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Statistics.strings; sourceTree = "<group>"; };
+		434D1CBE1D10948200222B8E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Statistics.strings; sourceTree = "<group>"; };
+		434D1CC01D10948400222B8E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Statistics.strings"; sourceTree = "<group>"; };
+		434D1CC21D10948700222B8E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Statistics.strings"; sourceTree = "<group>"; };
 		435907EB1CB13835008D4363 /* FileImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImporter.swift; sourceTree = "<group>"; };
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
@@ -487,16 +511,22 @@
 		43873CC01CA6E6C200F01CB4 /* WindowMove.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowMove.xib; sourceTree = "<group>"; };
 		43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowMove.swift; sourceTree = "<group>"; };
 		4387BED11CF4D7A00002ECBB /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		4394C7951D18700200007FAD /* CVRankDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVRankDetection.swift; sourceTree = "<group>"; };
+		4394C7961D18700200007FAD /* CVRankDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVRankDetector.cpp; sourceTree = "<group>"; };
+		4394C7971D18700200007FAD /* CVRankDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CVRankDetector.hpp; sourceTree = "<group>"; };
+		4394C7981D18700200007FAD /* CVRankDetectorWrapper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CVRankDetectorWrapper.hpp; sourceTree = "<group>"; };
+		4394C7991D18700200007FAD /* CVRankDetectorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CVRankDetectorWrapper.mm; sourceTree = "<group>"; };
+		4394C79D1D188F9400007FAD /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "HSTracker-OpenCV/opencv2.framework"; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		439C7E571C7772C000D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = HSTracker/AppDelegate.swift; sourceTree = "<group>"; };
+		439C7E571C7772C000D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = HSTracker/Info.plist; sourceTree = "<group>"; };
 		439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HSTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E601C7772C100D29859 /* HSTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTrackerTests.swift; sourceTree = "<group>"; };
 		439C7E621C7772C100D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439C7E671C7772C100D29859 /* HSTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HSTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTrackerUITests.swift; sourceTree = "<group>"; };
 		439C7E6D1C7772C100D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HSTracker-Bridging-Header.h"; sourceTree = "<group>"; };
+		439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HSTracker-Bridging-Header.h"; path = "HSTracker/HSTracker-Bridging-Header.h"; sourceTree = "<group>"; };
 		439C7E7D1C777CFC00D29859 /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		439C7E811C777CFC00D29859 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		439C7E831C777CFC00D29859 /* CardMechanic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardMechanic.swift; sourceTree = "<group>"; };
@@ -559,15 +589,19 @@
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
 		43E77EE51C94B4B400C26950 /* CardHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHud.swift; sourceTree = "<group>"; };
-		43E77EE71C94B4CA00C26950 /* CardHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHud.xib; sourceTree = "<group>"; };
 		43E77EE91C95713300C26950 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		43E77EEC1C969C4100C26950 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHudContainer.swift; sourceTree = "<group>"; };
+		43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHudContainer.xib; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
 		43EECB971C7DEF7F0077AC1B /* ClassColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassColor.swift; sourceTree = "<group>"; };
 		43EECB991C7E3F620077AC1B /* DeckCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeckCellView.xib; sourceTree = "<group>"; };
 		43EECB9B1C7E4EA20077AC1B /* CurveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveView.swift; sourceTree = "<group>"; };
 		43F0002F1C81BAE8000F2F8F /* Mode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
+		C94596811D174FBA008CD47A /* StatsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTests.swift; sourceTree = "<group>"; };
+		C99C0C971D0A6079000DD6FB /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statistics.swift; path = StatsManager/Statistics.swift; sourceTree = "<group>"; };
+		C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsHelper.swift; path = Statistics/StatsHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -583,6 +617,7 @@
 				436789DA1CAE484800C962D1 /* JNWCollectionView.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
+				4394C79E1D188F9400007FAD /* opencv2.framework in Frameworks */,
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
 				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
@@ -643,6 +678,7 @@
 			children = (
 				434106A11C9868620045655A /* Assets.xcassets */,
 				434106A21C9868620045655A /* Classes.xcassets */,
+				434D1CB21D0C70DA00222B8E /* Ranks.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -750,8 +786,11 @@
 		437B5BB11CD2437D00DE0A41 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				4394C7941D18700200007FAD /* RankDetection */,
 				434910481D09544200B22DB2 /* BoardDamage */,
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
+				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
+				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -765,10 +804,26 @@
 			path = Debug;
 			sourceTree = "<group>";
 		};
+		4394C7941D18700200007FAD /* RankDetection */ = {
+			isa = PBXGroup;
+			children = (
+				4394C7951D18700200007FAD /* CVRankDetection.swift */,
+				4394C7961D18700200007FAD /* CVRankDetector.cpp */,
+				4394C7971D18700200007FAD /* CVRankDetector.hpp */,
+				4394C7981D18700200007FAD /* CVRankDetectorWrapper.hpp */,
+				4394C7991D18700200007FAD /* CVRankDetectorWrapper.mm */,
+			);
+			path = RankDetection;
+			sourceTree = "<group>";
+		};
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
 				439C7E4A1C7772C000D29859 /* HSTracker */,
+				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
+				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
+				439C7E571C7772C000D29859 /* Info.plist */,
+				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
 				439C7E6A1C7772C100D29859 /* HSTrackerUITests */,
 				439C7E491C7772C000D29859 /* Products */,
@@ -789,22 +844,19 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
-				437B5BB11CD2437D00DE0A41 /* Utility */,
-				43873CBF1CA6E68D00F01CB4 /* Debug */,
-				4312AFED1C9FED3100F3F2BE /* Hearthstats */,
 				434106A01C9868620045655A /* Assets */,
-				43B695551C90653A00F4D0AC /* Hearthstone */,
-				439C7E8E1C777D6C00D29859 /* Resources */,
-				43B6954E1C90387F00F4D0AC /* Replay */,
-				434C2F2D1C7F433E001D1D91 /* Importers */,
-				439C7ECD1C777FA900D29859 /* UIs */,
-				439C7E931C777F8900D29859 /* Logging */,
 				439C7E901C777EE800D29859 /* Core */,
 				439C7E7A1C777CC000D29859 /* Database */,
-				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
-				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
-				439C7E571C7772C000D29859 /* Info.plist */,
-				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
+				43873CBF1CA6E68D00F01CB4 /* Debug */,
+				4312AFED1C9FED3100F3F2BE /* Hearthstats */,
+				43B695551C90653A00F4D0AC /* Hearthstone */,
+				434C2F2D1C7F433E001D1D91 /* Importers */,
+				439C7E931C777F8900D29859 /* Logging */,
+				43B6954E1C90387F00F4D0AC /* Replay */,
+				439C7E8E1C777D6C00D29859 /* Resources */,
+				C99C0C9B1D0A607D000DD6FB /* Statistics */,
+				439C7ECD1C777FA900D29859 /* UIs */,
+				437B5BB11CD2437D00DE0A41 /* Utility */,
 			);
 			path = HSTracker;
 			sourceTree = "<group>";
@@ -812,6 +864,7 @@
 		439C7E5F1C7772C100D29859 /* HSTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
+				C94596811D174FBA008CD47A /* StatsTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
 				439C7E621C7772C100D29859 /* Info.plist */,
 				43D307FC1C835DBA00480488 /* NetImportTest.swift */,
@@ -924,6 +977,7 @@
 		439C7ECD1C777FA900D29859 /* UIs */ = {
 			isa = PBXGroup;
 			children = (
+				C99C0C961D0A6062000DD6FB /* StatsManager */,
 				436F5D0A1CFD5F4900DEB9A1 /* Cards */,
 				4360329E1C7D0113005F1893 /* DeckManager */,
 				436032991C7B4C34005F1893 /* Preferences */,
@@ -944,8 +998,6 @@
 				43B695641C920BD500F4D0AC /* SecretTracker.xib */,
 				43E77EE11C949C7800C26950 /* TimerHud.swift */,
 				43E77EDF1C949C6D00C26950 /* TimerHud.xib */,
-				43E77EE51C94B4B400C26950 /* CardHud.swift */,
-				43E77EE71C94B4CA00C26950 /* CardHud.xib */,
 				436789BA1CACF79800C962D1 /* TrackerFrame.swift */,
 				436789B61CACF64600C962D1 /* CardCounter.swift */,
 				4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */,
@@ -956,6 +1008,9 @@
 				340AAC041D0544AD0015FE33 /* StringTracker.swift */,
 				434910461D09505E00B22DB2 /* BoardDamage.swift */,
 				434910441D09505100B22DB2 /* BoardDamage.xib */,
+				43E77EE51C94B4B400C26950 /* CardHud.swift */,
+				43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */,
+				43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1018,6 +1073,23 @@
 			path = Regex;
 			sourceTree = "<group>";
 		};
+		C99C0C961D0A6062000DD6FB /* StatsManager */ = {
+			isa = PBXGroup;
+			children = (
+				C99C0C971D0A6079000DD6FB /* Statistics.swift */,
+				434D1CB61D10947200222B8E /* Statistics.xib */,
+			);
+			name = StatsManager;
+			sourceTree = "<group>";
+		};
+		C99C0C9B1D0A607D000DD6FB /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */,
+			);
+			name = Statistics;
+			sourceTree = "<group>";
+		};
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1033,6 +1105,7 @@
 				43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */,
 				4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
+				4394C79D1D188F9400007FAD /* opencv2.framework */,
 				436F5D401D001A6D00DEB9A1 /* GPUImage.framework */,
 				4305CA3C1CF42AC60048E7EC /* Unbox.framework */,
 				4305CA3D1CF42AC60048E7EC /* Wrap.framework */,
@@ -1172,8 +1245,10 @@
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
 				434910451D09505100B22DB2 /* BoardDamage.xib in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
+				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
+				43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */,
 				432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */,
 				432B60101CB63D4C00B05D19 /* HearthstatsLogin.xib in Resources */,
 				432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */,
@@ -1183,10 +1258,10 @@
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
+				434D1CB31D0C70DA00222B8E /* Ranks.xcassets in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
-				43E77EE81C94B4CA00C26950 /* CardHud.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
@@ -1250,10 +1325,12 @@
 				43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */,
 				436F5D141CFD803C00DEB9A1 /* FrostBar.swift in Sources */,
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
+				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
 				43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */,
+				4394C79A1D18700200007FAD /* CVRankDetection.swift in Sources */,
 				439C7E891C777CFC00D29859 /* Card.swift in Sources */,
 				437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */,
 				434C2F421C7F50F4001D1D91 /* BaseNetImporter.swift in Sources */,
@@ -1286,6 +1363,7 @@
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
+				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
@@ -1304,6 +1382,7 @@
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
+				434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */,
 				431719731C885BD600F5988B /* CardCell.swift in Sources */,
 				43647A581CDF4A0E00C2B78E /* HSTrackerLogFormatter.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
@@ -1317,6 +1396,7 @@
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
+				C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */,
 				434C2F341C7F4816001D1D91 /* HearthpwnDeckBuilder.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
@@ -1336,6 +1416,7 @@
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				434C2F3A1C7F48BE001D1D91 /* Hearthhead.swift in Sources */,
+				4394C79B1D18700200007FAD /* CVRankDetector.cpp in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
@@ -1355,6 +1436,7 @@
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				436969151C80653000CE1D29 /* LinqExtension.swift in Sources */,
+				4394C79C1D18700200007FAD /* CVRankDetectorWrapper.mm in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439C7EC41C777F8900D29859 /* NetHandler.swift in Sources */,
@@ -1363,6 +1445,7 @@
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				43E77EEA1C95713300C26950 /* Date.swift in Sources */,
 				64C11831FAF872B46E57E719 /* CardIds.swift in Sources */,
+				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1371,6 +1454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */,
+				C94596821D174FBA008CD47A /* StatsTests.swift in Sources */,
 				439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1411,6 +1495,7 @@
 				432B600F1CB54AD700B05D19 /* zh-Hans */,
 			);
 			name = Localizable.strings;
+			path = HSTracker;
 			sourceTree = "<group>";
 		};
 		432B5FB21CB536E700B05D19 /* MainMenu.xib */ = {
@@ -1581,6 +1666,21 @@
 			name = HearthstatsPreferences.xib;
 			sourceTree = "<group>";
 		};
+		434D1CB61D10947200222B8E /* Statistics.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				434D1CB51D10947200222B8E /* Base */,
+				434D1CB81D10947700222B8E /* fr */,
+				434D1CBA1D10947D00222B8E /* de */,
+				434D1CBC1D10948000222B8E /* es */,
+				434D1CBE1D10948200222B8E /* it */,
+				434D1CC01D10948400222B8E /* pt-BR */,
+				434D1CC21D10948700222B8E /* zh-Hans */,
+			);
+			name = Statistics.xib;
+			path = StatsManager;
+			sourceTree = "<group>";
+		};
 		437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1701,6 +1801,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/HSTracker",
+					"$(PROJECT_DIR)/HSTracker-OpenCV",
 				);
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;
@@ -1725,6 +1827,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/HSTracker",
+					"$(PROJECT_DIR)/HSTracker-OpenCV",
 				);
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;

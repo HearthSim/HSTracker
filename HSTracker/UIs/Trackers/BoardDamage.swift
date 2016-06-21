@@ -34,7 +34,7 @@ class BoardDamage: NSWindowController {
         
         NSNotificationCenter.defaultCenter()
             .addObserver(self,
-                         selector: #selector(TimerHud.hearthstoneActive(_:)),
+                         selector: #selector(BoardDamage.hearthstoneActive(_:)),
                          name: "hearthstone_active",
                          object: nil)
     }

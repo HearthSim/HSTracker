@@ -22,6 +22,7 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
     @IBOutlet weak var showRecord: NSButton!
     @IBOutlet weak var inHandColor: NSColorWell!
     @IBOutlet weak var showBoardDamage: NSButton!
+    @IBOutlet weak var showDeckName: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,7 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
         showRecord.state = settings.showWinLossRatio ? NSOnState : NSOffState
         inHandColor.color = settings.playerInHandColor
         showBoardDamage.state = settings.playerBoardDamage ? NSOnState : NSOffState
+        showDeckName.state = settings.showDeckNameInTracker ? NSOnState : NSOffState
     }
     
     @IBAction func colorChange(sender: NSColorWell) {
@@ -69,6 +71,8 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
             settings.showWinLossRatio = showRecord.state == NSOnState
         } else if sender == showBoardDamage {
             settings.playerBoardDamage = showBoardDamage.state == NSOnState
+        } else if sender == showDeckName {
+            settings.showDeckNameInTracker = showDeckName.state == NSOnState
         }
     }
 

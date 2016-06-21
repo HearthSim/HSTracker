@@ -34,14 +34,14 @@
 "You must restart Hearthstone for logs to be used" = "Du musst Hearthstone neu Starten, damit die entsprechenden Logs verwendet werden können";
 "You must restart HSTracker for the language change to take effect" = "Du musst HSTracker erneut starten, damit die Spracheinstellung übernommen wird";
 "Are you sure you want to disconnect from Hearthstats ?" = "Bist Du sicher, dass Du die Verbindung zu Hearthstats trennen möchtest?";
-"Save Opponent's Deck" = "Save Opponent's Deck";
-"Save Current Deck" = "Save Current Deck";
-"Save Arena Deck" = "Save Arena Deck";
-"Are you sure you want to archive the deck %@ ?" = "Are you sure you want to archive the deck %@ ?";
-"Are you sure you want to unarchive the deck %@ ?" = "Are you sure you want to unarchive the deck %@ ?";
-"Add Card" = "Add Card";
-"Remove Card" = "Remove Card";
-"Fatigue : " = "Fatigue : ";
+"Save Opponent's Deck" = "Gegnerisches Deck speichern";
+"Save Current Deck" = "Aktuelles Deck speichern";
+"Are you sure you want to archive the deck %@ ?" = "Bist Du sicher, dass Du das Deck %@ archivieren möchtest?";
+"Are you sure you want to unarchive the deck %@ ?" = "Bist Du sicher, dass Du das Deck %@ aus dem Archiv holen möchtest?";
+"Add Card" = "Karte hinzufügen";
+"Remove Card" = "Karte entfernen";
+"Fatigue : " = "Fatigue : "; /* Fatique = Ermüden, but I think that the term Fatigue is used in German, too */
+"It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
 
 /* notifications */
 "Your game begins" = "Dein Spiel beginnt";
@@ -100,11 +100,11 @@
 
 /* sorting */
 "name" = "Name";
-"creation date" = "Creation Date";
-"win percentage" = "Win Percentage";
-"wins" = "Wins";
-"losses" = "Losses";
-"games played" = "Games Played";
-"games" = "Games";
-"ascending" = "Ascending";
-"descending" = "Descending";
+"creation date" = "Erstellungsdatum";
+"win percentage" = "Sieges-Prozentsatz";
+"wins" = "Siege";
+"losses" = "Niederlagen";
+"games played" = "Gespielte Spiele";
+"games" = "Spiele";
+"ascending" = "Aufsteigend";
+"descending" = "Absteigend";

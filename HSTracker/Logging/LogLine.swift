@@ -96,10 +96,10 @@ class LogLineZone: CustomStringConvertible {
     }
 
     var description: String {
-        return "[\(namespace)," +
-            "LogLevel=\(logLevel)" +
-            "FilePrinting=\(filePrinting)" +
-            "ConsolePrinting=\(consolePrinting)" +
+        return "[\(namespace): " +
+            "LogLevel=\(logLevel), " +
+            "FilePrinting=\(filePrinting), " +
+            "ConsolePrinting=\(consolePrinting), " +
             "ScreenPrinting=\(screenPrinting)]"
     }
 }

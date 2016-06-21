@@ -32,7 +32,7 @@ struct LoadingScreenHandler {
             newMode = currentMode
         }
 
-        if let newMode = newMode where !(game.currentGameMode == .Ranked && newMode == .Casual) {
+        if let newMode = newMode { 
             Log.info?.message("Game mode : \(newMode)")
             game.currentGameMode = newMode
         }

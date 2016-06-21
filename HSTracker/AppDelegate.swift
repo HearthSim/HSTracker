@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var playerBoardDamage: BoardDamage?
     var opponentBoardDamage: BoardDamage?
     var timerHud: TimerHud?
-    var cardHuds = [CardHud]()
+    var cardHudContainer: CardHudContainer?
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
     var floatingCard: FloatingCard?
@@ -171,7 +171,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             game.setOpponentTracker(self.opponentTracker)
             game.secretTracker = self.secretTracker
             game.timerHud = self.timerHud
-            game.cardHuds = self.cardHuds
+            game.cardHudContainer = self.cardHudContainer
             game.playerBoardDamage = self.playerBoardDamage
             game.opponentBoardDamage = self.opponentBoardDamage
 
@@ -234,6 +234,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                      context: context)
     }
 
+    // debug stuff 
+    //var window: NSWindow?
     func hstrackerReady() {
         guard !hstrackerIsStarted else { return }
         hstrackerIsStarted = true
@@ -282,6 +284,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         Hearthstone.instance.start()
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
+        
+        // Debug stuff
+        /*let hearthstoneWindow = SizeHelper.HearthstoneWindow()
+        window = NSWindow()
+        if let window = window {
+            window.orderFrontRegardless()
+            window.backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.6)
+            window.opaque = false
+            window.hasShadow = false
+            window.styleMask = NSBorderlessWindowMask
+            window.ignoresMouseEvents = true
+            window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            let frame = hearthstoneWindow.relativeFrame(NSRect(x: 0, y: 0,
+                width: NSWidth(hearthstoneWindow.frame),
+                height: NSHeight(hearthstoneWindow.frame)),
+                                                        relative: false)
+            window.setFrame(frame, display: true)
+            Log.verbose?.message("\(hearthstoneWindow.frame) -> \(frame)")
+        }*/
 
         let events = [
             "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
@@ -448,6 +469,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         timerHud = TimerHud(windowNibName: "TimerHud")
         timerHud?.showWindow(self)
+        timerHud?.window?.orderOut(self)
         
         playerBoardDamage = BoardDamage(windowNibName: "BoardDamage")
         playerBoardDamage?.showWindow(self)
@@ -457,10 +479,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         opponentBoardDamage?.showWindow(self)
         opponentBoardDamage?.window?.orderOut(self)
 
-        for _ in 0 ..< 10 {
-            let cardHud = CardHud(windowNibName: "CardHud")
-            cardHuds.append(cardHud)
-        }
+        cardHudContainer = CardHudContainer(windowNibName: "CardHudContainer")
+        cardHudContainer?.showWindow(self)
 
         floatingCard = FloatingCard(windowNibName: "FloatingCard")
         floatingCard?.showWindow(self)
@@ -612,7 +632,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                             keyEquivalent: "")?.submenu = saveMenus
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
-                                            keyEquivalent: "")
+                                            keyEquivalent: "R")
 
         deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
         for (playerClass, _decks) in decks

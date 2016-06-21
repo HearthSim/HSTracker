@@ -21,7 +21,6 @@ enum NotificationType {
 class Game {
     // MARK: - vars
     var currentTurn = 0
-    var currentRank = 0
     var maxId = 0
     var lastId = 0
 
@@ -34,8 +33,6 @@ class Game {
     var tmpEntities = [Entity]()
     var knownCardIds = [Int: String]()
     var joustReveals = 0
-    var awaitingRankedDetection = true
-    var lastAssetUnload: Double = 0
     var gameStarted = false
     var gameEnded = true {
         didSet {
@@ -45,14 +42,13 @@ class Game {
     var gameStartDate: NSDate?
     var gameResult: GameResult = .Unknow
     var gameEndDate: NSDate?
-    var waitingForFirstAssetUnload = true
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
     var secretTracker: SecretTracker?
     var timerHud: TimerHud?
     var playerBoardDamage: BoardDamage?
     var opponentBoardDamage: BoardDamage?
-    var cardHuds: [CardHud]?
+    var cardHudContainer: CardHudContainer?
     var lastCardPlayed: Int?
     var activeDeck: Deck?
     var currentEntityId = 0
@@ -74,8 +70,11 @@ class Game {
     var endGameStats = false
     var wasInProgress = false
     var hasBeenConceded = false
+    
+    var rankDetector = CVRankDetection()
+    var playerRanks: [Int] = []
+    var opponentRanks: [Int] = []
 
-    var victoryScreenShow = false
     var playerUpdateRequests = 0
     var opponentUpdateRequests = 0
     var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
@@ -136,7 +135,10 @@ class Game {
     func reset() {
         Log.verbose?.message("Reseting Game")
         currentTurn = 0
-        victoryScreenShow = false
+        
+        playerRanks = []
+        opponentRanks = []
+        
         maxId = 0
         lastId = 0
 
@@ -144,14 +146,11 @@ class Game {
         tmpEntities.removeAll()
         knownCardIds.removeAll()
         joustReveals = 0
-        awaitingRankedDetection = true
-        lastAssetUnload = 0
         gameStarted = false
         gameEnded = true
         gameStartDate = nil
         gameResult = .Unknow
         gameEndDate = nil
-        waitingForFirstAssetUnload = true
         lastCardPlayed = nil
         currentEntityId = 0
         currentEntityHasCardId = false
@@ -175,14 +174,13 @@ class Game {
 
         player.reset()
         opponent.reset()
-
-        updateCardHuds()
         
         dispatch_async(dispatch_get_main_queue()) {
             self.secretTracker?.window?.orderOut(self)
             self.timerHud?.window?.orderOut(self)
             self.playerBoardDamage?.window?.orderOut(self)
             self.opponentBoardDamage?.window?.orderOut(self)
+            self.cardHudContainer?.reset()
         }
         
         if let activeDeck = activeDeck {
@@ -244,9 +242,42 @@ class Game {
         self.updatePlayerTracker(true)
         self.updateOpponentTracker(true)
         dispatch_async(dispatch_get_main_queue()) {
-            self.timerHud?.showWindow(self)
-
-            TurnTimer.instance.start(self)
+            if Settings.instance.showTimer {
+                self.timerHud?.showWindow(self)
+                TurnTimer.instance.start(self)
+            }
+            if Settings.instance.showCardHuds {
+                self.cardHudContainer?.showWindow(self)
+                self.updateCardHuds()
+            }
+        }
+        
+        checkForRank()
+    }
+    
+    func checkForRank() {
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(30 * Double(NSEC_PER_SEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            guard !self.gameEnded else { return }
+            
+            if self.currentGameMode == .Casual || self.currentGameMode == .Ranked {
+                if let playerRank = self.rankDetector.playerRank(),
+                    opponentRank = self.rankDetector.opponentRank() {
+                    self.playerRanks.append(playerRank)
+                    self.opponentRanks.append(opponentRank)
+                    
+                    // check if player rank is in range "opponent rank - 1 -> opponent rank + 1)
+                    if (opponentRank - 1) ... (opponentRank + 1) ~= playerRank {
+                        // we can imagine we are on ranked games
+                        self.currentGameMode = .Ranked
+                    }
+                }
+            }
+            
+            // check again every 30 seconds during the game to get 
+            // something accurate
+            self.checkForRank()
         }
     }
 
@@ -261,9 +292,7 @@ class Game {
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.stop()
             self.timerHud?.window?.orderOut(self)
-            self.cardHuds?.forEach {
-                $0.window?.orderOut(self)
-            }
+            self.cardHudContainer?.reset()
         }
 
         showSecrets(false)
@@ -288,19 +317,12 @@ class Game {
     }
 
     func handleEndGame() {
-        Log.verbose?.message("currentRank: \(currentRank), currentGameMode: \(currentGameMode)")
-        // when we loose the rank is not show, so we just wait 10 seconds max to
-        // get the rank and then we save
-        waitForRank(10) {
-            self.saveStats()
-        }
-    }
-
-    private func saveStats() {
-        if endGameStats {
-            return
-        }
+        Log.verbose?.message("rank: \(playerRanks), currentGameMode: \(currentGameMode)")
+  
+        guard !endGameStats else { return }
         endGameStats = true
+        
+        guard currentGameMode != .Practice && currentGameMode != .None else { return }
 
         let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         if let _player = _player {
@@ -310,14 +332,18 @@ class Game {
         if currentGameMode == .Ranked || currentGameMode == .Casual {
             Log.info?.message("Format: \(currentFormat)")
         }
-
+        
+        var result: [Int: Int] = [:]
+        playerRanks.forEach({ result[$0] = (result[$0] ?? 0) + 1 })
+        let currentRank = Array(result).sort { $0.1 < $1.1 }.last?.0 ?? -1
+        
         Log.info?.message("End game : mode = \(currentGameMode), "
             + "rank = \(currentRank), result = \(gameResult), "
             + "against = \(opponent.name)(\(opponent.playerClass)), "
             + "opponent played : \(opponent.displayRevealedCards) ")
 
-        if currentRank == 0 && currentGameMode == .Ranked {
-            Log.info?.message("rank is 0 and mode is ranked, ignore")
+        if currentRank == -1 && currentGameMode == .Ranked {
+            Log.info?.message("rank is -1 and mode is ranked, ignore")
             return
         }
 
@@ -363,43 +389,6 @@ class Game {
                     try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
                 } catch {
                 }
-            }
-        }
-    }
-
-    func waitForRank(seconds: Double, completion: () -> Void) {
-        let timeout = NSDate().timeIntervalSince1970 + seconds
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            while NSDate().timeIntervalSince1970 < timeout {
-                NSThread.sleepForTimeInterval(0.5)
-                if self.victoryScreenShow && self.currentRank != 0 {
-                    break
-                }
-            }
-            dispatch_async(dispatch_get_main_queue()) {
-                completion()
-            }
-        }
-    }
-
-    func detectMode(seconds: Double, completion: () -> Void) {
-        Log.info?.message("waiting for mode")
-        awaitingRankedDetection = true
-        // rankFound = false
-        lastAssetUnload = NSDate().timeIntervalSince1970
-        waitingForFirstAssetUnload = true
-        let timeout = NSDate().timeIntervalSince1970 + seconds
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            while self.waitingForFirstAssetUnload
-                || NSDate().timeIntervalSince1970 - self.lastAssetUnload < timeout {
-                NSThread.sleepForTimeInterval(0.1)
-                if self.currentGameMode != .None {
-                    break
-                }
-            }
-
-            dispatch_async(dispatch_get_main_queue()) {
-                completion()
             }
         }
     }
@@ -506,13 +495,6 @@ class Game {
         }
     }
 
-    func setPlayerRank(rank: Int) {
-        if victoryScreenShow {
-            Log.info?.message("Player rank is \(rank) ")
-            currentRank = rank
-        }
-    }
-
     func setPlayerName(name: String) {
         player.name = name
     }
@@ -546,7 +528,18 @@ class Game {
             return
         }
         player.play(entity, turn: turn)
-        updatePlayerTracker()
+        
+        if entity.hasTag(.RITUAL) {
+            // if this entity has the RITUAL tag, it will trigger some C'Thun change
+            // we wait 300ms so the proxy have the time to be updated
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
+            let queue = dispatch_get_main_queue()
+            dispatch_after(when, queue) {
+                self.updatePlayerTracker()
+            }
+        } else {
+            updatePlayerTracker()
+        }
 
         secretsOnPlay(entity)
     }
@@ -744,7 +737,17 @@ class Game {
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.play(entity, turn: turn)
-        updateOpponentTracker()
+        if entity.hasTag(.RITUAL) {
+            // if this entity has the RITUAL tag, it will trigger some C'Thun change
+            // we wait 300ms so the proxy have the time to be updated
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
+            let queue = dispatch_get_main_queue()
+            dispatch_after(when, queue) {
+                self.updateOpponentTracker()
+            }
+        } else {
+            updateOpponentTracker()
+        }
         updateCardHuds()
     }
 
@@ -1062,7 +1065,9 @@ class Game {
     }
 
     func updateCardHuds(force: Bool = false) {
-        guard let _ = cardHuds else { return }
+        guard let _ = cardHudContainer else { return }
+        guard Settings.instance.showCardHuds else { return }
+        guard gameStarted else { return }
 
         lastCardsUpdateRequest = NSDate().timeIntervalSince1970
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
@@ -1071,22 +1076,7 @@ class Game {
             if !force && NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.1 {
                 return
             }
-            if let cardHuds = self.cardHuds {
-                let count = min(10, self.opponent.handCount)
-
-                for (i, hud) in cardHuds.enumerate() {
-                    if let entity = self.opponent.hand
-                        .firstWhere({ $0.getTag(.ZONE_POSITION) == i + 1 })
-                        where !self.gameEnded && Settings.instance.showCardHuds {
-                        hud.setEntity(entity)
-                        let frame = SizeHelper.opponentCardHudFrame(i, cardCount: count)
-                        hud.window?.setFrame(frame, display: true)
-                        hud.showWindow(self)
-                    } else {
-                        hud.window?.orderOut(self)
-                    }
-                }
-            }
+            self.cardHudContainer?.update(self.opponent.hand, cardCount: self.opponent.handCount)
         }
     }
     
@@ -1186,46 +1176,53 @@ class Game {
 
     func hearthstoneIsActive(active: Bool) {
         if Settings.instance.autoPositionTrackers {
-            if let tracker = self.playerTracker {
-                moveWindow(tracker, active: active,
-                              frame: SizeHelper.playerTrackerFrame())
-            }
-            if let tracker = self.opponentTracker {
-                moveWindow(tracker, active: active,
-                              frame: SizeHelper.opponentTrackerFrame())
-            }
+            moveWindow(playerTracker,
+                       active: active,
+                       frame: SizeHelper.playerTrackerFrame())
+            moveWindow(opponentTracker,
+                       active: active,
+                       frame: SizeHelper.opponentTrackerFrame())
         }
-        if let tracker = self.secretTracker {
-            moveWindow(tracker, active: active, frame: SizeHelper.secretTrackerFrame())
+        if Settings.instance.showSecretHelper {
+            moveWindow(secretTracker,
+                       active: active,
+                       frame: SizeHelper.secretTrackerFrame())
         }
-        if let tracker = self.timerHud {
-            moveWindow(tracker, active: active, frame: SizeHelper.timerHudFrame())
+        if Settings.instance.showTimer {
+            moveWindow(timerHud,
+                       active: active,
+                       frame: SizeHelper.timerHudFrame())
         }
-
-        updateCardHuds()
-        if let playerBoardDamage = playerBoardDamage {
+        if Settings.instance.showCardHuds {
+            moveWindow(cardHudContainer,
+                       active: active,
+                       frame: SizeHelper.cardHudContainerFrame())
+            updateCardHuds()
+        }
+        if Settings.instance.playerBoardDamage {
             moveWindow(playerBoardDamage,
                        active: active,
                        frame: SizeHelper.playerBoardDamageFrame())
         }
-        if let opponentBoardDamage = opponentBoardDamage {
+        if Settings.instance.opponentBoardDamage {
             moveWindow(opponentBoardDamage,
                        active: active,
                        frame: SizeHelper.opponentBoardDamageFrame())
         }
     }
 
-    func moveWindow(tracker: NSWindowController, active: Bool, frame: NSRect) {
-        guard frame != NSZeroRect else {return}
+    func moveWindow(windowController: NSWindowController?, active: Bool, frame: NSRect) {
+        guard let windowController = windowController else { return }
+        guard frame != NSZeroRect else { return }
 
-        tracker.window?.setFrame(frame, display: true)
+        windowController.window?.setFrame(frame, display: true)
         let level: Int
         if active {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
         } else {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
         }
-        tracker.window?.level = level
+        windowController.window?.level = level
     }
 
      func showNotification(type: NotificationType) {

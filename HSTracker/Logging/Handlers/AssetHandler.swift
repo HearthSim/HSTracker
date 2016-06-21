@@ -13,24 +13,10 @@ import CleanroomLogger
 
 struct AssetHandler {
 
-    static let MedalRank = "Medal_Ranked_(\\d+)"
     static let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"
 
     func handle(game: Game, line: String) {
-
-        if game.awaitingRankedDetection {
-            game.lastAssetUnload = NSDate().timeIntervalSince1970
-            game.awaitingRankedDetection = false
-        }
-
-        if line.match(self.dynamicType.MedalRank) {
-            let match = line.matches(self.dynamicType.MedalRank)
-            if let match = match.first, rank = Int(match.value) {
-                game.setPlayerRank(rank)
-            }
-        } else if line.contains("victory_screen_start") {
-            game.victoryScreenShow = true
-        } else if line.contains("rank_window") {
+        if line.contains("rank_window") {
             game.currentGameMode = .Ranked
         } else if line.match(self.dynamicType.UnloadingCard) {
             let match = line.matches(self.dynamicType.UnloadingCard)
