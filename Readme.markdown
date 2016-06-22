@@ -34,6 +34,12 @@ Is it against the TOS ?
 ## Contribution
 Feel free to fork and pull-request, as well as filling [new issues](https://github.com/bmichotte/HSTracker/issues)
 
+In order to compile, you have to
+- fork and clone
+- `carthage update --platform osx`
+- `git submodule init`
+- `git submodule update`
+
 ## Thanks
 
 HSTracker is mainly a Swift rewrite of [Hearthstone-Deck-Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker), so there are a lot of code coming from it.

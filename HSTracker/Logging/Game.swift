@@ -267,8 +267,8 @@ class Game {
                     self.playerRanks.append(playerRank)
                     self.opponentRanks.append(opponentRank)
                     
-                    // check if player rank is in range "opponent rank - 1 -> opponent rank + 1)
-                    if (opponentRank - 1) ... (opponentRank + 1) ~= playerRank {
+                    // check if player rank is in range "opponent rank - 3 -> opponent rank + 3)
+                    if (opponentRank - 3) ... (opponentRank + 3) ~= playerRank {
                         // we can imagine we are on ranked games
                         self.currentGameMode = .Ranked
                     }
@@ -451,9 +451,10 @@ class Game {
     }
 
     func handleThaurissanCostReduction() {
-        let thaurissan = opponent.board
-            .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan })
-        if thaurissan == nil || thaurissan!.hasTag(.SILENCED) {
+        let thaurissans = opponent.board.filter({
+            $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan && !$0.hasTag(.SILENCED)
+        })
+        if thaurissans.isEmpty {
             return
         }
 
@@ -461,7 +462,7 @@ class Game {
             .filter({ $0.cardId ==
                 CardIds.NonCollectible.Neutral.EmperorThaurissan_ImperialFavorEnchantment }) {
             if let entity = entities[impFavor.getTag(.ATTACHED)] {
-                entity.info.costReduction += 1
+                entity.info.costReduction += thaurissans.count
             }
         }
     }
@@ -1056,6 +1057,7 @@ class Game {
             if show {
                 if let opponentSecrets = self.opponentSecrets {
                     self.secretTracker?.setSecrets(opponentSecrets)
+                    self.secretTracker?.window?.orderOut(self)
                     self.secretTracker?.showWindow(self)
                 }
             } else {
@@ -1076,6 +1078,8 @@ class Game {
             if !force && NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.1 {
                 return
             }
+            self.cardHudContainer?.window?.orderOut(self)
+            self.cardHudContainer?.showWindow(self)
             self.cardHudContainer?.update(self.opponent.hand, cardCount: self.opponent.handCount)
         }
     }
@@ -1087,6 +1091,7 @@ class Game {
         if settings.playerBoardDamage {
             dispatch_async(dispatch_get_main_queue()) {
                 if !self.gameEnded {
+                    self.playerBoardDamage?.window?.orderOut(self)
                     self.playerBoardDamage?.showWindow(self)
                     self.playerBoardDamage?.update(board.player.damage)
                 } else {
@@ -1100,6 +1105,7 @@ class Game {
         if settings.opponentBoardDamage {
             dispatch_async(dispatch_get_main_queue()) {
                 if !self.gameEnded {
+                    self.opponentBoardDamage?.window?.orderOut(self)
                     self.opponentBoardDamage?.showWindow(self)
                     self.opponentBoardDamage?.update(board.opponent.damage)
                 } else {
@@ -1215,7 +1221,13 @@ class Game {
         guard let windowController = windowController else { return }
         guard frame != NSZeroRect else { return }
 
-        windowController.window?.setFrame(frame, display: true)
+        if windowController.window?.visible ?? false {
+            windowController.window?.orderOut(self)
+            windowController.window?.setFrame(frame, display: true)
+            windowController.showWindow(self)
+        } else {
+            windowController.window?.setFrame(frame, display: true)
+        }
         let level: Int
         if active {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
