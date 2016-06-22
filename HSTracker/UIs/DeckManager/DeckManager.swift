@@ -320,6 +320,12 @@ class DeckManager: NSWindowController {
 
     @IBAction func useDeck(sender: AnyObject?) {
         if let deck = currentDeck {
+            if !deck.isActive {
+                deck.isActive = true
+                Decks.instance.save()
+                refreshDecks()
+            }
+            
             Settings.instance.activeDeck = deck.deckId
             Game.instance.setActiveDeck(deck)
             Game.instance.updatePlayerTracker()
