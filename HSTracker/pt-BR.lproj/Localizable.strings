@@ -43,6 +43,7 @@
 "Remove Card" = "Remove Card";
 "Fatigue : " = "Fatigue : ";
 "It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
+"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again."
 
 /* notifications */
 "Your game begins" = "Your game begins";

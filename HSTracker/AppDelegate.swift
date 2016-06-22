@@ -716,6 +716,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             deckManager?.editDeck(self)
         } else {
             Log.error?.message("Arena deck doesn't exist. How?")
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            // swiftlint:disable line_length
+            alert.messageText = NSLocalizedString("There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.", comment: "")
+            // swiftlint:enable line_length
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.runModal()
         }
     }
 
