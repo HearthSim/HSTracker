@@ -742,9 +742,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let text = settings.windowsLocked ? "Unlock windows" : "Lock windows"
         let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString(text, comment: ""))
         settings.windowsLocked = !settings.windowsLocked
-        // swiftlint:disable line_length
-        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
-        // swiftlint:enable line_length
+        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+                                        comment: "")
     }
 
     var windowMove: WindowMove?
@@ -767,12 +766,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
     }
 
-    // swiftlint:disable line_length
     func userNotificationCenter(center: NSUserNotificationCenter,
-                                shouldPresentNotification notification: NSUserNotification) -> Bool {
+                                shouldPresentNotification notification: NSUserNotification)
+        -> Bool {
         return true
     }
-    // swiftlint:enable line_length
 }
 
 extension AppDelegate: SUUpdaterDelegate {
@@ -784,7 +782,6 @@ extension AppDelegate: SUUpdaterDelegate {
 }
 
 extension AppDelegate: BITHockeyManagerDelegate {
-    // swiftlint:disable line_length
     func applicationLogForCrashManager(crashManager: BITCrashManager!) -> String! {
         let fmt = NSDateFormatter()
         fmt.dateFormat = "yyyy-MM-dd'.log'"
@@ -808,5 +805,4 @@ extension AppDelegate: BITHockeyManagerDelegate {
 
         return ""
     }
-    // swiftlint:enable line_length
 }

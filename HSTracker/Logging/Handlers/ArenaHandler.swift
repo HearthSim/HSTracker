@@ -14,7 +14,7 @@ import CleanroomLogger
 struct ArenaHandler {
     
     // swiftlint:disable line_length
-    static let HeroRegex = "Draft Deck ID: (\\d+), Hero Card = (HERO_\\d+)"
+    static let HeroRegex = "Draft Deck ID: (\\d+), Hero Card = (HERO_\\w+)"
     static let DeckContainsRegex = "Draft deck contains card (\\w*)"
     static let ClientChoosesRegex = "Client chooses: .* \\((\\w*)\\)"
     // swiftlint:enable line_length
