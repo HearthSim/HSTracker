@@ -7,7 +7,8 @@
 - Add a check for corrupted card images in Deck Manager
 - Rank detection is now done by image recognition
 - Correct a bug where cost reduction from Thaurissan was not correct if your opponent have more than 1 Thaurissan on board
-- HSTracker can now detect your arena deck. After you finished to draft your deck go to menu Decks -> Save -> Save arena deck
+- HSTracker can now detect your arena deck. After you finished to draft your arena deck, go to menu Decks -> Save -> Save arena deck
+- HSTracker now correctly synchronize your arena decks and matches with Hearthstats
 
 #### 0.16.11
 - Option to hide board damage
