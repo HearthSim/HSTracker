@@ -624,6 +624,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         saveMenus.addItemWithTitle(NSLocalizedString("Save Opponent's Deck", comment: ""),
                                    action: #selector(AppDelegate.saveCurrentDeck(_:)),
                                    keyEquivalent: "")?.tag = 1
+        saveMenus.addItemWithTitle(NSLocalizedString("Save Arena Deck", comment: ""),
+                                   action: #selector(AppDelegate.saveArenaDeck(_:)),
+                                   keyEquivalent: "")
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save", comment: ""),
                                             action: nil,
                                             keyEquivalent: "")?.submenu = saveMenus
@@ -701,6 +704,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
             deckManager?.currentDeck = deck
             deckManager?.editDeck(self)
+        }
+    }
+    
+    @IBAction func saveArenaDeck(sender: AnyObject) {
+        if let deck = Draft.instance.deck {
+            if deckManager == nil {
+                deckManager = DeckManager(windowNibName: "DeckManager")
+            }
+            deckManager?.currentDeck = deck
+            deckManager?.editDeck(self)
+        } else {
+            Log.error?.message("Arena deck doesn't exist. How?")
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            // swiftlint:disable line_length
+            alert.messageText = NSLocalizedString("There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.", comment: "")
+            // swiftlint:enable line_length
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.runModal()
         }
     }
 
