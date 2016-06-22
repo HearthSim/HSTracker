@@ -386,7 +386,11 @@ class Game {
 
             if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
                 do {
-                    try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
+                    if currentGameMode == .Arena {
+                        try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
+                    } else {
+                        try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
+                    }
                 } catch {
                 }
             }

@@ -23,6 +23,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     var creationDate: NSDate?
     var hearthstatsId: Int?
     var hearthstatsVersionId: Int?
+    var hearthStatsArenaId: Int?
     var isActive: Bool = true
     var isArena: Bool = false
     private var _cards = [Card]()
@@ -44,6 +45,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         }
         self.hearthstatsId = unboxer.unbox("hearthstatsId")
         self.hearthstatsVersionId = unboxer.unbox("hearthstatsVersionId")
+        self.hearthStatsArenaId = unboxer.unbox("hearthStatsArenaId")
         self.isActive = unboxer.unbox("isActive")
         self.isArena = unboxer.unbox("isArena")
 

@@ -373,7 +373,7 @@ struct HearthstatsAPI {
                 callback(success: false)
         }
     }
-
+ 
     static func postMatch(game: Game, deck: Deck, stat: Statistic) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
@@ -414,6 +414,69 @@ struct HearthstatsAPI {
                 if response.result.isSuccess {
                     if let json = response.result.value {
                         Log.debug?.message("post match : \(json)")
+                        return
+                    }
+                }
+        }
+    }
+    
+    // MARK: - Arena
+    
+    static func postArenaMatch(game: Game, deck: Deck, stat: Statistic) throws {
+        guard let _ = Settings.instance.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        
+        guard let _ = deck.hearthStatsArenaId else {
+            createArenaRun(game, deck: deck, stat: stat)
+            return
+        }
+        
+        _postArenaMatch(game, deck: deck, stat: stat)
+    }
+    
+    private static func _postArenaMatch(game: Game, deck: Deck, stat: Statistic) {
+        let parameters: [String: AnyObject] = [
+            "class": deck.playerClass.capitalizedString,
+            "mode": "\(game.currentGameMode)",
+            "result": "\(game.gameResult)",
+            "coin": "\(stat.hasCoin)",
+            "numturns": stat.numTurns,
+            "duration": stat.duration,
+            "arena_run_id": deck.hearthStatsArenaId!,
+            "oppclass": stat.opponentClass.capitalizedString,
+            "oppname": stat.opponentName,
+        ]
+        Log.info?.message("Posting arena match to Hearthstats \(parameters)")
+        let url = "\(baseUrl)/matches?auth_token=\(Settings.instance.hearthstatsToken!)"
+        Alamofire.request(.POST, url,
+            parameters: parameters, encoding: .JSON)
+            .responseJSON { response in
+                if response.result.isSuccess {
+                    if let json = response.result.value {
+                        Log.debug?.message("post arena match : \(json)")
+                        return
+                    }
+                }
+        }
+    }
+    
+    static func createArenaRun(game: Game, deck: Deck, stat: Statistic) {
+        Log.info?.message("Creating new arena deck")
+        let parameters: [String: AnyObject] = [
+            "class": deck.playerClass.capitalizedString,
+            "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]}
+        ]
+        let url = "\(baseUrl)/arena_runs/new?auth_token=\(Settings.instance.hearthstatsToken!)"
+        Alamofire.request(.POST, url,
+            parameters: parameters, encoding: .JSON)
+            .responseJSON { response in
+                if response.result.isSuccess {
+                    if let json = response.result.value,
+                        data = json["data"] as? [String:AnyObject],
+                        hearthStatsArenaId = data["id"] as? Int {
+                        deck.hearthStatsArenaId = hearthStatsArenaId
+                        Log.debug?.message("Arena run : \(hearthStatsArenaId)")
+                        
+                        _postArenaMatch(game, deck: deck, stat: stat)
                         return
                     }
                 }
