@@ -36,12 +36,14 @@
 "Are you sure you want to disconnect from Hearthstats ?" = "Êtes-vous certain de vouloir vous déconnecter de Hearthstats ?";
 "Save Opponent's Deck" = "Enregistrer le deck de l'adversaire";
 "Save Current Deck" = "Enregistrer le deck actuel";
+"Save Arena Deck" = "Save Arena Deck";
 "Are you sure you want to archive the deck %@ ?" = "Êtes-vous certain de vouloir archiver le deck %@ ?";
 "Are you sure you want to unarchive the deck %@ ?" = "Êtes-vous certain de vouloir désarchiver le deck %@ ?";
 "Add Card" = "Ajout carte";
 "Remove Card" = "Suppression carte";
 "Fatigue : " = "Fatigue : ";
 "It is 90% certain that the true winrate falls between these values." = "Il est à 90% certain que le véritable taux de victoire soit entre ces deux valeurs.";
+"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.";
 
 /* notifications */
 "Your game begins" = "Votre partie commence";
