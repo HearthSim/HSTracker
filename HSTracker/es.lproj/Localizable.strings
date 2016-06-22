@@ -36,12 +36,14 @@
 "Are you sure you want to disconnect from Hearthstats ?" = "Are you sure you want to disconnect from Hearthstats ?";
 "Save Opponent's Deck" = "Save Opponent's Deck";
 "Save Current Deck" = "Save Current Deck";
+"Save Arena Deck" = "Save Arena Deck";
 "Are you sure you want to archive the deck %@ ?" = "Are you sure you want to archive the deck %@ ?";
 "Are you sure you want to unarchive the deck %@ ?" = "Are you sure you want to unarchive the deck %@ ?";
 "Add Card" = "Add Card";
 "Remove Card" = "Remove Card";
 "Fatigue : " = "Fatigue : ";
 "It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
+"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.";
 
 /* notifications */
 "Your game begins" = "Empieza la partida";
