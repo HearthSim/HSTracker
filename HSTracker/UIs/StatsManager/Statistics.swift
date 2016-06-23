@@ -78,6 +78,26 @@ class Statistics: NSWindowController {
     @IBAction func closeWindow(sender: AnyObject) {
         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
     }
+    
+    
+    @IBAction func deleteStatistics(sender: AnyObject) {
+        if let deck = deck {
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            // swiftlint:disable line_length
+            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the statistics for the deck %@ ?", comment: ""), deck.name!) as String
+            // swiftlint:enable line_length
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModalForWindow(self.window!,
+                                           completionHandler: { (returnCode) in
+                                            if returnCode == NSAlertFirstButtonReturn {
+                                                self.deck?.removeAllStatistics()
+                                                self.statsTable.reloadData()
+                                            }
+            })
+        }
+    }
 }
 
 

@@ -156,6 +156,11 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
 
         return propertyName
     }
+    
+    func removeAllStatistics() {
+        statistics = []
+        Decks.instance.save()
+    }
 
     func addStatistic(statistic: Statistic) {
         statistics.append(statistic)

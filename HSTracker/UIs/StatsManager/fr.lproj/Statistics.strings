@@ -16,3 +16,5 @@
 /* Class = "NSTextFieldCell"; title = "No deck selected"; ObjectID = "hZh-Kz-cgX"; */
 "hZh-Kz-cgX.title" = "Aucun deck selectionné";
 
+/* Class = "NSButtonCell"; title = "Delete statistics"; ObjectID = "dlb-Sh-7Xd"; */
+"dlb-Sh-7Xd.title" = "Supprimer les statistiques";

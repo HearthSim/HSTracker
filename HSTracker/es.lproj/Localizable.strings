@@ -44,6 +44,7 @@
 "Fatigue : " = "Fatigue : ";
 "It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
 "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.";
+"Are you sure you want to delete the statistics for the deck %@ ?" = "Are you sure you want to delete the statistics for the deck %@ ?";
 
 /* notifications */
 "Your game begins" = "Empieza la partida";
