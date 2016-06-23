@@ -388,7 +388,7 @@ class Game {
                 do {
                     if currentGameMode == .Arena {
                         try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
-                    } else {
+                    } else if currentGameMode != .Brawl {
                         try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
                     }
                 } catch {
