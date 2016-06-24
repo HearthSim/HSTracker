@@ -66,7 +66,17 @@ class StatsHelper {
 
         return tableData
     }
-
+    
+    static func getDeckManagerRecordLabel(deck: Deck) -> String {
+        let record = getDeckRecord(deck)
+        
+        let totalGames = record.total
+        if totalGames == 0 {
+            return "0 - 0"
+        }
+        
+        return "\(record.wins) - \(record.losses) (\(getDeckWinRateString(record)))"
+    }
     static func getDeckRecordString(record: StatsDeckRecord) -> String {
         return "\(record.wins)-\(record.losses)"
     }

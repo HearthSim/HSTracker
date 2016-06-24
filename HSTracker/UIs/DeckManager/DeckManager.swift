@@ -119,13 +119,21 @@ class DeckManager: NSWindowController {
         case "creation date":
             sortedDeck = filteredDeck.sort({ $0.creationDate! < $1.creationDate! })
         case "win percentage":
-            sortedDeck = filteredDeck.sort({ $0.winPercentage() < $1.winPercentage() })
+            sortedDeck = filteredDeck.sort({
+                  StatsHelper.getDeckWinRate(StatsHelper.getDeckRecord($0)) <
+                  StatsHelper.getDeckWinRate(StatsHelper.getDeckRecord($1)) })
         case "wins":
-            sortedDeck = filteredDeck.sort({ $0.wins() < $1.wins() })
+            sortedDeck = filteredDeck.sort({
+                  StatsHelper.getDeckRecord($0).wins <
+                  StatsHelper.getDeckRecord($1).wins })
         case "losses":
-            sortedDeck = filteredDeck.sort({ $0.losses() < $1.losses() })
+            sortedDeck = filteredDeck.sort({
+                  StatsHelper.getDeckRecord($0).losses <
+                  StatsHelper.getDeckRecord($1).losses })
         case "games played":
-            sortedDeck = filteredDeck.sort({ $0.statistics.count < $1.statistics.count })
+            sortedDeck = filteredDeck.sort({
+                  StatsHelper.getDeckRecord($0).total <
+                  StatsHelper.getDeckRecord($1).total })
         default:
             sortedDeck = filteredDeck
         }
@@ -191,7 +199,7 @@ class DeckManager: NSWindowController {
     func updateStatsLabel() {
         if let currentDeck = self.currentDeck {
             dispatch_async(dispatch_get_main_queue()) {
-                self.statsLabel.stringValue = currentDeck.displayStats()
+                self.statsLabel.stringValue = StatsHelper.getDeckManagerRecordLabel(currentDeck)
                 self.curveView.reload()
             }
         }
@@ -503,6 +511,7 @@ extension DeckManager: NSTableViewDelegate {
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
                 
+                let record = StatsHelper.getDeckRecord(deck)
                 switch sortCriteria {
                 case "creation date":
                     let formatter = NSDateFormatter()
@@ -511,16 +520,16 @@ extension DeckManager: NSTableViewDelegate {
                     cell.detailTextLabel.stringValue =
                         "\(formatter.stringFromDate(deck.creationDate!))"
                 case "wins":
-                    cell.detailTextLabel.stringValue = "\(deck.wins()) " +
+                    cell.detailTextLabel.stringValue = "\(record.wins) " +
                         NSLocalizedString("wins", comment: "").lowercaseString
                 case "losses":
-                    cell.detailTextLabel.stringValue = "\(deck.losses()) " +
+                    cell.detailTextLabel.stringValue = "\(record.losses) " +
                         NSLocalizedString("losses", comment: "").lowercaseString
                 case "games played":
-                    cell.detailTextLabel.stringValue = "\(deck.statistics.count) " +
+                    cell.detailTextLabel.stringValue = "\(record.total) " +
                         NSLocalizedString("games", comment: "").lowercaseString
                 default:
-                    cell.detailTextLabel.stringValue = "\(deck.displayStats())"
+                    cell.detailTextLabel.stringValue = StatsHelper.getDeckManagerRecordLabel(deck)
                 }
 
                 return cell

@@ -330,7 +330,7 @@ class Tracker: NSWindowController {
         fatigueTracker.hidden = !(settings.fatigueIndicator && player?.fatigue > 0)
 
         if let activeDeck = Game.instance.activeDeck where !recordTracker.hidden {
-            recordTracker.message = activeDeck.displayStats()
+            recordTracker.message = StatsHelper.getDeckManagerRecordLabel(activeDeck)
             recordTracker.needsDisplay = true
         } else {
             recordTracker.hidden = true
