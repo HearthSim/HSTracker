@@ -106,10 +106,11 @@ class StatsHelper {
             stats = deck.statistics.filter({$0.opponentClass == againstClass.lowercaseString})
         }
         
-        let rankedStats = stats.filter({$0.playerMode == GameMode.Ranked})
-        let wins   = rankedStats.filter({$0.gameResult == GameResult.Win}).count
-        let losses = rankedStats.filter({$0.gameResult == GameResult.Loss}).count
-        let draws  = rankedStats.filter({$0.gameResult == GameResult.Draw}).count
+        let rankedStats = stats.filter({$0.playerMode == .Ranked})
+        
+        let wins   = rankedStats.filter({$0.gameResult == .Win}).count
+        let losses = rankedStats.filter({$0.gameResult == .Loss}).count
+        let draws  = rankedStats.filter({$0.gameResult == .Draw}).count
 
         return StatsDeckRecord(wins: wins, losses: losses, draws: draws, total: wins+losses+draws)
     }
