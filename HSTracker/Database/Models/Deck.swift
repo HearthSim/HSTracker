@@ -165,31 +165,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     func addStatistic(statistic: Statistic) {
         statistics.append(statistic)
     }
-
-    func displayStats() -> String {
-        let totalGames = statistics.count
-        if totalGames == 0 {
-            return "0 - 0"
-        }
-
-        return "\(wins()) - \(totalGames - wins()) (\(winPercentage())%)"
-    }
     
-    func wins() -> Int {
-        return statistics.filter { $0.gameResult == .Win }.count
-    }
-    
-    func losses() -> Int {
-        return statistics.filter { $0.gameResult == .Loss }.count
-    }
-    
-    func winPercentage() -> Int {
-        let totalGames = statistics.count
-        if totalGames == 0 {
-            return 0
-        }
-        return Int(round(Double(wins()) / Double(totalGames) * 100))
-    }
 
     func standardViable() -> Bool {
         return !isArena && !_cards.any({ $0.set != nil && CardSet.wildSets().contains($0.set!) })

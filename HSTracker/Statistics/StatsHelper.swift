@@ -22,13 +22,20 @@ class StatsTableRow: NSObject { // Class instead of struct so we can use sortUsi
     var confidenceWindow = 1.0
 }
 
+struct StatsDeckRecord {
+    var wins   = 0
+    var losses = 0
+    var draws  = 0
+    var total  = 0
+}
+
 class StatsHelper {
     static let playerClassList = [
         "druid", "hunter", "mage", "paladin", "priest",
         "rogue", "shaman", "warlock", "warrior"
         ].sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
 
-    static func getStatsUITableData(deck: Deck) -> [StatsTableRow] {
+    static func getStatsUITableData(deck: Deck, mode: GameMode = .Ranked) -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
 
         for againstClass in ["all"] + StatsHelper.playerClassList {
@@ -39,17 +46,18 @@ class StatsHelper {
             } else {
                 dataRow.classIcon = againstClass
             }
-            dataRow.opponentClassName = NSLocalizedString(againstClass, comment: "")
-            dataRow.record            = getDeckRecordString(deck, againstClass: againstClass)
-            dataRow.winRate           = getDeckWinRateString(deck, againstClass: againstClass)
-            dataRow.winRateNumber     = getDeckWinRate(deck, againstClass: againstClass)
-            dataRow.totalGames        = getDeckRecord(deck, againstClass: againstClass).total
-            dataRow.confidenceInterval = getDeckConfidenceString(deck,
-                                                                 againstClass: againstClass,
+            dataRow.opponentClassName =
+                NSLocalizedString(againstClass, comment: "").capitalizedString
+            
+            let record = getDeckRecord(deck, againstClass: againstClass, mode: mode)
+            dataRow.record            = getDeckRecordString(record)
+            dataRow.winRate           = getDeckWinRateString(record)
+            dataRow.winRateNumber     = getDeckWinRate(record)
+            dataRow.totalGames        = record.total
+            dataRow.confidenceInterval = getDeckConfidenceString(record,
                                                                  confidence: 0.9)
-            let stats = getDeckRecord(deck, againstClass: againstClass)
-            let interval = binomialProportionCondifenceInterval(stats.wins,
-                                                                losses: stats.losses,
+            let interval = binomialProportionCondifenceInterval(record.wins,
+                                                                losses: record.losses,
                                                                 confidence: 0.9)
             dataRow.confidenceWindow   = interval.upper - interval.lower
 
@@ -58,17 +66,22 @@ class StatsHelper {
 
         return tableData
     }
-
-    static func getDeckRecordString(deck: Deck, againstClass: String = "all") -> String {
-        let record = getDeckRecord(deck, againstClass: againstClass)
-        let recordString: String = "\(record.wins)-\(record.losses)"
-
-        return recordString
+    
+    static func getDeckManagerRecordLabel(deck: Deck) -> String {
+        let record = getDeckRecord(deck)
+        
+        let totalGames = record.total
+        if totalGames == 0 {
+            return "0 - 0"
+        }
+        
+        return "\(record.wins) - \(record.losses) (\(getDeckWinRateString(record)))"
+    }
+    static func getDeckRecordString(record: StatsDeckRecord) -> String {
+        return "\(record.wins)-\(record.losses)"
     }
 
-    static func getDeckWinRate(deck: Deck, againstClass: String = "all") -> Double {
-        let record = getDeckRecord(deck, againstClass: againstClass)
-
+    static func getDeckWinRate(record: StatsDeckRecord) -> Double {
         let totalGames = record.wins + record.losses
         var winRate = -1.0
         if totalGames > 0 {
@@ -77,9 +90,9 @@ class StatsHelper {
         return winRate
     }
 
-    static func getDeckWinRateString(deck: Deck, againstClass: String = "all") -> String {
+    static func getDeckWinRateString(record: StatsDeckRecord) -> String {
         var winRateString = "N/A"
-        let winRate = getDeckWinRate(deck, againstClass: againstClass)
+        let winRate = getDeckWinRate(record)
         if winRate >= 0.0 {
             let winPercent = Int(round(winRate * 100))
             winRateString = String(winPercent) + "%"
@@ -87,25 +100,31 @@ class StatsHelper {
         return winRateString
     }
 
-    static func getDeckRecord(deck: Deck, againstClass: String = "all")
-        -> (wins: Int, losses: Int, draws: Int, total: Int) {
+    static func getDeckRecord(deck: Deck, againstClass: String = "all", mode: GameMode = .Ranked)
+        -> StatsDeckRecord {
         var stats = deck.statistics
         if againstClass.lowercaseString != "all" {
             stats = deck.statistics.filter({$0.opponentClass == againstClass.lowercaseString})
         }
+        
+        var rankedStats: [Statistic]
+        if mode == .All {
+            rankedStats = stats
+        } else {
+            rankedStats = stats.filter({$0.playerMode == mode})
+        }
+        
+        let wins   = rankedStats.filter({$0.gameResult == .Win}).count
+        let losses = rankedStats.filter({$0.gameResult == .Loss}).count
+        let draws  = rankedStats.filter({$0.gameResult == .Draw}).count
 
-        let wins = stats.filter({$0.gameResult == GameResult.Win}).count
-        let losses = stats.filter({$0.gameResult == GameResult.Loss}).count
-        let draws = stats.filter({$0.gameResult == GameResult.Draw}).count
-
-        return (wins, losses, draws, wins+losses+draws)
+        return StatsDeckRecord(wins: wins, losses: losses, draws: draws, total: wins+losses+draws)
     }
 
-    static func getDeckConfidenceString(deck: Deck, againstClass: String = "all",
+    static func getDeckConfidenceString(record: StatsDeckRecord,
                                         confidence: Double = 0.9) -> String {
-        let stats = getDeckRecord(deck, againstClass: againstClass)
-        let interval = binomialProportionCondifenceInterval(stats.wins,
-                                                            losses: stats.losses,
+        let interval = binomialProportionCondifenceInterval(record.wins,
+                                                            losses: record.losses,
                                                             confidence: confidence)
         let intLower = Int(round(interval.lower*100))
         let intUpper = Int(round(interval.upper*100))
