@@ -111,3 +111,14 @@
 "games" = "Parties";
 "ascending" = "Montant";
 "descending" = "Descendant";
+
+/* game modes */
+"mode_all"       = "All";
+"mode_ranked"    = "Ranked";
+"mode_casual"    = "Casual";
+"mode_arena"     = "Arena";
+"mode_brawl"     = "Tavern Brawl";
+"mode_friendly"  = "Friendly";
+"mode_practice"  = "Practice/Adventure";
+"mode_spectator" = "Spectator";
+"mode_none"      = "None";

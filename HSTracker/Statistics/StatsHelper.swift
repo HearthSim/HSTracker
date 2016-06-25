@@ -35,7 +35,7 @@ class StatsHelper {
         "rogue", "shaman", "warlock", "warrior"
         ].sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
 
-    static func getStatsUITableData(deck: Deck) -> [StatsTableRow] {
+    static func getStatsUITableData(deck: Deck, mode: GameMode = .Ranked) -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
 
         for againstClass in ["all"] + StatsHelper.playerClassList {
@@ -49,7 +49,7 @@ class StatsHelper {
             dataRow.opponentClassName =
                 NSLocalizedString(againstClass, comment: "").capitalizedString
             
-            let record = getDeckRecord(deck, againstClass: againstClass)
+            let record = getDeckRecord(deck, againstClass: againstClass, mode: mode)
             dataRow.record            = getDeckRecordString(record)
             dataRow.winRate           = getDeckWinRateString(record)
             dataRow.winRateNumber     = getDeckWinRate(record)
@@ -100,13 +100,19 @@ class StatsHelper {
         return winRateString
     }
 
-    static func getDeckRecord(deck: Deck, againstClass: String = "all") -> StatsDeckRecord {
+    static func getDeckRecord(deck: Deck, againstClass: String = "all", mode: GameMode = .Ranked)
+        -> StatsDeckRecord {
         var stats = deck.statistics
         if againstClass.lowercaseString != "all" {
             stats = deck.statistics.filter({$0.opponentClass == againstClass.lowercaseString})
         }
         
-        let rankedStats = stats.filter({$0.playerMode == .Ranked})
+        var rankedStats: [Statistic]
+        if mode == .All {
+            rankedStats = stats
+        } else {
+            rankedStats = stats.filter({$0.playerMode == mode})
+        }
         
         let wins   = rankedStats.filter({$0.gameResult == .Win}).count
         let losses = rankedStats.filter({$0.gameResult == .Loss}).count

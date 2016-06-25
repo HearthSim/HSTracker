@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="Statistics" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="modePicker" destination="hD3-ex-LDp" id="fLP-RX-R9G"/>
                 <outlet property="selectedDeckIcon" destination="ow7-WG-eSm" id="AoD-Eg-bLd"/>
                 <outlet property="selectedDeckName" destination="SSf-yV-UWh" id="n8A-n9-KBI"/>
                 <outlet property="statsTable" destination="ypb-VB-h3e" id="Y3X-Ij-3hX"/>
@@ -17,14 +18,14 @@
         <window title="Deck Statistics" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="414" height="321"/>
+            <rect key="contentRect" x="196" y="240" width="414" height="353"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="414" height="321"/>
+                <rect key="frame" x="0.0" y="0.0" width="414" height="353"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ow7-WG-eSm">
-                        <rect key="frame" x="20" y="286" width="20" height="20"/>
+                        <rect key="frame" x="20" y="318" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="3T9-p8-ALk"/>
                             <constraint firstAttribute="width" constant="20" id="J6r-Tj-GT7"/>
@@ -32,13 +33,24 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="error" id="Yyc-7X-yak"/>
                     </imageView>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SSf-yV-UWh">
-                        <rect key="frame" x="42" y="286" width="352" height="19"/>
+                        <rect key="frame" x="42" y="318" width="354" height="19"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="No deck selected" placeholderString="" id="hZh-Kz-cgX">
                             <font key="font" metaFont="system" size="16"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hD3-ex-LDp">
+                        <rect key="frame" x="17" y="286" width="155" height="26"/>
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="agE-9B-LnI">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <menu key="menu" id="ZNF-vG-MA1"/>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="modeSelected:" target="-2" id="Fq3-wi-0QZ"/>
+                        </connections>
+                    </popUpButton>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pZT-ra-2mp">
                         <rect key="frame" x="20" y="51" width="374" height="225"/>
                         <clipView key="contentView" id="gem-f4-3oN">
@@ -66,7 +78,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="StatsClassCellID" id="Wev-DN-mXd">
-                                                    <rect key="frame" x="1" y="1" width="103.5" height="17"/>
+                                                    <rect key="frame" x="1" y="1" width="103" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y6q-hl-UTc">
@@ -91,7 +103,7 @@
                                                         <constraint firstItem="gUQ-6p-rvu" firstAttribute="leading" secondItem="y6q-hl-UTc" secondAttribute="trailing" constant="7" id="O6s-aq-wRL"/>
                                                         <constraint firstItem="gUQ-6p-rvu" firstAttribute="centerY" secondItem="Wev-DN-mXd" secondAttribute="centerY" id="QOb-nG-zlZ"/>
                                                         <constraint firstItem="y6q-hl-UTc" firstAttribute="leading" secondItem="Wev-DN-mXd" secondAttribute="leading" constant="3" id="eIM-ZP-lau"/>
-                                                        <constraint firstAttribute="trailing" secondItem="gUQ-6p-rvu" secondAttribute="trailing" constant="3" id="mTg-cj-eRH"/>
+                                                        <constraint firstAttribute="trailing" secondItem="gUQ-6p-rvu" secondAttribute="trailing" constant="2" id="mTg-cj-eRH"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="imageView" destination="y6q-hl-UTc" id="Zcu-GF-Pat"/>
@@ -114,7 +126,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="StatsRecordCellID" id="caW-tN-Gx7">
-                                                    <rect key="frame" x="107" y="1" width="74" height="20"/>
+                                                    <rect key="frame" x="106.5" y="1" width="73" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="bHa-z9-HFd">
@@ -128,7 +140,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="bHa-z9-HFd" firstAttribute="centerY" secondItem="caW-tN-Gx7" secondAttribute="centerY" id="2Et-ix-bGO"/>
-                                                        <constraint firstAttribute="trailing" secondItem="bHa-z9-HFd" secondAttribute="trailing" constant="3" id="UFA-up-60H"/>
+                                                        <constraint firstAttribute="trailing" secondItem="bHa-z9-HFd" secondAttribute="trailing" constant="2" id="UFA-up-60H"/>
                                                         <constraint firstItem="bHa-z9-HFd" firstAttribute="leading" secondItem="caW-tN-Gx7" secondAttribute="leading" constant="3" id="v6Q-Y0-YmN"/>
                                                     </constraints>
                                                     <connections>
@@ -151,7 +163,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="StatsWinRateCellID" id="dkG-bZ-czD">
-                                                    <rect key="frame" x="183" y="1" width="80" height="17"/>
+                                                    <rect key="frame" x="182" y="1" width="80" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Pjq-wz-Gyu">
@@ -188,7 +200,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="StatsCICellID" id="1L0-lr-GOr">
-                                                    <rect key="frame" x="266" y="1" width="104" height="17"/>
+                                                    <rect key="frame" x="264.5" y="1" width="104" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qV0-nt-nkg">
@@ -257,11 +269,11 @@ DQ
                     <constraint firstAttribute="trailing" secondItem="pZT-ra-2mp" secondAttribute="trailing" constant="20" id="ALe-7f-3H7"/>
                     <constraint firstItem="aec-Hd-iZi" firstAttribute="top" secondItem="pZT-ra-2mp" secondAttribute="bottom" constant="10" id="FnR-W6-mAP"/>
                     <constraint firstItem="ow7-WG-eSm" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" id="Kmm-fp-wbz"/>
-                    <constraint firstAttribute="trailing" secondItem="SSf-yV-UWh" secondAttribute="trailing" constant="22" id="KpB-Wg-Zuu"/>
+                    <constraint firstAttribute="trailing" secondItem="SSf-yV-UWh" secondAttribute="trailing" constant="20" id="KpB-Wg-Zuu"/>
                     <constraint firstItem="ow7-WG-eSm" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="15" id="ZDG-jO-xu6"/>
                     <constraint firstAttribute="trailing" secondItem="aec-Hd-iZi" secondAttribute="trailing" constant="20" id="Zqe-0m-ifM"/>
                     <constraint firstItem="xL3-PC-COg" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" id="dSa-KK-gWs"/>
-                    <constraint firstItem="pZT-ra-2mp" firstAttribute="top" secondItem="SSf-yV-UWh" secondAttribute="bottom" constant="10" id="mHN-mY-MZM"/>
+                    <constraint firstItem="pZT-ra-2mp" firstAttribute="top" secondItem="SSf-yV-UWh" secondAttribute="bottom" constant="42" id="mHN-mY-MZM"/>
                     <constraint firstItem="SSf-yV-UWh" firstAttribute="top" secondItem="ow7-WG-eSm" secondAttribute="bottom" constant="-19" id="s4X-u7-OD6"/>
                     <constraint firstItem="pZT-ra-2mp" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" id="y1G-5v-pa9"/>
                 </constraints>
@@ -269,7 +281,7 @@ DQ
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="212" y="385.5"/>
+            <point key="canvasLocation" x="212" y="401.5"/>
         </window>
     </objects>
     <resources>

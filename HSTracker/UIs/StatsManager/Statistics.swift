@@ -13,13 +13,22 @@ class Statistics: NSWindowController {
     @IBOutlet weak var statsTable: NSTableView!
     @IBOutlet weak var selectedDeckIcon: NSImageView!
     @IBOutlet weak var selectedDeckName: NSTextField!
+    @IBOutlet weak var modePicker: NSPopUpButton!
     
     var deck: Deck?
     
     var statsTableItems = [StatsTableRow]()
+    
+    let modePickerItems: [GameMode] = [.All, .Ranked, .Casual, .Brawl, .Arena, .Friendly]
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        
+        for mode in modePickerItems {
+            modePicker.addItemWithTitle(mode.userFacingName)
+        }
+        modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
+
         update()
 
         statsTable.setDelegate(self)
@@ -47,6 +56,15 @@ class Statistics: NSWindowController {
                                                          object: nil)
     }
     
+    func sortStatsTable() {
+        let sorted = (statsTableItems as NSArray)
+            .sortedArrayUsingDescriptors(statsTable.sortDescriptors)
+        if let _statsTableItems = sorted as? [StatsTableRow] {
+            statsTableItems = _statsTableItems
+        }
+    }
+    
+    
     func update() {
         if let deck = self.deck {
             // XXX: This might be unsafe
@@ -63,7 +81,15 @@ class Statistics: NSWindowController {
                 selectedDeckName.stringValue = "Deck name missing."
             }
             
-            statsTableItems = StatsHelper.getStatsUITableData(deck)
+            var index = modePicker.indexOfSelectedItem
+            if index == -1 { // In case somehow nothing is selected
+                modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
+                index = modePicker.indexOfSelectedItem
+            }
+            statsTableItems = StatsHelper.getStatsUITableData(deck, mode: modePickerItems[index])
+            
+            sortStatsTable()
+            statsTable.reloadData()
             
         } else {
             selectedDeckIcon.image = NSImage(named: "error")
@@ -79,6 +105,9 @@ class Statistics: NSWindowController {
         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
     }
     
+    @IBAction func modeSelected(sender: AnyObject) {
+        update()
+    }
     
     @IBAction func deleteStatistics(sender: AnyObject) {
         if let deck = deck {
@@ -152,11 +181,7 @@ extension Statistics : NSTableViewDelegate {
     
     func tableView(tableView: NSTableView, sortDescriptorsDidChange
         oldDescriptors: [NSSortDescriptor]) {
-        let sorted = (statsTableItems as NSArray)
-            .sortedArrayUsingDescriptors(tableView.sortDescriptors)
-        if let _statsTableItems = sorted as? [StatsTableRow] {
-            statsTableItems = _statsTableItems
-        }
+        sortStatsTable()
         statsTable.reloadData()
     }
     
