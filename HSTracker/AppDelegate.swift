@@ -153,11 +153,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
         let decksOperation = NSBlockOperation {
             Log.info?.message("Loading decks")
-            dispatch_async(dispatch_get_main_queue()) {
-                self.splashscreen?.display(NSLocalizedString("Loading decks", comment: ""),
-                    indeterminate: true)
-            }
-            Decks.instance.loadDecks()
+            Decks.instance.loadDecks(self.splashscreen)
         }
         let loggingOperation = NSBlockOperation {
             while true {

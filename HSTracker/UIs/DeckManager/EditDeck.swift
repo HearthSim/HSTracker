@@ -542,7 +542,9 @@ extension EditDeck: NSWindowDelegate {
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
         if alert.runModal() == NSAlertFirstButtonReturn {
-            Decks.instance.resetDecks()
+            if let currentDeck = currentDeck {
+                Decks.instance.reset(currentDeck)
+            }
             delegate?.refreshDecks()
             return true
         }

@@ -159,7 +159,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     
     func removeAllStatistics() {
         statistics = []
-        Decks.instance.save()
+        Decks.instance.update(self)
     }
 
     func addStatistic(statistic: Statistic) {

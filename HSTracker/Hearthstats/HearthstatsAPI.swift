@@ -91,39 +91,36 @@ extension Decks {
     }
 
     func addOrUpdateMatches(dict: [String: AnyObject]) {
-        let existing = decks()
+        if let existing = decks()
             .filter({ $0.hearthstatsId == (dict["deck_id"] as? Int)
-                && $0.hearthstatsVersionId == (dict["deck_version_id"] as? Int) }).first
-        if existing == nil {
-            return
-        }
-
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-
-        if let resultId = dict["match"]?["result_id"] as? Int,
-            result = HearthstatsAPI.gameResults[resultId],
-            coin = dict["match"]?["coin"] as? Bool,
-            classId = dict["match"]?["oppclass_id"] as? Int,
-            opponentClass = HearthstatsAPI.heroes[classId],
-            opponentName = dict["match"]?["oppname"] as? String,
-            playerRank = dict["ranklvl"] as? Int,
-            mode = dict["match"]?["mode_id"] as? Int,
-            playerMode = HearthstatsAPI.gameModes[mode],
-            date = dict["match"]?["created_at"] as? String,
-            creationDate = formatter.dateFromString(date) {
-
-            let stat = Statistic()
-            stat.gameResult = result
-            stat.hasCoin = coin
-            stat.opponentClass = opponentClass
-            stat.opponentName = opponentName
-            stat.playerRank = playerRank
-            stat.playerMode = playerMode
-            stat.date = creationDate
-
-            existing?.addStatistic(stat)
-            save()
+                && $0.hearthstatsVersionId == (dict["deck_version_id"] as? Int) }).first {
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+            
+            if let resultId = dict["match"]?["result_id"] as? Int,
+                result = HearthstatsAPI.gameResults[resultId],
+                coin = dict["match"]?["coin"] as? Bool,
+                classId = dict["match"]?["oppclass_id"] as? Int,
+                opponentClass = HearthstatsAPI.heroes[classId],
+                opponentName = dict["match"]?["oppname"] as? String,
+                playerRank = dict["ranklvl"] as? Int,
+                mode = dict["match"]?["mode_id"] as? Int,
+                playerMode = HearthstatsAPI.gameModes[mode],
+                date = dict["match"]?["created_at"] as? String,
+                creationDate = formatter.dateFromString(date) {
+                
+                let stat = Statistic()
+                stat.gameResult = result
+                stat.hasCoin = coin
+                stat.opponentClass = opponentClass
+                stat.opponentName = opponentName
+                stat.playerRank = playerRank
+                stat.playerMode = playerMode
+                stat.date = creationDate
+                
+                existing.addStatistic(stat)
+                update(existing)
+            }
         }
     }
 }

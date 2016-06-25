@@ -332,7 +332,7 @@ class DeckManager: NSWindowController {
         if let deck = currentDeck {
             if !deck.isActive {
                 deck.isActive = true
-                Decks.instance.save()
+                Decks.instance.update(deck)
                 refreshDecks()
             }
             
@@ -382,7 +382,7 @@ class DeckManager: NSWindowController {
                                                 deck.isActive = !deck.isActive
                                                 Settings.instance.activeDeck = nil
                                                 self.refreshDecks()
-                                                Decks.instance.save()
+                                                Decks.instance.update(deck)
                                             }
             })
         }
