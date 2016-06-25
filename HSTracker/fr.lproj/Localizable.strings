@@ -113,12 +113,12 @@
 "descending" = "Descendant";
 
 /* game modes */
-"mode_all"       = "All";
-"mode_ranked"    = "Ranked";
-"mode_casual"    = "Casual";
-"mode_arena"     = "Arena";
-"mode_brawl"     = "Tavern Brawl";
-"mode_friendly"  = "Friendly";
-"mode_practice"  = "Practice/Adventure";
-"mode_spectator" = "Spectator";
-"mode_none"      = "None";
+"mode_all"       = "Tous";
+"mode_ranked"    = "Classé";
+"mode_casual"    = "Non-classé";
+"mode_arena"     = "Arène";
+"mode_brawl"     = "Bras de fer";
+"mode_friendly"  = "Amical";
+"mode_practice"  = "Entraînement/Aventure";
+"mode_spectator" = "Spectateur";
+"mode_none"      = "Aucun";
