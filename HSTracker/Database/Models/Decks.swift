@@ -39,7 +39,6 @@ final class Decks {
             }
             if let files = files {
                 let jsonFiles = files.filter({ $0.endsWith(".json") })
-                Log.debug?.message("jsonFiles : \(jsonFiles)")
                 dispatch_async(dispatch_get_main_queue()) {
                     splashscreen?.display(String(format:
                         NSLocalizedString("Loading decks", comment: "")),
@@ -64,7 +63,6 @@ final class Decks {
         if fileManager.fileExistsAtPath("\(path)/decks.json") {
             if let jsonData = NSData(contentsOfFile: jsonFile) {
                 var decks: [String: [String: AnyObject]]? = nil
-                Log.verbose?.message("json file : \(jsonFile)")
                 do {
                     if let _decks = try NSJSONSerialization
                         .JSONObjectWithData(jsonData,
