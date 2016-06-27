@@ -26,9 +26,8 @@ struct LadderGrid {
         do {
             // TODO: put the db in the bundle
             let path = NSBundle.mainBundle().resourcePath! + "/Resources/grid.db"
-            Log.info?.message("Loading grid at \(path)")
+            Log.verbose?.message("Loading grid at \(path)")
             db = try Connection(path, readonly: true)
-            Log.info?.message("Loaded grid db!")
         } catch {
             db = nil
             // swiftlint:disable line_length
