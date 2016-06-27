@@ -45,6 +45,7 @@
 "It is 90% certain that the true winrate falls between these values." = "Il est à 90% certain que le véritable taux de victoire soit entre ces deux valeurs.";
 "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.";
 "Are you sure you want to delete the statistics for the deck %@ ?" = "Êtes-vous certain de vouloir supprimer les statistiques du deck %@ ?";
+"Do you want to add some notes for this game ?" = "Voulez-vous ajouter une note sur cette partie ?";
 
 /* notifications */
 "Your game begins" = "Votre partie commence";

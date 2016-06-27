@@ -33,7 +33,6 @@ final class Decks {
             var files: [String]? = nil
             do {
                 files = try fileManager.contentsOfDirectoryAtPath(path)
-                Log.debug?.message("Checking for decks in \(files)")
             } catch {
                 Log.error?.message("Can not read content of \(path)")
             }

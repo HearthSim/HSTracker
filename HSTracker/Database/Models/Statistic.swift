@@ -20,6 +20,7 @@ final class Statistic: Unboxable {
     var date: NSDate?
     var cards: [String: Int] = [:]
     var duration = 0
+    var note: String? = ""
 
     init(unboxer: Unboxer) {
         self.gameResult = unboxer.unbox("gameResult")
@@ -38,6 +39,7 @@ final class Statistic: Unboxable {
         }
         self.cards = unboxer.unbox("cards")
         self.duration = unboxer.unbox("duration")
+        self.note = unboxer.unbox("note")
     }
 
     init() {

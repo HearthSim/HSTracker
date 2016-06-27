@@ -86,6 +86,10 @@ final class Settings {
         set { set("rarity_colors", value: newValue) }
         get { return get("rarity_colors") as? Bool ?? true }
     }
+    var promptNotes: Bool {
+        set { set("prompt_for_notes", value: newValue) }
+        get { return get("prompt_for_notes") as? Bool ?? false }
+    }
     var autoGrayoutSecrets: Bool {
         set { set("auto_grayout_secrets", value: newValue) }
         get {

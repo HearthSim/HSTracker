@@ -19,3 +19,6 @@
 
 /* Class = "NSButtonCell"; title = "Close HSTracker when Hearthstone closes"; ObjectID = "hzK-vu-1RX"; */
 "hzK-vu-1RX.title" = "退出 HSTracker 当退出炉石传说";
+
+/* Class = "NSButtonCell"; title = "Add a note on end game (casual and ranked only)"; ObjectID = "4f5-xO-gik"; */
+"4f5-xO-gik.title" = "Add a note on end game (casual and ranked only)";

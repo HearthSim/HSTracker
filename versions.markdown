@@ -1,3 +1,6 @@
+#### 0.17.1
+- Add an option to add notes on game end
+
 #### 0.17
 - Fix positions for trackers, board damage, opponent card huds, ...
 - Add an option to show your deck name in tracker

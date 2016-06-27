@@ -399,7 +399,7 @@ struct HearthstatsAPI {
             "deck_version_id": deck.hearthstatsVersionId!,
             "oppclass": stat.opponentClass.capitalizedString,
             "oppname": stat.opponentName,
-            "notes": "",
+            "notes": stat.note ?? "",
             "ranklvl": stat.playerRank,
             "oppcards": stat.cards,
             "created_at": startAt

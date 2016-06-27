@@ -350,49 +350,88 @@ class Game {
         if let deck = activeDeck,
             opponentName = opponent.name,
             opponentClass = opponent.playerClass {
+            
+            var note = ""
 
-            let statistic = Statistic()
-            statistic.opponentName = opponentName
-            statistic.opponentClass = opponentClass.lowercaseString
-            statistic.gameResult = gameResult
-            statistic.hasCoin = hasCoin
-            statistic.playerRank = currentRank
-            statistic.playerMode = currentGameMode
-            statistic.numTurns = turnNumber()
-            let startTime: NSDate
-            if let gameStartDate = gameStartDate {
-                startTime = gameStartDate
-            } else {
-                startTime = NSDate()
-            }
-
-            let endTime: NSDate
-            if let gameEndDate = gameEndDate {
-                endTime = gameEndDate
-            } else {
-                endTime = NSDate()
-            }
-
-            // swiftlint:disable line_length
-            statistic.duration = Int(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970)
-            // swiftlint:enable line_length
-            var cards = [String: Int]()
-            opponent.displayRevealedCards.forEach({
-                cards[$0.id] = $0.count
-            })
-            statistic.cards = cards
-            deck.addStatistic(statistic)
-            Decks.instance.update(deck)
-
-            if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
-                do {
-                    if currentGameMode == .Arena {
-                        try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
-                    } else if currentGameMode != .Brawl {
-                        try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
+            if Settings.instance.promptNotes
+                && (currentGameMode == .Ranked || currentGameMode == .Casual) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    let alert = NSAlert()
+                    alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                    alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+                    let message = "Do you want to add some notes for this game ?"
+                    alert.informativeText = NSLocalizedString(message, comment: "")
+                    alert.alertStyle = .InformationalAlertStyle
+                    let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
+                    let input = NSTextView(frame: frame)
+                    alert.accessoryView = input
+                    NSRunningApplication.currentApplication().activateWithOptions([
+                        NSApplicationActivationOptions.ActivateAllWindows,
+                        NSApplicationActivationOptions.ActivateIgnoringOtherApps])
+                    NSApp.activateIgnoringOtherApps(true)
+                    if alert.runModal() == NSAlertFirstButtonReturn {
+                        note = input.string ?? ""
                     }
-                } catch {
+                    self.saveMatch(deck,
+                                   rank: currentRank,
+                                   note: note,
+                                   opponentName: opponentName,
+                                   opponentClass: opponentClass)
                 }
+            } else {
+                saveMatch(deck,
+                          rank: currentRank,
+                          note: note,
+                          opponentName: opponentName,
+                          opponentClass: opponentClass)
+            }
+        }
+    }
+    
+    private func saveMatch(deck: Deck, rank: Int, note: String,
+                           opponentName: String, opponentClass: String) {
+        let statistic = Statistic()
+        statistic.opponentName = opponentName
+        statistic.opponentClass = opponentClass.lowercaseString
+        statistic.gameResult = gameResult
+        statistic.hasCoin = hasCoin
+        statistic.playerRank = rank
+        statistic.playerMode = currentGameMode
+        statistic.numTurns = turnNumber()
+        statistic.note = note
+        let startTime: NSDate
+        if let gameStartDate = gameStartDate {
+            startTime = gameStartDate
+        } else {
+            startTime = NSDate()
+        }
+        
+        let endTime: NSDate
+        if let gameEndDate = gameEndDate {
+            endTime = gameEndDate
+        } else {
+            endTime = NSDate()
+        }
+        
+        // swiftlint:disable line_length
+        statistic.duration = Int(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970)
+        // swiftlint:enable line_length
+        var cards = [String: Int]()
+        opponent.displayRevealedCards.forEach({
+            cards[$0.id] = $0.count
+        })
+        statistic.cards = cards
+        deck.addStatistic(statistic)
+        Decks.instance.update(deck)
+        
+        if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
+            do {
+                if currentGameMode == .Arena {
+                    try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
+                } else if currentGameMode != .Brawl {
+                    try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
+                }
+            } catch {
             }
         }
     }
