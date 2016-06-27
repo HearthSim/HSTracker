@@ -122,3 +122,7 @@
 "mode_practice"  = "Entraînement/Aventure";
 "mode_spectator" = "Spectateur";
 "mode_none"      = "Aucun";
+
+/* Stats tabs */
+"Statistics" = "Statistiques";
+"The Climb" = "The Climb";
