@@ -10,60 +10,72 @@ import Cocoa
 import CleanroomLogger
 
 class Statistics: NSWindowController {
-    @IBOutlet weak var statsTable: NSTableView!
     @IBOutlet weak var selectedDeckIcon: NSImageView!
     @IBOutlet weak var selectedDeckName: NSTextField!
-    @IBOutlet weak var modePicker: NSPopUpButton!
+    
+    @IBOutlet weak var tabs: NSTabView!
     
     var deck: Deck?
+    var statsTab: StatsTab?
+    var ladderTab: LadderTab?
     
-    var statsTableItems = [StatsTableRow]()
-    
-    let modePickerItems: [GameMode] = [.All, .Ranked, .Casual, .Brawl, .Arena, .Friendly]
+    var tabSizes = [NSTabViewItem : CGSize]()
 
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        for mode in modePickerItems {
-            modePicker.addItemWithTitle(mode.userFacingName)
-        }
-        modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
-
         update()
-
-        statsTable.setDelegate(self)
-        statsTable.setDataSource(self)
         
-        let descClass   = NSSortDescriptor(key: "opponentClassName", ascending: true)
-        let descRecord  = NSSortDescriptor(key: "totalGames", ascending: false)
-        let descWinrate = NSSortDescriptor(key: "winRateNumber", ascending: false)
-        let descCI      = NSSortDescriptor(key: "confidenceWindow", ascending: true)
+        statsTab = StatsTab()
+        statsTab!.deck = self.deck
         
-        statsTable.tableColumns[0].sortDescriptorPrototype = descClass
-        statsTable.tableColumns[1].sortDescriptorPrototype = descRecord
-        statsTable.tableColumns[2].sortDescriptorPrototype = descWinrate
-        statsTable.tableColumns[3].sortDescriptorPrototype = descCI
+        ladderTab = LadderTab()
+        ladderTab!.deck = self.deck
+        ladderTab!.guessRankAndUpdate()
         
-        // swiftlint:disable line_length
-        statsTable.tableColumns[3].headerToolTip = NSLocalizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
-        // swiftlint:enable line_length
+        let statsTabView = NSTabViewItem(viewController: statsTab!)
+        statsTabView.label = NSLocalizedString("Statistics", comment: "")
+        tabSizes[statsTabView] = statsTab!.view.frame.size
         
-        // We need to update the display both when the 
+        let ladderTabView = NSTabViewItem(viewController: ladderTab!)
+        ladderTabView.label = NSLocalizedString("The Climb", comment: "")
+        tabSizes[ladderTabView] = ladderTab!.view.frame.size
+        
+        tabs.addTabViewItem(statsTabView)
+        tabs.addTabViewItem(ladderTabView)
+        
+        resizeWindowToFitTab(statsTabView)
+        
+        tabs.delegate = self
+        tabs.selectTabViewItem(statsTabView)
+        
+       
+        // We need to update the display both when the
         // stats change
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                          selector: #selector(update),
                                                          name: "reload_decks",
                                                          object: nil)
+ 
     }
     
-    func sortStatsTable() {
-        let sorted = (statsTableItems as NSArray)
-            .sortedArrayUsingDescriptors(statsTable.sortDescriptors)
-        if let _statsTableItems = sorted as? [StatsTableRow] {
-            statsTableItems = _statsTableItems
-        }
+    func resizeWindowToFitTab(tab: NSTabViewItem) {
+        //TODO: centering?
+        guard let desiredTabSize = tabSizes[tab], swindow = self.window
+            else { return }
+        
+        let currentTabSize = tab.view!.frame.size
+        let windowSize = swindow.frame.size
+        
+        let newSize = CGSize(
+            width:  windowSize.width  + desiredTabSize.width  - currentTabSize.width,
+            height: windowSize.height + desiredTabSize.height - currentTabSize.height)
+        
+        var frame = swindow.frame
+        frame.origin.y = swindow.frame.origin.y - newSize.height + windowSize.height
+        frame.size = newSize
+        swindow.setFrame(frame, display: true)
     }
-    
     
     func update() {
         if let deck = self.deck {
@@ -81,33 +93,17 @@ class Statistics: NSWindowController {
                 selectedDeckName.stringValue = "Deck name missing."
             }
             
-            var index = modePicker.indexOfSelectedItem
-            if index == -1 { // In case somehow nothing is selected
-                modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
-                index = modePicker.indexOfSelectedItem
-            }
-            statsTableItems = StatsHelper.getStatsUITableData(deck, mode: modePickerItems[index])
-            
-            sortStatsTable()
-            statsTable.reloadData()
-            
         } else {
             selectedDeckIcon.image = NSImage(named: "error")
             selectedDeckName.stringValue = "No deck selected."
-            
-            statsTableItems = []
         }
-        
-        statsTable.reloadData()
     }
+
     
     @IBAction func closeWindow(sender: AnyObject) {
         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
     }
     
-    @IBAction func modeSelected(sender: AnyObject) {
-        update()
-    }
     
     @IBAction func deleteStatistics(sender: AnyObject) {
         if let deck = deck {
@@ -122,67 +118,22 @@ class Statistics: NSWindowController {
                                            completionHandler: { (returnCode) in
                                             if returnCode == NSAlertFirstButtonReturn {
                                                 self.deck?.removeAllStatistics()
-                                                self.statsTable.reloadData()
+                                                self.statsTab!.statsTable.reloadData()
                                             }
             })
         }
     }
 }
 
-
-extension Statistics : NSTableViewDataSource {
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return statsTableItems.count
+extension Statistics: NSTabViewDelegate {
+    func tabView(tabView: NSTabView, didSelectTabViewItem tabViewItem: NSTabViewItem?) {
+        if tabView == tabs {
+            guard let item = tabViewItem
+                else { return }
+            resizeWindowToFitTab(item)
+        }
     }
 }
 
-extension Statistics : NSTableViewDelegate {
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?,
-                   row: Int) -> NSView? {
 
-        var image: NSImage?
-        var text: String = ""
-        var cellIdentifier: String = ""
-        var alignment: NSTextAlignment = NSTextAlignment.Left
-        
-        let item = statsTableItems[row]
-        
-        if tableColumn == tableView.tableColumns[0] {
-            image = NSImage(named: item.classIcon)
-            text  = item.opponentClassName
-            alignment = NSTextAlignment.Left
-            cellIdentifier = "StatsClassCellID"
-        } else if tableColumn == tableView.tableColumns[1] {
-            text = item.record
-            alignment = NSTextAlignment.Right
-            cellIdentifier = "StatsRecordCellID"
-        } else if tableColumn == tableView.tableColumns[2] {
-            text = item.winRate
-            alignment = NSTextAlignment.Right
-            cellIdentifier = "StatsWinRateCellID"
-        } else if tableColumn == tableView.tableColumns[3] {
-            text = item.confidenceInterval
-            alignment = NSTextAlignment.Right
-            cellIdentifier = "StatsCICellID"
-        }
 
-    
-        if let cell = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil)
-            as? NSTableCellView {
-            cell.textField?.stringValue = text
-            cell.imageView?.image = image ?? nil
-            cell.textField?.alignment = alignment
-            
-            return cell
-        }
-        
-        return nil
-    }
-    
-    func tableView(tableView: NSTableView, sortDescriptorsDidChange
-        oldDescriptors: [NSSortDescriptor]) {
-        sortStatsTable()
-        statsTable.reloadData()
-    }
-    
-}
