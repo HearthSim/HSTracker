@@ -1,17 +1,8 @@
 /* Class = "NSWindow"; title = "Deck Statistics"; ObjectID = "F0z-JX-Cv5"; */
 "F0z-JX-Cv5.title" = "Statistiques";
 
-/* Class = "NSTableColumn"; headerCell.title = "Record"; ObjectID = "JTM-2I-gQg"; */
-"JTM-2I-gQg.headerCell.title" = "Résultats";
-
 /* Class = "NSButtonCell"; title = "OK"; ObjectID = "PwO-Us-vPh"; */
 "PwO-Us-vPh.title" = "OK";
-
-/* Class = "NSTableColumn"; headerCell.title = "Versus Class"; ObjectID = "UHI-9Q-gSx"; */
-"UHI-9Q-gSx.headerCell.title" = "Contre classe";
-
-/* Class = "NSTableColumn"; headerCell.title = "Win Rate"; ObjectID = "UzM-eZ-BbM"; */
-"UzM-eZ-BbM.headerCell.title" = "Taux de victoire";
 
 /* Class = "NSTextFieldCell"; title = "No deck selected"; ObjectID = "hZh-Kz-cgX"; */
 "hZh-Kz-cgX.title" = "Aucun deck selectionné";
