@@ -120,7 +120,7 @@ class CardBar: NSView, CardBarTheme {
         if Settings.instance.isAsianLanguage {
             return "NanumGothic"
         } else if Settings.instance.isCyrillicLanguage {
-            return "Benguiat Rus"
+            return "BenguiatBold"
         } else {
             return "ChunkFive"
         }
