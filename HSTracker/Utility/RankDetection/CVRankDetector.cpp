@@ -45,7 +45,7 @@ CVRankDetector::CVRankDetector() {
 int CVRankDetector::detectRank(std::string tempfile)
 {
     cv::Mat img_screen = cv::imread(tempfile,0);
-
+    
     cv::Ptr<cv::Feature2D> detector = cv::xfeatures2d::SIFT::create();
     
     std::vector<cv::KeyPoint> keypoints_screen;
@@ -83,5 +83,10 @@ int CVRankDetector::detectRank(std::string tempfile)
             best_rank = test_rank;
         }
     }
-    return best_rank;
+    
+    if (best_match > nmatches_threshold) {
+        return best_rank;
+    } else {
+        return -1;
+    }
 }
