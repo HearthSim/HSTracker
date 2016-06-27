@@ -9,6 +9,7 @@
 import XCTest
 import Foundation
 import CleanroomLogger
+import SQLite
 
 @testable import HSTracker
 
@@ -53,5 +54,13 @@ class StatsTests: XCTestCase {
         let closeEnough = 1e-4
         return abs(a-b) < closeEnough
     }
-
+    
+    func testSQL()
+    {
+        let lg = LadderGrid()
+        
+        print(lg.getGamesToRank(5, stars: 0, bonus: 2 , winp: 0.655))
+        
+        
+    }
 }
