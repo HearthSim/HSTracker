@@ -84,7 +84,6 @@ class StatsHelper {
     static func getLadderTableData(deck: Deck, rank: Int, stars: Int, streak: Bool)
         -> [LadderTableRow] {
             
-        print(rank, stars, streak)
         var tableData = [LadderTableRow]()
         
         let record = getDeckRecord(deck, againstClass: "all", mode: .Ranked)
