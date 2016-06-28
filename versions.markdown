@@ -1,5 +1,6 @@
 #### 0.17.1
 - Add an option to add notes on game end
+- Add a ladder climb prediction based on deck statistic
 
 #### 0.17
 - Fix positions for trackers, board damage, opponent card huds, ...
