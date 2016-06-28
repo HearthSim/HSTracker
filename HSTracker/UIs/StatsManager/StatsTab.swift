@@ -71,26 +71,23 @@ class StatsTab: NSViewController {
                 index = modePicker.indexOfSelectedItem
             }
             
-            dispatch_async(dispatch_get_main_queue(), {
+            dispatch_async(dispatch_get_main_queue()) {
                 self.statsTableItems = StatsHelper.getStatsUITableData(deck,
-                    mode: self.modePickerItems[index])
+                                                        mode: self.modePickerItems[index])
                 self.sortStatsTable()
                 self.statsTable.reloadData()
-                })
-            
+            }
         } else {
-            dispatch_async(dispatch_get_main_queue(), {
+            dispatch_async(dispatch_get_main_queue()) {
                 self.statsTableItems = []
                 self.statsTable.reloadData()
-            })
+            }
         }
     }
     
     @IBAction func modeSelected(sender: AnyObject) {
         update()
     }
-    
-    
 }
 
 extension StatsTab : NSTableViewDataSource {
@@ -137,7 +134,6 @@ extension StatsTab : NSTableViewDelegate {
             cellIdentifier = "StatsCICellID"
         }
         
-        
         if let cell = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
@@ -153,10 +149,10 @@ extension StatsTab : NSTableViewDelegate {
     func tableView(tableView: NSTableView, sortDescriptorsDidChange
         oldDescriptors: [NSSortDescriptor]) {
         if tableView == statsTable {
-            dispatch_async(dispatch_get_main_queue(), {
+            dispatch_async(dispatch_get_main_queue()) {
                 self.sortStatsTable()
                 self.statsTable.reloadData()
-                })
+            }
         }
     }
     

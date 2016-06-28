@@ -118,9 +118,9 @@ class Statistics: NSWindowController {
                                            completionHandler: { (returnCode) in
                                             if returnCode == NSAlertFirstButtonReturn {
                                                 self.deck?.removeAllStatistics()
-                                                dispatch_async(dispatch_get_main_queue(), {
+                                                dispatch_async(dispatch_get_main_queue()) {
                                                     self.statsTab!.statsTable.reloadData()
-                                                })
+                                                }
                                             }
             })
         }
