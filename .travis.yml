@@ -1,6 +1,8 @@
 language: objective-c
 osx_image: xcode7.3
 before_install:
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
   - brew update
   - brew install carthage || brew upgrade carthage
   - gem install xcpretty
