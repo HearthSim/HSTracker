@@ -70,16 +70,20 @@ class StatsTab: NSViewController {
                 modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
                 index = modePicker.indexOfSelectedItem
             }
-            statsTableItems = StatsHelper.getStatsUITableData(deck, mode: modePickerItems[index])
             
-            sortStatsTable()
-            statsTable.reloadData()
+            dispatch_async(dispatch_get_main_queue(), {
+                self.statsTableItems = StatsHelper.getStatsUITableData(deck,
+                    mode: self.modePickerItems[index])
+                self.sortStatsTable()
+                self.statsTable.reloadData()
+                })
             
         } else {
-            statsTableItems = []
+            dispatch_async(dispatch_get_main_queue(), {
+                self.statsTableItems = []
+                self.statsTable.reloadData()
+            })
         }
-        
-        statsTable.reloadData()
     }
     
     @IBAction func modeSelected(sender: AnyObject) {
@@ -149,8 +153,10 @@ extension StatsTab : NSTableViewDelegate {
     func tableView(tableView: NSTableView, sortDescriptorsDidChange
         oldDescriptors: [NSSortDescriptor]) {
         if tableView == statsTable {
-            sortStatsTable()
-            statsTable.reloadData()
+            dispatch_async(dispatch_get_main_queue(), {
+                self.sortStatsTable()
+                self.statsTable.reloadData()
+                })
         }
     }
     

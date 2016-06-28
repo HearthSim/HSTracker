@@ -55,8 +55,10 @@ class LadderTab: NSViewController {
         gamesTable.setDataSource(self)
         timeTable.setDataSource(self)
         
-        gamesTable.reloadData()
-        timeTable.reloadData()
+        dispatch_async(dispatch_get_main_queue(), {
+            self.gamesTable.reloadData()
+            self.timeTable.reloadData()
+            })
 
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                          selector: #selector(guessRankAndUpdate),
@@ -120,15 +122,24 @@ class LadderTab: NSViewController {
             
             if let deck = self.deck {
                 let streak = (streakButton.state == NSOnState)
-                ladderTableItems = StatsHelper.getLadderTableData(deck,
-                                                                  rank: rank,
-                                                                  stars: stars,
-                                                                  streak: streak)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.ladderTableItems = StatsHelper.getLadderTableData(deck,
+                        rank: rank,
+                        stars: stars,
+                        streak: streak)
+                    self.gamesTable.reloadData()
+                    self.timeTable.reloadData()
+                })
+                
             } else {
-                ladderTableItems = []
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.ladderTableItems = []
+                    self.gamesTable.reloadData()
+                    self.timeTable.reloadData()
+                })
             }
-            gamesTable.reloadData()
-            timeTable.reloadData()
+            
+            
         }
     }
     
