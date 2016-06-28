@@ -14,6 +14,15 @@ class CVRankDetection {
 
     init () {
         detector = CVRankDetectorWrapper()
+        if !detector.didInit() {
+            Log.warning?.message("Failed to initialize rank detector. Retrying once...")
+            detector = CVRankDetectorWrapper()
+            if !detector.didInit() {
+                // swiftlint:disable line_length
+                Log.error?.message("Still failed to initialize rank detector. Rank detection will be unavailiable.")
+                // swiftlint:enable line_length
+            }
+        }
     }
     
     func playerRank() -> Int? {
@@ -33,7 +42,10 @@ class CVRankDetection {
     private func findRank(screenshot: NSImage, player: PlayerType) -> Int? {
         // Passing image by file because converting NSImage to cv::Mat was
         // causing random bugs and segfaults
-        //
+        
+        if !detector.didInit() {
+            return nil
+        }
         
         let directory = NSTemporaryDirectory()
         let fileName = NSUUID().UUIDString
@@ -50,9 +62,21 @@ class CVRankDetection {
             } catch {
                 Log.info?.message("Failed to remove temp")
             }
-            if rank != -1 {
+            
+            
+            if rank >= 0 {
                 Log.info?.message("detected rank for \(player) : \(rank)")
                 return Int(rank)
+            } else if rank == -2 {
+                //swiftlint:disable line_length
+                Log.error?.message("Called detectRank on bad CVRankDetector. This should never happen.")
+                //swiftlint:enable line_length
+                return nil
+            } else if rank == -3 {
+                //swiftlint:disable line_length
+                Log.error?.message("Rank detection failed in detectRank due to std::length_error thing")
+                //swiftlint:enable line_length
+                return nil
             } else {
                 Log.info?.message("Found no rank for \(player)")
                 return nil

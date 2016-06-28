@@ -18,4 +18,9 @@
     return self.cppItem->detectRank(std::string([temppath cStringUsingEncoding:NSUTF8StringEncoding]));
 }
 
+- (bool)didInit
+{
+    return self.cppItem->getDidInit();
+}
+
 @end

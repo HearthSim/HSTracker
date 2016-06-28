@@ -13,19 +13,23 @@
 #undef check
 #include <opencv2/opencv.hpp>
 #include <opencv2/xfeatures2d.hpp>
-#define check(assertion) __Check(assertion) 
+#define check(assertion) __Check(assertion)
 
 class CVRankDetector {
     
 public:
     CVRankDetector();
     int detectRank(std::string);
+    bool getDidInit();
     
 private:
     const double ratio_test_ratio = 0.6;
+    const int nmatches_threshold  = 10;
     
     std::vector<cv::Mat> descriptorsForRank;
     cv::Ptr<cv::Feature2D> detector;
+    
+    bool didInit = false;
     
 };
 
