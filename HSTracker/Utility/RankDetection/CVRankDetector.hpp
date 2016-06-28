@@ -20,6 +20,7 @@ class CVRankDetector {
 public:
     CVRankDetector();
     int detectRank(std::string);
+    bool getDidInit();
     
 private:
     const double ratio_test_ratio = 0.6;
@@ -27,6 +28,8 @@ private:
     
     std::vector<cv::Mat> descriptorsForRank;
     cv::Ptr<cv::Feature2D> detector;
+    
+    bool didInit = false;
     
 };
 
