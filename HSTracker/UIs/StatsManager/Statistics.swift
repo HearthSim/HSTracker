@@ -26,10 +26,10 @@ class Statistics: NSWindowController {
         
         update()
         
-        statsTab = StatsTab()
+        statsTab = StatsTab(nibName: "StatsTab", bundle: nil)
         statsTab!.deck = self.deck
         
-        ladderTab = LadderTab()
+        ladderTab = LadderTab(nibName: "LadderTab", bundle: nil)
         ladderTab!.deck = self.deck
         ladderTab!.guessRankAndUpdate()
         
