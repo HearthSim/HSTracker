@@ -45,19 +45,19 @@
 "wWN-25-Exd.paletteLabel" = "捐赠";
 
 /* Class = "NSToolbarItem"; label = "Archive"; ObjectID = "Fe5-be-5CS"; */
-"Fe5-be-5CS.label" = "Archive";
+"Fe5-be-5CS.label" = "档案";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Archive"; ObjectID = "Fe5-be-5CS"; */
-"Fe5-be-5CS.paletteLabel" = "Archive";
+"Fe5-be-5CS.paletteLabel" = "档案";
 
 /* Class = "NSToolbarItem"; label = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.label" = "Sort";
+"cu3-FG-2Cn.label" = "分类";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.paletteLabel" = "Sort";
+"cu3-FG-2Cn.paletteLabel" = "分类";
 
 /* Class = "NSToolbarItem"; label = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
-"T0e-lu-Gfj.label" = "Statistics";
+"T0e-lu-Gfj.label" = "统计";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
-"T0e-lu-Gfj.paletteLabel" = "Statistics";
+"T0e-lu-Gfj.paletteLabel" = "统计";
