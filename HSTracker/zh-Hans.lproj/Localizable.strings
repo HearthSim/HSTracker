@@ -1,5 +1,5 @@
-"Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭套牌？您的修改不会被保存.";
-"Are you sure you want to delete the deck %@ ?" = "你确定要删除 %@ 套牌?";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭套牌 ？您的修改不会被保存.";
+"Are you sure you want to delete the deck %@ ?" = "你确定要删除 %@ 套牌 ?";
 "Arena %@ %@" = "競技場 %@ %@";
 "Cancel" = "取消";
 "Clear" = "清除";
@@ -7,8 +7,8 @@
 "Deck name" = "套牌名字";
 "Decks" = "套牌";
 "Delete deck" = "删除套牌";
-"Do you want to add this deck on Hearthstats ?" = "你想加这个套牌上 Hearthstats 吗?";
-"Do you want to delete the deck on Hearthstats ?" = "你想要删除这个套牌在 Hearthstats 吗?";
+"Do you want to add this deck on Hearthstats ?" = "你想加这个套牌上 Hearthstats 吗 ?";
+"Do you want to delete the deck on Hearthstats ?" = "你想要删除这个套牌在 Hearthstats 吗 ?";
 "Downloading %@.png" = "下载 %@.png";
 "Downloading images" = "下载图片";
 "Edit deck" = "修改套牌";
@@ -36,15 +36,15 @@
 "Are you sure you want to disconnect from Hearthstats ?" = "你确定要从断开 Hearthstats ?";
 "Save Opponent's Deck" = "保存对手的套牌";
 "Save Current Deck" = "保存现在的套牌";
-"Are you sure you want to archive the deck %@ ?" = "你确定要存档 %@ 套牌?";
-"Are you sure you want to unarchive the deck %@ ?" = "你确定要解除封存 %@ 套牌?";
+"Are you sure you want to archive the deck %@ ?" = "你确定要存档 %@ 套牌 ?";
+"Are you sure you want to unarchive the deck %@ ?" = "你确定要解除封存 %@ 套牌 ?";
 "Add Card" = "加卡";
 "Remove Card" = "取出卡";
 "Fatigue : " = "疲劳 : ";
-"It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
-"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.";
-"Are you sure you want to delete the statistics for the deck %@ ?" = "Are you sure you want to delete the statistics for the deck %@ ?";
-"Do you want to add some notes for this game ?" = "Do you want to add some notes for this game ?";
+"It is 90% certain that the true winrate falls between these values." = "是 90 % 肯定真正的赢率落在这些值之间.";
+"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "你的競技場套牌没有保存 . 重启炉石传说和重新保存套牌 .";
+"Are you sure you want to delete the statistics for the deck %@ ?" = "你确定要删除 %@ 套牌的统计 ?";
+"Do you want to add some notes for this game ?" = "你想加评论给这个游戏吗 ?";
 
 /* notifications */
 "Your game begins" = "游戏开始";
@@ -113,16 +113,16 @@
 "descending" = "降序";
 
 /* game modes */
-"mode_all"       = "All";
-"mode_ranked"    = "Ranked";
-"mode_casual"    = "Casual";
-"mode_arena"     = "Arena";
-"mode_brawl"     = "Tavern Brawl";
-"mode_friendly"  = "Friendly";
-"mode_practice"  = "Practice/Adventure";
-"mode_spectator" = "Spectator";
-"mode_none"      = "None";
+"mode_all"       = "所有";
+"mode_ranked"    = "排名模式";
+"mode_casual"    = "休闲模式";
+"mode_arena"     = "競技場模式";
+"mode_brawl"     = "旅店大亂鬥";
+"mode_friendly"  = "友好模式";
+"mode_practice"  = "练习模式 / 冒險模式";
+"mode_spectator" = "观战模式";
+"mode_none"      = "没有";
 
 /* Stats tabs */
-"Statistics" = "Statistics";
-"The Climb" = "The Climb";
+"Statistics" = "统计";
+"The Climb" = "排名统计";
