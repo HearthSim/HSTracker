@@ -13,6 +13,7 @@
                 <outlet property="fromHearthstats" destination="vzD-dv-0qH" id="dsp-hV-346"/>
                 <outlet property="fromTheWeb" destination="zw5-rl-Uh0" id="S7o-df-Kcr"/>
                 <outlet property="hstrackerDeckBuilder" destination="HQy-Fh-m0E" id="FCQ-mJ-rDj"/>
+                <outlet property="loader" destination="AnM-ox-JdV" id="MLi-cL-vdt"/>
                 <outlet property="okButton" destination="5rB-EX-IcR" id="VMq-tb-lIb"/>
                 <outlet property="urlDeck" destination="rai-VR-bB3" id="JOG-eH-AIB"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="ITp-wA-qfR"/>
@@ -113,6 +114,16 @@
                             <action selector="openDeck:" target="-2" id="wGT-y8-mrR"/>
                         </connections>
                     </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="vzD-dv-0qH">
+                        <rect key="frame" x="19" y="63" width="443" height="18"/>
+                        <buttonCell key="cell" type="radio" title="From Hearthstats" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="sLd-eV-3AX">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="radioChange:" target="-2" id="ybV-7s-iov"/>
+                        </connections>
+                    </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5rB-EX-IcR">
                         <rect key="frame" x="407" y="13" width="59" height="32"/>
                         <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="trs-D1-mgZ">
@@ -139,16 +150,9 @@ Gw
                             <action selector="cancelClicked:" target="-2" id="lR9-RI-5dM"/>
                         </connections>
                     </button>
-                    <button translatesAutoresizingMaskIntoConstraints="NO" id="vzD-dv-0qH">
-                        <rect key="frame" x="19" y="63" width="443" height="18"/>
-                        <buttonCell key="cell" type="radio" title="From Hearthstats" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="sLd-eV-3AX">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="radioChange:" target="-2" id="ybV-7s-iov"/>
-                        </connections>
-                    </button>
+                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="AnM-ox-JdV">
+                        <rect key="frame" x="307" y="23" width="16" height="16"/>
+                    </progressIndicator>
                 </subviews>
                 <constraints>
                     <constraint firstItem="5rB-EX-IcR" firstAttribute="leading" secondItem="kOn-oh-tpj" secondAttribute="trailing" constant="10" id="2gF-fo-XnN"/>
@@ -167,7 +171,9 @@ Gw
                     <constraint firstItem="HQy-Fh-m0E" firstAttribute="centerY" secondItem="spZ-RM-AFF" secondAttribute="centerY" id="Xgv-Di-lEr"/>
                     <constraint firstItem="kOn-oh-tpj" firstAttribute="centerY" secondItem="5rB-EX-IcR" secondAttribute="centerY" id="ZCH-VK-dn4"/>
                     <constraint firstAttribute="trailing" secondItem="spZ-RM-AFF" secondAttribute="trailing" constant="20" id="ZHf-Ul-fav"/>
+                    <constraint firstItem="kOn-oh-tpj" firstAttribute="leading" secondItem="AnM-ox-JdV" secondAttribute="trailing" constant="10" id="ZkX-Ly-vR4"/>
                     <constraint firstAttribute="trailing" secondItem="zId-Z2-sHp" secondAttribute="trailing" constant="20" id="b5w-7y-O2u"/>
+                    <constraint firstItem="AnM-ox-JdV" firstAttribute="centerY" secondItem="kOn-oh-tpj" secondAttribute="centerY" id="dN1-jA-Y55"/>
                     <constraint firstItem="rai-VR-bB3" firstAttribute="leading" secondItem="zw5-rl-Uh0" secondAttribute="trailing" constant="10" id="dWv-hx-e9T"/>
                     <constraint firstItem="HQy-Fh-m0E" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="e7w-6Y-G27"/>
                     <constraint firstItem="rai-VR-bB3" firstAttribute="top" secondItem="Hi4-1P-a8c" secondAttribute="bottom" constant="20" id="k2L-46-7p3"/>

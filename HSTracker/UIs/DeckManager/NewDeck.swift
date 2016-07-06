@@ -25,6 +25,7 @@ class NewDeck: NSWindowController {
     @IBOutlet weak var okButton: NSButton!
     @IBOutlet weak var arenaDeck: NSButton!
     @IBOutlet weak var fromHearthstats: NSButton!
+    @IBOutlet weak var loader: NSProgressIndicator!
 
     var delegate: NewDeckDelegate?
     var defaultClass: String?
@@ -81,29 +82,36 @@ class NewDeck: NSWindowController {
         } else if fromTheWeb.state == NSOnState {
             // TODO add loader
             do {
+                loader.startAnimation(self)
                 try NetImporter.netImport(urlDeck.stringValue,
                                           completion: { (deck) -> Void in
-                    if let deck = deck {
-                        self._addDeck(deck)
-                    } else {
-                        // TODO show error
-                    }
+                                            self.loader.stopAnimation(self)
+                                            if let deck = deck {
+                                                self._addDeck(deck)
+                                            } else {
+                                                // TODO show error
+                                            }
                 })
             } catch {
+                self.loader.stopAnimation(self)
                 // TODO show error
             }
         } else if fromAFile.state == NSOnState {
             // add here to remember this case exists
         } else if fromHearthstats.state == NSOnState {
             do {
+                loader.startAnimation(self)
                 try HearthstatsAPI.loadDecks(false) { (success, newDecks) in
+                    self.loader.stopAnimation(self)
                     self.delegate?.refreshDecks()
                     self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
                 }
             } catch HearthstatsError.NotLogged {
                 print("not logged")
+                self.loader.stopAnimation(self)
             } catch {
                 print("??? logged")
+                self.loader.stopAnimation(self)
             }
         }
     }
