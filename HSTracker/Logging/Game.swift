@@ -451,7 +451,14 @@ class Game {
         if player == .Player {
             handleThaurissanCostReduction()
             showNotification(.TurnStart)
+            
+            // update opponent tracker in case of end of turn (C'Thun, draw, ...)
+            updateOpponentTracker()
+        } else {
+            // update player tracker in case of end of turn (C'Thun, draw, ...)
+            updatePlayerTracker()
         }
+        
         dispatch_async(dispatch_get_main_queue()) {
             TurnTimer.instance.setPlayer(player)
         }
