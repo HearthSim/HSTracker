@@ -23,7 +23,7 @@ extension Array where Element: Card {
                 if $1.type == $0.type {
                     return $0.name < $1.name
                 }
-                return $1.type < $0.type
+                return $1.type.rawString() < $0.type.rawString()
             }
             return $0.cost < $1.cost
         }

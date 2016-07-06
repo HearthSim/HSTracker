@@ -53,7 +53,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var currentDamage = -1
     var currentHealth = -1
     var currentRace = ""
-    var currentCardType = ""
+    var currentCardType = CardType.INVALID
     var deckUndoManager: NSUndoManager?
 
     var monitor: AnyObject? = nil
@@ -345,7 +345,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             let popupMenuItem = NSMenuItem(title: NSLocalizedString(cardType, comment: ""),
                                            action: #selector(EditDeck.changeCardType(_:)),
                                            keyEquivalent: "")
-            popupMenuItem.representedObject = cardType
+            popupMenuItem.representedObject = cardType.uppercaseString
             popupMenu.addItem(popupMenuItem)
         }
         cardType.menu = popupMenu
@@ -354,8 +354,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBAction func changeCardType(sender: NSMenuItem) {
         if let type = sender.representedObject as? String {
             switch type {
-            case "all_types": currentCardType = ""
-            default: currentCardType = type
+            case "all_types": currentCardType = .INVALID
+            default: currentCardType = CardType(rawString: type) ?? .INVALID
             }
         }
 

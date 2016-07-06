@@ -38,6 +38,10 @@ enum CardType: Int {
         }
         self = .INVALID
     }
+    
+    func rawString() -> String {
+        return "\(self)".lowercaseString.replace("_", with: " ")
+    }
 
     static func allValues() -> [CardType] {
         return [.INVALID, .GAME, .PLAYER, .HERO, .MINION, .SPELL,

@@ -24,7 +24,7 @@ final class Card: Hashable, CustomStringConvertible {
     var set: CardSet?
     var text = ""
     var race = ""
-    var type = "unknown"
+    var type = CardType.INVALID
     // var mechanics: Set<CardMechanic>
     var isStandard = false
 

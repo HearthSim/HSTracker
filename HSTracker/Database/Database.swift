@@ -81,8 +81,9 @@ struct Database {
                                     card.rarity = Rarity(rawValue: cardRarity.lowercaseString)!
                                 }
 
-                                if let cardType = jsonCard["type"] as? String {
-                                    card.type = cardType.lowercaseString
+                                if let type = jsonCard["type"] as? String,
+                                    cardType = CardType(rawString: type) {
+                                    card.type = cardType
                                 }
 
                                 if let cardPlayerClass = jsonCard["playerClass"] as? String {
@@ -115,7 +116,7 @@ struct Database {
                                     card.collectible = collectible
 
                                     // card is collectible, mark it as needed for download
-                                    if lang == imageLanguage && card.type != "hero" {
+                                    if lang == imageLanguage && card.type != .HERO {
                                         images.append(card.id)
                                     }
                                 }

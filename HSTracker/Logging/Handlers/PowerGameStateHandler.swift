@@ -318,7 +318,7 @@ class PowerGameStateHandler {
                             if (player != nil && player!.getTag(.CURRENT_PLAYER) == 1 && !game.playerUsedHeroPower)
                                 || (opponent != nil && opponent!.getTag(.CURRENT_PLAYER) == 1
                                     && !game.opponentUsedHeroPower) {
-                                if card.type == "hero power" {
+                                if card.type == .HERO_POWER {
                                     if player != nil && player!.getTag(GameTag.CURRENT_PLAYER) == 1 {
                                         game.playerHeroPower(actionStartingCardId, turn: game.turnNumber())
                                         game.playerUsedHeroPower = true

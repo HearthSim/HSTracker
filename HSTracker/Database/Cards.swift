@@ -12,7 +12,7 @@ final class Cards {
     static var cards = [Card]()
 
     static func heroById(cardId: String) -> Card? {
-        if let card = cards.firstWhere({ $0.id == cardId && $0.type == "hero" }) {
+        if let card = cards.firstWhere({ $0.id == cardId && $0.type == .HERO }) {
             return card.copy()
         }
         return nil
@@ -28,7 +28,7 @@ final class Cards {
         guard !String.isNullOrEmpty(cardId) else { return nil }
 
         if let card = cards.filter({
-            $0.type != "hero" && $0.type != "hero power"
+            $0.type != .HERO && $0.type != .HERO_POWER
         }).firstWhere({ $0.id == cardId }) {
             return card.copy()
         }
@@ -72,7 +72,7 @@ final class Cards {
     }
 
     static func collectible() -> [Card] {
-        return cards.filter { $0.collectible && $0.type != "hero" && $0.type != "hero power" }
+        return cards.filter { $0.collectible && $0.type != .HERO && $0.type != .HERO_POWER }
     }
 
     static func byClass(className: String?, set: String?) -> [Card] {
@@ -94,7 +94,7 @@ final class Cards {
     static func search(className className: String?, sets: [CardSet] = [],
                                  term: String = "", cost: Int = -1,
                                  rarity: Rarity? = .None, standardOnly: Bool = false,
-                                 damage: Int = -1, health: Int = -1, type: String = "",
+                                 damage: Int = -1, health: Int = -1, type: CardType = .INVALID,
                                  race: String = "") -> [Card] {
         var cards = collectible()
 
@@ -107,12 +107,12 @@ final class Cards {
                         $0.enName.lowercaseString.contains(term.lowercaseString) ||
                         $0.text.lowercaseString.contains(term.lowercaseString) ||
                         $0.rarity.rawValue.contains(term.lowercaseString) ||
-                        $0.type.lowercaseString.contains(term.lowercaseString) ||
+                        $0.type.rawString().lowercaseString.contains(term.lowercaseString) ||
                         $0.race.contains(term.lowercaseString)
             }
         }
 
-        if !type.isEmpty {
+        if type != .INVALID {
             cards = cards.filter { $0.type == type }
         }
 
