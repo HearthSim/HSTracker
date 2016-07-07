@@ -1,3 +1,8 @@
+#### 0.17.2
+- Correct a crash when opening statistics window
+- Update portuguese translation
+- Add a loader when importing a deck from the net
+
 #### 0.17.1
 - Add an option to add notes on game end
 - Add a ladder climb prediction based on deck statistic
