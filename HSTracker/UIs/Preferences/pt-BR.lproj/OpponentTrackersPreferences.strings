@@ -21,13 +21,13 @@
 "RyA-1i-LPY.title" = "Show C'Thun counter";
 
 /* Class = "NSButtonCell"; title = "Include created cards"; ObjectID = "PrR-2g-WEA"; */
-"PrR-2g-WEA.title" = "Include created cards";
+"PrR-2g-WEA.title" = "Incluir cards criados";
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
-"aZW-kf-zpy.title" = "Show Deathrattle counter";
+"aZW-kf-zpy.title" = "Mostrar contador de Último Suspiro";
 
 /* Class = "NSButtonCell"; title = "Show player class and name"; ObjectID = "aW1-2y-nKx"; */
-"aW1-2y-nKx.title" = "Show player class and name";
+"aW1-2y-nKx.title" = "Mostrar classe do jogador e nome";
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "fah-Dr-Amh"; */
 "fah-Dr-Amh.title" = "Show board damage";

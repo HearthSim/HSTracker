@@ -33,7 +33,7 @@
 "F2S-fz-NVQ.title" = "Ajuda";
 
 /* Class = "NSMenuItem"; title = "HSTracker Help"; ObjectID = "FKE-Sm-Kum"; */
-"FKE-Sm-Kum.title" = "Ajuda HSTracker";
+"FKE-Sm-Kum.title" = "Ajuda do HSTracker";
 
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
 "Kd2-mp-pUS.title" = "Mostrar Tudo";

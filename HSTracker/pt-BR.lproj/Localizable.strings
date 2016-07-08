@@ -30,10 +30,10 @@
 "Unlock windows" = "Destravar janelas";
 "Use deck" = "Usar deck";
 "Window" = "Janela";
-"You are now connected to Hearthstats" = "Você agora está conectado a Hearthstats";
+"You are now connected to Hearthstats" = "Você agora está conectado ao Hearthstats";
 "You must restart Hearthstone for logs to be used" = "Você precisa reiniciar o Hearthstone para os logs serem usados";
 "You must restart HSTracker for the language change to take effect" = "Você deve reiniciar o HSTracker para as mudanças serem efetivadas.";
-"Are you sure you want to disconnect from Hearthstats ?" = "Tem certeza que deseja disconectar-se de Hearthstats ?";
+"Are you sure you want to disconnect from Hearthstats ?" = "Tem certeza que deseja disconectar-se do Hearthstats ?";
 "Save Opponent's Deck" = "Salvar Deck do oponente";
 "Save Current Deck" = "Salvar Deck atual";
 "Save Arena Deck" = "Salvar Deck da Arena";
@@ -42,9 +42,9 @@
 "Add Card" = "Adicionar Card";
 "Remove Card" = "Remover Card";
 "Fatigue : " = "Fadiga : ";
-"It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
-"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.";
-"Are you sure you want to delete the statistics for the deck %@ ?" = "Are you sure you want to delete the statistics for the deck %@ ?";
+"It is 90% certain that the true winrate falls between these values." = "É 90% de certeza que as verdadeiras taxas de vitória caem entre esses valores.";
+"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "Houve um problema ao salvar seu deck da Arena. Tente reiniciar o Hearthstone e clicar em 'Arena', e então tente salvar outra vez.";
+"Are you sure you want to delete the statistics for the deck %@ ?" = "Tem certeza que deseja deletar as estatísticas para o deck %@ ?";
 "Do you want to add some notes for this game ?" = "Desejar adicionar algumas notas para esse jogo ?";
 
 /* notifications */
@@ -83,7 +83,7 @@
 "BRM" = "Montanha Rocha Negra";
 "TGT" = "O Grande Torneio";
 "LOE" = "Liga dos Exploradores";
-"OG" = "Sussurros dos Deus Antigos";
+"OG" = "Sussurros dos Deuses Antigos";
 "PROMO" = "Promocional";
 
 /* card type */
