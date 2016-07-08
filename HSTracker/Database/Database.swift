@@ -18,7 +18,7 @@ struct Database {
     // swiftlint:disable line_length
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
-        var langs = [String]()
+        var langs: [String] = []
         if let language = Settings.instance.hearthstoneLanguage where language != "enUS" {
             langs += [language]
             imageLanguage = language

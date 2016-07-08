@@ -16,6 +16,12 @@
 		4305CA441CF42AE50048E7EC /* Unbox.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
+		4311E6AB1D2EF49300DDA546 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C92C68141D1F6F4F009030DC /* SQLite.framework */; };
+		4311E6AC1D2EF49300DDA546 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; };
+		4311E6AD1D2EF49300DDA546 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436F5D401D001A6D00DEB9A1 /* GPUImage.framework */; };
+		4311E6AE1D2EF49300DDA546 /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; };
+		4311E6AF1D2EF49300DDA546 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
+		4311E6B01D2EF49300DDA546 /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
 		4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */; };
 		4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFF21CA0401B00F3F2BE /* Int.swift */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
@@ -53,15 +59,6 @@
 		4345E9E31CB45122002D0F23 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
 		4345E9E41CB45122002D0F23 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
 		4345E9E51CB45122002D0F23 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
-		4345E9E61CB45126002D0F23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
-		4345E9E71CB45126002D0F23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
-		4345E9E81CB45126002D0F23 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
-		4345E9E91CB45126002D0F23 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
-		4345E9EA1CB45126002D0F23 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
-		4345E9EB1CB45126002D0F23 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
-		4345E9EC1CB45126002D0F23 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
-		4345E9ED1CB45126002D0F23 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
-		4345E9EE1CB45126002D0F23 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
 		4345E9F21CB4514D002D0F23 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4345E9F31CB4514D002D0F23 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4345E9F41CB4514D002D0F23 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -155,7 +152,6 @@
 		4394C79F1D188FD700007FAD /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
-		439C7E6C1C7772C100D29859 /* HSTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */; };
 		439C7E851C777CFC00D29859 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E7D1C777CFC00D29859 /* Deck.swift */; };
 		439C7E891C777CFC00D29859 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E811C777CFC00D29859 /* Card.swift */; };
 		439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E831C777CFC00D29859 /* CardMechanic.swift */; };
@@ -240,13 +236,6 @@
 
 /* Begin PBXContainerItemProxy section */
 		439C7E5D1C7772C100D29859 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 439C7E401C7772C000D29859 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 439C7E471C7772C000D29859;
-			remoteInfo = HSTracker;
-		};
-		439C7E681C7772C100D29859 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 439C7E401C7772C000D29859 /* Project object */;
 			proxyType = 1;
@@ -530,7 +519,6 @@
 		439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HSTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E601C7772C100D29859 /* HSTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTrackerTests.swift; sourceTree = "<group>"; };
 		439C7E621C7772C100D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		439C7E671C7772C100D29859 /* HSTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HSTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTrackerUITests.swift; sourceTree = "<group>"; };
 		439C7E6D1C7772C100D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HSTracker-Bridging-Header.h"; path = "HSTracker/HSTracker-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -666,22 +654,12 @@
 				4345E9E31CB45122002D0F23 /* JNWCollectionView.framework in Frameworks */,
 				4345E9E41CB45122002D0F23 /* Kanna.framework in Frameworks */,
 				4345E9E51CB45122002D0F23 /* MASPreferences.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		439C7E641C7772C100D29859 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4345E9E61CB45126002D0F23 /* Cocoa.framework in Frameworks */,
-				4345E9E71CB45126002D0F23 /* Foundation.framework in Frameworks */,
-				4345E9E81CB45126002D0F23 /* Alamofire.framework in Frameworks */,
-				4345E9E91CB45126002D0F23 /* CleanroomASL.framework in Frameworks */,
-				4345E9EA1CB45126002D0F23 /* CleanroomLogger.framework in Frameworks */,
-				4345E9EB1CB45126002D0F23 /* HockeySDK.framework in Frameworks */,
-				4345E9EC1CB45126002D0F23 /* JNWCollectionView.framework in Frameworks */,
-				4345E9ED1CB45126002D0F23 /* Kanna.framework in Frameworks */,
-				4345E9EE1CB45126002D0F23 /* MASPreferences.framework in Frameworks */,
+				4311E6AB1D2EF49300DDA546 /* SQLite.framework in Frameworks */,
+				4311E6AC1D2EF49300DDA546 /* opencv2.framework in Frameworks */,
+				4311E6AD1D2EF49300DDA546 /* GPUImage.framework in Frameworks */,
+				4311E6AE1D2EF49300DDA546 /* Unbox.framework in Frameworks */,
+				4311E6AF1D2EF49300DDA546 /* Wrap.framework in Frameworks */,
+				4311E6B01D2EF49300DDA546 /* TextAttributes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,7 +841,6 @@
 			children = (
 				439C7E481C7772C000D29859 /* HSTracker.app */,
 				439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */,
-				439C7E671C7772C100D29859 /* HSTrackerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1201,24 +1178,6 @@
 			productReference = 439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		439C7E661C7772C100D29859 /* HSTrackerUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 439C7E761C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTrackerUITests" */;
-			buildPhases = (
-				439C7E631C7772C100D29859 /* Sources */,
-				439C7E641C7772C100D29859 /* Frameworks */,
-				439C7E651C7772C100D29859 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				439C7E691C7772C100D29859 /* PBXTargetDependency */,
-			);
-			name = HSTrackerUITests;
-			productName = HSTrackerUITests;
-			productReference = 439C7E671C7772C100D29859 /* HSTrackerUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1234,10 +1193,6 @@
 						DevelopmentTeam = GZ37WWWK6W;
 					};
 					439C7E5B1C7772C100D29859 = {
-						CreatedOnToolsVersion = 7.2.1;
-						TestTargetID = 439C7E471C7772C000D29859;
-					};
-					439C7E661C7772C100D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
 						TestTargetID = 439C7E471C7772C000D29859;
 					};
@@ -1264,7 +1219,6 @@
 			targets = (
 				439C7E471C7772C000D29859 /* HSTracker */,
 				439C7E5B1C7772C100D29859 /* HSTrackerTests */,
-				439C7E661C7772C100D29859 /* HSTrackerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1308,13 +1262,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		439C7E5A1C7772C100D29859 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		439C7E651C7772C100D29859 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1499,14 +1446,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		439C7E631C7772C100D29859 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				439C7E6C1C7772C100D29859 /* HSTrackerUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1514,11 +1453,6 @@
 			isa = PBXTargetDependency;
 			target = 439C7E471C7772C000D29859 /* HSTracker */;
 			targetProxy = 439C7E5D1C7772C100D29859 /* PBXContainerItemProxy */;
-		};
-		439C7E691C7772C100D29859 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 439C7E471C7772C000D29859 /* HSTracker */;
-			targetProxy = 439C7E681C7772C100D29859 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1922,6 +1856,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/HSTracker-OpenCV",
 				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -1940,48 +1875,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/HSTracker-OpenCV",
 				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HSTracker.app/Contents/MacOS/HSTracker";
-			};
-			name = Release;
-		};
-		439C7E771C7772C100D29859 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
-				INFOPLIST_FILE = HSTrackerUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = HSTracker;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		439C7E781C7772C100D29859 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/Mac",
-				);
-				INFOPLIST_FILE = HSTrackerUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = HSTracker;
-				USES_XCTRUNNER = YES;
 			};
 			name = Release;
 		};
@@ -2011,15 +1911,6 @@
 			buildConfigurations = (
 				439C7E741C7772C100D29859 /* Debug */,
 				439C7E751C7772C100D29859 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		439C7E761C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTrackerUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				439C7E771C7772C100D29859 /* Debug */,
-				439C7E781C7772C100D29859 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
