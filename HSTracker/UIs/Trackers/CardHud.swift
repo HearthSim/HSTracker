@@ -49,6 +49,7 @@ class CardHud: NSView {
         var text = ""
         var image: String? = nil
         var cost = 0
+        card = nil
         
         if let entity = entity {
             text = "\(entity.info.turn)"
