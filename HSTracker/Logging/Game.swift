@@ -23,6 +23,7 @@ class Game {
     var currentTurn = 0
     var maxId = 0
     var lastId = 0
+    var gameTriggerCount = 0
 
     var player: Player
     var opponent: Player
@@ -141,6 +142,7 @@ class Game {
         
         maxId = 0
         lastId = 0
+        gameTriggerCount = 0
 
         entities.removeAll()
         tmpEntities.removeAll()
@@ -491,9 +493,8 @@ class Game {
     func isMulliganDone() -> Bool {
         let player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         let opponent = entities.map { $0.1 }.firstWhere { $0.hasTag(.PLAYER_ID) && !$0.isPlayer }
-
-        if let player = player,
-            opponent = opponent {
+        
+        if let player = player, opponent = opponent {
             return player.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
                 && opponent.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
         }

@@ -816,6 +816,7 @@ struct CardIds {
             static let Neptulon = "GVG_042"
             static let DunemaulShaman = "GVG_066"
             static let Thrall = "HERO_02"
+            static let MorglTheOracle = "HERO_02a"
             static let RumblingElemental = "LOE_016"
             static let TunnelTrogg = "LOE_018"
             static let EveryfinIsAwesome = "LOE_113"

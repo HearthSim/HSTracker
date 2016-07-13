@@ -29,4 +29,39 @@ enum Step: Int {
     FINAL_GAMEOVER = 15,
     MAIN_CLEANUP = 16,
     MAIN_START_TRIGGERS = 17
+    
+    init?(rawString: String) {
+        for _enum in Step.allValues() {
+            if "\(_enum)" == rawString {
+                self = _enum
+                return
+            }
+        }
+        if let value = Int(rawString), _enum = Step(rawValue: value) {
+            self = _enum
+            return
+        }
+        self = .INVALID
+    }
+    
+    static func allValues() -> [Step] {
+        return [.INVALID,
+                .BEGIN_FIRST,
+                .BEGIN_SHUFFLE,
+                .BEGIN_DRAW,
+                .BEGIN_MULLIGAN,
+                .MAIN_BEGIN,
+                .MAIN_READY,
+                .MAIN_RESOURCE,
+                .MAIN_DRAW,
+                .MAIN_START,
+                .MAIN_ACTION,
+                .MAIN_COMBAT,
+                .MAIN_END,
+                .MAIN_NEXT,
+                .FINAL_WRAPUP,
+                .FINAL_GAMEOVER,
+                .MAIN_CLEANUP,
+                .MAIN_START_TRIGGERS]
+    }
 }

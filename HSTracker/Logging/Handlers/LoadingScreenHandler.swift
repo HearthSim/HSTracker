@@ -16,42 +16,38 @@ struct LoadingScreenHandler {
     static let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
 
     func handle(game: Game, line: String) {
-        if !line.match(self.dynamicType.GameModeRegex) {
-            return
-        }
-
-        let matches = line.matches(self.dynamicType.GameModeRegex)
-
-        game.currentMode = Mode(rawValue: matches[1].value)
-        game.previousMode = Mode(rawValue: matches[0].value)
-
-        var newMode: GameMode?
-        if let mode = game.currentMode, currentMode = getGameMode(mode) {
-            newMode = currentMode
-        } else if let mode = game.currentMode, currentMode = getGameMode(mode) {
-            newMode = currentMode
-        }
-
-        if let newMode = newMode { 
-            Log.info?.message("Game mode : \(newMode)")
-            game.currentGameMode = newMode
-        }
-        if game.previousMode == .GAMEPLAY {
-            game.inMenu()
-        }
-        if let currentMode = game.currentMode {
-            switch currentMode {
-            case .COLLECTIONMANAGER, .TAVERN_BRAWL:
-                // gameState.GameHandler.ResetConstructedImporting();
-                break
-
-            case .DRAFT:
-                Log.info?.message("Resetting arena draft.")
-                Draft.instance.resetDraft()
-                break
-
-            default: break
+        if line.match(self.dynamicType.GameModeRegex) {
+            let matches = line.matches(self.dynamicType.GameModeRegex)
+            
+            game.currentMode = Mode(rawValue: matches[1].value)
+            game.previousMode = Mode(rawValue: matches[0].value)
+            
+            var newMode: GameMode?
+            if let mode = game.currentMode, currentMode = getGameMode(mode) {
+                newMode = currentMode
+            } else if let mode = game.currentMode, currentMode = getGameMode(mode) {
+                newMode = currentMode
             }
+            
+            if let newMode = newMode {
+                Log.info?.message("Game mode : \(newMode)")
+                game.currentGameMode = newMode
+            }
+            if game.previousMode == .GAMEPLAY {
+                game.inMenu()
+            }
+            if let currentMode = game.currentMode {
+                switch currentMode {
+                case .DRAFT:
+                    Log.info?.message("Resetting arena draft.")
+                    Draft.instance.resetDraft()
+                    break
+                    
+                default: break
+                }
+            }
+        } else if line.contains("Gameplay.Start") {
+            game.gameStart()
         }
     }
 

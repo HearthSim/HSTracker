@@ -93,6 +93,7 @@ class Entity: Hashable, CustomStringConvertible, Dictable {
         let hide = info.hidden && (isInHand || isInDeck)
         return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
             + "cardName=\(hide ? "" : cardName), "
+            + "name=\(hide ? "" : name), "
             + "zonePos=\(getTag(.ZONE_POSITION)), info=\(info)]"
     }
 

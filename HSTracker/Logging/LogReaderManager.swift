@@ -21,9 +21,9 @@ final class LogReaderManager {
     let loadingScreenHandler = LoadingScreenHandler()
 
     private let powerLogReader = LogReader(info: LogReaderInfo(name: .Power,
-                                        startsWithFilters: ["PowerTaskList.DebugPrintPower"],
-                                        containsFilters: ["Begin Spectating",
-                                            "Start Spectator", "End Spectator"]))
+        startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState.DebugPrintEntityChoices()"],
+        containsFilters: ["Begin Spectating",
+            "Start Spectator", "End Spectator"]))
     private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .Power,
                                                          startsWithFilters: ["GameState."]))
     private let bob = LogReader(info: LogReaderInfo(name: .Bob))
@@ -31,7 +31,8 @@ final class LogReaderManager {
     private let asset = LogReader(info: LogReaderInfo(name: .Asset))
     private let arena = LogReader(info: LogReaderInfo(name: .Arena))
     private let loadScreen = LogReader(info: LogReaderInfo(name: .LoadingScreen,
-                                            startsWithFilters: ["LoadingScreen.OnSceneLoaded"]))
+                                            startsWithFilters: ["LoadingScreen.OnSceneLoaded",
+                                                "Gameplay"]))
     private let net = LogReader(info: LogReaderInfo(name: .Net))
 
     private var readers: [LogReader] {

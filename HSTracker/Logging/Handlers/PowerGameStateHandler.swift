@@ -21,6 +21,7 @@ class PowerGameStateHandler {
     static let EntityNameRegex = "TAG_CHANGE Entity=([\\w\\s]+\\w) tag=PLAYER_ID value=(\\d)"
     static let GameEntityRegex = "GameEntity EntityID=(\\d+)"
     static let PlayerEntityRegex = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
+    static let PlayerNameRegex = "id=(\\d) Player=(.+) TaskList=(\\d)"
     static let TagChangeRegex = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
     static let UpdatingEntityRegex = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
     // swiftlint:enable line_length
@@ -29,7 +30,6 @@ class PowerGameStateHandler {
     var currentEntity: Entity?
 
     func handle(game: Game, line: String) {
-        var setup = false
         var creationTag = false
 
         // current game
@@ -68,6 +68,12 @@ class PowerGameStateHandler {
                 }
                 return
             }
+        } else if line.match(self.dynamicType.PlayerNameRegex) {
+            let matches = line.matches(self.dynamicType.PlayerNameRegex)
+            if let id = Int(matches[0].value) {
+                let name = matches[1].value
+                setPlayerName(game, playerId: id, name: name)
+            }
         } else if line.match(self.dynamicType.TagChangeRegex) {
             let matches = line.matches(self.dynamicType.TagChangeRegex)
             let rawEntity = matches[0].value
@@ -94,7 +100,7 @@ class PowerGameStateHandler {
                     let unnamedPlayers = players.filter { String.isNullOrEmpty($0.name) }
                     let unknownHumanPlayer = players
                         .firstWhere { $0.name == "UNKNOWN HUMAN PLAYER" }
-
+                    
                     if unnamedPlayers.count == 0 && unknownHumanPlayer != .None {
                         entity = unknownHumanPlayer
                         if let entity = entity {
@@ -239,7 +245,6 @@ class PowerGameStateHandler {
             let value = matches[1].value
             tagChangeHandler.tagChange(game, rawTag: tag, id: game.currentEntityId,
                                        rawValue: value, isCreationTag: true)
-            setup = true
             creationTag = true
         } else if line.contains("Begin Spectating") || line.contains("Start Spectator")
             && game.isInMenu {
@@ -332,12 +337,18 @@ class PowerGameStateHandler {
                     }
                 }
             }
-            // swiftlint:enable line_length
         } else if line.contains("BlockType=JOUST") {
             game.joustReveals = 2
         } else if line.contains("CREATE_GAME") {
-            setup = true
             tagChangeHandler.clearQueuedActions()
+        } else if game.gameTriggerCount == 0 && line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
+            Log.verbose?.message("game.gameTriggerCount == 0")
+            game.gameTriggerCount += 1
+        } else if game.gameTriggerCount == 1 && line.contains("BLOCK_END") {
+            Log.verbose?.message("game.gameTriggerCount == 1")
+            game.gameTriggerCount += 1
+            tagChangeHandler.invokeQueuedActions(game)
+            game.setupDone = true
         }
 
         if game.isInMenu { return }
@@ -357,10 +368,7 @@ class PowerGameStateHandler {
                                                       isOpponentId: false)
             }
         }
-
-        if !setup {
-            game.setupDone = true
-        }
+        // swiftlint:enable line_length
     }
 
     private func addTargetAsKnownCardId(game: Game, matches: [Match], count: Int = 1) {
@@ -398,12 +406,29 @@ class PowerGameStateHandler {
     }
 
     private func setPlayerName(game: Game, playerId: Int, name: String) {
-        if playerId == game.player.id {
-            game.player.name = name
-            Log.info?.message("Player name is \(name)")
-        } else if playerId == game.opponent.id {
-            game.opponent.name = name
-            Log.info?.message("Opponent name is \(name)")
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            if game.player.id == -1 && game.opponent.id == -1 {
+                while game.player.id == -1 && game.opponent.id == -1 {
+                    NSThread.sleepForTimeInterval(0.1)
+                }
+            }
+            Log.verbose?.message("Trying player name \(name) for \(playerId) "
+                + "(player: \(game.player.id) / opp \(game.opponent.id))")
+            if playerId == game.player.id {
+                game.player.name = name
+                if let player = game.entities.map({ $0.1 }).firstWhere({ $0.isPlayer }) {
+                    player.name = name
+                }
+                
+                Log.info?.message("Player name is \(name)")
+            } else if playerId == game.opponent.id {
+                game.opponent.name = name
+                if let opponent = game.entities.map({ $0.1 })
+                    .firstWhere({ $0.hasTag(.PLAYER_ID) && !$0.isPlayer }) {
+                    opponent.name = name
+                }
+                Log.info?.message("Opponent name is \(name)")
+            }
         }
     }
 }

@@ -261,6 +261,9 @@ struct TagChangeActions {
     }
 
     private func zoneChange(game: Game, id: Int, value: Int, prevValue: Int) {
+        if id <= 3 {
+            return
+        }
         if let entity = game.entities[id] {
             if entity.info.originalZone == nil {
                 if prevValue != Zone.INVALID.rawValue && prevValue != Zone.SETASIDE.rawValue {
@@ -297,8 +300,8 @@ struct TagChangeActions {
                 case .INVALID:
                     let maxId = getMaxHeroPowerId(game)
                     if !game.setupDone
-                        && (id <= maxId || game.gameEntity?.getTag(.STEP) == Step.INVALID.rawValue)
-                        && entity.getTag(.ZONE_POSITION) < 5 {
+                        && (id <= maxId || game.gameEntity?.getTag(.STEP) == Step.INVALID.rawValue
+                        && entity.getTag(.ZONE_POSITION) < 5) {
                         entity.info.originalZone = .DECK
                         simulateZoneChangesFromDeck(game, id: id, value: value,
                                                     cardId: entity.cardId, maxId: maxId)
@@ -634,10 +637,7 @@ struct TagChangeActions {
         }
     }
 
-    private func setHeroAsync(game: Game,
-
-
-                              id: Int) {
+    private func setHeroAsync(game: Game, id: Int) {
         Log.info?.message("Found hero with id \(id) ")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if game.playerEntity == nil {
