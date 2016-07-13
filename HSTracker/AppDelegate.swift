@@ -281,25 +281,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         Hearthstone.instance.start()
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
         
-        // Debug stuff
-        /*let hearthstoneWindow = SizeHelper.HearthstoneWindow()
-        window = NSWindow()
-        if let window = window {
-            window.orderFrontRegardless()
-            window.backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.6)
-            window.opaque = false
-            window.hasShadow = false
-            window.styleMask = NSBorderlessWindowMask
-            window.ignoresMouseEvents = true
-            window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-            let frame = hearthstoneWindow.relativeFrame(NSRect(x: 0, y: 0,
-                width: NSWidth(hearthstoneWindow.frame),
-                height: NSHeight(hearthstoneWindow.frame)),
-                                                        relative: false)
-            window.setFrame(frame, display: true)
-            Log.verbose?.message("\(hearthstoneWindow.frame) -> \(frame)")
-        }*/
-
         let events = [
             "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
             "show_opponent_tracker": #selector(AppDelegate.showOpponentTracker(_:)),
@@ -326,99 +307,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         NSNotificationCenter.defaultCenter()
             .postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
 
-        // testImportDeck()
-        // testImportFromWeb()
-        // testGetHearthstatsDecks()
-        //testGetHearthstatsMatches()
-
         splashscreen?.close()
         splashscreen = nil
-    }
-
-    private func testGetHearthstatsMatches() {
-        do {
-            try HearthstatsAPI.getGames(Settings.instance.hearthstatsLastMatchesSync) {_ in }
-        } catch HearthstatsError.NotLogged {
-            print("not logged")
-        } catch {
-            print("??? logged")
-        }
-    }
-
-    private func testGetHearthstatsDecks() {
-        do {
-            try HearthstatsAPI.loadDecks(true) { (success, newDecks) in }
-        } catch HearthstatsError.NotLogged {
-            print("not logged")
-        } catch {
-            print("??? logged")
-        }
-    }
-
-    private func testImportFromWeb() {
-        // swiftlint:disable line_length
-        /*let heartharena = "http://www.heartharena.com/arena-run/260979"
-        let hearthnews = "http://www.hearthnews.fr/decks/7070"
-        let hearthstoneDecks = "http://www.hearthstone-decks.com/deck/voir/reno-reincarnation-7844"
-        let hearthpwn = "http://www.hearthpwn.com/decks/432773-ostkakas-standard-miracle-rogue"
-        let hearthpwnDeckbuilder = "http://www.hearthpwn.com/deckbuilder/warrior#50:2;73:1;96:1;215:2;227:2;297:2;493:2;632:1;644:1;7734:2;7749:2;12215:2;14448:1;14464:2;22264:1;22276:1;22309:2;27210:1;27211:2"
-        let hearthstats = "http://hearthstats.net/decks/mage-meca--1049/public_show?locale=en"*/
-        let hearthhead = "http://www.hearthhead.com/deck=158864/fun-easy-win-dragon-warrior"
-        // swiftlint:enable line_length
-
-        let url = hearthhead
-        do {
-            try NetImporter.netImport(url, completion: { (deck) -> Void in
-                Log.verbose?.value(deck)
-            })
-        } catch {
-            Log.error?.value("error import")
-        }
-    }
-
-    private func testImportDeck() {
-        let deck = Deck(playerClass: "shaman", name: "Control Shaman")
-        deck.hearthstatsId = 6994742
-        deck.hearthstatsVersionId = 7852777
-        deck.isActive = true
-        deck.isArena = false
-        deck.name = "Control Shaman"
-        deck.playerClass = "shaman"
-        deck.version = "1.0"
-
-        let cards = [
-            "EX1_259": 2,
-            "GVG_074": 1,
-            "AT_047": 2,
-            "EX1_575": 1,
-            "NEW1_010": 1,
-            "CS2_045": 1,
-            "CS2_042": 2,
-            "GVG_038": 1,
-            "FP1_001": 1,
-            "EX1_565": 1,
-            "LOE_029": 2,
-            "AT_090": 1,
-            "EX1_093": 1,
-            "AT_054": 1,
-            "AT_046": 2,
-            "EX1_016": 1,
-            "CS2_203": 1,
-            "GVG_110": 1,
-            "GVG_096": 2,
-            "EX1_246": 1,
-            "EX1_248": 2,
-            "EX1_245": 1,
-            "EX1_250": 1
-        ]
-        for (id, count) in cards {
-            for _ in 0 ..< count {
-                if let card = Cards.byId(id) {
-                    deck.addCard(card)
-                }
-            }
-        }
-        Decks.instance.add(deck)
     }
 
     func openTrackers() {

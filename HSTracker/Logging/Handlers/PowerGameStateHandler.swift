@@ -342,10 +342,8 @@ class PowerGameStateHandler {
         } else if line.contains("CREATE_GAME") {
             tagChangeHandler.clearQueuedActions()
         } else if game.gameTriggerCount == 0 && line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
-            Log.verbose?.message("game.gameTriggerCount == 0")
             game.gameTriggerCount += 1
         } else if game.gameTriggerCount == 1 && line.contains("BLOCK_END") {
-            Log.verbose?.message("game.gameTriggerCount == 1")
             game.gameTriggerCount += 1
             tagChangeHandler.invokeQueuedActions(game)
             game.setupDone = true

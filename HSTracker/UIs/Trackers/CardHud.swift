@@ -121,31 +121,6 @@ class CardHud: NSView {
             self.addTrackingArea(trackingArea!)
         }
     }
-    
-    /*
-    // dragging this view is only usefull for debuging
-    var lastDragLocation: NSPoint = NSPoint.zero
-    override func acceptsFirstMouse(theEvent: NSEvent?) -> Bool {
-        return true
-    }
-    
-    override func mouseDown(theEvent: NSEvent) {
-        lastDragLocation = self.superview?.convertPoint(theEvent.locationInWindow,
-                                                        fromView: nil) ?? NSPoint.zero
-        Log.verbose?.message("mouseDown \(lastDragLocation)")
-    }
-    
-    override func mouseDragged(theEvent: NSEvent) {
-        if let newDragLocation = self.superview?.convertPoint(theEvent.locationInWindow,
-                                                              fromView: nil) {
-            var thisOrigin = self.frame.origin
-            thisOrigin.x += (-lastDragLocation.x + newDragLocation.x)
-            thisOrigin.y += (-lastDragLocation.y + newDragLocation.y)
-            self.setFrameOrigin(thisOrigin)
-            Log.verbose?.message("NSPoint(x: \(round(thisOrigin.x)), y: \(round(thisOrigin.y)))")
-            self.lastDragLocation = newDragLocation
-        }
-    }*/
 
     override func mouseEntered(event: NSEvent) {
         guard let card = self.card else { return }
