@@ -1,3 +1,10 @@
+#### 0.17.3
+- Update portuguese translation
+- Correct errors introduced by patch 5.2.0.13619
+- Correct an issue where opponent in-hand card was not resetted 
+- Add support for Morgl the Oracle
+- Refactor a lot of code related to cards
+
 #### 0.17.2
 - Correct a crash when opening statistics window
 - Update portuguese translation
