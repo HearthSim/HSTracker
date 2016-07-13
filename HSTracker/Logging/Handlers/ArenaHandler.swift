@@ -46,6 +46,8 @@ struct ArenaHandler {
                 if let card = Cards.byId(match.value) {
                     Log.verbose?.message("Client selected card \(card)")
                     draft.addCard(card)
+                } else if let card = Cards.heroById(match.value) {
+                    draft.startDraft(card.playerClass)
                 }
             }
         }

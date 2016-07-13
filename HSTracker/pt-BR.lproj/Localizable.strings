@@ -46,6 +46,7 @@
 "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "Houve um problema ao salvar seu deck da Arena. Tente reiniciar o Hearthstone e clicar em 'Arena', e então tente salvar outra vez.";
 "Are you sure you want to delete the statistics for the deck %@ ?" = "Tem certeza que deseja deletar as estatísticas para o deck %@ ?";
 "Do you want to add some notes for this game ?" = "Desejar adicionar algumas notas para esse jogo ?";
+"Your arena deck count 30 cards, do you want to save it ?" = "Your arena deck count 30 cards, do you want to save it ?";
 
 /* notifications */
 "Your game begins" = "Seu jogo começou";

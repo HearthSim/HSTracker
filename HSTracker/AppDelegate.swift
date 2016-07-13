@@ -67,11 +67,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         // init logger
         var loggers = [LogConfiguration]()
+        #if DEBUG
         let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .Verbose,
                                                 logToASL: false,
                                                 colorTable: HSTrackerColorTable(),
                                                 formatters: [HSTrackerLogFormatter()])
         loggers.append(xcodeConfig)
+        #endif
 
         if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory,
                                                           .UserDomainMask, true).first {
@@ -288,7 +290,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
             "show_floating_card": #selector(AppDelegate.showFloatingCard(_:)),
             "hide_floating_card": #selector(AppDelegate.hideFloatingCard(_:)),
-            "theme": #selector(AppDelegate.reloadTheme(_:))
+            "theme": #selector(AppDelegate.reloadTheme(_:)),
+            "save_arena_deck": #selector(AppDelegate.saveArenaDeck(_:)),
         ]
 
         for (event, selector) in events {
@@ -608,6 +611,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             alert.messageText = NSLocalizedString("There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.", comment: "")
             // swiftlint:enable line_length
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            NSRunningApplication.currentApplication().activateWithOptions([
+                NSApplicationActivationOptions.ActivateAllWindows,
+                NSApplicationActivationOptions.ActivateIgnoringOtherApps])
+            NSApp.activateIgnoringOtherApps(true)
             alert.runModal()
         }
     }

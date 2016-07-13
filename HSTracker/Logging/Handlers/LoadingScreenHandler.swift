@@ -36,16 +36,6 @@ struct LoadingScreenHandler {
             if game.previousMode == .GAMEPLAY {
                 game.inMenu()
             }
-            if let currentMode = game.currentMode {
-                switch currentMode {
-                case .DRAFT:
-                    Log.info?.message("Resetting arena draft.")
-                    Draft.instance.resetDraft()
-                    break
-                    
-                default: break
-                }
-            }
         } else if line.contains("Gameplay.Start") {
             game.gameStart()
         }
