@@ -11,10 +11,10 @@ import Foundation
 class SecretHelper: Equatable, CustomStringConvertible {
     private(set) var id: Int
     private(set) var turnPlayed: Int
-    private(set) var heroClass: HeroClass
+    private(set) var heroClass: CardClass
     lazy var possibleSecrets = [String: Bool]()
 
-    init(heroClass: HeroClass, id: Int, turnPlayed: Int) {
+    init(heroClass: CardClass, id: Int, turnPlayed: Int) {
         self.id = id
         self.turnPlayed = turnPlayed
         self.heroClass = heroClass
@@ -24,16 +24,16 @@ class SecretHelper: Equatable, CustomStringConvertible {
         })
     }
 
-    static func getMaxSecretCount(heroClass: HeroClass) -> Int {
+    static func getMaxSecretCount(heroClass: CardClass) -> Int {
         return getSecretIds(heroClass).count
     }
 
-    static func getSecretIds(heroClass: HeroClass) -> [String] {
+    static func getSecretIds(heroClass: CardClass) -> [String] {
         let standardOnly = Game.instance.currentFormat == .Standard
         switch heroClass {
-        case .Hunter: return CardIds.Secrets.Hunter.getCards(standardOnly)
-        case .Mage: return CardIds.Secrets.Mage.getCards(standardOnly)
-        case .Paladin: return CardIds.Secrets.Paladin.getCards(standardOnly)
+        case .HUNTER: return CardIds.Secrets.Hunter.getCards(standardOnly)
+        case .MAGE: return CardIds.Secrets.Mage.getCards(standardOnly)
+        case .PALADIN: return CardIds.Secrets.Paladin.getCards(standardOnly)
         default: return [String]()
         }
     }

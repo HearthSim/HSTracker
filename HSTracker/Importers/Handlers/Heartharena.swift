@@ -45,8 +45,10 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
                     }
                 }
 
-                if self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: className!, cards: cards,
+                if let className = className,
+                    playerClass = CardClass(rawValue: className.uppercaseString)
+                    where self.isCount(cards) {
+                    self.saveDeck(deckName, playerClass: playerClass, cards: cards,
                                   isArena: true, completion: completion)
                     return
                 }

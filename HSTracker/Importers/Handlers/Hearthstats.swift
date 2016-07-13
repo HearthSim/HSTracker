@@ -58,8 +58,10 @@ final class Hearthstats: BaseNetImporter, NetImporterAware {
                     }
                 }
 
-                if self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: playerClass!,
+                if let playerClass = playerClass,
+                    cardClass = CardClass(rawValue: playerClass.uppercaseString)
+                    where self.isCount(cards) {
+                    self.saveDeck(deckName, playerClass: cardClass,
                                   cards: cards, isArena: false, completion: completion)
                     return
                 }

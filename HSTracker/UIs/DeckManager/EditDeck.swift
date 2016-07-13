@@ -42,9 +42,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
     var currentDeck: Deck?
-    var currentPlayerClass: String?
+    var currentPlayerClass: CardClass?
     var currentSet: [CardSet] = []
-    var selectedClass: String?
+    var selectedClass: CardClass?
     var currentClassCards: [Card] = []
     var currentCardCost = -1
     var currentSearchTerm = ""
@@ -52,7 +52,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var standardOnly = false
     var currentDamage = -1
     var currentHealth = -1
-    var currentRace = ""
+    var currentRace: Race?
     var currentCardType = CardType.INVALID
     var deckUndoManager: NSUndoManager?
 
@@ -63,7 +63,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     let baseCardWidth: CGFloat = 181
     let baseCardHeight: CGFloat = 250
 
-    func setPlayerClass(playerClass: String) {
+    func setPlayerClass(playerClass: CardClass) {
         currentPlayerClass = playerClass
         selectedClass = currentPlayerClass
     }
@@ -86,8 +86,14 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         presentationView.selectedSegment = settings.deckManagerPreferCards ? 0 : 1
         reloadCards()
 
-        classChooser.segmentCount = 2
-        classChooser.setLabel(NSLocalizedString(currentPlayerClass!, comment: ""), forSegment: 0)
+        
+        if let playerClass = currentPlayerClass {
+            classChooser.segmentCount = 2
+            classChooser.setLabel(NSLocalizedString(playerClass.rawValue.lowercaseString,
+                comment: ""), forSegment: 0)
+        } else {
+            classChooser.segmentCount = 1
+        }
         classChooser.setLabel(NSLocalizedString("neutral", comment: ""), forSegment: 1)
         classChooser.setSelected(true, forSegment: 0)
 
@@ -104,7 +110,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         loadRaces()
 
         if let deck = self.currentDeck, name = deck.name {
-            self.window?.title = "\(NSLocalizedString(deck.playerClass, comment: ""))"
+            let playerClass = deck.playerClass.rawValue.lowercaseString
+            self.window?.title = "\(NSLocalizedString(playerClass, comment: ""))"
                 + " - \(name)"
         }
 
@@ -221,7 +228,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if sender.selectedSegment == 0 {
             selectedClass = currentPlayerClass
         } else {
-            selectedClass = "neutral"
+            selectedClass = .NEUTRAL
         }
         reloadCards()
     }
@@ -372,10 +379,11 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         popupMenu.addItem(popupMenuItem)
 
         for race in Database.deckManagerRaces {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(race, comment: ""),
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(race.rawValue.lowercaseString,
+                comment: ""),
                                            action: #selector(EditDeck.changeRace(_:)),
                                            keyEquivalent: "")
-            popupMenuItem.representedObject = race
+            popupMenuItem.representedObject = race.rawValue
             popupMenu.addItem(popupMenuItem)
         }
         races.menu = popupMenu
@@ -384,8 +392,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBAction func changeRace(sender: NSMenuItem) {
         if let type = sender.representedObject as? String {
             switch type {
-            case "all": currentRace = ""
-            default: currentRace = type
+            case "all": currentRace = nil
+            default: currentRace = Race(rawValue: type)
             }
         }
 

@@ -19,31 +19,31 @@ class OpponentSecrets: CustomStringConvertible {
         self.game = game
     }
 
-    var displayedClasses: [HeroClass] {
+    var displayedClasses: [CardClass] {
         return secrets.map({ $0.heroClass }).sort { $0.rawValue < $1.rawValue }
     }
 
-    func getIndexOffset(heroClass: HeroClass) -> Int {
+    func getIndexOffset(heroClass: CardClass) -> Int {
         switch heroClass {
-        case .Hunter:
+        case .HUNTER:
             return 0
 
-        case .Mage:
-            if displayedClasses.contains(.Hunter) {
-                return SecretHelper.getMaxSecretCount(.Hunter)
+        case .MAGE:
+            if displayedClasses.contains(.HUNTER) {
+                return SecretHelper.getMaxSecretCount(.HUNTER)
             }
             return 0
 
-        case .Paladin:
-            if displayedClasses.contains(.Hunter) && displayedClasses.contains(.Mage) {
-                return SecretHelper.getMaxSecretCount(.Hunter)
-                    + SecretHelper.getMaxSecretCount(.Mage)
+        case .PALADIN:
+            if displayedClasses.contains(.HUNTER) && displayedClasses.contains(.MAGE) {
+                return SecretHelper.getMaxSecretCount(.HUNTER)
+                    + SecretHelper.getMaxSecretCount(.MAGE)
             }
-            if displayedClasses.contains(.Hunter) {
-                return SecretHelper.getMaxSecretCount(.Hunter)
+            if displayedClasses.contains(.HUNTER) {
+                return SecretHelper.getMaxSecretCount(.HUNTER)
             }
-            if displayedClasses.contains(.Mage) {
-                return SecretHelper.getMaxSecretCount(.Mage)
+            if displayedClasses.contains(.MAGE) {
+                return SecretHelper.getMaxSecretCount(.MAGE)
             }
             return 0
 
@@ -52,9 +52,9 @@ class OpponentSecrets: CustomStringConvertible {
         return 0
     }
 
-    func getHeroClass(cardId: String) -> HeroClass? {
+    func getHeroClass(cardId: String) -> CardClass? {
         if let card = Cards.byId(cardId) {
-            return HeroClass(rawValue: card.playerClass)
+            return card.playerClass
         }
         return nil
     }
@@ -68,7 +68,7 @@ class OpponentSecrets: CustomStringConvertible {
         }
     }
 
-    func newSecretPlayed(heroClass: HeroClass, id: Int, turn: Int,
+    func newSecretPlayed(heroClass: CardClass, id: Int, turn: Int,
                          knownCardId: String? = nil) {
         let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn)
         if let knownCardId = knownCardId {
@@ -207,7 +207,7 @@ class OpponentSecrets: CustomStringConvertible {
         return returnThis
     }
 
-    func getDefaultSecrets(heroClass: HeroClass) -> [Secret] {
+    func getDefaultSecrets(heroClass: CardClass) -> [Secret] {
         return SecretHelper.getSecretIds(heroClass).map { Secret(cardId: $0, count: 1) }
     }
 

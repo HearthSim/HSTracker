@@ -489,7 +489,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     // MARK: - Menu
     func buildMenu() {
-        var decks = [String: [Deck]]()
+        var decks = [CardClass: [Deck]]()
         Decks.instance.decks().filter({$0.isActive}).forEach({
             if decks[$0.playerClass] == nil {
                 decks[$0.playerClass] = [Deck]()
@@ -525,9 +525,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
         deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
         for (playerClass, _decks) in decks
-            .sort({ NSLocalizedString($0.0, comment: "") < NSLocalizedString($1.0, comment: "") }) {
+            .sort({ NSLocalizedString($0.0.rawValue.lowercaseString, comment: "")
+                < NSLocalizedString($1.0.rawValue.lowercaseString, comment: "") }) {
                 if let menu = deckMenu?.submenu?
-                    .addItemWithTitle(NSLocalizedString(playerClass, comment: ""),
+                    .addItemWithTitle(NSLocalizedString(playerClass.rawValue.lowercaseString,
+                        comment: ""),
                                       action: nil,
                                       keyEquivalent: "") {
                 let classMenu = NSMenu()

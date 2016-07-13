@@ -70,8 +70,10 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
                     }
                 }
 
-                if self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: className!,
+                if let className = className,
+                    playerClass = CardClass(rawValue: className.uppercaseString)
+                    where self.isCount(cards) {
+                    self.saveDeck(deckName, playerClass: playerClass,
                                   cards: cards, isArena: false,
                                   completion: completion)
                     return

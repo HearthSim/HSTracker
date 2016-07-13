@@ -82,10 +82,7 @@ class Statistics: NSWindowController {
             // XXX: This might be unsafe
             // I'm assuming that the player class names
             // and class assets are always the same
-            var imageName = deck.playerClass
-            if !StatsHelper.playerClassList.contains(imageName) {
-                imageName = "error"
-            }
+            let imageName = deck.playerClass.rawValue.lowercaseString
             selectedDeckIcon.image = NSImage(named: imageName)
             if let deckName = deck.name {
                 selectedDeckName.stringValue = deckName

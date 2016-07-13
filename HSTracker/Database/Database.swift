@@ -13,7 +13,7 @@ struct Database {
     static let validCardSets = CardSet.allValues()
 
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
-    static var deckManagerRaces = [String]()
+    static var deckManagerRaces = [Race]()
 
     // swiftlint:disable line_length
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
@@ -86,14 +86,14 @@ struct Database {
                                     card.type = cardType
                                 }
 
-                                if let cardPlayerClass = jsonCard["playerClass"] as? String {
-                                    card.playerClass = cardPlayerClass.lowercaseString
-                                } else {
-                                    card.playerClass = "neutral"
+                                if let playerClass = jsonCard["playerClass"] as? String,
+                                    cardPlayerClass = CardClass(rawValue: playerClass) {
+                                    card.playerClass = cardPlayerClass
                                 }
 
-                                if let cardFaction = jsonCard["faction"] as? String {
-                                    card.faction = cardFaction.lowercaseString
+                                if let faction = jsonCard["faction"] as? String,
+                                    cardFaction = Faction(rawValue: faction) {
+                                    card.faction = cardFaction
                                 }
 
                                 card.set = set
@@ -103,10 +103,11 @@ struct Database {
                                 if let attack = jsonCard["attack"] as? Int {
                                     card.attack = attack
                                 }
-                                if let race = jsonCard["race"] as? String {
-                                    card.race = race.lowercaseString
-                                    if !Database.deckManagerRaces.contains(card.race) {
-                                        Database.deckManagerRaces.append(card.race)
+                                if let race = jsonCard["race"] as? String,
+                                    cardRace = Race(rawValue: race) {
+                                    card.race = cardRace
+                                    if !Database.deckManagerRaces.contains(cardRace) {
+                                        Database.deckManagerRaces.append(cardRace)
                                     }
                                 }
                                 if let flavor = jsonCard["flavor"] as? String {

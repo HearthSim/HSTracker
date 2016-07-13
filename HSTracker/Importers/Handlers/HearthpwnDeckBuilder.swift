@@ -56,8 +56,9 @@ final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
                     }
                 })
 
-                if self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: playerClass,
+                if let cardClass = CardClass(rawValue: playerClass.uppercaseString)
+                    where self.isCount(cards) {
+                    self.saveDeck(deckName, playerClass: cardClass,
                                   cards: cards, isArena: false, completion: completion)
                     return
                 }

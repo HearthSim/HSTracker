@@ -40,27 +40,23 @@ struct StatsDeckRecord {
 
 class StatsHelper {
     static let statsUIConfidence: Double = 0.9 // Maybe this could become user settable
-    
-    static let playerClassList = [
-        "druid", "hunter", "mage", "paladin", "priest",
-        "rogue", "shaman", "warlock", "warrior"
-        ].sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
 
     static let lg = LadderGrid()
     
     static func getStatsUITableData(deck: Deck, mode: GameMode = .Ranked) -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
 
-        for againstClass in ["all"] + StatsHelper.playerClassList {
+        for againstClass in [.NEUTRAL] + Cards.classes {
             let dataRow = StatsTableRow()
 
-            if againstClass == "all"{
+            if againstClass == .NEUTRAL {
                 dataRow.classIcon = "AppIcon"
             } else {
-                dataRow.classIcon = againstClass
+                dataRow.classIcon = againstClass.rawValue.lowercaseString
             }
             dataRow.opponentClassName =
-                NSLocalizedString(againstClass, comment: "").capitalizedString
+                NSLocalizedString(againstClass.rawValue.lowercaseString,
+                                  comment: "").capitalizedString
             
             let record = getDeckRecord(deck, againstClass: againstClass, mode: mode)
             dataRow.record            = getDeckRecordString(record)
@@ -86,8 +82,8 @@ class StatsHelper {
             
         var tableData = [LadderTableRow]()
         
-        let record = getDeckRecord(deck, againstClass: "all", mode: .Ranked)
-        let tpg = getDeckTimePerGame(deck, againstClass: "all", mode: .Ranked)
+        let record = getDeckRecord(deck, againstClass: .NEUTRAL, mode: .Ranked)
+        let tpg = getDeckTimePerGame(deck, againstClass: .NEUTRAL, mode: .Ranked)
         
         let winRate = getDeckWinRate(record)
         
@@ -194,12 +190,12 @@ class StatsHelper {
         return winRate
     }
     
-    static func getDeckTimePerGame(deck: Deck, againstClass: String = "all",
+    static func getDeckTimePerGame(deck: Deck, againstClass: CardClass = .NEUTRAL,
                                    mode: GameMode = .Ranked) -> Double {
         var stats = deck.statistics
         
-        if againstClass.lowercaseString != "all" {
-            stats = deck.statistics.filter({$0.opponentClass == againstClass.lowercaseString})
+        if againstClass != .NEUTRAL {
+            stats = deck.statistics.filter({$0.opponentClass == againstClass})
         }
         
         var rankedStats: [Statistic]
@@ -229,11 +225,12 @@ class StatsHelper {
         return winRateString
     }
 
-    static func getDeckRecord(deck: Deck, againstClass: String = "all", mode: GameMode = .Ranked)
+    static func getDeckRecord(deck: Deck, againstClass: CardClass = .NEUTRAL,
+                              mode: GameMode = .Ranked)
         -> StatsDeckRecord {
         var stats = deck.statistics
-        if againstClass.lowercaseString != "all" {
-            stats = deck.statistics.filter({$0.opponentClass == againstClass.lowercaseString})
+        if againstClass != .NEUTRAL {
+            stats = deck.statistics.filter({$0.opponentClass == againstClass})
         }
         
         var rankedStats: [Statistic]

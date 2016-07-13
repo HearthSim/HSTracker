@@ -12,7 +12,7 @@ final class FileImporter: BaseNetImporter {
 
     func fileImport(url: NSURL, completion: Deck? -> Void) {
         let deckName = url.lastPathComponent?.replace("\\.txt$", with: "")
-        var className = ""
+        var className: CardClass = .NEUTRAL
         var isArena = false
         do {
             let content = try NSString(contentsOfURL: url, encoding: NSUTF8StringEncoding)
@@ -40,8 +40,7 @@ final class FileImporter: BaseNetImporter {
                         }
 
                         if let card = card {
-                            if card.playerClass != "" && card.playerClass != "neutral"
-                                && String.isNullOrEmpty(className) {
+                            if card.playerClass != .NEUTRAL && className == .NEUTRAL {
                                 className = card.playerClass
                             }
 
@@ -51,7 +50,7 @@ final class FileImporter: BaseNetImporter {
                 }
             }
 
-            if !String.isNullOrEmpty(className) && self.isCount(cards) {
+            if className != .NEUTRAL && self.isCount(cards) {
                 saveDeck(deckName, playerClass: className, cards: cards,
                          isArena: isArena, completion: completion)
                 return

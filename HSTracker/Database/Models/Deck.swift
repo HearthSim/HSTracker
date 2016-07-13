@@ -18,7 +18,7 @@ func generateId() -> String {
 final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible {
     var deckId: String = generateId()
     var name: String?
-    var playerClass: String
+    var playerClass: CardClass
     var version: String = "1.0"
     var creationDate: NSDate?
     var hearthstatsId: Int?
@@ -33,7 +33,13 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     init(unboxer: Unboxer) {
         self.deckId = unboxer.unbox("deckId")
         self.name = unboxer.unbox("name")
-        self.playerClass = unboxer.unbox("playerClass")
+        if let cardClass: CardClass? = unboxer.unbox("playerClass"),
+            playerClass = cardClass {
+            self.playerClass = playerClass
+        } else {
+            let playerClass: String = unboxer.unbox("playerClass")
+            self.playerClass = CardClass(rawValue: playerClass.uppercaseString) ?? .NEUTRAL
+        }
         self.version = unboxer.unbox("version")
 
         let dateFormatter = NSDateFormatter()
@@ -60,7 +66,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         self.statistics = unboxer.unbox("statistics")
     }
 
-    init(playerClass: String, name: String? = nil, deckId: String? = nil) {
+    init(playerClass: CardClass, name: String? = nil, deckId: String? = nil) {
         if let deckId = deckId {
             self.deckId = deckId
         }

@@ -391,10 +391,10 @@ class Game {
     }
     
     private func saveMatch(deck: Deck, rank: Int, note: String,
-                           opponentName: String, opponentClass: String) {
+                           opponentName: String, opponentClass: CardClass) {
         let statistic = Statistic()
         statistic.opponentName = opponentName
-        statistic.opponentClass = opponentClass.lowercaseString
+        statistic.opponentClass = opponentClass
         statistic.gameResult = gameResult
         statistic.hasCoin = hasCoin
         statistic.playerRank = rank
@@ -716,19 +716,19 @@ class Game {
         opponent.stolenFromOpponent(entity, turn: turn)
 
         if entity.isSecret {
-            var heroClass: HeroClass?
+            var heroClass: CardClass?
             var className = "\(entity.getTag(.CLASS)) "
             if !String.isNullOrEmpty(className) {
-                className = className.capitalizedString
-                heroClass = HeroClass(rawValue: className)
+                className = className.uppercaseString
+                heroClass = CardClass(rawValue: className)
                 if heroClass == .None {
                     if let playerClass = opponent.playerClass {
-                        heroClass = HeroClass(rawValue: playerClass)
+                        heroClass = playerClass
                     }
                 }
             } else {
                 if let playerClass = opponent.playerClass {
-                    heroClass = HeroClass(rawValue: playerClass)
+                    heroClass = playerClass
                 }
             }
             guard let _ = heroClass else { return }
@@ -825,19 +825,19 @@ class Game {
         }
         updateCardHuds()
 
-        var heroClass: HeroClass?
+        var heroClass: CardClass?
         var className = "\(entity.getTag(.CLASS))"
         if !String.isNullOrEmpty(className) {
-            className = className.capitalizedString
-            heroClass = HeroClass(rawValue: className)
+            className = className.uppercaseString
+            heroClass = CardClass(rawValue: className)
             if heroClass == .None {
                 if let playerClass = opponent.playerClass {
-                    heroClass = HeroClass(rawValue: playerClass.capitalizedString)
+                    heroClass = playerClass
                 }
             }
         } else {
             if let playerClass = opponent.playerClass {
-                heroClass = HeroClass(rawValue: playerClass.capitalizedString)
+                heroClass = playerClass
             }
         }
         Log.info?.message("Secret played by \(entity.getTag(.CLASS))"

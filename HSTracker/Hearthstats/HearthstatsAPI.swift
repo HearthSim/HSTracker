@@ -145,16 +145,16 @@ struct HearthstatsAPI {
         5: .Friendly
     ]
 
-    static let heroes: [Int: String] = [
-        1: "druid",
-        2: "hunter",
-        3: "mage",
-        4: "paladin",
-        5: "priest",
-        6: "rogue",
-        7: "shaman",
-        8: "warlock",
-        9: "warrior"
+    static let heroes: [Int: CardClass] = [
+        1: .DRUID,
+        2: .HUNTER,
+        3: .MAGE,
+        4: .PALADIN,
+        5: .PRIEST,
+        6: .ROGUE,
+        7: .SHAMAN,
+        8: .WARLOCK,
+        9: .WARRIOR
     ]
 
     private static let baseUrl = "http://api.hearthstats.net/api/v3"
@@ -252,7 +252,7 @@ struct HearthstatsAPI {
                 "tags": [],
                 "notes": "",
                 "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
-                "class": deck.playerClass.capitalizedString,
+                "class": deck.playerClass.rawValue.capitalizedString,
                 "version": deck.version
             ], encoding: .JSON)
             .responseJSON { response in
@@ -285,7 +285,7 @@ struct HearthstatsAPI {
                 "tags": [],
                 "notes": "",
                 "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
-                "class": deck.playerClass.capitalizedString
+                "class": deck.playerClass.rawValue.capitalizedString
             ], encoding: .JSON)
             .responseJSON { response in
                 if response.result.isSuccess {
@@ -389,7 +389,7 @@ struct HearthstatsAPI {
         let startAt = formatter.stringFromDate(startTime)
 
         let parameters: [String: AnyObject] = [
-            "class": deck.playerClass.capitalizedString,
+            "class": deck.playerClass.rawValue.capitalizedString,
             "mode": "\(game.currentGameMode)",
             "result": "\(game.gameResult)",
             "coin": "\(stat.hasCoin)",
@@ -397,7 +397,7 @@ struct HearthstatsAPI {
             "duration": stat.duration,
             "deck_id": deck.hearthstatsId!,
             "deck_version_id": deck.hearthstatsVersionId!,
-            "oppclass": stat.opponentClass.capitalizedString,
+            "oppclass": stat.opponentClass.rawValue.capitalizedString,
             "oppname": stat.opponentName,
             "notes": stat.note ?? "",
             "ranklvl": stat.playerRank,
@@ -432,14 +432,14 @@ struct HearthstatsAPI {
     
     private static func _postArenaMatch(game: Game, deck: Deck, stat: Statistic) {
         let parameters: [String: AnyObject] = [
-            "class": deck.playerClass.capitalizedString,
+            "class": deck.playerClass.rawValue.capitalizedString,
             "mode": "\(game.currentGameMode)",
             "result": "\(game.gameResult)",
             "coin": "\(stat.hasCoin)",
             "numturns": stat.numTurns,
             "duration": stat.duration,
             "arena_run_id": deck.hearthStatsArenaId!,
-            "oppclass": stat.opponentClass.capitalizedString,
+            "oppclass": stat.opponentClass.rawValue.capitalizedString,
             "oppname": stat.opponentName,
         ]
         Log.info?.message("Posting arena match to Hearthstats \(parameters)")
@@ -459,7 +459,7 @@ struct HearthstatsAPI {
     static func createArenaRun(game: Game, deck: Deck, stat: Statistic) {
         Log.info?.message("Creating new arena deck")
         let parameters: [String: AnyObject] = [
-            "class": deck.playerClass.capitalizedString,
+            "class": deck.playerClass.rawValue.capitalizedString,
             "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]}
         ]
         let url = "\(baseUrl)/arena_runs/new?auth_token=\(Settings.instance.hearthstatsToken!)"

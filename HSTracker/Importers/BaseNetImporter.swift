@@ -25,7 +25,7 @@ class BaseNetImporter {
         }
     }
 
-    func saveDeck(name: String?, playerClass: String, cards: [String:Int],
+    func saveDeck(name: String?, playerClass: CardClass, cards: [String:Int],
                   isArena: Bool, completion: Deck? -> Void) {
         let deck = Deck(playerClass: playerClass, name: name)
 

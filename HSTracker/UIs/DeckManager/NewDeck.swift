@@ -10,7 +10,7 @@ import Foundation
 
 protocol NewDeckDelegate {
     func addNewDeck(deck: Deck)
-    func openDeckBuilder(playerClass: String, arenaDeck: Bool)
+    func openDeckBuilder(playerClass: CardClass, arenaDeck: Bool)
     func refreshDecks()
 }
 
@@ -28,11 +28,11 @@ class NewDeck: NSWindowController {
     @IBOutlet weak var loader: NSProgressIndicator!
 
     var delegate: NewDeckDelegate?
-    var defaultClass: String?
+    var defaultClass: CardClass?
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        if let hsClass = defaultClass, index = classes().indexOf(hsClass) {
+        if let hsClass = defaultClass, index = Cards.classes.indexOf(hsClass) {
             classesCombobox.selectItemAtIndex(index)
         } else {
             classesCombobox.becomeFirstResponder()
@@ -76,7 +76,7 @@ class NewDeck: NSWindowController {
             if classesCombobox.indexOfSelectedItem < 0 {
                 return
             }
-            delegate?.openDeckBuilder(classes()[classesCombobox.indexOfSelectedItem],
+            delegate?.openDeckBuilder(Cards.classes[classesCombobox.indexOfSelectedItem],
                                       arenaDeck: (arenaDeck.state == NSOnState))
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         } else if fromTheWeb.state == NSOnState {
@@ -174,12 +174,6 @@ class NewDeck: NSWindowController {
         }
     }
 
-    func classes() -> [String] {
-        return ["druid", "hunter", "mage", "paladin", "priest",
-            "rogue", "shaman", "warlock", "warrior"]
-            .sort { NSLocalizedString($0, comment: "") < NSLocalizedString($1, comment: "") }
-    }
-
     func checkToEnableSave() {
         var enabled: Bool?
         if hstrackerDeckBuilder.state == NSOnState {
@@ -209,15 +203,15 @@ extension NewDeck: NSComboBoxDelegate {
     }
 
     func comboBox(aComboBox: NSComboBox, completedString string: String) -> String? {
-        for (idx, hsClass) in classes().enumerate() {
-            if NSLocalizedString(hsClass, comment: "")
+        for (idx, hsClass) in Cards.classes.enumerate() {
+            if NSLocalizedString(hsClass.rawValue.lowercaseString, comment: "")
                 .commonPrefixWithString(string, options: .CaseInsensitiveSearch)
                 .length == string.length {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.classesCombobox.selectItemAtIndex(idx)
                 })
                 checkToEnableSave()
-                return NSLocalizedString(hsClass, comment: "")
+                return NSLocalizedString(hsClass.rawValue.lowercaseString, comment: "")
             }
         }
         return string
@@ -227,10 +221,10 @@ extension NewDeck: NSComboBoxDelegate {
 // MARK: - NSComboBoxDataSource
 extension NewDeck: NSComboBoxDataSource {
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
-        return classes().count
+        return Cards.classes.count
     }
 
     func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
-        return NSLocalizedString(classes()[index], comment: "")
+        return NSLocalizedString(Cards.classes[index].rawValue.lowercaseString, comment: "")
     }
 }

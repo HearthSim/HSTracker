@@ -37,8 +37,7 @@ class DeckManager: NSWindowController {
     var hearthstatsLogin: HearthstatsLogin?
 
     var decks = [Deck]()
-    var classes = [String]()
-    var currentClass: String?
+    var currentClass: CardClass?
     var currentDeck: Deck?
     var currentCell: DeckCellView?
     var statistics: Statistics?
@@ -165,25 +164,26 @@ class DeckManager: NSWindowController {
         }
 
         let oldCurrentClass = currentClass
-        if sender == druidButton {
-            currentClass = "druid"
-        } else if sender == hunterButton {
-            currentClass = "hunter"
-        } else if sender == mageButton {
-            currentClass = "mage"
-        } else if sender == paladinButton {
-            currentClass = "paladin"
-        } else if sender == priestButton {
-            currentClass = "priest"
-        } else if sender == rogueButton {
-            currentClass = "rogue"
-        } else if sender == shamanButton {
-            currentClass = "shaman"
-        } else if sender == warlockButton {
-            currentClass = "warlock"
-        } else if sender == warriorButton {
-            currentClass = "warrior"
-        } else {
+        switch sender {
+        case druidButton:
+            currentClass = .DRUID
+        case hunterButton:
+            currentClass = .HUNTER
+        case mageButton:
+            currentClass = .MAGE
+        case paladinButton:
+            currentClass = .PALADIN
+        case priestButton:
+            currentClass = .PRIEST
+        case rogueButton:
+            currentClass = .ROGUE
+        case shamanButton:
+            currentClass = .SHAMAN
+        case warlockButton:
+            currentClass = .WARLOCK
+        case warriorButton:
+            currentClass = .WARRIOR
+        default:
             currentClass = nil
         }
 
@@ -506,7 +506,7 @@ extension DeckManager: NSTableViewDelegate {
                 let deck = sortedFilteredDecks()[row]
                 cell.deck = deck
                 cell.label.stringValue = deck.name!
-                cell.image.image = NSImage(named: deck.playerClass.lowercaseString)
+                cell.image.image = NSImage(named: deck.playerClass.rawValue.lowercaseString)
                 cell.wildImage.image = !deck.standardViable() ? NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
@@ -600,7 +600,7 @@ extension DeckManager: NewDeckDelegate {
         refreshDecks()
     }
 
-    func openDeckBuilder(playerClass: String, arenaDeck: Bool) {
+    func openDeckBuilder(playerClass: CardClass, arenaDeck: Bool) {
         editDeck = EditDeck(windowNibName: "EditDeck")
         if let editDeck = editDeck {
             let deck = Deck(playerClass: playerClass)
@@ -618,12 +618,6 @@ extension DeckManager: NewDeckDelegate {
         currentDeck = nil
         decksTable.deselectAll(self)
         decks = Decks.instance.decks()
-        classes = [String]()
-        for deck in decks {
-            if !classes.contains(deck.playerClass) {
-                classes.append(deck.playerClass)
-            }
-        }
         decksTable.reloadData()
     }
 }

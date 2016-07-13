@@ -12,7 +12,7 @@ import Unbox
 final class Statistic: Unboxable {
     var gameResult: GameResult = .Unknow
     var hasCoin = false
-    var opponentClass = ""
+    var opponentClass: CardClass = .NEUTRAL
     var opponentName = ""
     var playerRank = 0
     var playerMode: GameMode = .None
@@ -25,7 +25,14 @@ final class Statistic: Unboxable {
     init(unboxer: Unboxer) {
         self.gameResult = unboxer.unbox("gameResult")
         self.hasCoin = unboxer.unbox("hasCoin")
-        self.opponentClass = unboxer.unbox("opponentClass")
+        if let cardClass: CardClass? = unboxer.unbox("opponentClass"),
+            opponentClass = cardClass {
+            self.opponentClass = opponentClass
+        } else {
+            let opponentClass: String = unboxer.unbox("opponentClass")
+            self.opponentClass = CardClass(rawValue: opponentClass.uppercaseString) ?? .NEUTRAL
+        }
+        
         self.opponentName = unboxer.unbox("opponentName")
         self.playerRank = unboxer.unbox("playerRank")
         self.playerMode = unboxer.unbox("playerMode")
