@@ -11,10 +11,27 @@
 import CleanroomLogger
 
 enum LogLineNamespace: String {
-    case Power, Net, Asset, Bob, Rachelle, Arena, LoadingScreen
+    case Achievements, AdTracking, All, Arena, Asset, BIReport, BattleNet, Becca, Ben, Bob, Brian,
+    BugReporter, Cameron, CardbackMgr, ChangedCards, ClientRequestManager, ConfigFile, Crafting,
+    DbfXml, DeckHelper, DeckRuleset, DeckTray, Derek, DeviceEmulation, Downloader, EndOfGame,
+    EventTiming, FaceDownCard, FullScreenFX, GameMgr, Graphics, Hand, HealthyGaming, Henry,
+    InnKeepersSpecial, JMac, Jay, Josh, Kyle, LoadingScreen, Mike, MikeH, MissingAssets, Net,
+    Packet, Party, PlayErrors, Power, RAF, Rachelle, Reset, Robin, Ryan, Sound, Spectator, Store,
+    UpdateManager, UserAttention, Yim, Zone
 
-    static func allValues() -> [LogLineNamespace] {
+    static func usedValues() -> [LogLineNamespace] {
         return [.Power, .Net, .Asset, .Bob, .Rachelle, .Arena, .LoadingScreen]
+    }
+    
+    static func allValues() -> [LogLineNamespace] {
+        return [.Achievements, .AdTracking, .All, .Arena, .Asset, .BIReport, .BattleNet, .Becca,
+         .Ben, .Bob, .Brian, .BugReporter, .Cameron, .CardbackMgr, .ChangedCards, 
+         .ClientRequestManager, .ConfigFile, .Crafting, .DbfXml, .DeckHelper, .DeckRuleset, 
+         .DeckTray, .Derek, .DeviceEmulation, .Downloader, .EndOfGame, .EventTiming, 
+         .FaceDownCard, .FullScreenFX, .GameMgr, .Graphics, .Hand, .HealthyGaming, .Henry, 
+         .InnKeepersSpecial, .JMac, .Jay, .Josh, .Kyle, .LoadingScreen, .Mike, .MikeH, 
+         .MissingAssets, .Net, .Packet, .Party, .PlayErrors, .Power, .RAF, .Rachelle, .Reset, 
+         .Robin, .Ryan, .Sound, .Spectator, .Store, .UpdateManager, .UserAttention, .Yim, .Zone]
     }
 }
 

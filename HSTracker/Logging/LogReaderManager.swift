@@ -20,23 +20,23 @@ final class LogReaderManager {
     let arenaHandler = ArenaHandler()
     let loadingScreenHandler = LoadingScreenHandler()
 
-    private let powerLogReader = LogReader(info: LogReaderInfo(name: .Power,
+    private let powerLog = LogReader(info: LogReaderInfo(name: .Power,
         startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState.DebugPrintEntityChoices()"],
         containsFilters: ["Begin Spectating",
             "Start Spectator", "End Spectator"]))
-    private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .Power,
-                                                         startsWithFilters: ["GameState."]))
+    //private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .Power,
+    //                                                     startsWithFilters: ["GameState."]))
     private let bob = LogReader(info: LogReaderInfo(name: .Bob))
     private let rachelle = LogReader(info: LogReaderInfo(name: .Rachelle))
     private let asset = LogReader(info: LogReaderInfo(name: .Asset))
     private let arena = LogReader(info: LogReaderInfo(name: .Arena))
-    private let loadScreen = LogReader(info: LogReaderInfo(name: .LoadingScreen,
-                                            startsWithFilters: ["LoadingScreen.OnSceneLoaded",
-                                                "Gameplay"]))
+    private let loadingScreen = LogReader(info: LogReaderInfo(name: .LoadingScreen,
+        startsWithFilters: ["LoadingScreen.OnSceneLoaded",
+            "Gameplay"]))
     private let net = LogReader(info: LogReaderInfo(name: .Net))
 
     private var readers: [LogReader] {
-        return [powerLogReader, bob, rachelle, asset, arena, net, loadScreen]
+        return [powerLog, bob, rachelle, asset, arena, net, loadingScreen]
     }
 
     var running = false
@@ -67,11 +67,10 @@ final class LogReaderManager {
     }
 
     private func entryPoint() -> Double {
-        // DEBUG return 0
-        let powerEntry = powerLogReader.findEntryPoint(["tag=GOLD_REWARD_STATE", "End Spectator"])
-        let netEntry = net.findEntryPoint("ConnectAPI.GotoGameServer")
+        let powerEntry = powerLog.findEntryPoint(["tag=GOLD_REWARD_STATE", "End Spectator"])
+        let loadingScreenEntry = loadingScreen.findEntryPoint("Gameplay.Start")
 
-        return powerEntry > netEntry ? powerEntry : netEntry
+        return powerEntry > loadingScreenEntry ? powerEntry : loadingScreenEntry
     }
 
     func processLine(line: LogLine) {
@@ -84,6 +83,7 @@ final class LogReaderManager {
         case .Rachelle: rachelleHandler.handle(game, line: line.line)
         case .Arena: arenaHandler.handle(game, line: line.line)
         case .LoadingScreen: loadingScreenHandler.handle(game, line: line.line)
+        default: break
         }
     }
 }

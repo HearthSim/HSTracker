@@ -71,7 +71,7 @@ final class Hearthstone: NSObject {
             }
         }
 
-        let zones = LogLineNamespace.allValues()
+        let zones = LogLineNamespace.usedValues()
         var missingZones: [LogLineZone] = []
 
         Log.verbose?.message("Check if \(configPath) exists")
