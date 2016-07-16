@@ -37,9 +37,11 @@ class EntityHelper {
         let firstPlayer = entities.map { $0.1 }.first { $0.hasTag(.FIRST_PLAYER) }
         if let firstPlayer = firstPlayer {
             let offset = firstPlayer.isPlayer ? 0 : 1
-            if let gameRoot = entities.map({ $0.1 }).first({ $0.name == "GameEntity" }) {
-                return (gameRoot.tags[.TURN] ?? 0 + offset) % 2 == 1
+            guard let gameRoot = entities.map({ $0.1 }).first({ $0.name == "GameEntity" }) else {
+                return false
             }
+            let turn = gameRoot.getTag(.TURN)
+            return turn > 0 && (turn + offset) % 2 == 1
         }
         return false
     }

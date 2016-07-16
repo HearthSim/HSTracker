@@ -343,10 +343,12 @@ class PowerGameStateHandler {
             tagChangeHandler.clearQueuedActions()
         } else if game.gameTriggerCount == 0 && line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
             game.gameTriggerCount += 1
-        } else if game.gameTriggerCount == 1 && line.contains("BLOCK_END") {
-            game.gameTriggerCount += 1
-            tagChangeHandler.invokeQueuedActions(game)
-            game.setupDone = true
+        } else if game.gameTriggerCount < 10 && line.contains("BLOCK_END") {
+            if let entity = game.gameEntity where entity.hasTag(.TURN) {
+                game.gameTriggerCount += 10
+                tagChangeHandler.invokeQueuedActions(game)
+                game.setupDone = true
+            }
         }
 
         if game.isInMenu { return }
