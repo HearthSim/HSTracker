@@ -124,7 +124,9 @@ final class LogReader {
                             if !info.hasFilters || info.startsWithFilters.any({ cutted.startsWith($0) })
                                 || info.containsFilters.any({ cutted.containsString($0) }) {
 
-                                let logLine = LogLine(namespace: info.name, line: line)
+                                let logLine = LogLine(namespace: info.name,
+                                                      line: line,
+                                                      include: info.include)
                                 if logLine.time >= startingPoint {
                                     logReaderManager?.processLine(logLine)
                                     //Log.verbose?.message("Appending \(logLine)")

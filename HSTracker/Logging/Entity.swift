@@ -9,10 +9,12 @@
  */
 
 import Foundation
+import Wrap
+
 class Entity {
     var id: Int
-    var isPlayer: Bool = false
-    var cardId: String = ""
+    var isPlayer = false
+    var cardId = ""
     var name: String?
     lazy var tags = [GameTag: Int]()
     lazy var info: EntityInfo = { return EntityInfo(entity: self) }()
@@ -118,13 +120,27 @@ extension Entity: Hashable {
 
 extension Entity: CustomStringConvertible {
     var description: String {
-        let card = Cards.anyById(cardId)
-        let cardName = card != nil ? card!.name : ""
+        let cardName: String
+        if let card = Cards.anyById(cardId) {
+            cardName = card.name
+        } else {
+            cardName = ""
+        }
         let hide = info.hidden && (isInHand || isInDeck)
         return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
             + "cardName=\(hide ? "" : cardName), "
             + "name=\(hide ? "" : name), "
             + "zonePos=\(getTag(.ZONE_POSITION)), info=\(info)]"
+    }
+}
+
+extension Entity: WrapCustomizable {
+    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+        if ["_cachedCard", "card", "description"].contains(propertyName) {
+            return nil
+        }
+        
+        return propertyName.capitalizedString
     }
 }
 
@@ -198,5 +214,15 @@ extension EntityInfo: CustomStringConvertible {
         description += "]"
         
         return description
+    }
+}
+
+extension EntityInfo: WrapCustomizable {
+    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+        if ["_entity", "description"].contains(propertyName) {
+            return nil
+        }
+        
+        return propertyName.capitalizedString
     }
 }

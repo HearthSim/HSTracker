@@ -10,3 +10,4 @@ github "JohnSundell/Wrap"
 github "JohnSundell/Unbox"
 github "BradLarson/GPUImage2" "master"
 github "stephencelis/SQLite.swift" ~> 0.10.1
+github "ZipArchive/ZipArchive"

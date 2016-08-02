@@ -44,6 +44,7 @@ final class Cards {
     }
 
     static func anyById(cardId: String) -> Card? {
+        if String.isNullOrEmpty(cardId) { return nil }
         if let card = cards.firstWhere({ $0.id == cardId }) {
             return card.copy()
         }

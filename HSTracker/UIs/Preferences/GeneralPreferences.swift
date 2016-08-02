@@ -16,6 +16,7 @@ class GeneralPreferences: NSViewController, MASPreferencesViewController {
     @IBOutlet weak var notifyOpponentConcede: NSButton!
     @IBOutlet weak var closeTrackerWhenHSCloses: NSButton!
     @IBOutlet weak var promptNote: NSButton!
+    @IBOutlet weak var saveReplays: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +27,7 @@ class GeneralPreferences: NSViewController, MASPreferencesViewController {
         notifyOpponentConcede.state = settings.notifyOpponentConcede ? NSOnState : NSOffState
         closeTrackerWhenHSCloses.state = settings.quitWhenHearthstoneCloses ? NSOnState : NSOffState
         promptNote.state = settings.promptNotes ? NSOnState : NSOffState
+        saveReplays.state = settings.saveReplays ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(sender: NSButton) {
@@ -40,6 +42,8 @@ class GeneralPreferences: NSViewController, MASPreferencesViewController {
             settings.quitWhenHearthstoneCloses = closeTrackerWhenHSCloses.state == NSOnState
         } else if sender == promptNote {
             settings.promptNotes = promptNote.state == NSOnState
+        } else if sender == saveReplays {
+            settings.saveReplays = saveReplays.state == NSOnState
         }
     }
 

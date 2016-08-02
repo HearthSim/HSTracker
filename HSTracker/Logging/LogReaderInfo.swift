@@ -15,17 +15,19 @@ class LogReaderInfo {
     var containsFilters: [String]
     var filePath: String?
     var reset = true
+    var include = true
 
     var hasFilters: Bool {
         return !startsWithFilters.isEmpty || !containsFilters.isEmpty
     }
 
     init(name: LogLineNamespace, startsWithFilters: [String] = [],
-         containsFilters: [String] = [], reset: Bool = true) {
+         containsFilters: [String] = [], reset: Bool = true, include: Bool = true) {
         self.name = name
         self.startsWithFilters = startsWithFilters
         self.containsFilters = containsFilters
         self.reset = reset
+        self.include = include
     }
 
 }

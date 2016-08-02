@@ -9,8 +9,9 @@
  */
 
 import Foundation
+import Wrap
 
-enum Zone: Int {
+enum Zone: Int, WrappableEnum {
     case INVALID = 0,
         PLAY = 1,
         DECK = 2,

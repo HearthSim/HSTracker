@@ -7,24 +7,19 @@
 //
 
 import Foundation
+import Wrap
 
-func deepClone(data: [Entity]) -> [Entity] {
-    var copy = [Entity]()
-    data.forEach({ copy.append($0.copy()) })
-    return copy
-}
-
-final class ReplayKeyPoint: Equatable, Dictable {
+final class ReplayKeyPoint: Equatable {
     var data: [Entity]
     var id: Int
     var player: PlayerType
     var type: KeyPointType
 
     init(data: [Entity]?, type: KeyPointType, id: Int, player: PlayerType) {
-        if data != nil {
-            self.data = deepClone(data!)
+        if let data = data {
+            self.data = data.map { $0.copy() }
         } else {
-            self.data = [Entity]()
+            self.data = []
         }
         self.type = type
         self.id = id
@@ -53,17 +48,27 @@ final class ReplayKeyPoint: Equatable, Dictable {
         }
         return String.isNullOrEmpty(getCardId()) ? "Entity \(id)" : Cards.byId(getCardId()!)!.name
     }
+}
 
-    func toDict() -> [String: AnyObject] {
-        return [
-            "id": self.id,
-            "player": self.player.rawValue,
-            "type": self.type.rawValue,
-            "turn": self.turn,
-            "data": self.data.toDict()
-        ]
+extension ReplayKeyPoint: WrapCustomizable {
+    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+        if ["description"].contains(propertyName) {
+            return nil
+        }
+        
+        return propertyName.capitalizedString
     }
 }
+
+extension ReplayKeyPoint: CustomStringConvertible {
+    var description: String {
+        return "[ReplayKeyPoint: data: \(data), "
+            + "id: \(id), "
+            + "player: \(player), "
+            + "type: \(type)]"
+    }
+}
+
 func == (lhs: ReplayKeyPoint, rhs: ReplayKeyPoint) -> Bool {
     return lhs.id == rhs.id
 }

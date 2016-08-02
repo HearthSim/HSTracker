@@ -8,6 +8,8 @@
 
 import Foundation
 import CleanroomLogger
+import Wrap
+import ZipArchive
 
 final class ReplayMaker {
     private static var points = [ReplayKeyPoint]()
@@ -22,56 +24,112 @@ final class ReplayMaker {
         points.append(replay)
     }
 
-    static func saveToDisk() {
-        if points.count == 0 {
+    static func saveToDisk(powerLog: [String]) {
+        guard points.count > 0 else {
+            Log.warning?.message("replay is empty, skipping")
             return
         }
+        
         resolveZonePos()
         resolveCardIds()
         removeObsoletePlays()
+        
+        guard let player = points.last?.data.firstWhere({$0.isPlayer}) else {
+            Log.warning?.message("Replay : cannot get player, skipping")
+            return
+        }
+        guard let opponent = points.last?.data
+            .firstWhere({$0.hasTag(.PLAYER_ID) && !$0.isPlayer}) else {
+                Log.warning?.message("Replay : cannot get opponent, skipping")
+                return
+        }
+        
+        guard let playerHero = points.last?.data
+            .firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue
+                && $0.isControlledBy(player.getTag(.CONTROLLER))
+            }) else {
+                Log.warning?.message("Replay : playerHero is nil, skipping")
+                return
+        }
+        
+        var opponentHero = points.last?.data
+            .firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue &&
+                $0.isControlledBy(opponent.getTag(.CONTROLLER))
+            })
+        
+        if opponentHero == nil {
+            // adventure bosses
+            opponentHero = points.last?.data
+                .firstWhere({
+                    !String.isNullOrEmpty($0.cardId)
+                        && (($0.cardId.startsWith("NAX") && $0.cardId.contains("_01"))
+                            || $0.cardId.startsWith("BRMA"))
+                        && Cards.heroById($0.cardId) != nil
+                })
+            if opponentHero == nil {
+                Log.warning?.message("Replay : opponentHero is nil")
+                return
+            }
+            resolveOpponentName(Cards.heroById(opponentHero!.cardId)?.name)
+        }
+        
+        if let playerName = player.name,
+            playerHeroName = Cards.heroById(playerHero.cardId)?.name,
+            opponentName = opponent.name,
+            opponentHeroName = Cards.heroById(opponentHero!.cardId)?.name,
+            appSupport = NSSearchPathForDirectoriesInDomains(
+                .ApplicationSupportDirectory, .UserDomainMask, true).first {
+            
+            let path = "\(appSupport)/HSTracker/replays"
+            let tmp = "\(path)/tmp"
+            do {
+                try NSFileManager.defaultManager()
+                    .createDirectoryAtPath(path,
+                                           withIntermediateDirectories: true,
+                                           attributes: nil)
+                try NSFileManager.defaultManager()
+                    .createDirectoryAtPath(tmp,
+                                           withIntermediateDirectories: true,
+                                           attributes: nil)
+            } catch {
+                Log.error?.message("Can not create replays dir")
+                return
+            }
 
-        if let player = points.last?.data.firstWhere({$0.isPlayer}),
-            opponent = points.last?.data
-                .firstWhere({$0.hasTag(.PLAYER_ID) && !$0.isPlayer}) {
-                let playerHero = points.last?.data
-                    .firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue
-                        && $0.isControlledBy(player.getTag(.CONTROLLER))
-                    })
-                if playerHero == nil {
-                    Log.warning?.message("Replay : playerHero is nil")
-                    return
-                }
-
-                var opponentHero = points.last?.data
-                    .firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue &&
-                        $0.isControlledBy(opponent.getTag(.CONTROLLER))
-                    })
-
-                if opponentHero == nil {
-                    // adventure bosses
-                    opponentHero = points.last?.data
-                        .firstWhere({
-                            !String.isNullOrEmpty($0.cardId)
-                                && (($0.cardId.startsWith("NAX") && $0.cardId.contains("_01"))
-                                    || $0.cardId.startsWith("BRMA"))
-                                && Cards.heroById($0.cardId) != nil
-                        })
-                    if opponentHero == nil {
-                        Log.warning?.message("Replay : opponentHero is nil")
-                        return
-                    }
-                    resolveOpponentName(Cards.heroById(opponentHero!.cardId)?.name)
-                }
-
-                if let playerName = player.name,
-                    playerHeroName = Cards.heroById(playerHero!.cardId)?.name,
-                    opponentName = opponent.name,
-                    opponentHeroName = Cards.heroById(opponentHero!.cardId)?.name {
-                    // swiftlint:disable line_length
-                        let filename = "\(playerName)(\(playerHeroName)) vs \(opponentName)(\(opponentHeroName)) \(NSDate().getUTCFormateDate())"
-                        Log.verbose?.message("will save to \(filename)")
-                    // swiftlint:enable line_length
-                }
+            let data: NSData
+            do {
+                data = try Wrap(points)
+            } catch {
+                Log.error?.message("Can not convert points to json")
+                return
+            }
+            
+            let replay = "\(tmp)/replay.json"
+            data.writeToFile(replay, atomically: true)
+                
+            let output = "\(tmp)/output_log.txt"
+            do {
+                try powerLog.joinWithSeparator("\n").writeToFile(output,
+                                                                 atomically: true,
+                                                                 encoding: NSUTF8StringEncoding)
+            } catch {
+                Log.error?.message("Can not save powerLog")
+                return
+            }
+            
+            let filename = "\(path)/\(playerName)(\(playerHeroName)) vs "
+                + "\(opponentName)(\(opponentHeroName)) "
+                + "\(NSDate().getUTCFormateDate()).hdtreplay"
+            
+            SSZipArchive.createZipFileAtPath(filename, withFilesAtPaths: [replay, output])
+            Log.info?.message("Replay saved to \(filename)")
+            
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(replay)
+                try NSFileManager.defaultManager().removeItemAtPath(output)
+            } catch {
+                Log.error?.message("Can not remove tmp files")
+            }
         }
     }
 

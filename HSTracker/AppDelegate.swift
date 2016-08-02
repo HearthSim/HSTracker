@@ -650,7 +650,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     @IBAction func closeWindow(sender: AnyObject) {
-
+    }
+    
+    @IBAction func openReplayDirectory(sender: AnyObject) {
+        if let appSupport = NSSearchPathForDirectoriesInDomains(
+            .ApplicationSupportDirectory, .UserDomainMask, true).first {
+            
+            let path = "\(appSupport)/HSTracker/replays"
+            NSWorkspace.sharedWorkspace()
+                .activateFileViewerSelectingURLs([NSURL(fileURLWithPath: path)])
+        }
     }
 
     // MARK: NSUserNotificationCenterDelegate

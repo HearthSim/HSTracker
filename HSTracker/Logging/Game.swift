@@ -10,8 +10,9 @@
 
 import Foundation
 import CleanroomLogger
+import Wrap
 
-enum PlayerType: Int {
+enum PlayerType: Int, WrappableEnum {
     case Player, Opponent, DeckManager, Secrets, CardList, Hero
 }
 enum NotificationType {
@@ -24,6 +25,7 @@ class Game {
     var maxId = 0
     var lastId = 0
     var gameTriggerCount = 0
+    var powerLog: [String] = []
 
     var player: Player
     var opponent: Player
@@ -139,6 +141,7 @@ class Game {
         
         playerRanks = []
         opponentRanks = []
+        powerLog = []
         
         maxId = 0
         lastId = 0
@@ -308,12 +311,9 @@ class Game {
 
         TurnTimer.instance.stop()
 
-        // swiftlint:disable line_length
-        /*if(Config.Instance.RecordReplays && _game.Entities.Count > 0 && !_game.SavedReplay && _game.CurrentGameStats != null
-        && _game.CurrentGameStats.ReplayFile == null && RecordCurrentGameMode)
-        _game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(_game.PowerLog);*/
-        // swiftlint:enable line_length
-        ReplayMaker.saveToDisk()
+        if Settings.instance.saveReplays {
+            ReplayMaker.saveToDisk(powerLog)
+        }
 
         isInMenu = true
     }
@@ -1001,16 +1001,17 @@ class Game {
 
         var numDeathrattleMinions = 0
         if entity.isActiveDeathrattle {
-            if let count = CardIds.DeathrattleSummonCardIds[entity.cardId] {
+            let cardId = entity.cardId
+            if let count = CardIds.DeathrattleSummonCardIds[cardId] {
                 numDeathrattleMinions = count
             } else {
-                if entity.cardId == CardIds.Collectible.Neutral.Stalagg
+                if cardId == CardIds.Collectible.Neutral.Stalagg
                     && opponent.graveyard
                         .any({ $0.cardId == CardIds.Collectible.Neutral.Feugen })
                     || entity.cardId == CardIds.Collectible.Neutral.Feugen
                     && opponent.graveyard
                         .any({ $0.cardId == CardIds.Collectible.Neutral.Stalagg }) {
-                        numDeathrattleMinions = 1
+                    numDeathrattleMinions = 1
                 }
             }
 

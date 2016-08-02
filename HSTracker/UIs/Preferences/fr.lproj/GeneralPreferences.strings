@@ -22,3 +22,6 @@
 
 /* Class = "NSButtonCell"; title = "Add a note on end game (casual and ranked only)"; ObjectID = "4f5-xO-gik"; */
 "4f5-xO-gik.title" = "Ajoute une note en find de partie (non-classé et classé)";
+
+/* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "lku-8T-sZE"; */
+"lku-8T-sZE.title" = "Enregistrer les replays";

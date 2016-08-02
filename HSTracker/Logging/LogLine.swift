@@ -39,6 +39,7 @@ struct LogLine: CustomStringConvertible {
     let namespace: LogLineNamespace
     let time: Double
     let line: String
+    let include: Bool
 
     static let dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
@@ -46,10 +47,11 @@ struct LogLine: CustomStringConvertible {
         return formatter
     }()
 
-    init(namespace: LogLineNamespace, line: String) {
+    init(namespace: LogLineNamespace, line: String, include: Bool = true) {
         self.namespace = namespace
         self.line = line
         self.time = self.dynamicType.parseTime(line)
+        self.include = include
     }
 
     static func parseTime(line: String) -> Double {

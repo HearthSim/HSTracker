@@ -358,4 +358,9 @@ final class Settings {
 
         return language.match("^(zh|ko|ja|th)")
     }
+    
+    var saveReplays: Bool {
+        set { set("save_replays", value: newValue) }
+        get { return get("save_replays") as? Bool ?? false }
+    }
 }

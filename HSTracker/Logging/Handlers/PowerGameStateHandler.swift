@@ -278,8 +278,8 @@ class PowerGameStateHandler {
                 if actionStartingCardId == CardIds.Collectible.Rogue.TradePrinceGallywix {
                     if let lastCardPlayed = game.lastCardPlayed,
                         entity = game.entities[lastCardPlayed] {
-                            let cardId = entity.cardId
-                            addKnownCardId(game, cardId: cardId)
+                        let cardId = entity.cardId
+                        addKnownCardId(game, cardId: cardId)
                     }
                     addKnownCardId(game,
                                    cardId: CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken)

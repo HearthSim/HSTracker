@@ -163,6 +163,16 @@ final class Decks {
         }
         
         do {
+            try NSFileManager.defaultManager()
+                .createDirectoryAtPath(path,
+                                       withIntermediateDirectories: true,
+                                       attributes: nil)
+        } catch {
+            Log.error?.message("Can not create decks dir")
+            return
+        }
+        
+        do {
             let dictionary: [String : AnyObject] = try Wrap(deck)
             let data = try NSJSONSerialization
                 .dataWithJSONObject(dictionary,

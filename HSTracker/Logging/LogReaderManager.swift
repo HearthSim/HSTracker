@@ -24,8 +24,9 @@ final class LogReaderManager {
         startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState.DebugPrintEntityChoices()"],
         containsFilters: ["Begin Spectating",
             "Start Spectator", "End Spectator"]))
-    //private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .Power,
-    //                                                     startsWithFilters: ["GameState."]))
+    private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .Power,
+        startsWithFilters: ["GameState."],
+        include: false))
     private let bob = LogReader(info: LogReaderInfo(name: .Bob))
     private let rachelle = LogReader(info: LogReaderInfo(name: .Rachelle))
     private let asset = LogReader(info: LogReaderInfo(name: .Asset))
@@ -50,6 +51,7 @@ final class LogReaderManager {
         for reader in readers {
             reader.start(self, entryPoint: entryPoint)
         }
+        gameStatePowerLogReader.start(self, entryPoint: entryPoint)
     }
 
     func stop() {
@@ -59,6 +61,7 @@ final class LogReaderManager {
         for reader in readers {
             reader.stop()
         }
+        gameStatePowerLogReader.stop()  
     }
 
     func restart() {
@@ -75,15 +78,22 @@ final class LogReaderManager {
 
     func processLine(line: LogLine) {
         let game = Game.instance
-        switch line.namespace {
-        case .Power: powerGameStateHandler.handle(game, line: line.line)
-        case .Net: netHandler.handle(game, line: line.line)
-        case .Asset: assetHandler.handle(game, line: line.line)
-        case .Bob: bobHandler.handle(game, line: line.line)
-        case .Rachelle: rachelleHandler.handle(game, line: line.line)
-        case .Arena: arenaHandler.handle(game, line: line.line)
-        case .LoadingScreen: loadingScreenHandler.handle(game, line: line.line)
-        default: break
+        
+        if line.include {
+            switch line.namespace {
+            case .Power: powerGameStateHandler.handle(game, line: line.line)
+            case .Net: netHandler.handle(game, line: line.line)
+            case .Asset: assetHandler.handle(game, line: line.line)
+            case .Bob: bobHandler.handle(game, line: line.line)
+            case .Rachelle: rachelleHandler.handle(game, line: line.line)
+            case .Arena: arenaHandler.handle(game, line: line.line)
+            case .LoadingScreen: loadingScreenHandler.handle(game, line: line.line)
+            default: break
+            }
+        } else {
+            if line.namespace == .Power {
+               game.powerLog.append(line.line)
+            }
         }
     }
 }

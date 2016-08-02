@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import Wrap
 
-enum KeyPointType: String {
+enum KeyPointType: String, WrappableEnum {
     case Play,
         Draw,
         Mulligan,

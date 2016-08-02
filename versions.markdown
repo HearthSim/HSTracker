@@ -1,3 +1,6 @@
+#### 0.17.4
+- Save replays (Support for http://www.zerotoheroes.com/)
+
 #### 0.17.3
 - Update portuguese translation
 - Correct errors introduced by patch 5.2.0.13619

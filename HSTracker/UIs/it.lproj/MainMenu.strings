@@ -100,3 +100,9 @@
 
 /* Class = "NSMenuItem"; title = "Check for Updates..."; ObjectID = "4yc-yU-eH1"; */
 "4yc-yU-eH1.title" = "Check for Updates...";
+
+/* Class = "NSMenuItem"; title = "Replays"; ObjectID = "esn-TJ-7Ds"; */
+"esn-TJ-7Ds.title" = "Replays";
+
+/* Class = "NSMenuItem"; title = "Open replays directory"; ObjectID = "yTs-jD-geS"; */
+"yTs-jD-geS.title" = "Open replays directory";
