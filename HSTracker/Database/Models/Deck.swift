@@ -136,7 +136,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
             + "deckId=\(self.deckId)"
             + ", name=\(self.name)"
             + ", payerClass=\(self.playerClass)"
-            + ", self.cards=\(self._cards.toDict())"
+            + ", self.cards=\(self._cards)"
             + ">"
     }
 

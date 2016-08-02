@@ -8,7 +8,8 @@
  * Created on 14/02/16.
  */
 
-class Entity: Hashable, CustomStringConvertible, Dictable {
+import Foundation
+class Entity {
     var id: Int
     var isPlayer: Bool = false
     var cardId: String = ""
@@ -87,20 +88,6 @@ class Entity: Hashable, CustomStringConvertible, Dictable {
 
     func setCardCount(count: Int) { card.count = count }
 
-    var description: String {
-        let card = Cards.anyById(cardId)
-        let cardName = card != nil ? card!.name : ""
-        let hide = info.hidden && (isInHand || isInDeck)
-        return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
-            + "cardName=\(hide ? "" : cardName), "
-            + "name=\(hide ? "" : name), "
-            + "zonePos=\(getTag(.ZONE_POSITION)), info=\(info)]"
-    }
-
-    var hashValue: Int {
-        return id.hashValue
-    }
-
     func copy() -> Entity {
         let e = Entity(id: id)
         e.isPlayer = isPlayer
@@ -118,24 +105,30 @@ class Entity: Hashable, CustomStringConvertible, Dictable {
 
         return e
     }
-
-    func toDict() -> [String : AnyObject] {
-        var tags = [Int: Int]()
-        self.tags.forEach({ tags[$0.0.rawValue] = $0.1 })
-        return [
-            "id": self.id,
-            "isPlayer": self.isPlayer,
-            "cardId": self.cardId,
-            "name": self.name != nil ? self.name! : "",
-            "tags": tags
-        ]
-    }
 }
 func == (lhs: Entity, rhs: Entity) -> Bool {
     return lhs.id == rhs.id
 }
 
-class EntityInfo: CustomStringConvertible {
+extension Entity: Hashable {
+    var hashValue: Int {
+        return id.hashValue
+    }
+}
+
+extension Entity: CustomStringConvertible {
+    var description: String {
+        let card = Cards.anyById(cardId)
+        let cardName = card != nil ? card!.name : ""
+        let hide = info.hidden && (isInHand || isInDeck)
+        return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
+            + "cardName=\(hide ? "" : cardName), "
+            + "name=\(hide ? "" : name), "
+            + "zonePos=\(getTag(.ZONE_POSITION)), info=\(info)]"
+    }
+}
+
+class EntityInfo {
     private var _entity: Entity
     var discarded = false
     var returned = false
@@ -177,11 +170,13 @@ class EntityInfo: CustomStringConvertible {
         }
         return .None
     }
+}
 
+extension EntityInfo: CustomStringConvertible {
     var description: String {
         var description = "[EntityInfo: "
             + "turn=\(turn)"
-
+        
         if cardMark != .None {
             description += ", cardMark=\(cardMark)"
         }
@@ -201,7 +196,7 @@ class EntityInfo: CustomStringConvertible {
             description += ", mulliganed=true"
         }
         description += "]"
-
+        
         return description
     }
 }

@@ -39,20 +39,6 @@ extension Array where Element: Card {
     }
 }
 
-protocol Dictable {
-    func toDict() -> [String: AnyObject]
-}
-
-extension Array where Element: Dictable {
-    func toDict() -> [[String: AnyObject]] {
-        var result = [[String: AnyObject]]()
-        for element in self {
-            result.append(element.toDict())
-        }
-        return result
-    }
-}
-
 extension Array where Element: Equatable {
     mutating func remove(element: Element) {
         if let index = indexOf(element) {
