@@ -278,6 +278,20 @@ final class Settings {
         set { set("show_deck_name", value: newValue) }
         get { return get("show_deck_name") as? Bool ?? false }
     }
+    
+    // MARK: - Track-o-Bot
+    var trackobotUsername: String? {
+        set { set("trackobot_username", value: newValue) }
+        get { return get("trackobot_username") as? String }
+    }
+    var trackobotToken: String? {
+        set { set("trackobot_token", value: newValue) }
+        get { return get("trackobot_token") as? String }
+    }
+    var trackobotSynchronizeMatches: Bool {
+        set { set("trackobot_auto_synchronize_matches", value: newValue) }
+        get { return get("trackobot_auto_synchronize_matches") as? Bool ?? true }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {

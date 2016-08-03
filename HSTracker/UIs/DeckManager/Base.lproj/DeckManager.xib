@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
@@ -530,6 +530,11 @@
                             <action selector="showStatistics:" target="-2" id="736-au-4Ld"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="0137E887-2AB4-40CB-A410-1647660DE79D" explicitItemIdentifier="trackobot" label="Track-o-Bot" paletteLabel="Track-o-Bot" tag="-1" image="trackobot_icon" id="ddN-KV-afY">
+                        <connections>
+                            <action selector="trackobotLogin:" target="-2" id="4xl-K3-4pG"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
@@ -541,6 +546,7 @@
                     <toolbarItem reference="Fe5-be-5CS"/>
                     <toolbarItem reference="cu3-FG-2Cn"/>
                     <toolbarItem reference="I75-rt-at9"/>
+                    <toolbarItem reference="ddN-KV-afY"/>
                     <toolbarItem reference="Xxv-sY-tej"/>
                     <toolbarItem reference="d38-Pq-vZv"/>
                     <toolbarItem reference="0zG-7b-xsf"/>
@@ -577,6 +583,7 @@
         <image name="shaman" width="344.8800048828125" height="344.8800048828125"/>
         <image name="shaman_dark" width="1437" height="1437"/>
         <image name="statistics" width="32" height="32"/>
+        <image name="trackobot_icon" width="18" height="18"/>
         <image name="twitter" width="32" height="32"/>
         <image name="use-deck" width="32" height="32"/>
         <image name="warlock" width="344.8800048828125" height="344.8800048828125"/>

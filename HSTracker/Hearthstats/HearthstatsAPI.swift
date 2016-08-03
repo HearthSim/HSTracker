@@ -373,9 +373,13 @@ struct HearthstatsAPI {
  
     static func postMatch(game: Game, deck: Deck, stat: Statistic) throws {
         let settings = Settings.instance
-        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
-        guard let _ = deck.hearthstatsId else { throw HearthstatsError.DeckNotSaved }
-        guard let _ = deck.hearthstatsVersionId else { throw HearthstatsError.DeckNotSaved }
+        guard let hearthstatsToken = settings.hearthstatsToken else {
+            throw HearthstatsError.NotLogged
+        }
+        guard let hearthstatsId = deck.hearthstatsId else { throw HearthstatsError.DeckNotSaved }
+        guard let hearthstatsVersionId = deck.hearthstatsVersionId else {
+            throw HearthstatsError.DeckNotSaved
+        }
 
         let startTime: NSDate
         if let gameStartDate = game.gameStartDate {
@@ -395,8 +399,8 @@ struct HearthstatsAPI {
             "coin": "\(stat.hasCoin)",
             "numturns": stat.numTurns,
             "duration": stat.duration,
-            "deck_id": deck.hearthstatsId!,
-            "deck_version_id": deck.hearthstatsVersionId!,
+            "deck_id": hearthstatsId,
+            "deck_version_id": hearthstatsVersionId,
             "oppclass": stat.opponentClass.rawValue.capitalizedString,
             "oppname": stat.opponentName,
             "notes": stat.note ?? "",
@@ -405,7 +409,7 @@ struct HearthstatsAPI {
             "created_at": startAt
         ]
         Log.info?.message("Posting match to Hearthstats \(parameters)")
-        Alamofire.request(.POST, "\(baseUrl)/matches?auth_token=\(settings.hearthstatsToken!)",
+        Alamofire.request(.POST, "\(baseUrl)/matches?auth_token=\(hearthstatsToken)",
             parameters: parameters, encoding: .JSON)
             .responseJSON { response in
                 if response.result.isSuccess {

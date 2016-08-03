@@ -37,7 +37,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil)!,
             OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil)!,
-            HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!
+            HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!,
+            TrackOBotPreferences(nibName: "TrackOBotPreferences", bundle: nil)!
             ], title: NSLocalizedString("Preferences", comment: ""))
         return preferences
     }()

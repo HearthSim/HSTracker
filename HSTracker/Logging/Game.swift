@@ -26,6 +26,7 @@ class Game {
     var lastId = 0
     var gameTriggerCount = 0
     var powerLog: [String] = []
+    var playedCards: [PlayedCard] = []
 
     var player: Player
     var opponent: Player
@@ -142,6 +143,7 @@ class Game {
         playerRanks = []
         opponentRanks = []
         powerLog = []
+        playedCards = []
         
         maxId = 0
         lastId = 0
@@ -434,6 +436,15 @@ class Game {
                     try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
                 }
             } catch {
+                Log.error?.message("Hearthstats error : \(error)")
+            }
+        }
+        
+        if TrackOBotAPI.isLogged() && Settings.instance.trackobotSynchronizeMatches {
+            do {
+                try TrackOBotAPI.postMatch(self, deck: deck, stat: statistic)
+            } catch {
+                Log.error?.message("Track-o-Bot error : \(error)")
             }
         }
     }
@@ -579,7 +590,11 @@ class Game {
         if String.isNullOrEmpty(cardId) {
             return
         }
+        
         player.play(entity, turn: turn)
+        if let cardId = cardId where !cardId.isEmpty {
+            playedCards.append(PlayedCard(player: .Player, cardId: cardId, turn: turn))
+        }
         
         if entity.hasTag(.RITUAL) {
             // if this entity has the RITUAL tag, it will trigger some C'Thun change
@@ -789,6 +804,11 @@ class Game {
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.play(entity, turn: turn)
+        
+        if let cardId = cardId where !cardId.isEmpty {
+            playedCards.append(PlayedCard(player: .Opponent, cardId: cardId, turn: turn))
+        }
+        
         if entity.hasTag(.RITUAL) {
             // if this entity has the RITUAL tag, it will trigger some C'Thun change
             // we wait 300ms so the proxy have the time to be updated

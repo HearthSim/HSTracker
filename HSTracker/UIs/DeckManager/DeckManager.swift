@@ -35,6 +35,7 @@ class DeckManager: NSWindowController {
     var editDeck: EditDeck?
     var newDeck: NewDeck?
     var hearthstatsLogin: HearthstatsLogin?
+    var trackobotLogin: TrackOBotLogin?
 
     var decks = [Deck]()
     var currentClass: CardClass?
@@ -212,7 +213,7 @@ class DeckManager: NSWindowController {
     // MARK: - Toolbar actions
     override func validateToolbarItem(item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
-        case "add", "donate", "twitter", "hearthstats", "gitter":
+        case "add", "donate", "twitter", "hearthstats", "gitter", "trackobot":
             return true
         case "edit", "use", "delete", "rename", "archive", "statistics":
             return currentDeck != nil
@@ -237,6 +238,29 @@ class DeckManager: NSWindowController {
             self.window!.beginSheet(statistics.window!, completionHandler: { (returnCode) in
                 self.refreshDecks()
             })
+        }
+    }
+    
+    @IBAction func trackobotLogin(sender: AnyObject) {
+        if TrackOBotAPI.isLogged() {
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            // swiftlint:disable line_length
+            alert.messageText = NSLocalizedString("Are you sure you want to disconnect from Track-o-Bot ?", comment: "")
+            // swiftlint:enable line_length
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModalForWindow(self.window!,
+                                           completionHandler: { (returnCode) in
+                                            if returnCode == NSAlertFirstButtonReturn {
+                                                TrackOBotAPI.logout()
+                                            }
+            })
+        } else {
+            trackobotLogin = TrackOBotLogin(windowNibName: "TrackOBotLogin")
+            if let trackobotLogin = trackobotLogin {
+                self.window!.beginSheet(trackobotLogin.window!, completionHandler: nil)
+            }
         }
     }
     

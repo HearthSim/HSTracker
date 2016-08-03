@@ -94,6 +94,12 @@
 		435907EC1CB13835008D4363 /* FileImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435907EB1CB13835008D4363 /* FileImporter.swift */; };
 		4359BF761D51043300F61993 /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4359BF751D51043300F61993 /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */; };
+		4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF7A1D51EED200F61993 /* TrackOBotLogin.swift */; };
+		4359BF7F1D51F2EE00F61993 /* TrackOBotAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF7E1D51F2EE00F61993 /* TrackOBotAPI.swift */; };
+		4359BF801D51FCE100F61993 /* TrackOBotLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4359BF821D51FCE100F61993 /* TrackOBotLogin.xib */; };
+		4359BF901D51FD5500F61993 /* TrackOBotPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF8F1D51FD5500F61993 /* TrackOBotPreferences.swift */; };
+		4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF931D52142D00F61993 /* PlayedCard.swift */; };
+		4359BF951D5221FF00F61993 /* TrackOBotPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4359BF971D5221FF00F61993 /* TrackOBotPreferences.xib */; };
 		436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
 		4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
@@ -462,6 +468,24 @@
 		435907EB1CB13835008D4363 /* FileImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImporter.swift; sourceTree = "<group>"; };
 		4359BF751D51043300F61993 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = Carthage/Build/Mac/ZipArchive.framework; sourceTree = "<group>"; };
 		4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = ZipArchive.framework.dSYM; path = Carthage/Build/Mac/ZipArchive.framework.dSYM; sourceTree = "<group>"; };
+		4359BF7A1D51EED200F61993 /* TrackOBotLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackOBotLogin.swift; sourceTree = "<group>"; };
+		4359BF7E1D51F2EE00F61993 /* TrackOBotAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackOBotAPI.swift; sourceTree = "<group>"; };
+		4359BF811D51FCE100F61993 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TrackOBotLogin.xib; sourceTree = "<group>"; };
+		4359BF841D51FCE500F61993 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackOBotLogin.strings; sourceTree = "<group>"; };
+		4359BF861D51FCE600F61993 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackOBotLogin.strings; sourceTree = "<group>"; };
+		4359BF881D51FCE700F61993 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackOBotLogin.strings; sourceTree = "<group>"; };
+		4359BF8A1D51FCE900F61993 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackOBotLogin.strings; sourceTree = "<group>"; };
+		4359BF8C1D51FCEB00F61993 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/TrackOBotLogin.strings"; sourceTree = "<group>"; };
+		4359BF8E1D51FCEC00F61993 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TrackOBotLogin.strings"; sourceTree = "<group>"; };
+		4359BF8F1D51FD5500F61993 /* TrackOBotPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackOBotPreferences.swift; sourceTree = "<group>"; };
+		4359BF931D52142D00F61993 /* PlayedCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayedCard.swift; sourceTree = "<group>"; };
+		4359BF961D5221FF00F61993 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TrackOBotPreferences.xib; sourceTree = "<group>"; };
+		4359BF991D52220100F61993 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
+		4359BF9B1D52220300F61993 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
+		4359BF9D1D52220400F61993 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
+		4359BF9F1D52220600F61993 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
+		4359BFA11D52220700F61993 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/TrackOBotPreferences.strings"; sourceTree = "<group>"; };
+		4359BFA31D52220800F61993 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TrackOBotPreferences.strings"; sourceTree = "<group>"; };
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
 		43647A521CDC9A3D00C2B78E /* TextAttributes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TextAttributes.framework; path = Carthage/Build/Mac/TextAttributes.framework; sourceTree = "<group>"; };
@@ -736,6 +760,18 @@
 			path = Handlers;
 			sourceTree = "<group>";
 		};
+		4359BF791D51EE9200F61993 /* TrackOBot */ = {
+			isa = PBXGroup;
+			children = (
+				4359BF7E1D51F2EE00F61993 /* TrackOBotAPI.swift */,
+				4359BF7A1D51EED200F61993 /* TrackOBotLogin.swift */,
+				4359BF821D51FCE100F61993 /* TrackOBotLogin.xib */,
+				4359BF8F1D51FD5500F61993 /* TrackOBotPreferences.swift */,
+				4359BF971D5221FF00F61993 /* TrackOBotPreferences.xib */,
+			);
+			path = TrackOBot;
+			sourceTree = "<group>";
+		};
 		436032991C7B4C34005F1893 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
@@ -869,6 +905,7 @@
 				43B6954E1C90387F00F4D0AC /* Replay */,
 				439C7E8E1C777D6C00D29859 /* Resources */,
 				C99C0C9B1D0A607D000DD6FB /* Statistics */,
+				4359BF791D51EE9200F61993 /* TrackOBot */,
 				439C7ECD1C777FA900D29859 /* UIs */,
 				437B5BB11CD2437D00DE0A41 /* Utility */,
 			);
@@ -946,6 +983,7 @@
 				64C117BCDB7C91174D0EAD99 /* CardIds.swift */,
 				43E77EE31C94A19700C26950 /* TurnTimer.swift */,
 				432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */,
+				4359BF931D52142D00F61993 /* PlayedCard.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1238,6 +1276,7 @@
 				432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */,
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
 				434910451D09505100B22DB2 /* BoardDamage.xib in Resources */,
+				4359BF951D5221FF00F61993 /* TrackOBotPreferences.xib in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
@@ -1259,6 +1298,7 @@
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
+				4359BF801D51FCE100F61993 /* TrackOBotLogin.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
@@ -1326,6 +1366,7 @@
 				439C7E921C777EFA00D29859 /* Settings.swift in Sources */,
 				43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */,
 				434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */,
+				4359BF7F1D51F2EE00F61993 /* TrackOBotAPI.swift in Sources */,
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
@@ -1369,6 +1410,7 @@
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
+				4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				431AA0CB1D362DBA0030AD22 /* Faction.swift in Sources */,
 				43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */,
@@ -1385,8 +1427,10 @@
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
 				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
+				4359BF901D51FD5500F61993 /* TrackOBotPreferences.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
+				4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
 				C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */,
 				434C2F341C7F4816001D1D91 /* HearthpwnDeckBuilder.swift in Sources */,
@@ -1661,6 +1705,34 @@
 			);
 			name = Statistics.xib;
 			path = StatsManager;
+			sourceTree = "<group>";
+		};
+		4359BF821D51FCE100F61993 /* TrackOBotLogin.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4359BF811D51FCE100F61993 /* Base */,
+				4359BF841D51FCE500F61993 /* fr */,
+				4359BF861D51FCE600F61993 /* de */,
+				4359BF881D51FCE700F61993 /* es */,
+				4359BF8A1D51FCE900F61993 /* it */,
+				4359BF8C1D51FCEB00F61993 /* pt-BR */,
+				4359BF8E1D51FCEC00F61993 /* zh-Hans */,
+			);
+			name = TrackOBotLogin.xib;
+			sourceTree = "<group>";
+		};
+		4359BF971D5221FF00F61993 /* TrackOBotPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4359BF961D5221FF00F61993 /* Base */,
+				4359BF991D52220100F61993 /* fr */,
+				4359BF9B1D52220300F61993 /* de */,
+				4359BF9D1D52220400F61993 /* es */,
+				4359BF9F1D52220600F61993 /* it */,
+				4359BFA11D52220700F61993 /* pt-BR */,
+				4359BFA31D52220800F61993 /* zh-Hans */,
+			);
+			name = TrackOBotPreferences.xib;
 			sourceTree = "<group>";
 		};
 		437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */ = {

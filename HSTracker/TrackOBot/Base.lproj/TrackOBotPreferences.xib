@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TrackOBotPreferences">
+            <connections>
+                <outlet property="synchronizeMatches" destination="7zy-Z4-CYx" id="fxf-Pf-Si8"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="7zy-Z4-CYx">
+                    <rect key="frame" x="18" y="236" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Synchronize matches results" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="x4D-lT-2S3">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="fXd-Ad-oez"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="7zy-Z4-CYx" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="TZi-HM-z75"/>
+                <constraint firstItem="7zy-Z4-CYx" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="b02-q6-ua2"/>
+                <constraint firstAttribute="trailing" secondItem="7zy-Z4-CYx" secondAttribute="trailing" constant="20" id="i00-4c-DZW"/>
+            </constraints>
+        </customView>
+    </objects>
+</document>
