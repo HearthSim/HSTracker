@@ -56,7 +56,7 @@ struct LogLine: CustomStringConvertible {
 
     static func parseTime(line: String) -> Double {
         guard line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 20 else {
-            return NSDate.now.timeIntervalSince1970
+            return NSDate().timeIntervalSince1970
         }
 
         let fromLine = line.substringWithRange(2, location: 16)
@@ -76,12 +76,12 @@ struct LogLine: CustomStringConvertible {
         dateComponents.timeZone = NSTimeZone(name: "UTC")
 
         if let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents) {
-            if date > NSDate.now {
+            if date > NSDate() {
                 date.addDays(-1)
             }
             return date.timeIntervalSince1970
         }
-        return NSDate.now.timeIntervalSince1970
+        return NSDate().timeIntervalSince1970
     }
 
     var description: String {

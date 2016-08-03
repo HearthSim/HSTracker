@@ -10,11 +10,7 @@ import Foundation
 
 extension NSDate {
 
-    static var now: NSDate {
-        return NSDate()
-    }
-
-    func getUTCFormateDate() -> String {
+    var utcFormatted: String {
         let dateFormatter = NSDateFormatter()
         dateFormatter.timeZone = NSTimeZone(name: "UTC")
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
