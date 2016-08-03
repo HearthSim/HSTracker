@@ -17,7 +17,7 @@ class HearthstatsLogin: NSWindowController {
     @IBOutlet weak var loginButton: NSButton!
 
     @IBAction func cancel(sender: AnyObject) {
-        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+        self.endSheet()
     }
 
     @IBAction func connect(sender: AnyObject) {

@@ -9,7 +9,7 @@
 import Foundation
 import MASPreferences
 
-class OpponentTrackersPreferences: NSViewController, MASPreferencesViewController {
+class OpponentTrackersPreferences: NSViewController {
 
     @IBOutlet weak var showOpponentTracker: NSButton!
     @IBOutlet weak var showCardHuds: NSButton!
@@ -66,8 +66,10 @@ class OpponentTrackersPreferences: NSViewController, MASPreferencesViewControlle
             settings.opponentBoardDamage = showBoardDamage.state == NSOnState
         }
     }
+}
 
-    // MARK: - MASPreferencesViewController
+// MARK: - MASPreferencesViewController
+extension OpponentTrackersPreferences: MASPreferencesViewController {
     override var identifier: String? {
         get {
             return "opponent_trackers"

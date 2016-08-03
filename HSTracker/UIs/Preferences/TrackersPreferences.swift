@@ -9,7 +9,7 @@
 import Foundation
 import MASPreferences
 
-class TrackersPreferences: NSViewController, MASPreferencesViewController {
+class TrackersPreferences: NSViewController {
 
     @IBOutlet weak var highlightCardsInHand: NSButton!
     @IBOutlet weak var highlightLastDrawn: NSButton!
@@ -84,8 +84,10 @@ class TrackersPreferences: NSViewController, MASPreferencesViewController {
             settings.showFloatingCard = showFloatingCard.state == NSOnState
         }
     }
+}
 
-    // MARK: - MASPreferencesViewController
+// MARK: - MASPreferencesViewController
+extension TrackersPreferences: MASPreferencesViewController {
     override var identifier: String? {
         get {
             return "trackers"

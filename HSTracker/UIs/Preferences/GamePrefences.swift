@@ -9,8 +9,7 @@
 import Foundation
 import MASPreferences
 
-class GamePreferences: NSViewController, MASPreferencesViewController,
-NSComboBoxDataSource, NSComboBoxDelegate, NSOpenSavePanelDelegate {
+class GamePreferences: NSViewController {
 
     @IBOutlet weak var hearthstonePath: NSTextField!
     @IBOutlet weak var decksPath: NSTextField!
@@ -93,7 +92,10 @@ NSComboBoxDataSource, NSComboBoxDelegate, NSOpenSavePanelDelegate {
         }
     }
 
-    // MARK: - NSComboBoxDataSource methods
+}
+
+// MARK: - NSComboBoxDataSource / NSComboBoxDelegatemethods
+extension GamePreferences: NSComboBoxDataSource, NSComboBoxDelegate {
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
             return hstrackerLanguages.count
@@ -137,25 +139,9 @@ NSComboBoxDataSource, NSComboBoxDelegate, NSOpenSavePanelDelegate {
         }
     }
 
-    // MARK: - MASPreferencesViewController
-    override var identifier: String? {
-        get {
-            return "game"
-        }
-        set {
-            super.identifier = newValue
-        }
-    }
-
-    var toolbarItemImage: NSImage! {
-        return NSImage(named: NSImageNameAdvanced)
-    }
-
-    var toolbarItemLabel: String! {
-        return NSLocalizedString("Game", comment: "")
-    }
-
+}
     // MARK: - NSOpenSavePanelDelegate
+extension GamePreferences: NSOpenSavePanelDelegate {
     func panel(sender: AnyObject, shouldEnableURL url: NSURL) -> Bool {
         if url.path!.hasSuffix(".app") {
             return url.lastPathComponent == "Hearthstone.app"
@@ -164,5 +150,25 @@ NSComboBoxDataSource, NSComboBoxDelegate, NSOpenSavePanelDelegate {
             return NSFileManager.defaultManager()
                 .fileExistsAtPath(url.path!, isDirectory: &isDir) && isDir
         }
+    }
+}
+
+// MARK: - MASPreferencesViewController
+extension GamePreferences: MASPreferencesViewController {
+    override var identifier: String? {
+        get {
+            return "game"
+        }
+        set {
+            super.identifier = newValue
+        }
+    }
+    
+    var toolbarItemImage: NSImage! {
+        return NSImage(named: NSImageNameAdvanced)
+    }
+    
+    var toolbarItemLabel: String! {
+        return NSLocalizedString("Game", comment: "")
     }
 }

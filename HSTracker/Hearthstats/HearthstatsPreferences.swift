@@ -9,7 +9,7 @@
 import Foundation
 import MASPreferences
 
-class HearthstatsPreferences: NSViewController, MASPreferencesViewController {
+class HearthstatsPreferences: NSViewController {
 
     @IBOutlet weak var autoSynchronize: NSButton!
     @IBOutlet weak var synchronizeMatches: NSButton!
@@ -30,8 +30,10 @@ class HearthstatsPreferences: NSViewController, MASPreferencesViewController {
             settings.hearthstatsSynchronizeMatches = synchronizeMatches.state == NSOnState
         }
     }
+}
 
-    // MARK: - MASPreferencesViewController
+// MARK: - MASPreferencesViewController
+extension HearthstatsPreferences: MASPreferencesViewController {
     override var identifier: String? {
         get {
             return "hearthstats"

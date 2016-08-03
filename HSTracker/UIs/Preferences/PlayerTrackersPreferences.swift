@@ -9,7 +9,7 @@
 import Foundation
 import MASPreferences
 
-class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController {
+class PlayerTrackersPreferences: NSViewController {
 
     @IBOutlet weak var showPlayerTracker: NSButton!
     @IBOutlet weak var showPlayerCardCount: NSButton!
@@ -75,9 +75,10 @@ class PlayerTrackersPreferences: NSViewController, MASPreferencesViewController 
             settings.showDeckNameInTracker = showDeckName.state == NSOnState
         }
     }
+}
 
-
-    // MARK: - MASPreferencesViewController
+// MARK: - MASPreferencesViewController
+extension PlayerTrackersPreferences: MASPreferencesViewController {
     override var identifier: String? {
         get {
             return "player_trackers"

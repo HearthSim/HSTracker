@@ -9,7 +9,7 @@
 import Foundation
 import MASPreferences
 
-class GeneralPreferences: NSViewController, MASPreferencesViewController {
+class GeneralPreferences: NSViewController {
 
     @IBOutlet weak var notifyGameStart: NSButton!
     @IBOutlet weak var notifyTurnStart: NSButton!
@@ -47,7 +47,9 @@ class GeneralPreferences: NSViewController, MASPreferencesViewController {
         }
     }
 
-    // MARK: - MASPreferencesViewController
+}
+// MARK: - MASPreferencesViewController
+extension GeneralPreferences: MASPreferencesViewController {
     override var identifier: String? {
         get {
             return "general"
