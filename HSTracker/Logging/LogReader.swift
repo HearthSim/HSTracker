@@ -11,7 +11,6 @@
 import Foundation
 import CleanroomLogger
 
-// swiftlint:disable line_length
 final class LogReader {
     var stopped = true
     var offset: UInt64 = 0
@@ -20,11 +19,6 @@ final class LogReader {
 
     var path: String
     let fileManager = NSFileManager()
-    let dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.timeZone = NSTimeZone(name: "UTC")
-        return formatter
-    }()
     private var info: LogReaderInfo
     private var logReaderManager: LogReaderManager?
 
@@ -118,10 +112,12 @@ final class LogReader {
 
                     if !lines.isEmpty {
                         for line in lines {
-                            offset += UInt64((line + "\n").lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+                            offset += UInt64((line + "\n")
+                                .lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
                             let cutted = line.substringFromIndex(line.startIndex.advancedBy(19))
 
-                            if !info.hasFilters || info.startsWithFilters.any({ cutted.startsWith($0) })
+                            if !info.hasFilters
+                                || info.startsWithFilters.any({ cutted.startsWith($0) })
                                 || info.containsFilters.any({ cutted.containsString($0) }) {
 
                                 let logLine = LogLine(namespace: info.name,
