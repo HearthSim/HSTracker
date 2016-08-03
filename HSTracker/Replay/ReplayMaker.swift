@@ -96,7 +96,7 @@ final class ReplayMaker {
                 return
             }
 
-            let data: NSData
+            /*let data: NSData
             do {
                 data = try Wrap(points)
             } catch {
@@ -106,6 +106,7 @@ final class ReplayMaker {
             
             let replay = "\(tmp)/replay.json"
             data.writeToFile(replay, atomically: true)
+            */
                 
             let output = "\(tmp)/output_log.txt"
             do {
@@ -120,11 +121,11 @@ final class ReplayMaker {
             let filename = "\(path)/\(NSDate().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
                 + "\(opponentName)(\(opponentHeroName)).hdtreplay"
             
-            SSZipArchive.createZipFileAtPath(filename, withFilesAtPaths: [replay, output])
+            SSZipArchive.createZipFileAtPath(filename, withFilesAtPaths: [/*replay, */output])
             Log.info?.message("Replay saved to \(filename)")
             
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(replay)
+                //try NSFileManager.defaultManager().removeItemAtPath(replay)
                 try NSFileManager.defaultManager().removeItemAtPath(output)
             } catch {
                 Log.error?.message("Can not remove tmp files")
