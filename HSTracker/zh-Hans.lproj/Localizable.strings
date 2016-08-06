@@ -1,5 +1,5 @@
-"Are you sure you want to close this deck ? Your changes will not be saved." = "你确定要关闭套牌 ？您的修改不会被保存.";
-"Are you sure you want to delete the deck %@ ?" = "你确定要删除 %@ 套牌 ?";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "确定要关闭套牌 ？您的修改不会被保存.";
+"Are you sure you want to delete the deck %@ ?" = "确定要删除 %@ 套牌 ?";
 "Arena %@ %@" = "競技場 %@ %@";
 "Cancel" = "取消";
 "Clear" = "清除";
@@ -7,8 +7,8 @@
 "Deck name" = "套牌名字";
 "Decks" = "套牌";
 "Delete deck" = "删除套牌";
-"Do you want to add this deck on Hearthstats ?" = "你想加这个套牌上 Hearthstats 吗 ?";
-"Do you want to delete the deck on Hearthstats ?" = "你想要删除这个套牌在 Hearthstats 吗 ?";
+"Do you want to add this deck on Hearthstats ?" = "想加这个套牌上 Hearthstats 吗 ?";
+"Do you want to delete the deck on Hearthstats ?" = "想要删除这个套牌在 Hearthstats 吗 ?";
 "Downloading %@.png" = "下载 %@.png";
 "Downloading images" = "下载图片";
 "Edit deck" = "修改套牌";
@@ -31,27 +31,27 @@
 "Use deck" = "用牌组";
 "Window" = "窗口";
 "You are now connected to Hearthstats" = "现在您连接到 Hearthstats";
-"You must restart Hearthstone for logs to be used" = "您必须重新启动炉石传说为要使用场记";
-"You must restart HSTracker for the language change to take effect" = "您必须重启 HSTracker 已使得设置的语言生效";
-"Are you sure you want to disconnect from Hearthstats ?" = "你确定要从断开 Hearthstats ?";
+"You must restart Hearthstone for logs to be used" = "必须重新启动炉石传说为要使用场记";
+"You must restart HSTracker for the language change to take effect" = "必须重启 HSTracker 已使得设置的语言生效";
+"Are you sure you want to disconnect from Hearthstats ?" = "确定要从断开 Hearthstats ?";
 "Save Opponent's Deck" = "保存对手的套牌";
 "Save Current Deck" = "保存现在的套牌";
-"Are you sure you want to archive the deck %@ ?" = "你确定要存档 %@ 套牌 ?";
-"Are you sure you want to unarchive the deck %@ ?" = "你确定要解除封存 %@ 套牌 ?";
+"Are you sure you want to archive the deck %@ ?" = "确定要存档 %@ 套牌 ?";
+"Are you sure you want to unarchive the deck %@ ?" = "确定要解除封存 %@ 套牌 ?";
 "Add Card" = "加卡";
 "Remove Card" = "取出卡";
 "Fatigue : " = "疲劳 : ";
 "It is 90% certain that the true winrate falls between these values." = "是 90 % 肯定真正的赢率落在这些值之间.";
 "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "你的競技場套牌没有保存 . 重启炉石传说和重新保存套牌 .";
-"Are you sure you want to delete the statistics for the deck %@ ?" = "你确定要删除 %@ 套牌的统计 ?";
-"Do you want to add some notes for this game ?" = "你想加评论给这个游戏吗 ?";
-"Your arena deck count 30 cards, do you want to save it ?" = "Your arena deck count 30 cards, do you want to save it ?";
+"Are you sure you want to delete the statistics for the deck %@ ?" = "确定要删除 %@ 套牌的统计 ?";
+"Do you want to add some notes for this game ?" = "想加评论给这个游戏吗 ?";
+"Your arena deck count 30 cards, do you want to save it ?" = "競技場套牌有 30 张卡, 要保存吗 ?";
 
 /* notifications */
 "Your game begins" = "游戏开始";
 "Victory" = "胜利";
 "Hearthstone" = "炉石传说";
-"Your opponent have conceded" = "你的对手得失球";
+"Your opponent has conceded" = "对手也承认";
 "It's your turn to play" = "轮到你玩";
 
 /* classes */
