@@ -15,11 +15,11 @@
 "Game" = "Spiel";
 "General" = "Allgemein";
 "Loading %@ cards" = "Lade %@ Karten";
-"Loading decks" = "Loading decks";
+"Loading decks" = "Lade Decks";
 "Lock windows" = "Fenster sperren";
 "OK" = "OK";
-"Please select your Hearthstone app" = "Bitte selektiere die Hearthstone App.";
-"Can't find Hearthstone, please select Hearthstone.app" = "Hearthstone kann nicht gefunden werden, bitte selektiere die Datei Hearthstone.app.";
+"Please select your Hearthstone app" = "Bitte wähle die Hearthstone App aus.";
+"Can't find Hearthstone, please select Hearthstone.app" = "Hearthstone kann nicht gefunden werden, bitte wähle die Datei Hearthstone.app aus.";
 "Preferences" = "Einstellungen";
 "Rename deck" = "Deck umbenennen";
 "Reset" = "Zurücksetzen";
@@ -41,11 +41,11 @@
 "Add Card" = "Karte hinzufügen";
 "Remove Card" = "Karte entfernen";
 "Fatigue : " = "Fatigue : "; /* Fatique = Ermüden, but I think that the term Fatigue is used in German, too */
-"It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
-"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.";
-"Are you sure you want to delete the statistics for the deck %@ ?" = "Are you sure you want to delete the statistics for the deck %@ ?";
-"Do you want to add some notes for this game ?" = "Do you want to add some notes for this game ?";
-"Your arena deck count 30 cards, do you want to save it ?" = "Your arena deck count 30 cards, do you want to save it ?";
+"It is 90% certain that the true winrate falls between these values." = "Es ist zu 90% sicher, dass die Gewinnrate zwischen diesen Werten fällt.";
+"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "Beim speichern Deines Arena-Decks ist etwas schief gelaufen. Starte Hearthstone neu, wähle 'Die Arena' aus und versuche es dann erneut zu speichern.";
+"Are you sure you want to delete the statistics for the deck %@ ?" = "Bist Du sicher, dass Du die Statistiken für das Deck %@ löschen möchtest?";
+"Do you want to add some notes for this game ?" = "Möchtest Du eine Bemerkung für dieses Spiel hinzufügen?";
+"Your arena deck count 30 cards, do you want to save it ?" = "Dein Arena Deck besteht nun aus 30 Karten, möchtest Du es speichern?";
 
 /* notifications */
 "Your game begins" = "Dein Spiel beginnt";
@@ -84,6 +84,7 @@
 "TGT" = "Das große Turnier";
 "LOE" = "Die Forscherliga";
 "OG" = "Das Flüstern der alten Götter";
+/* "One Night in Karazhan" = "Eine Nacht in Karazhan */
 "PROMO" = "Belohnung";
 
 /* card type */
@@ -114,15 +115,15 @@
 "descending" = "Absteigend";
 
 /* game modes */
-"mode_all"       = "All";
-"mode_ranked"    = "Ranked";
-"mode_casual"    = "Casual";
-"mode_arena"     = "Arena";
-"mode_brawl"     = "Tavern Brawl";
-"mode_friendly"  = "Friendly";
-"mode_practice"  = "Practice/Adventure";
-"mode_spectator" = "Spectator";
-"mode_none"      = "None";
+"mode_all"       = "Alle";
+"mode_ranked"    = "Gewertet";
+"mode_casual"    = "Ungewertet";
+"mode_arena"     = "Die Arena";
+"mode_brawl"     = "Kartenchaos";
+"mode_friendly"  = "Freundschaftsspiel";
+"mode_practice"  = "Üben / Soloabenteuer";
+"mode_spectator" = "Zuschauer";
+"mode_none"      = "Keinen";
 
 /* Stats tabs */
 "Statistics" = "Statistiken";
