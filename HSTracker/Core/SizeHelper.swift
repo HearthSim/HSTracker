@@ -155,6 +155,16 @@ struct SizeHelper {
                            height: NSHeight(hearthstoneWindow.frame) - offset)
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
+    
+    static func searchLocation() -> NSPoint {
+        let frame = NSRect(x: 700.0, y: 883.0, width: 50.0, height: 50.0)
+        return hearthstoneWindow.relativeFrame(frame).origin
+    }
+    
+    static func firstCardLocation() -> NSPoint {
+        let frame = NSRect(x: 320.0, y: 225.0, width: 50.0, height: 50.0)
+        return hearthstoneWindow.relativeFrame(frame).origin
+    }
 
     static func playerTrackerFrame() -> NSRect {
         return trackerFrame(NSWidth(hearthstoneWindow.frame) - trackerWidth)

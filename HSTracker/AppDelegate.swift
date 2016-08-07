@@ -653,6 +653,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     @IBAction func closeWindow(sender: AnyObject) {
     }
     
+    /*@IBAction func export(sender: AnyObject) {
+        
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            let automation = Automation()
+            if let deck = Decks.instance.decks().filter({ $0.playerClass == .PRIEST }).first {
+                automation.expertDeckToHearthstone(deck)
+            }
+        }
+    }*/
+    
     @IBAction func openReplayDirectory(sender: AnyObject) {
         if let appSupport = NSSearchPathForDirectoriesInDomains(
             .ApplicationSupportDirectory, .UserDomainMask, true).first {
