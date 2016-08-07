@@ -9,7 +9,7 @@
 "acK-XF-6wQ.title" = "Zeige eigene Draw-Chance";
 
 /* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "r3h-Qd-YPW"; */
-"r3h-Qd-YPW.title" = "Erhaltene bzw. fremde Karten einbeziehen";
+"r3h-Qd-YPW.title" = "Entdeckte und fremde Karten mit einbeziehen";
 
 /* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
 "LGM-aC-rL6.title" = "Zeige Spell-Counter";
