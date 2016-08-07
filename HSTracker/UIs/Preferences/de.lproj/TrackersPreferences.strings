@@ -28,7 +28,7 @@
 "hJI-dG-QeP.title" = "Markiere Handkarten";
 
 /* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "ndN-hu-6Rx"; */
-"ndN-hu-6Rx.title" = "Erhaltene bzw. Fremde Karten einbeziehen";
+"ndN-hu-6Rx.title" = "Entdeckte und fremde Karten mit einbeziehen";
 
 /* Class = "NSButtonCell"; title = "Remove cards if count is 0"; ObjectID = "s9w-5p-pJs"; */
 "s9w-5p-pJs.title" = "Entferne Karten wenn der Zähler 0 erreicht";
