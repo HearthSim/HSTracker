@@ -1,6 +1,6 @@
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "8RD-Pl-Gm6"; */
-"8RD-Pl-Gm6.title" = "Cancel";
+"8RD-Pl-Gm6.title" = "Abbrechen";
 
 /* Class = "NSTextFieldCell"; title = "Username"; ObjectID = "ApU-Sf-uTt"; */
 "ApU-Sf-uTt.title" = "Username";
@@ -12,4 +12,4 @@
 "QvC-M9-y7g.title" = "Track-o-Bot";
 
 /* Class = "NSButtonCell"; title = "Login"; ObjectID = "gXX-bl-h6e"; */
-"gXX-bl-h6e.title" = "Login";
+"gXX-bl-h6e.title" = "Log-In";
