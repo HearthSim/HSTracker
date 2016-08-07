@@ -21,8 +21,7 @@
 "RyA-1i-LPY.title" = "Zeige gegnerischen C'Thun-Counter";
 
 /* Class = "NSButtonCell"; title = "Include created cards"; ObjectID = "PrR-2g-WEA"; */
-"PrR-2g-WEA.title" = "Schließe erstellte Karten mit ein";
-/* WIP -> For lack of better wording for "created cards" */
+"PrR-2g-WEA.title" = "Schließe entdeckte Karten mit ein";
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
 "aZW-kf-zpy.title" = "Zeige Todesröcheln-Counter";
