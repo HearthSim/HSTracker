@@ -29,9 +29,15 @@ class StatsTab: NSViewController {
         modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
         
         seasonPicker.addItemWithTitle(NSLocalizedString("all_seasons", comment: ""))
-        for season in (1...Database.currentSeason).reverse() {
-            seasonPicker.addItemWithTitle(
-                String(format: NSLocalizedString("season", comment: ""), NSNumber(integer: season)))
+        if let deck = self.deck {
+            
+            let seasons = Set(deck.statistics.flatMap({ $0.season })).sort().reverse()
+            for season in seasons {
+                seasonPicker.addItemWithTitle(
+                    String(format: NSLocalizedString("season", comment: ""),
+                        NSNumber(integer: season)))
+                seasonPicker.lastItem?.tag = season
+            }
         }
         seasonPicker.selectItemAtIndex(0)
         
@@ -40,10 +46,10 @@ class StatsTab: NSViewController {
         statsTable.setDelegate(self)
         statsTable.setDataSource(self)
         
-        let descClass   = NSSortDescriptor(key: "opponentClassName", ascending: true)
-        let descRecord  = NSSortDescriptor(key: "totalGames", ascending: false)
+        let descClass = NSSortDescriptor(key: "opponentClassName", ascending: true)
+        let descRecord = NSSortDescriptor(key: "totalGames", ascending: false)
         let descWinrate = NSSortDescriptor(key: "winRateNumber", ascending: false)
-        let descCI      = NSSortDescriptor(key: "confidenceWindow", ascending: true)
+        let descCI = NSSortDescriptor(key: "confidenceWindow", ascending: true)
         
         statsTable.tableColumns[0].sortDescriptorPrototype = descClass
         statsTable.tableColumns[1].sortDescriptorPrototype = descRecord
@@ -69,8 +75,7 @@ class StatsTab: NSViewController {
             statsTableItems = _statsTableItems
         }
     }
-    
-    
+        
     func update() {
         if let deck = self.deck {
             var index = modePicker.indexOfSelectedItem
@@ -83,8 +88,8 @@ class StatsTab: NSViewController {
                 season = 0
                 seasonPicker.selectItemAtIndex(0)
             }
-            if season > 0 { // 0 is all, others are presented in a reverse order
-                season = Database.currentSeason + 1 - season
+            if season > 0 {
+                season = seasonPicker.selectedTag()
             }
             
             dispatch_async(dispatch_get_main_queue()) {
