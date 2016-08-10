@@ -80,8 +80,6 @@ class Game {
     private var playerRanks: [Int] = []
     private var opponentRanks: [Int] = []
 
-    private var playerUpdateRequests = 0
-    private var opponentUpdateRequests = 0
     private var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
     private var lastGameStartTimestamp: Double = NSDate.distantPast().timeIntervalSince1970
 
@@ -184,12 +182,14 @@ class Game {
         player.reset()
         opponent.reset()
         
-        dispatch_async(dispatch_get_main_queue()) {
-            self.secretTracker?.window?.orderOut(self)
-            self.timerHud?.window?.orderOut(self)
-            self.playerBoardDamage?.window?.orderOut(self)
-            self.opponentBoardDamage?.window?.orderOut(self)
-            self.cardHudContainer?.reset()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.secretTracker?.window?.orderOut(strongSelf)
+            strongSelf.timerHud?.window?.orderOut(strongSelf)
+            strongSelf.playerBoardDamage?.window?.orderOut(strongSelf)
+            strongSelf.opponentBoardDamage?.window?.orderOut(strongSelf)
+            strongSelf.cardHudContainer?.reset()
         }
         
         if let activeDeck = activeDeck {
@@ -258,14 +258,14 @@ class Game {
         showNotification(.GameStart)
         self.updatePlayerTracker(true)
         self.updateOpponentTracker(true)
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
             if Settings.instance.showTimer {
-                self.timerHud?.showWindow(self)
+                self?.timerHud?.showWindow(self)
                 TurnTimer.instance.start(self)
             }
             if Settings.instance.showCardHuds {
-                self.cardHudContainer?.showWindow(self)
-                self.updateCardHuds()
+                self?.cardHudContainer?.showWindow(self)
+                self?.updateCardHuds()
             }
         }
         
@@ -315,10 +315,10 @@ class Game {
         handleEndGame()
         updateOpponentTracker(true)
 
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
             TurnTimer.instance.stop()
-            self.timerHud?.window?.orderOut(self)
-            self.cardHudContainer?.reset()
+            self?.timerHud?.window?.orderOut(self)
+            self?.cardHudContainer?.reset()
         }
 
         showSecrets(false)
@@ -378,7 +378,7 @@ class Game {
 
             if Settings.instance.promptNotes
                 && (currentGameMode == .Ranked || currentGameMode == .Casual) {
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     let alert = NSAlert()
                     alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
                     alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
@@ -395,7 +395,7 @@ class Game {
                     if alert.runModal() == NSAlertFirstButtonReturn {
                         note = input.string ?? ""
                     }
-                    self.saveMatch(deck,
+                    self?.saveMatch(deck,
                                    rank: currentRank,
                                    note: note,
                                    opponentName: opponentName,
@@ -621,14 +621,15 @@ class Game {
             // we wait 300ms so the proxy have the time to be updated
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
             let queue = dispatch_get_main_queue()
-            dispatch_after(when, queue) {
-                self.updatePlayerTracker()
+            dispatch_after(when, queue) { [weak self] in
+                self?.updatePlayerTracker()
             }
         } else {
             updatePlayerTracker()
         }
 
         secretsOnPlay(entity)
+        updateOpponentTracker()
     }
 
     func secretsOnPlay(entity: Entity) {
@@ -642,16 +643,17 @@ class Game {
             if opponentMinionCount < 7 {
                 let when = dispatch_time(DISPATCH_TIME_NOW, Int64(50 * Double(NSEC_PER_MSEC)))
                 let queue = dispatch_get_main_queue()
-                dispatch_after(when, queue) {
+                dispatch_after(when, queue) { [weak self] in
+                    guard let strongSelf = self else { return }
+                    
                     // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
                     if entity.hasTag(.CARD_TARGET)
-                        && self.entities[entity.getTag(.CARD_TARGET)] != nil
-                        && self.entities[entity.getTag(.CARD_TARGET)]!.isMinion {
-                        self.opponentSecrets?.setZero(CardIds.Secrets.Mage.Spellbender)
+                        && strongSelf.entities[entity.getTag(.CARD_TARGET)] != nil
+                        && strongSelf.entities[entity.getTag(.CARD_TARGET)]!.isMinion {
+                        strongSelf.opponentSecrets?.setZero(CardIds.Secrets.Mage.Spellbender)
                     }
-                    self.opponentSecrets?.setZero(CardIds.Secrets.Hunter.CatTrick)
-
-                    self.showSecrets(true)
+                    strongSelf.opponentSecrets?.setZero(CardIds.Secrets.Hunter.CatTrick)
+                    strongSelf.showSecrets(true)
                 }
             }
         } else if entity.isMinion && playerMinionCount > 3 {
@@ -779,6 +781,7 @@ class Game {
     }
 
     func playerHeroPower(cardId: String, turn: Int) {
+        updateBoardAttack()
         Log.info?.message("Player Hero Power \(cardId) \(turn) ")
 
         if !Settings.instance.autoGrayoutSecrets {
@@ -793,12 +796,14 @@ class Game {
         if let card = Cards.heroById(cardId) {
             opponent.playerClass = card.playerClass
             opponent.playerClassId = cardId
+            updateOpponentTracker()
             Log.info?.message("Opponent class is \(card) ")
         }
     }
 
     func setOpponentName(name: String) {
         opponent.name = name
+        updateOpponentTracker()
     }
 
     func opponentGet(entity: Entity, turn: Int, id: Int) {
@@ -835,13 +840,14 @@ class Game {
             // we wait 300ms so the proxy have the time to be updated
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
             let queue = dispatch_get_main_queue()
-            dispatch_after(when, queue) {
-                self.updateOpponentTracker()
+            dispatch_after(when, queue) { [weak self] in
+                self?.updateOpponentTracker()
             }
         } else {
             updateOpponentTracker()
         }
         updateCardHuds()
+        updateOpponentTracker()
     }
 
     func opponentHandDiscard(entity: Entity, cardId: String?, from: Int, turn: Int) {
@@ -993,6 +999,7 @@ class Game {
     }
 
     func opponentHeroPower(cardId: String, turn: Int) {
+        updateBoardAttack()
         Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
     }
 
@@ -1106,14 +1113,15 @@ class Game {
         if opponentMinionCount != 0 {
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(50 * Double(NSEC_PER_MSEC)))
             let queue = dispatch_get_main_queue()
-            dispatch_after(when, queue) {
-                if self.opponentMinionCount - self.avengeDeathRattleCount > 0 {
-                    self.opponentSecrets?.setZero(CardIds.Secrets.Paladin.Avenge)
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.showSecrets(true)
+            dispatch_after(when, queue) { [weak self] in
+                guard let strongSelf = self else { return }
+                if strongSelf.opponentMinionCount - strongSelf.avengeDeathRattleCount > 0 {
+                    strongSelf.opponentSecrets?.setZero(CardIds.Secrets.Paladin.Avenge)
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.showSecrets(true)
 
-                        self.awaitingAvenge = false
-                        self.avengeDeathRattleCount = 0
+                        self?.awaitingAvenge = false
+                        self?.avengeDeathRattleCount = 0
                     }
                 }
             }
@@ -1146,15 +1154,15 @@ class Game {
     func showSecrets(show: Bool) {
         guard Settings.instance.showSecretHelper else { return }
 
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
             if show {
-                if let opponentSecrets = self.opponentSecrets {
-                    self.secretTracker?.setSecrets(opponentSecrets)
-                    self.secretTracker?.window?.orderOut(self)
-                    self.secretTracker?.showWindow(self)
+                if let opponentSecrets = self?.opponentSecrets {
+                    self?.secretTracker?.setSecrets(opponentSecrets)
+                    self?.secretTracker?.window?.orderOut(self)
+                    self?.secretTracker?.showWindow(self)
                 }
             } else {
-                self.secretTracker?.window?.orderOut(self)
+                self?.secretTracker?.window?.orderOut(self)
             }
         }
     }
@@ -1167,13 +1175,16 @@ class Game {
         lastCardsUpdateRequest = NSDate().timeIntervalSince1970
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
         let queue = dispatch_get_main_queue()
-        dispatch_after(when, queue) {
-            if !force && NSDate().timeIntervalSince1970 - self.lastCardsUpdateRequest < 0.1 {
+        dispatch_after(when, queue) { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            if !force && NSDate().timeIntervalSince1970 - strongSelf.lastCardsUpdateRequest < 0.1 {
                 return
             }
-            self.cardHudContainer?.window?.orderOut(self)
-            self.cardHudContainer?.showWindow(self)
-            self.cardHudContainer?.update(self.opponent.hand, cardCount: self.opponent.handCount)
+            strongSelf.cardHudContainer?.window?.orderOut(strongSelf)
+            strongSelf.cardHudContainer?.showWindow(strongSelf)
+            strongSelf.cardHudContainer?.update(strongSelf.opponent.hand,
+                                                cardCount: strongSelf.opponent.handCount)
         }
     }
     
@@ -1182,13 +1193,15 @@ class Game {
         let settings = Settings.instance
         
         if settings.playerBoardDamage {
-            dispatch_async(dispatch_get_main_queue()) {
-                if !self.gameEnded {
-                    self.playerBoardDamage?.window?.orderOut(self)
-                    self.playerBoardDamage?.showWindow(self)
-                    self.playerBoardDamage?.update(board.player.damage)
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                guard let strongSelf = self else { return }
+                
+                if !strongSelf.gameEnded {
+                    strongSelf.playerBoardDamage?.window?.orderOut(strongSelf)
+                    strongSelf.playerBoardDamage?.showWindow(strongSelf)
+                    strongSelf.playerBoardDamage?.update(board.player.damage)
                 } else {
-                    self.playerBoardDamage?.window?.orderOut(self)
+                    strongSelf.playerBoardDamage?.window?.orderOut(strongSelf)
                 }
             }
         } else {
@@ -1196,13 +1209,15 @@ class Game {
         }
         
         if settings.opponentBoardDamage {
-            dispatch_async(dispatch_get_main_queue()) {
-                if !self.gameEnded {
-                    self.opponentBoardDamage?.window?.orderOut(self)
-                    self.opponentBoardDamage?.showWindow(self)
-                    self.opponentBoardDamage?.update(board.opponent.damage)
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                guard let strongSelf = self else { return }
+                
+                if !strongSelf.gameEnded {
+                    strongSelf.opponentBoardDamage?.window?.orderOut(strongSelf)
+                    strongSelf.opponentBoardDamage?.showWindow(strongSelf)
+                    strongSelf.opponentBoardDamage?.update(board.opponent.damage)
                 } else {
-                    self.opponentBoardDamage?.window?.orderOut(self)
+                    strongSelf.opponentBoardDamage?.window?.orderOut(strongSelf)
                 }
             }
         } else {
@@ -1210,67 +1225,24 @@ class Game {
         }
     }
 
-    private func updateTracker(tracker: Tracker?, reset: Bool = false) {
-        if reset {
-            let cards: [Card]?
-            if tracker == self.playerTracker {
-                playerUpdateRequests = 0
-                cards = self.player.playerCardList
-            } else {
-                opponentUpdateRequests = 0
-                cards = Settings.instance.clearTrackersOnGameEnd && gameEnded
-                    ? [] : self.opponent.opponentCardList
-            }
-            if let cards = cards {
-                dispatch_async(dispatch_get_main_queue()) {
-                    tracker?.update(cards, reset: reset)
-                }
-            }
-        } else {
-            if tracker == playerTracker {
-                playerUpdateRequests += 1
-            } else {
-                opponentUpdateRequests += 1
-            }
-
-            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
-            let queue = dispatch_get_main_queue()
-            dispatch_after(when, queue) {
-                let updateRequests: Int
-
-                if tracker == self.playerTracker {
-                    self.playerUpdateRequests -= 1
-                    updateRequests = self.playerUpdateRequests
-                } else {
-                    self.opponentUpdateRequests -= 1
-                    updateRequests = self.opponentUpdateRequests
-                }
-
-                if updateRequests > 0 {
-                    return
-                }
-                let cards: [Card]?
-                if tracker == self.playerTracker {
-                    cards = self.player.playerCardList
-                } else {
-                    cards = Settings.instance.clearTrackersOnGameEnd
-                        && self.gameEnded ? [] : self.opponent.opponentCardList
-                }
-                if let cards = cards {
-                    tracker?.update(cards, reset: reset)
-                }
+    func updatePlayerTracker(reset: Bool = false) {
+        updateBoardAttack()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            if let cards = self?.player.playerCardList {
+                self?.playerTracker?.update(cards, reset: reset)
             }
         }
     }
 
-    func updatePlayerTracker(reset: Bool = false) {
-        updateBoardAttack()
-        updateTracker(playerTracker, reset: reset)
-    }
-
     func updateOpponentTracker(reset: Bool = false) {
         updateBoardAttack()
-        updateTracker(opponentTracker, reset: reset)
+        
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            if let cards = Settings.instance.clearTrackersOnGameEnd
+                && self?.gameEnded ?? true ? [] : self?.opponent.opponentCardList {
+                self?.opponentTracker?.update(cards, reset: reset)
+            }
+        }
     }
 
     func hearthstoneIsActive(active: Bool) {
