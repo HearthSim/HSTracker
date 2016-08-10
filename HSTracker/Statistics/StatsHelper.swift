@@ -43,7 +43,8 @@ class StatsHelper {
     
     static let lg = LadderGrid()
     
-    static func getStatsUITableData(deck: Deck, mode: GameMode = .Ranked, season: Int) -> [StatsTableRow] {
+    static func getStatsUITableData(deck: Deck, mode: GameMode = .Ranked, season: Int)
+        -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
         
         for againstClass in [.NEUTRAL] + Cards.classes {
@@ -59,10 +60,10 @@ class StatsHelper {
                                   comment: "").capitalizedString
             
             let record = getDeckRecord(deck, againstClass: againstClass, mode: mode, season: season)
-            dataRow.record            = getDeckRecordString(record)
-            dataRow.winRate           = getDeckWinRateString(record)
-            dataRow.winRateNumber     = getDeckWinRate(record)
-            dataRow.totalGames        = record.total
+            dataRow.record = getDeckRecordString(record)
+            dataRow.winRate = getDeckWinRateString(record)
+            dataRow.winRateNumber = getDeckWinRate(record)
+            dataRow.totalGames = record.total
             dataRow.confidenceInterval = getDeckConfidenceString(record,
                                                                  confidence: statsUIConfidence)
             let interval = binomialProportionCondifenceInterval(record.wins,
@@ -146,18 +147,19 @@ class StatsHelper {
                         dataRow.time = "Error"
                     }
                     
+                    // swiftlint:disable line_length
                     //Confidence intervals
                     let interval = binomialProportionCondifenceInterval(record.wins,
                                                                         losses: record.losses,
                                                                         confidence: statsUIConfidence)
-                    
+                    // swiftlint:enable line_length
                     if let lg2r = getGames(interval.lower),
                         ug2r = getGames(interval.upper) {
                         dataRow.gamesCI = "\(formatGames(ug2r)) - \(formatGames(lg2r))"
-                        dataRow.timeCI  = "\(formatTime(ug2r, tpg)) - \(formatTime(lg2r, tpg))"
+                        dataRow.timeCI = "\(formatTime(ug2r, tpg)) - \(formatTime(lg2r, tpg))"
                     } else {
                         dataRow.gamesCI = "Error"
-                        dataRow.timeCI  = "Error"
+                        dataRow.timeCI = "Error"
                     }
                 }
                 
@@ -177,6 +179,7 @@ class StatsHelper {
         
         return "\(record.wins) - \(record.losses) (\(getDeckWinRateString(record)))"
     }
+    
     static func getDeckRecordString(record: StatsDeckRecord) -> String {
         return "\(record.wins)-\(record.losses)"
     }
@@ -243,11 +246,14 @@ class StatsHelper {
                 rankedStats = stats.filter({$0.playerMode == mode})
             }
             
-            let wins   = rankedStats.filter({$0.gameResult == .Win}).count
+            let wins = rankedStats.filter({$0.gameResult == .Win}).count
             let losses = rankedStats.filter({$0.gameResult == .Loss}).count
-            let draws  = rankedStats.filter({$0.gameResult == .Draw}).count
+            let draws = rankedStats.filter({$0.gameResult == .Draw}).count
             
-            return StatsDeckRecord(wins: wins, losses: losses, draws: draws, total: wins+losses+draws)
+            return StatsDeckRecord(wins: wins,
+                                   losses: losses,
+                                   draws: draws,
+                                   total: wins+losses+draws)
     }
     
     static func getDeckConfidenceString(record: StatsDeckRecord,
@@ -360,7 +366,4 @@ class StatsHelper {
             return Double.NaN
         }
     }
-    
-    
-    
 }
