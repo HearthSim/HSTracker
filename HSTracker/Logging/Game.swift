@@ -53,35 +53,37 @@ class Game {
     var playerBoardDamage: BoardDamage?
     var opponentBoardDamage: BoardDamage?
     var cardHudContainer: CardHudContainer?
+    
     var lastCardPlayed: Int?
     var activeDeck: Deck?
     var currentEntityId = 0
     var currentEntityHasCardId = false
     var playerUsedHeroPower = false
-    var hasCoin = false
+    private var hasCoin = false
     var currentEntityZone: Zone = .INVALID
     var opponentUsedHeroPower = false
     var determinedPlayers = false
     var setupDone = false
     var proposedKeyPoint: ReplayKeyPoint?
     var opponentSecrets: OpponentSecrets?
-    var defendingEntity: Entity?
-    var attackingEntity: Entity?
+    private var defendingEntity: Entity?
+    private var attackingEntity: Entity?
     private var avengeDeathRattleCount = 0
-    var opponentSecretCount = 0
+    private var opponentSecretCount = 0
     private var awaitingAvenge = false
     var isInMenu = true
-    var endGameStats = false
+    private var endGameStats = false
     var wasInProgress = false
-    var hasBeenConceded = false
+    private var hasBeenConceded = false
     
-    var rankDetector = CVRankDetection()
-    var playerRanks: [Int] = []
-    var opponentRanks: [Int] = []
+    private var rankDetector = CVRankDetection()
+    private var playerRanks: [Int] = []
+    private var opponentRanks: [Int] = []
 
-    var playerUpdateRequests = 0
-    var opponentUpdateRequests = 0
-    var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
+    private var playerUpdateRequests = 0
+    private var opponentUpdateRequests = 0
+    private var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
+    private var lastGameStartTimestamp: Double = NSDate.distantPast().timeIntervalSince1970
 
     var playerEntity: Entity? {
         return entities.map { $0.1 }.firstWhere { $0.isPlayer }
@@ -233,7 +235,15 @@ class Game {
     }
 
     // MARK: - game state
-    func gameStart() {
+    func gameStart(timestamp: Double) {
+        if currentGameMode == .Practice && !isInMenu && !gameEnded
+            && lastGameStartTimestamp > NSDate.distantPast().timeIntervalSince1970
+            && timestamp > lastGameStartTimestamp {
+            adventureRestart()
+        }
+        
+        lastGameStartTimestamp = timestamp
+        
         if gameStarted {
             return
         }
@@ -260,6 +270,15 @@ class Game {
         }
         
         checkForRank()
+    }
+    
+    private func adventureRestart() {
+        // The game end is not logged in PowerTaskList
+        Log.info?.message("Adventure was restarted. Simulating game end.")
+        concede()
+        loss()
+        gameEnd()
+        inMenu()
     }
     
     func checkForRank() {

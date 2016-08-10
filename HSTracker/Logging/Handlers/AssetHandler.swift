@@ -15,11 +15,11 @@ struct AssetHandler {
 
     static let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"
 
-    func handle(game: Game, line: String) {
-        if line.contains("rank_window") {
+    func handle(game: Game, logLine: LogLine) {
+        if logLine.line.contains("rank_window") {
             game.currentGameMode = .Ranked
-        } else if line.match(self.dynamicType.UnloadingCard) {
-            let match = line.matches(self.dynamicType.UnloadingCard)
+        } else if logLine.line.match(self.dynamicType.UnloadingCard) {
+            let match = logLine.line.matches(self.dynamicType.UnloadingCard)
             if let match = match.first {
                 let cardId = match.value
 
@@ -33,7 +33,7 @@ struct AssetHandler {
                     }
                 }
             }
-        } else if line.contains("unloading name=Tavern_Brawl") {
+        } else if logLine.line.contains("unloading name=Tavern_Brawl") {
             game.currentGameMode = .Brawl
         }
     }

@@ -15,9 +15,9 @@ struct LoadingScreenHandler {
 
     static let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
 
-    func handle(game: Game, line: String) {
-        if line.match(self.dynamicType.GameModeRegex) {
-            let matches = line.matches(self.dynamicType.GameModeRegex)
+    func handle(game: Game, logLine: LogLine) {
+        if logLine.line.match(self.dynamicType.GameModeRegex) {
+            let matches = logLine.line.matches(self.dynamicType.GameModeRegex)
             
             game.currentMode = Mode(rawValue: matches[1].value)
             game.previousMode = Mode(rawValue: matches[0].value)
@@ -33,11 +33,11 @@ struct LoadingScreenHandler {
                 Log.info?.message("Game mode : \(newMode)")
                 game.currentGameMode = newMode
             }
-            if game.previousMode == .GAMEPLAY {
+            if game.previousMode == .GAMEPLAY && game.currentMode != .GAMEPLAY {
                 game.inMenu()
             }
-        } else if line.contains("Gameplay.Start") {
-            game.gameStart()
+        } else if logLine.line.contains("Gameplay.Start") {
+            game.gameStart(logLine.time)
         }
     }
 

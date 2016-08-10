@@ -29,14 +29,14 @@ class PowerGameStateHandler {
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 
-    func handle(game: Game, line: String) {
+    func handle(game: Game, logLine: LogLine) {
         var creationTag = false
 
         // current game
-        if line.match(self.dynamicType.GameEntityRegex) {
-            game.gameStart()
+        if logLine.line.match(self.dynamicType.GameEntityRegex) {
+            game.gameStart(logLine.time)
 
-            if let match = line.matches(self.dynamicType.GameEntityRegex).first,
+            if let match = logLine.line.matches(self.dynamicType.GameEntityRegex).first,
                 id = Int(match.value) {
                 //print("**** GameEntityRegex id:'\(id)'")
                 if game.entities[id] == .None {
@@ -53,8 +53,8 @@ class PowerGameStateHandler {
         }
 
         // players
-        else if line.match(self.dynamicType.PlayerEntityRegex) {
-            if let match = line.matches(self.dynamicType.PlayerEntityRegex).first,
+        else if logLine.line.match(self.dynamicType.PlayerEntityRegex) {
+            if let match = logLine.line.matches(self.dynamicType.PlayerEntityRegex).first,
                 id = Int(match.value) {
                 if game.entities[id] == .None {
                     game.entities[id] = Entity(id: id)
@@ -68,14 +68,14 @@ class PowerGameStateHandler {
                 }
                 return
             }
-        } else if line.match(self.dynamicType.PlayerNameRegex) {
-            let matches = line.matches(self.dynamicType.PlayerNameRegex)
+        } else if logLine.line.match(self.dynamicType.PlayerNameRegex) {
+            let matches = logLine.line.matches(self.dynamicType.PlayerNameRegex)
             if let id = Int(matches[0].value) {
                 let name = matches[1].value
                 setPlayerName(game, playerId: id, name: name)
             }
-        } else if line.match(self.dynamicType.TagChangeRegex) {
-            let matches = line.matches(self.dynamicType.TagChangeRegex)
+        } else if logLine.line.match(self.dynamicType.TagChangeRegex) {
+            let matches = logLine.line.matches(self.dynamicType.TagChangeRegex)
             let rawEntity = matches[0].value
                 .stringByReplacingOccurrencesOfString("UNKNOWN ENTITY ", withString: "")
             let tag = matches[1].value
@@ -165,15 +165,15 @@ class PowerGameStateHandler {
                 }
             }
 
-            if line.match(self.dynamicType.EntityNameRegex) {
-                let matches = line.matches(self.dynamicType.EntityNameRegex)
+            if logLine.line.match(self.dynamicType.EntityNameRegex) {
+                let matches = logLine.line.matches(self.dynamicType.EntityNameRegex)
                 let name = matches[0].value
                 if let player = Int(matches[1].value) {
                     setPlayerName(game, playerId: player, name: name)
                 }
             }
-        } else if line.match(self.dynamicType.CreationRegex) {
-            let matches = line.matches(self.dynamicType.CreationRegex)
+        } else if logLine.line.match(self.dynamicType.CreationRegex) {
+            let matches = logLine.line.matches(self.dynamicType.CreationRegex)
             let id = Int(matches[0].value)!
             let zone = matches[1].value
             var cardId = matches[2].value
@@ -202,8 +202,8 @@ class PowerGameStateHandler {
             game.currentEntityHasCardId = !String.isNullOrEmpty(cardId)
             game.currentEntityZone = Zone(rawString: zone)!
             return
-        } else if line.match(self.dynamicType.UpdatingEntityRegex) {
-            let matches = line.matches(self.dynamicType.UpdatingEntityRegex)
+        } else if logLine.line.match(self.dynamicType.UpdatingEntityRegex) {
+            let matches = logLine.line.matches(self.dynamicType.UpdatingEntityRegex)
             let rawEntity = matches[0].value
             let cardId = matches[1].value
             var entityId: Int?
@@ -239,21 +239,23 @@ class PowerGameStateHandler {
                 }
             }
             return
-        } else if line.match(self.dynamicType.CreationTagRegex) && !line.contains("HIDE_ENTITY") {
-            let matches = line.matches(self.dynamicType.CreationTagRegex)
+        } else if logLine.line.match(self.dynamicType.CreationTagRegex)
+            && !logLine.line.contains("HIDE_ENTITY") {
+            let matches = logLine.line.matches(self.dynamicType.CreationTagRegex)
             let tag = matches[0].value
             let value = matches[1].value
             tagChangeHandler.tagChange(game, rawTag: tag, id: game.currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
-        } else if line.contains("Begin Spectating") || line.contains("Start Spectator")
+        } else if logLine.line.contains("Begin Spectating")
+            || logLine.line.contains("Start Spectator")
             && game.isInMenu {
             game.currentGameMode = GameMode.Spectator
-        } else if line.contains("End Spectator") {
+        } else if logLine.line.contains("End Spectator") {
             game.currentGameMode = GameMode.Spectator
             game.gameEnd()
-        } else if line.match(self.dynamicType.BlockStartRegex) {
-            let matches = line.matches(self.dynamicType.BlockStartRegex)
+        } else if logLine.line.match(self.dynamicType.BlockStartRegex) {
+            let matches = logLine.line.matches(self.dynamicType.BlockStartRegex)
             let type = matches[0].value
             let actionStartingEntityId = Int(matches[1].value)!
             var actionStartingCardId: String? = matches[2].value
@@ -337,13 +339,13 @@ class PowerGameStateHandler {
                     }
                 }
             }
-        } else if line.contains("BlockType=JOUST") {
+        } else if logLine.line.contains("BlockType=JOUST") {
             game.joustReveals = 2
-        } else if line.contains("CREATE_GAME") {
+        } else if logLine.line.contains("CREATE_GAME") {
             tagChangeHandler.clearQueuedActions()
-        } else if game.gameTriggerCount == 0 && line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
+        } else if game.gameTriggerCount == 0 && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
             game.gameTriggerCount += 1
-        } else if game.gameTriggerCount < 10 && line.contains("BLOCK_END") {
+        } else if game.gameTriggerCount < 10 && logLine.line.contains("BLOCK_END") {
             if let entity = game.gameEntity where entity.hasTag(.TURN) {
                 game.gameTriggerCount += 10
                 tagChangeHandler.invokeQueuedActions(game)

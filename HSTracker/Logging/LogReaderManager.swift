@@ -81,13 +81,13 @@ final class LogReaderManager {
         
         if line.include {
             switch line.namespace {
-            case .Power: powerGameStateHandler.handle(game, line: line.line)
-            case .Net: netHandler.handle(game, line: line.line)
-            case .Asset: assetHandler.handle(game, line: line.line)
-            case .Bob: bobHandler.handle(game, line: line.line)
-            case .Rachelle: rachelleHandler.handle(game, line: line.line)
-            case .Arena: arenaHandler.handle(game, line: line.line)
-            case .LoadingScreen: loadingScreenHandler.handle(game, line: line.line)
+            case .Power: powerGameStateHandler.handle(game, logLine: line)
+            case .Net: netHandler.handle(game, logLine: line)
+            case .Asset: assetHandler.handle(game, logLine: line)
+            case .Bob: bobHandler.handle(game, logLine: line)
+            case .Rachelle: rachelleHandler.handle(game, logLine: line)
+            case .Arena: arenaHandler.handle(game, logLine: line)
+            case .LoadingScreen: loadingScreenHandler.handle(game, logLine: line)
             default: break
             }
         } else {

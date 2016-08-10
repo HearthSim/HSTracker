@@ -17,16 +17,16 @@ struct RachelleHandler {
     static let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
     // swiftlint:enable line_length
 
-    func handle(game: Game, line: String) {
-        if line.match(self.dynamicType.TowardsGolds) {
-            if let match = line.matches(self.dynamicType.TowardsGolds).first,
+    func handle(game: Game, logLine: LogLine) {
+        if logLine.line.match(self.dynamicType.TowardsGolds) {
+            if let match = logLine.line.matches(self.dynamicType.TowardsGolds).first,
                 victories = Int(match.value) {
                 Log.info?.message("\(victories) / 3 -> 10 gold")
             }
         }
 
-        if line.match(self.dynamicType.CardInCache) {
-            if let match = line.matches(self.dynamicType.CardInCache).first {
+        if logLine.line.match(self.dynamicType.CardInCache) {
+            if let match = logLine.line.matches(self.dynamicType.CardInCache).first {
                 let cardId: String = match.value
                 if let card = Cards.byId(cardId) {
                     if game.currentGameMode == .Arena {
