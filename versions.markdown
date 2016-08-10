@@ -3,6 +3,7 @@
 - Sync with Track-o-Bot
 - Add season in statistics
 - Update to patch 6.0.0.13921
+- UI improvments (crash correction)
 
 #### 0.17.3
 - Update portuguese translation
