@@ -12,6 +12,7 @@ class StatsTab: NSViewController {
 
     @IBOutlet weak var modePicker: NSPopUpButton!
     @IBOutlet weak var statsTable: NSTableView!
+    @IBOutlet weak var seasonPicker: NSPopUpButton!
     
     var deck: Deck? 
     
@@ -26,6 +27,13 @@ class StatsTab: NSViewController {
             modePicker.addItemWithTitle(mode.userFacingName)
         }
         modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
+        
+        seasonPicker.addItemWithTitle(NSLocalizedString("all_seasons", comment: ""))
+        for season in (1...Database.currentSeason).reverse() {
+            seasonPicker.addItemWithTitle(
+                String(format: NSLocalizedString("season", comment: ""), NSNumber(integer: season)))
+        }
+        seasonPicker.selectItemAtIndex(0)
         
         update()
         
@@ -70,10 +78,19 @@ class StatsTab: NSViewController {
                 modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
                 index = modePicker.indexOfSelectedItem
             }
+            var season = seasonPicker.indexOfSelectedItem
+            if season == -1 {
+                season = 0
+                seasonPicker.selectItemAtIndex(0)
+            }
+            if season > 0 { // 0 is all, others are presented in a reverse order
+                season = Database.currentSeason + 1 - season
+            }
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.statsTableItems = StatsHelper.getStatsUITableData(deck,
-                                                        mode: self.modePickerItems[index])
+                                                        mode: self.modePickerItems[index],
+                                                        season: season)
                 self.sortStatsTable()
                 self.statsTable.reloadData()
             }
@@ -86,6 +103,10 @@ class StatsTab: NSViewController {
     }
     
     @IBAction func modeSelected(sender: AnyObject) {
+        update()
+    }
+    
+    @IBAction func changeSeason(sender: AnyObject) {
         update()
     }
 }

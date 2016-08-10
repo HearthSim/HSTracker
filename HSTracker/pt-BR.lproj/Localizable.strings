@@ -129,3 +129,5 @@
 /* Stats tabs */
 "Statistics" = "Estatísticas";
 "The Climb" = "The Climb";
+"all_seasons" = "All seasons";
+"season" = "Season %@";

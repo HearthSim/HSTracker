@@ -21,6 +21,7 @@ final class Statistic: Unboxable {
     var cards: [String: Int] = [:]
     var duration = 0
     var note: String? = ""
+    var season: Int?
 
     init(unboxer: Unboxer) {
         self.gameResult = unboxer.unbox("gameResult")
@@ -47,6 +48,10 @@ final class Statistic: Unboxable {
         self.cards = unboxer.unbox("cards")
         self.duration = unboxer.unbox("duration")
         self.note = unboxer.unbox("note")
+        self.season = unboxer.unbox("season")
+        if let date = self.date where self.season == nil {
+            self.season = (date.year - 2014) * 12 - 3 + date.month
+        }
     }
 
     init() {

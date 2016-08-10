@@ -10,6 +10,11 @@ import Foundation
 import CleanroomLogger
 
 struct Database {
+    static let currentSeason: Int = {
+        let date = NSDate()
+        return (date.year - 2014) * 12 - 3 + date.month
+    }()
+    
     static let validCardSets = CardSet.allValues()
 
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]

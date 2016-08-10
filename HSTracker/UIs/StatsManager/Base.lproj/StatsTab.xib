@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="StatsTab" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="modePicker" destination="xdY-q2-6Et" id="fg6-zW-hhD"/>
+                <outlet property="seasonPicker" destination="dSy-01-tjx" id="xuE-LM-Was"/>
                 <outlet property="statsTable" destination="aHu-Jn-QSG" id="Yua-DO-1zJ"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -29,6 +30,17 @@
                     </popUpButtonCell>
                     <connections>
                         <action selector="modeSelected:" target="-2" id="HNK-XN-PjE"/>
+                    </connections>
+                </popUpButton>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dSy-01-tjx">
+                    <rect key="frame" x="361" y="255" width="37" height="26"/>
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="qzm-6z-LAC">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="FVY-7S-8JL"/>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="changeSeason:" target="-2" id="C5W-iS-voo"/>
                     </connections>
                 </popUpButton>
                 <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQA-54-NDr">
@@ -229,7 +241,9 @@
                 <constraint firstItem="xdY-q2-6Et" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" symbolic="YES" id="96B-y3-SSd"/>
                 <constraint firstAttribute="trailing" secondItem="fQA-54-NDr" secondAttribute="trailing" constant="20" symbolic="YES" id="NbT-Ri-Q8K"/>
                 <constraint firstItem="fQA-54-NDr" firstAttribute="top" secondItem="xdY-q2-6Et" secondAttribute="bottom" constant="13" id="ZMd-Jv-w5j"/>
+                <constraint firstItem="dSy-01-tjx" firstAttribute="centerY" secondItem="xdY-q2-6Et" secondAttribute="centerY" id="Zhl-3L-Byq"/>
                 <constraint firstAttribute="bottom" secondItem="fQA-54-NDr" secondAttribute="bottom" constant="20" symbolic="YES" id="cHs-ZO-NIC"/>
+                <constraint firstAttribute="trailing" secondItem="dSy-01-tjx" secondAttribute="trailing" constant="20" symbolic="YES" id="ftR-K5-fOm"/>
                 <constraint firstItem="fQA-54-NDr" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="yfx-8M-xjq"/>
             </constraints>
             <point key="canvasLocation" x="327.5" y="331.5"/>

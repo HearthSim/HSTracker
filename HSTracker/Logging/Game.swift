@@ -403,6 +403,7 @@ class Game {
         statistic.playerMode = currentGameMode
         statistic.numTurns = turnNumber()
         statistic.note = note
+        statistic.season = Database.currentSeason
         let startTime: NSDate
         if let gameStartDate = gameStartDate {
             startTime = gameStartDate

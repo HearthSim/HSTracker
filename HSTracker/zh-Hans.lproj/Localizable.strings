@@ -128,3 +128,5 @@
 /* Stats tabs */
 "Statistics" = "统计";
 "The Climb" = "排名统计";
+"all_seasons" = "All seasons";
+"season" = "Season %@";
