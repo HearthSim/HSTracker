@@ -86,6 +86,7 @@
 "LOE" = "Liga dos Exploradores";
 "OG" = "Sussurros dos Deuses Antigos";
 "PROMO" = "Promocional";
+"KARA" = "One Night In Karazhan";
 
 /* card type */
 "all_types" = "Todos";

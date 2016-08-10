@@ -84,8 +84,8 @@
 "TGT" = "Das große Turnier";
 "LOE" = "Die Forscherliga";
 "OG" = "Das Flüstern der alten Götter";
-/* "One Night in Karazhan" = "Eine Nacht in Karazhan */
 "PROMO" = "Belohnung";
+"KARA" = "Eine Nacht in Karazhan";
 
 /* card type */
 "all_types" = "Alle";

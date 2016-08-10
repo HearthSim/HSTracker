@@ -629,6 +629,7 @@ class Game {
                         && self.entities[entity.getTag(.CARD_TARGET)]!.isMinion {
                         self.opponentSecrets?.setZero(CardIds.Secrets.Mage.Spellbender)
                     }
+                    self.opponentSecrets?.setZero(CardIds.Secrets.Hunter.CatTrick)
 
                     self.showSecrets(true)
                 }

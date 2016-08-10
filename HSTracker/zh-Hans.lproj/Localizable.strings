@@ -85,6 +85,7 @@
 "LOE" = "探险者协会";
 "OG" = "上古之神";
 "PROMO" = "促销";
+"KARA" = "One Night In Karazhan";
 
 /* card type */
 "all_types" = "所有";

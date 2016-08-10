@@ -6,7 +6,7 @@ require 'open-uri'
 require 'mini_magick'
 
 langs          = %w(deDE enUS esES frFR ptBR ruRU zhCN)
-valid_card_set = %w(CORE EXPERT1 NAXX GVG BRM TGT LOE PROMO REWARD HERO_SKINS OG)
+valid_card_set = %w(KARA) #%w(CORE EXPERT1 NAXX GVG BRM TGT LOE PROMO REWARD HERO_SKINS OG KARA)
 
 resource_dir = "#{File.dirname(__FILE__)}/../HSTracker/Resources/Cards"
 
