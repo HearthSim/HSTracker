@@ -1,6 +1,8 @@
 #### 0.17.4
 - Save replays (Support for http://www.zerotoheroes.com/)
 - Sync with Track-o-Bot
+- Add season in statistics
+- Update to patch 6.0.0.13921
 
 #### 0.17.3
 - Update portuguese translation
