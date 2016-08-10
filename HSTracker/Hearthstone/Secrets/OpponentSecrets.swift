@@ -60,8 +60,7 @@ class OpponentSecrets: CustomStringConvertible {
     }
 
     func trigger(cardId: String) {
-        if secrets.any({ $0.possibleSecrets[cardId] != nil
-            ? $0.possibleSecrets[cardId]! : false }) {
+        if secrets.any({ $0.tryGetSecret(cardId) }) {
             setZero(cardId)
         } else {
             setMax(cardId)
@@ -73,7 +72,7 @@ class OpponentSecrets: CustomStringConvertible {
         let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn)
         if let knownCardId = knownCardId {
             SecretHelper.getSecretIds(heroClass).forEach({
-                helper.possibleSecrets[$0] = $0 == knownCardId
+                helper.trySetSecret($0, active: $0 == knownCardId)
             })
         }
         secrets.append(helper)
@@ -167,8 +166,8 @@ class OpponentSecrets: CustomStringConvertible {
         if String.isNullOrEmpty(cardId) {
             return
         }
-        for secret in secrets {
-            secret.possibleSecrets[cardId] = true
+        secrets.forEach {
+            $0.trySetSecret(cardId, active: true)
         }
     }
 
@@ -184,7 +183,7 @@ class OpponentSecrets: CustomStringConvertible {
             return
         }
         for index in 0 ..< stopIndex {
-            secrets[index].possibleSecrets[cardId] = false
+            secrets[index].trySetSecret(cardId, active: false)
         }
         if stopIndex > 0 {
             Log.info?.message("Set secret to zero: \(Cards.byId(cardId))")

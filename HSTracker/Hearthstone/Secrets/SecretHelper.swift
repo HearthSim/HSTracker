@@ -23,6 +23,18 @@ class SecretHelper: Equatable, CustomStringConvertible {
             possibleSecrets[$0] = true
         })
     }
+    
+    func trySetSecret(cardId: String, active: Bool) {
+        if let _ = possibleSecrets[cardId] {
+            possibleSecrets[cardId] = active
+        }
+    }
+    
+    func tryGetSecret(cardId: String) -> Bool {
+        guard let active = possibleSecrets[cardId] else { return false }
+        
+        return active
+    }
 
     static func getMaxSecretCount(heroClass: CardClass) -> Int {
         return getSecretIds(heroClass).count
