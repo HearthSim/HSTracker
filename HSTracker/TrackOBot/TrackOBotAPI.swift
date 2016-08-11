@@ -95,6 +95,7 @@ struct TrackOBotAPI {
                 "opponent": stat.opponentClass.rawValue.capitalizedString,
                 "mode": mode,
                 "coin": stat.hasCoin,
+                "rank": stat.playerRank,
                 "win": game.gameResult == .Win,
                 "duration": stat.duration,
                 "added": startTime.timeIntervalSince1970,
