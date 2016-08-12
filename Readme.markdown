@@ -2,7 +2,7 @@
 
 HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for macOS 10.10+.
 
-[![Build Status](https://travis-ci.org/bmichotte/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
+[![Build Status](https://travis-ci.org/HearthSim/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
 
 Don't forget to follow [@hstracker_mac](https://twitter.com/hstracker_mac) for updates / questions :)
 
@@ -11,10 +11,10 @@ Don't forget to follow [@hstracker_mac](https://twitter.com/hstracker_mac) for u
 - **HearthSim**: Hearthstone Deck Tracker is a [HearthSim](https://hearthsim.info) project. Come join us in #hearthsim on chat.freenode.net.
 
 ### Deck Tracker
-![Deck Tracker](https://github.com/bmichotte/HSTracker/blob/master/hstracker.jpg)
+![Deck Tracker](https://github.com/HearthSim/HSTracker/blob/master/hstracker.jpg)
 
 ### Deck Manager
-![Deck Manager](https://github.com/bmichotte/HSTracker/blob/master/manager.jpg)
+![Deck Manager](https://github.com/HearthSim/HSTracker/blob/master/manager.jpg)
 
 Is Blizzard okay with this ?
 [Yes](https://twitter.com/bdbrode/status/511151446038179840)
@@ -34,7 +34,7 @@ Is it against the TOS ?
 [Complete changelog is here](versions.markdown)
 
 ## Contribution
-Feel free to fork and pull-request, as well as filling [new issues](https://github.com/bmichotte/HSTracker/issues)
+Feel free to fork and pull-request, as well as filling [new issues](https://github.com/HearthSim/HSTracker/issues)
 
 In order to compile, you have to
 - fork and clone
