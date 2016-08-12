@@ -1,3 +1,9 @@
+#### 0.17.4.2
+- Correctly send the rank to Track-o-Bot
+
+#### 0.17.4.1
+- Correct a crash when opening preferences
+
 #### 0.17.4
 - Save replays (Support for http://www.zerotoheroes.com/)
 - Sync with Track-o-Bot

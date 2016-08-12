@@ -19,6 +19,7 @@ final class LogReaderManager {
     let rachelleHandler = RachelleHandler()
     let arenaHandler = ArenaHandler()
     let loadingScreenHandler = LoadingScreenHandler()
+    var fullScreenFxHandler = FullScreenFxHandler()
 
     private let powerLog = LogReader(info: LogReaderInfo(name: .Power,
         startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState.DebugPrintEntityChoices()"],
@@ -35,9 +36,10 @@ final class LogReaderManager {
         startsWithFilters: ["LoadingScreen.OnSceneLoaded",
             "Gameplay"]))
     private let net = LogReader(info: LogReaderInfo(name: .Net))
+    private let fullScreenFx = LogReader(info: LogReaderInfo(name: .FullScreenFX))
 
     private var readers: [LogReader] {
-        return [powerLog, bob, rachelle, asset, arena, net, loadingScreen]
+        return [powerLog, bob, rachelle, asset, arena, net, loadingScreen, fullScreenFx]
     }
 
     var running = false
@@ -88,6 +90,7 @@ final class LogReaderManager {
             case .Rachelle: rachelleHandler.handle(game, logLine: line)
             case .Arena: arenaHandler.handle(game, logLine: line)
             case .LoadingScreen: loadingScreenHandler.handle(game, logLine: line)
+            case .FullScreenFX: fullScreenFxHandler.handle(game, logLine: line)
             default: break
             }
         } else {

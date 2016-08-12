@@ -75,6 +75,7 @@ class Game {
     private var endGameStats = false
     var wasInProgress = false
     private var hasBeenConceded = false
+    var enqueueTime: Double = NSDate.distantPast().timeIntervalSince1970
     
     private var rankDetector = CVRankDetection()
     private var playerRanks: [Int] = []

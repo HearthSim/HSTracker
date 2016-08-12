@@ -212,6 +212,9 @@
 		43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* SecretTracker.swift */; };
 		43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* SecretTracker.xib */; };
 		43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C36D2B1D08623D00F6723C /* CardSet.swift */; };
+		43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */; };
+		43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */; };
+		43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E81D5D0F5700451B6F /* LogLineZone.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
@@ -609,6 +612,10 @@
 		43B695621C920A0500F4D0AC /* SecretTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretTracker.swift; sourceTree = "<group>"; };
 		43B695641C920BD500F4D0AC /* SecretTracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecretTracker.xib; sourceTree = "<group>"; };
 		43C36D2B1D08623D00F6723C /* CardSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSet.swift; sourceTree = "<group>"; };
+		43C567E31D5D0C6300451B6F /* versions.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = versions.markdown; sourceTree = "<group>"; };
+		43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
+		43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLineNamespace.swift; sourceTree = "<group>"; };
+		43C567E81D5D0F5700451B6F /* LogLineZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLineZone.swift; sourceTree = "<group>"; };
 		43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSTrackerLogFormatter.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
@@ -878,6 +885,7 @@
 				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
 				439C7E571C7772C000D29859 /* Info.plist */,
 				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
+				43C567E31D5D0C6300451B6F /* versions.markdown */,
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
 				439C7E6A1C7772C100D29859 /* HSTrackerUITests */,
 				439C7E491C7772C000D29859 /* Products */,
@@ -980,6 +988,8 @@
 				340A15031D0939380012CA44 /* Draft.swift */,
 				439C7EAC1C777F8900D29859 /* Hearthstone.swift */,
 				439C7EAD1C777F8900D29859 /* LogLine.swift */,
+				43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */,
+				43C567E81D5D0F5700451B6F /* LogLineZone.swift */,
 				439C7EAF1C777F8900D29859 /* LogReader.swift */,
 				439C7EB11C777F8900D29859 /* LogReaderManager.swift */,
 				439C7EB31C777F8900D29859 /* Player.swift */,
@@ -1028,6 +1038,7 @@
 				439C7EA91C777F8900D29859 /* RachelleHandler.swift */,
 				439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */,
 				43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */,
+				43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -1410,6 +1421,7 @@
 				434C2F381C7F487D001D1D91 /* Hearthstats.swift in Sources */,
 				431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */,
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
+				43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
@@ -1433,6 +1445,7 @@
 				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
 				4359BF901D51FD5500F61993 /* TrackOBotPreferences.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
+				43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
@@ -1480,6 +1493,7 @@
 				436969151C80653000CE1D29 /* LinqExtension.swift in Sources */,
 				4394C79C1D18700200007FAD /* CVRankDetectorWrapper.mm in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
+				43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439C7EC41C777F8900D29859 /* NetHandler.swift in Sources */,
 				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
