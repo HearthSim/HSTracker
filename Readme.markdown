@@ -6,7 +6,9 @@ HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for m
 
 Don't forget to follow [@hstracker_mac](https://twitter.com/hstracker_mac) for updates / questions :)
 
-Join us on Gitter to chat  [![Join the chat at https://gitter.im/bmichotte/HSTracker](https://badges.gitter.im/bmichotte/HSTracker.svg)](https://gitter.im/bmichotte/HSTracker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+### Community : 
+- **Gitter**:  [![Join the chat at https://gitter.im/bmichotte/HSTracker](https://badges.gitter.im/bmichotte/HSTracker.svg)](https://gitter.im/bmichotte/HSTracker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+- **HearthSim**: Hearthstone Deck Tracker is a [HearthSim](https://hearthsim.info) project. Come join us in #hearthsim on chat.freenode.net.
 
 ### Deck Tracker
 ![Deck Tracker](https://github.com/bmichotte/HSTracker/blob/master/hstracker.jpg)
