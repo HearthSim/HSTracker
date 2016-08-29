@@ -1,0 +1,6 @@
+
+/* Class = "NSButtonCell"; title = "Synchronize matches results"; ObjectID = "hXO-uH-3An"; */
+"hXO-uH-3An.title" = "Sincronizar los resultados de las partidas";
+
+/* Class = "NSButtonCell"; title = "Auto synchronize decks (add, update, delete)"; ObjectID = "unH-eU-OrN"; */
+"unH-eU-OrN.title" = "Sincronizar automáticamente los mazos (añadir, actualizar, borrar)";

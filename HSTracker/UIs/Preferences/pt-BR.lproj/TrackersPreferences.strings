@@ -1,0 +1,60 @@
+
+/* Class = "NSButtonCell"; title = "Auto position trackers"; ObjectID = "5rZ-fg-pB4"; */
+"5rZ-fg-pB4.title" = "Auto position trackers";
+
+/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
+"HY0-s6-p7U.title" = "Show card on tracker hover";
+
+/* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
+"NLB-ON-zWk.title" = "Cards size";
+
+/* Class = "NSButtonCell"; title = "Highlight last drawn card"; ObjectID = "WKT-Hm-Z7h"; */
+"WKT-Hm-Z7h.title" = "Highlight last drawn card";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Small"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[0]" = "Pequeno";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[1] = "Medium"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[1]" = "Médio";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Big"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[2]" = "Grande";
+
+/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
+"h5J-7C-d2f.title" = "Mostrar cores de raridade";
+
+/* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
+"hJI-dG-QeP.title" = "Destacar cartas na mão";
+
+/* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "ndN-hu-6Rx"; */
+"ndN-hu-6Rx.title" = "Incluir cards obtidos";
+
+/* Class = "NSButtonCell"; title = "Remove cards if count is 0"; ObjectID = "s9w-5p-pJs"; */
+"s9w-5p-pJs.title" = "Remover cards se conta é 0";
+
+/* Class = "NSButtonCell"; title = "Show timer"; ObjectID = "x27-iz-7Sv"; */
+"x27-iz-7Sv.title" = "Mostrar contador";
+
+/* Class = "NSButtonCell"; title = "Show secret helper"; ObjectID = "ySU-4j-Jbh"; */
+"ySU-4j-Jbh.title" = "Mostrar ajudante de segredos";
+
+/* Class = "NSButtonCell"; title = "Highlight discarded from deck"; ObjectID = "yeJ-ZI-Pca"; */
+"yeJ-ZI-Pca.title" = "Destacar descartados do deck";
+
+/* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
+"zP3-ns-ggP.title" = "Opacidade";
+
+/* Class = "NSTextFieldCell"; title = "Theme"; ObjectID = "Lah-xh-QVg"; */
+"Lah-xh-QVg.title" = "Tema";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[0] = "Classic"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[0]" = "Clássico";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[1] = "Frost"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[1]" = "Geada";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[2] = "Dark"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[2]" = "Escuro";
+
+/* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[3] = "Minimal"; ObjectID = "cBa-wb-tRb"; */
+"cBa-wb-tRb.ibShadowedObjectValues[3]" = "Minimalista";

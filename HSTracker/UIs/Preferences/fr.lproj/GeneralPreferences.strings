@@ -1,0 +1,27 @@
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "08B-rI-8LA"; */
+"08B-rI-8LA.ibShadowedToolTip" = "Les notifications sont seulement visibles si Hearthstone n'est pas visible";
+
+/* Class = "NSButtonCell"; title = "Notify me when my opponent concede"; ObjectID = "GhP-a6-Faw"; */
+"GhP-a6-Faw.title" = "Me notifier quand mon opposant concède";
+
+/* Class = "NSButtonCell"; title = "Notify me when my turn start"; ObjectID = "Rbw-dw-oAI"; */
+"Rbw-dw-oAI.title" = "Me notifier quand mon tour commence";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "Yit-xi-gbj"; */
+"Yit-xi-gbj.ibShadowedToolTip" = "Les notifications sont seulement visibles si Hearthstone n'est pas visible";
+
+/* Class = "NSButtonCell"; title = "Notify me when the game start"; ObjectID = "aaX-mu-c31"; */
+"aaX-mu-c31.title" = "Me notifier quand la partie commence";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
+"c8y-VJ-p2U.ibShadowedToolTip" = "Les notifications sont seulement visibles si Hearthstone n'est pas visible";
+
+/* Class = "NSButtonCell"; title = "Close HSTracker when Hearthstone closes"; ObjectID = "hzK-vu-1RX"; */
+"hzK-vu-1RX.title" = "Fermer HSTracker quand on ferme Hearthstone";
+
+/* Class = "NSButtonCell"; title = "Add a note on end game (casual and ranked only)"; ObjectID = "4f5-xO-gik"; */
+"4f5-xO-gik.title" = "Ajoute une note en find de partie (non-classé et classé)";
+
+/* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "lku-8T-sZE"; */
+"lku-8T-sZE.title" = "Enregistrer les replays";

@@ -1,0 +1,9 @@
+* text=auto
+
+*.swift text
+*.strings text
+*.h text
+*.xib text
+
+*.jpg binary
+*.png binary

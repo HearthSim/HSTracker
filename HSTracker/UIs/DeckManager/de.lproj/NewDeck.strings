@@ -1,0 +1,29 @@
+/* Class = "NSButtonCell"; title = "Arena deck"; ObjectID = "0dN-Ei-UM2"; */
+"0dN-Ei-UM2.title" = "Arena- oder Kartenchaos-Deck";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "0dg-Pr-Io8"; */
+"0dg-Pr-Io8.title" = "Abbrechen";
+
+/* Class = "NSButtonCell"; title = "Using HSTracker deck builder"; ObjectID = "N10-sK-1gZ"; */
+"N10-sK-1gZ.title" = "Per Deck Builder";
+
+/* Class = "NSWindow"; title = "New Deck"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Neues Deck";
+
+/* Class = "NSTextFieldCell"; title = "How do you want to create your new deck ?"; ObjectID = "bnr-YF-pLP"; */
+"bnr-YF-pLP.title" = "Wie möchtest Du Dein neues Deck erstellen?";
+
+/* Class = "NSButtonCell"; title = "From the web"; ObjectID = "dhu-qo-xOJ"; */
+"dhu-qo-xOJ.title" = "Per Internet (Deck-Link)";
+
+/* Class = "NSButtonCell"; title = "From a file"; ObjectID = "tHo-vJ-FwV"; */
+"tHo-vJ-FwV.title" = "Per Datei-Import";
+
+/* Class = "NSButtonCell"; title = "OK"; ObjectID = "trs-D1-mgZ"; */
+"trs-D1-mgZ.title" = "OK";
+
+/* Class = "NSButtonCell"; title = "Choose file"; ObjectID = "xPi-Gg-ebR"; */
+"xPi-Gg-ebR.title" = "Datei auswählen…";
+
+/* Class = "NSButtonCell"; title = "From Hearthstats"; ObjectID = "sLd-eV-3AX"; */
+"sLd-eV-3AX.title" = "Von Hearthstats";

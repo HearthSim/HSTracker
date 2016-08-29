@@ -1,0 +1,3 @@
+[submodule "HSTracker-OpenCV"]
+	path = HSTracker-OpenCV
+	url = https://github.com/bmichotte/HSTracker-OpenCV.git

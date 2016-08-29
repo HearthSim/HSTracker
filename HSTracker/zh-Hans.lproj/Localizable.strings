@@ -1,0 +1,132 @@
+"Are you sure you want to close this deck ? Your changes will not be saved." = "确定要关闭套牌 ？您的修改不会被保存.";
+"Are you sure you want to delete the deck %@ ?" = "确定要删除 %@ 套牌 ?";
+"Arena %@ %@" = "競技場 %@ %@";
+"Cancel" = "取消";
+"Clear" = "清除";
+"Deck Manager" = "套牌管理";
+"Deck name" = "套牌名字";
+"Decks" = "套牌";
+"Delete deck" = "删除套牌";
+"Do you want to add this deck on Hearthstats ?" = "想加这个套牌上 Hearthstats 吗 ?";
+"Do you want to delete the deck on Hearthstats ?" = "想要删除这个套牌在 Hearthstats 吗 ?";
+"Downloading %@.png" = "下载 %@.png";
+"Downloading images" = "下载图片";
+"Edit deck" = "修改套牌";
+"Game" = "游戏";
+"General" = "通用";
+"Loading %@ cards" = "加载 %@ 卡牌";
+"Loading decks" = "加载套牌";
+"Lock windows" = "锁定窗口";
+"OK" = "确定";
+"Please select your Hearthstone app" = "选择炉石传说的应用程式";
+"Can't find Hearthstone, please select Hearthstone.app" = "找不到炉石传说, 选择炉石传说的应用程式";
+"Preferences" = "偏好设置";
+"Rename deck" = "改名套牌";
+"Reset" = "重置";
+"server error" = "服务器错误";
+"Trackers" = "跟踪器";
+"Opponent tracker" = "对手的跟踪器";
+"Player tracker" = "你的跟踪器";
+"Unlock windows" = "解锁窗口";
+"Use deck" = "用牌组";
+"Window" = "窗口";
+"You are now connected to Hearthstats" = "现在您连接到 Hearthstats";
+"You must restart Hearthstone for logs to be used" = "必须重新启动炉石传说为要使用场记";
+"You must restart HSTracker for the language change to take effect" = "必须重启 HSTracker 已使得设置的语言生效";
+"Are you sure you want to disconnect from Hearthstats ?" = "确定要从断开 Hearthstats ?";
+"Save Opponent's Deck" = "保存对手的套牌";
+"Save Current Deck" = "保存现在的套牌";
+"Are you sure you want to archive the deck %@ ?" = "确定要存档 %@ 套牌 ?";
+"Are you sure you want to unarchive the deck %@ ?" = "确定要解除封存 %@ 套牌 ?";
+"Add Card" = "加卡";
+"Remove Card" = "取出卡";
+"Fatigue : " = "疲劳 : ";
+"It is 90% certain that the true winrate falls between these values." = "是 90 % 肯定真正的赢率落在这些值之间.";
+"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "你的競技場套牌没有保存 . 重启炉石传说和重新保存套牌 .";
+"Are you sure you want to delete the statistics for the deck %@ ?" = "确定要删除 %@ 套牌的统计 ?";
+"Do you want to add some notes for this game ?" = "想加评论给这个游戏吗 ?";
+"Your arena deck count 30 cards, do you want to save it ?" = "競技場套牌有 30 张卡, 要保存吗 ?";
+
+/* notifications */
+"Your game begins" = "游戏开始";
+"Victory" = "胜利";
+"Hearthstone" = "炉石传说";
+"Your opponent have conceded" = "对手也承认";
+"It's your turn to play" = "轮到你玩";
+
+/* classes */
+"shaman" = "萨满";
+"hunter" = "猎人";
+"warlock" = "术士";
+"druid" = "德鲁伊";
+"warrior" = "战士";
+"mage" = "法师";
+"paladin" = "圣骑士";
+"priest" = "牧师";
+"rogue" = "盗贼";
+
+/* rarity */
+"all_rarities" = "所有";
+"neutral" = "中立";
+"free" = "免费";
+"common" = "普通";
+"rare" = "稀有";
+"epic" = "史诗";
+"legendary" = "传说";
+
+/* sets */
+"ALL" = "所有";
+"CORE" = "基本";
+"EXPERT1" = "經典";
+"NAXX" = "納克薩瑪斯的诅咒";
+"GVG" = "地精大战侏儒";
+"BRM" = "黑石山的火焰";
+"TGT" = "冠军的试炼";
+"LOE" = "探险者协会";
+"OG" = "上古之神";
+"PROMO" = "促销";
+"KARA" = "One Night In Karazhan";
+
+/* card type */
+"all_types" = "所有";
+"spell" = "法术";
+"minion" = "手下";
+"weapon" = "武器";
+
+/* races */
+"all_races" = "所有";
+"demon" = "恶魔";
+"dragon" = "龙";
+"mechanical" = "机械";
+"beast" = "野兽";
+"murloc" = "鱼人";
+"pirate" = "海盗";
+"totem" = "图腾";
+
+/* sorting */
+"name" = "名字";
+"creation date" = "创建日期";
+"win percentage" = "胜率";
+"wins" = "游戏赢了";
+"losses" = "游戏输了";
+"games played" = "游戏玩过";
+"games" = "游戏";
+"ascending" = "升序";
+"descending" = "降序";
+
+/* game modes */
+"mode_all"       = "所有";
+"mode_ranked"    = "排名模式";
+"mode_casual"    = "休闲模式";
+"mode_arena"     = "競技場模式";
+"mode_brawl"     = "旅店大亂鬥";
+"mode_friendly"  = "友好模式";
+"mode_practice"  = "练习模式 / 冒險模式";
+"mode_spectator" = "观战模式";
+"mode_none"      = "没有";
+
+/* Stats tabs */
+"Statistics" = "统计";
+"The Climb" = "排名统计";
+"all_seasons" = "All seasons";
+"season" = "Season %@";

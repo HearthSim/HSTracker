@@ -1,0 +1,27 @@
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "08B-rI-8LA"; */
+"08B-rI-8LA.ibShadowedToolTip" = "Benachrichtigungen sind nur sichtbar, wenn Hearthstone sich im Hintergrund befindet";
+
+/* Class = "NSButtonCell"; title = "Notify me when my opponent concede"; ObjectID = "GhP-a6-Faw"; */
+"GhP-a6-Faw.title" = "Benachrichtige mich, wenn mein Gegner aufgegeben hat";
+
+/* Class = "NSButtonCell"; title = "Notify me when my turn start"; ObjectID = "Rbw-dw-oAI"; */
+"Rbw-dw-oAI.title" = "Benachrichtige mich, wenn mein Zug anfängt";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "Yit-xi-gbj"; */
+"Yit-xi-gbj.ibShadowedToolTip" = "Benachrichtigungen sind nur sichtbar, wenn Hearthstone sich im Hintergrund befindet";
+
+/* Class = "NSButtonCell"; title = "Notify me when the game start"; ObjectID = "aaX-mu-c31"; */
+"aaX-mu-c31.title" = "Benachrichtige mich, wenn die Runde beginnt";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Notifications are only visible if Hearthstone is not focused"; ObjectID = "c8y-VJ-p2U"; */
+"c8y-VJ-p2U.ibShadowedToolTip" = "Benachrichtigungen sind nur sichtbar, wenn Hearthstone sich im Hintergrund befindet";
+
+/* Class = "NSButtonCell"; title = "Close HSTracker when Hearthstone closes"; ObjectID = "hzK-vu-1RX"; */
+"hzK-vu-1RX.title" = "Beende HSTracker, wenn Hearthstone beendet wird";
+
+/* Class = "NSButtonCell"; title = "Add a note on end game (casual and ranked only)"; ObjectID = "4f5-xO-gik"; */
+"4f5-xO-gik.title" = "Füge eine Bemerkung am Ende des Spiels hinzu. (Nur Standard und Ranked)";
+
+/* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "lku-8T-sZE"; */
+"lku-8T-sZE.title" = "Replays speichern";

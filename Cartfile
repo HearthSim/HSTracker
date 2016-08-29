@@ -1,0 +1,13 @@
+github "emaloney/CleanroomLogger"
+github "jwilling/JNWCollectionView"
+github "shpakovski/MASPreferences"
+github "Alamofire/Alamofire" ~> 3.0
+github "tid-kijyun/Kanna" ~> 1.0.0
+github "bitstadium/HockeySDK-Mac"
+github "sparkle-project/Sparkle"
+github "delba/TextAttributes"
+github "JohnSundell/Wrap"
+github "JohnSundell/Unbox"
+github "BradLarson/GPUImage2" "master"
+github "stephencelis/SQLite.swift" ~> 0.10.1
+github "ZipArchive/ZipArchive"

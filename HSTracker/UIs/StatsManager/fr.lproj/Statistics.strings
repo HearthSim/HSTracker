@@ -1,0 +1,11 @@
+/* Class = "NSWindow"; title = "Deck Statistics"; ObjectID = "F0z-JX-Cv5"; */
+"F0z-JX-Cv5.title" = "Statistiques";
+
+/* Class = "NSButtonCell"; title = "OK"; ObjectID = "PwO-Us-vPh"; */
+"PwO-Us-vPh.title" = "OK";
+
+/* Class = "NSTextFieldCell"; title = "No deck selected"; ObjectID = "hZh-Kz-cgX"; */
+"hZh-Kz-cgX.title" = "Aucun deck selectionné";
+
+/* Class = "NSButtonCell"; title = "Delete statistics"; ObjectID = "dlb-Sh-7Xd"; */
+"dlb-Sh-7Xd.title" = "Supprimer les statistiques";

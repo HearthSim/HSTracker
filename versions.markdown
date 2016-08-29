@@ -1,3 +1,207 @@
+#### 0.17.4.2
+- Correctly send the rank to Track-o-Bot
+
+#### 0.17.4.1
+- Correct a crash when opening preferences
+
+#### 0.17.4
+- Save replays (Support for http://www.zerotoheroes.com/)
+- Sync with Track-o-Bot
+- Add season in statistics
+- Update to patch 6.0.0.13921
+- UI improvments (crash correction)
+
+#### 0.17.3
+- Update portuguese translation
+- Correct errors introduced by patch 5.2.0.13619
+- Correct an issue where opponent in-hand card was not resetted 
+- Add support for Morgl the Oracle
+- Refactor a lot of code related to cards
+
+#### 0.17.2
+- Correct a crash when opening statistics window
+- Update portuguese translation
+- Add a loader when importing a deck from the net
+
+#### 0.17.1
+- Add an option to add notes on game end
+- Add a ladder climb prediction based on deck statistic
+- Should correct a crash with rank detection
+
+#### 0.17
+- Fix positions for trackers, board damage, opponent card huds, ...
+- Add an option to show your deck name in tracker
+- Add statistics window
+- Correct a bug with Bear Trap on the secret helper if your opponent have 7 minions
+- Correct the attack/health for C'Thun when a card is played
+- Add a check for corrupted card images in Deck Manager
+- Rank detection is now done by image recognition
+- Correct a bug where cost reduction from Thaurissan was not correct if your opponent have more than 1 Thaurissan on board
+- HSTracker can now detect your arena deck. After you finished to draft your arena deck, go to menu Decks -> Save -> Save arena deck
+- HSTracker now correctly synchronize your arena decks and matches with Hearthstats
+- Add an option to clear statistics
+
+#### 0.16.11
+- Option to hide board damage
+- Chinese translation update
+- Add Gitter link in the deck manager
+
+#### 0.16.10
+- Added themes and set Dark as default
+- Better font for russian players
+- Better rank detection (at least, I hope)
+- Show class and deck name when editing a deck
+- Add shortcuts to add cards on deck edition (⌘+F to search, ⌘+1 -> 9 to select card)
+- Add an option to show your opponent class and name in his tracker
+- Option to save your current deck or your opponent's one
+- Ability to archive and unarchive decks
+- Show win loss ratio for in tracker
+- Add an option to close HSTracker when Hearthstone is closed
+- Undo/Redo in deck creation/edition
+- Ability to sort decks in manager
+- Add an option to change in-hand color
+- Add an icon for Wild decks in manager
+- Show detailled information on deck manager
+- On-board damage information
+- Fatigue counter
+
+#### 0.16.9
+- Fixed a bug where HSTracker would crash when adding a deck
+- Decks are back again in the menu
+- Add a deathrattle counter for N'Zoth
+
+#### 0.16.8
+- UTC is now used, which improve parsing logs
+- Improve Hearthstats UI
+- It's now possible to disconnect from Hearthstats
+- Fix some crashes
+- Refactoring of log reading
+- Refactoring of some code to be more Swift-compliant
+- Secret helper should appear again
+- Update deck statistics on game end
+- Better end game handling
+
+#### 0.16.7
+- Startup crash finally corrected
+- Add an option to see opponent created cards
+
+#### 0.16.6
+- This should avoid crash on startup
+
+#### 0.16.5
+- Better error handling
+
+#### 0.16.4
+- Some Swift refactoring + add some test to help avoiding some crashes
+- Floating card should correctly disappear
+- Some UI improvements
+- Images download should be faster
+- Better Hearthstone log.config check and modification
+- Decks windows should be visible for streamers
+- A backup of decks.json is now done when HSTracker starts
+- Correct a crash when importing a deck from Hearthpwn deckbuilder
+- Correct an issue where HSTracker could crash when parsing some log lines
+- Use a text framework to (try to) avoid some crashes
+
+#### 0.16.3
+- Correct issues reported with HockeyApp
+- Code cleanup
+- C’Thun and Spell (Yogg-Saron) counter frames
+
+#### 0.16.2
+- WoTOG corrections
+- Helper to select Hearthstone folder
+- Add options to show/hide player and opponent draw and card cout
+- Correct an error where frames were not hide when Hearthstone lost focus
+- Secret based on format
+
+#### 0.16.1
+- Update to The Whispers of the Old Gods
+- Correct an issue where net decks would not be imported
+- Remove /Logs from Hearthstone path in the settings
+
+#### 0.16
+HSTracker has been fully rewritten (from A to Z)
+- New UI for trackers
+- New log parser
+- New everything in fact :D
+
+#### 0.13.4
+- Update Sparkle to prevent vulnerabilities
+- Update some english words
+
+#### 0.13.3
+- Add "show number 1 on trackers" option (issue #235)
+- Add another gem color for free cards (issue #230)
+- Better thread usage (issues #196, #237 and #224)
+- Better opponent name detection (issue #236)
+- Correct Golden Monkey, Death Lord, Excavated Evil (issues #262 and #267)
+
+
+#### 0.13.2
+- Add option to change log path (issue #217)
+- Add option to disable card number overlay (issue #223)
+- Add option to disable card rarity colors
+- Sort decks per class in the deck menu
+
+#### 0.13.1
+- Correct a crash when entity is unknown
+- Correctly check for file offset is log file does not exists
+- New icon, give me some swag :D
+
+#### 0.13
+- Add a auto move and resize window mode (issue #31)
+- It is now possible to click on the tracker, they will not take focus (issue #134)
+- Add a card tracker for the opponent (issue #30)
+- Add japonese cards database
+- Add portuguese and chinese locales
+- Add chinese cards
+- Use the new logger (issue #189)
+- Updated to League of Explorers
+- Add frame rarity for cards
+
+#### 0.12.8
+- Correct a crash when a date is not a date (oO)
+- HSTracker like your decks and want to create them multiple times on HeartStats
+
+#### 0.12.7
+- Bugfixes
+
+#### 0.12.6
+- (A lot of) Bugfixes (thanks HockeyApp, and you guys which send reports)
+- Change loader to add some text and progress
+- Change HSTracker logs, should stop crash on 10.8
+- Joust cards are now shown on the deck of your opponent
+- Rewrite the popup on the deck manager to use a cleaner one
+
+#### 0.12.5
+- Heroes are back
+
+#### 0.12.4
+- Bugfixes
+
+Hey guys, sorry for 0.12 start which is not glorious, patch 0.3 + a lot of downtime on HearthStats reveal a lot of bugs.
+I'm trying to do my best to correct them as fast as possible !
+
+#### 0.12.3
+- Correct some crashes
+- Add Sparkle for auto-update stuff !
+
+#### 0.12.2
+- Correct the invalid update message
+- Correct a crash if HearthStats is down and the timeout is too long
+- Add HockeyApp to help getting error message. Please always accept to send the crash logs !
+
+#### 0.12.1
+- Bugfixes !
+
+#### 0.12
+- Fix : should run correctly on 10.8
+- Fix : upload on HearthStats
+- Add an option to rebuild card database (menu HSTracker -> rebuild card database)
+- Fix : brawl is now correctly detected
+- Support TGT
+
 #### 0.11.4
 - Correct the save button on "non-full" decks
 - The timer is now correctly hidden on HSTracker start when show_timer is not checked
@@ -7,8 +211,8 @@
 - Correct scroll on 10.8 and 10.9
 
 #### 0.11.3
-- Correct a bug when importing old hearthstats decks  
-- Correct a bug with save opponent deck button  
+- Correct a bug when importing old hearthstats decks
+- Correct a bug with save opponent deck button
 - The timer can now be hidden correctly
 - Correct a crash when there are Hearthstats issue
 - Change version system to allow version x.y (ie 1.1)

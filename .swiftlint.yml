@@ -1,0 +1,15 @@
+excluded:
+  - Carthage
+  - HSTracker/Core/Categories/LinqExtension.swift
+  - HSTrackerUITests
+  - HSTrackerTests
+disabled_rules:
+  - cyclomatic_complexity
+  - function_body_length
+  - file_length
+  - type_body_length
+  - todo
+  - variable_name
+  - function_parameter_count
+  - trailing_newline
+  - trailing_whitespace

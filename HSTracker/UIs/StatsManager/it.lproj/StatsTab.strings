@@ -1,0 +1,13 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Versus Class"; ObjectID = "2EV-QP-KAN"; */
+"2EV-QP-KAN.headerCell.title" = "Versus Class";
+
+/* Class = "NSTableColumn"; headerCell.title = "Win Rate"; ObjectID = "UH6-zs-QqB"; */
+"UH6-zs-QqB.headerCell.title" = "Win Rate";
+
+/* Class = "NSTableColumn"; headerCell.title = "90% CI"; ObjectID = "ZxL-Qi-a5P"; */
+"ZxL-Qi-a5P.headerCell.title" = "90% CI";
+
+/* Class = "NSTableColumn"; headerCell.title = "Record"; ObjectID = "daS-zJ-xbp"; */
+"daS-zJ-xbp.headerCell.title" = "Record";
+

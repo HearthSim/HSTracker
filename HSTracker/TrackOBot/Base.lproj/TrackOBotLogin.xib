@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TrackOBotLogin" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="cancelButton" destination="njI-QQ-xlM" id="qk1-NC-PN4"/>
+                <outlet property="loginButton" destination="R2w-dw-85y" id="Nh8-fe-az5"/>
+                <outlet property="progressIndicator" destination="RAN-K3-UxP" id="tTT-Zo-Gw4"/>
+                <outlet property="token" destination="et8-nh-ztS" id="rhH-ge-mmz"/>
+                <outlet property="username" destination="MaU-gb-wPv" id="mTf-RI-2IP"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="Int-fC-AgZ"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Track-o-Bot" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="198"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="198"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4iT-oe-8mL">
+                        <rect key="frame" x="0.0" y="23" width="170" height="170"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="170" id="BmV-7K-hyx"/>
+                            <constraint firstAttribute="width" constant="170" id="gz7-ZU-dke"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="trackobot" id="zxN-vR-F5e"/>
+                    </imageView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QDL-Hb-isw">
+                        <rect key="frame" x="178" y="161" width="284" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Username" id="ApU-Sf-uTt">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MaU-gb-wPv">
+                        <rect key="frame" x="180" y="129" width="280" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="MUi-O1-dFp">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3mZ-bL-jBe">
+                        <rect key="frame" x="178" y="102" width="284" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Token" id="PFS-av-GAD">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="et8-nh-ztS">
+                        <rect key="frame" x="180" y="72" width="280" height="22"/>
+                        <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="JMq-UL-06X">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            <allowedInputSourceLocales>
+                                <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                            </allowedInputSourceLocales>
+                        </secureTextFieldCell>
+                    </secureTextField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="R2w-dw-85y">
+                        <rect key="frame" x="392" y="13" width="74" height="32"/>
+                        <buttonCell key="cell" type="push" title="Login" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gXX-bl-h6e">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="connect:" target="-2" id="wSe-lk-KdS"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="njI-QQ-xlM">
+                        <rect key="frame" x="312" y="13" width="82" height="32"/>
+                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8RD-Pl-Gm6">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="cancel:" target="-2" id="kCU-7O-LWL"/>
+                        </connections>
+                    </button>
+                    <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="RAN-K3-UxP">
+                        <rect key="frame" x="294" y="22" width="16" height="16"/>
+                    </progressIndicator>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="njI-QQ-xlM" firstAttribute="leading" secondItem="RAN-K3-UxP" secondAttribute="trailing" constant="8" id="1pJ-iG-yYX"/>
+                    <constraint firstItem="QDL-Hb-isw" firstAttribute="leading" secondItem="4iT-oe-8mL" secondAttribute="trailing" constant="10" id="2Uh-kg-vjn"/>
+                    <constraint firstItem="3mZ-bL-jBe" firstAttribute="width" secondItem="QDL-Hb-isw" secondAttribute="width" id="7jI-MA-9Fy"/>
+                    <constraint firstItem="3mZ-bL-jBe" firstAttribute="leading" secondItem="QDL-Hb-isw" secondAttribute="leading" id="8ia-FT-uff"/>
+                    <constraint firstAttribute="bottom" secondItem="R2w-dw-85y" secondAttribute="bottom" constant="20" id="CG4-lB-CSM"/>
+                    <constraint firstItem="MaU-gb-wPv" firstAttribute="width" secondItem="QDL-Hb-isw" secondAttribute="width" id="D7b-li-vSS"/>
+                    <constraint firstItem="et8-nh-ztS" firstAttribute="leading" secondItem="QDL-Hb-isw" secondAttribute="leading" id="HcS-Uh-Zas"/>
+                    <constraint firstItem="R2w-dw-85y" firstAttribute="leading" secondItem="njI-QQ-xlM" secondAttribute="trailing" constant="10" id="IYa-bk-eB4"/>
+                    <constraint firstItem="et8-nh-ztS" firstAttribute="width" secondItem="QDL-Hb-isw" secondAttribute="width" id="K3l-3Q-7bB"/>
+                    <constraint firstItem="QDL-Hb-isw" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="Tte-xs-KBq"/>
+                    <constraint firstAttribute="trailing" secondItem="R2w-dw-85y" secondAttribute="trailing" constant="20" id="ZqJ-Al-LcV"/>
+                    <constraint firstAttribute="trailing" secondItem="QDL-Hb-isw" secondAttribute="trailing" constant="20" id="blo-FT-Ph5"/>
+                    <constraint firstItem="3mZ-bL-jBe" firstAttribute="top" secondItem="MaU-gb-wPv" secondAttribute="bottom" constant="10" id="fYo-Iv-z4E"/>
+                    <constraint firstItem="RAN-K3-UxP" firstAttribute="centerY" secondItem="njI-QQ-xlM" secondAttribute="centerY" id="jv6-Ia-d2R"/>
+                    <constraint firstItem="4iT-oe-8mL" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="5" id="loq-bu-aH2"/>
+                    <constraint firstItem="et8-nh-ztS" firstAttribute="top" secondItem="3mZ-bL-jBe" secondAttribute="bottom" constant="8" id="nBL-br-Hdr"/>
+                    <constraint firstItem="MaU-gb-wPv" firstAttribute="leading" secondItem="QDL-Hb-isw" secondAttribute="leading" id="nlt-RZ-c1N"/>
+                    <constraint firstItem="MaU-gb-wPv" firstAttribute="top" secondItem="QDL-Hb-isw" secondAttribute="bottom" constant="10" id="oK5-gj-ou7"/>
+                    <constraint firstItem="njI-QQ-xlM" firstAttribute="centerY" secondItem="R2w-dw-85y" secondAttribute="centerY" id="swp-VD-jqO"/>
+                    <constraint firstItem="4iT-oe-8mL" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="vD5-1B-FCH"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="359" y="364"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="trackobot" width="285" height="285"/>
+    </resources>
+</document>

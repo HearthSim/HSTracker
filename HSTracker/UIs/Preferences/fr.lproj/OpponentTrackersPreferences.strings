@@ -1,0 +1,33 @@
+
+/* Class = "NSButtonCell"; title = "Show opponent in-hand card huds"; ObjectID = "50X-Tt-yJa"; */
+"50X-Tt-yJa.title" = "Voir les infos des cartes de l'adversaire";
+
+/* Class = "NSButtonCell"; title = "Show opponent tracker"; ObjectID = "MLJ-7t-LVJ"; */
+"MLJ-7t-LVJ.title" = "Voir le tracker de l'adversaire";
+
+/* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
+"avf-qA-8vU.title" = "Voir la chance de pioche de l'adversaire";
+
+/* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
+"eGQ-pE-MU0.title" = "Vider le tracker de l'adversaire en fin de partie";
+
+/* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
+"iqA-b1-owW.title" = "Voir le nombre de cartes de l'adversaire";
+
+/* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "9eg-6X-x7A"; */
+"9eg-6X-x7A.title" = "Voir le compteur de sorts";
+
+/* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "RyA-1i-LPY"; */
+"RyA-1i-LPY.title" = "Voir le compteur C'Thun";
+
+/* Class = "NSButtonCell"; title = "Include created cards"; ObjectID = "PrR-2g-WEA"; */
+"PrR-2g-WEA.title" = "Voir les cartes créées";
+
+/* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
+"aZW-kf-zpy.title" = "Voir le compteur de Râles d'agonie";
+
+/* Class = "NSButtonCell"; title = "Show player class and name"; ObjectID = "aW1-2y-nKx"; */
+"aW1-2y-nKx.title" = "Voir la classe et le nom du joueur";
+
+/* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "fah-Dr-Amh"; */
+"fah-Dr-Amh.title" = "Voir les dégats sur table";
