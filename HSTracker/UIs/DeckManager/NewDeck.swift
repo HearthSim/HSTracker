@@ -89,12 +89,18 @@ class NewDeck: NSWindowController {
                                             if let deck = deck {
                                                 self._addDeck(deck)
                                             } else {
-                                                // TODO show error
+                                                // show error
+                                                let alertDialog: NSAlert = NSAlert()
+                                                alertDialog.messageText = NSLocalizedString("Failed to import deck from \n", comment: "") + self.urlDeck.stringValue
+                                                alertDialog.runModal()
                                             }
                 })
             } catch {
                 self.loader.stopAnimation(self)
-                // TODO show error
+                // show error
+                let alertDialog: NSAlert = NSAlert()
+                alertDialog.messageText = "Failed to import deck from \n" + self.urlDeck.stringValue
+                alertDialog.runModal()
             }
         } else if fromAFile.state == NSOnState {
             // add here to remember this case exists

@@ -46,6 +46,7 @@
 "Are you sure you want to delete the statistics for the deck %@ ?" = "确定要删除 %@ 套牌的统计 ?";
 "Do you want to add some notes for this game ?" = "想加评论给这个游戏吗 ?";
 "Your arena deck count 30 cards, do you want to save it ?" = "競技場套牌有 30 张卡, 要保存吗 ?";
+"Failed to import deck from \n" = "Failed to import deck from \n";
 
 /* notifications */
 "Your game begins" = "游戏开始";

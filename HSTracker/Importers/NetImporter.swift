@@ -23,7 +23,7 @@ final class NetImporter {
     static var importers: [NetImporterAware] {
         return [
             Hearthpwn(), HearthpwnDeckBuilder(), Hearthnews(), Hearthhead(), Heartharena(),
-            Hearthstats(), HearthstoneDecks()
+            Hearthstats(), HearthstoneDecks(), Hearthstonetopdecks()
         ]
     }
 
