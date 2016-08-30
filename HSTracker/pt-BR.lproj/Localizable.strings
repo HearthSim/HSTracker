@@ -47,6 +47,7 @@
 "Are you sure you want to delete the statistics for the deck %@ ?" = "Tem certeza que deseja deletar as estatísticas para o deck %@ ?";
 "Do you want to add some notes for this game ?" = "Desejar adicionar algumas notas para esse jogo ?";
 "Your arena deck count 30 cards, do you want to save it ?" = "Your arena deck count 30 cards, do you want to save it ?";
+"Failed to import deck from \n" = "Failed to import deck from \n";
 
 /* notifications */
 "Your game begins" = "Seu jogo começou";

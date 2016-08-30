@@ -235,6 +235,7 @@
 		43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB9B1C7E4EA20077AC1B /* CurveView.swift */; };
 		43F000301C81BAE8000F2F8F /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F0002F1C81BAE8000F2F8F /* Mode.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
+		BC2B851E1D749E9800BC812B /* Hearthstonetopdecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */; };
 		C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C680C1D1F225F009030DC /* StatsTab.swift */; };
 		C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68101D1F3FC4009030DC /* LadderTab.swift */; };
 		C92C68151D1F6F4F009030DC /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C92C68141D1F6F4F009030DC /* SQLite.framework */; };
@@ -637,6 +638,7 @@
 		43EECB9B1C7E4EA20077AC1B /* CurveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurveView.swift; sourceTree = "<group>"; };
 		43F0002F1C81BAE8000F2F8F /* Mode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
+		BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstonetopdecks.swift; sourceTree = "<group>"; };
 		C92C680C1D1F225F009030DC /* StatsTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsTab.swift; path = StatsManager/StatsTab.swift; sourceTree = "<group>"; };
 		C92C68101D1F3FC4009030DC /* LadderTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderTab.swift; path = StatsManager/LadderTab.swift; sourceTree = "<group>"; };
 		C92C68141D1F6F4F009030DC /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
@@ -765,6 +767,7 @@
 				434C2F391C7F48BE001D1D91 /* Hearthhead.swift */,
 				434C2F3B1C7F48E9001D1D91 /* Hearthnews.swift */,
 				434C2F3D1C7F491C001D1D91 /* Heartharena.swift */,
+				BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -1434,6 +1437,7 @@
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
 				434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */,
 				431719731C885BD600F5988B /* CardCell.swift in Sources */,
+				BC2B851E1D749E9800BC812B /* Hearthstonetopdecks.swift in Sources */,
 				43647A581CDF4A0E00C2B78E /* HSTrackerLogFormatter.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
 				434C2F321C7F475E001D1D91 /* Hearthpwn.swift in Sources */,

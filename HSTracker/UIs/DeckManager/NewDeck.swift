@@ -91,7 +91,7 @@ class NewDeck: NSWindowController {
                                             } else {
                                                 // show error
                                                 let alertDialog: NSAlert = NSAlert()
-                                                alertDialog.messageText = "Failed to import deck from \n" + self.urlDeck.stringValue
+                                                alertDialog.messageText = NSLocalizedString("Failed to import deck from \n", comment: "") + self.urlDeck.stringValue
                                                 alertDialog.runModal()
                                             }
                 })
