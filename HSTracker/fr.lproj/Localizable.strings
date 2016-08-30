@@ -47,7 +47,7 @@
 "Are you sure you want to delete the statistics for the deck %@ ?" = "Êtes-vous certain de vouloir supprimer les statistiques du deck %@ ?";
 "Do you want to add some notes for this game ?" = "Voulez-vous ajouter une note sur cette partie ?";
 "Your arena deck count 30 cards, do you want to save it ?" = "Votre deck d'arène compte 30 cartes, voulez-vous le sauvegarder ?";
-"Failed to import deck from \n" = "Impossible d'importer le pont de \n";
+"Failed to import deck from \n" = "Impossible d'importer le deck depuis \n";
 
 /* notifications */
 "Your game begins" = "Votre partie commence";
