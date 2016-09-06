@@ -102,7 +102,7 @@
 "4yc-yU-eH1.title" = "检测更新…";
 
 /* Class = "NSMenuItem"; title = "Replays"; ObjectID = "esn-TJ-7Ds"; */
-"esn-TJ-7Ds.title" = "Replays";
+"esn-TJ-7Ds.title" = "录象";
 
 /* Class = "NSMenuItem"; title = "Open replays directory"; ObjectID = "yTs-jD-geS"; */
-"yTs-jD-geS.title" = "Open replays directory";
+"yTs-jD-geS.title" = "打开录像的目录";

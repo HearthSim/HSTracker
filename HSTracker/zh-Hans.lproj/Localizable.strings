@@ -46,7 +46,7 @@
 "Are you sure you want to delete the statistics for the deck %@ ?" = "确定要删除 %@ 套牌的统计 ?";
 "Do you want to add some notes for this game ?" = "想加评论给这个游戏吗 ?";
 "Your arena deck count 30 cards, do you want to save it ?" = "競技場套牌有 30 张卡, 要保存吗 ?";
-"Failed to import deck from \n" = "Failed to import deck from \n";
+"Failed to import deck from \n" = "失败取回套牌从 \n";
 
 /* notifications */
 "Your game begins" = "游戏开始";
@@ -86,7 +86,7 @@
 "LOE" = "探险者协会";
 "OG" = "上古之神";
 "PROMO" = "促销";
-"KARA" = "One Night In Karazhan";
+"KARA" = "卡拉赞之夜";
 
 /* card type */
 "all_types" = "所有";
@@ -129,5 +129,5 @@
 /* Stats tabs */
 "Statistics" = "统计";
 "The Climb" = "排名统计";
-"all_seasons" = "All seasons";
-"season" = "Season %@";
+"all_seasons" = "所有的赛季";
+"season" = "赛季 %@";
