@@ -46,14 +46,14 @@
 "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "Houve um problema ao salvar seu deck da Arena. Tente reiniciar o Hearthstone e clicar em 'Arena', e então tente salvar outra vez.";
 "Are you sure you want to delete the statistics for the deck %@ ?" = "Tem certeza que deseja deletar as estatísticas para o deck %@ ?";
 "Do you want to add some notes for this game ?" = "Desejar adicionar algumas notas para esse jogo ?";
-"Your arena deck count 30 cards, do you want to save it ?" = "Your arena deck count 30 cards, do you want to save it ?";
-"Failed to import deck from \n" = "Failed to import deck from \n";
+"Your arena deck count 30 cards, do you want to save it ?" = "Seu deck da arena chegou a 30 cartas, deseja salvá-lo ?";
+"Failed to import deck from \n" = "Falha ao importar seu deck a partir de \n";
 
 /* notifications */
 "Your game begins" = "Seu jogo começou";
 "Victory" = "Vitória";
 "Hearthstone" = "Hearthstone";
-"Your opponent have conceded" = "Seu oponente rendeu-se";
+"Your opponent have conceded" = "Seu oponente se rendeu";
 "It's your turn to play" = "É o seu turno";
 
 /* classes */
@@ -87,7 +87,7 @@
 "LOE" = "Liga dos Exploradores";
 "OG" = "Sussurros dos Deuses Antigos";
 "PROMO" = "Promocional";
-"KARA" = "One Night In Karazhan";
+"KARA" = "Uma Noite Em Karazhan";
 
 /* card type */
 "all_types" = "Todos";
@@ -99,7 +99,7 @@
 "all_races" = "Todos";
 "demon" = "Demônio";
 "dragon" = "Dragão";
-"mechanical" = "Mecânico";
+"mechanical" = "Mecanóide";
 "beast" = "Fera";
 "murloc" = "Murloc";
 "pirate" = "Pirata";
