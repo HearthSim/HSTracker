@@ -47,6 +47,7 @@
 "Are you sure you want to delete the statistics for the deck %@ ?" = "Are you sure you want to delete the statistics for the deck %@ ?";
 "Do you want to add some notes for this game ?" = "Do you want to add some notes for this game ?";
 "Your arena deck count 30 cards, do you want to save it ?" = "Your arena deck count 30 cards, do you want to save it ?";
+"Failed to import deck from \n" = "Failed to import deck from \n";
 
 /* notifications */
 "Your game begins" = "Empieza la partida";
