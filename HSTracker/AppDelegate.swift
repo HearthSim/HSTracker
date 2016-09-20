@@ -29,6 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     @IBOutlet weak var sparkleUpdater: SUUpdater!
     var operationQueue: NSOperationQueue?
     var hstrackerIsStarted = false
+    var dockMenu = NSMenu(title: "DockMenu")
 
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
@@ -554,6 +555,56 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows", comment: ""))
         item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
         // swiftlint:enable line_length
+    }
+    
+    func applicationDockMenu(sender: NSApplication) -> NSMenu? {
+        
+        // get decks submenu (if created)
+        if let decksmenu = self.dockMenu.itemWithTag(1) {
+            decksmenu.submenu?.removeAllItems()
+        } else {
+            let decksmenu = NSMenuItem(title: NSLocalizedString("Decks", comment: ""),
+                                       action: nil, keyEquivalent: "")
+            decksmenu.tag = 1
+            decksmenu.submenu = NSMenu()
+            self.dockMenu.addItem(decksmenu)
+        }
+        
+        // collect all decks
+        var decks = [CardClass: [Deck]]()
+        Decks.instance.decks().filter({$0.isActive}).forEach({
+            if decks[$0.playerClass] == nil {
+                decks[$0.playerClass] = [Deck]()
+            }
+            decks[$0.playerClass]?.append($0)
+        })
+        
+        let deckMenu = self.dockMenu.itemWithTag(1)
+        
+        for (playerClass, _decks) in decks
+            .sort({ NSLocalizedString($0.0.rawValue.lowercaseString, comment: "")
+                < NSLocalizedString($1.0.rawValue.lowercaseString, comment: "") }) {
+                    if let menu = deckMenu?.submenu?
+                        .addItemWithTitle(NSLocalizedString(playerClass.rawValue.lowercaseString,
+                            comment: ""),
+                                          action: nil,
+                                          keyEquivalent: "") {
+                        let classMenu = NSMenu()
+                        _decks.filter({ $0.isActive == true })
+                            .sort({$0.name!.lowercaseString < $1.name!.lowercaseString })
+                            .forEach({
+                                if let item = classMenu.addItemWithTitle($0.name!,
+                                    action: #selector(AppDelegate.playDeck(_:)),
+                                    keyEquivalent: "") {
+                                    item.representedObject = $0
+                                }
+                                
+                            })
+                        menu.submenu = classMenu
+                    }
+        }
+
+        return self.dockMenu
     }
 
     func playDeck(sender: NSMenuItem) {
