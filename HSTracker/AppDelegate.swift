@@ -29,6 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var sparkleUpdater: SUUpdater!
     var operationQueue: NSOperationQueue?
     var hstrackerIsStarted = false
+    var dockMenu = NSMenu(title: "DockMenu")
 
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
@@ -505,6 +506,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             decks[$0.playerClass]?.append($0)
         })
 
+        // build main menu
+        // ---------------
         let mainMenu = NSApplication.sharedApplication().mainMenu
         let deckMenu = mainMenu?.itemWithTitle(NSLocalizedString("Decks", comment: ""))
         deckMenu?.submenu?.removeAllItems()
@@ -530,29 +533,45 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
                                             keyEquivalent: "R")
+        
+        // build dock menu
+        // ---------------
+        if let decksmenu = self.dockMenu.itemWithTag(1) {
+            decksmenu.submenu?.removeAllItems()
+        } else {
+            let decksmenu = NSMenuItem(title: NSLocalizedString("Decks", comment: ""),
+                                       action: nil, keyEquivalent: "")
+            decksmenu.tag = 1
+            decksmenu.submenu = NSMenu()
+            self.dockMenu.addItem(decksmenu)
+        }
+        
+        let dockdeckMenu = self.dockMenu.itemWithTag(1)
 
+        // add deck items to main and dock menu
+        // ------------------------------------
         deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
         for (playerClass, _decks) in decks
             .sort({ NSLocalizedString($0.0.rawValue.lowercaseString, comment: "")
                 < NSLocalizedString($1.0.rawValue.lowercaseString, comment: "") }) {
-                if let menu = deckMenu?.submenu?
-                    .addItemWithTitle(NSLocalizedString(playerClass.rawValue.lowercaseString,
-                        comment: ""),
-                                      action: nil,
-                                      keyEquivalent: "") {
-                let classMenu = NSMenu()
-                _decks.filter({ $0.isActive == true })
-                    .sort({$0.name!.lowercaseString < $1.name!.lowercaseString })
-                    .forEach({
-                    if let item = classMenu.addItemWithTitle($0.name!,
-                        action: #selector(AppDelegate.playDeck(_:)),
-                        keyEquivalent: "") {
-                        item.representedObject = $0
+                    // create menu item for all decks in this class
+                    let classmenuitem = NSMenuItem(title: NSLocalizedString(
+                        playerClass.rawValue.lowercaseString,
+                        comment: ""), action: nil, keyEquivalent: "")
+                    let classsubMenu = NSMenu()
+                    _decks.filter({ $0.isActive == true })
+                        .sort({$0.name!.lowercaseString < $1.name!.lowercaseString }).forEach({
+                        if let item = classsubMenu.addItemWithTitle($0.name!,
+                            action: #selector(AppDelegate.playDeck(_:)),
+                            keyEquivalent: "") {
+                            item.representedObject = $0
+                        }
+                    })
+                    classmenuitem.submenu = classsubMenu
+                    deckMenu?.submenu?.addItem(classmenuitem)
+                    if let menuitemcopy = classmenuitem.copy() as? NSMenuItem {
+                        dockdeckMenu?.submenu?.addItem(menuitemcopy)
                     }
-
-                })
-                menu.submenu = classMenu
-            }
         }
         
         let replayMenu = mainMenu?.itemWithTitle(NSLocalizedString("Replays", comment: ""))
@@ -617,6 +636,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+    }
+    
+    func applicationDockMenu(sender: NSApplication) -> NSMenu? {
+        return self.dockMenu
     }
 
     func playDeck(sender: NSMenuItem) {
