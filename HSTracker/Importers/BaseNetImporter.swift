@@ -14,12 +14,19 @@ class BaseNetImporter {
 
     func loadHtml(url: String, completion: String? -> Void) {
         Log.info?.message("Fetching \(url)")
+        
         Alamofire.request(.GET, url)
-            .responseString(encoding: NSUTF8StringEncoding) { response in
-                if let html = response.result.value {
+            .responseData() { response in
+                
+                if let data = response.result.value {
+                    var convertedNSString: NSString?
+                    NSString.stringEncodingForData(data, encodingOptions: nil, convertedString: &convertedNSString, usedLossyConversion: nil)
+                    
                     Log.info?.message("Fetching \(url) complete")
-                    completion(html)
+                    let convertedString = convertedNSString as? String
+                    completion(convertedString)
                 } else {
+                    print(response.result.error)
                     completion(nil)
                 }
         }
