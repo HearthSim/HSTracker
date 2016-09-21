@@ -136,7 +136,7 @@ final class Settings {
         set { set("player_deathrattle_frame", value: newValue) }
         get { return get("player_deathrattle_frame") as? Bool ?? true }
     }
-    var showPlayerYogg: Bool {
+    var showPlayerSpell: Bool {
         set { set("player_yogg_frame", value: newValue) }
         get { return get("player_yogg_frame") as? Bool ?? true }
     }
@@ -144,7 +144,7 @@ final class Settings {
         set { set("opponent_cthun_frame", value: newValue) }
         get { return get("opponent_cthun_frame") as? Bool ?? true }
     }
-    var showOpponentYogg: Bool {
+    var showOpponentSpell: Bool {
         set { set("opponent_yogg_frame", value: newValue) }
         get { return get("opponent_yogg_frame") as? Bool ?? true }
     }
@@ -292,6 +292,32 @@ final class Settings {
         set { set("trackobot_auto_synchronize_matches", value: newValue) }
         get { return get("trackobot_auto_synchronize_matches") as? Bool ?? true }
     }
+    
+    // MARK: - HSReplay
+    var saveReplays: Bool {
+        set { set("save_replays", value: newValue) }
+        get { return get("save_replays") as? Bool ?? false }
+    }
+    var hsReplayUploadToken: String? {
+        set { set("hsreplay_upload_token", value: newValue) }
+        get { return get("hsreplay_upload_token") as? String }
+    }
+    var hsReplayUsername: String? {
+        set { set("hsreplay_username", value: newValue) }
+        get { return get("hsreplay_username") as? String }
+    }
+    var hsReplayId: Int? {
+        set { set("hsreplay_id", value: newValue) }
+        get { return get("hsreplay_id") as? Int }
+    }
+    var hsReplaySynchronizeMatches: Bool {
+        set { set("hsreplay_auto_synchronize_matches", value: newValue) }
+        get { return get("hsreplay_auto_synchronize_matches") as? Bool ?? true }
+    }
+    var showHSReplayPushNotification: Bool {
+        set { set("hsreplay_show_push_notification", value: newValue) }
+        get { return get("hsreplay_show_push_notification") as? Bool ?? true }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {
@@ -333,10 +359,10 @@ final class Settings {
                 severity = LogSeverity(rawValue: rawSeverity) {
                 return severity
             }
-            return .Verbose
+            return .verbose
         }
     }
-
+    
     var deckPath: String? {
         set { set("decks_path", value: newValue) }
         get {
@@ -373,8 +399,19 @@ final class Settings {
         return language.match("^(zh|ko|ja|th)")
     }
     
-    var saveReplays: Bool {
-        set { set("save_replays", value: newValue) }
-        get { return get("save_replays") as? Bool ?? false }
+    // MARK: - Updates
+    var releaseChannel: ReleaseChannel {
+        set { set("release_channel", value: newValue.rawValue) }
+        get {
+            if let rawChannel = get("release_channel") as? Int,
+                channel = ReleaseChannel(rawValue: rawChannel) {
+                return channel
+            }
+            return .stable
+        }
+    }
+    var automaticallyDownloadsUpdates: Bool {
+        set { set("automatically_downloads_updates", value: newValue) }
+        get { return get("automatically_downloads_updates") as? Bool ?? true }
     }
 }

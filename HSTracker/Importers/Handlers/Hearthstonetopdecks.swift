@@ -58,9 +58,11 @@ final class Hearthstonetopdecks: BaseNetImporter, NetImporterAware {
                         
                         // Hearthstonetopdeck sport several cards with wrong capitalization
                         // (e.g. N'Zoth)
-                        let fixedcardname = card.trim().stringByReplacingOccurrencesOfString("’", withString: "'")
+
+                        let fixedcardname = card.trim()
+                            .stringByReplacingOccurrencesOfString("’", withString: "'")
                         
-                        if let _card = Cards.byEnglishNameCaseInsensitive(fixedcardname/*card.trim()*/) {
+                        if let _card = Cards.byEnglishNameCaseInsensitive(fixedcardname) {
                             Log.verbose?.message("Got card \(_card)")
                             cards[_card.id] = count
                         } else {

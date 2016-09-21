@@ -57,9 +57,9 @@ class CurveView: NSView {
         }
         if self.counts.isEmpty { return }
 
-        let barWidth: CGFloat = floor(NSWidth(rect) / 8)
-        let padding: CGFloat = (NSWidth(rect) - (barWidth * 8)) / 8
-        let barHeight: CGFloat = NSHeight(rect) - (padding * 4) - 25
+        let barWidth: CGFloat = floor(rect.width / 8)
+        let padding: CGFloat = (rect.width - (barWidth * 8)) / 8
+        let barHeight: CGFloat = rect.height - (padding * 4) - 25
         let manaHeight: CGFloat = 25
         var x: CGFloat = 0
 
@@ -108,7 +108,7 @@ class CurveView: NSView {
 
             if let mana = NSImage(named: "mana") {
                 mana.drawInRect(NSRect(x: x, y: padding, width: manaHeight, height: manaHeight),
-                    fromRect: NSZeroRect,
+                    fromRect: NSRect.zero,
                     operation: NSCompositingOperation.CompositeSourceOver,
                     fraction: 1.0)
             }

@@ -71,10 +71,13 @@ final class LogReaderManager {
         start()
     }
 
-    private func entryPoint() -> Double {
+    private func entryPoint() -> NSDate {
         let powerEntry = powerLog.findEntryPoint(["tag=GOLD_REWARD_STATE", "End Spectator"])
         let loadingScreenEntry = loadingScreen.findEntryPoint("Gameplay.Start")
 
+        Log.verbose?.message("powerEntry : \(powerEntry.millisecondsFormatted) / "
+            + "loadingScreenEntry : \(loadingScreenEntry.millisecondsFormatted)")
+        
         return powerEntry > loadingScreenEntry ? powerEntry : loadingScreenEntry
     }
 

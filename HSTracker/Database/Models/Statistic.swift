@@ -8,12 +8,16 @@
 
 import Foundation
 import Unbox
+import Wrap
 
 final class Statistic: Unboxable {
     var gameResult: GameResult = .Unknow
     var hasCoin = false
     var opponentClass: CardClass = .NEUTRAL
+    var opponentRank: Int?
+    var opponentLegendRank: Int?
     var opponentName = ""
+    var legendRank: Int?
     var playerRank = 0
     var playerMode: GameMode = .None
     var numTurns = 0
@@ -22,6 +26,12 @@ final class Statistic: Unboxable {
     var duration = 0
     var note: String? = ""
     var season: Int?
+    var hsReplayId: String?
+    var deck: Deck?
+
+    init() {
+        date = NSDate()
+    }
 
     init(unboxer: Unboxer) {
         self.gameResult = unboxer.unbox("gameResult")
@@ -35,7 +45,10 @@ final class Statistic: Unboxable {
         }
         
         self.opponentName = unboxer.unbox("opponentName")
+        self.opponentRank = unboxer.unbox("opponentRank")
+        self.opponentLegendRank = unboxer.unbox("opponentLegendRank")
         self.playerRank = unboxer.unbox("playerRank")
+        self.legendRank = unboxer.unbox("legendRank")
         self.playerMode = unboxer.unbox("playerMode")
         self.numTurns = unboxer.unbox("numTurns")
         let dateFormatter = NSDateFormatter()
@@ -52,9 +65,15 @@ final class Statistic: Unboxable {
         if let date = self.date where self.season == nil {
             self.season = (date.year - 2014) * 12 - 3 + date.month
         }
+        self.hsReplayId = unboxer.unbox("hsReplayId")
     }
+}
 
-    init() {
-        date = NSDate()
+extension Statistic: WrapCustomizable {
+    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+        if propertyName == "deck" {
+            return nil
+        }
+        return propertyName
     }
 }

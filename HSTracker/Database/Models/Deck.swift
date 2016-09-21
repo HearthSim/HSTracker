@@ -64,6 +64,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         }
 
         self.statistics = unboxer.unbox("statistics")
+        self.statistics.forEach({$0.deck = self})
     }
 
     init(playerClass: CardClass, name: String? = nil, deckId: String? = nil) {
@@ -169,6 +170,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     }
 
     func addStatistic(statistic: Statistic) {
+        statistic.deck = self
         statistics.append(statistic)
     }
     

@@ -59,7 +59,7 @@ class DeckManager: NSWindowController {
         decksTable.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable,
                                        NSAutoresizingMaskOptions.ViewHeightSizable]
 
-        decksTable.tableColumns.first?.width = NSWidth(decksTable.bounds)
+        decksTable.tableColumns.first?.width = decksTable.bounds.width
         decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
 
         decksTable.target = self
@@ -67,7 +67,7 @@ class DeckManager: NSWindowController {
         decks = Decks.instance.decks().filter({$0.isActive})
         decksTable.reloadData()
 
-        deckListTable.tableColumns.first?.width = NSWidth(deckListTable.bounds)
+        deckListTable.tableColumns.first?.width = deckListTable.bounds.width
         deckListTable.tableColumns.first?.resizingMask = .AutoresizingMask
         
         loadSortPopUp()
@@ -215,7 +215,7 @@ class DeckManager: NSWindowController {
         switch item.itemIdentifier {
         case "add", "donate", "twitter", "hearthstats", "gitter", "trackobot":
             return true
-        case "edit", "use", "delete", "rename", "archive", "statistics":
+        case "edit", "use", "delete", "rename", "archive", "statistics", "export_hearthstone":
             return currentDeck != nil
         default:
             return false
@@ -516,6 +516,39 @@ class DeckManager: NSWindowController {
         
         prevSelected?.state = NSOffState
         sender.state = NSOnState
+    }
+    
+    @IBAction func exportToHearthstone(sender: AnyObject?) {
+        if let deck = currentDeck {
+            let alert = NSAlert()
+            alert.alertStyle = .InformationalAlertStyle
+            // swiftlint:disable line_length
+            alert.messageText = NSString(format: NSLocalizedString("To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.", comment: ""), deck.name!) as String
+            // swiftlint:enable line_length
+            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModalForWindow(self.window!,
+                                           completionHandler: { (returnCode) in
+                                            if returnCode == NSAlertFirstButtonReturn {
+                                                self.exportDeckToHearthstone(deck)
+                                            }
+            })
+        }
+    }
+    
+    private func exportDeckToHearthstone(deck: Deck) {
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
+        let queue = dispatch_get_main_queue()
+        dispatch_after(when, queue) {
+            let automation = Automation()
+            automation.expertDeckToHearthstone(deck) {
+                let alert = NSAlert()
+                alert.alertStyle = .InformationalAlertStyle
+                alert.messageText = NSLocalizedString("Export done", comment: "")
+                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
+                alert.beginSheetModalForWindow(self.window!, completionHandler: nil)
+            }
+        }
     }
 }
 

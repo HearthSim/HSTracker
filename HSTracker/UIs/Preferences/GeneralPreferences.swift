@@ -59,12 +59,12 @@ extension GeneralPreferences: MASPreferencesViewController {
         }
     }
 
-    var toolbarItemImage: NSImage! {
+    var toolbarItemImage: NSImage? {
         return NSImage(named: NSImageNameAdvanced)
 
     }
 
-    var toolbarItemLabel: String! {
+    var toolbarItemLabel: String? {
         return NSLocalizedString("General", comment: "")
     }
 }

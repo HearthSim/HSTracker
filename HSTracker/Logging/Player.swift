@@ -84,6 +84,7 @@ final class Player {
     var id = -1
     var goingFirst = false
     var fatigue = 0
+    var heroPowerCount = 0
     private(set) var spellsPlayedCount = 0
     private(set) var deathrattlesPlayedCount = 0
 
@@ -139,6 +140,7 @@ final class Player {
         fatigue = 0
         spellsPlayedCount = 0
         deathrattlesPlayedCount = 0
+        heroPowerCount = 0
 
         inDeckPredictions.removeAll()
     }
@@ -424,6 +426,11 @@ final class Player {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
+    
+    func createInSetAside(entity: Entity, turn: Int) {
+        entity.info.turn = turn
+        Log.info?.message("\(debugName) \(#function) \(entity)")
+    }
 
     func boardToDeck(entity: Entity, turn: Int) {
         entity.info.turn = turn
@@ -562,6 +569,10 @@ final class Player {
     func secretTriggered(entity: Entity, turn: Int) {
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
+    }
+    
+    func heroPower(turn: Int) {
+        heroPowerCount += 1
     }
 
     private func updateKnownEntitesInDeck(cardId: String?, turn: Int = Int.max) {

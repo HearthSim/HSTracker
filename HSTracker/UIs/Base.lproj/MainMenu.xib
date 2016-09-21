@@ -142,6 +142,16 @@
                                     <action selector="openReplayDirectory:" target="Voe-Tx-rLC" id="JMS-5j-YFt"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Load from file" id="gJj-4D-mrw" userLabel="Load from file">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="importReplay:" target="Voe-Tx-rLC" id="6N7-Qk-dwx"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Last replays" enabled="NO" id="gKK-Xg-cTS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Last replays" id="Ck1-T5-ndx"/>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

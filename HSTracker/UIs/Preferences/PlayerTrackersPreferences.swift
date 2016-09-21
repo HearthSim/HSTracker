@@ -32,7 +32,7 @@ class PlayerTrackersPreferences: NSViewController {
         showPlayerDrawChance.state = settings.showPlayerDrawChance ? NSOnState : NSOffState
         showPlayerGet.state = settings.showPlayerGet ? NSOnState : NSOffState
         showCthunCounter.state = settings.showPlayerCthun ? NSOnState : NSOffState
-        showSpellCounter.state = settings.showPlayerYogg ? NSOnState : NSOffState
+        showSpellCounter.state = settings.showPlayerSpell ? NSOnState : NSOffState
         showDeathrattleCounter.state = settings.showPlayerDeathrattle ? NSOnState : NSOffState
         flashOnDraw.state = settings.flashOnDraw ? NSOnState : NSOffState
         showRecord.state = settings.showWinLossRatio ? NSOnState : NSOffState
@@ -62,7 +62,7 @@ class PlayerTrackersPreferences: NSViewController {
         } else if sender == showCthunCounter {
             settings.showPlayerCthun = showCthunCounter.state == NSOnState
         } else if sender == showSpellCounter {
-            settings.showPlayerYogg = showSpellCounter.state == NSOnState
+            settings.showPlayerSpell = showSpellCounter.state == NSOnState
         } else if sender == showDeathrattleCounter {
             settings.showPlayerDeathrattle = showDeathrattleCounter.state == NSOnState
         } else if sender == flashOnDraw {
@@ -88,11 +88,11 @@ extension PlayerTrackersPreferences: MASPreferencesViewController {
         }
     }
 
-    var toolbarItemImage: NSImage! {
+    var toolbarItemImage: NSImage? {
         return NSImage(named: NSImageNameAdvanced)
     }
 
-    var toolbarItemLabel: String! {
+    var toolbarItemLabel: String? {
         return NSLocalizedString("Player tracker", comment: "")
     }
 }

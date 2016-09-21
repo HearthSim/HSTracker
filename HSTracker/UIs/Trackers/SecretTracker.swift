@@ -43,7 +43,7 @@ class SecretTracker: NSWindowController {
         self.window!.setFrame(NSRect(x: 0, y: 0, width: width, height: 350), display: true)
         self.window!.contentMinSize = NSSize(width: width, height: 350)
         self.window!.contentMaxSize = NSSize(width: width,
-                                             height: Double(NSHeight(NSScreen.mainScreen()!.frame)))
+                                             height: Double(NSScreen.mainScreen()!.frame.height))
 
         table.intercellSpacing = NSSize(width: 0, height: 0)
 
@@ -157,17 +157,17 @@ extension SecretTracker: CardCellHover {
             x = windowRect.origin.x - hoverFrame.size.width
         }
 
-        var y = windowRect.origin.y + NSHeight(windowRect) - offset - 30
-        if y < NSHeight(hoverFrame) {
-            y = NSHeight(hoverFrame)
+        var y = windowRect.origin.y + windowRect.height - offset - 30
+        if y < hoverFrame.height {
+            y = hoverFrame.height
         }
         if let screen = self.window?.screen {
-            if y + NSHeight(hoverFrame) > NSHeight(screen.frame) {
-                y = NSHeight(screen.frame) - NSHeight(hoverFrame)
+            if y + hoverFrame.height > screen.frame.height {
+                y = screen.frame.height - hoverFrame.height
             }
         }
 
-        let frame = [x, y, NSWidth(hoverFrame), NSHeight(hoverFrame)]
+        let frame = [x, y, hoverFrame.width, hoverFrame.height]
         NSNotificationCenter.defaultCenter()
             .postNotificationName("show_floating_card",
                                   object: nil,

@@ -12,7 +12,7 @@ import CleanroomLogger
 
 struct LogLine: CustomStringConvertible {
     let namespace: LogLineNamespace
-    let time: Double
+    let time: NSDate
     let line: String
     let include: Bool
 
@@ -25,41 +25,54 @@ struct LogLine: CustomStringConvertible {
     init(namespace: LogLineNamespace, line: String, include: Bool = true) {
         self.namespace = namespace
         self.line = line
-        self.time = self.dynamicType.parseTime(line)
+        self.time = self.dynamicType.parseTimeAsDate(line)
         self.include = include
     }
-
-    static func parseTime(line: String) -> Double {
+    
+    static func parseTimeAsDate(line: String) -> NSDate {
         guard line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 20 else {
-            return NSDate().timeIntervalSince1970
+            return NSDate()
         }
-
-        let fromLine = line.substringWithRange(2, location: 16)
-
-        let dateTime = NSDate(fromString: fromLine,
-                              inFormat: "HH:mm:ss.SSSS",
+        
+        guard let fromLine = line.substringWithRange(2, location: 16)
+            .componentsSeparatedByString(" ").first else { return NSDate() }
+        
+        guard !fromLine.isEmpty else { return NSDate() }
+        let components = fromLine.componentsSeparatedByString(".")
+        guard components.count >= 1 && components.count <= 2 else { return NSDate() }
+        
+        let dateTime = NSDate(fromString: components[0],
+                              inFormat: "HH:mm:ss",
                               timeZone: nil)
-        let today = NSDate()
-        let dateComponents = NSDateComponents()
-        dateComponents.year = today.year
-        dateComponents.month = today.month
-        dateComponents.day = today.day
-        dateComponents.hour = dateTime.hour
-        dateComponents.minute = dateTime.minute
-        dateComponents.second = dateTime.second
-        dateComponents.nanosecond = dateTime.nanosecond
-        dateComponents.timeZone = NSTimeZone(name: "UTC")
-
-        if let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents) {
-            if date > NSDate() {
-                date.addDays(-1)
+        var nanoseconds = 0
+        if components.count == 2 && components[1].characters.count >= 3 {
+            if let milliseconds = Int(components[1].substringWithRange(0, end: 3)) {
+                nanoseconds = milliseconds * 1000000
             }
-            return date.timeIntervalSince1970
         }
-        return NSDate().timeIntervalSince1970
+        
+        let today = NSDate()
+        if let date = NSDate.NSDateFromYear(year: today.year,
+                                            month: today.month,
+                                            day: today.day,
+                                            hour: dateTime.hour,
+                                            minute: dateTime.minute,
+                                            second: dateTime.second,
+                                            nanosecond: nanoseconds,
+                                            timeZone: NSTimeZone(name: "UTC")) {
+            if date > NSDate() {
+                return date.addDays(-1)!
+            }
+            return date
+        }
+        return dateTime
+    }
+    
+    static func parseTime(line: String) -> Double {
+        return parseTimeAsDate(line).timeIntervalSince1970
     }
 
     var description: String {
-        return "\(namespace): \(NSDate(timeIntervalSince1970: time)): \(line)"
+        return "\(namespace): \(time.millisecondsFormatted): \(line)"
     }
 }

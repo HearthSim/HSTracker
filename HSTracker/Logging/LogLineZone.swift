@@ -14,6 +14,8 @@ class LogLineZone: CustomStringConvertible {
     var filePrinting = "true"
     var consolePrinting = "false"
     var screenPrinting = "false"
+    var verbose = false
+    var requireVerbose = false
     
     init(namespace: LogLineNamespace) {
         self.namespace = namespace
@@ -22,15 +24,21 @@ class LogLineZone: CustomStringConvertible {
     func isValid() -> Bool {
         return logLevel == 1 && filePrinting == "true"
             && consolePrinting == "false" && screenPrinting == "false"
+            && requireVerbose == verbose
     }
     
     func toString() -> String {
-        return "[\(namespace)]\n" +
-            "LogLevel=1\n" +
-            "FilePrinting=true\n" +
-            "ConsolePrinting=false\n" +
-        "ScreenPrinting=false\n"
-        //"Verbose=true\n"
+        var content = [
+            "[\(namespace)]",
+            "LogLevel=1",
+            "FilePrinting=true",
+            "ConsolePrinting=false",
+            "ScreenPrinting=false"
+        ]
+        if requireVerbose {
+            content.append("Verbose=true")
+        }
+        return content.joinWithSeparator("\n") + "\n"
     }
     
     var description: String {
@@ -38,6 +46,8 @@ class LogLineZone: CustomStringConvertible {
             "LogLevel=\(logLevel), " +
             "FilePrinting=\(filePrinting), " +
             "ConsolePrinting=\(consolePrinting), " +
-            "ScreenPrinting=\(screenPrinting)]"
+            "ScreenPrinting=\(screenPrinting), " +
+            "Verbose=\(verbose), " +
+            "RequireVerbose=\(requireVerbose)]"
     }
 }

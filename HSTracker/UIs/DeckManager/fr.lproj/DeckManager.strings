@@ -61,3 +61,9 @@
 
 /* Class = "NSToolbarItem"; paletteLabel = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
 "T0e-lu-Gfj.paletteLabel" = "Statistiques";
+
+/* Class = "NSToolbarItem"; label = "Export HS"; ObjectID = "PLl-9e-lE5"; */
+"PLl-9e-lE5.label" = "Export HS";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Export HS"; ObjectID = "PLl-9e-lE5"; */
+"PLl-9e-lE5.paletteLabel" = "Export HS";

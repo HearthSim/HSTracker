@@ -91,7 +91,9 @@ class NewDeck: NSWindowController {
                                             } else {
                                                 // show error
                                                 let alertDialog: NSAlert = NSAlert()
+                                                // swiftlint:disable line_length
                                                 alertDialog.messageText = NSLocalizedString("Failed to import deck from \n", comment: "") + self.urlDeck.stringValue
+                                                // swiftlint:enable line_length
                                                 alertDialog.runModal()
                                             }
                 })
@@ -99,7 +101,9 @@ class NewDeck: NSWindowController {
                 self.loader.stopAnimation(self)
                 // show error
                 let alertDialog: NSAlert = NSAlert()
+                // swiftlint:disable line_length
                 alertDialog.messageText = NSLocalizedString("Failed to import deck from \n", comment: "") + self.urlDeck.stringValue
+                // swiftlint:enable line_length
                 alertDialog.runModal()
             }
         } else if fromAFile.state == NSOnState {

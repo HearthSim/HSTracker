@@ -13,6 +13,39 @@ import ZipArchive
 
 final class ReplayMaker {
     private static var points = [ReplayKeyPoint]()
+    
+    static func replayDir() -> String? {
+        guard let appSupport = NSSearchPathForDirectoriesInDomains(
+            .ApplicationSupportDirectory, .UserDomainMask, true).first else { return nil }
+        
+        let path = "\(appSupport)/HSTracker/replays"
+        do {
+            try NSFileManager.defaultManager()
+                .createDirectoryAtPath(path,
+                                       withIntermediateDirectories: true,
+                                       attributes: nil)
+        } catch {
+            Log.error?.message("Can not create replays dir")
+            return nil
+        }
+        return path
+    }
+    
+    static func tmpReplayDir() -> String? {
+        guard let path = replayDir() else { return nil }
+        
+        let tmp = "\(path)/tmp"
+        do {
+            try NSFileManager.defaultManager()
+                .createDirectoryAtPath(tmp,
+                                       withIntermediateDirectories: true,
+                                       attributes: nil)
+        } catch {
+            Log.error?.message("Can not create replays tmp dir")
+            return nil
+        }
+        return tmp
+    }
 
     static func reset() { points.removeAll() }
 
@@ -77,24 +110,8 @@ final class ReplayMaker {
             playerHeroName = Cards.heroById(playerHero.cardId)?.name,
             opponentName = opponent.name,
             opponentHeroName = Cards.heroById(opponentHero!.cardId)?.name,
-            appSupport = NSSearchPathForDirectoriesInDomains(
-                .ApplicationSupportDirectory, .UserDomainMask, true).first {
-            
-            let path = "\(appSupport)/HSTracker/replays"
-            let tmp = "\(path)/tmp"
-            do {
-                try NSFileManager.defaultManager()
-                    .createDirectoryAtPath(path,
-                                           withIntermediateDirectories: true,
-                                           attributes: nil)
-                try NSFileManager.defaultManager()
-                    .createDirectoryAtPath(tmp,
-                                           withIntermediateDirectories: true,
-                                           attributes: nil)
-            } catch {
-                Log.error?.message("Can not create replays dir")
-                return
-            }
+            path = replayDir(),
+            tmp = tmpReplayDir() {
 
             /*let data: NSData
             do {

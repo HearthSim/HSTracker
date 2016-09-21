@@ -11,11 +11,13 @@ import Foundation
 extension NSDate {
 
     var utcFormatted: String {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.timeZone = NSTimeZone(name: "UTC")
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dateFormatter.stringFromDate(self)
+        return toDateTimeString(NSTimeZone(name: "UTC"))
     }
+    var millisecondsFormatted: String {
+        return self.toStringInFormat("yyyy-MM-dd HH:mm:ss.SSS",
+                                     inTimeZone: NSTimeZone(name: "UTC"))
+    }
+    
 
     convenience init(fromString: String, inFormat: String, timeZone: NSTimeZone? = nil) {
         let dateFormater = NSDateFormatter()
@@ -141,22 +143,32 @@ extension NSDate {
         }
     }
 
-    public static func NSDateFromYear(
-        year: Int,
-        month: Int,
-        day: Int,
-        hour: Int,
-        minute: Int,
-        second: Int,
-        timeZone: NSTimeZone? = nil
-        ) -> NSDate? {
+    public static func NSDateFromYear(year year: Int = -1, month: Int = -1, day: Int = -1,
+                                           hour: Int = -1, minute: Int = -1, second: Int = -1,
+                                           nanosecond: Int = -1,
+                                           timeZone: NSTimeZone? = nil) -> NSDate? {
         let dateComponents = NSDateComponents()
-        dateComponents.year = year
-        dateComponents.month = month
-        dateComponents.day = day
-        dateComponents.hour = hour
-        dateComponents.minute = minute
-        dateComponents.second = second
+        if year >= -1 {
+            dateComponents.year = year
+        }
+        if month >= -1 {
+            dateComponents.month = month
+        }
+        if day >= -1 {
+            dateComponents.day = day
+        }
+        if hour >= -1 {
+            dateComponents.hour = hour
+        }
+        if minute >= -1 {
+            dateComponents.minute = minute
+        }
+        if second >= -1 {
+            dateComponents.second = second
+        }
+        if nanosecond >= -1 {
+            dateComponents.nanosecond = nanosecond
+        }
 
         if let timeZone = timeZone {
             dateComponents.timeZone = timeZone
@@ -287,6 +299,21 @@ extension NSDate {
 
     public func toCookieString(inTimeZone: NSTimeZone? = nil) -> String {
         return self.toStringInFormat("EEEE',' dd'-'MMM'-'yyyy HH':'mm':'ss z", inTimeZone: inTimeZone)
+    }
+    
+    public func toLocalizedString(dateStyle dateStyle: NSDateFormatterStyle = .MediumStyle,
+                                            timeStyle: NSDateFormatterStyle = .MediumStyle,
+                                            inTimeZone: NSTimeZone? = nil) -> String {
+        let dateformater = NSDateFormatter()
+        dateformater.dateStyle = dateStyle
+        dateformater.timeStyle = timeStyle
+        dateformater.locale = NSLocale.currentLocale()
+        
+        if let timeZone = inTimeZone {
+            dateformater.timeZone = timeZone
+        }
+        
+        return dateformater.stringFromDate(self)
     }
 
     /* COMPARISONS */
@@ -491,6 +518,11 @@ extension NSDate {
         let seconds = NSCalendar.currentCalendar().components(NSCalendarUnit.Second, fromDate: self, toDate: fromDate, options: []).second
         return absoluteValue ? abs(seconds) : seconds
     }
+    
+    public func diffInNanosecond(fromDate: NSDate, absoluteValue: Bool = true) -> Int {
+        let nanoseconds = NSCalendar.currentCalendar().components(NSCalendarUnit.Nanosecond, fromDate: self, toDate: fromDate, options: []).nanosecond
+        return absoluteValue ? abs(nanoseconds) : nanoseconds
+    }
 
     /* MODIFIERS */
 
@@ -507,19 +539,19 @@ extension NSDate {
     }
 
     public func startOfMonth() -> NSDate {
-        return NSDate.NSDateFromYear(self.year, month: self.month, day: 1, hour: 0, minute: 0, second: 0)!
+        return NSDate.NSDateFromYear(year: self.year, month: self.month, day: 1, hour: 0, minute: 0, second: 0)!
     }
 
     public func endOfMonth() -> NSDate {
-        return NSDate.NSDateFromYear(self.year, month: self.month, day: self.dayInMonth, hour: 23, minute: 59, second: 59)!
+        return NSDate.NSDateFromYear(year: self.year, month: self.month, day: self.dayInMonth, hour: 23, minute: 59, second: 59)!
     }
 
     public func startOfYear() -> NSDate {
-        return NSDate.NSDateFromYear(self.year, month: 1, day: 1, hour: 0, minute: 0, second: 0)!
+        return NSDate.NSDateFromYear(year: self.year, month: 1, day: 1, hour: 0, minute: 0, second: 0)!
     }
 
     public func endOfYear() -> NSDate {
-        return NSDate.NSDateFromYear(self.year, month: 12, day: 31, hour: 23, minute: 59, second: 59)!
+        return NSDate.NSDateFromYear(year: self.year, month: 12, day: 31, hour: 23, minute: 59, second: 59)!
     }
 
     public func next() -> NSDate {

@@ -11,18 +11,24 @@ import Foundation
 struct Automation {
     private var queue: dispatch_queue_t = dispatch_queue_create("export.hstracker", nil)
     
-    func expertDeckToHearthstone(deck: Deck) {
+    func expertDeckToHearthstone(deck: Deck, callback: (()->())?) {
         dispatch_async(queue) {
-            
             let searchLocation = SizeHelper.searchLocation()
             let firstCardLocation = SizeHelper.firstCardLocation()
             deck.sortedCards.forEach {
-                self.leftClick(searchLocation)
-                NSThread.sleepForTimeInterval(0.3)
-                self.write($0.name)
-                NSThread.sleepForTimeInterval(0.3)
-                self.doubleClick(firstCardLocation)
-                NSThread.sleepForTimeInterval(0.3)
+                for _ in 1...$0.count {
+                    self.leftClick(searchLocation)
+                    NSThread.sleepForTimeInterval(0.3)
+                    self.write($0.name)
+                    NSThread.sleepForTimeInterval(0.3)
+                    self.doubleClick(firstCardLocation)
+                    NSThread.sleepForTimeInterval(0.3)
+                }
+            }
+            
+            NSThread.sleepForTimeInterval(1)
+            dispatch_async(dispatch_get_main_queue()) {
+                callback?()
             }
         }
     }

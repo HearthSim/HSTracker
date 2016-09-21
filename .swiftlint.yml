@@ -1,6 +1,7 @@
 excluded:
   - Carthage
   - HSTracker/Core/Categories/LinqExtension.swift
+  - HSTracker/Core/Categories/NSData+GZIP.swift
   - HSTrackerUITests
   - HSTrackerTests
 disabled_rules:

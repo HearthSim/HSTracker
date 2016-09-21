@@ -41,7 +41,8 @@ class PlayerBoard {
     
     private func filter(cards: [Entity]) -> [Entity] {
         return cards.filter({ card in
-            return card.getTag(.CARDTYPE) != CardType.ENCHANTMENT.rawValue
+            return card.getTag(.CARDTYPE) != CardType.PLAYER.rawValue
+                && card.getTag(.CARDTYPE) != CardType.ENCHANTMENT.rawValue
                 && card.getTag(.CARDTYPE) != CardType.HERO_POWER.rawValue
                 && card.getTag(.ZONE) != Zone.SETASIDE.rawValue
                 && card.getTag(.ZONE) != Zone.GRAVEYARD.rawValue

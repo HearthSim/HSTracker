@@ -13,7 +13,7 @@ struct FullScreenFxHandler {
     
     static let HeroRegex = "BeginEffect blur \\d => 1"
     
-    private var lastQueueTime: Double = NSDate.distantPast().timeIntervalSince1970
+    private var lastQueueTime: NSDate = NSDate.distantPast()
     
     mutating func handle(game: Game, logLine: LogLine) {
         if logLine.line.match(self.dynamicType.HeroRegex) && game.isInMenu
@@ -21,7 +21,7 @@ struct FullScreenFxHandler {
                 || game.currentMode == .DRAFT ) {
             game.enqueueTime = logLine.time
             Log.info?.message("now in queue (\(logLine.time))")
-            if (NSDate().timeIntervalSince1970 - logLine.time) > 5
+            if NSDate().diffInSeconds(logLine.time) > 5
                 || !game.isInMenu || logLine.time <= lastQueueTime {
                 return
             }

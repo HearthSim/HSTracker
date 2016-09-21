@@ -16,29 +16,25 @@ MiniMagick.configure do |config|
 end
 
 def download(url, image_path)
-  image = MiniMagick::Image.open(url)
-  image.trim
-  image.resize '181x250'
-  image.format 'png'
-  image.write image_path
+  File.open(image_path, "wb") do |saved_file|
+    open(url, "rb") do |read_file|
+      saved_file.write(read_file.read)
+    end
+  end
 end
 
 # download the coin
 langs.each do |lang|
   lang_dir = "/Users/benjamin/Desktop/Cards/#{lang.downcase}"
   unless File.exist?(lang_dir)
-    Dir.mkdir lang_dir
+    FileUtils.mkdir_p lang_dir
   end
-  path = "#{lang_dir}/GAME_005.png"
-  url = "http://wow.zamimg.com/images/hearthstone/cards/#{lang.downcase}/medium/GAME_005.png"
-  puts "Downloading GAME_005 #{lang.downcase}"
-  download(url, path)
 end
 
 File.open("#{resource_dir}/cardsDB.enUS.json", 'r') do |file|
   cards = JSON.parse file.read
 
-  download_cards = []
+  download_cards = ['GAME_005']
 
   cards.each do |card|
     next unless valid_card_set.include?(card['set'])
@@ -63,7 +59,7 @@ File.open("#{resource_dir}/cardsDB.enUS.json", 'r') do |file|
 
       image_path = "#{lang_dir}#{card['id']}.png"
       unless File.exist? image_path
-        url = "http://wow.zamimg.com/images/hearthstone/cards/#{lang.downcase}/medium/#{card['id']}.png?12576"
+        url = "http://wow.zamimg.com/images/hearthstone/cards/#{lang.downcase}/medium/#{card['id']}.png?13921"
 
         download(url, image_path)
       end

@@ -139,6 +139,9 @@ class Tracker: NSWindowController {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
         }
         self.window!.level = level
+        
+        //self.window!.level = Int(CGWindowLevelForKey(.MainMenuWindowLevelKey)) - 1
+        //self.window!.collectionBehavior = [.Stationary, .CanJoinAllSpaces, .FullScreenAuxiliary]
     }
 
     func hearthstoneActive(notification: NSNotification) {
@@ -197,7 +200,7 @@ class Tracker: NSWindowController {
 
         self.window!.contentMinSize = NSSize(width: CGFloat(width), height: 400)
         self.window!.contentMaxSize = NSSize(width: CGFloat(width),
-                                             height: NSHeight(NSScreen.mainScreen()!.frame))
+                                             height: NSScreen.mainScreen()!.frame.height)
     }
 
     func opacityChange(notification: NSNotification) {
@@ -289,8 +292,8 @@ class Tracker: NSWindowController {
         guard let windowFrame = self.window?.contentView?.frame else { return }
         let settings = Settings.instance
 
-        let windowWidth = NSWidth(windowFrame)
-        let windowHeight = NSHeight(windowFrame)
+        let windowWidth = windowFrame.width
+        let windowHeight = windowFrame.height
 
         let ratio: CGFloat
         switch settings.cardSize {
@@ -638,13 +641,13 @@ extension Tracker: CardCellHover {
 
         var y: CGFloat = max(30,
                              windowRect.origin.y + cardsView.frame.origin.y
-                                + rect.origin.y - (NSHeight(hoverFrame) / 2))
+                                + rect.origin.y - (hoverFrame.height / 2))
         if let screen = self.window?.screen {
-            if y + NSHeight(hoverFrame) > NSHeight(screen.frame) {
-                y = NSHeight(screen.frame) - NSHeight(hoverFrame)
+            if y + hoverFrame.height > screen.frame.height {
+                y = screen.frame.height - hoverFrame.height
             }
         }
-        let frame = [x, y, NSWidth(hoverFrame), NSHeight(hoverFrame)]
+        let frame = [x, y, hoverFrame.width, hoverFrame.height]
         NSNotificationCenter.defaultCenter()
             .postNotificationName("show_floating_card",
                                   object: nil,

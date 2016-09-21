@@ -54,6 +54,7 @@ final class Hearthstone: NSObject {
 
     func setup() throws -> Bool {
         let fileManager = NSFileManager.defaultManager()
+        let requireVerbose = [LogLineNamespace.Power]
 
         // make sure the path exists
         let dir = NSString(string: configPath).stringByDeletingLastPathComponent
@@ -105,6 +106,7 @@ final class Hearthstone: NSObject {
                     let zone = zoneData.removeFirst()
                     if let currentZone = LogLineNamespace(rawValue: zone) {
                         let logLineZone = LogLineZone(namespace: currentZone)
+                        logLineZone.requireVerbose = requireVerbose.contains(currentZone)
                         for line in zoneData {
                             let kv = line.characters.split { $0 == "=" }.map(String.init)
                             if let key = kv.first, value = kv.last {
@@ -113,6 +115,7 @@ final class Hearthstone: NSObject {
                                 case "FilePrinting": logLineZone.filePrinting = value
                                 case "ConsolePrinting": logLineZone.consolePrinting = value
                                 case "ScreenPrinting": logLineZone.screenPrinting = value
+                                case "Verbose": logLineZone.verbose = value == "true"
                                 default: break
                                 }
                             }
@@ -150,7 +153,9 @@ final class Hearthstone: NSObject {
         if !missingZones.isEmpty {
             var fileContent: String = ""
             for zone in zones {
-                fileContent += LogLineZone(namespace: zone).toString()
+                let logZone = LogLineZone(namespace: zone)
+                logZone.requireVerbose = requireVerbose.contains(zone)
+                fileContent += logZone.toString()
             }
 
             do {

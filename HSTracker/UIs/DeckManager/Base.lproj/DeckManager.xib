@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
@@ -535,10 +535,16 @@
                             <action selector="trackobotLogin:" target="-2" id="4xl-K3-4pG"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="51D25816-2FB6-44D9-A6C0-63CD85BE8C03" explicitItemIdentifier="export_hearthstone" label="Export HS" paletteLabel="Export HS" tag="-1" image="hearthstone" id="PLl-9e-lE5">
+                        <connections>
+                            <action selector="exportToHearthstone:" target="-2" id="F7f-kw-pom"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
                     <toolbarItem reference="3nu-q9-wC1"/>
+                    <toolbarItem reference="PLl-9e-lE5"/>
                     <toolbarItem reference="T0e-lu-Gfj"/>
                     <toolbarItem reference="Qp2-0h-Sid"/>
                     <toolbarItem reference="cbH-rI-BvP"/>
@@ -568,6 +574,7 @@
         <image name="edit-deck" width="32" height="32"/>
         <image name="gitter" width="32" height="32"/>
         <image name="hearthstats_icon" width="7.679999828338623" height="7.1999998092651367"/>
+        <image name="hearthstone" width="32" height="32"/>
         <image name="hunter" width="344.8800048828125" height="344.8800048828125"/>
         <image name="hunter_dark" width="1437" height="1437"/>
         <image name="mage" width="344.8800048828125" height="344.8800048828125"/>

@@ -132,3 +132,9 @@
 "The Climb" = "La montée";
 "all_seasons" = "Toutes les saisons";
 "season" = "Saison %@";
+
+"Vs %@" = "Contre %@";
+"%@ vs %@" = "%@ contre %@";
+"Your replay has been uploaded on HSReplay" = "Votre replay a été sauvegardé sur HSReplay";
+"View" = "Voir";
+"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "Pour exporter un deck dans Hearthstone, créez un nouveau deck avec la bonne classe dans votre collection, puis, cliquez sur OK et retournez sur Hearthstone.\nNe touchez pas votre souris ou votre clavier pendant l'import.\nATTENTION, ceci est une fonctionnalité en beta !";

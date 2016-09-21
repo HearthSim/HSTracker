@@ -25,6 +25,11 @@ class WotogCounterHelper {
         return Game.instance.player.playerEntities
             .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.NzothTheCorruptor })
     }
+    static var playerArcaneGiant: Entity? {
+        return Game.instance.player.playerEntities
+            .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.ArcaneGiant
+                && $0.info.originalZone != nil })
+    }
 
     static var opponentCthun: Entity? {
         return Game.instance.opponent.playerEntities
@@ -47,6 +52,9 @@ class WotogCounterHelper {
     static var yoggInDeck: Bool? {
         return deckContains(CardIds.Collectible.Neutral.YoggSaronHopesEnd)
     }
+    static var arcaneGiantInDeck: Bool? {
+        return deckContains(CardIds.Collectible.Neutral.ArcaneGiant)
+    }
     static var nzothInDeck: Bool? {
         return deckContains(CardIds.Collectible.Neutral.NzothTheCorruptor)
     }
@@ -56,8 +64,11 @@ class WotogCounterHelper {
     }
 
     static var showPlayerSpellsCounter: Bool {
-        return Settings.instance.showPlayerYogg
-            && yoggInDeck != nil && (playerYogg != nil || yoggInDeck == true)
+        guard Settings.instance.showPlayerSpell else { return false }
+
+        return (yoggInDeck != nil && (playerYogg != nil || yoggInDeck == true))
+                || (arcaneGiantInDeck != nil
+                    && (playerArcaneGiant != nil || arcaneGiantInDeck == true))
     }
 
     static var showPlayerDeathrattleCounter: Bool {
@@ -70,7 +81,7 @@ class WotogCounterHelper {
     }
 
     static var showOpponentSpellsCounter: Bool {
-        return Settings.instance.showOpponentYogg
+        return Settings.instance.showOpponentSpell
     }
 
     static var showOpponentDeathrattleCounter: Bool {

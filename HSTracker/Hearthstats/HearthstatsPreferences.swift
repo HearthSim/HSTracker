@@ -43,11 +43,11 @@ extension HearthstatsPreferences: MASPreferencesViewController {
         }
     }
 
-    var toolbarItemImage: NSImage! {
+    var toolbarItemImage: NSImage? {
         return NSImage(named: "hearthstats_icon")
     }
 
-    var toolbarItemLabel: String! {
+    var toolbarItemLabel: String? {
         return "Hearthstats"
     }
 }

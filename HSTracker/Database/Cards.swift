@@ -81,7 +81,10 @@ final class Cards {
     }
     
     static func byEnglishNameCaseInsensitive(name: String) -> Card? {
-        if let card = collectible().firstWhere({ $0.enName.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame || $0.name.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame}) {
+        if let card = collectible().firstWhere({
+            $0.enName.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame ||
+                $0.name.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame
+        }) {
             return card.copy()
         }
         return nil

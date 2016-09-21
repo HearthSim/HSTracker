@@ -63,7 +63,7 @@ struct TrackOBotAPI {
     */
     
     // MARK: - matches
-    static func postMatch(game: Game, deck: Deck, stat: Statistic) throws {
+    static func postMatch(game: Game, playerClass: CardClass, stat: Statistic) throws {
         let settings = Settings.instance
         guard let username = settings.trackobotUsername else {
             throw TrackOBotError.NotLogged
@@ -91,7 +91,7 @@ struct TrackOBotAPI {
         
         let parameters: [String: AnyObject] = [
             "result": [
-                "hero": deck.playerClass.rawValue.capitalizedString,
+                "hero": playerClass.rawValue.capitalizedString,
                 "opponent": stat.opponentClass.rawValue.capitalizedString,
                 "mode": mode,
                 "coin": stat.hasCoin,

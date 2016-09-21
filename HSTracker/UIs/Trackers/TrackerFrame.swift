@@ -28,7 +28,7 @@ enum CardSize: Int {
 class TextFrame: NSView {
 
     init() {
-        super.init(frame: NSZeroRect)
+        super.init(frame: NSRect.zero)
         initLayers()
     }
 

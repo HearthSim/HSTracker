@@ -80,12 +80,9 @@ struct TagChangeActions {
 
     private func numTurnsInPlayChange(game: Game, id: Int, value: Int) {
         guard value > 0 else { return }
-        guard let opponentEntity = game.opponentEntity else { return }
         guard let entity = game.entities[id] else { return }
         
-        if opponentEntity.isCurrentPlayer {
-            game.opponentTurnStart(entity)
-        }
+        game.turnsInPlayChange(entity, turn: game.turnNumber())
     }
 
     private func fatigueChange(game: Game, value: Int, id: Int) {
@@ -207,7 +204,6 @@ struct TagChangeActions {
         guard let playerEntity = game.playerEntity else { return }
 
         let activePlayer: PlayerType = playerEntity.hasTag(.CURRENT_PLAYER) ? .Player : .Opponent
-        game.turnStart(activePlayer, turn: game.turnNumber())
         
         if activePlayer == .Player {
             game.playerUsedHeroPower = false
@@ -416,6 +412,13 @@ struct TagChangeActions {
                                               fromZone: prevZone, otherId: id)
                 }
                 game.proposeKeyPoint(.SecretPlayed, id: id, player: .Opponent)
+            }
+            
+        case .SETASIDE:
+            if controller == game.player.id {
+                game.playerCreateInSetAside(entity, turn: game.turnNumber())
+            } else if controller == game.opponent.id {
+                game.opponentCreateInSetAside(entity, turn: game.turnNumber())
             }
             
         default:

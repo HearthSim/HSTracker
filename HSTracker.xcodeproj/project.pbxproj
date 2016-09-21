@@ -16,6 +16,9 @@
 		4305CA441CF42AE50048E7EC /* Unbox.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
+		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
+		4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */; };
+		4308EB831D775E2C000897C8 /* UpdatePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4308EB851D775E2C000897C8 /* UpdatePreferences.xib */; };
 		4311E6AB1D2EF49300DDA546 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C92C68141D1F6F4F009030DC /* SQLite.framework */; };
 		4311E6AC1D2EF49300DDA546 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; };
 		4311E6AD1D2EF49300DDA546 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436F5D401D001A6D00DEB9A1 /* GPUImage.framework */; };
@@ -51,6 +54,13 @@
 		432B60371CBD269700B05D19 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60361CBD269700B05D19 /* Color.swift */; };
 		432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60381CBF9AD700B05D19 /* ManaGemButton.swift */; };
 		432C11AB1CCF6B460067C5FE /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C11AA1CCF6B460067C5FE /* Format.swift */; };
+		433554331D5F6B4400277B27 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
+		433554351D5F6B9900277B27 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554341D5F6B9900277B27 /* NSData+GZIP.swift */; };
+		433554391D5FABD600277B27 /* HSReplayPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554381D5FABD600277B27 /* HSReplayPreferences.swift */; };
+		4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */; };
+		433554561D62EE1200277B27 /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554551D62EE1200277B27 /* PlayerType.swift */; };
+		433554581D62EE2D00277B27 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554571D62EE2D00277B27 /* NotificationType.swift */; };
+		4335545B1D65944700277B27 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4335545A1D65944700277B27 /* Toast.swift */; };
 		434106A41C9868620045655A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A11C9868620045655A /* Assets.xcassets */; };
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
@@ -91,9 +101,9 @@
 		434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CB01D0C507900222B8E /* ImageCompare.swift */; };
 		434D1CB31D0C70DA00222B8E /* Ranks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB21D0C70DA00222B8E /* Ranks.xcassets */; };
 		434D1CB41D10947200222B8E /* Statistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB61D10947200222B8E /* Statistics.xib */; };
+		43552F631D7368AE00980ABA /* MetaTagImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43552F621D7368AE00980ABA /* MetaTagImporter.swift */; };
 		435907EC1CB13835008D4363 /* FileImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435907EB1CB13835008D4363 /* FileImporter.swift */; };
-		4359BF761D51043300F61993 /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4359BF751D51043300F61993 /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */; };
+		4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF7A1D51EED200F61993 /* TrackOBotLogin.swift */; };
 		4359BF7F1D51F2EE00F61993 /* TrackOBotAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF7E1D51F2EE00F61993 /* TrackOBotAPI.swift */; };
 		4359BF801D51FCE100F61993 /* TrackOBotLogin.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4359BF821D51FCE100F61993 /* TrackOBotLogin.xib */; };
@@ -215,6 +225,15 @@
 		43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */; };
 		43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */; };
 		43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E81D5D0F5700451B6F /* LogLineZone.swift */; };
+		43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567EB1D5E314500451B6F /* HSReplay.swift */; };
+		43C567F51D5E342C00451B6F /* BuildDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567F41D5E342C00451B6F /* BuildDates.swift */; };
+		43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567FC1D5E448200451B6F /* HSReplayManager.swift */; };
+		43C567FF1D5E4F9700451B6F /* HSReplayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567FE1D5E4F9700451B6F /* HSReplayAPI.swift */; };
+		43C568011D5E584F00451B6F /* LogUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568001D5E584F00451B6F /* LogUploader.swift */; };
+		43C568031D5E59E500451B6F /* UploadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568021D5E59E500451B6F /* UploadResult.swift */; };
+		43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568041D5E5BFF00451B6F /* UploadMetaData.swift */; };
+		43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
+		43C568111D5F698C00451B6F /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
@@ -309,7 +328,6 @@
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
-				4359BF761D51043300F61993 /* ZipArchive.framework in Embed Frameworks */,
 				4305CA3F1CF42AC70048E7EC /* Unbox.framework in Embed Frameworks */,
 				436F5D411D001A6D00DEB9A1 /* GPUImage.framework in Embed Frameworks */,
 				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
@@ -318,6 +336,7 @@
 				436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
 				436789D31CAE484800C962D1 /* Alamofire.framework in Embed Frameworks */,
+				43C568111D5F698C00451B6F /* ZipArchive.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -333,6 +352,15 @@
 		4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Unbox.framework.dSYM; path = Carthage/Build/Mac/Unbox.framework.dSYM; sourceTree = "<group>"; };
 		4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Wrap.framework.dSYM; path = Carthage/Build/Mac/Wrap.framework.dSYM; sourceTree = "<group>"; };
 		4305CA461CF434E30048E7EC /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
+		4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReleaseChannel.swift; sourceTree = "<group>"; };
+		4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePreferences.swift; sourceTree = "<group>"; };
+		4308EB841D775E2C000897C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/UpdatePreferences.xib; sourceTree = "<group>"; };
+		4308EB871D775E2E000897C8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
+		4308EB891D775E30000897C8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
+		4308EB8B1D775E31000897C8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
+		4308EB8D1D775E33000897C8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
+		4308EB8F1D775E35000897C8 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/UpdatePreferences.strings"; sourceTree = "<group>"; };
+		4308EB911D775E36000897C8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UpdatePreferences.strings"; sourceTree = "<group>"; };
 		4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsAPI.swift; sourceTree = "<group>"; };
 		4312AFF21CA0401B00F3F2BE /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
@@ -364,7 +392,6 @@
 		432B5FD41CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		432B5FD51CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GamePreferences.strings; sourceTree = "<group>"; };
 		432B5FD61CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
-		432B5FD71CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		432B5FD81CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FD91CB5492500B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/DeckManager.strings; sourceTree = "<group>"; };
 		432B5FDA1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/NewDeck.strings; sourceTree = "<group>"; };
@@ -440,6 +467,23 @@
 		432B60361CBD269700B05D19 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		432B60381CBF9AD700B05D19 /* ManaGemButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManaGemButton.swift; sourceTree = "<group>"; };
 		432C11AA1CCF6B460067C5FE /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
+		433554301D5F6B3600277B27 /* include.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
+		433554311D5F6B3600277B27 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		433554321D5F6B4400277B27 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		433554341D5F6B9900277B27 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
+		433554381D5FABD600277B27 /* HSReplayPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplayPreferences.swift; sourceTree = "<group>"; };
+		4335543B1D5FAF0300277B27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HSReplayPreferences.xib; sourceTree = "<group>"; };
+		4335543E1D5FAF0600277B27 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/HSReplayPreferences.strings"; sourceTree = "<group>"; };
+		433554401D5FAF0800277B27 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/HSReplayPreferences.strings"; sourceTree = "<group>"; };
+		433554421D5FAF0A00277B27 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		433554441D5FAF0B00277B27 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		433554461D5FAF0F00277B27 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		4335544A1D5FB7AF00277B27 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
+		4335544C1D5FB8D700277B27 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		4335544E1D5FBDFB00277B27 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		433554551D62EE1200277B27 /* PlayerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerType.swift; sourceTree = "<group>"; };
+		433554571D62EE2D00277B27 /* NotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationType.swift; sourceTree = "<group>"; };
+		4335545A1D65944700277B27 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
 		434910441D09505100B22DB2 /* BoardDamage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardDamage.xib; sourceTree = "<group>"; };
@@ -470,8 +514,8 @@
 		434D1CBE1D10948200222B8E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Statistics.strings; sourceTree = "<group>"; };
 		434D1CC01D10948400222B8E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Statistics.strings"; sourceTree = "<group>"; };
 		434D1CC21D10948700222B8E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Statistics.strings"; sourceTree = "<group>"; };
+		43552F621D7368AE00980ABA /* MetaTagImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MetaTagImporter.swift; path = Handlers/MetaTagImporter.swift; sourceTree = "<group>"; };
 		435907EB1CB13835008D4363 /* FileImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImporter.swift; sourceTree = "<group>"; };
-		4359BF751D51043300F61993 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = Carthage/Build/Mac/ZipArchive.framework; sourceTree = "<group>"; };
 		4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = ZipArchive.framework.dSYM; path = Carthage/Build/Mac/ZipArchive.framework.dSYM; sourceTree = "<group>"; };
 		4359BF7A1D51EED200F61993 /* TrackOBotLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackOBotLogin.swift; sourceTree = "<group>"; };
 		4359BF7E1D51F2EE00F61993 /* TrackOBotAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackOBotAPI.swift; sourceTree = "<group>"; };
@@ -485,7 +529,6 @@
 		4359BF8F1D51FD5500F61993 /* TrackOBotPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackOBotPreferences.swift; sourceTree = "<group>"; };
 		4359BF931D52142D00F61993 /* PlayedCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayedCard.swift; sourceTree = "<group>"; };
 		4359BF961D5221FF00F61993 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TrackOBotPreferences.xib; sourceTree = "<group>"; };
-		4359BF991D52220100F61993 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
 		4359BF9B1D52220300F61993 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
 		4359BF9D1D52220400F61993 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
 		4359BF9F1D52220600F61993 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
@@ -617,6 +660,14 @@
 		43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
 		43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLineNamespace.swift; sourceTree = "<group>"; };
 		43C567E81D5D0F5700451B6F /* LogLineZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLineZone.swift; sourceTree = "<group>"; };
+		43C567EB1D5E314500451B6F /* HSReplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplay.swift; sourceTree = "<group>"; };
+		43C567F41D5E342C00451B6F /* BuildDates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuildDates.swift; sourceTree = "<group>"; };
+		43C567FC1D5E448200451B6F /* HSReplayManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplayManager.swift; sourceTree = "<group>"; };
+		43C567FE1D5E4F9700451B6F /* HSReplayAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplayAPI.swift; sourceTree = "<group>"; };
+		43C568001D5E584F00451B6F /* LogUploader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogUploader.swift; sourceTree = "<group>"; };
+		43C568021D5E59E500451B6F /* UploadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadResult.swift; sourceTree = "<group>"; };
+		43C568041D5E5BFF00451B6F /* UploadMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadMetaData.swift; sourceTree = "<group>"; };
+		43C5680F1D5F692800451B6F /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = Carthage/Build/Mac/ZipArchive.framework; sourceTree = "<group>"; };
 		43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSTrackerLogFormatter.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
@@ -668,11 +719,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
 				C92C68151D1F6F4F009030DC /* SQLite.framework in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				436789D21CAE484800C962D1 /* Alamofire.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				4305CA3E1CF42AC70048E7EC /* Unbox.framework in Frameworks */,
+				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
 				436789DA1CAE484800C962D1 /* JNWCollectionView.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
@@ -723,6 +776,23 @@
 			path = Hearthstats;
 			sourceTree = "<group>";
 		};
+		4335542F1D5F6B3600277B27 /* zlib */ = {
+			isa = PBXGroup;
+			children = (
+				433554301D5F6B3600277B27 /* include.h */,
+				433554311D5F6B3600277B27 /* module.modulemap */,
+			);
+			path = zlib;
+			sourceTree = "<group>";
+		};
+		433554591D65940300277B27 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				4335545A1D65944700277B27 /* Toast.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		434106A01C9868620045655A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -753,6 +823,7 @@
 				434C2F2E1C7F437D001D1D91 /* NetImporter.swift */,
 				434C2F411C7F50F4001D1D91 /* BaseNetImporter.swift */,
 				435907EB1CB13835008D4363 /* FileImporter.swift */,
+				43552F621D7368AE00980ABA /* MetaTagImporter.swift */,
 			);
 			path = Importers;
 			sourceTree = "<group>";
@@ -801,6 +872,8 @@
 				432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */,
 				437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */,
 				437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */,
+				4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */,
+				4308EB851D775E2C000897C8 /* UpdatePreferences.xib */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -914,6 +987,7 @@
 				43873CBF1CA6E68D00F01CB4 /* Debug */,
 				4312AFED1C9FED3100F3F2BE /* Hearthstats */,
 				43B695551C90653A00F4D0AC /* Hearthstone */,
+				43C567EA1D5E309600451B6F /* HSReplay */,
 				434C2F2D1C7F433E001D1D91 /* Importers */,
 				439C7E931C777F8900D29859 /* Logging */,
 				43B6954E1C90387F00F4D0AC /* Replay */,
@@ -972,11 +1046,13 @@
 		439C7E901C777EE800D29859 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				43C568081D5F60C400451B6F /* Libraries */,
 				43647A571CDF491F00C2B78E /* CleanroomLogger */,
 				43E77EEB1C969C2500C26950 /* Regex */,
 				439C7EE71C777FCF00D29859 /* Categories */,
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 				43D307FA1C83159C00480488 /* SizeHelper.swift */,
+				4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1025,6 +1101,8 @@
 				431AA0CA1D362DBA0030AD22 /* Faction.swift */,
 				431AA0CC1D362ECB0030AD22 /* Race.swift */,
 				431AA0CE1D3632BC0030AD22 /* CardClass.swift */,
+				433554551D62EE1200277B27 /* PlayerType.swift */,
+				433554571D62EE2D00277B27 /* NotificationType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1049,6 +1127,7 @@
 		439C7ECD1C777FA900D29859 /* UIs */ = {
 			isa = PBXGroup;
 			children = (
+				433554591D65940300277B27 /* Toast */,
 				C99C0C961D0A6062000DD6FB /* StatsManager */,
 				436F5D0A1CFD5F4900DEB9A1 /* Cards */,
 				4360329E1C7D0113005F1893 /* DeckManager */,
@@ -1096,6 +1175,7 @@
 				43E77EE91C95713300C26950 /* Date.swift */,
 				4312AFF21CA0401B00F3F2BE /* Int.swift */,
 				432B60361CBD269700B05D19 /* Color.swift */,
+				433554341D5F6B9900277B27 /* NSData+GZIP.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1126,6 +1206,38 @@
 				43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */,
 			);
 			path = Secrets;
+			sourceTree = "<group>";
+		};
+		43C567EA1D5E309600451B6F /* HSReplay */ = {
+			isa = PBXGroup;
+			children = (
+				43C567EE1D5E334000451B6F /* Converter */,
+				43C567EB1D5E314500451B6F /* HSReplay.swift */,
+				43C567FC1D5E448200451B6F /* HSReplayManager.swift */,
+				43C567FE1D5E4F9700451B6F /* HSReplayAPI.swift */,
+				43C568001D5E584F00451B6F /* LogUploader.swift */,
+				43C568021D5E59E500451B6F /* UploadResult.swift */,
+				43C568041D5E5BFF00451B6F /* UploadMetaData.swift */,
+				4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */,
+				433554381D5FABD600277B27 /* HSReplayPreferences.swift */,
+			);
+			path = HSReplay;
+			sourceTree = "<group>";
+		};
+		43C567EE1D5E334000451B6F /* Converter */ = {
+			isa = PBXGroup;
+			children = (
+				43C567F41D5E342C00451B6F /* BuildDates.swift */,
+			);
+			path = Converter;
+			sourceTree = "<group>";
+		};
+		43C568081D5F60C400451B6F /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				4335542F1D5F6B3600277B27 /* zlib */,
+			);
+			path = Libraries;
 			sourceTree = "<group>";
 		};
 		43E77EEB1C969C2500C26950 /* Regex */ = {
@@ -1162,6 +1274,7 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				433554321D5F6B4400277B27 /* libz.tbd */,
 				436F5D3E1D001A5E00DEB9A1 /* GPUImage.framework.dSYM */,
 				438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */,
 				436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */,
@@ -1175,7 +1288,7 @@
 				4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
 				4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */,
-				4359BF751D51043300F61993 /* ZipArchive.framework */,
+				43C5680F1D5F692800451B6F /* ZipArchive.framework */,
 				C92C68141D1F6F4F009030DC /* SQLite.framework */,
 				4394C79D1D188F9400007FAD /* opencv2.framework */,
 				436F5D401D001A6D00DEB9A1 /* GPUImage.framework */,
@@ -1290,6 +1403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */,
+				4308EB831D775E2C000897C8 /* UpdatePreferences.xib in Resources */,
 				432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */,
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
 				434910451D09505100B22DB2 /* BoardDamage.xib in Resources */,
@@ -1298,6 +1412,7 @@
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
+				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
 				43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */,
 				432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */,
 				432B60101CB63D4C00B05D19 /* HearthstatsLogin.xib in Resources */,
@@ -1371,6 +1486,7 @@
 				43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */,
 				436F5D141CFD803C00DEB9A1 /* FrostBar.swift in Sources */,
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
+				433554351D5F6B9900277B27 /* NSData+GZIP.swift in Sources */,
 				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
@@ -1390,7 +1506,9 @@
 				439C7EC21C777F8900D29859 /* BobHandler.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				439C7EC51C777F8900D29859 /* PowerGameStateHandler.swift in Sources */,
+				43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */,
 				43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */,
+				43C567FF1D5E4F9700451B6F /* HSReplayAPI.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */,
@@ -1409,6 +1527,7 @@
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
+				4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
@@ -1428,6 +1547,7 @@
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
+				433554581D62EE2D00277B27 /* NotificationType.swift in Sources */,
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
 				4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
@@ -1443,17 +1563,21 @@
 				434C2F321C7F475E001D1D91 /* Hearthpwn.swift in Sources */,
 				4305CA471CF434E30048E7EC /* Cards.swift in Sources */,
 				43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */,
+				43C568031D5E59E500451B6F /* UploadResult.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
 				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
+				43C567F51D5E342C00451B6F /* BuildDates.swift in Sources */,
 				4359BF901D51FD5500F61993 /* TrackOBotPreferences.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
+				4335545B1D65944700277B27 /* Toast.swift in Sources */,
 				C99C0C991D0A6079000DD6FB /* Statistics.swift in Sources */,
+				43552F631D7368AE00980ABA /* MetaTagImporter.swift in Sources */,
 				434C2F341C7F4816001D1D91 /* HearthpwnDeckBuilder.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
@@ -1462,6 +1586,7 @@
 				4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				340A15041D0939380012CA44 /* Draft.swift in Sources */,
+				43C568011D5E584F00451B6F /* LogUploader.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
 				C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */,
@@ -1473,15 +1598,20 @@
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
+				433554561D62EE1200277B27 /* PlayerType.swift in Sources */,
 				434C2F3A1C7F48BE001D1D91 /* Hearthhead.swift in Sources */,
+				4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */,
 				4394C79B1D18700200007FAD /* CVRankDetector.cpp in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
 				436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */,
+				433554391D5FABD600277B27 /* HSReplayPreferences.swift in Sources */,
 				439C7EBC1C777F8900D29859 /* PlayState.swift in Sources */,
 				43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */,
 				437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */,
 				4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */,
+				43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
+				43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */,
 				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
 				43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */,
 				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,
@@ -1531,6 +1661,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4308EB851D775E2C000897C8 /* UpdatePreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4308EB841D775E2C000897C8 /* Base */,
+				4308EB871D775E2E000897C8 /* fr */,
+				4308EB891D775E30000897C8 /* de */,
+				4308EB8B1D775E31000897C8 /* es */,
+				4308EB8D1D775E33000897C8 /* it */,
+				4308EB8F1D775E35000897C8 /* pt-BR */,
+				4308EB911D775E36000897C8 /* zh-Hans */,
+			);
+			name = UpdatePreferences.xib;
+			sourceTree = "<group>";
+		};
 		432B5FAD1CB5351800B05D19 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1550,12 +1694,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				432B5FB11CB536E700B05D19 /* Base */,
-				432B5FD71CB5378C00B05D19 /* fr */,
 				432B5FE21CB5492600B05D19 /* de */,
 				432B5FED1CB549F100B05D19 /* es */,
 				432B5FF81CB54A3600B05D19 /* it */,
 				432B60031CB54A6800B05D19 /* pt-BR */,
 				432B600E1CB54AD700B05D19 /* zh-Hans */,
+				4335544E1D5FBDFB00277B27 /* fr */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -1714,6 +1858,20 @@
 			name = HearthstatsPreferences.xib;
 			sourceTree = "<group>";
 		};
+		4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4335543B1D5FAF0300277B27 /* Base */,
+				4335543E1D5FAF0600277B27 /* zh-Hans */,
+				433554401D5FAF0800277B27 /* pt-BR */,
+				433554421D5FAF0A00277B27 /* it */,
+				433554441D5FAF0B00277B27 /* es */,
+				433554461D5FAF0F00277B27 /* de */,
+				4335544C1D5FB8D700277B27 /* fr */,
+			);
+			name = HSReplayPreferences.xib;
+			sourceTree = "<group>";
+		};
 		434D1CB61D10947200222B8E /* Statistics.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1747,12 +1905,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				4359BF961D5221FF00F61993 /* Base */,
-				4359BF991D52220100F61993 /* fr */,
 				4359BF9B1D52220300F61993 /* de */,
 				4359BF9D1D52220400F61993 /* es */,
 				4359BF9F1D52220600F61993 /* it */,
 				4359BFA11D52220700F61993 /* pt-BR */,
 				4359BFA31D52220800F61993 /* zh-Hans */,
+				4335544A1D5FB7AF00277B27 /* fr */,
 			);
 			name = TrackOBotPreferences.xib;
 			sourceTree = "<group>";
@@ -1920,6 +2078,7 @@
 				OTHER_SWIFT_FLAGS = "-DDEBUG $(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/HSTracker/Core/Libraries/zlib";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1945,6 +2104,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/HSTracker/Core/Libraries/zlib";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 			};
 			name = Release;

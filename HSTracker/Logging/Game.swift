@@ -10,13 +10,17 @@
 
 import Foundation
 import CleanroomLogger
-import Wrap
 
-enum PlayerType: Int, WrappableEnum {
-    case Player, Opponent, DeckManager, Secrets, CardList, Hero
+struct PlayerTurn: Hashable {
+    let player: PlayerType
+    let turn: Int
+    
+    var hashValue: Int {
+    return player.rawValue.hashValue ^ turn.hashValue
+    }
 }
-enum NotificationType {
-    case GameStart, TurnStart, OpponentConcede
+func == (lhs: PlayerTurn, rhs: PlayerTurn) -> Bool {
+    return lhs.player == rhs.player && lhs.turn == rhs.turn
 }
 
 class Game {
@@ -75,14 +79,17 @@ class Game {
     private var endGameStats = false
     var wasInProgress = false
     private var hasBeenConceded = false
-    var enqueueTime: Double = NSDate.distantPast().timeIntervalSince1970
+    var enqueueTime: NSDate = NSDate.distantPast()
+    private var lastCompetitiveSpiritCheck: Int = 0
+    private var lastTurnStart: [Int] = [0, 0]
+    private var turnQueue: Set<PlayerTurn> = Set()
     
     private var rankDetector = CVRankDetection()
     private var playerRanks: [Int] = []
     private var opponentRanks: [Int] = []
 
     private var lastCardsUpdateRequest = NSDate.distantPast().timeIntervalSince1970
-    private var lastGameStartTimestamp: Double = NSDate.distantPast().timeIntervalSince1970
+    private var lastGameStartTimestamp: NSDate = NSDate.distantPast()
 
     var playerEntity: Entity? {
         return entities.map { $0.1 }.firstWhere { $0.isPlayer }
@@ -179,6 +186,7 @@ class Game {
         endGameStats = false
         wasInProgress = false
         hasBeenConceded = false
+        lastTurnStart = [0, 0]
 
         player.reset()
         opponent.reset()
@@ -236,9 +244,9 @@ class Game {
     }
 
     // MARK: - game state
-    func gameStart(timestamp: Double) {
+    func gameStart(timestamp: NSDate) {
         if currentGameMode == .Practice && !isInMenu && !gameEnded
-            && lastGameStartTimestamp > NSDate.distantPast().timeIntervalSince1970
+            && lastGameStartTimestamp > NSDate.distantPast()
             && timestamp > lastGameStartTimestamp {
             adventureRestart()
         }
@@ -371,9 +379,13 @@ class Game {
             return
         }
 
-        if let deck = activeDeck,
-            opponentName = opponent.name,
-            opponentClass = opponent.playerClass {
+        if let opponentName = opponent.name,
+            opponentClass = opponent.playerClass,
+            playerClass = player.playerClass {
+            
+            var result: [Int: Int] = [:]
+            opponentRanks.forEach({ result[$0] = (result[$0] ?? 0) + 1 })
+            let opponentRank = Array(result).sort { $0.1 < $1.1 }.last?.0 ?? -1
             
             var note = ""
 
@@ -396,24 +408,26 @@ class Game {
                     if alert.runModal() == NSAlertFirstButtonReturn {
                         note = input.string ?? ""
                     }
-                    self?.saveMatch(deck,
-                                   rank: currentRank,
+                    self?.saveMatch(currentRank,
                                    note: note,
+                                   playerClass: playerClass,
                                    opponentName: opponentName,
-                                   opponentClass: opponentClass)
+                                   opponentClass: opponentClass,
+                                   opponentRank: opponentRank)
                 }
             } else {
-                saveMatch(deck,
-                          rank: currentRank,
+                saveMatch(currentRank,
                           note: note,
+                          playerClass: playerClass,
                           opponentName: opponentName,
-                          opponentClass: opponentClass)
+                          opponentClass: opponentClass,
+                          opponentRank: opponentRank)
             }
         }
     }
     
-    private func saveMatch(deck: Deck, rank: Int, note: String,
-                           opponentName: String, opponentClass: CardClass) {
+    private func saveMatch(rank: Int, note: String, playerClass: CardClass,
+                           opponentName: String, opponentClass: CardClass, opponentRank: Int) {
         let statistic = Statistic()
         statistic.opponentName = opponentName
         statistic.opponentClass = opponentClass
@@ -424,6 +438,7 @@ class Game {
         statistic.numTurns = turnNumber()
         statistic.note = note
         statistic.season = Database.currentSeason
+        statistic.opponentRank = opponentRank
         let startTime: NSDate
         if let gameStartDate = gameStartDate {
             startTime = gameStartDate
@@ -438,34 +453,50 @@ class Game {
             endTime = NSDate()
         }
         
-        // swiftlint:disable line_length
         statistic.duration = Int(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970)
-        // swiftlint:enable line_length
         var cards = [String: Int]()
         opponent.displayRevealedCards.forEach({
             cards[$0.id] = $0.count
         })
         statistic.cards = cards
-        deck.addStatistic(statistic)
-        Decks.instance.update(deck)
         
-        if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
-            do {
-                if currentGameMode == .Arena {
-                    try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
-                } else if currentGameMode != .Brawl {
-                    try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
+        if let deck = activeDeck {
+            deck.addStatistic(statistic)
+            Decks.instance.update(deck)
+            
+            if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
+                do {
+                    if currentGameMode == .Arena {
+                        try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
+                    } else if currentGameMode != .Brawl {
+                        try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
+                    }
+                } catch {
+                    Log.error?.message("Hearthstats error : \(error)")
                 }
-            } catch {
-                Log.error?.message("Hearthstats error : \(error)")
             }
         }
         
         if TrackOBotAPI.isLogged() && Settings.instance.trackobotSynchronizeMatches {
             do {
-                try TrackOBotAPI.postMatch(self, deck: deck, stat: statistic)
+                try TrackOBotAPI.postMatch(self, playerClass: playerClass, stat: statistic)
             } catch {
                 Log.error?.message("Track-o-Bot error : \(error)")
+            }
+        }
+        
+        if Settings.instance.hsReplaySynchronizeMatches {
+            HSReplayAPI.getUploadToken { (token) in
+                LogUploader.upload(self.powerLog, game: self, statistic: statistic) { result in
+                    if case UploadResult.successful(let replayId) = result {
+                        let opClass = NSLocalizedString(opponentClass.rawValue.lowercaseString,
+                            comment: "")
+                        HSReplayManager.instance.saveReplay(replayId,
+                            deck: self.activeDeck?.name ?? "",
+                            against: "\(opponentName) - \(opClass)")
+                        self.showNotification(.HSReplayPush(replayId: replayId))
+                    }
+                }
             }
         }
     }
@@ -479,22 +510,75 @@ class Game {
         }
         return 0
     }
-
+    
+    func turnsInPlayChange(entity: Entity, turn: Int) {
+        guard let opponentEntity = opponentEntity else { return }
+        
+        if entity.isHero {
+            let player: PlayerType = opponentEntity.isCurrentPlayer ? .Opponent : .Player
+            if lastTurnStart[player.rawValue] >= turn {
+                return
+            }
+            lastTurnStart[player.rawValue] = turn
+            turnStart(player, turn: turn)
+            return
+        }
+        if turn <= lastCompetitiveSpiritCheck || !Settings.instance.autoGrayoutSecrets
+            || !entity.isMinion || !entity.isControlledBy(opponent.id)
+            || !opponentEntity.isCurrentPlayer {
+            return
+        }
+        lastCompetitiveSpiritCheck = turn
+        opponentSecrets?.setZero(CardIds.Secrets.Paladin.CompetitiveSpirit)
+        showSecrets(true)
+    }
+    
     func turnStart(player: PlayerType, turn: Int) {
-        Log.info?.message("Turn \(turn) start for player \(player) ")
+        if !isMulliganDone() {
+            Log.info?.message("--- Mulligan ---")
+        }
+        var turnNumber = turn
+        if turnNumber == 0 {
+            turnNumber += 1
+        }
+        turnQueue.insert(PlayerTurn(player: player, turn: turn))
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            while !self.isMulliganDone() {
+                NSThread.sleepForTimeInterval(0.1)
+            }
+            while let playerTurn = self.turnQueue.popFirst() {
+                self.handleTurnStart(playerTurn)
+            }
+        }
+    }
+    
+    func handleTurnStart(playerTurn: PlayerTurn) {
+        let player = playerTurn.player
+        Log.info?.message("Turn \(playerTurn.turn) start for player \(player) ")
+        
         if player == .Player {
             handleThaurissanCostReduction()
+        }
+        
+        if turnQueue.count > 0 {
+            return
+        }
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            TurnTimer.instance.setPlayer(player)
+        }
+        
+        if player == .Player && !isInMenu {
             showNotification(.TurnStart)
-            
+        }
+        
+        if player == .Player {
             // update opponent tracker in case of end of turn (C'Thun, draw, ...)
             updateOpponentTracker()
         } else {
             // update player tracker in case of end of turn (C'Thun, draw, ...)
             updatePlayerTracker()
-        }
-        
-        dispatch_async(dispatch_get_main_queue()) {
-            TurnTimer.instance.setPlayer(player)
         }
     }
 
@@ -780,9 +864,14 @@ class Game {
     func playerRemoveFromPlay(entity: Entity, turn: Int) {
         player.removeFromPlay(entity, turn: turn)
     }
+    
+    func playerCreateInSetAside(entity: Entity, turn: Int) {
+        player.createInSetAside(entity, turn: turn)
+    }
 
     func playerHeroPower(cardId: String, turn: Int) {
         updateBoardAttack()
+        player.heroPower(turn)
         Log.info?.message("Player Hero Power \(cardId) \(turn) ")
 
         if !Settings.instance.autoGrayoutSecrets {
@@ -998,9 +1087,14 @@ class Game {
     func opponentRemoveFromPlay(entity: Entity, turn: Int) {
         player.removeFromPlay(entity, turn: turn)
     }
+    
+    func opponentCreateInSetAside(entity: Entity, turn: Int) {
+        opponent.createInSetAside(entity, turn: turn)
+    }
 
     func opponentHeroPower(cardId: String, turn: Int) {
         updateBoardAttack()
+        opponent.heroPower(turn)
         Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
     }
 
@@ -1285,7 +1379,7 @@ class Game {
 
     func moveWindow(windowController: NSWindowController?, active: Bool, frame: NSRect) {
         guard let windowController = windowController else { return }
-        guard frame != NSZeroRect else { return }
+        guard frame != NSRect.zero else { return }
 
         if windowController.window?.visible ?? false {
             windowController.window?.orderOut(self)
@@ -1304,32 +1398,39 @@ class Game {
     }
 
      func showNotification(type: NotificationType) {
-        if Hearthstone.instance.hearthstoneActive {
-            return
-        }
-
         let settings = Settings.instance
-        guard type == .GameStart && settings.notifyGameStart
-            || type == .OpponentConcede && settings.notifyOpponentConcede
-            || type == .TurnStart && settings.notifyTurnStart else {
-            return
-        }
-
-        let title: String, info: String
 
         switch type {
         case .GameStart:
-            title = NSLocalizedString("Hearthstone", comment: "")
-            info = NSLocalizedString("Your game begins", comment: "")
+            guard settings.notifyGameStart else { return }
+            if Hearthstone.instance.hearthstoneActive { return }
+            
+            Toast.show(NSLocalizedString("Hearthstone", comment: ""),
+                       message: NSLocalizedString("Your game begins", comment: ""))
+        
         case .OpponentConcede:
-            title = NSLocalizedString("Victory", comment: "")
-            info = NSLocalizedString("Your opponent have conceded", comment: "")
+            guard settings.notifyOpponentConcede else { return }
+            if Hearthstone.instance.hearthstoneActive { return }
+            
+            Toast.show(NSLocalizedString("Victory", comment: ""),
+                       message: NSLocalizedString("Your opponent have conceded", comment: ""))
+            
         case .TurnStart:
-            title = NSLocalizedString("Hearthstone", comment: "")
-            info = NSLocalizedString("It's your turn to play", comment: "")
-        }
+            guard settings.notifyTurnStart else { return }
+            if Hearthstone.instance.hearthstoneActive { return }
+            
+            Toast.show(NSLocalizedString("Hearthstone", comment: ""),
+                       message: NSLocalizedString("It's your turn to play", comment: ""))
+        
+        case .HSReplayPush(let replayId):
+            guard settings.showHSReplayPushNotification else { return }
+            
+            Toast.show(NSLocalizedString("HSReplay", comment: ""),
+                       message: NSLocalizedString("Your replay has been uploaded on HSReplay",
+                        comment: "")) {
+                        HSReplayManager.showReplay(replayId)
+            }
 
-        (NSApplication.sharedApplication().delegate as? AppDelegate)?
-            .sendNotification(title, info: info)
+        }
     }
 }

@@ -44,7 +44,7 @@ class BaseNetImporter {
 
     func isCount(cards: [String:Int]) -> Bool {
         let count = cards.map {$0.1}.reduce(0, combine: +)
-        Log.verbose?.message("counting \(count) cards")
+        Log.verbose?.message("counting \(count) cards : \(cards)")
         return count == 30
     }
 

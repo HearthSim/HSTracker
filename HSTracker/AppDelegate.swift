@@ -12,7 +12,7 @@ import MASPreferences
 import HockeySDK
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate {
 
     var appWillRestart = false
     var splashscreen: Splashscreen?
@@ -33,10 +33,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
+            UpdatePreferences(nibName: "UpdatePreferences", bundle: nil)!,
             GamePreferences(nibName: "GamePreferences", bundle: nil)!,
             TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil)!,
             OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil)!,
+            HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)!,
             HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!,
             TrackOBotPreferences(nibName: "TrackOBotPreferences", bundle: nil)!
             ], title: NSLocalizedString("Preferences", comment: ""))
@@ -44,14 +46,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        let settings = Settings.instance
+        
         #if !DEBUG
-        sparkleUpdater.sendsSystemProfile = true
-        BITHockeyManager.sharedHockeyManager()
-            .configureWithIdentifier("2f0021b9bb1842829aa1cfbbd85d3bed")
-        BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
-        BITHockeyManager.sharedHockeyManager().debugLogEnabled = false
-        BITHockeyManager.sharedHockeyManager().delegate = self
-        BITHockeyManager.sharedHockeyManager().startManager()
+            var hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
+            if settings.releaseChannel == .beta {
+                hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
+            }
+            
+            let url = "https://rink.hockeyapp.net/api/2/apps/\(hockeyKey)"
+            sparkleUpdater.feedURL = NSURL(string: url)
+            sparkleUpdater.sendsSystemProfile = true
+            sparkleUpdater.automaticallyDownloadsUpdates = settings.automaticallyDownloadsUpdates
+            
+            BITHockeyManager.sharedHockeyManager().configureWithIdentifier(hockeyKey)
+            BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
+            BITHockeyManager.sharedHockeyManager().debugLogEnabled = false
+            BITHockeyManager.sharedHockeyManager().delegate = self
+            BITHockeyManager.sharedHockeyManager().startManager()
         #endif
 
         if let _ = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_v2") {
@@ -64,12 +76,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hstracker_v2")
         }
 
-        let settings = Settings.instance
-
         // init logger
         var loggers = [LogConfiguration]()
         #if DEBUG
-        let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .Verbose,
+        let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .verbose,
                                                 logToASL: false,
                                                 colorTable: HSTrackerColorTable(),
                                                 formatters: [HSTrackerLogFormatter()])
@@ -83,7 +93,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                     "\(path)/Logs/HSTracker",
                     withIntermediateDirectories: true,
                     attributes: nil)
-                let severity: LogSeverity = Settings.instance.logSeverity
+                let severity = Settings.instance.logSeverity
                 // swiftlint:disable line_length
                 let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
                                                                 daysToKeep: 7,
@@ -134,13 +144,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     // MARK: - Application init
     func loadSplashscreen() {
         splashscreen = Splashscreen(windowNibName: "Splashscreen")
-        let screenFrame = NSScreen.mainScreen()!.frame
+        let screenFrame = NSScreen.screens()!.first!.frame
         let splashscreenWidth: CGFloat = 350
         let splashscreenHeight: CGFloat = 250
 
         splashscreen?.window?.setFrame(NSRect(
-            x: (NSWidth(screenFrame) / 2) - (splashscreenWidth / 2),
-            y: (NSHeight(screenFrame) / 2) - (splashscreenHeight / 2),
+            x: (screenFrame.width / 2) - (splashscreenWidth / 2),
+            y: (screenFrame.height / 2) - (splashscreenHeight / 2),
             width: splashscreenWidth,
             height: splashscreenHeight),
                                        display: true)
@@ -282,7 +292,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
 
         Hearthstone.instance.start()
-        NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
         
         let events = [
             "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
@@ -302,8 +311,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                                                              object: nil)
         }
 
-        Log.info?.message("HSTracker is now ready !")
-
         if let activeDeck = Settings.instance.activeDeck, deck = Decks.instance.byId(activeDeck) {
             Game.instance.setActiveDeck(deck)
         }
@@ -319,7 +326,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let settings = Settings.instance
 
         let screenFrame = NSScreen.mainScreen()!.frame
-        let y = NSHeight(screenFrame) - 50
+        let y = screenFrame.height - 50
         let width: CGFloat
         switch settings.cardSize {
         case .Small:
@@ -337,7 +344,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         if let rect = settings.playerTrackerFrame {
             playerTracker?.window?.setFrame(rect, display: true)
         } else {
-            let x = NSWidth(screenFrame) - width
+            let x = screenFrame.width - width
             playerTracker?.window?.setFrame(NSRect(x: x, y: y, width: width, height: y),
                                             display: true)
         }
@@ -547,13 +554,69 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 menu.submenu = classMenu
             }
         }
-
+        
+        let replayMenu = mainMenu?.itemWithTitle(NSLocalizedString("Replays", comment: ""))
+        let replaysMenu = replayMenu?.submenu?.itemWithTitle(NSLocalizedString("Last replays",
+            comment: ""))
+        replaysMenu?.submenu?.removeAllItems()
+        replaysMenu?.enabled = false
+        if let _ = Settings.instance.hsReplayUploadToken {
+            replaysMenu?.enabled = HSReplayManager.instance.replays.count > 0
+            
+            HSReplayManager.instance.replays.sort({
+                $0.0.date.compare($0.1.date) == .OrderedDescending
+            }).take(10).forEach({
+                let name: String
+                if $0.deck.isEmpty {
+                    name = String(format: "Vs %@", $0.against)
+                } else {
+                    name = String(format: "%@ vs %@", $0.deck, $0.against)
+                }
+                if let item = replaysMenu?.submenu?.addItemWithTitle(name,
+                    action: #selector(AppDelegate.showReplay(_:)),
+                    keyEquivalent: "") {
+                    item.representedObject = $0.replayId
+                }
+            })
+            
+        }
+        
         let settings = Settings.instance
         let windowMenu = mainMenu?.itemWithTitle(NSLocalizedString("Window", comment: ""))
-        // swiftlint:disable line_length
-        let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows", comment: ""))
-        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows", comment: "")
-        // swiftlint:enable line_length
+        let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows",
+            comment: ""))
+        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+                                        comment: "")
+    }
+    
+    func showReplay(sender: NSMenuItem) {
+        if let replayId = sender.representedObject as? String {
+            HSReplayManager.showReplay(replayId)
+        }
+    }
+    
+    @IBAction func importReplay(sender: NSMenuItem) {
+        let panel = NSOpenPanel()
+        if let path = ReplayMaker.replayDir() {
+            panel.directoryURL = NSURL(fileURLWithPath: path)
+        }
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedFileTypes = ["hdtreplay"]
+        panel.beginWithCompletionHandler { (returnCode) in
+            if returnCode == NSFileHandlingPanelOKButton {
+                for filename in panel.URLs {
+                    if let path = filename.path {
+                        LogUploader.upload(path, completion: { (result) in
+                            if case UploadResult.successful(let replayId) = result {
+                                HSReplayManager.showReplay(replayId)
+                            }
+                        })
+                    }
+                }
+            }
+        }
     }
 
     func playDeck(sender: NSMenuItem) {
@@ -653,40 +716,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     @IBAction func closeWindow(sender: AnyObject) {
     }
     
-    /*@IBAction func export(sender: AnyObject) {
-        
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
-        let queue = dispatch_get_main_queue()
-        dispatch_after(when, queue) {
-            let automation = Automation()
-            if let deck = Decks.instance.decks().filter({ $0.playerClass == .PRIEST }).first {
-                automation.expertDeckToHearthstone(deck)
-            }
-        }
-    }*/
-    
     @IBAction func openReplayDirectory(sender: AnyObject) {
-        if let appSupport = NSSearchPathForDirectoriesInDomains(
-            .ApplicationSupportDirectory, .UserDomainMask, true).first {
-            
-            let path = "\(appSupport)/HSTracker/replays"
+        if let path = ReplayMaker.replayDir() {
             NSWorkspace.sharedWorkspace()
                 .activateFileViewerSelectingURLs([NSURL(fileURLWithPath: path)])
         }
-    }
-
-    // MARK: NSUserNotificationCenterDelegate
-    func sendNotification(title: String, info: String) {
-        let notification = NSUserNotification()
-        notification.title = title
-        notification.informativeText = info
-        NSUserNotificationCenter.defaultUserNotificationCenter().deliverNotification(notification)
-    }
-
-    func userNotificationCenter(center: NSUserNotificationCenter,
-                                shouldPresentNotification notification: NSUserNotification)
-        -> Bool {
-        return true
     }
 }
 

@@ -40,6 +40,6 @@ final class NetImporter {
             }
         }
 
-        throw NetImporterError.UrlNotSupported
+        try MetaTagImporter().loadDeck(url, completion: completion)
     }
 }

@@ -15,7 +15,7 @@ struct SizeHelper {
     static let BaseHeight: CGFloat = 922.0
 
     class HearthstoneWindow {
-        var _frame = NSZeroRect
+        var _frame = NSRect.zero
         var windowId: CGWindowID?
         
         init() {
@@ -42,7 +42,7 @@ struct SizeHelper {
                 CGRectMakeWithDictionaryRepresentation(bounds, &rect)
                
                 if let screen = NSScreen.screens()?.first {
-                    rect.origin.y = NSMaxY(screen.frame) - NSMaxY(rect)
+                    rect.origin.y = screen.frame.maxY - rect.maxY
                 }
                 
                 Log.debug?.message("HS Frame is : \(rect)")
@@ -51,25 +51,25 @@ struct SizeHelper {
         }
         
         private var width: CGFloat {
-            return NSWidth(_frame)
+            return _frame.width
         }
         
         private var height: CGFloat {
-            let height = NSHeight(_frame)
+            let height = _frame.height
             return isFullscreen() ? height : max(height - 22, 0)
         }
         
         private var left: CGFloat {
-            return NSMinX(_frame)
+            return _frame.minX
         }
         
         private var top: CGFloat {
-            return NSMinY(_frame)
+            return _frame.minY
         }
         
         private func isFullscreen() -> Bool {
-            return NSMinX(_frame) == 0.0 && NSMinY(_frame) == 0.0
-                && (Int(NSHeight(_frame)) & 22) != 22
+            return _frame.minX == 0.0 && _frame.minY == 0.0
+                && (Int(_frame.height) & 22) != 22
         }
         
         var frame: NSRect {
@@ -90,18 +90,18 @@ struct SizeHelper {
         // and translated to your resolution
         //
         func relativeFrame(frame: NSRect, relative: Bool = true) -> NSRect {
-            var pointX = NSMinX(frame)
-            var pointY = NSMinY(frame)
-            let width = NSWidth(frame)
-            let height = NSHeight(frame)
+            var pointX = frame.minX
+            var pointY = frame.minY
+            let width = frame.width
+            let height = frame.height
             
             if relative {
                 pointX = pointX * scaleX
                 pointY = pointY * scaleY
             }
             
-            let x: CGFloat = NSMinX(self.frame) + pointX
-            let y: CGFloat = NSMinY(self.frame) + pointY
+            let x: CGFloat = self.frame.minX + pointX
+            let y: CGFloat = self.frame.minY + pointY
             
             let relativeFrame = NSRect(x: x, y: y, width: width, height: height)
             //Log.verbose?.message("FR:\(frame) -> HS:\(hearthstoneFrame) -> POS:\(relativeFrame)")
@@ -149,10 +149,22 @@ struct SizeHelper {
     static private func trackerFrame(x: CGFloat) -> NSRect {
         // game menu
         let offset: CGFloat = 50
+        let width: CGFloat
+        switch Settings.instance.cardSize {
+        case .Small:
+            width = CGFloat(kSmallFrameWidth)
+            
+        case .Medium:
+            width = CGFloat(kMediumFrameWidth)
+            
+        default:
+            width = CGFloat(kFrameWidth)
+        }
+        
         let frame = NSRect(x: x,
                            y: offset,
-                           width: trackerWidth,
-                           height: NSHeight(hearthstoneWindow.frame) - offset)
+                           width: max(trackerWidth, width),
+                           height: max(100, hearthstoneWindow.frame.height - offset))
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
     
@@ -167,7 +179,7 @@ struct SizeHelper {
     }
 
     static func playerTrackerFrame() -> NSRect {
-        return trackerFrame(NSWidth(hearthstoneWindow.frame) - trackerWidth)
+        return trackerFrame(hearthstoneWindow.frame.width - trackerWidth)
     }
 
     static func opponentTrackerFrame() -> NSRect {
@@ -185,7 +197,7 @@ struct SizeHelper {
     }
 
     static func secretTrackerFrame() -> NSRect {
-        let frame = NSRect(x: 200, y: NSHeight(hearthstoneWindow.frame) - 500,
+        let frame = NSRect(x: 200, y: hearthstoneWindow.frame.height - 500,
                            width: trackerWidth, height: 450)
         
         return hearthstoneWindow.relativeFrame(frame)
@@ -201,8 +213,8 @@ struct SizeHelper {
     static func cardHudContainerFrame() -> NSRect {
         let w = SizeHelper.cardHudContainerWidth * hearthstoneWindow.scaleX
         let h = SizeHelper.cardHudContainerHeight * hearthstoneWindow.scaleY
-        let frame = NSRect(x: (NSWidth(hearthstoneWindow.frame) / 2) - (w / 2),
-                           y: NSHeight(hearthstoneWindow.frame) - h,
+        let frame = NSRect(x: (hearthstoneWindow.frame.width / 2) - (w / 2),
+                           y: hearthstoneWindow.frame.height - h,
                            width: w, height: h)
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }

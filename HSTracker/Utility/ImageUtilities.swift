@@ -15,7 +15,7 @@ struct ImageUtilities {
         if let image = hearthstoneWindow.screenshot() {
             let cropped = cropRect(image,
                                    rect: NSRect(x: 0,
-                                    y: NSHeight(hearthstoneWindow.frame) - (image.size.height / 5),
+                                    y: hearthstoneWindow.frame.height - (image.size.height / 5),
                                     width: image.size.width / 10,
                                     height: image.size.height / 5))
             return cropped
@@ -39,7 +39,7 @@ struct ImageUtilities {
         let target = NSImage(size: rect.size)
         target.lockFocus()
         NSGraphicsContext.currentContext()?.imageInterpolation = .High
-        image.drawAtPoint(NSZeroPoint,
+        image.drawAtPoint(NSPoint.zero,
                            fromRect: rect,
                            operation: .CompositeCopy,
                            fraction:1.0)
@@ -57,7 +57,7 @@ struct ImageUtilities {
         smallImage.lockFocus()
         sourceImage.size = newSize
         NSGraphicsContext.currentContext()!.imageInterpolation = .High
-        sourceImage.drawAtPoint(NSZeroPoint,
+        sourceImage.drawAtPoint(NSPoint.zero,
                                 fromRect: CGRect(x: 0, y: 0,
                                     width: newSize.width, height: newSize.height),
                                 operation: .CompositeCopy,

@@ -42,7 +42,7 @@ class WindowMove: NSWindowController {
 
         return window
     }()
-    var defaultFrame = NSZeroRect
+    var defaultFrame = NSRect.zero
     var x: CGFloat = 0, y: CGFloat = 0
     var currentWindow: NSWindow?
 
@@ -79,7 +79,7 @@ class WindowMove: NSWindowController {
             if window == "Secret Tracker" {
                 currentWindow = Game.instance.secretTracker!.window
                 defaultFrame = NSRect(x: 200,
-                                      y: NSHeight(SizeHelper.hearthstoneWindow.frame) - 50,
+                                      y: SizeHelper.hearthstoneWindow.frame.height - 50,
                                       width: CGFloat(kMediumRowHeight), height: 300)
             } else if window == "Timer Hud" {
                 currentWindow = Game.instance.timerHud!.window
@@ -87,12 +87,12 @@ class WindowMove: NSWindowController {
             } else if window == "Card Hud Container" {
                 currentWindow = Game.instance.cardHudContainer!.window
                 defaultFrame = NSRect(x: 529.5,
-                                      y: NSHeight(SizeHelper.hearthstoneWindow.frame) - 80,
+                                      y: SizeHelper.hearthstoneWindow.frame.height - 80,
                                       width: 400, height: 80)
             } else if window == "Full overlay" {
                 currentWindow = overlayWindow
                 var rect = SizeHelper.hearthstoneWindow.frame
-                rect.origin = NSZeroPoint
+                rect.origin = NSPoint.zero
                 defaultFrame = rect
             } else if window == "Player Board Damage" {
                 currentWindow = Game.instance.playerBoardDamage!.window
@@ -160,12 +160,12 @@ class WindowMove: NSWindowController {
         let _x = defaultFrame.origin.x + x
         let _y = defaultFrame.origin.y + y
         textbox.string = "NSRect(x: \(_x), y: \(_y), "
-            + "width: \(NSWidth(defaultFrame)), height: \(NSHeight(defaultFrame)))\n"
+            + "width: \(defaultFrame.width), height: \(defaultFrame.height))\n"
             + "NSPoint(x: \(_x), y: \(_y))"
 
         if let window = currentWindow {
             let frame = SizeHelper.hearthstoneWindow.relativeFrame(
-                NSRect(x: _x, y: _y, width: NSWidth(defaultFrame), height: NSHeight(defaultFrame)))
+                NSRect(x: _x, y: _y, width: defaultFrame.width, height: defaultFrame.height))
             window.setFrame(frame, display: true)
         }
     }

@@ -103,3 +103,9 @@
 
 /* Class = "NSMenuItem"; title = "Open replays directory"; ObjectID = "yTs-jD-geS"; */
 "yTs-jD-geS.title" = "Ouvrir le répertoire des replays";
+
+/* Class = "NSMenuItem"; title = "Last replays"; ObjectID = "gKK-Xg-cTS"; */
+"gKK-Xg-cTS.title" = "Last replays";
+
+/* Class = "NSMenuItem"; title = "Load from file"; ObjectID = "gJj-4D-mrw"; */
+"gJj-4D-mrw.title" = "Charger depuis un fichier";

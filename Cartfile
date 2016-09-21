@@ -4,10 +4,10 @@ github "shpakovski/MASPreferences"
 github "Alamofire/Alamofire" ~> 3.0
 github "tid-kijyun/Kanna" ~> 1.0.0
 github "bitstadium/HockeySDK-Mac"
-github "sparkle-project/Sparkle"
+github "sparkle-project/Sparkle" "f70c2a15b1ce313e9f583bea0746aeae25ff2108"
 github "delba/TextAttributes"
 github "JohnSundell/Wrap"
 github "JohnSundell/Unbox"
-github "BradLarson/GPUImage2" "master"
+github "BradLarson/GPUImage2" "668dbd92f6d2c25dbaca38da6fb4b9d4b4b71547"
 github "stephencelis/SQLite.swift" ~> 0.10.1
-github "ZipArchive/ZipArchive"
+github "ZipArchive/ZipArchive" "v1.4"

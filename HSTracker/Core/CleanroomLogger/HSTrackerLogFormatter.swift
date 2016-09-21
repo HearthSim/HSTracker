@@ -18,11 +18,11 @@ struct HSTrackerColorTable: CleanroomLogger.ColorTable {
 
     func foregroundColorForSeverity(severity: LogSeverity) -> Color? {
         switch severity {
-        case .Verbose: return self.dynamicType.VerboseColor
-        case .Debug: return self.dynamicType.DebugColor
-        case .Info: return self.dynamicType.InfoColor
-        case .Warning: return self.dynamicType.WarningColor
-        case .Error: return self.dynamicType.ErrorColor
+        case .verbose: return self.dynamicType.VerboseColor
+        case .debug: return self.dynamicType.DebugColor
+        case .info: return self.dynamicType.InfoColor
+        case .warning: return self.dynamicType.WarningColor
+        case .error: return self.dynamicType.ErrorColor
         }
     }
 }
@@ -39,18 +39,18 @@ class HSTrackerLogFormatter: XcodeLogFormatter {
     override func formatLogEntry(entry: LogEntry) -> String? {
         let severity: String
         switch entry.severity {
-        case .Verbose: severity = "V"
-        case .Debug: severity = "D"
-        case .Info: severity = "I"
-        case .Warning: severity = "W"
-        case .Error: severity = "E"
+        case .verbose: severity = "V"
+        case .debug: severity = "D"
+        case .info: severity = "I"
+        case .warning: severity = "W"
+        case .error: severity = "E"
         }
 
         let message: String
         switch entry.payload {
-        case .Trace: message = entry.callingStackFrame
-        case .Message(let msg): message = msg
-        case .Value(let value): message = "\(value)"
+        case .trace: message = entry.callingStackFrame
+        case .message(let msg): message = msg
+        case .value(let value): message = "\(value)"
         }
 
         return "|\(severity)|\(dateFormatter.stringFromDate(entry.timestamp))| \(message)"

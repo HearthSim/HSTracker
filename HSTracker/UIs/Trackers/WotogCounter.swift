@@ -37,15 +37,15 @@ class WotogCounter: TextFrame {
             addInt(attack, rect: textFrame)
             addInt(health, rect: healthFrame)
 
-            frame.offsetInPlace(dx: 0, dy: NSHeight(frame))
-            textFrame.origin.y += NSHeight(frame)
+            frame.offsetInPlace(dx: 0, dy: frame.height)
+            textFrame.origin.y += frame.height
         }
         if counterStyle.contains(.Full) || counterStyle.contains(.Spells) {
             addImage("yogg-frame.png", rect: frame)
             addInt(spell, rect: textFrame)
 
-            frame.offsetInPlace(dx: 0, dy: NSHeight(frame))
-            textFrame.origin.y += NSHeight(frame)
+            frame.offsetInPlace(dx: 0, dy: frame.height)
+            textFrame.origin.y += frame.height
         }
         if counterStyle.contains(.Full) || counterStyle.contains(.Deathrattles) {
             addImage("deathrattle-frame.png", rect: frame)

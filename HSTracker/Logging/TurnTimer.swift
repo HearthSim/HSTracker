@@ -70,6 +70,9 @@ import CleanroomLogger
             }
 
             dispatch_async(dispatch_get_main_queue()) {
+                if self.timer != nil {
+                    self.timer!.invalidate()
+                }
                 self.timer = NSTimer.scheduledTimerWithTimeInterval(1,
                     target: self,
                     selector: #selector(TurnTimer.timerTick),
