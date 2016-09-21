@@ -131,6 +131,7 @@ final class Decks {
         } catch {
             Log.error?.message("Can not delete \(path)")
         }
+        NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
     }
     
     func reset(deck: Deck) {
