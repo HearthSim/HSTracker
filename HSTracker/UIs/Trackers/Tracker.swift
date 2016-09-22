@@ -99,12 +99,25 @@ class Tracker: NSWindowController {
         self.window!.opaque = false
         self.window!.hasShadow = false
         self.window!.acceptsMouseMovedEvents = true
-
+        self.window!.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
+        
+        if let panel = self.window as? NSPanel {
+            panel.floatingPanel = true
+        }
+        
+        NSWorkspace.sharedWorkspace().notificationCenter
+            .addObserver(self, selector: #selector(Tracker.bringToFront),
+                         name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
+        
         setWindowSizes()
         _setOpacity()
         _windowLockedChange()
         _hearthstoneRunning()
         _frameOptionsChange()
+    }
+    
+    func bringToFront() {
+        self.window?.orderFront(nil)
     }
 
     deinit {
@@ -118,12 +131,14 @@ class Tracker: NSWindowController {
     private func _windowLockedChange() {
         let locked = Settings.instance.windowsLocked
         if locked {
-            self.window!.styleMask = NSBorderlessWindowMask
+            self.window!.styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask
         } else {
             self.window!.styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask
-                | NSResizableWindowMask | NSBorderlessWindowMask
+                | NSResizableWindowMask | NSBorderlessWindowMask | NSNonactivatingPanelMask
         }
+        
         self.window!.ignoresMouseEvents = locked
+        self.window?.orderFront(nil) // must be called after style change
     }
 
     func hearthstoneRunning(notification: NSNotification) {
@@ -134,14 +149,12 @@ class Tracker: NSWindowController {
 
         let level: Int
         if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.MainMenuWindowLevelKey))-1
         } else {
             level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
         }
         self.window!.level = level
         
-        //self.window!.level = Int(CGWindowLevelForKey(.MainMenuWindowLevelKey)) - 1
-        //self.window!.collectionBehavior = [.Stationary, .CanJoinAllSpaces, .FullScreenAuxiliary]
     }
 
     func hearthstoneActive(notification: NSNotification) {

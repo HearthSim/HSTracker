@@ -26,7 +26,8 @@ final class Heartharena: BaseNetImporter, NetImporterAware {
                 var className: String?
                 var deckName: String?
                 if let classNode = doc.at_xpath("//h1[@class='class']") {
-                    className = classNode.text?.lowercaseString.componentsSeparatedByString(" ").first!
+                    className = classNode.text?
+                        .lowercaseString.componentsSeparatedByString(" ").first!
                     if let className = className {
                         deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
                                           className, NSDate().shortDateString())
