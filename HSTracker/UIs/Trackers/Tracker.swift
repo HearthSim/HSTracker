@@ -117,6 +117,9 @@ class Tracker: NSWindowController {
     }
     
     func bringToFront() {
+        if Settings.instance.autoPositionTrackers {
+            self.autoPosition()
+        }
         self.window?.orderFront(nil)
     }
 
@@ -185,15 +188,19 @@ class Tracker: NSWindowController {
 
     func autoPositionTrackersChange(notification: NSNotification) {
         if Settings.instance.autoPositionTrackers {
-            if playerType == .Player {
-                Game.instance.moveWindow(self,
-                                         active: Hearthstone.instance.hearthstoneActive,
-                                         frame: SizeHelper.playerTrackerFrame())
-            } else if playerType == .Opponent {
-                Game.instance.moveWindow(self,
-                                         active: Hearthstone.instance.hearthstoneActive,
-                                         frame: SizeHelper.opponentTrackerFrame())
-            }
+            self.autoPosition()
+        }
+    }
+    
+    private func autoPosition() {
+        if playerType == .Player {
+            Game.instance.moveWindow(self,
+                                     active: Hearthstone.instance.hearthstoneActive,
+                                     frame: SizeHelper.playerTrackerFrame())
+        } else if playerType == .Opponent {
+            Game.instance.moveWindow(self,
+                                     active: Hearthstone.instance.hearthstoneActive,
+                                     frame: SizeHelper.opponentTrackerFrame())
         }
     }
 
