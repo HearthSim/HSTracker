@@ -7,29 +7,23 @@
 //
 
 import Foundation
-import SQLite
+import GRDB
 import CleanroomLogger
 
 // Reads precomputed Monte Carlo data from grid.db
 // TODO: run long simulation on cluster for better grid
 
 struct LadderGrid {
-    var db: Connection?
-    let grid = Table("grid")
-    let colTargetRank = Expression<Int64>("target_rank")
-    let colStars = Expression<Int64>("stars")
-    let colBonus = Expression<Int64>("bonus")
-    let colWinp = Expression<Double>("winp")
-    let colGames = Expression<Double>("games")
-    
+    var dbQueue: DatabaseQueue?
+
     init() {
         do {
             // TODO: put the db in the bundle
             let path = NSBundle.mainBundle().resourcePath! + "/Resources/grid.db"
             Log.verbose?.message("Loading grid at \(path)")
-            db = try Connection(path, readonly: true)
+            dbQueue = try DatabaseQueue(path: path)
         } catch {
-            db = nil
+            dbQueue = nil
             // swiftlint:disable line_length
             Log.warning?.message("Failed to load grid db! Will result in Ladder stats tab not working.")
             // swiftlint:enable line_length
@@ -37,32 +31,37 @@ struct LadderGrid {
     }
     
     func getGamesToRank(targetRank: Int, stars: Int, bonus: Int, winp: Double) -> Double? {
-        guard let dbgood = db
-            else { return nil }
-        
-        let query = grid.select(colGames)
-            .filter(colTargetRank == Int64(targetRank))
-            .filter(colStars == Int64(stars))
-            .filter(colBonus == Int64(bonus))
-        
+        guard let dbQueue = dbQueue else { return nil }
+
         // Round to nearest hundredth
-        let lowerWinp = Double(floor(winp*100)/100)
-        let upperWinp = Double(ceil(winp*100)/100)
-        
-        let lower = query.filter(colWinp == lowerWinp)
-        let upper = query.filter(colWinp == upperWinp)
-        
-        guard let lowerResult = dbgood.pluck(lower), upperResult = dbgood.pluck(upper)
-            else { return nil }
-        
-        let l = lowerResult[colGames]
-        let u = upperResult[colGames]
+        let lowerWinp = Double(floor(winp * 100) / 100)
+        let upperWinp = Double(ceil(winp * 100) / 100)
+
+        var lowerResult: Double?
+        var upperResult: Double?
+        dbQueue.inDatabase { db in
+            var query: String = "select games from grid"
+                + " where target_rank = \(targetRank)"
+                + " and stars = \(stars)"
+                + " and bonus = \(bonus)"
+                + " and winp = \(lowerWinp)"
+            lowerResult = Double.fetchOne(db, query)
+
+            query = "select games from grid"
+            + " where target_rank = \(targetRank)"
+            + " and stars = \(stars)"
+            + " and bonus = \(bonus)"
+            + " and winp = \(upperWinp)"
+            upperResult = Double.fetchOne(db, query)
+        }
+
+        guard let lower = lowerResult, upper = upperResult else { return nil }
         
         // Linear interpolation
         if lowerWinp == upperWinp {
-            return l
+            return lower
         } else {
-            return l * ( 1 - ( winp - lowerWinp) / 0.01) + u * (winp - lowerWinp)/0.01
+            return lower * (1 - (winp - lowerWinp) / 0.01) + upper * (winp - lowerWinp) / 0.01
         }
     }
     
