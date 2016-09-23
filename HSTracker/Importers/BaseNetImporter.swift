@@ -20,7 +20,10 @@ class BaseNetImporter {
                 
                 if let data = response.result.value {
                     var convertedNSString: NSString?
-                    NSString.stringEncodingForData(data, encodingOptions: nil, convertedString: &convertedNSString, usedLossyConversion: nil)
+                    NSString.stringEncodingForData(data,
+                        encodingOptions: nil,
+                        convertedString: &convertedNSString,
+                        usedLossyConversion: nil)
                     
                     Log.info?.message("Fetching \(url) complete")
                     let convertedString = convertedNSString as? String

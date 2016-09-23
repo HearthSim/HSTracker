@@ -178,8 +178,9 @@ final class LogReader {
                             let negativeOffset = lines.take(i + 1)
                                 .map({ UInt64(($0 + "\n").characters.count) })
                                 .reduce(0, combine: +)
-                            self.offset = UInt64(max(Int64(fileLength) - Int64(offset)
-                                + Int64(negativeOffset) + Int64(sizeDiff), Int64(0)))
+                            let current = Int64(fileLength) - Int64(offset)
+                                + Int64(negativeOffset) + Int64(sizeDiff)
+                            self.offset = UInt64(max(current, Int64(0)))
                             return
                         }
                     }

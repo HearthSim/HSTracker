@@ -19,7 +19,7 @@ class CardHudContainer: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
  
-        self.window!.styleMask = NSBorderlessWindowMask
+        self.window!.styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask
         //self.window!.ignoresMouseEvents = true
         self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
         
@@ -40,6 +40,21 @@ class CardHudContainer: NSWindowController {
                          selector: #selector(BoardDamage.hearthstoneActive(_:)),
                          name: "hearthstone_active",
                          object: nil)
+        self.window!.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
+        
+        if let panel = self.window as? NSPanel {
+            panel.floatingPanel = true
+        }
+        
+        NSWorkspace.sharedWorkspace().notificationCenter
+            .addObserver(self, selector: #selector(CardHudContainer.bringToFront),
+                         name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
+        
+        self.window?.orderFront(nil) // must be called after style change
+    }
+    
+    func bringToFront() {
+        self.window?.orderFront(nil)
     }
     
     func initPoints() {

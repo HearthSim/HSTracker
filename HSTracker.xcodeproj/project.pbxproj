@@ -19,12 +19,15 @@
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
 		4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */; };
 		4308EB831D775E2C000897C8 /* UpdatePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4308EB851D775E2C000897C8 /* UpdatePreferences.xib */; };
-		4311E6AB1D2EF49300DDA546 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C92C68141D1F6F4F009030DC /* SQLite.framework */; };
 		4311E6AC1D2EF49300DDA546 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; };
 		4311E6AD1D2EF49300DDA546 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436F5D401D001A6D00DEB9A1 /* GPUImage.framework */; };
 		4311E6AE1D2EF49300DDA546 /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; };
 		4311E6AF1D2EF49300DDA546 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
 		4311E6B01D2EF49300DDA546 /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
+		431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; };
+		431202B01D93B7E600606CA5 /* GRDB.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */; };
+		431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		431202B21D93B7FF00606CA5 /* GRDB.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */; };
 		4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFF21CA0401B00F3F2BE /* Int.swift */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
@@ -257,8 +260,6 @@
 		BC2B851E1D749E9800BC812B /* Hearthstonetopdecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */; };
 		C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C680C1D1F225F009030DC /* StatsTab.swift */; };
 		C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68101D1F3FC4009030DC /* LadderTab.swift */; };
-		C92C68151D1F6F4F009030DC /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C92C68141D1F6F4F009030DC /* SQLite.framework */; };
-		C92C68161D1F6F83009030DC /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C92C68141D1F6F4F009030DC /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C92C68181D1F74CE009030DC /* LadderGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68171D1F74CE009030DC /* LadderGrid.swift */; };
 		C92C681A1D1F8E27009030DC /* Ranks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68191D1F8E27009030DC /* Ranks.swift */; };
 		C94596821D174FBA008CD47A /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94596811D174FBA008CD47A /* StatsTests.swift */; };
@@ -309,6 +310,7 @@
 				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */,
 				436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */,
 				438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */,
+				431202B21D93B7FF00606CA5 /* GRDB.framework.dSYM in CopyFiles */,
 				43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */,
 				436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */,
 				4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */,
@@ -323,7 +325,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C92C68161D1F6F83009030DC /* SQLite.framework in Embed Frameworks */,
 				4394C79F1D188FD700007FAD /* opencv2.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
@@ -332,6 +333,7 @@
 				436F5D411D001A6D00DEB9A1 /* GPUImage.framework in Embed Frameworks */,
 				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
 				436789DB1CAE484800C962D1 /* JNWCollectionView.framework in Embed Frameworks */,
+				431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */,
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
@@ -361,6 +363,9 @@
 		4308EB8D1D775E33000897C8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
 		4308EB8F1D775E35000897C8 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/UpdatePreferences.strings"; sourceTree = "<group>"; };
 		4308EB911D775E36000897C8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UpdatePreferences.strings"; sourceTree = "<group>"; };
+		431202AC1D93B1DB00606CA5 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		431202AD1D93B7E600606CA5 /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/Mac/GRDB.framework; sourceTree = "<group>"; };
+		431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = GRDB.framework.dSYM; path = Carthage/Build/Mac/GRDB.framework.dSYM; sourceTree = "<group>"; };
 		4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsAPI.swift; sourceTree = "<group>"; };
 		4312AFF21CA0401B00F3F2BE /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
@@ -692,7 +697,6 @@
 		BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstonetopdecks.swift; sourceTree = "<group>"; };
 		C92C680C1D1F225F009030DC /* StatsTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsTab.swift; path = StatsManager/StatsTab.swift; sourceTree = "<group>"; };
 		C92C68101D1F3FC4009030DC /* LadderTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderTab.swift; path = StatsManager/LadderTab.swift; sourceTree = "<group>"; };
-		C92C68141D1F6F4F009030DC /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/Mac/SQLite.framework; sourceTree = "<group>"; };
 		C92C68171D1F74CE009030DC /* LadderGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderGrid.swift; path = Statistics/LadderGrid.swift; sourceTree = "<group>"; };
 		C92C68191D1F8E27009030DC /* Ranks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ranks.swift; path = Statistics/Ranks.swift; sourceTree = "<group>"; };
 		C94596811D174FBA008CD47A /* StatsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTests.swift; sourceTree = "<group>"; };
@@ -720,7 +724,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
-				C92C68151D1F6F4F009030DC /* SQLite.framework in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				436789D21CAE484800C962D1 /* Alamofire.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
@@ -734,6 +737,7 @@
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
 				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
+				431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */,
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
 			);
@@ -752,7 +756,6 @@
 				4345E9E31CB45122002D0F23 /* JNWCollectionView.framework in Frameworks */,
 				4345E9E41CB45122002D0F23 /* Kanna.framework in Frameworks */,
 				4345E9E51CB45122002D0F23 /* MASPreferences.framework in Frameworks */,
-				4311E6AB1D2EF49300DDA546 /* SQLite.framework in Frameworks */,
 				4311E6AC1D2EF49300DDA546 /* opencv2.framework in Frameworks */,
 				4311E6AD1D2EF49300DDA546 /* GPUImage.framework in Frameworks */,
 				4311E6AE1D2EF49300DDA546 /* Unbox.framework in Frameworks */,
@@ -962,6 +965,7 @@
 				439C7E571C7772C000D29859 /* Info.plist */,
 				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
 				43C567E31D5D0C6300451B6F /* versions.markdown */,
+				431202AC1D93B1DB00606CA5 /* Cartfile */,
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
 				439C7E6A1C7772C100D29859 /* HSTrackerUITests */,
 				439C7E491C7772C000D29859 /* Products */,
@@ -1288,8 +1292,9 @@
 				4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
 				4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */,
+				431202AD1D93B7E600606CA5 /* GRDB.framework */,
+				431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */,
 				43C5680F1D5F692800451B6F /* ZipArchive.framework */,
-				C92C68141D1F6F4F009030DC /* SQLite.framework */,
 				4394C79D1D188F9400007FAD /* opencv2.framework */,
 				436F5D401D001A6D00DEB9A1 /* GPUImage.framework */,
 				4305CA3C1CF42AC60048E7EC /* Unbox.framework */,
@@ -1431,6 +1436,7 @@
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				4359BF801D51FCE100F61993 /* TrackOBotLogin.xib in Resources */,
+				431202B01D93B7E600606CA5 /* GRDB.framework.dSYM in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
