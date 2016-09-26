@@ -75,6 +75,10 @@ class WotogCounterHelper {
         return Settings.instance.showPlayerDeathrattle
             && nzothInDeck != nil && (playerYogg != nil || nzothInDeck == true)
     }
+    
+    static var showPlayerGraveyard: Bool {
+        return Settings.instance.showPlayerGraveyard
+    }
 
     static var showOpponentCthunCounter: Bool {
         return Settings.instance.showOpponentCthun && opponentSeenCthun
@@ -86,6 +90,10 @@ class WotogCounterHelper {
 
     static var showOpponentDeathrattleCounter: Bool {
         return Settings.instance.showOpponentDeathrattle
+    }
+    
+    static var showOpponentGraveyard: Bool {
+        return Settings.instance.showOpponentGraveyard
     }
 
     private static func deckContains(cardId: String) -> Bool? {

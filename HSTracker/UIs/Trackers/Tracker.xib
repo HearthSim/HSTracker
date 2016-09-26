@@ -9,6 +9,7 @@
                 <outlet property="cardCounter" destination="fDJ-yZ-50f" id="nBu-Cf-pye"/>
                 <outlet property="cardsView" destination="naK-zt-rPm" id="SQk-kS-AJ7"/>
                 <outlet property="fatigueTracker" destination="5Jh-EI-M0W" id="ygD-EJ-ZeH"/>
+                <outlet property="graveyardCounter" destination="aFR-AO-2Vy" id="ukz-pX-hST"/>
                 <outlet property="opponentDrawChance" destination="Slp-Ya-S9h" id="R3r-Tb-bap"/>
                 <outlet property="playerClass" destination="YeM-kJ-hCT" id="xGi-5X-mTq"/>
                 <outlet property="playerDrawChance" destination="UC5-o5-y78" id="9EG-lm-GA7"/>
@@ -58,6 +59,10 @@
                     </customView>
                     <customView hidden="YES" id="5Jh-EI-M0W" customClass="StringTracker" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="150" width="217" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView id="aFR-AO-2Vy" customClass="GraveyardCounter" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="100" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                 </subviews>

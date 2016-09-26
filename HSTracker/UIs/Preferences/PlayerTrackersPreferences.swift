@@ -23,6 +23,8 @@ class PlayerTrackersPreferences: NSViewController {
     @IBOutlet weak var inHandColor: NSColorWell!
     @IBOutlet weak var showBoardDamage: NSButton!
     @IBOutlet weak var showDeckName: NSButton!
+    @IBOutlet weak var showGraveyard: NSButton!
+    @IBOutlet weak var showGraveyardDetails: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,13 @@ class PlayerTrackersPreferences: NSViewController {
         inHandColor.color = settings.playerInHandColor
         showBoardDamage.state = settings.playerBoardDamage ? NSOnState : NSOffState
         showDeckName.state = settings.showDeckNameInTracker ? NSOnState : NSOffState
+        showGraveyard.state = settings.showPlayerGraveyard ? NSOnState : NSOffState
+        showGraveyardDetails.state = settings.showPlayerGraveyardDetails ? NSOnState : NSOffState
+        if showGraveyard.state == NSOnState {
+            showGraveyardDetails.enabled = true
+        } else {
+            showGraveyardDetails.enabled = false
+        }
     }
     
     @IBAction func colorChange(sender: NSColorWell) {
@@ -73,7 +82,17 @@ class PlayerTrackersPreferences: NSViewController {
             settings.playerBoardDamage = showBoardDamage.state == NSOnState
         } else if sender == showDeckName {
             settings.showDeckNameInTracker = showDeckName.state == NSOnState
+        } else if sender == showGraveyard {
+            settings.showPlayerGraveyard = showGraveyard.state == NSOnState
+            if showGraveyard.state == NSOnState {
+                showGraveyardDetails.enabled = true
+            } else {
+                showGraveyardDetails.enabled = false
+            }
+        } else if sender == showGraveyardDetails {
+            settings.showPlayerGraveyardDetails = showGraveyardDetails.state == NSOnState
         }
+        
     }
 }
 
