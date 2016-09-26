@@ -12,6 +12,8 @@
                 <outlet property="showCardHuds" destination="Jvp-6c-HZ0" id="dCi-2R-3hn"/>
                 <outlet property="showCthunCounter" destination="gyI-vB-68v" id="OjC-Sb-qUz"/>
                 <outlet property="showDeathrattleCounter" destination="U2A-tO-ePh" id="deO-Wh-znY"/>
+                <outlet property="showGraveyard" destination="Uzg-vA-1f9" id="UEn-1g-mXh"/>
+                <outlet property="showGraveyardDetails" destination="p7I-gn-bIA" id="RHo-7Z-rjc"/>
                 <outlet property="showOpponentCardCount" destination="vlC-Xd-bPQ" id="nGN-hb-FIG"/>
                 <outlet property="showOpponentDrawChance" destination="wnH-Tv-Haz" id="ZAv-yW-h6X"/>
                 <outlet property="showOpponentTracker" destination="bt4-kn-GjS" id="dK1-dQ-v0r"/>
@@ -136,6 +138,26 @@
                         <action selector="checkboxClicked:" target="-2" id="Lft-YE-Lbt"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Uzg-vA-1f9">
+                    <rect key="frame" x="18" y="26" width="119" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show graveyard" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="W6j-bY-6aE">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="gFI-u6-9ZT"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p7I-gn-bIA">
+                    <rect key="frame" x="209" y="26" width="199" height="18"/>
+                    <buttonCell key="cell" type="check" title="Cardlist opens on mouseover" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="pMP-qQ-LuR">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="D55-Rn-0hs"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="AOs-wd-f13" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="0Js-eO-zSN"/>
@@ -157,19 +179,23 @@
                 <constraint firstAttribute="trailing" secondItem="Vgg-OU-9bx" secondAttribute="trailing" constant="20" id="MyH-JN-dCw"/>
                 <constraint firstItem="vlC-Xd-bPQ" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Qb5-Dh-bMt"/>
                 <constraint firstItem="AOs-wd-f13" firstAttribute="top" secondItem="U2A-tO-ePh" secondAttribute="bottom" constant="10" id="Rtn-uk-Y2p"/>
+                <constraint firstItem="p7I-gn-bIA" firstAttribute="top" secondItem="mB7-0k-NWy" secondAttribute="bottom" constant="10" id="Sma-Ij-04z"/>
                 <constraint firstAttribute="trailing" secondItem="npw-Sr-U97" secondAttribute="trailing" constant="20" id="TL4-4M-qG2"/>
                 <constraint firstItem="gyI-vB-68v" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="UtP-T4-wth"/>
                 <constraint firstAttribute="trailing" secondItem="vlC-Xd-bPQ" secondAttribute="trailing" constant="20" id="WxD-Y6-Hbe"/>
                 <constraint firstAttribute="trailing" secondItem="wnH-Tv-Haz" secondAttribute="trailing" constant="20" id="Y1P-a2-O0B"/>
+                <constraint firstItem="Uzg-vA-1f9" firstAttribute="top" secondItem="mB7-0k-NWy" secondAttribute="bottom" constant="10" id="YDU-qI-PF8"/>
                 <constraint firstAttribute="trailing" secondItem="5FC-P8-tb7" secondAttribute="trailing" constant="20" id="bUR-HT-1Ry"/>
                 <constraint firstItem="bt4-kn-GjS" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="c8H-0w-Zvp"/>
                 <constraint firstItem="Vgg-OU-9bx" firstAttribute="top" secondItem="5FC-P8-tb7" secondAttribute="bottom" constant="10" id="eJ5-xH-LWe"/>
                 <constraint firstAttribute="trailing" secondItem="gyI-vB-68v" secondAttribute="trailing" constant="20" id="fBk-sv-jbb"/>
                 <constraint firstItem="5FC-P8-tb7" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="gKd-cF-eQD"/>
+                <constraint firstItem="Uzg-vA-1f9" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="jdc-H9-hJP"/>
                 <constraint firstItem="npw-Sr-U97" firstAttribute="top" secondItem="Jvp-6c-HZ0" secondAttribute="bottom" constant="10" id="ldb-kG-Ti9"/>
                 <constraint firstItem="Jvp-6c-HZ0" firstAttribute="top" secondItem="bt4-kn-GjS" secondAttribute="bottom" constant="10" id="m3m-BI-GTn"/>
                 <constraint firstAttribute="trailing" secondItem="bt4-kn-GjS" secondAttribute="trailing" constant="20" id="oMQ-pI-8mt"/>
                 <constraint firstItem="mB7-0k-NWy" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="r1n-aj-BA3"/>
+                <constraint firstItem="p7I-gn-bIA" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="211" id="vcW-In-TJo"/>
                 <constraint firstItem="Jvp-6c-HZ0" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="xJU-nq-SJM"/>
             </constraints>
             <point key="canvasLocation" x="476" y="332"/>
