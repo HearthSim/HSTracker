@@ -128,12 +128,12 @@
 
 /* Stats tabs */
 "Statistics" = "Statistiken";
-"The Climb" = "The Climb";
-"all_seasons" = "All seasons";
-"season" = "Season %@";
+"The Climb" = "Aufstieg";
+"all_seasons" = "Alle Saisons";
+"season" = "Saisons %@";
 
 "Vs %@" = "Vs %@";
 "%@ vs %@" = "%@ vs %@";
-"Your replay has been uploaded on HSReplay" = "Your replay has been uploaded on HSReplay";
-"View" = "View";
-"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.\nWARNING, this is a beta feature !";
+"Your replay has been uploaded on HSReplay" = "Dein Replay wurde auf HSReplay hochgeladen";
+"View" = "Ansehen";
+"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "Um ein Deck nach Hearthstone zu exportieren, erstelle ein neues Deck mit der korrekten Klasse in deiner Sammlung. Klicke dann auf OK und wechsele zu Hearthstone.\nBerühre während des imports weder Deine Maus, noch das Keyboard.\nWARNUNG: Dies ist eine Beta-Funktion!";
