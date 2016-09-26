@@ -417,7 +417,7 @@ class Tracker: NSWindowController {
                 card.count = count
                 graveyardminions.append(card)
             }
-            graveyardCounter.graveyard = graveyardminions
+            graveyardCounter.graveyard = graveyardminions.sortCardList()
             graveyardCounter.minions = minions
             graveyardCounter.murlocks = murlocks
         }
