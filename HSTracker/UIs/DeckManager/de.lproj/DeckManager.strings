@@ -63,7 +63,7 @@
 "T0e-lu-Gfj.paletteLabel" = "Statistiken";
 
 /* Class = "NSToolbarItem"; label = "Export HS"; ObjectID = "PLl-9e-lE5"; */
-"PLl-9e-lE5.label" = "Export HS";
+"PLl-9e-lE5.label" = "Nach Hearthstone exportieren";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Export HS"; ObjectID = "PLl-9e-lE5"; */
-"PLl-9e-lE5.paletteLabel" = "Export HS";
+"PLl-9e-lE5.paletteLabel" = "Nach Hearthstone exportieren";
