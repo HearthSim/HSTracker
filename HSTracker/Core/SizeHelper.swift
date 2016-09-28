@@ -193,8 +193,21 @@ struct SizeHelper {
     }
     
     static func firstCardLocation() -> NSPoint {
-        let frame = NSRect(x: 320.0, y: 225.0, width: 50.0, height: 50.0)
-        return hearthstoneWindow.relativeFrame(frame).origin
+        let HsRect = hearthstoneWindow.frame
+        let ratio = (4.0 / 3.0) / (HsRect.width / HsRect.height)
+        let CardPosOffset: CGFloat = 50
+        let ExportCard1X: CGFloat = 0.04
+        let ExportCard1Y: CGFloat = 0.168
+        
+        let CardPosX: CGFloat = GetScaledXPos(ExportCard1X, width: HsRect.width, ratio: ratio)
+        let CardPosY: CGFloat = ExportCard1Y * HsRect.height
+        var loc: NSPoint = NSPoint(x: CardPosX+CardPosOffset, y: CardPosY+CardPosOffset)
+        
+        // correct location with window origin.
+        loc.x += HsRect.origin.x
+        loc.y = loc.y + (
+            hearthstoneWindow.screenrect.height - HsRect.origin.y - HsRect.size.height)
+        return loc
     }
 
     static func playerTrackerFrame() -> NSRect {
