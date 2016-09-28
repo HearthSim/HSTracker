@@ -27,6 +27,7 @@ class Tracker: NSWindowController {
     @IBOutlet weak var playerClass: NSView!
     @IBOutlet weak var recordTracker: StringTracker!
     @IBOutlet weak var fatigueTracker: StringTracker!
+    @IBOutlet weak var graveyardCounter: GraveyardCounter!
     
     var heroCard: Card?
     var animatedCards: [CardBar] = []
@@ -108,7 +109,7 @@ class Tracker: NSWindowController {
         NSWorkspace.sharedWorkspace().notificationCenter
             .addObserver(self, selector: #selector(Tracker.bringToFront),
                          name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
-        
+
         setWindowSizes()
         _setOpacity()
         _windowLockedChange()
@@ -325,6 +326,7 @@ class Tracker: NSWindowController {
         let showCthunCounter: Bool
         let showSpellCounter: Bool
         let showDeathrattleCounter: Bool
+        let showGraveyard: Bool
         let proxy: Entity?
 
         if playerType == .Opponent {
@@ -335,6 +337,7 @@ class Tracker: NSWindowController {
             showCthunCounter = WotogCounterHelper.showOpponentCthunCounter
             showSpellCounter = WotogCounterHelper.showOpponentSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showOpponentDeathrattleCounter
+            showGraveyard = WotogCounterHelper.showOpponentGraveyard
             proxy = WotogCounterHelper.opponentCthunProxy
             playerClass.hidden = !settings.showOpponentClassInTracker
             recordTracker.hidden = true
@@ -346,11 +349,13 @@ class Tracker: NSWindowController {
             showCthunCounter = WotogCounterHelper.showPlayerCthunCounter
             showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showPlayerDeathrattleCounter
+            showGraveyard = WotogCounterHelper.showPlayerGraveyard
             proxy = WotogCounterHelper.playerCthunProxy
             playerClass.hidden = !settings.showDeckNameInTracker
             recordTracker.hidden = !settings.showWinLossRatio
         }
         fatigueTracker.hidden = !(settings.fatigueIndicator && player?.fatigue > 0)
+        graveyardCounter.hidden = !showGraveyard
 
         if let activeDeck = Game.instance.activeDeck where !recordTracker.hidden {
             recordTracker.message = StatsHelper.getDeckManagerRecordLabel(activeDeck)
@@ -387,6 +392,36 @@ class Tracker: NSWindowController {
         wotogCounter.health = proxy?.health ?? 6
         wotogCounter.spell = player?.spellsPlayedCount ?? 0
         wotogCounter.deathrattle = player?.deathrattlesPlayedCount ?? 0
+        
+        
+        if let graveyard = player?.graveyard {
+            // map entitiy to card [count]
+            var minionmap = [Card: Int]()
+            var minions: Int = 0; var murlocks: Int = 0
+            for e: Entity in graveyard {
+                if e.isMinion {
+                    if let value = minionmap[e.card] {
+                        minionmap[e.card] = value+1
+                    } else {
+                        minionmap[e.card] = 1
+                    }
+                    minions += 1
+                    if e.card.race == Race.MURLOC {
+                        murlocks += 1
+                    }
+                }
+            }
+            
+            var graveyardminions: [Card] = []
+            for (card, count) in minionmap {
+                card.count = count
+                graveyardminions.append(card)
+            }
+            graveyardCounter.graveyard = graveyardminions.sortCardList()
+            graveyardCounter.minions = minions
+            graveyardCounter.murlocks = murlocks
+        }
+        
 
         let bigFrameHeight = round(71 / ratio)
         let smallFrameHeight = round(40 / ratio)
@@ -459,6 +494,9 @@ class Tracker: NSWindowController {
         if showDeathrattleCounter {
             offsetFrames += smallFrameHeight
         }
+        if showGraveyard {
+            offsetFrames += smallFrameHeight
+        }
         if !recordTracker.hidden {
             offsetFrames += smallFrameHeight
         }
@@ -527,6 +565,20 @@ class Tracker: NSWindowController {
 
             wotogCounter?.frame = NSRect(x: 0, y: y, width: windowWidth, height: height)
             wotogCounter?.needsDisplay = true
+        }
+        if !graveyardCounter.hidden {
+            y -= smallFrameHeight
+            graveyardCounter?.frame = NSRect(x: 0,
+                                             y: y,
+                                             width: windowWidth,
+                                             height: smallFrameHeight)
+            if playerType == .Opponent {
+                graveyardCounter?.displayDetails = settings.showOpponentGraveyardDetails
+            } else {
+                graveyardCounter?.displayDetails = settings.showPlayerGraveyardDetails
+            }
+            graveyardCounter?.cardHeight = cardHeight
+            graveyardCounter?.needsDisplay = true
         }
         if !recordTracker.hidden {
             y -= smallFrameHeight
