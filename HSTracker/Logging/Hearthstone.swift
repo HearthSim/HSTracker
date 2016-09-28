@@ -268,6 +268,13 @@ final class Hearthstone: NSObject {
                 .postNotificationName("hearthstone_active", object: nil)
         }
     }
+    
+    func bringToFront() {
+        if let hsapp = NSWorkspace.sharedWorkspace().runningApplications
+            .first({$0.localizedName! == self.applicationName}) {
+            hsapp.activateWithOptions(NSApplicationActivationOptions.ActivateIgnoringOtherApps)
+        }
+    }
 
     // MARK: - Paths / Utils
     var configPath: String {
@@ -282,5 +289,10 @@ final class Hearthstone: NSObject {
     var isHearthstoneRunning: Bool {
         let apps = NSWorkspace.sharedWorkspace().runningApplications
         return apps.any({$0.localizedName == self.applicationName})
+    }
+    
+    var getHearthstoneApp: NSRunningApplication? {
+        let apps = NSWorkspace.sharedWorkspace().runningApplications
+        return apps.first({$0.localizedName! == self.applicationName})
     }
 }
