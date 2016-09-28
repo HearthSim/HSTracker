@@ -13,6 +13,10 @@ struct Automation {
     
     func expertDeckToHearthstone(deck: Deck, callback: (()->())?) {
         dispatch_async(queue) {
+            
+            // bring HS to front
+            Hearthstone.instance.bringToFront()
+            
             let searchLocation = SizeHelper.searchLocation()
             let firstCardLocation = SizeHelper.firstCardLocation()
             deck.sortedCards.forEach {
