@@ -109,7 +109,7 @@ class Tracker: NSWindowController {
         NSWorkspace.sharedWorkspace().notificationCenter
             .addObserver(self, selector: #selector(Tracker.bringToFront),
                          name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
-        
+
         setWindowSizes()
         _setOpacity()
         _windowLockedChange()

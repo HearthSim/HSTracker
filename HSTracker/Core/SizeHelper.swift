@@ -152,7 +152,7 @@ struct SizeHelper {
     
     static private func trackerFrame(x: CGFloat) -> NSRect {
         // game menu
-        let offset: CGFloat = 50
+        let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
         let width: CGFloat
         switch Settings.instance.cardSize {
         case .Small:
