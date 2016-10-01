@@ -99,8 +99,8 @@ class LogUploader {
             return
         }
         
-        if logLines.filter({ $0.contains("CREATE_GAME") }).count > 1 {
-            completion(.failed(error: "Log contains multiple games"))
+        if logLines.filter({ $0.contains("CREATE_GAME") }).count != 1 {
+            completion(.failed(error: "Log contains none or multiple games"))
             return
         }
         
