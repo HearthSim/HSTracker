@@ -17,6 +17,7 @@ struct SizeHelper {
     class HearthstoneWindow {
         var _frame = NSRect.zero
         var windowId: CGWindowID?
+        var screenRect: NSRect = NSRect()
         
         init() {
             reload()
@@ -40,8 +41,11 @@ struct SizeHelper {
                 let bounds = info["kCGWindowBounds"] as! CFDictionary
                 // swiftlint:enable force_cast
                 CGRectMakeWithDictionaryRepresentation(bounds, &rect)
-               
+
+                // Warning: this function assumes that the
+                // first screen in the list is the active one
                 if let screen = NSScreen.screens()?.first {
+                    screenRect = screen.frame
                     rect.origin.y = screen.frame.maxY - rect.maxY
                 }
                 
@@ -167,15 +171,41 @@ struct SizeHelper {
                            height: max(100, hearthstoneWindow.frame.height - offset))
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
-    
-    static func searchLocation() -> NSPoint {
-        let frame = NSRect(x: 700.0, y: 883.0, width: 50.0, height: 50.0)
-        return hearthstoneWindow.relativeFrame(frame).origin
+
+    private static func getScaledXPos(left: CGFloat, width: CGFloat, ratio: CGFloat) -> CGFloat {
+        return ((width) * ratio * left) + (width * (1 - ratio) / 2)
     }
-    
+
+    static func searchLocation() -> NSPoint {
+        let hsRect = hearthstoneWindow.frame
+        let ratio = (4.0 / 3.0) / (hsRect.width / hsRect.height)
+        let exportSearchBoxX: CGFloat = 0.5
+        let exportSearchBoxY: CGFloat = 0.915
+        var loc = NSPoint(x: getScaledXPos(exportSearchBoxX, width: hsRect.width, ratio: ratio),
+                          y: exportSearchBoxY * hsRect.height)
+
+        // correct location with window origin.
+        loc.x += hsRect.origin.x
+        loc.y = loc.y + (
+            hearthstoneWindow.screenRect.height - hsRect.origin.y - hsRect.size.height)
+        return loc
+    }
+
     static func firstCardLocation() -> NSPoint {
-        let frame = NSRect(x: 320.0, y: 225.0, width: 50.0, height: 50.0)
-        return hearthstoneWindow.relativeFrame(frame).origin
+        let hsRect = hearthstoneWindow.frame
+        let ratio = (4.0 / 3.0) / (hsRect.width / hsRect.height)
+        let cardPosOffset: CGFloat = 50
+        let exportCard1X: CGFloat = 0.04
+        let exportCard1Y: CGFloat = 0.168
+
+        let cardPosX = getScaledXPos(exportCard1X, width: hsRect.width, ratio: ratio)
+        let cardPosY = exportCard1Y * hsRect.height
+        var loc = NSPoint(x: cardPosX + cardPosOffset, y: cardPosY + cardPosOffset)
+
+        // correct location with window origin.
+        loc.x += hsRect.origin.x
+        loc.y = loc.y + (hearthstoneWindow.screenrect.height - hsRect.origin.y - hsRect.size.height)
+        return loc
     }
 
     static func playerTrackerFrame() -> NSRect {
