@@ -204,7 +204,7 @@ struct SizeHelper {
 
         // correct location with window origin.
         loc.x += hsRect.origin.x
-        loc.y = loc.y + (hearthstoneWindow.screenrect.height - hsRect.origin.y - hsRect.size.height)
+        loc.y = loc.y + (hearthstoneWindow.screenRect.height - hsRect.origin.y - hsRect.size.height)
         return loc
     }
 

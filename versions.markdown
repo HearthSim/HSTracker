@@ -5,6 +5,7 @@
 - Trackers should not disappear again when they « auto-position trackers » is checked
 - Add a release channel for betas
 - Support for importing decks from http://www.hearthstonetopdeck.com
+- Add a graveyard and minion count in the trackers
 - Add an option to export your deck to Hearthstone (This is a BETA feature !)
 - You can now change your deck with a right click on the dock icon !
 - Minor bugfixes
