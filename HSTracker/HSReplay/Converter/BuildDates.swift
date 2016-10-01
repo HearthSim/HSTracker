@@ -26,6 +26,7 @@ struct BuildDates {
     
     private static let knownBuildDates: [BuildDate] = {
         return [
+            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 9, day: 15), build: 14406),
             BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 8, day: 9)!, build: 13921),
             BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 7, day: 26)!, build: 13807),
             BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 7, day: 15)!, build: 13740),
