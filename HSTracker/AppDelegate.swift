@@ -62,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
             BITHockeyManager.sharedHockeyManager().configureWithIdentifier(hockeyKey)
             BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
-            BITHockeyManager.sharedHockeyManager().debugLogEnabled = false
+            BITHockeyManager.sharedHockeyManager().logLevel = BITLogLevelNone
             BITHockeyManager.sharedHockeyManager().delegate = self
             BITHockeyManager.sharedHockeyManager().startManager()
         #endif
