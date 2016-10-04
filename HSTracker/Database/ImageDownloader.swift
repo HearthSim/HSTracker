@@ -105,7 +105,7 @@ final class ImageDownloader {
         if let image = images.popLast() {
             dispatch_async(dispatch_get_main_queue()) {
                 splashscreen.increment(String(format:
-                    NSLocalizedString("Downloading %@.png", comment: ""), image))
+                    NSLocalizedString("Downloading %@", comment: ""), "\(image).png"))
             }
 
             let path = "\(destination)/HSTracker/cards/\(image).png"

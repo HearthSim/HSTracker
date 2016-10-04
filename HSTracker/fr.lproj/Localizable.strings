@@ -9,7 +9,9 @@
 "Delete deck" = "Supprimer le deck";
 "Do you want to add this deck on Hearthstats ?" = "Voulez-vous ajouter ce deck sur Hearthstats ?";
 "Do you want to delete the deck on Hearthstats ?" = "Voulez-vous supprimer ce deck sur Hearthstats ?";
-"Downloading %@.png" = "Téléchargement de %@.png";
+"Download Hearthstone cards" = "Téléchargement des cartes Hearthstone";
+"Loading Hearthstone builds" = "Chargement des patches Hearthstone";
+"Downloading %@" = "Téléchargement de %@";
 "Downloading images" = "Téléchargement des images";
 "Edit deck" = "Editer le deck";
 "Game" = "Jeu";

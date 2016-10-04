@@ -9,7 +9,9 @@
 "Delete deck" = "删除套牌";
 "Do you want to add this deck on Hearthstats ?" = "想加这个套牌上 Hearthstats 吗 ?";
 "Do you want to delete the deck on Hearthstats ?" = "想要删除这个套牌在 Hearthstats 吗 ?";
-"Downloading %@.png" = "下载 %@.png";
+"Download Hearthstone cards" = "Download Hearthstone cards";
+"Loading Hearthstone builds" = "Loading Hearthstone builds";
+"Downloading %@" = "下载 %@";
 "Downloading images" = "下载图片";
 "Edit deck" = "修改套牌";
 "Game" = "游戏";

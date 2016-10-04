@@ -7,14 +7,117 @@
 //
 
 import Foundation
+import Alamofire
+import Unbox
+import CleanroomLogger
 
 struct BuildDates {
+
+    private static var knownBuildDates: [BuildDate] = []
     
     struct BuildDate {
         let date: NSDate
         let build: Int
     }
-    
+
+    static func loadBuilds(splashscreen: Splashscreen) {
+        dispatch_async(dispatch_get_main_queue()) {
+            splashscreen.display(NSLocalizedString("Loading Hearthstone builds", comment: ""),
+                                 indeterminate: true)
+        }
+
+        let f = "https://raw.githubusercontent.com/HearthSim/HSTracker/master/hs-build-dates.json"
+        if let url = NSURL(string: f) {
+
+            let semaphore = dispatch_semaphore_create(0)
+            NSURLSession.sharedSession().dataTaskWithURL(url) { (data, response, error) in
+                if let data = data {
+                    do {
+                        if let json: [String: String] = try NSJSONSerialization
+                            .JSONObjectWithData(data,
+                                                options: .AllowFragments) as? [String: String] {
+                            for (build, date) in json {
+                                if let nsdate = NSDate.NSDateFromString(date,
+                                                                        inFormat: "yyyy-MM-dd"),
+                                    intBuild = Int(build) {
+                                    let buildDate = BuildDate(date: nsdate, build: intBuild)
+                                    knownBuildDates.append(buildDate)
+                                }
+                            }
+                        }
+                    } catch let error {
+                        Log.error?.message("\(error)")
+                    }
+                } else if let error = error {
+                    Log.error?.message("\(error)")
+                }
+                dispatch_semaphore_signal(semaphore)
+            }.resume()
+
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        }
+    }
+
+    static func isOutdated() -> Bool {
+        guard let latestBuild = self.latestBuild else { return true }
+
+        let actual = NSUserDefaults.standardUserDefaults().integerForKey("hs_latest_build")
+        Log.info?.message("Latest build : \(latestBuild.build), actual is \(actual)")
+
+        return actual != latestBuild.build
+    }
+
+    static func downloadCards(splashscreen: Splashscreen) {
+        dispatch_async(dispatch_get_main_queue()) {
+            splashscreen.display(NSLocalizedString("Download Hearthstone cards", comment: ""),
+                                 total: Double(Language.hsLanguages.count))
+        }
+
+        if let latestBuild = self.latestBuild,
+            destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory,
+                                                                 .UserDomainMask, true).first {
+
+            let path = "\(destination)/HSTracker/json"
+            do {
+                try NSFileManager.defaultManager()
+                    .createDirectoryAtPath(path,
+                                           withIntermediateDirectories: true,
+                                           attributes: nil)
+            } catch { }
+
+            let build = latestBuild.build
+            for locale in Language.hsLanguages {
+                dispatch_async(dispatch_get_main_queue()) {
+                    splashscreen.increment(String(format:
+                        NSLocalizedString("Downloading %@", comment: ""),
+                        "cardsDB.\(locale).json"))
+                }
+
+                let semaphore = dispatch_semaphore_create(0)
+                let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale)/cards.json"
+
+                if let url = NSURL(string: cardUrl) {
+                    NSURLSession.sharedSession()
+                        .dataTaskWithURL(url) { (data, response, error) in
+                            if let data = data {
+                                Log.info?.message("Saving \(cardUrl) to "
+                                    + "\(path)/cardsDB.\(locale).json")
+                                data.writeToFile("\(path)/cardsDB.\(locale).json",
+                                                 atomically: true)
+                            } else if let error = error {
+                                Log.error?.message("\(error)")
+                            }
+
+                            dispatch_semaphore_signal(semaphore)
+                        }.resume()
+                }
+                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+            }
+
+            NSUserDefaults.standardUserDefaults().setInteger(build, forKey: "hs_latest_build")
+        }
+    }
+
     static func getByDate(date: NSDate) -> Int? {
         for buildDate in knownBuildDates {
             if date >= buildDate.date {
@@ -23,57 +126,10 @@ struct BuildDates {
         }
         return nil
     }
-    
-    private static let knownBuildDates: [BuildDate] = {
-        return [
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 9, day: 15)!, build: 14406),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 8, day: 9)!, build: 13921),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 7, day: 26)!, build: 13807),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 7, day: 15)!, build: 13740),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 7, day: 12)!, build: 13619),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 6, day: 1)!, build: 13030),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 4, day: 25)!, build: 12574),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 4, day: 14)!, build: 12266),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2016, month: 3, day: 14)!, build: 12051),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 12, day: 4)!, build: 10956),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 11, day: 10)!, build: 10833),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 10, day: 20)!, build: 10604),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 9, day: 29)!, build: 10357),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 8, day: 18)!, build: 9786),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 6, day: 29)!, build: 9554),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 6, day: 15)!, build: 9166),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 5, day: 14)!, build: 8834),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 4, day: 14)!, build: 8416),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 3, day: 31)!, build: 8311),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 3, day: 19)!, build: 8108),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 2, day: 26)!, build: 8036),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 2, day: 25)!, build: 7835),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 2, day: 9)!, build: 7785),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2015, month: 1, day: 29)!, build: 7628),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 12, day: 4)!, build: 7234),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 10, day: 29)!, build: 6898),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 9, day: 22)!, build: 6485),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 8, day: 16)!, build: 6284),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 8, day: 6)!, build: 6187),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 7, day: 31)!, build: 6141),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 7, day: 22)!, build: 6024),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 6, day: 30)!, build: 5834),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 5, day: 28)!, build: 5506),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 5, day: 21)!, build: 5435),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 5, day: 8)!, build: 5314),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 4, day: 10)!, build: 5170),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 3, day: 13)!, build: 4973),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 1, day: 17)!, build: 4482),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2014, month: 1, day: 16)!, build: 4458),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 1, day: 13)!, build: 4442),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 12, day: 10)!, build: 4217),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 10, day: 17)!, build: 3937),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 10, day: 2)!, build: 3890),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 8, day: 14)!, build: 3664),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 8, day: 13)!, build: 3645),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 8, day: 12)!, build: 3604),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 6, day: 22)!, build: 3388),
-            BuildDate(date: NSDate.NSDateFromYear(year: 2013, month: 6, day: 5)!, build: 3140)
-        ]
-    }()
+
+    private static var latestBuild: BuildDate? {
+        return knownBuildDates.sort {
+            $0.date < $1.date
+        }.reverse().first
+    }
 }

@@ -19,14 +19,6 @@ class GamePreferences: NSViewController {
     @IBOutlet weak var hearthstoneLanguage: NSComboBox!
     @IBOutlet weak var checkImage: NSImageView!
 
-    let hsLanguages = ["deDE", "enUS", "esES", "esMX", "frFR",
-                       "itIT", "koKR", "plPL", "ptBR", "ruRU",
-                       "zhCN", "zhTW", "jaJP", "thTH"]
-    let hearthstoneLanguages = ["de_DE", "en_US", "es_ES", "es_MX", "fr_FR",
-                                "it_IT", "ko_KR", "pl_PL", "pt_BR", "ru_RU",
-                                "zh_CN", "zh_TW", "ja_JP", "th_TH"]
-    let hstrackerLanguages = ["de", "en", "fr", "it", "pt-br", "zh-cn", "es"]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         let settings = Settings.instance
@@ -52,10 +44,12 @@ class GamePreferences: NSViewController {
             decksPath.stringValue = deckPath
         }
 
-        if let locale = settings.hsTrackerLanguage, index = hstrackerLanguages.indexOf(locale) {
+        if let locale = settings.hsTrackerLanguage,
+            index = Language.hstrackerLanguages.indexOf(locale) {
             hstrackerLanguage.selectItemAtIndex(index)
         }
-        if let locale = settings.hearthstoneLanguage, index = hsLanguages.indexOf(locale) {
+        if let locale = settings.hearthstoneLanguage,
+            index = Language.hsLanguages.indexOf(locale) {
             hearthstoneLanguage.selectItemAtIndex(index)
         }
     }
@@ -98,9 +92,9 @@ class GamePreferences: NSViewController {
 extension GamePreferences: NSComboBoxDataSource, NSComboBoxDelegate {
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
-            return hstrackerLanguages.count
+            return Language.hstrackerLanguages.count
         } else if aComboBox == hearthstoneLanguage {
-            return hearthstoneLanguages.count
+            return Language.hearthstoneLanguages.count
         }
 
         return 0
@@ -109,9 +103,9 @@ extension GamePreferences: NSComboBoxDataSource, NSComboBoxDelegate {
     func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
         var language: String?
         if aComboBox == hstrackerLanguage {
-            language = hstrackerLanguages[index]
+            language = Language.hstrackerLanguages[index]
         } else if aComboBox == hearthstoneLanguage {
-            language = hearthstoneLanguages[index]
+            language = Language.hearthstoneLanguages[index]
         }
 
         if let language = language {
@@ -126,12 +120,12 @@ extension GamePreferences: NSComboBoxDataSource, NSComboBoxDelegate {
         if let sender = notification.object as? NSComboBox {
             let settings = Settings.instance
             if sender == hearthstoneLanguage {
-                let hearthstone = hsLanguages[hearthstoneLanguage!.indexOfSelectedItem]
+                let hearthstone = Language.hsLanguages[hearthstoneLanguage!.indexOfSelectedItem]
                 if settings.hearthstoneLanguage != hearthstone {
                     settings.hearthstoneLanguage = hearthstone
                 }
             } else if sender == hstrackerLanguage {
-                let hstracker = hstrackerLanguages[hstrackerLanguage!.indexOfSelectedItem]
+                let hstracker = Language.hstrackerLanguages[hstrackerLanguage!.indexOfSelectedItem]
                 if settings.hsTrackerLanguage != hstracker {
                     settings.hsTrackerLanguage = hstracker
                 }

@@ -31,8 +31,14 @@ struct Database {
         langs += ["enUS"]
 
         var images = [String]()
+        guard let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory,
+            .UserDomainMask, true).first else {
+                Log.error?.message("Can't get HSTracker path")
+                return nil
+        }
+
         for lang in langs {
-            let jsonFile = NSBundle.mainBundle().resourcePath! + "/Resources/Cards/cardsDB.\(lang).json"
+            let jsonFile = "\(destination)/HSTracker/json/cardsDB.\(lang).json"
             Log.verbose?.message("json file : \(jsonFile)")
             if let jsonData = NSData(contentsOfFile: jsonFile) {
                 do {

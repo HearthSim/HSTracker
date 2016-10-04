@@ -22,14 +22,6 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
     var completionHandler: (() -> Void)?
 
-    let hsLanguages = ["deDE", "enUS", "esES", "esMX", "frFR",
-                       "itIT", "koKR", "plPL", "ptBR", "ruRU",
-                       "zhCN", "zhTW", "jaJP", "thTH"]
-    let hearthstoneLanguages = ["de_DE", "en_US", "es_ES", "es_MX", "fr_FR",
-                                "it_IT", "ko_KR", "pl_PL", "pt_BR", "ru_RU",
-                                "zh_CN", "zh_TW", "ja_JP", "th_TH"]
-    let hstrackerLanguages = ["de", "en", "fr", "it", "pt-br", "zh-cn", "es"]
-
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -65,8 +57,8 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             saveButton.enabled = false
             return
         }
-        let hstracker = hstrackerLanguages[hstrackerLanguage.indexOfSelectedItem]
-        let hearthstone = hsLanguages[hearthstoneLanguage.indexOfSelectedItem]
+        let hstracker = Language.hstrackerLanguages[hstrackerLanguage.indexOfSelectedItem]
+        let hearthstone = Language.hsLanguages[hearthstoneLanguage.indexOfSelectedItem]
 
         Settings.instance.hearthstoneLanguage = hearthstone
         Settings.instance.hsTrackerLanguage = hstracker
@@ -102,9 +94,9 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
     // MARK: - NSComboBoxDataSource methods
     func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
-            return hstrackerLanguages.count
+            return Language.hstrackerLanguages.count
         } else if aComboBox == hearthstoneLanguage {
-            return hearthstoneLanguages.count
+            return Language.hearthstoneLanguages.count
         }
 
         return 0
@@ -113,9 +105,9 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
     func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
         var language: String?
         if aComboBox == hstrackerLanguage {
-            language = hstrackerLanguages[index]
+            language = Language.hstrackerLanguages[index]
         } else if aComboBox == hearthstoneLanguage {
-            language = hearthstoneLanguages[index]
+            language = Language.hearthstoneLanguages[index]
         }
 
         if let language = language {

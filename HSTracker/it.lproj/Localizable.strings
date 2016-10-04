@@ -9,7 +9,9 @@
 "Delete deck" = "Delete deck";
 "Do you want to add this deck on Hearthstats ?" = "Do you want to add this deck on Hearthstats ?";
 "Do you want to delete the deck on Hearthstats ?" = "Do you want to delete the deck on Hearthstats ?";
-"Downloading %@.png" = "Downloading %@.png";
+"Download Hearthstone cards" = "Download Hearthstone cards";
+"Loading Hearthstone builds" = "Loading Hearthstone builds";
+"Downloading %@" = "Downloading %@";
 "Downloading images" = "Downloading images";
 "Edit deck" = "Edit deck";
 "Game" = "Game";

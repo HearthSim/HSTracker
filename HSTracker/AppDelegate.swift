@@ -156,6 +156,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                        display: true)
         splashscreen?.showWindow(self)
 
+        let buildsOperation = NSBlockOperation {
+            BuildDates.loadBuilds(self.splashscreen!)
+            if BuildDates.isOutdated() {
+                BuildDates.downloadCards(self.splashscreen!)
+            }
+        }
+
         let databaseOperation = NSBlockOperation {
             let database = Database()
             if let images = database.loadDatabase(self.splashscreen!) {
@@ -202,6 +209,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
+        databaseOperation.addDependency(buildsOperation)
         loggingOperation.addDependency(trackerOperation)
         loggingOperation.addDependency(menuOperation)
         decksOperation.addDependency(databaseOperation)
@@ -209,6 +217,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menuOperation.addDependency(decksOperation)
 
         operationQueue = NSOperationQueue()
+        operationQueue?.addOperation(buildsOperation)
         operationQueue?.addOperation(trackerOperation)
         operationQueue?.addOperation(databaseOperation)
         operationQueue?.addOperation(decksOperation)
