@@ -590,7 +590,8 @@ class CardBar: NSView, CardBarTheme {
         switch Settings.instance.cardSize {
         case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
         case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
-        default: ratio = 1.0
+        case .VeryBig: ratio = CGFloat(kRowHeight / kHighRowHeight)
+        case .Big: ratio = 1.0
         }
         return ratio
     }
@@ -604,7 +605,8 @@ class CardBar: NSView, CardBarTheme {
         switch Settings.instance.cardSize {
         case .Small: baseHeight = CGFloat(kSmallRowHeight)
         case .Medium: baseHeight = CGFloat(kMediumRowHeight)
-        default: baseHeight = CGFloat(kRowHeight)
+        case .VeryBig: baseHeight = CGFloat(kHighRowFrameWidth)
+        case .Big: baseHeight = CGFloat(kRowHeight)
         }
 
         if baseHeight > self.bounds.height {

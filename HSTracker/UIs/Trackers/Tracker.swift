@@ -209,14 +209,10 @@ class Tracker: NSWindowController {
         var width: Double
         let settings = Settings.instance
         switch settings.cardSize {
-        case .Small:
-            width = kSmallFrameWidth
-
-        case .Medium:
-            width = kMediumFrameWidth
-
-        default:
-            width = kFrameWidth
+        case .Small: width = kSmallFrameWidth
+        case .Medium: width = kMediumFrameWidth
+        case .VeryBig: width = kHighRowFrameWidth
+        case .Big: width = kFrameWidth
         }
 
         self.window!.contentMinSize = NSSize(width: CGFloat(width), height: 400)
@@ -320,7 +316,8 @@ class Tracker: NSWindowController {
         switch settings.cardSize {
         case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
         case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
-        default: ratio = 1.0
+        case .VeryBig: ratio = CGFloat(kRowHeight / kHighRowHeight)
+        case .Big: ratio = 1.0
         }
 
         let showCthunCounter: Bool
@@ -508,7 +505,8 @@ class Tracker: NSWindowController {
         switch settings.cardSize {
         case .Small: cardHeight = CGFloat(kSmallRowHeight)
         case .Medium: cardHeight = CGFloat(kMediumRowHeight)
-        default: cardHeight = CGFloat(kRowHeight)
+        case .VeryBig: cardHeight = CGFloat(kHighRowHeight)
+        case .Big: cardHeight = CGFloat(kRowHeight)
         }
         if animatedCards.count > 0 {
             cardHeight = round(min(cardHeight,

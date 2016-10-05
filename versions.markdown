@@ -8,6 +8,7 @@
 - Add a graveyard and minion count in the trackers
 - Add an option to export your deck to Hearthstone (This is a BETA feature !)
 - You can now change your deck with a right click on the dock icon !
+- Add a huge size for trackers
 - Minor bugfixes
 
 #### 0.17.4.2

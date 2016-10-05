@@ -106,6 +106,7 @@
                             <string>Small</string>
                             <string>Medium</string>
                             <string>Big</string>
+                            <string>Huge</string>
                         </objectValues>
                     </comboBoxCell>
                     <connections>

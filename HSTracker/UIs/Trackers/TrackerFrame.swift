@@ -13,6 +13,9 @@ let kFrameWidth = 217.0
 let kFrameHeight = 700.0
 let kRowHeight = 34.0
 
+let kHighRowHeight = 52.0
+let kHighRowFrameWidth = (kFrameWidth / kRowHeight * kHighRowHeight)
+
 let kMediumRowHeight = 29.0
 let kMediumFrameWidth = (kFrameWidth / kRowHeight * kMediumRowHeight)
 
@@ -20,9 +23,10 @@ let kSmallRowHeight = 23.0
 let kSmallFrameWidth = (kFrameWidth / kRowHeight * kSmallRowHeight)
 
 enum CardSize: Int {
-    case Small,
-    Medium,
-    Big
+    case Small = 0,
+    Medium = 1,
+    Big = 2,
+    VeryBig = 3
 }
 
 class TextFrame: NSView {
@@ -56,13 +60,12 @@ class TextFrame: NSView {
     }
 
     var ratioWidth: CGFloat {
-        var ratio: CGFloat
         switch Settings.instance.cardSize {
-        case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
-        case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
-        default: ratio = 1.0
+        case .Small: return CGFloat(kRowHeight / kSmallRowHeight)
+        case .Medium: return CGFloat(kRowHeight / kMediumRowHeight)
+        case .VeryBig: return CGFloat(kRowHeight / kHighRowHeight)
+        case .Big: return 1.0
         }
-        return ratio
     }
 
     var ratioHeight: CGFloat {

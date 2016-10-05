@@ -49,22 +49,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         let settings = Settings.instance
         
-        #if !DEBUG
-            var hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
-            if settings.releaseChannel == .beta {
-                hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
-            }
-            
-            let url = "https://rink.hockeyapp.net/api/2/apps/\(hockeyKey)"
-            sparkleUpdater.feedURL = NSURL(string: url)
-            sparkleUpdater.sendsSystemProfile = true
-            sparkleUpdater.automaticallyDownloadsUpdates = settings.automaticallyDownloadsUpdates
-            
-            BITHockeyManager.sharedHockeyManager().configureWithIdentifier(hockeyKey)
-            BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
-            BITHockeyManager.sharedHockeyManager().delegate = self
-            BITHockeyManager.sharedHockeyManager().startManager()
-        #endif
+        var hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
+        if settings.releaseChannel == .beta {
+            hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
+        }
+
+        let url = "https://rink.hockeyapp.net/api/2/apps/\(hockeyKey)"
+        sparkleUpdater.feedURL = NSURL(string: url)
+        sparkleUpdater.sendsSystemProfile = true
+        sparkleUpdater.automaticallyDownloadsUpdates = settings.automaticallyDownloadsUpdates
+
+        BITHockeyManager.sharedHockeyManager().configureWithIdentifier(hockeyKey)
+        BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
+        BITHockeyManager.sharedHockeyManager().delegate = self
+        BITHockeyManager.sharedHockeyManager().startManager()
 
         if let _ = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_v2") {
             // welcome to HSTracker v2
@@ -338,14 +336,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let y = screenFrame.height - 50
         let width: CGFloat
         switch settings.cardSize {
-        case .Small:
-            width = CGFloat(kSmallFrameWidth)
-
-        case .Medium:
-            width = CGFloat(kMediumFrameWidth)
-
-        default:
-            width = CGFloat(kFrameWidth)
+        case .Small: width = CGFloat(kSmallFrameWidth)
+        case .Medium: width = CGFloat(kMediumFrameWidth)
+        case .Big: width = CGFloat(kFrameWidth)
+        case .VeryBig: width = CGFloat(kHighRowFrameWidth)
         }
 
         playerTracker = Tracker(windowNibName: "Tracker")

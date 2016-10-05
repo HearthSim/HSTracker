@@ -52,7 +52,9 @@ class TrackersPreferences: NSViewController {
     @IBAction func comboboxChange(sender: NSComboBox) {
         let settings = Settings.instance
         if sender == cardSize {
-            settings.cardSize = CardSize(rawValue: cardSize.indexOfSelectedItem)!
+            if let size = CardSize(rawValue: cardSize.indexOfSelectedItem) {
+                settings.cardSize = size
+            }
         } else if sender == theme {
             settings.theme = themes[theme.indexOfSelectedItem] ?? "dark"
         }
