@@ -49,10 +49,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         let settings = Settings.instance
         
-        var hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
-        if settings.releaseChannel == .beta {
+        let hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
+        /*if settings.releaseChannel == .beta {
             hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
-        }
+        }*/
 
         let url = "https://rink.hockeyapp.net/api/2/apps/\(hockeyKey)"
         sparkleUpdater.feedURL = NSURL(string: url)
