@@ -54,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
         }*/
 
-        let url = "https://rink.hockeyapp.net/api/2/apps/\(hockeyKey)"
+        let url = "https://hsdecktracker.net/hstracker/appcast.xml"
         sparkleUpdater.feedURL = NSURL(string: url)
         sparkleUpdater.sendsSystemProfile = true
         sparkleUpdater.automaticallyDownloadsUpdates = settings.automaticallyDownloadsUpdates
@@ -414,6 +414,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             tracker?.window?.orderOut(self)
         }
+        
     }
 
     func reloadDecks(notification: NSNotification) {
