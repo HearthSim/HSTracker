@@ -24,7 +24,6 @@
 		431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		431202B21D93B7FF00606CA5 /* GRDB.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4312AFEF1C9FEDAC00F3F2BE /* HearthstatsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */; };
-		4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4312AFF21CA0401B00F3F2BE /* Int.swift */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
 		431719731C885BD600F5988B /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719721C885BD600F5988B /* CardCell.swift */; };
 		431719791C8C179D00F5988B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
@@ -49,11 +48,9 @@
 		432B60131CB63D7000B05D19 /* HearthstatsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */; };
 		432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60321CB69FA600B05D19 /* FloatingCard.swift */; };
 		432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B60341CB6A8CC00B05D19 /* FloatingCard.xib */; };
-		432B60371CBD269700B05D19 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60361CBD269700B05D19 /* Color.swift */; };
 		432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60381CBF9AD700B05D19 /* ManaGemButton.swift */; };
 		432C11AB1CCF6B460067C5FE /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C11AA1CCF6B460067C5FE /* Format.swift */; };
 		433554331D5F6B4400277B27 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
-		433554351D5F6B9900277B27 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554341D5F6B9900277B27 /* NSData+GZIP.swift */; };
 		433554391D5FABD600277B27 /* HSReplayPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554381D5FABD600277B27 /* HSReplayPreferences.swift */; };
 		4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */; };
 		433554561D62EE1200277B27 /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554551D62EE1200277B27 /* PlayerType.swift */; };
@@ -129,7 +126,6 @@
 		436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
 		436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		436969151C80653000CE1D29 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436969141C80653000CE1D29 /* LinqExtension.swift */; };
 		436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0B1CFD5F6A00DEB9A1 /* CardBar.swift */; };
 		436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0D1CFD64A300DEB9A1 /* ThemeElementInfo.swift */; };
 		436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0F1CFD79B500DEB9A1 /* ClassicBar.swift */; };
@@ -171,6 +167,13 @@
 		437E56E61DAAA33200FC0FC1 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56E71DAAA33200FC0FC1 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56E81DAAA33200FC0FC1 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56E91DAAB81400FC0FC1 /* Array.swift */; };
+		437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EA1DAAB81400FC0FC1 /* Color.swift */; };
+		437E56F21DAAB81400FC0FC1 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EB1DAAB81400FC0FC1 /* Date.swift */; };
+		437E56F31DAAB81400FC0FC1 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EC1DAAB81400FC0FC1 /* Int.swift */; };
+		437E56F41DAAB81400FC0FC1 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */; };
+		437E56F51DAAB81400FC0FC1 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EE1DAAB81400FC0FC1 /* NSData+GZIP.swift */; };
+		437E56F61DAAB81400FC0FC1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
 		4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
 		4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -219,8 +222,6 @@
 		439C7EDE1C777FA900D29859 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ECF1C777FA900D29859 /* ImageUtils.swift */; };
 		439C7EE31C777FA900D29859 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EDC1C777FA900D29859 /* Tracker.swift */; };
 		439C7EE41C777FA900D29859 /* Tracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439C7EDD1C777FA900D29859 /* Tracker.xib */; };
-		439C7EEA1C777FCF00D29859 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE81C777FCF00D29859 /* Array.swift */; };
-		439C7EEB1C777FCF00D29859 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EE91C777FCF00D29859 /* String.swift */; };
 		43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
 		43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */; };
 		43A12C931CA568A800090BFE /* HearthstatsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */; };
@@ -256,7 +257,6 @@
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
 		43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
-		43E77EEA1C95713300C26950 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE91C95713300C26950 /* Date.swift */; };
 		43E77EED1C969C4100C26950 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EEC1C969C4100C26950 /* Regex.swift */; };
 		43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */; };
 		43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */; };
@@ -382,7 +382,6 @@
 		431202AD1D93B7E600606CA5 /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/Mac/GRDB.framework; sourceTree = "<group>"; };
 		431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = GRDB.framework.dSYM; path = Carthage/Build/Mac/GRDB.framework.dSYM; sourceTree = "<group>"; };
 		4312AFEE1C9FEDAC00F3F2BE /* HearthstatsAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsAPI.swift; sourceTree = "<group>"; };
-		4312AFF21CA0401B00F3F2BE /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
 		431719721C885BD600F5988B /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		431719781C8C179D00F5988B /* Rarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
@@ -484,13 +483,11 @@
 		432B60311CB63DD100B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HearthstatsLogin.strings; sourceTree = "<group>"; };
 		432B60321CB69FA600B05D19 /* FloatingCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingCard.swift; sourceTree = "<group>"; };
 		432B60341CB6A8CC00B05D19 /* FloatingCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloatingCard.xib; sourceTree = "<group>"; };
-		432B60361CBD269700B05D19 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		432B60381CBF9AD700B05D19 /* ManaGemButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManaGemButton.swift; sourceTree = "<group>"; };
 		432C11AA1CCF6B460067C5FE /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		433554301D5F6B3600277B27 /* include.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = include.h; sourceTree = "<group>"; };
 		433554311D5F6B3600277B27 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		433554321D5F6B4400277B27 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		433554341D5F6B9900277B27 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
 		433554381D5FABD600277B27 /* HSReplayPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplayPreferences.swift; sourceTree = "<group>"; };
 		4335543B1D5FAF0300277B27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HSReplayPreferences.xib; sourceTree = "<group>"; };
 		4335543E1D5FAF0600277B27 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/HSReplayPreferences.strings"; sourceTree = "<group>"; };
@@ -579,7 +576,6 @@
 		436789B61CACF64600C962D1 /* CardCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCounter.swift; sourceTree = "<group>"; };
 		436789BA1CACF79800C962D1 /* TrackerFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerFrame.swift; sourceTree = "<group>"; };
 		436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDrawChance.swift; sourceTree = "<group>"; };
-		436969141C80653000CE1D29 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
 		436F5D0B1CFD5F6A00DEB9A1 /* CardBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardBar.swift; sourceTree = "<group>"; };
 		436F5D0D1CFD64A300DEB9A1 /* ThemeElementInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeElementInfo.swift; sourceTree = "<group>"; };
 		436F5D0F1CFD79B500DEB9A1 /* ClassicBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassicBar.swift; sourceTree = "<group>"; };
@@ -605,6 +601,13 @@
 		437B5BC91CD256B100DE0A41 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BCA1CD256B200DE0A41 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BCB1CD256B400DE0A41 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		437E56E91DAAB81400FC0FC1 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		437E56EA1DAAB81400FC0FC1 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		437E56EB1DAAB81400FC0FC1 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		437E56EC1DAAB81400FC0FC1 /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
+		437E56EE1DAAB81400FC0FC1 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
+		437E56EF1DAAB81400FC0FC1 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = "<group>"; };
 		438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Sparkle.framework.dSYM; path = Carthage/Build/Mac/Sparkle.framework.dSYM; sourceTree = "<group>"; };
 		43873CC01CA6E6C200F01CB4 /* WindowMove.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowMove.xib; sourceTree = "<group>"; };
@@ -662,8 +665,6 @@
 		439C7ED31C777FA900D29859 /* Splashscreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Splashscreen.swift; sourceTree = "<group>"; };
 		439C7EDC1C777FA900D29859 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		439C7EDD1C777FA900D29859 /* Tracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Tracker.xib; sourceTree = "<group>"; };
-		439C7EE81C777FCF00D29859 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
-		439C7EE91C777FCF00D29859 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		43A12C861CA3D24800090BFE /* SaveDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveDeck.swift; sourceTree = "<group>"; };
 		43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsLogin.swift; sourceTree = "<group>"; };
 		43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsPreferences.swift; sourceTree = "<group>"; };
@@ -700,7 +701,6 @@
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
 		43E77EE51C94B4B400C26950 /* CardHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHud.swift; sourceTree = "<group>"; };
-		43E77EE91C95713300C26950 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		43E77EEC1C969C4100C26950 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHudContainer.swift; sourceTree = "<group>"; };
 		43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHudContainer.xib; sourceTree = "<group>"; };
@@ -1074,7 +1074,7 @@
 				43C568081D5F60C400451B6F /* Libraries */,
 				43647A571CDF491F00C2B78E /* CleanroomLogger */,
 				43E77EEB1C969C2500C26950 /* Regex */,
-				439C7EE71C777FCF00D29859 /* Categories */,
+				439C7EE71C777FCF00D29859 /* Extensions */,
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 				43D307FA1C83159C00480488 /* SizeHelper.swift */,
 				4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */,
@@ -1193,18 +1193,18 @@
 			path = Trackers;
 			sourceTree = "<group>";
 		};
-		439C7EE71C777FCF00D29859 /* Categories */ = {
+		439C7EE71C777FCF00D29859 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				439C7EE81C777FCF00D29859 /* Array.swift */,
-				439C7EE91C777FCF00D29859 /* String.swift */,
-				436969141C80653000CE1D29 /* LinqExtension.swift */,
-				43E77EE91C95713300C26950 /* Date.swift */,
-				4312AFF21CA0401B00F3F2BE /* Int.swift */,
-				432B60361CBD269700B05D19 /* Color.swift */,
-				433554341D5F6B9900277B27 /* NSData+GZIP.swift */,
+				437E56E91DAAB81400FC0FC1 /* Array.swift */,
+				437E56EA1DAAB81400FC0FC1 /* Color.swift */,
+				437E56EB1DAAB81400FC0FC1 /* Date.swift */,
+				437E56EC1DAAB81400FC0FC1 /* Int.swift */,
+				437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */,
+				437E56EE1DAAB81400FC0FC1 /* NSData+GZIP.swift */,
+				437E56EF1DAAB81400FC0FC1 /* String.swift */,
 			);
-			path = Categories;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		43B6954E1C90387F00F4D0AC /* Replay */ = {
@@ -1515,7 +1515,6 @@
 				43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */,
 				436F5D141CFD803C00DEB9A1 /* FrostBar.swift in Sources */,
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
-				433554351D5F6B9900277B27 /* NSData+GZIP.swift in Sources */,
 				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
@@ -1548,15 +1547,14 @@
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
 				4317197D1C8C54FF00F5988B /* OpponentDrawChance.swift in Sources */,
 				43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */,
-				439C7EEB1C777FCF00D29859 /* String.swift in Sources */,
 				4349104C1D09739C00B22DB2 /* BoardHero.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				437B5BB31CD2439800DE0A41 /* WotogCounterHelper.swift in Sources */,
-				432B60371CBD269700B05D19 /* Color.swift in Sources */,
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				439C7EC11C777F8900D29859 /* AssetHandler.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */,
+				437E56F41DAAB81400FC0FC1 /* LinqExtension.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
@@ -1581,6 +1579,7 @@
 				4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				431AA0CB1D362DBA0030AD22 /* Faction.swift in Sources */,
+				437E56F31DAAB81400FC0FC1 /* Int.swift in Sources */,
 				43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */,
 				C92C68181D1F74CE009030DC /* LadderGrid.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
@@ -1590,6 +1589,7 @@
 				43647A581CDF4A0E00C2B78E /* HSTrackerLogFormatter.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
 				434C2F321C7F475E001D1D91 /* Hearthpwn.swift in Sources */,
+				437E56F61DAAB81400FC0FC1 /* String.swift in Sources */,
 				4305CA471CF434E30048E7EC /* Cards.swift in Sources */,
 				43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */,
 				43C568031D5E59E500451B6F /* UploadResult.swift in Sources */,
@@ -1599,9 +1599,11 @@
 				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
 				43C567F51D5E342C00451B6F /* BuildDates.swift in Sources */,
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
+				437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */,
 				4359BF901D51FD5500F61993 /* TrackOBotPreferences.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */,
+				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
@@ -1613,14 +1615,14 @@
 				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
 				435907EC1CB13835008D4363 /* FileImporter.swift in Sources */,
 				43D601D91CC3A57C0059F36A /* Decks.swift in Sources */,
-				4312AFF31CA0401B00F3F2BE /* Int.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				340A15041D0939380012CA44 /* Draft.swift in Sources */,
 				43C568011D5E584F00451B6F /* LogUploader.swift in Sources */,
+				437E56F51DAAB81400FC0FC1 /* NSData+GZIP.swift in Sources */,
 				439C7EBD1C777F8900D29859 /* TagClass.swift in Sources */,
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
 				C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */,
-				439C7EEA1C777FCF00D29859 /* Array.swift in Sources */,
+				437E56F21DAAB81400FC0FC1 /* Date.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
 				434C2F361C7F4857001D1D91 /* HearthstoneDecks.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
@@ -1654,7 +1656,6 @@
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
-				436969151C80653000CE1D29 /* LinqExtension.swift in Sources */,
 				4394C79C1D18700200007FAD /* CVRankDetectorWrapper.mm in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */,
@@ -1665,7 +1666,6 @@
 				436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				C92C681A1D1F8E27009030DC /* Ranks.swift in Sources */,
-				43E77EEA1C95713300C26950 /* Date.swift in Sources */,
 				64C11831FAF872B46E57E719 /* CardIds.swift in Sources */,
 				BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */,
 				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
