@@ -10,7 +10,7 @@ import Foundation
 import CleanroomLogger
 import Kanna
 
-final class Hearthhead: BaseNetImporter, NetImporterAware {
+final class HearthHead: BaseNetImporter, NetImporterAware {
     static let classes = [
         1: "warrior",
         2: "paladin",
@@ -37,7 +37,7 @@ final class Hearthhead: BaseNetImporter, NetImporterAware {
                 var className: String?
                 if let classNode = doc.at_xpath("//div[@class='deckguide-hero']") {
                     if let clazz = classNode["data-class"], classId = Int(clazz) {
-                        className = Hearthhead.classes[classId]
+                        className = HearthHead.classes[classId]
                         Log.verbose?.message("found \(className)")
                     }
                 }

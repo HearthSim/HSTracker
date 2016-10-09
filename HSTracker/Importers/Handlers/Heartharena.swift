@@ -10,7 +10,7 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-final class Heartharena: BaseNetImporter, NetImporterAware {
+final class HearthArena: BaseNetImporter, NetImporterAware {
 
     var siteName: String {
         return "HearthArena"

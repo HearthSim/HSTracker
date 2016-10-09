@@ -22,8 +22,9 @@ protocol NetImporterAware {
 final class NetImporter {
     static var importers: [NetImporterAware] {
         return [
-            Hearthpwn(), HearthpwnDeckBuilder(), Hearthnews(), Hearthhead(), Heartharena(),
-            Hearthstats(), HearthstoneDecks(), Hearthstonetopdecks()
+            Hearthpwn(), HearthpwnDeckBuilder(), HearthNews(), HearthHead(), HearthArena(),
+            Hearthstats(), HearthstoneDecks(), HearthstoneTopDecks(), Tempostorm(),
+            HearthstoneHeroes()
         ]
     }
 

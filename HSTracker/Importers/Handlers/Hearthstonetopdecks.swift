@@ -10,7 +10,7 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-final class Hearthstonetopdecks: BaseNetImporter, NetImporterAware {
+final class HearthstoneTopDecks: BaseNetImporter, NetImporterAware {
     
     var siteName: String {
         return "Hearthstonetopdecks"

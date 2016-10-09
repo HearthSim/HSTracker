@@ -174,6 +174,8 @@
 		437E56F41DAAB81400FC0FC1 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */; };
 		437E56F51DAAB81400FC0FC1 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EE1DAAB81400FC0FC1 /* NSData+GZIP.swift */; };
 		437E56F61DAAB81400FC0FC1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
+		437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */; };
+		437E56FA1DAAE48E00FC0FC1 /* Hearthstoneheroes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */; };
 		4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
 		4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -608,6 +610,8 @@
 		437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
 		437E56EE1DAAB81400FC0FC1 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
 		437E56EF1DAAB81400FC0FC1 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tempostorm.swift; sourceTree = "<group>"; };
+		437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstoneheroes.swift; sourceTree = "<group>"; };
 		4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = "<group>"; };
 		438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Sparkle.framework.dSYM; path = Carthage/Build/Mac/Sparkle.framework.dSYM; sourceTree = "<group>"; };
 		43873CC01CA6E6C200F01CB4 /* WindowMove.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowMove.xib; sourceTree = "<group>"; };
@@ -861,6 +865,8 @@
 				434C2F3B1C7F48E9001D1D91 /* Hearthnews.swift */,
 				434C2F3D1C7F491C001D1D91 /* Heartharena.swift */,
 				BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */,
+				437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */,
+				437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -1604,6 +1610,7 @@
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */,
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
+				437E56FA1DAAE48E00FC0FC1 /* Hearthstoneheroes.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
@@ -1627,6 +1634,7 @@
 				434C2F361C7F4857001D1D91 /* HearthstoneDecks.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
+				437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */,
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,

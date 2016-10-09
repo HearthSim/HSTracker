@@ -35,6 +35,22 @@ class BaseNetImporter {
         }
     }
 
+    func loadJson(url: String, parameters: [String: String], completion: Any? -> Void) {
+        Log.info?.message("Fetching \(url)")
+
+        Alamofire.request(.GET, url,
+            parameters: parameters)
+            .responseJSON { response in
+                if let data = response.result.value where response.result.isSuccess {
+                    Log.info?.message("Fetching \(url) complete")
+                    completion(data)
+                } else {
+                    print(response.result.error)
+                    completion(nil)
+                }
+        }
+    }
+
     func saveDeck(name: String?, playerClass: CardClass, cards: [String:Int],
                   isArena: Bool, completion: Deck? -> Void) {
         let deck = Deck(playerClass: playerClass, name: name)

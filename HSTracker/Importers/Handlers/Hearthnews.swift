@@ -10,7 +10,7 @@ import Foundation
 import CleanroomLogger
 import Kanna
 
-final class Hearthnews: BaseNetImporter, NetImporterAware {
+final class HearthNews: BaseNetImporter, NetImporterAware {
 
     var siteName: String {
         return "HearthNews"
