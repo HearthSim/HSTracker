@@ -1,6 +1,5 @@
 github "Alamofire/Alamofire" "3.5.1"
 github "emaloney/CleanroomASL" "1.5.0"
-github "bmichotte/GPUImage2" "adb8901f5192a4e1a3e6352dbbd2a2590fb3e78b"
 github "groue/GRDB.swift" "d89842ea23c391621d48b1dea8c1b06e9e3b6f70"
 github "bitstadium/HockeySDK-Mac" "4.1.0"
 github "jwilling/JNWCollectionView" "6724b19a30dba0660b2dfce6a53af08d95eba883"

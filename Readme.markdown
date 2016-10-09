@@ -2,12 +2,12 @@
 
 HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for macOS 10.10+.
 
-[![Build Status](https://travis-ci.org/HearthSim/HSTracker.svg?branch=master)](https://travis-ci.org/bmichotte/HSTracker)
+[![Build Status](https://travis-ci.org/HearthSim/HSTracker.svg?branch=master)](https://travis-ci.org/HearthSim/HSTracker)
 
 Don't forget to follow [@hstracker_mac](https://twitter.com/hstracker_mac) for updates / questions :)
 
 ### Community : 
-- **Gitter**:  [![Join the chat at https://gitter.im/bmichotte/HSTracker](https://badges.gitter.im/bmichotte/HSTracker.svg)](https://gitter.im/bmichotte/HSTracker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+- **Gitter**:  [![Join the chat at https://gitter.im/HSTracker/HSTracker](https://badges.gitter.im/bmichotte/HSTracker.svg)](https://gitter.im/bmichotte/HSTracker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 - **HearthSim**: HSTracker is a [HearthSim](https://hearthsim.info) project. Come join us in #hearthsim on chat.freenode.net.
 
 ### Deck Tracker
