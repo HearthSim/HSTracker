@@ -1,3 +1,13 @@
+#### 0.18.1  
+**Fixes:**  
+- Correct a crash happening on opening Update panel on Preferences
+
+**Changes:** 
+- Get the Hearthstone build number from Hearthstone file to improve HSReplay 
+
+**Internal**
+- HSTracker have been converted to swift 2.3
+
 #### 0.18
 - HSTracker now synchronize your games with HSReplay.net ! Enjoy your replays now !
 - You can play with Hearthstone on fullscreen !
