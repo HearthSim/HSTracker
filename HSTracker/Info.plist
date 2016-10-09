@@ -23,7 +23,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1242</string>
+	<string>1243</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.entertainment</string>
 	<key>LSMinimumSystemVersion</key>
@@ -42,6 +42,6 @@
 	<key>SUEnableSystemProfiling</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://rink.hockeyapp.net/api/2/apps/2f0021b9bb1842829aa1cfbbd85d3bed</string>
+	<string>https://hsdecktracker.net/hstracker/appcast.xml</string>
 </dict>
 </plist>

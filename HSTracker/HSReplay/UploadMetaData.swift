@@ -13,6 +13,7 @@ class UploadMetaData {
     private var statistic: Statistic?
     private var game: Game?
     private var log: [String]
+    var dateStart: NSDate?
     
     var serverIp: String?
     var serverPort: String?
@@ -43,16 +44,14 @@ class UploadMetaData {
 
         self.friendlyPlayerId = self.game?.player.id ?? 0 > 0 ? self.game?.player.id ?? nil
             : (self._friendlyPlayerId > 0 ? self._friendlyPlayerId : nil)
-        
-        var date: NSDate? = nil
+
         if let _date = statistic?.date {
-            date = _date
+            dateStart = _date
         } else if let _date = gameStart {
-            date = _date
+            dateStart = _date
         }
         
-        if let date = date {
-            self.hearthstoneBuild = BuildDates.getByDate(date)
+        if let date = dateStart {
             self.matchStart = date.toIso8601String()
         }
     }
@@ -146,9 +145,9 @@ extension UploadMetaData: WrapCustomizable {
         case "spectatorMode": return "spectator_mode"
         case "friendlyPlayerId": return "friendly_player"
         case "scenarioId": return "scenario_id"
-        case "statistic": return nil
-        case "game": return nil
-        case "log": return nil
+        case "statistic", "game",
+             "log", "gameStart":
+            return nil
         default: break
         }
         

@@ -118,13 +118,35 @@ struct BuildDates {
         }
     }
 
-    static func getByDate(date: NSDate) -> Int? {
+    static func getByDate(date: NSDate) -> BuildDate? {
         for buildDate in knownBuildDates {
             if date >= buildDate.date {
-                return buildDate.build
+                Log.info?.message("Getting build from date : \(buildDate)")
+                return buildDate
             }
         }
         return nil
+    }
+
+    static func getByProductDb() -> BuildDate? {
+        let path = Settings.instance.hearthstoneLogPath
+        guard let data = NSData(contentsOfFile: "\(path)/.product.db") else {
+            return nil
+        }
+        let bytes = UnsafeBufferPointer(start: UnsafePointer<UInt8>(data.bytes),
+                                        count: data.length)
+        guard let content = String(bytes: bytes, encoding: NSASCIIStringEncoding) else {
+            return nil
+        }
+        let matches = content.matches("(\\d+.\\d.\\d.(\\d+))")
+        guard let match = matches.last?.value where matches.count > 0 else {
+            return nil
+        }
+        guard let build = Int(match) else { return nil }
+
+        let buildDate = BuildDate(date: NSDate(), build: build)
+        Log.info?.message("Getting build from product DB : \(buildDate)")
+        return buildDate
     }
 
     private static var latestBuild: BuildDate? {

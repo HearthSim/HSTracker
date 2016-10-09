@@ -78,7 +78,8 @@ class LogUploader {
                                              second: gameStart.second)
             }
             
-            self.upload(lines, game: nil, statistic: nil, gameStart: date) { (result) in
+            self.upload(lines, game: nil, statistic: nil,
+                        gameStart: date, fromFile: true) { (result) in
                 do {
                     try NSFileManager.defaultManager().removeItemAtPath(output)
                 } catch {
@@ -92,7 +93,8 @@ class LogUploader {
     }
     
     static func upload(logLines: [String], game: Game?, statistic: Statistic?,
-                       gameStart: NSDate? = nil, completion: UploadResult -> ()) {
+                       gameStart: NSDate? = nil, fromFile: Bool = false,
+                       completion: UploadResult -> ()) {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))
@@ -126,6 +128,13 @@ class LogUploader {
                                                 game: game,
                                                 statistic: statistic,
                                                 gameStart: gameStart)
+            if let date = uploadMetaData.dateStart where fromFile {
+                uploadMetaData.hearthstoneBuild = BuildDates.getByDate(date)?.build
+            } else if let build = BuildDates.getByProductDb() {
+                uploadMetaData.hearthstoneBuild = build.build
+            } else {
+                uploadMetaData.hearthstoneBuild = BuildDates.getByDate(NSDate())?.build
+            }
             let metaData: [String : AnyObject] = try Wrap(uploadMetaData)
             Log.info?.message("Uploading \(item.hash) -> \(metaData)")
 
