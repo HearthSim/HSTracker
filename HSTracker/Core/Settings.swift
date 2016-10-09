@@ -355,11 +355,11 @@ final class Settings {
     }
     var hearthstatsAutoSynchronize: Bool {
         set { set("hearthstats_auto_synchronize_decks", value: newValue) }
-        get { return get("hearthstats_auto_synchronize_decks") as? Bool ?? true }
+        get { return get("hearthstats_auto_synchronize_decks") as? Bool ?? false }
     }
     var hearthstatsSynchronizeMatches: Bool {
         set { set("hearthstats_auto_synchronize_matches", value: newValue) }
-        get { return get("hearthstats_auto_synchronize_matches") as? Bool ?? true }
+        get { return get("hearthstats_auto_synchronize_matches") as? Bool ?? false }
     }
 
     var theme: String {
