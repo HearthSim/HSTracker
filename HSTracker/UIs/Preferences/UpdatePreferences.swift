@@ -20,7 +20,9 @@ class UpdatePreferences: NSViewController {
         let settings = Settings.instance
         autoDownloadsUpdates.state = settings.automaticallyDownloadsUpdates ? NSOnState : NSOffState
         releaseChannel.selectItemAtIndex(settings.releaseChannel.rawValue)
-        lastUpdate.stringValue = sparkleUpdater.lastUpdateCheckDate.toLocalizedString()
+        if let lastUpdateCheckDate = sparkleUpdater.lastUpdateCheckDate {
+            lastUpdate.stringValue = lastUpdateCheckDate.toLocalizedString()
+        }
     }
     
     @IBAction func changeChannel(sender: AnyObject) {
