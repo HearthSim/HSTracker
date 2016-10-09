@@ -171,6 +171,7 @@
 		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
 		4387BED21CF4D7A00002ECBB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4387BED11CF4D7A00002ECBB /* State.swift */; };
 		43883F1E1DA382BA00A7B79C /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43883F1D1DA382BA00A7B79C /* Language.swift */; };
+		4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390FBB91DAA72E700AE71BB /* Version.swift */; };
 		4394C79A1D18700200007FAD /* CVRankDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7951D18700200007FAD /* CVRankDetection.swift */; };
 		4394C79B1D18700200007FAD /* CVRankDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7961D18700200007FAD /* CVRankDetector.cpp */; };
 		4394C79C1D18700200007FAD /* CVRankDetectorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7991D18700200007FAD /* CVRankDetectorWrapper.mm */; };
@@ -600,6 +601,7 @@
 		43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowMove.swift; sourceTree = "<group>"; };
 		4387BED11CF4D7A00002ECBB /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		43883F1D1DA382BA00A7B79C /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		4390FBB91DAA72E700AE71BB /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		4394C7951D18700200007FAD /* CVRankDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVRankDetection.swift; sourceTree = "<group>"; };
 		4394C7961D18700200007FAD /* CVRankDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVRankDetector.cpp; sourceTree = "<group>"; };
 		4394C7971D18700200007FAD /* CVRankDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CVRankDetector.hpp; sourceTree = "<group>"; };
@@ -1064,6 +1066,7 @@
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 				43D307FA1C83159C00480488 /* SizeHelper.swift */,
 				4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */,
+				4390FBB91DAA72E700AE71BB /* Version.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1646,6 +1649,7 @@
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439C7EC41C777F8900D29859 /* NetHandler.swift in Sources */,
 				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
+				4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */,
 				436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				C92C681A1D1F8E27009030DC /* Ranks.swift in Sources */,

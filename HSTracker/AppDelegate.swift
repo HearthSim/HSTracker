@@ -103,14 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         Log.enable(configuration: loggers)
 
-        // swiftlint:disable line_length
-        var version = ""
-        if let release = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String,
-            build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
-            version = "\(release).\(build) "
-        }
-        Log.info?.message("*** Starting HSTracker \(version)***")
-        // swiftlint:enable line_length
+        Log.info?.message("*** Starting \(Version.buildName)***")
 
         if settings.hearthstoneLogPath.endsWith("/Logs") {
            settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
