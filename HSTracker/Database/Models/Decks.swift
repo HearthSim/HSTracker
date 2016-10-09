@@ -37,7 +37,7 @@ final class Decks {
                 Log.error?.message("Can not read content of \(path)")
             }
             if let files = files {
-                let jsonFiles = files.filter({ $0.endsWith(".json") })
+                let jsonFiles = files.filter({ $0.hasSuffix(".json") })
                 dispatch_async(dispatch_get_main_queue()) {
                     splashscreen?.display(String(format:
                         NSLocalizedString("Loading decks", comment: "")),

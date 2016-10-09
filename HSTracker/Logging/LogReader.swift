@@ -109,7 +109,7 @@ final class LogReader {
 
                     let lines = linesStr
                         .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-                        .filter { !$0.isEmpty && $0.startsWith("D ") && $0.length > 20 }
+                        .filter { !$0.isEmpty && $0.hasPrefix("D ") && $0.length > 20 }
 
                     if !lines.isEmpty {
                         for line in lines {
@@ -118,7 +118,7 @@ final class LogReader {
                             let cutted = line.substringFromIndex(line.startIndex.advancedBy(19))
 
                             if !info.hasFilters
-                                || info.startsWithFilters.any({ cutted.startsWith($0) })
+                                || info.startsWithFilters.any({ cutted.hasPrefix($0) })
                                 || info.containsFilters.any({ cutted.containsString($0) }) {
 
                                 let logLine = LogLine(namespace: info.name,

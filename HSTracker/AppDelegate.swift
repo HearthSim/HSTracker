@@ -105,7 +105,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         Log.info?.message("*** Starting \(Version.buildName)***")
 
-        if settings.hearthstoneLogPath.endsWith("/Logs") {
+        if settings.hearthstoneLogPath.hasSuffix("/Logs") {
            settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
         }
 

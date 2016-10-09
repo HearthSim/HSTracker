@@ -81,7 +81,7 @@ class PowerGameStateHandler {
             let tag = matches[1].value
             let value = matches[2].value
 
-            if rawEntity.startsWith("[") && tagChangeHandler.isEntity(rawEntity) {
+            if rawEntity.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity) {
                 let entity = tagChangeHandler.parseEntity(rawEntity)
                 if let id = entity.id {
                     tagChangeHandler.tagChange(game, rawTag: tag, id: id, rawValue: value)
@@ -208,7 +208,7 @@ class PowerGameStateHandler {
             let cardId = matches[1].value
             var entityId: Int?
 
-            if rawEntity.startsWith("[") && tagChangeHandler.isEntity(rawEntity) {
+            if rawEntity.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity) {
                 let entity = tagChangeHandler.parseEntity(rawEntity)
                 if let _entityId = entity.id {
                     entityId = _entityId
@@ -375,7 +375,7 @@ class PowerGameStateHandler {
 
     private func addTargetAsKnownCardId(game: Game, matches: [Match], count: Int = 1) {
         let target: String = matches[3].value.trim()
-        guard target.startsWith("[") && tagChangeHandler.isEntity(target) else { return }
+        guard target.hasPrefix("[") && tagChangeHandler.isEntity(target) else { return }
         guard target.match(self.dynamicType.CardIdRegex) else { return }
 
         let cardIdMatch = target.matches(self.dynamicType.CardIdRegex)

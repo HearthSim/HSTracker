@@ -95,8 +95,8 @@ final class ReplayMaker {
             opponentHero = points.last?.data
                 .firstWhere({
                     !String.isNullOrEmpty($0.cardId)
-                        && (($0.cardId.startsWith("NAX") && $0.cardId.contains("_01"))
-                            || $0.cardId.startsWith("BRMA"))
+                        && (($0.cardId.hasPrefix("NAX") && $0.cardId.contains("_01"))
+                            || $0.cardId.hasPrefix("BRMA"))
                         && Cards.hero(byId: $0.cardId) != nil
                 })
             if opponentHero == nil {

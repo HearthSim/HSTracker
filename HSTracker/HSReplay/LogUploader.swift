@@ -39,7 +39,7 @@ class LogUploader {
                 return
             }
             
-            if lines.first?.startsWith("[") ?? true {
+            if lines.first?.hasPrefix("[") ?? true {
                 completion(.failed(error: "Output log not supported"))
                 return
             }
