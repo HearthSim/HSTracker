@@ -19,11 +19,6 @@
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
 		4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */; };
 		4308EB831D775E2C000897C8 /* UpdatePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4308EB851D775E2C000897C8 /* UpdatePreferences.xib */; };
-		4311E6AC1D2EF49300DDA546 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; };
-		4311E6AD1D2EF49300DDA546 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436F5D401D001A6D00DEB9A1 /* GPUImage.framework */; };
-		4311E6AE1D2EF49300DDA546 /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; };
-		4311E6AF1D2EF49300DDA546 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
-		4311E6B01D2EF49300DDA546 /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
 		431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; };
 		431202B01D93B7E600606CA5 /* GRDB.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */; };
 		431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -68,20 +63,6 @@
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
 		4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
-		4345E9DF1CB45122002D0F23 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
-		4345E9E01CB45122002D0F23 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
-		4345E9E11CB45122002D0F23 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
-		4345E9E21CB45122002D0F23 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
-		4345E9E31CB45122002D0F23 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
-		4345E9E41CB45122002D0F23 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
-		4345E9E51CB45122002D0F23 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
-		4345E9F21CB4514D002D0F23 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4345E9F31CB4514D002D0F23 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4345E9F41CB4514D002D0F23 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4345E9F51CB4514D002D0F23 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4345E9F61CB4514D002D0F23 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4345E9F71CB4514D002D0F23 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4345E9F81CB4514D002D0F23 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		434910451D09505100B22DB2 /* BoardDamage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434910441D09505100B22DB2 /* BoardDamage.xib */; };
 		434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910461D09505E00B22DB2 /* BoardDamage.swift */; };
 		4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910491D09545C00B22DB2 /* BoardCard.swift */; };
@@ -155,8 +136,6 @@
 		436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D111CFD7E7500DEB9A1 /* DarkBar.swift */; };
 		436F5D141CFD803C00DEB9A1 /* FrostBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D131CFD803C00DEB9A1 /* FrostBar.swift */; };
 		436F5D161CFD822600DEB9A1 /* MinimalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D151CFD822600DEB9A1 /* MinimalBar.swift */; };
-		436F5D3F1D001A5E00DEB9A1 /* GPUImage.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436F5D3E1D001A5E00DEB9A1 /* GPUImage.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436F5D411D001A6D00DEB9A1 /* GPUImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436F5D401D001A6D00DEB9A1 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAB1CD1E6AF00DE0A41 /* Step.swift */; };
 		437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */; };
 		437B5BB31CD2439800DE0A41 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
@@ -164,6 +143,34 @@
 		437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */; };
 		437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */; };
 		437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */; };
+		437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; };
+		437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
+		437E56CB1DAAA32E00FC0FC1 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; };
+		437E56CD1DAAA32E00FC0FC1 /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; };
+		437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
+		437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
+		437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
+		437E56D11DAAA32E00FC0FC1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
+		437E56D21DAAA32E00FC0FC1 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
+		437E56D31DAAA32E00FC0FC1 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
+		437E56D41DAAA32E00FC0FC1 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
+		437E56D51DAAA32E00FC0FC1 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
+		437E56D61DAAA32E00FC0FC1 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
+		437E56D71DAAA32E00FC0FC1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
+		437E56D81DAAA33200FC0FC1 /* GRDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56DA1DAAA33200FC0FC1 /* opencv2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56DC1DAAA33200FC0FC1 /* Unbox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56DF1DAAA33200FC0FC1 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56E21DAAA33200FC0FC1 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56E31DAAA33200FC0FC1 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56E41DAAA33200FC0FC1 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56E51DAAA33200FC0FC1 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56E61DAAA33200FC0FC1 /* JNWCollectionView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56E71DAAA33200FC0FC1 /* Kanna.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		437E56E81DAAA33200FC0FC1 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
 		4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -289,13 +296,20 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4345E9F21CB4514D002D0F23 /* Alamofire.framework in CopyFiles */,
-				4345E9F31CB4514D002D0F23 /* CleanroomASL.framework in CopyFiles */,
-				4345E9F41CB4514D002D0F23 /* CleanroomLogger.framework in CopyFiles */,
-				4345E9F51CB4514D002D0F23 /* HockeySDK.framework in CopyFiles */,
-				4345E9F61CB4514D002D0F23 /* JNWCollectionView.framework in CopyFiles */,
-				4345E9F71CB4514D002D0F23 /* Kanna.framework in CopyFiles */,
-				4345E9F81CB4514D002D0F23 /* MASPreferences.framework in CopyFiles */,
+				437E56D81DAAA33200FC0FC1 /* GRDB.framework in CopyFiles */,
+				437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */,
+				437E56DA1DAAA33200FC0FC1 /* opencv2.framework in CopyFiles */,
+				437E56DC1DAAA33200FC0FC1 /* Unbox.framework in CopyFiles */,
+				437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */,
+				437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */,
+				437E56DF1DAAA33200FC0FC1 /* Sparkle.framework in CopyFiles */,
+				437E56E21DAAA33200FC0FC1 /* Alamofire.framework in CopyFiles */,
+				437E56E31DAAA33200FC0FC1 /* CleanroomASL.framework in CopyFiles */,
+				437E56E41DAAA33200FC0FC1 /* CleanroomLogger.framework in CopyFiles */,
+				437E56E51DAAA33200FC0FC1 /* HockeySDK.framework in CopyFiles */,
+				437E56E61DAAA33200FC0FC1 /* JNWCollectionView.framework in CopyFiles */,
+				437E56E71DAAA33200FC0FC1 /* Kanna.framework in CopyFiles */,
+				437E56E81DAAA33200FC0FC1 /* MASPreferences.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +322,6 @@
 				436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */,
 				436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */,
 				436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */,
-				436F5D3F1D001A5E00DEB9A1 /* GPUImage.framework.dSYM in CopyFiles */,
 				4305CA441CF42AE50048E7EC /* Unbox.framework.dSYM in CopyFiles */,
 				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */,
 				436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */,
@@ -333,7 +346,6 @@
 				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
 				4305CA3F1CF42AC70048E7EC /* Unbox.framework in Embed Frameworks */,
-				436F5D411D001A6D00DEB9A1 /* GPUImage.framework in Embed Frameworks */,
 				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
 				436789DB1CAE484800C962D1 /* JNWCollectionView.framework in Embed Frameworks */,
 				431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */,
@@ -574,8 +586,6 @@
 		436F5D111CFD7E7500DEB9A1 /* DarkBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkBar.swift; sourceTree = "<group>"; };
 		436F5D131CFD803C00DEB9A1 /* FrostBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrostBar.swift; sourceTree = "<group>"; };
 		436F5D151CFD822600DEB9A1 /* MinimalBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinimalBar.swift; sourceTree = "<group>"; };
-		436F5D3E1D001A5E00DEB9A1 /* GPUImage.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = GPUImage.framework.dSYM; path = Carthage/Build/Mac/GPUImage.framework.dSYM; sourceTree = "<group>"; };
-		436F5D401D001A6D00DEB9A1 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = Carthage/Build/Mac/GPUImage.framework; sourceTree = "<group>"; };
 		437B5BAB1CD1E6AF00DE0A41 /* Step.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WotogCounter.swift; sourceTree = "<group>"; };
 		437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WotogCounterHelper.swift; sourceTree = "<group>"; };
@@ -756,18 +766,20 @@
 			files = (
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
-				4345E9DF1CB45122002D0F23 /* Alamofire.framework in Frameworks */,
-				4345E9E01CB45122002D0F23 /* CleanroomASL.framework in Frameworks */,
-				4345E9E11CB45122002D0F23 /* CleanroomLogger.framework in Frameworks */,
-				4345E9E21CB45122002D0F23 /* HockeySDK.framework in Frameworks */,
-				4345E9E31CB45122002D0F23 /* JNWCollectionView.framework in Frameworks */,
-				4345E9E41CB45122002D0F23 /* Kanna.framework in Frameworks */,
-				4345E9E51CB45122002D0F23 /* MASPreferences.framework in Frameworks */,
-				4311E6AC1D2EF49300DDA546 /* opencv2.framework in Frameworks */,
-				4311E6AD1D2EF49300DDA546 /* GPUImage.framework in Frameworks */,
-				4311E6AE1D2EF49300DDA546 /* Unbox.framework in Frameworks */,
-				4311E6AF1D2EF49300DDA546 /* Wrap.framework in Frameworks */,
-				4311E6B01D2EF49300DDA546 /* TextAttributes.framework in Frameworks */,
+				437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */,
+				437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */,
+				437E56CB1DAAA32E00FC0FC1 /* opencv2.framework in Frameworks */,
+				437E56CD1DAAA32E00FC0FC1 /* Unbox.framework in Frameworks */,
+				437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */,
+				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
+				437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */,
+				437E56D11DAAA32E00FC0FC1 /* Alamofire.framework in Frameworks */,
+				437E56D21DAAA32E00FC0FC1 /* CleanroomASL.framework in Frameworks */,
+				437E56D31DAAA32E00FC0FC1 /* CleanroomLogger.framework in Frameworks */,
+				437E56D41DAAA32E00FC0FC1 /* HockeySDK.framework in Frameworks */,
+				437E56D51DAAA32E00FC0FC1 /* JNWCollectionView.framework in Frameworks */,
+				437E56D61DAAA32E00FC0FC1 /* Kanna.framework in Frameworks */,
+				437E56D71DAAA32E00FC0FC1 /* MASPreferences.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1290,7 +1302,6 @@
 			isa = PBXGroup;
 			children = (
 				433554321D5F6B4400277B27 /* libz.tbd */,
-				436F5D3E1D001A5E00DEB9A1 /* GPUImage.framework.dSYM */,
 				438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */,
 				436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */,
 				436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */,
@@ -1307,7 +1318,6 @@
 				431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */,
 				43C5680F1D5F692800451B6F /* ZipArchive.framework */,
 				4394C79D1D188F9400007FAD /* opencv2.framework */,
-				436F5D401D001A6D00DEB9A1 /* GPUImage.framework */,
 				4305CA3C1CF42AC60048E7EC /* Unbox.framework */,
 				4305CA3D1CF42AC60048E7EC /* Wrap.framework */,
 				43647A521CDC9A3D00C2B78E /* TextAttributes.framework */,
@@ -1375,15 +1385,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Benjamin Michotte";
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = GZ37WWWK6W;
+						LastSwiftMigration = 0800;
 					};
 					439C7E5B1C7772C100D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 439C7E471C7772C000D29859;
 					};
 				};
@@ -2000,6 +2012,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2009,8 +2022,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -2044,6 +2059,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2053,8 +2069,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -2073,6 +2091,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -2080,7 +2099,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2101,6 +2120,7 @@
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/HSTracker/Core/Libraries/zlib";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -2108,7 +2128,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2126,6 +2146,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/HSTracker/Core/Libraries/zlib";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -2144,6 +2165,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HSTracker.app/Contents/MacOS/HSTracker";
 			};
 			name = Debug;
@@ -2163,6 +2185,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HSTracker.app/Contents/MacOS/HSTracker";
 			};
 			name = Release;

@@ -160,7 +160,7 @@ class NewDeck: NSWindowController {
                 } catch {}
             } else {
                 let alert = NSAlert()
-                alert.alertStyle = .InformationalAlertStyle
+                alert.alertStyle = .Informational
                 // swiftlint:disable line_length
                 alert.messageText = NSLocalizedString("Do you want to add this deck on Hearthstats ?", comment: "")
                 alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
@@ -234,7 +234,7 @@ extension NewDeck: NSComboBoxDataSource {
         return Cards.classes.count
     }
 
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
+    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject? {
         return NSLocalizedString(Cards.classes[index].rawValue.lowercaseString, comment: "")
     }
 }

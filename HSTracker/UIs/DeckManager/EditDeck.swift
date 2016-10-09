@@ -138,10 +138,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     func initKeyboardShortcuts() {
-        self.monitor = NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) {
+        self.monitor = NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDown) {
             (e) -> NSEvent? in
 
-            let isCmd = e.modifierFlags.contains(.CommandKeyMask)
+            let isCmd = e.modifierFlags.contains(.Command)
 
             if isCmd {
                 switch e.keyCode {
@@ -448,7 +448,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     @IBAction func delete(sender: AnyObject?) {
         var alert = NSAlert()
-        alert.alertStyle = .InformationalAlertStyle
+        alert.alertStyle = .Informational
         // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
@@ -462,7 +462,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                         } catch {}
                     } else {
                         alert = NSAlert()
-                        alert.alertStyle = .InformationalAlertStyle
+                        alert.alertStyle = .Informational
                         alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
                         alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
                         alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
@@ -543,7 +543,7 @@ extension EditDeck: NSWindowDelegate {
         }
 
         let alert = NSAlert()
-        alert.alertStyle = .InformationalAlertStyle
+        alert.alertStyle = .Informational
         // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("Are you sure you want to close this deck ? Your changes will not be saved.", comment: "")
         // swiftlint:enable line_length

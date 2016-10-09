@@ -29,12 +29,12 @@ class HearthstatsLogin: NSWindowController {
                 self.loadDecks() { (success) -> (Void) in
                     let message = NSLocalizedString("You are now connected to Hearthstats",
                                                     comment: "")
-                    self.displayAlert(.InformationalAlertStyle, message: message) {
+                    self.displayAlert(.Informational, message: message) {
                         self.endSheet()
                     }
                 }
             } else {
-                self.displayAlert(.CriticalAlertStyle, message: message) {
+                self.displayAlert(.Critical, message: message) {
                     self.configureUserInterfaceForNetworkActivity(false)
                     self.email.becomeFirstResponder()
                 }

@@ -38,7 +38,7 @@ class TimerHud: NSWindowController {
             .strokeColor(NSColor.blackColor())
             .alignment(.Right)
 
-        self.window!.styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask
+        self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
         self.window!.ignoresMouseEvents = true
         self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
 

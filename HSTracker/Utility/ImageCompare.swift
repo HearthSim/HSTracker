@@ -48,11 +48,13 @@ class ImageCompare {
         var score = 0
         let numPixels = original.size.width * original.size.height
         let testablePixels = Int(floor(numPixels / 100.0 * percent))
-        
-        let origPixelData = CGDataProviderCopyData(CGImageGetDataProvider(origImage))
+
+        guard let origProvider = CGImageGetDataProvider(origImage) else { return 0 }
+        let origPixelData = CGDataProviderCopyData(origProvider)
         let origData: UnsafePointer<UInt8> = CFDataGetBytePtr(origPixelData)
-        
-        let withPixelData = CGDataProviderCopyData(CGImageGetDataProvider(withImage))
+
+        guard let pixelProvider = CGImageGetDataProvider(withImage) else { return 0 }
+        let withPixelData = CGDataProviderCopyData(pixelProvider)
         let withData: UnsafePointer<UInt8> = CFDataGetBytePtr(withPixelData)
         
         for _ in 0 ..< testablePixels {

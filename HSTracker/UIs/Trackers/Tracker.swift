@@ -135,10 +135,11 @@ class Tracker: NSWindowController {
     private func _windowLockedChange() {
         let locked = Settings.instance.windowsLocked
         if locked {
-            self.window!.styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask
+            self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
         } else {
-            self.window!.styleMask = NSTitledWindowMask | NSMiniaturizableWindowMask
-                | NSResizableWindowMask | NSBorderlessWindowMask | NSNonactivatingPanelMask
+            self.window!.styleMask = [NSTitledWindowMask, NSMiniaturizableWindowMask,
+                                      NSResizableWindowMask, NSBorderlessWindowMask,
+                                      NSNonactivatingPanelMask]
         }
         
         self.window!.ignoresMouseEvents = locked

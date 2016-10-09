@@ -397,7 +397,7 @@ class Game {
                     alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
                     let message = "Do you want to add some notes for this game ?"
                     alert.informativeText = NSLocalizedString(message, comment: "")
-                    alert.alertStyle = .InformationalAlertStyle
+                    alert.alertStyle = .Informational
                     let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
                     let input = NSTextView(frame: frame)
                     alert.accessoryView = input

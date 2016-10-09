@@ -9,7 +9,6 @@
 import XCTest
 import Foundation
 import CleanroomLogger
-import SQLite
 
 @testable import HSTracker
 

@@ -41,7 +41,7 @@ struct ImageUtilities {
         NSGraphicsContext.currentContext()?.imageInterpolation = .High
         image.drawAtPoint(NSPoint.zero,
                            fromRect: rect,
-                           operation: .CompositeCopy,
+                           operation: .Copy,
                            fraction:1.0)
         target.unlockFocus()
         return target
@@ -60,7 +60,7 @@ struct ImageUtilities {
         sourceImage.drawAtPoint(NSPoint.zero,
                                 fromRect: CGRect(x: 0, y: 0,
                                     width: newSize.width, height: newSize.height),
-                                operation: .CompositeCopy,
+                                operation: .Copy,
                                 fraction:1.0)
         smallImage.unlockFocus()
         return smallImage

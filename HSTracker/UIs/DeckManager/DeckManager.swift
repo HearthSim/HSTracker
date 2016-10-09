@@ -72,9 +72,9 @@ class DeckManager: NSWindowController {
         
         loadSortPopUp()
 
-        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDownMask) { (e) -> NSEvent? in
-            let isCmd = e.modifierFlags.contains(.CommandKeyMask)
-            // let isShift = e.modifierFlags.contains(.ShiftKeyMask)
+        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDown) { (e) -> NSEvent? in
+            let isCmd = e.modifierFlags.contains(.Command)
+            // let isShift = e.modifierFlags.contains(.ShiftKey)
 
             guard isCmd else { return e }
 
@@ -244,7 +244,7 @@ class DeckManager: NSWindowController {
     @IBAction func trackobotLogin(sender: AnyObject) {
         if TrackOBotAPI.isLogged() {
             let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
+            alert.alertStyle = .Informational
             // swiftlint:disable line_length
             alert.messageText = NSLocalizedString("Are you sure you want to disconnect from Track-o-Bot ?", comment: "")
             // swiftlint:enable line_length
@@ -267,7 +267,7 @@ class DeckManager: NSWindowController {
     @IBAction func hearthstatsLogin(sender: AnyObject) {
         if HearthstatsAPI.isLogged() {
             let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
+            alert.alertStyle = .Informational
             // swiftlint:disable line_length
             alert.messageText = NSLocalizedString("Are you sure you want to disconnect from Hearthstats ?", comment: "")
             // swiftlint:enable line_length
@@ -312,7 +312,7 @@ class DeckManager: NSWindowController {
             let deckNameInput = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
             deckNameInput.stringValue = deck.name!
             let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
+            alert.alertStyle = .Informational
             alert.messageText = NSLocalizedString("Deck name", comment: "")
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
@@ -369,7 +369,7 @@ class DeckManager: NSWindowController {
     @IBAction func deleteDeck(sender: AnyObject?) {
         if let deck = currentDeck {
             let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
+            alert.alertStyle = .Informational
             // swiftlint:disable line_length
             alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the deck %@ ?", comment: ""), deck.name!) as String
             // swiftlint:enable line_length
@@ -387,7 +387,7 @@ class DeckManager: NSWindowController {
     @IBAction func archiveDeck(sender: AnyObject) {
         if let deck = currentDeck {
             let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
+            alert.alertStyle = .Informational
             alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
             alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
 
@@ -426,7 +426,7 @@ class DeckManager: NSWindowController {
                 refreshDecks()
             } else {
                 let alert = NSAlert()
-                alert.alertStyle = .InformationalAlertStyle
+                alert.alertStyle = .Informational
                 alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
                 alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
                 alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
@@ -521,7 +521,7 @@ class DeckManager: NSWindowController {
     @IBAction func exportToHearthstone(sender: AnyObject?) {
         if let deck = currentDeck {
             let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
+            alert.alertStyle = .Informational
             // swiftlint:disable line_length
             alert.messageText = NSString(format: NSLocalizedString("To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.", comment: ""), deck.name!) as String
             // swiftlint:enable line_length
@@ -543,7 +543,7 @@ class DeckManager: NSWindowController {
             let automation = Automation()
             automation.expertDeckToHearthstone(deck) {
                 let alert = NSAlert()
-                alert.alertStyle = .InformationalAlertStyle
+                alert.alertStyle = .Informational
                 alert.messageText = NSLocalizedString("Export done", comment: "")
                 alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
                 alert.beginSheetModalForWindow(self.window!, completionHandler: nil)

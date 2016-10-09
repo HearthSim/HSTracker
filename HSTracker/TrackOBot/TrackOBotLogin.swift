@@ -25,11 +25,11 @@ class TrackOBotLogin: NSWindowController {
                                     let message =
                                         NSLocalizedString("You are now connected to Track-o-Bot",
                                                           comment: "")
-                                    self.displayAlert(.InformationalAlertStyle, message: message) {
+                                    self.displayAlert(.Informational, message: message) {
                                         self.endSheet()
                                     }
                                 } else {
-                                    self.displayAlert(.CriticalAlertStyle, message: message) {
+                                    self.displayAlert(.Critical, message: message) {
                                         self.configureUserInterfaceForNetworkActivity(false)
                                         self.username.becomeFirstResponder()
                                     }

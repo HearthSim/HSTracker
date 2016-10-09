@@ -109,7 +109,7 @@ class CurveView: NSView {
             if let mana = NSImage(named: "mana") {
                 mana.drawInRect(NSRect(x: x, y: padding, width: manaHeight, height: manaHeight),
                     fromRect: NSRect.zero,
-                    operation: NSCompositingOperation.CompositeSourceOver,
+                    operation: .SourceOver,
                     fraction: 1.0)
             }
 

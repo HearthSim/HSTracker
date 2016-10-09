@@ -43,8 +43,8 @@ class StatsTab: NSViewController {
         
         update()
         
-        statsTable.setDelegate(self)
-        statsTable.setDataSource(self)
+        statsTable.delegate = self
+        statsTable.dataSource = self
         
         let descClass = NSSortDescriptor(key: "opponentClassName", ascending: true)
         let descRecord = NSSortDescriptor(key: "totalGames", ascending: false)

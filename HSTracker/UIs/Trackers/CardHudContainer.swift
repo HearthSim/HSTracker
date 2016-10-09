@@ -19,7 +19,7 @@ class CardHudContainer: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
  
-        self.window!.styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask
+        self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
         //self.window!.ignoresMouseEvents = true
         self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
         

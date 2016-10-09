@@ -36,7 +36,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             checkImage.image = NSImage(named: "error")
 
             let alert = NSAlert()
-            alert.alertStyle = .CriticalAlertStyle
+            alert.alertStyle = .Critical
             // swiftlint:disable line_length
             alert.messageText = NSLocalizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
             // swiftlint:enable line_length
@@ -102,7 +102,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         return 0
     }
 
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
+    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject? {
         var language: String?
         if aComboBox == hstrackerLanguage {
             language = Language.hstrackerLanguages[index]

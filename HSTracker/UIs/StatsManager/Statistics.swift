@@ -105,7 +105,7 @@ class Statistics: NSWindowController {
     @IBAction func deleteStatistics(sender: AnyObject) {
         if let deck = deck {
             let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
+            alert.alertStyle = .Informational
             // swiftlint:disable line_length
             alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the statistics for the deck %@ ?", comment: ""), deck.name!) as String
             // swiftlint:enable line_length

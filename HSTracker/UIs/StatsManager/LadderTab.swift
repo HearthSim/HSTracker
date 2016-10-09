@@ -50,10 +50,10 @@ class LadderTab: NSViewController {
         
         guessRankAndUpdate()
         
-        gamesTable.setDelegate(self)
-        timeTable.setDelegate(self)
-        gamesTable.setDataSource(self)
-        timeTable.setDataSource(self)
+        gamesTable.delegate = self
+        timeTable.delegate = self
+        gamesTable.dataSource = self
+        timeTable.dataSource = self
         
         dispatch_async(dispatch_get_main_queue()) {
             self.gamesTable.reloadData()

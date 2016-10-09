@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import GPUImage
 
 class MinimalBar: CardBar {
     override var themeDir: String {
@@ -30,10 +29,7 @@ class MinimalBar: CardBar {
         if let cardId = cardId {
             let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(cardId).png"
             if let image = NSImage(contentsOfFile: fullPath) {
-                let gaussian = GaussianBlur()
-                gaussian.blurRadiusInPixels = 1.5
-                let filteredImage = image.filterWithOperation(gaussian)
-                filteredImage.drawInRect(ratio(frameRect))
+                image.drawInRect(ratio(frameRect))
             }
         }
     }

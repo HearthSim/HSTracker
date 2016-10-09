@@ -51,7 +51,7 @@ class Draft {
         if let deck = deck where deck.isValid() {
             dispatch_async(dispatch_get_main_queue()) {
                 let alert = NSAlert()
-                alert.alertStyle = .InformationalAlertStyle
+                alert.alertStyle = .Informational
                 // swiftlint:disable line_length
                 alert.messageText = NSLocalizedString("Your arena deck count 30 cards, do you want to save it ?",
                                                       comment: "")

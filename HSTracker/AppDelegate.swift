@@ -253,13 +253,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         operationQueue = nil
 
         var message: String?
-        var alertStyle = NSAlertStyle.CriticalAlertStyle
+        var alertStyle = NSAlertStyle.Critical
         do {
             let canStart = try Hearthstone.instance.setup()
 
             if !canStart {
                 message = "You must restart Hearthstone for logs to be used"
-                alertStyle = .InformationalAlertStyle
+                alertStyle = .Informational
             }
         } catch HearthstoneLogError.CanNotCreateDir {
             message = "Can not create Hearthstone config dir"
@@ -275,7 +275,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             splashscreen?.close()
             splashscreen = nil
 
-            if alertStyle == .CriticalAlertStyle {
+            if alertStyle == .Critical {
                 Log.error?.message(message)
             }
 
@@ -480,7 +480,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func languageChange(notification: NSNotification) {
         let alert = NSAlert()
-        alert.alertStyle = .InformationalAlertStyle
+        alert.alertStyle = .Informational
         // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: "")
         // swiftlint:enable line_length
@@ -516,16 +516,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let saveMenus = NSMenu()
         saveMenus.addItemWithTitle(NSLocalizedString("Save Current Deck", comment: ""),
                                    action: #selector(AppDelegate.saveCurrentDeck(_:)),
-                                   keyEquivalent: "")?.tag = 2
+                                   keyEquivalent: "").tag = 2
         saveMenus.addItemWithTitle(NSLocalizedString("Save Opponent's Deck", comment: ""),
                                    action: #selector(AppDelegate.saveCurrentDeck(_:)),
-                                   keyEquivalent: "")?.tag = 1
+                                   keyEquivalent: "").tag = 1
         saveMenus.addItemWithTitle(NSLocalizedString("Save Arena Deck", comment: ""),
                                    action: #selector(AppDelegate.saveArenaDeck(_:)),
                                    keyEquivalent: "")
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save", comment: ""),
                                             action: nil,
-                                            keyEquivalent: "")?.submenu = saveMenus
+                                            keyEquivalent: "").submenu = saveMenus
         deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
                                             action: #selector(AppDelegate.clearTrackers(_:)),
                                             keyEquivalent: "R")
@@ -557,12 +557,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     let classsubMenu = NSMenu()
                     _decks.filter({ $0.isActive == true })
                         .sort({$0.name!.lowercaseString < $1.name!.lowercaseString }).forEach({
-                        if let item = classsubMenu.addItemWithTitle($0.name!,
-                            action: #selector(AppDelegate.playDeck(_:)),
-                            keyEquivalent: "") {
+                            let item = classsubMenu.addItemWithTitle($0.name!,
+                                action: #selector(AppDelegate.playDeck(_:)),
+                                keyEquivalent: "")
                             item.representedObject = $0
-                        }
-                    })
+                        })
                     classmenuitem.submenu = classsubMenu
                     deckMenu?.submenu?.addItem(classmenuitem)
                     if let menuitemcopy = classmenuitem.copy() as? NSMenuItem {
@@ -691,7 +690,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             Log.error?.message("Arena deck doesn't exist. How?")
             let alert = NSAlert()
-            alert.alertStyle = .InformationalAlertStyle
+            alert.alertStyle = .Informational
             // swiftlint:disable line_length
             alert.messageText = NSLocalizedString("There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.", comment: "")
             // swiftlint:enable line_length
