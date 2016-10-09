@@ -49,7 +49,7 @@ final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
                         if let node = doc.at_xpath("//tr[@data-id='\(id)']/td[1]/b"),
                             cardId = node.text {
                             Log.verbose?.message("id : \(id) count : \(count) text : \(node.text)")
-                            if let card = Cards.byEnglishName(cardId) {
+                            if let card = Cards.by(englishName: cardId) {
                                 cards[card.id] = count
                             }
                         }

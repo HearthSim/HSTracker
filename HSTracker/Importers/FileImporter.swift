@@ -33,10 +33,10 @@ final class FileImporter: BaseNetImporter {
 
                         var card = Cards.byId(cardName)
                         if card == nil {
-                            card = Cards.byEnglishName(cardName)
+                            card = Cards.by(englishName: cardName)
                         }
                         if card == nil {
-                            card = Cards.byName(cardName)
+                            card = Cards.by(name: cardName)
                         }
 
                         if let card = card {

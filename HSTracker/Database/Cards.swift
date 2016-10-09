@@ -19,7 +19,7 @@ final class Cards {
     
     static var cards = [Card]()
 
-    static func heroById(cardId: String) -> Card? {
+    static func hero(byId cardId: String) -> Card? {
         if let card = cards.firstWhere({ $0.id == cardId && $0.type == .HERO }) {
             return card.copy()
         }
@@ -29,7 +29,7 @@ final class Cards {
     static func isHero(cardId: String?) -> Bool {
         guard !String.isNullOrEmpty(cardId) else { return false }
 
-        return heroById(cardId!) != .None
+        return hero(byId: cardId!) != .None
     }
 
     static func byId(cardId: String?) -> Card? {
@@ -43,7 +43,7 @@ final class Cards {
         return nil
     }
 
-    static func anyById(cardId: String) -> Card? {
+    static func any(byId cardId: String) -> Card? {
         if String.isNullOrEmpty(cardId) { return nil }
         if let card = cards.firstWhere({ $0.id == cardId }) {
             return card.copy()
@@ -51,36 +51,36 @@ final class Cards {
         return nil
     }
     
-    static func heroByPlayerClass(name: CardClass) -> Card? {
+    static func hero(byPlayerClass name: CardClass) -> Card? {
         switch name {
-        case .DRUID: return self.heroById(CardIds.Collectible.Druid.MalfurionStormrage)
-        case .HUNTER: return self.heroById(CardIds.Collectible.Hunter.Rexxar)
-        case .MAGE: return self.heroById(CardIds.Collectible.Mage.JainaProudmoore)
-        case .PALADIN: return self.heroById(CardIds.Collectible.Paladin.UtherLightbringer)
-        case .PRIEST: return self.heroById(CardIds.Collectible.Priest.AnduinWrynn)
-        case .ROGUE: return self.heroById(CardIds.Collectible.Rogue.ValeeraSanguinar)
-        case .SHAMAN: return self.heroById(CardIds.Collectible.Shaman.Thrall)
-        case .WARLOCK: return self.heroById(CardIds.Collectible.Warlock.Guldan)
-        case .WARRIOR: return self.heroById(CardIds.Collectible.Warrior.GarroshHellscream)
+        case .DRUID: return hero(byId: CardIds.Collectible.Druid.MalfurionStormrage)
+        case .HUNTER: return hero(byId: CardIds.Collectible.Hunter.Rexxar)
+        case .MAGE: return hero(byId: CardIds.Collectible.Mage.JainaProudmoore)
+        case .PALADIN: return hero(byId: CardIds.Collectible.Paladin.UtherLightbringer)
+        case .PRIEST: return hero(byId: CardIds.Collectible.Priest.AnduinWrynn)
+        case .ROGUE: return hero(byId: CardIds.Collectible.Rogue.ValeeraSanguinar)
+        case .SHAMAN: return hero(byId: CardIds.Collectible.Shaman.Thrall)
+        case .WARLOCK: return hero(byId: CardIds.Collectible.Warlock.Guldan)
+        case .WARRIOR: return hero(byId: CardIds.Collectible.Warrior.GarroshHellscream)
         default: return nil
         }
     }
 
-    static func byName(name: String) -> Card? {
+    static func by(name name: String) -> Card? {
         if let card = collectible().firstWhere({ $0.name == name }) {
             return card.copy()
         }
         return nil
     }
 
-    static func byEnglishName(name: String) -> Card? {
+    static func by(englishName name: String) -> Card? {
         if let card = collectible().firstWhere({ $0.enName == name || $0.name == name }) {
             return card.copy()
         }
         return nil
     }
     
-    static func byEnglishNameCaseInsensitive(name: String) -> Card? {
+    static func by(englishNameCaseInsensitive name: String) -> Card? {
         if let card = collectible().firstWhere({
             $0.enName.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame ||
                 $0.name.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame
@@ -92,22 +92,6 @@ final class Cards {
 
     static func collectible() -> [Card] {
         return cards.filter { $0.collectible && $0.type != .HERO && $0.type != .HERO_POWER }
-    }
-
-    static func byClass(className: CardClass?, set: String?) -> [Card] {
-        var sets: [CardSet] = []
-        if let set = CardSet(rawValue: set ?? "") {
-            sets.append(set)
-        }
-        return byClass(className, sets: sets)
-    }
-
-    static func byClass(className: CardClass?, sets: [CardSet]) -> [Card] {
-        var _cards = collectible().filter { $0.playerClass == className }
-        if !sets.isEmpty {
-            _cards = _cards.filter { $0.set != nil && sets.contains($0.set!) }
-        }
-        return _cards
     }
 
     static func search(className className: CardClass?, sets: [CardSet] = [],

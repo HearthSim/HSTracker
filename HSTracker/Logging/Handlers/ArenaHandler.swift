@@ -25,7 +25,7 @@ struct ArenaHandler {
         // Hero match
         if logLine.line.match(self.dynamicType.HeroRegex) {
             let matches = logLine.line.matches(self.dynamicType.HeroRegex)
-            if let heroID = Cards.heroById(matches[1].value) {
+            if let heroID = Cards.hero(byId: matches[1].value) {
                 draft.startDraft(heroID.playerClass)
             } else {
                 Log.error?.message("Hero didn't match, failing")
@@ -46,7 +46,7 @@ struct ArenaHandler {
                 if let card = Cards.byId(match.value) {
                     Log.verbose?.message("Client selected card \(card)")
                     draft.addCard(card)
-                } else if let card = Cards.heroById(match.value) {
+                } else if let card = Cards.hero(byId: match.value) {
                     draft.startDraft(card.playerClass)
                 }
             }

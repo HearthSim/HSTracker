@@ -62,7 +62,7 @@ final class Hearthpwn: BaseNetImporter, NetImporterAware {
 
                         if let card = card, count = count {
                             Log.verbose?.message("got card \(card.trim()) with count \(count)")
-                            if let _card = Cards.byEnglishName(card.trim()) {
+                            if let _card = Cards.by(englishName: card.trim()) {
                                 Log.verbose?.message("Got card \(_card)")
                                 cards[_card.id] = count
                             }

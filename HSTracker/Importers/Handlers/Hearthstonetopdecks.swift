@@ -62,7 +62,7 @@ final class Hearthstonetopdecks: BaseNetImporter, NetImporterAware {
                         let fixedcardname = card.trim()
                             .stringByReplacingOccurrencesOfString("’", withString: "'")
                         
-                        if let _card = Cards.byEnglishNameCaseInsensitive(fixedcardname) {
+                        if let _card = Cards.by(englishNameCaseInsensitive: fixedcardname) {
                             Log.verbose?.message("Got card \(_card)")
                             cards[_card.id] = count
                         } else {

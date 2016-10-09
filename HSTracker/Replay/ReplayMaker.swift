@@ -97,19 +97,19 @@ final class ReplayMaker {
                     !String.isNullOrEmpty($0.cardId)
                         && (($0.cardId.startsWith("NAX") && $0.cardId.contains("_01"))
                             || $0.cardId.startsWith("BRMA"))
-                        && Cards.heroById($0.cardId) != nil
+                        && Cards.hero(byId: $0.cardId) != nil
                 })
             if opponentHero == nil {
                 Log.warning?.message("Replay : opponentHero is nil")
                 return
             }
-            resolveOpponentName(Cards.heroById(opponentHero!.cardId)?.name)
+            resolveOpponentName(Cards.hero(byId: opponentHero!.cardId)?.name)
         }
         
         if let playerName = player.name,
-            playerHeroName = Cards.heroById(playerHero.cardId)?.name,
+            playerHeroName = Cards.hero(byId: playerHero.cardId)?.name,
             opponentName = opponent.name,
-            opponentHeroName = Cards.heroById(opponentHero!.cardId)?.name,
+            opponentHeroName = Cards.hero(byId: opponentHero!.cardId)?.name,
             path = replayDir(),
             tmp = tmpReplayDir() {
 

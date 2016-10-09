@@ -321,7 +321,7 @@ class PowerGameStateHandler {
                     case CardIds.Collectible.Neutral.Doomcaller:
                         addKnownCardId(game, cardId: CardIds.NonCollectible.Neutral.Cthun)
                     default:
-                        if let card = Cards.anyById(actionStartingCardId) {
+                        if let card = Cards.any(byId: actionStartingCardId) {
                             if (player != nil && player!.getTag(.CURRENT_PLAYER) == 1 && !game.playerUsedHeroPower)
                                 || (opponent != nil && opponent!.getTag(.CURRENT_PLAYER) == 1
                                     && !game.opponentUsedHeroPower) {

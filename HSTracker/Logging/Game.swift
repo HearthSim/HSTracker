@@ -656,7 +656,7 @@ class Game {
 
     // MARK: - player
     func setPlayerHero(cardId: String) {
-        if let card = Cards.heroById(cardId) {
+        if let card = Cards.hero(byId: cardId) {
             player.playerClass = card.playerClass
             player.playerClassId = cardId
             Log.info?.message("Player class is \(card) ")
@@ -883,7 +883,7 @@ class Game {
 
     // MARK: - opponent
     func setOpponentHero(cardId: String) {
-        if let card = Cards.heroById(cardId) {
+        if let card = Cards.hero(byId: cardId) {
             opponent.playerClass = card.playerClass
             opponent.playerClassId = cardId
             updateOpponentTracker()

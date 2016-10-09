@@ -121,7 +121,7 @@ extension Entity: Hashable {
 extension Entity: CustomStringConvertible {
     var description: String {
         let cardName: String
-        if let card = Cards.anyById(cardId) {
+        if let card = Cards.any(byId: cardId) {
             cardName = card.name
         } else {
             cardName = ""

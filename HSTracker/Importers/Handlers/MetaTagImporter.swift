@@ -21,7 +21,7 @@ class MetaTagImporter: BaseNetImporter {
             }
             let nodes = doc.xpath("//meta")
             guard let heroId = self.getMetaProperty(nodes, prop: "x-hearthstone:deck:hero"),
-                playerClass = Cards.heroById(heroId) else {
+                playerClass = Cards.hero(byId: heroId) else {
                     // can't find class, ignore
                     Log.error?.message("class not found")
                     completion(nil)
