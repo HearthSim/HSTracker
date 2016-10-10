@@ -160,7 +160,7 @@ final class Player {
             })
             .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
-                if let card = Cards.byId(g.key.cardId) {
+                if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.items.count
                     card.jousted = g.key.hidden
                     card.isCreated = g.key.created
@@ -177,7 +177,7 @@ final class Player {
 
     var predictedCardsInDeck: [Card] {
         return inDeckPredictions.map { g -> Card? in
-            if let card = Cards.byId(g.cardId) {
+            if let card = Cards.by(cardId: g.cardId) {
                 card.jousted = true
                 return card
             } else {
@@ -196,7 +196,7 @@ final class Player {
             })
             .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
-                if let card = Cards.byId(g.key.cardId) {
+                if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.items.count
                     card.isCreated = g.key.created
                     card.jousted = true
@@ -226,7 +226,7 @@ final class Player {
             })
             .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
-                if let card = Cards.byId(g.key.cardId) {
+                if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.items.count
                     card.isCreated = g.key.stolen
                     card.highlightInHand = g.items.any({
@@ -245,7 +245,7 @@ final class Player {
         return hand.filter { ($0.info.created || $0.info.stolen) }
             .groupBy { (e: Entity) in e.cardId }
             .map { g -> Card? in
-                if let card = Cards.byId(g.key) {
+                if let card = Cards.by(cardId: g.key) {
                     card.count = g.items.count
                     card.isCreated = true
                     card.highlightInHand = true
@@ -308,7 +308,7 @@ final class Player {
             })
             .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
-                if let card = Cards.byId(g.key.cardId) {
+                if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.items.count
                     card.jousted = g.key.hidden
                     card.isCreated = g.key.created
@@ -322,7 +322,7 @@ final class Player {
             .map { $0! }
 
             let inDeck = inDeckPredictions.map({ g -> Card? in
-                if let card = Cards.byId(g.cardId) {
+                if let card = Cards.by(cardId: g.cardId) {
                     card.jousted = true
                     return card
                 } else {
@@ -347,7 +347,7 @@ final class Player {
             })
             .groupBy { (d: DynamicEntity) in d }
             .map { g -> Card? in
-                if let card = Cards.byId(g.key.cardId) {
+                if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.items.count
                     card.isCreated = g.key.created
                     card.highlightInHand = hand.any({ $0.cardId == g.key.cardId })
@@ -380,7 +380,7 @@ final class Player {
         let cardsInDeck: [Card] = createdCardsInDeck + (originalCardsInDeck
             .groupBy { (c: String) in c }
             .map { g -> Card? in
-                if let card = Cards.byId(g.key) {
+                if let card = Cards.by(cardId: g.key) {
                     card.count = g.items.count
                     if hand.any({ $0.cardId == g.key }) {
                         card.highlightInHand = true
@@ -395,7 +395,7 @@ final class Player {
 
         let cardsNotInDeck = removedFromDeck.groupBy { (c: String) in c }
             .map({ g -> Card? in
-                if let card = Cards.byId(g.key) {
+                if let card = Cards.by(cardId: g.key) {
                     card.count = 0
                     if hand.any({ e in e.cardId == g.key }) {
                         card.highlightInHand = true

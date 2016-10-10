@@ -2641,7 +2641,7 @@ struct CardIds {
 
             static func getCards(standardOnly: Bool) -> [String] {
                 return standardOnly ? All.filter {
-                    if let set = Cards.byId($0)?.set {
+                    if let set = Cards.by(cardId: $0)?.set {
                         return !CardSet.wildSets().contains(set)
                     }
                     return false
@@ -2662,7 +2662,7 @@ struct CardIds {
 
             static func getCards(standardOnly: Bool) -> [String] {
                 return standardOnly ? All.filter {
-                    if let set = Cards.byId($0)?.set {
+                    if let set = Cards.by(cardId: $0)?.set {
                         return !CardSet.wildSets().contains(set)
                     }
                     return false
@@ -2682,7 +2682,7 @@ struct CardIds {
 
             static func getCards(standardOnly: Bool) -> [String] {
                 return standardOnly ? All.filter {
-                    if let set = Cards.byId($0)?.set {
+                    if let set = Cards.by(cardId: $0)?.set {
                         return !CardSet.wildSets().contains(set)
                     }
                     return false

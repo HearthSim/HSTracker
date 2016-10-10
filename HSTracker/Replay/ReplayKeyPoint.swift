@@ -46,7 +46,8 @@ final class ReplayKeyPoint: Equatable {
         if type == KeyPointType.Victory || type == KeyPointType.Defeat {
             return type.rawValue
         }
-        return String.isNullOrEmpty(getCardId()) ? "Entity \(id)" : Cards.byId(getCardId()!)!.name
+        return String.isNullOrEmpty(getCardId()) ? "Entity \(id)"
+            : Cards.by(cardId: getCardId()!)!.name
     }
 }
 

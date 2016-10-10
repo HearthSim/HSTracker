@@ -44,7 +44,7 @@ struct FileImporter: BaseFileImporter {
                         isArena = true
                     }
 
-                    var card = Cards.byId(cardName)
+                    var card = Cards.by(cardId: cardName)
                     if card == nil {
                         card = Cards.by(englishName: cardName)
                     }

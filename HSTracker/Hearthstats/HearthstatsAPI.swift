@@ -58,7 +58,7 @@ extension Deck {
                         var cards = [Card]()
                         (json["cards"] as? [[String: String]])?
                             .forEach({ (_card: [String: String]) in
-                            if let card = Cards.byId(_card["id"]),
+                            if let card = Cards.by(cardId: _card["id"]),
                                 _count = _card["count"],
                                 count = Int(_count) {
                                 card.count = count

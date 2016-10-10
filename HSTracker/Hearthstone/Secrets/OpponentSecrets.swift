@@ -53,7 +53,7 @@ class OpponentSecrets: CustomStringConvertible {
     }
 
     func getHeroClass(cardId: String) -> CardClass? {
-        if let card = Cards.byId(cardId) {
+        if let card = Cards.by(cardId: cardId) {
             return card.playerClass
         }
         return nil
@@ -186,7 +186,7 @@ class OpponentSecrets: CustomStringConvertible {
             secrets[index].trySetSecret(cardId, active: false)
         }
         if stopIndex > 0 {
-            Log.info?.message("Set secret to zero: \(Cards.byId(cardId))")
+            Log.info?.message("Set secret to zero: \(Cards.by(cardId: cardId))")
         }
     }
 

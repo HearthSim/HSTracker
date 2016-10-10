@@ -37,7 +37,7 @@ struct MetaTagImporter: HttpImporter {
                 return nil
         }
         for cardId in cardList {
-            if let card = Cards.byId(cardId) {
+            if let card = Cards.by(cardId: cardId) {
                 Log.verbose?.message("Got card \(card)")
                 deck.addCard(card)
             }

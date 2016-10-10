@@ -73,7 +73,7 @@ class CardHud: NSView {
                 card = Cards.any(byId: CardIds.NonCollectible.Neutral.TheCoin)
             } else if !String.isNullOrEmpty(entity.cardId) && !entity.info.hidden {
                 image = "small-card"
-                card = Cards.byId(entity.cardId)
+                card = Cards.by(cardId: entity.cardId)
             }
         }
         if let image = image {

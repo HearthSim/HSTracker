@@ -28,7 +28,7 @@ struct RachelleHandler {
         if logLine.line.match(self.dynamicType.CardInCache) {
             if let match = logLine.line.matches(self.dynamicType.CardInCache).first {
                 let cardId: String = match.value
-                if let card = Cards.byId(cardId) {
+                if let card = Cards.by(cardId: cardId) {
                     if game.currentGameMode == .Arena {
                         Log.verbose?.message("Possible arena card draft : \(card) ?")
                     } else {

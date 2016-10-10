@@ -23,7 +23,7 @@ struct AssetHandler {
             if let match = match.first {
                 let cardId = match.value
 
-                if let card = Cards.byId(cardId) {
+                if let card = Cards.by(cardId: cardId) {
                     if game.currentMode == Mode.DRAFT && game.previousMode == Mode.HUB {
                         Log.verbose?.message("Possible arena card draft : \(card) ?")
                     } else if (game.currentMode == Mode.COLLECTIONMANAGER

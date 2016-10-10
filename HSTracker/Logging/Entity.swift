@@ -82,7 +82,7 @@ class Entity {
     var card: Card {
         if let card = _cachedCard {
             return card
-        } else if let card = Cards.byId(cardId) {
+        } else if let card = Cards.by(cardId: cardId) {
             return card
         }
         return Card()

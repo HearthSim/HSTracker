@@ -59,7 +59,7 @@ struct HearthstoneDecks: HttpImporter {
             if let qty = cardNode["nb_card"],
                 let cardId = cardNode["real_id"],
                 let count = Int(qty),
-                let card = Cards.byId(cardId) {
+                let card = Cards.by(cardId: cardId) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
                 deck.addCard(card)

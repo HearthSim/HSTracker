@@ -32,7 +32,7 @@ final class Cards {
         return hero(byId: cardId!) != .None
     }
 
-    static func byId(cardId: String?) -> Card? {
+    static func by(cardId cardId: String?) -> Card? {
         guard !String.isNullOrEmpty(cardId) else { return nil }
 
         if let card = cards.filter({

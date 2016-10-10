@@ -57,7 +57,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
 
         let tmpCards: [String: Int] = unboxer.unbox("cards")
         for (cardId, count) in tmpCards {
-            if let card = Cards.byId(cardId) {
+            if let card = Cards.by(cardId: cardId) {
                 card.count = count
                 _cards.append(card)
             }
@@ -109,7 +109,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         } else {
             var cards = [Card]()
             for deckCard in _cards {
-                if let card = Cards.byId(deckCard.id) {
+                if let card = Cards.by(cardId: deckCard.id) {
                     card.count = deckCard.count
                     cards.append(card)
                 }

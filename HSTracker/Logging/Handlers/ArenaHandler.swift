@@ -34,7 +34,7 @@ struct ArenaHandler {
         // Deck contains card
         else if logLine.line.match(self.dynamicType.DeckContainsRegex) {
             if let match = logLine.line.matches(self.dynamicType.DeckContainsRegex).first {
-                if let card = Cards.byId(match.value) {
+                if let card = Cards.by(cardId: match.value) {
                     Log.verbose?.message("Adding card \(card)")
                     draft.addCard(card)
                 }
@@ -43,7 +43,7 @@ struct ArenaHandler {
         // Client selects a card
         else if logLine.line.match(self.dynamicType.ClientChoosesRegex) {
             if let match = logLine.line.matches(self.dynamicType.ClientChoosesRegex).first {
-                if let card = Cards.byId(match.value) {
+                if let card = Cards.by(cardId: match.value) {
                     Log.verbose?.message("Client selected card \(card)")
                     draft.addCard(card)
                 } else if let card = Cards.hero(byId: match.value) {

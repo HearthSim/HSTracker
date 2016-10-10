@@ -34,7 +34,7 @@ class BoardCard: IBoardEntity {
     private(set) var zone = ""
     
     init(entity: Entity, active: Bool = true) {
-        let card = Cards.byId(entity.cardId)
+        let card = Cards.by(cardId: entity.cardId)
         let cardName = card != nil ? card!.name : ""
         name = String.isNullOrEmpty(entity.name) ? cardName : entity.name!
         

@@ -45,7 +45,7 @@ struct HearthNews: HttpImporter {
         for cardNode in doc.xpath("//a[@class='real_id']") {
             if let qty = cardNode["nb_card"],
                 let cardId = cardNode["real_id"],
-                let card = Cards.byId(cardId),
+                let card = Cards.by(cardId: cardId),
                 let count = Int(qty) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
