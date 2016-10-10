@@ -2,6 +2,9 @@
 **Fixes:**  
 - Correct a crash happening on opening Update panel on Preferences
 
+**New:**
+- Import decks from https://tempostorm.com and http://www.hearthstoneheroes.de
+
 **Changes:** 
 - Get the Hearthstone build number from Hearthstone file to improve HSReplay 
 
