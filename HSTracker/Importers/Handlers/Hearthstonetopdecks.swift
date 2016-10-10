@@ -10,79 +10,55 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-final class HearthstoneTopDecks: BaseNetImporter, NetImporterAware {
-    
+struct HearthstoneTopDecks: HttpImporter {
+
     var siteName: String {
         return "Hearthstonetopdecks"
     }
-    
-    func handleUrl(url: String) -> Bool {
-        return url.match("hearthstonetopdecks\\.com\\/decks")
-    }
-    
-    func loadDeck(url: String, completion: Deck? -> Void) throws {
-        loadHtml(url) { (html) -> Void in
-            if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                var deckName: String?
-                if let nameNode = doc.at_xpath("//h1[contains(@class, 'entry-title')]") {
-                    if let name = nameNode.text {
-                        deckName = name
-                    }
-                }
-                Log.verbose?.message("got deck name \(deckName)")
-                
-                var className: String?
-                // swiftlint:disable line_length
-                if let classNode = doc.at_xpath("//div[contains(@class, 'deck-info')]/a[contains(@href, 'deck-class') ]") {
-                    // swiftlint:enable line_length
-                    if let clazz = classNode.text {
-                        className = clazz.trim()
-                    }
-                }
-                guard let _ = className else {
-                    // can't find class, ignore
-                    Log.error?.message("class not found")
-                    completion(nil)
-                    return
-                }
-                Log.verbose?.message("got class name \(className)")
-                var cards = [String: Int]()
-                
-                let xpath = "//*[contains(@class, 'deck-class')]/li/a"
-                let cardNodes = doc.xpath(xpath)
-                for cardNode in cardNodes {
-                    if let card = cardNode.at_xpath("span[@class='card-name']")?.text,
-                        cardcountstr = cardNode.at_xpath("span[@class='card-count']")?.text,
-                        count = Int(cardcountstr) {
-                        Log.verbose?.message("got card \(card.trim()) with count \(count)")
-                        
-                        // Hearthstonetopdeck sport several cards with wrong capitalization
-                        // (e.g. N'Zoth)
 
-                        let fixedcardname = card.trim()
-                            .stringByReplacingOccurrencesOfString("’", withString: "'")
-                        
-                        if let _card = Cards.by(englishNameCaseInsensitive: fixedcardname) {
-                            Log.verbose?.message("Got card \(_card)")
-                            cards[_card.id] = count
-                        } else {
-                            print("Failed to import card \(card)")
-                        }
-                    }
-                }
-                
-                if let className = className,
-                    playerClass = CardClass(rawValue: className.uppercaseString)
-                    // check if there are exactly 30 cards in the deck
-                    where self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: playerClass,
-                                  cards: cards, isArena: false,
-                                  completion: completion)
-                    return
+    var handleUrl: String {
+        return "hearthstonetopdecks\\.com\\/decks"
+    }
+
+    var preferHttps: Bool {
+        return true
+    }
+
+    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+        guard let nameNode = doc.at_xpath("//h1[contains(@class, 'entry-title')]"),
+            let deckName = nameNode.text else {
+                Log.error?.message("Deck name not found")
+                return nil
+        }
+        Log.verbose?.message("Got deck name \(deckName)")
+
+        let xpath = "//div[contains(@class, 'deck-info')]/a[contains(@href, 'deck-class') ]"
+        guard let classNode = doc.at_xpath(xpath),
+            let className = classNode.text?.trim(),
+            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+                Log.error?.message("Class not found")
+                return nil
+        }
+        Log.verbose?.message("Got class \(playerClass)")
+
+        let deck = Deck(playerClass: playerClass, name: deckName)
+
+        let cardNodes = doc.xpath("//*[contains(@class, 'deck-class')]/li/a")
+        for cardNode in cardNodes {
+            if let cardName = cardNode.at_xpath("span[@class='card-name']")?.text,
+                cardcountstr = cardNode.at_xpath("span[@class='card-count']")?.text,
+                count = Int(cardcountstr) {
+
+                // Hearthstonetopdeck sport several cards with wrong capitalization
+                // (e.g. N'Zoth)
+                let fixedCardName = cardName.trim().replace("’", with: "'")
+                if let card = Cards.by(englishNameCaseInsensitive: fixedCardName) {
+                    card.count = count
+                    Log.verbose?.message("Got card \(card)")
+                    deck.addCard(card)
                 }
             }
-            
-            completion(nil)
         }
+        return deck
     }
 }

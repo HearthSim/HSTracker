@@ -76,12 +76,13 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     }
 
     func addCard(card: Card) {
+        if card.count == 0 {
+            card.count = 1
+        }
+
         if let _card = _cards.firstWhere({ $0.id == card.id }) {
-            _card.count += 1
+            _card.count += card.count
         } else {
-            if card.count == 0 {
-                card.count = 1
-            }
             _cards.append(card)
         }
         reset()

@@ -10,72 +10,59 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-class HearthstoneHeroes: BaseNetImporter, NetImporterAware {
+struct HearthstoneHeroes: HttpImporter {
 
     var siteName: String {
         return "Hearthstoneheroes"
     }
 
-    func handleUrl(url: String) -> Bool {
-        return url.match("hearthstoneheroes\\.de\\/decks")
+    var handleUrl: String {
+        return "hearthstoneheroes\\.de\\/decks"
     }
 
-    func loadDeck(url: String, completion: Deck? -> Void) throws {
-        loadHtml(url) { (html) -> Void in
-            guard let html = html,
-                let doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) else {
-                    completion(nil)
-                    return
-            }
-            var xpath = "//header[@class='panel-heading']/h1[@class='panel-title']"
-            guard let nameNode = doc.at_xpath(xpath), let deckName = nameNode.text else {
-                completion(nil)
-                return
-            }
-            Log.verbose?.message("got deck name \(deckName)")
+    var preferHttps: Bool {
+        return false
+    }
 
-            xpath = "//*[@class='breadcrumb']//span[contains(@class, 'hsIcon')]"
-            guard let classNode = doc.at_xpath(xpath), let className = classNode["class"] else {
-                completion(nil)
-                return
-            }
-            let clazz = className.uppercaseString.replace("HSICON ", with: "")
-            guard let playerClass = CardClass(rawValue: clazz) else {
-                completion(nil)
-                return
-            }
-            Log.verbose?.message("got class \(playerClass)")
-
-            var cards = [String: Int]()
-
-            xpath = "//*[@id='list']/div/table/tbody/tr"
-            let cardNodes = doc.xpath(xpath)
-            for cardNode in cardNodes {
-                var englishName: String? = nil
-                if let a = cardNode.at_xpath(".//a") {
-                    englishName = a["data-lang-en"]
-                }
-                guard let name = englishName,
-                    let card = Cards.by(englishName: name) else {
-                    continue
-                }
-                Log.verbose?.message("\(card)")
-                if let span = cardNode.at_xpath(".//span[@class='text-muted']"),
-                    let text = span.text?.lowercaseString.replace("x", with: ""),
-                    let count = Int(text) {
-                    Log.verbose?.message("count \(count)")
-                    cards[card.id] = count
-                }
-            }
-
-            if self.isCount(cards) {
-                self.saveDeck(deckName, playerClass: playerClass,
-                              cards: cards, isArena: false,
-                              completion: completion)
-                return
-            }
-
-            completion(nil)
+    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+        var xpath = "//header[@class='panel-heading']/h1[@class='panel-title']"
+        guard let nameNode = doc.at_xpath(xpath),
+            let deckName = nameNode.text else {
+                Log.error?.message("Deck name not found")
+                return nil
         }
+        Log.verbose?.message("Got deck name \(deckName)")
+
+        xpath = "//*[@class='breadcrumb']//span[contains(@class, 'hsIcon')]"
+        guard let classNode = doc.at_xpath(xpath),
+            let className = classNode["class"] else {
+                Log.error?.message("Class not found")
+                return nil
+        }
+        let clazz = className.uppercaseString.replace("HSICON ", with: "")
+        guard let playerClass = CardClass(rawValue: clazz) else {
+            Log.error?.message("Class not found")
+            return nil
+        }
+        Log.verbose?.message("Got class \(playerClass)")
+
+        let deck = Deck(playerClass: playerClass, name: deckName)
+
+        xpath = "//*[@id='list']/div/table/tbody/tr"
+        let cardNodes = doc.xpath(xpath)
+        for cardNode in cardNodes {
+            if let a = cardNode.at_xpath(".//a"),
+                let englishName = a["data-lang-en"],
+                let card = Cards.by(englishName: englishName),
+                let span = cardNode.at_xpath(".//span[@class='text-muted']"),
+                let text = span.text?.lowercaseString.replace("x", with: ""),
+                let count = Int(text) {
+                card.count = count
+                Log.verbose?.message("Got card \(card)")
+                deck.addCard(card)
+            }
+        }
+        
+        return deck
     }
 }

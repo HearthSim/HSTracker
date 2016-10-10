@@ -148,5 +148,55 @@ class NetImportTest: XCTestCase {
             XCTFail("Deck should not be nil")
         }
     }
-    
+
+    func testHearthstoneTopDecks() {
+        let asyncExpectation = expectationWithDescription("hearthstoneTopDecksImportAsynchTest")
+        let url = "https://www.hearthstonetopdecks.com/decks/rostys-totem-shaman-october-2016-season-31/"
+        do {
+            try NetImporter.netImport(url, completion: { (deck) -> Void in
+                XCTAssertNotNil(deck, "Deck should not be nil")
+                asyncExpectation.fulfill()
+            })
+
+            self.waitForExpectationsWithTimeout(10) { error in
+                XCTAssertNil(error, "Something went horribly wrong")
+            }
+        } catch {
+            XCTFail("Deck should not be nil")
+        }
+    }
+
+    func testTempostorm() {
+        let asyncExpectation = expectationWithDescription("tempostormImportAsynchTest")
+        let url = "https://www.hearthstonetopdecks.com/decks/rostys-totem-shaman-october-2016-season-31/"
+        do {
+            try NetImporter.netImport(url, completion: { (deck) -> Void in
+                XCTAssertNotNil(deck, "Deck should not be nil")
+                asyncExpectation.fulfill()
+            })
+
+            self.waitForExpectationsWithTimeout(10) { error in
+                XCTAssertNil(error, "Something went horribly wrong")
+            }
+        } catch {
+            XCTFail("Deck should not be nil")
+        }
+    }
+
+    func testHearthstoneHeroes() {
+        let asyncExpectation = expectationWithDescription("hearthstoneHeroesImportAsynchTest")
+        let url = "http://www.hearthstoneheroes.de/decks/hells-hexenmeister/"
+        do {
+            try NetImporter.netImport(url, completion: { (deck) -> Void in
+                XCTAssertNotNil(deck, "Deck should not be nil")
+                asyncExpectation.fulfill()
+            })
+
+            self.waitForExpectationsWithTimeout(20) { error in
+                XCTAssertNil(error, "Something went horribly wrong")
+            }
+        } catch {
+            XCTFail("Deck should not be nil")
+        }
+    }
 }

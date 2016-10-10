@@ -10,56 +10,39 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-class MetaTagImporter: BaseNetImporter {
-    
-    func loadDeck(url: String, completion: Deck? -> Void) throws {
-        loadHtml(url) { (html) -> Void in
-            guard let html = html,
-                doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) else {
-                    completion(nil)
-                    return
-            }
-            let nodes = doc.xpath("//meta")
-            guard let heroId = self.getMetaProperty(nodes, prop: "x-hearthstone:deck:hero"),
-                playerClass = Cards.hero(byId: heroId) else {
-                    // can't find class, ignore
-                    Log.error?.message("class not found")
-                    completion(nil)
-                    return
-            }
-            Log.info?.message("Found class \(playerClass)")
-            guard let deckName = self.getMetaProperty(nodes, prop: "x-hearthstone:deck") else {
-                // can't find class, ignore
-                Log.error?.message("name not found")
-                completion(nil)
-                return
-            }
-            
-            Log.verbose?.message("\(playerClass) \(deckName)")
-            guard let cardList = self.getMetaProperty(nodes, prop: "x-hearthstone:deck:cards")?
-                .componentsSeparatedByString(",") else {
-                    Log.error?.message("card list not found")
-                    completion(nil)
-                    return
-            }
-            var cards = [String: Int]()
-            for cardId in cardList {
-                if cards.keys.contains(cardId) {
-                    cards[cardId] = cards[cardId]! + 1
-                } else {
-                    cards[cardId] = 1
-                }
-            }
-            
-            if self.isCount(cards) {
-                self.saveDeck(deckName, playerClass: playerClass.playerClass,
-                              cards: cards, isArena: false,
-                              completion: completion)
-                return
-            }
-            
-            completion(nil)
+struct MetaTagImporter: HttpImporter {
+    var siteName: String { return "" }
+    var handleUrl: String { return ".*" }
+
+    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+        let nodes = doc.xpath("//meta")
+        guard let heroId = getMetaProperty(nodes, prop: "x-hearthstone:deck:hero"),
+            let playerClass = Cards.hero(byId: heroId)?.playerClass else {
+                Log.error?.message("Class not found")
+                return nil
         }
+        Log.verbose?.message("Got class \(playerClass)")
+        
+        guard let deckName = getMetaProperty(nodes, prop: "x-hearthstone:deck") else {
+            Log.error?.message("Deck name not found")
+            return nil
+        }
+        Log.verbose?.message("Got deck name \(deckName)")
+
+        let deck = Deck(playerClass: playerClass, name: deckName)
+
+        guard let cardList = getMetaProperty(nodes, prop: "x-hearthstone:deck:cards")?
+            .componentsSeparatedByString(",") else {
+                Log.error?.message("Card list not found")
+                return nil
+        }
+        for cardId in cardList {
+            if let card = Cards.byId(cardId) {
+                Log.verbose?.message("Got card \(card)")
+                deck.addCard(card)
+            }
+        }
+        return deck
     }
     
     private func getMetaProperty(nodes: XPathObject, prop: String) -> String? {

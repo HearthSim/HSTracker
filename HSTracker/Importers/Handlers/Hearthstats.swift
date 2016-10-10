@@ -10,64 +10,48 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-final class Hearthstats: BaseNetImporter, NetImporterAware {
+struct Hearthstats: HttpImporter {
 
     var siteName: String {
         return "HearthStats"
     }
 
-    func handleUrl(url: String) -> Bool {
-        return url.match("hearthstats\\.net|hss\\.io")
+    var handleUrl: String {
+        return "hearthstats\\.net|hss\\.io"
     }
 
-    func loadDeck(url: String, completion: Deck? -> Void) throws {
-        let httpsUrl = url.stringByReplacingOccurrencesOfString("http://", withString: "https://")
-        loadHtml(httpsUrl) { (html) -> Void in
-            if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                var playerClass: String?
-                if let node = doc.at_xpath("//div[contains(@class,'win-count')]//img") {
-                    if let alt = node["alt"] {
-                        playerClass = alt.lowercaseString
-                        Log.verbose?.message("got player class : \(playerClass)")
-                    }
-                }
+    var preferHttps: Bool {
+        return true
+    }
 
-                if playerClass == nil {
-                    completion(nil)
-                    return
-                }
-
-                var deckName: String?
-                if let node = doc.at_xpath("//h1[contains(@class,'page-title')]") {
-                    if let name = node.innerHTML?.characters.split("<").map(String.init) {
-                        if let name = name.first {
-                            deckName = name
-                            Log.verbose?.message("got deck name : \(name)")
-                        }
-                    }
-                }
-                var cards = [String: Int]()
-                for node in doc.xpath("//div[contains(@class,'cardWrapper')]") {
-                    if let card = node.at_xpath("div[@class='name']")?.text,
-                        count = node.at_xpath("div[@class='qty']")?.text {
-                        Log.verbose?.message("card : \(card) -> count \(count)")
-                        if let card = Cards.by(englishName: card),
-                            count = Int(count) {
-                            cards[card.id] = count
-                        }
-                    }
-                }
-
-                if let playerClass = playerClass,
-                    cardClass = CardClass(rawValue: playerClass.uppercaseString)
-                    where self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: cardClass,
-                                  cards: cards, isArena: false, completion: completion)
-                    return
-                }
-            }
-
-            completion(nil)
+    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+        guard let node = doc.at_xpath("//div[contains(@class,'win-count')]//img"),
+            let alt = node["alt"],
+            let playerClass = CardClass(rawValue: alt.uppercaseString) else {
+                Log.error?.message("Class not found")
+                return nil
         }
+        Log.verbose?.message("Got class \(playerClass)")
+
+        guard let deckNameNode = doc.at_xpath("//h1[contains(@class,'page-title')]"),
+            let deckName = deckNameNode.innerHTML?.componentsSeparatedByString("<").first else {
+                Log.error?.message("Deck name not found")
+                return nil
+        }
+        Log.verbose?.message("Got deck name \(deckName)")
+
+        let deck = Deck(playerClass: playerClass, name: deckName)
+
+        for node in doc.xpath("//div[contains(@class,'cardWrapper')]") {
+            if let cardName = node.at_xpath("div[@class='name']")?.text,
+                let countValue = node.at_xpath("div[@class='qty']")?.text,
+                let card = Cards.by(englishName: cardName),
+                let count = Int(countValue) {
+                card.count = count
+                Log.verbose?.message("Got card \(card)")
+                deck.addCard(card)
+            }
+        }
+        return deck
     }
 }

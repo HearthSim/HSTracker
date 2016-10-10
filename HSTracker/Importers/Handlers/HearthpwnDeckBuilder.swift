@@ -10,61 +10,57 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-final class HearthpwnDeckBuilder: BaseNetImporter, NetImporterAware {
+struct HearthpwnDeckBuilder: HttpImporter {
 
     var siteName: String {
         return "HearthpPwn deckbuilder"
     }
 
-    func handleUrl(url: String) -> Bool {
-        return url.match("hearthpwn\\.com\\/deckbuilder")
+    var handleUrl: String {
+        return "hearthpwn\\.com\\/deckbuilder"
     }
 
-    func loadDeck(url: String, completion: Deck? -> Void) throws {
-        loadHtml(url) { (html) -> Void in
-            if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                var urlParts = url.characters.split { $0 == "#" }.map(String.init)
-                let split = urlParts[0].characters.split { $0 == "/" }.map(String.init)
-                guard let playerClass = split.last else {
-                    completion(nil)
-                    return
-                }
+    var preferHttps: Bool {
+        return false
+    }
 
-                var deckName = ""
-                if let node = doc.at_xpath("//div[contains(@class,'deck-name-container')]/h2") {
-                    if let name = node.innerHTML {
-                        Log.verbose?.message("got deck name : \(name)")
-                        deckName = name
-                    }
-                }
+    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+        var urlParts = url.componentsSeparatedByString("#")
+        let split = urlParts[0].componentsSeparatedByString("/")
 
-                Log.verbose?.message("\(playerClass)")
-
-                let cardIds = urlParts.last?.characters.split { $0 == ";" }.map(String.init)
-                var cards = [String: Int]()
-                cardIds?.forEach({ (str) -> () in
-                    let split = str.characters.split(":").map(String.init)
-                    if let id = split.first,
-                        count = Int(split.last!) {
-                        if let node = doc.at_xpath("//tr[@data-id='\(id)']/td[1]/b"),
-                            cardId = node.text {
-                            Log.verbose?.message("id : \(id) count : \(count) text : \(node.text)")
-                            if let card = Cards.by(englishName: cardId) {
-                                cards[card.id] = count
-                            }
-                        }
-                    }
-                })
-
-                if let cardClass = CardClass(rawValue: playerClass.uppercaseString)
-                    where self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: cardClass,
-                                  cards: cards, isArena: false, completion: completion)
-                    return
-                }
-            }
-
-            completion(nil)
+        guard let clazz = split.last,
+            let playerClass = CardClass(rawValue: clazz.uppercaseString) else {
+                Log.error?.message("Class not found")
+                return nil
         }
+        Log.verbose?.message("Got class \(playerClass)")
+
+        guard let node = doc.at_xpath("//div[contains(@class,'deck-name-container')]/h2"),
+            let deckName = node.innerHTML else {
+                Log.error?.message("Deck name not found")
+                return nil
+        }
+        Log.verbose?.message("Got deck name : \(deckName)")
+
+        let deck = Deck(playerClass: playerClass, name: deckName)
+
+        guard let cardIds = urlParts.last?.componentsSeparatedByString(";") else {
+            Log.error?.message("Card list not found")
+            return nil
+        }
+        for str in cardIds {
+            let split = str.componentsSeparatedByString(":")
+            if let id = split.first, let last = split.last,
+                let count = Int(last),
+                let node = doc.at_xpath("//tr[@data-id='\(id)']/td[1]/b"),
+                let cardId = node.text,
+                let card = Cards.by(englishName: cardId) {
+                card.count = count
+                Log.verbose?.message("Got card \(card)")
+                deck.addCard(card)
+            }
+        }
+        
+        return deck
     }
 }

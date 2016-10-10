@@ -7,58 +7,70 @@
 //
 
 import Foundation
+import CleanroomLogger
 
-final class FileImporter: BaseNetImporter {
+struct FileImporter: BaseFileImporter {
 
-    func fileImport(url: NSURL, completion: Deck? -> Void) {
+    func fileImport(url: NSURL) -> Deck? {
         let deckName = url.lastPathComponent?.replace("\\.txt$", with: "")
-        var className: CardClass = .NEUTRAL
+        Log.verbose?.message("Got deck name \(deckName)")
+
         var isArena = false
+
+        let fileContent: [String]?
         do {
             let content = try NSString(contentsOfURL: url, encoding: NSUTF8StringEncoding)
-            let lines = content
+            fileContent = content
                 .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+        } catch let error {
+            Log.error?.message("\(error)")
+            return nil
+        }
 
-            var cards = [String: Int]()
-            let regex = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
-            for line in lines {
-                // match "2xMirror Image" as well as "2 Mirror Image" or "2 GVG_002"
-                if line.match(regex) {
-                    let matches = line.matches(regex)
-                    let cardName = matches[2].value.trim()
-                    if let count = Int(matches[0].value) {
-                        if count > 2 {
-                            isArena = true
-                        }
+        guard let lines = fileContent else {
+            Log.error?.message("Card list not found")
+        }
 
-                        var card = Cards.byId(cardName)
-                        if card == nil {
-                            card = Cards.by(englishName: cardName)
-                        }
-                        if card == nil {
-                            card = Cards.by(name: cardName)
-                        }
+        let deck = Deck(playerClass: .NEUTRAL, name: deckName)
 
-                        if let card = card {
-                            if card.playerClass != .NEUTRAL && className == .NEUTRAL {
-                                className = card.playerClass
-                            }
+        let regex = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
+        for line in lines {
+            // match "2xMirror Image" as well as "2 Mirror Image" or "2 GVG_002"
+            if line.match(regex) {
+                let matches = line.matches(regex)
+                let cardName = matches[2].value.trim()
+                if let count = Int(matches[0].value) {
+                    if count > 2 {
+                        isArena = true
+                    }
 
-                            cards[card.id] = count
+                    var card = Cards.byId(cardName)
+                    if card == nil {
+                        card = Cards.by(englishName: cardName)
+                    }
+                    if card == nil {
+                        card = Cards.by(name: cardName)
+                    }
+
+                    if let card = card {
+                        if card.playerClass != .NEUTRAL && deck.playerClass == .NEUTRAL {
+                            deck.playerClass = card.playerClass
+                            Log.verbose?.message("Got class \(deck.playerClass)")
                         }
+                        card.count = count
+                        Log.verbose?.message("Got card \(card)")
+                        deck.addCard(card)
                     }
                 }
             }
+        }
+        deck.isArena = isArena
 
-            if className != .NEUTRAL && self.isCount(cards) {
-                saveDeck(deckName, playerClass: className, cards: cards,
-                         isArena: isArena, completion: completion)
-                return
-            }
-        } catch {
+        guard deck.playerClass != .NEUTRAL else {
+            Log.error?.message("Class not found")
+            return nil
         }
 
-        // TODO add error
-        completion(nil)
+        return deck
     }
 }

@@ -10,78 +10,68 @@ import Foundation
 import CleanroomLogger
 import Kanna
 
-final class HearthHead: BaseNetImporter, NetImporterAware {
-    static let classes = [
-        1: "warrior",
-        2: "paladin",
-        3: "hunter",
-        4: "rogue",
-        5: "priest",
-        7: "shaman",
-        8: "mage",
-        9: "warlock",
-        11: "druid"
+struct HearthHead: HttpImporter {
+    static let classes: [Int: CardClass] = [
+        1: .WARRIOR,
+        2: .PALADIN,
+        3: .HUNTER,
+        4: .ROGUE,
+        5: .PRIEST,
+        7: .SHAMAN,
+        8: .MAGE,
+        9: .WARLOCK,
+        11: .DRUID
     ]
 
     var siteName: String {
         return "Hearthhead"
     }
 
-    func handleUrl(url: String) -> Bool {
-        return url.match("hearthhead\\.com\\/deck=")
+    var handleUrl: String {
+        return "hearthhead\\.com\\/deck="
     }
 
-    func loadDeck(url: String, completion: Deck? -> Void) throws {
-        loadHtml(url) { (html) -> Void in
-            if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                var className: String?
-                if let classNode = doc.at_xpath("//div[@class='deckguide-hero']") {
-                    if let clazz = classNode["data-class"], classId = Int(clazz) {
-                        className = HearthHead.classes[classId]
-                        Log.verbose?.message("found \(className)")
-                    }
-                }
-                var deckName: String?
-                if let deckNode = doc.at_xpath("//h1[@id='deckguide-name']") {
-                    deckName = deckNode.text?.trim()
-                    Log.verbose?.message("found \(deckName)")
-                }
+    var preferHttps: Bool {
+        return false
+    }
 
-                var cards = [String: Int]()
-                for cardNode in doc.xpath("//div[contains(@class,'deckguide-cards-type')]/ul/li") {
-                    var cardId: String?
-                    if let cardNameNode = cardNode.at_xpath("a"),
-                        cardName = cardNameNode.text,
-                        card = Cards.by(englishName: cardName) {
-                            cardId = card.id
-                            Log.verbose?.message("\(cardName)")
-                    }
-                    var count = 1
-                    if let cardNodeHTML = cardNode.text {
-                        if cardNodeHTML.match("x[0-9]+$") {
-                            if let match = cardNodeHTML.matches("x([0-9]+)$").first {
-                                let qty: String = match.value
-                                if let _count = Int(qty) {
-                                    count = _count
-                                }
-                            }
+    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+        guard let classNode = doc.at_xpath("//div[@class='deckguide-hero']"),
+            let clazz = classNode["data-class"],
+            let classId = Int(clazz),
+            let playerClass = HearthHead.classes[classId] else {
+                Log.error?.message("Class not found")
+                return nil
+        }
+        Log.verbose?.message("Got class \(playerClass)")
+
+        guard let deckNode = doc.at_xpath("//h1[@id='deckguide-name']"),
+            let deckName = deckNode.text?.trim() else {
+                Log.error?.message("Deck name not found")
+                return nil
+        }
+        Log.verbose?.message("Got deck name \(deckName)")
+
+        let deck = Deck(playerClass: playerClass, name: deckName)
+
+        for cardNode in doc.xpath("//div[contains(@class,'deckguide-cards-type')]/ul/li") {
+            if let cardNameNode = cardNode.at_xpath("a"),
+                cardName = cardNameNode.text,
+                card = Cards.by(englishName: cardName) {
+                card.count = 1
+                if let cardNodeHTML = cardNode.text {
+                    if cardNodeHTML.match("x[0-9]+$") {
+                        if let match = cardNodeHTML.matches("x([0-9]+)$").first,
+                            let count = Int(match.value) {
+                            card.count = count
                         }
                     }
-
-                    if let cardId = cardId {
-                        cards[cardId] = count
-                    }
                 }
 
-                if let className = className,
-                    playerClass = CardClass(rawValue: className.uppercaseString)
-                    where self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: playerClass,
-                                  cards: cards, isArena: false, completion: completion)
-                    return
-                }
+                Log.verbose?.message("Got card \(card)")
+                deck.addCard(card)
             }
-            completion(nil)
         }
+        return deck
     }
 }

@@ -138,12 +138,10 @@ class NewDeck: NSWindowController {
                                         if returnCode == NSFileHandlingPanelOKButton {
                                             for filename in panel.URLs {
                                                 let importer = FileImporter()
-                                                importer.fileImport(filename) { (deck) in
-                                                    if let deck = deck {
-                                                        self._addDeck(deck)
-                                                    } else {
-                                                        // TODO show error
-                                                    }
+                                                if let deck = importer.fileImport(filename) {
+                                                    self._addDeck(deck)
+                                                } else {
+                                                    // TODO show error
                                                 }
                                             }
                                         }

@@ -10,7 +10,7 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-final class HearthstoneDecks: BaseNetImporter, NetImporterAware {
+struct HearthstoneDecks: HttpImporter {
 
     static let classes = [
         "Chaman": "shaman",
@@ -28,44 +28,44 @@ final class HearthstoneDecks: BaseNetImporter, NetImporterAware {
         return "Hearthstone-Decks"
     }
 
-    func handleUrl(url: String) -> Bool {
-        return url.match("hearthstone-decks\\.com")
+    var handleUrl: String {
+        return "hearthstone-decks\\.com"
     }
 
-    func loadDeck(url: String, completion: Deck? -> Void) throws {
-        loadHtml(url) { (html) -> Void in
-            if let html = html, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                var className: String?
-                if let classNode = doc.at_xpath("//input[@id='classe_nom']") {
-                    if let clazz = classNode["value"] {
-                        className = HearthstoneDecks.classes[clazz]
-                        Log.verbose?.message("found \(className)")
-                    }
-                }
-                var deckName: String?
-                if let deckNode = doc.at_xpath("//div[@id='content']//h1") {
-                    deckName = deckNode.text
-                    Log.verbose?.message("found \(deckName)")
-                }
+    var preferHttps: Bool {
+        return false
+    }
 
-                var cards = [String: Int]()
-                for cardNode in doc.xpath("//table[contains(@class,'tabcartes')]//tbody//tr//a") {
-                    if let qty = cardNode["nb_card"],
-                        cardId = cardNode["real_id"],
-                        count = Int(qty) {
-                        cards[cardId] = count
-                    }
-                }
-
-                if let playerClass = className,
-                    cardClass = CardClass(rawValue: playerClass.uppercaseString)
-                    where self.isCount(cards) {
-                    self.saveDeck(deckName, playerClass: cardClass,
-                                  cards: cards, isArena: false, completion: completion)
-                    return
-                }
-            }
-            completion(nil)
+    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+        guard let classNode = doc.at_xpath("//input[@id='classe_nom']"),
+            let clazz = classNode["value"],
+            let className = HearthstoneDecks.classes[clazz],
+            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+                Log.error?.message("Class not found")
+                return nil
         }
+        Log.verbose?.message("Got class \(playerClass)")
+
+        guard let deckNode = doc.at_xpath("//div[@id='content']//h1"),
+            let deckName = deckNode.text else {
+                Log.error?.message("Deck name not found")
+                return nil
+        }
+        Log.verbose?.message("Got deck name \(deckName)")
+
+        let deck = Deck(playerClass: playerClass, name: deckName)
+
+        for cardNode in doc.xpath("//table[contains(@class,'tabcartes')]//tbody//tr//a") {
+            if let qty = cardNode["nb_card"],
+                let cardId = cardNode["real_id"],
+                let count = Int(qty),
+                let card = Cards.byId(cardId) {
+                card.count = count
+                Log.verbose?.message("Got card \(card)")
+                deck.addCard(card)
+            }
+        }
+        
+        return deck
     }
 }

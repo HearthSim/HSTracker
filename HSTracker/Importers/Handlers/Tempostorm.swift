@@ -8,19 +8,23 @@
 
 import Foundation
 import CleanroomLogger
+import Alamofire
 
-class Tempostorm: BaseNetImporter, NetImporterAware {
+struct Tempostorm: JsonImporter {
 
     var siteName: String {
         return "TempoStorm"
     }
 
-    func handleUrl(url: String) -> Bool {
-        return url.match("tempostorm\\.com\\/hearthstone\\/decks")
+    var handleUrl: String {
+        return "tempostorm\\.com\\/hearthstone\\/decks"
     }
 
-    func loadDeck(url: String, completion: Deck? -> Void) throws {
+    var preferHttps: Bool {
+        return true
+    }
 
+    func loadJson(url: String, completion: AnyObject? -> Void) {
         guard let match = url.matches("/decks/([^/]+)$").first else {
             completion(nil)
             return
@@ -32,54 +36,53 @@ class Tempostorm: BaseNetImporter, NetImporterAware {
                 + "[{\"relation\":\"cards\",\"scope\":{\"include\":[\"card\"]}}]}"
         ]
 
-        loadJson(url, parameters: parameters) { (json) in
-            guard let json = json as? [String: AnyObject] else {
-                completion(nil)
-                return
-            }
-            print("\(json)")
-            guard let className = json["playerClass"] as? String,
-                let playerClass = CardClass(rawValue: className.uppercaseString) else {
-                    Log.error?.message("Can't find class name")
+        Log.info?.message("Fetching \(url)")
+
+        Alamofire.request(.GET, url,
+            parameters: parameters)
+            .responseJSON { response in
+                if let data = response.result.value where response.result.isSuccess {
+                    Log.info?.message("Fetching \(url) complete")
+                    completion(data)
+                } else {
+                    Log.error?.message("\(response.result.error)")
                     completion(nil)
-                    return
-            }
-            Log.verbose?.message("got class: \(playerClass)")
-            guard let name = json["name"] as? String else {
-                Log.error?.message("Can't find deck name")
-                completion(nil)
-                return
-            }
-            Log.verbose?.message("got deck name \(name)")
-            var cards = [String: Int]()
-            guard let jsonCards = json["cards"] as? [[String: AnyObject]] else {
-                Log.error?.message("Can't cards")
-                completion(nil)
-                return
-            }
-            for jsonCard: [String: AnyObject] in jsonCards {
-                if let cardData = jsonCard["card"] as? [String: AnyObject],
-                    let name = cardData["name"] as? String,
-                    let card = Cards.by(englishNameCaseInsensitive: name) {
-
-                    if let quantity = jsonCard["cardQuantity"] as? Int {
-
-                    cards[card.id] = quantity
-                    }
                 }
-            }
-
-            let gameModeType = json["gameModeType"] as? String ?? "constructed"
-
-            if self.isCount(cards) {
-                self.saveDeck(name, playerClass: playerClass,
-                              cards: cards, isArena: gameModeType == "arena",
-                              completion: completion)
-                return
-            }
-
-            completion(nil)
         }
     }
 
+    func loadDeck(json: AnyObject, url: String) -> Deck? {
+        guard let className = json["playerClass"] as? String,
+            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+                Log.error?.message("Class not found")
+                return nil
+        }
+        Log.verbose?.message("Got class \(playerClass)")
+
+        guard let deckName = json["name"] as? String else {
+            Log.error?.message("Deck name not found")
+            return nil
+        }
+        Log.verbose?.message("Got deck name \(deckName)")
+
+        let deck = Deck(playerClass: playerClass, name: deckName)
+        let gameModeType = json["gameModeType"] as? String ?? "constructed"
+        deck.isArena = gameModeType == "arena"
+
+        guard let jsonCards = json["cards"] as? [[String: AnyObject]] else {
+            Log.error?.message("Card list not found")
+            return nil
+        }
+        for jsonCard: [String: AnyObject] in jsonCards {
+            if let cardData = jsonCard["card"] as? [String: AnyObject],
+                let name = cardData["name"] as? String,
+                let card = Cards.by(englishNameCaseInsensitive: name),
+                let count = jsonCard["cardQuantity"] as? Int {
+                card.count = count
+                Log.verbose?.message("Got card \(card)")
+                deck.addCard(card)
+            }
+        }
+        return deck
+    }
 }
