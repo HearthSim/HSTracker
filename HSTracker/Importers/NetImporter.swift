@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import Alamofire
 import CleanroomLogger
 
 enum NetImporterError: ErrorType {
@@ -48,25 +47,9 @@ extension HttpImporter {
     func loadHtml(url: String, completion: HTMLDocument? -> Void) {
         Log.info?.message("Fetching \(url)")
 
-        Alamofire.request(.GET, url)
-            .responseData() { response in
-
-                if let data = response.result.value {
-                    var convertedNSString: NSString?
-                    NSString.stringEncodingForData(data,
-                        encodingOptions: nil,
-                        convertedString: &convertedNSString,
-                        usedLossyConversion: nil)
-
-                    Log.info?.message("Fetching \(url) complete")
-                    if let html = convertedNSString as? String,
-                        let doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                        completion(doc)
-                    }
-                } else {
-                    Log.error?.message("\(response.result.error)")
-                    completion(nil)
-                }
+        let http = Http(url: url)
+        http.html(.get) { doc in
+            completion(doc)
         }
     }
 }
@@ -80,16 +63,9 @@ extension JsonImporter {
     func loadJson(url: String, completion: AnyObject? -> Void) {
         Log.info?.message("Fetching \(url)")
 
-        Alamofire.request(.GET, url,
-            parameters: [:])
-            .responseJSON { response in
-                if let data = response.result.value where response.result.isSuccess {
-                    Log.info?.message("Fetching \(url) complete")
-                    completion(data)
-                } else {
-                    Log.error?.message("\(response.result.error)")
-                    completion(nil)
-                }
+        let http = Http(url: url)
+        http.json(.get) { json in
+            completion(json)
         }
     }
 }

@@ -1,4 +1,3 @@
-github "Alamofire/Alamofire" "3.5.1"
 github "emaloney/CleanroomASL" "1.5.0"
 github "groue/GRDB.swift" "d89842ea23c391621d48b1dea8c1b06e9e3b6f70"
 github "bitstadium/HockeySDK-Mac" "4.1.0"

@@ -33,6 +33,9 @@
 		431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CC1D362ECB0030AD22 /* Race.swift */; };
 		431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CE1D3632BC0030AD22 /* CardClass.swift */; };
 		432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */; };
+		432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AD9581DAD46AA00D8F959 /* HttpMethod.swift */; };
+		432AD95B1DAD46FF00D8F959 /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AD95A1DAD46FF00D8F959 /* Http.swift */; };
+		432AD95D1DAD81B500D8F959 /* HttpEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AD95C1DAD81B500D8F959 /* HttpEncoding.swift */; };
 		432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FAD1CB5351800B05D19 /* Localizable.strings */; };
 		432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB21CB536E700B05D19 /* MainMenu.xib */; };
 		432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */; };
@@ -100,7 +103,6 @@
 		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43647A581CDF4A0E00C2B78E /* HSTrackerLogFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
-		436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -111,8 +113,6 @@
 		436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
 		436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */; };
 		436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
-		436789D21CAE484800C962D1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
-		436789D31CAE484800C962D1 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
 		436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
@@ -146,7 +146,6 @@
 		437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
 		437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
 		437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
-		437E56D11DAAA32E00FC0FC1 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; };
 		437E56D21DAAA32E00FC0FC1 /* CleanroomASL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; };
 		437E56D31DAAA32E00FC0FC1 /* CleanroomLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; };
 		437E56D41DAAA32E00FC0FC1 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; };
@@ -160,7 +159,6 @@
 		437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56DF1DAAA33200FC0FC1 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		437E56E21DAAA33200FC0FC1 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898E1CABFB1600C962D1 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56E31DAAA33200FC0FC1 /* CleanroomASL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4367898F1CABFB1600C962D1 /* CleanroomASL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56E41DAAA33200FC0FC1 /* CleanroomLogger.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789901CABFB1600C962D1 /* CleanroomLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56E51DAAA33200FC0FC1 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789911CABFB1600C962D1 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -305,7 +303,6 @@
 				437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */,
 				437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */,
 				437E56DF1DAAA33200FC0FC1 /* Sparkle.framework in CopyFiles */,
-				437E56E21DAAA33200FC0FC1 /* Alamofire.framework in CopyFiles */,
 				437E56E31DAAA33200FC0FC1 /* CleanroomASL.framework in CopyFiles */,
 				437E56E41DAAA33200FC0FC1 /* CleanroomLogger.framework in CopyFiles */,
 				437E56E51DAAA33200FC0FC1 /* HockeySDK.framework in CopyFiles */,
@@ -321,7 +318,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				436789A81CAC07BB00C962D1 /* Alamofire.framework.dSYM in CopyFiles */,
 				436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */,
 				436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */,
 				4305CA441CF42AE50048E7EC /* Unbox.framework.dSYM in CopyFiles */,
@@ -354,7 +350,6 @@
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
-				436789D31CAE484800C962D1 /* Alamofire.framework in Embed Frameworks */,
 				43C568111D5F698C00451B6F /* ZipArchive.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
 			);
@@ -393,6 +388,9 @@
 		431AA0CC1D362ECB0030AD22 /* Race.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
 		431AA0CE1D3632BC0030AD22 /* CardClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardClass.swift; sourceTree = "<group>"; };
 		432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderInfo.swift; sourceTree = "<group>"; };
+		432AD9581DAD46AA00D8F959 /* HttpMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		432AD95A1DAD46FF00D8F959 /* Http.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Http.swift; sourceTree = "<group>"; };
+		432AD95C1DAD81B500D8F959 /* HttpEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpEncoding.swift; sourceTree = "<group>"; };
 		432B5FAE1CB5351800B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FB11CB536E700B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		432B5FB41CB5371C00B05D19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PlayerTrackersPreferences.xib; sourceTree = "<group>"; };
@@ -558,7 +556,6 @@
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
 		43647A521CDC9A3D00C2B78E /* TextAttributes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TextAttributes.framework; path = Carthage/Build/Mac/TextAttributes.framework; sourceTree = "<group>"; };
 		43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = TextAttributes.framework.dSYM; path = Carthage/Build/Mac/TextAttributes.framework.dSYM; sourceTree = "<group>"; };
-		4367898E1CABFB1600C962D1 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		4367898F1CABFB1600C962D1 /* CleanroomASL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomASL.framework; path = Carthage/Build/Mac/CleanroomASL.framework; sourceTree = "<group>"; };
 		436789901CABFB1600C962D1 /* CleanroomLogger.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomLogger.framework; path = Carthage/Build/Mac/CleanroomLogger.framework; sourceTree = "<group>"; };
 		436789911CABFB1600C962D1 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = Carthage/Build/Mac/HockeySDK.framework; sourceTree = "<group>"; };
@@ -567,7 +564,6 @@
 		436789941CABFB1600C962D1 /* MASPreferences.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MASPreferences.framework; path = Carthage/Build/Mac/MASPreferences.framework; sourceTree = "<group>"; };
 		4367899C1CAC05D700C962D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4367899E1CAC05DD00C962D1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Alamofire.framework.dSYM; path = Carthage/Build/Mac/Alamofire.framework.dSYM; sourceTree = "<group>"; };
 		436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = CleanroomASL.framework.dSYM; path = Carthage/Build/Mac/CleanroomASL.framework.dSYM; sourceTree = "<group>"; };
 		436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = CleanroomLogger.framework.dSYM; path = Carthage/Build/Mac/CleanroomLogger.framework.dSYM; sourceTree = "<group>"; };
 		436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HockeySDK.framework.dSYM; path = Carthage/Build/Mac/HockeySDK.framework.dSYM; sourceTree = "<group>"; };
@@ -746,7 +742,6 @@
 			files = (
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
-				436789D21CAE484800C962D1 /* Alamofire.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				4305CA3E1CF42AC70048E7EC /* Unbox.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
@@ -777,7 +772,6 @@
 				437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */,
 				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
 				437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */,
-				437E56D11DAAA32E00FC0FC1 /* Alamofire.framework in Frameworks */,
 				437E56D21DAAA32E00FC0FC1 /* CleanroomASL.framework in Frameworks */,
 				437E56D31DAAA32E00FC0FC1 /* CleanroomLogger.framework in Frameworks */,
 				437E56D41DAAA32E00FC0FC1 /* HockeySDK.framework in Frameworks */,
@@ -800,6 +794,16 @@
 				432B60151CB63D7000B05D19 /* HearthstatsPreferences.xib */,
 			);
 			path = Hearthstats;
+			sourceTree = "<group>";
+		};
+		432AD9571DAD468000D8F959 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				432AD9581DAD46AA00D8F959 /* HttpMethod.swift */,
+				432AD95C1DAD81B500D8F959 /* HttpEncoding.swift */,
+				432AD95A1DAD46FF00D8F959 /* Http.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		4335542F1D5F6B3600277B27 /* zlib */ = {
@@ -1020,6 +1024,7 @@
 				43C567EA1D5E309600451B6F /* HSReplay */,
 				434C2F2D1C7F433E001D1D91 /* Importers */,
 				439C7E931C777F8900D29859 /* Logging */,
+				432AD9571DAD468000D8F959 /* Network */,
 				43B6954E1C90387F00F4D0AC /* Replay */,
 				439C7E8E1C777D6C00D29859 /* Resources */,
 				C99C0C9B1D0A607D000DD6FB /* Statistics */,
@@ -1309,7 +1314,6 @@
 			children = (
 				433554321D5F6B4400277B27 /* libz.tbd */,
 				438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */,
-				436789A11CAC07BB00C962D1 /* Alamofire.framework.dSYM */,
 				436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */,
 				436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */,
 				436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */,
@@ -1320,8 +1324,8 @@
 				4305CA421CF42AE50048E7EC /* Unbox.framework.dSYM */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
 				4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */,
-				431202AD1D93B7E600606CA5 /* GRDB.framework */,
 				431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */,
+				431202AD1D93B7E600606CA5 /* GRDB.framework */,
 				43C5680F1D5F692800451B6F /* ZipArchive.framework */,
 				4394C79D1D188F9400007FAD /* opencv2.framework */,
 				4305CA3C1CF42AC60048E7EC /* Unbox.framework */,
@@ -1330,7 +1334,6 @@
 				4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */,
 				4367899E1CAC05DD00C962D1 /* Cocoa.framework */,
 				4367899C1CAC05D700C962D1 /* Foundation.framework */,
-				4367898E1CABFB1600C962D1 /* Alamofire.framework */,
 				4367898F1CABFB1600C962D1 /* CleanroomASL.framework */,
 				436789901CABFB1600C962D1 /* CleanroomLogger.framework */,
 				436789911CABFB1600C962D1 /* HockeySDK.framework */,
@@ -1538,6 +1541,7 @@
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
 				439C7EC21C777F8900D29859 /* BobHandler.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
+				432AD95D1DAD81B500D8F959 /* HttpEncoding.swift in Sources */,
 				439C7EC51C777F8900D29859 /* PowerGameStateHandler.swift in Sources */,
 				43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */,
 				43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */,
@@ -1571,6 +1575,7 @@
 				434910501D09770000B22DB2 /* PlayerBoard.swift in Sources */,
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,
 				439C7EC81C777F8900D29859 /* Hearthstone.swift in Sources */,
+				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				4359BFA51D5243FD00F61993 /* Automation.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
 				434C2F381C7F487D001D1D91 /* Hearthstats.swift in Sources */,
@@ -1623,6 +1628,7 @@
 				435907EC1CB13835008D4363 /* FileImporter.swift in Sources */,
 				43D601D91CC3A57C0059F36A /* Decks.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
+				432AD95B1DAD46FF00D8F959 /* Http.swift in Sources */,
 				340A15041D0939380012CA44 /* Draft.swift in Sources */,
 				43C568011D5E584F00451B6F /* LogUploader.swift in Sources */,
 				437E56F51DAAB81400FC0FC1 /* NSData+GZIP.swift in Sources */,

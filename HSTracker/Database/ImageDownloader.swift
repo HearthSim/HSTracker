@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import CleanroomLogger
 
 final class ImageDownloader {
@@ -109,31 +108,31 @@ final class ImageDownloader {
             }
 
             let path = "\(destination)/HSTracker/cards/\(image).png"
-            // swiftlint:disable line_length
-            let url = NSURL(string: "http://vps208291.ovh.net/cards/\(language)/\(image).png")!
-            Log.verbose?.message("downloading \(url) to \(path)")
+            let urlPath = "http://vps208291.ovh.net/cards/\(language)/\(image).png"
+            if let url = NSURL(string: urlPath) {
+                Log.verbose?.message("downloading \(url) to \(path)")
 
-            let task = NSURLSession.sharedSession().downloadTaskWithRequest(NSURLRequest(URL: url),
-                                                                            completionHandler: {
-                                                                                (url, response, error) -> Void in
-                if error != nil {
-                    Log.error?.message("download error \(error)")
-                    self.downloadImages(&images, language: language,
-                        destination: destination,
-                        splashscreen: splashscreen)
-                    return
-                }
+                NSURLSession.sharedSession()
+                    .downloadTaskWithRequest(NSURLRequest(URL: url)) { url, response, error in
+                        if error != nil {
+                            Log.error?.message("download error \(error)")
+                            self.downloadImages(&images, language: language,
+                                                destination: destination,
+                                                splashscreen: splashscreen)
+                            return
+                        }
 
-                if let url = url {
-                    if let data = NSData(contentsOfURL: url) {
-                        data.writeToFile(path, atomically: true)
-                    }
-                }
-                self.downloadImages(&images, language: language,
-                    destination: destination, splashscreen: splashscreen)
-            })
-            // swiftlint:enable line_length
-            task.resume()
+                        if let url = url {
+                            if let data = NSData(contentsOfURL: url) {
+                                data.writeToFile(path, atomically: true)
+                            }
+                        }
+                        self.downloadImages(&images, language: language,
+                                            destination: destination, splashscreen: splashscreen)
+                    }.resume()
+            } else {
+                Log.error?.message("\(urlPath) is not valid oO")
+            }
         }
     }
 }

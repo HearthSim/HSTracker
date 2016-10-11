@@ -8,7 +8,6 @@
 
 import Foundation
 import CleanroomLogger
-import Alamofire
 
 struct Tempostorm: JsonImporter {
 
@@ -38,16 +37,9 @@ struct Tempostorm: JsonImporter {
 
         Log.info?.message("Fetching \(url)")
 
-        Alamofire.request(.GET, url,
-            parameters: parameters)
-            .responseJSON { response in
-                if let data = response.result.value where response.result.isSuccess {
-                    Log.info?.message("Fetching \(url) complete")
-                    completion(data)
-                } else {
-                    Log.error?.message("\(response.result.error)")
-                    completion(nil)
-                }
+        let http = Http(url: url)
+        http.json(.get, parameters: parameters) { json in
+            completion(json)
         }
     }
 

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import Unbox
 import CleanroomLogger
 
@@ -26,36 +25,23 @@ struct BuildDates {
                                  indeterminate: true)
         }
 
-        let f = "https://raw.githubusercontent.com/HearthSim/HSTracker/master/hs-build-dates.json"
-        if let url = NSURL(string: f) {
-
-            let semaphore = dispatch_semaphore_create(0)
-            NSURLSession.sharedSession().dataTaskWithURL(url) { (data, response, error) in
-                if let data = data {
-                    do {
-                        if let json: [String: String] = try NSJSONSerialization
-                            .JSONObjectWithData(data,
-                                                options: .AllowFragments) as? [String: String] {
-                            for (build, date) in json {
-                                if let nsdate = NSDate.NSDateFromString(date,
-                                                                        inFormat: "yyyy-MM-dd"),
-                                    intBuild = Int(build) {
-                                    let buildDate = BuildDate(date: nsdate, build: intBuild)
-                                    knownBuildDates.append(buildDate)
-                                }
-                            }
-                        }
-                    } catch let error {
-                        Log.error?.message("\(error)")
+        let url = "https://raw.githubusercontent.com/HearthSim/HSTracker/master/hs-build-dates.json"
+        let semaphore = dispatch_semaphore_create(0)
+        let http = Http(url: url)
+        http.json(.get) { json in
+            if let json: [String: String] = json as? [String: String] {
+                for (build, date) in json {
+                    if let nsdate = NSDate.NSDateFromString(date,
+                                                            inFormat: "yyyy-MM-dd"),
+                        intBuild = Int(build) {
+                        let buildDate = BuildDate(date: nsdate, build: intBuild)
+                        knownBuildDates.append(buildDate)
                     }
-                } else if let error = error {
-                    Log.error?.message("\(error)")
                 }
-                dispatch_semaphore_signal(semaphore)
-            }.resume()
-
-            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+            }
+            dispatch_semaphore_signal(semaphore)
         }
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
     }
 
     static func isOutdated() -> Bool {
@@ -119,7 +105,9 @@ struct BuildDates {
     }
 
     static func getByDate(date: NSDate) -> BuildDate? {
-        for buildDate in knownBuildDates {
+        for buildDate in knownBuildDates.sort({
+            $0.date > $1.date
+        }) {
             if date >= buildDate.date {
                 Log.info?.message("Getting build from date : \(buildDate)")
                 return buildDate

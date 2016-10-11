@@ -8,7 +8,7 @@ require 'mini_magick'
 langs          = %w(deDE enUS esES frFR ptBR ruRU zhCN)
 valid_card_set = %w(KARA) #%w(CORE EXPERT1 NAXX GVG BRM TGT LOE PROMO REWARD HERO_SKINS OG KARA)
 
-resource_dir = "#{File.dirname(__FILE__)}/../HSTracker/Resources/Cards"
+resource_dir = "/Users/benjamin/Library/Application Support/HSTracker/json"
 
 MiniMagick.configure do |config|
   config.whiny = false

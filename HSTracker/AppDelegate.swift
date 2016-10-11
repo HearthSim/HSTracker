@@ -248,7 +248,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func hstrackerReady() {
         guard !hstrackerIsStarted else { return }
         hstrackerIsStarted = true
-
+        
         operationQueue?.removeObserver(self, forKeyPath: "operations")
         operationQueue = nil
 

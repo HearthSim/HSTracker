@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import CleanroomLogger
 
 extension Deck {
@@ -86,7 +85,7 @@ extension Deck {
 
 extension Decks {
 
-    func byHearthstatsId(id: Int) -> Deck? {
+    func by(hearthstatsId id: Int) -> Deck? {
         return decks().filter({ $0.hearthstatsId == id }).first
     }
 
@@ -162,11 +161,10 @@ struct HearthstatsAPI {
     // MARK: - Authentication
     static func login(email: String, password: String,
                       callback: (success: Bool, message: String) -> ()) {
-        Alamofire.request(.POST, "\(baseUrl)/users/sign_in",
-            parameters: ["user_login": ["email": email, "password": password ]], encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value {
+        let http = Http(url: "\(baseUrl)/users/sign_in")
+        http.json(.post,
+                  parameters: ["user_login": ["email": email, "password": password ]]) { json in
+                    if let json = json as? [String: AnyObject] {
                         if let success = json["success"] as? Bool where success {
                             let settings = Settings.instance
                             settings.hearthstatsLogin = json["email"] as? String
@@ -174,14 +172,12 @@ struct HearthstatsAPI {
                             callback(success: true, message: "")
                         } else {
                             callback(success: false,
-                                message: json["message"] as? String ?? "Unknown error")
+                                     message: json["message"] as? String ?? "Unknown error")
                         }
-                        return
+                    } else {
+                        callback(success: false,
+                                 message: NSLocalizedString("server error", comment: ""))
                     }
-                }
-                Log.error?.message("\(response.result.error)")
-                callback(success: false,
-                    message: NSLocalizedString("server error", comment: ""))
         }
     }
 
@@ -212,19 +208,17 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
-        Alamofire.request(.POST,
-            "\(baseUrl)/decks/after_date?auth_token=\(settings.hearthstatsToken!)",
-            parameters: ["date": "\(unixTime)"], encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value,
+        let http = Http(url: "\(baseUrl)/decks/after_date?auth_token=\(settings.hearthstatsToken!)")
+        http.json(.post,
+                  parameters: ["date": "\(unixTime)"]) { json in
+                    if let json = json as? [String: AnyObject],
                         status = json["status"] as? Int where status == 200 {
                         var newDecks = 0
                         (json["data"] as? [[String: AnyObject]])?.forEach({
                             newDecks += 1
                             if let deck = Deck.fromHearthstatsDict($0),
                                 hearthstatsId = deck.hearthstatsId {
-                                if let existing = Decks.instance.byHearthstatsId(hearthstatsId) {
+                                if let existing = Decks.instance.by(hearthstatsId: hearthstatsId) {
                                     existing.merge(deck)
                                     Decks.instance.update(existing)
                                 } else {
@@ -235,10 +229,9 @@ struct HearthstatsAPI {
                         Settings.instance.hearthstatsLastDecksSync = NSDate().timeIntervalSince1970
                         callback(success: true, added: newDecks)
                         return
+                    } else {
+                        callback(success: false, added: 0)
                     }
-                }
-                Log.error?.message("\(response.result.error)")
-                callback(success: false, added: 0)
         }
     }
 
@@ -246,31 +239,29 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
-        Alamofire.request(.POST, "\(baseUrl)/decks?auth_token=\(settings.hearthstatsToken!)",
-            parameters: [
-                "name": deck.name ?? "",
-                "tags": [],
-                "notes": "",
-                "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
-                "class": deck.playerClass.rawValue.capitalizedString,
-                "version": deck.version
-            ], encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value,
-                        data = json["data"] as? [String:AnyObject],
-                        jsonDeck = data["deck"] as? [String:AnyObject],
-                        hearthstatsId = jsonDeck["id"] as? Int,
-                        deckVersions = data["deck_versions"] as? [[String:AnyObject]],
-                        hearthstatsVersionId = deckVersions.first?["id"] as? Int {
-                        deck.hearthstatsId = hearthstatsId
-                        deck.hearthstatsVersionId = hearthstatsVersionId
-                        callback(success: true)
-                        return
-                    }
-                }
-                Log.error?.message("\(response.result.error)")
+        let http = Http(url: "\(baseUrl)/decks?auth_token=\(settings.hearthstatsToken!)")
+        http.json(.post,
+                  parameters: [
+                    "name": deck.name ?? "",
+                    "tags": [],
+                    "notes": "",
+                    "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
+                    "class": deck.playerClass.rawValue.capitalizedString,
+                    "version": deck.version
+        ]) { json in
+            if let json = json as? [String: AnyObject],
+                data = json["data"] as? [String: AnyObject],
+                jsonDeck = data["deck"] as? [String: AnyObject],
+                hearthstatsId = jsonDeck["id"] as? Int,
+                deckVersions = data["deck_versions"] as? [[String: AnyObject]],
+                hearthstatsVersionId = deckVersions.first?["id"] as? Int {
+                deck.hearthstatsId = hearthstatsId
+                deck.hearthstatsVersionId = hearthstatsVersionId
+                callback(success: true)
+                return
+            } else {
                 callback(success: false)
+            }
         }
     }
 
@@ -278,25 +269,22 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
-        Alamofire.request(.POST, "\(baseUrl)/decks/edit?auth_token=\(settings.hearthstatsToken!)",
-            parameters: [
-                "deck_id": deck.hearthstatsId!,
-                "name": deck.name ?? "",
-                "tags": [],
-                "notes": "",
-                "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
-                "class": deck.playerClass.rawValue.capitalizedString
-            ], encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value {
-                        Log.debug?.message("update deck : \(json)")
-                        callback(success: true)
-                        return
-                    }
-                }
-                Log.error?.message("\(response.result.error)")
+        let http = Http(url: "\(baseUrl)/decks/edit?auth_token=\(settings.hearthstatsToken!)")
+        http.json(.post,
+                  parameters: [
+                    "deck_id": deck.hearthstatsId!,
+                    "name": deck.name ?? "",
+                    "tags": [],
+                    "notes": "",
+                    "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
+                    "class": deck.playerClass.rawValue.capitalizedString
+        ]) { json in
+            if let json = json {
+                Log.debug?.message("update deck : \(json)")
+                callback(success: true)
+            } else {
                 callback(success: false)
+            }
         }
     }
 
@@ -304,26 +292,23 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
-        Alamofire.request(.POST,
-            "\(baseUrl)/decks/create_version?auth_token=\(settings.hearthstatsToken!)",
-            parameters: [
-                "deck_id": deck.hearthstatsId!,
-                "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
-                "version": deck.version
-            ], encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value,
-                        data = json["data"] as? [String:AnyObject],
-                        hearthstatsVersionId = data["id"] as? Int {
-                        Log.debug?.message("post deck version : \(json)")
-                        deck.hearthstatsVersionId = hearthstatsVersionId
-                        callback(success: true)
-                        return
-                    }
-                }
-                Log.error?.message("\(response.result.error)")
+        let http = Http(url:
+            "\(baseUrl)/decks/create_version?auth_token=\(settings.hearthstatsToken!)")
+        http.json(.post,
+                  parameters: [
+                    "deck_id": deck.hearthstatsId!,
+                    "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
+                    "version": deck.version
+        ]) { json in
+            if let json = json as? [String: AnyObject],
+                data = json["data"] as? [String: AnyObject],
+                hearthstatsVersionId = data["id"] as? Int {
+                Log.debug?.message("post deck version : \(json)")
+                deck.hearthstatsVersionId = hearthstatsVersionId
+                callback(success: true)
+            } else {
                 callback(success: false)
+            }
         }
     }
 
@@ -331,15 +316,13 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
-        Alamofire.request(.POST, "\(baseUrl)/decks/delete?auth_token=\(settings.hearthstatsToken!)",
-            parameters: ["deck_id": "[\(deck.hearthstatsId)]"], encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value {
+        let http = Http(url: "\(baseUrl)/decks/delete?auth_token=\(settings.hearthstatsToken!)")
+        http.json(.post,
+                  parameters: ["deck_id": "[\(deck.hearthstatsId!)]"]) { json in
+                    if let json = json {
                         Log.debug?.message("delete deck : \(json)")
                         return
                     }
-                }
         }
     }
 
@@ -348,26 +331,22 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
 
-        Alamofire.request(.POST,
-            "\(baseUrl)/matches/after_date?auth_token=\(settings.hearthstatsToken!)",
-            parameters: ["date": "\(unixTime)"], encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value {
+        let http = Http(url:
+            "\(baseUrl)/matches/after_date?auth_token=\(settings.hearthstatsToken!)")
+        http.json(.post,
+                  parameters: ["date": "\(unixTime)"]) { json in
+                    if let json = json as? [String: AnyObject] {
                         Log.debug?.message("get games : \(json)")
                         (json["data"] as? [[String: AnyObject]])?.forEach({
                             Decks.instance.addOrUpdateMatches($0)
                         })
 
-                        // swiftlint:disable line_length
-                        Settings.instance.hearthstatsLastMatchesSync = NSDate().timeIntervalSince1970
-                        // swiftlint:enable line_length
+                        let settings = Settings.instance
+                        settings.hearthstatsLastMatchesSync = NSDate().timeIntervalSince1970
                         callback(success: true)
-                        return
+                    } else {
+                        callback(success: false)
                     }
-                }
-                Log.error?.message("\(response.result.error)")
-                callback(success: false)
         }
     }
  
@@ -409,14 +388,11 @@ struct HearthstatsAPI {
             "created_at": startAt
         ]
         Log.info?.message("Posting match to Hearthstats \(parameters)")
-        Alamofire.request(.POST, "\(baseUrl)/matches?auth_token=\(hearthstatsToken)",
-            parameters: parameters, encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value {
-                        Log.debug?.message("post match : \(json)")
-                        return
-                    }
+        let http = Http(url: "\(baseUrl)/matches?auth_token=\(hearthstatsToken)")
+        http.json(.post,
+                  parameters: parameters) { json in
+                if let json = json {
+                    Log.debug?.message("post match : \(json)")
                 }
         }
     }
@@ -433,7 +409,7 @@ struct HearthstatsAPI {
         
         _postArenaMatch(game, deck: deck, stat: stat)
     }
-    
+
     private static func _postArenaMatch(game: Game, deck: Deck, stat: Statistic) {
         let parameters: [String: AnyObject] = [
             "class": deck.playerClass.rawValue.capitalizedString,
@@ -445,18 +421,15 @@ struct HearthstatsAPI {
             "arena_run_id": deck.hearthStatsArenaId!,
             "oppclass": stat.opponentClass.rawValue.capitalizedString,
             "oppname": stat.opponentName,
-        ]
+            ]
         Log.info?.message("Posting arena match to Hearthstats \(parameters)")
-        let url = "\(baseUrl)/matches?auth_token=\(Settings.instance.hearthstatsToken!)"
-        Alamofire.request(.POST, url,
-            parameters: parameters, encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value {
+        let http = Http(url:
+            "\(baseUrl)/matches?auth_token=\(Settings.instance.hearthstatsToken!)")
+        http.json(.post,
+                  parameters: parameters) { json in
+                    if let json = json {
                         Log.debug?.message("post arena match : \(json)")
-                        return
                     }
-                }
         }
     }
     
@@ -466,21 +439,18 @@ struct HearthstatsAPI {
             "class": deck.playerClass.rawValue.capitalizedString,
             "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]}
         ]
-        let url = "\(baseUrl)/arena_runs/new?auth_token=\(Settings.instance.hearthstatsToken!)"
-        Alamofire.request(.POST, url,
-            parameters: parameters, encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value,
-                        data = json["data"] as? [String:AnyObject],
+        let http = Http(url:
+            "\(baseUrl)/arena_runs/new?auth_token=\(Settings.instance.hearthstatsToken!)")
+        http.json(.post,
+                  parameters: parameters) { json in
+                    if let json = json as? [String: AnyObject],
+                        data = json["data"] as? [String: AnyObject],
                         hearthStatsArenaId = data["id"] as? Int {
                         deck.hearthStatsArenaId = hearthStatsArenaId
                         Log.debug?.message("Arena run : \(hearthStatsArenaId)")
-                        
+
                         _postArenaMatch(game, deck: deck, stat: stat)
-                        return
                     }
-                }
         }
     }
 }

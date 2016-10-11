@@ -9,7 +9,6 @@
 import Foundation
 import CleanroomLogger
 import Wrap
-import Alamofire
 import ZipArchive
 
 class LogUploader {
@@ -142,29 +141,31 @@ class LogUploader {
                 "X-Api-Key": HSReplayAPI.apiKey,
                 "Authorization": "Token \(token)"
             ]
-            
-            Alamofire.request(.POST, HSReplay.uploadRequestUrl,
-                parameters: metaData, encoding: .JSON, headers: headers)
-                .responseJSON { response in
-                    if response.result.isSuccess {
-                        if let json = response.result.value as? [String: AnyObject],
+
+            let http = Http(url: HSReplay.uploadRequestUrl)
+            http.json(.post,
+                      parameters: metaData,
+                      headers: headers) { json in
+                        if let json = json as? [String: AnyObject],
                             putUrl = json["put_url"] as? String,
                             uploadShortId = json["shortid"] as? String {
-                            
+
                             if let data = log.dataUsingEncoding(NSUTF8StringEncoding) {
                                 do {
                                     let gzip = try data.gzippedData()
-                                    
-                                    Alamofire.upload(.PUT, putUrl,
-                                        headers: [
-                                            "Content-Type": "text/plain",
-                                            "Content-Encoding": "gzip"
-                                        ], data: gzip)
+
+                                    let http = Http(url: putUrl)
+                                    http.upload(.put,
+                                                headers: [
+                                                    "Content-Type": "text/plain",
+                                                    "Content-Encoding": "gzip"
+                                        ],
+                                                data: gzip)
                                 } catch {
                                     Log.error?.message("can not gzip")
                                 }
                             }
-                            
+
                             if let statistic = statistic {
                                 statistic.hsReplayId = uploadShortId
                                 if let deck = statistic.deck {
@@ -173,14 +174,13 @@ class LogUploader {
                             }
 
                             let result = UploadResult.successful(replayId: uploadShortId)
-                            
+
                             Log.info?.message("\(item.hash) upload done: Success")
                             inProgress = inProgress.filter({ $0.hash == item.hash })
-                            
+
                             completion(result)
                             return
                         }
-                    }
             }
         } catch {
             Log.error?.message("\(error)")

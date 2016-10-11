@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import CleanroomLogger
 
 enum TrackOBotError: ErrorType {
@@ -20,13 +19,10 @@ struct TrackOBotAPI {
     // MARK: - Authentication
     static func login(username: String, token: String,
                       callback: (success: Bool, message: String) -> ()) {
-        Alamofire.request(.GET,
-            "\(baseUrl)/profile/history.json",
-            parameters: ["username": username, "token": token])
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value {
-                        Log.debug?.message("\(json)")
+        let http = Http(url: "\(baseUrl)/profile/history.json")
+        http.json(.get,
+                  parameters: ["username": username, "token": token]) { json in
+                    if let json = json as? [String: AnyObject] {
                         if let error = json["error"] as? String {
                             callback(success: false, message: error)
                         } else {
@@ -35,33 +31,31 @@ struct TrackOBotAPI {
                             settings.trackobotToken = token
                             callback(success: true, message: "")
                         }
-                        return
+                    } else {
+                        callback(success: false,
+                                 message: NSLocalizedString("server error", comment: ""))
                     }
-                }
-                Log.error?.message("\(response.result.error)")
-                callback(success: false,
-                    message: NSLocalizedString("server error", comment: ""))
         }
     }
-    
+
     static func logout() {
         let settings = Settings.instance
         settings.trackobotUsername = nil
         settings.trackobotToken = nil
     }
-    
+
     static func isLogged() -> Bool {
         let settings = Settings.instance
         return settings.trackobotUsername != nil && settings.trackobotToken != nil
     }
-    
-    
+
+
     /**
      TODO: try to check the archetype of the deck using
      https://trackobot.com/profile/settings/decks.json
      and send it with deck_id and opponent_
-    */
-    
+     */
+
     // MARK: - matches
     static func postMatch(game: Game, playerClass: CardClass, stat: Statistic) throws {
         let settings = Settings.instance
@@ -71,7 +65,7 @@ struct TrackOBotAPI {
         guard let token = settings.trackobotToken else {
             throw TrackOBotError.NotLogged
         }
-    
+
         let mode: String
         switch game.currentGameMode {
         case .Ranked: mode = "ranked"
@@ -81,14 +75,14 @@ struct TrackOBotAPI {
         case .Practice: mode = "solo"
         default: mode = "unknown"
         }
-        
+
         let startTime: NSDate
         if let gameStartDate = game.gameStartDate {
             startTime = gameStartDate
         } else {
             startTime = NSDate()
         }
-        
+
         let parameters: [String: AnyObject] = [
             "result": [
                 "hero": playerClass.rawValue.capitalizedString,
@@ -109,18 +103,15 @@ struct TrackOBotAPI {
                 }
             ]
         ]
-        
+
         let url = "\(baseUrl)/profile/results.json?username=\(username)&token=\(token)"
         Log.info?.message("Posting match to Track-o-Bot \(parameters)")
-        Alamofire.request(.POST, url,
-            parameters: parameters, encoding: .JSON)
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value {
+        let http = Http(url: url)
+        http.json(.post,
+                  parameters: parameters) { json in
+                    if let json = json {
                         Log.debug?.message("post match : \(json)")
-                        return
                     }
-                }
         }
     }
 }

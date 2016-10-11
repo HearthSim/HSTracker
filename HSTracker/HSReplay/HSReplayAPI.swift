@@ -7,36 +7,31 @@
 //
 
 import Foundation
-import Alamofire
 import CleanroomLogger
 
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
-    
-    static func getUploadToken(handle: String -> ()) {
+
+    static func getUploadToken(handle: String -> Void) {
         if let token = Settings.instance.hsReplayUploadToken {
             handle(token)
             return
         }
-        Alamofire.request(.POST, "\(HSReplay.tokensUrl)/",
-            parameters: ["api_token": apiKey],
-            encoding: .JSON, headers: [
-                "X-Api-Key": apiKey
-            ])
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value as? [String: AnyObject],
+        let http = Http(url: "\(HSReplay.tokensUrl)/")
+        http.json(.post,
+                  parameters: ["api_token": apiKey],
+                  headers: ["X-Api-Key": apiKey]) { json in
+                    if let json = json as? [String: AnyObject],
                         key = json["key"] as? String {
                         Log.info?.message("HSReplay : Obtained new upload-token")
                         Settings.instance.hsReplayUploadToken = key
                         handle(key)
-                        return
+                    } else {
+                        // TODO error handling
                     }
-                }
-                // TODO error handling
         }
     }
-    
+
     static func claimAccount() {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
@@ -44,27 +39,24 @@ class HSReplayAPI {
         }
         
         Log.info?.message("Getting claim url...")
-        
-        Alamofire.request(.POST, HSReplay.claimAccountUrl,
-            parameters: [:],
-            encoding: .JSON, headers: [
-                "X-Api-Key": apiKey,
-                "Authorization": "Token \(token)"
-            ])
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value as? [String: AnyObject],
-                        url = json["url"] as? String {
-                        Log.info?.message("Opening browser to claim account...")
-                        
-                        let url = NSURL(string: "\(HSReplay.baseUrl)\(url)")
-                        NSWorkspace.sharedWorkspace().openURL(url!)
-                    }
-                }
-                // TODO error handling
+
+        let http = Http(url: HSReplay.claimAccountUrl)
+        http.json(.post,
+                  headers: [
+                    "X-Api-Key": apiKey,
+                    "Authorization": "Token \(token)"]) { json in
+            if let json = json as? [String: AnyObject],
+                url = json["url"] as? String {
+                Log.info?.message("Opening browser to claim account...")
+
+                let url = NSURL(string: "\(HSReplay.baseUrl)\(url)")
+                NSWorkspace.sharedWorkspace().openURL(url!)
+            } else {
+
+            }
         }
     }
-    
+
     static func updateAccountStatus(handle: Bool -> ()) {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
@@ -72,29 +64,25 @@ class HSReplayAPI {
             return
         }
         Log.info?.message("Checking account status...")
-        
-        Alamofire.request(.GET, "\(HSReplay.tokensUrl)/\(token)/",
-            parameters: [:],
-            encoding: .JSON, headers: [
-                "X-Api-Key": apiKey,
-                "Authorization": "Token \(token)"
-            ])
-            .responseJSON { response in
-                if response.result.isSuccess {
-                    if let json = response.result.value as? [String: AnyObject],
-                        user = json["user"] as? [String: AnyObject] {
-                        if let username = user["username"] as? String {
-                            Settings.instance.hsReplayUsername = username
-                        }
-                        Settings.instance.hsReplayId = user["id"] as? Int ?? 0
-                        Log.info?.message("id=\(Settings.instance.hsReplayId), "
-                            + "Username=\(Settings.instance.hsReplayUsername)")
-                        handle(true)
-                        return
-                    }
+
+        let http = Http(url: "\(HSReplay.tokensUrl)/\(token)/")
+        http.json(.get,
+                  headers: [
+                    "X-Api-Key": apiKey,
+                    "Authorization": "Token \(token)"
+        ]) { json in
+            if let json = json as? [String: AnyObject],
+                user = json["user"] as? [String: AnyObject] {
+                if let username = user["username"] as? String {
+                    Settings.instance.hsReplayUsername = username
                 }
-                
+                Settings.instance.hsReplayId = user["id"] as? Int ?? 0
+                Log.info?.message("id=\(Settings.instance.hsReplayId), "
+                    + "Username=\(Settings.instance.hsReplayUsername)")
+                handle(true)
+            } else {
                 handle(false)
+            }
         }
     }
 }
