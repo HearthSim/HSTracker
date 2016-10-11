@@ -166,6 +166,23 @@ class NetImportTest: XCTestCase {
         }
     }
 
+    func testHearthstoneTopDeck() {
+        let asyncExpectation = expectationWithDescription("hearthstoneTopDeckImportAsynchTest")
+        let url = "http://www.hearthstonetopdeck.com/deck/standard/6133/yogg-druid-pavel"
+        do {
+            try NetImporter.netImport(url, completion: { (deck) -> Void in
+                XCTAssertNotNil(deck, "Deck should not be nil")
+                asyncExpectation.fulfill()
+            })
+
+            self.waitForExpectationsWithTimeout(10) { error in
+                XCTAssertNil(error, "Something went horribly wrong")
+            }
+        } catch {
+            XCTFail("Deck should not be nil")
+        }
+    }
+
     func testTempostorm() {
         let asyncExpectation = expectationWithDescription("tempostormImportAsynchTest")
         let url = "https://www.hearthstonetopdecks.com/decks/rostys-totem-shaman-october-2016-season-31/"

@@ -99,7 +99,7 @@ final class NetImporter {
         return [
             Hearthpwn(), HearthpwnDeckBuilder(), HearthNews(), HearthHead(), HearthArena(),
             Hearthstats(), HearthstoneDecks(), HearthstoneTopDecks(), Tempostorm(),
-            HearthstoneHeroes(),
+            HearthstoneHeroes(), HearthstoneTopDeck(),
 
             // always keep this one at the last position
             MetaTagImporter()

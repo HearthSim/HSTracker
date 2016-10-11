@@ -34,7 +34,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         self.deckId = unboxer.unbox("deckId")
         self.name = unboxer.unbox("name")
         if let cardClass: CardClass? = unboxer.unbox("playerClass"),
-            playerClass = cardClass {
+            let playerClass = cardClass {
             self.playerClass = playerClass
         } else {
             let playerClass: String = unboxer.unbox("playerClass")

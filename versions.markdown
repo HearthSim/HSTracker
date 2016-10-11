@@ -3,7 +3,7 @@
 - Correct a crash happening on opening Update panel on Preferences
 
 **New:**
-- Import decks from https://tempostorm.com and http://www.hearthstoneheroes.de
+- Import decks from https://tempostorm.com, http://www.hearthstoneheroes.de and http://www.hearthstonetopdeck.com
 
 **Changes:** 
 - Get the Hearthstone build number from Hearthstone file to improve HSReplay 
@@ -17,7 +17,7 @@
 - HSTracker use its own notifications, they should not appear under decklist anymore
 - Trackers should not disappear again when they « auto-position trackers » is checked
 - Add a release channel for betas
-- Support for importing decks from http://www.hearthstonetopdeck.com
+- Support for importing decks from http://www.hearthstonetopdecks.com
 - Add a graveyard and minion count in the trackers
 - Add an option to export your deck to Hearthstone (This is a BETA feature !)
 - You can now change your deck with a right click on the dock icon !
