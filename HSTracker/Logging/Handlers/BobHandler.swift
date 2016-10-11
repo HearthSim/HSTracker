@@ -12,11 +12,11 @@ import Foundation
 
 struct BobHandler {
 
-    static let LegendRankRegex = "legend rank (\\d+)"
+    let LegendRankRegex = "legend rank (\\d+)"
 
     func handle(game: Game, logLine: LogLine) {
 
-        if !logLine.line.match(self.dynamicType.LegendRankRegex) {
+        if !logLine.line.match(LegendRankRegex) {
             /*let match = line.matches(legendRank)
              if let rank = Int(match.groups[1].value) {
              game.MetaData.LegendRank = rank;

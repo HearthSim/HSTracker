@@ -134,11 +134,11 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     }
 
     var description: String {
-        return "<\(NSStringFromClass(self.dynamicType)): "
+        return "<Deck: "
             + "deckId=\(self.deckId)"
             + ", name=\(self.name)"
             + ", payerClass=\(self.playerClass)"
-            + ", self.cards=\(self._cards)"
+            + ", cards=\(self._cards)"
             + ">"
     }
 

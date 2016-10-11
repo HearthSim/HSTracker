@@ -12,13 +12,12 @@ import Foundation
 
 struct NetHandler {
 
-    // swiftlint:disable line_length
-    static let ConnectRegex = "ConnectAPI\\.GotoGameServer -- address=(.+), game=(.+), client=(.+), spectateKey=(.+)"
-    // swiftlint:enable line_length
+    let ConnectRegex = "ConnectAPI\\.GotoGameServer -- address=(.+), "
+        + "game=(.+), client=(.+), spectateKey=(.+)"
 
     func handle(game: Game, logLine: LogLine) {
 
-        if logLine.line.match(self.dynamicType.ConnectRegex) {
+        if logLine.line.match(ConnectRegex) {
             // let match = line.firstMatchWithDetails(NSRegularExpression.rx(regex))
             game.gameStart(logLine.time)
         }

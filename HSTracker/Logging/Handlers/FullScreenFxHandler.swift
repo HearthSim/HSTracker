@@ -11,12 +11,12 @@ import CleanroomLogger
 
 struct FullScreenFxHandler {
     
-    static let HeroRegex = "BeginEffect blur \\d => 1"
+    let HeroRegex = "BeginEffect blur \\d => 1"
     
     private var lastQueueTime: NSDate = NSDate.distantPast()
     
     mutating func handle(game: Game, logLine: LogLine) {
-        if logLine.line.match(self.dynamicType.HeroRegex) && game.isInMenu
+        if logLine.line.match(HeroRegex) && game.isInMenu
             && (game.currentMode == .TAVERN_BRAWL || game.currentMode == .TOURNAMENT
                 || game.currentMode == .DRAFT ) {
             game.enqueueTime = logLine.time

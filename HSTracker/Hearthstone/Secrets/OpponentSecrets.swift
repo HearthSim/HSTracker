@@ -211,7 +211,7 @@ class OpponentSecrets: CustomStringConvertible {
     }
 
     var description: String {
-        return "<\(NSStringFromClass(self.dynamicType)): "
+        return "<OpponentSecret: "
             + "secrets=\(secrets)"
             + ", proposedAttackerEntityId=\(proposedAttackerEntityId)"
             + ", proposedDefenderEntityId=\(proposedDefenderEntityId)>"

@@ -51,7 +51,7 @@ class SecretHelper: Equatable, CustomStringConvertible {
     }
 
     var description: String {
-        return "<\(NSStringFromClass(self.dynamicType)): "
+        return "<SecretHelper: "
             + "id=\(id)"
             + ", turnPlayed=\(turnPlayed)"
             + ", heroClass=\(heroClass)"

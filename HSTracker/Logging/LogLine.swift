@@ -25,7 +25,7 @@ struct LogLine: CustomStringConvertible {
     init(namespace: LogLineNamespace, line: String, include: Bool = true) {
         self.namespace = namespace
         self.line = line
-        self.time = self.dynamicType.parseTimeAsDate(line)
+        self.time = LogLine.parseTimeAsDate(line)
         self.include = include
     }
     

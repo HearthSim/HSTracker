@@ -13,13 +13,13 @@ import CleanroomLogger
 
 struct AssetHandler {
 
-    static let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"
+    let UnloadingCard = "unloading name=(\\w+_\\w+) family=CardPrefab persistent=False"
 
     func handle(game: Game, logLine: LogLine) {
         if logLine.line.contains("rank_window") {
             game.currentGameMode = .Ranked
-        } else if logLine.line.match(self.dynamicType.UnloadingCard) {
-            let match = logLine.line.matches(self.dynamicType.UnloadingCard)
+        } else if logLine.line.match(UnloadingCard) {
+            let match = logLine.line.matches(UnloadingCard)
             if let match = match.first {
                 let cardId = match.value
 

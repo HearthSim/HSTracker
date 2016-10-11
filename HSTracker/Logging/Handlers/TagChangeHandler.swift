@@ -13,13 +13,13 @@ import CleanroomLogger
 
 class TagChangeHandler {
 
-    static let ParseEntityIDRegex = "id=(\\d+)"
-    static let ParseEntityZonePosRegex = "zonePos=(\\d+)"
-    static let ParseEntityPlayerRegex = "player=(\\d+)"
-    static let ParseEntityNameRegex = "name=(\\w+)"
-    static let ParseEntityZoneRegex = "zone=(\\w+)"
-    static let ParseEntityCardIDRegex = "cardId=(\\w+)"
-    static let ParseEntityTypeRegex = "type=(\\w+)"
+    let ParseEntityIDRegex = "id=(\\d+)"
+    let ParseEntityZonePosRegex = "zonePos=(\\d+)"
+    let ParseEntityPlayerRegex = "player=(\\d+)"
+    let ParseEntityNameRegex = "name=(\\w+)"
+    let ParseEntityZoneRegex = "zone=(\\w+)"
+    let ParseEntityCardIDRegex = "cardId=(\\w+)"
+    let ParseEntityTypeRegex = "type=(\\w+)"
 
     private var creationTagActionQueue = [
         (tag: GameTag, game: Game, id: Int, value: Int, prevValue: Int)
@@ -105,40 +105,40 @@ class TagChangeHandler {
         name: String?, zone: String?, cardId: String?, type: String?) {
 
         var id: Int?, zonePos: Int?, player: Int?
-        if entity.match(self.dynamicType.ParseEntityIDRegex) {
-            if let match = entity.matches(self.dynamicType.ParseEntityIDRegex).first {
+        if entity.match(ParseEntityIDRegex) {
+            if let match = entity.matches(ParseEntityIDRegex).first {
                 id = Int(match.value)
             }
         }
-        if entity.match(self.dynamicType.ParseEntityZonePosRegex) {
-            if let match = entity.matches(self.dynamicType.ParseEntityZonePosRegex).first {
+        if entity.match(ParseEntityZonePosRegex) {
+            if let match = entity.matches(ParseEntityZonePosRegex).first {
                 zonePos = Int(match.value)
             }
         }
-        if entity.match(self.dynamicType.ParseEntityPlayerRegex) {
-            if let match = entity.matches(self.dynamicType.ParseEntityPlayerRegex).first {
+        if entity.match(ParseEntityPlayerRegex) {
+            if let match = entity.matches(ParseEntityPlayerRegex).first {
                 player = Int(match.value)
             }
         }
 
         var name: String?, zone: String?, cardId: String?, type: String?
-        if entity.match(self.dynamicType.ParseEntityNameRegex) {
-            if let match = entity.matches(self.dynamicType.ParseEntityNameRegex).first {
+        if entity.match(ParseEntityNameRegex) {
+            if let match = entity.matches(ParseEntityNameRegex).first {
                 name = match.value
             }
         }
-        if entity.match(self.dynamicType.ParseEntityZoneRegex) {
-            if let match = entity.matches(self.dynamicType.ParseEntityZoneRegex).first {
+        if entity.match(ParseEntityZoneRegex) {
+            if let match = entity.matches(ParseEntityZoneRegex).first {
                 zone = match.value
             }
         }
-        if entity.match(self.dynamicType.ParseEntityCardIDRegex) {
-            if let match = entity.matches(self.dynamicType.ParseEntityCardIDRegex).first {
+        if entity.match(ParseEntityCardIDRegex) {
+            if let match = entity.matches(ParseEntityCardIDRegex).first {
                 cardId = match.value
             }
         }
-        if entity.match(self.dynamicType.ParseEntityTypeRegex) {
-            if let match = entity.matches(self.dynamicType.ParseEntityTypeRegex).first {
+        if entity.match(ParseEntityTypeRegex) {
+            if let match = entity.matches(ParseEntityTypeRegex).first {
                 type = match.value
             }
         }
