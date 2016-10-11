@@ -17,6 +17,8 @@ class MinimalBar: CardBar {
         createdIconOffset = -15
     }
 
+    private let filter = CIFilter(name: "CIGaussianBlur")
+
     override func addCardImage() {
         var cardId: String?
 
@@ -29,7 +31,20 @@ class MinimalBar: CardBar {
         if let cardId = cardId {
             let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(cardId).png"
             if let image = NSImage(contentsOfFile: fullPath) {
-                image.drawInRect(ratio(frameRect))
+                if let imageData = image.TIFFRepresentation,
+                    let ciimage = CIImage(data: imageData),
+                    let filter = filter {
+                    filter.setDefaults()
+                    filter.setValue(ciimage, forKey: kCIInputImageKey)
+                    filter.setValue(1.5, forKey: kCIInputRadiusKey)
+                    filter.outputImage?.drawInRect(ratio(frameRect),
+                                                   fromRect: NSRect(origin: .zero,
+                                                    size: image.size),
+                                                   operation: .Copy,
+                                                   fraction: 1.0)
+                } else {
+                    image.drawInRect(ratio(frameRect))
+                }
             }
         }
     }
