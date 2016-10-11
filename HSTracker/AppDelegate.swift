@@ -340,8 +340,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let rect = settings.playerTrackerFrame {
             playerTracker?.window?.setFrame(rect, display: true)
         } else {
-            let x = screenFrame.width - width
-            playerTracker?.window?.setFrame(NSRect(x: x, y: y, width: width, height: y),
+            let x = screenFrame.width - width + screenFrame.origin.x
+            playerTracker?.window?.setFrame(NSRect(x: x,
+                y: y+screenFrame.origin.y, width: width, height: y),
                                             display: true)
         }
         showPlayerTracker(nil)
@@ -352,7 +353,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let rect = settings.opponentTrackerFrame {
             opponentTracker?.window?.setFrame(rect, display: true)
         } else {
-            opponentTracker?.window?.setFrame(NSRect(x: 50, y: y, width: width, height: y),
+            let x = screenFrame.origin.x + 50
+            opponentTracker?.window?.setFrame(NSRect(x: x,
+                y: y+screenFrame.origin.y, width: width, height: y),
                                               display: true)
         }
         showOpponentTracker(nil)
