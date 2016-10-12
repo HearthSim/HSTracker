@@ -140,6 +140,7 @@ struct SizeHelper {
     static private var trackerWidth: CGFloat {
         var width: Double
         switch Settings.instance.cardSize {
+        case .Tiny: width = kTinyFrameWidth
         case .Small: width = kSmallFrameWidth
         case .Medium: width = kMediumFrameWidth
         case .Big: width = kFrameWidth
@@ -153,6 +154,7 @@ struct SizeHelper {
         let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
         let width: CGFloat
         switch Settings.instance.cardSize {
+        case .Tiny: width = CGFloat(kTinyFrameWidth)
         case .Small: width = CGFloat(kSmallFrameWidth)
         case .Medium: width = CGFloat(kMediumFrameWidth)
         case .Big: width = CGFloat(kFrameWidth)

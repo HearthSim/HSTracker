@@ -329,6 +329,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let y = screenFrame.height - 50
         let width: CGFloat
         switch settings.cardSize {
+        case .Tiny: width = CGFloat(kTinyFrameWidth)
         case .Small: width = CGFloat(kSmallFrameWidth)
         case .Medium: width = CGFloat(kMediumFrameWidth)
         case .Big: width = CGFloat(kFrameWidth)

@@ -11,17 +11,20 @@
 /* Class = "NSButtonCell"; title = "Highlight last drawn card"; ObjectID = "WKT-Hm-Z7h"; */
 "WKT-Hm-Z7h.title" = "Tamaño de carta";
 
-/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Small"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[0]" = "Pequeño";
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Tiny"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[0]" = "Tiny";
 
-/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[1] = "Medium"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[1]" = "Mediano";
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[1] = "Small"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[1]" = "Pequeño";
 
-/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Big"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[2]" = "Grande";
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Medium"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[2]" = "Mediano";
 
-/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[3] = "Huge"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[3]" = "Huge";
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[3] = "Big"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[3]" = "Grande";
+
+/* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[4] = "Huge"; ObjectID = "ar6-6g-GKv"; */
+"ar6-6g-GKv.ibShadowedObjectValues[4]" = "Huge";
 
 /* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
 "h5J-7C-d2f.title" = "Colorear cartas según rareza";

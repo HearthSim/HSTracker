@@ -217,6 +217,7 @@ class Tracker: NSWindowController {
         var width: Double
         let settings = Settings.instance
         switch settings.cardSize {
+        case .Tiny: width = kTinyFrameWidth
         case .Small: width = kSmallFrameWidth
         case .Medium: width = kMediumFrameWidth
         case .VeryBig: width = kHighRowFrameWidth
@@ -322,6 +323,7 @@ class Tracker: NSWindowController {
 
         let ratio: CGFloat
         switch settings.cardSize {
+        case .Tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
         case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
         case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
         case .VeryBig: ratio = CGFloat(kRowHeight / kHighRowHeight)
@@ -511,6 +513,7 @@ class Tracker: NSWindowController {
 
         var cardHeight: CGFloat
         switch settings.cardSize {
+        case .Tiny: cardHeight = CGFloat(kTinyRowHeight)
         case .Small: cardHeight = CGFloat(kSmallRowHeight)
         case .Medium: cardHeight = CGFloat(kMediumRowHeight)
         case .VeryBig: cardHeight = CGFloat(kHighRowHeight)

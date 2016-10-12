@@ -35,7 +35,15 @@ class TrackersPreferences: NSViewController {
         removeCards.state = settings.removeCardsFromDeck ? NSOnState : NSOffState
         highlightDiscarded.state = settings.highlightDiscarded ? NSOnState : NSOffState
         opacity.doubleValue = settings.trackerOpacity
-        cardSize.selectItemAtIndex(settings.cardSize.rawValue)
+        let index: Int
+        switch settings.cardSize {
+        case .Tiny: index = 0
+        case .Small: index = 1
+        case .Medium: index = 2
+        case .Big: index = 3
+        case .VeryBig: index = 4
+        }
+        cardSize.selectItemAtIndex(index)
         showTimer.state = settings.showTimer ? NSOnState : NSOffState
         autoPositionTrackers.state = settings.autoPositionTrackers ? NSOnState : NSOffState
         showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
@@ -52,7 +60,15 @@ class TrackersPreferences: NSViewController {
     @IBAction func comboboxChange(sender: NSComboBox) {
         let settings = Settings.instance
         if sender == cardSize {
-            if let size = CardSize(rawValue: cardSize.indexOfSelectedItem) {
+            if let value = cardSize.objectValueOfSelectedItem as? String {
+                let size: CardSize
+                switch value {
+                case NSLocalizedString("Tiny", comment: ""): size = .Tiny
+                case NSLocalizedString("Small", comment: ""): size = .Small
+                case NSLocalizedString("Big", comment: ""): size = .Big
+                case NSLocalizedString("Huge", comment: ""): size = .VeryBig
+                default: size = .Medium
+                }
                 settings.cardSize = size
             }
         } else if sender == theme {

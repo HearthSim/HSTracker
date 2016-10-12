@@ -4,6 +4,7 @@
 
 **New:**
 - Import decks from https://tempostorm.com, http://www.hearthstoneheroes.de and http://www.hearthstonetopdeck.com
+- Add a tiny size for trackers
 
 **Changes:** 
 - Get the Hearthstone build number from Hearthstone file to improve HSReplay 

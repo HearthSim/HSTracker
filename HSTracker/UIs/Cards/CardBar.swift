@@ -588,6 +588,7 @@ class CardBar: NSView, CardBarTheme {
 
         var ratio: CGFloat
         switch Settings.instance.cardSize {
+        case .Tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
         case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
         case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
         case .VeryBig: ratio = CGFloat(kRowHeight / kHighRowHeight)
@@ -603,6 +604,7 @@ class CardBar: NSView, CardBarTheme {
 
         let baseHeight: CGFloat
         switch Settings.instance.cardSize {
+        case .Tiny: baseHeight = CGFloat(kTinyRowHeight)
         case .Small: baseHeight = CGFloat(kSmallRowHeight)
         case .Medium: baseHeight = CGFloat(kMediumRowHeight)
         case .VeryBig: baseHeight = CGFloat(kHighRowFrameWidth)

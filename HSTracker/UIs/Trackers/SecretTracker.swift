@@ -30,6 +30,7 @@ class SecretTracker: NSWindowController {
         var width: Double
         let settings = Settings.instance
         switch settings.cardSize {
+        case .Tiny: width = kTinyFrameWidth
         case .Small: width = kSmallFrameWidth
         case .Medium: width = kMediumFrameWidth
         case .Big: width = kFrameWidth
@@ -135,6 +136,7 @@ extension SecretTracker: NSTableViewDelegate {
 
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         switch Settings.instance.cardSize {
+        case .Tiny: return CGFloat(kTinyRowHeight)
         case .Small: return CGFloat(kSmallRowHeight)
         case .Medium: return CGFloat(kMediumRowHeight)
         case .VeryBig: return CGFloat(kHighRowHeight)
