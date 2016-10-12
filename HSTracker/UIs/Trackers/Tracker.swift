@@ -121,7 +121,11 @@ class Tracker: NSWindowController {
         if Settings.instance.autoPositionTrackers {
             self.autoPosition()
         }
-        self.window?.orderFront(nil)
+        if (Settings.instance.showOpponentTracker && self.playerType == .Opponent) ||
+            (Settings.instance.showPlayerTracker && self.playerType == .Player) {
+            self.window?.orderFront(nil)
+        }
+        
     }
 
     deinit {
@@ -143,7 +147,10 @@ class Tracker: NSWindowController {
         }
         
         self.window!.ignoresMouseEvents = locked
-        self.window?.orderFront(nil) // must be called after style change
+        if (Settings.instance.showOpponentTracker && self.playerType == .Opponent) ||
+            (Settings.instance.showPlayerTracker && self.playerType == .Player) {
+            self.window?.orderFront(nil) // must be called after style change
+        }
     }
 
     func hearthstoneRunning(notification: NSNotification) {
