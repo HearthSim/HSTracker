@@ -57,7 +57,9 @@ class Tracker: NSWindowController {
                 "show_win_loss_ratio": #selector(Tracker.playerOptionFrameChange(_:)),
                 "reload_decks": #selector(Tracker.playerOptionFrameChange(_:)),
                 "player_in_hand_color": #selector(Tracker.playerOptionFrameChange(_:)),
-                "show_deck_name": #selector(Tracker.playerOptionFrameChange(_:))
+                "show_deck_name": #selector(Tracker.playerOptionFrameChange(_:)),
+                "player_graveyard_details_frame": #selector(Tracker.playerOptionFrameChange(_:)),
+                "player_graveyard_frame": #selector(Tracker.playerOptionFrameChange(_:)),
                 ])
         } else if playerType == .Opponent {
             observers.update([
@@ -66,7 +68,9 @@ class Tracker: NSWindowController {
                 "opponent_cthun_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
                 "opponent_yogg_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
                 "opponent_deathrattle_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
-                "show_opponent_class": #selector(Tracker.opponentOptionFrameChange(_:))
+                "show_opponent_class": #selector(Tracker.opponentOptionFrameChange(_:)),
+                "opponent_graveyard_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
+                "opponent_graveyard_details_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
                 ])
         }
 
