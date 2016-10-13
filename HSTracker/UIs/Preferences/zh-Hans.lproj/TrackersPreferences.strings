@@ -12,10 +12,10 @@
 "WKT-Hm-Z7h.title" = "显示之前绘制的卡牌";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Tiny"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[0]" = "Tiny";
+"ar6-6g-GKv.ibShadowedObjectValues[0]" = "更小";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[1] = "Small"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[1]" = "小型";
+"ar6-6g-GKv.ibShadowedObjectValues[1]" = "小";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[2] = "Medium"; ObjectID = "ar6-6g-GKv"; */
 "ar6-6g-GKv.ibShadowedObjectValues[2]" = "中型";
@@ -24,7 +24,7 @@
 "ar6-6g-GKv.ibShadowedObjectValues[3]" = "大型";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[4] = "Huge"; ObjectID = "ar6-6g-GKv"; */
-"ar6-6g-GKv.ibShadowedObjectValues[4]" = "Huge";
+"ar6-6g-GKv.ibShadowedObjectValues[4]" = "巨大";
 
 /* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
 "h5J-7C-d2f.title" = "显示稀有的颜色";
