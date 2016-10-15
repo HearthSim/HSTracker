@@ -27,44 +27,41 @@ class Entity {
         self.id = id
     }
 
-    func setTag(tag: GameTag, value: Int) {
-        self.tags[tag] = value
-    }
-
-    func getTag(tag: GameTag) -> Int {
-        if let value = self.tags[tag] {
+    subscript(tag: GameTag) -> Int {
+        set { tags[tag] = newValue }
+        get {
+            guard let value = tags[tag] else { return 0 }
             return value
         }
-        return 0
     }
 
-    func hasTag(tag: GameTag) -> Bool {
-        return getTag(tag) > 0
+    func has(tag tag: GameTag) -> Bool {
+        return self[tag] > 0
     }
 
     func setPlayer(isPlayer: Bool) {
         self.isPlayer = isPlayer
     }
 
-    var isActiveDeathrattle: Bool { return hasTag(.deathrattle) && getTag(.deathrattle) == 1 }
+    var isActiveDeathrattle: Bool { return has(tag: .deathrattle) && self[.deathrattle] == 1 }
 
-    var isCurrentPlayer: Bool { return hasTag(.current_player) }
+    var isCurrentPlayer: Bool { return has(tag: .current_player) }
 
     func isInZone(zone: Zone) -> Bool {
-        return hasTag(.zone) ? getTag(.zone) == zone.rawValue : false
+        return has(tag: .zone) ? self[.zone] == zone.rawValue : false
     }
 
     func isControlledBy(controller: Int) -> Bool {
-        return self.hasTag(.controller) ? self.getTag(.controller) == controller : false
+        return self.has(tag: .controller) ? self[.controller] == controller : false
     }
 
-    var isSecret: Bool { return hasTag(.secret) }
-    var isSpell: Bool { return getTag(.cardtype) == CardType.spell.rawValue }
-    var isOpponent: Bool { return !isPlayer && hasTag(.player_id) }
-    var isMinion: Bool { return hasTag(.cardtype) && getTag(.cardtype) == CardType.minion.rawValue }
-    var isWeapon: Bool { return hasTag(.cardtype) && getTag(.cardtype) == CardType.weapon.rawValue }
+    var isSecret: Bool { return has(tag: .secret) }
+    var isSpell: Bool { return self[.cardtype] == CardType.spell.rawValue }
+    var isOpponent: Bool { return !isPlayer && has(tag: .player_id) }
+    var isMinion: Bool { return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue }
+    var isWeapon: Bool { return has(tag: .cardtype) && self[.cardtype] == CardType.weapon.rawValue }
     var isHero: Bool { return Cards.isHero(cardId) }
-    var isHeroPower: Bool { return getTag(.cardtype) == CardType.hero_power.rawValue }
+    var isHeroPower: Bool { return self[.cardtype] == CardType.hero_power.rawValue }
 
     var isInHand: Bool { return isInZone(.hand) }
     var isInDeck: Bool { return isInZone(.deck) }
@@ -73,8 +70,8 @@ class Entity {
     var isInSetAside: Bool { return isInZone(.setaside) }
     var isInSecret: Bool { return isInZone(.secret) }
 
-    var health: Int { return getTag(.health) - getTag(.damage) }
-    var attack: Int { return getTag(.atk) }
+    var health: Int { return self[.health] - self[.damage] }
+    var attack: Int { return self[.atk] }
 
     var hasCardId: Bool { return !String.isNullOrEmpty(cardId) }
 
@@ -108,14 +105,14 @@ class Entity {
         return e
     }
 }
-func == (lhs: Entity, rhs: Entity) -> Bool {
-    return lhs.id == rhs.id
-}
 
 extension Entity: Hashable {
     var hashValue: Int {
         return id.hashValue
     }
+}
+func == (lhs: Entity, rhs: Entity) -> Bool {
+    return lhs.id == rhs.id
 }
 
 extension Entity: CustomStringConvertible {
@@ -130,96 +127,13 @@ extension Entity: CustomStringConvertible {
         return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
             + "cardName=\(hide ? "" : cardName), "
             + "name=\(hide ? "" : name), "
-            + "zonePos=\(getTag(.zone_position)), info=\(info)]"
+            + "zonePos=\(self[.zone_position]), info=\(info)]"
     }
 }
 
 extension Entity: WrapCustomizable {
     func keyForWrappingPropertyNamed(propertyName: String) -> String? {
         if ["_cachedCard", "card", "description"].contains(propertyName) {
-            return nil
-        }
-        
-        return propertyName.capitalizedString
-    }
-}
-
-class EntityInfo {
-    private var _entity: Entity
-    var discarded = false
-    var returned = false
-    var mulliganed = false
-    var stolen: Bool {
-        return originalController > 0 && originalController != _entity.getTag(.controller)
-    }
-    var created = false
-    var hasOutstandingTagChanges = false
-    var originalController = 0
-    var hidden = false
-    var turn = 0
-    var costReduction = 0
-    var originalZone: Zone?
-    var createdInDeck: Bool { return originalZone == .deck }
-    var createdInHand: Bool { return originalZone == .hand }
-
-    init(entity: Entity) {
-        _entity = entity
-    }
-
-    var cardMark: CardMark {
-        if hidden {
-            return .none
-        }
-
-        if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoin || _entity.cardId ==
-            CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken {
-            return .coin
-        }
-        if returned {
-            return .returned
-        }
-        if created || stolen {
-            return .created
-        }
-        if mulliganed {
-            return .mulliganed
-        }
-        return .none
-    }
-}
-
-extension EntityInfo: CustomStringConvertible {
-    var description: String {
-        var description = "[EntityInfo: "
-            + "turn=\(turn)"
-        
-        if cardMark != .None {
-            description += ", cardMark=\(cardMark)"
-        }
-        if discarded {
-            description += ", discarded=true"
-        }
-        if created {
-            description += ", created=true"
-        }
-        if returned {
-            description += ", returned=true"
-        }
-        if stolen {
-            description += ", stolen=true"
-        }
-        if mulliganed {
-            description += ", mulliganed=true"
-        }
-        description += "]"
-        
-        return description
-    }
-}
-
-extension EntityInfo: WrapCustomizable {
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
-        if ["_entity", "description"].contains(propertyName) {
             return nil
         }
         

@@ -84,7 +84,7 @@ class Game {
     }
 
     var opponentEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.hasTag(.player_id) && !$0.isPlayer }
+        return entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer }
     }
 
     var gameEntity: Entity? {
@@ -346,7 +346,7 @@ class Game {
 
         let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         if let _player = _player {
-            hasCoin = !_player.hasTag(.first_player)
+            hasCoin = !_player.has(tag: .first_player)
         }
 
         if currentGameMode == .ranked || currentGameMode == .casual {
@@ -494,7 +494,7 @@ class Game {
             return 0
         }
         if let gameEntity = self.gameEntity {
-            return (gameEntity.getTag(.turn) + 1) / 2
+            return (gameEntity[.turn] + 1) / 2
         }
         return 0
     }
@@ -596,18 +596,18 @@ class Game {
 
     func isMulliganDone() -> Bool {
         let player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
-        let opponent = entities.map { $0.1 }.firstWhere { $0.hasTag(.player_id) && !$0.isPlayer }
+        let opponent = entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer }
         
         if let player = player, opponent = opponent {
-            return player.getTag(.mulligan_state) == Mulligan.done.rawValue
-                && opponent.getTag(.mulligan_state) == Mulligan.done.rawValue
+            return player[.mulligan_state] == Mulligan.done.rawValue
+                && opponent[.mulligan_state] == Mulligan.done.rawValue
         }
         return false
     }
 
     func handleThaurissanCostReduction() {
         let thaurissans = opponent.board.filter({
-            $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan && !$0.hasTag(.silenced)
+            $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan && !$0.has(tag: .silenced)
         })
         if thaurissans.isEmpty {
             return
@@ -616,7 +616,7 @@ class Game {
         for impFavor in opponent.board
             .filter({ $0.cardId ==
                 CardIds.NonCollectible.Neutral.EmperorThaurissan_ImperialFavorEnchantment }) {
-            if let entity = entities[impFavor.getTag(.attached)] {
+            if let entity = entities[impFavor[.attached]] {
                 entity.info.costReduction += thaurissans.count
             }
         }
@@ -689,7 +689,7 @@ class Game {
             playedCards.append(PlayedCard(player: .player, cardId: cardId, turn: turn))
         }
         
-        if entity.hasTag(.ritual) {
+        if entity.has(tag: .ritual) {
             // if this entity has the RITUAL tag, it will trigger some C'Thun change
             // we wait 300ms so the proxy have the time to be updated
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
@@ -720,9 +720,9 @@ class Game {
                     guard let strongSelf = self else { return }
                     
                     // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
-                    if entity.hasTag(.card_target)
-                        && strongSelf.entities[entity.getTag(.card_target)] != nil
-                        && strongSelf.entities[entity.getTag(.card_target)]!.isMinion {
+                    if entity.has(tag: .card_target)
+                        && strongSelf.entities[entity[.card_target]] != nil
+                        && strongSelf.entities[entity[.card_target]]!.isMinion {
                         strongSelf.opponentSecrets?.setZero(CardIds.Secrets.Mage.Spellbender)
                     }
                     strongSelf.opponentSecrets?.setZero(CardIds.Secrets.Hunter.CatTrick)
@@ -828,7 +828,7 @@ class Game {
 
         if entity.isSecret {
             var heroClass: CardClass?
-            var className = "\(entity.getTag(.tag_class)) "
+            var className = "\(entity[.tag_class]) "
             if !String.isNullOrEmpty(className) {
                 className = className.lowercaseString
                 heroClass = CardClass(rawValue: className)
@@ -885,7 +885,7 @@ class Game {
     }
 
     func opponentGet(entity: Entity, turn: Int, id: Int) {
-        if !isMulliganDone() && entity.getTag(.zone_position) == 5 {
+        if !isMulliganDone() && entity[.zone_position] == 5 {
             entity.cardId = CardIds.NonCollectible.Neutral.TheCoin
         }
 
@@ -913,7 +913,7 @@ class Game {
             playedCards.append(PlayedCard(player: .opponent, cardId: cardId, turn: turn))
         }
         
-        if entity.hasTag(.ritual) {
+        if entity.has(tag: .ritual) {
             // if this entity has the RITUAL tag, it will trigger some C'Thun change
             // we wait 300ms so the proxy have the time to be updated
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
@@ -951,7 +951,7 @@ class Game {
         updateCardHuds()
 
         var heroClass: CardClass?
-        var className = "\(entity.getTag(.tag_class))"
+        var className = "\(entity[.tag_class])"
         if !String.isNullOrEmpty(className) {
             className = className.lowercaseString
             heroClass = CardClass(rawValue: className)
@@ -965,7 +965,7 @@ class Game {
                 heroClass = playerClass
             }
         }
-        Log.info?.message("Secret played by \(entity.getTag(.tag_class))"
+        Log.info?.message("Secret played by \(entity[.tag_class])"
             + " -> \(heroClass) -> \(opponent.playerClass)")
         guard let _ = heroClass else { return }
 
@@ -1149,20 +1149,20 @@ class Game {
             // swiftlint:disable line_length
             if entities.map({ $0.1 })
                 .any({ $0.cardId == CardIds.NonCollectible.Druid.SouloftheForest_SoulOfTheForestEnchantment
-                    && $0.getTag(.attached) == entity.id }) {
+                    && $0[.attached] == entity.id }) {
                 numDeathrattleMinions += 1
             }
 
             if entities.map({ $0.1 })
                 .any({ $0.cardId == CardIds.NonCollectible.Shaman.AncestralSpirit_AncestralSpiritEnchantment
-                    && $0.getTag(.attached) == entity.id }) {
+                    && $0[.attached] == entity.id }) {
                 numDeathrattleMinions += 1
             }
             // swiftlint:enable line_length
 
             if let opponentEntity = opponentEntity where
-                opponentEntity.hasTag(.extra_deathrattles) {
-                numDeathrattleMinions *= (opponentEntity.getTag(.extra_deathrattles) + 1)
+                opponentEntity.has(tag: .extra_deathrattles) {
+                numDeathrattleMinions *= (opponentEntity[.extra_deathrattles] + 1)
             }
 
             avengeAsync(numDeathrattleMinions)
@@ -1175,7 +1175,7 @@ class Game {
                 opponentSecrets?.setZero(CardIds.Secrets.Mage.Effigy)
             } else {
                 // TODO need to properly break ties when effigy + deathrattle played in same turn
-                let minionTurnPlayed = turn - entity.getTag(.num_turns_in_play)
+                let minionTurnPlayed = turn - entity[.num_turns_in_play]
                 var secretOffset = 0
                 if let secret = opponentSecrets!.secrets
                     .firstWhere({ $0.turnPlayed >= minionTurnPlayed }) {

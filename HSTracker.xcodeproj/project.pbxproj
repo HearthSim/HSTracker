@@ -225,6 +225,7 @@
 		439DD8F41DB23212004EBE47 /* PlayerTurn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F31DB23212004EBE47 /* PlayerTurn.swift */; };
 		439DD8F61DB2324A004EBE47 /* CardSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F51DB2324A004EBE47 /* CardSize.swift */; };
 		439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F91DB236A4004EBE47 /* ThemeElement.swift */; };
+		439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */; };
 		43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
 		43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */; };
 		43A12C931CA568A800090BFE /* HearthstatsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */; };
@@ -671,6 +672,7 @@
 		439DD8F31DB23212004EBE47 /* PlayerTurn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTurn.swift; sourceTree = "<group>"; };
 		439DD8F51DB2324A004EBE47 /* CardSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSize.swift; sourceTree = "<group>"; };
 		439DD8F91DB236A4004EBE47 /* ThemeElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeElement.swift; sourceTree = "<group>"; };
+		439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityInfo.swift; sourceTree = "<group>"; };
 		43A12C861CA3D24800090BFE /* SaveDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveDeck.swift; sourceTree = "<group>"; };
 		43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsLogin.swift; sourceTree = "<group>"; };
 		43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsPreferences.swift; sourceTree = "<group>"; };
@@ -1108,6 +1110,7 @@
 				439C7E961C777F8900D29859 /* Enums */,
 				439C7EA21C777F8900D29859 /* Handlers */,
 				439C7E951C777F8900D29859 /* Entity.swift */,
+				439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */,
 				439C7EA11C777F8900D29859 /* Game.swift */,
 				340A15031D0939380012CA44 /* Draft.swift */,
 				439C7EAC1C777F8900D29859 /* Hearthstone.swift */,
@@ -1624,6 +1627,7 @@
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */,
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
+				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
 				437E56FA1DAAE48E00FC0FC1 /* Hearthstoneheroes.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				4359BF7B1D51EED200F61993 /* TrackOBotLogin.swift in Sources */,

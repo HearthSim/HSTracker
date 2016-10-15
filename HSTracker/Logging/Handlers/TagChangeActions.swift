@@ -88,7 +88,7 @@ struct TagChangeActions {
     private func fatigueChange(game: Game, value: Int, id: Int) {
         guard let entity = game.entities[id] else { return }
         
-        let controller = entity.getTag(.controller)
+        let controller = entity[.controller]
         if controller == game.player.id {
             game.playerFatigue(value)
         } else if controller == game.opponent.id {
@@ -103,7 +103,7 @@ struct TagChangeActions {
             return
         }
         
-        guard !entity.hasTag(.player_id) else { return }
+        guard !entity.has(tag: .player_id) else { return }
         
         if value == game.player.id {
             if entity.isInZone(.secret) {
@@ -125,9 +125,9 @@ struct TagChangeActions {
     private func exhaustedChange(game: Game, id: Int, value: Int) {
         guard value > 0 else { return }
         guard let entity = game.entities[id] else { return }
-        guard entity.getTag(.cardtype) == CardType.hero_power.rawValue else { return }
+        guard entity[.cardtype] == CardType.hero_power.rawValue else { return }
         
-        let controller = entity.getTag(.controller)
+        let controller = entity[.controller]
         if controller == game.player.id {
             game.proposeKeyPoint(.heroPower, id: id, player: .player)
         } else if controller == game.opponent.id {
@@ -139,7 +139,7 @@ struct TagChangeActions {
         guard value == 0 else { return }
         guard let entity = game.entities[id] else { return }
         
-        let controller = entity.getTag(.controller)
+        let controller = entity[.controller]
         if controller == game.player.id {
             game.proposeKeyPoint(.weaponDestroyed, id: id, player: .player)
         } else if controller == game.opponent.id {
@@ -151,7 +151,7 @@ struct TagChangeActions {
         guard value > 0 else { return }
         guard let entity = game.entities[id] else { return }
         
-        let controller = entity.getTag(.controller)
+        let controller = entity[.controller]
         if controller == game.player.id {
             game.proposeKeyPoint(.playSpell, id: id, player: .player)
         } else if controller == game.opponent.id {
@@ -162,8 +162,8 @@ struct TagChangeActions {
     private func zonePositionChange(game: Game, id: Int) {
         guard let entity = game.entities[id] else { return }
         
-        let zone = entity.getTag(.zone)
-        let controller = entity.getTag(.controller)
+        let zone = entity[.zone]
+        let controller = entity[.controller]
         if zone == Zone.hand.rawValue {
             if controller == game.player.id {
                 ReplayMaker.generate(.handPos, id: id, player: .player, game: game)
@@ -183,7 +183,7 @@ struct TagChangeActions {
         guard value > 0 else { return }
         guard let entity = game.entities[id] else { return }
         
-        let controller = entity.getTag(.controller)
+        let controller = entity[.controller]
         if controller == game.player.id {
             game.proposeKeyPoint(.attack, id: id, player: .player)
         } else if controller == game.opponent.id {
@@ -203,7 +203,7 @@ struct TagChangeActions {
         guard game.setupDone && game.playerEntity != nil else { return }
         guard let playerEntity = game.playerEntity else { return }
 
-        let activePlayer: PlayerType = playerEntity.hasTag(.current_player) ? .player : .opponent
+        let activePlayer: PlayerType = playerEntity.has(tag: .current_player) ? .player : .opponent
         
         if activePlayer == .player {
             game.playerUsedHeroPower = false
@@ -264,7 +264,7 @@ struct TagChangeActions {
             }
         }
         
-        let controller = entity.getTag(.controller)
+        let controller = entity[.controller]
         guard let zoneValue = Zone(rawValue: prevValue) else { return }
         
         switch zoneValue {
@@ -292,8 +292,8 @@ struct TagChangeActions {
         case .invalid:
             let maxId = getMaxHeroPowerId(game)
             if !game.setupDone
-                && (id <= maxId || game.gameEntity?.getTag(.step) == Step.invalid.rawValue
-                    && entity.getTag(.zone_position) < 5) {
+                && (id <= maxId || game.gameEntity?[.step] == Step.invalid.rawValue
+                    && entity[.zone_position] < 5) {
                 entity.info.originalZone = .deck
                 simulateZoneChangesFromDeck(game, id: id, value: value,
                                             cardId: entity.cardId, maxId: maxId)
@@ -311,8 +311,8 @@ struct TagChangeActions {
 
     // The last heropower is created after the last hero, therefore +1
     private func getMaxHeroPowerId(game: Game) -> Int {
-        return max(game.playerEntity?.getTag(.hero_entity) ?? 66,
-                   game.opponentEntity?.getTag(.hero_entity) ?? 66) + 1
+        return max(game.playerEntity?[.hero_entity] ?? 66,
+                   game.opponentEntity?[.hero_entity] ?? 66) + 1
     }
 
     private func simulateZoneChangesFromDeck(game: Game, id: Int,
@@ -328,25 +328,25 @@ struct TagChangeActions {
             return
         }
         
-        if entity.isHero || entity.isHeroPower || entity.hasTag(.player_id)
-            || entity.getTag(.cardtype) == CardType.game.rawValue || entity.hasTag(.creator) {
+        if entity.isHero || entity.isHeroPower || entity.has(tag: .player_id)
+            || entity[.cardtype] == CardType.game.rawValue || entity.has(tag: .creator) {
             return
         }
         
         zoneChangeFromDeck(game, id: id, value: Zone.hand.rawValue,
                            prevValue: Zone.deck.rawValue,
-                           controller: entity.getTag(.controller), cardId: cardId)
+                           controller: entity[.controller], cardId: cardId)
         if value == Zone.hand.rawValue {
             return
         }
         zoneChangeFromHand(game, id: id, value: Zone.play.rawValue,
                            prevValue: Zone.hand.rawValue,
-                           controller: entity.getTag(.controller), cardId: cardId)
+                           controller: entity[.controller], cardId: cardId)
         if value == Zone.play.rawValue {
             return
         }
         zoneChangeFromPlay(game, id: id, value: value, prevValue: Zone.play.rawValue,
-                           controller: entity.getTag(.controller), cardId: cardId)
+                           controller: entity[.controller], cardId: cardId)
     }
 
     private func zoneChangeFromOther(game: Game, id: Int, rawValue: Int,
@@ -471,7 +471,7 @@ struct TagChangeActions {
         case .graveyard:
             if controller == game.player.id {
                 game.playerPlayToGraveyard(entity, cardId: cardId, turn: game.turnNumber())
-                if entity.hasTag(.health) {
+                if entity.has(tag: .health) {
                     game.proposeKeyPoint(.death, id: id, player: .player)
                 }
             } else if controller == game.opponent.id {
@@ -480,7 +480,7 @@ struct TagChangeActions {
                                                  turn: game.turnNumber(),
                                                  playersTurn: playerEntity.isCurrentPlayer)
                 }
-                if entity.hasTag(.health) {
+                if entity.has(tag: .health) {
                     game.proposeKeyPoint(.death, id: id, player: .opponent)
                 }
             }
@@ -510,7 +510,7 @@ struct TagChangeActions {
                 game.playerPlay(entity, cardId: cardId, turn: game.turnNumber())
                 game.proposeKeyPoint(.play, id: id, player: .player)
             } else if controller == game.opponent.id {
-                game.opponentPlay(entity, cardId: cardId, from: entity.getTag(.zone_position),
+                game.opponentPlay(entity, cardId: cardId, from: entity[.zone_position],
                                   turn: game.turnNumber())
                 game.proposeKeyPoint(.play, id: id, player: .opponent)
             }
@@ -521,7 +521,7 @@ struct TagChangeActions {
                 game.proposeKeyPoint(.handDiscard, id: id, player: .player)
             } else if controller == game.opponent.id {
                 game.opponentHandDiscard(entity, cardId: cardId,
-                                         from: entity.getTag(.zone_position),
+                                         from: entity[.zone_position],
                                          turn: game.turnNumber())
                 game.proposeKeyPoint(.handDiscard, id: id, player: .opponent)
             }
@@ -536,7 +536,7 @@ struct TagChangeActions {
             } else if controller == game.opponent.id {
                 if let prevZone = Zone(rawValue: prevValue) {
                     game.opponentSecretPlayed(entity, cardId: cardId,
-                                              from: entity.getTag(.zone_position),
+                                              from: entity[.zone_position],
                                               turn: game.turnNumber(),
                                               fromZone: prevZone, otherId: id)
                 }
@@ -548,7 +548,7 @@ struct TagChangeActions {
                 game.playerMulligan(entity, cardId: cardId)
                 game.proposeKeyPoint(.mulligan, id: id, player: .player)
             } else if controller == game.opponent.id {
-                game.opponentMulligan(entity, from: entity.getTag(.zone_position))
+                game.opponentMulligan(entity, from: entity[.zone_position])
                 game.proposeKeyPoint(.mulligan, id: id, player: .opponent)
             }
             
@@ -642,9 +642,9 @@ struct TagChangeActions {
             if let playerEntity = game.playerEntity,
                 entity = game.entities[id] {
                 // swiftlint:disable line_length
-                Log.info?.message("playerEntity found playerClass : \(game.player.playerClass), \(id) -> \(playerEntity.getTag(.hero_entity)) -> \(entity) ")
+                Log.info?.message("playerEntity found playerClass : \(game.player.playerClass), \(id) -> \(playerEntity[.hero_entity]) -> \(entity) ")
                 // swiftlint:enable line_length
-                if game.player.playerClass == nil && id == playerEntity.getTag(.hero_entity) {
+                if game.player.playerClass == nil && id == playerEntity[.hero_entity] {
                     let cardId = entity.cardId
                     dispatch_async(dispatch_get_main_queue()) {
                         game.setPlayerHero(cardId)
@@ -662,11 +662,11 @@ struct TagChangeActions {
             if let opponentEntity = game.opponentEntity,
                 entity = game.entities[id] {
                 // swiftlint:disable line_length
-                Log.info?.message("opponentEntity found playerClass : \(game.opponent.playerClass), \(id) -> \(opponentEntity.getTag(.hero_entity)) -> \(entity) ")
+                Log.info?.message("opponentEntity found playerClass : \(game.opponent.playerClass), \(id) -> \(opponentEntity[.hero_entity]) -> \(entity) ")
                 // swiftlint:enable line_length
 
                 if game.opponent.playerClass == nil
-                    && id == opponentEntity.getTag(.hero_entity) {
+                    && id == opponentEntity[.hero_entity] {
                     let cardId = entity.cardId
                     dispatch_async(dispatch_get_main_queue()) {
                         game.setOpponentHero(cardId)

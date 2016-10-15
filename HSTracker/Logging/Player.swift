@@ -291,8 +291,8 @@ final class Player {
 
     var opponentCardList: [Card] {
         let revealed = revealedEntities.filter({ (e: Entity) in
-            (e.isMinion || e.isSpell || e.isWeapon || !e.hasTag(.cardtype))
-                && (e.getTag(.creator) == 1
+            (e.isMinion || e.isSpell || e.isWeapon || !e.has(tag: .cardtype))
+                && (e[.creator] == 1
                     || ((!e.info.created || (Settings.instance.showOpponentCreated
                         && (e.info.createdInDeck || e.info.createdInHand)))
                     && e.info.originalController == self.id)
@@ -443,7 +443,7 @@ final class Player {
             updateKnownEntitesInDeck(entity.cardId, turn: turn)
         }
 
-        if let cardType = CardType(rawValue: entity.getTag(.cardtype)) {
+        if let cardType = CardType(rawValue: entity[.cardtype]) {
             switch cardType {
             case .token: entity.info.created = true
             case .spell: spellsPlayedCount += 1
@@ -484,7 +484,7 @@ final class Player {
         if isLocalPlayer {
             updateKnownEntitesInDeck(entity.cardId)
         } else {
-            if Game.instance.opponentEntity?.getTag(.mulligan_state) == Mulligan.dealing.rawValue {
+            if Game.instance.opponentEntity?[.mulligan_state] == Mulligan.dealing.rawValue {
                 entity.info.mulliganed = true
             } else {
                 entity.info.hidden = true
@@ -522,7 +522,7 @@ final class Player {
 
     func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         entity.info.turn = turn
-        if entity.isMinion && entity.hasTag(.deathrattle) {
+        if entity.isMinion && entity.has(tag: .deathrattle) {
             deathrattlesPlayedCount += 1
         }
         Log.info?.message("\(debugName) \(#function) \(entity)")

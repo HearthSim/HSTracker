@@ -74,22 +74,22 @@ final class ReplayMaker {
             return
         }
         guard let opponent = points.last?.data
-            .firstWhere({$0.hasTag(.player_id) && !$0.isPlayer}) else {
+            .firstWhere({$0.has(tag: .player_id) && !$0.isPlayer}) else {
                 Log.warning?.message("Replay : cannot get opponent, skipping")
                 return
         }
         
         guard let playerHero = points.last?.data
-            .firstWhere({$0.getTag(.cardtype) == CardType.hero.rawValue
-                && $0.isControlledBy(player.getTag(.controller))
+            .firstWhere({$0[.cardtype] == CardType.hero.rawValue
+                && $0.isControlledBy(player[.controller])
             }) else {
                 Log.warning?.message("Replay : playerHero is nil, skipping")
                 return
         }
         
         var opponentHero = points.last?.data
-            .firstWhere({$0.getTag(.cardtype) == CardType.hero.rawValue &&
-                $0.isControlledBy(opponent.getTag(.controller))
+            .firstWhere({$0[.cardtype] == CardType.hero.rawValue &&
+                $0.isControlledBy(opponent[.controller])
             })
         
         if opponentHero == nil {
@@ -144,7 +144,7 @@ final class ReplayMaker {
             return
         }
         for kp in points {
-            if let opponent = kp.data.firstWhere({ $0.hasTag(.player_id) && !$0.isPlayer }) {
+            if let opponent = kp.data.firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer }) {
                 opponent.name = opponentName
             }
         }
@@ -172,17 +172,17 @@ final class ReplayMaker {
         points = points.reverse()
         for kp in points {
             if kp.type == .handPos {
-                handPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?.getTag(.zone_position)
+                handPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?[.zone_position]
             } else if kp.type == .boardPos {
-                boardPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?.getTag(.zone_position)
+                boardPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?[.zone_position]
             } else if kp.type == .draw || kp.type == .obtain {
                 if let zp = handPos[kp.id] {
-                    kp.data.firstWhere { $0.id == kp.id }?.setTag(.zone_position, value: zp)
+                    kp.data.firstWhere { $0.id == kp.id }?[.zone_position] = zp
                     handPos[zp] = nil
                 }
             } else if kp.type == .summon || kp.type == .play {
                 if let zp = boardPos[kp.id] {
-                    kp.data.firstWhere { $0.id == kp.id }?.setTag(.zone_position, value: zp)
+                    kp.data.firstWhere { $0.id == kp.id }?[.zone_position] = zp
                     boardPos[zp] = nil
                 }
             }
@@ -197,17 +197,17 @@ final class ReplayMaker {
         var noUniqueZonePos = [Entity]()
         for kp in points {
             let currentEntity = kp.data.firstWhere { $0.id == kp.id }
-            if currentEntity == nil || !currentEntity!.hasTag(.zone_position) {
+            if currentEntity == nil || !currentEntity!.has(tag: .zone_position) {
                 continue
             }
 
             occupiedZonePos.removeAll()
             noUniqueZonePos.removeAll()
             noUniqueZonePos.append(currentEntity!)
-            for entity in kp.data.filter({ $0.id != kp.id && $0.hasTag(.zone_position) }) {
-                let zonePos = entity.getTag(.zone_position)
-                if entity.getTag(.zone) == currentEntity!.getTag(.zone)
-                && entity.getTag(.controller) == currentEntity!.getTag(.controller) {
+            for entity in kp.data.filter({ $0.id != kp.id && $0.has(tag: .zone_position) }) {
+                let zonePos = entity[.zone_position]
+                if entity[.zone] == currentEntity![.zone]
+                && entity[.controller] == currentEntity![.controller] {
                     if !occupiedZonePos.contains(zonePos) {
                         occupiedZonePos.append(zonePos)
                     } else {
@@ -216,14 +216,14 @@ final class ReplayMaker {
                 }
             }
             for entity in noUniqueZonePos {
-                if occupiedZonePos.contains(entity.getTag(.zone_position)) {
+                if occupiedZonePos.contains(entity[.zone_position]) {
                     if let max = occupiedZonePos.maxElement() {
                         let targetPos = max + 1
-                        currentEntity!.setTag(.zone_position, value: targetPos)
+                        currentEntity![.zone_position] = targetPos
                         occupiedZonePos.append(targetPos)
                     }
                 } else {
-                    occupiedZonePos.append(entity.getTag(.zone_position))
+                    occupiedZonePos.append(entity[.zone_position])
                 }
             }
         }
@@ -231,7 +231,7 @@ final class ReplayMaker {
         var onBoard = [Entity]()
         for kp in points {
             let currentBoard = kp.data
-                .filter { $0.isInZone(.play) && $0.hasTag(.health)
+                .filter { $0.isInZone(.play) && $0.has(tag: .health)
                     && !String.isNullOrEmpty($0.cardId) && !$0.cardId.contains("HERO")
             }
             if onBoard.all({ (e) in
@@ -239,8 +239,8 @@ final class ReplayMaker {
                 && currentBoard.all({ (e) in onBoard.any({ (e2) in e2.id == e.id }) }) {
                 for entity in currentBoard {
                     if let pos = onBoard
-                        .firstWhere({ (e) in e.id == entity.id })?.getTag(.zone_position) {
-                        entity.setTag(.zone_position, value: pos)
+                        .firstWhere({ (e) in e.id == entity.id })?[.zone_position] {
+                        entity[.zone_position] = pos
                     }
                 }
             } else {

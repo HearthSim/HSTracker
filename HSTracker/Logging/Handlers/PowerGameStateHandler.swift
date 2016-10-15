@@ -94,7 +94,7 @@ class PowerGameStateHandler {
                     tagChangeHandler.tagChange(game, rawTag: tag, id: entity.id, rawValue: value)
                 } else {
                     let players = game.entities.map { $0.1 }
-                        .filter { $0.hasTag(.player_id) }.take(2)
+                        .filter { $0.has(tag: .player_id) }.take(2)
                     let unnamedPlayers = players.filter { String.isNullOrEmpty($0.name) }
                     let unknownHumanPlayer = players
                         .firstWhere { $0.name == "UNKNOWN HUMAN PLAYER" }
@@ -103,7 +103,7 @@ class PowerGameStateHandler {
                         entity = unknownHumanPlayer
                         if let entity = entity {
                             setPlayerName(game,
-                                          playerId: entity.getTag(.player_id),
+                                          playerId: entity[.player_id],
                                           name: rawEntity)
                         }
                     }
@@ -123,7 +123,7 @@ class PowerGameStateHandler {
                         } else if unnamedPlayers.count == 2 &&
                             _tag == .current_player && tagValue == 0 {
                             entity = game.entities.map { $0.1 }
-                                .firstWhere { $0.hasTag(.current_player) }
+                                .firstWhere { $0.has(tag: .current_player) }
                         }
 
                         if let entity = entity, tmpEntity = tmpEntity {
@@ -134,7 +134,7 @@ class PowerGameStateHandler {
                                     value: val)
                             })
                             setPlayerName(game,
-                                          playerId: entity.getTag(.player_id),
+                                          playerId: entity[.player_id],
                                           name: tmpEntity.name!)
                             game.tmpEntities.remove(tmpEntity)
                             tagChangeHandler.tagChange(game,
@@ -144,9 +144,9 @@ class PowerGameStateHandler {
                         }
 
                         if let tmpEntity = tmpEntity where game.tmpEntities.contains(tmpEntity) {
-                            tmpEntity.setTag(_tag, value: tagValue)
-                            if tmpEntity.hasTag(.entity_id) {
-                                let id = tmpEntity.getTag(.entity_id)
+                            tmpEntity[_tag] = tagValue
+                            if tmpEntity.has(tag: .entity_id) {
+                                let id = tmpEntity[.entity_id]
                                 if game.entities[id] != .None {
                                     game.entities[id]!.name = tmpEntity.name
                                     tmpEntity.tags.forEach({ (gameTag, val) -> () in
@@ -259,9 +259,9 @@ class PowerGameStateHandler {
             var actionStartingCardId: String? = matches[2].value
 
             let player = game.entities.map { $0.1 }
-                .firstWhere { $0.hasTag(.player_id) && $0.getTag(.player_id) == game.player.id }
+                .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.player.id }
             let opponent = game.entities.map { $0.1 }
-                .firstWhere { $0.hasTag(.player_id) && $0.getTag(.player_id) == game.opponent.id }
+                .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.opponent.id }
 
             if String.isNullOrEmpty(actionStartingCardId) {
                 if let actionEntity = game.entities[actionStartingEntityId] {
@@ -320,11 +320,11 @@ class PowerGameStateHandler {
                         addKnownCardId(game, cardId: CardIds.NonCollectible.Neutral.Cthun)
                     default:
                         if let card = Cards.any(byId: actionStartingCardId) {
-                            if (player != nil && player!.getTag(.current_player) == 1 && !game.playerUsedHeroPower)
-                                || (opponent != nil && opponent!.getTag(.current_player) == 1
+                            if (player != nil && player![.current_player] == 1 && !game.playerUsedHeroPower)
+                                || (opponent != nil && opponent![.current_player] == 1
                                     && !game.opponentUsedHeroPower) {
                                 if card.type == .hero_power {
-                                    if player != nil && player!.getTag(.current_player) == 1 {
+                                    if player != nil && player![.current_player] == 1 {
                                         game.playerHeroPower(actionStartingCardId, turn: game.turnNumber())
                                         game.playerUsedHeroPower = true
                                     } else if opponent != nil {
@@ -344,7 +344,7 @@ class PowerGameStateHandler {
         } else if game.gameTriggerCount == 0 && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
             game.gameTriggerCount += 1
         } else if game.gameTriggerCount < 10 && logLine.line.contains("BLOCK_END") {
-            if let entity = game.gameEntity where entity.hasTag(.turn) {
+            if let entity = game.gameEntity where entity.has(tag: .turn) {
                 game.gameTriggerCount += 10
                 tagChangeHandler.invokeQueuedActions(game)
                 game.setupDone = true
@@ -362,9 +362,9 @@ class PowerGameStateHandler {
         if !game.determinedPlayers && game.setupDone {
             if let playerCard = game.entities.map({ $0.1 })
                 .firstWhere({ $0.isInHand
-                    && !String.isNullOrEmpty($0.cardId) && $0.hasTag(.controller) }) {
+                    && !String.isNullOrEmpty($0.cardId) && $0.has(tag: .controller) }) {
                     tagChangeHandler.determinePlayers(game,
-                                                      playerId: playerCard.getTag(.controller),
+                                                      playerId: playerCard[.controller],
                                                       isOpponentId: false)
             }
         }
@@ -424,7 +424,7 @@ class PowerGameStateHandler {
             } else if playerId == game.opponent.id {
                 game.opponent.name = name
                 if let opponent = game.entities.map({ $0.1 })
-                    .firstWhere({ $0.hasTag(.player_id) && !$0.isPlayer }) {
+                    .firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer }) {
                     opponent.name = name
                 }
                 Log.info?.message("Opponent name is \(name)")

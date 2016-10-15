@@ -41,10 +41,10 @@ class WotogCounterHelper {
     }
 
     static var playerSeenCthun: Bool {
-        return Game.instance.playerEntity?.hasTag(.seen_cthun) ?? false
+        return Game.instance.playerEntity?.has(tag: .seen_cthun) ?? false
     }
     static var opponentSeenCthun: Bool {
-        return Game.instance.opponentEntity?.hasTag(.seen_cthun) ?? false
+        return Game.instance.opponentEntity?.has(tag: .seen_cthun) ?? false
     }
     static var cthunInDeck: Bool? {
         return deckContains(CardIds.Collectible.Neutral.Cthun)

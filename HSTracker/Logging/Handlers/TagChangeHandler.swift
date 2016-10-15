@@ -65,8 +65,8 @@ class TagChangeHandler {
         }
 
         if let entity = game.entities[id] {
-            let prevValue = entity.getTag(tag)
-            entity.setTag(tag, value: value)
+            let prevValue = entity[tag]
+            entity[tag ] = value
             //print("Set tag \(tag) with value \(value) to entity \(id)")
 
             if isCreationTag {
@@ -188,17 +188,17 @@ class TagChangeHandler {
     func determinePlayers(game: Game, playerId: Int, isOpponentId: Bool = true) {
         if isOpponentId {
             game.entities.map { $0.1 }
-                .firstWhere { $0.getTag(.player_id) == 1 }?.setPlayer(playerId != 1)
+                .firstWhere { $0[.player_id] == 1 }?.setPlayer(playerId != 1)
             game.entities.map { $0.1 }
-                .firstWhere { $0.getTag(.player_id) == 2 }?.setPlayer(playerId == 1)
+                .firstWhere { $0[.player_id] == 2 }?.setPlayer(playerId == 1)
 
             game.player.id = playerId % 2 + 1
             game.opponent.id = playerId
         } else {
             game.entities.map { $0.1 }
-                .firstWhere { $0.getTag(.player_id) == 1 }?.setPlayer(playerId == 1)
+                .firstWhere { $0[.player_id] == 1 }?.setPlayer(playerId == 1)
             game.entities.map { $0.1 }
-                .firstWhere { $0.getTag(.player_id) == 2 }?.setPlayer(playerId != 1)
+                .firstWhere { $0[.player_id] == 2 }?.setPlayer(playerId != 1)
 
             game.player.id = playerId
             game.opponent.id = playerId % 2 + 1

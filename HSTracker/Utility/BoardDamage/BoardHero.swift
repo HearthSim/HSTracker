@@ -33,7 +33,7 @@ class BoardHero: IBoardEntity {
     init(hero: Entity, weapon: Entity?, activeTurn: Bool) {
         _hero = BoardCard(entity: hero, active: activeTurn)
         // hero gains windfury with weapon, doubling attack get base attack
-        _baseAttack = hero.getTag(.atk)
+        _baseAttack = hero[.atk]
         if let weapon = weapon {
             _weapon = BoardCard(entity: weapon, active: activeTurn)
         }

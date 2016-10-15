@@ -18,7 +18,7 @@ import CleanroomLogger
     private var turnTime: Int = 75
     private var timer: NSTimer?
     private var isPlayersTurn: Bool {
-        return game?.playerEntity?.hasTag(.current_player) ?? false
+        return game?.playerEntity?.has(tag: .current_player) ?? false
     }
     private var game: Game?
 
@@ -29,11 +29,11 @@ import CleanroomLogger
         }
 
         if player == .player && game!.playerEntity != nil {
-            seconds = game!.playerEntity!.hasTag(.timeout)
-                ? game!.playerEntity!.getTag(.timeout) : 75
+            seconds = game!.playerEntity!.has(tag: .timeout)
+                ? game!.playerEntity![.timeout] : 75
         } else if player == .opponent && game!.opponentEntity != nil {
-            seconds = game!.opponentEntity!.hasTag(.timeout)
-                ? game!.opponentEntity!.getTag(.timeout) : 75
+            seconds = game!.opponentEntity!.has(tag: .timeout)
+                ? game!.opponentEntity![.timeout] : 75
         } else {
             seconds = 75
             Log.warning?.message("Could not update timer, both player entities are null")

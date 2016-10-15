@@ -38,24 +38,24 @@ class BoardCard: IBoardEntity {
         let cardName = card != nil ? card!.name : ""
         name = String.isNullOrEmpty(entity.name) ? cardName : entity.name!
         
-        _stdAttack = entity.getTag(.atk)
-        _health = entity.getTag(.health)
-        _armor = entity.getTag(.armor)
-        _durability = entity.getTag(.durability)
-        _damageTaken = entity.getTag(.damage)
-        exhausted = entity.getTag(.exhausted) == 1
-        _cantAttack = entity.getTag(.cant_attack) == 1
-        _frozen = entity.getTag(.frozen) == 1
-        charge = entity.getTag(.charge) == 1
-        windfury = entity.getTag(.windfury) == 1
-        attacksThisTurn = entity.getTag(.num_attacks_this_turn)
+        _stdAttack = entity[.atk]
+        _health = entity[.health]
+        _armor = entity[.armor]
+        _durability = entity[.durability]
+        _damageTaken = entity[.damage]
+        exhausted = entity[.exhausted] == 1
+        _cantAttack = entity[.cant_attack] == 1
+        _frozen = entity[.frozen] == 1
+        charge = entity[.charge] == 1
+        windfury = entity[.windfury] == 1
+        attacksThisTurn = entity[.num_attacks_this_turn]
         
         cardId = entity.cardId
-        taunt = entity.getTag(.taunt) == 1
-        if let _zone = Zone(rawValue: entity.getTag(.zone)) {
+        taunt = entity[.taunt] == 1
+        if let _zone = Zone(rawValue: entity[.zone]) {
             zone = "\(_zone)"
         }
-        if let _cardType = CardType(rawValue: entity.getTag(.cardtype)) {
+        if let _cardType = CardType(rawValue: entity[.cardtype]) {
             cardType = "\(_cardType)"
         }
         
