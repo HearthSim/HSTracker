@@ -12,11 +12,11 @@ import Foundation
 
 extension String {
 
-    static func isNullOrEmpty(str: String?) -> Bool {
+    static func isNullOrEmpty(_ str: String?) -> Bool {
         return str == nil || str!.isEmpty
     }
 
-    func substringWithRange(start: Int, end: Int) -> String {
+    func substringWithRange(_ start: Int, end: Int) -> String {
         if start < 0 || start > self.characters.count {
             print("start index \(start) out of bounds")
             return ""
@@ -24,11 +24,12 @@ extension String {
             print("end index \(end) out of bounds")
             return ""
         }
-        let range = self.startIndex.advancedBy(start) ..< self.startIndex.advancedBy(end)
-        return self.substringWithRange(range)
+        let range = self.characters.index(self.startIndex, offsetBy: start)
+            ..< self.characters.index(self.startIndex, offsetBy: end)
+        return self.substring(with: range)
     }
 
-    func substringWithRange(start: Int, location: Int) -> String {
+    func substringWithRange(_ start: Int, location: Int) -> String {
         if start < 0 || start > self.characters.count {
             print("start index \(start) out of bounds")
             return ""
@@ -37,9 +38,19 @@ extension String {
             return ""
         }
 
-        let startPos = self.startIndex.advancedBy(start)
-        let endPos = self.startIndex.advancedBy(start + location)
+        let startPos = self.characters.index(self.startIndex, offsetBy: start)
+        let endPos = self.characters.index(self.startIndex, offsetBy: start + location)
         let range = startPos ..< endPos
-        return self.substringWithRange(range)
+        return self.substring(with: range)
+    }
+
+    func trim() -> String {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    func char(at: Int) -> String {
+        let c = (self as NSString).character(at: at)
+        let s = NSString(format: "%c", c)
+        return s as String
     }
 }

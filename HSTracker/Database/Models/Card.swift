@@ -41,7 +41,7 @@ final class Card: Hashable, CustomStringConvertible {
     var highlightFrame = false
 
     var englishName: String {
-        if let language = Settings.instance.hearthstoneLanguage where language == "enUS" {
+        if let language = Settings.instance.hearthstoneLanguage, language == "enUS" {
             return self.name
         }
         return self.enName
@@ -58,7 +58,7 @@ final class Card: Hashable, CustomStringConvertible {
         } else if wasDiscarded && Settings.instance.highlightDiscarded {
             color = NSColor(red: 0.803, green: 0.36, blue: 0.36, alpha: 1)
         } else {
-            color = NSColor.whiteColor()
+            color = NSColor.white
         }
         return color
     }

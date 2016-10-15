@@ -27,27 +27,27 @@ final class Decks {
         if let path = savePath {
             convertOldFile()
             
-            let fileManager = NSFileManager.defaultManager()
+            let fileManager = FileManager.default
             
             // load decks
             var files: [String]? = nil
             do {
-                files = try fileManager.contentsOfDirectoryAtPath(path)
+                files = try fileManager.contentsOfDirectory(atPath: path)
             } catch {
                 Log.error?.message("Can not read content of \(path)")
             }
             if let files = files {
                 let jsonFiles = files.filter({ $0.hasSuffix(".json") })
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     splashscreen?.display(String(format:
                         NSLocalizedString("Loading decks", comment: "")),
                                          total: Double(jsonFiles.count))
                 }
                 for file in jsonFiles {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         splashscreen?.increment()
                     }
-                    load(file)
+                    load(file: file)
                 }
             }
         }
@@ -55,23 +55,23 @@ final class Decks {
 
     private func convertOldFile() {
         guard let path = savePath else { return }
-        let fileManager = NSFileManager.defaultManager()
+        let fileManager = FileManager.default
         
         // convert old json file
         let jsonFile = "\(path)/decks.json"
-        if fileManager.fileExistsAtPath("\(path)/decks.json") {
-            if let jsonData = NSData(contentsOfFile: jsonFile) {
+        if fileManager.fileExists(atPath: "\(path)/decks.json") {
+            if let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonFile)) {
                 var decks: [String: [String: AnyObject]]? = nil
                 do {
-                    if let _decks = try NSJSONSerialization
-                        .JSONObjectWithData(jsonData,
-                                            options: .AllowFragments)
+                    if let _decks = try JSONSerialization
+                        .jsonObject(with: jsonData,
+                                            options: .allowFragments)
                         as? [String: [String: AnyObject]] {
                         decks = _decks
                     }
-                    try fileManager.removeItemAtPath("\(jsonFile)")
-                    if fileManager.fileExistsAtPath("\(jsonFile).bkp") {
-                        try fileManager.removeItemAtPath("\(jsonFile).bkp")
+                    try fileManager.removeItem(atPath: "\(jsonFile)")
+                    if fileManager.fileExists(atPath: "\(jsonFile).bkp") {
+                        try fileManager.removeItem(atPath: "\(jsonFile).bkp")
                     }
                 } catch {
                     Log.error?.message("Error loading decks: \(error)")
@@ -80,7 +80,7 @@ final class Decks {
                     for (_, _deck) in decks {
                         let deck: Deck
                         do {
-                            deck = try Unbox(_deck)
+                            deck = try unbox(dictionary: _deck)
                         } catch {
                             Log.error?.message("Error unboxing deck")
                             continue
@@ -89,12 +89,12 @@ final class Decks {
                         if deck.isValid() {
                             _decks[deck.deckId] = deck
                             do {
-                                let dictionary: [String : AnyObject] = try Wrap(deck)
-                                let data = try NSJSONSerialization
-                                    .dataWithJSONObject(dictionary,
-                                                        options: .PrettyPrinted)
+                                let dictionary: [String : Any] = try wrap(deck)
+                                let data = try JSONSerialization
+                                    .data(withJSONObject: dictionary,
+                                                        options: .prettyPrinted)
                                 let file = "\(path)/\(deck.deckId).json"
-                                data.writeToFile(file, atomically: true)
+                                try? data.write(to: URL(fileURLWithPath: file), options: [.atomic])
                             } catch {
                                 Log.error?.message("Error unboxing deck")
                             }
@@ -110,14 +110,14 @@ final class Decks {
     }
 
     func add(deck: Deck) {
-        deck.creationDate = NSDate()
+        deck.creationDate = Date()
         _decks[deck.deckId] = deck
-        save(deck)
+        save(deck: deck)
     }
 
     func update(deck: Deck) {
         _decks[deck.deckId] = deck
-        save(deck)
+        save(deck: deck)
     }
 
     func remove(deck: Deck) {
@@ -127,16 +127,18 @@ final class Decks {
             return
         }
         do {
-            try NSFileManager.defaultManager().removeItemAtPath("\(path)/\(deck.deckId).json")
+            try FileManager.default.removeItem(atPath: "\(path)/\(deck.deckId).json")
         } catch {
             Log.error?.message("Can not delete \(path)")
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+                                        object: nil)
     }
     
     func reset(deck: Deck) {
-        load("\(deck.deckId).json")
-        NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
+        load(file: "\(deck.deckId).json")
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+                                        object: nil)
     }
     
     internal func load(file: String) {
@@ -145,9 +147,9 @@ final class Decks {
             return
         }
         
-        if let jsonData = NSData(contentsOfFile: "\(path)/\(file)") {
+        if let jsonData = try? Data(contentsOf: URL(fileURLWithPath: "\(path)/\(file)")) {
             do {
-                let deck: Deck = try Unbox(jsonData)
+                let deck: Deck = try unbox(data: jsonData)
                 if deck.isValid() {
                     _decks[deck.deckId] = deck
                 }
@@ -157,15 +159,15 @@ final class Decks {
         }
     }
 
-    internal func save(deck: Deck) {
+    private func save(deck: Deck) {
         guard let path = savePath else {
             Log.warning?.message("SavePath does not exists for decks")
             return
         }
         
         do {
-            try NSFileManager.defaultManager()
-                .createDirectoryAtPath(path,
+            try FileManager.default
+                .createDirectory(atPath: path,
                                        withIntermediateDirectories: true,
                                        attributes: nil)
         } catch {
@@ -174,19 +176,20 @@ final class Decks {
         }
         
         do {
-            let dictionary: [String : AnyObject] = try Wrap(deck)
-            let data = try NSJSONSerialization
-                .dataWithJSONObject(dictionary,
-                                    options: .PrettyPrinted)
+            let dictionary: [String : Any] = try wrap(deck)
+            let data = try JSONSerialization
+                .data(withJSONObject: dictionary,
+                                    options: .prettyPrinted)
             let file = "\(path)/\(deck.deckId).json"
-            data.writeToFile(file, atomically: true)
+            try? data.write(to: URL(fileURLWithPath: file), options: [.atomic])
         } catch {
             Log.error?.message("Error wrapping deck")
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+                                        object: nil)
     }
 
-    func byId(id: String) -> Deck? {
+    func byId(_ id: String) -> Deck? {
         return decks().filter({ $0.deckId == id }).first
     }
 }

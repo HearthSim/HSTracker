@@ -19,7 +19,7 @@ class SecretHelper: Equatable, CustomStringConvertible {
         self.turnPlayed = turnPlayed
         self.heroClass = heroClass
 
-        SecretHelper.getSecretIds(heroClass).forEach({
+        SecretHelper.getSecretIds(heroClass: heroClass).forEach({
             possibleSecrets[$0] = true
         })
     }
@@ -37,15 +37,15 @@ class SecretHelper: Equatable, CustomStringConvertible {
     }
 
     static func getMaxSecretCount(heroClass: CardClass) -> Int {
-        return getSecretIds(heroClass).count
+        return getSecretIds(heroClass: heroClass).count
     }
 
     static func getSecretIds(heroClass: CardClass) -> [String] {
         let standardOnly = Game.instance.currentFormat == .standard
         switch heroClass {
-        case .hunter: return CardIds.Secrets.Hunter.getCards(standardOnly)
-        case .mage: return CardIds.Secrets.Mage.getCards(standardOnly)
-        case .paladin: return CardIds.Secrets.Paladin.getCards(standardOnly)
+        case .hunter: return CardIds.Secrets.Hunter.getCards(standardOnly: standardOnly)
+        case .mage: return CardIds.Secrets.Mage.getCards(standardOnly: standardOnly)
+        case .paladin: return CardIds.Secrets.Paladin.getCards(standardOnly: standardOnly)
         default: return []
         }
     }

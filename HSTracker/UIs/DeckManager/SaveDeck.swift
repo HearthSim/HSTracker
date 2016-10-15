@@ -23,14 +23,14 @@ class SaveDeck: NSWindowController {
     private var _delegate: SaveDeckDelegate?
     var versions = ["1.0"]
 
-    func setDelegate(delegate: SaveDeckDelegate) {
+    func setDelegate(_ delegate: SaveDeckDelegate) {
         _delegate = delegate
     }
 
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        saveHearthstats.enabled = HearthstatsAPI.isLogged()
+        saveHearthstats.isEnabled = HearthstatsAPI.isLogged()
 
         deckName.stringValue = deck!.name ?? ""
 
@@ -42,14 +42,14 @@ class SaveDeck: NSWindowController {
             let nextMajorVersion = "\(round(Double(version)! + 1))"
             versions = [version, nextMinorVersion, nextMajorVersion]
         } else {
-            version.selectItemAtIndex(0)
+            version.selectItem(at: 0)
         }
-        version.enabled = exists
+        version.isEnabled = exists
         version.reloadData()
     }
 
     // MARK: - Actions
-    @IBAction func save(sender: AnyObject) {
+    @IBAction func save(_ sender: AnyObject) {
         deck?.name = deckName.stringValue
         let currentVersion = deck?.version
         let selectedVersion = version.indexOfSelectedItem < 0
@@ -60,9 +60,9 @@ class SaveDeck: NSWindowController {
         if HearthstatsAPI.isLogged() && saveHearthstats.state == NSOnState {
             if !exists || deck!.hearthstatsId == nil {
                 do {
-                    try HearthstatsAPI.postDeck(deck!, callback: { (success) in
+                    try HearthstatsAPI.post(deck: deck!, callback: { (success) in
                         if success {
-                            Decks.instance.add(self.deck!)
+                            Decks.instance.add(deck: self.deck!)
                             self._delegate?.deckSaveSaved()
                         }
                     })
@@ -71,9 +71,9 @@ class SaveDeck: NSWindowController {
                 }
             } else if isNewVersion {
                 do {
-                    try HearthstatsAPI.postDeckVersion(deck!, callback: { (success) in
+                    try HearthstatsAPI.post(deckVersion: deck!, callback: { (success) in
                         if success {
-                            Decks.instance.update(self.deck!)
+                            Decks.instance.update(deck: self.deck!)
                             self._delegate?.deckSaveSaved()
                         }
                     })
@@ -82,9 +82,9 @@ class SaveDeck: NSWindowController {
                 }
             } else {
                 do {
-                    try HearthstatsAPI.updateDeck(deck!, callback: { (success) in
+                    try HearthstatsAPI.update(deck: deck!, callback: { (success) in
                         if success {
-                            Decks.instance.update(self.deck!)
+                            Decks.instance.update(deck: self.deck!)
                             self._delegate?.deckSaveSaved()
                         }
                     })
@@ -94,24 +94,26 @@ class SaveDeck: NSWindowController {
             }
         } else {
             if exists {
-                Decks.instance.update(deck!)
+                Decks.instance.update(deck: deck!)
             } else {
-                Decks.instance.add(deck!)
+                Decks.instance.add(deck: deck!)
             }
             self._delegate?.deckSaveSaved()
         }
     }
 
-    @IBAction func cancel(sender: AnyObject) {
+    @IBAction func cancel(_ sender: AnyObject) {
         self._delegate?.deckSaveCanceled()
     }
+}
 
-    // MARK: - NSComboboxDelegate/Datasource
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
+// MARK: - NSComboboxDelegate/Datasource
+extension SaveDeck: NSComboBoxDelegate, NSComboBoxDataSource {
+    func numberOfItems(in aComboBox: NSComboBox) -> Int {
         return versions.count
     }
 
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
+    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
         return versions[index]
     }
 }

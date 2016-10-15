@@ -27,7 +27,7 @@ struct HearthNews: HttpImporter {
     func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
         guard let classNode = doc.at_xpath("//div[@hero_class]"),
             let clazz = classNode["hero_class"],
-            let playerClass = CardClass(rawValue: clazz.lowercaseString) else {
+            let playerClass = CardClass(rawValue: clazz.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
@@ -49,7 +49,7 @@ struct HearthNews: HttpImporter {
                 let count = Int(qty) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         

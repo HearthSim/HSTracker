@@ -54,21 +54,21 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var currentHealth = -1
     var currentRace: Race?
     var currentCardType: CardType = .invalid
-    var deckUndoManager: NSUndoManager?
+    var deckUndoManager: UndoManager?
 
-    var monitor: AnyObject? = nil
+    var monitor: Any? = nil
 
     var saveDeck: SaveDeck?
 
     let baseCardWidth: CGFloat = 181
     let baseCardHeight: CGFloat = 250
 
-    func setPlayerClass(playerClass: CardClass) {
+    func set(playerClass: CardClass) {
         currentPlayerClass = playerClass
         selectedClass = currentPlayerClass
     }
 
-    func setDeck(deck: Deck) {
+    func set(deck: Deck) {
         currentDeck = deck
         isSaved = true
     }
@@ -80,15 +80,15 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
         let gridLayout = JNWCollectionViewGridLayout()
         cardsCollectionView.collectionViewLayout = gridLayout
-        cardsCollectionView.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
-        cardsCollectionView.registerClass(CardCell.self, forCellWithReuseIdentifier: "card_cell")
+        cardsCollectionView.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
+        cardsCollectionView.register(CardCell.self, forCellWithReuseIdentifier: "card_cell")
         changeLayout()
         presentationView.selectedSegment = settings.deckManagerPreferCards ? 0 : 1
         reloadCards()
 
         if let playerClass = currentPlayerClass {
             classChooser.segmentCount = 2
-            classChooser.setLabel(NSLocalizedString(playerClass.rawValue.lowercaseString,
+            classChooser.setLabel(NSLocalizedString(playerClass.rawValue.lowercased(),
                 comment: ""), forSegment: 0)
         } else {
             classChooser.segmentCount = 1
@@ -110,7 +110,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
         if let deck = self.currentDeck,
             let name = deck.name {
-            let playerClass = deck.playerClass.rawValue.lowercaseString
+            let playerClass = deck.playerClass.rawValue.lowercased()
             self.window?.title = "\(NSLocalizedString(playerClass, comment: ""))"
                 + " - \(name)"
         }
@@ -122,10 +122,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             cell.cancelButtonCell!.action = #selector(EditDeck.cancelSearch(_:))
         }
 
-        NSNotificationCenter.defaultCenter()
+        NotificationCenter.default
             .addObserver(self,
                          selector: #selector(EditDeck.updateTheme(_:)),
-                         name: "theme",
+                         name: NSNotification.Name(rawValue: "theme"),
                          object: nil)
 
         deckUndoManager = window?.undoManager
@@ -133,15 +133,15 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         removeKeyboardShortcuts()
     }
 
     func initKeyboardShortcuts() {
-        self.monitor = NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDown) {
+        self.monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
             (e) -> NSEvent? in
 
-            let isCmd = e.modifierFlags.contains(.Command)
+            let isCmd = e.modifierFlags.contains(.command)
 
             if isCmd {
                 switch e.keyCode {
@@ -164,17 +164,16 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 // distinguish between numpads and numbers above qwerty etc..
                 //
                 guard let charsPressed = e.charactersIgnoringModifiers,
-                    numberPressed = Int(charsPressed.charAt(0)),
-                    visibleCardIndexPaths = self.cardsCollectionView
+                    let numberPressed = Int(charsPressed.char(at: 0)),
+                    let visibleCardIndexPaths = self.cardsCollectionView
                         .indexPathsForVisibleItems()
-                        as? [NSIndexPath]
-                    where 1 ... visibleCardIndexPaths.count ~= numberPressed
+                        as? [IndexPath], 1 ... visibleCardIndexPaths.count ~= numberPressed
                     else { return e }
 
                 if let cell = self.cardsCollectionView
-                    .cellForItemAtIndexPath(visibleCardIndexPaths[numberPressed - 1])
+                    .cellForItem(at: visibleCardIndexPaths[numberPressed - 1])
                     as? CardCell,
-                    card = cell.card {
+                    let card = cell.card {
 
                     self.addCardToDeck(card)
                     return nil
@@ -193,11 +192,11 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
     }
 
-    func setDelegate(delegate: NewDeckDelegate) {
+    func setDelegate(_ delegate: NewDeckDelegate) {
         self.delegate = delegate
     }
 
-    private func reloadCards() {
+    fileprivate func reloadCards() {
         currentClassCards = Cards.search(
             className: currentSearchTerm == "" ? selectedClass : currentPlayerClass,
             sets: currentSet,
@@ -218,13 +217,13 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
     }
 
-    func updateTheme(notification: NSNotification) {
+    func updateTheme(_ notification: Notification) {
         deckCardsView.reloadData()
         cardsCollectionView.reloadData()
     }
 
     // MARK: - NSSegmentedControl
-    @IBAction func changeClassTab(sender: NSSegmentedControl) {
+    @IBAction func changeClassTab(_ sender: NSSegmentedControl) {
         if sender.selectedSegment == 0 {
             selectedClass = currentPlayerClass
         } else {
@@ -233,14 +232,14 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         reloadCards()
     }
 
-    @IBAction func clickCard(sender: NSTableView) {
+    @IBAction func clickCard(_ sender: NSTableView) {
         guard sender.clickedRow >= 0 else { return }
         let card = currentDeck!.sortedCards[sender.clickedRow]
         
         undoCardAdd(card)
     }
 
-    func addCardToDeck(card: Card) {
+    func addCardToDeck(_ card: Card) {
         let deckCard = currentDeck!.sortedCards.filter({ $0.id == card.id }).first
 
         if deckCard == nil || currentDeck!.isArena ||
@@ -251,18 +250,18 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
     
     // MARK: - Undo/Redo
-    func undoCardAdd(card: AnyObject) {
+    func undoCardAdd(_ card: AnyObject) {
         if let c = card as? Card {
-            deckUndoManager?.registerUndoWithTarget(
-                self, selector: #selector(EditDeck.redoCardAdd(_:)), object: card)
+            deckUndoManager?.registerUndo(
+                withTarget: self, selector: #selector(EditDeck.redoCardAdd(_:)), object: card)
             
-            if deckUndoManager?.undoing == true {
+            if deckUndoManager?.isUndoing == true {
                 deckUndoManager?.setActionName(NSLocalizedString("Add Card", comment: ""))
             } else {
                 deckUndoManager?.setActionName(NSLocalizedString("Remove Card", comment: ""))
             }
             
-            currentDeck?.removeCard(c)
+            currentDeck?.remove(card: c)
             curveView.reload()
             deckCardsView.reloadData()
             cardsCollectionView.reloadData()
@@ -271,18 +270,18 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
     }
     
-    func redoCardAdd(card: AnyObject) {
+    func redoCardAdd(_ card: AnyObject) {
         if let c = card as? Card {
-            deckUndoManager?.registerUndoWithTarget(
-                self, selector: #selector(EditDeck.undoCardAdd(_:)), object: card)
+            deckUndoManager?.registerUndo(
+                withTarget: self, selector: #selector(EditDeck.undoCardAdd(_:)), object: card)
             
-            if deckUndoManager?.undoing == true {
+            if deckUndoManager?.isUndoing == true {
                 deckUndoManager?.setActionName(NSLocalizedString("Remove Card", comment: ""))
             } else {
                 deckUndoManager?.setActionName(NSLocalizedString("Add Card", comment: ""))
             }
             
-            currentDeck?.addCard(c)
+            currentDeck?.add(card: c)
             curveView.reload()
             deckCardsView.reloadData()
             cardsCollectionView.reloadData()
@@ -292,13 +291,13 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     // MARK: - Standard/Wild
-    @IBAction func standardWildChange(sender: NSButton) {
+    @IBAction func standardWildChange(_ sender: NSButton) {
         standardOnly = sender.state == NSOnState
         reloadCards()
     }
 
     // MARK: - Gems
-    @IBAction func manaGemClicked(sender: ManaGemButton) {
+    @IBAction func manaGemClicked(_ sender: ManaGemButton) {
         let gems = [manaGem0, manaGem1, manaGem2, manaGem3, manaGem4, manaGem5, manaGem6, manaGem7]
 
         if sender.selected {
@@ -307,7 +306,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         } else {
             currentCardCost = sender.tag
             for gem in gems {
-                gem.selected = sender == gem
+                gem?.selected = sender == gem
             }
         }
 
@@ -319,17 +318,17 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         let popupMenu = NSMenu()
         for set in CardSet.deckManagerValidCardSets() {
             let popupMenuItem = NSMenuItem(title:
-                NSLocalizedString(set.rawValue.uppercaseString, comment: ""),
+                NSLocalizedString(set.rawValue.uppercased(), comment: ""),
                                            action: #selector(EditDeck.changeSet(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = set.rawValue
-            popupMenuItem.image = NSImage(named: "Set_\(set.rawValue.uppercaseString)")
+            popupMenuItem.image = NSImage(named: "Set_\(set.rawValue.uppercased())")
             popupMenu.addItem(popupMenuItem)
         }
         sets.menu = popupMenu
     }
 
-    @IBAction func changeSet(sender: NSMenuItem) {
+    @IBAction func changeSet(_ sender: NSMenuItem) {
         if let type = sender.representedObject as? String {
             switch type {
             case "ALL": currentSet = []
@@ -353,13 +352,13 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             let popupMenuItem = NSMenuItem(title: NSLocalizedString(cardType, comment: ""),
                                            action: #selector(EditDeck.changeCardType(_:)),
                                            keyEquivalent: "")
-            popupMenuItem.representedObject = cardType.lowercaseString
+            popupMenuItem.representedObject = cardType.lowercased()
             popupMenu.addItem(popupMenuItem)
         }
         cardType.menu = popupMenu
     }
 
-    @IBAction func changeCardType(sender: NSMenuItem) {
+    @IBAction func changeCardType(_ sender: NSMenuItem) {
         if let type = sender.representedObject as? String {
             switch type {
             case "all_types": currentCardType = .invalid
@@ -390,7 +389,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         races.menu = popupMenu
     }
 
-    @IBAction func changeRace(sender: NSMenuItem) {
+    @IBAction func changeRace(_ sender: NSMenuItem) {
         if let type = sender.representedObject as? String {
             switch type {
             case "all": currentRace = nil
@@ -422,10 +421,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         rarity.menu = popupMenu
     }
 
-    @IBAction func changeRarity(sender: NSMenuItem) {
+    @IBAction func changeRarity(_ sender: NSMenuItem) {
         if let type = sender.representedObject as? String {
             switch type {
-            case "all_rarities": currentRarity = .None
+            case "all_rarities": currentRarity = .none
             default: currentRarity = Rarity(rawValue: type)
             }
         }
@@ -434,7 +433,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     // MARK: - Toolbar actions
-    @IBAction func save(sender: AnyObject?) {
+    @IBAction func save(_ sender: AnyObject?) {
         saveDeck = SaveDeck(windowNibName: "SaveDeck")
         if let saveDeck = saveDeck {
             saveDeck.setDelegate(self)
@@ -443,35 +442,35 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
     }
 
-    @IBAction func cancel(sender: AnyObject?) {
+    @IBAction func cancel(_ sender: AnyObject?) {
         self.window?.performClose(self)
     }
 
-    @IBAction func delete(sender: AnyObject?) {
+    @IBAction func delete(_ sender: AnyObject?) {
         var alert = NSAlert()
-        alert.alertStyle = .Informational
+        alert.alertStyle = .informational
         // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
-        alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-        alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-        alert.beginSheetModalForWindow(self.window!) { (returnCode) in
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        alert.beginSheetModal(for: self.window!, completionHandler: { (returnCode) in
             if returnCode == NSAlertFirstButtonReturn {
-                if let _ = self.currentDeck!.hearthstatsId where HearthstatsAPI.isLogged() {
+                if let _ = self.currentDeck!.hearthstatsId, HearthstatsAPI.isLogged() {
                     if Settings.instance.hearthstatsAutoSynchronize {
                         do {
-                            try HearthstatsAPI.deleteDeck(self.currentDeck!)
+                            try HearthstatsAPI.delete(deck: self.currentDeck!)
                         } catch {}
                     } else {
                         alert = NSAlert()
-                        alert.alertStyle = .Informational
+                        alert.alertStyle = .informational
                         alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
-                        alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                        alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                        alert.beginSheetModalForWindow(self.window!,
+                        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+                        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+                        alert.beginSheetModal(for: self.window!,
                                                        completionHandler: { (response) in
                                                         if response == NSAlertFirstButtonReturn {
                                                             do {
-                                                                try HearthstatsAPI.deleteDeck(self.currentDeck!)
+                                                                try HearthstatsAPI.delete(deck: self.currentDeck!)
                                                             } catch {
                                                                 // TODO alert
                                                                 print("error")
@@ -480,28 +479,28 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                         })
                     }
                 }
-                Decks.instance.remove(self.currentDeck!)
+                Decks.instance.remove(deck: self.currentDeck!)
                 self.isSaved = true
                 self.window?.performClose(self)
             }
-        }
+        }) 
         // swiftlint:enable line_length
     }
 
     // MARK: - Search
-    @IBAction func search(sender: NSSearchField) {
+    @IBAction func search(_ sender: NSSearchField) {
         currentSearchTerm = sender.stringValue
 
         if !currentSearchTerm.isEmpty {
-            classChooser.enabled = false
+            classChooser.isEnabled = false
             reloadCards()
         } else {
             cancelSearch(sender)
         }
     }
 
-    func cancelSearch(sender: AnyObject) {
-        classChooser.enabled = true
+    func cancelSearch(_ sender: AnyObject) {
+        classChooser.isEnabled = true
         searchField.stringValue = ""
         searchField.resignFirstResponder()
         currentSearchTerm = ""
@@ -509,7 +508,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     // MARK: - zoom
-    @IBAction func zoomChange(sender: NSSlider) {
+    @IBAction func zoomChange(_ sender: NSSlider) {
         let settings = Settings.instance
         settings.deckManagerZoom = round(sender.doubleValue)
         (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize
@@ -519,7 +518,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     // MARK: - preferred view
-    @IBAction func changePreferredView(sender: NSSegmentedControl) {
+    @IBAction func changePreferredView(_ sender: NSSegmentedControl) {
         let settings = Settings.instance
         settings.deckManagerPreferCards = sender.selectedSegment == 0
         changeLayout()
@@ -529,30 +528,30 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
 // MARK: - NSWindowDelegate
 extension EditDeck: NSWindowDelegate {
-    func windowDidBecomeMain(notification: NSNotification) {
+    func windowDidBecomeMain(_ notification: Notification) {
         initKeyboardShortcuts()
     }
 
-    func windowDidResignMain(notification: NSNotification) {
+    func windowDidResignMain(_ notification: Notification) {
         removeKeyboardShortcuts()
     }
 
-    func windowShouldClose(sender: AnyObject) -> Bool {
+    func windowShouldClose(_ sender: Any) -> Bool {
         if isSaved {
             delegate?.refreshDecks()
             return true
         }
 
         let alert = NSAlert()
-        alert.alertStyle = .Informational
+        alert.alertStyle = .informational
         // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("Are you sure you want to close this deck ? Your changes will not be saved.", comment: "")
         // swiftlint:enable line_length
-        alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-        alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         if alert.runModal() == NSAlertFirstButtonReturn {
             if let currentDeck = currentDeck {
-                Decks.instance.reset(currentDeck)
+                Decks.instance.reset(deck: currentDeck)
             }
             delegate?.refreshDecks()
             return true
@@ -563,29 +562,48 @@ extension EditDeck: NSWindowDelegate {
 
 // MARK: - NSTableViewDataSource
 extension EditDeck: NSTableViewDataSource {
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return currentDeck!.sortedCards.count
     }
 }
 
 // MARK: - NSTableViewDelegate
 extension EditDeck: NSTableViewDelegate {
-    func tableView(tableView: NSTableView,
-                   viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView,
+                   viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = CardBar.factory()
         cell.playerType = .deckManager
         cell.card = currentDeck!.sortedCards[row]
         return cell
     }
 
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return CGFloat(kRowHeight)
     }
 }
 
 // MARK: - JNWCollectionViewDataSource
 extension EditDeck: JNWCollectionViewDataSource {
-    func collectionView(collectionView: JNWCollectionView!,
+    public func collectionView(_ collectionView: JNWCollectionView!,
+        cellForItemAt indexPath: IndexPath!) -> JNWCollectionViewCell! {
+        let card = currentClassCards[(indexPath as NSIndexPath).jnw_item]
+        let settings = Settings.instance
+
+        if let cell = collectionView.dequeueReusableCell(withIdentifier: "card_cell") as? CardCell {
+            cell.showCard = settings.deckManagerPreferCards
+            cell.set(card: card)
+            var count: Int = 0
+            if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
+                count = deckCard.count
+            }
+            cell.isArena = currentDeck!.isArena
+            cell.set(count: count)
+            return cell
+        }
+        return nil
+    }
+
+    func collectionView(_ collectionView: JNWCollectionView!,
                         numberOfItemsInSection section: Int) -> UInt {
         return UInt(currentClassCards.count)
     }
@@ -596,7 +614,7 @@ extension EditDeck: JNWCollectionViewDelegate {
     func changeLayout() {
         let settings = Settings.instance
 
-        zoom.enabled = settings.deckManagerPreferCards
+        zoom.isEnabled = settings.deckManagerPreferCards
 
         let size: NSSize
         if settings.deckManagerPreferCards {
@@ -609,33 +627,13 @@ extension EditDeck: JNWCollectionViewDelegate {
         (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize = size
     }
 
-    func collectionView(collectionView: JNWCollectionView!,
-                        cellForItemAtIndexPath indexPath: NSIndexPath!) -> JNWCollectionViewCell! {
-
-        let card = currentClassCards[indexPath.jnw_item]
-        let settings = Settings.instance
-
-        if let cell = collectionView.dequeueReusableCellWithIdentifier("card_cell") as? CardCell {
-            cell.showCard = settings.deckManagerPreferCards
-            cell.setCard(card)
-            var count: Int = 0
-            if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
-                count = deckCard.count
-            }
-            cell.isArena = currentDeck!.isArena
-            cell.setCount(count)
-            return cell
-        }
-        return nil
-    }
-
-    func collectionView(collectionView: JNWCollectionView!,
-                        mouseUpInItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(_ collectionView: JNWCollectionView!,
+                        mouseUpInItemAt indexPath: IndexPath!) {
         if currentDeck!.countCards() == 30 {
             return
         }
-        if let cell: CardCell = collectionView.cellForItemAtIndexPath(indexPath) as? CardCell,
-            card = cell.card {
+        if let cell: CardCell = collectionView.cellForItem(at: indexPath) as? CardCell,
+            let card = cell.card {
             addCardToDeck(card)
         }
     }
@@ -660,7 +658,7 @@ extension EditDeck: SaveDeckDelegate {
 
 // MARK: - Health/Damage - NSTextFieldDelegate
 extension EditDeck: NSTextFieldDelegate {
-    override func controlTextDidChange(notification: NSNotification) {
+    override func controlTextDidChange(_ notification: Notification) {
         if let editor = notification.object as? NSTextField {
             if editor == health {
                 if let value = Int(editor.stringValue) {

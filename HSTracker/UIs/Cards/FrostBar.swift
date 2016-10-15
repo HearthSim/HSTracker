@@ -18,7 +18,7 @@ class FrostBar: CardBar {
     }
 
     override func addCardImage() {
-        addCardImage(imageRect.offsetBy(dx: -1, dy: 0), offsetByCountBox: false)
+        addCardImage(rect: imageRect.offsetBy(dx: -1, dy: 0), offsetByCountBox: false)
     }
 
     override func addCountText() {
@@ -26,6 +26,6 @@ class FrostBar: CardBar {
     }
 
     override func addLegendaryIcon() {
-        addLegendaryIcon(boxRect.offsetBy(dx: -1, dy: 0))
+        addLegendaryIcon(rect: boxRect.offsetBy(dx: -1, dy: 0))
     }
 }

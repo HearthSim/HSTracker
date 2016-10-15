@@ -15,7 +15,7 @@ class EntityHelper {
     }
     
     class func getHeroEntity(forPlayer: Bool) -> Entity? {
-        return getHeroEntity(forPlayer,
+        return getHeroEntity(forPlayer: forPlayer,
                              entities: Game.instance.entities,
                              id: Game.instance.player.id)
     }
@@ -25,12 +25,12 @@ class EntityHelper {
         if !forPlayer {
             _id = (_id % 2) + 1
         }
-        let heros = entities.filter { isHero($0.1) }.map { $0.1 }
+        let heros = entities.filter { isHero(entity: $0.1) }.map { $0.1 }
         return heros.first { $0[.controller] == id }
     }
     
     class func isPlayersTurn() -> Bool {
-        return isPlayersTurn(Game.instance.entities)
+        return isPlayersTurn(entities: Game.instance.entities)
     }
     
     class func isPlayersTurn(entities: [Int: Entity]) -> Bool {

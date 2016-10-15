@@ -19,34 +19,34 @@ class BoardDamage: NSWindowController {
         
         attributes
             .font(NSFont(name: "Belwe Bd BT", size: 18))
-            .foregroundColor(NSColor.whiteColor())
+            .foregroundColor(.white)
             .strokeWidth(-1.5)
-            .strokeColor(NSColor.blackColor())
-            .alignment(.Center)
+            .strokeColor(.black)
+            .alignment(.center)
         
         self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
         self.window!.ignoresMouseEvents = true
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
         
-        self.window!.opaque = false
+        self.window!.isOpaque = false
         self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clearColor()
+        self.window!.backgroundColor = NSColor.clear
         
-        NSNotificationCenter.defaultCenter()
+        NotificationCenter.default
             .addObserver(self,
                          selector: #selector(BoardDamage.hearthstoneActive(_:)),
-                         name: "hearthstone_active",
+                         name: NSNotification.Name(rawValue: "hearthstone_active"),
                          object: nil)
         
-        self.window!.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
+        self.window!.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         
         if let panel = self.window as? NSPanel {
-            panel.floatingPanel = true
+            panel.isFloatingPanel = true
         }
         
-        NSWorkspace.sharedWorkspace().notificationCenter
+        NSWorkspace.shared().notificationCenter
             .addObserver(self, selector: #selector(BoardDamage.bringToFront),
-                         name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
+                         name: NSNotification.Name.NSWorkspaceActiveSpaceDidChange, object: nil)
         
         self.window?.orderFront(nil) // must be called after style change
     }
@@ -55,14 +55,14 @@ class BoardDamage: NSWindowController {
         self.window?.orderFront(nil)
     }
     
-    func hearthstoneActive(notification: NSNotification) {
+    func hearthstoneActive(_ notification: Notification) {
         let hs = Hearthstone.instance
         
         let level: Int
         if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
         } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
         }
         self.window!.level = level
     }

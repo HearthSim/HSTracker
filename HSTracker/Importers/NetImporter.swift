@@ -10,7 +10,7 @@ import Foundation
 import Kanna
 import CleanroomLogger
 
-enum NetImporterError: ErrorType {
+enum NetImporterError: Error {
     case invalidUrl, urlNotSupported
 }
 
@@ -34,36 +34,36 @@ extension Importer {
 }
 
 protocol BaseFileImporter {
-    func fileImport(url: NSURL) -> Deck?
+    func fileImport(url: URL) -> Deck?
 }
 
 protocol HttpImporter: Importer {
-    func loadHtml(url: String, completion: HTMLDocument? -> Void)
+    func loadHtml(url: String, completion: @escaping (HTMLDocument?) -> Void)
     func loadDeck(doc: HTMLDocument, url: String) -> Deck?
 }
 
 extension HttpImporter {
-    func loadHtml(url: String, completion: HTMLDocument? -> Void) {
+    func loadHtml(url: String, completion: @escaping (HTMLDocument?) -> Void) {
         Log.info?.message("Fetching \(url)")
 
         let http = Http(url: url)
-        http.html(.get) { doc in
+        http.html(method: .get) { doc in
             completion(doc)
         }
     }
 }
 
 protocol JsonImporter: Importer {
-    func loadDeck(json: AnyObject, url: String) -> Deck?
-    func loadJson(url: String, completion: AnyObject? -> Void)
+    func loadDeck(json: Any, url: String) -> Deck?
+    func loadJson(url: String, completion: @escaping (Any?) -> Void)
 }
 
 extension JsonImporter {
-    func loadJson(url: String, completion: AnyObject? -> Void) {
+    func loadJson(url: String, completion: @escaping (Any?) -> Void) {
         Log.info?.message("Fetching \(url)")
 
         let http = Http(url: url)
-        http.json(.get) { json in
+        http.json(method: .get) { json in
             completion(json)
         }
     }
@@ -81,21 +81,20 @@ final class NetImporter {
         ]
     }
 
-    static func netImport(url: String, completion: Deck? -> Void) throws {
-        guard let _ = NSURL(string: url) else {
+    static func netImport(url: String, completion: @escaping (Deck?) -> Void) throws {
+        guard let _ = URL(string: url) else {
             throw NetImporterError.invalidUrl
         }
 
         for importer in importers {
-            if url.lowercaseString.match(importer.handleUrl) {
-                let realUrl = importer.transformUrl(url)
+            if url.lowercased().match(importer.handleUrl) {
+                let realUrl = importer.transformUrl(url: url)
 
                 if let httpImporter = importer as? HttpImporter {
-                    httpImporter.loadHtml(realUrl, completion: { doc in
+                    httpImporter.loadHtml(url: realUrl, completion: { doc in
                         if let doc = doc,
-                            let deck = httpImporter.loadDeck(doc, url: url)
-                            where deck.isValid() {
-                            Decks.instance.add(deck)
+                            let deck = httpImporter.loadDeck(doc: doc, url: url), deck.isValid() {
+                            Decks.instance.add(deck: deck)
                             completion(deck)
                         } else {
                             completion(nil)
@@ -103,11 +102,10 @@ final class NetImporter {
                     })
 
                 } else if let jsonImporter = importer as? JsonImporter {
-                    jsonImporter.loadJson(realUrl, completion: { json in
+                    jsonImporter.loadJson(url: realUrl, completion: { json in
                         if let json = json,
-                            let deck = jsonImporter.loadDeck(json, url: url)
-                            where deck.isValid() {
-                            Decks.instance.add(deck)
+                            let deck = jsonImporter.loadDeck(json: json, url: url), deck.isValid() {
+                            Decks.instance.add(deck: deck)
                             completion(deck)
                         } else {
                             completion(nil)

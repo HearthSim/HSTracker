@@ -10,14 +10,14 @@ import Foundation
 
 struct Version {
     static let buildName: String = {
-        if let info = NSBundle.mainBundle().infoDictionary {
+        if let info = Bundle.main.infoDictionary {
             let executable = info[kCFBundleExecutableKey as String] as? String ?? "Unknown"
             let bundle = info[kCFBundleIdentifierKey as String] as? String ?? "Unknown"
             let appVersion = info["CFBundleShortVersionString"] as? String ?? "Unknown"
             let appBuild = info[kCFBundleVersionKey as String] as? String ?? "Unknown"
 
             let osNameVersion: String = {
-                let version = NSProcessInfo.processInfo().operatingSystemVersion
+                let version = ProcessInfo.processInfo.operatingSystemVersion
                 let versionString = "\(version.majorVersion)"
                     + ".\(version.minorVersion)"
                     + ".\(version.patchVersion)"

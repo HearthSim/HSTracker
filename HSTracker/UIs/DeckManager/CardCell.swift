@@ -15,14 +15,14 @@ class CardCell: JNWCollectionViewCell {
     var isArena = false
     var cellView: CardBar?
 
-    func setCard(card: Card) {
+    func set(card: Card) {
         _card = card
         if showCard {
             if let cellView = cellView {
                 cellView.removeFromSuperview()
                 self.cellView = nil
             }
-            self.backgroundImage = ImageUtils.cardImage(card)
+            self.backgroundImage = ImageUtils.image(for: card)
         } else {
             if let cellView = cellView {
                 cellView.card = card
@@ -41,7 +41,7 @@ class CardCell: JNWCollectionViewCell {
         return _card
     }
 
-    func setCount(count: Int) {
+    func set(count: Int) {
         var alpha: Float = 1.0
         if !isArena {
             if count == 2 || (count == 1 && _card!.rarity == .legendary) {

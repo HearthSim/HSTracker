@@ -26,7 +26,7 @@ enum TagClass: Int {
 
     init?(rawString: String) {
         for _enum in TagClass.allValues() {
-            if "\(_enum)" == rawString.lowercaseString {
+            if "\(_enum)" == rawString.lowercased() {
                 self = _enum
                 return
             }

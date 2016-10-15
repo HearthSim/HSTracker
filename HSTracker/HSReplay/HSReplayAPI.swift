@@ -12,17 +12,17 @@ import CleanroomLogger
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
 
-    static func getUploadToken(handle: String -> Void) {
+    static func getUploadToken(handle: @escaping (String) -> Void) {
         if let token = Settings.instance.hsReplayUploadToken {
             handle(token)
             return
         }
         let http = Http(url: "\(HSReplay.tokensUrl)/")
-        http.json(.post,
+        http.json(method: .post,
                   parameters: ["api_token": apiKey],
                   headers: ["X-Api-Key": apiKey]) { json in
-                    if let json = json as? [String: AnyObject],
-                        key = json["key"] as? String {
+                    if let json = json as? [String: Any],
+                        let key = json["key"] as? String {
                         Log.info?.message("HSReplay : Obtained new upload-token")
                         Settings.instance.hsReplayUploadToken = key
                         handle(key)
@@ -41,23 +41,23 @@ class HSReplayAPI {
         Log.info?.message("Getting claim url...")
 
         let http = Http(url: HSReplay.claimAccountUrl)
-        http.json(.post,
+        http.json(method: .post,
                   headers: [
                     "X-Api-Key": apiKey,
                     "Authorization": "Token \(token)"]) { json in
-            if let json = json as? [String: AnyObject],
-                url = json["url"] as? String {
+            if let json = json as? [String: Any],
+                let url = json["url"] as? String {
                 Log.info?.message("Opening browser to claim account...")
 
-                let url = NSURL(string: "\(HSReplay.baseUrl)\(url)")
-                NSWorkspace.sharedWorkspace().openURL(url!)
+                let url = URL(string: "\(HSReplay.baseUrl)\(url)")
+                NSWorkspace.shared().open(url!)
             } else {
 
             }
         }
     }
 
-    static func updateAccountStatus(handle: Bool -> ()) {
+    static func updateAccountStatus(handle: @escaping (Bool) -> ()) {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             handle(false)
@@ -66,13 +66,13 @@ class HSReplayAPI {
         Log.info?.message("Checking account status...")
 
         let http = Http(url: "\(HSReplay.tokensUrl)/\(token)/")
-        http.json(.get,
+        http.json(method: .get,
                   headers: [
                     "X-Api-Key": apiKey,
                     "Authorization": "Token \(token)"
         ]) { json in
-            if let json = json as? [String: AnyObject],
-                user = json["user"] as? [String: AnyObject] {
+            if let json = json as? [String: Any],
+                let user = json["user"] as? [String: Any] {
                 if let username = user["username"] as? String {
                     Settings.instance.hsReplayUsername = username
                 }

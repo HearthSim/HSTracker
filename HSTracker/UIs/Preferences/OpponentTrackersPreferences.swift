@@ -42,13 +42,13 @@ class OpponentTrackersPreferences: NSViewController {
         showGraveyard.state = settings.showOpponentGraveyard ? NSOnState : NSOffState
         showGraveyardDetails.state = settings.showOpponentGraveyardDetails ? NSOnState : NSOffState
         if showGraveyard.state == NSOnState {
-            showGraveyardDetails.enabled = true
+            showGraveyardDetails.isEnabled = true
         } else {
-            showGraveyardDetails.enabled = false
+            showGraveyardDetails.isEnabled = false
         }
     }
 
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
 
         if sender == showOpponentTracker {
@@ -76,9 +76,9 @@ class OpponentTrackersPreferences: NSViewController {
         } else if sender == showGraveyard {
             settings.showOpponentGraveyard = showGraveyard.state == NSOnState
             if showGraveyard.state == NSOnState {
-                showGraveyardDetails.enabled = true
+                showGraveyardDetails.isEnabled = true
             } else {
-                showGraveyardDetails.enabled = false
+                showGraveyardDetails.isEnabled = false
             }
         } else if sender == showGraveyardDetails {
             settings.showOpponentGraveyardDetails = showGraveyardDetails.state == NSOnState

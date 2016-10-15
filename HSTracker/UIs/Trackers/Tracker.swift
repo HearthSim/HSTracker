@@ -37,7 +37,7 @@ class Tracker: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        let center = NSNotificationCenter.defaultCenter()
+        let center = NotificationCenter.default
         var observers = [
             "hearthstone_running": #selector(Tracker.hearthstoneRunning(_:)),
             "hearthstone_active": #selector(Tracker.hearthstoneActive(_:)),
@@ -77,7 +77,7 @@ class Tracker: NSWindowController {
         for (name, selector) in observers {
             center.addObserver(self,
                                selector: selector,
-                               name: name,
+                               name: NSNotification.Name(rawValue: name),
                                object: nil)
         }
 
@@ -88,7 +88,7 @@ class Tracker: NSWindowController {
         for option in options {
             center.addObserver(self,
                                selector: #selector(Tracker.trackerOptionsChange(_:)),
-                               name: option,
+                               name: NSNotification.Name(rawValue: option),
                                object: nil)
         }
 
@@ -97,22 +97,22 @@ class Tracker: NSWindowController {
         for name in frames {
             center.addObserver(self,
                                selector: #selector(Tracker.frameOptionsChange(_:)),
-                               name: name,
+                               name: NSNotification.Name(rawValue: name),
                                object: nil)
         }
 
-        self.window!.opaque = false
+        self.window!.isOpaque = false
         self.window!.hasShadow = false
         self.window!.acceptsMouseMovedEvents = true
-        self.window!.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
+        self.window!.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         
         if let panel = self.window as? NSPanel {
-            panel.floatingPanel = true
+            panel.isFloatingPanel = true
         }
         
-        NSWorkspace.sharedWorkspace().notificationCenter
+        NSWorkspace.shared().notificationCenter
             .addObserver(self, selector: #selector(Tracker.bringToFront),
-                         name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
+                         name: NSNotification.Name.NSWorkspaceActiveSpaceDidChange, object: nil)
 
         setWindowSizes()
         _setOpacity()
@@ -133,11 +133,11 @@ class Tracker: NSWindowController {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - Notifications
-    func windowLockedChange(notification: NSNotification) {
+    func windowLockedChange(_ notification: Notification) {
         _windowLockedChange()
     }
     private func _windowLockedChange() {
@@ -157,7 +157,7 @@ class Tracker: NSWindowController {
         }
     }
 
-    func hearthstoneRunning(notification: NSNotification) {
+    func hearthstoneRunning(_ notification: Notification) {
         _hearthstoneRunning()
     }
     private func _hearthstoneRunning() {
@@ -165,41 +165,41 @@ class Tracker: NSWindowController {
 
         let level: Int
         if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.MainMenuWindowLevelKey))-1
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow))-1
         } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
         }
         self.window!.level = level
         
     }
 
-    func hearthstoneActive(notification: NSNotification) {
+    func hearthstoneActive(_ notification: Notification) {
         _windowLockedChange()
         _hearthstoneRunning()
     }
 
-    func trackerOptionsChange(notification: NSNotification) {
+    func trackerOptionsChange(_ notification: Notification) {
         _frameOptionsChange()
     }
 
-    func cardSizeChange(notification: NSNotification) {
+    func cardSizeChange(_ notification: Notification) {
         _frameOptionsChange()
         setWindowSizes()
     }
 
-    func playerOptionFrameChange(notification: NSNotification) {
+    func playerOptionFrameChange(_ notification: Notification) {
         if playerType == .player {
-            Game.instance.updatePlayerTracker(true)
+            Game.instance.updatePlayerTracker(reset: true)
         }
     }
 
-    func opponentOptionFrameChange(notification: NSNotification) {
+    func opponentOptionFrameChange(_ notification: Notification) {
         if playerType == .opponent {
-            Game.instance.updateOpponentTracker(true)
+            Game.instance.updateOpponentTracker(reset: true)
         }
     }
 
-    func autoPositionTrackersChange(notification: NSNotification) {
+    func autoPositionTrackersChange(_ notification: Notification) {
         if Settings.instance.autoPositionTrackers {
             self.autoPosition()
         }
@@ -207,11 +207,11 @@ class Tracker: NSWindowController {
     
     private func autoPosition() {
         if playerType == .player {
-            Game.instance.moveWindow(self,
+            Game.instance.moveWindow(windowController: self,
                                      active: Hearthstone.instance.hearthstoneActive,
                                      frame: SizeHelper.playerTrackerFrame())
         } else if playerType == .opponent {
-            Game.instance.moveWindow(self,
+            Game.instance.moveWindow(windowController: self,
                                      active: Hearthstone.instance.hearthstoneActive,
                                      frame: SizeHelper.opponentTrackerFrame())
         }
@@ -230,10 +230,10 @@ class Tracker: NSWindowController {
 
         self.window!.contentMinSize = NSSize(width: CGFloat(width), height: 400)
         self.window!.contentMaxSize = NSSize(width: CGFloat(width),
-                                             height: NSScreen.mainScreen()!.frame.height)
+                                             height: NSScreen.main()!.frame.height)
     }
 
-    func opacityChange(notification: NSNotification) {
+    func opacityChange(_ notification: Notification) {
         _setOpacity()
     }
     private func _setOpacity() {
@@ -244,11 +244,11 @@ class Tracker: NSWindowController {
                                                alpha: alpha)
     }
 
-    func frameOptionsChange(notification: NSNotification) {
+    func frameOptionsChange(_ notification: Notification) {
         _frameOptionsChange()
     }
 
-    private func _frameOptionsChange() {
+    fileprivate func _frameOptionsChange() {
         if playerType == .player {
             Game.instance.updatePlayerTracker()
         } else if playerType == .opponent {
@@ -273,9 +273,9 @@ class Tracker: NSWindowController {
                 let highlight = existing!.card!.count != card.count
                 existing!.card!.count = card.count
                 existing!.card!.highlightInHand = card.highlightInHand
-                existing!.update(highlight)
+                existing!.update(highlight: highlight)
             } else if existing!.card!.isCreated != card.isCreated {
-                existing!.update(false)
+                existing!.update(highlight: false)
             }
         })
 
@@ -295,23 +295,23 @@ class Tracker: NSWindowController {
                 newAnimated.setDelegate(self)
                 newAnimated.card = newCard
 
-                let index = animatedCards.indexOf(card)!
-                animatedCards.insert(newAnimated, atIndex: index)
-                newAnimated.update(true)
+                let index = animatedCards.index(of: card)!
+                animatedCards.insert(newAnimated, at: index)
+                newAnimated.update(highlight: true)
                 newCards.remove(newCard!)
             }
         }
         for (cardCellView, fadeOut) in toRemove {
-            removeCard(cardCellView, fadeOut: fadeOut)
+            remove(card: cardCellView, fadeOut: fadeOut)
         }
         newCards.forEach({
             let newCard = CardBar.factory()
             newCard.playerType = self.playerType
             newCard.setDelegate(self)
             newCard.card = $0
-            let index = cards.indexOf($0)!
-            animatedCards.insert(newCard, atIndex: index)
-            newCard.fadeIn(!reset)
+            let index = cards.index(of: $0)!
+            animatedCards.insert(newCard, at: index)
+            newCard.fadeIn(highlight: !reset)
         })
 
         updateCountFrames()
@@ -341,40 +341,40 @@ class Tracker: NSWindowController {
         let proxy: Entity?
 
         if playerType == .opponent {
-            cardCounter.hidden = !settings.showOpponentCardCount
-            opponentDrawChance.hidden = !settings.showOpponentDrawChance
-            playerDrawChance.hidden = true
+            cardCounter.isHidden = !settings.showOpponentCardCount
+            opponentDrawChance.isHidden = !settings.showOpponentDrawChance
+            playerDrawChance.isHidden = true
 
             showCthunCounter = WotogCounterHelper.showOpponentCthunCounter
             showSpellCounter = WotogCounterHelper.showOpponentSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showOpponentDeathrattleCounter
             showGraveyard = WotogCounterHelper.showOpponentGraveyard
             proxy = WotogCounterHelper.opponentCthunProxy
-            playerClass.hidden = !settings.showOpponentClassInTracker
-            recordTracker.hidden = true
+            playerClass.isHidden = !settings.showOpponentClassInTracker
+            recordTracker.isHidden = true
         } else {
-            cardCounter.hidden = !settings.showPlayerCardCount
-            opponentDrawChance.hidden = true
-            playerDrawChance.hidden = !settings.showPlayerDrawChance
+            cardCounter.isHidden = !settings.showPlayerCardCount
+            opponentDrawChance.isHidden = true
+            playerDrawChance.isHidden = !settings.showPlayerDrawChance
 
             showCthunCounter = WotogCounterHelper.showPlayerCthunCounter
             showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showPlayerDeathrattleCounter
             showGraveyard = WotogCounterHelper.showPlayerGraveyard
             proxy = WotogCounterHelper.playerCthunProxy
-            playerClass.hidden = !settings.showDeckNameInTracker
-            recordTracker.hidden = !settings.showWinLossRatio
+            playerClass.isHidden = !settings.showDeckNameInTracker
+            recordTracker.isHidden = !settings.showWinLossRatio
         }
-        fatigueTracker.hidden = !(settings.fatigueIndicator && player?.fatigue > 0)
-        graveyardCounter.hidden = !showGraveyard
+        fatigueTracker.isHidden = !(settings.fatigueIndicator && (player?.fatigue ?? 0) > 0)
+        graveyardCounter.isHidden = !showGraveyard
 
-        if let activeDeck = Game.instance.activeDeck where !recordTracker.hidden {
-            recordTracker.message = StatsHelper.getDeckManagerRecordLabel(activeDeck)
+        if let activeDeck = Game.instance.activeDeck, !recordTracker.isHidden {
+            recordTracker.message = StatsHelper.getDeckManagerRecordLabel(deck: activeDeck)
             recordTracker.needsDisplay = true
         } else {
-            recordTracker.hidden = true
+            recordTracker.isHidden = true
         }
-        if let player = player where !fatigueTracker.hidden {
+        if let player = player, !fatigueTracker.isHidden {
             fatigueTracker.message = "\(NSLocalizedString("Fatigue : ", comment: ""))"
                 + "\(player.fatigue)"
             fatigueTracker.needsDisplay = true
@@ -398,7 +398,7 @@ class Tracker: NSWindowController {
         }
 
         wotogCounter.counterStyle = counterStyle
-        wotogCounter.hidden = wotogCounter.counterStyle.contains(.none)
+        wotogCounter.isHidden = wotogCounter.counterStyle.contains(.none)
         wotogCounter.attack = proxy?.attack ?? 6
         wotogCounter.health = proxy?.health ?? 6
         wotogCounter.spell = player?.spellsPlayedCount ?? 0
@@ -439,9 +439,9 @@ class Tracker: NSWindowController {
 
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
-        if !playerClass.hidden && playerType == .opponent {
+        if !playerClass.isHidden && playerType == .opponent {
             if let playerClassId = Game.instance.opponent.playerClassId,
-                playerName = Game.instance.opponent.name {
+                let playerName = Game.instance.opponent.name {
                 
                 offsetFrames += smallFrameHeight
                 
@@ -461,9 +461,9 @@ class Tracker: NSWindowController {
                 hero.frame = NSRect(x: 0, y: 0,
                                     width: windowWidth,
                                     height: smallFrameHeight)
-                hero.update(false)
+                hero.update(highlight: false)
             }
-        } else if !playerClass.hidden && playerType == .player {
+        } else if !playerClass.isHidden && playerType == .player {
             if let activeDeck = Game.instance.activeDeck {
 
                 offsetFrames += smallFrameHeight
@@ -484,16 +484,16 @@ class Tracker: NSWindowController {
                 hero.frame = NSRect(x: 0, y: 0,
                                     width: windowWidth,
                                     height: smallFrameHeight)
-                hero.update(false)
+                hero.update(highlight: false)
             }
         }
-        if !opponentDrawChance.hidden {
+        if !opponentDrawChance.isHidden {
             offsetFrames += bigFrameHeight
         }
-        if !playerDrawChance.hidden {
+        if !playerDrawChance.isHidden {
             offsetFrames += smallFrameHeight
         }
-        if !cardCounter.hidden {
+        if !cardCounter.isHidden {
             offsetFrames += smallFrameHeight
         }
         if showSpellCounter {
@@ -508,10 +508,10 @@ class Tracker: NSWindowController {
         if showGraveyard {
             offsetFrames += smallFrameHeight
         }
-        if !recordTracker.hidden {
+        if !recordTracker.isHidden {
             offsetFrames += smallFrameHeight
         }
-        if !fatigueTracker.hidden {
+        if !fatigueTracker.isHidden {
             offsetFrames += smallFrameHeight
         }
 
@@ -545,18 +545,18 @@ class Tracker: NSWindowController {
         }
 
         y = windowHeight - startHeight - cardViewHeight
-        if !cardCounter.hidden {
+        if !cardCounter.isHidden {
             y -= smallFrameHeight
             cardCounter.frame = NSRect(x: 0, y: y, width: windowWidth, height: smallFrameHeight)
         }
-        if !opponentDrawChance.hidden {
+        if !opponentDrawChance.isHidden {
             y -= bigFrameHeight
             opponentDrawChance.frame = NSRect(x: 0,
                                               y: y,
                                               width: windowWidth,
                                               height: bigFrameHeight)
         }
-        if !playerDrawChance.hidden {
+        if !playerDrawChance.isHidden {
             y -= smallFrameHeight
             playerDrawChance.frame = NSRect(x: 0,
                                             y: y,
@@ -579,7 +579,7 @@ class Tracker: NSWindowController {
             wotogCounter?.frame = NSRect(x: 0, y: y, width: windowWidth, height: height)
             wotogCounter?.needsDisplay = true
         }
-        if !graveyardCounter.hidden {
+        if !graveyardCounter.isHidden {
             y -= smallFrameHeight
             graveyardCounter?.frame = NSRect(x: 0,
                                              y: y,
@@ -593,14 +593,14 @@ class Tracker: NSWindowController {
             graveyardCounter?.cardHeight = cardHeight
             graveyardCounter?.needsDisplay = true
         }
-        if !recordTracker.hidden {
+        if !recordTracker.isHidden {
             y -= smallFrameHeight
             recordTracker.frame = NSRect(x: 0,
                                          y: y,
                                          width: windowWidth,
                                          height: smallFrameHeight)
         }
-        if !fatigueTracker.hidden {
+        if !fatigueTracker.isHidden {
             y -= smallFrameHeight
             fatigueTracker.frame = NSRect(x: 0,
                                          y: y,
@@ -668,12 +668,13 @@ class Tracker: NSWindowController {
         }
     }
 
-    private func removeCard(card: CardBar, fadeOut: Bool) {
+    private func remove(card: CardBar, fadeOut: Bool) {
         if fadeOut {
-            card.fadeOut(card.card!.count > 0)
-            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(600 * Double(NSEC_PER_MSEC)))
-            let queue = dispatch_get_main_queue()
-            dispatch_after(when, queue) {
+            card.fadeOut(highlight: card.card!.count > 0)
+            let when = DispatchTime.now()
+                + Double(Int64(600 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
+            let queue = DispatchQueue.main
+            queue.asyncAfter(deadline: when) {
                 self.animatedCards.remove(card)
             }
         } else {
@@ -681,7 +682,7 @@ class Tracker: NSWindowController {
         }
     }
 
-    private func areEqualForList(c1: Card, _ c2: Card) -> Bool {
+    fileprivate func areEqualForList(_ c1: Card, _ c2: Card) -> Bool {
         return c1.id == c2.id && c1.jousted == c2.jousted && c1.isCreated == c2.isCreated
             && (!Settings.instance.highlightDiscarded || c1.wasDiscarded == c2.wasDiscarded)
     }
@@ -689,12 +690,12 @@ class Tracker: NSWindowController {
 
 // MARK: - NSWindowDelegate
 extension Tracker: NSWindowDelegate {
-    func windowDidResize(notification: NSNotification) {
+    func windowDidResize(_ notification: Notification) {
         _frameOptionsChange()
         onWindowMove()
     }
 
-    func windowDidMove(notification: NSNotification) {
+    func windowDidMove(_ notification: Notification) {
         onWindowMove()
     }
 
@@ -733,8 +734,8 @@ extension Tracker: CardCellHover {
             }
         }
         let frame = [x, y, hoverFrame.width, hoverFrame.height]
-        NSNotificationCenter.defaultCenter()
-            .postNotificationName("show_floating_card",
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: "show_floating_card"),
                                   object: nil,
                                   userInfo: [
                                     "card": card,
@@ -743,6 +744,7 @@ extension Tracker: CardCellHover {
     }
 
     func out(card: Card) {
-        NSNotificationCenter.defaultCenter().postNotificationName("hide_floating_card", object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "hide_floating_card"),
+                                        object: nil)
     }
 }

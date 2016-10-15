@@ -17,11 +17,11 @@ class FloatingCard: NSWindowController {
 
         self.window!.ignoresMouseEvents = true
         self.window!.acceptsMouseMovedEvents = true
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-        self.window!.backgroundColor = NSColor.clearColor()
+        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
+        self.window!.backgroundColor = NSColor.clear
     }
 
-    func setCard(card: Card) {
-        image.image = ImageUtils.cardImage(card)
+    func set(card: Card) {
+        image.image = ImageUtils.image(for: card)
     }
 }

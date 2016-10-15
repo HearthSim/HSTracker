@@ -11,8 +11,8 @@ import Foundation
 //Reusable extensions and utils used in examples
 
 // MARK: - CollectionType
-extension CollectionType {
-    func toArray() -> [Self.Generator.Element] {
+extension Collection {
+    func toArray() -> [Self.Iterator.Element] {
         return self.map { $0 }
     }
 }
@@ -20,7 +20,7 @@ extension CollectionType {
 // MARK: - Array
 extension Array {
 
-    func filteri(fn: (Element, Int) -> Bool) -> [Element] {
+    func filteri(_ fn: (Element, Int) -> Bool) -> [Element] {
         var to = [Element]()
         var i = 0
         for x in self {
@@ -28,12 +28,12 @@ extension Array {
             if fn(t, i) {
                 to.append(t)
             }
-             i += 1
+            i += 1
         }
         return to
     }
 
-    func first(fn: (Element) -> Bool) -> Element? {
+    func first(_ fn: (Element) -> Bool) -> Element? {
         for x in self {
             let t = x as Element
             if fn(t) {
@@ -43,7 +43,7 @@ extension Array {
         return nil
     }
 
-    func first(fn: (Element, Int) -> Bool) -> Element? {
+    func first(_ fn: (Element, Int) -> Bool) -> Element? {
         var i = 0
         for x in self {
             let t = x as Element
@@ -55,15 +55,15 @@ extension Array {
         return nil
     }
 
-    func any(fn: (Element) -> Bool) -> Bool {
+    func any(_ fn: (Element) -> Bool) -> Bool {
         return self.filter(fn).count > 0
     }
 
-    func all(fn: (Element) -> Bool) -> Bool {
+    func all(_ fn: (Element) -> Bool) -> Bool {
         return self.filter(fn).count == self.count
     }
 
-    func expand<TResult>(fn: (Element) -> [TResult]?) -> [TResult] {
+    func expand<TResult>(_ fn: (Element) -> [TResult]?) -> [TResult] {
         var to = [TResult]()
         for x in self {
             if let result = fn(x as Element) {
@@ -75,27 +75,27 @@ extension Array {
         return to
     }
 
-    func take(count: Int) -> [Element] {
+    func take(_ count: Int) -> [Element] {
         var to = [Element]()
         var i = 0
         while i < self.count && i < count {
             to.append(self[i])
-             i += 1
+            i += 1
         }
         return to
     }
 
-    func skip(count: Int) -> [Element] {
+    func skip(_ count: Int) -> [Element] {
         var to = [Element]()
         var i = count
         while i < self.count {
             to.append(self[i])
-             i += 1
+            i += 1
         }
         return to
     }
 
-    func takeWhile(fn: (Element) -> Bool) -> [Element] {
+    func takeWhile(_ fn: (Element) -> Bool) -> [Element] {
         var to = [Element]()
         for x in self {
             let t = x as Element
@@ -108,7 +108,7 @@ extension Array {
         return to
     }
 
-    func skipWhile(fn: (Element) -> Bool) -> [Element] {
+    func skipWhile(_ fn: (Element) -> Bool) -> [Element] {
         var to = [Element]()
         var keepSkipping = true
         for x in self {
@@ -123,7 +123,7 @@ extension Array {
         return to
     }
 
-    func firstWhere(fn: (Element) -> Bool) -> Element? {
+    func firstWhere(_ fn: (Element) -> Bool) -> Element? {
         for x in self {
             if fn(x) {
                 return x
@@ -132,7 +132,7 @@ extension Array {
         return nil
     }
 
-    func firstWhere(fn: (Element) -> Bool, orElse: () -> Element) -> Element {
+    func firstWhere(_ fn: (Element) -> Bool, orElse: () -> Element) -> Element {
         for x in self {
             if fn(x) {
                 return x
@@ -141,8 +141,8 @@ extension Array {
         return orElse()
     }
 
-    func sortBy(fns: ((Element, Element) -> Int) ...) -> [Element] {
-        return self.sort { x, y in
+    func sortBy(_ fns: ((Element, Element) -> Int) ...) -> [Element] {
+        return self.sorted { x, y in
             for f in fns {
                 let r = f(x, y)
                 if r != 0 {
@@ -153,20 +153,20 @@ extension Array {
         }
     }
 
-    func groupBy<Key: Hashable, Item>(fn: (Item) -> Key) -> [Group<Key, Item>] {
+    func groupBy<Key: Hashable, Item>(_ fn: (Item) -> Key) -> [Group<Key, Item>] {
         return self.groupBy(fn, matchWith: nil, valueAs: nil)
     }
 
-    func groupBy<Key: Hashable, Item>(fn: (Item) -> Key, matchWith: ((Key, Key) -> Bool)?) -> [Group<Key, Item>] {
+    func groupBy<Key: Hashable, Item>(_ fn: (Item) -> Key, matchWith: ((Key, Key) -> Bool)?) -> [Group<Key, Item>] {
         return self.groupBy(fn, matchWith: matchWith, valueAs: nil)
     }
 
     func groupBy<Key: Hashable, Item>
-    (
-        fn: (Item) -> Key,
+        (
+        _ fn: (Item) -> Key,
         matchWith: ((Key, Key) -> Bool)?,
-        valueAs: (Item -> Item)?
-    )
+        valueAs: ((Item) -> Item)?
+        )
         -> [Group<Key, Item>] {
             var map = Dictionary<Key, Group<Key, Item>>()
             for x in self {
@@ -196,7 +196,7 @@ extension Array {
             return map.values.map { $0 as Group<Key, Item> }
     }
 
-    func indexOf<T: Equatable>(x: T) -> Int? {
+    func indexOf<T: Equatable>(_ x: T) -> Int? {
         for i in 0 ..< self.count {
             if self[i] as! T == x {
                 return i
@@ -205,7 +205,7 @@ extension Array {
         return nil
     }
 
-    func toDictionary<Key: Hashable, Item>(fn: Item -> Key) -> Dictionary<Key, Item> {
+    func toDictionary<Key: Hashable, Item>(_ fn: (Item) -> Key) -> Dictionary<Key, Item> {
         var to = Dictionary<Key, Item>()
         for x in self {
             let e = x as! Item
@@ -219,19 +219,19 @@ extension Array {
         return self.map { $0 as! T }.reduce(T()) { $0 + $1 }
     }
 
-    func sum<U, T: Addable>(fn: (U) -> T) -> T {
+    func sum<U, T: Addable>(_ fn: (U) -> T) -> T {
         return self.map { fn($0 as! U) }.reduce(T()) { $0 + $1 }
     }
 
-    func minElement<U, T: Reducable>(fn: (U) -> T) -> T {
+    func minElement<U, T: Reducable>(_ fn: (U) -> T) -> T {
         return self.map { fn($0 as! U) }.reduce(T.max()) { $0 < $1 ? $0 : $1 }
     }
 
-    func maxElement<U, T: Reducable>(fn: (U) -> T) -> T {
+    func maxElement<U, T: Reducable>(_ fn: (U) -> T) -> T {
         return self.map { fn($0 as! U) }.reduce(T()) { $0 > $1 ? $0 : $1 }
     }
 
-    func avg<U, T: Averagable>(fn: (U) -> T) -> Double {
+    func avg<U, T: Averagable>(_ fn: (U) -> T) -> Double {
         return self.map { fn($0 as! U) }.reduce(T()) { $0 + $1 } / self.count
     }
 }
@@ -243,7 +243,7 @@ extension Array where Element : Averagable {
 }
 
 protocol Addable {
-    func + (lhs: Self, rhs: Self) -> Self
+    static func + (lhs: Self, rhs: Self) -> Self
     init()
 }
 
@@ -252,18 +252,18 @@ protocol Reducable: Addable, Averagable, Comparable {
 }
 
 protocol Averagable: Addable {
-    func / (lhs: Self, rhs: Int) -> Double
+    static func / (lhs: Self, rhs: Int) -> Double
 }
 
-func distinct<T: Equatable>(this: [T]) -> [T] {
+func distinct<T: Equatable>(_ this: [T]) -> [T] {
     return union(this)
 }
 
-func union<T: Equatable>(arrays: [T] ...) -> [T] {
+func union<T: Equatable>(_ arrays: [T] ...) -> [T] {
     return _union(arrays)
 }
 
-func _union<T: Equatable>(arrays: [[T]]) -> [T] {
+func _union<T: Equatable>(_ arrays: [[T]]) -> [T] {
     var to = [T]()
     for arr in arrays {
         outer: for x in arr {
@@ -279,7 +279,7 @@ func _union<T: Equatable>(arrays: [[T]]) -> [T] {
     return to
 }
 
-func intersection<T: Equatable>(arrays: [T] ...) -> [T] {
+func intersection<T: Equatable>(_ arrays: [T] ...) -> [T] {
     let all: [T] = _union(arrays)
     var to = [T]()
 
@@ -302,7 +302,7 @@ func intersection<T: Equatable>(arrays: [T] ...) -> [T] {
     return to
 }
 
-func difference<T: Equatable>(from: [T], other: [T] ...) -> [T] {
+func difference<T: Equatable>(_ from: [T], other: [T] ...) -> [T] {
     var to = [T]()
     for arr in other {
         for x in from {
@@ -319,7 +319,7 @@ func difference<T: Equatable>(from: [T], other: [T] ...) -> [T] {
 //   while let x = g.next() { .. }
 //
 //Generic classes not supported yet? Crashes XCode
-struct Group<Key, Item> : SequenceType, CustomStringConvertible {
+struct Group<Key, Item> : Sequence, CustomStringConvertible {
     let key: Key
     var items = [Item]()
 
@@ -327,18 +327,18 @@ struct Group<Key, Item> : SequenceType, CustomStringConvertible {
         self.key = key
     }
 
-    mutating func append(item: Item) {
+    mutating func append(_ item: Item) {
         items.append(item)
     }
 
-    func generate() -> IndexingGenerator < [Item] > {
-        return items.generate()
+    func makeIterator() -> IndexingIterator < [Item] > {
+        return items.makeIterator()
     }
 
     var description: String {
         var s = ""
         for x in items {
-            if s.length > 0 {
+            if s.characters.count > 0 {
                 s += ", "
             }
             s += "\(x)"
@@ -347,7 +347,7 @@ struct Group<Key, Item> : SequenceType, CustomStringConvertible {
     }
 }
 
-func join<T, U>(seq: [T], withSeq: [U], match: (T, U) -> Bool) -> [(T, U)] {
+func join<T, U>(_ seq: [T], withSeq: [U], match: (T, U) -> Bool) -> [(T, U)] {
     return seq.expand { (x: T) in
         withSeq
             .filter { y in match(x, y) }
@@ -355,31 +355,31 @@ func join<T, U>(seq: [T], withSeq: [U], match: (T, U) -> Bool) -> [(T, U)] {
     }
 }
 
-func joinGroup<T: Hashable, U>(seq: [T], withSeq: [U], match: (T, U) -> Bool) -> [Group<T, (T, U)>] {
+func joinGroup<T: Hashable, U>(_ seq: [T], withSeq: [U], match: (T, U) -> Bool) -> [Group<T, (T, U)>] {
     return join(seq, withSeq: withSeq, match: match).groupBy { x -> T in
         let (t, _) = x
         return t
     }
 }
 
-func caseInsensitiveComparer(a: String, b: String) -> Bool {
-    return a.uppercaseString.compare(b.uppercaseString) == .OrderedDescending
+func caseInsensitiveComparer(_ a: String, b: String) -> Bool {
+    return a.uppercased().compare(b.uppercased()) == .orderedDescending
 }
 
-func compareIgnoreCase(a: String, _ b: String) -> Int {
-    switch a.uppercaseString.compare(b.uppercaseString) {
-    case .OrderedAscending:
+func compareIgnoreCase(_ a: String, _ b: String) -> Int {
+    switch a.uppercased().compare(b.uppercased()) {
+    case .orderedAscending:
         return 1
-    case .OrderedSame:
+    case .orderedSame:
         return 0
-    case .OrderedDescending:
+    case .orderedDescending:
         return -1
     }
 }
 
 extension LazyMapCollection {
 
-    func map<T, U>(fn: (T) -> (U)) -> [U] {
+    func map<T, U>(_ fn: (T) -> (U)) -> [U] {
         var to = [U]()
         for x in self {
             let e = x as! U
@@ -389,100 +389,8 @@ extension LazyMapCollection {
     }
 }
 
-func compare<T: Comparable>(a: T, _ b: T) -> Int {
+func compare<T: Comparable>(_ a: T, _ b: T) -> Int {
     return a == b
         ? 0
         : a > b ? -1 : 1
 }
-
-// MARK: - Range
-extension Range {
-    func map<T, U>(fn: (T) -> U) -> [U] {
-        var to = [U]()
-        for i in self {
-            to.append(fn(i as! T))
-        }
-        return to
-    }
-}
-// MARK: - String
-extension String {
-    var length: Int { return self.characters.count }
-
-    func contains(s: String) -> Bool {
-        return (self as NSString).containsString(s)
-    }
-
-    func charAt(index: Int) -> String {
-        let c = (self as NSString).characterAtIndex(index)
-        let s = NSString(format: "%c", c)
-        return s as String
-    }
-
-    func trim() -> String {
-        return (self as String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-    }
-}
-
-// MARK: - NSDate
-extension NSDate {
-/*
-    convenience init(dateString: String, format: String = "yyyy-MM-dd") {
-        let fmt = NSDateFormatter()
-        fmt.timeZone = NSTimeZone.defaultTimeZone()
-        fmt.dateFormat = format
-        let d = fmt.dateFromString(dateString)
-        self.init(timeInterval: 0, sinceDate: d!)
-    }
-
-    convenience init(year: Int, month: Int, day: Int) {
-        let c = NSDateComponents()
-        c.year = year
-        c.month = month
-        c.day = day
-
-        let gregorian = NSCalendar(identifier: NSCalendarIdentifierGregorian)
-        let d = gregorian!.dateFromComponents(c)!
-        self.init(timeInterval: 0, sinceDate: d)
-    }
-
-    func components() -> NSDateComponents {
-        let compnents = NSCalendar.currentCalendar().components([.Year, .Month, .Day], fromDate: self)
-        return compnents
-    }
-
-    var year: Int {
-        return components().year
-    }
-    var month: Int {
-        return components().month
-    }
-    var day: Int {
-        return components().day
-    }
-*/
-    func shortDateString() -> String {
-        let fmt = NSDateFormatter()
-        fmt.timeZone = NSTimeZone.defaultTimeZone()
-        fmt.dateFormat = "yyyy-MM-dd"
-        return fmt.stringFromDate(self)
-    }
-}
-/*
-func > (lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == NSComparisonResult.OrderedDescending
-}
-func >= (lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == NSComparisonResult.OrderedDescending
-    || lhs == rhs
-}
-func < (lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == NSComparisonResult.OrderedAscending
-}
-func <= (lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == NSComparisonResult.OrderedAscending
-    || lhs == rhs
-}
-func == (lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == NSComparisonResult.OrderedSame
-}*/

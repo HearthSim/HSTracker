@@ -20,11 +20,11 @@ class DarkBar: CardBar {
     }
 
     override func addFadeOverlay() {
-        addFadeOverlay(_fadeRect, offsetByCountBox: true)
+        addFadeOverlay(rect: _fadeRect, offsetByCountBox: true)
     }
 
     override func addCardImage() {
-        addCardImage(imageRect, offsetByCountBox: true)
+        addCardImage(rect: imageRect, offsetByCountBox: true)
     }
 
     override func addCountText() {

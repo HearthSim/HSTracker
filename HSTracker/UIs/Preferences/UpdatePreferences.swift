@@ -19,13 +19,13 @@ class UpdatePreferences: NSViewController {
         super.viewDidLoad()
         let settings = Settings.instance
         autoDownloadsUpdates.state = settings.automaticallyDownloadsUpdates ? NSOnState : NSOffState
-        releaseChannel.selectItemAtIndex(settings.releaseChannel.rawValue)
+        releaseChannel.selectItem(at: settings.releaseChannel.rawValue)
         if let lastUpdateCheckDate = sparkleUpdater.lastUpdateCheckDate {
             lastUpdate.stringValue = lastUpdateCheckDate.toLocalizedString()
         }
     }
     
-    @IBAction func changeChannel(sender: AnyObject) {
+    @IBAction func changeChannel(_ sender: AnyObject) {
         let settings = Settings.instance
         if let release = ReleaseChannel(rawValue: releaseChannel.indexOfSelectedItem) {
             settings.releaseChannel = release
@@ -34,7 +34,7 @@ class UpdatePreferences: NSViewController {
         }
     }
     
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
         
         if sender == autoDownloadsUpdates {

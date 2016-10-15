@@ -21,13 +21,13 @@ class OpponentDrawChance: TextFrame {
     var handChance1 = 0.0
     var handChance2 = 0.0
 
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
 
-        addImage("opponent-chance-frame.png", rect: frameRect)
-        addDouble(drawChance1, rect: draw1Frame)
-        addDouble(drawChance2, rect: draw2Frame)
-        addDouble(handChance1, rect: hand1Frame)
-        addDouble(handChance2, rect: hand2Frame)
+        add(image: "opponent-chance-frame.png", rect: frameRect)
+        add(double: drawChance1, rect: draw1Frame)
+        add(double: drawChance2, rect: draw2Frame)
+        add(double: handChance1, rect: hand1Frame)
+        add(double: handChance2, rect: hand2Frame)
     }
 }

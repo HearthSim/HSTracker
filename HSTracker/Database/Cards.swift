@@ -13,7 +13,7 @@ final class Cards {
     static let classes: [CardClass] = {
         return [.druid, .hunter, .mage, .paladin, .priest,
             .rogue, .shaman, .warlock, .warrior]
-            .sort { NSLocalizedString($0.rawValue, comment: "")
+            .sorted { NSLocalizedString($0.rawValue, comment: "")
                 < NSLocalizedString($1.rawValue, comment: "") }
     }()
     
@@ -29,10 +29,10 @@ final class Cards {
     static func isHero(cardId: String?) -> Bool {
         guard !String.isNullOrEmpty(cardId) else { return false }
 
-        return hero(byId: cardId!) != .None
+        return hero(byId: cardId!) != .none
     }
 
-    static func by(cardId cardId: String?) -> Card? {
+    static func by(cardId: String?) -> Card? {
         guard !String.isNullOrEmpty(cardId) else { return nil }
 
         if let card = cards.filter({
@@ -66,7 +66,7 @@ final class Cards {
         }
     }
 
-    static func by(name name: String) -> Card? {
+    static func by(name: String) -> Card? {
         if let card = collectible().firstWhere({ $0.name == name }) {
             return card.copy()
         }
@@ -82,8 +82,8 @@ final class Cards {
     
     static func by(englishNameCaseInsensitive name: String) -> Card? {
         if let card = collectible().firstWhere({
-            $0.enName.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame ||
-                $0.name.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame
+            $0.enName.caseInsensitiveCompare(name) == ComparisonResult.orderedSame ||
+                $0.name.caseInsensitiveCompare(name) == ComparisonResult.orderedSame
         }) {
             return card.copy()
         }
@@ -94,9 +94,9 @@ final class Cards {
         return cards.filter { $0.collectible && $0.type != .hero && $0.type != .hero_power }
     }
 
-    static func search(className className: CardClass?, sets: [CardSet] = [],
+    static func search(className: CardClass?, sets: [CardSet] = [],
                                  term: String = "", cost: Int = -1,
-                                 rarity: Rarity? = .None, standardOnly: Bool = false,
+                                 rarity: Rarity? = .none, standardOnly: Bool = false,
                                  damage: Int = -1, health: Int = -1, type: CardType = .invalid,
                                  race: Race?) -> [Card] {
         var cards = collectible()
@@ -106,12 +106,12 @@ final class Cards {
         } else {
             cards = cards.filter { $0.playerClass == className || $0.playerClass == .neutral }
                 .filter {
-                    $0.name.lowercaseString.contains(term.lowercaseString) ||
-                        $0.enName.lowercaseString.contains(term.lowercaseString) ||
-                        $0.text.lowercaseString.contains(term.lowercaseString) ||
-                        $0.rarity.rawValue.contains(term.lowercaseString) ||
-                        $0.type.rawString().lowercaseString.contains(term.lowercaseString) ||
-                        $0.race.rawValue.lowercaseString.contains(term.lowercaseString)
+                    $0.name.lowercased().contains(term.lowercased()) ||
+                        $0.enName.lowercased().contains(term.lowercased()) ||
+                        $0.text.lowercased().contains(term.lowercased()) ||
+                        $0.rarity.rawValue.contains(term.lowercased()) ||
+                        $0.type.rawString().lowercased().contains(term.lowercased()) ||
+                        $0.race.rawValue.lowercased().contains(term.lowercased())
             }
         }
 

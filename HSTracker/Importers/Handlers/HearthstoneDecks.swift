@@ -40,7 +40,7 @@ struct HearthstoneDecks: HttpImporter {
         guard let classNode = doc.at_xpath("//input[@id='classe_nom']"),
             let clazz = classNode["value"],
             let className = HearthstoneDecks.classes[clazz],
-            let playerClass = CardClass(rawValue: className.lowercaseString) else {
+            let playerClass = CardClass(rawValue: className.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
@@ -62,7 +62,7 @@ struct HearthstoneDecks: HttpImporter {
                 let card = Cards.by(cardId: cardId) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         

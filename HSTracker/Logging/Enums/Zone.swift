@@ -23,7 +23,7 @@ enum Zone: Int, WrappableEnum {
 
     init?(rawString: String) {
         for _enum in Zone.allValues() {
-            if "\(_enum)" == rawString.lowercaseString {
+            if "\(_enum)" == rawString.lowercased() {
                 self = _enum
                 return
             }

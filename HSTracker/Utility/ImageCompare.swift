@@ -10,9 +10,9 @@ import Foundation
 import CleanroomLogger
 
 extension NSImage {
-    var CGImage: CGImageRef? {
-        if let imageData = self.TIFFRepresentation,
-            data = CGImageSourceCreateWithData(imageData, nil) {
+    var CGImage: CGImage? {
+        if let imageData = self.tiffRepresentation,
+            let data = CGImageSourceCreateWithData(imageData as CFData, nil) {
             return CGImageSourceCreateImageAtIndex(data, 0, nil)
         }
         return nil
@@ -31,12 +31,13 @@ class ImageCompare {
         var ranks: [Int: Int] = [:]
         for i in 1 ... 25 {
             if let fullImage = NSImage(named: "\(i).bmp"),
-                image = ImageUtilities.resize(fullImage, size: NSSize(width: 24, height: 24)) {
-                ranks[i] = compare(image)
+                let image = ImageUtilities.resize(image: fullImage,
+                                                  size: NSSize(width: 24, height: 24)) {
+                ranks[i] = compare(with: image)
             }
         }
         Log.verbose?.message("detected ranks : \(ranks)")
-        return Array(ranks).sort { $0.1 < $1.1 }.last?.0 ?? -1
+        return Array(ranks).sorted { $0.1 < $1.1 }.last?.0 ?? -1
     }
     
     private func compare(with: NSImage,
@@ -49,25 +50,25 @@ class ImageCompare {
         let numPixels = original.size.width * original.size.height
         let testablePixels = Int(floor(numPixels / 100.0 * percent))
 
-        guard let origProvider = CGImageGetDataProvider(origImage) else { return 0 }
-        let origPixelData = CGDataProviderCopyData(origProvider)
+        guard let origProvider = origImage.dataProvider else { return 0 }
+        let origPixelData = origProvider.data
         let origData: UnsafePointer<UInt8> = CFDataGetBytePtr(origPixelData)
 
-        guard let pixelProvider = CGImageGetDataProvider(withImage) else { return 0 }
-        let withPixelData = CGDataProviderCopyData(pixelProvider)
+        guard let pixelProvider = withImage.dataProvider else { return 0 }
+        let withPixelData = pixelProvider.data
         let withData: UnsafePointer<UInt8> = CFDataGetBytePtr(withPixelData)
         
         for _ in 0 ..< testablePixels {
             let pixelX = Int(arc4random() % UInt32(original.size.width))
             let pixelY = Int(arc4random() % UInt32(original.size.height))
             
-            let origPixelInfo: Int = ((Int(CGImageGetWidth(origImage)) * pixelY) + pixelX) * 4
+            let origPixelInfo: Int = ((Int(origImage.width) * pixelY) + pixelX) * 4
             
             let origRed = CGFloat(origData[origPixelInfo])
             let origGreen = CGFloat(origData[origPixelInfo + 1])
             let origBlue = CGFloat(origData[origPixelInfo + 2])
             
-            let withPixelInfo: Int = ((Int(CGImageGetWidth(withImage)) * pixelY) + pixelX) * 4
+            let withPixelInfo: Int = ((Int(withImage.width) * pixelY) + pixelX) * 4
             
             let withRed = CGFloat(withData[withPixelInfo])
             let withGreen = CGFloat(withData[withPixelInfo + 1])

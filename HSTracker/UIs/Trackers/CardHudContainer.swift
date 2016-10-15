@@ -21,11 +21,11 @@ class CardHudContainer: NSWindowController {
  
         self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
         //self.window!.ignoresMouseEvents = true
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
         
-        self.window!.opaque = false
+        self.window!.isOpaque = false
         self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clearColor()
+        self.window!.backgroundColor = NSColor.clear
         
         for _ in 0 ..< 10 {
             let hud = CardHud()
@@ -35,20 +35,20 @@ class CardHudContainer: NSWindowController {
         }
         initPoints()
         
-        NSNotificationCenter.defaultCenter()
+        NotificationCenter.default
             .addObserver(self,
                          selector: #selector(BoardDamage.hearthstoneActive(_:)),
-                         name: "hearthstone_active",
+                         name: NSNotification.Name(rawValue: "hearthstone_active"),
                          object: nil)
-        self.window!.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
+        self.window!.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         
         if let panel = self.window as? NSPanel {
-            panel.floatingPanel = true
+            panel.isFloatingPanel = true
         }
         
-        NSWorkspace.sharedWorkspace().notificationCenter
+        NSWorkspace.shared().notificationCenter
             .addObserver(self, selector: #selector(CardHudContainer.bringToFront),
-                         name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
+                         name: NSNotification.Name.NSWorkspaceActiveSpaceDidChange, object: nil)
         
         self.window?.orderFront(nil) // must be called after style change
     }
@@ -144,14 +144,14 @@ class CardHudContainer: NSWindowController {
         ]
     }
     
-    func hearthstoneActive(notification: NSNotification) {
+    func hearthstoneActive(_ notification: Notification) {
         let hs = Hearthstone.instance
         
         let level: Int
         if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
         } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
         }
         self.window!.level = level
     }
@@ -164,13 +164,13 @@ class CardHudContainer: NSWindowController {
     }
     
     func update(entities: [Entity], cardCount: Int) {
-        for (i, hud) in huds.enumerate() {
+        for (i, hud) in huds.enumerated() {
             var hide = true
             if let entity = entities.firstWhere({ $0[.zone_position] == i + 1 }) {
                 hud.entity = entity
                 
                 var pos: NSPoint? = nil
-                if let points = positions[cardCount] where points.count > i {
+                if let points = positions[cardCount], points.count > i {
                     pos = points[i]
                     
                     if let pos = pos {

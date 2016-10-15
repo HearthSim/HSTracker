@@ -12,36 +12,36 @@ import CleanroomLogger
 
 struct LogLine: CustomStringConvertible {
     let namespace: LogLineNamespace
-    let time: NSDate
+    let time: Date
     let line: String
     let include: Bool
 
-    static let dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.timeZone = NSTimeZone(name: "UTC")
+    static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(identifier: "UTC")
         return formatter
     }()
 
     init(namespace: LogLineNamespace, line: String, include: Bool = true) {
         self.namespace = namespace
         self.line = line
-        self.time = LogLine.parseTimeAsDate(line)
+        self.time = LogLine.parseTimeAsDate(line: line)
         self.include = include
     }
     
-    static func parseTimeAsDate(line: String) -> NSDate {
-        guard line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 20 else {
-            return NSDate()
+    static func parseTimeAsDate(line: String) -> Date {
+        guard line.lengthOfBytes(using: .utf8) > 20 else {
+            return Date()
         }
         
         guard let fromLine = line.substringWithRange(2, location: 16)
-            .componentsSeparatedByString(" ").first else { return NSDate() }
+            .components(separatedBy: " ").first else { return Date() }
         
-        guard !fromLine.isEmpty else { return NSDate() }
-        let components = fromLine.componentsSeparatedByString(".")
-        guard components.count >= 1 && components.count <= 2 else { return NSDate() }
+        guard !fromLine.isEmpty else { return Date() }
+        let components = fromLine.components(separatedBy: ".")
+        guard components.count >= 1 && components.count <= 2 else { return Date() }
         
-        let dateTime = NSDate(fromString: components[0],
+        let dateTime = Date(fromString: components[0],
                               inFormat: "HH:mm:ss",
                               timeZone: nil)
         var nanoseconds = 0
@@ -51,16 +51,16 @@ struct LogLine: CustomStringConvertible {
             }
         }
         
-        let today = NSDate()
-        if let date = NSDate.NSDateFromYear(year: today.year,
+        let today = Date()
+        if let date = Date.NSDateFromYear(year: today.year,
                                             month: today.month,
                                             day: today.day,
                                             hour: dateTime.hour,
                                             minute: dateTime.minute,
                                             second: dateTime.second,
                                             nanosecond: nanoseconds,
-                                            timeZone: NSTimeZone(name: "UTC")) {
-            if date > NSDate() {
+                                            timeZone: TimeZone(identifier: "UTC")) {
+            if date > Date() {
                 return date.addDays(-1)!
             }
             return date
@@ -69,7 +69,7 @@ struct LogLine: CustomStringConvertible {
     }
     
     static func parseTime(line: String) -> Double {
-        return parseTimeAsDate(line).timeIntervalSince1970
+        return parseTimeAsDate(line: line).timeIntervalSince1970
     }
 
     var description: String {

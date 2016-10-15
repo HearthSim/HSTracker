@@ -21,11 +21,11 @@ class SecretTracker: NSWindowController {
         self.window!.ignoresMouseEvents = true
         self.window!.acceptsMouseMovedEvents = true
 
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
 
-        self.window!.opaque = false
+        self.window!.isOpaque = false
         self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clearColor()
+        self.window!.backgroundColor = NSColor.clear
 
         var width: Double
         let settings = Settings.instance
@@ -40,36 +40,36 @@ class SecretTracker: NSWindowController {
         self.window!.setFrame(NSRect(x: 0, y: 0, width: width, height: 350), display: true)
         self.window!.contentMinSize = NSSize(width: width, height: 350)
         self.window!.contentMaxSize = NSSize(width: width,
-                                             height: Double(NSScreen.mainScreen()!.frame.height))
+                                             height: Double(NSScreen.main()!.frame.height))
 
         table.intercellSpacing = NSSize(width: 0, height: 0)
 
-        table.backgroundColor = NSColor.clearColor()
-        table.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable,
-                                       NSAutoresizingMaskOptions.ViewHeightSizable]
+        table.backgroundColor = NSColor.clear
+        table.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable,
+                                       NSAutoresizingMaskOptions.viewHeightSizable]
 
         table.reloadData()
 
-        NSNotificationCenter.defaultCenter()
+        NotificationCenter.default
             .addObserver(self,
                          selector: #selector(SecretTracker.hearthstoneActive(_:)),
-                         name: "hearthstone_active",
+                         name: NSNotification.Name(rawValue: "hearthstone_active"),
                          object: nil)
-        NSNotificationCenter.defaultCenter()
+        NotificationCenter.default
             .addObserver(self,
                          selector: #selector(SecretTracker.updateTheme(_:)),
-                         name: "theme",
+                         name: NSNotification.Name(rawValue: "theme"),
                          object: nil)
         
-        self.window!.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
+        self.window!.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         
         if let panel = self.window as? NSPanel {
-            panel.floatingPanel = true
+            panel.isFloatingPanel = true
         }
         
-        NSWorkspace.sharedWorkspace().notificationCenter
+        NSWorkspace.shared().notificationCenter
             .addObserver(self, selector: #selector(SecretTracker.bringToFront),
-                         name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
+                         name: NSNotification.Name.NSWorkspaceActiveSpaceDidChange, object: nil)
         
         self.window?.orderFront(nil) // must be called after style change
     }
@@ -79,29 +79,29 @@ class SecretTracker: NSWindowController {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
-    func updateTheme(notification: NSNotification) {
+    func updateTheme(_ notification: Notification) {
         table.reloadData()
     }
 
-    func hearthstoneActive(notification: NSNotification) {
+    func hearthstoneActive(_ notification: Notification) {
         let hs = Hearthstone.instance
 
         let level: Int
         if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
         } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
+            level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
         }
         self.window!.level = level
     }
 
-    func setSecrets(opponentSecrets: OpponentSecrets) {
+    func setSecrets(_ opponentSecrets: OpponentSecrets) {
         cards.removeAll()
         opponentSecrets.getSecrets().forEach({ (secret) in
-            if let card = Cards.by(cardId: secret.cardId) where secret.count > 0 {
+            if let card = Cards.by(cardId: secret.cardId), secret.count > 0 {
                 card.count = secret.count
                 cards.append(card)
             }
@@ -112,15 +112,15 @@ class SecretTracker: NSWindowController {
 
 // MARK: - NSTableViewDataSource
 extension SecretTracker: NSTableViewDataSource {
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return cards.count
     }
 }
 
 // MARK: - NSTableViewDelegate
 extension SecretTracker: NSTableViewDelegate {
-    func tableView(tableView: NSTableView,
-                   viewForTableColumn tableColumn: NSTableColumn?,
+    func tableView(_ tableView: NSTableView,
+                   viewFor tableColumn: NSTableColumn?,
                                       row: Int) -> NSView? {
         let card = cards[row]
         let cell = CardBar.factory()
@@ -134,7 +134,7 @@ extension SecretTracker: NSTableViewDelegate {
         return cell
     }
 
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         switch Settings.instance.cardSize {
         case .tiny: return CGFloat(kTinyRowHeight)
         case .small: return CGFloat(kSmallRowHeight)
@@ -144,7 +144,7 @@ extension SecretTracker: NSTableViewDelegate {
         }
     }
 
-    func selectionShouldChangeInTableView(tableView: NSTableView) -> Bool {
+    func selectionShouldChange(in tableView: NSTableView) -> Bool {
         return false
     }
 }
@@ -152,8 +152,8 @@ extension SecretTracker: NSTableViewDelegate {
 // MARK: - CardCellHover
 extension SecretTracker: CardCellHover {
     func hover(cell: CardBar, card: Card) {
-        let row = table.rowForView(cell)
-        let rect = table.frameOfCellAtColumn(0, row: row)
+        let row = table.row(for: cell)
+        let rect = table.frameOfCell(atColumn: 0, row: row)
 
         let offset = rect.origin.y - table.enclosingScrollView!.documentVisibleRect.origin.y
         let windowRect = self.window!.frame
@@ -178,8 +178,8 @@ extension SecretTracker: CardCellHover {
         }
 
         let frame = [x, y, hoverFrame.width, hoverFrame.height]
-        NSNotificationCenter.defaultCenter()
-            .postNotificationName("show_floating_card",
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: "show_floating_card"),
                                   object: nil,
                                   userInfo: [
                                     "card": card,
@@ -188,7 +188,7 @@ extension SecretTracker: CardCellHover {
     }
 
     func out(card: Card) {
-        NSNotificationCenter.defaultCenter()
-            .postNotificationName("hide_floating_card", object: nil)
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: "hide_floating_card"), object: nil)
     }
 }

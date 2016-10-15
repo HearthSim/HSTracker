@@ -47,16 +47,16 @@ class WotogCounterHelper {
         return Game.instance.opponentEntity?.has(tag: .seen_cthun) ?? false
     }
     static var cthunInDeck: Bool? {
-        return deckContains(CardIds.Collectible.Neutral.Cthun)
+        return deckContains(cardId: CardIds.Collectible.Neutral.Cthun)
     }
     static var yoggInDeck: Bool? {
-        return deckContains(CardIds.Collectible.Neutral.YoggSaronHopesEnd)
+        return deckContains(cardId: CardIds.Collectible.Neutral.YoggSaronHopesEnd)
     }
     static var arcaneGiantInDeck: Bool? {
-        return deckContains(CardIds.Collectible.Neutral.ArcaneGiant)
+        return deckContains(cardId: CardIds.Collectible.Neutral.ArcaneGiant)
     }
     static var nzothInDeck: Bool? {
-        return deckContains(CardIds.Collectible.Neutral.NzothTheCorruptor)
+        return deckContains(cardId: CardIds.Collectible.Neutral.NzothTheCorruptor)
     }
 
     static var showPlayerCthunCounter: Bool {

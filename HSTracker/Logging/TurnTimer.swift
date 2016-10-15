@@ -16,13 +16,13 @@ import CleanroomLogger
     private(set) var playerSeconds: Int = 0
     private(set) var opponentSeconds: Int = 0
     private var turnTime: Int = 75
-    private var timer: NSTimer?
+    private var timer: Timer?
     private var isPlayersTurn: Bool {
         return game?.playerEntity?.has(tag: .current_player) ?? false
     }
     private var game: Game?
 
-    func setPlayer(player: PlayerType) {
+    func set(player: PlayerType) {
         guard let _ = game else {
             seconds = 75
             return
@@ -55,25 +55,25 @@ import CleanroomLogger
         opponentSeconds = 0
         seconds = 75
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue.global().async {
             if game!.playerEntity == nil {
                 Log.verbose?.message("Waiting for player entity")
                 while game!.playerEntity == nil {
-                    NSThread.sleepForTimeInterval(0.1)
+                    Thread.sleep(forTimeInterval: 0.1)
                 }
             }
             if game!.opponentEntity == nil {
                 Log.verbose?.message("Waiting for player entity")
                 while game!.opponentEntity == nil {
-                    NSThread.sleepForTimeInterval(0.1)
+                    Thread.sleep(forTimeInterval: 0.1)
                 }
             }
 
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 if self.timer != nil {
                     self.timer!.invalidate()
                 }
-                self.timer = NSTimer.scheduledTimerWithTimeInterval(1,
+                self.timer = Timer.scheduledTimer(timeInterval: 1,
                     target: self,
                     selector: #selector(TurnTimer.timerTick),
                     userInfo: nil,
@@ -102,8 +102,8 @@ import CleanroomLogger
                 opponentSeconds += 1
             }
         }
-        dispatch_async(dispatch_get_main_queue()) {
-            Game.instance.timerHud?.tick(self.seconds,
+        DispatchQueue.main.async {
+            Game.instance.timerHud?.tick(seconds: self.seconds,
                                          playerSeconds: self.playerSeconds,
                                          opponentSeconds: self.opponentSeconds)
         }

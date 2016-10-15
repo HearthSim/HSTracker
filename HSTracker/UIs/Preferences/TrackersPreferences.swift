@@ -43,21 +43,21 @@ class TrackersPreferences: NSViewController {
         case .big: index = 3
         case .huge: index = 4
         }
-        cardSize.selectItemAtIndex(index)
+        cardSize.selectItem(at: index)
         showTimer.state = settings.showTimer ? NSOnState : NSOffState
         autoPositionTrackers.state = settings.autoPositionTrackers ? NSOnState : NSOffState
         showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
         showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
         showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
-        theme.selectItemAtIndex(themes.indexOf(settings.theme) ?? 0)
+        theme.selectItem(at: themes.index(of: settings.theme) ?? 0)
     }
 
-    @IBAction func sliderChange(sender: AnyObject) {
+    @IBAction func sliderChange(_ sender: AnyObject) {
         let settings = Settings.instance
         settings.trackerOpacity = opacity.doubleValue
     }
 
-    @IBAction func comboboxChange(sender: NSComboBox) {
+    @IBAction func comboboxChange(_ sender: NSComboBox) {
         let settings = Settings.instance
         if sender == cardSize {
             if let value = cardSize.objectValueOfSelectedItem as? String {
@@ -72,11 +72,11 @@ class TrackersPreferences: NSViewController {
                 settings.cardSize = size
             }
         } else if sender == theme {
-            settings.theme = themes[theme.indexOfSelectedItem] ?? "dark"
+            settings.theme = themes[theme.indexOfSelectedItem] 
         }
     }
 
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
 
         if sender == highlightCardsInHand {

@@ -49,8 +49,8 @@ class CurveView: NSView {
         self.needsDisplay = true
     }
 
-    override func drawRect(rect: NSRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: NSRect) {
+        super.draw(rect)
         guard let _ = self.deck else { return }
         if self.counts.isEmpty {
             countCards()
@@ -78,27 +78,27 @@ class CurveView: NSView {
         ]
 
         // get the biggest value
-        let biggest: Int = counts.map({ $0.1.count }).maxElement({ $0 < $1 })!
+        let biggest: Int = counts.map({ $0.1.count }).max(by: { $0 < $1 })!
         // and get a unit based on this value
         let oneUnit = Int(barHeight) / biggest
 
         let attributes = TextAttributes()
-            .alignment(.Center)
+            .alignment(.center)
             .font(NSFont(name: "Belwe Bd BT", size: 20))
-            .foregroundColor(NSColor.whiteColor())
-            .strokeColor(NSColor.blackColor())
+            .foregroundColor(.white)
+            .strokeColor(.black)
             .strokeWidth(-1.5)
         let costAttributes = TextAttributes()
-            .alignment(.Center)
-            .font(NSFont.boldSystemFontOfSize(22))
-            .foregroundColor(NSColor.whiteColor())
-            .strokeColor(NSColor.blackColor())
+            .alignment(.center)
+            .font(NSFont.boldSystemFont(ofSize: 22))
+            .foregroundColor(.white)
+            .strokeColor(.black)
             .strokeWidth(-1.5)
         let countAttributes = TextAttributes()
-            .alignment(.Center)
-            .font(NSFont.boldSystemFontOfSize(22))
-            .foregroundColor(NSColor.whiteColor())
-            .strokeColor(NSColor.blackColor())
+            .alignment(.center)
+            .font(NSFont.boldSystemFont(ofSize: 22))
+            .foregroundColor(.white)
+            .strokeColor(.black)
             .strokeWidth(-1.5)
 
         for count in 0 ... 7 {
@@ -107,9 +107,9 @@ class CurveView: NSView {
             x += padding
 
             if let mana = NSImage(named: "mana") {
-                mana.drawInRect(NSRect(x: x, y: padding, width: manaHeight, height: manaHeight),
-                    fromRect: NSRect.zero,
-                    operation: .SourceOver,
+                mana.draw(in: NSRect(x: x, y: padding, width: manaHeight, height: manaHeight),
+                    from: NSRect.zero,
+                    operation: .sourceOver,
                     fraction: 1.0)
             }
 
@@ -119,14 +119,14 @@ class CurveView: NSView {
             if count == 7 {
                 costX = x - 4
             }
-            cost.drawInRect(NSRect(
+            cost.draw(in: NSRect(
                 x: costX,
                 y: padding + 6,
                 width: manaHeight,
                 height: manaHeight + 2))
             if count == 7 {
                 cost = NSAttributedString(string: "+", attributes: costAttributes)
-                cost.drawInRect(NSRect(
+                cost.draw(in: NSRect(
                     x: x + 5,
                     y: padding + 3,
                     width: manaHeight,
@@ -160,7 +160,7 @@ class CurveView: NSView {
 
                     let path = NSBezierPath(roundedRect: barRect, xRadius: 0, yRadius: 0)
                     if let gradient = NSGradient(colors: colors) {
-                        gradient.drawInBezierPath(path, angle: 270)
+                        gradient.draw(in: path, angle: 270)
                     }
                 }
                 let countCards = NSAttributedString(string: "\(howMany)",
@@ -169,7 +169,7 @@ class CurveView: NSView {
                 let doublePadding: CGFloat = padding * 2
                 let tHowMany: CGFloat = CGFloat(howMany * oneUnit)
                 let currentY: CGFloat = doublePadding + manaHeight + tHowMany - 20
-                countCards.drawInRect(NSRect(x: x, y: currentY, width: barWidth, height: 30))
+                countCards.draw(in: NSRect(x: x, y: currentY, width: barWidth, height: 30))
             }
             x += barWidth
             NSGraphicsContext.restoreGraphicsState()

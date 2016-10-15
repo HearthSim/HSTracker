@@ -24,7 +24,7 @@ struct ArenaHandler {
         if logLine.line.match(HeroRegex) {
             let matches = logLine.line.matches(HeroRegex)
             if let heroID = Cards.hero(byId: matches[1].value) {
-                draft.startDraft(heroID.playerClass)
+                draft.startDraft(for: heroID.playerClass)
             } else {
                 Log.error?.message("Hero didn't match, failing")
             }
@@ -34,7 +34,7 @@ struct ArenaHandler {
             if let match = logLine.line.matches(DeckContainsRegex).first {
                 if let card = Cards.by(cardId: match.value) {
                     Log.verbose?.message("Adding card \(card)")
-                    draft.addCard(card)
+                    draft.add(card: card)
                 }
             }
         }
@@ -43,9 +43,9 @@ struct ArenaHandler {
             if let match = logLine.line.matches(ClientChoosesRegex).first {
                 if let card = Cards.by(cardId: match.value) {
                     Log.verbose?.message("Client selected card \(card)")
-                    draft.addCard(card)
+                    draft.add(card: card)
                 } else if let card = Cards.hero(byId: match.value) {
-                    draft.startDraft(card.playerClass)
+                    draft.startDraft(for: card.playerClass)
                 }
             }
         }

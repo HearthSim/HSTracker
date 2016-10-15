@@ -16,12 +16,12 @@ final class ReplayMaker {
     
     static func replayDir() -> String? {
         guard let appSupport = NSSearchPathForDirectoriesInDomains(
-            .ApplicationSupportDirectory, .UserDomainMask, true).first else { return nil }
+            .applicationSupportDirectory, .userDomainMask, true).first else { return nil }
         
         let path = "\(appSupport)/HSTracker/replays"
         do {
-            try NSFileManager.defaultManager()
-                .createDirectoryAtPath(path,
+            try FileManager.default
+                .createDirectory(atPath: path,
                                        withIntermediateDirectories: true,
                                        attributes: nil)
         } catch {
@@ -36,8 +36,8 @@ final class ReplayMaker {
         
         let tmp = "\(path)/tmp"
         do {
-            try NSFileManager.defaultManager()
-                .createDirectoryAtPath(tmp,
+            try FileManager.default
+                .createDirectory(atPath: tmp,
                                        withIntermediateDirectories: true,
                                        attributes: nil)
         } catch {
@@ -63,7 +63,7 @@ final class ReplayMaker {
             return
         }
 
-        let log = powerLog.sort { $0.time < $1.time }.map { $0.line }
+        let log = powerLog.sorted { $0.time < $1.time }.map { $0.line }
 
         resolveZonePos()
         resolveCardIds()
@@ -81,7 +81,7 @@ final class ReplayMaker {
         
         guard let playerHero = points.last?.data
             .firstWhere({$0[.cardtype] == CardType.hero.rawValue
-                && $0.isControlledBy(player[.controller])
+                && $0.isControlled(by: player[.controller])
             }) else {
                 Log.warning?.message("Replay : playerHero is nil, skipping")
                 return
@@ -89,7 +89,7 @@ final class ReplayMaker {
         
         var opponentHero = points.last?.data
             .firstWhere({$0[.cardtype] == CardType.hero.rawValue &&
-                $0.isControlledBy(opponent[.controller])
+                $0.isControlled(by: opponent[.controller])
             })
         
         if opponentHero == nil {
@@ -105,41 +105,41 @@ final class ReplayMaker {
                 Log.warning?.message("Replay : opponentHero is nil")
                 return
             }
-            resolveOpponentName(Cards.hero(byId: opponentHero!.cardId)?.name)
+            resolve(opponentName: Cards.hero(byId: opponentHero!.cardId)?.name)
         }
         
         if let playerName = player.name,
-            playerHeroName = Cards.hero(byId: playerHero.cardId)?.name,
-            opponentName = opponent.name,
-            opponentHeroName = Cards.hero(byId: opponentHero!.cardId)?.name,
-            path = replayDir(),
-            tmp = tmpReplayDir() {
+            let playerHeroName = Cards.hero(byId: playerHero.cardId)?.name,
+            let opponentName = opponent.name,
+            let opponentHeroName = Cards.hero(byId: opponentHero!.cardId)?.name,
+            let path = replayDir(),
+            let tmp = tmpReplayDir() {
                 
             let output = "\(tmp)/output_log.txt"
             do {
-                try log.joinWithSeparator("\n").writeToFile(output,
+                try log.joined(separator: "\n").write(toFile: output,
                                                             atomically: true,
-                                                            encoding: NSUTF8StringEncoding)
+                                                            encoding: .utf8)
             } catch {
                 Log.error?.message("Can not save powerLog")
                 return
             }
             
-            let filename = "\(path)/\(NSDate().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
+            let filename = "\(path)/\(Date().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
                 + "\(opponentName)(\(opponentHeroName)).hdtreplay"
             
-            SSZipArchive.createZipFileAtPath(filename, withFilesAtPaths: [output])
+            SSZipArchive.createZipFile(atPath: filename, withFilesAtPaths: [output])
             Log.info?.message("Replay saved to \(filename)")
             
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(output)
+                try FileManager.default.removeItem(atPath: output)
             } catch {
                 Log.error?.message("Can not remove tmp files")
             }
         }
     }
 
-    private static func resolveOpponentName(opponentName: String?) {
+    private static func resolve(opponentName: String?) {
         if opponentName == nil {
             return
         }
@@ -169,7 +169,7 @@ final class ReplayMaker {
         // ZONE_POSITION changes happen after draws, meaning drawn card will not appear.
         var handPos = [Int: Int]()
         var boardPos = [Int: Int]()
-        points = points.reverse()
+        points = points.reversed()
         for kp in points {
             if kp.type == .handPos {
                 handPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?[.zone_position]
@@ -217,7 +217,7 @@ final class ReplayMaker {
             }
             for entity in noUniqueZonePos {
                 if occupiedZonePos.contains(entity[.zone_position]) {
-                    if let max = occupiedZonePos.maxElement() {
+                    if let max = occupiedZonePos.max() {
                         let targetPos = max + 1
                         currentEntity![.zone_position] = targetPos
                         occupiedZonePos.append(targetPos)
@@ -231,7 +231,7 @@ final class ReplayMaker {
         var onBoard = [Entity]()
         for kp in points {
             let currentBoard = kp.data
-                .filter { $0.isInZone(.play) && $0.has(tag: .health)
+                .filter { $0.isInZone(zone: .play) && $0.has(tag: .health)
                     && !String.isNullOrEmpty($0.cardId) && !$0.cardId.contains("HERO")
             }
             if onBoard.all({ (e) in
@@ -249,7 +249,7 @@ final class ReplayMaker {
         }
 
         // re-reverse
-        points = points.reverse()
+        points = points.reversed()
     }
 
     private static func removeObsoletePlays() {

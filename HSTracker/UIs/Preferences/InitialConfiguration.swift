@@ -30,31 +30,31 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
         if let path = Hearthstone.findHearthstone() {
             hearthstonePath.stringValue = path
-            hearthstonePath.enabled = false
-            choosePath.enabled = false
+            hearthstonePath.isEnabled = false
+            choosePath.isEnabled = false
         } else {
             checkImage.image = NSImage(named: "error")
 
             let alert = NSAlert()
-            alert.alertStyle = .Critical
+            alert.alertStyle = .critical
             // swiftlint:disable line_length
             alert.messageText = NSLocalizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
             // swiftlint:enable line_length
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.beginSheetModalForWindow(self.window!, completionHandler: nil)
+            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.beginSheetModal(for: self.window!, completionHandler: nil)
         }
     }
 
     // MARK: - Button actions
-    @IBAction func exit(sender: AnyObject) {
-        NSApplication.sharedApplication().terminate(nil)
+    @IBAction func exit(_ sender: AnyObject) {
+        NSApplication.shared().terminate(nil)
     }
 
-    @IBAction func save(sender: AnyObject) {
+    @IBAction func save(_ sender: AnyObject) {
         if hearthstoneLanguage.indexOfSelectedItem < 0
             || hstrackerLanguage.indexOfSelectedItem < 0
             || hearthstonePath.stringValue == "" {
-            saveButton.enabled = false
+            saveButton.isEnabled = false
             return
         }
         let hstracker = Language.hstrackerLanguages[hstrackerLanguage.indexOfSelectedItem]
@@ -65,14 +65,14 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         Settings.instance.hearthstoneLogPath = hearthstonePath.stringValue
 
         if let completionHandler = self.completionHandler {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completionHandler()
             }
         }
         self.window!.close()
     }
 
-    @IBAction func choosePath(sender: AnyObject) {
+    @IBAction func choosePath(_ sender: AnyObject) {
         let openDialog = NSOpenPanel()
         openDialog.delegate = self
         openDialog.canChooseDirectories = false
@@ -81,18 +81,17 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         openDialog.nameFieldStringValue = "Hearthstone.app"
         openDialog.title = NSLocalizedString("Please select your Hearthstone app", comment: "")
         if openDialog.runModal() == NSModalResponseOK {
-            if let url = openDialog.URLs.first {
-                if let path = url.path {
-                    hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
-                    checkImage.image = NSImage(named: "check")
-                }
+            if let url = openDialog.urls.first {
+                let path = url.path
+                hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
+                checkImage.image = NSImage(named: "check")
             }
         }
         checkToEnableSave()
     }
 
     // MARK: - NSComboBoxDataSource methods
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
+    func numberOfItems(in aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
             return Language.hstrackerLanguages.count
         } else if aComboBox == hearthstoneLanguage {
@@ -102,7 +101,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         return 0
     }
 
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject? {
+    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
         var language: String?
         if aComboBox == hstrackerLanguage {
             language = Language.hstrackerLanguages[index]
@@ -111,31 +110,32 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         }
 
         if let language = language {
-            let locale = NSLocale(localeIdentifier: language)
-            return locale.displayNameForKey(NSLocaleIdentifier, value: language)!.capitalizedString
+            let locale = Locale(identifier: language)
+            return (locale as NSLocale).displayName(forKey: NSLocale.Key.identifier,
+                                                    value: language)!.capitalized
         } else {
             return ""
         }
     }
 
-    func comboBoxSelectionDidChange(notification: NSNotification) {
+    func comboBoxSelectionDidChange(_ notification: Notification) {
         checkToEnableSave()
     }
 
     func checkToEnableSave() {
-        saveButton.enabled = (hearthstoneLanguage.indexOfSelectedItem != -1
+        saveButton.isEnabled = (hearthstoneLanguage.indexOfSelectedItem != -1
             && hstrackerLanguage.indexOfSelectedItem != -1
             && hearthstonePath.stringValue != "")
     }
 
     // MARK: - NSOpenSavePanelDelegate
-    func panel(sender: AnyObject, shouldEnableURL url: NSURL) -> Bool {
-        if url.path!.hasSuffix(".app") {
+    func panel(_ sender: Any, shouldEnable url: URL) -> Bool {
+        if url.path.hasSuffix(".app") {
             return url.lastPathComponent == "Hearthstone.app"
         } else {
             var isDir: ObjCBool = false
-            return NSFileManager.defaultManager().fileExistsAtPath(url.path!,
-                isDirectory: &isDir) && isDir
+            return FileManager.default.fileExists(atPath: url.path,
+                isDirectory: &isDir) && isDir.boolValue
         }
     }
 }

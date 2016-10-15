@@ -51,9 +51,9 @@ final class LogReaderManager {
         running = true
         let entryPoint = self.entryPoint()
         for reader in readers {
-            reader.start(self, entryPoint: entryPoint)
+            reader.start(manager: self, entryPoint: entryPoint)
         }
-        gameStatePowerLogReader.start(self, entryPoint: entryPoint)
+        gameStatePowerLogReader.start(manager: self, entryPoint: entryPoint)
     }
 
     func stop() {
@@ -71,9 +71,10 @@ final class LogReaderManager {
         start()
     }
 
-    private func entryPoint() -> NSDate {
-        let powerEntry = powerLog.findEntryPoint(["tag=GOLD_REWARD_STATE", "End Spectator"])
-        let loadingScreenEntry = loadingScreen.findEntryPoint("Gameplay.Start")
+    private func entryPoint() -> Date {
+        let powerEntry = powerLog.findEntryPoint(choices:
+            ["tag=GOLD_REWARD_STATE", "End Spectator"])
+        let loadingScreenEntry = loadingScreen.findEntryPoint(choice: "Gameplay.Start")
 
         Log.verbose?.message("powerEntry : \(powerEntry.millisecondsFormatted) / "
             + "loadingScreenEntry : \(loadingScreenEntry.millisecondsFormatted)")
@@ -86,14 +87,14 @@ final class LogReaderManager {
         
         if line.include {
             switch line.namespace {
-            case .power: powerGameStateHandler.handle(game, logLine: line)
-            case .net: netHandler.handle(game, logLine: line)
-            case .asset: assetHandler.handle(game, logLine: line)
-            case .bob: bobHandler.handle(game, logLine: line)
-            case .rachelle: rachelleHandler.handle(game, logLine: line)
-            case .arena: arenaHandler.handle(game, logLine: line)
-            case .loadingScreen: loadingScreenHandler.handle(game, logLine: line)
-            case .fullScreenFX: fullScreenFxHandler.handle(game, logLine: line)
+            case .power: powerGameStateHandler.handle(game: game, logLine: line)
+            case .net: netHandler.handle(game: game, logLine: line)
+            case .asset: assetHandler.handle(game: game, logLine: line)
+            case .bob: bobHandler.handle(game: game, logLine: line)
+            case .rachelle: rachelleHandler.handle(game: game, logLine: line)
+            case .arena: arenaHandler.handle(game: game, logLine: line)
+            case .loadingScreen: loadingScreenHandler.handle(game: game, logLine: line)
+            case .fullScreenFX: fullScreenFxHandler.handle(game: game, logLine: line)
             default: break
             }
         } else {

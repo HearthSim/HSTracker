@@ -16,14 +16,14 @@ struct MetaTagImporter: HttpImporter {
 
     func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
         let nodes = doc.xpath("//meta")
-        guard let heroId = getMetaProperty(nodes, prop: "x-hearthstone:deck:hero"),
+        guard let heroId = getMetaProperty(nodes: nodes, prop: "x-hearthstone:deck:hero"),
             let playerClass = Cards.hero(byId: heroId)?.playerClass else {
                 Log.error?.message("Class not found")
                 return nil
         }
         Log.verbose?.message("Got class \(playerClass)")
         
-        guard let deckName = getMetaProperty(nodes, prop: "x-hearthstone:deck") else {
+        guard let deckName = getMetaProperty(nodes: nodes, prop: "x-hearthstone:deck") else {
             Log.error?.message("Deck name not found")
             return nil
         }
@@ -31,15 +31,15 @@ struct MetaTagImporter: HttpImporter {
 
         let deck = Deck(playerClass: playerClass, name: deckName)
 
-        guard let cardList = getMetaProperty(nodes, prop: "x-hearthstone:deck:cards")?
-            .componentsSeparatedByString(",") else {
+        guard let cardList = getMetaProperty(nodes: nodes, prop: "x-hearthstone:deck:cards")?
+            .components(separatedBy: ",") else {
                 Log.error?.message("Card list not found")
                 return nil
         }
         for cardId in cardList {
             if let card = Cards.by(cardId: cardId) {
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         return deck

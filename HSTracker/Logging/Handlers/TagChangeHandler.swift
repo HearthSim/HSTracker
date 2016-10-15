@@ -29,8 +29,8 @@ class TagChangeHandler {
     func tagChange(game: Game, rawTag: String, id: Int,
                    rawValue: String, isCreationTag: Bool = false) {
         if let tag = GameTag(rawString: rawTag) {
-            let value = self.parseTag(tag, rawValue: rawValue)
-            tagChange(game, tag: tag, id: id, value: value,
+            let value = self.parseTag(tag: tag, rawValue: rawValue)
+            tagChange(game: game, tag: tag, id: id, value: value,
                       isCreationTag: isCreationTag)
         } else {
             Log.warning?.message("Can't parse \(rawTag) -> \(rawValue)")
@@ -41,7 +41,7 @@ class TagChangeHandler {
                    value: Int, isCreationTag: Bool = false) {
         if game.lastId != id {
             if let proposedKeyPoint = game.proposedKeyPoint {
-                ReplayMaker.generate(proposedKeyPoint.type,
+                ReplayMaker.generate(type: proposedKeyPoint.type,
                                      id: proposedKeyPoint.id,
                                      player: proposedKeyPoint.player, game: game)
                 game.proposedKeyPoint = nil
@@ -53,14 +53,14 @@ class TagChangeHandler {
             game.maxId = id
         }
 
-        if game.entities[id] == .None {
+        if game.entities[id] == .none {
             game.entities[id] = Entity(id: id)
         }
 
         if !game.determinedPlayers {
-            if let entity = game.entities[id]
-                where tag == .controller && entity.isInHand && String.isNullOrEmpty(entity.cardId) {
-                determinePlayers(game, playerId: value)
+            if let entity = game.entities[id],
+                tag == .controller && entity.isInHand && String.isNullOrEmpty(entity.cardId) {
+                determinePlayers(game: game, playerId: value)
             }
         }
 
@@ -72,7 +72,7 @@ class TagChangeHandler {
             if isCreationTag {
                 creationTagActionQueue.append((tag, game, id, value, prevValue))
             } else {
-                tagChangeAction.callAction(game, tag: tag,
+                tagChangeAction.callAction(game: game, tag: tag,
                                            id: id, value: value,
                                            prevValue: prevValue)
             }
@@ -82,7 +82,7 @@ class TagChangeHandler {
     func invokeQueuedActions(game: Game) {
         while creationTagActionQueue.count > 0 {
             let act = creationTagActionQueue.removeFirst()
-            tagChangeAction.callAction(game, tag: act.tag, id: act.id,
+            tagChangeAction.callAction(game: game, tag: act.tag, id: act.id,
                                        value: act.value, prevValue: act.prevValue)
 
             if creationTagActionQueue.all({ $0.id != act.id }) && game.entities[act.id] != nil {
@@ -148,8 +148,8 @@ class TagChangeHandler {
 
     // check if the entity is a raw entity
     func isEntity(rawEntity: String) -> Bool {
-        let entity = parseEntity(rawEntity)
-        let a: [AnyObject?] = [entity.id, entity.zonePos, entity.player,
+        let entity = parseEntity(entity: rawEntity)
+        let a: [Any?] = [entity.id, entity.zonePos, entity.player,
                                entity.name, entity.zone, entity.cardId, entity.type]
         return a.any {$0 != nil}
     }
@@ -188,17 +188,17 @@ class TagChangeHandler {
     func determinePlayers(game: Game, playerId: Int, isOpponentId: Bool = true) {
         if isOpponentId {
             game.entities.map { $0.1 }
-                .firstWhere { $0[.player_id] == 1 }?.setPlayer(playerId != 1)
+                .firstWhere { $0[.player_id] == 1 }?.isPlayer = playerId != 1
             game.entities.map { $0.1 }
-                .firstWhere { $0[.player_id] == 2 }?.setPlayer(playerId == 1)
+                .firstWhere { $0[.player_id] == 2 }?.isPlayer = playerId == 1
 
             game.player.id = playerId % 2 + 1
             game.opponent.id = playerId
         } else {
             game.entities.map { $0.1 }
-                .firstWhere { $0[.player_id] == 1 }?.setPlayer(playerId == 1)
+                .firstWhere { $0[.player_id] == 1 }?.isPlayer = playerId == 1
             game.entities.map { $0.1 }
-                .firstWhere { $0[.player_id] == 2 }?.setPlayer(playerId != 1)
+                .firstWhere { $0[.player_id] == 2 }?.isPlayer = playerId != 1
 
             game.player.id = playerId
             game.opponent.id = playerId % 2 + 1

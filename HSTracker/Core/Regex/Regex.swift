@@ -20,34 +20,35 @@ struct Regex {
         self.expression = expression
     }
 
-    func match(someString: String) -> Bool {
+    func match(_ someString: String) -> Bool {
         do {
             let regularExpression = try NSRegularExpression(pattern: expression, options: [])
             let range = NSRange(location: 0, length: someString.characters.count)
-            let matches = regularExpression.numberOfMatchesInString(someString,
+            let matches = regularExpression.numberOfMatches(in: someString,
                                                                     options: [],
                                                                     range: range)
             return matches > 0
         } catch { return false }
     }
 
-    func matches(someString: String) -> [Match] {
+    func matches(_ someString: String) -> [Match] {
         var matches = [Match]()
         do {
             let regularExpression = try NSRegularExpression(pattern: expression, options: [])
             let range = NSRange(location: 0, length: someString.characters.count)
-            let results = regularExpression.matchesInString(someString,
+            let results = regularExpression.matches(in: someString,
                                                             options: [],
                                                             range: range)
             for result in results {
                 for index in 1 ..< result.numberOfRanges {
-                    let resultRange = result.rangeAtIndex(index)
-                    let startPos = someString.startIndex.advancedBy(resultRange.location)
+                    let resultRange = result.rangeAt(index)
+                    let startPos = someString.characters
+                        .index(someString.startIndex, offsetBy: resultRange.location)
                     let end = resultRange.location + resultRange.length
-                    let endPos = someString.startIndex.advancedBy(end)
+                    let endPos = someString.characters.index(someString.startIndex, offsetBy: end)
                     let range = startPos ..< endPos
 
-                    let value = someString.substringWithRange(range)
+                    let value = someString.substring(with: range)
                     let match = Match(range: range, value: value)
                     matches.append(match)
                 }
@@ -58,19 +59,19 @@ struct Regex {
 }
 
 extension String {
-    func match(pattern: String) -> Bool {
+    func match(_ pattern: String) -> Bool {
         return Regex(expression: pattern).match(self)
     }
 
-    func matches(pattern: String) -> [Match] {
+    func matches(_ pattern: String) -> [Match] {
         return Regex(expression: pattern).matches(self)
     }
 
-    func replace(pattern: String, with: String) -> String {
+    func replace(_ pattern: String, with: String) -> String {
         do {
             let regularExpression = try NSRegularExpression(pattern: pattern, options: [])
             let range = NSRange(location: 0, length: self.characters.count)
-            return regularExpression.stringByReplacingMatchesInString(self,
+            return regularExpression.stringByReplacingMatches(in: self,
                                                                       options: [],
                                                                       range: range,
                                                                       withTemplate: with)

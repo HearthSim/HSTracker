@@ -39,7 +39,7 @@ struct HearthstoneHeroes: HttpImporter {
                 Log.error?.message("Class not found")
                 return nil
         }
-        let clazz = className.lowercaseString.replace("hsicon ", with: "")
+        let clazz = className.lowercased().replace("hsicon ", with: "")
         guard let playerClass = CardClass(rawValue: clazz) else {
             Log.error?.message("Class not found")
             return nil
@@ -55,11 +55,11 @@ struct HearthstoneHeroes: HttpImporter {
                 let englishName = a["data-lang-en"],
                 let card = Cards.by(englishName: englishName),
                 let span = cardNode.at_xpath(".//span[@class='text-muted']"),
-                let text = span.text?.lowercaseString.replace("x", with: ""),
+                let text = span.text?.lowercased().replace("x", with: ""),
                 let count = Int(text) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         

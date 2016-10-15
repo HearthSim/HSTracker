@@ -20,7 +20,7 @@ class OpponentSecrets: CustomStringConvertible {
     }
 
     var displayedClasses: [CardClass] {
-        return secrets.map({ $0.heroClass }).sort { $0.rawValue < $1.rawValue }
+        return secrets.map({ $0.heroClass }).sorted { $0.rawValue < $1.rawValue }
     }
 
     func getIndexOffset(heroClass: CardClass) -> Int {
@@ -30,20 +30,20 @@ class OpponentSecrets: CustomStringConvertible {
 
         case .mage:
             if displayedClasses.contains(.hunter) {
-                return SecretHelper.getMaxSecretCount(.hunter)
+                return SecretHelper.getMaxSecretCount(heroClass: .hunter)
             }
             return 0
 
         case .paladin:
             if displayedClasses.contains(.hunter) && displayedClasses.contains(.mage) {
-                return SecretHelper.getMaxSecretCount(.hunter)
-                    + SecretHelper.getMaxSecretCount(.mage)
+                return SecretHelper.getMaxSecretCount(heroClass: .hunter)
+                    + SecretHelper.getMaxSecretCount(heroClass: .mage)
             }
             if displayedClasses.contains(.hunter) {
-                return SecretHelper.getMaxSecretCount(.hunter)
+                return SecretHelper.getMaxSecretCount(heroClass: .hunter)
             }
             if displayedClasses.contains(.mage) {
-                return SecretHelper.getMaxSecretCount(.mage)
+                return SecretHelper.getMaxSecretCount(heroClass: .mage)
             }
             return 0
 
@@ -60,8 +60,8 @@ class OpponentSecrets: CustomStringConvertible {
     }
 
     func trigger(cardId: String) {
-        if secrets.any({ $0.tryGetSecret(cardId) }) {
-            setZero(cardId)
+        if secrets.any({ $0.tryGetSecret(cardId: cardId) }) {
+            setZero(cardId: cardId)
         } else {
             setMax(cardId)
         }
@@ -71,8 +71,8 @@ class OpponentSecrets: CustomStringConvertible {
                          knownCardId: String? = nil) {
         let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn)
         if let knownCardId = knownCardId {
-            SecretHelper.getSecretIds(heroClass).forEach({
-                helper.trySetSecret($0, active: $0 == knownCardId)
+            SecretHelper.getSecretIds(heroClass: heroClass).forEach({
+                helper.trySetSecret(cardId: $0, active: $0 == knownCardId)
             })
         }
         secrets.append(helper)
@@ -80,7 +80,7 @@ class OpponentSecrets: CustomStringConvertible {
     }
 
     func secretRemoved(id: Int, cardId: String) {
-        if let index = secrets.indexOf({ $0.id == id }) {
+        if let index = secrets.index(where: { $0.id == id }) {
             if index == -1 {
                 Log.warning?.message("Secret with id=\(id), cardId=\(cardId)"
                     + " not found when trying to remove it.")
@@ -100,7 +100,7 @@ class OpponentSecrets: CustomStringConvertible {
             // we need to eliminate older secrets which would have
             // been triggered by the attempted combat
             if CardIds.Secrets.FastCombat.contains(cardId) && attacker != nil && defender != nil {
-                zeroFromAttack(game.entities[proposedAttackerEntityId]!,
+                zeroFromAttack(attacker: game.entities[proposedAttackerEntityId]!,
                                defender: game.entities[proposedDefenderEntityId]!,
                                fastOnly: true,
                                _stopIndex: index)
@@ -123,38 +123,38 @@ class OpponentSecrets: CustomStringConvertible {
         }
 
         if game.opponentMinionCount < 7 {
-            setZeroOlder(CardIds.Secrets.Paladin.NobleSacrifice, stopIndex: stopIndex)
+            setZeroOlder(cardId: CardIds.Secrets.Paladin.NobleSacrifice, stopIndex: stopIndex)
         }
 
         if defender.isHero {
             if !fastOnly {
                 if game.opponentMinionCount < 7 {
-                    setZeroOlder(CardIds.Secrets.Hunter.BearTrap, stopIndex: stopIndex)
+                    setZeroOlder(cardId: CardIds.Secrets.Hunter.BearTrap, stopIndex: stopIndex)
                 }
-                setZeroOlder(CardIds.Secrets.Mage.IceBarrier, stopIndex: stopIndex)
+                setZeroOlder(cardId: CardIds.Secrets.Mage.IceBarrier, stopIndex: stopIndex)
             }
 
-            setZeroOlder(CardIds.Secrets.Hunter.ExplosiveTrap, stopIndex: stopIndex)
+            setZeroOlder(cardId: CardIds.Secrets.Hunter.ExplosiveTrap, stopIndex: stopIndex)
 
             if game.isMinionInPlay {
-                setZeroOlder(CardIds.Secrets.Hunter.Misdirection, stopIndex: stopIndex)
+                setZeroOlder(cardId: CardIds.Secrets.Hunter.Misdirection, stopIndex: stopIndex)
             }
 
             if attacker.isMinion {
-                setZeroOlder(CardIds.Secrets.Mage.Vaporize, stopIndex: stopIndex)
-                setZeroOlder(CardIds.Secrets.Hunter.FreezingTrap, stopIndex: stopIndex)
+                setZeroOlder(cardId: CardIds.Secrets.Mage.Vaporize, stopIndex: stopIndex)
+                setZeroOlder(cardId: CardIds.Secrets.Hunter.FreezingTrap, stopIndex: stopIndex)
             }
         } else {
             if !fastOnly && game.opponentMinionCount < 7 {
-                setZeroOlder(CardIds.Secrets.Hunter.SnakeTrap, stopIndex: stopIndex)
+                setZeroOlder(cardId: CardIds.Secrets.Hunter.SnakeTrap, stopIndex: stopIndex)
             }
 
             if attacker.isMinion {
-                setZeroOlder(CardIds.Secrets.Hunter.FreezingTrap, stopIndex: stopIndex)
+                setZeroOlder(cardId: CardIds.Secrets.Hunter.FreezingTrap, stopIndex: stopIndex)
             }
         }
 
-        Game.instance.showSecrets(true)
+        Game.instance.showSecrets(show: true)
     }
 
     func clearSecrets() {
@@ -162,12 +162,12 @@ class OpponentSecrets: CustomStringConvertible {
         Log.info?.message("Cleared secrets")
     }
 
-    func setMax(cardId: String) {
+    func setMax(_ cardId: String) {
         if String.isNullOrEmpty(cardId) {
             return
         }
         secrets.forEach {
-            $0.trySetSecret(cardId, active: true)
+            $0.trySetSecret(cardId: cardId, active: true)
         }
     }
 
@@ -175,7 +175,7 @@ class OpponentSecrets: CustomStringConvertible {
         if String.isNullOrEmpty(cardId) {
             return
         }
-        setZeroOlder(cardId, stopIndex: secrets.count)
+        setZeroOlder(cardId: cardId, stopIndex: secrets.count)
     }
 
     func setZeroOlder(cardId: String, stopIndex: Int) {
@@ -183,7 +183,7 @@ class OpponentSecrets: CustomStringConvertible {
             return
         }
         for index in 0 ..< stopIndex {
-            secrets[index].trySetSecret(cardId, active: false)
+            secrets[index].trySetSecret(cardId: cardId, active: false)
         }
         if stopIndex > 0 {
             Log.info?.message("Set secret to zero: \(Cards.by(cardId: cardId))")
@@ -192,7 +192,7 @@ class OpponentSecrets: CustomStringConvertible {
 
     func getSecrets() -> [Secret] {
         let returnThis = displayedClasses.expand({
-            SecretHelper.getSecretIds($0).map { Secret(cardId: $0, count: 0) }
+            SecretHelper.getSecretIds(heroClass: $0).map { Secret(cardId: $0, count: 0) }
         })
 
         for secret in secrets {
@@ -207,7 +207,7 @@ class OpponentSecrets: CustomStringConvertible {
     }
 
     func getDefaultSecrets(heroClass: CardClass) -> [Secret] {
-        return SecretHelper.getSecretIds(heroClass).map { Secret(cardId: $0, count: 1) }
+        return SecretHelper.getSecretIds(heroClass: heroClass).map { Secret(cardId: $0, count: 1) }
     }
 
     var description: String {

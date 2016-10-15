@@ -22,7 +22,7 @@ class HearthstatsPreferences: NSViewController {
         synchronizeMatches.state = settings.hearthstatsSynchronizeMatches ? NSOnState : NSOffState
     }
 
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
         if sender == autoSynchronize {
             settings.hearthstatsAutoSynchronize = autoSynchronize.state == NSOnState

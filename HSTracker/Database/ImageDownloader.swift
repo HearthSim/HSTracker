@@ -10,70 +10,74 @@ import Foundation
 import CleanroomLogger
 
 final class ImageDownloader {
-    var semaphore: dispatch_semaphore_t?
+    var semaphore: DispatchSemaphore?
+
+    var images: [String] = []
 
     let removeImages = [
         "5.0.0.12574": ["NEW1_008", "EX1_571", "EX1_166", "CS2_203", "EX1_005",
-            "CS2_084", "CS2_233", "NEW1_019", "EX1_029", "EX1_089", "EX1_620", "NEW1_014"]
+                        "CS2_084", "CS2_233", "NEW1_019", "EX1_029", "EX1_089",
+                        "EX1_620", "NEW1_014"]
     ]
     func deleteImages() {
-        if let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory,
-                                                                 .UserDomainMask, true).first {
+        if let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
+                                                                 .userDomainMask, true).first {
             for (patch, images) in removeImages {
                 let key = "remove_images_\(patch)"
-                if let _ = NSUserDefaults.standardUserDefaults().objectForKey(key) {
+                if let _ = UserDefaults.standard.object(forKey: key) {
                     continue
                 }
 
                 images.forEach {
                     do {
                         let path = "\(destination)/HSTracker/cards/\($0).png"
-                        try NSFileManager.defaultManager().removeItemAtPath(path)
+                        try FileManager.default.removeItem(atPath: path)
                         Log.verbose?.message("Patch \(patch), deleting \($0) image")
                     } catch {}
                 }
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: key)
+                UserDefaults.standard.set(true, forKey: key)
             }
         }
     }
 
-    func downloadImagesIfNeeded(allImages: [String], splashscreen: Splashscreen) {
-        if let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory,
-                                                                 .UserDomainMask, true).first {
+    func downloadImagesIfNeeded(splashscreen: Splashscreen, images: [String]) {
+        if let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
+                                                                 .userDomainMask, true).first {
             do {
                 let path = "\(destination)/HSTracker/cards"
-                try NSFileManager.defaultManager()
-                    .createDirectoryAtPath(path,
-                                           withIntermediateDirectories: true,
-                                           attributes: nil)
+                try FileManager.default
+                    .createDirectory(atPath: path,
+                                     withIntermediateDirectories: true,
+                                     attributes: nil)
             } catch { }
 
-            var images = allImages
+            self.images = images
+
             // check for images already present
-            for image in images {
+            for image in self.images {
                 let path = "\(destination)/HSTracker/cards/\(image).png"
-                if NSFileManager.defaultManager().fileExistsAtPath(path) {
+                if FileManager.default.fileExists(atPath: path) {
                     if NSImage(contentsOfFile: path) != nil {
-                        images.remove(image)
+                        self.images.remove(image)
                     }
                 }
             }
 
-            if images.isEmpty {
+            if self.images.isEmpty {
                 // we already have all images
                 return
             }
 
             if let lang = Settings.instance.hearthstoneLanguage {
-                semaphore = dispatch_semaphore_create(0)
+                semaphore = DispatchSemaphore(value: 0)
                 let total = Double(images.count)
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     splashscreen.display(NSLocalizedString("Downloading images", comment: ""),
                                          total: total)
                 }
 
                 let langs = ["dede", "enus", "eses", "frfr", "ptbr", "ruru", "zhcn"]
-                var locale = lang.lowercaseString
+                var locale = lang.lowercased()
                 if !langs.contains(locale) {
                     switch lang {
                     case "esmx": locale = "eses"
@@ -82,57 +86,57 @@ final class ImageDownloader {
                     }
                 }
 
-                downloadImages(&images, language: locale,
+                downloadImages(language: locale,
                                destination: destination,
                                splashscreen: splashscreen)
             }
             if let semaphore = semaphore {
-                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+                let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
             }
         }
     }
 
-    private func downloadImages(inout images: [String], language: String,
-                                      destination: String, splashscreen: Splashscreen) {
+    fileprivate func downloadImages(language: String,
+                                    destination: String, splashscreen: Splashscreen) {
         if images.isEmpty {
             if let semaphore = semaphore {
-                dispatch_semaphore_signal(semaphore)
+                semaphore.signal()
             }
             return
         }
 
         if let image = images.popLast() {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 splashscreen.increment(String(format:
-                    NSLocalizedString("Downloading %@", comment: ""), "\(image).png"))
+                    NSLocalizedString("Downloading %@.png", comment: ""), image))
             }
 
             let path = "\(destination)/HSTracker/cards/\(image).png"
-            let urlPath = "http://vps208291.ovh.net/cards/\(language)/\(image).png"
-            if let url = NSURL(string: urlPath) {
-                Log.verbose?.message("downloading \(url) to \(path)")
+            let url = URL(string: "http://vps208291.ovh.net/cards/\(language)/\(image).png")!
+            Log.verbose?.message("downloading \(url) to \(path)")
 
-                NSURLSession.sharedSession()
-                    .downloadTaskWithRequest(NSURLRequest(URL: url)) { url, response, error in
-                        if error != nil {
-                            Log.error?.message("download error \(error)")
-                            self.downloadImages(&images, language: language,
-                                                destination: destination,
-                                                splashscreen: splashscreen)
-                            return
-                        }
+            URLSession.shared
+                .downloadTask(with: URLRequest(url: url),
+                              completionHandler: {
+                                (url, response, error) -> Void in
+                                if error != nil {
+                                    Log.error?.message("download error \(error)")
+                                    self.downloadImages(language: language,
+                                                        destination: destination,
+                                                        splashscreen: splashscreen)
+                                    return
+                                }
 
-                        if let url = url {
-                            if let data = NSData(contentsOfURL: url) {
-                                data.writeToFile(path, atomically: true)
-                            }
-                        }
-                        self.downloadImages(&images, language: language,
-                                            destination: destination, splashscreen: splashscreen)
-                    }.resume()
-            } else {
-                Log.error?.message("\(urlPath) is not valid oO")
-            }
+                                if let url = url {
+                                    if let data = try? Data(contentsOf: url) {
+                                        try? data.write(to: URL(fileURLWithPath: path),
+                                                        options: [.atomic])
+                                    }
+                                }
+                                self.downloadImages(language: language,
+                                                    destination: destination,
+                                                    splashscreen: splashscreen)
+                }).resume()
         }
     }
 }

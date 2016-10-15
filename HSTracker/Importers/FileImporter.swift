@@ -11,17 +11,17 @@ import CleanroomLogger
 
 struct FileImporter: BaseFileImporter {
 
-    func fileImport(url: NSURL) -> Deck? {
-        let deckName = url.lastPathComponent?.replace("\\.txt$", with: "")
+    func fileImport(url: URL) -> Deck? {
+        let deckName = url.lastPathComponent.replace("\\.txt$", with: "")
         Log.verbose?.message("Got deck name \(deckName)")
 
         var isArena = false
 
         let fileContent: [String]?
         do {
-            let content = try NSString(contentsOfURL: url, encoding: NSUTF8StringEncoding)
+            let content = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
             fileContent = content
-                .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+                .components(separatedBy: CharacterSet.newlines)
         } catch let error {
             Log.error?.message("\(error)")
             return nil
@@ -59,7 +59,7 @@ struct FileImporter: BaseFileImporter {
                         }
                         card.count = count
                         Log.verbose?.message("Got card \(card)")
-                        deck.addCard(card)
+                        deck.add(card: card)
                     }
                 }
             }

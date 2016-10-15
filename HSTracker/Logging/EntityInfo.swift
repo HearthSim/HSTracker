@@ -58,7 +58,7 @@ extension EntityInfo: CustomStringConvertible {
         var description = "[EntityInfo: "
             + "turn=\(turn)"
 
-        if cardMark != .None {
+        if cardMark != .none {
             description += ", cardMark=\(cardMark)"
         }
         if discarded {
@@ -83,11 +83,11 @@ extension EntityInfo: CustomStringConvertible {
 }
 
 extension EntityInfo: WrapCustomizable {
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
         if ["_entity", "description"].contains(propertyName) {
             return nil
         }
 
-        return propertyName.capitalizedString
+        return propertyName.capitalized
     }
 }
