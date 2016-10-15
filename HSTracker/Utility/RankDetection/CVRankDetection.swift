@@ -27,14 +27,14 @@ class CVRankDetection {
     
     func playerRank() -> Int? {
         if let screenshot = ImageUtilities.screenshotPlayerRank() {
-            return findRank(screenshot, player: .Player)
+            return findRank(screenshot, player: .player)
         }
         return nil
     }
     
     func opponentRank() -> Int? {
         if let screenshot = ImageUtilities.screenshotOpponentRank() {
-            return findRank(screenshot, player: .Opponent)
+            return findRank(screenshot, player: .opponent)
         }
         return nil
     }

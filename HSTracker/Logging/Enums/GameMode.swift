@@ -13,31 +13,31 @@ import Unbox
 import Wrap
 
 enum GameMode: Int, UnboxableEnum, WrappableEnum {
-    case All, //for filtering @ deck stats
-    Ranked,
-    Casual,
-    Arena,
-    Brawl,
-    Friendly,
-    Practice,
-    Spectator,
-    None
+    case all, //for filtering @ deck stats
+    ranked,
+    casual,
+    arena,
+    brawl,
+    friendly,
+    practice,
+    spectator,
+    none
 
     static func unboxFallbackValue() -> GameMode {
-        return .None
+        return .none
     }
     
     var userFacingName: String {
         switch self {
-        case .All:       return NSLocalizedString("mode_all", comment: "")
-        case .Ranked:    return NSLocalizedString("mode_ranked", comment: "")
-        case .Casual:    return NSLocalizedString("mode_casual", comment: "")
-        case .Arena:     return NSLocalizedString("mode_arena", comment: "")
-        case .Brawl:     return NSLocalizedString("mode_brawl", comment: "")
-        case .Friendly:  return NSLocalizedString("mode_friendly", comment: "")
-        case .Practice:  return NSLocalizedString("mode_practice", comment: "")
-        case .Spectator: return NSLocalizedString("mode_spectator", comment: "")
-        case .None:      return NSLocalizedString("mode_none", comment: "")
+        case .all: return NSLocalizedString("mode_all", comment: "")
+        case .ranked: return NSLocalizedString("mode_ranked", comment: "")
+        case .casual: return NSLocalizedString("mode_casual", comment: "")
+        case .arena: return NSLocalizedString("mode_arena", comment: "")
+        case .brawl: return NSLocalizedString("mode_brawl", comment: "")
+        case .friendly: return NSLocalizedString("mode_friendly", comment: "")
+        case .practice: return NSLocalizedString("mode_practice", comment: "")
+        case .spectator: return NSLocalizedString("mode_spectator", comment: "")
+        case .none: return NSLocalizedString("mode_none", comment: "")
         }
     }
 }

@@ -125,35 +125,34 @@ extension Decks {
 }
 
 enum HearthstatsError: ErrorType {
-    case NotLogged,
-    DeckNotSaved
+    case notLogged, deckNotSaved
 }
 
 struct HearthstatsAPI {
     static let gameResults: [Int: GameResult] = [
-        1: .Win,
-        2: .Loss,
-        3: .Draw
+        1: .win,
+        2: .loss,
+        3: .draw
     ]
 
     static let gameModes: [Int: GameMode] = [
-        1: .Arena,
-        2: .Casual,
-        3: .Ranked,
-        4: .None,
-        5: .Friendly
+        1: .arena,
+        2: .casual,
+        3: .ranked,
+        4: .none,
+        5: .friendly
     ]
 
     static let heroes: [Int: CardClass] = [
-        1: .DRUID,
-        2: .HUNTER,
-        3: .MAGE,
-        4: .PALADIN,
-        5: .PRIEST,
-        6: .ROGUE,
-        7: .SHAMAN,
-        8: .WARLOCK,
-        9: .WARRIOR
+        1: .druid,
+        2: .hunter,
+        3: .mage,
+        4: .paladin,
+        5: .priest,
+        6: .rogue,
+        7: .shaman,
+        8: .warlock,
+        9: .warrior
     ]
 
     private static let baseUrl = "http://api.hearthstats.net/api/v3"
@@ -195,7 +194,7 @@ struct HearthstatsAPI {
     static func loadDecks(force: Bool = false,
                           callback: (success: Bool, added: Int) -> ()) throws {
         let settings = Settings.instance
-        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
         if force {
             settings.hearthstatsLastDecksSync = NSDate.distantPast().timeIntervalSince1970
         }
@@ -206,7 +205,7 @@ struct HearthstatsAPI {
     private static func getDecks(unixTime: Double,
                                  callback: (success: Bool, added: Int) -> ()) throws {
         let settings = Settings.instance
-        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
         let http = Http(url: "\(baseUrl)/decks/after_date?auth_token=\(settings.hearthstatsToken!)")
         http.json(.post,
@@ -237,7 +236,7 @@ struct HearthstatsAPI {
 
     static func postDeck(deck: Deck, callback: (success: Bool) -> ()) throws {
         let settings = Settings.instance
-        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
         let http = Http(url: "\(baseUrl)/decks?auth_token=\(settings.hearthstatsToken!)")
         http.json(.post,
@@ -267,7 +266,7 @@ struct HearthstatsAPI {
 
     static func updateDeck(deck: Deck, callback: (success: Bool) -> ()) throws {
         let settings = Settings.instance
-        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
         let http = Http(url: "\(baseUrl)/decks/edit?auth_token=\(settings.hearthstatsToken!)")
         http.json(.post,
@@ -290,7 +289,7 @@ struct HearthstatsAPI {
 
     static func postDeckVersion(deck: Deck, callback: (success: Bool) -> ()) throws {
         let settings = Settings.instance
-        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
         let http = Http(url:
             "\(baseUrl)/decks/create_version?auth_token=\(settings.hearthstatsToken!)")
@@ -314,7 +313,7 @@ struct HearthstatsAPI {
 
     static func deleteDeck(deck: Deck) throws {
         let settings = Settings.instance
-        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
         let http = Http(url: "\(baseUrl)/decks/delete?auth_token=\(settings.hearthstatsToken!)")
         http.json(.post,
@@ -329,7 +328,7 @@ struct HearthstatsAPI {
     // MARK: - matches
     static func getGames(unixTime: Double, callback: (success: Bool) -> ()) throws {
         let settings = Settings.instance
-        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
         let http = Http(url:
             "\(baseUrl)/matches/after_date?auth_token=\(settings.hearthstatsToken!)")
@@ -353,11 +352,11 @@ struct HearthstatsAPI {
     static func postMatch(game: Game, deck: Deck, stat: Statistic) throws {
         let settings = Settings.instance
         guard let hearthstatsToken = settings.hearthstatsToken else {
-            throw HearthstatsError.NotLogged
+            throw HearthstatsError.notLogged
         }
-        guard let hearthstatsId = deck.hearthstatsId else { throw HearthstatsError.DeckNotSaved }
+        guard let hearthstatsId = deck.hearthstatsId else { throw HearthstatsError.deckNotSaved }
         guard let hearthstatsVersionId = deck.hearthstatsVersionId else {
-            throw HearthstatsError.DeckNotSaved
+            throw HearthstatsError.deckNotSaved
         }
 
         let startTime: NSDate
@@ -400,7 +399,7 @@ struct HearthstatsAPI {
     // MARK: - Arena
     
     static func postArenaMatch(game: Game, deck: Deck, stat: Statistic) throws {
-        guard let _ = Settings.instance.hearthstatsToken else { throw HearthstatsError.NotLogged }
+        guard let _ = Settings.instance.hearthstatsToken else { throw HearthstatsError.notLogged }
         
         guard let _ = deck.hearthStatsArenaId else {
             createArenaRun(game, deck: deck, stat: stat)

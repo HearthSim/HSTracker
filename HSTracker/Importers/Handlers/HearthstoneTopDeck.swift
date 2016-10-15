@@ -35,7 +35,7 @@ struct HearthstoneTopDeck: HttpImporter {
             + "//span[contains(@class, 'midlarge')]/span"
         let nodeInfos = doc.xpath(xpath)
         guard let className = nodeInfos[1].text?.trim(),
-            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+            let playerClass = CardClass(rawValue: className.lowercaseString) else {
                 Log.error?.message("Class not found")
                 return nil
         }

@@ -13,38 +13,38 @@ import Foundation
 // swiftlint:disable type_name
 
 enum CardType: Int {
-    case INVALID = 0,
-    GAME = 1,
-    PLAYER = 2,
-    HERO = 3,
-    MINION = 4,
-    SPELL = 5,
-    ENCHANTMENT = 6,
-    WEAPON = 7,
-    ITEM = 8,
-    TOKEN = 9,
-    HERO_POWER = 10
+    case invalid = 0,
+    game = 1,
+    player = 2,
+    hero = 3,
+    minion = 4,
+    spell = 5,
+    enchantment = 6,
+    weapon = 7,
+    item = 8,
+    token = 9,
+    hero_power = 10
 
     init?(rawString: String) {
         for _enum in CardType.allValues() {
-            if "\(_enum)" == rawString {
+            if "\(_enum)" == rawString.lowercaseString {
                 self = _enum
                 return
             }
         }
-        if let value = Int(rawString), _enum = CardType(rawValue: value) {
+        if let value = Int(rawString), let _enum = CardType(rawValue: value) {
             self = _enum
             return
         }
-        self = .INVALID
+        self = .invalid
     }
     
     func rawString() -> String {
-        return "\(self)".lowercaseString.replace("_", with: " ")
+        return "\(self)".replace("_", with: " ")
     }
 
     static func allValues() -> [CardType] {
-        return [.INVALID, .GAME, .PLAYER, .HERO, .MINION, .SPELL,
-                .ENCHANTMENT, .WEAPON, .ITEM, .TOKEN, .HERO_POWER]
+        return [.invalid, .game, .player, .hero, .minion, .spell,
+                .enchantment, .weapon, .item, .token, .hero_power]
     }
 }

@@ -35,9 +35,9 @@ class CurveView: NSView {
             var cardCount = self.counts[cost]
             cardCount!.count += card.count
             switch card.type {
-            case .MINION: cardCount!.minion += card.count
-            case .SPELL: cardCount!.spell += card.count
-            case .WEAPON: cardCount!.weapon += card.count
+            case .minion: cardCount!.minion += card.count
+            case .spell: cardCount!.spell += card.count
+            case .weapon: cardCount!.weapon += card.count
             default: continue
             }
             counts[cost] = cardCount

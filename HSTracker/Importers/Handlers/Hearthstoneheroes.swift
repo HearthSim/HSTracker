@@ -39,7 +39,7 @@ struct HearthstoneHeroes: HttpImporter {
                 Log.error?.message("Class not found")
                 return nil
         }
-        let clazz = className.uppercaseString.replace("HSICON ", with: "")
+        let clazz = className.lowercaseString.replace("hsicon ", with: "")
         guard let playerClass = CardClass(rawValue: clazz) else {
             Log.error?.message("Class not found")
             return nil

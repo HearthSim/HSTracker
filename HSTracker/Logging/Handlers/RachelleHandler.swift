@@ -27,7 +27,7 @@ struct RachelleHandler {
             if let match = logLine.line.matches(CardInCache).first {
                 let cardId: String = match.value
                 if let card = Cards.by(cardId: cardId) {
-                    if game.currentGameMode == .Arena {
+                    if game.currentGameMode == .arena {
                         Log.verbose?.message("Possible arena card draft : \(card) ?")
                     } else {
                         Log.verbose?.message("Possible constructed card draft : \(card) ?")

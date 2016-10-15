@@ -28,7 +28,7 @@ final class ReplayKeyPoint: Equatable {
 
     var turn: Int {
         if let entity = data.first {
-            return entity.getTag(.TURN)
+            return entity.getTag(.turn)
         }
         return 0
     }
@@ -36,14 +36,14 @@ final class ReplayKeyPoint: Equatable {
     func getCardId() -> String? {
         var tag: Int = 0
         if let entity = data.first {
-            tag = entity.getTag(.PROPOSED_ATTACKER)
+            tag = entity.getTag(.proposed_attacker)
         }
-        let id = type == KeyPointType.Attack ? tag : self.id
+        let id = type == .attack ? tag : self.id
         return data.firstWhere { $0.id == id }?.cardId
     }
 
     func getAdditionalInfo() -> String {
-        if type == KeyPointType.Victory || type == KeyPointType.Defeat {
+        if type == .victory || type == .defeat {
             return type.rawValue
         }
         return String.isNullOrEmpty(getCardId()) ? "Entity \(id)"

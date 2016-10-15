@@ -22,26 +22,3 @@ struct ThemeElementInfo {
         self.rect = NSRect(x: x, y: y, width: width, height: height)
     }
 }
-
-enum ThemeElement {
-    case DefaultFrame,
-    CommonFrame,
-    RareFrame,
-    EpicFrame,
-    LegendaryFrame,
-    DefaultGem,
-    CommonGem,
-    RareGem,
-    EpicGem,
-    LegendaryGem,
-    DefaultCountBox,
-    CommonCountBox,
-    RareCountBox,
-    EpicCountBox,
-    LegendaryCountBox,
-    LegendaryIcon,
-    CreatedIcon,
-    DarkOverlay,
-    FadeOverlay,
-    FlashFrame
-}

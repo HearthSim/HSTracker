@@ -13,12 +13,12 @@ import Unbox
 import Wrap
 
 enum GameResult: Int, UnboxableEnum, WrappableEnum {
-    case Unknow = 0,
-    Win,
-    Loss,
-    Draw
+    case unknow = 0,
+    win,
+    loss,
+    draw
 
     static func unboxFallbackValue() -> GameResult {
-        return .Unknow
+        return .unknow
     }
 }

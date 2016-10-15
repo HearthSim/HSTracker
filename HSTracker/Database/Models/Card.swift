@@ -13,18 +13,18 @@ final class Card: Hashable, CustomStringConvertible {
     var id = ""
     var collectible = false
     var cost = 0
-    var faction: Faction = .INVALID
+    var faction: Faction = .invalid
     var flavor = ""
     var health = 0
     var attack = 0
     var name = "unknown"
     var enName = ""
-    var playerClass: CardClass = .NEUTRAL
-    var rarity: Rarity = .Free
+    var playerClass: CardClass = .neutral
+    var rarity: Rarity = .free
     var set: CardSet?
     var text = ""
-    var race: Race = .INVALID
-    var type: CardType = .INVALID
+    var race: Race = .invalid
+    var type: CardType = .invalid
     // var mechanics: Set<CardMechanic>
     var isStandard = false
 

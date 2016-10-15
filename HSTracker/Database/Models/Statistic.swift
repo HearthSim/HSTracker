@@ -11,15 +11,15 @@ import Unbox
 import Wrap
 
 final class Statistic: Unboxable {
-    var gameResult: GameResult = .Unknow
+    var gameResult: GameResult = .unknow
     var hasCoin = false
-    var opponentClass: CardClass = .NEUTRAL
+    var opponentClass: CardClass = .neutral
     var opponentRank: Int?
     var opponentLegendRank: Int?
     var opponentName = ""
     var legendRank: Int?
     var playerRank = 0
-    var playerMode: GameMode = .None
+    var playerMode: GameMode = .none
     var numTurns = 0
     var date: NSDate?
     var cards: [String: Int] = [:]
@@ -41,7 +41,7 @@ final class Statistic: Unboxable {
             self.opponentClass = opponentClass
         } else {
             let opponentClass: String = unboxer.unbox("opponentClass")
-            self.opponentClass = CardClass(rawValue: opponentClass.uppercaseString) ?? .NEUTRAL
+            self.opponentClass = CardClass(rawValue: opponentClass.lowercaseString) ?? .neutral
         }
         
         self.opponentName = unboxer.unbox("opponentName")

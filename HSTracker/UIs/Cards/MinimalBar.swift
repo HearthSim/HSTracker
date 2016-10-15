@@ -57,11 +57,11 @@ class MinimalBar: CardBar {
         guard let card = card else { return NSColor.whiteColor() }
 
         switch card.rarity {
-        case .Rare:
+        case .rare:
             return NSColor(red: 0.1922, green: 0.5255, blue: 0.8706, alpha: 1.0)
-        case .Epic:
+        case .epic:
             return NSColor(red: 0.6784, green: 0.4431, blue: 0.9686, alpha: 1.0)
-        case .Legendary:
+        case .legendary:
             return NSColor(red: 1.0, green: 0.6039, blue: 0.0627, alpha: 1.0)
         default:
             return NSColor.whiteColor()

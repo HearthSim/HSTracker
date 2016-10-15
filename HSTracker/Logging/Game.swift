@@ -11,18 +11,6 @@
 import Foundation
 import CleanroomLogger
 
-struct PlayerTurn: Hashable {
-    let player: PlayerType
-    let turn: Int
-    
-    var hashValue: Int {
-    return player.rawValue.hashValue ^ turn.hashValue
-    }
-}
-func == (lhs: PlayerTurn, rhs: PlayerTurn) -> Bool {
-    return lhs.player == rhs.player && lhs.turn == rhs.turn
-}
-
 class Game {
     // MARK: - vars
     var currentTurn = 0
@@ -34,9 +22,9 @@ class Game {
 
     var player: Player
     var opponent: Player
-    var currentMode: Mode? = .INVALID
-    var previousMode: Mode? = .INVALID
-    var currentGameMode: GameMode = .None
+    var currentMode: Mode? = .invalid
+    var previousMode: Mode? = .invalid
+    var currentGameMode: GameMode = .none
     var entities = [Int: Entity]()
     var tmpEntities = [Entity]()
     var knownCardIds = [Int: String]()
@@ -48,7 +36,7 @@ class Game {
         }
     }
     var gameStartDate: NSDate?
-    var gameResult: GameResult = .Unknow
+    var gameResult: GameResult = .unknow
     var gameEndDate: NSDate?
     var playerTracker: Tracker?
     var opponentTracker: Tracker?
@@ -64,7 +52,7 @@ class Game {
     var currentEntityHasCardId = false
     var playerUsedHeroPower = false
     private var hasCoin = false
-    var currentEntityZone: Zone = .INVALID
+    var currentEntityZone: Zone = .invalid
     var opponentUsedHeroPower = false
     var determinedPlayers = false
     var setupDone = false
@@ -96,7 +84,7 @@ class Game {
     }
 
     var opponentEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.hasTag(GameTag.PLAYER_ID) && !$0.isPlayer }
+        return entities.map { $0.1 }.firstWhere { $0.hasTag(.player_id) && !$0.isPlayer }
     }
 
     var gameEntity: Entity? {
@@ -124,16 +112,16 @@ class Game {
                 && $0.isControlledBy(self.player.id) }.count }
 
     var currentFormat: Format? {
-        if currentGameMode != GameMode.Casual && currentGameMode != GameMode.Ranked {
+        if currentGameMode != .casual && currentGameMode != .ranked {
             return nil
         }
         if let deck = activeDeck where !deck.standardViable() {
-            return .Wild
+            return .wild
         }
         return entities.map { $0.1 }
             .filter { !String.isNullOrEmpty($0.cardId)
                 && !$0.info.created && $0.card.set != nil }
-            .any { CardSet.wildSets().contains($0.card.set!) } ? .Wild : .Standard
+            .any { CardSet.wildSets().contains($0.card.set!) } ? .wild : .standard
     }
 
     static let instance = Game()
@@ -164,14 +152,14 @@ class Game {
         gameStarted = false
         gameEnded = true
         gameStartDate = nil
-        gameResult = .Unknow
+        gameResult = .unknow
         gameEndDate = nil
         lastCardPlayed = nil
         currentEntityId = 0
         currentEntityHasCardId = false
         playerUsedHeroPower = false
         hasCoin = false
-        currentEntityZone = .INVALID
+        currentEntityZone = .invalid
         opponentUsedHeroPower = false
         determinedPlayers = false
         setupDone = false
@@ -245,7 +233,7 @@ class Game {
 
     // MARK: - game state
     func gameStart(timestamp: NSDate) {
-        if currentGameMode == .Practice && !isInMenu && !gameEnded
+        if currentGameMode == .practice && !isInMenu && !gameEnded
             && lastGameStartTimestamp > NSDate.distantPast()
             && timestamp > lastGameStartTimestamp {
             adventureRestart()
@@ -264,7 +252,7 @@ class Game {
 
         Log.info?.message("----- Game Started -----")
 
-        showNotification(.GameStart)
+        showNotification(.gameStart)
         self.updatePlayerTracker(true)
         self.updateOpponentTracker(true)
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -296,7 +284,7 @@ class Game {
         dispatch_after(when, queue) {
             guard !self.gameEnded else { return }
             
-            if self.currentGameMode == .Casual || self.currentGameMode == .Ranked {
+            if self.currentGameMode == .casual || self.currentGameMode == .ranked {
                 if let playerRank = self.rankDetector.playerRank(),
                     opponentRank = self.rankDetector.opponentRank() {
                     self.playerRanks.append(playerRank)
@@ -305,7 +293,7 @@ class Game {
                     // check if player rank is in range "opponent rank - 3 -> opponent rank + 3)
                     if (opponentRank - 3) ... (opponentRank + 3) ~= playerRank {
                         // we can imagine we are on ranked games
-                        self.currentGameMode = .Ranked
+                        self.currentGameMode = .ranked
                     }
                 }
             }
@@ -354,14 +342,14 @@ class Game {
         guard !endGameStats else { return }
         endGameStats = true
         
-        guard currentGameMode != .Practice && currentGameMode != .None else { return }
+        guard currentGameMode != .practice && currentGameMode != .None else { return }
 
         let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         if let _player = _player {
-            hasCoin = !_player.hasTag(.FIRST_PLAYER)
+            hasCoin = !_player.hasTag(.first_player)
         }
 
-        if currentGameMode == .Ranked || currentGameMode == .Casual {
+        if currentGameMode == .ranked || currentGameMode == .casual {
             Log.info?.message("Format: \(currentFormat)")
         }
         
@@ -374,7 +362,7 @@ class Game {
             + "against = \(opponent.name)(\(opponent.playerClass)), "
             + "opponent played : \(opponent.displayRevealedCards) ")
 
-        if currentRank == -1 && currentGameMode == .Ranked {
+        if currentRank == -1 && currentGameMode == .ranked {
             Log.info?.message("rank is -1 and mode is ranked, ignore")
             return
         }
@@ -390,7 +378,7 @@ class Game {
             var note = ""
 
             if Settings.instance.promptNotes
-                && (currentGameMode == .Ranked || currentGameMode == .Casual) {
+                && (currentGameMode == .ranked || currentGameMode == .casual) {
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     let alert = NSAlert()
                     alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
@@ -466,9 +454,9 @@ class Game {
             
             if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
                 do {
-                    if currentGameMode == .Arena {
+                    if currentGameMode == .arena {
                         try HearthstatsAPI.postArenaMatch(self, deck: deck, stat: statistic)
-                    } else if currentGameMode != .Brawl {
+                    } else if currentGameMode != .brawl {
                         try HearthstatsAPI.postMatch(self, deck: deck, stat: statistic)
                     }
                 } catch {
@@ -494,7 +482,7 @@ class Game {
                         HSReplayManager.instance.saveReplay(replayId,
                             deck: self.activeDeck?.name ?? "",
                             against: "\(opponentName) - \(opClass)")
-                        self.showNotification(.HSReplayPush(replayId: replayId))
+                        self.showNotification(.hsReplayPush(replayId: replayId))
                     }
                 }
             }
@@ -506,7 +494,7 @@ class Game {
             return 0
         }
         if let gameEntity = self.gameEntity {
-            return (gameEntity.getTag(.TURN) + 1) / 2
+            return (gameEntity.getTag(.turn) + 1) / 2
         }
         return 0
     }
@@ -515,7 +503,7 @@ class Game {
         guard let opponentEntity = opponentEntity else { return }
         
         if entity.isHero {
-            let player: PlayerType = opponentEntity.isCurrentPlayer ? .Opponent : .Player
+            let player: PlayerType = opponentEntity.isCurrentPlayer ? .opponent : .player
             if lastTurnStart[player.rawValue] >= turn {
                 return
             }
@@ -557,7 +545,7 @@ class Game {
         let player = playerTurn.player
         Log.info?.message("Turn \(playerTurn.turn) start for player \(player) ")
         
-        if player == .Player {
+        if player == .player {
             handleThaurissanCostReduction()
         }
         
@@ -569,11 +557,11 @@ class Game {
             TurnTimer.instance.setPlayer(player)
         }
         
-        if player == .Player && !isInMenu {
-            showNotification(.TurnStart)
+        if player == .player && !isInMenu {
+            showNotification(.turnStart)
         }
         
-        if player == .Player {
+        if player == .player {
             // update opponent tracker in case of end of turn (C'Thun, draw, ...)
             updateOpponentTracker()
         } else {
@@ -589,37 +577,37 @@ class Game {
 
     func win() {
         Log.info?.message("You win ¯\\_(ツ) _ / ¯")
-        gameResult = GameResult.Win
+        gameResult = .win
 
         if hasBeenConceded {
-            showNotification(.OpponentConcede)
+            showNotification(.opponentConcede)
         }
     }
 
     func loss() {
         Log.info?.message("You lose : (")
-        gameResult = GameResult.Loss
+        gameResult = .loss
     }
 
     func tied() {
         Log.info?.message("You lose : ( / game tied: (")
-        gameResult = GameResult.Draw
+        gameResult = .draw
     }
 
     func isMulliganDone() -> Bool {
         let player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
-        let opponent = entities.map { $0.1 }.firstWhere { $0.hasTag(.PLAYER_ID) && !$0.isPlayer }
+        let opponent = entities.map { $0.1 }.firstWhere { $0.hasTag(.player_id) && !$0.isPlayer }
         
         if let player = player, opponent = opponent {
-            return player.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
-                && opponent.getTag(.MULLIGAN_STATE) == Mulligan.DONE.rawValue
+            return player.getTag(.mulligan_state) == Mulligan.done.rawValue
+                && opponent.getTag(.mulligan_state) == Mulligan.done.rawValue
         }
         return false
     }
 
     func handleThaurissanCostReduction() {
         let thaurissans = opponent.board.filter({
-            $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan && !$0.hasTag(.SILENCED)
+            $0.cardId == CardIds.Collectible.Neutral.EmperorThaurissan && !$0.hasTag(.silenced)
         })
         if thaurissans.isEmpty {
             return
@@ -628,7 +616,7 @@ class Game {
         for impFavor in opponent.board
             .filter({ $0.cardId ==
                 CardIds.NonCollectible.Neutral.EmperorThaurissan_ImperialFavorEnchantment }) {
-            if let entity = entities[impFavor.getTag(.ATTACHED)] {
+            if let entity = entities[impFavor.getTag(.attached)] {
                 entity.info.costReduction += thaurissans.count
             }
         }
@@ -651,7 +639,7 @@ class Game {
                                  player: proposedKeyPoint.player, game: self)
             self.proposedKeyPoint = nil
         }
-        ReplayMaker.generate(victory ? .Victory : .Defeat, id: id, player: .Player, game: self)
+        ReplayMaker.generate(victory ? .victory : .defeat, id: id, player: .player, game: self)
     }
 
     // MARK: - player
@@ -698,10 +686,10 @@ class Game {
         
         player.play(entity, turn: turn)
         if let cardId = cardId where !cardId.isEmpty {
-            playedCards.append(PlayedCard(player: .Player, cardId: cardId, turn: turn))
+            playedCards.append(PlayedCard(player: .player, cardId: cardId, turn: turn))
         }
         
-        if entity.hasTag(.RITUAL) {
+        if entity.hasTag(.ritual) {
             // if this entity has the RITUAL tag, it will trigger some C'Thun change
             // we wait 300ms so the proxy have the time to be updated
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
@@ -732,9 +720,9 @@ class Game {
                     guard let strongSelf = self else { return }
                     
                     // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
-                    if entity.hasTag(.CARD_TARGET)
-                        && strongSelf.entities[entity.getTag(.CARD_TARGET)] != nil
-                        && strongSelf.entities[entity.getTag(.CARD_TARGET)]!.isMinion {
+                    if entity.hasTag(.card_target)
+                        && strongSelf.entities[entity.getTag(.card_target)] != nil
+                        && strongSelf.entities[entity.getTag(.card_target)]!.isMinion {
                         strongSelf.opponentSecrets?.setZero(CardIds.Secrets.Mage.Spellbender)
                     }
                     strongSelf.opponentSecrets?.setZero(CardIds.Secrets.Hunter.CatTrick)
@@ -761,9 +749,9 @@ class Game {
         }
 
         switch fromZone {
-        case .DECK:
+        case .deck:
             player.secretPlayedFromDeck(entity, turn: turn)
-        case Zone.HAND:
+        case .hand:
             player.secretPlayedFromHand(entity, turn: turn)
             secretsOnPlay(entity)
         default:
@@ -840,9 +828,9 @@ class Game {
 
         if entity.isSecret {
             var heroClass: CardClass?
-            var className = "\(entity.getTag(.CLASS)) "
+            var className = "\(entity.getTag(.tag_class)) "
             if !String.isNullOrEmpty(className) {
-                className = className.uppercaseString
+                className = className.lowercaseString
                 heroClass = CardClass(rawValue: className)
                 if heroClass == .None {
                     if let playerClass = opponent.playerClass {
@@ -897,7 +885,7 @@ class Game {
     }
 
     func opponentGet(entity: Entity, turn: Int, id: Int) {
-        if !isMulliganDone() && entity.getTag(.ZONE_POSITION) == 5 {
+        if !isMulliganDone() && entity.getTag(.zone_position) == 5 {
             entity.cardId = CardIds.NonCollectible.Neutral.TheCoin
         }
 
@@ -922,10 +910,10 @@ class Game {
         opponent.play(entity, turn: turn)
         
         if let cardId = cardId where !cardId.isEmpty {
-            playedCards.append(PlayedCard(player: .Opponent, cardId: cardId, turn: turn))
+            playedCards.append(PlayedCard(player: .opponent, cardId: cardId, turn: turn))
         }
         
-        if entity.hasTag(.RITUAL) {
+        if entity.hasTag(.ritual) {
             // if this entity has the RITUAL tag, it will trigger some C'Thun change
             // we wait 300ms so the proxy have the time to be updated
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(300 * Double(NSEC_PER_MSEC)))
@@ -952,9 +940,9 @@ class Game {
         opponentSecretCount += 1
 
         switch fromZone {
-        case .DECK:
+        case .deck:
             opponent.secretPlayedFromDeck(entity, turn: turn)
-        case .HAND:
+        case .hand:
             opponent.secretPlayedFromHand(entity, turn: turn)
             break
         default:
@@ -963,9 +951,9 @@ class Game {
         updateCardHuds()
 
         var heroClass: CardClass?
-        var className = "\(entity.getTag(.CLASS))"
+        var className = "\(entity.getTag(.tag_class))"
         if !String.isNullOrEmpty(className) {
-            className = className.uppercaseString
+            className = className.lowercaseString
             heroClass = CardClass(rawValue: className)
             if heroClass == .None {
                 if let playerClass = opponent.playerClass {
@@ -977,7 +965,7 @@ class Game {
                 heroClass = playerClass
             }
         }
-        Log.info?.message("Secret played by \(entity.getTag(.CLASS))"
+        Log.info?.message("Secret played by \(entity.getTag(.tag_class))"
             + " -> \(heroClass) -> \(opponent.playerClass)")
         guard let _ = heroClass else { return }
 
@@ -1161,20 +1149,20 @@ class Game {
             // swiftlint:disable line_length
             if entities.map({ $0.1 })
                 .any({ $0.cardId == CardIds.NonCollectible.Druid.SouloftheForest_SoulOfTheForestEnchantment
-                    && $0.getTag(.ATTACHED) == entity.id }) {
+                    && $0.getTag(.attached) == entity.id }) {
                 numDeathrattleMinions += 1
             }
 
             if entities.map({ $0.1 })
                 .any({ $0.cardId == CardIds.NonCollectible.Shaman.AncestralSpirit_AncestralSpiritEnchantment
-                    && $0.getTag(.ATTACHED) == entity.id }) {
+                    && $0.getTag(.attached) == entity.id }) {
                 numDeathrattleMinions += 1
             }
             // swiftlint:enable line_length
 
             if let opponentEntity = opponentEntity where
-                opponentEntity.hasTag(.EXTRA_DEATHRATTLES) {
-                numDeathrattleMinions *= (opponentEntity.getTag(.EXTRA_DEATHRATTLES) + 1)
+                opponentEntity.hasTag(.extra_deathrattles) {
+                numDeathrattleMinions *= (opponentEntity.getTag(.extra_deathrattles) + 1)
             }
 
             avengeAsync(numDeathrattleMinions)
@@ -1187,7 +1175,7 @@ class Game {
                 opponentSecrets?.setZero(CardIds.Secrets.Mage.Effigy)
             } else {
                 // TODO need to properly break ties when effigy + deathrattle played in same turn
-                let minionTurnPlayed = turn - entity.getTag(.NUM_TURNS_IN_PLAY)
+                let minionTurnPlayed = turn - entity.getTag(.num_turns_in_play)
                 var secretOffset = 0
                 if let secret = opponentSecrets!.secrets
                     .firstWhere({ $0.turnPlayed >= minionTurnPlayed }) {
@@ -1401,28 +1389,28 @@ class Game {
         let settings = Settings.instance
 
         switch type {
-        case .GameStart:
+        case .gameStart:
             guard settings.notifyGameStart else { return }
             if Hearthstone.instance.hearthstoneActive { return }
             
             Toast.show(NSLocalizedString("Hearthstone", comment: ""),
                        message: NSLocalizedString("Your game begins", comment: ""))
         
-        case .OpponentConcede:
+        case .opponentConcede:
             guard settings.notifyOpponentConcede else { return }
             if Hearthstone.instance.hearthstoneActive { return }
             
             Toast.show(NSLocalizedString("Victory", comment: ""),
                        message: NSLocalizedString("Your opponent have conceded", comment: ""))
             
-        case .TurnStart:
+        case .turnStart:
             guard settings.notifyTurnStart else { return }
             if Hearthstone.instance.hearthstoneActive { return }
             
             Toast.show(NSLocalizedString("Hearthstone", comment: ""),
                        message: NSLocalizedString("It's your turn to play", comment: ""))
         
-        case .HSReplayPush(let replayId):
+        case .hsReplayPush(let replayId):
             guard settings.showHSReplayPushNotification else { return }
             
             Toast.show(NSLocalizedString("HSReplay", comment: ""),

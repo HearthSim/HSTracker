@@ -11,16 +11,16 @@ import Foundation
 final class Cards {
     
     static let classes: [CardClass] = {
-        return [.DRUID, .HUNTER, .MAGE, .PALADIN, .PRIEST,
-            .ROGUE, .SHAMAN, .WARLOCK, .WARRIOR]
-            .sort { NSLocalizedString($0.rawValue.lowercaseString, comment: "")
-                < NSLocalizedString($1.rawValue.lowercaseString, comment: "") }
+        return [.druid, .hunter, .mage, .paladin, .priest,
+            .rogue, .shaman, .warlock, .warrior]
+            .sort { NSLocalizedString($0.rawValue, comment: "")
+                < NSLocalizedString($1.rawValue, comment: "") }
     }()
     
     static var cards = [Card]()
 
     static func hero(byId cardId: String) -> Card? {
-        if let card = cards.firstWhere({ $0.id == cardId && $0.type == .HERO }) {
+        if let card = cards.firstWhere({ $0.id == cardId && $0.type == .hero }) {
             return card.copy()
         }
         return nil
@@ -36,7 +36,7 @@ final class Cards {
         guard !String.isNullOrEmpty(cardId) else { return nil }
 
         if let card = cards.filter({
-            $0.type != .HERO && $0.type != .HERO_POWER
+            $0.type != .hero && $0.type != .hero_power
         }).firstWhere({ $0.id == cardId }) {
             return card.copy()
         }
@@ -53,15 +53,15 @@ final class Cards {
     
     static func hero(byPlayerClass name: CardClass) -> Card? {
         switch name {
-        case .DRUID: return hero(byId: CardIds.Collectible.Druid.MalfurionStormrage)
-        case .HUNTER: return hero(byId: CardIds.Collectible.Hunter.Rexxar)
-        case .MAGE: return hero(byId: CardIds.Collectible.Mage.JainaProudmoore)
-        case .PALADIN: return hero(byId: CardIds.Collectible.Paladin.UtherLightbringer)
-        case .PRIEST: return hero(byId: CardIds.Collectible.Priest.AnduinWrynn)
-        case .ROGUE: return hero(byId: CardIds.Collectible.Rogue.ValeeraSanguinar)
-        case .SHAMAN: return hero(byId: CardIds.Collectible.Shaman.Thrall)
-        case .WARLOCK: return hero(byId: CardIds.Collectible.Warlock.Guldan)
-        case .WARRIOR: return hero(byId: CardIds.Collectible.Warrior.GarroshHellscream)
+        case .druid: return hero(byId: CardIds.Collectible.Druid.MalfurionStormrage)
+        case .hunter: return hero(byId: CardIds.Collectible.Hunter.Rexxar)
+        case .mage: return hero(byId: CardIds.Collectible.Mage.JainaProudmoore)
+        case .paladin: return hero(byId: CardIds.Collectible.Paladin.UtherLightbringer)
+        case .priest: return hero(byId: CardIds.Collectible.Priest.AnduinWrynn)
+        case .rogue: return hero(byId: CardIds.Collectible.Rogue.ValeeraSanguinar)
+        case .shaman: return hero(byId: CardIds.Collectible.Shaman.Thrall)
+        case .warlock: return hero(byId: CardIds.Collectible.Warlock.Guldan)
+        case .warrior: return hero(byId: CardIds.Collectible.Warrior.GarroshHellscream)
         default: return nil
         }
     }
@@ -91,20 +91,20 @@ final class Cards {
     }
 
     static func collectible() -> [Card] {
-        return cards.filter { $0.collectible && $0.type != .HERO && $0.type != .HERO_POWER }
+        return cards.filter { $0.collectible && $0.type != .hero && $0.type != .hero_power }
     }
 
     static func search(className className: CardClass?, sets: [CardSet] = [],
                                  term: String = "", cost: Int = -1,
                                  rarity: Rarity? = .None, standardOnly: Bool = false,
-                                 damage: Int = -1, health: Int = -1, type: CardType = .INVALID,
+                                 damage: Int = -1, health: Int = -1, type: CardType = .invalid,
                                  race: Race?) -> [Card] {
         var cards = collectible()
 
         if term.isEmpty {
             cards = cards.filter { $0.playerClass == className }
         } else {
-            cards = cards.filter { $0.playerClass == className || $0.playerClass == .NEUTRAL }
+            cards = cards.filter { $0.playerClass == className || $0.playerClass == .neutral }
                 .filter {
                     $0.name.lowercaseString.contains(term.lowercaseString) ||
                         $0.enName.lowercaseString.contains(term.lowercaseString) ||
@@ -115,7 +115,7 @@ final class Cards {
             }
         }
 
-        if type != .INVALID {
+        if type != .invalid {
             cards = cards.filter { $0.type == type }
         }
 

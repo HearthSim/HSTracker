@@ -167,23 +167,23 @@ class DeckManager: NSWindowController {
         let oldCurrentClass = currentClass
         switch sender {
         case druidButton:
-            currentClass = .DRUID
+            currentClass = .druid
         case hunterButton:
-            currentClass = .HUNTER
+            currentClass = .hunter
         case mageButton:
-            currentClass = .MAGE
+            currentClass = .mage
         case paladinButton:
-            currentClass = .PALADIN
+            currentClass = .paladin
         case priestButton:
-            currentClass = .PRIEST
+            currentClass = .priest
         case rogueButton:
-            currentClass = .ROGUE
+            currentClass = .rogue
         case shamanButton:
-            currentClass = .SHAMAN
+            currentClass = .shaman
         case warlockButton:
-            currentClass = .WARLOCK
+            currentClass = .warlock
         case warriorButton:
-            currentClass = .WARRIOR
+            currentClass = .warrior
         default:
             currentClass = nil
         }
@@ -593,7 +593,7 @@ extension DeckManager: NSTableViewDelegate {
             }
         } else {
             let cell = CardBar.factory()
-            cell.playerType = .DeckManager
+            cell.playerType = .deckManager
             cell.card = currentDeck?.sortedCards[row]
             return cell
         }

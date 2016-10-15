@@ -58,7 +58,8 @@ struct Database {
                             }
                         }
 
-                        if let jsonSet = jsonCard["set"] as? String, set = CardSet(rawValue: jsonSet) {
+                        if let jsonSet = jsonCard["set"] as? String,
+                            let set = CardSet(rawValue: jsonSet.lowercaseString) {
                         if !Database.validCardSets.contains(set) {
                             continue
                         }
@@ -88,22 +89,23 @@ struct Database {
                                     }
                                 }
 
-                                if let cardRarity = jsonCard["rarity"] as? String {
-                                    card.rarity = Rarity(rawValue: cardRarity.lowercaseString)!
+                                if let cardRarity = jsonCard["rarity"] as? String,
+                                    let rarity = Rarity(rawValue: cardRarity.lowercaseString) {
+                                    card.rarity = rarity
                                 }
 
                                 if let type = jsonCard["type"] as? String,
-                                    cardType = CardType(rawString: type) {
+                                    cardType = CardType(rawString: type.lowercaseString) {
                                     card.type = cardType
                                 }
 
                                 if let playerClass = jsonCard["playerClass"] as? String,
-                                    cardPlayerClass = CardClass(rawValue: playerClass) {
+                                    let cardPlayerClass = CardClass(rawValue: playerClass.lowercaseString) {
                                     card.playerClass = cardPlayerClass
                                 }
 
                                 if let faction = jsonCard["faction"] as? String,
-                                    cardFaction = Faction(rawValue: faction) {
+                                    let cardFaction = Faction(rawValue: faction.lowercaseString) {
                                     card.faction = cardFaction
                                 }
 
@@ -115,7 +117,7 @@ struct Database {
                                     card.attack = attack
                                 }
                                 if let race = jsonCard["race"] as? String,
-                                    cardRace = Race(rawValue: race) {
+                                    let cardRace = Race(rawValue: race.lowercaseString) {
                                     card.race = cardRace
                                     if !Database.deckManagerRaces.contains(cardRace) {
                                         Database.deckManagerRaces.append(cardRace)
@@ -128,7 +130,7 @@ struct Database {
                                     card.collectible = collectible
 
                                     // card is collectible, mark it as needed for download
-                                    if lang == imageLanguage && card.type != .HERO {
+                                    if lang == imageLanguage && card.type != .hero {
                                         images.append(card.id)
                                     }
                                 }

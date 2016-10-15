@@ -37,11 +37,11 @@ class TrackersPreferences: NSViewController {
         opacity.doubleValue = settings.trackerOpacity
         let index: Int
         switch settings.cardSize {
-        case .Tiny: index = 0
-        case .Small: index = 1
-        case .Medium: index = 2
-        case .Big: index = 3
-        case .VeryBig: index = 4
+        case .tiny: index = 0
+        case .small: index = 1
+        case .medium: index = 2
+        case .big: index = 3
+        case .huge: index = 4
         }
         cardSize.selectItemAtIndex(index)
         showTimer.state = settings.showTimer ? NSOnState : NSOffState
@@ -63,11 +63,11 @@ class TrackersPreferences: NSViewController {
             if let value = cardSize.objectValueOfSelectedItem as? String {
                 let size: CardSize
                 switch value {
-                case NSLocalizedString("Tiny", comment: ""): size = .Tiny
-                case NSLocalizedString("Small", comment: ""): size = .Small
-                case NSLocalizedString("Big", comment: ""): size = .Big
-                case NSLocalizedString("Huge", comment: ""): size = .VeryBig
-                default: size = .Medium
+                case NSLocalizedString("Tiny", comment: ""): size = .tiny
+                case NSLocalizedString("Small", comment: ""): size = .small
+                case NSLocalizedString("Big", comment: ""): size = .big
+                case NSLocalizedString("Huge", comment: ""): size = .huge
+                default: size = .medium
                 }
                 settings.cardSize = size
             }

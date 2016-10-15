@@ -9,7 +9,7 @@
 import Foundation
 
 enum Format: String {
-    case All,
-    Standard,
-    Wild
+    case all,
+    standard,
+    wild
 }

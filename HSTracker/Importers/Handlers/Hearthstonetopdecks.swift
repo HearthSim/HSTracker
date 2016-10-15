@@ -35,7 +35,7 @@ struct HearthstoneTopDecks: HttpImporter {
         let xpath = "//div[contains(@class, 'deck-info')]/a[contains(@href, 'deck-class') ]"
         guard let classNode = doc.at_xpath(xpath),
             let className = classNode.text?.trim(),
-            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+            let playerClass = CardClass(rawValue: className.lowercaseString) else {
                 Log.error?.message("Class not found")
                 return nil
         }

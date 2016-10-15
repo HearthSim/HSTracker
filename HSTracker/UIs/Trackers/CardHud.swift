@@ -60,16 +60,16 @@ class CardHud: NSView {
             text = "\(entity.info.turn)"
             
             switch entity.info.cardMark {
-            case .Coin: image = "coin"
-            case .Kept: image = "kept"
-            case .Mulliganed: image = "mulliganed"
-            case .Returned: image = "returned"
-            case .Created: image = "created"
+            case .coin: image = "coin"
+            case .kept: image = "kept"
+            case .mulliganed: image = "mulliganed"
+            case .returned: image = "returned"
+            case .created: image = "created"
             default: break
             }
             cost = entity.info.costReduction
             
-            if entity.info.cardMark == .Coin {
+            if entity.info.cardMark == .coin {
                 card = Cards.any(byId: CardIds.NonCollectible.Neutral.TheCoin)
             } else if !String.isNullOrEmpty(entity.cardId) && !entity.info.hidden {
                 image = "small-card"

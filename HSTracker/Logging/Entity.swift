@@ -46,35 +46,35 @@ class Entity {
         self.isPlayer = isPlayer
     }
 
-    var isActiveDeathrattle: Bool { return hasTag(.DEATHRATTLE) && getTag(.DEATHRATTLE) == 1 }
+    var isActiveDeathrattle: Bool { return hasTag(.deathrattle) && getTag(.deathrattle) == 1 }
 
-    var isCurrentPlayer: Bool { return hasTag(.CURRENT_PLAYER) }
+    var isCurrentPlayer: Bool { return hasTag(.current_player) }
 
     func isInZone(zone: Zone) -> Bool {
-        return hasTag(.ZONE) ? getTag(.ZONE) == zone.rawValue : false
+        return hasTag(.zone) ? getTag(.zone) == zone.rawValue : false
     }
 
     func isControlledBy(controller: Int) -> Bool {
-        return self.hasTag(.CONTROLLER) ? self.getTag(.CONTROLLER) == controller : false
+        return self.hasTag(.controller) ? self.getTag(.controller) == controller : false
     }
 
-    var isSecret: Bool { return hasTag(.SECRET) }
-    var isSpell: Bool { return getTag(.CARDTYPE) == CardType.SPELL.rawValue }
-    var isOpponent: Bool { return !isPlayer && hasTag(.PLAYER_ID) }
-    var isMinion: Bool { return hasTag(.CARDTYPE) && getTag(.CARDTYPE) == CardType.MINION.rawValue }
-    var isWeapon: Bool { return hasTag(.CARDTYPE) && getTag(.CARDTYPE) == CardType.WEAPON.rawValue }
+    var isSecret: Bool { return hasTag(.secret) }
+    var isSpell: Bool { return getTag(.cardtype) == CardType.spell.rawValue }
+    var isOpponent: Bool { return !isPlayer && hasTag(.player_id) }
+    var isMinion: Bool { return hasTag(.cardtype) && getTag(.cardtype) == CardType.minion.rawValue }
+    var isWeapon: Bool { return hasTag(.cardtype) && getTag(.cardtype) == CardType.weapon.rawValue }
     var isHero: Bool { return Cards.isHero(cardId) }
-    var isHeroPower: Bool { return getTag(.CARDTYPE) == CardType.HERO_POWER.rawValue }
+    var isHeroPower: Bool { return getTag(.cardtype) == CardType.hero_power.rawValue }
 
-    var isInHand: Bool { return isInZone(.HAND) }
-    var isInDeck: Bool { return isInZone(.DECK) }
-    var isInPlay: Bool { return isInZone(.PLAY) }
-    var isInGraveyard: Bool { return isInZone(.GRAVEYARD) }
-    var isInSetAside: Bool { return isInZone(.SETASIDE) }
-    var isInSecret: Bool { return isInZone(.SECRET) }
+    var isInHand: Bool { return isInZone(.hand) }
+    var isInDeck: Bool { return isInZone(.deck) }
+    var isInPlay: Bool { return isInZone(.play) }
+    var isInGraveyard: Bool { return isInZone(.graveyard) }
+    var isInSetAside: Bool { return isInZone(.setaside) }
+    var isInSecret: Bool { return isInZone(.secret) }
 
-    var health: Int { return getTag(.HEALTH) - getTag(.DAMAGE) }
-    var attack: Int { return getTag(.ATK) }
+    var health: Int { return getTag(.health) - getTag(.damage) }
+    var attack: Int { return getTag(.atk) }
 
     var hasCardId: Bool { return !String.isNullOrEmpty(cardId) }
 
@@ -130,7 +130,7 @@ extension Entity: CustomStringConvertible {
         return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
             + "cardName=\(hide ? "" : cardName), "
             + "name=\(hide ? "" : name), "
-            + "zonePos=\(getTag(.ZONE_POSITION)), info=\(info)]"
+            + "zonePos=\(getTag(.zone_position)), info=\(info)]"
     }
 }
 
@@ -150,7 +150,7 @@ class EntityInfo {
     var returned = false
     var mulliganed = false
     var stolen: Bool {
-        return originalController > 0 && originalController != _entity.getTag(.CONTROLLER)
+        return originalController > 0 && originalController != _entity.getTag(.controller)
     }
     var created = false
     var hasOutstandingTagChanges = false
@@ -159,8 +159,8 @@ class EntityInfo {
     var turn = 0
     var costReduction = 0
     var originalZone: Zone?
-    var createdInDeck: Bool { return originalZone == .DECK }
-    var createdInHand: Bool { return originalZone == .HAND }
+    var createdInDeck: Bool { return originalZone == .deck }
+    var createdInHand: Bool { return originalZone == .hand }
 
     init(entity: Entity) {
         _entity = entity
@@ -168,23 +168,23 @@ class EntityInfo {
 
     var cardMark: CardMark {
         if hidden {
-            return .None
+            return .none
         }
 
         if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoin || _entity.cardId ==
             CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken {
-            return .Coin
+            return .coin
         }
         if returned {
-            return .Returned
+            return .returned
         }
         if created || stolen {
-            return .Created
+            return .created
         }
         if mulliganed {
-            return .Mulliganed
+            return .mulliganed
         }
-        return .None
+        return .none
     }
 }
 

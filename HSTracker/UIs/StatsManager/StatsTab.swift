@@ -18,7 +18,7 @@ class StatsTab: NSViewController {
     
     var statsTableItems = [StatsTableRow]()
     
-    let modePickerItems: [GameMode] = [.All, .Ranked, .Casual, .Brawl, .Arena, .Friendly]
+    let modePickerItems: [GameMode] = [.all, .ranked, .casual, .brawl, .arena, .friendly]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class StatsTab: NSViewController {
         for mode in modePickerItems {
             modePicker.addItemWithTitle(mode.userFacingName)
         }
-        modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
+        modePicker.selectItemAtIndex(modePickerItems.indexOf(.ranked)!)
         
         seasonPicker.addItemWithTitle(NSLocalizedString("all_seasons", comment: ""))
         if let deck = self.deck {
@@ -80,7 +80,7 @@ class StatsTab: NSViewController {
         if let deck = self.deck {
             var index = modePicker.indexOfSelectedItem
             if index == -1 { // In case somehow nothing is selected
-                modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
+                modePicker.selectItemAtIndex(modePickerItems.indexOf(.ranked)!)
                 index = modePicker.indexOfSelectedItem
             }
             var season = seasonPicker.indexOfSelectedItem

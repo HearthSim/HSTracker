@@ -45,7 +45,7 @@ struct Tempostorm: JsonImporter {
 
     func loadDeck(json: AnyObject, url: String) -> Deck? {
         guard let className = json["playerClass"] as? String,
-            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+            let playerClass = CardClass(rawValue: className.lowercaseString) else {
                 Log.error?.message("Class not found")
                 return nil
         }

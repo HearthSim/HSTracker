@@ -32,7 +32,7 @@ class CardCell: JNWCollectionViewCell {
                                          width: CGFloat(kFrameWidth),
                                          height: CGFloat(kRowHeight))
                 cellView?.card = card
-                cellView?.playerType = .CardList
+                cellView?.playerType = .cardList
                 self.addSubview(cellView!)
             }
         }
@@ -44,7 +44,7 @@ class CardCell: JNWCollectionViewCell {
     func setCount(count: Int) {
         var alpha: Float = 1.0
         if !isArena {
-            if count == 2 || (count == 1 && _card!.rarity == .Legendary) {
+            if count == 2 || (count == 1 && _card!.rarity == .legendary) {
                 alpha = 0.5
             }
         }

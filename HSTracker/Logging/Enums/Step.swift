@@ -11,57 +11,57 @@ import Foundation
 // swiftlint:disable type_name
 
 enum Step: Int {
-    case INVALID = 0,
-    BEGIN_FIRST = 1,
-    BEGIN_SHUFFLE = 2,
-    BEGIN_DRAW = 3,
-    BEGIN_MULLIGAN = 4,
-    MAIN_BEGIN = 5,
-    MAIN_READY = 6,
-    MAIN_RESOURCE = 7,
-    MAIN_DRAW = 8,
-    MAIN_START = 9,
-    MAIN_ACTION = 10,
-    MAIN_COMBAT = 11,
-    MAIN_END = 12,
-    MAIN_NEXT = 13,
-    FINAL_WRAPUP = 14,
-    FINAL_GAMEOVER = 15,
-    MAIN_CLEANUP = 16,
-    MAIN_START_TRIGGERS = 17
+    case invalid = 0,
+    begin_first = 1,
+    begin_shuffle = 2,
+    begin_draw = 3,
+    begin_mulligan = 4,
+    main_begin = 5,
+    main_ready = 6,
+    main_resource = 7,
+    main_draw = 8,
+    main_start = 9,
+    main_action = 10,
+    main_combat = 11,
+    main_end = 12,
+    main_next = 13,
+    final_wrapup = 14,
+    final_gameover = 15,
+    main_cleanup = 16,
+    main_start_triggers = 17
     
     init?(rawString: String) {
         for _enum in Step.allValues() {
-            if "\(_enum)" == rawString {
+            if "\(_enum)" == rawString.lowercaseString {
                 self = _enum
                 return
             }
         }
-        if let value = Int(rawString), _enum = Step(rawValue: value) {
+        if let value = Int(rawString), let _enum = Step(rawValue: value) {
             self = _enum
             return
         }
-        self = .INVALID
+        self = .invalid
     }
     
     static func allValues() -> [Step] {
-        return [.INVALID,
-                .BEGIN_FIRST,
-                .BEGIN_SHUFFLE,
-                .BEGIN_DRAW,
-                .BEGIN_MULLIGAN,
-                .MAIN_BEGIN,
-                .MAIN_READY,
-                .MAIN_RESOURCE,
-                .MAIN_DRAW,
-                .MAIN_START,
-                .MAIN_ACTION,
-                .MAIN_COMBAT,
-                .MAIN_END,
-                .MAIN_NEXT,
-                .FINAL_WRAPUP,
-                .FINAL_GAMEOVER,
-                .MAIN_CLEANUP,
-                .MAIN_START_TRIGGERS]
+        return [.invalid,
+                .begin_first,
+                .begin_shuffle,
+                .begin_draw,
+                .begin_mulligan,
+                .main_begin,
+                .main_ready,
+                .main_resource,
+                .main_draw,
+                .main_start,
+                .main_action,
+                .main_combat,
+                .main_end,
+                .main_next,
+                .final_wrapup,
+                .final_gameover,
+                .main_cleanup,
+                .main_start_triggers]
     }
 }

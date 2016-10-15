@@ -18,7 +18,7 @@ class DynamicEntity: Hashable {
     var entity: Entity?
 
     init(cardId: String, hidden: Bool = false, created: Bool = false,
-         cardMark: CardMark = CardMark.None, discarded: Bool = false,
+         cardMark: CardMark = .none, discarded: Bool = false,
          stolen: Bool = false, isInHand: Bool = false, entity: Entity? = nil) {
         self.cardId = cardId
         self.hidden = hidden
@@ -291,8 +291,8 @@ final class Player {
 
     var opponentCardList: [Card] {
         let revealed = revealedEntities.filter({ (e: Entity) in
-            (e.isMinion || e.isSpell || e.isWeapon || !e.hasTag(.CARDTYPE))
-                && (e.getTag(.CREATOR) == 1
+            (e.isMinion || e.isSpell || e.isWeapon || !e.hasTag(.cardtype))
+                && (e.getTag(.creator) == 1
                     || ((!e.info.created || (Settings.instance.showOpponentCreated
                         && (e.info.createdInDeck || e.info.createdInHand)))
                     && e.info.originalController == self.id)
@@ -443,10 +443,10 @@ final class Player {
             updateKnownEntitesInDeck(entity.cardId, turn: turn)
         }
 
-        if let cardType = CardType(rawValue: entity.getTag(.CARDTYPE)) {
+        if let cardType = CardType(rawValue: entity.getTag(.cardtype)) {
             switch cardType {
-            case .TOKEN: entity.info.created = true
-            case .SPELL: spellsPlayedCount += 1
+            case .token: entity.info.created = true
+            case .spell: spellsPlayedCount += 1
             default: break
             }
         }
@@ -484,7 +484,7 @@ final class Player {
         if isLocalPlayer {
             updateKnownEntitesInDeck(entity.cardId)
         } else {
-            if Game.instance.opponentEntity?.getTag(.MULLIGAN_STATE) == Mulligan.DEALING.rawValue {
+            if Game.instance.opponentEntity?.getTag(.mulligan_state) == Mulligan.dealing.rawValue {
                 entity.info.mulliganed = true
             } else {
                 entity.info.hidden = true
@@ -522,7 +522,7 @@ final class Player {
 
     func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         entity.info.turn = turn
-        if entity.isMinion && entity.hasTag(.DEATHRATTLE) {
+        if entity.isMinion && entity.hasTag(.deathrattle) {
             deathrattlesPlayedCount += 1
         }
         Log.info?.message("\(debugName) \(#function) \(entity)")

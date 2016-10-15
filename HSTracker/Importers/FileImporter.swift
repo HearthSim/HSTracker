@@ -31,7 +31,7 @@ struct FileImporter: BaseFileImporter {
             Log.error?.message("Card list not found")
         }
 
-        let deck = Deck(playerClass: .NEUTRAL, name: deckName)
+        let deck = Deck(playerClass: .neutral, name: deckName)
 
         let regex = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
         for line in lines {
@@ -53,7 +53,7 @@ struct FileImporter: BaseFileImporter {
                     }
 
                     if let card = card {
-                        if card.playerClass != .NEUTRAL && deck.playerClass == .NEUTRAL {
+                        if card.playerClass != .neutral && deck.playerClass == .neutral {
                             deck.playerClass = card.playerClass
                             Log.verbose?.message("Got class \(deck.playerClass)")
                         }
@@ -66,7 +66,7 @@ struct FileImporter: BaseFileImporter {
         }
         deck.isArena = isArena
 
-        guard deck.playerClass != .NEUTRAL else {
+        guard deck.playerClass != .neutral else {
             Log.error?.message("Class not found")
             return nil
         }

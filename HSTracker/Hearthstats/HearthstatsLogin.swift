@@ -75,7 +75,7 @@ class HearthstatsLogin: NSWindowController {
             try HearthstatsAPI.loadDecks(true) { (success, newDecks) in
                 completion(success)
             }
-        } catch HearthstatsError.NotLogged {
+        } catch HearthstatsError.notLogged {
             print("not logged")
             completion(false)
         } catch {

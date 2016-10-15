@@ -27,7 +27,7 @@ struct HearthArena: HttpImporter {
     func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
         guard let classNode = doc.at_xpath("//h1[@class='class']"),
             let className = classNode.text?.componentsSeparatedByString(" ").first,
-            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+            let playerClass = CardClass(rawValue: className.lowercaseString) else {
                 Log.error?.message("Class not found")
                 return nil
         }

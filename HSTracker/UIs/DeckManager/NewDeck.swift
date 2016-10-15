@@ -116,7 +116,7 @@ class NewDeck: NSWindowController {
                     self.delegate?.refreshDecks()
                     self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
                 }
-            } catch HearthstatsError.NotLogged {
+            } catch HearthstatsError.notLogged {
                 print("not logged")
                 self.loader.stopAnimation(self)
             } catch {

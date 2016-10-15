@@ -12,15 +12,15 @@ import Kanna
 
 struct HearthHead: HttpImporter {
     static let classes: [Int: CardClass] = [
-        1: .WARRIOR,
-        2: .PALADIN,
-        3: .HUNTER,
-        4: .ROGUE,
-        5: .PRIEST,
-        7: .SHAMAN,
-        8: .MAGE,
-        9: .WARLOCK,
-        11: .DRUID
+        1: .warrior,
+        2: .paladin,
+        3: .hunter,
+        4: .rogue,
+        5: .priest,
+        7: .shaman,
+        8: .mage,
+        9: .warlock,
+        11: .druid
     ]
 
     var siteName: String {

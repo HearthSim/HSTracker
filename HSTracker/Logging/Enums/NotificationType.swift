@@ -9,5 +9,5 @@
 import Foundation
 
 enum NotificationType {
-    case GameStart, TurnStart, OpponentConcede, HSReplayPush(replayId: String)
+    case gameStart, turnStart, opponentConcede, hsReplayPush(replayId: String)
 }

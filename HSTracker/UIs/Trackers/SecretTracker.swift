@@ -30,11 +30,11 @@ class SecretTracker: NSWindowController {
         var width: Double
         let settings = Settings.instance
         switch settings.cardSize {
-        case .Tiny: width = kTinyFrameWidth
-        case .Small: width = kSmallFrameWidth
-        case .Medium: width = kMediumFrameWidth
-        case .Big: width = kFrameWidth
-        case .VeryBig: width = kHighRowFrameWidth
+        case .tiny: width = kTinyFrameWidth
+        case .small: width = kSmallFrameWidth
+        case .medium: width = kMediumFrameWidth
+        case .big: width = kFrameWidth
+        case .huge: width = kHighRowFrameWidth
         }
 
         self.window!.setFrame(NSRect(x: 0, y: 0, width: width, height: 350), display: true)
@@ -125,7 +125,7 @@ extension SecretTracker: NSTableViewDelegate {
         let card = cards[row]
         let cell = CardBar.factory()
         cell.card = card
-        cell.playerType = .Secrets
+        cell.playerType = .secrets
         cell.setDelegate(self)
 
         if card.hasChanged {
@@ -136,11 +136,11 @@ extension SecretTracker: NSTableViewDelegate {
 
     func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         switch Settings.instance.cardSize {
-        case .Tiny: return CGFloat(kTinyRowHeight)
-        case .Small: return CGFloat(kSmallRowHeight)
-        case .Medium: return CGFloat(kMediumRowHeight)
-        case .VeryBig: return CGFloat(kHighRowHeight)
-        case .Big: return CGFloat(kRowHeight)
+        case .tiny: return CGFloat(kTinyRowHeight)
+        case .small: return CGFloat(kSmallRowHeight)
+        case .medium: return CGFloat(kMediumRowHeight)
+        case .huge: return CGFloat(kHighRowHeight)
+        case .big: return CGFloat(kRowHeight)
         }
     }
 

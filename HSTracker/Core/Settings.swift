@@ -54,7 +54,7 @@ final class Settings {
     var cardSize: CardSize {
         set { set("card_size", value: newValue.rawValue) }
         get { return CardSize(rawValue: get("card_size") as? Int
-            ?? CardSize.Big.rawValue) ?? CardSize.Big }
+            ?? CardSize.big.rawValue) ?? .big }
     }
     var deckSortCriteria: String {
         set { set("deck_sort_criteria", value: newValue) }

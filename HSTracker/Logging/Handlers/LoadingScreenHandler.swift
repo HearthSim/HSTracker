@@ -19,13 +19,13 @@ struct LoadingScreenHandler {
         if logLine.line.match(GameModeRegex) {
             let matches = logLine.line.matches(GameModeRegex)
             
-            game.currentMode = Mode(rawValue: matches[1].value)
-            game.previousMode = Mode(rawValue: matches[0].value)
+            game.currentMode = Mode(rawValue: matches[1].value.lowercaseString)
+            game.previousMode = Mode(rawValue: matches[0].value.lowercaseString)
             
             var newMode: GameMode?
-            if let mode = game.currentMode, currentMode = getGameMode(mode) {
+            if let mode = game.currentMode, let currentMode = getGameMode(mode) {
                 newMode = currentMode
-            } else if let mode = game.currentMode, currentMode = getGameMode(mode) {
+            } else if let mode = game.currentMode, let currentMode = getGameMode(mode) {
                 newMode = currentMode
             }
             
@@ -33,7 +33,7 @@ struct LoadingScreenHandler {
                 Log.info?.message("Game mode : \(newMode)")
                 game.currentGameMode = newMode
             }
-            if game.previousMode == .GAMEPLAY && game.currentMode != .GAMEPLAY {
+            if game.previousMode == .gameplay && game.currentMode != .gameplay {
                 game.inMenu()
             }
         } else if logLine.line.contains("Gameplay.Start") {
@@ -43,11 +43,11 @@ struct LoadingScreenHandler {
 
     func getGameMode(mode: Mode) -> GameMode? {
         switch mode {
-        case Mode.TOURNAMENT: return .Casual
-        case Mode.FRIENDLY: return .Friendly
-        case Mode.DRAFT: return .Arena
-        case Mode.ADVENTURE: return .Practice
-        case Mode.TAVERN_BRAWL: return .Brawl
+        case .tournament: return .casual
+        case .friendly: return .friendly
+        case .draft: return .arena
+        case .adventure: return .practice
+        case .tavern_brawl: return .brawl
         default: return .None
         }
     }

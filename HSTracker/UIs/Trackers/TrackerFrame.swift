@@ -9,30 +9,6 @@
 import Cocoa
 import TextAttributes
 
-let kFrameWidth = 217.0
-let kFrameHeight = 700.0
-let kRowHeight = 34.0
-
-let kHighRowHeight = 52.0
-let kHighRowFrameWidth = (kFrameWidth / kRowHeight * kHighRowHeight)
-
-let kMediumRowHeight = 29.0
-let kMediumFrameWidth = (kFrameWidth / kRowHeight * kMediumRowHeight)
-
-let kSmallRowHeight = 23.0
-let kSmallFrameWidth = (kFrameWidth / kRowHeight * kSmallRowHeight)
-
-let kTinyRowHeight = 17.0
-let kTinyFrameWidth = (kFrameWidth / kRowHeight * kTinyRowHeight)
-
-enum CardSize: Int {
-    case Tiny = -1,
-    Small = 0,
-    Medium = 1,
-    Big = 2,
-    VeryBig = 3
-}
-
 class TextFrame: NSView {
 
     init() {
@@ -65,11 +41,11 @@ class TextFrame: NSView {
 
     var ratioWidth: CGFloat {
         switch Settings.instance.cardSize {
-        case .Tiny: return CGFloat(kRowHeight / kTinyRowHeight)
-        case .Small: return CGFloat(kRowHeight / kSmallRowHeight)
-        case .Medium: return CGFloat(kRowHeight / kMediumRowHeight)
-        case .VeryBig: return CGFloat(kRowHeight / kHighRowHeight)
-        case .Big: return 1.0
+        case .tiny: return CGFloat(kRowHeight / kTinyRowHeight)
+        case .small: return CGFloat(kRowHeight / kSmallRowHeight)
+        case .medium: return CGFloat(kRowHeight / kMediumRowHeight)
+        case .huge: return CGFloat(kRowHeight / kHighRowHeight)
+        case .big: return 1.0
         }
     }
 

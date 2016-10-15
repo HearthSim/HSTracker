@@ -38,7 +38,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
             self.playerClass = playerClass
         } else {
             let playerClass: String = unboxer.unbox("playerClass")
-            self.playerClass = CardClass(rawValue: playerClass.uppercaseString) ?? .NEUTRAL
+            self.playerClass = CardClass(rawValue: playerClass.lowercaseString) ?? .neutral
         }
         self.version = unboxer.unbox("version")
 

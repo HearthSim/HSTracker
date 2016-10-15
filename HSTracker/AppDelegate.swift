@@ -261,11 +261,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 message = "You must restart Hearthstone for logs to be used"
                 alertStyle = .Informational
             }
-        } catch HearthstoneLogError.CanNotCreateDir {
+        } catch HearthstoneLogError.canNotCreateDir {
             message = "Can not create Hearthstone config dir"
-        } catch HearthstoneLogError.CanNotReadFile {
+        } catch HearthstoneLogError.canNotReadFile {
             message = "Can not read Hearthstone config file"
-        } catch HearthstoneLogError.CanNotCreateFile {
+        } catch HearthstoneLogError.canNotCreateFile {
             message = "Can not write Hearthstone config file"
         } catch {
             message = "Unknown error"
@@ -329,15 +329,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let y = screenFrame.height - 50
         let width: CGFloat
         switch settings.cardSize {
-        case .Tiny: width = CGFloat(kTinyFrameWidth)
-        case .Small: width = CGFloat(kSmallFrameWidth)
-        case .Medium: width = CGFloat(kMediumFrameWidth)
-        case .Big: width = CGFloat(kFrameWidth)
-        case .VeryBig: width = CGFloat(kHighRowFrameWidth)
+        case .tiny: width = CGFloat(kTinyFrameWidth)
+        case .small: width = CGFloat(kSmallFrameWidth)
+        case .medium: width = CGFloat(kMediumFrameWidth)
+        case .big: width = CGFloat(kFrameWidth)
+        case .huge: width = CGFloat(kHighRowFrameWidth)
         }
 
         playerTracker = Tracker(windowNibName: "Tracker")
-        playerTracker?.playerType = .Player
+        playerTracker?.playerType = .player
         if let rect = settings.playerTrackerFrame {
             playerTracker?.window?.setFrame(rect, display: true)
         } else {
@@ -349,7 +349,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         showPlayerTracker(nil)
 
         opponentTracker = Tracker(windowNibName: "Tracker")
-        opponentTracker?.playerType = .Opponent
+        opponentTracker?.playerType = .opponent
 
         if let rect = settings.opponentTrackerFrame {
             opponentTracker?.window?.setFrame(rect, display: true)

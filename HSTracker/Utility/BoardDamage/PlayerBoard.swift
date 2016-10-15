@@ -36,16 +36,16 @@ class PlayerBoard {
     func getWeapon(list: [Entity]) -> Entity? {
         let weapons = list.filter { $0.isWeapon }
         return weapons.count == 1 ? weapons.first :
-            list.first { $0.hasTag(.JUST_PLAYED) && $0.getTag(.JUST_PLAYED) == 1 }
+            list.first { $0.hasTag(.just_played) && $0.getTag(.just_played) == 1 }
     }
     
     private func filter(cards: [Entity]) -> [Entity] {
         return cards.filter({ card in
-            return card.getTag(.CARDTYPE) != CardType.PLAYER.rawValue
-                && card.getTag(.CARDTYPE) != CardType.ENCHANTMENT.rawValue
-                && card.getTag(.CARDTYPE) != CardType.HERO_POWER.rawValue
-                && card.getTag(.ZONE) != Zone.SETASIDE.rawValue
-                && card.getTag(.ZONE) != Zone.GRAVEYARD.rawValue
+            return card.getTag(.cardtype) != CardType.player.rawValue
+                && card.getTag(.cardtype) != CardType.enchantment.rawValue
+                && card.getTag(.cardtype) != CardType.hero_power.rawValue
+                && card.getTag(.zone) != Zone.setaside.rawValue
+                && card.getTag(.zone) != Zone.graveyard.rawValue
         })
     }
 }

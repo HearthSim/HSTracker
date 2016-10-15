@@ -10,7 +10,7 @@ import Foundation
 import CleanroomLogger
 
 enum TrackOBotError: ErrorType {
-    case NotLogged
+    case notLogged
 }
 
 struct TrackOBotAPI {
@@ -60,19 +60,19 @@ struct TrackOBotAPI {
     static func postMatch(game: Game, playerClass: CardClass, stat: Statistic) throws {
         let settings = Settings.instance
         guard let username = settings.trackobotUsername else {
-            throw TrackOBotError.NotLogged
+            throw TrackOBotError.notLogged
         }
         guard let token = settings.trackobotToken else {
-            throw TrackOBotError.NotLogged
+            throw TrackOBotError.notLogged
         }
 
         let mode: String
         switch game.currentGameMode {
-        case .Ranked: mode = "ranked"
-        case .Casual: mode = "casual"
-        case .Arena: mode = "arena"
-        case .Friendly: mode = "friendly"
-        case .Practice: mode = "solo"
+        case .ranked: mode = "ranked"
+        case .casual: mode = "casual"
+        case .arena: mode = "arena"
+        case .friendly: mode = "friendly"
+        case .practice: mode = "solo"
         default: mode = "unknown"
         }
 
@@ -90,14 +90,14 @@ struct TrackOBotAPI {
                 "mode": mode,
                 "coin": stat.hasCoin,
                 "rank": stat.playerRank,
-                "win": game.gameResult == .Win,
+                "win": game.gameResult == .win,
                 "duration": stat.duration,
                 "added": startTime.timeIntervalSince1970,
                 "note": stat.note ?? "",
                 "card_history": game.playedCards.map {
                     [
                         "card_id": $0.cardId,
-                        "player": $0.player == .Player ? "me" : "opponent",
+                        "player": $0.player == .player ? "me" : "opponent",
                         "turn": $0.turn
                     ]
                 }

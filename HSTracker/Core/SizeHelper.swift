@@ -140,11 +140,11 @@ struct SizeHelper {
     static private var trackerWidth: CGFloat {
         var width: Double
         switch Settings.instance.cardSize {
-        case .Tiny: width = kTinyFrameWidth
-        case .Small: width = kSmallFrameWidth
-        case .Medium: width = kMediumFrameWidth
-        case .Big: width = kFrameWidth
-        case .VeryBig: width = kHighRowFrameWidth
+        case .tiny: width = kTinyFrameWidth
+        case .small: width = kSmallFrameWidth
+        case .medium: width = kMediumFrameWidth
+        case .big: width = kFrameWidth
+        case .huge: width = kHighRowFrameWidth
         }
         return CGFloat(width)
     }
@@ -154,11 +154,11 @@ struct SizeHelper {
         let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
         let width: CGFloat
         switch Settings.instance.cardSize {
-        case .Tiny: width = CGFloat(kTinyFrameWidth)
-        case .Small: width = CGFloat(kSmallFrameWidth)
-        case .Medium: width = CGFloat(kMediumFrameWidth)
-        case .Big: width = CGFloat(kFrameWidth)
-        case .VeryBig: width = CGFloat(kHighRowFrameWidth)
+        case .tiny: width = CGFloat(kTinyFrameWidth)
+        case .small: width = CGFloat(kSmallFrameWidth)
+        case .medium: width = CGFloat(kMediumFrameWidth)
+        case .big: width = CGFloat(kFrameWidth)
+        case .huge: width = CGFloat(kHighRowFrameWidth)
         }
         
         let frame = NSRect(x: x,

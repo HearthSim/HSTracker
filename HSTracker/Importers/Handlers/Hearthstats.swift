@@ -27,7 +27,7 @@ struct Hearthstats: HttpImporter {
     func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
         guard let node = doc.at_xpath("//div[contains(@class,'win-count')]//img"),
             let alt = node["alt"],
-            let playerClass = CardClass(rawValue: alt.uppercaseString) else {
+            let playerClass = CardClass(rawValue: alt.lowercaseString) else {
                 Log.error?.message("Class not found")
                 return nil
         }

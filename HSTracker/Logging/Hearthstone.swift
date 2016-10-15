@@ -12,9 +12,9 @@ import Foundation
 import CleanroomLogger
 
 enum HearthstoneLogError: ErrorType {
-    case CanNotCreateDir,
-    CanNotReadFile,
-    CanNotCreateFile
+    case canNotCreateDir,
+    canNotReadFile,
+    canNotCreateFile
 }
 
 final class Hearthstone: NSObject {
@@ -54,7 +54,7 @@ final class Hearthstone: NSObject {
 
     func setup() throws -> Bool {
         let fileManager = NSFileManager.defaultManager()
-        let requireVerbose = [LogLineNamespace.Power]
+        let requireVerbose = [LogLineNamespace.power]
 
         // make sure the path exists
         let dir = NSString(string: configPath).stringByDeletingLastPathComponent
@@ -68,7 +68,7 @@ final class Hearthstone: NSObject {
                                                       attributes: nil)
             } catch let error as NSError {
                 Log.error?.message("\(error.description)")
-                throw HearthstoneLogError.CanNotCreateDir
+                throw HearthstoneLogError.canNotCreateDir
             }
         }
 
@@ -164,7 +164,7 @@ final class Hearthstone: NSObject {
                                             encoding: NSUTF8StringEncoding)
             } catch let error as NSError {
                 Log.error?.message("\(error.description)")
-                throw HearthstoneLogError.CanNotCreateFile
+                throw HearthstoneLogError.canNotCreateFile
             }
 
             if isHearthstoneRunning {

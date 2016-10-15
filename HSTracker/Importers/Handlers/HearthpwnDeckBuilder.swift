@@ -29,7 +29,7 @@ struct HearthpwnDeckBuilder: HttpImporter {
         let split = urlParts[0].componentsSeparatedByString("/")
 
         guard let clazz = split.last,
-            let playerClass = CardClass(rawValue: clazz.uppercaseString) else {
+            let playerClass = CardClass(rawValue: clazz.lowercaseString) else {
                 Log.error?.message("Class not found")
                 return nil
         }

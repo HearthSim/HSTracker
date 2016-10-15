@@ -17,24 +17,24 @@ struct AssetHandler {
 
     func handle(game: Game, logLine: LogLine) {
         if logLine.line.contains("rank_window") {
-            game.currentGameMode = .Ranked
+            game.currentGameMode = .ranked
         } else if logLine.line.match(UnloadingCard) {
             let match = logLine.line.matches(UnloadingCard)
             if let match = match.first {
                 let cardId = match.value
 
                 if let card = Cards.by(cardId: cardId) {
-                    if game.currentMode == Mode.DRAFT && game.previousMode == Mode.HUB {
+                    if game.currentMode == .draft && game.previousMode == .hub {
                         Log.verbose?.message("Possible arena card draft : \(card) ?")
-                    } else if (game.currentMode == Mode.COLLECTIONMANAGER
-                        || game.currentMode == Mode.TAVERN_BRAWL)
-                        && game.previousMode == Mode.HUB {
+                    } else if (game.currentMode == .collectionmanager
+                        || game.currentMode == .tavern_brawl)
+                        && game.previousMode == .hub {
                         Log.verbose?.message("Possible constructed card draft : \(card) ?")
                     }
                 }
             }
         } else if logLine.line.contains("unloading name=Tavern_Brawl") {
-            game.currentGameMode = .Brawl
+            game.currentGameMode = .brawl
         }
     }
 }

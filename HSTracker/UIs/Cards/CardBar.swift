@@ -133,40 +133,40 @@ class CardBar: NSView, CardBarTheme {
 
     var required: [ThemeElement: ThemeElementInfo] {
         return [
-            .DefaultFrame: ThemeElementInfo(filename: "frame.png", rect: frameRect),
-            .DefaultGem: ThemeElementInfo(filename: "gem.png", rect: gemRect),
-            .DefaultCountBox: ThemeElementInfo(filename: "countbox.png", rect: boxRect),
-            .DarkOverlay: ThemeElementInfo(filename: "dark.png", rect: frameRect),
-            .FadeOverlay: ThemeElementInfo(filename: "fade.png", rect: frameRect),
-            .CreatedIcon: ThemeElementInfo(filename: "icon_created.png", rect: boxRect),
-            .LegendaryIcon: ThemeElementInfo(filename: "icon_legendary.png", rect: boxRect),
-            .FlashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect),
+            .defaultFrame: ThemeElementInfo(filename: "frame.png", rect: frameRect),
+            .defaultGem: ThemeElementInfo(filename: "gem.png", rect: gemRect),
+            .defaultCountBox: ThemeElementInfo(filename: "countbox.png", rect: boxRect),
+            .darkOverlay: ThemeElementInfo(filename: "dark.png", rect: frameRect),
+            .fadeOverlay: ThemeElementInfo(filename: "fade.png", rect: frameRect),
+            .createdIcon: ThemeElementInfo(filename: "icon_created.png", rect: boxRect),
+            .legendaryIcon: ThemeElementInfo(filename: "icon_legendary.png", rect: boxRect),
+            .flashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect),
         ]
     }
     var optionalFrame: [ThemeElement: ThemeElementInfo] {
         return [
-            .CommonFrame: ThemeElementInfo(filename: "frame_common.png", rect: frameRect),
-            .RareFrame: ThemeElementInfo(filename: "frame_rare.png", rect: frameRect),
-            .EpicFrame: ThemeElementInfo(filename: "frame_epic.png", rect: frameRect),
-            .LegendaryFrame: ThemeElementInfo(filename: "frame_legendary.png", rect: frameRect)
+            .commonFrame: ThemeElementInfo(filename: "frame_common.png", rect: frameRect),
+            .rareFrame: ThemeElementInfo(filename: "frame_rare.png", rect: frameRect),
+            .epicFrame: ThemeElementInfo(filename: "frame_epic.png", rect: frameRect),
+            .legendaryFrame: ThemeElementInfo(filename: "frame_legendary.png", rect: frameRect)
         ]
     }
 
     var optionalGems: [ThemeElement: ThemeElementInfo] {
         return [
-            .CommonGem: ThemeElementInfo(filename: "gem_common.png", rect: gemRect),
-            .RareGem: ThemeElementInfo(filename: "gem_rare.png", rect: gemRect),
-            .EpicGem: ThemeElementInfo(filename: "gem_epic.png", rect: gemRect),
-            .LegendaryGem: ThemeElementInfo(filename: "gem_legendary.png", rect: gemRect),
+            .commonGem: ThemeElementInfo(filename: "gem_common.png", rect: gemRect),
+            .rareGem: ThemeElementInfo(filename: "gem_rare.png", rect: gemRect),
+            .epicGem: ThemeElementInfo(filename: "gem_epic.png", rect: gemRect),
+            .legendaryGem: ThemeElementInfo(filename: "gem_legendary.png", rect: gemRect),
         ]
     }
 
     var optionalCountBoxes: [ThemeElement: ThemeElementInfo] {
         return [
-            .CommonCountBox: ThemeElementInfo(filename: "countbox_common.png", rect: boxRect),
-            .RareCountBox: ThemeElementInfo(filename: "countbox_rare.png", rect: boxRect),
-            .EpicCountBox: ThemeElementInfo(filename: "countbox_epic.png", rect: boxRect),
-            .LegendaryCountBox: ThemeElementInfo(filename: "countbox_legendary.png", rect: boxRect)
+            .commonCountBox: ThemeElementInfo(filename: "countbox_common.png", rect: boxRect),
+            .rareCountBox: ThemeElementInfo(filename: "countbox_rare.png", rect: boxRect),
+            .epicCountBox: ThemeElementInfo(filename: "countbox_epic.png", rect: boxRect),
+            .legendaryCountBox: ThemeElementInfo(filename: "countbox_legendary.png", rect: boxRect)
         ]
     }
 
@@ -209,7 +209,7 @@ class CardBar: NSView, CardBarTheme {
 
     func update(highlight: Bool) {
         if highlight && Settings.instance.flashOnDraw {
-            if let themeElement = required[.FlashFrame] {
+            if let themeElement = required[.flashFrame] {
                 let fullPath = NSBundle.mainBundle().resourcePath!
                     + "/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
                 if let image = NSImage(contentsOfFile: fullPath)
@@ -270,14 +270,14 @@ class CardBar: NSView, CardBarTheme {
         addFadeOverlay()
 
         if let card = card {
-            if abs(card.count) > 1 || card.rarity == .Legendary {
+            if abs(card.count) > 1 || card.rarity == .legendary {
                 addCountBox()
                 addCountText()
             }
             if card.isCreated {
                 addCreatedIcon()
             }
-            if abs(card.count) <= 1 && card.rarity == .Legendary {
+            if abs(card.count) <= 1 && card.rarity == .legendary {
                 addLegendaryIcon()
             }
         }
@@ -289,7 +289,7 @@ class CardBar: NSView, CardBarTheme {
         }
         addCardName()
         if let card = card {
-            if (card.count <= 0 || card.jousted) && playerType != .CardList {
+            if (card.count <= 0 || card.jousted) && playerType != .cardList {
                 addDarken()
             }
         }
@@ -300,7 +300,7 @@ class CardBar: NSView, CardBarTheme {
     }
     func addCardImage(rect: NSRect, offsetByCountBox: Bool = false) {
         var cardId: String?
-        var rarity = Rarity.Free
+        var rarity: Rarity = .free
         var count = 1
 
         if let card = card {
@@ -314,7 +314,7 @@ class CardBar: NSView, CardBarTheme {
         if let cardId = cardId {
             let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(cardId).png"
             if let image = NSImage(contentsOfFile: fullPath) {
-                if offsetByCountBox && abs(count) > 1 || rarity == .Legendary {
+                if offsetByCountBox && abs(count) > 1 || rarity == .legendary {
                     addChild(image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
                 } else {
                     addChild(image, rect: rect)
@@ -324,12 +324,12 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addFadeOverlay() {
-        if let rect = required[.FadeOverlay]?.rect {
+        if let rect = required[.fadeOverlay]?.rect {
             addFadeOverlay(rect)
         }
     }
     func addFadeOverlay(rect: NSRect, offsetByCountBox: Bool = false) {
-        var rarity = Rarity.Free
+        var rarity: Rarity = .free
         var count = 1
 
         if let card = card {
@@ -337,8 +337,8 @@ class CardBar: NSView, CardBarTheme {
             rarity = card.rarity
         }
 
-        if let fadeOverlay = required[.FadeOverlay] {
-            if offsetByCountBox && (abs(count) > 1 || rarity == .Legendary) {
+        if let fadeOverlay = required[.fadeOverlay] {
+            if offsetByCountBox && (abs(count) > 1 || rarity == .legendary) {
                 addChild(fadeOverlay, rect: rect.offsetBy(dx: fadeOffset, dy: 0))
             } else {
                 addChild(fadeOverlay, rect: rect)
@@ -349,17 +349,17 @@ class CardBar: NSView, CardBarTheme {
     func addCountBox() {
         guard let card = card else { return }
 
-        var countBox = required[.DefaultCountBox]
+        var countBox = required[.defaultCountBox]
         if Settings.instance.showRarityColors && hasAllOptionalCountBoxes {
             switch card.rarity {
-            case .Rare:
-                countBox = optionalCountBoxes[.RareCountBox]
-            case .Epic:
-                countBox = optionalCountBoxes[.EpicCountBox]
-            case .Legendary:
-                countBox = optionalCountBoxes[.LegendaryCountBox]
+            case .rare:
+                countBox = optionalCountBoxes[.rareCountBox]
+            case .epic:
+                countBox = optionalCountBoxes[.epicCountBox]
+            case .legendary:
+                countBox = optionalCountBoxes[.legendaryCountBox]
             default:
-                countBox = optionalCountBoxes[.CommonCountBox]
+                countBox = optionalCountBoxes[.commonCountBox]
             }
         }
 
@@ -388,15 +388,15 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addCreatedIcon() {
-        if let rect = required[.CreatedIcon]?.rect {
+        if let rect = required[.createdIcon]?.rect {
             addCreatedIcon(rect)
         }
     }
     func addCreatedIcon(rect: NSRect) {
         guard let card = card else { return }
 
-        if let createdIcon = required[.CreatedIcon] {
-            if abs(card.count) > 1 || card.rarity == .Legendary {
+        if let createdIcon = required[.createdIcon] {
+            if abs(card.count) > 1 || card.rarity == .legendary {
                 addChild(createdIcon, rect: rect.offsetBy(dx: createdIconOffset, dy: 0))
             } else {
                 addChild(createdIcon, rect: rect)
@@ -405,33 +405,33 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addLegendaryIcon() {
-        if let rect = required[.LegendaryIcon]?.rect {
+        if let rect = required[.legendaryIcon]?.rect {
             addLegendaryIcon(rect)
         }
     }
     func addLegendaryIcon(rect: NSRect) {
-        if let icon = required[.LegendaryIcon] {
+        if let icon = required[.legendaryIcon] {
             addChild(icon, rect: rect)
         }
     }
 
     func addFrame() {
-        var rarity = Rarity.Common
+        var rarity: Rarity = .common
         if let card = card {
             rarity = card.rarity
         }
 
-        var frame = required[.DefaultFrame]
+        var frame = required[.defaultFrame]
         if Settings.instance.showRarityColors && hasAllOptionalFrames {
             switch rarity {
-            case .Rare:
-                frame = optionalFrame[.RareFrame]
-            case .Epic:
-                frame = optionalFrame[.EpicFrame]
-            case .Legendary:
-                frame = optionalFrame[.LegendaryFrame]
+            case .rare:
+                frame = optionalFrame[.rareFrame]
+            case .epic:
+                frame = optionalFrame[.epicFrame]
+            case .legendary:
+                frame = optionalFrame[.legendaryFrame]
             default:
-                frame = optionalFrame[.CommonFrame]
+                frame = optionalFrame[.commonFrame]
                 break
             }
         }
@@ -444,17 +444,17 @@ class CardBar: NSView, CardBarTheme {
     func addGem() {
         guard let card = card else { return }
 
-        var gem = required[.DefaultGem]
+        var gem = required[.defaultGem]
          if Settings.instance.showRarityColors && hasAllOptionalGems {
             switch card.rarity {
-            case .Rare:
-                gem = optionalGems[.RareGem]
-            case .Epic:
-                gem = optionalGems[.EpicGem]
-            case Rarity.Legendary:
-                gem = optionalGems[.LegendaryGem]
+            case .rare:
+                gem = optionalGems[.rareGem]
+            case .epic:
+                gem = optionalGems[.epicGem]
+            case .legendary:
+                gem = optionalGems[.legendaryGem]
             default:
-                gem = optionalGems[.CommonGem]
+                gem = optionalGems[.commonGem]
             }
         }
 
@@ -470,7 +470,7 @@ class CardBar: NSView, CardBarTheme {
         guard let card = card else { return }
 
         var textColor = card.textColor()
-        if playerType == .CardList {
+        if playerType == .cardList {
             textColor = NSColor.whiteColor()
         }
 
@@ -482,7 +482,7 @@ class CardBar: NSView, CardBarTheme {
     func addCardName() {
         var width = frameRect.width - 38
         if let card = card {
-            if abs(card.count) > 0 || card.rarity == .Legendary {
+            if abs(card.count) > 0 || card.rarity == .legendary {
                 width -= boxRect.width
             }
             if card.isCreated {
@@ -507,7 +507,7 @@ class CardBar: NSView, CardBarTheme {
             name = playerName
         }
 
-        if playerType == .CardList {
+        if playerType == .cardList {
             textColor = NSColor.whiteColor()
         }
 
@@ -518,7 +518,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func addDarken() {
-        if let overlay = required[.DarkOverlay] {
+        if let overlay = required[.darkOverlay] {
             addChild(overlay)
         }
     }
@@ -582,33 +582,33 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private var ratioWidth: CGFloat {
-        if let playerType = playerType where playerType == .DeckManager {
+        if let playerType = playerType where playerType == .deckManager {
             return 1.0
         }
 
         var ratio: CGFloat
         switch Settings.instance.cardSize {
-        case .Tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
-        case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
-        case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
-        case .VeryBig: ratio = CGFloat(kRowHeight / kHighRowHeight)
-        case .Big: ratio = 1.0
+        case .tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
+        case .small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
+        case .medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
+        case .huge: ratio = CGFloat(kRowHeight / kHighRowHeight)
+        case .big: ratio = 1.0
         }
         return ratio
     }
 
     private var ratioHeight: CGFloat {
-        if let playerType = playerType where playerType == .DeckManager {
+        if let playerType = playerType where playerType == .deckManager {
             return ratioWidth
         }
 
         let baseHeight: CGFloat
         switch Settings.instance.cardSize {
-        case .Tiny: baseHeight = CGFloat(kTinyRowHeight)
-        case .Small: baseHeight = CGFloat(kSmallRowHeight)
-        case .Medium: baseHeight = CGFloat(kMediumRowHeight)
-        case .VeryBig: baseHeight = CGFloat(kHighRowFrameWidth)
-        case .Big: baseHeight = CGFloat(kRowHeight)
+        case .tiny: baseHeight = CGFloat(kTinyRowHeight)
+        case .small: baseHeight = CGFloat(kSmallRowHeight)
+        case .medium: baseHeight = CGFloat(kMediumRowHeight)
+        case .huge: baseHeight = CGFloat(kHighRowFrameWidth)
+        case .big: baseHeight = CGFloat(kRowHeight)
         }
 
         if baseHeight > self.bounds.height {

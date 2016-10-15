@@ -35,7 +35,7 @@ struct Hearthpwn: HttpImporter {
         guard let classNode = doc.at_xpath("//section[contains(@class, 'deck-info')]"),
             let clazz = classNode["class"],
             let playerClass = CardClass(rawValue: clazz
-                .replace("deck-info", with: "").trim().uppercaseString) else {
+                .replace("deck-info", with: "").trim().lowercaseString) else {
                     Log.error?.message("Class not found")
                     return nil
         }

@@ -9,11 +9,11 @@
 import Foundation
 
 enum WotogCounterStyle {
-    case None,
-    Full,
-    Cthun,
-    Spells,
-    Deathrattles
+    case none,
+    full,
+    cthun,
+    spells,
+    deathrattles
 }
 
 class WotogCounter: TextFrame {
@@ -25,14 +25,14 @@ class WotogCounter: TextFrame {
     var health = 6
     var spell = 0
     var deathrattle = 0
-    var counterStyle: [WotogCounterStyle] = [.Full]
+    var counterStyle: [WotogCounterStyle] = [.full]
 
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
         var frame = frameRect
         var textFrame = attackFrame
-        if counterStyle.contains(.Full) || counterStyle.contains(.Cthun) {
+        if counterStyle.contains(.full) || counterStyle.contains(.cthun) {
             addImage("cthun-frame.png", rect: frame)
             addInt(attack, rect: textFrame)
             addInt(health, rect: healthFrame)
@@ -40,14 +40,14 @@ class WotogCounter: TextFrame {
             frame.offsetInPlace(dx: 0, dy: frame.height)
             textFrame.origin.y += frame.height
         }
-        if counterStyle.contains(.Full) || counterStyle.contains(.Spells) {
+        if counterStyle.contains(.full) || counterStyle.contains(.spells) {
             addImage("yogg-frame.png", rect: frame)
             addInt(spell, rect: textFrame)
 
             frame.offsetInPlace(dx: 0, dy: frame.height)
             textFrame.origin.y += frame.height
         }
-        if counterStyle.contains(.Full) || counterStyle.contains(.Deathrattles) {
+        if counterStyle.contains(.full) || counterStyle.contains(.deathrattles) {
             addImage("deathrattle-frame.png", rect: frame)
             addInt(deathrattle, rect: textFrame)
         }

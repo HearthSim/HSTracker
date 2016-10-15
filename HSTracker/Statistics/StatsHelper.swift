@@ -43,14 +43,14 @@ class StatsHelper {
     
     static let lg = LadderGrid()
     
-    static func getStatsUITableData(deck: Deck, mode: GameMode = .Ranked, season: Int)
+    static func getStatsUITableData(deck: Deck, mode: GameMode = .ranked, season: Int)
         -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
         
-        for againstClass in [.NEUTRAL] + Cards.classes {
+        for againstClass in [.neutral] + Cards.classes {
             let dataRow = StatsTableRow()
             
-            if againstClass == .NEUTRAL {
+            if againstClass == .neutral {
                 dataRow.classIcon = "AppIcon"
             } else {
                 dataRow.classIcon = againstClass.rawValue.lowercaseString
@@ -83,8 +83,8 @@ class StatsHelper {
             
             var tableData = [LadderTableRow]()
             
-            let record = getDeckRecord(deck, againstClass: .NEUTRAL, mode: .Ranked)
-            let tpg = getDeckTimePerGame(deck, againstClass: .NEUTRAL, mode: .Ranked)
+            let record = getDeckRecord(deck, againstClass: .neutral, mode: .ranked)
+            let tpg = getDeckTimePerGame(deck, againstClass: .neutral, mode: .ranked)
             
             let winRate = getDeckWinRate(record)
             
@@ -193,16 +193,16 @@ class StatsHelper {
         return winRate
     }
     
-    static func getDeckTimePerGame(deck: Deck, againstClass: CardClass = .NEUTRAL,
-                                   mode: GameMode = .Ranked) -> Double {
+    static func getDeckTimePerGame(deck: Deck, againstClass: CardClass = .neutral,
+                                   mode: GameMode = .ranked) -> Double {
         var stats = deck.statistics
         
-        if againstClass != .NEUTRAL {
+        if againstClass != .neutral {
             stats = deck.statistics.filter({$0.opponentClass == againstClass})
         }
         
         var rankedStats: [Statistic]
-        if mode == .All {
+        if mode == .all {
             rankedStats = stats
         } else {
             rankedStats = stats.filter({$0.playerMode == mode})
@@ -228,11 +228,11 @@ class StatsHelper {
         return winRateString
     }
     
-    static func getDeckRecord(deck: Deck, againstClass: CardClass = .NEUTRAL,
-                              mode: GameMode = .Ranked, season: Int = 0)
+    static func getDeckRecord(deck: Deck, againstClass: CardClass = .neutral,
+                              mode: GameMode = .ranked, season: Int = 0)
         -> StatsDeckRecord {
             var stats = deck.statistics
-            if againstClass != .NEUTRAL {
+            if againstClass != .neutral {
                 stats = deck.statistics.filter({$0.opponentClass == againstClass})
             }
             if season > 0 {
@@ -240,15 +240,15 @@ class StatsHelper {
             }
             
             var rankedStats: [Statistic]
-            if mode == .All {
+            if mode == .all {
                 rankedStats = stats
             } else {
                 rankedStats = stats.filter({$0.playerMode == mode})
             }
             
-            let wins = rankedStats.filter({$0.gameResult == .Win}).count
-            let losses = rankedStats.filter({$0.gameResult == .Loss}).count
-            let draws = rankedStats.filter({$0.gameResult == .Draw}).count
+            let wins = rankedStats.filter({$0.gameResult == .win}).count
+            let losses = rankedStats.filter({$0.gameResult == .loss}).count
+            let draws = rankedStats.filter({$0.gameResult == .draw}).count
             
             return StatsDeckRecord(wins: wins,
                                    losses: losses,
@@ -277,7 +277,7 @@ class StatsHelper {
         var mostRecent: Statistic?
         for deck_i in decks {
             let datedRankedGames = deck_i.statistics
-                .filter({$0.playerMode == .Ranked})
+                .filter({$0.playerMode == .ranked})
                 .filter({$0.date != nil})
             if let latest = datedRankedGames.maxElement({$0.date! < $1.date!}) {
                 if let mr = mostRecent {

@@ -33,7 +33,7 @@ class TagChangeHandler {
             tagChange(game, tag: tag, id: id, value: value,
                       isCreationTag: isCreationTag)
         } else {
-            print("Can't parse \(rawTag) -> \(rawValue)")
+            Log.warning?.message("Can't parse \(rawTag) -> \(rawValue)")
         }
     }
 
@@ -59,7 +59,7 @@ class TagChangeHandler {
 
         if !game.determinedPlayers {
             if let entity = game.entities[id]
-                where tag == .CONTROLLER && entity.isInHand && String.isNullOrEmpty(entity.cardId) {
+                where tag == .controller && entity.isInHand && String.isNullOrEmpty(entity.cardId) {
                 determinePlayers(game, playerId: value)
             }
         }
@@ -156,25 +156,25 @@ class TagChangeHandler {
 
     func parseTag(tag: GameTag, rawValue: String) -> Int {
         switch tag {
-        case .ZONE:
+        case .zone:
             return Zone(rawString: rawValue)!.rawValue
 
-        case .MULLIGAN_STATE:
+        case .mulligan_state:
             return Mulligan(rawString: rawValue)!.rawValue
 
-        case .PLAYSTATE:
+        case .playstate:
             return PlayState(rawString: rawValue)!.rawValue
 
-        case .CARDTYPE:
+        case .cardtype:
             return CardType(rawString: rawValue)!.rawValue
 
-        case .CLASS:
+        case .tag_class:
             return TagClass(rawString: rawValue)!.rawValue
 
-        case .STATE:
+        case .state:
             return State(rawString: rawValue)!.rawValue
             
-        case .STEP:
+        case .step:
             return Step(rawString: rawValue)!.rawValue
 
         default:
@@ -188,17 +188,17 @@ class TagChangeHandler {
     func determinePlayers(game: Game, playerId: Int, isOpponentId: Bool = true) {
         if isOpponentId {
             game.entities.map { $0.1 }
-                .firstWhere { $0.getTag(.PLAYER_ID) == 1 }?.setPlayer(playerId != 1)
+                .firstWhere { $0.getTag(.player_id) == 1 }?.setPlayer(playerId != 1)
             game.entities.map { $0.1 }
-                .firstWhere { $0.getTag(.PLAYER_ID) == 2 }?.setPlayer(playerId == 1)
+                .firstWhere { $0.getTag(.player_id) == 2 }?.setPlayer(playerId == 1)
 
             game.player.id = playerId % 2 + 1
             game.opponent.id = playerId
         } else {
             game.entities.map { $0.1 }
-                .firstWhere { $0.getTag(.PLAYER_ID) == 1 }?.setPlayer(playerId == 1)
+                .firstWhere { $0.getTag(.player_id) == 1 }?.setPlayer(playerId == 1)
             game.entities.map { $0.1 }
-                .firstWhere { $0.getTag(.PLAYER_ID) == 2 }?.setPlayer(playerId != 1)
+                .firstWhere { $0.getTag(.player_id) == 2 }?.setPlayer(playerId != 1)
 
             game.player.id = playerId
             game.opponent.id = playerId % 2 + 1

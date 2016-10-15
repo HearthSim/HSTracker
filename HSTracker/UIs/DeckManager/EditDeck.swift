@@ -53,7 +53,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var currentDamage = -1
     var currentHealth = -1
     var currentRace: Race?
-    var currentCardType = CardType.INVALID
+    var currentCardType: CardType = .invalid
     var deckUndoManager: NSUndoManager?
 
     var monitor: AnyObject? = nil
@@ -86,7 +86,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         presentationView.selectedSegment = settings.deckManagerPreferCards ? 0 : 1
         reloadCards()
 
-        
         if let playerClass = currentPlayerClass {
             classChooser.segmentCount = 2
             classChooser.setLabel(NSLocalizedString(playerClass.rawValue.lowercaseString,
@@ -109,7 +108,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         loadRarities()
         loadRaces()
 
-        if let deck = self.currentDeck, name = deck.name {
+        if let deck = self.currentDeck,
+            let name = deck.name {
             let playerClass = deck.playerClass.rawValue.lowercaseString
             self.window?.title = "\(NSLocalizedString(playerClass, comment: ""))"
                 + " - \(name)"
@@ -228,7 +228,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if sender.selectedSegment == 0 {
             selectedClass = currentPlayerClass
         } else {
-            selectedClass = .NEUTRAL
+            selectedClass = .neutral
         }
         reloadCards()
     }
@@ -244,7 +244,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         let deckCard = currentDeck!.sortedCards.filter({ $0.id == card.id }).first
 
         if deckCard == nil || currentDeck!.isArena ||
-            (deckCard!.count == 1 && card.rarity != .Legendary) {
+            (deckCard!.count == 1 && card.rarity != .legendary) {
 
             redoCardAdd(card)
         }
@@ -318,11 +318,12 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     private func loadSets() {
         let popupMenu = NSMenu()
         for set in CardSet.deckManagerValidCardSets() {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(set.rawValue, comment: ""),
+            let popupMenuItem = NSMenuItem(title:
+                NSLocalizedString(set.rawValue.uppercaseString, comment: ""),
                                            action: #selector(EditDeck.changeSet(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = set.rawValue
-            popupMenuItem.image = NSImage(named: "Set_\(set)")
+            popupMenuItem.image = NSImage(named: "Set_\(set.rawValue.uppercaseString)")
             popupMenu.addItem(popupMenuItem)
         }
         sets.menu = popupMenu
@@ -332,7 +333,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let type = sender.representedObject as? String {
             switch type {
             case "ALL": currentSet = []
-            case "EXPERT1": currentSet = [.CORE, .EXPERT1, .PROMO]
+            case "EXPERT1": currentSet = [.core, .expert1, .promo]
             default:
                 if let set = CardSet(rawValue: type) {
                     currentSet = [set]
@@ -352,7 +353,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             let popupMenuItem = NSMenuItem(title: NSLocalizedString(cardType, comment: ""),
                                            action: #selector(EditDeck.changeCardType(_:)),
                                            keyEquivalent: "")
-            popupMenuItem.representedObject = cardType.uppercaseString
+            popupMenuItem.representedObject = cardType.lowercaseString
             popupMenu.addItem(popupMenuItem)
         }
         cardType.menu = popupMenu
@@ -361,8 +362,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBAction func changeCardType(sender: NSMenuItem) {
         if let type = sender.representedObject as? String {
             switch type {
-            case "all_types": currentCardType = .INVALID
-            default: currentCardType = CardType(rawString: type) ?? .INVALID
+            case "all_types": currentCardType = .invalid
+            default: currentCardType = CardType(rawString: type) ?? .invalid
             }
         }
 
@@ -379,7 +380,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         popupMenu.addItem(popupMenuItem)
 
         for race in Database.deckManagerRaces {
-            let popupMenuItem = NSMenuItem(title: NSLocalizedString(race.rawValue.lowercaseString,
+            let popupMenuItem = NSMenuItem(title: NSLocalizedString(race.rawValue,
                 comment: ""),
                                            action: #selector(EditDeck.changeRace(_:)),
                                            keyEquivalent: "")
@@ -414,7 +415,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                            action: #selector(EditDeck.changeRarity(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = rarity.rawValue
-            let gemName = rarity == .Free ? "gem" : "gem_\(rarity.rawValue)"
+            let gemName = rarity == .free ? "gem" : "gem_\(rarity.rawValue)"
             popupMenuItem.image = NSImage(named: gemName)
             popupMenu.addItem(popupMenuItem)
         }
@@ -572,7 +573,7 @@ extension EditDeck: NSTableViewDelegate {
     func tableView(tableView: NSTableView,
                    viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = CardBar.factory()
-        cell.playerType = .DeckManager
+        cell.playerType = .deckManager
         cell.card = currentDeck!.sortedCards[row]
         return cell
     }

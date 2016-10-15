@@ -13,8 +13,7 @@ import CleanroomLogger
 
 // TODO not yet implemented
 enum HandCountPosition: Int {
-    case Tracker,
-    Window
+    case tracker, window
 }
 
 class Tracker: NSWindowController {
@@ -47,7 +46,7 @@ class Tracker: NSWindowController {
             "window_locked": #selector(Tracker.windowLockedChange(_:)),
             "auto_position_trackers": #selector(Tracker.autoPositionTrackersChange(_:))
         ]
-        if playerType == .Player {
+        if playerType == .player {
             observers.update([
                 "player_draw_chance": #selector(Tracker.playerOptionFrameChange(_:)),
                 "player_card_count": #selector(Tracker.playerOptionFrameChange(_:)),
@@ -61,7 +60,7 @@ class Tracker: NSWindowController {
                 "player_graveyard_details_frame": #selector(Tracker.playerOptionFrameChange(_:)),
                 "player_graveyard_frame": #selector(Tracker.playerOptionFrameChange(_:)),
                 ])
-        } else if playerType == .Opponent {
+        } else if playerType == .opponent {
             observers.update([
                 "opponent_card_count": #selector(Tracker.opponentOptionFrameChange(_:)),
                 "opponent_draw_chance": #selector(Tracker.opponentOptionFrameChange(_:)),
@@ -126,8 +125,8 @@ class Tracker: NSWindowController {
         if Settings.instance.autoPositionTrackers {
             self.autoPosition()
         }
-        if (Settings.instance.showOpponentTracker && self.playerType == .Opponent) ||
-            (Settings.instance.showPlayerTracker && self.playerType == .Player) {
+        if (Settings.instance.showOpponentTracker && self.playerType == .opponent) ||
+            (Settings.instance.showPlayerTracker && self.playerType == .player) {
             self.window?.orderFront(nil)
         }
         
@@ -152,8 +151,8 @@ class Tracker: NSWindowController {
         }
         
         self.window!.ignoresMouseEvents = locked
-        if (Settings.instance.showOpponentTracker && self.playerType == .Opponent) ||
-            (Settings.instance.showPlayerTracker && self.playerType == .Player) {
+        if (Settings.instance.showOpponentTracker && self.playerType == .opponent) ||
+            (Settings.instance.showPlayerTracker && self.playerType == .player) {
             self.window?.orderFront(nil) // must be called after style change
         }
     }
@@ -189,13 +188,13 @@ class Tracker: NSWindowController {
     }
 
     func playerOptionFrameChange(notification: NSNotification) {
-        if playerType == .Player {
+        if playerType == .player {
             Game.instance.updatePlayerTracker(true)
         }
     }
 
     func opponentOptionFrameChange(notification: NSNotification) {
-        if playerType == .Opponent {
+        if playerType == .opponent {
             Game.instance.updateOpponentTracker(true)
         }
     }
@@ -207,11 +206,11 @@ class Tracker: NSWindowController {
     }
     
     private func autoPosition() {
-        if playerType == .Player {
+        if playerType == .player {
             Game.instance.moveWindow(self,
                                      active: Hearthstone.instance.hearthstoneActive,
                                      frame: SizeHelper.playerTrackerFrame())
-        } else if playerType == .Opponent {
+        } else if playerType == .opponent {
             Game.instance.moveWindow(self,
                                      active: Hearthstone.instance.hearthstoneActive,
                                      frame: SizeHelper.opponentTrackerFrame())
@@ -222,11 +221,11 @@ class Tracker: NSWindowController {
         var width: Double
         let settings = Settings.instance
         switch settings.cardSize {
-        case .Tiny: width = kTinyFrameWidth
-        case .Small: width = kSmallFrameWidth
-        case .Medium: width = kMediumFrameWidth
-        case .VeryBig: width = kHighRowFrameWidth
-        case .Big: width = kFrameWidth
+        case .tiny: width = kTinyFrameWidth
+        case .small: width = kSmallFrameWidth
+        case .medium: width = kMediumFrameWidth
+        case .huge: width = kHighRowFrameWidth
+        case .big: width = kFrameWidth
         }
 
         self.window!.contentMinSize = NSSize(width: CGFloat(width), height: 400)
@@ -250,9 +249,9 @@ class Tracker: NSWindowController {
     }
 
     private func _frameOptionsChange() {
-        if playerType == .Player {
+        if playerType == .player {
             Game.instance.updatePlayerTracker()
-        } else if playerType == .Opponent {
+        } else if playerType == .opponent {
             Game.instance.updateOpponentTracker()
         }
     }
@@ -328,11 +327,11 @@ class Tracker: NSWindowController {
 
         let ratio: CGFloat
         switch settings.cardSize {
-        case .Tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
-        case .Small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
-        case .Medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
-        case .VeryBig: ratio = CGFloat(kRowHeight / kHighRowHeight)
-        case .Big: ratio = 1.0
+        case .tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
+        case .small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
+        case .medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
+        case .huge: ratio = CGFloat(kRowHeight / kHighRowHeight)
+        case .big: ratio = 1.0
         }
 
         let showCthunCounter: Bool
@@ -341,7 +340,7 @@ class Tracker: NSWindowController {
         let showGraveyard: Bool
         let proxy: Entity?
 
-        if playerType == .Opponent {
+        if playerType == .opponent {
             cardCounter.hidden = !settings.showOpponentCardCount
             opponentDrawChance.hidden = !settings.showOpponentDrawChance
             playerDrawChance.hidden = true
@@ -383,23 +382,23 @@ class Tracker: NSWindowController {
 
         var counterStyle: [WotogCounterStyle] = []
         if showCthunCounter && showSpellCounter && showDeathrattleCounter {
-            counterStyle.append(.Full)
+            counterStyle.append(.full)
         } else if !showCthunCounter && !showSpellCounter && !showDeathrattleCounter {
-            counterStyle.append(.None)
+            counterStyle.append(.none)
         } else {
             if showDeathrattleCounter {
-                counterStyle.append(.Deathrattles)
+                counterStyle.append(.deathrattles)
             }
             if showSpellCounter {
-                counterStyle.append(.Spells)
+                counterStyle.append(.spells)
             }
             if showCthunCounter {
-                counterStyle.append(.Cthun)
+                counterStyle.append(.cthun)
             }
         }
 
         wotogCounter.counterStyle = counterStyle
-        wotogCounter.hidden = wotogCounter.counterStyle.contains(.None)
+        wotogCounter.hidden = wotogCounter.counterStyle.contains(.none)
         wotogCounter.attack = proxy?.attack ?? 6
         wotogCounter.health = proxy?.health ?? 6
         wotogCounter.spell = player?.spellsPlayedCount ?? 0
@@ -413,12 +412,12 @@ class Tracker: NSWindowController {
             for e: Entity in graveyard {
                 if e.isMinion {
                     if let value = minionmap[e.card] {
-                        minionmap[e.card] = value+1
+                        minionmap[e.card] = value + 1
                     } else {
                         minionmap[e.card] = 1
                     }
                     minions += 1
-                    if e.card.race == Race.MURLOC {
+                    if e.card.race == .murloc {
                         murlocks += 1
                     }
                 }
@@ -440,7 +439,7 @@ class Tracker: NSWindowController {
 
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
-        if !playerClass.hidden && playerType == .Opponent {
+        if !playerClass.hidden && playerType == .opponent {
             if let playerClassId = Game.instance.opponent.playerClassId,
                 playerName = Game.instance.opponent.name {
                 
@@ -454,7 +453,7 @@ class Tracker: NSWindowController {
                 
                 playerClass.subviews.forEach({$0.removeFromSuperview()})
                 let hero = CardBar.factory()
-                hero.playerType = .Hero
+                hero.playerType = .hero
                 hero.playerClassID = playerClassId
                 hero.playerName = playerName
                 
@@ -464,7 +463,7 @@ class Tracker: NSWindowController {
                                     height: smallFrameHeight)
                 hero.update(false)
             }
-        } else if !playerClass.hidden && playerType == .Player {
+        } else if !playerClass.hidden && playerType == .player {
             if let activeDeck = Game.instance.activeDeck {
 
                 offsetFrames += smallFrameHeight
@@ -477,7 +476,7 @@ class Tracker: NSWindowController {
                 
                 playerClass.subviews.forEach({$0.removeFromSuperview()})
                 let hero = CardBar.factory()
-                hero.playerType = .Hero
+                hero.playerType = .hero
                 hero.playerClassID = Cards.hero(byPlayerClass: activeDeck.playerClass)?.id
                 hero.playerName = activeDeck.name
                 
@@ -518,11 +517,11 @@ class Tracker: NSWindowController {
 
         var cardHeight: CGFloat
         switch settings.cardSize {
-        case .Tiny: cardHeight = CGFloat(kTinyRowHeight)
-        case .Small: cardHeight = CGFloat(kSmallRowHeight)
-        case .Medium: cardHeight = CGFloat(kMediumRowHeight)
-        case .VeryBig: cardHeight = CGFloat(kHighRowHeight)
-        case .Big: cardHeight = CGFloat(kRowHeight)
+        case .tiny: cardHeight = CGFloat(kTinyRowHeight)
+        case .small: cardHeight = CGFloat(kSmallRowHeight)
+        case .medium: cardHeight = CGFloat(kMediumRowHeight)
+        case .huge: cardHeight = CGFloat(kHighRowHeight)
+        case .big: cardHeight = CGFloat(kRowHeight)
         }
         if animatedCards.count > 0 {
             cardHeight = round(min(cardHeight,
@@ -586,7 +585,7 @@ class Tracker: NSWindowController {
                                              y: y,
                                              width: windowWidth,
                                              height: smallFrameHeight)
-            if playerType == .Opponent {
+            if playerType == .opponent {
                 graveyardCounter?.displayDetails = settings.showOpponentGraveyardDetails
             } else {
                 graveyardCounter?.displayDetails = settings.showPlayerGraveyardDetails
@@ -626,7 +625,7 @@ class Tracker: NSWindowController {
         cardCounter?.handCount = handCount
         cardCounter?.needsDisplay = true
 
-        if playerType == .Opponent {
+        if playerType == .opponent {
             var draw1 = 0.0, draw2 = 0.0, hand1 = 0.0, hand2 = 0.0
             if deckCount > 0 {
                 draw1 = (1 * 100.0) / Double(deckCount)
@@ -701,7 +700,7 @@ extension Tracker: NSWindowDelegate {
 
     private func onWindowMove() {
         let settings = Settings.instance
-        if playerType == .Player {
+        if playerType == .player {
             settings.playerTrackerFrame = self.window?.frame
         } else {
             settings.opponentTrackerFrame = self.window?.frame

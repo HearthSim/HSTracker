@@ -48,15 +48,15 @@ struct ClassColor {
 
     static func color(playerClass: CardClass) -> NSColor? {
         switch playerClass {
-        case .DRUID: return Druid
-        case .HUNTER: return Hunter
-        case .MAGE: return Mage
-        case .PALADIN: return Paladin
-        case .PRIEST: return Priest
-        case .ROGUE: return Rogue
-        case .SHAMAN: return Shaman
-        case .WARLOCK: return Warlock
-        case .WARRIOR: return Warrior
+        case .druid: return Druid
+        case .hunter: return Hunter
+        case .mage: return Mage
+        case .paladin: return Paladin
+        case .priest: return Priest
+        case .rogue: return Rogue
+        case .shaman: return Shaman
+        case .warlock: return Warlock
+        case .warrior: return Warrior
         default: return nil
         }
     }

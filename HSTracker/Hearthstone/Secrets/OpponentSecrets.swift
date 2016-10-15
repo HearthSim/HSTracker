@@ -25,25 +25,25 @@ class OpponentSecrets: CustomStringConvertible {
 
     func getIndexOffset(heroClass: CardClass) -> Int {
         switch heroClass {
-        case .HUNTER:
+        case .hunter:
             return 0
 
-        case .MAGE:
-            if displayedClasses.contains(.HUNTER) {
-                return SecretHelper.getMaxSecretCount(.HUNTER)
+        case .mage:
+            if displayedClasses.contains(.hunter) {
+                return SecretHelper.getMaxSecretCount(.hunter)
             }
             return 0
 
-        case .PALADIN:
-            if displayedClasses.contains(.HUNTER) && displayedClasses.contains(.MAGE) {
-                return SecretHelper.getMaxSecretCount(.HUNTER)
-                    + SecretHelper.getMaxSecretCount(.MAGE)
+        case .paladin:
+            if displayedClasses.contains(.hunter) && displayedClasses.contains(.mage) {
+                return SecretHelper.getMaxSecretCount(.hunter)
+                    + SecretHelper.getMaxSecretCount(.mage)
             }
-            if displayedClasses.contains(.HUNTER) {
-                return SecretHelper.getMaxSecretCount(.HUNTER)
+            if displayedClasses.contains(.hunter) {
+                return SecretHelper.getMaxSecretCount(.hunter)
             }
-            if displayedClasses.contains(.MAGE) {
-                return SecretHelper.getMaxSecretCount(.MAGE)
+            if displayedClasses.contains(.mage) {
+                return SecretHelper.getMaxSecretCount(.mage)
             }
             return 0
 

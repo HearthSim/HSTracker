@@ -11,8 +11,7 @@ import Kanna
 import CleanroomLogger
 
 enum NetImporterError: ErrorType {
-    case InvalidUrl,
-    UrlNotSupported
+    case invalidUrl, urlNotSupported
 }
 
 protocol Importer {
@@ -84,7 +83,7 @@ final class NetImporter {
 
     static func netImport(url: String, completion: Deck? -> Void) throws {
         guard let _ = NSURL(string: url) else {
-            throw NetImporterError.InvalidUrl
+            throw NetImporterError.invalidUrl
         }
 
         for importer in importers {

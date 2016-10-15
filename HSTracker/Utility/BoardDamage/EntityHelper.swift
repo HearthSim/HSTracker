@@ -10,8 +10,8 @@ import Foundation
 
 class EntityHelper {
     class func isHero(entity: Entity) -> Bool {
-        return entity.hasTag(.CARDTYPE) && entity.getTag(.CARDTYPE) == CardType.HERO.rawValue
-            && entity.hasTag(.ZONE) && entity.getTag(.ZONE) == Zone.PLAY.rawValue
+        return entity.hasTag(.cardtype) && entity.getTag(.cardtype) == CardType.hero.rawValue
+            && entity.hasTag(.zone) && entity.getTag(.zone) == Zone.play.rawValue
     }
     
     class func getHeroEntity(forPlayer: Bool) -> Entity? {
@@ -26,7 +26,7 @@ class EntityHelper {
 				_id = (_id % 2) + 1
         }
         let heros = entities.filter { isHero($0.1) }.map { $0.1 }
-        return heros.first { $0.getTag(.CONTROLLER) == id }
+        return heros.first { $0.getTag(.controller) == id }
     }
     
     class func isPlayersTurn() -> Bool {
@@ -34,13 +34,13 @@ class EntityHelper {
     }
     
     class func isPlayersTurn(entities: [Int: Entity]) -> Bool {
-        let firstPlayer = entities.map { $0.1 }.first { $0.hasTag(.FIRST_PLAYER) }
+        let firstPlayer = entities.map { $0.1 }.first { $0.hasTag(.first_player) }
         if let firstPlayer = firstPlayer {
             let offset = firstPlayer.isPlayer ? 0 : 1
             guard let gameRoot = entities.map({ $0.1 }).first({ $0.name == "GameEntity" }) else {
                 return false
             }
-            let turn = gameRoot.getTag(.TURN)
+            let turn = gameRoot.getTag(.turn)
             return turn > 0 && (turn + offset) % 2 == 1
         }
         return false
