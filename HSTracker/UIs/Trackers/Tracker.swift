@@ -70,7 +70,8 @@ class Tracker: NSWindowController {
                 "opponent_deathrattle_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
                 "show_opponent_class": #selector(Tracker.opponentOptionFrameChange(_:)),
                 "opponent_graveyard_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
-                "opponent_graveyard_details_frame": #selector(Tracker.opponentOptionFrameChange(_:)),
+                "opponent_graveyard_details_frame":
+                    #selector(Tracker.opponentOptionFrameChange(_:)),
                 ])
         }
 

@@ -57,12 +57,14 @@ final class ReplayMaker {
         points.append(replay)
     }
 
-    static func saveToDisk(powerLog: [String]) {
+    static func saveToDisk(powerLog: [LogLine]) {
         guard points.count > 0 else {
             Log.warning?.message("replay is empty, skipping")
             return
         }
-        
+
+        let log = powerLog.sort { $0.time < $1.time }.map { $0.line }
+
         resolveZonePos()
         resolveCardIds()
         removeObsoletePlays()
@@ -112,24 +114,12 @@ final class ReplayMaker {
             opponentHeroName = Cards.hero(byId: opponentHero!.cardId)?.name,
             path = replayDir(),
             tmp = tmpReplayDir() {
-
-            /*let data: NSData
-            do {
-                data = try Wrap(points)
-            } catch {
-                Log.error?.message("Can not convert points to json")
-                return
-            }
-            
-            let replay = "\(tmp)/replay.json"
-            data.writeToFile(replay, atomically: true)
-            */
                 
             let output = "\(tmp)/output_log.txt"
             do {
-                try powerLog.joinWithSeparator("\n").writeToFile(output,
-                                                                 atomically: true,
-                                                                 encoding: NSUTF8StringEncoding)
+                try log.joinWithSeparator("\n").writeToFile(output,
+                                                            atomically: true,
+                                                            encoding: NSUTF8StringEncoding)
             } catch {
                 Log.error?.message("Can not save powerLog")
                 return
@@ -142,7 +132,6 @@ final class ReplayMaker {
             Log.info?.message("Replay saved to \(filename)")
             
             do {
-                //try NSFileManager.defaultManager().removeItemAtPath(replay)
                 try NSFileManager.defaultManager().removeItemAtPath(output)
             } catch {
                 Log.error?.message("Can not remove tmp files")

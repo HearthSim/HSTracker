@@ -98,7 +98,7 @@ final class LogReaderManager {
             }
         } else {
             if line.namespace == .Power {
-               game.powerLog.append(line.line)
+               game.powerLog.append(line)
             }
         }
     }

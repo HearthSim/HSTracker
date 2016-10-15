@@ -29,7 +29,7 @@ class Game {
     var maxId = 0
     var lastId = 0
     var gameTriggerCount = 0
-    var powerLog: [String] = []
+    var powerLog: [LogLine] = []
     var playedCards: [PlayedCard] = []
 
     var player: Player

@@ -90,7 +90,15 @@ class LogUploader {
             return completion(.failed(error: "Can not read \(output)"))
         }
     }
-    
+
+    static func upload(logLines: [LogLine], game: Game?, statistic: Statistic?,
+                       gameStart: NSDate? = nil, fromFile: Bool = false,
+                       completion: UploadResult -> ()) {
+        let log = logLines.sort { $0.time < $1.time }.map { $0.line }
+        upload(log, game: game, statistic: statistic, gameStart: gameStart,
+               fromFile: fromFile, completion: completion)
+    }
+
     static func upload(logLines: [String], game: Game?, statistic: Statistic?,
                        gameStart: NSDate? = nil, fromFile: Bool = false,
                        completion: UploadResult -> ()) {
@@ -99,7 +107,7 @@ class LogUploader {
             completion(.failed(error: "Authorization token not set yet"))
             return
         }
-        
+
         if logLines.filter({ $0.contains("CREATE_GAME") }).count != 1 {
             completion(.failed(error: "Log contains none or multiple games"))
             return
