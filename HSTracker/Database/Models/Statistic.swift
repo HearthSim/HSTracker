@@ -10,7 +10,7 @@ import Foundation
 import Unbox
 import Wrap
 
-final class Statistic: Unboxable {
+final class Statistic {
     var gameResult: GameResult = .unknow
     var hasCoin = false
     var opponentClass: CardClass = .neutral
@@ -32,8 +32,12 @@ final class Statistic: Unboxable {
     init() {
         date = Date()
     }
+}
 
-    init(unboxer: Unboxer) throws {
+extension Statistic: Unboxable {
+    convenience init(unboxer: Unboxer) throws {
+        self.init()
+
         self.gameResult = try unboxer.unbox(key: "gameResult")
         self.hasCoin = try unboxer.unbox(key: "hasCoin")
         do {
@@ -45,27 +49,27 @@ final class Statistic: Unboxable {
         }
         
         self.opponentName = try unboxer.unbox(key: "opponentName")
-        self.opponentRank = try unboxer.unbox(key: "opponentRank")
-        self.opponentLegendRank = try unboxer.unbox(key: "opponentLegendRank")
+        self.opponentRank = unboxer.unbox(key: "opponentRank")
+        self.opponentLegendRank = unboxer.unbox(key: "opponentLegendRank")
         self.playerRank = try unboxer.unbox(key: "playerRank")
-        self.legendRank = try unboxer.unbox(key: "legendRank")
+        self.legendRank = unboxer.unbox(key: "legendRank")
         self.playerMode = try unboxer.unbox(key: "playerMode")
         self.numTurns = try unboxer.unbox(key: "numTurns")
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
-        self.date = try unboxer.unbox(key: "date", formatter: dateFormatter)
+        self.date = unboxer.unbox(key: "date", formatter: dateFormatter)
         if self.date == nil {
             // support old version
             self.date = Date(timeIntervalSince1970: try unboxer.unbox(key: "date"))
         }
         self.cards = try unboxer.unbox(key: "cards")
         self.duration = try unboxer.unbox(key: "duration")
-        self.note = try unboxer.unbox(key: "note")
-        self.season = try unboxer.unbox(key: "season")
+        self.note = unboxer.unbox(key: "note")
+        self.season = unboxer.unbox(key: "season")
         if let date = self.date, self.season == nil {
             self.season = (date.year - 2014) * 12 - 3 + date.month
         }
-        self.hsReplayId = try unboxer.unbox(key: "hsReplayId")
+        self.hsReplayId = unboxer.unbox(key: "hsReplayId")
     }
 }
 
