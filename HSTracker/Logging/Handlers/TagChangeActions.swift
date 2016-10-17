@@ -71,7 +71,7 @@ struct TagChangeActions {
 
     private func predamageChange(game: Game, id: Int, value: Int) {
         guard value > 0 else { return }
-        guard let playerEntity = game.playerEntity, entity = game.entities[id] else { return }
+        guard let playerEntity = game.playerEntity, let entity = game.entities[id] else { return }
         
         if playerEntity.isCurrentPlayer {
             game.opponentDamage(entity)

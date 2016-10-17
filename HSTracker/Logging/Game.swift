@@ -597,8 +597,7 @@ class Game {
     func isMulliganDone() -> Bool {
         let player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         let opponent = entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer }
-        
-        if let player = player, opponent = opponent {
+        if let player = player, let opponent = opponent {
             return player[.mulligan_state] == Mulligan.done.rawValue
                 && opponent[.mulligan_state] == Mulligan.done.rawValue
         }
