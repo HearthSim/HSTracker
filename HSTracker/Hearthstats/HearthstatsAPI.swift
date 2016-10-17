@@ -372,8 +372,8 @@ struct HearthstatsAPI {
 
         let parameters: [String: AnyObject] = [
             "class": deck.playerClass.rawValue.capitalizedString,
-            "mode": "\(game.currentGameMode)",
-            "result": "\(game.gameResult)",
+            "mode": "\(game.currentGameMode)".capitalizedString,
+            "result": "\(game.gameResult)".capitalizedString,
             "coin": "\(stat.hasCoin)",
             "numturns": stat.numTurns,
             "duration": stat.duration,
@@ -412,8 +412,8 @@ struct HearthstatsAPI {
     private static func _postArenaMatch(game: Game, deck: Deck, stat: Statistic) {
         let parameters: [String: AnyObject] = [
             "class": deck.playerClass.rawValue.capitalizedString,
-            "mode": "\(game.currentGameMode)",
-            "result": "\(game.gameResult)",
+            "mode": "\(game.currentGameMode)".capitalizedString,
+            "result": "\(game.gameResult)".capitalizedString,
             "coin": "\(stat.hasCoin)",
             "numturns": stat.numTurns,
             "duration": stat.duration,
