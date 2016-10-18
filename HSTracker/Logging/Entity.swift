@@ -121,7 +121,6 @@ extension Entity: CustomStringConvertible {
         let hide = info.hidden && (isInHand || isInDeck)
         let tags = self.tags.map({"\($0.0)=\($0.1)"}).joinWithSeparator(",")
         return "[Entity: id=\(id), "
-            + "name=\(name), "
             + "cardId=\(hide ? "" : cardId), "
             + "cardName=\(hide ? "" : cardName), "
             + "name=\(hide ? "" : name), "

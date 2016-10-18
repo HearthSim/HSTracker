@@ -379,9 +379,7 @@ struct TagChangeActions {
                 }
                 game.playerGetToDeck(entity, cardId: cardId, turn: game.turnNumber())
                 game.proposeKeyPoint(.createToDeck, id: id, player: .player)
-            }
-            if controller == game.opponent.id {
-                
+            } else if controller == game.opponent.id {
                 if game.joustReveals > 0 {
                     break
                 }
