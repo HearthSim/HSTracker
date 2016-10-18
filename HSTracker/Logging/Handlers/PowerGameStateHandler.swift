@@ -30,7 +30,6 @@ class PowerGameStateHandler {
 
     func handle(game: Game, logLine: LogLine) {
         var creationTag = false
-        var setup = false
 
         // current game
         if logLine.line.match(GameEntityRegex) {
@@ -249,7 +248,6 @@ class PowerGameStateHandler {
             tagChangeHandler.tagChange(game: game, rawTag: tag, id: game.currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
-            setup = true
         } else if logLine.line.contains("Begin Spectating")
             || logLine.line.contains("Start Spectator")
             && game.isInMenu {
@@ -355,7 +353,6 @@ class PowerGameStateHandler {
         } else if logLine.line.contains("BlockType=JOUST") {
             game.joustReveals = 2
         } else if logLine.line.contains("CREATE_GAME") {
-            setup = true
             tagChangeHandler.clearQueuedActions()
         } else if game.gameTriggerCount == 0
             && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
@@ -378,16 +375,12 @@ class PowerGameStateHandler {
         }
         if !game.determinedPlayers && game.setupDone {
             if let playerCard = game.entities.map({ $0.1 })
-                .firstWhere({ $0.isInHand
+                .first({ $0.isInHand
                     && !String.isNullOrEmpty($0.cardId) && $0.has(tag: .controller) }) {
                     tagChangeHandler.determinePlayers(game: game,
                                                       playerId: playerCard[.controller],
                                                       isOpponentId: false)
             }
-        }
-
-        if !setup {
-            game.setupDone = true
         }
     }
 
