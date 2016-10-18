@@ -13,8 +13,11 @@ import CleanroomLogger
 struct LogLine: CustomStringConvertible {
     let namespace: LogLineNamespace
     let time: NSDate
+    let nanoseconds: Double
     let line: String
     let include: Bool
+
+    static let nano: Double = 1_000_000_000
 
     static let dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
@@ -25,32 +28,30 @@ struct LogLine: CustomStringConvertible {
     init(namespace: LogLineNamespace, line: String, include: Bool = true) {
         self.namespace = namespace
         self.line = line
-        self.time = LogLine.parseTimeAsDate(line)
+        (self.time, self.nanoseconds) = LogLine.parseTime(line)
         self.include = include
     }
-    
-    static func parseTimeAsDate(line: String) -> NSDate {
-        guard line.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 20 else {
-            return NSDate()
-        }
+
+    static func parseTime(line: String) -> (NSDate, Double) {
+        guard line.characters.count > 20 else { return (NSDate(), 0) }
         
         guard let fromLine = line.substringWithRange(2, location: 16)
-            .componentsSeparatedByString(" ").first else { return NSDate() }
+            .componentsSeparatedByString(" ").first else { return (NSDate(), 0) }
         
-        guard !fromLine.isEmpty else { return NSDate() }
+        guard !fromLine.isEmpty else { return (NSDate(), 0) }
         let components = fromLine.componentsSeparatedByString(".")
-        guard components.count >= 1 && components.count <= 2 else { return NSDate() }
+        guard components.count >= 1 && components.count <= 2 else { return (NSDate(), 0) }
         
         let dateTime = NSDate(fromString: components[0],
                               inFormat: "HH:mm:ss",
                               timeZone: nil)
-        var nanoseconds = 0
+        var nanoseconds: Double = 0
         if components.count == 2 && components[1].characters.count >= 3 {
-            if let milliseconds = Int(components[1].substringWithRange(0, end: 3)) {
-                nanoseconds = milliseconds * 1000000
+            if let milliseconds = Double(components[1]) {
+                nanoseconds = milliseconds
             }
         }
-        
+
         let today = NSDate()
         if let date = NSDate.NSDateFromYear(year: today.year,
                                             month: today.month,
@@ -58,18 +59,14 @@ struct LogLine: CustomStringConvertible {
                                             hour: dateTime.hour,
                                             minute: dateTime.minute,
                                             second: dateTime.second,
-                                            nanosecond: nanoseconds,
+                                            nanosecond: 0,
                                             timeZone: NSTimeZone(name: "UTC")) {
             if date > NSDate() {
-                return date.addDays(-1)!
+                return (date.addDays(-1)!, nanoseconds)
             }
-            return date
+            return (date, nanoseconds)
         }
-        return dateTime
-    }
-    
-    static func parseTime(line: String) -> Double {
-        return parseTimeAsDate(line).timeIntervalSince1970
+        return (dateTime, nanoseconds)
     }
 
     var description: String {

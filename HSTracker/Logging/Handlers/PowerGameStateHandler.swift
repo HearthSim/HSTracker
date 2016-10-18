@@ -14,11 +14,11 @@ import CleanroomLogger
 class PowerGameStateHandler {
 
     let BlockStartRegex = ".*BLOCK_START.*BlockType=(POWER|TRIGGER).*id=(\\d*)"
-        + ".*cardId=(\\w*).*Target=(.+)"
+        + ".*(cardId=(\\w*)).*Target=(.+)"
     let CardIdRegex = "cardId=(\\w+)"
     let CreationRegex = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
     let CreationTagRegex = "tag=(\\w+) value=(\\w+)"
-    let EntityNameRegex = "TAG_CHANGE Entity=([\\w\\s]+\\w) tag=PLAYER_ID value=(\\d)"
+    let EntityNameRegex = "TAG_CHANGE Entity=(\\w+) tag=PLAYER_ID value=(\\d)"
     let GameEntityRegex = "GameEntity EntityID=(\\d+)"
     let PlayerEntityRegex = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
     let PlayerNameRegex = "id=(\\d) Player=(.+) TaskList=(\\d)"
@@ -30,6 +30,7 @@ class PowerGameStateHandler {
 
     func handle(game: Game, logLine: LogLine) {
         var creationTag = false
+        var setup = false
 
         // current game
         if logLine.line.match(GameEntityRegex) {
@@ -97,8 +98,8 @@ class PowerGameStateHandler {
                         .filter { $0.has(tag: .player_id) }.take(2)
                     let unnamedPlayers = players.filter { String.isNullOrEmpty($0.name) }
                     let unknownHumanPlayer = players
-                        .firstWhere { $0.name == "UNKNOWN HUMAN PLAYER" }
-                    
+                        .first { $0.name == "UNKNOWN HUMAN PLAYER" }
+
                     if unnamedPlayers.count == 0 && unknownHumanPlayer != .None {
                         entity = unknownHumanPlayer
                         if let entity = entity {
@@ -115,18 +116,17 @@ class PowerGameStateHandler {
                         game.tmpEntities.append(tmpEntity!)
                     }
 
-                    if let _tag: GameTag = GameTag(rawString: tag) {
+                    if let _tag = GameTag(rawString: tag) {
                         let tagValue = tagChangeHandler.parseTag(_tag, rawValue: value)
-
                         if unnamedPlayers.count == 1 {
                             entity = unnamedPlayers.first
                         } else if unnamedPlayers.count == 2 &&
                             _tag == .current_player && tagValue == 0 {
                             entity = game.entities.map { $0.1 }
-                                .firstWhere { $0.has(tag: .current_player) }
+                                .first { $0.has(tag: .current_player) }
                         }
 
-                        if let entity = entity, tmpEntity = tmpEntity {
+                        if let entity = entity, let tmpEntity = tmpEntity {
                             entity.name = tmpEntity.name
                             tmpEntity.tags.forEach({ (gameTag, val) in
                                 tagChangeHandler.tagChange(game,
@@ -245,6 +245,7 @@ class PowerGameStateHandler {
             tagChangeHandler.tagChange(game, rawTag: tag, id: game.currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
+            setup = true
         } else if logLine.line.contains("Begin Spectating")
             || logLine.line.contains("Start Spectator")
             && game.isInMenu {
@@ -256,7 +257,7 @@ class PowerGameStateHandler {
             let matches = logLine.line.matches(BlockStartRegex)
             let type = matches[0].value
             let actionStartingEntityId = Int(matches[1].value)!
-            var actionStartingCardId: String? = matches[2].value
+            var actionStartingCardId: String? = matches[3].value
 
             let player = game.entities.map { $0.1 }
                 .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.player.id }
@@ -340,6 +341,7 @@ class PowerGameStateHandler {
         } else if logLine.line.contains("BlockType=JOUST") {
             game.joustReveals = 2
         } else if logLine.line.contains("CREATE_GAME") {
+            setup = true
             tagChangeHandler.clearQueuedActions()
         } else if game.gameTriggerCount == 0 && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
             game.gameTriggerCount += 1
@@ -369,10 +371,13 @@ class PowerGameStateHandler {
             }
         }
         // swiftlint:enable line_length
+        if !setup {
+            game.setupDone = true
+        }
     }
 
     private func addTargetAsKnownCardId(game: Game, matches: [Match], count: Int = 1) {
-        let target: String = matches[3].value.trim()
+        let target = matches[4].value.trim()
         guard target.hasPrefix("[") && tagChangeHandler.isEntity(target) else { return }
         guard target.match(CardIdRegex) else { return }
 

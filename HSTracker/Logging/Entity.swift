@@ -119,10 +119,14 @@ extension Entity: CustomStringConvertible {
     var description: String {
         let cardName = Cards.any(byId: cardId)?.name ?? ""
         let hide = info.hidden && (isInHand || isInDeck)
-        return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
+        let tags = self.tags.map({"\($0.0)=\($0.1)"}).joinWithSeparator(",")
+        return "[Entity: id=\(id), "
+            + "name=\(name), "
+            + "cardId=\(hide ? "" : cardId), "
             + "cardName=\(hide ? "" : cardName), "
             + "name=\(hide ? "" : name), "
-            + "zonePos=\(self[.zone_position]), info=\(info)]"
+            + "tags=(\(tags)), "
+            + "info=\(info)]"
     }
 }
 

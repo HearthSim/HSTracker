@@ -22,19 +22,17 @@ final class LogReaderManager {
     var fullScreenFxHandler = FullScreenFxHandler()
 
     private let powerLog = LogReader(info: LogReaderInfo(name: .power,
-        startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState.DebugPrintEntityChoices()"],
-        containsFilters: ["Begin Spectating",
-            "Start Spectator", "End Spectator"]))
+        startsWithFilters: ["PowerTaskList.DebugPrintPower",
+            "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"],
+        containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"]))
     private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .power,
-        startsWithFilters: ["GameState."],
-        include: false))
+        startsWithFilters: ["GameState."], include: false))
     private let bob = LogReader(info: LogReaderInfo(name: .bob))
     private let rachelle = LogReader(info: LogReaderInfo(name: .rachelle))
     private let asset = LogReader(info: LogReaderInfo(name: .asset))
     private let arena = LogReader(info: LogReaderInfo(name: .arena))
     private let loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
-        startsWithFilters: ["LoadingScreen.OnSceneLoaded",
-            "Gameplay"]))
+        startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay"]))
     private let net = LogReader(info: LogReaderInfo(name: .net))
     private let fullScreenFx = LogReader(info: LogReaderInfo(name: .fullScreenFX))
 

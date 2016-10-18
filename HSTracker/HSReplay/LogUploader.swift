@@ -67,8 +67,12 @@ class LogUploader {
                 completion(.failed(error: "Cannot find game start date"))
                 return
             }
+            let logLines = lines.map({
+                LogLine.init(namespace: .power, line: $0)
+            })
+
             if let line = lines.first({ $0.contains("CREATE_GAME") }) {
-                let gameStart = LogLine.parseTimeAsDate(line)
+                let (gameStart, _) = LogLine.parseTime(line)
                 date = NSDate.NSDateFromYear(year: date!.year,
                                              month: date!.month,
                                              day: date!.day,
@@ -77,8 +81,7 @@ class LogUploader {
                                              second: gameStart.second)
             }
             
-            self.upload(lines, game: nil, statistic: nil,
-                        gameStart: date, fromFile: true) { (result) in
+            self.upload(logLines, gameStart: date, fromFile: true) { (result) in
                 do {
                     try NSFileManager.defaultManager().removeItemAtPath(output)
                 } catch {
@@ -91,15 +94,20 @@ class LogUploader {
         }
     }
 
-    static func upload(logLines: [LogLine], game: Game?, statistic: Statistic?,
+    static func upload(logLines: [LogLine], game: Game? = nil, statistic: Statistic? = nil,
                        gameStart: NSDate? = nil, fromFile: Bool = false,
                        completion: UploadResult -> ()) {
-        let log = logLines.sort { $0.time < $1.time }.map { $0.line }
+        let log = logLines.sort {
+            if $0.time == $1.time {
+                return $0.nanoseconds < $1.nanoseconds
+            }
+            return $0.time < $1.time
+            }.map { $0.line }
         upload(log, game: game, statistic: statistic, gameStart: gameStart,
                fromFile: fromFile, completion: completion)
     }
 
-    static func upload(logLines: [String], game: Game?, statistic: Statistic?,
+    static func upload(logLines: [String], game: Game? = nil, statistic: Statistic? = nil,
                        gameStart: NSDate? = nil, fromFile: Bool = false,
                        completion: UploadResult -> ()) {
         guard let token = Settings.instance.hsReplayUploadToken else {
@@ -157,6 +165,7 @@ class LogUploader {
                         if let json = json as? [String: AnyObject],
                             putUrl = json["put_url"] as? String,
                             uploadShortId = json["shortid"] as? String {
+                            Log.verbose?.message("Upload to \(putUrl) with id: \(uploadShortId)")
 
                             if let data = log.dataUsingEncoding(NSUTF8StringEncoding) {
                                 do {

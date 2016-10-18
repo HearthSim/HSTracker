@@ -1,6 +1,7 @@
 #### 0.18.1  
 **Fixes:**  
 - Correct a crash happening on opening Update panel on Preferences
+- Prince Malchezaar is no more shown too early
 
 **New:**
 - Import decks from https://tempostorm.com, http://www.hearthstoneheroes.de and http://www.hearthstonetopdeck.com
@@ -11,6 +12,7 @@
 
 **Internal**
 - HSTracker have been converted to swift 2.3
+- HSTracker now only use PowerTaskList log to track your game
 
 #### 0.18
 - HSTracker now synchronize your games with HSReplay.net ! Enjoy your replays now !
