@@ -113,12 +113,7 @@ func == (lhs: Entity, rhs: Entity) -> Bool {
 
 extension Entity: CustomStringConvertible {
     var description: String {
-        let cardName: String
-        if let card = Cards.any(byId: cardId) {
-            cardName = card.name
-        } else {
-            cardName = ""
-        }
+        let cardName = Cards.any(byId: cardId)?.name ?? ""
         let hide = info.hidden && (isInHand || isInDeck)
         return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
             + "cardName=\(hide ? "" : cardName), "
