@@ -14,6 +14,7 @@ struct LogLine: CustomStringConvertible {
     let namespace: LogLineNamespace
     let time: Date
     let line: String
+    let nanoseconds: Double
     let include: Bool
 
     static let dateFormatter: DateFormatter = {
@@ -25,29 +26,27 @@ struct LogLine: CustomStringConvertible {
     init(namespace: LogLineNamespace, line: String, include: Bool = true) {
         self.namespace = namespace
         self.line = line
-        self.time = LogLine.parseTimeAsDate(line: line)
+        (self.time, self.nanoseconds) = LogLine.parseTime(line: line)
         self.include = include
     }
     
-    static func parseTimeAsDate(line: String) -> Date {
-        guard line.lengthOfBytes(using: .utf8) > 20 else {
-            return Date()
-        }
-        
+    static func parseTime(line: String) -> (Date, Double) {
+        guard line.characters.count > 20 else { return (Date(), 0) }
+
         guard let fromLine = line.substringWithRange(2, location: 16)
-            .components(separatedBy: " ").first else { return Date() }
+            .components(separatedBy: " ").first else { return (Date(), 0) }
         
-        guard !fromLine.isEmpty else { return Date() }
+        guard !fromLine.isEmpty else { return (Date(), 0) }
         let components = fromLine.components(separatedBy: ".")
-        guard components.count >= 1 && components.count <= 2 else { return Date() }
+        guard components.count >= 1 && components.count <= 2 else { return (Date(), 0) }
         
         let dateTime = Date(fromString: components[0],
                               inFormat: "HH:mm:ss",
                               timeZone: nil)
-        var nanoseconds = 0
+        var nanoseconds: Double = 0
         if components.count == 2 && components[1].characters.count >= 3 {
-            if let milliseconds = Int(components[1].substringWithRange(0, end: 3)) {
-                nanoseconds = milliseconds * 1000000
+            if let milliseconds = Double(components[1]) {
+                nanoseconds = milliseconds
             }
         }
         
@@ -58,20 +57,16 @@ struct LogLine: CustomStringConvertible {
                                             hour: dateTime.hour,
                                             minute: dateTime.minute,
                                             second: dateTime.second,
-                                            nanosecond: nanoseconds,
+                                            nanosecond: 0,
                                             timeZone: TimeZone(identifier: "UTC")) {
             if date > Date() {
-                return date.addDays(-1)!
+                return (date.addDays(-1)!, nanoseconds)
             }
-            return date
+            return  (date, nanoseconds)
         }
-        return dateTime
+        return (dateTime, nanoseconds)
     }
     
-    static func parseTime(line: String) -> Double {
-        return parseTimeAsDate(line: line).timeIntervalSince1970
-    }
-
     var description: String {
         return "\(namespace): \(time.millisecondsFormatted): \(line)"
     }

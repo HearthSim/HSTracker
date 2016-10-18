@@ -60,7 +60,8 @@ final class LogReader {
         for line in lines {
             if choices.any({ line.range(of: $0) != nil }) {
                 Log.verbose?.message("Found \(line)")
-                return LogLine.parseTimeAsDate(line: line)
+                let (date, _) = LogLine.parseTime(line: line)
+                return date
             }
         }
 
@@ -119,7 +120,9 @@ final class LogReader {
                                 line.characters.index(line.startIndex, offsetBy: 19))
 
                             if !info.hasFilters
-                                || info.startsWithFilters.any({ cutted.hasPrefix($0) })
+                                || info.startsWithFilters.any({
+                                    cutted.hasPrefix($0) || cutted.match($0)
+                                })
                                 || info.containsFilters.any({ cutted.contains($0) }) {
 
                                 let logLine = LogLine(namespace: info.name,

@@ -14,11 +14,11 @@ import CleanroomLogger
 class PowerGameStateHandler {
 
     let BlockStartRegex = ".*BLOCK_START.*BlockType=(POWER|TRIGGER).*id=(\\d*)"
-        + ".*cardId=(\\w*).*Target=(.+)"
+        + ".*(cardId=(\\w*)).*Target=(.+)"
     let CardIdRegex = "cardId=(\\w+)"
     let CreationRegex = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
     let CreationTagRegex = "tag=(\\w+) value=(\\w+)"
-    let EntityNameRegex = "TAG_CHANGE Entity=([\\w\\s]+\\w) tag=PLAYER_ID value=(\\d)"
+    let EntityNameRegex = "TAG_CHANGE Entity=(\\w+) tag=PLAYER_ID value=(\\d)"
     let GameEntityRegex = "GameEntity EntityID=(\\d+)"
     let PlayerEntityRegex = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
     let PlayerNameRegex = "id=(\\d) Player=(.+) TaskList=(\\d)"
@@ -30,6 +30,7 @@ class PowerGameStateHandler {
 
     func handle(game: Game, logLine: LogLine) {
         var creationTag = false
+        var setup = false
 
         // current game
         if logLine.line.match(GameEntityRegex) {
@@ -98,7 +99,7 @@ class PowerGameStateHandler {
                         .filter { $0.has(tag: .player_id) }.take(2)
                     let unnamedPlayers = players.filter { String.isNullOrEmpty($0.name) }
                     let unknownHumanPlayer = players
-                        .firstWhere { $0.name == "UNKNOWN HUMAN PLAYER" }
+                        .first { $0.name == "UNKNOWN HUMAN PLAYER" }
                     
                     if unnamedPlayers.count == 0 && unknownHumanPlayer != .none {
                         entity = unknownHumanPlayer
@@ -116,7 +117,7 @@ class PowerGameStateHandler {
                         game.tmpEntities.append(tmpEntity!)
                     }
 
-                    if let _tag: GameTag = GameTag(rawString: tag) {
+                    if let _tag = GameTag(rawString: tag) {
                         let tagValue = tagChangeHandler.parseTag(tag: _tag, rawValue: value)
 
                         if unnamedPlayers.count == 1 {
@@ -124,7 +125,7 @@ class PowerGameStateHandler {
                         } else if unnamedPlayers.count == 2 &&
                             _tag == .current_player && tagValue == 0 {
                             entity = game.entities.map { $0.1 }
-                                .firstWhere { $0.has(tag: .current_player) }
+                                .first { $0.has(tag: .current_player) }
                         }
 
                         if let entity = entity, let tmpEntity = tmpEntity {
@@ -248,6 +249,7 @@ class PowerGameStateHandler {
             tagChangeHandler.tagChange(game: game, rawTag: tag, id: game.currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
+            setup = true
         } else if logLine.line.contains("Begin Spectating")
             || logLine.line.contains("Start Spectator")
             && game.isInMenu {
@@ -259,7 +261,7 @@ class PowerGameStateHandler {
             let matches = logLine.line.matches(BlockStartRegex)
             let type = matches[0].value
             let actionStartingEntityId = Int(matches[1].value)!
-            var actionStartingCardId: String? = matches[2].value
+            var actionStartingCardId: String? = matches[3].value
 
             let player = game.entities.map { $0.1 }
                 .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.player.id }
@@ -276,7 +278,6 @@ class PowerGameStateHandler {
                 return
             }
 
-            // swiftlint:disable line_length
             if type == "TRIGGER" {
                 if actionStartingCardId == CardIds.Collectible.Rogue.TradePrinceGallywix {
                     if let lastCardPlayed = game.lastCardPlayed,
@@ -285,7 +286,8 @@ class PowerGameStateHandler {
                         addKnownCardId(game: game, cardId: cardId)
                     }
                     addKnownCardId(game: game,
-                                   cardId: CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken)
+                                   cardId: CardIds.NonCollectible.Neutral
+                                    .TradePrinceGallywix_GallywixsCoinToken)
                 }
             } else {
                 if let actionStartingCardId = actionStartingCardId {
@@ -294,44 +296,54 @@ class PowerGameStateHandler {
                         addTargetAsKnownCardId(game: game, matches: matches, count: 3)
                     case CardIds.Collectible.Rogue.BeneathTheGrounds:
                         addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Rogue.BeneaththeGrounds_AmbushToken,
+                                       cardId: CardIds.NonCollectible.Rogue
+                                        .BeneaththeGrounds_AmbushToken,
                                        count: 3)
                     case CardIds.Collectible.Warrior.IronJuggernaut:
                         addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Warrior.IronJuggernaut_BurrowingMineToken)
+                                       cardId: CardIds.NonCollectible.Warrior
+                                        .IronJuggernaut_BurrowingMineToken)
                     case CardIds.Collectible.Druid.Recycle:
                         addTargetAsKnownCardId(game: game, matches: matches)
                     case CardIds.Collectible.Mage.ForgottenTorch:
                         addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Mage.ForgottenTorch_RoaringTorchToken)
+                                       cardId: CardIds.NonCollectible.Mage
+                                        .ForgottenTorch_RoaringTorchToken)
                     case CardIds.Collectible.Warlock.CurseOfRafaam:
                         addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Warlock.CurseofRafaam_CursedToken)
+                                       cardId: CardIds.NonCollectible.Warlock
+                                        .CurseofRafaam_CursedToken)
                     case CardIds.Collectible.Neutral.AncientShade:
                         addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Neutral.AncientShade_AncientCurseToken)
+                                       cardId: CardIds.NonCollectible.Neutral
+                                        .AncientShade_AncientCurseToken)
                     case CardIds.Collectible.Priest.ExcavatedEvil:
                         addKnownCardId(game: game,
                                        cardId: CardIds.Collectible.Priest.ExcavatedEvil)
                     case CardIds.Collectible.Neutral.EliseStarseeker:
                         addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken)
+                                       cardId: CardIds.NonCollectible.Neutral
+                                        .EliseStarseeker_MapToTheGoldenMonkeyToken)
                     case CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken:
                         addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Neutral.EliseStarseeker_GoldenMonkeyToken)
+                                       cardId: CardIds.NonCollectible.Neutral
+                                        .EliseStarseeker_GoldenMonkeyToken)
                     case CardIds.Collectible.Neutral.Doomcaller:
                         addKnownCardId(game: game, cardId: CardIds.NonCollectible.Neutral.Cthun)
                     default:
                         if let card = Cards.any(byId: actionStartingCardId) {
-                            if (player != nil && player![.current_player] == 1 && !game.playerUsedHeroPower)
+                            if (player != nil && player![.current_player] == 1
+                                && !game.playerUsedHeroPower)
                                 || (opponent != nil && opponent![.current_player] == 1
                                     && !game.opponentUsedHeroPower) {
                                 if card.type == .hero_power {
                                     if player != nil && player![.current_player] == 1 {
-                                        game.playerHeroPower(cardId: actionStartingCardId, turn: game.turnNumber())
+                                        game.playerHeroPower(cardId: actionStartingCardId,
+                                                             turn: game.turnNumber())
                                         game.playerUsedHeroPower = true
                                     } else if opponent != nil {
-                                        game.opponentHeroPower(cardId: actionStartingCardId, turn: game.turnNumber())
+                                        game.opponentHeroPower(cardId: actionStartingCardId,
+                                                               turn: game.turnNumber())
                                         game.opponentUsedHeroPower = true
                                     }
                                 }
@@ -343,8 +355,10 @@ class PowerGameStateHandler {
         } else if logLine.line.contains("BlockType=JOUST") {
             game.joustReveals = 2
         } else if logLine.line.contains("CREATE_GAME") {
+            setup = true
             tagChangeHandler.clearQueuedActions()
-        } else if game.gameTriggerCount == 0 && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
+        } else if game.gameTriggerCount == 0
+            && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
             game.gameTriggerCount += 1
         } else if game.gameTriggerCount < 10 && logLine.line.contains("BLOCK_END") {
             if let entity = game.gameEntity, entity.has(tag: .turn) {
@@ -371,16 +385,19 @@ class PowerGameStateHandler {
                                                       isOpponentId: false)
             }
         }
-        // swiftlint:enable line_length
+
+        if !setup {
+            game.setupDone = true
+        }
     }
 
     private func addTargetAsKnownCardId(game: Game, matches: [Match], count: Int = 1) {
-        let target: String = matches[3].value.trim()
+        let target = matches[4].value.trim()
         guard target.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: target) else { return }
         guard target.match(CardIdRegex) else { return }
 
         let cardIdMatch = target.matches(CardIdRegex)
-        let targetCardId: String = cardIdMatch[0].value.trim()
+        let targetCardId = cardIdMatch[0].value.trim()
         //print("**** CardIdRegex -> targetCardId:'\(targetCardId)'")
         for i in 0 ..< count {
             let id = getMaxEntityId() + i + 1
