@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Card: Hashable, CustomStringConvertible {
+final class Card {
     // MARK: - Card data
     var id = ""
     var collectible = false
@@ -93,15 +93,20 @@ final class Card: Hashable, CustomStringConvertible {
         copy.highlightFrame = self.highlightFrame
         return copy
     }
+}
 
+extension Card: CustomStringConvertible {
     var description: String {
         return "[\(name)(\(id)):\(count)]"
     }
+}
 
+extension Card: Hashable {
     var hashValue: Int {
         return id.hashValue
     }
-}
-func == (lhs: Card, rhs: Card) -> Bool {
-    return lhs.id == rhs.id
+
+    static func == (lhs: Card, rhs: Card) -> Bool {
+        return lhs.id == rhs.id
+    }
 }

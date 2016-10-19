@@ -177,12 +177,17 @@ extension Deck: Unboxable {
 }
 
 extension Deck: WrapCustomizable {
-    func wrap(context: Any?, dateFormatter: DateFormatter?) throws -> Any? {
+    func wrap(context: Any?, dateFormatter: DateFormatter?) -> Any? {
         reset()
-        var wrapped: [String: Any] = try Wrapper(context: context, dateFormatter: dateFormatter)
-            .wrap(object: self)
-        wrapped["cards"] = sortedCards.toDict()
-        return wrapped
+        do {
+            var wrapped: [String: Any] = try Wrapper(context: context, dateFormatter: dateFormatter)
+                .wrap(object: self)
+            wrapped["cards"] = sortedCards.toDict()
+
+            return wrapped
+        } catch {
+            return nil
+        }
     }
 
     func keyForWrapping(propertyNamed propertyName: String) -> String? {
