@@ -30,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var operationQueue: OperationQueue?
     var hstrackerIsStarted = false
     var dockMenu = NSMenu(title: "DockMenu")
+    var appHealth: AppHealth = AppHealth.instance
 
     var preferences: MASPreferencesWindowController = {
         let preferences = MASPreferencesWindowController(viewControllers: [

@@ -37,7 +37,13 @@ final class Hearthstone: NSObject {
 
     static func validatedHearthstonePath() -> Bool {
         let path = "\(Settings.instance.hearthstoneLogPath)/Hearthstone.app"
-        return FileManager.default.fileExists(atPath: path)
+        let exists = FileManager.default.fileExists(atPath: path)
+        // send notification
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: "hearthstone_not_installed"),
+                  object: nil, userInfo: ["installed" : exists])
+
+        return exists
     }
 
     // MARK: - Initialisation
@@ -67,6 +73,10 @@ final class Hearthstone: NSObject {
                                                       withIntermediateDirectories: true,
                                                       attributes: nil)
             } catch let error as NSError {
+                NotificationCenter.default
+                    .post(name: Notification.Name(rawValue: "logger_works"),
+                          object: nil, userInfo: ["logger_works" : false])
+                
                 Log.error?.message("\(error.description)")
                 throw HearthstoneLogError.canNotCreateDir
             }
@@ -168,9 +178,17 @@ final class Hearthstone: NSObject {
             }
 
             if isHearthstoneRunning {
+                NotificationCenter.default
+                    .post(name: Notification.Name(rawValue: "logger_works"),
+                          object: nil, userInfo: ["logger_works" : false])
                 return false
             }
         }
+        
+        // send notification
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: "logger_works"),
+                  object: nil, userInfo: ["logger_works" : true])
 
         return true
     }
@@ -225,7 +243,8 @@ final class Hearthstone: NSObject {
             SizeHelper.hearthstoneWindow.reload()
             Game.instance.hearthstoneIsActive(active: true)
             NotificationCenter.default
-                .post(name: Notification.Name(rawValue: "hearthstone_running"), object: nil)
+                .post(name: Notification.Name(rawValue: "hearthstone_running"),
+                      object: nil, userInfo: ["running" : true])
         }
     }
 
@@ -236,7 +255,8 @@ final class Hearthstone: NSObject {
             self.stopTracking()
             Game.instance.hearthstoneIsActive(active: false)
             NotificationCenter.default
-                .post(name: Notification.Name(rawValue: "hearthstone_running"), object: nil)
+                .post(name: Notification.Name(rawValue: "hearthstone_running"),
+                      object: nil, userInfo: ["running" : false])
 
             if Settings.instance.quitWhenHearthstoneCloses {
                 NSApplication.shared().terminate(self)

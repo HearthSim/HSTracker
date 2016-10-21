@@ -7,6 +7,6 @@ github "delba/TextAttributes"
 github "JohnSundell/Unbox"
 github "JohnSundell/Wrap" 
 github "ZipArchive/ZipArchive"
-github "emaloney/CleanroomLogger" "8d519918ef26c155a430032713845807b8ce18d2"
+github "emaloney/CleanroomLogger" "master"
 github "groue/GRDB.swift"
 github "1024jp/GzipSwift" ~> 3.0.0
