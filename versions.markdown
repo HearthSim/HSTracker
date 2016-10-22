@@ -1,3 +1,11 @@
+#### 0.18.2
+**Fixes:**
+- Effigy is now removed correctly from secret helper
+
+**Internal**
+- HSTracker have been converted to swift 2.3
+- Complete refactor of all UI system for trackers.
+
 #### 0.18.1  
 **Fixes:**  
 - Correct a crash happening on opening Update panel on Preferences
