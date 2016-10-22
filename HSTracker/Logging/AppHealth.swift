@@ -69,7 +69,7 @@ class AppHealth: NSObject {
     
     func setHearthstoneGameRunning(flag running: Bool) {
         if running {
-            if level.rawValue < HealthLevel.gamerunning.rawValue {
+            if level.rawValue < HealthLevel.gameinprogress.rawValue {
                 self.setLevel(level: HealthLevel.gameinprogress)
             }
         } else {
