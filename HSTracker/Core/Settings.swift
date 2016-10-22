@@ -234,6 +234,10 @@ final class Settings {
             return NSColor(red: 0.678, green: 1, blue: 0.184, alpha: 1)
         }
     }
+    var showAppHealth: Bool {
+        set { set(name: "show_apphealth", value: newValue) }
+        get { return get(name: "show_apphealth") as? Bool ?? true }
+    }
 
     var playerTrackerFrame: NSRect? {
         set { set(name: "player_tracker_frame",

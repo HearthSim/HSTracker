@@ -24,85 +24,56 @@ class AppHealth: NSObject {
 
     static let instance = AppHealth()
     
+    private let badge_icons = ["undefined" : NSImage(named: "badge-icon-undefined")!,
+                               "gameinstalled" : NSImage(named: "badge-icon-gameinstalled")!,
+                               "trackerworks" : NSImage(named: "badge-icon-trackerworks")!,
+                               "gamerunning" : NSImage(named: "badge-icon-gamerunning")!,
+                               "gameinprogress" : NSImage(named: "badge-icon-gameinprogress")!]
+    
+    
     override init() {
         level = .undefined
         super.init()
-        
-        let observers = [
-            "hearthstone_installed": #selector(AppHealth.setHSInstalled(_:)),
-            "logger_works": #selector(AppHealth.setLoggerWorks(_:)),
-            "hearthstone_running": #selector(AppHealth.setHearthstoneRunning(_:)),
-            "hearthstone_game_running": #selector(AppHealth.setHearthstoneGameRunning(_:))
-        ]
-        
-        let center = NotificationCenter.default
-        for (name, selector) in observers {
-            center.addObserver(self,
-                               selector: selector,
-                               name: NSNotification.Name(rawValue: name),
-                               object: nil)
-        }
-        
     }
     
-    func setHSInstalled(_ notification: Notification) {
-        if let userinfo: Dictionary<String, Bool> =
-            notification.userInfo as? Dictionary<String, Bool> {
-            if let installed = userinfo["installed"] {
-                if installed {
-                    if level.rawValue < HealthLevel.gameinstalled.rawValue {
-                        self.setLevel(level: HealthLevel.gameinstalled)
-                    }
-                } else {
-                    self.setLevel(level: HealthLevel.undefined)
-                }
+    func setHSInstalled(flag installed: Bool) {
+        if installed {
+            if level.rawValue < HealthLevel.gameinstalled.rawValue {
+                self.setLevel(level: HealthLevel.gameinstalled)
             }
-            
+        } else {
+            self.setLevel(level: HealthLevel.undefined)
+        }
+
+    }
+    
+    func setLoggerWorks(flag works: Bool) {
+        if works {
+            if level.rawValue < HealthLevel.trackerworks.rawValue {
+                self.setLevel(level: HealthLevel.trackerworks)
+            }
+        } else {
+            self.setLevel(level: HealthLevel.gameinstalled)
         }
     }
     
-    func setLoggerWorks(_ notification: Notification) {
-        if let userinfo: Dictionary<String, Bool> =
-            notification.userInfo as? Dictionary<String, Bool> {
-            if let installed = userinfo["logger_works"] {
-                if installed {
-                    if level.rawValue < HealthLevel.trackerworks.rawValue {
-                        self.setLevel(level: HealthLevel.trackerworks)
-                    }
-                } else {
-                    self.setLevel(level: HealthLevel.gameinstalled)
-                }
+    func setHearthstoneRunning(flag running: Bool) {
+        if running {
+            if level.rawValue < HealthLevel.gamerunning.rawValue {
+                self.setLevel(level: HealthLevel.gamerunning)
             }
+        } else {
+            self.setLevel(level: HealthLevel.trackerworks)
         }
     }
     
-    func setHearthstoneRunning(_ notification: Notification) {
-        if let userinfo: Dictionary<String, Bool> =
-            notification.userInfo as? Dictionary<String, Bool> {
-            if let hsrunning = userinfo["running"] {
-                if hsrunning {
-                    if level.rawValue < HealthLevel.gamerunning.rawValue {
-                        self.setLevel(level: HealthLevel.gamerunning)
-                    }
-                } else {
-                    self.setLevel(level: HealthLevel.trackerworks)
-                }
+    func setHearthstoneGameRunning(flag running: Bool) {
+        if running {
+            if level.rawValue < HealthLevel.gamerunning.rawValue {
+                self.setLevel(level: HealthLevel.gameinprogress)
             }
-        }
-    }
-    
-    func setHearthstoneGameRunning(_ notification: Notification) {
-        if let userinfo: Dictionary<String, Bool> =
-            notification.userInfo as? Dictionary<String, Bool> {
-            if let hsgamerunning = userinfo["running"] {
-                if hsgamerunning {
-                    if level.rawValue < HealthLevel.gamerunning.rawValue {
-                        self.setLevel(level: HealthLevel.gameinprogress)
-                    }
-                } else {
-                    self.setLevel(level: HealthLevel.gamerunning)
-                }
-            }
+        } else {
+            self.setLevel(level: HealthLevel.gamerunning)
         }
     }
     
@@ -113,10 +84,23 @@ class AppHealth: NSObject {
     
     func updateBadge() {
         // update app icon
-        //case undefined = HS crossed
-        //gameinstalled : tracker not working
-        //trackerworks : grey HS icon (HS not running)
-        //gamerunning : normal HS icon
-        //gameinprogress : normal HS icon with play triangle
+        // check if feature is enabled in preferences
+        if Settings.instance.showAppHealth {
+            switch self.level {
+            case .undefined:
+                NSApp.applicationIconImage = badge_icons["undefined"]
+            case .gameinstalled:
+                NSApp.applicationIconImage = badge_icons["gameinstalled"]
+            case .trackerworks:
+                NSApp.applicationIconImage = badge_icons["trackerworks"]
+            case .gamerunning:
+                NSApp.applicationIconImage = badge_icons["gamerunning"]
+            case .gameinprogress:
+                NSApp.applicationIconImage = badge_icons["gameinprogress"]
+            }
+        } else {
+            NSApp.applicationIconImage = nil
+        }
+
     }
 }

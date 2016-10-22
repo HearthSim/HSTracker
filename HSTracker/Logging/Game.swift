@@ -251,9 +251,7 @@ class Game {
         isInMenu = false
 
         Log.info?.message("----- Game Started -----")
-        NotificationCenter.default.post(name:
-            Notification.Name(rawValue: "hearthstone_game_running"),
-                                        object: nil, userInfo: ["running" : true])
+        AppHealth.instance.setHearthstoneGameRunning(flag: true)
 
         showNotification(type: .gameStart)
         self.updatePlayerTracker(reset: true)
@@ -310,9 +308,7 @@ class Game {
 
     func gameEnd() {
         Log.info?.message("----- Game End -----")
-        NotificationCenter.default.post(name:
-            Notification.Name(rawValue: "hearthstone_game_running"),
-                                        object: nil, userInfo: ["running" : false])
+        AppHealth.instance.setHearthstoneGameRunning(flag: false)
         gameStarted = false
         gameEndDate = Date()
 
