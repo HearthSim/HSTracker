@@ -258,6 +258,7 @@ final class Hearthstone: NSObject {
             (application as AnyObject).localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now active")
             self.hearthstoneActive = true
+            AppHealth.instance.setHearthstoneRunning(flag: true)
             SizeHelper.hearthstoneWindow.reload()
             Game.instance.hearthstoneIsActive(active: true)
             NotificationCenter.default
