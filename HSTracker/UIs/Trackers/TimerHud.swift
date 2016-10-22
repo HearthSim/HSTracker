@@ -9,7 +9,7 @@
 import Foundation
 import TextAttributes
 
-class TimerHud: NSWindowController {
+class TimerHud: OverWindowController {
 
     @IBOutlet weak var opponentLabel: NSTextField!
     @IBOutlet weak var turnLabel: NSTextField!
@@ -38,49 +38,8 @@ class TimerHud: NSWindowController {
             .strokeColor(.black)
             .alignment(.right)
 
-        self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
-        self.window!.ignoresMouseEvents = true
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
-
-        self.window!.isOpaque = false
-        self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clear
-
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(TimerHud.hearthstoneActive(_:)),
-                         name: NSNotification.Name(rawValue: "hearthstone_active"),
-                         object: nil)
-        
-        self.window!.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-        
-        if let panel = self.window as? NSPanel {
-            panel.isFloatingPanel = true
-        }
-        
-        NSWorkspace.shared().notificationCenter
-            .addObserver(self, selector: #selector(TimerHud.bringToFront),
-                         name: NSNotification.Name.NSWorkspaceActiveSpaceDidChange, object: nil)
-        
-        self.window?.orderFront(nil) // must be called after style change
     }
-    
-    func bringToFront() {
-        self.window?.orderFront(nil)
-    }
-
-    func hearthstoneActive(_ notification: Notification) {
-        let hs = Hearthstone.instance
-
-        let level: Int
-        if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
-        } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
-        }
-        self.window!.level = level
-    }
-
+ 
     func tick(seconds: Int, playerSeconds: Int, opponentSeconds: Int) {
         guard Settings.instance.showTimer else {
             turnLabel.attributedStringValue = NSAttributedString(string: "")

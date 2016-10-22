@@ -363,7 +363,6 @@ class DeckManager: NSWindowController {
             
             Settings.instance.activeDeck = deck.deckId
             Game.instance.set(activeDeck: deck)
-            Game.instance.updatePlayerTracker()
         }
     }
 

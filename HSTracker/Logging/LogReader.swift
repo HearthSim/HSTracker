@@ -134,12 +134,16 @@ final class LogReader {
                             }
                         }
                     }
+                } else {
+                    fileHandle = nil
                 }
 
                 if !fileManager.fileExists(atPath: path) {
                     Log.verbose?.message("setting \(path) handle to nil \(offset))")
                     fileHandle = nil
                 }
+            } else {
+                fileHandle = nil
             }
 
             Thread.sleep(forTimeInterval: 0.1)

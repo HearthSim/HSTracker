@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SecretTracker: NSWindowController {
+class SecretTracker: OverWindowController {
 
     @IBOutlet weak var table: NSTableView!
 
@@ -17,95 +17,25 @@ class SecretTracker: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
-        self.window!.ignoresMouseEvents = true
-        self.window!.acceptsMouseMovedEvents = true
-
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
-
-        self.window!.isOpaque = false
-        self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clear
-
-        var width: Double
-        let settings = Settings.instance
-        switch settings.cardSize {
-        case .tiny: width = kTinyFrameWidth
-        case .small: width = kSmallFrameWidth
-        case .medium: width = kMediumFrameWidth
-        case .big: width = kFrameWidth
-        case .huge: width = kHighRowFrameWidth
-        }
-
-        self.window!.setFrame(NSRect(x: 0, y: 0, width: width, height: 350), display: true)
-        self.window!.contentMinSize = NSSize(width: width, height: 350)
-        self.window!.contentMaxSize = NSSize(width: width,
-                                             height: Double(NSScreen.main()!.frame.height))
-
         table.intercellSpacing = NSSize(width: 0, height: 0)
 
         table.backgroundColor = NSColor.clear
         table.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable,
                                        NSAutoresizingMaskOptions.viewHeightSizable]
 
-        table.reloadData()
-
         NotificationCenter.default
             .addObserver(self,
-                         selector: #selector(SecretTracker.hearthstoneActive(_:)),
-                         name: NSNotification.Name(rawValue: "hearthstone_active"),
+                         selector: #selector(cardSizeChange),
+                         name: NSNotification.Name(rawValue: "card_size"),
                          object: nil)
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(SecretTracker.updateTheme(_:)),
-                         name: NSNotification.Name(rawValue: "theme"),
-                         object: nil)
-        
-        self.window!.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-        
-        if let panel = self.window as? NSPanel {
-            panel.isFloatingPanel = true
-        }
-        
-        NSWorkspace.shared().notificationCenter
-            .addObserver(self, selector: #selector(SecretTracker.bringToFront),
-                         name: NSNotification.Name.NSWorkspaceActiveSpaceDidChange, object: nil)
-        
-        self.window?.orderFront(nil) // must be called after style change
-    }
-    
-    func bringToFront() {
-        self.window?.orderFront(nil)
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    func cardSizeChange() {
+        setWindowSizes()
     }
 
-    func updateTheme(_ notification: Notification) {
-        table.reloadData()
-    }
-
-    func hearthstoneActive(_ notification: Notification) {
-        let hs = Hearthstone.instance
-
-        let level: Int
-        if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
-        } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
-        }
-        self.window!.level = level
-    }
-
-    func setSecrets(_ opponentSecrets: OpponentSecrets) {
-        cards.removeAll()
-        opponentSecrets.getSecrets().forEach({ (secret) in
-            if let card = Cards.by(cardId: secret.cardId), secret.count > 0 {
-                card.count = secret.count
-                cards.append(card)
-            }
-        })
+    func setSecrets(secrets: [Card]) {
+        cards = secrets
         table.reloadData()
     }
 }

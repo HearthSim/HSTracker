@@ -24,6 +24,7 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var showRarityColors: NSButton!
     @IBOutlet weak var showFloatingCard: NSButton!
     @IBOutlet weak var theme: NSComboBox!
+    @IBOutlet weak var allowFullscreen: NSButton!
 
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -50,6 +51,7 @@ class TrackersPreferences: NSViewController {
         showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
         showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
         theme.selectItem(at: themes.index(of: settings.theme) ?? 0)
+        allowFullscreen.state = settings.canJoinFullscreen ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {
@@ -100,6 +102,8 @@ class TrackersPreferences: NSViewController {
             settings.showTimer = showTimer.state == NSOnState
         } else if sender == showFloatingCard {
             settings.showFloatingCard = showFloatingCard.state == NSOnState
+        } else if sender == allowFullscreen {
+            settings.canJoinFullscreen = allowFullscreen.state == NSOnState
         }
     }
 }

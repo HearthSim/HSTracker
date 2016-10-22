@@ -239,6 +239,8 @@
 		43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
 		43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* SecretTracker.swift */; };
 		43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* SecretTracker.xib */; };
+		43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BB1DB7FB040081964A /* OverWindowController.swift */; };
+		43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BD1DB89A830081964A /* WindowManager.swift */; };
 		43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C36D2B1D08623D00F6723C /* CardSet.swift */; };
 		43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */; };
 		43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */; };
@@ -603,7 +605,6 @@
 		437B5BC81CD256B000DE0A41 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BC91CD256B100DE0A41 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BCA1CD256B200DE0A41 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
-		437B5BCB1CD256B400DE0A41 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		437E56E91DAAB81400FC0FC1 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		437E56EA1DAAB81400FC0FC1 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		437E56EB1DAAB81400FC0FC1 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -687,6 +688,8 @@
 		43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentSecrets.swift; sourceTree = "<group>"; };
 		43B695621C920A0500F4D0AC /* SecretTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretTracker.swift; sourceTree = "<group>"; };
 		43B695641C920BD500F4D0AC /* SecretTracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecretTracker.xib; sourceTree = "<group>"; };
+		43BDF0BB1DB7FB040081964A /* OverWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverWindowController.swift; sourceTree = "<group>"; };
+		43BDF0BD1DB89A830081964A /* WindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		43C36D2B1D08623D00F6723C /* CardSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSet.swift; sourceTree = "<group>"; };
 		43C567E31D5D0C6300451B6F /* versions.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = versions.markdown; sourceTree = "<group>"; };
 		43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
@@ -712,6 +715,7 @@
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
 		43E77EE51C94B4B400C26950 /* CardHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHud.swift; sourceTree = "<group>"; };
 		43E77EEC1C969C4100C26950 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		43E7BEA31DBB67AB0057DC0C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHudContainer.swift; sourceTree = "<group>"; };
 		43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardHudContainer.xib; sourceTree = "<group>"; };
 		43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCellView.swift; sourceTree = "<group>"; };
@@ -1184,6 +1188,7 @@
 		439C7ED41C777FA900D29859 /* Trackers */ = {
 			isa = PBXGroup;
 			children = (
+				43BDF0BB1DB7FB040081964A /* OverWindowController.swift */,
 				439C7EDC1C777FA900D29859 /* Tracker.swift */,
 				439C7EDD1C777FA900D29859 /* Tracker.xib */,
 				43B695621C920A0500F4D0AC /* SecretTracker.swift */,
@@ -1204,6 +1209,7 @@
 				43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */,
 				43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */,
 				BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */,
+				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1582,6 +1588,7 @@
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
 				4387BED21CF4D7A00002ECBB /* State.swift in Sources */,
 				434910521D09773D00B22DB2 /* IBoardEntity.swift in Sources */,
+				43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */,
 				433554581D62EE2D00277B27 /* NotificationType.swift in Sources */,
 				436789B71CACF64600C962D1 /* CardCounter.swift in Sources */,
 				4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */,
@@ -1635,6 +1642,7 @@
 				437E56F21DAAB81400FC0FC1 /* Date.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
 				434C2F361C7F4857001D1D91 /* HearthstoneDecks.swift in Sources */,
+				43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,
@@ -1984,7 +1992,7 @@
 				437B5BC81CD256B000DE0A41 /* it */,
 				437B5BC91CD256B100DE0A41 /* es */,
 				437B5BCA1CD256B200DE0A41 /* de */,
-				437B5BCB1CD256B400DE0A41 /* fr */,
+				43E7BEA31DBB67AB0057DC0C /* fr */,
 			);
 			name = TrackersPreferences.xib;
 			sourceTree = "<group>";

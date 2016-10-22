@@ -36,6 +36,10 @@ final class Settings {
         return nil
     }
 
+    var canJoinFullscreen: Bool {
+        set { set(name: "can_join_fullscreen", value: newValue) }
+        get { return get(name: "can_join_fullscreen") as? Bool ?? true }
+    }
     var quitWhenHearthstoneCloses: Bool {
         set { set(name: "quit_when_hs_closes", value: newValue) }
         get { return get(name: "quit_when_hs_closes") as? Bool ?? false }
@@ -90,11 +94,6 @@ final class Settings {
     var promptNotes: Bool {
         set { set(name: "prompt_for_notes", value: newValue) }
         get { return get(name: "prompt_for_notes") as? Bool ?? false }
-    }
-    var autoGrayoutSecrets: Bool {
-        set { set(name: "auto_grayout_secrets", value: newValue) }
-        get {
-            return get(name: "auto_grayout_secrets") as? Bool ?? true }
     }
     var autoPositionTrackers: Bool {
         set { set(name: "auto_position_trackers", value: newValue) }

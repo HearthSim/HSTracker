@@ -75,7 +75,7 @@ import CleanroomLogger
                 }
                 self.timer = Timer.scheduledTimer(timeInterval: 1,
                     target: self,
-                    selector: #selector(TurnTimer.timerTick),
+                    selector: #selector(self.timerTick),
                     userInfo: nil,
                     repeats: true)
             }
@@ -103,9 +103,9 @@ import CleanroomLogger
             }
         }
         DispatchQueue.main.async {
-            Game.instance.timerHud?.tick(seconds: self.seconds,
-                                         playerSeconds: self.playerSeconds,
-                                         opponentSeconds: self.opponentSeconds)
+            WindowManager.default.timerHud.tick(seconds: self.seconds,
+                                                playerSeconds: self.playerSeconds,
+                                                opponentSeconds: self.opponentSeconds)
         }
     }
 }

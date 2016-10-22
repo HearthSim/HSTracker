@@ -16,16 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var appWillRestart = false
     var splashscreen: Splashscreen?
-    var playerTracker: Tracker?
-    var opponentTracker: Tracker?
-    var secretTracker: SecretTracker?
-    var playerBoardDamage: BoardDamage?
-    var opponentBoardDamage: BoardDamage?
-    var timerHud: TimerHud?
-    var cardHudContainer: CardHudContainer?
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
-    var floatingCard: FloatingCard?
     @IBOutlet weak var sparkleUpdater: SUUpdater!
     var operationQueue: OperationQueue?
     var hstrackerIsStarted = false
@@ -147,6 +139,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                        display: true)
         splashscreen?.showWindow(self)
 
+        Log.info?.message("Opening trackers")
+        WindowManager.default.startManager()
+        
         let buildsOperation = BlockOperation {
             BuildDates.loadBuilds(splashscreen: self.splashscreen!)
             if BuildDates.isOutdated() {
@@ -169,31 +164,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         let loggingOperation = BlockOperation {
             while true {
-                if self.playerTracker != nil && self.opponentTracker != nil {
+                if WindowManager.default.isReady() {
                     break
                 }
                 Thread.sleep(forTimeInterval: 0.5)
             }
-            let game = Game.instance
-            game.set(playerTracker: self.playerTracker)
-            game.set(opponentTracker: self.opponentTracker)
-            game.secretTracker = self.secretTracker
-            game.timerHud = self.timerHud
-            game.cardHudContainer = self.cardHudContainer
-            game.playerBoardDamage = self.playerBoardDamage
-            game.opponentBoardDamage = self.opponentBoardDamage
 
             OperationQueue.main.addOperation() {
-                game.reset()
+                Game.instance.reset()
             }
         }
 
-        let trackerOperation = BlockOperation {
-            OperationQueue.main.addOperation() {
-                Log.info?.message("Opening trackers")
-                self.openTrackers()
-            }
-        }
         let menuOperation = BlockOperation {
             OperationQueue.main.addOperation() {
                 Log.info?.message("Loading menu")
@@ -202,15 +183,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         databaseOperation.addDependency(buildsOperation)
-        loggingOperation.addDependency(trackerOperation)
         loggingOperation.addDependency(menuOperation)
         decksOperation.addDependency(databaseOperation)
-        trackerOperation.addDependency(decksOperation)
         menuOperation.addDependency(decksOperation)
 
         operationQueue = OperationQueue()
         operationQueue?.addOperation(buildsOperation)
-        operationQueue?.addOperation(trackerOperation)
         operationQueue?.addOperation(databaseOperation)
         operationQueue?.addOperation(decksOperation)
         operationQueue?.addOperation(loggingOperation)
@@ -295,13 +273,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Hearthstone.instance.start()
 
         let events = [
-            "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
-            "show_opponent_tracker": #selector(AppDelegate.showOpponentTracker(_:)),
             "reload_decks": #selector(AppDelegate.reloadDecks(_:)),
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
-            "show_floating_card": #selector(AppDelegate.showFloatingCard(_:)),
-            "hide_floating_card": #selector(AppDelegate.hideFloatingCard(_:)),
-            "theme": #selector(AppDelegate.reloadTheme(_:)),
+            "theme": #selector(reloadTheme),
             "save_arena_deck": #selector(AppDelegate.saveArenaDeck(_:)),
             ]
 
@@ -323,169 +297,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         splashscreen?.close()
         splashscreen = nil
-    }
 
-    func openTrackers() {
-        let settings = Settings.instance
-
-        let screenFrame = NSScreen.main()!.frame
-        let y = screenFrame.height - 50
-        let width: CGFloat
-        switch settings.cardSize {
-        case .tiny: width = CGFloat(kTinyFrameWidth)
-        case .small: width = CGFloat(kSmallFrameWidth)
-        case .medium: width = CGFloat(kMediumFrameWidth)
-        case .big: width = CGFloat(kFrameWidth)
-        case .huge: width = CGFloat(kHighRowFrameWidth)
-        }
-
-        playerTracker = Tracker(windowNibName: "Tracker")
-        playerTracker?.playerType = .player
-        if let rect = settings.playerTrackerFrame {
-            playerTracker?.window?.setFrame(rect, display: true)
-        } else {
-            let x = screenFrame.width - width + screenFrame.origin.x
-            playerTracker?.window?.setFrame(NSRect(x: x,
-                                                   y: y + screenFrame.origin.y,
-                                                   width: width, height: y),
-                                            display: true)
-        }
-        showPlayerTracker(nil)
-
-        opponentTracker = Tracker(windowNibName: "Tracker")
-        opponentTracker?.playerType = .opponent
-
-        if let rect = settings.opponentTrackerFrame {
-            opponentTracker?.window?.setFrame(rect, display: true)
-        } else {
-            let x = screenFrame.origin.x + 50
-            opponentTracker?.window?.setFrame(NSRect(x: x,
-                                                     y: y + screenFrame.origin.y,
-                                                     width: width, height: y),
-                                              display: true)
-        }
-        showOpponentTracker(nil)
-
-        secretTracker = SecretTracker(windowNibName: "SecretTracker")
-        secretTracker?.showWindow(self)
-
-        timerHud = TimerHud(windowNibName: "TimerHud")
-        timerHud?.showWindow(self)
-        timerHud?.window?.orderOut(self)
-
-        playerBoardDamage = BoardDamage(windowNibName: "BoardDamage")
-        playerBoardDamage?.showWindow(self)
-        playerBoardDamage?.window?.orderOut(self)
-
-        opponentBoardDamage = BoardDamage(windowNibName: "BoardDamage")
-        opponentBoardDamage?.showWindow(self)
-        opponentBoardDamage?.window?.orderOut(self)
-
-        cardHudContainer = CardHudContainer(windowNibName: "CardHudContainer")
-        cardHudContainer?.showWindow(self)
-
-        floatingCard = FloatingCard(windowNibName: "FloatingCard")
-        floatingCard?.showWindow(self)
-        floatingCard?.window?.orderOut(self)
-    }
-
-    func showPlayerTracker(_ notification: Notification?) {
-        showHideTracker(self.playerTracker,
-                        show: Settings.instance.showPlayerTracker,
-                        title: "Player tracker")
-    }
-
-    func showOpponentTracker(_ notification: Notification?) {
-        showHideTracker(self.opponentTracker,
-                        show: Settings.instance.showOpponentTracker,
-                        title: "Opponent tracker")
-    }
-
-    func showHideTracker(_ tracker: Tracker?, show: Bool, title: String) {
-        if show {
-            tracker?.showWindow(self)
-            if let window = tracker?.window {
-                NSApp.addWindowsItem(window,
-                                     title: NSLocalizedString(title, comment: ""),
-                                     filename: false)
-                window.title = NSLocalizedString(title, comment: "")
-            }
-        } else {
-            if let window = tracker?.window {
-                NSApp.removeWindowsItem(window)
-            }
-            tracker?.window?.orderOut(self)
-        }
-
+        WindowManager.default.updateTrackers()
     }
 
     func reloadDecks(_ notification: Notification) {
         buildMenu()
     }
 
-    func reloadTheme(_ notification: Notification) {
-        Game.instance.updatePlayerTracker(reset: true)
-        Game.instance.updateOpponentTracker(reset: true)
-    }
-
-    var closeFloatingCardRequest = 0
-    var closeRequestTimer: Timer?
-    func showFloatingCard(_ notification: Notification) {
-        guard Settings.instance.showFloatingCard else {return}
-
-        if let card = (notification as NSNotification).userInfo?["card"] as? Card,
-            let arrayFrame = (notification as NSNotification).userInfo?["frame"] as? [CGFloat] {
-            if closeRequestTimer != nil {
-                closeRequestTimer?.invalidate()
-                closeRequestTimer = nil
-            }
-
-            closeFloatingCardRequest += 1
-            floatingCard?.showWindow(self)
-            let frame = NSRect(x: arrayFrame[0],
-                               y: arrayFrame[1],
-                               width: arrayFrame[2],
-                               height: arrayFrame[3])
-            floatingCard?.window?.setFrame(frame, display: true)
-            floatingCard?.set(card: card)
-
-            closeRequestTimer = Timer.scheduledTimer(
-                timeInterval: 3,
-                target: self,
-                selector: #selector(AppDelegate.forceHideFloatingCard),
-                userInfo: nil,
-                repeats: false)
-
-        }
-    }
-
-    func forceHideFloatingCard() {
-        closeFloatingCardRequest = 0
-        floatingCard?.window?.orderOut(self)
-        closeRequestTimer?.invalidate()
-        closeRequestTimer = nil
-    }
-
-    func hideFloatingCard(_ notification: Notification) {
-        guard Settings.instance.showFloatingCard else {return}
-
-        self.closeFloatingCardRequest -= 1
-        let when = DispatchTime.now()
-            + Double(Int64(100 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
-        let queue = DispatchQueue.main
-        queue.asyncAfter(deadline: when) {
-            if self.closeFloatingCardRequest > 0 {
-                return
-            }
-            self.closeFloatingCardRequest = 0
-            self.floatingCard?.window?.orderOut(self)
-            self.closeRequestTimer?.invalidate()
-            self.closeRequestTimer = nil
-        }
-    }
-
-    func showHideCardHuds(_ notification: Notification) {
-        Game.instance.updateCardHuds(force: true)
+    func reloadTheme() {
+        WindowManager.default.updateTrackers(reset: true)
     }
 
     func languageChange(_ notification: Notification) {
@@ -715,8 +536,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func resetTrackers(_ sender: AnyObject) {
-        Game.instance.opponent.reset()
-        Game.instance.updateOpponentTracker()
+        WindowManager.default.updateTrackers()
     }
 
     @IBAction func openPreferences(_ sender: AnyObject) {

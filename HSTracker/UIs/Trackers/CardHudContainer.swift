@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class CardHudContainer: NSWindowController {
+class CardHudContainer: OverWindowController {
     
     var positions: [Int: [NSPoint]] = [:]
     var huds: [CardHud] = []
@@ -18,14 +18,6 @@ class CardHudContainer: NSWindowController {
     
     override func windowDidLoad() {
         super.windowDidLoad()
- 
-        self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
-        //self.window!.ignoresMouseEvents = true
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
-        
-        self.window!.isOpaque = false
-        self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clear
         
         for _ in 0 ..< 10 {
             let hud = CardHud()
@@ -34,27 +26,6 @@ class CardHudContainer: NSWindowController {
             huds.append(hud)
         }
         initPoints()
-        
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(BoardDamage.hearthstoneActive(_:)),
-                         name: NSNotification.Name(rawValue: "hearthstone_active"),
-                         object: nil)
-        self.window!.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-        
-        if let panel = self.window as? NSPanel {
-            panel.isFloatingPanel = true
-        }
-        
-        NSWorkspace.shared().notificationCenter
-            .addObserver(self, selector: #selector(CardHudContainer.bringToFront),
-                         name: NSNotification.Name.NSWorkspaceActiveSpaceDidChange, object: nil)
-        
-        self.window?.orderFront(nil) // must be called after style change
-    }
-    
-    func bringToFront() {
-        self.window?.orderFront(nil)
     }
     
     func initPoints() {
@@ -143,19 +114,7 @@ class CardHudContainer: NSWindowController {
             NSPoint(x: 319.0, y: 23.0)
         ]
     }
-    
-    func hearthstoneActive(_ notification: Notification) {
-        let hs = Hearthstone.instance
-        
-        let level: Int
-        if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
-        } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
-        }
-        self.window!.level = level
-    }
-    
+
     func reset() {
         for hud in huds {
             hud.alphaValue = 0.0

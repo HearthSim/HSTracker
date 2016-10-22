@@ -77,15 +77,15 @@ class WindowMove: NSWindowController {
 
             currentWindow = nil
             if window == "Secret Tracker" {
-                currentWindow = Game.instance.secretTracker!.window
+                currentWindow = WindowManager.default.secretTracker.window
                 defaultFrame = NSRect(x: 200,
                                       y: SizeHelper.hearthstoneWindow.frame.height - 50,
                                       width: CGFloat(kMediumRowHeight), height: 300)
             } else if window == "Timer Hud" {
-                currentWindow = Game.instance.timerHud!.window
+                currentWindow = WindowManager.default.timerHud.window
                 defaultFrame = NSRect(x: 1082.0, y: 399.0, width: 160.0, height: 115.0)
             } else if window == "Card Hud Container" {
-                currentWindow = Game.instance.cardHudContainer!.window
+                currentWindow = WindowManager.default.cardHudContainer.window
                 defaultFrame = NSRect(x: 529.5,
                                       y: SizeHelper.hearthstoneWindow.frame.height - 80,
                                       width: 400, height: 80)
@@ -95,10 +95,10 @@ class WindowMove: NSWindowController {
                 rect.origin = NSPoint.zero
                 defaultFrame = rect
             } else if window == "Player Board Damage" {
-                currentWindow = Game.instance.playerBoardDamage!.window
+                currentWindow = WindowManager.default.playerBoardDamage.window
                 defaultFrame = NSRect(x: 915, y: 205.0, width: 50.0, height: 50.0)
             } else if window == "Opponent Board Damage" {
-                currentWindow = Game.instance.opponentBoardDamage!.window
+                currentWindow = WindowManager.default.opponentBoardDamage.window
                 defaultFrame = NSRect(x: 910, y: 617.0, width: 50.0, height: 50.0)
             }
 

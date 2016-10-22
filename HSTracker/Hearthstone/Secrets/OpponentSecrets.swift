@@ -113,10 +113,6 @@ class OpponentSecrets: CustomStringConvertible {
 
     func zeroFromAttack(attacker: Entity, defender: Entity,
                         fastOnly: Bool = false, _stopIndex: Int = -1) {
-        if !Settings.instance.autoGrayoutSecrets {
-            return
-        }
-
         var stopIndex = _stopIndex
         if _stopIndex == -1 {
             stopIndex = secrets.count
@@ -154,7 +150,7 @@ class OpponentSecrets: CustomStringConvertible {
             }
         }
 
-        Game.instance.showSecrets(show: true)
+        WindowManager.default.updateTrackers()
     }
 
     func clearSecrets() {
@@ -204,6 +200,17 @@ class OpponentSecrets: CustomStringConvertible {
         }
 
         return returnThis
+    }
+
+    func allSecrets() -> [Card] {
+        var cards: [Card] = []
+        getSecrets().forEach({ (secret) in
+            if let card = Cards.by(cardId: secret.cardId), secret.count > 0 {
+                card.count = secret.count
+                cards.append(card)
+            }
+        })
+        return cards
     }
 
     func getDefaultSecrets(heroClass: CardClass) -> [Secret] {
