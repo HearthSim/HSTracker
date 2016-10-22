@@ -38,7 +38,7 @@ class LogLineZone: CustomStringConvertible {
         if requireVerbose {
             content.append("Verbose=true")
         }
-        return content.joinWithSeparator("\n") + "\n"
+        return content.joined(separator: "\n") + "\n"
     }
     
     var description: String {

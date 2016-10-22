@@ -18,7 +18,7 @@ enum State: Int {
 
     init?(rawString: String) {
         for _enum in State.allValues() {
-            if "\(_enum)" == rawString.lowercaseString {
+            if "\(_enum)" == rawString.lowercased() {
                 self = _enum
                 return
             }

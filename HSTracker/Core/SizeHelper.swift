@@ -24,7 +24,7 @@ struct SizeHelper {
         }
         
         func reload() {
-            let options = CGWindowListOption(arrayLiteral: .ExcludeDesktopElements)
+            let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
             if let info = (windowListInfo as NSArray? as? [[String: AnyObject]])?.filter({
                 !$0.filter({ $0.0 == "kCGWindowName"
@@ -36,42 +36,43 @@ struct SizeHelper {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
                 }
-                var rect = NSRect()
                 // swiftlint:disable force_cast
                 let bounds = info["kCGWindowBounds"] as! CFDictionary
                 // swiftlint:enable force_cast
-                CGRectMakeWithDictionaryRepresentation(bounds, &rect)
+                if let rect = CGRect(dictionaryRepresentation: bounds) {
+                    var frame = rect
 
-                // Warning: this function assumes that the
-                // first screen in the list is the active one
-                if let screen = NSScreen.screens()?.first {
-                    screenRect = screen.frame
-                    rect.origin.y = screen.frame.maxY - rect.maxY
+                    // Warning: this function assumes that the
+                    // first screen in the list is the active one
+                    if let screen = NSScreen.screens()?.first {
+                        screenRect = screen.frame
+                        frame.origin.y = screen.frame.maxY - rect.maxY
+                    }
+
+                    Log.debug?.message("HS Frame is : \(rect)")
+                    self._frame = frame
                 }
-                
-                Log.debug?.message("HS Frame is : \(rect)")
-                self._frame = rect
             }
         }
         
-        private var width: CGFloat {
+        fileprivate var width: CGFloat {
             return _frame.width
         }
         
-        private var height: CGFloat {
+        fileprivate var height: CGFloat {
             let height = _frame.height
             return isFullscreen() ? height : max(height - 22, 0)
         }
         
-        private var left: CGFloat {
+        fileprivate var left: CGFloat {
             return _frame.minX
         }
         
-        private var top: CGFloat {
+        fileprivate var top: CGFloat {
             return _frame.minY
         }
         
-        private func isFullscreen() -> Bool {
+        fileprivate func isFullscreen() -> Bool {
             return _frame.minX == 0.0 && _frame.minY == 0.0
                 && (Int(_frame.height) & 22) != 22
         }
@@ -93,7 +94,7 @@ struct SizeHelper {
         // All size are taken from a resolution of BaseWidth*BaseHeight (my MBA resolution)
         // and translated to your resolution
         //
-        func relativeFrame(frame: NSRect, relative: Bool = true) -> NSRect {
+        func relativeFrame(_ frame: NSRect, relative: Bool = true) -> NSRect {
             var pointX = frame.minX
             var pointY = frame.minY
             let width = frame.width
@@ -116,13 +117,13 @@ struct SizeHelper {
             guard let windowId = self.windowId else { return nil }
             
             if let image = CGWindowListCreateImage(CGRect.null,
-                                                   .OptionIncludingWindow,
+                                                   .optionIncludingWindow,
                                                    windowId,
-                                                   [.NominalResolution, .BoundsIgnoreFraming]) {
+                                                   [.nominalResolution, .boundsIgnoreFraming]) {
                 
-                return NSImage(CGImage: image,
-                               size: NSSize(width: CGImageGetWidth(image),
-                                height: CGImageGetHeight(image)))
+                return NSImage(cgImage: image,
+                               size: NSSize(width: image.width,
+                                height: image.height))
             }
             
             return nil
@@ -137,7 +138,7 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame)
     }
     
-    static private var trackerWidth: CGFloat {
+    static fileprivate var trackerWidth: CGFloat {
         var width: Double
         switch Settings.instance.cardSize {
         case .tiny: width = kTinyFrameWidth
@@ -149,7 +150,7 @@ struct SizeHelper {
         return CGFloat(width)
     }
     
-    static private func trackerFrame(x: CGFloat) -> NSRect {
+    static fileprivate func trackerFrame(_ x: CGFloat) -> NSRect {
         // game menu
         let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
         let width: CGFloat
@@ -168,7 +169,8 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
 
-    private static func getScaledXPos(left: CGFloat, width: CGFloat, ratio: CGFloat) -> CGFloat {
+    fileprivate static func getScaledXPos(_ left: CGFloat, width: CGFloat,
+                                          ratio: CGFloat) -> CGFloat {
         return ((width) * ratio * left) + (width * (1 - ratio) / 2)
     }
 

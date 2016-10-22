@@ -51,8 +51,8 @@ func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
 }
 
 class DeckState {
-    private(set) var remainingInDeck: [Card]
-    private(set) var removedFromDeck: [Card]
+    fileprivate(set) var remainingInDeck: [Card]
+    fileprivate(set) var removedFromDeck: [Card]
 
     init(remainingInDeck: [Card], removedFromDeck: [Card]) {
         self.removedFromDeck = removedFromDeck
@@ -85,24 +85,24 @@ final class Player {
     var goingFirst = false
     var fatigue = 0
     var heroPowerCount = 0
-    private(set) var spellsPlayedCount = 0
-    private(set) var deathrattlesPlayedCount = 0
+    fileprivate(set) var spellsPlayedCount = 0
+    fileprivate(set) var deathrattlesPlayedCount = 0
 
     var hasCoin: Bool {
         return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoin }
     }
 
     var handCount: Int {
-        return hand.filter({ $0.isControlledBy(self.id) }).count
+        return hand.filter({ $0.isControlled(by: self.id) }).count
     }
 
     var deckCount: Int {
-        return deck.filter({ $0.isControlledBy(self.id) }).count
+        return deck.filter({ $0.isControlled(by: self.id) }).count
     }
 
     var playerEntities: [Entity] {
         return Game.instance.entities.map({ $0.1 }).filter({
-            return !$0.info.hasOutstandingTagChanges && $0.isControlledBy(self.id)
+            return !$0.info.hasOutstandingTagChanges && $0.isControlled(by: self.id)
         })
     }
 
@@ -110,7 +110,7 @@ final class Player {
         return Game.instance.entities.map({ $0.1 })
             .filter({
                 return !$0.info.hasOutstandingTagChanges
-                    && ($0.isControlledBy(self.id) || $0.info.originalController == self.id)
+                    && ($0.isControlled(by: self.id) || $0.info.originalController == self.id)
             }).filter({ $0.hasCardId })
     }
 
@@ -121,7 +121,7 @@ final class Player {
     var secrets: [Entity] { return playerEntities.filter({ $0.isInSecret }) }
     var setAside: [Entity] { return playerEntities.filter({ $0.isInSetAside }) }
 
-    private(set) lazy var inDeckPredictions = [PredictedCard]()
+    fileprivate(set) lazy var inDeckPredictions = [PredictedCard]()
 
     var name: String?
     var tracker: Tracker?
@@ -132,7 +132,7 @@ final class Player {
         reset()
     }
 
-    func reset(resetID: Bool = true) {
+    func reset(id resetID: Bool = true) {
         if resetID { id = -1 }
         name = ""
         playerClass = nil
@@ -230,7 +230,7 @@ final class Player {
                     card.count = g.items.count
                     card.isCreated = g.key.stolen
                     card.highlightInHand = g.items.any({
-                        $0.isInHand && $0.entity!.isControlledBy(self.id)
+                        $0.isInHand && $0.entity!.isControlled(by: self.id)
                     })
                     return card
                 } else {
@@ -284,7 +284,8 @@ final class Player {
             return (inDeck + notInDeck + createdInHand).sortCardList()
         }
         if settings.highlightCardsInHand {
-            return (inDeck + getHighlightedCardsInHand(inDeck) + createdInHand).sortCardList()
+            return (inDeck + getHighlightedCardsInHand(cardsInDeck: inDeck)
+                + createdInHand).sortCardList()
         }
         return (inDeck + createdInHand).sortCardList()
     }
@@ -300,7 +301,8 @@ final class Player {
         })
             .map({ (e: Entity) -> (DynamicEntity) in
                 DynamicEntity(cardId: e.cardId,
-                    hidden: (e.isInHand || e.isInDeck) && e.isControlledBy(self.id),
+                    hidden: (e.isInHand || e.isInDeck) && e.isControlled(by:
+                        self.id),
                     created: e.info.created ||
                         (e.info.stolen && e.info.originalController != self.id),
                     discarded: e.info.discarded && Settings.instance.highlightDiscarded
@@ -335,7 +337,7 @@ final class Player {
         return (revealed + inDeck).sortCardList()
     }
 
-    private func getDeckState() -> DeckState {
+    fileprivate func getDeckState() -> DeckState {
         let createdCardsInDeck: [Card] = deck.filter({
             $0.hasCardId && ($0.info.created || $0.info.stolen)
         })
@@ -360,7 +362,7 @@ final class Player {
             .map { $0! }
 
         var originalCardsInDeck: [String] = Game.instance.activeDeck!.sortedCards.flatMap {
-                Array(count: $0.count, repeatedValue: $0.id)
+                Array(repeating: $0.id, count: $0.count)
             }
             .map({ $0 })
 
@@ -411,7 +413,7 @@ final class Player {
         return DeckState(remainingInDeck: cardsInDeck, removedFromDeck: cardsNotInDeck)
     }
 
-    private var debugName: String {
+    fileprivate var debugName: String {
         return isLocalPlayer ? "Player" : "Opponent"
     }
 
@@ -440,7 +442,7 @@ final class Player {
 
     func play(entity: Entity, turn: Int) {
         if !isLocalPlayer {
-            updateKnownEntitesInDeck(entity.cardId, turn: turn)
+            updateKnownEntitesInDeck(cardId: entity.cardId, turn: turn)
         }
 
         if let cardType = CardType(rawValue: entity[.cardtype]) {
@@ -457,7 +459,7 @@ final class Player {
 
     func handDiscard(entity: Entity, turn: Int) {
         if !isLocalPlayer {
-            updateKnownEntitesInDeck(entity.cardId, turn: entity.info.turn)
+            updateKnownEntitesInDeck(cardId: entity.cardId, turn: entity.info.turn)
         }
         entity.info.turn = turn
         entity.info.discarded = true
@@ -465,7 +467,7 @@ final class Player {
     }
 
     func secretPlayedFromDeck(entity: Entity, turn: Int) {
-        updateKnownEntitesInDeck(entity.cardId)
+        updateKnownEntitesInDeck(cardId: entity.cardId)
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
@@ -482,7 +484,7 @@ final class Player {
 
     func draw(entity: Entity, turn: Int) {
         if isLocalPlayer {
-            updateKnownEntitesInDeck(entity.cardId)
+            updateKnownEntitesInDeck(cardId: entity.cardId)
         } else {
             if Game.instance.opponentEntity?[.mulligan_state] == Mulligan.dealing.rawValue {
                 entity.info.mulliganed = true
@@ -508,14 +510,14 @@ final class Player {
     }
 
     func deckDiscard(entity: Entity, turn: Int) {
-        updateKnownEntitesInDeck(entity.cardId)
+        updateKnownEntitesInDeck(cardId: entity.cardId)
         entity.info.turn = turn
         entity.info.discarded = true
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }
 
     func deckToPlay(entity: Entity, turn: Int) {
-        updateKnownEntitesInDeck(entity.cardId)
+        updateKnownEntitesInDeck(cardId: entity.cardId)
         entity.info.turn = turn
         Log.info?.message("\(debugName) \(#function) \(entity)")
     }

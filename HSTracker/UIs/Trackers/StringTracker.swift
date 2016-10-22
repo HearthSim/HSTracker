@@ -14,10 +14,10 @@ class StringTracker: TextFrame {
 
     var message: String = ""
 
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
 
-        addImage("text-frame.png", rect: frameRect)
-        addString(message, rect: textRect, alignment: .Center)
+        add(image: "text-frame.png", rect: frameRect)
+        add(string: message, rect: textRect, alignment: .center)
     }
 }

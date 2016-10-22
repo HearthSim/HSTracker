@@ -23,7 +23,7 @@ struct Tempostorm: JsonImporter {
         return true
     }
 
-    func loadJson(url: String, completion: AnyObject? -> Void) {
+    func loadJson(url: String, completion: @escaping (Any?) -> Void) {
         guard let match = url.matches("/decks/([^/]+)$").first else {
             completion(nil)
             return
@@ -38,14 +38,18 @@ struct Tempostorm: JsonImporter {
         Log.info?.message("Fetching \(url)")
 
         let http = Http(url: url)
-        http.json(.get, parameters: parameters) { json in
+        http.json(method: .get, parameters: parameters) { json in
             completion(json)
         }
     }
 
-    func loadDeck(json: AnyObject, url: String) -> Deck? {
+    func loadDeck(json: Any, url: String) -> Deck? {
+        guard let json = json as? [String: Any] else {
+            Log.error?.message("invalid json")
+            return nil
+        }
         guard let className = json["playerClass"] as? String,
-            let playerClass = CardClass(rawValue: className.lowercaseString) else {
+            let playerClass = CardClass(rawValue: className.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
@@ -72,7 +76,7 @@ struct Tempostorm: JsonImporter {
                 let count = jsonCard["cardQuantity"] as? Int {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         return deck

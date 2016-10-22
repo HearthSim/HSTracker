@@ -23,12 +23,12 @@ enum PlayState: Int {
 
     init?(rawString: String) {
         for _enum in PlayState.allValues() {
-            if "\(_enum)" == rawString.lowercaseString {
+            if "\(_enum)" == rawString.lowercased() {
                 self = _enum
                 return
             }
         }
-        if let value = Int(rawString), _enum = PlayState(rawValue: value) {
+        if let value = Int(rawString), let _enum = PlayState(rawValue: value) {
             self = _enum
             return
         }

@@ -23,8 +23,7 @@ class Secret {
     }
 
     func adjustedCount(game: Game) -> Int {
-        return (Settings.instance.autoGrayoutSecrets
-            && (game.currentGameMode == .casual || game.currentGameMode == .ranked
+        return ((game.currentGameMode == .casual || game.currentGameMode == .ranked
                 || game.currentGameMode == .friendly || game.currentGameMode == .practice
                 || activeDeckIsConstructed)
             && game.opponent.revealedEntities.filter { $0.id < 68 && $0.cardId == self.cardId }

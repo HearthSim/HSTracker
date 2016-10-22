@@ -23,7 +23,7 @@ class HSReplayManager {
     
     private var savePath: String? {
         if let appSupport = NSSearchPathForDirectoriesInDomains(
-            .ApplicationSupportDirectory, .UserDomainMask, true).first {
+            .applicationSupportDirectory, .userDomainMask, true).first {
             
             return "\(appSupport)/HSTracker/replays.json"
         }
@@ -32,9 +32,9 @@ class HSReplayManager {
     
     private func loadReplays() {
         if let path = savePath {
-            if let jsonData = NSData(contentsOfFile: path) {
+            if let jsonData = try? Data(contentsOf: URL(fileURLWithPath: path)) {
                 do {
-                    self.replays = try Unbox(jsonData)
+                    self.replays = try unbox(data: jsonData)
                 } catch {
                     Log.error?.message("Error unboxing deck")
                 }
@@ -50,40 +50,41 @@ class HSReplayManager {
     private func save() {
         guard let path = savePath else { return }
         do {
-            let json: [AnyObject] = try Wrap(replays)
-            let data = try NSJSONSerialization.dataWithJSONObject(json, options: .PrettyPrinted)
-            data.writeToFile(path, atomically: true)
-            NSNotificationCenter.defaultCenter().postNotificationName("reload_decks", object: nil)
+            let json: [Any] = try wrap(replays)
+            let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+            try? data.write(to: URL(fileURLWithPath: path), options: [.atomic])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+                                            object: nil)
         } catch {
             Log.error?.message("Error wrapping replays")
         }
     }
     
     class func showReplay(replayId: String) {
-        let url = NSURL(string: "\(HSReplay.baseUrl)/uploads/upload/\(replayId)")
-        NSWorkspace.sharedWorkspace().openURL(url!)
+        let url = URL(string: "\(HSReplay.baseUrl)/uploads/upload/\(replayId)")
+        NSWorkspace.shared().open(url!)
     }
     
     struct Replay: Unboxable {
         var replayId: String
         var deck: String
         var against: String
-        var date: NSDate
+        var date: Date
         
         init(replayId: String, deck: String, against: String) {
             self.replayId = replayId
             self.deck = deck
             self.against = against
-            self.date = NSDate()
+            self.date = Date()
         }
         
-        init(unboxer: Unboxer) {
-            self.replayId = unboxer.unbox("replayId")
-            self.deck = unboxer.unbox("deck")
-            self.against = unboxer.unbox("against")
-            let dateFormatter = NSDateFormatter()
+        init(unboxer: Unboxer) throws {
+            self.replayId = try unboxer.unbox(key: "replayId")
+            self.deck = try unboxer.unbox(key: "deck")
+            self.against = try unboxer.unbox(key: "against")
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
-            self.date = unboxer.unbox("date", formatter: dateFormatter)
+            self.date = try unboxer.unbox(key: "date", formatter: dateFormatter)
         }
     }
     

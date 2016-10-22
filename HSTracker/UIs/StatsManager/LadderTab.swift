@@ -32,20 +32,20 @@ class LadderTab: NSViewController {
         timeTable.tableColumns[2].headerToolTip  = NSLocalizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
         // swiftlint:enable line_length
         
-        for rank in (0...25).reverse() {
+        for rank in (0...25).reversed() {
             var title: String
             if rank == 0 {
                 title = "Legend"
             } else {
                 title = String(rank)
             }
-            rankPicker.addItemWithTitle(title)
+            rankPicker.addItem(withTitle: title)
         }
         
         for stars in 0...5 {
-            starsPicker.addItemWithTitle(String(stars))
+            starsPicker.addItem(withTitle: String(stars))
         }
-        starsPicker.selectItemAtIndex(1)
+        starsPicker.selectItem(at: 1)
         starsPicker.autoenablesItems = false
         
         guessRankAndUpdate()
@@ -55,75 +55,77 @@ class LadderTab: NSViewController {
         gamesTable.dataSource = self
         timeTable.dataSource = self
         
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.gamesTable.reloadData()
             self.timeTable.reloadData()
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(guessRankAndUpdate),
-                                                         name: "reload_decks",
-                                                         object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(guessRankAndUpdate),
+                         name: NSNotification.Name(rawValue: "reload_decks"),
+                         object: nil)
     }
-    
+
     func guessRankAndUpdate() {
-        if !self.viewLoaded {
+        if !self.isViewLoaded {
             return
         }
         if let deck = self.deck {
-            let rank = StatsHelper.guessRank(deck)
-            rankPicker.selectItemAtIndex(25-rank)
+            let rank = StatsHelper.guessRank(deck: deck)
+            rankPicker.selectItem(at: 25 - rank)
         }
         update()
     }
-    @IBAction func rankChanged(sender: AnyObject) {
+    @IBAction func rankChanged(_ sender: AnyObject) {
         update()
     }
     
-    @IBAction func starsChanged(sender: AnyObject) {
+    @IBAction func starsChanged(_ sender: AnyObject) {
         update()
     }
     
-    @IBAction func streakChanged(sender: AnyObject) {
+    @IBAction func streakChanged(_ sender: AnyObject) {
         update()
     }
 
     func enableStars(rank: Int) {
         
         for i in 0...5 {
-            starsPicker.itemAtIndex(i)!.enabled = false
+            starsPicker.item(at: i)!.isEnabled = false
         }
         for i in 0...Ranks.starsPerRank[rank]! {
-            starsPicker.itemAtIndex(i)!.enabled = true
+            starsPicker.item(at: i)!.isEnabled = true
         }
         
-        if starsPicker.selectedItem?.enabled == false {
-            starsPicker.selectItemAtIndex(Ranks.starsPerRank[rank]!)
+        if starsPicker.selectedItem?.isEnabled == false {
+            starsPicker.selectItem(at: Ranks.starsPerRank[rank]!)
         }
         
-        streakButton.enabled = true
+        streakButton.isEnabled = true
         if rank <= 5 {
-            streakButton.enabled = false
+            streakButton.isEnabled = false
             streakButton.state = NSOffState
         }
     }
     
     func update() {
-        if let selectedRank = rankPicker.selectedItem, selectedStars = starsPicker.selectedItem {
+        if let selectedRank = rankPicker.selectedItem,
+            let selectedStars = starsPicker.selectedItem {
             var rank: Int
             if selectedRank.title == "Legend" {
                 rank = 0
             } else {
                 rank = Int(selectedRank.title)!
             }
-            enableStars(rank)
+            enableStars(rank: rank)
             
             let stars = Int(selectedStars.title)!
             
             if let deck = self.deck {
                 let streak = (streakButton.state == NSOnState)
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.ladderTableItems = StatsHelper.getLadderTableData(deck,
+                DispatchQueue.main.async {
+                    self.ladderTableItems = StatsHelper.getLadderTableData(deck: deck,
                                                                            rank: rank,
                                                                            stars: stars,
                                                                            streak: streak)
@@ -132,7 +134,7 @@ class LadderTab: NSViewController {
                 }
                 
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.ladderTableItems = []
                     self.gamesTable.reloadData()
                     self.timeTable.reloadData()
@@ -146,7 +148,7 @@ class LadderTab: NSViewController {
 }
 
 extension LadderTab : NSTableViewDataSource {
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if [gamesTable, timeTable].contains(tableView) {
             return ladderTableItems.count
         } else {
@@ -156,47 +158,47 @@ extension LadderTab : NSTableViewDataSource {
 }
 
 extension LadderTab : NSTableViewDelegate {
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?,
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
         var text: String = ""
         var cellIdentifier: String = ""
-        var alignment: NSTextAlignment = NSTextAlignment.Left
+        var alignment: NSTextAlignment = NSTextAlignment.left
         
         let item = ladderTableItems[row]
         
         if tableView == gamesTable {
             if tableColumn == gamesTable.tableColumns[0] {
                 text  = item.rank
-                alignment = NSTextAlignment.Left
+                alignment = NSTextAlignment.left
                 cellIdentifier = "LadderGRankCellID"
             } else if tableColumn == gamesTable.tableColumns[1] {
                 text = item.games
-                alignment = NSTextAlignment.Right
+                alignment = NSTextAlignment.right
                 cellIdentifier = "LadderGToRankCellID"
             } else if tableColumn == gamesTable.tableColumns[2] {
                 text = item.gamesCI
-                alignment = NSTextAlignment.Right
+                alignment = NSTextAlignment.right
                 cellIdentifier = "LadderG90CICellID"
             }
         } else if tableView == timeTable {
             if tableColumn == timeTable.tableColumns[0] {
                 text  = item.rank
-                alignment = NSTextAlignment.Left
+                alignment = NSTextAlignment.left
                 cellIdentifier = "LadderTRankCellID"
             } else if tableColumn == timeTable.tableColumns[1] {
                 text = item.time
-                alignment = NSTextAlignment.Right
+                alignment = NSTextAlignment.right
                 cellIdentifier = "LadderTToRankCellID"
             } else if tableColumn == timeTable.tableColumns[2] {
                 text = item.timeCI
-                alignment = NSTextAlignment.Right
+                alignment = NSTextAlignment.right
                 cellIdentifier = "LadderT90CICellID"
             }
         } else {
             return nil
         }
         
-        if let cell = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil)
+        if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
             cell.textField?.alignment = alignment

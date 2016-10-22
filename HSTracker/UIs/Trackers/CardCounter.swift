@@ -17,11 +17,11 @@ class CardCounter: TextFrame {
     var handCount = 30
     var deckCount = 0
 
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
 
-        addImage("card-counter-frame.png", rect: frameRect)
-        addInt(handCount, rect: handFrame)
-        addInt(deckCount, rect: deckFrame)
+        add(image: "card-counter-frame.png", rect: frameRect)
+        add(int: handCount, rect: handFrame)
+        add(int: deckCount, rect: deckFrame)
     }
 }

@@ -27,14 +27,14 @@ struct Hearthstats: HttpImporter {
     func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
         guard let node = doc.at_xpath("//div[contains(@class,'win-count')]//img"),
             let alt = node["alt"],
-            let playerClass = CardClass(rawValue: alt.lowercaseString) else {
+            let playerClass = CardClass(rawValue: alt.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
         Log.verbose?.message("Got class \(playerClass)")
 
         guard let deckNameNode = doc.at_xpath("//h1[contains(@class,'page-title')]"),
-            let deckName = deckNameNode.innerHTML?.componentsSeparatedByString("<").first else {
+            let deckName = deckNameNode.innerHTML?.components(separatedBy: "<").first else {
                 Log.error?.message("Deck name not found")
                 return nil
         }
@@ -49,7 +49,7 @@ struct Hearthstats: HttpImporter {
                 let count = Int(countValue) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         return deck

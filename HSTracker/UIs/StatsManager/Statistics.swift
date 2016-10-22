@@ -52,16 +52,17 @@ class Statistics: NSWindowController {
        
         // We need to update the display both when the
         // stats change
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(update),
-                                                         name: "reload_decks",
-                                                         object: nil)
- 
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(update),
+                         name: NSNotification.Name(rawValue: "reload_decks"),
+                         object: nil)
+
     }
-    
-    func resizeWindowToFitTab(tab: NSTabViewItem) {
+
+    func resizeWindowToFitTab(_ tab: NSTabViewItem) {
         //TODO: centering?
-        guard let desiredTabSize = tabSizes[tab], swindow = self.window
+        guard let desiredTabSize = tabSizes[tab], let swindow = self.window
             else { return }
         
         let currentTabSize = tab.view!.frame.size
@@ -82,7 +83,7 @@ class Statistics: NSWindowController {
             // XXX: This might be unsafe
             // I'm assuming that the player class names
             // and class assets are always the same
-            let imageName = deck.playerClass.rawValue.lowercaseString
+            let imageName = deck.playerClass.rawValue.lowercased()
             selectedDeckIcon.image = NSImage(named: imageName)
             if let deckName = deck.name {
                 selectedDeckName.stringValue = deckName
@@ -97,25 +98,25 @@ class Statistics: NSWindowController {
     }
 
     
-    @IBAction func closeWindow(sender: AnyObject) {
+    @IBAction func closeWindow(_ sender: AnyObject) {
         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
     }
     
     
-    @IBAction func deleteStatistics(sender: AnyObject) {
+    @IBAction func deleteStatistics(_ sender: AnyObject) {
         if let deck = deck {
             let alert = NSAlert()
-            alert.alertStyle = .Informational
+            alert.alertStyle = .informational
             // swiftlint:disable line_length
-            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the statistics for the deck %@ ?", comment: ""), deck.name!) as String
+            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the statistics for the deck %@ ?", comment: "") as NSString, deck.name!) as String
             // swiftlint:enable line_length
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModalForWindow(self.window!,
+            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModal(for: self.window!,
                                            completionHandler: { (returnCode) in
                                             if returnCode == NSAlertFirstButtonReturn {
                                                 self.deck?.removeAllStatistics()
-                                                dispatch_async(dispatch_get_main_queue()) {
+                                                DispatchQueue.main.async {
                                                     self.statsTab!.statsTable.reloadData()
                                                 }
                                             }
@@ -125,7 +126,7 @@ class Statistics: NSWindowController {
 }
 
 extension Statistics: NSTabViewDelegate {
-    func tabView(tabView: NSTabView, didSelectTabViewItem tabViewItem: NSTabViewItem?) {
+    func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         if tabView == tabs {
             guard let item = tabViewItem
                 else { return }

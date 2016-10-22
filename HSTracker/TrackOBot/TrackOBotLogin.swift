@@ -16,57 +16,59 @@ class TrackOBotLogin: NSWindowController {
     @IBOutlet weak var cancelButton: NSButton!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     
-    @IBAction func connect(sender: AnyObject) {
-        configureUserInterfaceForNetworkActivity(true)
+    @IBAction func connect(_ sender: AnyObject) {
+        configureUserInterfaceForNetworkActivity(isNetworkActivityInProgress: true)
         
-        TrackOBotAPI.login(username.stringValue,
+        TrackOBotAPI.login(username: username.stringValue,
                              token: token.stringValue) { (success, message) in
                                 if success {
                                     let message =
                                         NSLocalizedString("You are now connected to Track-o-Bot",
                                                           comment: "")
-                                    self.displayAlert(.Informational, message: message) {
+                                    self.displayAlert(style: .informational, message: message) {
                                         self.endSheet()
                                     }
                                 } else {
-                                    self.displayAlert(.Critical, message: message) {
-                                        self.configureUserInterfaceForNetworkActivity(false)
+                                    self.displayAlert(style: .critical, message: message) {
+                                        self.configureUserInterfaceForNetworkActivity(
+                                            isNetworkActivityInProgress: false)
                                         self.username.becomeFirstResponder()
                                     }
                                 }
         }
     }
     
-    @IBAction func cancel(sender: AnyObject) {
+    @IBAction func cancel(_ sender: AnyObject) {
         self.endSheet()
     }
     
     private func configureUserInterfaceForNetworkActivity(isNetworkActivityInProgress: Bool) {
         if isNetworkActivityInProgress {
             self.window?.makeFirstResponder(nil)
-            progressIndicator.hidden = false
+            progressIndicator.isHidden = false
             progressIndicator.startAnimation(self)
         } else {
-            progressIndicator.hidden = true
+            progressIndicator.isHidden = true
             self.window?.makeFirstResponder(username)
             progressIndicator.stopAnimation(self)
         }
         
         [ username, token ].forEach {
-            $0.selectable = !isNetworkActivityInProgress
-            $0.editable = !isNetworkActivityInProgress
+            $0?.isSelectable = !isNetworkActivityInProgress
+            $0?.isEditable = !isNetworkActivityInProgress
         }
-        [ loginButton ].forEach { $0.enabled = !isNetworkActivityInProgress }
+        [ loginButton ].forEach { $0.isEnabled = !isNetworkActivityInProgress }
     }
     
-    private func displayAlert(style: NSAlertStyle, message: String, completion: (Void) -> (Void)) {
+    private func displayAlert(style: NSAlertStyle, message: String,
+                              completion: @escaping (Void) -> (Void)) {
         let alert = NSAlert()
         alert.alertStyle = style
         alert.messageText = message
         
-        alert.beginSheetModalForWindow(self.window!) { (response) in
+        alert.beginSheetModal(for: self.window!, completionHandler: { (response) in
             completion()
-        }
+        }) 
     }
     
     private func endSheet() {

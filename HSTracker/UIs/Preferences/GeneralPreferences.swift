@@ -30,7 +30,7 @@ class GeneralPreferences: NSViewController {
         saveReplays.state = settings.saveReplays ? NSOnState : NSOffState
     }
 
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
         if sender == notifyGameStart {
             settings.notifyGameStart = notifyGameStart.state == NSOnState

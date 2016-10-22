@@ -35,10 +35,10 @@ class WindowMove: NSWindowController {
         let window = NSWindow()
         window.orderFrontRegardless()
         window.backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.6)
-        window.opaque = false
+        window.isOpaque = false
         window.hasShadow = false
         window.styleMask = NSBorderlessWindowMask
-        window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
+        window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
 
         return window
     }()
@@ -46,7 +46,7 @@ class WindowMove: NSWindowController {
     var x: CGFloat = 0, y: CGFloat = 0
     var currentWindow: NSWindow?
 
-    @IBAction func opacityChange(sender: NSSlider) {
+    @IBAction func opacityChange(_ sender: NSSlider) {
         if let currentWindow = currentWindow {
             let alpha = CGFloat(sender.doubleValue / 100.0)
             currentWindow.backgroundColor = NSColor(red: 0,
@@ -56,7 +56,7 @@ class WindowMove: NSWindowController {
         }
     }
 
-    @IBAction func windowChoose(sender: AnyObject) {
+    @IBAction func windowChoose(_ sender: AnyObject) {
         var buttonEnabled = false
         if windowChooser.indexOfSelectedItem >= 0 {
             buttonEnabled = true
@@ -64,12 +64,12 @@ class WindowMove: NSWindowController {
         [_up, _down, _left, _right,
             _fup, _fdown, _fleft, _fright,
             _show, _hide, _ffdown, _ffup
-            ].forEach { $0.enabled = buttonEnabled }
+            ].forEach { $0.isEnabled = buttonEnabled }
 
         guard windowChooser.indexOfSelectedItem > 0 else { return }
 
         if let window = windowChooser
-            .itemObjectValueAtIndex(windowChooser.indexOfSelectedItem) as? String {
+            .itemObjectValue(at: windowChooser.indexOfSelectedItem) as? String {
 
             // reset
             y = 0
@@ -77,15 +77,15 @@ class WindowMove: NSWindowController {
 
             currentWindow = nil
             if window == "Secret Tracker" {
-                currentWindow = Game.instance.secretTracker!.window
+                currentWindow = WindowManager.default.secretTracker.window
                 defaultFrame = NSRect(x: 200,
                                       y: SizeHelper.hearthstoneWindow.frame.height - 50,
                                       width: CGFloat(kMediumRowHeight), height: 300)
             } else if window == "Timer Hud" {
-                currentWindow = Game.instance.timerHud!.window
+                currentWindow = WindowManager.default.timerHud.window
                 defaultFrame = NSRect(x: 1082.0, y: 399.0, width: 160.0, height: 115.0)
             } else if window == "Card Hud Container" {
-                currentWindow = Game.instance.cardHudContainer!.window
+                currentWindow = WindowManager.default.cardHudContainer.window
                 defaultFrame = NSRect(x: 529.5,
                                       y: SizeHelper.hearthstoneWindow.frame.height - 80,
                                       width: 400, height: 80)
@@ -95,10 +95,10 @@ class WindowMove: NSWindowController {
                 rect.origin = NSPoint.zero
                 defaultFrame = rect
             } else if window == "Player Board Damage" {
-                currentWindow = Game.instance.playerBoardDamage!.window
+                currentWindow = WindowManager.default.playerBoardDamage.window
                 defaultFrame = NSRect(x: 915, y: 205.0, width: 50.0, height: 50.0)
             } else if window == "Opponent Board Damage" {
-                currentWindow = Game.instance.opponentBoardDamage!.window
+                currentWindow = WindowManager.default.opponentBoardDamage.window
                 defaultFrame = NSRect(x: 910, y: 617.0, width: 50.0, height: 50.0)
             }
 
@@ -106,57 +106,57 @@ class WindowMove: NSWindowController {
         }
     }
 
-    @IBAction func up(sender: AnyObject) {
+    @IBAction func up(_ sender: AnyObject) {
         y += 1
         update()
     }
 
-    @IBAction func down(sender: AnyObject) {
+    @IBAction func down(_ sender: AnyObject) {
         y -= 1
         update()
     }
 
-    @IBAction func left(sender: AnyObject) {
+    @IBAction func left(_ sender: AnyObject) {
         x -= 1
         update()
     }
 
-    @IBAction func right(sender: AnyObject) {
+    @IBAction func right(_ sender: AnyObject) {
         x += 1
         update()
     }
 
-    @IBAction func fup(sender: AnyObject) {
+    @IBAction func fup(_ sender: AnyObject) {
         y += 10
         update()
     }
 
-    @IBAction func ffup(sender: AnyObject) {
+    @IBAction func ffup(_ sender: AnyObject) {
         y += 100
         update()
     }
     
-    @IBAction func fdown(sender: AnyObject) {
+    @IBAction func fdown(_ sender: AnyObject) {
         y -= 10
         update()
     }
 
-    @IBAction func ffdown(sender: AnyObject) {
+    @IBAction func ffdown(_ sender: AnyObject) {
         y -= 100
         update()
     }
     
-    @IBAction func fleft(sender: AnyObject) {
+    @IBAction func fleft(_ sender: AnyObject) {
         x -= 10
         update()
     }
 
-    @IBAction func fright(sender: AnyObject) {
+    @IBAction func fright(_ sender: AnyObject) {
         x += 10
         update()
     }
 
-    private func update() {
+    fileprivate func update() {
         let _x = defaultFrame.origin.x + x
         let _y = defaultFrame.origin.y + y
         textbox.string = "NSRect(x: \(_x), y: \(_y), "
@@ -170,19 +170,19 @@ class WindowMove: NSWindowController {
         }
     }
 
-    @IBAction func show(sender: AnyObject) {
+    @IBAction func show(_ sender: AnyObject) {
         currentWindow?.orderFrontRegardless()
     }
 
-    @IBAction func hide(sender: AnyObject) {
+    @IBAction func hide(_ sender: AnyObject) {
         currentWindow?.orderOut(self)
     }
 
-    @IBAction func screenshot(sender: AnyObject) {
+    @IBAction func screenshot(_ sender: AnyObject) {
         if let x = Float(screenX.stringValue),
-            y = Float(screenY.stringValue),
-            w = Float(screenWidth.stringValue),
-            h = Float(screenHeight.stringValue) {
+            let y = Float(screenY.stringValue),
+            let w = Float(screenWidth.stringValue),
+            let h = Float(screenHeight.stringValue) {
  
             print("x: \(x), y: \(y), w: \(w), h: \(h)")
             if let image = SizeHelper.hearthstoneWindow.screenshot() {
@@ -190,13 +190,13 @@ class WindowMove: NSWindowController {
                                   y: CGFloat(y),
                                   width: CGFloat(w),
                                   height: CGFloat(h))
-                let cropped = ImageUtilities.cropRect(image, rect: rect)
+                let cropped = ImageUtilities.cropRect(image: image, rect: rect)
                 screenshot.image = cropped
             }
         }
     }
     
-    @IBAction func screenshotPlayerRank(sender: AnyObject) {
+    @IBAction func screenshotPlayerRank(_ sender: AnyObject) {
         if let image = ImageUtilities.screenshotPlayerRank() {
             screenshot.image = image
             

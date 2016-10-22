@@ -9,7 +9,7 @@
  */
 
 extension Dictionary {
-    mutating func update(other: Dictionary) {
+    mutating func update(_ other: Dictionary) {
         for (key, value) in other {
             self.updateValue(value, forKey:key)
         }
@@ -18,7 +18,7 @@ extension Dictionary {
 
 extension Array where Element: Card {
     func sortCardList() -> [Card] {
-        return sort {
+        return sorted {
             if $0.cost == $1.cost {
                 return $0.name < $1.name
             }
@@ -40,9 +40,9 @@ extension Array where Element: Card {
 }
 
 extension Array where Element: Equatable {
-    mutating func remove(element: Element) {
-        if let index = indexOf(element) {
-            removeAtIndex(index)
+    mutating func remove(_ element: Element) {
+        if let index = index(of: element) {
+            self.remove(at: index)
         }
     }
 }

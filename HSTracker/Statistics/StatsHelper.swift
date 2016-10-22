@@ -53,20 +53,21 @@ class StatsHelper {
             if againstClass == .neutral {
                 dataRow.classIcon = "AppIcon"
             } else {
-                dataRow.classIcon = againstClass.rawValue.lowercaseString
+                dataRow.classIcon = againstClass.rawValue
             }
             dataRow.opponentClassName =
-                NSLocalizedString(againstClass.rawValue.lowercaseString,
-                                  comment: "").capitalizedString
+                NSLocalizedString(againstClass.rawValue,
+                                  comment: "").capitalized
             
-            let record = getDeckRecord(deck, againstClass: againstClass, mode: mode, season: season)
-            dataRow.record = getDeckRecordString(record)
-            dataRow.winRate = getDeckWinRateString(record)
-            dataRow.winRateNumber = getDeckWinRate(record)
+            let record = getDeckRecord(deck: deck, againstClass: againstClass,
+                                       mode: mode, season: season)
+            dataRow.record = getDeckRecordString(record: record)
+            dataRow.winRate = getDeckWinRateString(record: record)
+            dataRow.winRateNumber = getDeckWinRate(record: record)
             dataRow.totalGames = record.total
-            dataRow.confidenceInterval = getDeckConfidenceString(record,
+            dataRow.confidenceInterval = getDeckConfidenceString(record: record,
                                                                  confidence: statsUIConfidence)
-            let interval = binomialProportionCondifenceInterval(record.wins,
+            let interval = binomialProportionCondifenceInterval(wins: record.wins,
                                                                 losses: record.losses,
                                                                 confidence: statsUIConfidence)
             dataRow.confidenceWindow   = interval.upper - interval.lower
@@ -83,10 +84,10 @@ class StatsHelper {
             
             var tableData = [LadderTableRow]()
             
-            let record = getDeckRecord(deck, againstClass: .neutral, mode: .ranked)
-            let tpg = getDeckTimePerGame(deck, againstClass: .neutral, mode: .ranked)
+            let record = getDeckRecord(deck: deck, againstClass: .neutral, mode: .ranked)
+            let tpg = getDeckTimePerGame(deck: deck, againstClass: .neutral, mode: .ranked)
             
-            let winRate = getDeckWinRate(record)
+            let winRate = getDeckWinRate(record: record)
             
             let totalStars = Ranks.starsAtRank[rank]! + stars
             var bonus: Int = 0
@@ -113,7 +114,7 @@ class StatsHelper {
                     // Closures for repeated tasks
                     let getGames = {
                         (winp: Double) -> Double? in
-                        return lg.getGamesToRank(target_rank,
+                        return lg.getGamesToRank(targetRank: target_rank,
                                                  stars: totalStars,
                                                  bonus: bonus,
                                                  winp: winp)
@@ -149,12 +150,12 @@ class StatsHelper {
                     
                     // swiftlint:disable line_length
                     //Confidence intervals
-                    let interval = binomialProportionCondifenceInterval(record.wins,
+                    let interval = binomialProportionCondifenceInterval(wins: record.wins,
                                                                         losses: record.losses,
                                                                         confidence: statsUIConfidence)
                     // swiftlint:enable line_length
                     if let lg2r = getGames(interval.lower),
-                        ug2r = getGames(interval.upper) {
+                        let ug2r = getGames(interval.upper) {
                         dataRow.gamesCI = "\(formatGames(ug2r)) - \(formatGames(lg2r))"
                         dataRow.timeCI = "\(formatTime(ug2r, tpg)) - \(formatTime(lg2r, tpg))"
                     } else {
@@ -170,14 +171,14 @@ class StatsHelper {
     }
     
     static func getDeckManagerRecordLabel(deck: Deck) -> String {
-        let record = getDeckRecord(deck)
+        let record = getDeckRecord(deck: deck)
         
         let totalGames = record.total
         if totalGames == 0 {
             return "0 - 0"
         }
         
-        return "\(record.wins) - \(record.losses) (\(getDeckWinRateString(record)))"
+        return "\(record.wins) - \(record.losses) (\(getDeckWinRateString(record: record)))"
     }
     
     static func getDeckRecordString(record: StatsDeckRecord) -> String {
@@ -220,7 +221,7 @@ class StatsHelper {
     
     static func getDeckWinRateString(record: StatsDeckRecord) -> String {
         var winRateString = "N/A"
-        let winRate = getDeckWinRate(record)
+        let winRate = getDeckWinRate(record: record)
         if winRate >= 0.0 {
             let winPercent = Int(round(winRate * 100))
             winRateString = String(winPercent) + "%"
@@ -258,7 +259,7 @@ class StatsHelper {
     
     static func getDeckConfidenceString(record: StatsDeckRecord,
                                         confidence: Double = 0.9) -> String {
-        let interval = binomialProportionCondifenceInterval(record.wins,
+        let interval = binomialProportionCondifenceInterval(wins: record.wins,
                                                             losses: record.losses,
                                                             confidence: confidence)
         let intLower = Int(round(interval.lower*100))
@@ -279,7 +280,7 @@ class StatsHelper {
             let datedRankedGames = deck_i.statistics
                 .filter({$0.playerMode == .ranked})
                 .filter({$0.date != nil})
-            if let latest = datedRankedGames.maxElement({$0.date! < $1.date!}) {
+            if let latest = datedRankedGames.max(by: {$0.date! < $1.date!}) {
                 if let mr = mostRecent {
                     if mr.date! < latest.date! {
                         mostRecent = latest
@@ -314,12 +315,13 @@ class StatsHelper {
             }
             
             let quantile = 1 - 0.5 * alpha
-            let z = sqrt(2) * erfinv(2 * quantile - 1)
+            let z = sqrt(2) * erfinv(y: 2 * quantile - 1)
             
             let p = Double(wins) / Double(n)
             
             let center = p + z * z / (2 * n)
-            let spread = z * sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+            let spl = p * (1 - p) / n + z * z / (4 * n * n)
+            let spread = z * sqrt(spl)
             let prefactor = 1 / (1 + z * z / n)
             
             var lower = prefactor * (center - spread)
@@ -363,7 +365,7 @@ class StatsHelper {
         } else if abs(y) == 1 {
             return y * Double(Int.max)
         } else {
-            return Double.NaN
+            return Double.nan
         }
     }
 }

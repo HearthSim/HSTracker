@@ -9,10 +9,10 @@
 import Foundation
 
 struct Automation {
-    private var queue: dispatch_queue_t = dispatch_queue_create("export.hstracker", nil)
+    private var queue: DispatchQueue = DispatchQueue(label: "export.hstracker", attributes: [])
     
     func expertDeckToHearthstone(deck: Deck, callback: (()->())?) {
-        dispatch_async(queue) {
+        queue.async {
             // bring HS to front
             Hearthstone.instance.bringToFront()
 
@@ -20,82 +20,88 @@ struct Automation {
             let firstCardLocation = SizeHelper.firstCardLocation()
             deck.sortedCards.forEach {
                 for _ in 1...$0.count {
-                    self.leftClick(searchLocation)
-                    NSThread.sleepForTimeInterval(0.3)
-                    self.write($0.name)
-                    NSThread.sleepForTimeInterval(0.3)
-                    self.doubleClick(firstCardLocation)
-                    NSThread.sleepForTimeInterval(0.3)
+                    self.leftClick(at: searchLocation)
+                    Thread.sleep(forTimeInterval: 0.3)
+                    self.write(string: $0.name)
+                    Thread.sleep(forTimeInterval: 0.3)
+                    self.doubleClick(at: firstCardLocation)
+                    Thread.sleep(forTimeInterval: 0.3)
                 }
             }
             
-            NSThread.sleepForTimeInterval(1)
-            dispatch_async(dispatch_get_main_queue()) {
+            Thread.sleep(forTimeInterval: 1)
+            DispatchQueue.main.async {
                 callback?()
             }
         }
     }
     
-    private func leftClick(location: NSPoint) {
-        let source = CGEventSourceCreate(.Private)
-        let click = CGEventCreateMouseEvent(source, .LeftMouseDown, location, .Left)
-        CGEventPost(.CGHIDEventTap, click)
+    private func leftClick(at location: NSPoint) {
+        let source = CGEventSource(stateID: .privateState)
+        let click = CGEvent(mouseEventSource: source, mouseType: .leftMouseDown,
+                            mouseCursorPosition: location, mouseButton: .left)
+        click?.post(tap: .cghidEventTap)
         
-        let release = CGEventCreateMouseEvent(source, .LeftMouseUp, location, .Left)
-        CGEventPost(.CGHIDEventTap, release)
+        let release = CGEvent(mouseEventSource: source, mouseType: .leftMouseUp,
+                              mouseCursorPosition: location, mouseButton: .left)
+        release?.post(tap: .cghidEventTap)
     }
     
-    private func doubleClick(location: NSPoint) {
-        let source = CGEventSourceCreate(.Private)
+    private func doubleClick(at location: NSPoint) {
+        let source = CGEventSource(stateID: .privateState)
         
-        var click = CGEventCreateMouseEvent(source, .LeftMouseDown, location, .Left)
-        CGEventSetIntegerValueField(click, .MouseEventClickState, 1)
-        CGEventPost(.CGHIDEventTap, click)
+        var click = CGEvent(mouseEventSource: source, mouseType: .leftMouseDown,
+                            mouseCursorPosition: location, mouseButton: .left)
+        click?.setIntegerValueField(.mouseEventClickState, value: 1)
+        click?.post(tap: .cghidEventTap)
         
-        var release = CGEventCreateMouseEvent(source, .LeftMouseUp, location, .Left)
-        CGEventSetIntegerValueField(release, .MouseEventClickState, 1)
-        CGEventPost(.CGHIDEventTap, release)
+        var release = CGEvent(mouseEventSource: source, mouseType: .leftMouseUp,
+                              mouseCursorPosition: location, mouseButton: .left)
+        release?.setIntegerValueField(.mouseEventClickState, value: 1)
+        release?.post(tap: .cghidEventTap)
         
-        click = CGEventCreateMouseEvent(source, .LeftMouseDown, location, .Left)
-        CGEventSetIntegerValueField(click, .MouseEventClickState, 2)
-        CGEventPost(.CGHIDEventTap, click)
+        click = CGEvent(mouseEventSource: source, mouseType: .leftMouseDown,
+                        mouseCursorPosition: location, mouseButton: .left)
+        click?.setIntegerValueField(.mouseEventClickState, value: 2)
+        click?.post(tap: .cghidEventTap)
         
-        release = CGEventCreateMouseEvent(source, .LeftMouseUp, location, .Left)
-        CGEventSetIntegerValueField(release, .MouseEventClickState, 2)
-        CGEventPost(.CGHIDEventTap, release)
+        release = CGEvent(mouseEventSource: source, mouseType: .leftMouseUp,
+                          mouseCursorPosition: location, mouseButton: .left)
+        release?.setIntegerValueField(.mouseEventClickState, value: 2)
+        release?.post(tap: .cghidEventTap)
     }
     
     private func write(string: String) {
-        let source = CGEventSourceCreate(.HIDSystemState)
+        let source = CGEventSource(stateID: .hidSystemState)
         
-        if let source = CGEventSourceCreate(.HIDSystemState) {
+        if let source = CGEventSource(stateID: .hidSystemState) {
             for letter in string.utf16 {
-                pressAndReleaseChar(letter, eventSource: source)
+                pressAndReleaseChar(char: letter, eventSource: source)
             }
         }
     
         // finish by ENTER
-        if let event = CGEventCreateKeyboardEvent(source, 0x24, true) {
-            CGEventPost(CGEventTapLocation.CGHIDEventTap, event)
+        if let event = CGEvent(keyboardEventSource: source, virtualKey: 0x24, keyDown: true) {
+            event.post(tap: CGEventTapLocation.cghidEventTap)
         }
-        if let event = CGEventCreateKeyboardEvent(source, 0x24, false) {
-            CGEventPost(CGEventTapLocation.CGHIDEventTap, event)
+        if let event = CGEvent(keyboardEventSource: source, virtualKey: 0x24, keyDown: false) {
+            event.post(tap: CGEventTapLocation.cghidEventTap)
         }
     }
     
-    private func pressAndReleaseChar(char: UniChar, eventSource es: CGEventSourceRef) {
-        pressChar(char, eventSource: es)
-        releaseChar(char, eventSource: es)
+    private func pressAndReleaseChar(char: UniChar, eventSource es: CGEventSource) {
+        pressChar(char: char, eventSource: es)
+        releaseChar(char: char, eventSource: es)
     }
-    
-    private func pressChar(char: UniChar, keyDown: Bool = true, eventSource es: CGEventSourceRef) {
-        let event = CGEventCreateKeyboardEvent(es, 0, keyDown)
+
+    private func pressChar(char: UniChar, keyDown: Bool = true, eventSource es: CGEventSource) {
+        let event = CGEvent(keyboardEventSource: es, virtualKey: 0, keyDown: keyDown)
         var char = char
-        CGEventKeyboardSetUnicodeString(event, 1, &char)
-        CGEventPost(CGEventTapLocation.CGHIDEventTap, event)
+        event?.keyboardSetUnicodeString(stringLength: 1, unicodeString: &char)
+        event?.post(tap: CGEventTapLocation.cghidEventTap)
     }
     
-    private func releaseChar(char: UniChar, eventSource es: CGEventSourceRef) {
-        pressChar(char, keyDown: false, eventSource: es)
+    private func releaseChar(char: UniChar, eventSource es: CGEventSource) {
+        pressChar(char: char, keyDown: false, eventSource: es)
     }
 }

@@ -10,29 +10,30 @@ import Foundation
 import CleanroomLogger
 import Wrap
 import ZipArchive
+import Gzip
 
 class LogUploader {
     private static var inProgress: [UploaderItem] = []
     
-    static func upload(filename: String, completion: UploadResult -> ()) {
+    static func upload(filename: String, completion: @escaping (UploadResult) -> ()) {
         guard let tmp = ReplayMaker.tmpReplayDir() else {
             completion(.failed(error: "Can not get tmp dir"))
             return
         }
     
-        if !SSZipArchive.unzipFileAtPath(filename, toDestination: tmp) {
+        if !SSZipArchive.unzipFile(atPath: filename, toDestination: tmp) {
             completion(.failed(error: "Can not unzip \(filename)"))
             return
         }
         
         let output = "\(tmp)/output_log.txt"
-        if !NSFileManager.defaultManager().fileExistsAtPath(output) {
+        if !FileManager.default.fileExists(atPath: output) {
             completion(.failed(error: "Can not find \(output)"))
             return
         }
         do {
-            let content = try String(contentsOfURL: NSURL(fileURLWithPath: output))
-            let lines = content.componentsSeparatedByString("\n")
+            let content = try String(contentsOf: URL(fileURLWithPath: output))
+            let lines = content.components(separatedBy: "\n")
             if lines.isEmpty {
                 completion(.failed(error: "Log is empty"))
                 return
@@ -51,10 +52,10 @@ class LogUploader {
                 return
             }
             
-            var date: NSDate? = nil
+            var date: Date? = nil
             do {
-                let attr: NSDictionary? = try NSFileManager.defaultManager()
-                    .attributesOfItemAtPath(output)
+                let attr: NSDictionary? = try FileManager.default
+                    .attributesOfItem(atPath: output) as NSDictionary?
                 
                 if let _attr = attr {
                     date = _attr.fileCreationDate()
@@ -67,23 +68,23 @@ class LogUploader {
                 completion(.failed(error: "Cannot find game start date"))
                 return
             }
-            let logLines = lines.map({
-                LogLine.init(namespace: .power, line: $0)
-            })
-
             if let line = lines.first({ $0.contains("CREATE_GAME") }) {
-                let (gameStart, _) = LogLine.parseTime(line)
-                date = NSDate.NSDateFromYear(year: date!.year,
+                let (gameStart, _) = LogLine.parseTime(line: line)
+                date = Date.NSDateFromYear(year: date!.year,
                                              month: date!.month,
                                              day: date!.day,
                                              hour: gameStart.hour,
                                              minute: gameStart.minute,
                                              second: gameStart.second)
             }
+
+            let logLines = lines.map({
+                LogLine.init(namespace: .power, line: $0)
+            })
             
-            self.upload(logLines, gameStart: date, fromFile: true) { (result) in
+            self.upload(logLines: logLines, gameStart: date, fromFile: true) { (result) in
                 do {
-                    try NSFileManager.defaultManager().removeItemAtPath(output)
+                    try FileManager.default.removeItem(atPath: output)
                 } catch {
                     Log.error?.message("Can not remove tmp files")
                 }
@@ -95,21 +96,21 @@ class LogUploader {
     }
 
     static func upload(logLines: [LogLine], game: Game? = nil, statistic: Statistic? = nil,
-                       gameStart: NSDate? = nil, fromFile: Bool = false,
-                       completion: UploadResult -> ()) {
-        let log = logLines.sort {
+                       gameStart: Date? = nil, fromFile: Bool = false,
+                       completion: @escaping (UploadResult) -> ()) {
+        let log = logLines.sorted {
             if $0.time == $1.time {
                 return $0.nanoseconds < $1.nanoseconds
             }
             return $0.time < $1.time
             }.map { $0.line }
-        upload(log, game: game, statistic: statistic, gameStart: gameStart,
+        upload(logLines: log, game: game, statistic: statistic, gameStart: gameStart,
                fromFile: fromFile, completion: completion)
     }
 
     static func upload(logLines: [String], game: Game? = nil, statistic: Statistic? = nil,
-                       gameStart: NSDate? = nil, fromFile: Bool = false,
-                       completion: UploadResult -> ()) {
+                       gameStart: Date? = nil, fromFile: Bool = false,
+                       completion: @escaping (UploadResult) -> ()) {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))
@@ -121,7 +122,7 @@ class LogUploader {
             return
         }
         
-        let log = logLines.joinWithSeparator("\n")
+        let log = logLines.joined(separator: "\n")
         if logLines.isEmpty || log.trim().isEmpty {
             Log.warning?.message("Log file is empty, skipping")
             completion(.failed(error: "Log file is empty"))
@@ -143,14 +144,14 @@ class LogUploader {
                                                 game: game,
                                                 statistic: statistic,
                                                 gameStart: gameStart)
-            if let date = uploadMetaData.dateStart where fromFile {
-                uploadMetaData.hearthstoneBuild = BuildDates.getByDate(date)?.build
+            if let date = uploadMetaData.dateStart, fromFile {
+                uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: date)?.build
             } else if let build = BuildDates.getByProductDb() {
                 uploadMetaData.hearthstoneBuild = build.build
             } else {
-                uploadMetaData.hearthstoneBuild = BuildDates.getByDate(NSDate())?.build
+                uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: Date())?.build
             }
-            let metaData: [String : AnyObject] = try Wrap(uploadMetaData)
+            let metaData: [String : Any] = try wrap(uploadMetaData)
             Log.info?.message("Uploading \(item.hash) -> \(metaData)")
 
             let headers = [
@@ -159,20 +160,19 @@ class LogUploader {
             ]
 
             let http = Http(url: HSReplay.uploadRequestUrl)
-            http.json(.post,
+            http.json(method: .post,
                       parameters: metaData,
                       headers: headers) { json in
-                        if let json = json as? [String: AnyObject],
-                            putUrl = json["put_url"] as? String,
-                            uploadShortId = json["shortid"] as? String {
-                            Log.verbose?.message("Upload to \(putUrl) with id: \(uploadShortId)")
+                        if let json = json as? [String: Any],
+                            let putUrl = json["put_url"] as? String,
+                            let uploadShortId = json["shortid"] as? String {
 
-                            if let data = log.dataUsingEncoding(NSUTF8StringEncoding) {
+                            if let data = log.data(using: .utf8) {
                                 do {
-                                    let gzip = try data.gzippedData()
+                                    let gzip = try data.gzipped()
 
                                     let http = Http(url: putUrl)
-                                    http.upload(.put,
+                                    http.upload(method: .put,
                                                 headers: [
                                                     "Content-Type": "text/plain",
                                                     "Content-Encoding": "gzip"
@@ -186,7 +186,7 @@ class LogUploader {
                             if let statistic = statistic {
                                 statistic.hsReplayId = uploadShortId
                                 if let deck = statistic.deck {
-                                    Decks.instance.update(deck)
+                                    Decks.instance.update(deck: deck)
                                 }
                             }
 
@@ -204,11 +204,14 @@ class LogUploader {
             completion(.failed(error: "\(error)"))
         }
     }
-    
-    struct UploaderItem: Equatable {
-        let hash: Int
-    }
 }
-func == (lhs: LogUploader.UploaderItem, rhs: LogUploader.UploaderItem) -> Bool {
-    return lhs.hash == rhs.hash
+
+fileprivate struct UploaderItem {
+    let hash: Int
+}
+
+extension UploaderItem: Equatable {
+    static func == (lhs: UploaderItem, rhs: UploaderItem) -> Bool {
+        return lhs.hash == rhs.hash
+    }
 }

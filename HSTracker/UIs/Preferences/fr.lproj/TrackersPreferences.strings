@@ -61,3 +61,9 @@
 
 /* Class = "NSComboBoxCell"; cBa-wb-tRb.ibShadowedObjectValues[3] = "Minimal"; ObjectID = "cBa-wb-tRb"; */
 "cBa-wb-tRb.ibShadowedObjectValues[3]" = "Minimaliste";
+
+/* Class = "NSButtonCell"; title = "Allow HSTracker to run on fullscreen mode"; ObjectID = "6Gc-EJ-z7F"; */
+"6Gc-EJ-z7F.title" = "Autorise HSTracker à fonctionner en plein écran";
+
+/* Class = "NSButton"; ibShadowedToolTip = "HSTracker will be visible on all your workspace while playing"; ObjectID = "aO1-IW-r7y"; */
+"aO1-IW-r7y.ibShadowedToolTip" = "HSTracker sera visible sur tous vos workspace pendant que vous jouez";

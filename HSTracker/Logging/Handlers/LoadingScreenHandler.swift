@@ -19,13 +19,13 @@ struct LoadingScreenHandler {
         if logLine.line.match(GameModeRegex) {
             let matches = logLine.line.matches(GameModeRegex)
             
-            game.currentMode = Mode(rawValue: matches[1].value.lowercaseString)
-            game.previousMode = Mode(rawValue: matches[0].value.lowercaseString)
+            game.currentMode = Mode(rawValue: matches[1].value.lowercased())
+            game.previousMode = Mode(rawValue: matches[0].value.lowercased())
             
             var newMode: GameMode?
-            if let mode = game.currentMode, let currentMode = getGameMode(mode) {
+            if let mode = game.currentMode, let currentMode = getGameMode(mode: mode) {
                 newMode = currentMode
-            } else if let mode = game.currentMode, let currentMode = getGameMode(mode) {
+            } else if let mode = game.currentMode, let currentMode = getGameMode(mode: mode) {
                 newMode = currentMode
             }
             
@@ -37,7 +37,7 @@ struct LoadingScreenHandler {
                 game.inMenu()
             }
         } else if logLine.line.contains("Gameplay.Start") {
-            game.gameStart(logLine.time)
+            game.gameStart(at: logLine.time)
         }
     }
 
@@ -48,7 +48,7 @@ struct LoadingScreenHandler {
         case .draft: return .arena
         case .adventure: return .practice
         case .tavern_brawl: return .brawl
-        default: return .None
+        default: return .none
         }
     }
 }

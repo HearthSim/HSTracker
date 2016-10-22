@@ -19,7 +19,7 @@ struct LadderGrid {
     init() {
         do {
             // TODO: put the db in the bundle
-            let path = NSBundle.mainBundle().resourcePath! + "/Resources/grid.db"
+            let path = Bundle.main.resourcePath! + "/Resources/grid.db"
             Log.verbose?.message("Loading grid at \(path)")
             dbQueue = try DatabaseQueue(path: path)
         } catch {
@@ -55,7 +55,7 @@ struct LadderGrid {
             upperResult = Double.fetchOne(db, query)
         }
 
-        guard let lower = lowerResult, upper = upperResult else { return nil }
+        guard let lower = lowerResult, let upper = upperResult else { return nil }
         
         // Linear interpolation
         if lowerWinp == upperWinp {

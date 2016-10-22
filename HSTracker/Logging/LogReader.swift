@@ -14,75 +14,75 @@ import CleanroomLogger
 final class LogReader {
     var stopped = true
     var offset: UInt64 = 0
-    var startingPoint: NSDate = NSDate.distantPast()
-    var fileHandle: NSFileHandle?
+    var startingPoint: Date = Date.distantPast
+    var fileHandle: FileHandle?
 
     var path: String
-    let fileManager = NSFileManager()
+    let fileManager = FileManager()
     private var info: LogReaderInfo
     private var logReaderManager: LogReaderManager?
 
-    private var queue: dispatch_queue_t?
+    private var queue: DispatchQueue?
 
     init(info: LogReaderInfo) {
         self.info = info
 
         self.path = Hearthstone.instance.logPath + "/Logs/\(info.name).log"
         Log.info?.message("Init reader for \(info.name) at path \(self.path)")
-        if fileManager.fileExistsAtPath(self.path)
+        if fileManager.fileExists(atPath: self.path)
             && !Hearthstone.instance.isHearthstoneRunning {
             do {
-                try fileManager.removeItemAtPath(self.path)
+                try fileManager.removeItem(atPath: self.path)
             } catch let error as NSError {
                 Log.error?.message("\(error.description)")
             }
         }
     }
 
-    func findEntryPoint(choice: String) -> NSDate {
-        return findEntryPoint([choice])
+    func findEntryPoint(choice: String) -> Date {
+        return findEntryPoint(choices: [choice])
     }
 
-    func findEntryPoint(choices: [String]) -> NSDate {
-        guard fileManager.fileExistsAtPath(path) else {
-            return NSDate.distantPast()
+    func findEntryPoint(choices: [String]) -> Date {
+        guard fileManager.fileExists(atPath: path) else {
+            return Date.distantPast
         }
         var fileContent: String
         do {
             fileContent = try String(contentsOfFile: path)
         } catch {
-            return NSDate.distantPast()
+            return Date.distantPast
         }
 
         let lines: [String] = fileContent
-            .componentsSeparatedByString("\n")
-            .filter({ !String.isNullOrEmpty($0) }).reverse()
+            .components(separatedBy: "\n")
+            .filter({ !String.isNullOrEmpty($0) }).reversed()
         for line in lines {
-            if choices.any({ line.rangeOfString($0) != nil }) {
+            if choices.any({ line.range(of: $0) != nil }) {
                 Log.verbose?.message("Found \(line)")
-                let (date, _) = LogLine.parseTime(line)
+                let (date, _) = LogLine.parseTime(line: line)
                 return date
             }
         }
 
-        return NSDate.distantPast()
+        return Date.distantPast
     }
 
-    func start(logReaderManager: LogReaderManager, entryPoint: NSDate) {
+    func start(manager logReaderManager: LogReaderManager, entryPoint: Date) {
         stopped = false
         self.logReaderManager = logReaderManager
         startingPoint = entryPoint
 
         var queueName = "be.michotte.hstracker.readers.\(info.name)"
         if let filter = info.startsWithFilters.first {
-            queueName += ".\(filter.lowercaseString)"
+            queueName += ".\(filter.lowercased())"
         }
-        queue = dispatch_queue_create(queueName, nil)
+        queue = DispatchQueue(label: queueName, attributes: [])
         if let queue = queue {
             Log.info?.message("Starting to track \(info.name)")
             Log.verbose?.message("\(info.name) has queue \(queueName) " +
                 "starting at \(startingPoint.millisecondsFormatted)")
-            dispatch_async(queue) {
+            queue.async {
                 self.readFile()
             }
         }
@@ -91,8 +91,8 @@ final class LogReader {
     func readFile() {
         Log.verbose?.message("reading \(path)")
 
-        if fileManager.fileExistsAtPath(path) {
-            fileHandle = NSFileHandle(forReadingAtPath: path)
+        if fileManager.fileExists(atPath: path) {
+            fileHandle = FileHandle(forReadingAtPath: path)
             findInitialOffset()
             Log.verbose?.message("file exists \(path), " +
                 "offset for \(startingPoint.millisecondsFormatted) " +
@@ -100,78 +100,83 @@ final class LogReader {
         }
 
         while !stopped {
-            if fileHandle == .None && fileManager.fileExistsAtPath(path) {
-                fileHandle = NSFileHandle(forReadingAtPath: path)
+            if fileHandle == .none && fileManager.fileExists(atPath: path) {
+                fileHandle = FileHandle(forReadingAtPath: path)
                 findInitialOffset()
             }
 
             if let data = fileHandle?.readDataToEndOfFile() {
-                if let linesStr = String(data: data, encoding: NSUTF8StringEncoding) {
+                if let linesStr = String(data: data, encoding: .utf8) {
 
                     let lines = linesStr
-                        .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-                        .filter { !$0.isEmpty && $0.hasPrefix("D ") && $0.length > 20 }
+                        .components(separatedBy: CharacterSet.newlines)
+                        .filter { !$0.isEmpty && $0.hasPrefix("D ") && $0.characters.count > 20 }
 
                     if !lines.isEmpty {
                         for line in lines {
                             offset += UInt64((line + "\n")
-                                .lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
-                            let cutted = line.substringFromIndex(line.startIndex.advancedBy(19))
+                                .lengthOfBytes(using: .utf8))
+                            let cutted = line.substring(from:
+                                line.characters.index(line.startIndex, offsetBy: 19))
 
                             if !info.hasFilters
                                 || info.startsWithFilters.any({
                                     cutted.hasPrefix($0) || cutted.match($0)
                                 })
-                                || info.containsFilters.any({ cutted.containsString($0) }) {
+                                || info.containsFilters.any({ cutted.contains($0) }) {
 
                                 let logLine = LogLine(namespace: info.name,
                                                       line: line,
                                                       include: info.include)
                                 if logLine.time >= startingPoint {
-                                    logReaderManager?.processLine(logLine)
+                                    logReaderManager?.processLine(line: logLine)
                                 }
                             }
                         }
                     }
+                } else {
+                    fileHandle = nil
                 }
 
-                if !fileManager.fileExistsAtPath(path) {
+                if !fileManager.fileExists(atPath: path) {
                     Log.verbose?.message("setting \(path) handle to nil \(offset))")
                     fileHandle = nil
                 }
+            } else {
+                fileHandle = nil
             }
 
-            NSThread.sleepForTimeInterval(0.1)
+            Thread.sleep(forTimeInterval: 0.1)
         }
     }
 
     func findInitialOffset() {
-        guard fileManager.fileExistsAtPath(path) else { return }
+        guard fileManager.fileExists(atPath: path) else { return }
 
         var offset: UInt64 = 0
-        guard let fileHandle = NSFileHandle(forReadingAtPath: path) else { return }
+        guard let fileHandle = FileHandle(forReadingAtPath: path) else { return }
         fileHandle.seekToEndOfFile()
         let fileLength = fileHandle.offsetInFile
-        fileHandle.seekToFileOffset(0)
+        fileHandle.seek(toFileOffset: 0)
 
         while offset < fileLength {
             let sizeDiff = 4096 - min(fileLength - offset, UInt64(4096))
             offset += 4096
             let fileOffset: UInt64 = UInt64(max(Int64(fileLength) - Int64(offset), Int64(0)))
-            fileHandle.seekToFileOffset(fileOffset)
-            let data = fileHandle.readDataOfLength(4096)
-            if let string = String(data: data, encoding: NSASCIIStringEncoding) {
+            fileHandle.seek(toFileOffset: fileOffset)
+            let data = fileHandle.readData(ofLength: 4096)
+            if let string = String(data: data, encoding: .ascii) {
                 
                 var skip: UInt64 = 0
                 for i in 0...4096 {
                     skip += 1
-                    if i >= string.characters.count || string.charAt(i) == "\n" {
+                    if i >= string.characters.count || string.char(at: i) == "\n" {
                         break
                     }
                 }
                 offset -= skip
                 let lines = String(string.characters.dropFirst(Int(skip)))
-                    .componentsSeparatedByString("\n")
+                    .components(separatedBy: "\n")
                     for i in 0...(lines.count - 1) {
                         if String.isNullOrEmpty(lines[i].trim()) {
                             continue
@@ -180,7 +185,7 @@ final class LogReader {
                         if logLine.time < startingPoint {
                             let negativeOffset = lines.take(i + 1)
                                 .map({ UInt64(($0 + "\n").characters.count) })
-                                .reduce(0, combine: +)
+                                .reduce(0, +)
                             let current = Int64(fileLength) - Int64(offset)
                                 + Int64(negativeOffset) + Int64(sizeDiff)
                             self.offset = UInt64(max(current, Int64(0)))
@@ -198,10 +203,10 @@ final class LogReader {
         fileHandle = nil
 
         // try to truncate log file when stopping
-        if fileManager.fileExistsAtPath(path)
+        if fileManager.fileExists(atPath: path)
             && !Hearthstone.instance.isHearthstoneRunning {
-            let file = NSFileHandle(forWritingAtPath: path)
-            file?.truncateFileAtOffset(UInt64(0))
+            let file = FileHandle(forWritingAtPath: path)
+            file?.truncateFile(atOffset: UInt64(0))
             file?.closeFile()
             offset = 0
         }

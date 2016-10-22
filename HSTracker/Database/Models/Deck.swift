@@ -12,59 +12,26 @@ import Unbox
 import Wrap
 
 func generateId() -> String {
-    return "\(NSUUID().UUIDString)-\(NSDate().timeIntervalSince1970)"
+    return "\(UUID().uuidString)-\(Date().timeIntervalSince1970)"
 }
 
-final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible {
+final class Deck {
     var deckId: String = generateId()
     var name: String?
     var playerClass: CardClass
     var version: String = "1.0"
-    var creationDate: NSDate?
+    var creationDate: Date?
     var hearthstatsId: Int?
     var hearthstatsVersionId: Int?
     var hearthStatsArenaId: Int?
     var isActive: Bool = true
     var isArena: Bool = false
-    private var _cards = [Card]()
-    private var cards: [Card]?
+    fileprivate var _cards = [Card]()
+    fileprivate var cards: [Card]?
     var statistics = [Statistic]()
 
-    init(unboxer: Unboxer) {
-        self.deckId = unboxer.unbox("deckId")
-        self.name = unboxer.unbox("name")
-        if let cardClass: CardClass? = unboxer.unbox("playerClass"),
-            let playerClass = cardClass {
-            self.playerClass = playerClass
-        } else {
-            let playerClass: String = unboxer.unbox("playerClass")
-            self.playerClass = CardClass(rawValue: playerClass.lowercaseString) ?? .neutral
-        }
-        self.version = unboxer.unbox("version")
-
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
-        self.creationDate = unboxer.unbox("creationDate", formatter: dateFormatter)
-        if self.creationDate == nil {
-            // support old version
-            self.creationDate = NSDate(timeIntervalSince1970: unboxer.unbox("creationDate"))
-        }
-        self.hearthstatsId = unboxer.unbox("hearthstatsId")
-        self.hearthstatsVersionId = unboxer.unbox("hearthstatsVersionId")
-        self.hearthStatsArenaId = unboxer.unbox("hearthStatsArenaId")
-        self.isActive = unboxer.unbox("isActive")
-        self.isArena = unboxer.unbox("isArena")
-
-        let tmpCards: [String: Int] = unboxer.unbox("cards")
-        for (cardId, count) in tmpCards {
-            if let card = Cards.by(cardId: cardId) {
-                card.count = count
-                _cards.append(card)
-            }
-        }
-
-        self.statistics = unboxer.unbox("statistics")
-        self.statistics.forEach({$0.deck = self})
+    fileprivate init() {
+        self.playerClass = .neutral
     }
 
     init(playerClass: CardClass, name: String? = nil, deckId: String? = nil) {
@@ -75,7 +42,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         self.playerClass = playerClass
     }
 
-    func addCard(card: Card) {
+    func add(card: Card) {
         if card.count == 0 {
             card.count = 1
         }
@@ -92,7 +59,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         _cards = [Card]()
     }
 
-    func removeCard(card: Card) {
+    func remove(card: Card) {
         if let _card = _cards.firstWhere({ $0.id == card.id }) {
             _card.count -= 1
             if _card.count <= 0 {
@@ -125,7 +92,7 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
     }
 
     func countCards() -> Int {
-        return _cards.map({ $0.count }).reduce(0, combine: +)
+        return _cards.map({ $0.count }).reduce(0, +)
     }
 
     func isValid() -> Bool {
@@ -133,6 +100,32 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         return count == 30
     }
 
+    func removeAllStatistics() {
+        statistics = []
+        Decks.instance.update(deck: self)
+    }
+
+    func add(statistic: Statistic) {
+        statistic.deck = self
+        statistics.append(statistic)
+    }
+
+    func standardViable() -> Bool {
+        return !isArena && !_cards.any({ $0.set != nil && CardSet.wildSets().contains($0.set!) })
+    }
+}
+
+extension Deck: Hashable {
+    var hashValue: Int {
+        return deckId.hashValue
+    }
+
+    static func == (lhs: Deck, rhs: Deck) -> Bool {
+        return lhs.deckId == rhs.deckId && lhs.version == rhs.version
+    }
+}
+
+extension Deck: CustomStringConvertible {
     var description: String {
         return "<Deck: "
             + "deckId=\(self.deckId)"
@@ -141,45 +134,67 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
             + ", cards=\(self._cards)"
             + ">"
     }
+}
 
-    var hashValue: Int {
-        return deckId.hashValue
+extension Deck: Unboxable {
+    convenience init(unboxer: Unboxer) throws {
+        self.init()
+        self.deckId = try unboxer.unbox(key: "deckId")
+        self.name = unboxer.unbox(key: "name")
+        do {
+            let cardClass: CardClass = try unboxer.unbox(key: "playerClass")
+            self.playerClass = cardClass
+        } catch {
+            let playerClass: String = try unboxer.unbox(key: "playerClass")
+            self.playerClass = CardClass(rawValue: playerClass.lowercased()) ?? .neutral
+        }
+        self.version = try unboxer.unbox(key: "version")
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
+        self.creationDate = unboxer.unbox(key: "creationDate", formatter: dateFormatter)
+        if self.creationDate == nil {
+            // support old version
+            self.creationDate = Date(timeIntervalSince1970: try unboxer.unbox(key: "creationDate"))
+        }
+        self.hearthstatsId = unboxer.unbox(key: "hearthstatsId")
+        self.hearthstatsVersionId = unboxer.unbox(key: "hearthstatsVersionId")
+        self.hearthStatsArenaId = unboxer.unbox(key: "hearthStatsArenaId")
+        self.isActive = try unboxer.unbox(key: "isActive")
+        self.isArena = try unboxer.unbox(key: "isArena")
+
+        let tmpCards: [String: Int] = try unboxer.unbox(key: "cards")
+        for (cardId, count) in tmpCards {
+            if let card = Cards.by(cardId: cardId) {
+                card.count = count
+                _cards.append(card)
+            }
+        }
+
+        self.statistics = try unboxer.unbox(key: "statistics")
+        self.statistics.forEach({$0.deck = self})
     }
+}
 
-    func wrap() -> AnyObject? {
+extension Deck: WrapCustomizable {
+    func wrap(context: Any?, dateFormatter: DateFormatter?) -> Any? {
         reset()
         do {
-            var wrapped = try Wrapper().wrap(self)
+            var wrapped: [String: Any] = try Wrapper(context: context, dateFormatter: dateFormatter)
+                .wrap(object: self)
             wrapped["cards"] = sortedCards.toDict()
+
             return wrapped
         } catch {
             return nil
         }
     }
 
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+    func keyForWrapping(propertyNamed propertyName: String) -> String? {
         if propertyName == "_cards" {
             return nil
         }
 
         return propertyName
     }
-    
-    func removeAllStatistics() {
-        statistics = []
-        Decks.instance.update(self)
-    }
-
-    func addStatistic(statistic: Statistic) {
-        statistic.deck = self
-        statistics.append(statistic)
-    }
-    
-
-    func standardViable() -> Bool {
-        return !isArena && !_cards.any({ $0.set != nil && CardSet.wildSets().contains($0.set!) })
-    }
-}
-func == (lhs: Deck, rhs: Deck) -> Bool {
-    return lhs.deckId == rhs.deckId && lhs.version == rhs.version
 }

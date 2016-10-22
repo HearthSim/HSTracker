@@ -35,7 +35,7 @@ struct HearthstoneTopDeck: HttpImporter {
             + "//span[contains(@class, 'midlarge')]/span"
         let nodeInfos = doc.xpath(xpath)
         guard let className = nodeInfos[1].text?.trim(),
-            let playerClass = CardClass(rawValue: className.lowercaseString) else {
+            let playerClass = CardClass(rawValue: className.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
@@ -54,7 +54,7 @@ struct HearthstoneTopDeck: HttpImporter {
                 let card = Cards.by(englishNameCaseInsensitive: cardName) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         Log.verbose?.message("is valid : \(deck.isValid()) \(deck.countCards())")

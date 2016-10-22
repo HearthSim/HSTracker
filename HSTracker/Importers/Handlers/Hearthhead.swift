@@ -56,8 +56,8 @@ struct HearthHead: HttpImporter {
 
         for cardNode in doc.xpath("//div[contains(@class,'deckguide-cards-type')]/ul/li") {
             if let cardNameNode = cardNode.at_xpath("a"),
-                cardName = cardNameNode.text,
-                card = Cards.by(englishName: cardName) {
+                let cardName = cardNameNode.text,
+                let card = Cards.by(englishName: cardName) {
                 card.count = 1
                 if let cardNodeHTML = cardNode.text {
                     if cardNodeHTML.match("x[0-9]+$") {
@@ -69,7 +69,7 @@ struct HearthHead: HttpImporter {
                 }
 
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         return deck

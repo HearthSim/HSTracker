@@ -52,12 +52,12 @@ final class ReplayKeyPoint: Equatable {
 }
 
 extension ReplayKeyPoint: WrapCustomizable {
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
         if ["description"].contains(propertyName) {
             return nil
         }
         
-        return propertyName.capitalizedString
+        return propertyName.capitalized
     }
 }
 

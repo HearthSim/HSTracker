@@ -15,13 +15,13 @@ class PlayerBoard {
     var damage: Int {
         return cards.filter { $0.include }
             .map { $0.attack }
-            .reduce(0, combine: +)
+            .reduce(0, +)
     }
     
     init(list: [Entity], activeTurn: Bool) {
         cards = []
-        let filtered = filter(list)
-        let weapon = getWeapon(filtered)
+        let filtered = filter(cards: list)
+        let weapon = getWeapon(list: filtered)
         
         for card in filtered {
             if card.isHero {

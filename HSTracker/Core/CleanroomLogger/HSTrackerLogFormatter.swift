@@ -11,13 +11,13 @@ import CleanroomLogger
 
 class HSTrackerLogFormatter: XcodeLogFormatter {
 
-    let dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss.SSS"
         return formatter
     }()
 
-    override func formatLogEntry(entry: LogEntry) -> String? {
+    override func format(_ entry: LogEntry) -> String? {
         let severity: String
         switch entry.severity {
         case .verbose: severity = "V"
@@ -34,6 +34,6 @@ class HSTrackerLogFormatter: XcodeLogFormatter {
         case .value(let value): message = "\(value)"
         }
 
-        return "|\(severity)|\(dateFormatter.stringFromDate(entry.timestamp))| \(message)"
+        return "|\(severity)|\(dateFormatter.string(from: entry.timestamp))| \(message)"
     }
 }

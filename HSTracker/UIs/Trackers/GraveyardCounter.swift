@@ -27,29 +27,29 @@ class GraveyardCounter: TextFrame {
         graveyardWindow = NSWindow(contentRect:
             NSRect(x: 0, y: 0, width: (self.window?.frame.width)!, height: 800),
                                    styleMask: NSBorderlessWindowMask,
-                                   backing: .Buffered,
+                                   backing: .buffered,
                                    defer: true)
         
         graveyardWindow?.setIsVisible(false)
-        graveyardWindow?.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
+        graveyardWindow?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         graveyardWindow?.ignoresMouseEvents = true
         graveyardWindow?.acceptsMouseMovedEvents = true
         graveyardWindow?.level = Int(CGWindowLevelForKey(
-            CGWindowLevelKey.ScreenSaverWindowLevelKey))
-        graveyardWindow?.backgroundColor = NSColor.clearColor()
+            CGWindowLevelKey.screenSaverWindow))
+        graveyardWindow?.backgroundColor = NSColor.clear
     }
     
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
         
         if !graveyardinitialized {
             self.initGraveyard()
             graveyardinitialized = true
         }
         
-        addImage("graveyard-frame.png", rect: frameRect)
-        addInt(minions, rect: firstNumberFrame)
-        addInt(murlocks, rect: secondNumberFrame)
+        add(image: "graveyard-frame.png", rect: frameRect)
+        add(int: minions, rect: firstNumberFrame)
+        add(int: murlocks, rect: secondNumberFrame)
         
         for trackingArea in self.trackingAreas {
             self.removeTrackingArea(trackingArea)
@@ -57,14 +57,14 @@ class GraveyardCounter: TextFrame {
         
         if displayDetails {
             let trackingarea = NSTrackingArea(rect: frameRect,
-                                              options: [.MouseEnteredAndExited,
-                                                .ActiveAlways, .InVisibleRect],
+                                              options: [.mouseEnteredAndExited,
+                                                .activeAlways, .inVisibleRect],
                                               owner: self, userInfo: nil)
             self.addTrackingArea(trackingarea)
         }
     }
     
-    override func mouseEntered(theEvent: NSEvent) {
+    override func mouseEntered(with theEvent: NSEvent) {
         
         self.updateGraveyard()
         var point = theEvent.locationInWindow
@@ -72,7 +72,7 @@ class GraveyardCounter: TextFrame {
         // show graveyard
         if let gframe = graveyardWindow?.frame {
             
-            if let screenpoint = self.window?.convertRectToScreen(
+            if let screenpoint = self.window?.convertToScreen(
                 NSRect(x: point.x, y: point.y, width: 0, height: 0)) {
                 point.x = min(screenpoint.origin.x,
                               (self.window?.screen?.frame.width)! - gframe.width)
@@ -88,7 +88,7 @@ class GraveyardCounter: TextFrame {
         graveyardWindow?.orderFront(self)
     }
     
-    override func mouseExited(theEvent: NSEvent) {
+    override func mouseExited(with theEvent: NSEvent) {
         // hide graveyard
         graveyardWindow?.orderOut(self)
     }

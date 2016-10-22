@@ -11,7 +11,7 @@ import CleanroomLogger
 
 struct Database {
     static let currentSeason: Int = {
-        let date = NSDate()
+        let date = Date()
         return (date.year - 2014) * 12 - 3 + date.month
     }()
     
@@ -24,15 +24,15 @@ struct Database {
     func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
         var imageLanguage = "enUS"
         var langs: [String] = []
-        if let language = Settings.instance.hearthstoneLanguage where language != "enUS" {
+        if let language = Settings.instance.hearthstoneLanguage, language != "enUS" {
             langs += [language]
             imageLanguage = language
         }
         langs += ["enUS"]
 
         var images = [String]()
-        guard let destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory,
-            .UserDomainMask, true).first else {
+        guard let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
+            .userDomainMask, true).first else {
                 Log.error?.message("Can't get HSTracker path")
                 return nil
         }
@@ -40,26 +40,26 @@ struct Database {
         for lang in langs {
             let jsonFile = "\(destination)/HSTracker/json/cardsDB.\(lang).json"
             Log.verbose?.message("json file : \(jsonFile)")
-            if let jsonData = NSData(contentsOfFile: jsonFile) {
+            if let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonFile)) {
                 do {
                     if let cards: [[String: AnyObject]]
-                        = try NSJSONSerialization.JSONObjectWithData(jsonData, options: .AllowFragments) as? [[String: AnyObject]] {
+                        = try JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [[String: AnyObject]] {
 
                     if let splashscreen = splashscreen {
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async {
                             splashscreen.display(String(format: NSLocalizedString("Loading %@ cards", comment: ""), lang), total: Double(cards.count))
                         }
                     }
 
                     for jsonCard in cards {
                         if let splashscreen = splashscreen {
-                            dispatch_async(dispatch_get_main_queue()) {
+                            DispatchQueue.main.async {
                                 splashscreen.increment()
                             }
                         }
 
                         if let jsonSet = jsonCard["set"] as? String,
-                            let set = CardSet(rawValue: jsonSet.lowercaseString) {
+                            let set = CardSet(rawValue: jsonSet.lowercased()) {
                         if !Database.validCardSets.contains(set) {
                             continue
                         }
@@ -90,22 +90,22 @@ struct Database {
                                 }
 
                                 if let cardRarity = jsonCard["rarity"] as? String,
-                                    let rarity = Rarity(rawValue: cardRarity.lowercaseString) {
+                                    let rarity = Rarity(rawValue: cardRarity.lowercased()) {
                                     card.rarity = rarity
                                 }
 
                                 if let type = jsonCard["type"] as? String,
-                                    cardType = CardType(rawString: type.lowercaseString) {
+                                    let cardType = CardType(rawString: type.lowercased()) {
                                     card.type = cardType
                                 }
 
                                 if let playerClass = jsonCard["playerClass"] as? String,
-                                    let cardPlayerClass = CardClass(rawValue: playerClass.lowercaseString) {
+                                    let cardPlayerClass = CardClass(rawValue: playerClass.lowercased()) {
                                     card.playerClass = cardPlayerClass
                                 }
 
                                 if let faction = jsonCard["faction"] as? String,
-                                    let cardFaction = Faction(rawValue: faction.lowercaseString) {
+                                    let cardFaction = Faction(rawValue: faction.lowercased()) {
                                     card.faction = cardFaction
                                 }
 
@@ -117,7 +117,7 @@ struct Database {
                                     card.attack = attack
                                 }
                                 if let race = jsonCard["race"] as? String,
-                                    let cardRace = Race(rawValue: race.lowercaseString) {
+                                    let cardRace = Race(rawValue: race.lowercased()) {
                                     card.race = cardRace
                                     if !Database.deckManagerRaces.contains(cardRace) {
                                         Database.deckManagerRaces.append(cardRace)

@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-enum TrackOBotError: ErrorType {
+enum TrackOBotError: Error {
     case notLogged
 }
 
@@ -18,22 +18,22 @@ struct TrackOBotAPI {
     
     // MARK: - Authentication
     static func login(username: String, token: String,
-                      callback: (success: Bool, message: String) -> ()) {
+                      callback: @escaping (_ success: Bool, _ message: String) -> ()) {
         let http = Http(url: "\(baseUrl)/profile/history.json")
-        http.json(.get,
+        http.json(method: .get,
                   parameters: ["username": username, "token": token]) { json in
                     if let json = json as? [String: AnyObject] {
                         if let error = json["error"] as? String {
-                            callback(success: false, message: error)
+                            callback(false, error)
                         } else {
                             let settings = Settings.instance
                             settings.trackobotUsername = username
                             settings.trackobotToken = token
-                            callback(success: true, message: "")
+                            callback(true, "")
                         }
                     } else {
-                        callback(success: false,
-                                 message: NSLocalizedString("server error", comment: ""))
+                        callback(false,
+                                 NSLocalizedString("server error", comment: ""))
                     }
         }
     }
@@ -76,17 +76,17 @@ struct TrackOBotAPI {
         default: mode = "unknown"
         }
 
-        let startTime: NSDate
+        let startTime: Date
         if let gameStartDate = game.gameStartDate {
-            startTime = gameStartDate
+            startTime = gameStartDate as Date
         } else {
-            startTime = NSDate()
+            startTime = Date()
         }
 
-        let parameters: [String: AnyObject] = [
+        let parameters: [String: [String: Any]] = [
             "result": [
-                "hero": playerClass.rawValue.capitalizedString,
-                "opponent": stat.opponentClass.rawValue.capitalizedString,
+                "hero": playerClass.rawValue.capitalized,
+                "opponent": stat.opponentClass.rawValue.capitalized,
                 "mode": mode,
                 "coin": stat.hasCoin,
                 "rank": stat.playerRank,
@@ -107,7 +107,7 @@ struct TrackOBotAPI {
         let url = "\(baseUrl)/profile/results.json?username=\(username)&token=\(token)"
         Log.info?.message("Posting match to Track-o-Bot \(parameters)")
         let http = Http(url: url)
-        http.json(.post,
+        http.json(method: .post,
                   parameters: parameters) { json in
                     if let json = json {
                         Log.debug?.message("post match : \(json)")

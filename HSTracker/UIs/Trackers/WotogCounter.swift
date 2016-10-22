@@ -27,29 +27,29 @@ class WotogCounter: TextFrame {
     var deathrattle = 0
     var counterStyle: [WotogCounterStyle] = [.full]
 
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
 
         var frame = frameRect
         var textFrame = attackFrame
         if counterStyle.contains(.full) || counterStyle.contains(.cthun) {
-            addImage("cthun-frame.png", rect: frame)
-            addInt(attack, rect: textFrame)
-            addInt(health, rect: healthFrame)
+            add(image: "cthun-frame.png", rect: frame)
+            add(int: attack, rect: textFrame)
+            add(int: health, rect: healthFrame)
 
-            frame.offsetInPlace(dx: 0, dy: frame.height)
+            frame = frame.offsetBy(dx: 0, dy: frame.height)
             textFrame.origin.y += frame.height
         }
         if counterStyle.contains(.full) || counterStyle.contains(.spells) {
-            addImage("yogg-frame.png", rect: frame)
-            addInt(spell, rect: textFrame)
+            add(image: "yogg-frame.png", rect: frame)
+            add(int: spell, rect: textFrame)
 
-            frame.offsetInPlace(dx: 0, dy: frame.height)
+            frame = frame.offsetBy(dx: 0, dy: frame.height)
             textFrame.origin.y += frame.height
         }
         if counterStyle.contains(.full) || counterStyle.contains(.deathrattles) {
-            addImage("deathrattle-frame.png", rect: frame)
-            addInt(deathrattle, rect: textFrame)
+            add(image: "deathrattle-frame.png", rect: frame)
+            add(int: deathrattle, rect: textFrame)
         }
     }
 }

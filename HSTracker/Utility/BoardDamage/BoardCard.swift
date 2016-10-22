@@ -59,9 +59,9 @@ class BoardCard: IBoardEntity {
             cardType = "\(_cardType)"
         }
         
-        health = calculateHealth(entity.isWeapon)
-        attack = calculateAttack(active, isWeapon: entity.isWeapon)
-        include = isAbleToAttack(active, isWeapon: entity.isWeapon)
+        health = calculateHealth(isWeapon: entity.isWeapon)
+        attack = calculateAttack(active: active, isWeapon: entity.isWeapon)
+        include = isAbleToAttack(active: active, isWeapon: entity.isWeapon)
     }
     
     private func calculateHealth(isWeapon: Bool) -> Int {
@@ -71,7 +71,7 @@ class BoardCard: IBoardEntity {
     private func calculateAttack(active: Bool, isWeapon: Bool) -> Int {
         // V-07-TR-0N is a special case Mega-Windfury
         if !String.isNullOrEmpty(cardId) && cardId == "GVG_111t" {
-            return V07TRONAttack(active)
+            return V07TRONAttack(active: active)
         }
         
         // for weapons check for windfury and number of hits left
@@ -103,7 +103,7 @@ class BoardCard: IBoardEntity {
         }
         // sometimes cards seem to be in wrong zone while in play,
         // these cards don't become exhausted, so check attacks.
-        if zone.lowercaseString == "deck" || zone.lowercaseString == "hand" {
+        if zone.lowercased() == "deck" || zone.lowercased() == "hand" {
             return (!windfury || attacksThisTurn < 2) && (windfury || attacksThisTurn < 1)
         }
         return true

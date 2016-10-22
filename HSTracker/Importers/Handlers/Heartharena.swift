@@ -26,15 +26,15 @@ struct HearthArena: HttpImporter {
 
     func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
         guard let classNode = doc.at_xpath("//h1[@class='class']"),
-            let className = classNode.text?.componentsSeparatedByString(" ").first,
-            let playerClass = CardClass(rawValue: className.lowercaseString) else {
+            let className = classNode.text?.components(separatedBy: " ").first,
+            let playerClass = CardClass(rawValue: className.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
         Log.verbose?.message("Got class \(playerClass)")
 
         let deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
-                              className, NSDate().shortDateString())
+                              className, Date().shortDateString)
         Log.verbose?.message("Got deck name \(deckName)")
 
         let deck = Deck(playerClass: playerClass, name: deckName)
@@ -46,7 +46,7 @@ struct HearthArena: HttpImporter {
                 let card = Cards.by(englishName: cardName) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                deck.add(card: card)
             }
         }
         return deck

@@ -32,8 +32,8 @@ class NewDeck: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        if let hsClass = defaultClass, index = Cards.classes.indexOf(hsClass) {
-            classesCombobox.selectItemAtIndex(index)
+        if let hsClass = defaultClass, let index = Cards.classes.index(of: hsClass) {
+            classesCombobox.selectItem(at: index)
         } else {
             classesCombobox.becomeFirstResponder()
         }
@@ -48,42 +48,43 @@ class NewDeck: NSWindowController {
         ]
     }
 
-    @IBAction func radioChange(sender: AnyObject) {
+    @IBAction func radioChange(_ sender: AnyObject) {
         if let buttonSender = sender as? NSButton {
             for (button, control) in radios() {
                 if button == buttonSender {
                     button.state = NSOnState
-                    control.forEach({ $0.enabled = true })
+                    control.forEach({ $0.isEnabled = true })
                 } else {
                     button.state = NSOffState
-                    control.forEach({ $0.enabled = false })
+                    control.forEach({ $0.isEnabled = false })
                 }
             }
         }
         checkToEnableSave()
     }
 
-    func setDelegate(delegate: NewDeckDelegate) {
+    func setDelegate(_ delegate: NewDeckDelegate) {
         self.delegate = delegate
     }
 
-    @IBAction func cancelClicked(sender: AnyObject) {
+    @IBAction func cancelClicked(_ sender: AnyObject) {
         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseCancel)
     }
 
-    @IBAction func okClicked(sender: AnyObject) {
+    @IBAction func okClicked(_ sender: AnyObject) {
         if hstrackerDeckBuilder.state == NSOnState {
             if classesCombobox.indexOfSelectedItem < 0 {
                 return
             }
-            delegate?.openDeckBuilder(Cards.classes[classesCombobox.indexOfSelectedItem],
+            delegate?.openDeckBuilder(playerClass:
+                Cards.classes[classesCombobox.indexOfSelectedItem],
                                       arenaDeck: (arenaDeck.state == NSOnState))
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         } else if fromTheWeb.state == NSOnState {
             // TODO add loader
             do {
                 loader.startAnimation(self)
-                try NetImporter.netImport(urlDeck.stringValue,
+                try NetImporter.netImport(url: urlDeck.stringValue,
                                           completion: { (deck) -> Void in
                                             self.loader.stopAnimation(self)
                                             if let deck = deck {
@@ -111,7 +112,7 @@ class NewDeck: NSWindowController {
         } else if fromHearthstats.state == NSOnState {
             do {
                 loader.startAnimation(self)
-                try HearthstatsAPI.loadDecks(false) { (success, newDecks) in
+                try HearthstatsAPI.loadDecks(force: false) { (success, newDecks) in
                     self.loader.stopAnimation(self)
                     self.delegate?.refreshDecks()
                     self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
@@ -126,19 +127,19 @@ class NewDeck: NSWindowController {
         }
     }
 
-    @IBAction func openDeck(sender: AnyObject) {
+    @IBAction func openDeck(_ sender: AnyObject) {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
         panel.allowedFileTypes = ["txt"]
 
-        panel.beginSheetModalForWindow(self.window!,
+        panel.beginSheetModal(for: self.window!,
                                        completionHandler: { (returnCode) in
                                         if returnCode == NSFileHandlingPanelOKButton {
-                                            for filename in panel.URLs {
+                                            for filename in panel.urls {
                                                 let importer = FileImporter()
-                                                if let deck = importer.fileImport(filename) {
+                                                if let deck = importer.fileImport(url: filename) {
                                                     self._addDeck(deck)
                                                 } else {
                                                     // TODO show error
@@ -148,26 +149,26 @@ class NewDeck: NSWindowController {
         })
     }
 
-    private func _addDeck(deck: Deck) {
-        self.delegate?.addNewDeck(deck)
+    fileprivate func _addDeck(_ deck: Deck) {
+        self.delegate?.addNewDeck(deck: deck)
         if HearthstatsAPI.isLogged() {
             if Settings.instance.hearthstatsAutoSynchronize {
                 do {
-                    try HearthstatsAPI.postDeck(deck) {_ in}
+                    try HearthstatsAPI.post(deck: deck) {_ in}
                     self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
                 } catch {}
             } else {
                 let alert = NSAlert()
-                alert.alertStyle = .Informational
+                alert.alertStyle = .informational
                 // swiftlint:disable line_length
                 alert.messageText = NSLocalizedString("Do you want to add this deck on Hearthstats ?", comment: "")
-                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                alert.beginSheetModalForWindow(self.window!,
+                alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+                alert.beginSheetModal(for: self.window!,
                                                completionHandler: { (returnCode) in
                                                 if returnCode == NSAlertFirstButtonReturn {
                                                     do {
-                                                        try HearthstatsAPI.postDeck(deck) {_ in}
+                                                        try HearthstatsAPI.post(deck: deck) {_ in}
                                                         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
                                                     } catch {
                                                         // TODO alert
@@ -195,31 +196,31 @@ class NewDeck: NSWindowController {
         }
 
         if let enabled = enabled {
-            okButton.enabled = enabled
+            okButton.isEnabled = enabled
         }
     }
 
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         checkToEnableSave()
     }
 }
 
 // MARK: - NSComboBoxDelegate
 extension NewDeck: NSComboBoxDelegate {
-    func comboBoxSelectionDidChange(notification: NSNotification) {
+    func comboBoxSelectionDidChange(_ notification: Notification) {
         checkToEnableSave()
     }
 
-    func comboBox(aComboBox: NSComboBox, completedString string: String) -> String? {
-        for (idx, hsClass) in Cards.classes.enumerate() {
-            if NSLocalizedString(hsClass.rawValue.lowercaseString, comment: "")
-                .commonPrefixWithString(string, options: .CaseInsensitiveSearch)
-                .length == string.length {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.classesCombobox.selectItemAtIndex(idx)
+    func comboBox(_ aComboBox: NSComboBox, completedString string: String) -> String? {
+        for (idx, hsClass) in Cards.classes.enumerated() {
+            if NSLocalizedString(hsClass.rawValue.lowercased(), comment: "")
+                .commonPrefix(with: string, options: .caseInsensitive)
+                .characters.count == string.characters.count {
+                DispatchQueue.main.async(execute: {
+                    self.classesCombobox.selectItem(at: idx)
                 })
                 checkToEnableSave()
-                return NSLocalizedString(hsClass.rawValue.lowercaseString, comment: "")
+                return NSLocalizedString(hsClass.rawValue.lowercased(), comment: "")
             }
         }
         return string
@@ -228,11 +229,11 @@ extension NewDeck: NSComboBoxDelegate {
 
 // MARK: - NSComboBoxDataSource
 extension NewDeck: NSComboBoxDataSource {
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
+    func numberOfItems(in aComboBox: NSComboBox) -> Int {
         return Cards.classes.count
     }
 
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject? {
-        return NSLocalizedString(Cards.classes[index].rawValue.lowercaseString, comment: "")
+    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
+        return NSLocalizedString(Cards.classes[index].rawValue.lowercased(), comment: "")
     }
 }

@@ -18,10 +18,10 @@ struct Http {
     }
 
     func html(method: HttpMethod,
-              parameters: [String: AnyObject] = [:],
+              parameters: [String: Any] = [:],
               headers: [String: String] = [:],
-              completion: (HTMLDocument?) -> Void) {
-        guard let urlRequest = prepareRequest(method,
+              completion: @escaping (HTMLDocument?) -> Void) {
+        guard let urlRequest = prepareRequest(method: method,
                                               encoding: .html,
                                               parameters: parameters,
                                               headers: headers) else {
@@ -29,40 +29,40 @@ struct Http {
                                                 return
         }
 
-        Http.session.dataTaskWithRequest(urlRequest) { data, response, error in
+        Http.session.dataTask(with: urlRequest, completionHandler: { data, response, error in
             Log.info?.message("Fetching \(self.url) complete")
 
             if let error = error {
                 Log.error?.message("html : \(error)")
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     completion(nil)
                 }
             } else if let data = data {
                 var convertedNSString: NSString?
-                NSString.stringEncodingForData(data,
+                NSString.stringEncoding(for: data,
                                                encodingOptions: nil,
                                                convertedString: &convertedNSString,
                                                usedLossyConversion: nil)
 
                 if let html = convertedNSString as? String,
-                    let doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    let doc = Kanna.HTML(html: html, encoding: .utf8) {
+                    DispatchQueue.main.async {
                         completion(doc)
                     }
                 } else {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         completion(nil)
                     }
                 }
             }
-            }.resume()
+            }) .resume()
     }
 
     func json(method: HttpMethod,
-                      parameters: [String: AnyObject] = [:],
+                      parameters: [String: Any] = [:],
                       headers: [String: String] = [:],
-                      completion: (AnyObject?) -> Void) {
-        guard let urlRequest = prepareRequest(method,
+                      completion: @escaping (Any?) -> Void) {
+        guard let urlRequest = prepareRequest(method: method,
                                               encoding: .json,
                                               parameters: parameters,
                                               headers: headers) else {
@@ -70,50 +70,50 @@ struct Http {
                                                 return
         }
 
-        Http.session.dataTaskWithRequest(urlRequest) { data, response, error in
+        Http.session.dataTask(with: urlRequest, completionHandler: { data, response, error in
             Log.info?.message("Fetching \(self.url) complete")
 
             if let error = error {
                 Log.error?.message("request error : \(error)")
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     completion(nil)
                 }
                 return
             } else if let data = data {
                 do {
-                    let json = try NSJSONSerialization.JSONObjectWithData(data,
-                        options: .AllowFragments)
-                    dispatch_async(dispatch_get_main_queue()) {
+                    let json = try JSONSerialization.jsonObject(with: data,
+                        options: .allowFragments)
+                    DispatchQueue.main.async {
                         completion(json)
                     }
                     return
                 } catch let error {
                     Log.error?.message("json parsing : \(error)")
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         completion(nil)
                     }
                 }
             } else {
                 Log.error?.message("\(error), \(data), \(response)")
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     completion(nil)
                 }
             }
-            }.resume()
+            }) .resume()
     }
 
     func upload(method: HttpMethod,
                 headers: [String: String] = [:],
-                data: NSData) {
-        guard let urlRequest = prepareRequest(method,
+                data: Data) {
+        guard let urlRequest = prepareRequest(method: method,
                                               encoding: .multipart,
                                               parameters: [:],
                                               headers: headers) else {
                                                 return
         }
 
-        Http.session.uploadTaskWithRequest(urlRequest,
-                                           fromData: data) { data, response, error in
+        Http.session.uploadTask(with: urlRequest,
+                                           from: data, completionHandler: { data, response, error in
                                             if let error = error {
                                                 Log.error?.message("request error : \(error)")
                                             } else if let data = data {
@@ -121,21 +121,21 @@ struct Http {
                                             } else {
                                                 Log.error?.message("\(error), \(data), \(response)")
                                             }
-        }.resume()
+        }) .resume()
     }
 
     private func prepareRequest(method: HttpMethod,
                                 encoding: HttpEncoding,
-                                parameters: [String: AnyObject] = [:],
-                                headers: [String: String] = [:]) -> NSURLRequest? {
+                                parameters: [String: Any] = [:],
+                                headers: [String: String] = [:]) -> URLRequest? {
         var urlQuery = ""
         if method == .get {
-            urlQuery = "?" + query(parameters)
+            urlQuery = "?" + query(parameters: parameters)
         }
 
-        guard let url = NSURL(string: url + urlQuery) else { return nil }
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = method.rawValue.uppercaseString
+        guard let url = URL(string: url + urlQuery) else { return nil }
+        var request = URLRequest(url: url)
+        request.httpMethod = method.rawValue.uppercased()
 
         if encoding == .json {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -143,9 +143,9 @@ struct Http {
 
             if method != .get {
                 do {
-                    let bodyData = try NSJSONSerialization.dataWithJSONObject(parameters,
-                                                              options: .PrettyPrinted)
-                    request.HTTPBody = bodyData
+                    let bodyData = try JSONSerialization.data(withJSONObject: parameters,
+                                                              options: .prettyPrinted)
+                    request.httpBody = bodyData
                 } catch let error {
                     Log.error?.message("json converting : \(error)")
                     return nil
@@ -163,25 +163,25 @@ struct Http {
 
 // MARK: - Code copied from Alamofire
 extension Http {
-    func query(parameters: [String: AnyObject]) -> String {
+    func query(parameters: [String: Any]) -> String {
         var components: [(String, String)] = []
 
-        for key in parameters.keys.sort(<) {
+        for key in parameters.keys.sorted(by: <) {
             let value = parameters[key]!
             components += queryComponents(key, value)
         }
 
-        return (components.map { "\($0)=\($1)" } as [String]).joinWithSeparator("&")
+        return (components.map { "\($0)=\($1)" } as [String]).joined(separator: "&")
     }
 
-    private func queryComponents(key: String, _ value: AnyObject) -> [(String, String)] {
+    private func queryComponents(_ key: String, _ value: Any) -> [(String, String)] {
         var components: [(String, String)] = []
 
-        if let dictionary = value as? [String: AnyObject] {
+        if let dictionary = value as? [String: Any] {
             for (nestedKey, value) in dictionary {
                 components += queryComponents("\(key)[\(nestedKey)]", value)
             }
-        } else if let array = value as? [AnyObject] {
+        } else if let array = value as? [Any] {
             for value in array {
                 components += queryComponents("\(key)[]", value)
             }
@@ -192,26 +192,24 @@ extension Http {
         return components
     }
 
-    private func escape(string: String) -> String {
+    private func escape(_ string: String) -> String {
         // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let generalDelimitersToEncode = ":#[]@"
 
         let subDelimitersToEncode = "!$&'()*+,;="
 
-        if let allowedCharacterSet = NSCharacterSet.URLQueryAllowedCharacterSet()
-            .mutableCopy() as? NSMutableCharacterSet {
-            allowedCharacterSet.removeCharactersInString(generalDelimitersToEncode
-                + subDelimitersToEncode)
-            return string.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet)
-                ?? string
-        }
-        return string
+        var allowedCharacterSet = CharacterSet.urlQueryAllowed
+        allowedCharacterSet.remove(charactersIn:
+            "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+
+        return string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet) ?? string
+
     }
 
-    private static let session: NSURLSession = {
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.HTTPAdditionalHeaders = defaultHTTPHeaders
-        return NSURLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
+    fileprivate static let session: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = defaultHTTPHeaders
+        return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
         }()
 
     private static let defaultHTTPHeaders: [String: String] = {
@@ -219,22 +217,22 @@ extension Http {
         let acceptEncoding: String = "gzip;q=1.0, compress;q=0.5"
 
         // Accept-Language HTTP Header; see https://tools.ietf.org/html/rfc7231#section-5.3.5
-        let acceptLanguage = NSLocale.preferredLanguages().prefix(6).enumerate().map {
+        let acceptLanguage = Locale.preferredLanguages.prefix(6).enumerated().map {
             index, languageCode in
             let quality = 1.0 - (Double(index) * 0.1)
             return "\(languageCode);q=\(quality)"
-            }.joinWithSeparator(", ")
+            }.joined(separator: ", ")
 
         // User-Agent Header; see https://tools.ietf.org/html/rfc7231#section-5.5.3
         let userAgent: String = {
-            if let info = NSBundle.mainBundle().infoDictionary {
+            if let info = Bundle.main.infoDictionary {
                 let executable = info[kCFBundleExecutableKey as String] as? String ?? "Unknown"
                 let bundle = info[kCFBundleIdentifierKey as String] as? String ?? "Unknown"
                 let appVersion = info["CFBundleShortVersionString"] as? String ?? "Unknown"
                 let appBuild = info[kCFBundleVersionKey as String] as? String ?? "Unknown"
 
                 let osNameVersion: String = {
-                    let version = NSProcessInfo.processInfo().operatingSystemVersion
+                    let version = ProcessInfo.processInfo.operatingSystemVersion
                     let versionString = "\(version.majorVersion)"
                         + ".\(version.minorVersion)"
                         + ".\(version.patchVersion)"

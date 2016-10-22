@@ -254,7 +254,7 @@ enum GameTag: Int, WrappableEnum {
     equipped_weapon = 334
 
     init?(rawString: String) {
-        var string = rawString.lowercaseString
+        var string = rawString.lowercased()
         if string == "class" {
             string = "tag_class"
         }

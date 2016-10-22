@@ -43,7 +43,7 @@ class BoardHero: IBoardEntity {
     
     private func attackWithWeapon() -> Int {
         // weapon is equipped
-        if let weapon = _weapon where include {
+        if let weapon = _weapon, include {
             // windfury weapon, with more than 2 chages
             // and hero hasn't attacked yet this turn.
             // better to check weapon for durability in

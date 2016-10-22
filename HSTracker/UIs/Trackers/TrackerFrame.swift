@@ -29,10 +29,10 @@ class TextFrame: NSView {
     func initLayers() {
         self.wantsLayer = true
 
-        self.layer!.backgroundColor = NSColor.clearColor().CGColor
+        self.layer!.backgroundColor = NSColor.clear.cgColor
     }
 
-    func ratio(rect: NSRect) -> NSRect {
+    func ratio(_ rect: NSRect) -> NSRect {
         return NSRect(x: rect.origin.x / ratioWidth,
                       y: rect.origin.y / ratioHeight,
                       width: rect.size.width / ratioWidth,
@@ -53,38 +53,38 @@ class TextFrame: NSView {
         return ratioWidth
     }
 
-    func addImage(filename: String, rect: NSRect) {
+    func add(image filename: String, rect: NSRect) {
         let theme = Settings.instance.theme
 
-        var fullPath = NSBundle.mainBundle().resourcePath!
+        var fullPath = Bundle.main.resourcePath!
             + "/Resources/Themes/Overlay/\(theme)/\(filename)"
-        if !NSFileManager.defaultManager().fileExistsAtPath(fullPath) {
-            fullPath = NSBundle.mainBundle().resourcePath!
+        if !FileManager.default.fileExists(atPath: fullPath) {
+            fullPath = Bundle.main.resourcePath!
                 + "/Resources/Themes/Overlay/default/\(filename)"
         }
 
         guard let image = NSImage(contentsOfFile: fullPath) else {return}
-        image.drawInRect(ratio(rect))
+        image.draw(in: ratio(rect))
     }
 
-    func addInt(val: Int, rect: NSRect) {
-        addString("\(val)", rect: rect)
+    func add(int val: Int, rect: NSRect) {
+        add(string: "\(val)", rect: rect)
     }
 
-    func addDouble(val: Double, rect: NSRect) {
+    func add(double val: Double, rect: NSRect) {
         let format = val == Double(Int(val)) ? "%.0f%%" : "%.2f%%"
-        addString(String(format: format, val), rect: rect)
+        add(string: String(format: format, val), rect: rect)
     }
 
-    func addString(val: String, rect: NSRect, alignment: NSTextAlignment = .Left) {
+    func add(string val: String, rect: NSRect, alignment: NSTextAlignment = .left) {
         let attributes = TextAttributes()
             .font(NSFont(name: "ChunkFive", size: round(18 / ratioHeight)))
-            .foregroundColor(NSColor.whiteColor())
-            .strokeColor(NSColor.blackColor())
+            .foregroundColor(.white)
+            .strokeColor(.black)
             .strokeWidth(-2)
             .alignment(alignment)
 
         NSAttributedString(string: val, attributes: attributes)
-            .drawInRect(ratio(rect))
+            .draw(in: ratio(rect))
     }
 }

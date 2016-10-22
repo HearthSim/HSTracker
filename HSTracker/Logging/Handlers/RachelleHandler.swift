@@ -18,7 +18,7 @@ struct RachelleHandler {
     func handle(game: Game, logLine: LogLine) {
         if logLine.line.match(TowardsGolds) {
             if let match = logLine.line.matches(TowardsGolds).first,
-                victories = Int(match.value) {
+                let victories = Int(match.value) {
                 Log.info?.message("\(victories) / 3 -> 10 gold")
             }
         }

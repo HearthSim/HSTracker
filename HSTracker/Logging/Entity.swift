@@ -35,12 +35,8 @@ class Entity {
         }
     }
 
-    func has(tag tag: GameTag) -> Bool {
+    func has(tag: GameTag) -> Bool {
         return self[tag] > 0
-    }
-
-    func setPlayer(isPlayer: Bool) {
-        self.isPlayer = isPlayer
     }
 
     var isActiveDeathrattle: Bool { return has(tag: .deathrattle) && self[.deathrattle] == 1 }
@@ -51,7 +47,7 @@ class Entity {
         return has(tag: .zone) ? self[.zone] == zone.rawValue : false
     }
 
-    func isControlledBy(controller: Int) -> Bool {
+    func isControlled(by controller: Int) -> Bool {
         return self.has(tag: .controller) ? self[.controller] == controller : false
     }
 
@@ -60,15 +56,15 @@ class Entity {
     var isOpponent: Bool { return !isPlayer && has(tag: .player_id) }
     var isMinion: Bool { return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue }
     var isWeapon: Bool { return has(tag: .cardtype) && self[.cardtype] == CardType.weapon.rawValue }
-    var isHero: Bool { return Cards.isHero(cardId) }
+    var isHero: Bool { return Cards.isHero(cardId: cardId) }
     var isHeroPower: Bool { return self[.cardtype] == CardType.hero_power.rawValue }
 
-    var isInHand: Bool { return isInZone(.hand) }
-    var isInDeck: Bool { return isInZone(.deck) }
-    var isInPlay: Bool { return isInZone(.play) }
-    var isInGraveyard: Bool { return isInZone(.graveyard) }
-    var isInSetAside: Bool { return isInZone(.setaside) }
-    var isInSecret: Bool { return isInZone(.secret) }
+    var isInHand: Bool { return isInZone(zone: .hand) }
+    var isInDeck: Bool { return isInZone(zone: .deck) }
+    var isInPlay: Bool { return isInZone(zone: .play) }
+    var isInGraveyard: Bool { return isInZone(zone: .graveyard) }
+    var isInSetAside: Bool { return isInZone(zone: .setaside) }
+    var isInSecret: Bool { return isInZone(zone: .secret) }
 
     var health: Int { return self[.health] - self[.damage] }
     var attack: Int { return self[.atk] }
@@ -85,7 +81,7 @@ class Entity {
         return Card()
     }
 
-    func setCardCount(count: Int) { card.count = count }
+    func set(cardCount count: Int) { card.count = count }
 
     func copy() -> Entity {
         let e = Entity(id: id)
@@ -118,10 +114,9 @@ func == (lhs: Entity, rhs: Entity) -> Bool {
 extension Entity: CustomStringConvertible {
     var description: String {
         let cardName = Cards.any(byId: cardId)?.name ?? ""
+        let tags = self.tags.map { "\($0.0)=\($0.1)" }.joined(separator: ",")
         let hide = info.hidden && (isInHand || isInDeck)
-        let tags = self.tags.map({"\($0.0)=\($0.1)"}).joinWithSeparator(",")
-        return "[Entity: id=\(id), "
-            + "cardId=\(hide ? "" : cardId), "
+        return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
             + "cardName=\(hide ? "" : cardName), "
             + "name=\(hide ? "" : name), "
             + "tags=(\(tags)), "
@@ -130,11 +125,11 @@ extension Entity: CustomStringConvertible {
 }
 
 extension Entity: WrapCustomizable {
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
         if ["_cachedCard", "card", "description"].contains(propertyName) {
             return nil
         }
         
-        return propertyName.capitalizedString
+        return propertyName.capitalized
     }
 }

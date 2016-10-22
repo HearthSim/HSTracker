@@ -13,7 +13,7 @@ class UploadMetaData {
     private var statistic: Statistic?
     private var game: Game?
     private var log: [String]
-    var dateStart: NSDate?
+    var dateStart: Date?
     
     var serverIp: String?
     var serverPort: String?
@@ -36,14 +36,15 @@ class UploadMetaData {
     var player1: Player = Player()
     var player2: Player = Player()
     
-    init(log: [String], game: Game?, statistic: Statistic?, gameStart: NSDate? = nil) {
+    init(log: [String], game: Game?, statistic: Statistic?, gameStart: Date? = nil) {
         self.log = log
         self.game = game
         self.statistic = statistic
         fillPlayerData()
 
         self.friendlyPlayerId = self.game?.player.id ?? 0 > 0 ? self.game?.player.id ?? nil
-            : (self._friendlyPlayerId > 0 ? self._friendlyPlayerId : nil)
+            : (self._friendlyPlayerId != nil && self._friendlyPlayerId! > 0
+                ? self._friendlyPlayerId : nil)
 
         if let _date = statistic?.date {
             dateStart = _date
@@ -64,13 +65,13 @@ class UploadMetaData {
             if statistic.playerRank > 0 {
                 friendly.rank = statistic.playerRank
             }
-            if let legendRank = statistic.legendRank where legendRank > 0 {
+            if let legendRank = statistic.legendRank, legendRank > 0 {
                 friendly.legendRank = legendRank
             }
-            if let opponentLegendRank = statistic.opponentLegendRank where opponentLegendRank > 0 {
+            if let opponentLegendRank = statistic.opponentLegendRank, opponentLegendRank > 0 {
                 opposing.legendRank = opponentLegendRank
             }
-            if let opponentRank = statistic.opponentRank where opponentRank > 0 {
+            if let opponentRank = statistic.opponentRank, opponentRank > 0 {
                 opposing.rank = opponentRank
             }
         }
@@ -117,7 +118,7 @@ class UploadMetaData {
     }
 }
 extension UploadMetaData.Player: WrapCustomizable {
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
         switch propertyName {
         case "legendRank": return "legend_rank"
         case "deckId": return "deck_id"
@@ -129,7 +130,7 @@ extension UploadMetaData.Player: WrapCustomizable {
     }
 }
 extension UploadMetaData: WrapCustomizable {
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
         switch propertyName {
         case "serverIp": return "server_ip"
         case "serverPort": return "server_port"

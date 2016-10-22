@@ -15,7 +15,7 @@ class Draft {
     
     var drafting = false
     
-    static let token: dispatch_once_t = 0
+    static let token: Int = 0
     
     static let instance = Draft()
     
@@ -23,7 +23,7 @@ class Draft {
     }
     
     init(playerClass: CardClass) {
-        startDraft(playerClass)
+        startDraft(for: playerClass)
     }
     
     func resetDraft() {
@@ -33,7 +33,7 @@ class Draft {
         deck?.reset()
     }
     
-    func startDraft(playerClass: CardClass) {
+    func startDraft(for playerClass: CardClass) {
         // If we're already drafting and we start, we need to reset
         if drafting {
             Log.debug?.message("We're trying to start a draft when we " +
@@ -45,26 +45,27 @@ class Draft {
         deck = Deck(playerClass: playerClass)
     }
     
-    func addCard(card: Card) {
-        deck?.addCard(card)
+    func add(card: Card) {
+        deck?.add(card: card)
         
-        if let deck = deck where deck.isValid() {
-            dispatch_async(dispatch_get_main_queue()) {
+        if let deck = deck, deck.isValid() {
+            DispatchQueue.main.async {
                 let alert = NSAlert()
-                alert.alertStyle = .Informational
+                alert.alertStyle = .informational
                 // swiftlint:disable line_length
                 alert.messageText = NSLocalizedString("Your arena deck count 30 cards, do you want to save it ?",
                                                       comment: "")
                 // swiftlint:enable line_length
-                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                NSRunningApplication.currentApplication().activateWithOptions([
-                    NSApplicationActivationOptions.ActivateAllWindows,
-                    NSApplicationActivationOptions.ActivateIgnoringOtherApps])
-                NSApp.activateIgnoringOtherApps(true)
+                alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+                NSRunningApplication.current().activate(options: [
+                    NSApplicationActivationOptions.activateAllWindows,
+                    NSApplicationActivationOptions.activateIgnoringOtherApps])
+                NSApp.activate(ignoringOtherApps: true)
                 if alert.runModal() == NSAlertFirstButtonReturn {
-                    NSNotificationCenter.defaultCenter().postNotificationName("save_arena_deck",
-                                                                              object: nil)
+                    NotificationCenter.default
+                        .post(name: Notification.Name(rawValue: "save_arena_deck"),
+                              object: nil)
                 }
             }
         }
