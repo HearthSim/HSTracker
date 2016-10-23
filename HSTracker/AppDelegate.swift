@@ -10,6 +10,7 @@ import Cocoa
 import CleanroomLogger
 import MASPreferences
 import HockeySDK
+import RealmSwift
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -39,6 +40,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        if let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
+                                                                    .userDomainMask, true).first {
+            var config = Realm.Configuration()
+            config.fileURL = URL(fileURLWithPath: "\(destination)/HSTracker/hstracker.realm")
+            Realm.Configuration.defaultConfiguration = config
+        }
+
         let settings = Settings.instance
 
         let hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
@@ -95,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         Log.enable(configuration: loggers)
 
-        Log.info?.message("*** Starting \(Version.buildName)***")
+        Log.info?.message("*** Starting \(Version.buildName) ***")
 
         if settings.hearthstoneLogPath.hasSuffix("/Logs") {
             settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
@@ -286,9 +294,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                    object: nil)
         }
 
-        if let activeDeck = Settings.instance.activeDeck,
-            let deck = Decks.instance.byId(activeDeck) {
-            Game.instance.set(activeDeck: deck)
+        if let activeDeck = Settings.instance.activeDeck {
+            do {
+                let realm = try Realm()
+                if let deck = realm.objects(Deck.self).filter("deckId = '\(activeDeck)'").first {
+                    Game.instance.set(activeDeck: deck)
+                }
+            } catch {
+                Log.error?.message("Can not fetch deck : \(error)")
+            }
         }
 
         NotificationCenter.default
@@ -325,13 +339,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu
     func buildMenu() {
-        var decks = [CardClass: [Deck]]()
-        Decks.instance.decks().filter({$0.isActive}).forEach({
-            if decks[$0.playerClass] == nil {
-                decks[$0.playerClass] = [Deck]()
+        var decks: [CardClass: [Deck]] = [:]
+        do {
+            let realm = try Realm()
+            for deck in realm.objects(Deck.self).filter("isActive = true") {
+                if decks[deck.playerClass] == nil {
+                    decks[deck.playerClass] = [Deck]()
+                }
+                decks[deck.playerClass]?.append(deck)
             }
-            decks[$0.playerClass]?.append($0)
-        })
+        } catch {
+            Log.error?.message("Can not load decks : \(error)")
+        }
 
         // build main menu
         // ---------------
@@ -387,9 +406,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         comment: ""), action: nil, keyEquivalent: "")
                     let classsubMenu = NSMenu()
                     _decks.filter({ $0.isActive == true })
-                        .sorted(by: {$0.name!.lowercased() < $1.name!.lowercased() }).forEach({
+                        .sorted(by: {$0.name.lowercased() < $1.name.lowercased() }).forEach({
                             let item = classsubMenu
-                                .addItem(withTitle: $0.name!,
+                                .addItem(withTitle: $0.name,
                                          action: #selector(AppDelegate.playDeck(_:)),
                                          keyEquivalent: "")
                             item.representedObject = $0
@@ -501,7 +520,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func saveDeck(_ player: Player) {
         if let playerClass = player.playerClass {
-            let deck = Deck(playerClass: playerClass)
+            let deck = Deck()
+            deck.playerClass = playerClass
+            deck.name = player.name ?? "Custom \(playerClass)"
             player.playerCardList.filter({ $0.collectible == true }).forEach({ deck.add(card: $0) })
 
             if deckManager == nil {

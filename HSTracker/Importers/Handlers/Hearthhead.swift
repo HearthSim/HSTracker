@@ -35,7 +35,7 @@ struct HearthHead: HttpImporter {
         return false
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let classNode = doc.at_xpath("//div[@class='deckguide-hero']"),
             let clazz = classNode["data-class"],
             let classId = Int(clazz),
@@ -52,8 +52,11 @@ struct HearthHead: HttpImporter {
         }
         Log.verbose?.message("Got deck name \(deckName)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
+        var cards: [Card] = []
         for cardNode in doc.xpath("//div[contains(@class,'deckguide-cards-type')]/ul/li") {
             if let cardNameNode = cardNode.at_xpath("a"),
                 let cardName = cardNameNode.text,
@@ -69,9 +72,9 @@ struct HearthHead: HttpImporter {
                 }
 
                 Log.verbose?.message("Got card \(card)")
-                deck.add(card: card)
+                cards.append(card)
             }
         }
-        return deck
+        return (deck, cards)
     }
 }

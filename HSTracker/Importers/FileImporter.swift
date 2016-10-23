@@ -11,7 +11,7 @@ import CleanroomLogger
 
 struct FileImporter: BaseFileImporter {
 
-    func fileImport(url: URL) -> Deck? {
+    func fileImport(url: URL) -> (Deck, [Card])? {
         let deckName = url.lastPathComponent.replace("\\.txt$", with: "")
         Log.verbose?.message("Got deck name \(deckName)")
 
@@ -31,8 +31,10 @@ struct FileImporter: BaseFileImporter {
             Log.error?.message("Card list not found")
         }
 
-        let deck = Deck(playerClass: .neutral, name: deckName)
+        let deck = Deck()
+        deck.name = deckName
 
+        var cards: [Card] = []
         let regex = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
         for line in lines {
             // match "2xMirror Image" as well as "2 Mirror Image" or "2 GVG_002"
@@ -59,7 +61,7 @@ struct FileImporter: BaseFileImporter {
                         }
                         card.count = count
                         Log.verbose?.message("Got card \(card)")
-                        deck.add(card: card)
+                        cards.append(card)
                     }
                 }
             }
@@ -71,6 +73,6 @@ struct FileImporter: BaseFileImporter {
             return nil
         }
 
-        return deck
+        return (deck, cards)
     }
 }

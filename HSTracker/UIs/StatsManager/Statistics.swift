@@ -8,6 +8,7 @@
 
 import Cocoa
 import CleanroomLogger
+import RealmSwift
 
 class Statistics: NSWindowController {
     @IBOutlet weak var selectedDeckIcon: NSImageView!
@@ -85,12 +86,7 @@ class Statistics: NSWindowController {
             // and class assets are always the same
             let imageName = deck.playerClass.rawValue.lowercased()
             selectedDeckIcon.image = NSImage(named: imageName)
-            if let deckName = deck.name {
-                selectedDeckName.stringValue = deckName
-            } else {
-                selectedDeckName.stringValue = "Deck name missing."
-            }
-            
+            selectedDeckName.stringValue = deck.name
         } else {
             selectedDeckIcon.image = NSImage(named: "error")
             selectedDeckName.stringValue = "No deck selected."
@@ -105,22 +101,21 @@ class Statistics: NSWindowController {
     
     @IBAction func deleteStatistics(_ sender: AnyObject) {
         if let deck = deck {
-            let alert = NSAlert()
-            alert.alertStyle = .informational
-            // swiftlint:disable line_length
-            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the statistics for the deck %@ ?", comment: "") as NSString, deck.name!) as String
-            // swiftlint:enable line_length
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModal(for: self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                self.deck?.removeAllStatistics()
-                                                DispatchQueue.main.async {
-                                                    self.statsTab!.statsTable.reloadData()
-                                                }
-                                            }
-            })
+            let msg = String(format: NSLocalizedString("Are you sure you want to delete the "
+                + "statistics for the deck %@ ?", comment: ""), deck.name)
+            NSAlert.show(style: .informational, message: msg, window: self.window!) {
+                do {
+                    let realm = try Realm()
+                    try realm.write {
+                        deck.statistics.removeAll()
+                    }
+                } catch {
+                    Log.error?.message("Can not update deck : \(error)")
+                }
+                DispatchQueue.main.async {
+                    self.statsTab!.statsTable.reloadData()
+                }
+            }
         }
     }
 }

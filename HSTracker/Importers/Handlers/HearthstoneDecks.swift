@@ -36,7 +36,7 @@ struct HearthstoneDecks: HttpImporter {
         return false
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let classNode = doc.at_xpath("//input[@id='classe_nom']"),
             let clazz = classNode["value"],
             let className = HearthstoneDecks.classes[clazz],
@@ -53,8 +53,11 @@ struct HearthstoneDecks: HttpImporter {
         }
         Log.verbose?.message("Got deck name \(deckName)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
+        var cards: [Card] = []
         for cardNode in doc.xpath("//table[contains(@class,'tabcartes')]//tbody//tr//a") {
             if let qty = cardNode["nb_card"],
                 let cardId = cardNode["real_id"],
@@ -62,10 +65,10 @@ struct HearthstoneDecks: HttpImporter {
                 let card = Cards.by(cardId: cardId) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.add(card: card)
+                cards.append(card)
             }
         }
         
-        return deck
+        return (deck, cards)
     }
 }

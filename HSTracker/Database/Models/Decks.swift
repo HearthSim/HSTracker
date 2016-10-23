@@ -8,8 +8,7 @@
 
 import Foundation
 import CleanroomLogger
-import Unbox
-import Wrap
+import RealmSwift
 
 final class Decks {
     static let instance = Decks()
@@ -24,10 +23,23 @@ final class Decks {
     }
 
     func loadDecks(splashscreen: Splashscreen?) {
+        let fileManager = FileManager.default
+
+        if let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
+                                                                 .userDomainMask, true).first {
+            let realm = "\(destination)/HSTracker/hstracker.realm"
+            if fileManager.fileExists(atPath: realm) {
+                do {
+                    try fileManager.copyItem(atPath: realm, toPath: "\(realm).backup")
+                    Log.info?.message("Database backuped")
+                } catch {
+                    Log.error?.message("Can not save backup : \(error)")
+                }
+            }
+        }
+
         if let path = savePath {
-            convertOldFile()
-            
-            let fileManager = FileManager.default
+
             
             // load decks
             var files: [String]? = nil
@@ -43,153 +55,139 @@ final class Decks {
                         NSLocalizedString("Loading decks", comment: "")),
                                          total: Double(jsonFiles.count))
                 }
-                for file in jsonFiles {
-                    DispatchQueue.main.async {
-                        splashscreen?.increment()
-                    }
-                    load(file: file)
-                }
-            }
-        }
-    }
 
-    private func convertOldFile() {
-        guard let path = savePath else { return }
-        let fileManager = FileManager.default
-        
-        // convert old json file
-        let jsonFile = "\(path)/decks.json"
-        if fileManager.fileExists(atPath: "\(path)/decks.json") {
-            if let jsonData = try? Data(contentsOf: URL(fileURLWithPath: jsonFile)) {
-                var decks: [String: [String: AnyObject]]? = nil
                 do {
-                    if let _decks = try JSONSerialization
-                        .jsonObject(with: jsonData,
-                                            options: .allowFragments)
-                        as? [String: [String: AnyObject]] {
-                        decks = _decks
-                    }
-                    try fileManager.removeItem(atPath: "\(jsonFile)")
-                    if fileManager.fileExists(atPath: "\(jsonFile).bkp") {
-                        try fileManager.removeItem(atPath: "\(jsonFile).bkp")
+                    let realm = try Realm()
+
+                    for file in jsonFiles {
+                        DispatchQueue.main.async {
+                            splashscreen?.increment()
+                        }
+                        load(file: file, realm: realm)
                     }
                 } catch {
-                    Log.error?.message("Error loading decks: \(error)")
-                }
-                if let decks = decks {
-                    for (_, _deck) in decks {
-                        let deck: Deck
-                        do {
-                            deck = try unbox(dictionary: _deck)
-                        } catch {
-                            Log.error?.message("Error unboxing deck")
-                            continue
-                        }
-                        
-                        if deck.isValid() {
-                            _decks[deck.deckId] = deck
-                            do {
-                                let dictionary: [String : Any] = try wrap(deck)
-                                let data = try JSONSerialization
-                                    .data(withJSONObject: dictionary,
-                                                        options: .prettyPrinted)
-                                let file = "\(path)/\(deck.deckId).json"
-                                try? data.write(to: URL(fileURLWithPath: file), options: [.atomic])
-                            } catch {
-                                Log.error?.message("Error unboxing deck")
-                            }
-                        }
-                    }
+                    Log.error?.message("\(error)")
                 }
             }
         }
     }
-    
-    func decks() -> [Deck] {
-        return _decks.map { $0.1 }
-    }
 
-    func add(deck: Deck) {
-        deck.creationDate = Date()
-        _decks[deck.deckId] = deck
-        save(deck: deck)
-    }
-
-    func update(deck: Deck) {
-        _decks[deck.deckId] = deck
-        save(deck: deck)
-    }
-
-    func remove(deck: Deck) {
-        _decks[deck.deckId] = nil
-        guard let path = savePath else {
-            Log.warning?.message("SavePath does not exists for decks")
-            return
-        }
-        do {
-            try FileManager.default.removeItem(atPath: "\(path)/\(deck.deckId).json")
-        } catch {
-            Log.error?.message("Can not delete \(path)")
-        }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
-                                        object: nil)
-    }
-    
-    func reset(deck: Deck) {
-        load(file: "\(deck.deckId).json")
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
-                                        object: nil)
-    }
-    
-    internal func load(file: String) {
+    fileprivate func load(file: String, realm: Realm) {
         guard let path = savePath else {
             Log.warning?.message("SavePath does not exists for decks")
             return
         }
         
-        if let jsonData = try? Data(contentsOf: URL(fileURLWithPath: "\(path)/\(file)")) {
+        guard let jsonData = try? Data(contentsOf: URL(fileURLWithPath: "\(path)/\(file)")) else {
+            Log.error?.message("\(path)/\(file) is not a valid file ???")
             do {
-                let deck: Deck = try unbox(data: jsonData)
-                if deck.isValid() {
-                    _decks[deck.deckId] = deck
+                try FileManager.default.removeItem(atPath: "\(path)/\(file)")
+            } catch {
+                Log.error?.message("Can not delete \(path)")
+            }
+            return
+        }
+
+        let json: [String: Any]?
+        do {
+            json = try JSONSerialization
+                    .jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
+        } catch {
+            Log.error?.message("\(path)/\(file) is not a valid json file")
+            do {
+                try FileManager.default.removeItem(atPath: "\(path)/\(file)")
+            } catch {
+                Log.error?.message("Can not delete \(path)/\(file)")
+            }
+            return
+        }
+
+        guard let data = json else {
+            do {
+                try FileManager.default.removeItem(atPath: "\(path)/\(file)")
+            } catch {
+                Log.error?.message("Can not delete \(path)/\(file)")
+            }
+            return
+        }
+
+        guard let cardClass = data["playerClass"] as? String,
+            let playerClass = CardClass(rawValue: cardClass.lowercased()) else {
+            Log.error?.message("\(data["playerClass"]) is not a valid class")
+            do {
+                try FileManager.default.removeItem(atPath: "\(path)/\(file)")
+            } catch {
+                Log.error?.message("Can not delete \(path)/\(file)")
+            }
+            return
+        }
+
+        let deck = Deck()
+        deck.isArena = data["isArena"] as? Bool ?? false
+        deck.name = data["name"] as? String ?? "unknown deck"
+        deck.isActive = data["isActive"] as? Bool ?? true
+        if let date = data["creationDate"] as? String {
+            deck.creationDate = Date(fromString: date,
+                                     inFormat: "YYYY-MM-dd HH:mm:ss")
+        }
+        deck.hearthstatsId.value = data["hearthstatsId"] as? Int
+        deck.hearthstatsVersionId.value = data["hearthstatsVersionId"] as? Int
+        deck.playerClass = playerClass
+        deck.version = data["version"] as? String ?? "1.0"
+
+        if let cards = data["cards"] as? [String: Int] {
+            for (id, count) in cards {
+                deck.cards.append(RealmCard(id: id, count: count))
+            }
+        }
+
+        if let jsonStats = data["statistics"] as? [[String: Any]] {
+            for stats in jsonStats {
+                guard let opClass = stats["opponentClass"] as? String,
+                    let opponentClass = CardClass(rawValue: opClass.lowercased()) else {
+                        continue
+                }
+                let stat = Statistic()
+                stat.opponentClass = opponentClass
+                stat.hsReplayId = stats["hsReplayId"] as? String
+                stat.gameResult = GameResult(rawValue: stats["gameResult"] as? Int ?? 0) ?? .unknow
+                stat.duration = stats["duration"] as? Int ?? 0
+                stat.opponentRank.value = stats["opponentRank"] as? Int
+                stat.playerRank = stats["playerRank"] as? Int ?? 0
+                stat.playerMode = GameMode(rawValue: stats["playerMode"] as? Int
+                    ?? GameMode.none.rawValue) ?? .none
+                stat.note = stats["note"] as? String ?? ""
+                if let date = data["date"] as? String {
+                    stat.date = Date(fromString: date,
+                                             inFormat: "YYYY-MM-dd HH:mm:ss")
+                }
+                stat.season.value = stats["season"] as? Int
+                stat.numTurns = stats["numTurns"] as? Int ?? 0
+                stat.hasCoin = stats["hasCoin"] as? Bool ?? false
+                stat.opponentName = stats["opponentName"] as? String ?? "Unknown"
+
+                guard let cards = stats["cards"] as? [String: Int] else { continue }
+                for (id, count) in cards {
+                    stat.cards.append(RealmCard(id: id, count: count))
+                }
+                deck.statistics.append(stat)
+            }
+        }
+
+        if deck.isValid() {
+            do {
+                try realm.write {
+                    realm.add(deck)
                 }
             } catch {
-                Log.error?.message("Error unboxing deck")
+                Log.error?.message("Can not save deck")
             }
         }
-    }
 
-    private func save(deck: Deck) {
-        guard let path = savePath else {
-            Log.warning?.message("SavePath does not exists for decks")
-            return
-        }
-        
         do {
-            try FileManager.default
-                .createDirectory(atPath: path,
-                                       withIntermediateDirectories: true,
-                                       attributes: nil)
+            try FileManager.default.removeItem(atPath: "\(path)/\(file)")
         } catch {
-            Log.error?.message("Can not create decks dir")
-            return
+            Log.error?.message("Can not delete \(path)/\(file)")
         }
-        
-        do {
-            let dictionary: [String : Any] = try wrap(deck)
-            let data = try JSONSerialization
-                .data(withJSONObject: dictionary,
-                                    options: .prettyPrinted)
-            let file = "\(path)/\(deck.deckId).json"
-            try? data.write(to: URL(fileURLWithPath: file), options: [.atomic])
-        } catch {
-            Log.error?.message("Error wrapping deck")
-        }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
-                                        object: nil)
-    }
-
-    func byId(_ id: String) -> Deck? {
-        return decks().filter({ $0.deckId == id }).first
     }
 }

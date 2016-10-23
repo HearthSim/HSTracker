@@ -42,7 +42,8 @@ class Draft {
         }
         drafting = true
         Log.debug?.message("Starting a new deck for \(playerClass)")
-        deck = Deck(playerClass: playerClass)
+        deck = Deck()
+        deck?.playerClass = playerClass
     }
     
     func add(card: Card) {

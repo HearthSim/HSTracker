@@ -31,7 +31,8 @@ class StatsTab: NSViewController {
         seasonPicker.addItem(withTitle: NSLocalizedString("all_seasons", comment: ""))
         if let deck = self.deck {
             
-            let seasons = Set(deck.statistics.flatMap({ $0.season })).sorted().reversed()
+            let seasons = Array(deck.statistics).flatMap({ $0.season.value })
+                .sorted().reversed()
             for season in seasons {
                 seasonPicker.addItem(
                     withTitle: String(format: NSLocalizedString("season", comment: ""),

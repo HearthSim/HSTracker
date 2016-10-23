@@ -184,9 +184,12 @@ class LogUploader {
                             }
 
                             if let statistic = statistic {
-                                statistic.hsReplayId = uploadShortId
-                                if let deck = statistic.deck {
-                                    Decks.instance.update(deck: deck)
+                                do {
+                                    try statistic.realm?.write {
+                                        statistic.hsReplayId = uploadShortId
+                                    }
+                                } catch {
+                                    Log.error?.message("Can not update statistic : \(error)")
                                 }
                             }
 

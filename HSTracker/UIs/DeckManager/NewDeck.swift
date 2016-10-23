@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CleanroomLogger
+import RealmSwift
 
 protocol NewDeckDelegate {
     func addNewDeck(deck: Deck)
@@ -134,19 +136,30 @@ class NewDeck: NSWindowController {
         panel.allowsMultipleSelection = false
         panel.allowedFileTypes = ["txt"]
 
-        panel.beginSheetModal(for: self.window!,
-                                       completionHandler: { (returnCode) in
-                                        if returnCode == NSFileHandlingPanelOKButton {
-                                            for filename in panel.urls {
-                                                let importer = FileImporter()
-                                                if let deck = importer.fileImport(url: filename) {
-                                                    self._addDeck(deck)
-                                                } else {
-                                                    // TODO show error
-                                                }
-                                            }
-                                        }
-        })
+        panel.beginSheetModal(for: self.window!) { (returnCode) in
+            if returnCode == NSFileHandlingPanelOKButton {
+                for filename in panel.urls {
+                    let importer = FileImporter()
+                    if let (deck, cards) = importer.fileImport(url: filename), cards.isValidDeck() {
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                realm.add(deck)
+                            }
+
+                            for card in cards {
+                                deck.add(card: card)
+                            }
+                        } catch {
+                            Log.error?.message("Can not import deck. Error : \(error)")
+                        }
+                        self._addDeck(deck)
+                    } else {
+                        // TODO show error
+                    }
+                }
+            }
+        }
     }
 
     fileprivate func _addDeck(_ deck: Deck) {
@@ -158,25 +171,18 @@ class NewDeck: NSWindowController {
                     self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
                 } catch {}
             } else {
-                let alert = NSAlert()
-                alert.alertStyle = .informational
-                // swiftlint:disable line_length
-                alert.messageText = NSLocalizedString("Do you want to add this deck on Hearthstats ?", comment: "")
-                alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-                alert.beginSheetModal(for: self.window!,
-                                               completionHandler: { (returnCode) in
-                                                if returnCode == NSAlertFirstButtonReturn {
-                                                    do {
-                                                        try HearthstatsAPI.post(deck: deck) {_ in}
-                                                        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-                                                    } catch {
-                                                        // TODO alert
-                                                        print("error")
-                                                    }
-                                                }
-                })
-                // swiftlint:enable line_length
+                let msg = NSLocalizedString("Do you want to add this deck on Hearthstats ?",
+                                            comment: "")
+                NSAlert.show(style: .informational, message: msg, window: self.window!) {
+                    do {
+                        try HearthstatsAPI.post(deck: deck) {_ in}
+                        self.window?.sheetParent?.endSheet(self.window!,
+                                                           returnCode: NSModalResponseOK)
+                    } catch {
+                        // TODO alert
+                        Log.error?.message("error")
+                    }
+                }
             }
         } else {
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import RealmSwift
+import CleanroomLogger
 
 class StatsTableRow: NSObject { // Class instead of struct so we can use sortUsingDescriptors
     // Used for display
@@ -196,10 +198,10 @@ class StatsHelper {
     
     static func getDeckTimePerGame(deck: Deck, againstClass: CardClass = .neutral,
                                    mode: GameMode = .ranked) -> Double {
-        var stats = deck.statistics
+        var stats = Array(deck.statistics)
         
         if againstClass != .neutral {
-            stats = deck.statistics.filter({$0.opponentClass == againstClass})
+            stats = stats.filter { $0.opponentClass == againstClass }
         }
         
         var rankedStats: [Statistic]
@@ -232,24 +234,24 @@ class StatsHelper {
     static func getDeckRecord(deck: Deck, againstClass: CardClass = .neutral,
                               mode: GameMode = .ranked, season: Int = 0)
         -> StatsDeckRecord {
-            var stats = deck.statistics
+            var stats = Array(deck.statistics)
             if againstClass != .neutral {
-                stats = deck.statistics.filter({$0.opponentClass == againstClass})
+                stats = stats.filter { $0.opponentClass == againstClass }
             }
             if season > 0 {
-                stats = stats.filter({ $0.season == season })
+                stats = stats.filter { $0.season.value == season }
             }
             
             var rankedStats: [Statistic]
             if mode == .all {
                 rankedStats = stats
             } else {
-                rankedStats = stats.filter({$0.playerMode == mode})
+                rankedStats = stats.filter { $0.playerMode == mode }
             }
             
-            let wins = rankedStats.filter({$0.gameResult == .win}).count
-            let losses = rankedStats.filter({$0.gameResult == .loss}).count
-            let draws = rankedStats.filter({$0.gameResult == .draw}).count
+            let wins = rankedStats.filter { $0.gameResult == .win }.count
+            let losses = rankedStats.filter { $0.gameResult == .loss }.count
+            let draws = rankedStats.filter { $0.gameResult == .draw }.count
             
             return StatsDeckRecord(wins: wins,
                                    losses: losses,
@@ -270,8 +272,19 @@ class StatsHelper {
     
     static func guessRank(deck: Deck) -> Int {
         let isStandard = deck.standardViable()
-        
-        let decks = Decks.instance.decks()
+
+        var rdecks: [Deck]? = nil
+        do {
+            let realm = try Realm()
+            rdecks = Array(realm.objects(Deck.self))
+        } catch {
+            Log.error?.message("Can not load decks : \(error)")
+            return -1
+        }
+
+        guard let sdecks = rdecks else { return -1 }
+
+        let decks = sdecks
             .filter({$0.standardViable() == isStandard})
             .filter({!$0.isArena})
         
@@ -279,10 +292,10 @@ class StatsHelper {
         for deck_i in decks {
             let datedRankedGames = deck_i.statistics
                 .filter({$0.playerMode == .ranked})
-                .filter({$0.date != nil})
-            if let latest = datedRankedGames.max(by: {$0.date! < $1.date!}) {
+
+            if let latest = datedRankedGames.max(by: {$0.date < $1.date}) {
                 if let mr = mostRecent {
-                    if mr.date! < latest.date! {
+                    if mr.date < latest.date {
                         mostRecent = latest
                     }
                 } else {
@@ -290,7 +303,7 @@ class StatsHelper {
                 }
             }
         }
-        
+
         if let mr = mostRecent {
             return mr.playerRank
         } else {

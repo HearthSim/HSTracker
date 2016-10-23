@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 import CleanroomLogger
 
 class DeckManager: NSWindowController {
@@ -64,8 +65,7 @@ class DeckManager: NSWindowController {
 
         decksTable.target = self
 
-        decks = Decks.instance.decks().filter({$0.isActive})
-        decksTable.reloadData()
+        refreshDecks()
 
         deckListTable.tableColumns.first?.width = deckListTable.bounds.width
         deckListTable.tableColumns.first?.resizingMask = .autoresizingMask
@@ -115,9 +115,9 @@ class DeckManager: NSWindowController {
         
         switch self.sortCriteria {
         case "name":
-            sortedDeck = filteredDeck.sorted(by: { $0.name! < $1.name! })
+            sortedDeck = filteredDeck.sorted(by: { $0.name < $1.name })
         case "creation date":
-            sortedDeck = filteredDeck.sorted(by: { $0.creationDate! < $1.creationDate! })
+            sortedDeck = filteredDeck.sorted(by: { $0.creationDate < $1.creationDate })
         case "win percentage":
             sortedDeck = filteredDeck.sorted(by: {
                   StatsHelper.getDeckWinRate(record: StatsHelper.getDeckRecord(deck: $0)) <
@@ -144,11 +144,11 @@ class DeckManager: NSWindowController {
     func unsortedFilteredDecks() -> [Deck] {
         if let currentClass = currentClass {
             return decks.filter({ $0.playerClass == currentClass && $0.isActive == true })
-                .sorted { $0.name! < $1.name! }
+                .sorted { $0.name < $1.name }
         } else if showArchivedDecks {
-            return decks.filter({ $0.isActive != true }).sorted { $0.name! < $1.name! }
+            return decks.filter({ $0.isActive != true }).sorted { $0.name < $1.name }
         } else {
-            return decks.filter({ $0.isActive == true }).sorted { $0.name! < $1.name! }
+            return decks.filter({ $0.isActive == true }).sorted { $0.name < $1.name }
         }
     }
 
@@ -244,19 +244,13 @@ class DeckManager: NSWindowController {
     
     @IBAction func trackobotLogin(_ sender: AnyObject) {
         if TrackOBotAPI.isLogged() {
-            let alert = NSAlert()
-            alert.alertStyle = .informational
-            // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("Are you sure you want to disconnect from Track-o-Bot ?", comment: "")
-            // swiftlint:enable line_length
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModal(for: self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                TrackOBotAPI.logout()
-                                            }
-            })
+            let msg = NSLocalizedString("Are you sure you want to disconnect from Track-o-Bot ?",
+                                        comment: "")
+            NSAlert.show(style: .informational,
+                         message: msg,
+                         window: self.window!) {
+                            TrackOBotAPI.logout()
+            }
         } else {
             trackobotLogin = TrackOBotLogin(windowNibName: "TrackOBotLogin")
             if let trackobotLogin = trackobotLogin {
@@ -267,19 +261,13 @@ class DeckManager: NSWindowController {
     
     @IBAction func hearthstatsLogin(_ sender: AnyObject) {
         if HearthstatsAPI.isLogged() {
-            let alert = NSAlert()
-            alert.alertStyle = .informational
-            // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("Are you sure you want to disconnect from Hearthstats ?", comment: "")
-            // swiftlint:enable line_length
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModal(for: self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                HearthstatsAPI.logout()
-                                            }
-            })
+            let msg = NSLocalizedString("Are you sure you want to disconnect from Hearthstats ?",
+                                        comment: "")
+            NSAlert.show(style: .informational,
+                         message: msg,
+                         window: self.window!) {
+                            HearthstatsAPI.logout()
+            }
         } else {
             hearthstatsLogin = HearthstatsLogin(windowNibName: "HearthstatsLogin")
             if let hearthstatsLogin = hearthstatsLogin {
@@ -289,9 +277,9 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func donate(_ sender: AnyObject) {
-        // swiftlint:disable line_length
-        openUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
-        // swiftlint:enable line_length
+        openUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_donations"
+            + "&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker"
+            + "&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
     }
 
     @IBAction func twitter(_ sender: AnyObject) {
@@ -308,37 +296,31 @@ class DeckManager: NSWindowController {
     }
     
     @IBAction func renameDeck(_ sender: AnyObject?) {
-        // swiftlint:disable line_length
         if let deck = currentDeck {
             let deckNameInput = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
-            deckNameInput.stringValue = deck.name!
-            let alert = NSAlert()
-            alert.alertStyle = .informational
-            alert.messageText = NSLocalizedString("Deck name", comment: "")
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-            alert.accessoryView = deckNameInput
-            alert.beginSheetModal(for: self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                deck.name = deckNameInput.stringValue
-                                                Decks.instance.update(deck: deck)
+            deckNameInput.stringValue = deck.name
+            NSAlert.show(style: .informational,
+                         message: NSLocalizedString("Deck name", comment: ""),
+                         accessoryView: deckNameInput,
+                         window: self.window) {
+                            do {
+                                try deck.realm?.write {
+                                    deck.name = deckNameInput.stringValue
+                                }
+                            } catch {
+                                Log.error?.message("Can not update deck. \(error)")
+                            }
 
-                                                if HearthstatsAPI.isLogged() {
-                                                    if Settings.instance.hearthstatsAutoSynchronize {
-                                                        do {
-                                                            try HearthstatsAPI.update(deck: deck) {_ in}
-                                                        } catch {}
-                                                    } else {
-                                                        // TODO Alert synchro
-                                                    }
-                                                }
+                            if HearthstatsAPI.isLogged() &&
+                                Settings.instance.hearthstatsAutoSynchronize {
+                                do {
+                                    try HearthstatsAPI.update(deck: deck) {_ in}
+                                } catch {}
+                            }
 
-                                                self.refreshDecks()
-                                            }
-            })
+                            self.refreshDecks()
+            }
         }
-        // swiftlint:enable line_length
     }
 
     @IBAction func editDeck(_ sender: AnyObject?) {
@@ -356,8 +338,13 @@ class DeckManager: NSWindowController {
     @IBAction func useDeck(_ sender: AnyObject?) {
         if let deck = currentDeck {
             if !deck.isActive {
-                deck.isActive = true
-                Decks.instance.update(deck: deck)
+                do {
+                    try deck.realm?.write {
+                        deck.isActive = true
+                    }
+                } catch {
+                    Log.error?.message("Can not update deck : \(error)")
+                }
                 refreshDecks()
             }
             
@@ -368,89 +355,91 @@ class DeckManager: NSWindowController {
 
     @IBAction func deleteDeck(_ sender: AnyObject?) {
         if let deck = currentDeck {
-            let alert = NSAlert()
-            alert.alertStyle = .informational
-            // swiftlint:disable line_length
-            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the deck %@ ?", comment: "") as NSString, deck.name!) as String
-            // swiftlint:enable line_length
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModal(for: self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                self._deleteDeck(deck)
-                                            }
-            })
+            let message = String(format: NSLocalizedString("Are you sure you want to delete "
+                + "the deck %@ ?", comment: ""), deck.name)
+
+            NSAlert.show(style: .informational, message: message, window: self.window!) {
+                self._deleteDeck(deck)
+            }
         }
     }
 
     @IBAction func archiveDeck(_ sender: AnyObject) {
         if let deck = currentDeck {
-            let alert = NSAlert()
-            alert.alertStyle = .informational
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-
+            let msg: String
             if deck.isActive {
-                alert.messageText = NSString(format:
-                    NSLocalizedString("Are you sure you want to archive the deck %@ ?",
-                        comment: "") as NSString, deck.name!) as String
+                msg = String(format: NSLocalizedString("Are you sure you want to archive "
+                    + "the deck %@ ?", comment: ""), deck.name)
             } else {
-                alert.messageText = NSString(format:
-                    NSLocalizedString("Are you sure you want to unarchive the deck %@ ?",
-                        comment: "") as NSString, deck.name!) as String
+                msg = String(format: NSLocalizedString("Are you sure you want to unarchive "
+                    + "the deck %@ ?", comment: ""), deck.name)
             }
-            alert.beginSheetModal(for: self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                deck.isActive = !deck.isActive
-                                                Settings.instance.activeDeck = nil
-                                                self.refreshDecks()
-                                                Decks.instance.update(deck: deck)
-                                            }
-            })
+
+            NSAlert.show(style: .informational, message: msg, window: self.window!) {
+                do {
+                    try deck.realm?.write {
+                        deck.isActive = !deck.isActive
+                    }
+                } catch {
+                    Log.error?.message("Can not update deck : \(error)")
+                }
+
+                Settings.instance.activeDeck = nil
+                self.refreshDecks()
+            }
         }
     }
 
     fileprivate func _deleteDeck(_ deck: Deck) {
-        // swiftlint:disable line_length
-        Log.verbose?.message("in delete \(deck) -> \(HearthstatsAPI.isLogged()) -> \(Settings.instance.hearthstatsAutoSynchronize)")
-        if let _ = deck.hearthstatsId, HearthstatsAPI.isLogged() {
+        decksTable.deselectAll(self)
+        currentDeck = nil
+        
+        if let _ = deck.hearthstatsId.value, HearthstatsAPI.isLogged() {
             if Settings.instance.hearthstatsAutoSynchronize {
                 do {
                     try HearthstatsAPI.delete(deck: deck)
                 } catch {
-                    print("error delete hearthstats")
+                    Log.error?.message("error delete hearthstats")
                 }
-                Decks.instance.remove(deck: deck)
+                do {
+                    try deck.realm?.write {
+                        deck.realm?.delete(deck)
+                    }
+                } catch {
+                    Log.error?.message("Can not delete deck : \(error)")
+                }
                 refreshDecks()
             } else {
-                let alert = NSAlert()
-                alert.alertStyle = .informational
-                alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
-                alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-                alert.beginSheetModal(for: self.window!,
-                                               completionHandler: { (returnCode) in
-                                                if returnCode == NSAlertFirstButtonReturn {
-                                                    do {
-                                                        try HearthstatsAPI.delete(deck: deck)
-                                                    } catch {
-                                                        // TODO alert
-                                                        print("error delete hearthstats")
-                                                    }
-                                                    Decks.instance.remove(deck: deck)
-                                                    self.refreshDecks()
-                                                }
-                })
+                let msg = NSLocalizedString("Do you want to delete the deck on Hearthstats ?",
+                                            comment: "")
+                NSAlert.show(style: .informational, message: msg, window: self.window!) {
+                    do {
+                        try HearthstatsAPI.delete(deck: deck)
+                    } catch {
+                        Log.error?.message("error delete hearthstats")
+                    }
+                    do {
+                        try deck.realm?.write {
+                            deck.realm?.delete(deck)
+                        }
+                    } catch {
+                        Log.error?.message("Can not delete deck : \(error)")
+                    }
+                    self.refreshDecks()
+                }
             }
         } else {
-            Decks.instance.remove(deck: deck)
+            do {
+                try deck.realm?.write {
+                    deck.realm?.delete(deck)
+                }
+            } catch {
+                Log.error?.message("Can not delete deck : \(error)")
+            }
             refreshDecks()
         }
-        // swiftlint:enable line_length
     }
-    
+
     fileprivate func loadSortPopUp() {
         let popupMenu = NSMenu()
         
@@ -519,19 +508,13 @@ class DeckManager: NSWindowController {
     
     @IBAction func exportToHearthstone(_ sender: AnyObject?) {
         if let deck = currentDeck {
-            let alert = NSAlert()
-            alert.alertStyle = .informational
-            // swiftlint:disable line_length
-            alert.messageText = NSString(format: NSLocalizedString("To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.", comment: "") as NSString, deck.name!) as String
-            // swiftlint:enable line_length
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModal(for: self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                self.exportDeckToHearthstone(deck)
-                                            }
-            })
+            let msg = String(format: NSLocalizedString("To export a deck to Hearthstone, "
+                + "create a new deck with the correct class in your collection, then click OK "
+                + "and switch to Hearthstone.\nDo not touch your mouse or keyboard "
+                + "during the import.", comment: ""), deck.name)
+            NSAlert.show(style: .informational, message: msg, window: self.window!) {
+                self.exportDeckToHearthstone(deck)
+            }
         }
     }
     
@@ -542,11 +525,9 @@ class DeckManager: NSWindowController {
         queue.asyncAfter(deadline: when) {
             let automation = Automation()
             automation.expertDeckToHearthstone(deck: deck) {
-                let alert = NSAlert()
-                alert.alertStyle = .informational
-                alert.messageText = NSLocalizedString("Export done", comment: "")
-                alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-                alert.beginSheetModal(for: self.window!, completionHandler: nil)
+                NSAlert.show(style: .informational,
+                             message: NSLocalizedString("Export done", comment: ""),
+                             window: self.window!)
             }
         }
     }
@@ -562,7 +543,7 @@ extension DeckManager: NSTableViewDelegate {
 
                 let deck = sortedFilteredDecks()[row]
                 cell.deck = deck
-                cell.label.stringValue = deck.name!
+                cell.label.stringValue = deck.name
                 cell.image.image = NSImage(named: deck.playerClass.rawValue.lowercased())
                 cell.wildImage.image = !deck.standardViable() ? NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(playerClass: deck.playerClass)
@@ -575,7 +556,7 @@ extension DeckManager: NSTableViewDelegate {
                     formatter.dateStyle = .medium
                     formatter.timeStyle = .none
                     cell.detailTextLabel.stringValue =
-                        "\(formatter.string(from: deck.creationDate! as Date))"
+                        "\(formatter.string(from: deck.creationDate))"
                 case "wins":
                     cell.detailTextLabel.stringValue = "\(record.wins) " +
                         NSLocalizedString("wins", comment: "").lowercased()
@@ -622,12 +603,11 @@ extension DeckManager: NSTableViewDelegate {
         for i in 0 ..< decks {
             let row = decksTable?.view(atColumn: 0, row: i, makeIfNecessary: false) as? DeckCellView
             row?.selected = decksTable?.selectedRow == -1 || decksTable?.selectedRow == i
-
         }
         
         if let clickedRow = (notification.object as? NSTableView)?.selectedRow, clickedRow >= 0 {
             currentDeck = sortedFilteredDecks()[clickedRow]
-            let labelName = ((currentDeck?.isActive) == true) ? "Archive" : "Unarchive"
+            let labelName = currentDeck?.isActive == true ? "Archive" : "Unarchive"
             self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
             deckListTable.reloadData()
             curveView.deck = currentDeck
@@ -661,7 +641,8 @@ extension DeckManager: NewDeckDelegate {
     func openDeckBuilder(playerClass: CardClass, arenaDeck: Bool) {
         editDeck = EditDeck(windowNibName: "EditDeck")
         if let editDeck = editDeck {
-            let deck = Deck(playerClass: playerClass)
+            let deck = Deck()
+            deck.playerClass = playerClass
             deck.isArena = arenaDeck
             editDeck.set(deck: deck)
             editDeck.set(playerClass: playerClass)
@@ -675,7 +656,14 @@ extension DeckManager: NewDeckDelegate {
         guard isWindowLoaded else { return }
         currentDeck = nil
         decksTable.deselectAll(self)
-        decks = Decks.instance.decks()
+        decks = []
+        do {
+            let realm = try Realm()
+            decks = Array(realm.objects(Deck.self))
+        } catch {
+            Log.error?.message("Can not load decks : \(error)")
+        }
         decksTable.reloadData()
+        deckListTable.reloadData()
     }
 }

@@ -24,7 +24,7 @@ struct HearthpwnDeckBuilder: HttpImporter {
         return false
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         var urlParts = url.components(separatedBy: "#")
         let split = urlParts[0].components(separatedBy: "/")
 
@@ -42,12 +42,16 @@ struct HearthpwnDeckBuilder: HttpImporter {
         }
         Log.verbose?.message("Got deck name : \(deckName)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
         guard let cardIds = urlParts.last?.components(separatedBy: ";") else {
             Log.error?.message("Card list not found")
             return nil
         }
+        
+        var cards: [Card] = []
         for str in cardIds {
             let split = str.components(separatedBy: ":")
             if let id = split.first, let last = split.last,
@@ -57,10 +61,10 @@ struct HearthpwnDeckBuilder: HttpImporter {
                 let card = Cards.by(englishName: cardId) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.add(card: card)
+                cards.append(card)
             }
         }
         
-        return deck
+        return (deck, cards)
     }
 }

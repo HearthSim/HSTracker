@@ -37,6 +37,14 @@ extension Array where Element: Card {
     func shuffleOne() -> Card? {
         return self[Int(arc4random()) % Int(count)]
     }
+
+    func countCards() -> Int {
+        return map({ $0.count }).reduce(0, +)
+    }
+
+    func isValidDeck() -> Bool {
+        return countCards() == 30
+    }
 }
 
 extension Array where Element: Equatable {

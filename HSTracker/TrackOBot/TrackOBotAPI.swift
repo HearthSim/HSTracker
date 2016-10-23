@@ -93,7 +93,7 @@ struct TrackOBotAPI {
                 "win": game.gameResult == .win,
                 "duration": stat.duration,
                 "added": startTime.timeIntervalSince1970,
-                "note": stat.note ?? "",
+                "note": stat.note,
                 "card_history": game.playedCards.map {
                     [
                         "card_id": $0.cardId,

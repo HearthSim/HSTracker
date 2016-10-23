@@ -9,6 +9,7 @@
 import Foundation
 import Kanna
 import CleanroomLogger
+import RealmSwift
 
 enum NetImporterError: Error {
     case invalidUrl, urlNotSupported
@@ -34,12 +35,12 @@ extension Importer {
 }
 
 protocol BaseFileImporter {
-    func fileImport(url: URL) -> Deck?
+    func fileImport(url: URL) -> (Deck, [Card])?
 }
 
 protocol HttpImporter: Importer {
     func loadHtml(url: String, completion: @escaping (HTMLDocument?) -> Void)
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck?
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])?
 }
 
 extension HttpImporter {
@@ -54,7 +55,7 @@ extension HttpImporter {
 }
 
 protocol JsonImporter: Importer {
-    func loadDeck(json: Any, url: String) -> Deck?
+    func loadDeck(json: Any, url: String) -> (Deck, [Card])?
     func loadJson(url: String, completion: @escaping (Any?) -> Void)
 }
 
@@ -93,9 +94,21 @@ final class NetImporter {
                 if let httpImporter = importer as? HttpImporter {
                     httpImporter.loadHtml(url: realUrl, completion: { doc in
                         if let doc = doc,
-                            let deck = httpImporter.loadDeck(doc: doc, url: url), deck.isValid() {
-                            Decks.instance.add(deck: deck)
-                            completion(deck)
+                            let (deck, cards) = httpImporter.loadDeck(doc: doc, url: url),
+                            cards.isValidDeck() {
+                            do {
+                                let realm = try Realm()
+                                try realm.write {
+                                    realm.add(deck)
+                                    for card in cards {
+                                        deck.add(card: card)
+                                    }
+                                }
+                                completion(deck)
+                            } catch {
+                                Log.error?.message("Can not import deck. Error : \(error)")
+                                completion(nil)
+                            }
                         } else {
                             completion(nil)
                         }
@@ -104,9 +117,21 @@ final class NetImporter {
                 } else if let jsonImporter = importer as? JsonImporter {
                     jsonImporter.loadJson(url: realUrl, completion: { json in
                         if let json = json,
-                            let deck = jsonImporter.loadDeck(json: json, url: url), deck.isValid() {
-                            Decks.instance.add(deck: deck)
-                            completion(deck)
+                            let (deck, cards) = jsonImporter.loadDeck(json: json, url: url),
+                            cards.isValidDeck() {
+                            do {
+                                let realm = try Realm()
+                                try realm.write {
+                                    realm.add(deck)
+                                    for card in cards {
+                                        deck.add(card: card)
+                                    }
+                                }
+                                completion(deck)
+                            } catch {
+                                Log.error?.message("Can not import deck. Error : \(error)")
+                                completion(nil)
+                            }
                         } else {
                             completion(nil)
                         }

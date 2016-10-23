@@ -10,6 +10,7 @@
 
 import Foundation
 import CleanroomLogger
+import RealmSwift
 
 class Game {
     // MARK: - vars
@@ -384,8 +385,8 @@ class Game {
         statistic.playerMode = currentGameMode
         statistic.numTurns = turnNumber()
         statistic.note = note
-        statistic.season = Database.currentSeason
-        statistic.opponentRank = opponentRank
+        statistic.season.value = Database.currentSeason
+        statistic.opponentRank.value = opponentRank
         let startTime: Date
         if let gameStartDate = gameStartDate {
             startTime = gameStartDate
@@ -401,15 +402,19 @@ class Game {
         }
         
         statistic.duration = Int(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970)
-        var cards = [String: Int]()
         opponent.displayRevealedCards.forEach({
-            cards[$0.id] = $0.count
+            statistic.cards.append(RealmCard(id: $0.id, count: $0.count))
         })
-        statistic.cards = cards
         
         if let deck = activeDeck {
-            deck.add(statistic: statistic)
-            Decks.instance.update(deck: deck)
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    deck.statistics.append(statistic)
+                }
+            } catch {
+                Log.error?.message("Can not update deck : \(error)")
+            }
             
             if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
                 do {

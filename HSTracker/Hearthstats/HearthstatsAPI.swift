@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import RealmSwift
 
 extension Deck {
 
@@ -16,17 +17,14 @@ extension Deck {
         self.playerClass = deck.playerClass
         self.version = deck.version
         self.creationDate = deck.creationDate
-        self.hearthstatsId = deck.hearthstatsId
-        self.hearthstatsVersionId = deck.hearthstatsVersionId
+        self.hearthstatsId.value = deck.hearthstatsId.value
+        self.hearthstatsVersionId.value = deck.hearthstatsVersionId.value
         self.isActive = deck.isActive
         self.isArena = deck.isArena
-        self.removeAllCards()
+        self.cards.removeAll()
         for card in deck.sortedCards {
-            for _ in 0...card.count {
-                self.add(card: card)
-            }
+            self.add(card: card)
         }
-        self.statistics = deck.statistics
     }
 
     static func fromHearthstatsDict(json: [String: Any]) -> Deck? {
@@ -66,10 +64,12 @@ extension Deck {
                         }
                     })
 
-                let deck = Deck(playerClass: playerClass, name: name)
+                let deck = Deck()
+                deck.playerClass = playerClass
+                deck.name = name
                 deck.creationDate = date
-                deck.hearthstatsId = hearthstatsId
-                deck.hearthstatsVersionId = hearthstatsVersionId
+                deck.hearthstatsId.value = hearthstatsId
+                deck.hearthstatsVersionId.value = hearthstatsVersionId
                 deck.isActive = !isArchived
                 deck.version = version
                 cards.forEach({ deck.add(card: $0) })
@@ -86,41 +86,52 @@ extension Deck {
 
 extension Decks {
 
-    func by(hearthstatsId id: Int) -> Deck? {
-        return decks().filter({ $0.hearthstatsId == id }).first
-    }
-
     func addOrUpdateMatches(dict: [String: Any]) {
-        if let existing = decks()
-            .filter({ $0.hearthstatsId == (dict["deck_id"] as? Int)
-                && $0.hearthstatsVersionId == (dict["deck_version_id"] as? Int) }).first {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-            
-            if let dictMatch = dict["match"] as? [String: Any],
-                let resultId = dictMatch["result_id"] as? Int,
-                let result = HearthstatsAPI.gameResults[resultId],
-                let coin = dictMatch["coin"] as? Bool,
-                let classId = dictMatch["oppclass_id"] as? Int,
-                let opponentClass = HearthstatsAPI.heroes[classId],
-                let opponentName = dictMatch["oppname"] as? String,
-                let playerRank = dict["ranklvl"] as? Int,
-                let mode = dictMatch["mode_id"] as? Int,
-                let playerMode = HearthstatsAPI.gameModes[mode],
-                let date = dictMatch["created_at"] as? String,
-                let creationDate = formatter.date(from: date) {
-                
-                let stat = Statistic()
-                stat.gameResult = result
-                stat.hasCoin = coin
-                stat.opponentClass = opponentClass
-                stat.opponentName = opponentName
-                stat.playerRank = playerRank
-                stat.playerMode = playerMode
-                stat.date = creationDate
-                
-                existing.add(statistic: stat)
-                update(deck: existing)
+        var drealm: Realm?
+        do {
+            drealm = try Realm()
+        } catch {
+            Log.error?.message("Can not save match")
+        }
+
+        guard let realm = drealm else { return }
+        guard let deckId = dict["deck_id"] as? Int,
+            let deckVersionId = dict["deck_version_id"] as? Int else { return }
+
+        guard let existing = realm.objects(Deck.self).filter("hearthstatsId = \(deckId) and "
+            + "hearthstatsVersionId = \(deckVersionId)").first else { return }
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
+        if let dictMatch = dict["match"] as? [String: Any],
+            let resultId = dictMatch["result_id"] as? Int,
+            let result = HearthstatsAPI.gameResults[resultId],
+            let coin = dictMatch["coin"] as? Bool,
+            let classId = dictMatch["oppclass_id"] as? Int,
+            let opponentClass = HearthstatsAPI.heroes[classId],
+            let opponentName = dictMatch["oppname"] as? String,
+            let playerRank = dict["ranklvl"] as? Int,
+            let mode = dictMatch["mode_id"] as? Int,
+            let playerMode = HearthstatsAPI.gameModes[mode],
+            let date = dictMatch["created_at"] as? String,
+            let creationDate = formatter.date(from: date) {
+
+            let stat = Statistic()
+            stat.gameResult = result
+            stat.hasCoin = coin
+            stat.opponentClass = opponentClass
+            stat.opponentName = opponentName
+            stat.playerRank = playerRank
+            stat.playerMode = playerMode
+            stat.date = creationDate
+
+            do {
+                try realm.write {
+                    existing.statistics.append(stat)
+                }
+            } catch {
+                Log.error?.message("Can not add statistic : \(error)")
             }
         }
     }
@@ -218,12 +229,21 @@ struct HearthstatsAPI {
                         (json["data"] as? [[String: Any]])?.forEach({
                             newDecks += 1
                             if let deck = Deck.fromHearthstatsDict(json: $0),
-                                let hearthstatsId = deck.hearthstatsId {
-                                if let existing = Decks.instance.by(hearthstatsId: hearthstatsId) {
-                                    existing.merge(deck)
-                                    Decks.instance.update(deck: existing)
-                                } else {
-                                    Decks.instance.add(deck: deck)
+                                let hearthstatsId = deck.hearthstatsId.value {
+                                do {
+                                    let realm = try Realm()
+                                    if let existing = realm.objects(Deck.self)
+                                        .filter("hearthstatsId = \(hearthstatsId)").first {
+                                        try realm.write {
+                                            existing.merge(deck)
+                                        }
+                                    } else {
+                                        try realm.write {
+                                            realm.add(deck)
+                                        }
+                                    }
+                                } catch {
+                                    Log.error?.message("Can not update deck : \(error)")
                                 }
                             }
                         })
@@ -243,7 +263,7 @@ struct HearthstatsAPI {
         let http = Http(url: "\(baseUrl)/decks?auth_token=\(settings.hearthstatsToken!)")
         http.json(method: .post,
                   parameters: [
-                    "name": deck.name ?? "",
+                    "name": deck.name,
                     "tags": [],
                     "notes": "",
                     "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
@@ -256,10 +276,16 @@ struct HearthstatsAPI {
                 let hearthstatsId = jsonDeck["id"] as? Int,
                 let deckVersions = data["deck_versions"] as? [[String: Any]],
                 let hearthstatsVersionId = deckVersions.first?["id"] as? Int {
-                deck.hearthstatsId = hearthstatsId
-                deck.hearthstatsVersionId = hearthstatsVersionId
-                callback(true)
-                return
+                do {
+                    try deck.realm?.write {
+                        deck.hearthstatsId.value = hearthstatsId
+                        deck.hearthstatsVersionId.value = hearthstatsVersionId
+                    }
+                    callback(true)
+                } catch {
+                    Log.error?.message("Can not update deck : \(error)")
+                    callback(false)
+                }
             } else {
                 callback(false)
             }
@@ -273,8 +299,8 @@ struct HearthstatsAPI {
         let http = Http(url: "\(baseUrl)/decks/edit?auth_token=\(settings.hearthstatsToken!)")
         http.json(method: .post,
                   parameters: [
-                    "deck_id": deck.hearthstatsId!,
-                    "name": deck.name ?? "",
+                    "deck_id": deck.hearthstatsId.value!,
+                    "name": deck.name,
                     "tags": [],
                     "notes": "",
                     "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
@@ -297,7 +323,7 @@ struct HearthstatsAPI {
             "\(baseUrl)/decks/create_version?auth_token=\(settings.hearthstatsToken!)")
         http.json(method: .post,
                   parameters: [
-                    "deck_id": deck.hearthstatsId!,
+                    "deck_id": deck.hearthstatsId.value!,
                     "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
                     "version": deck.version
         ]) { json in
@@ -305,8 +331,15 @@ struct HearthstatsAPI {
                 let data = json["data"] as? [String: AnyObject],
                 let hearthstatsVersionId = data["id"] as? Int {
                 Log.debug?.message("post deck version : \(json)")
-                deck.hearthstatsVersionId = hearthstatsVersionId
-                callback(true)
+                do {
+                    try deck.realm?.write {
+                        deck.hearthstatsVersionId.value = hearthstatsVersionId
+                    }
+                    callback(true)
+                } catch {
+                    Log.error?.message("Can not udpdate deck : \(error)")
+                    callback(false)
+                }
             } else {
                 callback(false)
             }
@@ -319,7 +352,7 @@ struct HearthstatsAPI {
 
         let http = Http(url: "\(baseUrl)/decks/delete?auth_token=\(settings.hearthstatsToken!)")
         http.json(method: .post,
-                  parameters: ["deck_id": "[\(deck.hearthstatsId!)]"]) { json in
+                  parameters: ["deck_id": "[\(deck.hearthstatsId.value!)]"]) { json in
                     if let json = json {
                         Log.debug?.message("delete deck : \(json)")
                         return
@@ -357,8 +390,9 @@ struct HearthstatsAPI {
         guard let hearthstatsToken = settings.hearthstatsToken else {
             throw HearthstatsError.notLogged
         }
-        guard let hearthstatsId = deck.hearthstatsId else { throw HearthstatsError.deckNotSaved }
-        guard let hearthstatsVersionId = deck.hearthstatsVersionId else {
+        guard let hearthstatsId = deck.hearthstatsId.value else {
+            throw HearthstatsError.deckNotSaved }
+        guard let hearthstatsVersionId = deck.hearthstatsVersionId.value else {
             throw HearthstatsError.deckNotSaved
         }
 
@@ -384,7 +418,7 @@ struct HearthstatsAPI {
             "deck_version_id": hearthstatsVersionId,
             "oppclass": stat.opponentClass.rawValue.capitalized,
             "oppname": stat.opponentName,
-            "notes": stat.note ?? "",
+            "notes": stat.note,
             "ranklvl": stat.playerRank,
             "oppcards": stat.cards,
             "created_at": startAt
@@ -404,7 +438,7 @@ struct HearthstatsAPI {
     static func postArenaMatch(game: Game, deck: Deck, stat: Statistic) throws {
         guard let _ = Settings.instance.hearthstatsToken else { throw HearthstatsError.notLogged }
         
-        guard let _ = deck.hearthStatsArenaId else {
+        guard let _ = deck.hearthStatsArenaId.value else {
             createArenaRun(game: game, deck: deck, stat: stat)
             return
         }
@@ -420,7 +454,7 @@ struct HearthstatsAPI {
             "coin": "\(stat.hasCoin)",
             "numturns": stat.numTurns,
             "duration": stat.duration,
-            "arena_run_id": deck.hearthStatsArenaId!,
+            "arena_run_id": deck.hearthStatsArenaId.value!,
             "oppclass": stat.opponentClass.rawValue.capitalized,
             "oppname": stat.opponentName,
             ]
@@ -448,7 +482,15 @@ struct HearthstatsAPI {
                     if let json = json as? [String: Any],
                         let data = json["data"] as? [String: Any],
                         let hearthStatsArenaId = data["id"] as? Int {
-                        deck.hearthStatsArenaId = hearthStatsArenaId
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                deck.hearthStatsArenaId.value = hearthStatsArenaId
+                            }
+                        } catch {
+                            Log.error?.message("Can not set hearthstatsArenaId on deck. "
+                                + "Error: \(error)")
+                        }
                         Log.debug?.message("Arena run : \(hearthStatsArenaId)")
 
                         _postArenaMatch(game: game, deck: deck, stat: stat)

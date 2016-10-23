@@ -42,6 +42,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
     var currentDeck: Deck?
+    var cards: [Card] = []
     var currentPlayerClass: CardClass?
     var currentSet: [CardSet] = []
     var selectedClass: CardClass?
@@ -70,6 +71,13 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func set(deck: Deck) {
         currentDeck = deck
+        cards = deck.cards.flatMap {
+            if let card = Cards.by(cardId: $0.id) {
+                card.count = $0.count
+                return card
+            }
+            return nil
+        }
         isSaved = true
     }
 
@@ -108,8 +116,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         loadRarities()
         loadRaces()
 
-        if let deck = self.currentDeck,
-            let name = deck.name {
+        if let deck = self.currentDeck {
+            let name = deck.name
             let playerClass = deck.playerClass.rawValue.lowercased()
             self.window?.title = "\(NSLocalizedString(playerClass, comment: ""))"
                 + " - \(name)"
@@ -212,9 +220,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     func countCards() {
-        if let count = currentDeck?.countCards() {
-            countLabel.stringValue = "\(count) / 30"
-        }
+        let count = cards.countCards()
+        countLabel.stringValue = "\(count) / 30"
     }
 
     func updateTheme(_ notification: Notification) {
@@ -234,13 +241,13 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     @IBAction func clickCard(_ sender: NSTableView) {
         guard sender.clickedRow >= 0 else { return }
-        let card = currentDeck!.sortedCards[sender.clickedRow]
+        let card = cards.sortCardList()[sender.clickedRow]
         
         undoCardAdd(card)
     }
 
     func addCardToDeck(_ card: Card) {
-        let deckCard = currentDeck!.sortedCards.filter({ $0.id == card.id }).first
+        let deckCard = cards.filter({ $0.id == card.id }).first
 
         if deckCard == nil || currentDeck!.isArena ||
             (deckCard!.count == 1 && card.rarity != .legendary) {
@@ -252,8 +259,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     // MARK: - Undo/Redo
     func undoCardAdd(_ card: AnyObject) {
         if let c = card as? Card {
-            deckUndoManager?.registerUndo(
-                withTarget: self, selector: #selector(EditDeck.redoCardAdd(_:)), object: card)
+            deckUndoManager?.registerUndo(withTarget: self,
+                                          selector: #selector(redoCardAdd(_:)),
+                                          object: card)
             
             if deckUndoManager?.isUndoing == true {
                 deckUndoManager?.setActionName(NSLocalizedString("Add Card", comment: ""))
@@ -261,7 +269,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 deckUndoManager?.setActionName(NSLocalizedString("Remove Card", comment: ""))
             }
             
-            currentDeck?.remove(card: c)
+            remove(card: c)
             curveView.reload()
             deckCardsView.reloadData()
             cardsCollectionView.reloadData()
@@ -272,21 +280,42 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     
     func redoCardAdd(_ card: AnyObject) {
         if let c = card as? Card {
-            deckUndoManager?.registerUndo(
-                withTarget: self, selector: #selector(EditDeck.undoCardAdd(_:)), object: card)
+            deckUndoManager?.registerUndo(withTarget: self,
+                                          selector: #selector(undoCardAdd(_:)),
+                                          object: card)
             
             if deckUndoManager?.isUndoing == true {
                 deckUndoManager?.setActionName(NSLocalizedString("Remove Card", comment: ""))
             } else {
                 deckUndoManager?.setActionName(NSLocalizedString("Add Card", comment: ""))
             }
-            
-            currentDeck?.add(card: c)
+
+            add(card: c)
             curveView.reload()
             deckCardsView.reloadData()
             cardsCollectionView.reloadData()
             countCards()
             isSaved = false
+        }
+    }
+
+    func add(card: Card) {
+        if card.count == 0 {
+            card.count = 1
+        }
+
+        if let c = cards.first({ $0.id == card.id }) {
+            c.count = c.count + 1
+        } else {
+            cards.append(card)
+        }
+    }
+
+    func remove(card: Card) {
+        guard let c = cards.first({ $0.id == card.id }) else { return }
+        c.count = c.count - 1
+        if c.count == 0 {
+            cards.remove(c)
         }
     }
 
@@ -438,6 +467,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let saveDeck = saveDeck {
             saveDeck.setDelegate(self)
             saveDeck.deck = currentDeck
+            saveDeck.cards = cards
             self.window!.beginSheet(saveDeck.window!, completionHandler: nil)
         }
     }
@@ -447,44 +477,36 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     @IBAction func delete(_ sender: AnyObject?) {
-        var alert = NSAlert()
-        alert.alertStyle = .informational
-        // swiftlint:disable line_length
-        alert.messageText = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
-        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        alert.beginSheetModal(for: self.window!, completionHandler: { (returnCode) in
-            if returnCode == NSAlertFirstButtonReturn {
-                if let _ = self.currentDeck!.hearthstatsId, HearthstatsAPI.isLogged() {
-                    if Settings.instance.hearthstatsAutoSynchronize {
+        let msg = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
+        NSAlert.show(style: .informational, message: msg, window: self.window!) {
+            if let _ = self.currentDeck!.hearthstatsId.value, HearthstatsAPI.isLogged() {
+                if Settings.instance.hearthstatsAutoSynchronize {
+                    do {
+                        try HearthstatsAPI.delete(deck: self.currentDeck!)
+                    } catch {}
+                } else {
+                    let msg = NSLocalizedString("Do you want to delete the deck on Hearthstats ?",
+                                                comment: "")
+                    NSAlert.show(style: .informational, message: msg, window: self.window) {
                         do {
                             try HearthstatsAPI.delete(deck: self.currentDeck!)
-                        } catch {}
-                    } else {
-                        alert = NSAlert()
-                        alert.alertStyle = .informational
-                        alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
-                        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-                        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-                        alert.beginSheetModal(for: self.window!,
-                                                       completionHandler: { (response) in
-                                                        if response == NSAlertFirstButtonReturn {
-                                                            do {
-                                                                try HearthstatsAPI.delete(deck: self.currentDeck!)
-                                                            } catch {
-                                                                // TODO alert
-                                                                print("error")
-                                                            }
-                                                        }
-                        })
+                        } catch {
+                            // TODO alert
+                            print("error")
+                        }
                     }
                 }
-                Decks.instance.remove(deck: self.currentDeck!)
-                self.isSaved = true
-                self.window?.performClose(self)
             }
-        }) 
-        // swiftlint:enable line_length
+            do {
+                try self.currentDeck!.realm?.write {
+                    self.currentDeck!.realm?.delete(self.currentDeck!)
+                }
+            } catch {
+                Log.error?.message("Can not delete deck : \(error)")
+            }
+            self.isSaved = true
+            self.window?.performClose(self)
+        }
     }
 
     // MARK: - Search
@@ -542,28 +564,16 @@ extension EditDeck: NSWindowDelegate {
             return true
         }
 
-        let alert = NSAlert()
-        alert.alertStyle = .informational
-        // swiftlint:disable line_length
-        alert.messageText = NSLocalizedString("Are you sure you want to close this deck ? Your changes will not be saved.", comment: "")
-        // swiftlint:enable line_length
-        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        if alert.runModal() == NSAlertFirstButtonReturn {
-            if let currentDeck = currentDeck {
-                Decks.instance.reset(deck: currentDeck)
-            }
-            delegate?.refreshDecks()
-            return true
-        }
-        return false
+        let msg = NSLocalizedString("Are you sure you want to close this deck ? "
+            + "Your changes will not be saved.", comment: "")
+        return NSAlert.show(style: .informational, message: msg)
     }
 }
 
 // MARK: - NSTableViewDataSource
 extension EditDeck: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return currentDeck!.sortedCards.count
+        return cards.count
     }
 }
 
@@ -573,7 +583,7 @@ extension EditDeck: NSTableViewDelegate {
                    viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = CardBar.factory()
         cell.playerType = .deckManager
-        cell.card = currentDeck!.sortedCards[row]
+        cell.card = cards.sortCardList()[row]
         return cell
     }
 
@@ -593,7 +603,7 @@ extension EditDeck: JNWCollectionViewDataSource {
             cell.showCard = settings.deckManagerPreferCards
             cell.set(card: card)
             var count: Int = 0
-            if let deckCard = currentDeck!.sortedCards.firstWhere({ $0.id == card.id }) {
+            if let deckCard = cards.sortCardList().firstWhere({ $0.id == card.id }) {
                 count = deckCard.count
             }
             cell.isArena = currentDeck!.isArena
@@ -629,10 +639,10 @@ extension EditDeck: JNWCollectionViewDelegate {
 
     func collectionView(_ collectionView: JNWCollectionView!,
                         mouseUpInItemAt indexPath: IndexPath!) {
-        if currentDeck!.countCards() == 30 {
+        if cards.countCards() == 30 {
             return
         }
-        if let cell: CardCell = collectionView.cellForItem(at: indexPath) as? CardCell,
+        if let cell = collectionView.cellForItem(at: indexPath) as? CardCell,
             let card = cell.card {
             addCardToDeck(card)
         }

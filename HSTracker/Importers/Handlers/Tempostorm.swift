@@ -43,7 +43,7 @@ struct Tempostorm: JsonImporter {
         }
     }
 
-    func loadDeck(json: Any, url: String) -> Deck? {
+    func loadDeck(json: Any, url: String) -> (Deck, [Card])? {
         guard let json = json as? [String: Any] else {
             Log.error?.message("invalid json")
             return nil
@@ -61,7 +61,9 @@ struct Tempostorm: JsonImporter {
         }
         Log.verbose?.message("Got deck name \(deckName)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
         let gameModeType = json["gameModeType"] as? String ?? "constructed"
         deck.isArena = gameModeType == "arena"
 
@@ -69,6 +71,7 @@ struct Tempostorm: JsonImporter {
             Log.error?.message("Card list not found")
             return nil
         }
+        var cards: [Card] = []
         for jsonCard: [String: AnyObject] in jsonCards {
             if let cardData = jsonCard["card"] as? [String: AnyObject],
                 let name = cardData["name"] as? String,
@@ -76,9 +79,9 @@ struct Tempostorm: JsonImporter {
                 let count = jsonCard["cardQuantity"] as? Int {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.add(card: card)
+                cards.append(card)
             }
         }
-        return deck
+        return (deck, cards)
     }
 }

@@ -7,77 +7,42 @@
 //
 
 import Foundation
-import Unbox
-import Wrap
+import RealmSwift
 
-final class Statistic {
-    var gameResult: GameResult = .unknow
-    var hasCoin = false
-    var opponentClass: CardClass = .neutral
-    var opponentRank: Int?
-    var opponentLegendRank: Int?
-    var opponentName = ""
-    var legendRank: Int?
-    var playerRank = 0
-    var playerMode: GameMode = .none
-    var numTurns = 0
-    var date: Date?
-    var cards: [String: Int] = [:]
-    var duration = 0
-    var note: String? = ""
-    var season: Int?
-    var hsReplayId: String?
-    var deck: Deck?
+class Statistic: Object {
 
-    init() {
-        date = Date()
+    private dynamic var _gameResult = GameResult.unknow.rawValue
+    var gameResult: GameResult {
+        get { return GameResult(rawValue: _gameResult)! }
+        set { _gameResult = newValue.rawValue }
     }
-}
 
-extension Statistic: Unboxable {
-    convenience init(unboxer: Unboxer) throws {
-        self.init()
+    dynamic var hasCoin = false
 
-        self.gameResult = try unboxer.unbox(key: "gameResult")
-        self.hasCoin = try unboxer.unbox(key: "hasCoin")
-        do {
-        let cardClass: CardClass = try unboxer.unbox(key: "opponentClass")
-            self.opponentClass = cardClass
-        } catch {
-            let opponentClass: String = try unboxer.unbox(key: "opponentClass")
-            self.opponentClass = CardClass(rawValue: opponentClass.lowercased()) ?? .neutral
-        }
-        
-        self.opponentName = try unboxer.unbox(key: "opponentName")
-        self.opponentRank = unboxer.unbox(key: "opponentRank")
-        self.opponentLegendRank = unboxer.unbox(key: "opponentLegendRank")
-        self.playerRank = try unboxer.unbox(key: "playerRank")
-        self.legendRank = unboxer.unbox(key: "legendRank")
-        self.playerMode = try unboxer.unbox(key: "playerMode")
-        self.numTurns = try unboxer.unbox(key: "numTurns")
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
-        self.date = unboxer.unbox(key: "date", formatter: dateFormatter)
-        if self.date == nil {
-            // support old version
-            self.date = Date(timeIntervalSince1970: try unboxer.unbox(key: "date"))
-        }
-        self.cards = try unboxer.unbox(key: "cards")
-        self.duration = try unboxer.unbox(key: "duration")
-        self.note = unboxer.unbox(key: "note")
-        self.season = unboxer.unbox(key: "season")
-        if let date = self.date, self.season == nil {
-            self.season = (date.year - 2014) * 12 - 3 + date.month
-        }
-        self.hsReplayId = unboxer.unbox(key: "hsReplayId")
+    private dynamic var _opponentClass = CardClass.neutral.rawValue
+    var opponentClass: CardClass {
+        get { return CardClass(rawValue: _opponentClass)! }
+        set { _opponentClass = newValue.rawValue }
     }
-}
+    var opponentRank = RealmOptional<Int>()
+    var opponentLegendRank = RealmOptional<Int>()
+    dynamic var opponentName = ""
+    var legendRank = RealmOptional<Int>()
+    dynamic var playerRank = 0
 
-extension Statistic: WrapCustomizable {
-    func keyForWrapping(propertyNamed propertyName: String) -> String? {
-        if propertyName == "deck" {
-            return nil
-        }
-        return propertyName
+    private dynamic var _playerMode = GameMode.none.rawValue
+    var playerMode: GameMode {
+        get { return GameMode(rawValue: _playerMode)! }
+        set { _playerMode = newValue.rawValue }
     }
+
+    dynamic var numTurns = 0
+    dynamic var date = Date()
+    let cards = List<RealmCard>()
+    dynamic var duration = 0
+    dynamic var note = ""
+    var season = RealmOptional<Int>()
+    dynamic var hsReplayId: String? = nil
+    
+    let deck = LinkingObjects(fromType: Deck.self, property: "statistics")
 }
