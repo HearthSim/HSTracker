@@ -225,7 +225,6 @@ final class Hearthstone: NSObject {
             Log.verbose?.message("Hearthstone is now launched")
             self.startTracking()
             SizeHelper.hearthstoneWindow.reload()
-            Game.instance.hearthstoneIsActive(active: true)
             NotificationCenter.default.post(name:
                 Notification.Name(rawValue: "hearthstone_running"), object: nil)
             AppHealth.instance.setHearthstoneRunning(flag: true)
@@ -237,7 +236,6 @@ final class Hearthstone: NSObject {
             app.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now closed")
             self.stopTracking()
-            Game.instance.hearthstoneIsActive(active: false)
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: "hearthstone_closed"), object: nil)
             AppHealth.instance.setHearthstoneRunning(flag: false)
