@@ -222,6 +222,7 @@ class Game {
         isInMenu = false
 
         Log.info?.message("----- Game Started -----")
+        AppHealth.instance.setHearthstoneGameRunning(flag: true)
 
         showNotification(type: .gameStart)
 
@@ -271,6 +272,7 @@ class Game {
 
     func gameEnd() {
         Log.info?.message("----- Game End -----")
+        AppHealth.instance.setHearthstoneGameRunning(flag: false)
         gameStarted = false
         gameEndDate = Date()
 
