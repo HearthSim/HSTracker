@@ -37,7 +37,9 @@ final class Hearthstone: NSObject {
 
     static func validatedHearthstonePath() -> Bool {
         let path = "\(Settings.instance.hearthstoneLogPath)/Hearthstone.app"
-        return FileManager.default.fileExists(atPath: path)
+        let exists = FileManager.default.fileExists(atPath: path)
+        AppHealth.instance.setHSInstalled(flag: exists)
+        return exists
     }
 
     // MARK: - Initialisation
@@ -65,6 +67,7 @@ final class Hearthstone: NSObject {
                                                       withIntermediateDirectories: true,
                                                       attributes: nil)
             } catch let error as NSError {
+                AppHealth.instance.setLoggerWorks(flag: false)
                 Log.error?.message("\(error.description)")
                 throw HearthstoneLogError.canNotCreateDir
             }
@@ -166,9 +169,11 @@ final class Hearthstone: NSObject {
             }
 
             if isHearthstoneRunning {
+                AppHealth.instance.setLoggerWorks(flag: false)
                 return false
             }
         }
+        AppHealth.instance.setLoggerWorks(flag: true)
 
         return true
     }
@@ -220,8 +225,10 @@ final class Hearthstone: NSObject {
             Log.verbose?.message("Hearthstone is now launched")
             self.startTracking()
             SizeHelper.hearthstoneWindow.reload()
-            NotificationCenter.default
-                .post(name: Notification.Name(rawValue: "hearthstone_running"), object: nil)
+            Game.instance.hearthstoneIsActive(active: true)
+            NotificationCenter.default.post(name:
+                Notification.Name(rawValue: "hearthstone_running"), object: nil)
+            AppHealth.instance.setHearthstoneRunning(flag: true)
         }
     }
 
@@ -230,8 +237,10 @@ final class Hearthstone: NSObject {
             app.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now closed")
             self.stopTracking()
+            Game.instance.hearthstoneIsActive(active: false)
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: "hearthstone_closed"), object: nil)
+            AppHealth.instance.setHearthstoneRunning(flag: false)
 
             if Settings.instance.quitWhenHearthstoneCloses {
                 NSApplication.shared().terminate(self)
@@ -246,6 +255,7 @@ final class Hearthstone: NSObject {
             app.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now active")
             self.hearthstoneActive = true
+            AppHealth.instance.setHearthstoneRunning(flag: true)
             SizeHelper.hearthstoneWindow.reload()
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: "hearthstone_active"), object: nil)

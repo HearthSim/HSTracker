@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
 		340A15041D0939380012CA44 /* Draft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340A15031D0939380012CA44 /* Draft.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
 		4305CA3E1CF42AC70048E7EC /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3C1CF42AC60048E7EC /* Unbox.framework */; };
@@ -380,6 +381,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1C132F811DBA24C1002B1BF2 /* AppHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppHealth.swift; sourceTree = "<group>"; };
 		340A15031D0939380012CA44 /* Draft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Draft.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
 		4305CA3C1CF42AC60048E7EC /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/Mac/Unbox.framework; sourceTree = "<group>"; };
@@ -1142,6 +1144,7 @@
 				432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */,
 				4359BF931D52142D00F61993 /* PlayedCard.swift */,
 				439DD8F31DB23212004EBE47 /* PlayerTurn.swift */,
+				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1702,6 +1705,7 @@
 				434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageUtils.swift in Sources */,
 				431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */,
+				1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
