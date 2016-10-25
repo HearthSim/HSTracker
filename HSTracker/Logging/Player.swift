@@ -259,7 +259,9 @@ final class Player {
     }
 
     func getHighlightedCardsInHand(cardsInDeck: [Card]) -> [Card] {
-        return Game.instance.activeDeck!.sortedCards.filter({ (c) -> Bool in
+        guard let deck = Game.instance.currentDeck else { return [] }
+
+        return deck.cards.filter({ (c) -> Bool in
             cardsInDeck.all({ $0.id != c.id }) && hand.any({ $0.cardId == c.id })
         })
             .map { g -> Card in
@@ -267,13 +269,13 @@ final class Player {
                 card.count = 0
                 card.highlightInHand = true
                 return card
-            }
+        }
     }
 
     var playerCardList: [Card] {
         let settings = Settings.instance
         let createdInHand = settings.showPlayerGet ? createdCardsInHand : [Card]()
-        if Game.instance.activeDeck == nil {
+        if Game.instance.currentDeck == nil {
             return (revealedCards + createdInHand
                 + knownCardsInDeck + predictedCardsInDeck).sortCardList()
         }
@@ -361,10 +363,13 @@ final class Player {
             .filter { $0 != nil }
             .map { $0! }
 
-        var originalCardsInDeck: [String] = Game.instance.activeDeck!.sortedCards.flatMap {
+        var originalCardsInDeck: [String] = []
+        if let deck = Game.instance.currentDeck {
+            originalCardsInDeck = deck.cards.flatMap {
                 Array(repeating: $0.id, count: $0.count)
-            }
-            .map({ $0 })
+                }
+                .map({ $0 })
+        }
 
         let revealedNotInDeck = revealedEntities.filter {
             !$0.info.created && ($0.isSpell || $0.isWeapon || $0.isMinion)

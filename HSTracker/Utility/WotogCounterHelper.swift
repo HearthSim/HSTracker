@@ -97,6 +97,6 @@ class WotogCounterHelper {
     }
 
     private static func deckContains(cardId: String) -> Bool? {
-        return Game.instance.activeDeck?.sortedCards.any({ $0.id == cardId })
+        return Game.instance.currentDeck?.cards.any({ $0.id == cardId })
     }
 }

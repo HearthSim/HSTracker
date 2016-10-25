@@ -12,7 +12,7 @@ extension NSAlert {
     @discardableResult
     class func show(style: NSAlertStyle, message: String,
                     accessoryView: NSView? = nil, window: NSWindow? = nil,
-                    completion: (()->())? = nil) -> Bool {
+                    forceFront: Bool? = false, completion: (()->())? = nil) -> Bool {
         let alert = NSAlert()
         alert.alertStyle = style
         alert.messageText = message
@@ -21,6 +21,12 @@ extension NSAlert {
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         }
         alert.accessoryView = accessoryView
+
+        if let forceFront = forceFront, forceFront {
+            NSRunningApplication.current().activate(options: [
+                .activateAllWindows, .activateIgnoringOtherApps])
+            NSApp.activate(ignoringOtherApps: true)
+        }
 
         if let window = window {
             alert.beginSheetModal(for: window) { (returnCode) in

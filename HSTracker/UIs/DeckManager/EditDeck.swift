@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import RealmSwift
 
 class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
@@ -498,8 +499,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 }
             }
             do {
-                try self.currentDeck!.realm?.write {
-                    self.currentDeck!.realm?.delete(self.currentDeck!)
+                let realm = try Realm()
+                try realm.write {
+                    realm.delete(self.currentDeck!)
                 }
             } catch {
                 Log.error?.message("Can not delete deck : \(error)")

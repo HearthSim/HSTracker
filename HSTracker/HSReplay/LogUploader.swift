@@ -11,6 +11,7 @@ import CleanroomLogger
 import Wrap
 import ZipArchive
 import Gzip
+import RealmSwift
 
 class LogUploader {
     private static var inProgress: [UploaderItem] = []
@@ -138,7 +139,7 @@ class LogUploader {
         }
         
         inProgress.append(item)
-        
+
         do {
             let uploadMetaData = UploadMetaData(log: logLines,
                                                 game: game,
@@ -158,6 +159,11 @@ class LogUploader {
                 "X-Api-Key": HSReplayAPI.apiKey,
                 "Authorization": "Token \(token)"
             ]
+
+            var statId: String?
+            if let stat = statistic {
+                statId = stat.statId
+            }
 
             let http = Http(url: HSReplay.uploadRequestUrl)
             http.json(method: .post,
@@ -183,10 +189,14 @@ class LogUploader {
                                 }
                             }
 
-                            if let statistic = statistic {
+                            if let statId = statId {
                                 do {
-                                    try statistic.realm?.write {
-                                        statistic.hsReplayId = uploadShortId
+                                    let realm = try Realm()
+                                    if let existing = realm.objects(Statistic.self)
+                                        .filter("statId = \(statId)").first {
+                                        try realm.write {
+                                            existing.hsReplayId = uploadShortId
+                                        }
                                     }
                                 } catch {
                                     Log.error?.message("Can not update statistic : \(error)")

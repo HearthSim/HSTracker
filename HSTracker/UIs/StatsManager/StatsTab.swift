@@ -18,7 +18,7 @@ class StatsTab: NSViewController {
     
     var statsTableItems = [StatsTableRow]()
     
-    let modePickerItems: [GameMode] = [.all, .ranked, .casual, .brawl, .arena, .friendly]
+    let modePickerItems: [GameMode] = [.all, .ranked, .casual, .brawl, .arena, .friendly, .practice]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,6 @@ class StatsTab: NSViewController {
         
         seasonPicker.addItem(withTitle: NSLocalizedString("all_seasons", comment: ""))
         if let deck = self.deck {
-            
             let seasons = Array(deck.statistics).flatMap({ $0.season.value })
                 .sorted().reversed()
             for season in seasons {

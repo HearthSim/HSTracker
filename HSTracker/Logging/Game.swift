@@ -12,6 +12,14 @@ import Foundation
 import CleanroomLogger
 import RealmSwift
 
+struct PlayingDeck {
+    let id: String
+    let name: String
+    let playerClass: CardClass
+    let cards: [Card]
+    let isArena: Bool
+}
+
 class Game {
     // MARK: - vars
     var currentTurn = 0
@@ -41,7 +49,9 @@ class Game {
     var gameEndDate: Date?
     
     var lastCardPlayed: Int?
-    var activeDeck: Deck?
+
+    var currentDeck: PlayingDeck?
+
     var currentEntityId = 0
     var currentEntityHasCardId = false
     var playerUsedHeroPower = false
@@ -108,8 +118,16 @@ class Game {
         if currentGameMode != .casual && currentGameMode != .ranked {
             return nil
         }
-        if let deck = activeDeck, !deck.standardViable() {
-            return .wild
+        if let currentDeck = self.currentDeck {
+            do {
+                let realm = try Realm()
+                if let deck = realm.objects(Deck.self).filter("deckId = '\(currentDeck.id)'").first,
+                    !deck.standardViable() {
+                    return .wild
+                }
+            } catch {
+                Log.error?.message("Can not fetch deck \(error)")
+            }
         }
         return entities.map { $0.1 }
             .filter { !String.isNullOrEmpty($0.cardId)
@@ -173,10 +191,7 @@ class Game {
         opponent.reset()
 
         WindowManager.default.hideGameTrackers()
-        
-        if let activeDeck = activeDeck {
-            activeDeck.reset()
-        }
+
         Log.verbose?.message("Game resetted")
     }
 
@@ -192,13 +207,26 @@ class Game {
     }
 
     func set(activeDeck deck: Deck) {
-        self.activeDeck = deck
+        var cards: [Card] = []
+        for deckCard in deck.cards {
+            if let card = Cards.by(cardId: deckCard.id) {
+                card.count = deckCard.count
+                cards.append(card)
+            }
+        }
+        currentDeck = PlayingDeck(id: deck.deckId,
+                                  name: deck.name,
+                                  playerClass: deck.playerClass,
+                                  cards: cards.sortCardList(),
+                                  isArena: deck.isArena
+        )
+
         player.reset(id: self.gameEnded ? true : false)
         WindowManager.default.updateTrackers(reset: true)
     }
 
     func removeActiveDeck() {
-        self.activeDeck = nil
+        currentDeck = nil
         WindowManager.default.updateTrackers(reset: true)
     }
 
@@ -304,7 +332,7 @@ class Game {
         guard !endGameStats else { return }
         endGameStats = true
         
-        guard currentGameMode != .practice && currentGameMode != .none else { return }
+        guard currentGameMode != .none else { return }
 
         let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
         if let _player = _player {
@@ -342,28 +370,21 @@ class Game {
             if Settings.instance.promptNotes
                 && (currentGameMode == .ranked || currentGameMode == .casual) {
                 DispatchQueue.main.async { [weak self] in
-                    let alert = NSAlert()
-                    alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-                    alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-                    let message = "Do you want to add some notes for this game ?"
-                    alert.informativeText = NSLocalizedString(message, comment: "")
-                    alert.alertStyle = .informational
+                    let message = NSLocalizedString("Do you want to add some notes for this game ?",
+                                                    comment: "")
                     let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
                     let input = NSTextView(frame: frame)
-                    alert.accessoryView = input
-                    NSRunningApplication.current().activate(options: [
-                        NSApplicationActivationOptions.activateAllWindows,
-                        NSApplicationActivationOptions.activateIgnoringOtherApps])
-                    NSApp.activate(ignoringOtherApps: true)
-                    if alert.runModal() == NSAlertFirstButtonReturn {
+
+                    if NSAlert.show(style: .informational, message: message,
+                                    accessoryView: input, forceFront: true) {
                         note = input.string ?? ""
+                        self?.saveMatch(rank: currentRank,
+                                        note: note,
+                                        playerClass: playerClass,
+                                        opponentName: opponentName,
+                                        opponentClass: opponentClass,
+                                        opponentRank: opponentRank)
                     }
-                    self?.saveMatch(rank: currentRank,
-                                   note: note,
-                                   playerClass: playerClass,
-                                   opponentName: opponentName,
-                                   opponentClass: opponentClass,
-                                   opponentRank: opponentRank)
                 }
             } else {
                 saveMatch(rank: currentRank,
@@ -375,80 +396,111 @@ class Game {
             }
         }
     }
-    
+
     private func saveMatch(rank: Int, note: String, playerClass: CardClass,
                            opponentName: String, opponentClass: CardClass, opponentRank: Int) {
-        let statistic = Statistic()
-        statistic.opponentName = opponentName
-        statistic.opponentClass = opponentClass
-        statistic.gameResult = gameResult
-        statistic.hasCoin = hasCoin
-        statistic.playerRank = rank
-        statistic.playerMode = currentGameMode
-        statistic.numTurns = turnNumber()
-        statistic.note = note
-        statistic.season.value = Database.currentSeason
-        statistic.opponentRank.value = opponentRank
-        let startTime: Date
-        if let gameStartDate = gameStartDate {
-            startTime = gameStartDate
-        } else {
-            startTime = Date()
+        guard let currentDeck = self.currentDeck else {
+            Log.info?.message("No deck, ignore statistic")
+            return
         }
-        
-        let endTime: Date
-        if let gameEndDate = gameEndDate {
-            endTime = gameEndDate
-        } else {
-            endTime = Date()
-        }
-        
-        statistic.duration = Int(endTime.timeIntervalSince1970 - startTime.timeIntervalSince1970)
-        opponent.displayRevealedCards.forEach({
-            statistic.cards.append(RealmCard(id: $0.id, count: $0.count))
-        })
-        
-        if let deck = activeDeck {
+
+        DispatchQueue.main.async { [weak self] in
+            guard let strong = self else { return }
             do {
                 let realm = try Realm()
+                guard let deck = realm.objects(Deck.self)
+                    .filter("deckId = '\(currentDeck.id)'").first else {
+                        Log.error?.message("Can not get deck")
+                        return
+                }
+
+                let statistic = Statistic()
+                statistic.opponentName = opponentName
+                statistic.opponentClass = opponentClass
+                statistic.gameResult = strong.gameResult
+                statistic.hasCoin = strong.hasCoin
+                statistic.playerRank = rank
+                statistic.playerMode = strong.currentGameMode
+                statistic.numTurns = strong.turnNumber()
+                statistic.note = note
+                statistic.season.value = Database.currentSeason
+                statistic.opponentRank.value = opponentRank
+                let startTime: Date
+                if let gameStartDate = strong.gameStartDate {
+                    startTime = gameStartDate
+                } else {
+                    startTime = Date()
+                }
+
+                let endTime: Date
+                if let gameEndDate = strong.gameEndDate {
+                    endTime = gameEndDate
+                } else {
+                    endTime = Date()
+                }
+
+                statistic.duration = Int(endTime.timeIntervalSince1970
+                    - startTime.timeIntervalSince1970)
+
+                Log.info?.message("saving statistic : \(statistic)")
+
                 try realm.write {
+                    for card in strong.opponent.displayRevealedCards {
+                        statistic.cards.append(RealmCard(id: card.id, count: card.count))
+                    }
+                    
                     deck.statistics.append(statistic)
                 }
+                strong.syncStats(deck: deck, statistic: statistic)
             } catch {
                 Log.error?.message("Can not update deck : \(error)")
             }
-            
-            if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
-                do {
-                    if currentGameMode == .arena {
-                        try HearthstatsAPI.postArenaMatch(game: self, deck: deck, stat: statistic)
-                    } else if currentGameMode != .brawl {
-                        try HearthstatsAPI.postMatch(game: self, deck: deck, stat: statistic)
-                    }
-                } catch {
-                    Log.error?.message("Hearthstats error : \(error)")
+        }
+    }
+
+    private func syncStats(deck: Deck, statistic: Statistic) {
+        guard currentGameMode != .practice && currentGameMode != .none else {
+            Log.info?.message("Game was in \(currentGameMode), don't send to third-party")
+            return
+        }
+
+        if HearthstatsAPI.isLogged() && Settings.instance.hearthstatsSynchronizeMatches {
+            do {
+                if currentGameMode == .arena {
+                    try HearthstatsAPI.postArenaMatch(game: self,
+                                                      deck: deck,
+                                                      stat: statistic)
+                } else if currentGameMode != .brawl {
+                    try HearthstatsAPI.postMatch(game: self,
+                                                 deck: deck,
+                                                 stat: statistic)
                 }
+            } catch {
+                Log.error?.message("Hearthstats error : \(error)")
             }
         }
-        
+
         if TrackOBotAPI.isLogged() && Settings.instance.trackobotSynchronizeMatches {
             do {
-                try TrackOBotAPI.postMatch(game: self, playerClass: playerClass, stat: statistic)
+                try TrackOBotAPI.postMatch(game: self,
+                                           playerClass: deck.playerClass,
+                                           stat: statistic)
             } catch {
                 Log.error?.message("Track-o-Bot error : \(error)")
             }
         }
-        
+
         if Settings.instance.hsReplaySynchronizeMatches {
             HSReplayAPI.getUploadToken { (token) in
-                LogUploader.upload(logLines: self.powerLog, game: self,
-                                   statistic: statistic) { result in
+                LogUploader.upload(logLines: self.powerLog, game: self, statistic: statistic) {
+                    result in
                     if case UploadResult.successful(let replayId) = result {
-                        let opClass = NSLocalizedString(opponentClass.rawValue,
-                            comment: "")
+                        let opClass = NSLocalizedString(statistic.opponentClass.rawValue,
+                                                        comment: "")
+                        let opName = "\(statistic.opponentName) - \(opClass)"
                         HSReplayManager.instance.saveReplay(replayId: replayId,
-                            deck: self.activeDeck?.name ?? "",
-                            against: "\(opponentName) - \(opClass)")
+                                                            deck: deck.name,
+                                                            against: opName)
                         self.showNotification(type: .hsReplayPush(replayId: replayId))
                     }
                 }
@@ -465,10 +517,10 @@ class Game {
         }
         return 0
     }
-    
+
     func turnsInPlayChange(entity: Entity, turn: Int) {
         guard let opponentEntity = opponentEntity else { return }
-        
+
         if entity.isHero {
             let player: PlayerType = opponentEntity.isCurrentPlayer ? .opponent : .player
             if lastTurnStart[player.rawValue] >= turn {

@@ -9,6 +9,7 @@
 */
 
 import Cocoa
+import RealmSwift
 import CleanroomLogger
 
 class Tracker: OverWindowController {
@@ -239,9 +240,17 @@ class Tracker: OverWindowController {
         fatigueTracker.isHidden = !(settings.fatigueIndicator && player().fatigue > 0)
         graveyardCounter.isHidden = !showGraveyard
 
-        if let activeDeck = Game.instance.activeDeck, !recordTracker.isHidden {
-            recordTracker.message = StatsHelper.getDeckManagerRecordLabel(deck: activeDeck)
-            recordTracker.needsDisplay = true
+        if let currentDeck = Game.instance.currentDeck, !recordTracker.isHidden {
+            do {
+                let realm = try Realm()
+                if let deck = realm.objects(Deck.self)
+                    .filter("deckId = '\(currentDeck.id)'").first {
+                    recordTracker.message = StatsHelper.getDeckManagerRecordLabel(deck: deck)
+                    recordTracker.needsDisplay = true
+                }
+            } catch {
+                Log.error?.message("Can not fetch deck \(error)")
+            }
         } else {
             recordTracker.isHidden = true
         }
@@ -333,22 +342,21 @@ class Tracker: OverWindowController {
                 hero.update(highlight: false)
             }
         } else if !playerClass.isHidden && playerType == .player {
-            if let activeDeck = Game.instance.activeDeck {
-
+            if let deck = Game.instance.currentDeck {
                 offsetFrames += smallFrameHeight
-                
+
                 playerClass.frame = NSRect(x: 0,
                                            y: windowHeight - smallFrameHeight,
                                            width: windowHeight,
                                            height: smallFrameHeight)
                 startHeight += smallFrameHeight
-                
+
                 playerClass.subviews.forEach({$0.removeFromSuperview()})
                 let hero = CardBar.factory()
                 hero.playerType = .hero
-                hero.playerClassID = Cards.hero(byPlayerClass: activeDeck.playerClass)?.id
-                hero.playerName = activeDeck.name
-                
+                hero.playerClassID = Cards.hero(byPlayerClass: deck.playerClass)?.id
+                hero.playerName = deck.name
+
                 playerClass.addSubview(hero)
                 hero.frame = NSRect(x: 0, y: 0,
                                     width: windowWidth,

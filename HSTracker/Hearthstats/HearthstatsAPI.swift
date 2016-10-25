@@ -260,6 +260,8 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
+        let deckId = deck.deckId
+
         let http = Http(url: "\(baseUrl)/decks?auth_token=\(settings.hearthstatsToken!)")
         http.json(method: .post,
                   parameters: [
@@ -277,9 +279,12 @@ struct HearthstatsAPI {
                 let deckVersions = data["deck_versions"] as? [[String: Any]],
                 let hearthstatsVersionId = deckVersions.first?["id"] as? Int {
                 do {
-                    try deck.realm?.write {
-                        deck.hearthstatsId.value = hearthstatsId
-                        deck.hearthstatsVersionId.value = hearthstatsVersionId
+                    let realm = try Realm()
+                    guard let existing = realm.objects(Deck.self)
+                        .filter("deckId = \(deckId)").first else { return }
+                    try realm.write {
+                        existing.hearthstatsId.value = hearthstatsId
+                        existing.hearthstatsVersionId.value = hearthstatsVersionId
                     }
                     callback(true)
                 } catch {
@@ -319,6 +324,8 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
+        let deckId = deck.deckId
+
         let http = Http(url:
             "\(baseUrl)/decks/create_version?auth_token=\(settings.hearthstatsToken!)")
         http.json(method: .post,
@@ -332,8 +339,11 @@ struct HearthstatsAPI {
                 let hearthstatsVersionId = data["id"] as? Int {
                 Log.debug?.message("post deck version : \(json)")
                 do {
-                    try deck.realm?.write {
-                        deck.hearthstatsVersionId.value = hearthstatsVersionId
+                    let realm = try Realm()
+                    guard let existing = realm.objects(Deck.self)
+                        .filter("deckId = \(deckId)").first else { return }
+                    try realm.write {
+                        existing.hearthstatsVersionId.value = hearthstatsVersionId
                     }
                     callback(true)
                 } catch {
@@ -475,6 +485,7 @@ struct HearthstatsAPI {
             "class": deck.playerClass.rawValue.capitalized,
             "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]}
         ]
+        let deckId = deck.deckId
         let http = Http(url:
             "\(baseUrl)/arena_runs/new?auth_token=\(Settings.instance.hearthstatsToken!)")
         http.json(method: .post,
@@ -484,8 +495,10 @@ struct HearthstatsAPI {
                         let hearthStatsArenaId = data["id"] as? Int {
                         do {
                             let realm = try Realm()
+                            guard let existing = realm.objects(Deck.self)
+                                .filter("deckId = \(deckId)").first else { return }
                             try realm.write {
-                                deck.hearthStatsArenaId.value = hearthStatsArenaId
+                                existing.hearthStatsArenaId.value = hearthStatsArenaId
                             }
                         } catch {
                             Log.error?.message("Can not set hearthstatsArenaId on deck. "

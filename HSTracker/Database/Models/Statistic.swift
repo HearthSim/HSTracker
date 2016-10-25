@@ -11,6 +11,12 @@ import RealmSwift
 
 class Statistic: Object {
 
+    dynamic var statId: String = generateId()
+
+    override static func primaryKey() -> String? {
+        return "statId"
+    }
+
     private dynamic var _gameResult = GameResult.unknow.rawValue
     var gameResult: GameResult {
         get { return GameResult(rawValue: _gameResult)! }

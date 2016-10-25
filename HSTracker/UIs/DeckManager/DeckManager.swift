@@ -304,7 +304,8 @@ class DeckManager: NSWindowController {
                          accessoryView: deckNameInput,
                          window: self.window) {
                             do {
-                                try deck.realm?.write {
+                                let realm = try Realm()
+                                try realm.write {
                                     deck.name = deckNameInput.stringValue
                                 }
                             } catch {
@@ -339,7 +340,8 @@ class DeckManager: NSWindowController {
         if let deck = currentDeck {
             if !deck.isActive {
                 do {
-                    try deck.realm?.write {
+                    let realm = try Realm()
+                    try realm.write {
                         deck.isActive = true
                     }
                 } catch {
@@ -377,7 +379,8 @@ class DeckManager: NSWindowController {
 
             NSAlert.show(style: .informational, message: msg, window: self.window!) {
                 do {
-                    try deck.realm?.write {
+                    let realm = try Realm()
+                    try realm.write {
                         deck.isActive = !deck.isActive
                     }
                 } catch {
@@ -402,8 +405,9 @@ class DeckManager: NSWindowController {
                     Log.error?.message("error delete hearthstats")
                 }
                 do {
-                    try deck.realm?.write {
-                        deck.realm?.delete(deck)
+                    let realm = try Realm()
+                    try realm.write {
+                        realm.delete(deck)
                     }
                 } catch {
                     Log.error?.message("Can not delete deck : \(error)")
@@ -419,8 +423,9 @@ class DeckManager: NSWindowController {
                         Log.error?.message("error delete hearthstats")
                     }
                     do {
-                        try deck.realm?.write {
-                            deck.realm?.delete(deck)
+                        let realm = try Realm()
+                        try realm.write {
+                            realm.delete(deck)
                         }
                     } catch {
                         Log.error?.message("Can not delete deck : \(error)")
@@ -430,8 +435,9 @@ class DeckManager: NSWindowController {
             }
         } else {
             do {
-                try deck.realm?.write {
-                    deck.realm?.delete(deck)
+                let realm = try Realm()
+                try realm.write {
+                    realm.delete(deck)
                 }
             } catch {
                 Log.error?.message("Can not delete deck : \(error)")
