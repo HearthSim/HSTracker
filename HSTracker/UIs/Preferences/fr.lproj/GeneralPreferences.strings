@@ -25,3 +25,6 @@
 
 /* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "lku-8T-sZE"; */
 "lku-8T-sZE.title" = "Enregistrer les replays";
+
+/* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
+"mBv-nX-Cn3.title" = "Activer le badge Santé de HSTracker";
