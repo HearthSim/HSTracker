@@ -73,7 +73,7 @@ extension JsonImporter {
 final class NetImporter {
     static var importers: [Importer] {
         return [
-            Hearthpwn(), HearthpwnDeckBuilder(), HearthNews(), HearthHead(), HearthArena(),
+            Hearthpwn(), HearthpwnDeckBuilder(), HearthNews(), HearthArena(),
             Hearthstats(), HearthstoneDecks(), HearthstoneTopDecks(), Tempostorm(),
             HearthstoneHeroes(), HearthstoneTopDeck(),
 

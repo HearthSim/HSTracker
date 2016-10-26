@@ -134,7 +134,7 @@ class NetImportTest: XCTestCase {
     func testHearthHead() {
         
         let asyncExpectation = expectation(description: "hearthHeadDeckImportAsynchTest")
-        let url = "http://www.hearthhead.com/deck=158864/fun-easy-win-dragon-warrior"
+        let url = "http://www.hearthhead.com/decks/fun-easy-win-dragon-warrior"
         do {
             try NetImporter.netImport(url, completion: { (deck) -> Void in
                 XCTAssertNotNil(deck, "Deck should not be nil")

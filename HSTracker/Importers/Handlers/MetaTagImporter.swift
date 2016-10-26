@@ -41,6 +41,7 @@ struct MetaTagImporter: HttpImporter {
         var cards: [Card] = []
         for cardId in cardList {
             if let card = Cards.by(cardId: cardId) {
+                card.count = 1
                 Log.verbose?.message("Got card \(card)")
                 cards.append(card)
             }

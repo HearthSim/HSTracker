@@ -98,7 +98,7 @@ extension Decks {
         guard let deckId = dict["deck_id"] as? Int,
             let deckVersionId = dict["deck_version_id"] as? Int else { return }
 
-        guard let existing = realm.objects(Deck.self).filter("hearthstatsId = \(deckId) and "
+        guard let existing = realm.objects(Deck.self).filter("hearthstatsId = '\(deckId)' and "
             + "hearthstatsVersionId = \(deckVersionId)").first else { return }
 
         let formatter = DateFormatter()
@@ -281,7 +281,7 @@ struct HearthstatsAPI {
                 do {
                     let realm = try Realm()
                     guard let existing = realm.objects(Deck.self)
-                        .filter("deckId = \(deckId)").first else { return }
+                        .filter("deckId = '\(deckId)'").first else { return }
                     try realm.write {
                         existing.hearthstatsId.value = hearthstatsId
                         existing.hearthstatsVersionId.value = hearthstatsVersionId
@@ -341,7 +341,7 @@ struct HearthstatsAPI {
                 do {
                     let realm = try Realm()
                     guard let existing = realm.objects(Deck.self)
-                        .filter("deckId = \(deckId)").first else { return }
+                        .filter("deckId = '\(deckId)'").first else { return }
                     try realm.write {
                         existing.hearthstatsVersionId.value = hearthstatsVersionId
                     }
@@ -496,7 +496,7 @@ struct HearthstatsAPI {
                         do {
                             let realm = try Realm()
                             guard let existing = realm.objects(Deck.self)
-                                .filter("deckId = \(deckId)").first else { return }
+                                .filter("deckId = '\(deckId)'").first else { return }
                             try realm.write {
                                 existing.hearthStatsArenaId.value = hearthStatsArenaId
                             }
