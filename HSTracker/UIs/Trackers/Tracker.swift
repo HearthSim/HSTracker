@@ -245,7 +245,9 @@ class Tracker: OverWindowController {
                 let realm = try Realm()
                 if let deck = realm.objects(Deck.self)
                     .filter("deckId = '\(currentDeck.id)'").first {
-                    recordTracker.message = StatsHelper.getDeckManagerRecordLabel(deck: deck)
+                    recordTracker.message = StatsHelper
+                        .getDeckManagerRecordLabel(deck: deck,
+                                                   mode: Game.instance.currentGameMode)
                     recordTracker.needsDisplay = true
                 }
             } catch {

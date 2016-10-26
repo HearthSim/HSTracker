@@ -172,8 +172,8 @@ class StatsHelper {
             return tableData
     }
     
-    static func getDeckManagerRecordLabel(deck: Deck) -> String {
-        let record = getDeckRecord(deck: deck)
+    static func getDeckManagerRecordLabel(deck: Deck, mode: GameMode) -> String {
+        let record = getDeckRecord(deck: deck, mode: mode)
         
         let totalGames = record.total
         if totalGames == 0 {

@@ -201,7 +201,7 @@ class DeckManager: NSWindowController {
         if let currentDeck = self.currentDeck {
             DispatchQueue.main.async {
                 self.statsLabel.stringValue = StatsHelper
-                    .getDeckManagerRecordLabel(deck: currentDeck)
+                    .getDeckManagerRecordLabel(deck: currentDeck, mode: .all)
                 self.curveView.reload()
             }
         }
@@ -555,7 +555,7 @@ extension DeckManager: NSTableViewDelegate {
                 cell.color = ClassColor.color(playerClass: deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
                 
-                let record = StatsHelper.getDeckRecord(deck: deck)
+                let record = StatsHelper.getDeckRecord(deck: deck, mode: .all)
                 switch sortCriteria {
                 case "creation date":
                     let formatter = DateFormatter()
@@ -574,7 +574,7 @@ extension DeckManager: NSTableViewDelegate {
                         NSLocalizedString("games", comment: "").lowercased()
                 default:
                     cell.detailTextLabel.stringValue = StatsHelper
-                        .getDeckManagerRecordLabel(deck: deck)
+                        .getDeckManagerRecordLabel(deck: deck, mode: .all)
                 }
 
                 return cell
