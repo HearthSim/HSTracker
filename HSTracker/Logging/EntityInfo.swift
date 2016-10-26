@@ -83,7 +83,7 @@ extension EntityInfo: CustomStringConvertible {
 }
 
 extension EntityInfo: WrapCustomizable {
-    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
+    func keyForWrapping(propertyNamed propertyName: String) -> String? {
         if ["_entity", "description"].contains(propertyName) {
             return nil
         }

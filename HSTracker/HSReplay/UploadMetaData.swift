@@ -118,7 +118,7 @@ class UploadMetaData {
     }
 }
 extension UploadMetaData.Player: WrapCustomizable {
-    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
+    func keyForWrapping(propertyNamed propertyName: String) -> String? {
         switch propertyName {
         case "legendRank": return "legend_rank"
         case "deckId": return "deck_id"
@@ -130,7 +130,7 @@ extension UploadMetaData.Player: WrapCustomizable {
     }
 }
 extension UploadMetaData: WrapCustomizable {
-    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
+    func keyForWrapping(propertyNamed propertyName: String) -> String? {
         switch propertyName {
         case "serverIp": return "server_ip"
         case "serverPort": return "server_port"

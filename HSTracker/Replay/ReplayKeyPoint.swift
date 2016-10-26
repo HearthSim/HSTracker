@@ -9,7 +9,7 @@
 import Foundation
 import Wrap
 
-final class ReplayKeyPoint: Equatable {
+final class ReplayKeyPoint {
     var data: [Entity]
     var id: Int
     var player: PlayerType
@@ -51,8 +51,14 @@ final class ReplayKeyPoint: Equatable {
     }
 }
 
+extension ReplayKeyPoint: Equatable {
+    static func == (lhs: ReplayKeyPoint, rhs: ReplayKeyPoint) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 extension ReplayKeyPoint: WrapCustomizable {
-    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
+    func keyForWrapping(propertyNamed propertyName: String) -> String? {
         if ["description"].contains(propertyName) {
             return nil
         }
@@ -68,8 +74,4 @@ extension ReplayKeyPoint: CustomStringConvertible {
             + "player: \(player), "
             + "type: \(type)]"
     }
-}
-
-func == (lhs: ReplayKeyPoint, rhs: ReplayKeyPoint) -> Bool {
-    return lhs.id == rhs.id
 }

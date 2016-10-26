@@ -106,9 +106,10 @@ extension Entity: Hashable {
     var hashValue: Int {
         return id.hashValue
     }
-}
-func == (lhs: Entity, rhs: Entity) -> Bool {
-    return lhs.id == rhs.id
+
+    static func == (lhs: Entity, rhs: Entity) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 extension Entity: CustomStringConvertible {
@@ -125,7 +126,7 @@ extension Entity: CustomStringConvertible {
 }
 
 extension Entity: WrapCustomizable {
-    func keyForWrappingPropertyNamed(_ propertyName: String) -> String? {
+    func keyForWrapping(propertyNamed propertyName: String) -> String? {
         if ["_cachedCard", "card", "description"].contains(propertyName) {
             return nil
         }

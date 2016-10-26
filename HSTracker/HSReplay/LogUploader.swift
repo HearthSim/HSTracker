@@ -193,7 +193,7 @@ class LogUploader {
                                 do {
                                     let realm = try Realm()
                                     if let existing = realm.objects(Statistic.self)
-                                        .filter("statId = \(statId)").first {
+                                        .filter("statId = '\(statId)'").first {
                                         try realm.write {
                                             existing.hsReplayId = uploadShortId
                                         }
