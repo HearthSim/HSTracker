@@ -33,6 +33,8 @@ class DeckManager: NSWindowController {
     @IBOutlet weak var archiveButton: NSButton!
     @IBOutlet weak var toolbar: NSToolbar!
 
+    @IBOutlet weak var hearthstatsButton: NSToolbarItem!
+
     var editDeck: EditDeck?
     var newDeck: NewDeck?
     var hearthstatsLogin: HearthstatsLogin?
@@ -102,6 +104,10 @@ class DeckManager: NSWindowController {
                          selector: #selector(DeckManager.updateTheme(_:)),
                          name: NSNotification.Name(rawValue: "theme"),
                          object: nil)
+
+        if let index = toolbar.items.index(of: hearthstatsButton), !HearthstatsAPI.isLogged() {
+            toolbar.removeItem(at: index)
+        }
     }
 
     deinit {

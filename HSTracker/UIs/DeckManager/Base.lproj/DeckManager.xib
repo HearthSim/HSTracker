@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DeckManager" customModule="HSTracker" customModuleProvider="target">
@@ -12,6 +12,7 @@
                 <outlet property="deckListTable" destination="Znw-pX-Aav" id="6Yh-1v-5F5"/>
                 <outlet property="decksTable" destination="Pdd-Yb-1af" id="CWs-js-WpT"/>
                 <outlet property="druidButton" destination="E4J-Nz-XJT" id="pHt-yn-xFT"/>
+                <outlet property="hearthstatsButton" destination="Xxv-sY-tej" id="F4e-jL-ZTz"/>
                 <outlet property="hunterButton" destination="pNA-TP-ZaI" id="Cjd-In-4cp"/>
                 <outlet property="mageButton" destination="qNR-vu-j1V" id="2BY-qB-t2g"/>
                 <outlet property="paladinButton" destination="8sY-oX-A05" id="WOT-el-1bO"/>
@@ -20,7 +21,7 @@
                 <outlet property="shamanButton" destination="HZK-Si-jIN" id="a7g-bp-RjD"/>
                 <outlet property="sortPopUp" destination="xO3-ES-jrX" id="Jcd-51-f2j"/>
                 <outlet property="statsLabel" destination="Y6G-cK-9fE" id="HHC-8d-lga"/>
-                <outlet property="toolbar" destination="UfZ-Rs-kI0" id="ZcC-69-KQb"/>
+                <outlet property="toolbar" destination="UfZ-Rs-kI0" id="OFl-vz-Tv7"/>
                 <outlet property="warlockButton" destination="UjQ-5M-0Yn" id="4Xh-UJ-cmN"/>
                 <outlet property="warriorButton" destination="NXa-nS-g6K" id="n0B-j3-Meq"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="Xbg-rx-0ml"/>
@@ -65,7 +66,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" id="Znw-pX-Aav">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="17"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="409"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -371,7 +372,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af">
-                                            <rect key="frame" x="0.0" y="0.0" width="689" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="689" height="555"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -395,6 +396,7 @@
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vXg-zH-IOD">
                                                                     <rect key="frame" x="0.0" y="0.0" width="537" height="17"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="sFg-Jc-b7d">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -415,7 +417,6 @@
                                             </connections>
                                         </tableView>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="QCi-YG-ygL">
                                     <rect key="frame" x="-100" y="-100" width="213" height="16"/>

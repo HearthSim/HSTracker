@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var appHealth: AppHealth = AppHealth.instance
 
     var preferences: MASPreferencesWindowController = {
-        let preferences = MASPreferencesWindowController(viewControllers: [
+        var controllers = [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
             UpdatePreferences(nibName: "UpdatePreferences", bundle: nil)!,
             GamePreferences(nibName: "GamePreferences", bundle: nil)!,
@@ -34,9 +34,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil)!,
             OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil)!,
             HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)!,
-            HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!,
             TrackOBotPreferences(nibName: "TrackOBotPreferences", bundle: nil)!
-            ], title: NSLocalizedString("Preferences", comment: ""))
+        ]
+
+        if HearthstatsAPI.isLogged() {
+            controllers.append(HearthstatsPreferences(nibName: "HearthstatsPreferences",
+                                                      bundle: nil)!)
+        }
+
+        let preferences = MASPreferencesWindowController(
+            viewControllers: controllers,
+            title: NSLocalizedString("Preferences", comment: ""))
         return preferences
     }()
 

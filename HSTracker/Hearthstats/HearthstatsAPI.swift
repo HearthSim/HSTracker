@@ -196,6 +196,9 @@ struct HearthstatsAPI {
         let settings = Settings.instance
         settings.hearthstatsLogin = nil
         settings.hearthstatsToken = nil
+        settings.hearthstatsLastDecksSync = 0
+        settings.hearthstatsSynchronizeMatches = false
+        settings.hearthstatsAutoSynchronize = false
     }
 
     static func isLogged() -> Bool {
