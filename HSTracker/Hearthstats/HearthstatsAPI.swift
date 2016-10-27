@@ -12,7 +12,7 @@ import RealmSwift
 
 extension Deck {
 
-    func merge(_ deck: Deck) {
+    func merge(deck: Deck, cards: [Card]) {
         self.name = deck.name
         self.playerClass = deck.playerClass
         self.version = deck.version
@@ -22,12 +22,12 @@ extension Deck {
         self.isActive = deck.isActive
         self.isArena = deck.isArena
         self.cards.removeAll()
-        for card in deck.sortedCards {
+        for card in cards {
             self.add(card: card)
         }
     }
 
-    static func fromHearthstatsDict(json: [String: Any]) -> Deck? {
+    static func fromHearthstatsDict(json: [String: Any]) -> (Deck, [Card])? {
         if let jsonDeck = json["deck"] as? [String: Any],
             let name = jsonDeck["name"] as? String,
             let klassId = jsonDeck["klass_id"] as? Int,
@@ -72,10 +72,9 @@ extension Deck {
                 deck.hearthstatsVersionId.value = hearthstatsVersionId
                 deck.isActive = !isArchived
                 deck.version = version
-                cards.forEach({ deck.add(card: $0) })
 
                 if deck.isValid() {
-                    return deck
+                    return (deck, cards)
                 }
             }
         }
@@ -228,14 +227,14 @@ struct HearthstatsAPI {
                         var newDecks = 0
                         (json["data"] as? [[String: Any]])?.forEach({
                             newDecks += 1
-                            if let deck = Deck.fromHearthstatsDict(json: $0),
+                            if let (deck, cards) = Deck.fromHearthstatsDict(json: $0),
                                 let hearthstatsId = deck.hearthstatsId.value {
                                 do {
                                     let realm = try Realm()
                                     if let existing = realm.objects(Deck.self)
                                         .filter("hearthstatsId = \(hearthstatsId)").first {
                                         try realm.write {
-                                            existing.merge(deck)
+                                            existing.merge(deck: deck, cards: cards)
                                         }
                                     } else {
                                         try realm.write {
