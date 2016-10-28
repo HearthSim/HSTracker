@@ -30,7 +30,15 @@ final class Decks {
             let realm = "\(destination)/HSTracker/hstracker.realm"
             if fileManager.fileExists(atPath: realm) {
                 do {
-                    try fileManager.copyItem(atPath: realm, toPath: "\(realm).backup")
+                    let backup = "\(realm).backup"
+                    if fileManager.fileExists(atPath: backup) {
+                        try fileManager.replaceItem(at: URL(fileURLWithPath: backup),
+                                                    withItemAt: URL(fileURLWithPath: realm),
+                                                    backupItemName: nil,
+                                                    resultingItemURL: nil)
+                    } else {
+                        try fileManager.copyItem(atPath: realm, toPath: backup)
+                    }
                     Log.info?.message("Database backuped")
                 } catch {
                     Log.error?.message("Can not save backup : \(error)")
@@ -38,9 +46,7 @@ final class Decks {
             }
         }
 
-        if let path = savePath {
-
-            
+        if let path = savePath {            
             // load decks
             var files: [String]? = nil
             do {
