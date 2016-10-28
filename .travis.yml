@@ -1,10 +1,17 @@
 language: objective-c
 osx_image: xcode8
+
+cache:
+  directories:
+    - Carthage
+
 before_install:
   - brew update
-  - brew install carthage || brew upgrade carthage
+  - brew upgrade carthage
   - gem install xcpretty
-  - carthage bootstrap --platform Mac
+  - carthage bootstrap --platform mac
+
 script:
-  - set -o pipefail && xcodebuild -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
-  - set -o pipefail && xcodebuild -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - set -o pipefail 
+  - xcodebuild -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+
