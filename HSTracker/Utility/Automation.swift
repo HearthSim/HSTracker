@@ -18,11 +18,16 @@ struct Automation {
 
             let searchLocation = SizeHelper.searchLocation()
             let firstCardLocation = SizeHelper.firstCardLocation()
+
+            // click a first time to be sure we have the focus on hearthstone
+            self.leftClick(at: searchLocation)
+            Thread.sleep(forTimeInterval: 0.5)
+
             deck.sortedCards.forEach {
                 for _ in 1...$0.count {
                     self.leftClick(at: searchLocation)
                     Thread.sleep(forTimeInterval: 0.3)
-                    self.write(string: $0.name)
+                    self.write(string: self.searchText(card: $0))
                     Thread.sleep(forTimeInterval: 0.3)
                     self.doubleClick(at: firstCardLocation)
                     Thread.sleep(forTimeInterval: 0.3)
@@ -104,4 +109,79 @@ struct Automation {
     private func releaseChar(char: UniChar, eventSource es: CGEventSource) {
         pressChar(char: char, keyDown: false, eventSource: es)
     }
+
+    private func searchText(card: Card) -> String {
+        var str = card.name
+        guard let lang = Settings.instance.hearthstoneLanguage else {
+            return str
+        }
+
+        if let text = artistDict[lang],
+            let artist = card.artist.components(separatedBy: " ").last {
+            str += " \(text):\(artist)"
+        }
+        if let text = manaDict[lang] {
+            str += " \(text):\(card.cost)"
+        }
+        if let text = attackDict[lang], attackIds.contains(card.id) {
+            str += " \(text):\(card.attack)"
+        }
+        return str
+    }
+
+    private let attackIds = [
+        CardIds.Collectible.Neutral.Feugen,
+        CardIds.Collectible.Neutral.Stalagg
+    ]
+
+    private let artistDict = [
+        "enUS": "artist",
+        "zhCN": "画家",
+        "zhTW": "畫家",
+        "enGB": "artist",
+        "frFR": "artiste",
+        "deDE": "künstler",
+        "itIT": "artista",
+        "jaJP": "アーティスト",
+        "koKR": "아티스트",
+        "plPL": "grafik",
+        "ptBR": "artista",
+        "ruRU": "художник",
+        "esMX": "artista",
+        "esES": "artista",
+    ]
+
+    private let manaDict = [
+        "enUS": "mana",
+        "zhCN": "法力值",
+        "zhTW": "法力",
+        "enGB": "mana",
+        "frFR": "mana",
+        "deDE": "mana",
+        "itIT": "mana",
+        "jaJP": "マナ",
+        "koKR": "마나",
+        "plPL": "mana",
+        "ptBR": "mana",
+        "ruRU": "мана",
+        "esMX": "maná",
+        "esES": "maná",
+    ]
+
+    private let attackDict = [
+        "enUS": "attack",
+        "zhCN": "攻击力",
+        "zhTW": "攻擊力",
+        "enGB": "attack",
+        "frFR": "attaque",
+        "deDE": "angriff",
+        "itIT": "attacco",
+        "jaJP": "攻撃",
+        "koKR": "공격력",
+        "plPL": "atak",
+        "ptBR": "ataque",
+        "ruRU": "атака",
+        "esMX": "ataque",
+        "esES": "ataque",
+    ]
 }

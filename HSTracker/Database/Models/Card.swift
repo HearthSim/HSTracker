@@ -27,6 +27,7 @@ final class Card {
     var type: CardType = .invalid
     // var mechanics: Set<CardMechanic>
     var isStandard = false
+    var artist = ""
 
     // MARK: - deck / games
     var count = 0

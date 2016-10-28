@@ -140,6 +140,9 @@ struct Database {
                                 if let text = jsonCard["text"] as? String {
                                     card.text = text
                                 }
+                                if let artist = jsonCard["artist"] as? String {
+                                    card.artist = artist
+                                }
                                 Cards.cards.append(card)
                                 /*if let mechanics = jsonCard["mechanics"] as? [String] {
                                  for mechanic in mechanics {
