@@ -82,7 +82,7 @@ class Toast {
             self.layer?.cornerRadius = 10
         }
         
-        private override func draw(_ dirtyRect: NSRect) {
+        override func draw(_ dirtyRect: NSRect) {
             super.draw(dirtyRect)
             
             let starting = NSColor(red: 0.9508, green: 0.9507, blue: 0.9507, alpha: 1.0)
@@ -132,12 +132,12 @@ class Toast {
             }
         }
         
-        private override func mouseDown(with event: NSEvent) {
+        override func mouseDown(with event: NSEvent) {
             guard let _ = self.action else { return }
             
             inClick = true
         }
-        private override func mouseUp(with event: NSEvent) {
+        override func mouseUp(with event: NSEvent) {
             guard let _ = self.action else { return }
             guard inClick else { return }
             
