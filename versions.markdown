@@ -1,10 +1,16 @@
 #### 0.18.2
+**New:**
+- The HSTracker now show his status
+
 **Fixes:**
 - Effigy is now removed correctly from secret helper
+- Export to Hearthstone should pick the correct card now (ie: C'Thun)
+- Hearthhead import works with their new website
 
 **Internal**
 - HSTracker have been converted to swift 2.3
 - Complete refactor of all UI system for trackers.
+- Decks and statistics are now saved in a realm database. This should improve their stability.
 
 #### 0.18.1  
 **Fixes:**  
