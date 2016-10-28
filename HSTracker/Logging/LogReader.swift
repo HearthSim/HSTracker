@@ -33,8 +33,8 @@ final class LogReader {
             && !Hearthstone.instance.isHearthstoneRunning {
             do {
                 try fileManager.removeItem(atPath: self.path)
-            } catch let error as NSError {
-                Log.error?.message("\(error.description)")
+            } catch {
+                Log.error?.message("\(error)")
             }
         }
     }
@@ -91,18 +91,13 @@ final class LogReader {
     func readFile() {
         Log.verbose?.message("reading \(path)")
 
-        if fileManager.fileExists(atPath: path) {
-            fileHandle = FileHandle(forReadingAtPath: path)
-            findInitialOffset()
-            Log.verbose?.message("file exists \(path), " +
-                "offset for \(startingPoint.millisecondsFormatted) " +
-                "is \(offset)")
-        }
-
         while !stopped {
-            if fileHandle == .none && fileManager.fileExists(atPath: path) {
+            if fileHandle == nil && fileManager.fileExists(atPath: path) {
                 fileHandle = FileHandle(forReadingAtPath: path)
                 findInitialOffset()
+                Log.verbose?.message("file exists \(path), " +
+                    "offset for \(startingPoint.millisecondsFormatted) " +
+                    "is \(offset)")
             }
 
             if let data = fileHandle?.readDataToEndOfFile() {
@@ -135,12 +130,16 @@ final class LogReader {
                         }
                     }
                 } else {
+                    Log.warning?.message("Can not read \(path) as utf8, resetting")
                     fileHandle = nil
                 }
 
                 if !fileManager.fileExists(atPath: path) {
                     Log.verbose?.message("setting \(path) handle to nil \(offset))")
                     fileHandle = nil
+                }
+                if fileHandle == nil {
+                    offset = 0
                 }
             } else {
                 fileHandle = nil

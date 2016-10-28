@@ -321,7 +321,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         splashscreen?.close()
         splashscreen = nil
 
-        WindowManager.default.updateTrackers()
+        let time = DispatchTime.now() + DispatchTimeInterval.milliseconds(500)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            WindowManager.default.updateTrackers()
+        }
     }
 
     func reloadDecks(_ notification: Notification) {

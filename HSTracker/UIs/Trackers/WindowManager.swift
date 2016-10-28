@@ -252,7 +252,6 @@ class WindowManager {
         } else {
             show(controller: playerTracker, show: false)
         }
-
     }
 
     // MARK: - Floating card

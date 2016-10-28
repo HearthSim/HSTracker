@@ -20,10 +20,10 @@ enum HearthstoneLogError: Error {
 final class Hearthstone: NSObject {
     let applicationName = "Hearthstone"
 
-    var logReaderManager: LogReaderManager?
+    lazy var logReaderManager = LogReaderManager()
 
     var hearthstoneActive = false
-    var queue: DispatchQueue?
+    var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
 
     static let instance = Hearthstone()
 
@@ -44,11 +44,11 @@ final class Hearthstone: NSObject {
 
     // MARK: - Initialisation
     func start() {
-        logReaderManager = LogReaderManager()
         startListeners()
-        if self.isHearthstoneRunning {
+        if isHearthstoneRunning {
+            hearthstoneActive = true
+            Log.info?.message("Hearthstone is running, starting trackers now.")
             startTracking()
-            WindowManager.default.updateTrackers()
         }
     }
 
@@ -89,8 +89,6 @@ final class Hearthstone: NSObject {
                 Log.error?.message("\(error.description)")
             }
             if let fileContent = fileContent {
-
-                // swiftlint:disable line_length
                 var zonesFound: [LogLineZone] = []
                 let splittedZones = fileContent.characters.split { $0 == "[" }
                     .map(String.init)
@@ -137,7 +135,8 @@ final class Hearthstone: NSObject {
                     }
 
                     if let currentZone = currentZoneFound {
-                        Log.verbose?.message("Is \(currentZone.namespace) valid ? \(currentZone.isValid())")
+                        Log.verbose?.message("Is \(currentZone.namespace) valid ? "
+                            + "\(currentZone.isValid())")
                         if !currentZone.isValid() {
                             missingZones.append(currentZone)
                         }
@@ -146,7 +145,6 @@ final class Hearthstone: NSObject {
                         missingZones.append(LogLineZone(namespace: zone))
                     }
                 }
-                // swiftlint:enable line_length
             }
         }
 
@@ -163,8 +161,8 @@ final class Hearthstone: NSObject {
                 try fileContent.write(toFile: configPath,
                                             atomically: true,
                                             encoding: .utf8)
-            } catch let error as NSError {
-                Log.error?.message("\(error.description)")
+            } catch {
+                Log.error?.message("\(error)")
                 throw HearthstoneLogError.canNotCreateFile
             }
 
@@ -179,21 +177,15 @@ final class Hearthstone: NSObject {
     }
 
     func startTracking() {
-        if queue == nil {
-            queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
-        }
-        if logReaderManager == nil {
-            logReaderManager = LogReaderManager()
-        }
-        if let queue = queue {
-            queue.async {
-                self.logReaderManager?.start()
-            }
-        }
+        Log.info?.message("Start Tracking")
+        //queue.async {
+            self.logReaderManager.start()
+        //}
     }
 
     func stopTracking() {
-        logReaderManager?.stop()
+        Log.info?.message("Stop Tracking")
+        logReaderManager.stop()
     }
 
     // MARK: - Events
@@ -271,10 +263,8 @@ final class Hearthstone: NSObject {
     }
 
     func bringToFront() {
-        if let hsapp = NSWorkspace.shared().runningApplications.first({
-            $0.localizedName! == self.applicationName
-        }) {
-            hsapp.activate(options: NSApplicationActivationOptions.activateIgnoringOtherApps)
+        if let hsapp = hearthstoneApp {
+            hsapp.activate(options: .activateIgnoringOtherApps)
         }
     }
 
@@ -289,11 +279,10 @@ final class Hearthstone: NSObject {
     }
 
     var isHearthstoneRunning: Bool {
-        let apps = NSWorkspace.shared().runningApplications
-        return apps.any({$0.localizedName == self.applicationName})
+        return hearthstoneApp != nil
     }
 
-    var getHearthstoneApp: NSRunningApplication? {
+    var hearthstoneApp: NSRunningApplication? {
         let apps = NSWorkspace.shared().runningApplications
         return apps.first({$0.localizedName! == self.applicationName})
     }

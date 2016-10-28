@@ -44,8 +44,12 @@ final class LogReaderManager {
     var stopped = false
 
     func start() {
-        guard !running else { return }
+        guard !running else {
+            Log.error?.message("LogReaderManager is already running")
+            return
+        }
 
+        stopped = false
         running = true
         let entryPoint = self.entryPoint()
         for reader in readers {
@@ -65,6 +69,7 @@ final class LogReaderManager {
     }
 
     func restart() {
+        Log.info?.message("LogReaderManager is restarting")
         stop()
         start()
     }
