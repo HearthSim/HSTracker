@@ -13,84 +13,54 @@ import RealmSwift
 final class Decks {
     static let instance = Decks()
 
-    private var _decks = [String: Deck]()
-
-    private var savePath: String? {
-        if let path = Settings.instance.deckPath {
-            return path
-        }
-        return nil
-    }
-
     func loadDecks(splashscreen: Splashscreen?) {
         let fileManager = FileManager.default
 
-        if let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
-                                                                 .userDomainMask, true).first {
-            let realm = "\(destination)/HSTracker/hstracker.realm"
-            if fileManager.fileExists(atPath: realm) {
-                do {
-                    let backup = "\(realm).backup"
-                    if fileManager.fileExists(atPath: backup) {
-                        try fileManager.replaceItem(at: URL(fileURLWithPath: backup),
-                                                    withItemAt: URL(fileURLWithPath: realm),
-                                                    backupItemName: nil,
-                                                    resultingItemURL: nil)
-                    } else {
-                        try fileManager.copyItem(atPath: realm, toPath: backup)
-                    }
-                    Log.info?.message("Database backuped")
-                } catch {
-                    Log.error?.message("Can not save backup : \(error)")
-                }
-            }
+        // load decks
+        let path = Paths.decks
+        var files: [URL]? = nil
+        do {
+            files = try fileManager.contentsOfDirectory(at: path,
+                                                        includingPropertiesForKeys: nil,
+                                                        options: [])
+        } catch {
+            Log.error?.message("Can not read content of \(path)")
         }
-
-        if let path = savePath {            
-            // load decks
-            var files: [String]? = nil
-            do {
-                files = try fileManager.contentsOfDirectory(atPath: path)
-            } catch {
-                Log.error?.message("Can not read content of \(path)")
+        if let files = files {
+            let jsonFiles = files.filter({ $0.pathExtension == "json" })
+            DispatchQueue.main.async {
+                splashscreen?.display(String(format:
+                    NSLocalizedString("Loading decks", comment: "")),
+                                      total: Double(jsonFiles.count))
             }
-            if let files = files {
-                let jsonFiles = files.filter({ $0.hasSuffix(".json") })
-                DispatchQueue.main.async {
-                    splashscreen?.display(String(format:
-                        NSLocalizedString("Loading decks", comment: "")),
-                                         total: Double(jsonFiles.count))
-                }
 
-                do {
-                    let realm = try Realm()
+            do {
+                let realm = try Realm()
 
-                    for file in jsonFiles {
-                        DispatchQueue.main.async {
-                            splashscreen?.increment()
-                        }
-                        load(file: file, realm: realm)
+                for file in jsonFiles {
+                    DispatchQueue.main.async {
+                        splashscreen?.increment()
                     }
-                } catch {
-                    Log.error?.message("\(error)")
+                    load(file: file, realm: realm)
                 }
+            } catch {
+                Log.error?.message("\(error)")
             }
         }
     }
 
-    fileprivate func load(file: String, realm: Realm) {
-        guard let path = savePath else {
-            Log.warning?.message("SavePath does not exists for decks")
-            return
+    private func remove(file: URL) {
+        do {
+            try FileManager.default.removeItem(at: file)
+        } catch {
+            Log.error?.message("Can not delete \(file)")
         }
-        
-        guard let jsonData = try? Data(contentsOf: URL(fileURLWithPath: "\(path)/\(file)")) else {
-            Log.error?.message("\(path)/\(file) is not a valid file ???")
-            do {
-                try FileManager.default.removeItem(atPath: "\(path)/\(file)")
-            } catch {
-                Log.error?.message("Can not delete \(path)")
-            }
+    }
+
+    fileprivate func load(file: URL, realm: Realm) {
+        guard let jsonData = try? Data(contentsOf: file) else {
+            Log.error?.message("\(file) is not a valid file ???")
+            remove(file: file)
             return
         }
 
@@ -99,32 +69,21 @@ final class Decks {
             json = try JSONSerialization
                     .jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
         } catch {
-            Log.error?.message("\(path)/\(file) is not a valid json file")
-            do {
-                try FileManager.default.removeItem(atPath: "\(path)/\(file)")
-            } catch {
-                Log.error?.message("Can not delete \(path)/\(file)")
-            }
+            Log.error?.message("\(file) is not a valid json file")
+            remove(file: file)
             return
         }
 
         guard let data = json else {
-            do {
-                try FileManager.default.removeItem(atPath: "\(path)/\(file)")
-            } catch {
-                Log.error?.message("Can not delete \(path)/\(file)")
-            }
+            Log.error?.message("\(file) is not a valid json file")
+            remove(file: file)
             return
         }
 
         guard let cardClass = data["playerClass"] as? String,
             let playerClass = CardClass(rawValue: cardClass.lowercased()) else {
             Log.error?.message("\(data["playerClass"]) is not a valid class")
-            do {
-                try FileManager.default.removeItem(atPath: "\(path)/\(file)")
-            } catch {
-                Log.error?.message("Can not delete \(path)/\(file)")
-            }
+            remove(file: file)
             return
         }
 
@@ -190,10 +149,6 @@ final class Decks {
             }
         }
 
-        do {
-            try FileManager.default.removeItem(atPath: "\(path)/\(file)")
-        } catch {
-            Log.error?.message("Can not delete \(path)/\(file)")
-        }
+        remove(file: file)
     }
 }

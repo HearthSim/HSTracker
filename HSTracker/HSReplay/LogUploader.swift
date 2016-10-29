@@ -17,23 +17,18 @@ class LogUploader {
     private static var inProgress: [UploaderItem] = []
     
     static func upload(filename: String, completion: @escaping (UploadResult) -> ()) {
-        guard let tmp = ReplayMaker.tmpReplayDir() else {
-            completion(.failed(error: "Can not get tmp dir"))
-            return
-        }
-    
-        if !SSZipArchive.unzipFile(atPath: filename, toDestination: tmp) {
+        if !SSZipArchive.unzipFile(atPath: filename, toDestination: Paths.tmpReplays.path) {
             completion(.failed(error: "Can not unzip \(filename)"))
             return
         }
         
-        let output = "\(tmp)/output_log.txt"
-        if !FileManager.default.fileExists(atPath: output) {
+        let output = Paths.tmpReplays.appendingPathComponent("output_log.txt")
+        if !FileManager.default.fileExists(atPath: output.path) {
             completion(.failed(error: "Can not find \(output)"))
             return
         }
         do {
-            let content = try String(contentsOf: URL(fileURLWithPath: output))
+            let content = try String(contentsOf: output)
             let lines = content.components(separatedBy: "\n")
             if lines.isEmpty {
                 completion(.failed(error: "Log is empty"))
@@ -55,12 +50,8 @@ class LogUploader {
             
             var date: Date? = nil
             do {
-                let attr: NSDictionary? = try FileManager.default
-                    .attributesOfItem(atPath: output) as NSDictionary?
-                
-                if let _attr = attr {
-                    date = _attr.fileCreationDate()
-                }
+                let attr = try FileManager.default.attributesOfItem(atPath: output.path)
+                date = attr[.creationDate] as? Date
             } catch {
                 print("\(error)")
             }
@@ -85,7 +76,7 @@ class LogUploader {
             
             self.upload(logLines: logLines, gameStart: date, fromFile: true) { (result) in
                 do {
-                    try FileManager.default.removeItem(atPath: output)
+                    try FileManager.default.removeItem(at: output)
                 } catch {
                     Log.error?.message("Can not remove tmp files")
                 }

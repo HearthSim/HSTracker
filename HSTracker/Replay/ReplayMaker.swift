@@ -13,39 +13,6 @@ import ZipArchive
 
 final class ReplayMaker {
     private static var points = [ReplayKeyPoint]()
-    
-    static func replayDir() -> String? {
-        guard let appSupport = NSSearchPathForDirectoriesInDomains(
-            .applicationSupportDirectory, .userDomainMask, true).first else { return nil }
-        
-        let path = "\(appSupport)/HSTracker/replays"
-        do {
-            try FileManager.default
-                .createDirectory(atPath: path,
-                                       withIntermediateDirectories: true,
-                                       attributes: nil)
-        } catch {
-            Log.error?.message("Can not create replays dir")
-            return nil
-        }
-        return path
-    }
-    
-    static func tmpReplayDir() -> String? {
-        guard let path = replayDir() else { return nil }
-        
-        let tmp = "\(path)/tmp"
-        do {
-            try FileManager.default
-                .createDirectory(atPath: tmp,
-                                       withIntermediateDirectories: true,
-                                       attributes: nil)
-        } catch {
-            Log.error?.message("Can not create replays tmp dir")
-            return nil
-        }
-        return tmp
-    }
 
     static func reset() { points.removeAll() }
 
@@ -111,28 +78,30 @@ final class ReplayMaker {
         if let playerName = player.name,
             let playerHeroName = Cards.hero(byId: playerHero.cardId)?.name,
             let opponentName = opponent.name,
-            let opponentHeroName = Cards.hero(byId: opponentHero!.cardId)?.name,
-            let path = replayDir(),
-            let tmp = tmpReplayDir() {
+            let opponentHeroName = Cards.hero(byId: opponentHero!.cardId)?.name {
+
+            let path = Paths.replays
+            let tmp = Paths.tmpReplays
                 
-            let output = "\(tmp)/output_log.txt"
+            let output = tmp.appendingPathComponent("output_log.txt")
             do {
-                try log.joined(separator: "\n").write(toFile: output,
-                                                            atomically: true,
-                                                            encoding: .utf8)
+                try log.joined(separator: "\n").write(to: output,
+                                                      atomically: true,
+                                                      encoding: .utf8)
             } catch {
                 Log.error?.message("Can not save powerLog")
                 return
             }
-            
-            let filename = "\(path)/\(Date().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
+
+            let name = "\(Date().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
                 + "\(opponentName)(\(opponentHeroName)).hdtreplay"
+            let filename = path.appendingPathComponent(name)
             
-            SSZipArchive.createZipFile(atPath: filename, withFilesAtPaths: [output])
+            SSZipArchive.createZipFile(atPath: filename.path, withFilesAtPaths: [output])
             Log.info?.message("Replay saved to \(filename)")
             
             do {
-                try FileManager.default.removeItem(atPath: output)
+                try FileManager.default.removeItem(at: output)
             } catch {
                 Log.error?.message("Can not remove tmp files")
             }

@@ -495,12 +495,6 @@ class Game {
                 LogUploader.upload(logLines: self.powerLog, game: self, statistic: statistic) {
                     result in
                     if case UploadResult.successful(let replayId) = result {
-                        let opClass = NSLocalizedString(statistic.opponentClass.rawValue,
-                                                        comment: "")
-                        let opName = "\(statistic.opponentName) - \(opClass)"
-                        HSReplayManager.instance.saveReplay(replayId: replayId,
-                                                            deck: deck.name,
-                                                            against: opName)
                         self.showNotification(type: .hsReplayPush(replayId: replayId))
                     }
                 }

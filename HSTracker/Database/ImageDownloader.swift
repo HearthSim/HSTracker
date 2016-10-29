@@ -20,84 +20,70 @@ final class ImageDownloader {
                         "EX1_620", "NEW1_014"]
     ]
     func deleteImages() {
-        if let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
-                                                                 .userDomainMask, true).first {
-            for (patch, images) in removeImages {
-                let key = "remove_images_\(patch)"
-                if let _ = UserDefaults.standard.object(forKey: key) {
-                    continue
-                }
+        let dir = Paths.cards
 
-                images.forEach {
-                    do {
-                        let path = "\(destination)/HSTracker/cards/\($0).png"
-                        try FileManager.default.removeItem(atPath: path)
-                        Log.verbose?.message("Patch \(patch), deleting \($0) image")
-                    } catch {}
-                }
-                UserDefaults.standard.set(true, forKey: key)
+        for (patch, images) in removeImages {
+            let key = "remove_images_\(patch)"
+            if let _ = UserDefaults.standard.object(forKey: key) {
+                continue
             }
+
+            images.forEach {
+                do {
+                    let path = dir.appendingPathComponent("\($0).png")
+                    try FileManager.default.removeItem(at: path)
+                    Log.verbose?.message("Patch \(patch), deleting \($0) image")
+                } catch {}
+            }
+            UserDefaults.standard.set(true, forKey: key)
         }
     }
 
     func downloadImagesIfNeeded(splashscreen: Splashscreen, images: [String]) {
-        if let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
-                                                                 .userDomainMask, true).first {
-            do {
-                let path = "\(destination)/HSTracker/cards"
-                try FileManager.default
-                    .createDirectory(atPath: path,
-                                     withIntermediateDirectories: true,
-                                     attributes: nil)
-            } catch { }
+        self.images = images
 
-            self.images = images
+        // check for images already present
+        let destination = Paths.cards
+        for image in self.images {
+            let path = destination.appendingPathComponent("\(image).png")
+            if FileManager.default.fileExists(atPath: path.path) {
+                if NSImage(contentsOf: path) != nil {
+                    self.images.remove(image)
+                }
+            }
+        }
 
-            // check for images already present
-            for image in self.images {
-                let path = "\(destination)/HSTracker/cards/\(image).png"
-                if FileManager.default.fileExists(atPath: path) {
-                    if NSImage(contentsOfFile: path) != nil {
-                        self.images.remove(image)
-                    }
+        if self.images.isEmpty {
+            // we already have all images
+            return
+        }
+
+        if let lang = Settings.instance.hearthstoneLanguage {
+            semaphore = DispatchSemaphore(value: 0)
+            let total = Double(images.count)
+            DispatchQueue.main.async {
+                splashscreen.display(NSLocalizedString("Downloading images", comment: ""),
+                                     total: total)
+            }
+
+            let langs = ["dede", "enus", "eses", "frfr", "ptbr", "ruru", "zhcn"]
+            var locale = lang.lowercased()
+            if !langs.contains(locale) {
+                switch lang {
+                case "esmx": locale = "eses"
+                case "ptpt": locale = "ptbr"
+                default: locale = "enus"
                 }
             }
 
-            if self.images.isEmpty {
-                // we already have all images
-                return
-            }
-
-            if let lang = Settings.instance.hearthstoneLanguage {
-                semaphore = DispatchSemaphore(value: 0)
-                let total = Double(images.count)
-                DispatchQueue.main.async {
-                    splashscreen.display(NSLocalizedString("Downloading images", comment: ""),
-                                         total: total)
-                }
-
-                let langs = ["dede", "enus", "eses", "frfr", "ptbr", "ruru", "zhcn"]
-                var locale = lang.lowercased()
-                if !langs.contains(locale) {
-                    switch lang {
-                    case "esmx": locale = "eses"
-                    case "ptpt": locale = "ptbr"
-                    default: locale = "enus"
-                    }
-                }
-
-                downloadImages(language: locale,
-                               destination: destination,
-                               splashscreen: splashscreen)
-            }
-            if let semaphore = semaphore {
-                let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-            }
+            downloadImages(language: locale, splashscreen: splashscreen)
+        }
+        if let semaphore = semaphore {
+            let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         }
     }
 
-    fileprivate func downloadImages(language: String,
-                                    destination: String, splashscreen: Splashscreen) {
+    fileprivate func downloadImages(language: String, splashscreen: Splashscreen) {
         if images.isEmpty {
             if let semaphore = semaphore {
                 semaphore.signal()
@@ -111,7 +97,7 @@ final class ImageDownloader {
                     NSLocalizedString("Downloading %@.png", comment: ""), image))
             }
 
-            let path = "\(destination)/HSTracker/cards/\(image).png"
+            let path = Paths.cards.appendingPathComponent("\(image).png")
             let url = URL(string: "http://vps208291.ovh.net/cards/\(language)/\(image).png")!
             Log.verbose?.message("downloading \(url) to \(path)")
 
@@ -122,19 +108,17 @@ final class ImageDownloader {
                                 if error != nil {
                                     Log.error?.message("download error \(error)")
                                     self.downloadImages(language: language,
-                                                        destination: destination,
                                                         splashscreen: splashscreen)
                                     return
                                 }
 
                                 if let url = url {
                                     if let data = try? Data(contentsOf: url) {
-                                        try? data.write(to: URL(fileURLWithPath: path),
+                                        try? data.write(to: path,
                                                         options: [.atomic])
                                     }
                                 }
                                 self.downloadImages(language: language,
-                                                    destination: destination,
                                                     splashscreen: splashscreen)
                 }).resume()
         }

@@ -383,30 +383,6 @@ final class Settings {
         }
     }
 
-    var deckPath: String? {
-        set { set(name: "decks_path", value: newValue) }
-        get {
-            if let returnValue = get(name: "decks_path") as? String {
-                return returnValue
-            } else if let appSupport = NSSearchPathForDirectoriesInDomains(
-                .applicationSupportDirectory,
-                .userDomainMask,
-                true).first {
-                let path = "\(appSupport)/HSTracker/decks"
-                do {
-                    try FileManager.default.createDirectory(
-                        atPath: path,
-                        withIntermediateDirectories: true,
-                        attributes: nil)
-                } catch {
-                    return nil
-                }
-                return path
-            }
-            return nil
-        }
-    }
-
     var isCyrillicLanguage: Bool {
         guard let language = hearthstoneLanguage else { return false }
 

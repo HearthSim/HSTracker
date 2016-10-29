@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GamePreferences" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="checkImage" destination="uK7-xp-tnR" id="wCa-mD-JKJ"/>
-                <outlet property="chooseDecksPath" destination="XFd-vI-43q" id="Rub-jZ-5k4"/>
                 <outlet property="chooseHearthstonePath" destination="btV-TN-8Ol" id="KWg-zW-vUh"/>
-                <outlet property="decksPath" destination="v7U-UP-fjj" id="eXO-Nm-znX"/>
                 <outlet property="hearthstoneLanguage" destination="aGA-sR-AWM" id="cT7-zO-ow3"/>
                 <outlet property="hearthstonePath" destination="O8a-FA-pQF" id="6An-Bm-Gwe"/>
                 <outlet property="hstrackerLanguage" destination="7in-D6-SFv" id="4TA-T6-cXk"/>
@@ -55,37 +54,8 @@
                     <rect key="frame" x="463" y="177" width="32" height="32"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="check" id="EgB-xn-1K7"/>
                 </imageView>
-                <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3rT-JF-Mx7">
-                    <rect key="frame" x="18" y="158" width="189" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Decks backup directory" id="ZIv-Kx-0sm">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v7U-UP-fjj">
-                    <rect key="frame" x="215" y="156" width="200" height="22"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="200" id="cyX-dp-h5p"/>
-                    </constraints>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="05p-xR-i4f">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XFd-vI-43q">
-                    <rect key="frame" x="414" y="149" width="87" height="32"/>
-                    <buttonCell key="cell" type="push" title="Choose" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9aT-vn-YLp">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="choosePath:" target="-2" id="YHY-F8-Fos"/>
-                    </connections>
-                </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HgM-aY-crX">
-                    <rect key="frame" x="18" y="131" width="219" height="17"/>
+                    <rect key="frame" x="18" y="158" width="219" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="HSTracker language" id="r3b-jQ-tUY">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -93,7 +63,7 @@
                     </textFieldCell>
                 </textField>
                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7in-D6-SFv">
-                    <rect key="frame" x="245" y="126" width="253" height="26"/>
+                    <rect key="frame" x="245" y="153" width="253" height="26"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="250" id="nKM-SX-NFV"/>
                     </constraints>
@@ -108,7 +78,7 @@
                     </connections>
                 </comboBox>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SP4-ge-wIF">
-                    <rect key="frame" x="18" y="104" width="219" height="17"/>
+                    <rect key="frame" x="18" y="131" width="219" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hearthstone language" id="biS-yx-frk">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -116,7 +86,7 @@
                     </textFieldCell>
                 </textField>
                 <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aGA-sR-AWM">
-                    <rect key="frame" x="245" y="98" width="253" height="26"/>
+                    <rect key="frame" x="245" y="125" width="253" height="26"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="250" id="QVQ-aE-qm7"/>
                     </constraints>
@@ -137,24 +107,17 @@
                 <constraint firstItem="7in-D6-SFv" firstAttribute="leading" secondItem="HgM-aY-crX" secondAttribute="trailing" constant="10" id="4sK-Hn-kMT"/>
                 <constraint firstItem="aGA-sR-AWM" firstAttribute="leading" secondItem="SP4-ge-wIF" secondAttribute="trailing" constant="10" id="88G-9b-9kA"/>
                 <constraint firstAttribute="trailing" secondItem="aGA-sR-AWM" secondAttribute="trailing" constant="20" id="Awr-5G-QhE"/>
-                <constraint firstItem="XFd-vI-43q" firstAttribute="leading" secondItem="v7U-UP-fjj" secondAttribute="trailing" constant="5" id="E9R-8E-Hwz"/>
                 <constraint firstItem="uK7-xp-tnR" firstAttribute="leading" secondItem="btV-TN-8Ol" secondAttribute="trailing" constant="5" id="Frb-kQ-sRY"/>
-                <constraint firstItem="HgM-aY-crX" firstAttribute="top" secondItem="3rT-JF-Mx7" secondAttribute="bottom" constant="10" id="G7P-gR-AQE"/>
-                <constraint firstItem="v7U-UP-fjj" firstAttribute="leading" secondItem="3rT-JF-Mx7" secondAttribute="trailing" constant="10" id="HoE-TZ-ADp"/>
                 <constraint firstItem="btV-TN-8Ol" firstAttribute="centerY" secondItem="O8a-FA-pQF" secondAttribute="centerY" id="MUK-Cg-gJ7"/>
-                <constraint firstItem="XFd-vI-43q" firstAttribute="centerY" secondItem="v7U-UP-fjj" secondAttribute="centerY" id="OX7-KX-4ZZ"/>
                 <constraint firstItem="ya6-7I-GEB" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="TVO-GP-7CE"/>
                 <constraint firstItem="uK7-xp-tnR" firstAttribute="centerY" secondItem="btV-TN-8Ol" secondAttribute="centerY" id="X3E-nX-5mA"/>
                 <constraint firstItem="ya6-7I-GEB" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="Zck-pY-WhC"/>
                 <constraint firstAttribute="trailing" secondItem="7in-D6-SFv" secondAttribute="trailing" constant="20" id="fZf-Tc-L6e"/>
+                <constraint firstItem="HgM-aY-crX" firstAttribute="top" secondItem="ya6-7I-GEB" secondAttribute="bottom" constant="10" id="giG-hE-NV7"/>
                 <constraint firstItem="SP4-ge-wIF" firstAttribute="top" secondItem="HgM-aY-crX" secondAttribute="bottom" constant="10" id="m5B-iK-6Da"/>
-                <constraint firstAttribute="trailing" secondItem="XFd-vI-43q" secondAttribute="trailing" constant="20" id="mSB-RY-pE3"/>
-                <constraint firstItem="3rT-JF-Mx7" firstAttribute="top" secondItem="ya6-7I-GEB" secondAttribute="bottom" constant="10" id="maE-RI-XiX"/>
                 <constraint firstItem="HgM-aY-crX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="n1C-h0-el7"/>
-                <constraint firstItem="v7U-UP-fjj" firstAttribute="centerY" secondItem="3rT-JF-Mx7" secondAttribute="centerY" id="pne-Qk-S0x"/>
                 <constraint firstItem="O8a-FA-pQF" firstAttribute="centerY" secondItem="ya6-7I-GEB" secondAttribute="centerY" id="sU7-AM-iKk"/>
                 <constraint firstItem="7in-D6-SFv" firstAttribute="centerY" secondItem="HgM-aY-crX" secondAttribute="centerY" id="sl6-Tg-WAR"/>
-                <constraint firstItem="3rT-JF-Mx7" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="tcE-i3-mjM"/>
                 <constraint firstItem="aGA-sR-AWM" firstAttribute="centerY" secondItem="SP4-ge-wIF" secondAttribute="centerY" id="wEb-PL-UPa"/>
                 <constraint firstItem="btV-TN-8Ol" firstAttribute="leading" secondItem="O8a-FA-pQF" secondAttribute="trailing" constant="5" id="yfO-lk-no5"/>
                 <constraint firstAttribute="trailing" secondItem="uK7-xp-tnR" secondAttribute="trailing" constant="20" id="zQa-Cd-tp4"/>

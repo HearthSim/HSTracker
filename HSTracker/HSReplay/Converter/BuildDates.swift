@@ -59,50 +59,39 @@ struct BuildDates {
                                  total: Double(Language.hsLanguages.count))
         }
 
-        if let latestBuild = self.latestBuild,
-            let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
-                                                                 .userDomainMask, true).first {
 
-            let path = "\(destination)/HSTracker/json"
-            do {
-                try FileManager.default
-                    .createDirectory(atPath: path,
-                                           withIntermediateDirectories: true,
-                                           attributes: nil)
-            } catch { }
-
-            let build = latestBuild.build
-            for locale in Language.hsLanguages {
-                DispatchQueue.main.async {
-                    splashscreen.increment(String(format:
-                        NSLocalizedString("Downloading %@", comment: ""),
-                        "cardsDB.\(locale).json"))
-                }
-
-                let semaphore = DispatchSemaphore(value: 0)
-                let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale)/cards.json"
-
-                if let url = URL(string: cardUrl) {
-                    URLSession.shared
-                        .dataTask(with: url, completionHandler: { (data, response, error) in
-                            if let data = data {
-                                Log.info?.message("Saving \(cardUrl) to "
-                                    + "\(path)/cardsDB.\(locale).json")
-                                try? data.write(to:
-                                    URL(fileURLWithPath: "\(path)/cardsDB.\(locale).json"),
-                                                options: [.atomic])
-                            } else if let error = error {
-                                Log.error?.message("\(error)")
-                            }
-
-                            semaphore.signal()
-                        }) .resume()
-                }
-                let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        guard let latestBuild = self.latestBuild else { return }
+        let build = latestBuild.build
+        for locale in Language.hsLanguages {
+            DispatchQueue.main.async {
+                splashscreen.increment(String(format:
+                    NSLocalizedString("Downloading %@", comment: ""),
+                                              "cardsDB.\(locale).json"))
             }
 
-            UserDefaults.standard.set(build, forKey: "hs_latest_build")
+            let semaphore = DispatchSemaphore(value: 0)
+            let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale)/cards.json"
+
+            if let url = URL(string: cardUrl) {
+                URLSession.shared
+                    .dataTask(with: url, completionHandler: {
+                        (data, response, error) in
+                        if let data = data {
+                            let dir = Paths.cardJson
+                            let dest = dir.appendingPathComponent("cardsDB.\(locale).json")
+                            Log.info?.message("Saving \(cardUrl) to \(dest)")
+                            try? data.write(to: dest, options: [.atomic])
+                        } else if let error = error {
+                            Log.error?.message("\(error)")
+                        }
+
+                        semaphore.signal()
+                    }) .resume()
+            }
+            let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         }
+
+        UserDefaults.standard.set(build, forKey: "hs_latest_build")
     }
 
     static func get(byDate date: Date) -> BuildDate? {

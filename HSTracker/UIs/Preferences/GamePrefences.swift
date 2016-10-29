@@ -14,7 +14,6 @@ class GamePreferences: NSViewController {
     @IBOutlet weak var hearthstonePath: NSTextField!
     @IBOutlet weak var decksPath: NSTextField!
     @IBOutlet weak var chooseHearthstonePath: NSButton!
-    @IBOutlet weak var chooseDecksPath: NSButton!
     @IBOutlet weak var hstrackerLanguage: NSComboBox!
     @IBOutlet weak var hearthstoneLanguage: NSComboBox!
     @IBOutlet weak var checkImage: NSImageView!
@@ -40,10 +39,6 @@ class GamePreferences: NSViewController {
             alert.runModal()
         }
 
-        if let deckPath = settings.deckPath {
-            decksPath.stringValue = deckPath
-        }
-
         if let locale = settings.hsTrackerLanguage,
             let index = Language.hstrackerLanguages.index(of: locale) {
             hstrackerLanguage.selectItem(at: index)
@@ -64,9 +59,6 @@ class GamePreferences: NSViewController {
             openDialog.allowedFileTypes = ["app"]
             openDialog.nameFieldStringValue = "Hearthstone.app"
             openDialog.title = NSLocalizedString("Please select your Hearthstone app", comment: "")
-        } else if sender == chooseDecksPath {
-            openDialog.canChooseDirectories = true
-            openDialog.allowsMultipleSelection = false
         }
 
         if openDialog.runModal() == NSModalResponseOK {
@@ -77,9 +69,6 @@ class GamePreferences: NSViewController {
                     hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
                     checkImage.image = NSImage(named: "check")
                     settings.hearthstoneLogPath = hearthstonePath.stringValue
-                } else if sender == chooseDecksPath {
-                    decksPath.stringValue = url.path
-                    settings.deckPath = decksPath.stringValue
                 }
             }
         }

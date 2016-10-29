@@ -49,12 +49,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        if let destination = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory,
-                                                                    .userDomainMask, true).first {
-            var config = Realm.Configuration()
-            config.fileURL = URL(fileURLWithPath: "\(destination)/HSTracker/hstracker.realm")
-            Realm.Configuration.defaultConfiguration = config
-        }
+        Paths.initDirs()
+        let destination = Paths.HSTracker
+
+        var config = Realm.Configuration()
+        config.fileURL = destination.appendingPathComponent("hstracker.realm")
+        Realm.Configuration.defaultConfiguration = config
 
         let settings = Settings.instance
 
@@ -93,23 +93,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             loggers.append(xcodeConfig)
         #endif
 
-        if let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory,
-                                                          .userDomainMask, true).first {
-            do {
-                try FileManager.default.createDirectory(
-                    atPath: "\(path)/Logs/HSTracker",
-                    withIntermediateDirectories: true,
-                    attributes: nil)
-                let severity = Settings.instance.logSeverity
-                // swiftlint:disable line_length
-                let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
-                                                                daysToKeep: 7,
-                                                                directoryPath: "\(path)/Logs/HSTracker",
-                    formatters: [HSTrackerLogFormatter()])
-                // swiftlint:enable line_length
-                loggers.append(rotatingConf)
-            } catch { }
-        }
+        let path = Paths.logs.path
+        let severity = Settings.instance.logSeverity
+        let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
+                                                        daysToKeep: 7,
+                                                        directoryPath: path,
+                                                        formatters: [HSTrackerLogFormatter()])
+        loggers.append(rotatingConf)
         Log.enable(configuration: loggers)
 
         Log.info?.message("*** Starting \(Version.buildName) ***")
@@ -438,25 +428,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         replaysMenu?.submenu?.removeAllItems()
         replaysMenu?.isEnabled = false
         if let _ = Settings.instance.hsReplayUploadToken {
-            replaysMenu?.isEnabled = HSReplayManager.instance.replays.count > 0
+            do {
+                let realm = try Realm()
+                let statistics = realm.objects(Statistic.self)
+                    .filter("hsReplayId != nil")
+                    .sorted(byProperty: "date")
+                replaysMenu?.isEnabled = statistics.count > 0
+                let max = min(statistics.count, 10)
+                for i in 0..<max {
+                    let stat = statistics[i]
+                    var deckName = ""
+                    if let deck = stat.deck.first, !deck.name.isEmpty {
+                        deckName = deck.name
+                    }
+                    let opponentName = stat.opponentName.isEmpty ? "unknow" : stat.opponentName
+                    let opponentClass = stat.opponentClass
 
-            HSReplayManager.instance.replays.sorted(by: {
-                $0.0.date.compare($0.1.date as Date) == .orderedDescending
-            }).take(10).forEach({
-                let name: String
-                if $0.deck.isEmpty {
-                    name = String(format: "Vs %@", $0.against)
-                } else {
-                    name = String(format: "%@ vs %@", $0.deck, $0.against)
-                }
-                if let item = replaysMenu?.submenu?
-                    .addItem(withTitle: name,
-                             action: #selector(AppDelegate.showReplay(_:)),
-                             keyEquivalent: "") {
-                    item.representedObject = $0.replayId
-                }
-            })
+                    var name = ""
+                    if !deckName.isEmpty {
+                        name = "\(deckName) vs"
+                    } else {
+                        name = "Vs"
+                    }
+                    name += " \(opponentName)"
+                    if opponentClass != .neutral {
+                        name += " (\(NSLocalizedString(opponentClass.rawValue, comment: "")))"
+                    }
 
+                    if let item = replaysMenu?.submenu?
+                        .addItem(withTitle: name,
+                                 action: #selector(showReplay(_:)),
+                                 keyEquivalent: "") {
+                        item.representedObject = stat.hsReplayId
+                    }
+                }
+            } catch {
+                Log.error?.message("Can not fetch statistics : \(error)")
+            }
         }
 
         let settings = Settings.instance
@@ -475,9 +483,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func importReplay(_ sender: NSMenuItem) {
         let panel = NSOpenPanel()
-        if let path = ReplayMaker.replayDir() {
-            panel.directoryURL = URL(fileURLWithPath: path)
-        }
+        panel.directoryURL = Paths.replays
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
@@ -599,10 +605,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func openReplayDirectory(_ sender: AnyObject) {
-        if let path = ReplayMaker.replayDir() {
-            NSWorkspace.shared()
-                .activateFileViewerSelecting([URL(fileURLWithPath: path)])
-        }
+        NSWorkspace.shared().activateFileViewerSelecting([Paths.replays])
     }
 }
 
@@ -618,23 +621,19 @@ extension AppDelegate: BITHockeyManagerDelegate {
         let fmt = DateFormatter()
         fmt.dateFormat = "yyyy-MM-dd'.log'"
 
-        if let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory,
-                                                          .userDomainMask, true).first {
-            let file = "\(path)/Logs/HSTracker/\(fmt.string(from: Date()))"
-            
-            if FileManager.default.fileExists(atPath: file) {
-                do {
-                    let content = try String(contentsOfFile: file)
-                    return Array(content
-                        .components(separatedBy: CharacterSet.newlines)
-                        .reversed() // reverse to keep 400 last lines
-                        .prefix(400))
-                        .reversed() // re-reverse them
-                        .joined(separator: "\n")
-                } catch {}
-            }
+        let file = Paths.logs.appendingPathComponent("\(fmt.string(from: Date()))")
+        if FileManager.default.fileExists(atPath: file.path) {
+            do {
+                let content = try String(contentsOf: file)
+                return Array(content
+                    .components(separatedBy: CharacterSet.newlines)
+                    .reversed() // reverse to keep 400 last lines
+                    .prefix(400))
+                    .reversed() // re-reverse them
+                    .joined(separator: "\n")
+            } catch {}
         }
-        
+
         return ""
     }
 }
