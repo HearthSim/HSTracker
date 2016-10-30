@@ -10,7 +10,7 @@
 
 import CleanroomLogger
 
-struct LogLine: CustomStringConvertible {
+struct LogLine {
     let namespace: LogLineNamespace
     let time: Date
     let line: String
@@ -66,7 +66,9 @@ struct LogLine: CustomStringConvertible {
         }
         return (dateTime, nanoseconds)
     }
-    
+}
+
+extension LogLine: CustomStringConvertible {
     var description: String {
         return "\(namespace): \(time.millisecondsFormatted): \(line)"
     }

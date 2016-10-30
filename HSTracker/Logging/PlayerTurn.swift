@@ -17,7 +17,8 @@ extension PlayerTurn: Hashable {
     var hashValue: Int {
         return player.rawValue.hashValue ^ turn.hashValue
     }
-}
-func == (lhs: PlayerTurn, rhs: PlayerTurn) -> Bool {
-    return lhs.player == rhs.player && lhs.turn == rhs.turn
+
+    static func == (lhs: PlayerTurn, rhs: PlayerTurn) -> Bool {
+        return lhs.player == rhs.player && lhs.turn == rhs.turn
+    }
 }

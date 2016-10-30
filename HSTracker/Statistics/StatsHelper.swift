@@ -208,7 +208,7 @@ class StatsHelper {
         if mode == .all {
             rankedStats = stats
         } else {
-            rankedStats = stats.filter({$0.playerMode == mode})
+            rankedStats = stats.filter { $0.playerMode == mode }
         }
         
         var time: Double = 0.0
@@ -290,8 +290,7 @@ class StatsHelper {
         
         var mostRecent: Statistic?
         for deck_i in decks {
-            let datedRankedGames = deck_i.statistics
-                .filter({$0.playerMode == .ranked})
+            let datedRankedGames = deck_i.statistics.filter { $0.playerMode == .ranked }
 
             if let latest = datedRankedGames.max(by: {$0.date < $1.date}) {
                 if let mr = mostRecent {

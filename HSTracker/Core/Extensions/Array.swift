@@ -26,18 +26,6 @@ extension Array where Element: Card {
         }
     }
 
-    func toDict() -> [String: Int] {
-        var result = [String: Int]()
-        for card in self {
-            result[card.id] = card.count
-        }
-        return result
-    }
-
-    func shuffleOne() -> Card? {
-        return self[Int(arc4random()) % Int(count)]
-    }
-
     func countCards() -> Int {
         return map({ $0.count }).reduce(0, +)
     }

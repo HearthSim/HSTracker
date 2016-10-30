@@ -33,28 +33,6 @@ extension Array {
         return to
     }
 
-    func first(_ fn: (Element) -> Bool) -> Element? {
-        for x in self {
-            let t = x as Element
-            if fn(t) {
-                return t
-            }
-        }
-        return nil
-    }
-
-    func first(_ fn: (Element, Int) -> Bool) -> Element? {
-        var i = 0
-        for x in self {
-            let t = x as Element
-            if fn(t, i) {
-                return t
-            }
-            i += 1
-        }
-        return nil
-    }
-
     func any(_ fn: (Element) -> Bool) -> Bool {
         return self.filter(fn).count > 0
     }
@@ -139,18 +117,6 @@ extension Array {
             }
         }
         return orElse()
-    }
-
-    func sortBy(_ fns: ((Element, Element) -> Int) ...) -> [Element] {
-        return self.sorted { x, y in
-            for f in fns {
-                let r = f(x, y)
-                if r != 0 {
-                    return r > 0
-                }
-            }
-            return false
-        }
     }
 
     func groupBy<Key: Hashable, Item>(_ fn: (Item) -> Key) -> [Group<Key, Item>] {
