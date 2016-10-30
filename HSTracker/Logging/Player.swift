@@ -11,7 +11,7 @@
 import Foundation
 import CleanroomLogger
 
-class DynamicEntity: Hashable {
+class DynamicEntity {
     var cardId: String
     var stolen, hidden, created, isInHand, discarded: Bool
     var cardMark: CardMark
@@ -29,7 +29,9 @@ class DynamicEntity: Hashable {
         self.isInHand = isInHand
         self.entity = entity
     }
+}
 
+extension DynamicEntity: Hashable {
     var hashValue: Int {
         return cardId.hashValue ^
             hidden.hashValue ^
@@ -39,15 +41,16 @@ class DynamicEntity: Hashable {
             cardMark.hashValue ^
             isInHand.hashValue
     }
-}
-func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
-    return lhs.cardId == rhs.cardId &&
-        lhs.hidden == rhs.hidden &&
-        lhs.created == lhs.created &&
-        lhs.discarded == rhs.discarded &&
-        lhs.cardMark == rhs.cardMark &&
-        lhs.stolen == rhs.stolen &&
-        lhs.isInHand == rhs.isInHand
+
+    static func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
+        return lhs.cardId == rhs.cardId &&
+            lhs.hidden == rhs.hidden &&
+            lhs.created == lhs.created &&
+            lhs.discarded == rhs.discarded &&
+            lhs.cardMark == rhs.cardMark &&
+            lhs.stolen == rhs.stolen &&
+            lhs.isInHand == rhs.isInHand
+    }
 }
 
 class DeckState {
@@ -60,7 +63,7 @@ class DeckState {
     }
 }
 
-class PredictedCard: Hashable {
+class PredictedCard {
     var cardId: String
     var turn: Int
 
@@ -68,13 +71,16 @@ class PredictedCard: Hashable {
         self.cardId = cardId
         self.turn = turn
     }
+}
 
+extension PredictedCard: Hashable {
     var hashValue: Int {
         return cardId.hashValue ^ turn.hashValue
     }
-}
-func == (lhs: PredictedCard, rhs: PredictedCard) -> Bool {
-    return lhs.cardId == rhs.cardId && lhs.turn == rhs.turn
+
+    static func == (lhs: PredictedCard, rhs: PredictedCard) -> Bool {
+        return lhs.cardId == rhs.cardId && lhs.turn == rhs.turn
+    }
 }
 
 final class Player {

@@ -2650,7 +2650,8 @@ struct CardIds {
         }
 
         struct Mage {
-            static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock, MirrorEntity, Spellbender, Vaporize]
+            static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock,
+                              MirrorEntity, Spellbender, Vaporize]
             static let Counterspell = CardIds.Collectible.Mage.Counterspell
             static let Duplicate = CardIds.Collectible.Mage.Duplicate
             static let Effigy = CardIds.Collectible.Mage.Effigy
@@ -2671,7 +2672,8 @@ struct CardIds {
         }
 
         struct Paladin {
-            static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, NobleSacrifice, Redemption, Repentance, SacredTrial]
+            static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, NobleSacrifice,
+                              Redemption, Repentance, SacredTrial]
             static let Avenge = CardIds.Collectible.Paladin.Avenge
             static let CompetitiveSpirit = CardIds.Collectible.Paladin.CompetitiveSpirit
             static let EyeForAnEye = CardIds.Collectible.Paladin.EyeForAnEye

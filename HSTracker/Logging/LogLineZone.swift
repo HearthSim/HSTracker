@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LogLineZone: CustomStringConvertible {
+class LogLineZone {
     var namespace: LogLineNamespace
     var logLevel = 1
     var filePrinting = "true"
@@ -40,7 +40,9 @@ class LogLineZone: CustomStringConvertible {
         }
         return content.joined(separator: "\n") + "\n"
     }
-    
+}
+
+extension LogLineZone: CustomStringConvertible {
     var description: String {
         return "[\(namespace.rawValue): " +
             "LogLevel=\(logLevel), " +

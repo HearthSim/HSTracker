@@ -9,10 +9,9 @@
  */
 
 import Foundation
-import Unbox
 import Wrap
 
-enum GameMode: Int, UnboxableEnum, WrappableEnum {
+enum GameMode: Int, WrappableEnum {
     case all, //for filtering @ deck stats
     ranked,
     casual,
@@ -22,10 +21,6 @@ enum GameMode: Int, UnboxableEnum, WrappableEnum {
     practice,
     spectator,
     none
-
-    static func unboxFallbackValue() -> GameMode {
-        return .none
-    }
     
     var userFacingName: String {
         switch self {
