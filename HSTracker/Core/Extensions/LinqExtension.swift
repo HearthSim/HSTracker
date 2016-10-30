@@ -33,6 +33,28 @@ extension Array {
         return to
     }
 
+    func first(_ fn: (Element) -> Bool) -> Element? {
+        for x in self {
+            let t = x as Element
+            if fn(t) {
+                return t
+            }
+        }
+        return nil
+    }
+
+    func first(_ fn: (Element, Int) -> Bool) -> Element? {
+        var i = 0
+        for x in self {
+            let t = x as Element
+            if fn(t, i) {
+                return t
+            }
+            i += 1
+        }
+        return nil
+    }
+
     func any(_ fn: (Element) -> Bool) -> Bool {
         return self.filter(fn).count > 0
     }

@@ -20,8 +20,7 @@ struct FileImporter: BaseFileImporter {
         let fileContent: [String]?
         do {
             let content = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
-            fileContent = content
-                .components(separatedBy: CharacterSet.newlines)
+            fileContent = content.components(separatedBy: CharacterSet.newlines)
         } catch let error {
             Log.error?.message("\(error)")
             return nil
