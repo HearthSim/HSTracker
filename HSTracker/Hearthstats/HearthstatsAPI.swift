@@ -419,6 +419,9 @@ struct HearthstatsAPI {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
         let startAt = formatter.string(from: startTime)
 
+        var cards: [String: Int] = [:]
+        stat.cards.forEach { cards[$0.id] = $0.count }
+
         let parameters: [String: Any] = [
             "class": deck.playerClass.rawValue.capitalized,
             "mode": "\(game.currentGameMode)".capitalized,
@@ -432,7 +435,7 @@ struct HearthstatsAPI {
             "oppname": stat.opponentName,
             "notes": stat.note,
             "ranklvl": stat.playerRank,
-            "oppcards": stat.cards,
+            "oppcards": cards,
             "created_at": startAt
         ]
         Log.info?.message("Posting match to Hearthstats \(parameters)")
