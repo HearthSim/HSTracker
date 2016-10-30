@@ -85,20 +85,21 @@ final class Hearthstone: NSObject {
             var fileContent: String?
             do {
                 fileContent = try String(contentsOfFile: configPath)
-            } catch let error as NSError {
-                Log.error?.message("\(error.description)")
+            } catch {
+                Log.error?.message("\(error)")
             }
             if let fileContent = fileContent {
                 var zonesFound: [LogLineZone] = []
-                let splittedZones = fileContent.characters.split { $0 == "[" }
-                    .map(String.init)
+                let splittedZones = fileContent.components(separatedBy: "[")
                     .map {
                         $0.replacingOccurrences(of: "]", with: "")
-                            .characters.split { $0 == "\n" }.map(String.init)
-                }
+                            .components(separatedBy: "\n")
+                            .filter { !$0.isEmpty }
+                    }
+                    .filter { !$0.isEmpty }
 
                 for splittedZone in splittedZones {
-                    var zoneData = splittedZone.filter {!String.isNullOrEmpty($0) }
+                    var zoneData = splittedZone.filter { !String.isNullOrEmpty($0) }
                     if zoneData.count < 1 {
                         continue
                     }
@@ -107,7 +108,7 @@ final class Hearthstone: NSObject {
                         let logLineZone = LogLineZone(namespace: currentZone)
                         logLineZone.requireVerbose = requireVerbose.contains(currentZone)
                         for line in zoneData {
-                            let kv = line.characters.split { $0 == "=" }.map(String.init)
+                            let kv = line.components(separatedBy: "=")
                             if let key = kv.first, let value = kv.last {
                                 switch key {
                                 case "LogLevel": logLineZone.logLevel = Int(value) ?? 1

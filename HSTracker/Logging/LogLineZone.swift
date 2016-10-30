@@ -29,7 +29,7 @@ class LogLineZone: CustomStringConvertible {
     
     func toString() -> String {
         var content = [
-            "[\(namespace)]",
+            "[\(namespace.rawValue)]",
             "LogLevel=1",
             "FilePrinting=true",
             "ConsolePrinting=false",
@@ -42,7 +42,7 @@ class LogLineZone: CustomStringConvertible {
     }
     
     var description: String {
-        return "[\(namespace): " +
+        return "[\(namespace.rawValue): " +
             "LogLevel=\(logLevel), " +
             "FilePrinting=\(filePrinting), " +
             "ConsolePrinting=\(consolePrinting), " +
