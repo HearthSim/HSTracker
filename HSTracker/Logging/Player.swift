@@ -270,11 +270,13 @@ final class Player {
         return deck.cards.filter({ (c) -> Bool in
             cardsInDeck.all({ $0.id != c.id }) && hand.any({ $0.cardId == c.id })
         })
-            .map { g -> Card in
-                let card = g.copy()
-                card.count = 0
-                card.highlightInHand = true
-                return card
+            .flatMap {
+                if let card = $0.copy() as? Card {
+                    card.count = 0
+                    card.highlightInHand = true
+                    return card
+                }
+                return nil
         }
     }
 

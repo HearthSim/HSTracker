@@ -29,7 +29,7 @@ struct Database {
         }
         langs += ["enUS"]
 
-        var images = [String]()
+        var images: [String] = []
 
         for lang in langs {
             let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(lang).json")
@@ -39,16 +39,12 @@ struct Database {
                 Log.error?.message("\(jsonFile) is not a valid file")
                 continue
             }
-            let jsonCards: Any
-            do {
-                jsonCards = try JSONSerialization.jsonObject(with: jsonData,
-                                                             options: .allowFragments)
-            } catch {
-                Log.error?.message("\(error)")
+            guard let jsonCards = try? JSONSerialization
+                    .jsonObject(with: jsonData, options: []) as? [[String: Any]],
+                let cards = jsonCards else {
+                                    Log.error?.message("\(jsonFile) is not a valid file")
                 continue
             }
-
-            guard let cards = jsonCards as? [[String: Any]]  else { continue }
 
             if let splashscreen = splashscreen {
                 DispatchQueue.main.async {
@@ -58,24 +54,22 @@ struct Database {
                 }
             }
 
-            for jsonCard in cards {
+            for jsonCard: [String: Any] in cards {
                 if let splashscreen = splashscreen {
                     DispatchQueue.main.async {
                         splashscreen.increment()
                     }
                 }
 
+                guard let cardId = jsonCard["id"] as? String else { continue }
                 guard let jsonSet = jsonCard["set"] as? String,
                     let set = CardSet(rawValue: jsonSet.lowercased()) else { continue }
                 guard Database.validCardSets.contains(set) else { continue }
-                guard let cardId = jsonCard["id"] as? String else { continue }
 
-                if lang == "enUS" && langs.count > 1 {
-                    if let card = Cards.cards.firstWhere({ $0.id == cardId }) {
-                        if let name = jsonCard["name"] as? String {
-                            card.enName = name
-                        }
-                    }
+                if let name = jsonCard["name"] as? String,
+                    let card = Cards.cards.first({ $0.id == cardId }),
+                    lang == "enUS" && langs.count > 1 {
+                    card.enName = name
                 } else {
                     let card = Card()
                     card.id = cardId
@@ -87,10 +81,8 @@ struct Database {
                     if card.id == "GAME_005" {
                         card.cost = 0
                         images.append(card.id)
-                    } else {
-                        if let cost = jsonCard["cost"] as? Int {
-                            card.cost = cost
-                        }
+                    } else if let cost = jsonCard["cost"] as? Int {
+                        card.cost = cost
                     }
 
                     if let cardRarity = jsonCard["rarity"] as? String,
@@ -120,6 +112,12 @@ struct Database {
                     if let attack = jsonCard["attack"] as? Int {
                         card.attack = attack
                     }
+                    if let durability = jsonCard["durability"] as? Int {
+                        card.durability = durability
+                    }
+                    if let overload = jsonCard["overload"] as? Int {
+                        card.overload = overload
+                    }
                     if let race = jsonCard["race"] as? String,
                         let cardRace = Race(rawValue: race.lowercased()) {
                         card.race = cardRace
@@ -147,18 +145,13 @@ struct Database {
                     if let artist = jsonCard["artist"] as? String {
                         card.artist = artist
                     }
+                    if let mechanics = jsonCard["mechanics"] as? [String] {
+                        for mechanic in mechanics {
+                            let cardMechanic = CardMechanic(name: mechanic)
+                            card.mechanics.append(cardMechanic)
+                        }
+                    }
                     Cards.cards.append(card)
-                    /*if let mechanics = jsonCard["mechanics"] as? [String] {
-                     for mechanic in mechanics {
-                     let _mechanic = mechanic.lowercaseString
-                     var cardMechanic = ("name", withValue: _mechanic, inContext: localContext)
-                     if cardMechanic == nil {
-                     cardMechanic = CardMechanic.MR_createEntityInContext(localContext)
-                     cardMechanic!.name = _mechanic
-                     }
-                     card.mechanics.insert(cardMechanic!)
-                     }
-                     }*/
                 }
             }
         }

@@ -21,7 +21,7 @@ final class Cards {
 
     static func hero(byId cardId: String) -> Card? {
         if let card = cards.firstWhere({ $0.id == cardId && $0.type == .hero }) {
-            return card.copy()
+            return card.copy() as? Card
         }
         return nil
     }
@@ -38,7 +38,7 @@ final class Cards {
         if let card = cards.filter({
             $0.type != .hero && $0.type != .hero_power
         }).firstWhere({ $0.id == cardId }) {
-            return card.copy()
+            return card.copy() as? Card
         }
         return nil
     }
@@ -46,7 +46,7 @@ final class Cards {
     static func any(byId cardId: String) -> Card? {
         if String.isNullOrEmpty(cardId) { return nil }
         if let card = cards.firstWhere({ $0.id == cardId }) {
-            return card.copy()
+            return card.copy() as? Card
         }
         return nil
     }
@@ -68,14 +68,14 @@ final class Cards {
 
     static func by(name: String) -> Card? {
         if let card = collectible().firstWhere({ $0.name == name }) {
-            return card.copy()
+            return card.copy() as? Card
         }
         return nil
     }
 
     static func by(englishName name: String) -> Card? {
         if let card = collectible().firstWhere({ $0.enName == name || $0.name == name }) {
-            return card.copy()
+            return card.copy() as? Card
         }
         return nil
     }
@@ -85,7 +85,7 @@ final class Cards {
             $0.enName.caseInsensitiveCompare(name) == ComparisonResult.orderedSame ||
                 $0.name.caseInsensitiveCompare(name) == ComparisonResult.orderedSame
         }) {
-            return card.copy()
+            return card.copy() as? Card
         }
         return nil
     }

@@ -67,7 +67,7 @@ final class Decks {
         let json: [String: Any]?
         do {
             json = try JSONSerialization
-                    .jsonObject(with: jsonData, options: .allowFragments) as? [String: Any]
+                    .jsonObject(with: jsonData, options: []) as? [String: Any]
         } catch {
             Log.error?.message("\(file) is not a valid json file")
             remove(file: file)

@@ -82,8 +82,10 @@ class Entity {
     }
 
     func set(cardCount count: Int) { card.count = count }
+}
 
-    func copy() -> Entity {
+extension Entity: NSCopying {
+     func copy(with zone: NSZone? = nil) -> Any {
         let e = Entity(id: id)
         e.isPlayer = isPlayer
         e.cardId = cardId

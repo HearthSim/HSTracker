@@ -17,7 +17,7 @@ final class ReplayKeyPoint {
 
     init(data: [Entity]?, type: KeyPointType, id: Int, player: PlayerType) {
         if let data = data {
-            self.data = data.map { $0.copy() }
+            self.data = data.flatMap { $0.copy() as? Entity }
         } else {
             self.data = []
         }

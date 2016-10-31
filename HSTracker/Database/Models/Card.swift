@@ -17,6 +17,8 @@ final class Card {
     var flavor = ""
     var health = 0
     var attack = 0
+    var overload = 0
+    var durability = 0
     var name = "unknown"
     var enName = ""
     var playerClass: CardClass = .neutral
@@ -25,7 +27,7 @@ final class Card {
     var text = ""
     var race: Race = .invalid
     var type: CardType = .invalid
-    // var mechanics: Set<CardMechanic>
+    var mechanics: [CardMechanic] = []
     var isStandard = false
     var artist = ""
 
@@ -63,8 +65,11 @@ final class Card {
         }
         return color
     }
+}
 
-    func copy() -> Card {
+extension Card: NSCopying {
+
+    func copy(with zone: NSZone? = nil) -> Any {
         let copy = Card()
         copy.id = self.id
         copy.collectible = self.collectible
@@ -73,16 +78,19 @@ final class Card {
         copy.flavor = self.flavor
         copy.health = self.health
         copy.attack = self.attack
+        copy.durability = self.durability
         copy.name = self.name
         copy.enName = self.enName
         copy.playerClass = self.playerClass
         copy.rarity = self.rarity
         copy.set = self.set
         copy.text = self.text
-        copy.type = self.type
         copy.race = self.race
-        // copy.mechanics = self.mechanics
+        copy.type = self.type
+        copy.overload = self.overload
+        copy.mechanics = self.mechanics
         copy.isStandard = self.isStandard
+        copy.artist = self.artist
         copy.count = self.count
         copy.hasChanged = self.hasChanged
         copy.jousted = self.jousted

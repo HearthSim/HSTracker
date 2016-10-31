@@ -1185,6 +1185,8 @@ struct CardIds {
             static let AIBuddyAllChargeAllWindfury_AllChargeAllWindfuryAllTheTimeEnchantment = "XXX_111e"
             static let FillDeck = "XXX_112"
             static let Again = "XXX_113"
+            static let DestroyPlayedCards = "XXX_115"
+            static let DestroyPlayedCards_DestroyPlayedCardEnchantmentEnchantment = "XXX_115e"
             static let CrashTheServer = "XXX_999_Crash"
             static let HomingChicken = "Mekka1"
             static let RepairBot = "Mekka2"
