@@ -96,8 +96,8 @@ final class ReplayMaker {
             let name = "\(Date().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
                 + "\(opponentName)(\(opponentHeroName)).hdtreplay"
             let filename = path.appendingPathComponent(name)
-            
-            SSZipArchive.createZipFile(atPath: filename.path, withFilesAtPaths: [output])
+
+            SSZipArchive.createZipFile(atPath: filename.path, withFilesAtPaths: [output.path])
             Log.info?.message("Replay saved to \(filename)")
             
             do {
