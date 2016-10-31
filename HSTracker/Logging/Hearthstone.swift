@@ -217,10 +217,15 @@ final class Hearthstone: NSObject {
             app.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now launched")
             self.startTracking()
-            SizeHelper.hearthstoneWindow.reload()
             NotificationCenter.default.post(name:
                 Notification.Name(rawValue: "hearthstone_running"), object: nil)
             AppHealth.instance.setHearthstoneRunning(flag: true)
+
+            let time = DispatchTime.now() + DispatchTimeInterval.seconds(2)
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                SizeHelper.hearthstoneWindow.reload()
+                WindowManager.default.updateTrackers()
+            }
         }
     }
 

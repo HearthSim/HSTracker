@@ -122,6 +122,9 @@ class WindowManager {
 
     // MARK: - Updating trackers
     @objc func updateTrackers(reset: Bool = false) {
+        DispatchQueue.main.async {
+            SizeHelper.hearthstoneWindow.reload()
+        }
         let settings = Settings.instance
         let game = Game.instance
 
