@@ -715,6 +715,7 @@
 		43D308051C842DC900480488 /* GamePrefences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrefences.swift; sourceTree = "<group>"; };
 		43D308071C84410000480488 /* PlayerTrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTrackersPreferences.swift; sourceTree = "<group>"; };
 		43D601D81CC3A57C0059F36A /* Decks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decks.swift; sourceTree = "<group>"; };
+		43E6632A1DC743BC007AB06E /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		43E77EDF1C949C6D00C26950 /* TimerHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerHud.xib; sourceTree = "<group>"; };
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
@@ -1009,9 +1010,7 @@
 				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
 				439C7E571C7772C000D29859 /* Info.plist */,
 				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
-				43C567E31D5D0C6300451B6F /* versions.markdown */,
-				431202AC1D93B1DB00606CA5 /* Cartfile */,
-				435BC4B61DA3801E007EF301 /* hs-build-dates.json */,
+				43E6632B1DC743C1007AB06E /* Configs */,
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
 				439C7E6A1C7772C100D29859 /* HSTrackerUITests */,
 				439C7E491C7772C000D29859 /* Products */,
@@ -1290,6 +1289,17 @@
 				43C567F41D5E342C00451B6F /* BuildDates.swift */,
 			);
 			path = Converter;
+			sourceTree = "<group>";
+		};
+		43E6632B1DC743C1007AB06E /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				43C567E31D5D0C6300451B6F /* versions.markdown */,
+				431202AC1D93B1DB00606CA5 /* Cartfile */,
+				435BC4B61DA3801E007EF301 /* hs-build-dates.json */,
+				43E6632A1DC743BC007AB06E /* .travis.yml */,
+			);
+			name = Configs;
 			sourceTree = "<group>";
 		};
 		43E77EEB1C969C2500C26950 /* Regex */ = {
