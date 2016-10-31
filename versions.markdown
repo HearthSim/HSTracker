@@ -4,7 +4,7 @@
 
 ## Fixes:
 - Effigy is now removed correctly from secret helper
-- Export to Hearthstone should pick the correct card now (ie: C'Thun)
+- Export to Hearthstone should pick the correct card now (ie: C'Thun) and the second card if the first is not available
 - Hearthhead import works with their new website
 
 ## Internal
