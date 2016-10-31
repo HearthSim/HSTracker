@@ -11,7 +11,8 @@ import CleanroomLogger
 
 class Draft {
     // MARK: - vars
-    var deck: Deck?
+    var playerClass: CardClass?
+    var cards: [Card]?
     
     var drafting = false
     
@@ -30,7 +31,8 @@ class Draft {
         Log.verbose?.message("Resetting draft")
         
         drafting = false
-        deck?.reset()
+        playerClass = nil
+        cards = nil
     }
     
     func startDraft(for playerClass: CardClass) {
@@ -42,14 +44,15 @@ class Draft {
         }
         drafting = true
         Log.debug?.message("Starting a new deck for \(playerClass)")
-        deck = Deck()
-        deck?.playerClass = playerClass
+        self.playerClass = playerClass
+        self.cards = []
     }
     
     func add(card: Card) {
-        deck?.add(card: card)
+        card.count = 1
+        cards?.append(card)
         
-        if let deck = deck, deck.isValid() {
+        if let _ = playerClass, let cards = cards, cards.isValidDeck() {
             DispatchQueue.main.async {
                 let alert = NSAlert()
                 alert.alertStyle = .informational

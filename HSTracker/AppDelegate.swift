@@ -552,25 +552,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func saveArenaDeck(_ sender: AnyObject) {
-        if let deck = Draft.instance.deck {
+        let draft = Draft.instance
+        if let playerClass = draft.playerClass, let cards = draft.cards {
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
             }
-            deckManager?.currentDeck = deck
-            deckManager?.editDeck(self)
+            do {
+                let realm = try Realm()
+
+                try realm.write {
+                    let deck = Deck()
+                    deck.isArena = true
+                    deck.playerClass = playerClass
+                    realm.add(deck)
+                    for card in cards {
+                        deck.add(card: card)
+                    }
+                    deckManager?.currentDeck = deck
+                }
+                deckManager?.editDeck(self)
+            } catch {
+                Log.error?.message("Can not create deck")
+            }
         } else {
             Log.error?.message("Arena deck doesn't exist. How?")
-            let alert = NSAlert()
-            alert.alertStyle = .informational
-            // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.", comment: "")
-            // swiftlint:enable line_length
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            NSRunningApplication.current().activate(options: [
-                NSApplicationActivationOptions.activateAllWindows,
-                NSApplicationActivationOptions.activateIgnoringOtherApps])
-            NSApp.activate(ignoringOtherApps: true)
-            alert.runModal()
+            let msg = NSLocalizedString("There was an issue saving your arena deck. "
+                + "Try relaunching Hearthstone and clicking on 'Arena', and then try to "
+                + "save again.", comment: "")
+            NSAlert.show(style: .critical,
+                         message: msg,
+                         forceFront: true)
         }
     }
 

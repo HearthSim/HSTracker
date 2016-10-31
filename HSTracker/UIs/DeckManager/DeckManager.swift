@@ -531,15 +531,14 @@ class DeckManager: NSWindowController {
     }
     
     fileprivate func exportDeckToHearthstone(_ deck: Deck) {
-        let when = DispatchTime.now()
-            + Double(Int64(2 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        let when = DispatchTime.now() + DispatchTimeInterval.seconds(2)
         let queue = DispatchQueue.main
         queue.asyncAfter(deadline: when) {
             let automation = Automation()
             automation.expertDeckToHearthstone(deck: deck) {
                 NSAlert.show(style: .informational,
                              message: NSLocalizedString("Export done", comment: ""),
-                             window: self.window!)
+                             window: self.window!, forceFront: true)
             }
         }
     }

@@ -24,7 +24,9 @@ extension NSAlert {
 
         if let forceFront = forceFront, forceFront {
             NSRunningApplication.current().activate(options: [
-                .activateAllWindows, .activateIgnoringOtherApps])
+                .activateAllWindows,
+                .activateIgnoringOtherApps
+                ])
             NSApp.activate(ignoringOtherApps: true)
         }
 
