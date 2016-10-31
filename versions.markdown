@@ -1,3 +1,7 @@
+# 0.18.3
+## Fixes:
+- Correct a crash when saving an arena deck
+
 # 0.18.2
 ## New:
 - HSTracker now show his status on the dock icon
