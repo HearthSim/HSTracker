@@ -1,6 +1,6 @@
 # 0.18.2
 ## New:
-- The HSTracker now show his status on the dock icon
+- HSTracker now show his status on the dock icon
 
 ## Fixes:
 - Effigy is now removed correctly from secret helper
