@@ -12,7 +12,7 @@
 - Hearthhead import works with their new website
 
 ## Internal
-- HSTracker have been converted to swift 2.3
+- HSTracker have been converted to swift 3
 - Complete refactor of all UI system for trackers.
 - Decks and statistics are now saved in a realm database. This should improve their stability.
 
