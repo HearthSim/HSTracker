@@ -18,9 +18,8 @@ class CVRankDetection {
             Log.warning?.message("Failed to initialize rank detector. Retrying once...")
             detector = CVRankDetectorWrapper()
             if !detector.didInit() {
-                // swiftlint:disable line_length
-                Log.error?.message("Still failed to initialize rank detector. Rank detection will be unavailiable.")
-                // swiftlint:enable line_length
+                Log.error?.message("Still failed to initialize rank detector. "
+                    + "Rank detection will be unavailiable.")
             }
         }
     }

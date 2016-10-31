@@ -205,4 +205,16 @@ class WindowMove: NSWindowController {
             Log.debug?.message("rank : \(rank)")
         }
     }
+
+    @IBAction func screenshotFirstCard(_ sender: AnyObject) {
+        if let image = ImageUtilities.screenshotFirstCard() {
+            screenshot.image = image
+
+            let cardMissingDetection = CardMissingDetection()
+            let silverLock = cardMissingDetection.silverLock()
+            let goldenLock = cardMissingDetection.goldenLock()
+
+            Log.debug?.message("silver : \(silverLock), golden : \(goldenLock)")
+        }
+    }
 }

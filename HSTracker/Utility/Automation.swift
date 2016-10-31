@@ -18,18 +18,28 @@ struct Automation {
 
             let searchLocation = SizeHelper.searchLocation()
             let firstCardLocation = SizeHelper.firstCardLocation()
+            let secondCardLocation = SizeHelper.secondCardLocation()
+
+            let cardMissingDetection = CardMissingDetection()
 
             // click a first time to be sure we have the focus on hearthstone
             self.leftClick(at: searchLocation)
             Thread.sleep(forTimeInterval: 0.5)
 
             deck.sortedCards.forEach {
+                self.leftClick(at: searchLocation)
+                Thread.sleep(forTimeInterval: 0.3)
+                self.write(string: self.searchText(card: $0))
+                Thread.sleep(forTimeInterval: 0.3)
+
                 for _ in 1...$0.count {
-                    self.leftClick(at: searchLocation)
-                    Thread.sleep(forTimeInterval: 0.3)
-                    self.write(string: self.searchText(card: $0))
-                    Thread.sleep(forTimeInterval: 0.3)
-                    self.doubleClick(at: firstCardLocation)
+                    let silverLock = cardMissingDetection.silverLock()
+                    let goldenLock = cardMissingDetection.goldenLock()
+                    if silverLock || goldenLock {
+                        self.doubleClick(at: secondCardLocation)
+                    } else {
+                        self.doubleClick(at: firstCardLocation)
+                    }
                     Thread.sleep(forTimeInterval: 0.3)
                 }
             }

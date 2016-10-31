@@ -1,3 +1,11 @@
+//
+//  CVRankDetector.cpp
+//  HSTracker
+//
+//  Created by Matthew Welborn on 6/17/16.
+//  Copyright © 2016 Benjamin Michotte. All rights reserved.
+//
+
 #import "CVRankDetectorWrapper.hpp"
 #include "CVRankDetector.hpp"
 

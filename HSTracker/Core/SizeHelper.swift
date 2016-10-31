@@ -189,6 +189,14 @@ struct SizeHelper {
         return loc
     }
 
+    static func firstCardFrame() -> NSRect {
+        let location = firstCardLocation()
+        return NSRect(x: location.x - 100,
+                      y: location.y + 180,
+                      width: 300,
+                      height: 100)
+    }
+
     static func firstCardLocation() -> NSPoint {
         let hsRect = hearthstoneWindow.frame
         let ratio = (4.0 / 3.0) / (hsRect.width / hsRect.height)
@@ -203,6 +211,13 @@ struct SizeHelper {
         // correct location with window origin.
         loc.x += hsRect.origin.x
         loc.y = loc.y + (hearthstoneWindow.screenRect.height - hsRect.origin.y - hsRect.size.height)
+        return loc
+    }
+
+    static func secondCardLocation() -> NSPoint {
+        var loc = firstCardLocation()
+
+        loc.x += 190
         return loc
     }
 

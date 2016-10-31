@@ -10,6 +10,16 @@ import Foundation
 import CleanroomLogger
 
 struct ImageUtilities {
+    static func screenshotFirstCard() -> NSImage? {
+        let hearthstoneWindow = SizeHelper.hearthstoneWindow
+        if let image = hearthstoneWindow.screenshot() {
+            let cropped = cropRect(image: image,
+                                   rect: SizeHelper.firstCardFrame())
+            return cropped
+        }
+        return nil
+    }
+
     static func screenshotOpponentRank() -> NSImage? {
         let hearthstoneWindow = SizeHelper.hearthstoneWindow
         if let image = hearthstoneWindow.screenshot() {
