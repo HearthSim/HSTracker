@@ -290,6 +290,6 @@ final class Hearthstone: NSObject {
 
     var hearthstoneApp: NSRunningApplication? {
         let apps = NSWorkspace.shared().runningApplications
-        return apps.first({$0.localizedName! == self.applicationName})
+        return apps.first { $0.localizedName ?? "" == self.applicationName }
     }
 }

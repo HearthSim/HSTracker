@@ -538,15 +538,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func saveDeck(_ player: Player) {
         if let playerClass = player.playerClass {
-            let deck = Deck()
-            deck.playerClass = playerClass
-            deck.name = player.name ?? "Custom \(playerClass)"
-            player.playerCardList.filter({ $0.collectible == true }).forEach({ deck.add(card: $0) })
-
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
             }
-            deckManager?.currentDeck = deck
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    let deck = Deck()
+                    deck.playerClass = playerClass
+                    deck.name = player.name ?? "Custom \(playerClass)"
+                    player.playerCardList.filter({ $0.collectible == true }).forEach {
+                        deck.add(card: $0)
+                    }
+                    deckManager?.currentDeck = deck
+                }
+            } catch {
+                Log.error?.message("Can not create deck")
+            }
             deckManager?.editDeck(self)
         }
     }
