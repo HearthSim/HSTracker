@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EditDeck" customModule="HSTracker" customModuleProvider="target">
@@ -517,7 +518,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Eie-dc-C6m">
-                                            <rect key="frame" x="695" y="1" width="15" height="470"/>
+                                            <rect key="frame" x="694" y="1" width="16" height="470"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <connections>
@@ -537,7 +538,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="711" height="26"/>
                                 <subviews>
                                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xdl-38-Ttc">
-                                        <rect key="frame" x="597" y="3" width="104" height="21"/>
+                                        <rect key="frame" x="597" y="4" width="104" height="19"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="0vM-dM-9N9"/>
                                         </constraints>
@@ -626,7 +627,6 @@
                 <defaultToolbarItems>
                     <toolbarItem reference="d1a-mc-Snn"/>
                     <toolbarItem reference="o0Z-hh-Cdy"/>
-                    <toolbarItem reference="CT1-aM-w9a"/>
                 </defaultToolbarItems>
             </toolbar>
             <connections>

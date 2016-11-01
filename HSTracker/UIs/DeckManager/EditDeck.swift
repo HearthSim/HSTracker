@@ -477,40 +477,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         self.window?.performClose(self)
     }
 
-    @IBAction func delete(_ sender: AnyObject?) {
-        let msg = NSLocalizedString("Are you sure you want to delete this deck ?", comment: "")
-        NSAlert.show(style: .informational, message: msg, window: self.window!) {
-            if let _ = self.currentDeck!.hearthstatsId.value, HearthstatsAPI.isLogged() {
-                if Settings.instance.hearthstatsAutoSynchronize {
-                    do {
-                        try HearthstatsAPI.delete(deck: self.currentDeck!)
-                    } catch {}
-                } else {
-                    let msg = NSLocalizedString("Do you want to delete the deck on Hearthstats ?",
-                                                comment: "")
-                    NSAlert.show(style: .informational, message: msg, window: self.window) {
-                        do {
-                            try HearthstatsAPI.delete(deck: self.currentDeck!)
-                        } catch {
-                            // TODO alert
-                            print("error")
-                        }
-                    }
-                }
-            }
-            do {
-                let realm = try Realm()
-                try realm.write {
-                    realm.delete(self.currentDeck!)
-                }
-            } catch {
-                Log.error?.message("Can not delete deck : \(error)")
-            }
-            self.isSaved = true
-            self.window?.performClose(self)
-        }
-    }
-
     // MARK: - Search
     @IBAction func search(_ sender: NSSearchField) {
         currentSearchTerm = sender.stringValue

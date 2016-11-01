@@ -399,9 +399,21 @@ class DeckManager: NSWindowController {
         }
     }
 
-    fileprivate func _deleteDeck(_ deck: Deck) {
+    fileprivate func _deleteDeck(_ currentDeck: Deck) {
         decksTable.deselectAll(self)
-        currentDeck = nil
+        self.currentDeck = nil
+
+        guard let realm = try? Realm() else {
+            Log.error?.message("Can not get realm instance")
+            refreshDecks()
+            return
+        }
+        guard let deck = realm.objects(Deck.self)
+            .filter("deckId = '\(currentDeck.deckId)'").first else {
+                Log.error?.message("Can not get deck")
+                refreshDecks()
+                return
+        }
         
         if let _ = deck.hearthstatsId.value, HearthstatsAPI.isLogged() {
             if Settings.instance.hearthstatsAutoSynchronize {
@@ -411,7 +423,6 @@ class DeckManager: NSWindowController {
                     Log.error?.message("error delete hearthstats")
                 }
                 do {
-                    let realm = try Realm()
                     try realm.write {
                         realm.delete(deck)
                     }
@@ -429,7 +440,6 @@ class DeckManager: NSWindowController {
                         Log.error?.message("error delete hearthstats")
                     }
                     do {
-                        let realm = try Realm()
                         try realm.write {
                             realm.delete(deck)
                         }
@@ -441,7 +451,6 @@ class DeckManager: NSWindowController {
             }
         } else {
             do {
-                let realm = try Realm()
                 try realm.write {
                     realm.delete(deck)
                 }
