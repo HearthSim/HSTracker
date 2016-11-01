@@ -67,6 +67,8 @@
 "paladin" = "圣骑士";
 "priest" = "牧师";
 "rogue" = "盗贼";
+"All classes" = "All classes";
+"Archived" = "Archived";
 
 /* rarity */
 "all_rarities" = "所有";

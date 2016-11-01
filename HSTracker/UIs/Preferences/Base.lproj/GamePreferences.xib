@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GamePreferences" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="autoArchiveArenaDeck" destination="Tn5-ef-XSB" id="iji-xJ-Q26"/>
                 <outlet property="checkImage" destination="uK7-xp-tnR" id="wCa-mD-JKJ"/>
                 <outlet property="chooseHearthstonePath" destination="btV-TN-8Ol" id="KWg-zW-vUh"/>
                 <outlet property="hearthstoneLanguage" destination="aGA-sR-AWM" id="cT7-zO-ow3"/>
@@ -100,20 +101,33 @@
                         <outlet property="delegate" destination="-2" id="ix1-p5-i6H"/>
                     </connections>
                 </comboBox>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="Tn5-ef-XSB">
+                    <rect key="frame" x="18" y="107" width="479" height="18"/>
+                    <buttonCell key="cell" type="check" title="Auto archive arena deck on run end" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hMe-FU-CjR">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="a1y-Ip-M7o"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="O8a-FA-pQF" firstAttribute="leading" secondItem="ya6-7I-GEB" secondAttribute="trailing" constant="10" id="1PI-RP-3Na"/>
                 <constraint firstItem="SP4-ge-wIF" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="2ff-PM-VaH"/>
+                <constraint firstItem="Tn5-ef-XSB" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="3lM-5K-aAe"/>
                 <constraint firstItem="7in-D6-SFv" firstAttribute="leading" secondItem="HgM-aY-crX" secondAttribute="trailing" constant="10" id="4sK-Hn-kMT"/>
                 <constraint firstItem="aGA-sR-AWM" firstAttribute="leading" secondItem="SP4-ge-wIF" secondAttribute="trailing" constant="10" id="88G-9b-9kA"/>
                 <constraint firstAttribute="trailing" secondItem="aGA-sR-AWM" secondAttribute="trailing" constant="20" id="Awr-5G-QhE"/>
                 <constraint firstItem="uK7-xp-tnR" firstAttribute="leading" secondItem="btV-TN-8Ol" secondAttribute="trailing" constant="5" id="Frb-kQ-sRY"/>
+                <constraint firstItem="Tn5-ef-XSB" firstAttribute="top" secondItem="SP4-ge-wIF" secondAttribute="bottom" constant="8" symbolic="YES" id="KPt-O9-P0N"/>
                 <constraint firstItem="btV-TN-8Ol" firstAttribute="centerY" secondItem="O8a-FA-pQF" secondAttribute="centerY" id="MUK-Cg-gJ7"/>
                 <constraint firstItem="ya6-7I-GEB" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="TVO-GP-7CE"/>
                 <constraint firstItem="uK7-xp-tnR" firstAttribute="centerY" secondItem="btV-TN-8Ol" secondAttribute="centerY" id="X3E-nX-5mA"/>
                 <constraint firstItem="ya6-7I-GEB" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="Zck-pY-WhC"/>
                 <constraint firstAttribute="trailing" secondItem="7in-D6-SFv" secondAttribute="trailing" constant="20" id="fZf-Tc-L6e"/>
                 <constraint firstItem="HgM-aY-crX" firstAttribute="top" secondItem="ya6-7I-GEB" secondAttribute="bottom" constant="10" id="giG-hE-NV7"/>
+                <constraint firstAttribute="trailing" secondItem="Tn5-ef-XSB" secondAttribute="trailing" constant="20" symbolic="YES" id="jud-eq-Iyk"/>
                 <constraint firstItem="SP4-ge-wIF" firstAttribute="top" secondItem="HgM-aY-crX" secondAttribute="bottom" constant="10" id="m5B-iK-6Da"/>
                 <constraint firstItem="HgM-aY-crX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="n1C-h0-el7"/>
                 <constraint firstItem="O8a-FA-pQF" firstAttribute="centerY" secondItem="ya6-7I-GEB" secondAttribute="centerY" id="sU7-AM-iKk"/>

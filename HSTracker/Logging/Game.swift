@@ -448,6 +448,12 @@ class Game {
                     for card in strong.opponent.displayRevealedCards {
                         statistic.cards.append(RealmCard(id: card.id, count: card.count))
                     }
+
+                    if Settings.instance.autoArchiveArenaDeck &&
+                        strong.currentGameMode == .arena &&
+                        deck.isArena && deck.arenaFinished() {
+                        deck.isActive = false
+                    }
                     
                     deck.statistics.append(statistic)
                 }

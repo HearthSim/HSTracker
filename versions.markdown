@@ -1,3 +1,13 @@
+# 0.18.4
+## Fixes: 
+- Arena deck will now appear correctly as arena deck on HsReplay
+- Add an option to auto archive arena decks on run end
+- You should no more be asked to save your arena deck once it's saved
+- Statistics are now correctly shown for arena decks
+- Add an icon in the deck manager when a deck is marked as arena
+- Add an icon in the deck manager on arena deck when the run is finished
+- Arena deck imported by HSTracker are now correctly marked as "arena deck"
+
 # 0.18.3
 ## Fixes:
 - Correct a crash when saving an arena deck

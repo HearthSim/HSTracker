@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DeckManager" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="archiveButton" destination="J1s-i7-Cn1" id="Etp-1s-KmK"/>
                 <outlet property="archiveToolBarItem" destination="Fe5-be-5CS" id="xAW-pf-TRk"/>
+                <outlet property="classes" destination="UfZ-Rs-kI0" id="tzh-2Q-J6l"/>
+                <outlet property="classesPopup" destination="aIM-uG-j6C" id="Nue-fE-55I"/>
                 <outlet property="curveView" destination="gl3-d5-lam" id="KjY-HS-ImR"/>
                 <outlet property="deckListTable" destination="Znw-pX-Aav" id="6Yh-1v-5F5"/>
                 <outlet property="decksTable" destination="Pdd-Yb-1af" id="CWs-js-WpT"/>
-                <outlet property="druidButton" destination="E4J-Nz-XJT" id="pHt-yn-xFT"/>
                 <outlet property="hearthstatsButton" destination="Xxv-sY-tej" id="F4e-jL-ZTz"/>
-                <outlet property="hunterButton" destination="pNA-TP-ZaI" id="Cjd-In-4cp"/>
-                <outlet property="mageButton" destination="qNR-vu-j1V" id="2BY-qB-t2g"/>
-                <outlet property="paladinButton" destination="8sY-oX-A05" id="WOT-el-1bO"/>
-                <outlet property="priestButton" destination="kic-Sa-OCu" id="RHh-JV-4f2"/>
-                <outlet property="rogueButton" destination="DDU-f7-Nwx" id="vdW-fp-DAg"/>
-                <outlet property="shamanButton" destination="HZK-Si-jIN" id="a7g-bp-RjD"/>
                 <outlet property="sortPopUp" destination="xO3-ES-jrX" id="Jcd-51-f2j"/>
                 <outlet property="statsLabel" destination="Y6G-cK-9fE" id="HHC-8d-lga"/>
                 <outlet property="toolbar" destination="UfZ-Rs-kI0" id="OFl-vz-Tv7"/>
-                <outlet property="warlockButton" destination="UjQ-5M-0Yn" id="4Xh-UJ-cmN"/>
-                <outlet property="warriorButton" destination="NXa-nS-g6K" id="n0B-j3-Meq"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="Xbg-rx-0ml"/>
             </connections>
         </customObject>
@@ -120,259 +113,14 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="gGc-Yc-iuW" userLabel="CartView">
                         <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="zC6-Ym-sys" userLabel="Classes">
-                                <rect key="frame" x="0.0" y="555" width="689" height="60"/>
-                                <subviews>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="8oa-NQ-ibs" userLabel="00">
-                                        <rect key="frame" x="0.0" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="E4J-Nz-XJT">
-                                        <rect key="frame" x="19" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="7nR-kq-v5F"/>
-                                            <constraint firstAttribute="height" constant="48" id="GgN-xS-1cR"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="druid" imagePosition="overlaps" alignment="center" alternateImage="druid_dark" imageScaling="proportionallyUpOrDown" inset="2" id="Vlh-O0-He6">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="jq5-Bn-i4a"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="UbA-CU-uVy" userLabel="01">
-                                        <rect key="frame" x="67" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="pNA-TP-ZaI">
-                                        <rect key="frame" x="86" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="0wy-CG-j71"/>
-                                            <constraint firstAttribute="height" constant="48" id="Qe5-yn-i13"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="hunter" imagePosition="overlaps" alignment="center" alternateImage="hunter_dark" imageScaling="proportionallyUpOrDown" inset="2" id="SFV-9g-O6Q">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="vYW-7a-qx5"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="ca7-qq-mwv" userLabel="02">
-                                        <rect key="frame" x="134" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="qNR-vu-j1V">
-                                        <rect key="frame" x="153" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="QSk-p3-X6O"/>
-                                            <constraint firstAttribute="height" constant="48" id="lxM-Om-SQq"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="mage" imagePosition="overlaps" alignment="center" alternateImage="mage_dark" imageScaling="proportionallyUpOrDown" inset="2" id="hrd-FU-dK1">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="Ch1-zf-gph"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="PCR-Yd-3ML" userLabel="03">
-                                        <rect key="frame" x="201" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="8sY-oX-A05">
-                                        <rect key="frame" x="220" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="9tj-E5-vv7"/>
-                                            <constraint firstAttribute="height" constant="48" id="VRW-zZ-tyl"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="paladin" imagePosition="overlaps" alignment="center" alternateImage="paladin_dark" imageScaling="proportionallyUpOrDown" inset="2" id="CbC-0a-X7t">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="daS-If-6Qk"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="mMJ-ng-kVE" userLabel="04">
-                                        <rect key="frame" x="268" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="kic-Sa-OCu">
-                                        <rect key="frame" x="287" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="7yE-oc-Gmp"/>
-                                            <constraint firstAttribute="width" constant="48" id="id8-mF-BHL"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="priest" imagePosition="overlaps" alignment="center" alternateImage="priest_dark" imageScaling="proportionallyUpOrDown" inset="2" id="9XJ-kc-UgY">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="PBj-Ic-ai3"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="P3g-mG-CLT" userLabel="05">
-                                        <rect key="frame" x="335" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="DDU-f7-Nwx">
-                                        <rect key="frame" x="354" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="j0x-DI-TZa"/>
-                                            <constraint firstAttribute="width" constant="48" id="u40-zQ-C9P"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="rogue" imagePosition="overlaps" alignment="center" alternateImage="rogue_dark" imageScaling="proportionallyUpOrDown" inset="2" id="Nap-OM-LG5">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="AQp-Kt-JA9"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="nqW-bc-va5" userLabel="06">
-                                        <rect key="frame" x="402" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="HZK-Si-jIN">
-                                        <rect key="frame" x="421" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="TKz-sP-04m"/>
-                                            <constraint firstAttribute="width" constant="48" id="dNM-Fd-Yet"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="shaman" imagePosition="overlaps" alignment="center" alternateImage="shaman_dark" imageScaling="proportionallyUpOrDown" inset="2" id="JET-g1-bWo">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="PQN-bc-dmp"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="r8i-hy-esf" userLabel="07">
-                                        <rect key="frame" x="469" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="UjQ-5M-0Yn">
-                                        <rect key="frame" x="488" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="FVZ-vd-S1G"/>
-                                            <constraint firstAttribute="height" constant="48" id="W8J-sD-0Wi"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="warlock" imagePosition="overlaps" alignment="center" alternateImage="warlock_dark" imageScaling="proportionallyUpOrDown" inset="2" id="vb9-th-XQj">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="bA8-gN-0Lp"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="lO1-rd-Nq7" userLabel="08">
-                                        <rect key="frame" x="536" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="NXa-nS-g6K">
-                                        <rect key="frame" x="555" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="Q9C-nE-wRL"/>
-                                            <constraint firstAttribute="height" constant="48" id="grW-8b-rvt"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="warrior" imagePosition="overlaps" alignment="center" alternateImage="warrior_dark" imageScaling="proportionallyUpOrDown" inset="2" id="uXG-vp-oEe">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="wuv-Fe-8w0"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="cpp-cm-gzh" userLabel="09">
-                                        <rect key="frame" x="603" y="20" width="19" height="20"/>
-                                    </customView>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="J1s-i7-Cn1" userLabel="Archive Button">
-                                        <rect key="frame" x="622" y="6" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="D8F-V7-cXC"/>
-                                            <constraint firstAttribute="height" constant="48" id="YfI-8b-XaY"/>
-                                        </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="archive" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="I7D-K9-0EM">
-                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="filterClassesAction:" target="-2" id="Dz8-Zl-EEM"/>
-                                        </connections>
-                                    </button>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="b8G-nA-cEk" userLabel="10">
-                                        <rect key="frame" x="670" y="20" width="19" height="20"/>
-                                    </customView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="UbA-CU-uVy" secondAttribute="bottom" constant="20" id="0ST-dY-zlD"/>
-                                    <constraint firstItem="DDU-f7-Nwx" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="0sY-lg-8nq"/>
-                                    <constraint firstItem="b8G-nA-cEk" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="2Fb-44-Rdi"/>
-                                    <constraint firstItem="HZK-Si-jIN" firstAttribute="leading" secondItem="nqW-bc-va5" secondAttribute="trailing" id="2pU-vu-hyh"/>
-                                    <constraint firstItem="J1s-i7-Cn1" firstAttribute="leading" secondItem="cpp-cm-gzh" secondAttribute="trailing" id="3Ep-mY-kvN"/>
-                                    <constraint firstAttribute="bottom" secondItem="8oa-NQ-ibs" secondAttribute="bottom" constant="20" id="41l-fm-WHv"/>
-                                    <constraint firstItem="P3g-mG-CLT" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="4M8-ca-Xtw"/>
-                                    <constraint firstAttribute="bottom" secondItem="r8i-hy-esf" secondAttribute="bottom" constant="20" id="4Tw-bz-Szb"/>
-                                    <constraint firstItem="HZK-Si-jIN" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="58g-jI-liC"/>
-                                    <constraint firstItem="8oa-NQ-ibs" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="5WV-y9-Pe7"/>
-                                    <constraint firstItem="PCR-Yd-3ML" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="7QM-6o-yzt"/>
-                                    <constraint firstItem="E4J-Nz-XJT" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="923-L8-WBF"/>
-                                    <constraint firstItem="qNR-vu-j1V" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="AbN-4b-Bj4"/>
-                                    <constraint firstAttribute="bottom" secondItem="mMJ-ng-kVE" secondAttribute="bottom" constant="20" id="BlJ-xb-QDP"/>
-                                    <constraint firstAttribute="trailing" secondItem="b8G-nA-cEk" secondAttribute="trailing" id="DN3-4U-Off"/>
-                                    <constraint firstItem="pNA-TP-ZaI" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="El4-Mj-MIc"/>
-                                    <constraint firstAttribute="height" constant="60" id="Igz-an-svu"/>
-                                    <constraint firstItem="8sY-oX-A05" firstAttribute="leading" secondItem="PCR-Yd-3ML" secondAttribute="trailing" id="KWe-QM-HNu"/>
-                                    <constraint firstItem="pNA-TP-ZaI" firstAttribute="leading" secondItem="UbA-CU-uVy" secondAttribute="trailing" id="LDX-qH-paf"/>
-                                    <constraint firstItem="cpp-cm-gzh" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="LW5-QO-zI5"/>
-                                    <constraint firstItem="UbA-CU-uVy" firstAttribute="leading" secondItem="E4J-Nz-XJT" secondAttribute="trailing" id="O0q-Su-Div"/>
-                                    <constraint firstItem="ca7-qq-mwv" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="Pe9-vn-RTu"/>
-                                    <constraint firstItem="lO1-rd-Nq7" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="Pf5-DU-xWb"/>
-                                    <constraint firstItem="r8i-hy-esf" firstAttribute="leading" secondItem="HZK-Si-jIN" secondAttribute="trailing" id="QCJ-04-L64"/>
-                                    <constraint firstItem="8sY-oX-A05" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="RCO-0z-eWe"/>
-                                    <constraint firstItem="b8G-nA-cEk" firstAttribute="leading" secondItem="J1s-i7-Cn1" secondAttribute="trailing" id="Rtz-sD-V7y"/>
-                                    <constraint firstItem="UjQ-5M-0Yn" firstAttribute="leading" secondItem="r8i-hy-esf" secondAttribute="trailing" id="SCP-p4-68h"/>
-                                    <constraint firstItem="lO1-rd-Nq7" firstAttribute="leading" secondItem="UjQ-5M-0Yn" secondAttribute="trailing" id="TV6-yU-nJ6"/>
-                                    <constraint firstItem="PCR-Yd-3ML" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="VcF-LR-1Qn"/>
-                                    <constraint firstItem="r8i-hy-esf" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="WEc-Qs-L9x"/>
-                                    <constraint firstAttribute="bottom" secondItem="lO1-rd-Nq7" secondAttribute="bottom" constant="20" id="Whf-jm-kqs"/>
-                                    <constraint firstItem="8oa-NQ-ibs" firstAttribute="leading" secondItem="zC6-Ym-sys" secondAttribute="leading" id="Yih-2U-QKH"/>
-                                    <constraint firstItem="NXa-nS-g6K" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="aNA-hc-Mfa"/>
-                                    <constraint firstItem="E4J-Nz-XJT" firstAttribute="leading" secondItem="8oa-NQ-ibs" secondAttribute="trailing" id="czi-F6-Kaq"/>
-                                    <constraint firstItem="cpp-cm-gzh" firstAttribute="leading" secondItem="NXa-nS-g6K" secondAttribute="trailing" id="d8U-oU-WDh"/>
-                                    <constraint firstItem="UjQ-5M-0Yn" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="dvY-9e-2Og"/>
-                                    <constraint firstItem="P3g-mG-CLT" firstAttribute="leading" secondItem="kic-Sa-OCu" secondAttribute="trailing" id="eSN-sB-KAd"/>
-                                    <constraint firstItem="ca7-qq-mwv" firstAttribute="leading" secondItem="pNA-TP-ZaI" secondAttribute="trailing" id="ghd-Cm-QdA"/>
-                                    <constraint firstAttribute="bottom" secondItem="P3g-mG-CLT" secondAttribute="bottom" constant="20" id="gmq-bV-DKg"/>
-                                    <constraint firstItem="mMJ-ng-kVE" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="h7j-IW-vDZ"/>
-                                    <constraint firstAttribute="bottom" secondItem="ca7-qq-mwv" secondAttribute="bottom" constant="20" id="iKT-DS-yhU"/>
-                                    <constraint firstItem="mMJ-ng-kVE" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="iPJ-ML-aTd"/>
-                                    <constraint firstItem="NXa-nS-g6K" firstAttribute="leading" secondItem="lO1-rd-Nq7" secondAttribute="trailing" id="iuu-rS-CTV"/>
-                                    <constraint firstItem="P3g-mG-CLT" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="jaM-Jn-V5c"/>
-                                    <constraint firstItem="mMJ-ng-kVE" firstAttribute="leading" secondItem="8sY-oX-A05" secondAttribute="trailing" id="kE1-Vp-yzR"/>
-                                    <constraint firstAttribute="bottom" secondItem="b8G-nA-cEk" secondAttribute="bottom" constant="20" id="l6t-9H-T79"/>
-                                    <constraint firstItem="qNR-vu-j1V" firstAttribute="leading" secondItem="ca7-qq-mwv" secondAttribute="trailing" id="lak-ae-evu"/>
-                                    <constraint firstItem="J1s-i7-Cn1" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="m1Q-sw-mYT"/>
-                                    <constraint firstItem="cpp-cm-gzh" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="mt1-My-OlX"/>
-                                    <constraint firstItem="r8i-hy-esf" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="nNX-k8-lu6"/>
-                                    <constraint firstItem="lO1-rd-Nq7" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="nsK-4x-awv"/>
-                                    <constraint firstAttribute="bottom" secondItem="PCR-Yd-3ML" secondAttribute="bottom" constant="20" id="nwF-Tf-N5h"/>
-                                    <constraint firstItem="nqW-bc-va5" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="ohT-HS-WX5"/>
-                                    <constraint firstItem="nqW-bc-va5" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="p5A-g9-8x6"/>
-                                    <constraint firstItem="kic-Sa-OCu" firstAttribute="centerY" secondItem="zC6-Ym-sys" secondAttribute="centerY" id="p7Y-R1-7bx"/>
-                                    <constraint firstItem="ca7-qq-mwv" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="qTN-DO-vSz"/>
-                                    <constraint firstAttribute="bottom" secondItem="cpp-cm-gzh" secondAttribute="bottom" constant="20" id="scM-ML-VK3"/>
-                                    <constraint firstItem="PCR-Yd-3ML" firstAttribute="leading" secondItem="qNR-vu-j1V" secondAttribute="trailing" id="seq-WH-PNX"/>
-                                    <constraint firstItem="nqW-bc-va5" firstAttribute="leading" secondItem="DDU-f7-Nwx" secondAttribute="trailing" id="taM-CO-O4s"/>
-                                    <constraint firstAttribute="bottom" secondItem="nqW-bc-va5" secondAttribute="bottom" constant="20" id="v8s-ob-8DO"/>
-                                    <constraint firstItem="DDU-f7-Nwx" firstAttribute="leading" secondItem="P3g-mG-CLT" secondAttribute="trailing" id="weM-be-i0q"/>
-                                    <constraint firstItem="UbA-CU-uVy" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="wqQ-c6-UzB"/>
-                                    <constraint firstItem="b8G-nA-cEk" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="top" constant="20" id="yoJ-XZ-tzu"/>
-                                    <constraint firstItem="UbA-CU-uVy" firstAttribute="width" secondItem="8oa-NQ-ibs" secondAttribute="width" id="yvq-rX-i2S"/>
-                                    <constraint firstItem="kic-Sa-OCu" firstAttribute="leading" secondItem="mMJ-ng-kVE" secondAttribute="trailing" id="zgh-dk-XSQ"/>
-                                </constraints>
-                            </customView>
                             <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="sQk-3F-woa">
-                                <rect key="frame" x="0.0" y="0.0" width="689" height="555"/>
+                                <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
                                 <clipView key="contentView" id="Nh9-JJ-D9x">
-                                    <rect key="frame" x="0.0" y="0.0" width="689" height="555"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af">
-                                            <rect key="frame" x="0.0" y="0.0" width="689" height="555"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -429,13 +177,11 @@
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="zC6-Ym-sys" firstAttribute="leading" secondItem="gGc-Yc-iuW" secondAttribute="leading" id="3SW-MD-QRV"/>
                             <constraint firstItem="sQk-3F-woa" firstAttribute="width" secondItem="gGc-Yc-iuW" secondAttribute="width" id="6cc-T3-yIz"/>
-                            <constraint firstItem="sQk-3F-woa" firstAttribute="top" secondItem="zC6-Ym-sys" secondAttribute="bottom" id="FYp-er-SxL"/>
+                            <constraint firstAttribute="trailing" secondItem="sQk-3F-woa" secondAttribute="trailing" id="Qmy-2J-7BY"/>
                             <constraint firstAttribute="bottom" secondItem="sQk-3F-woa" secondAttribute="bottom" id="lBu-Ky-I1k"/>
                             <constraint firstItem="sQk-3F-woa" firstAttribute="leading" secondItem="gGc-Yc-iuW" secondAttribute="leading" id="njP-N6-5NT"/>
-                            <constraint firstItem="zC6-Ym-sys" firstAttribute="width" secondItem="gGc-Yc-iuW" secondAttribute="width" id="ond-NH-Lwb"/>
-                            <constraint firstItem="zC6-Ym-sys" firstAttribute="top" secondItem="gGc-Yc-iuW" secondAttribute="top" id="wri-iE-fTI"/>
+                            <constraint firstItem="sQk-3F-woa" firstAttribute="top" secondItem="gGc-Yc-iuW" secondAttribute="top" id="tls-lp-qSU"/>
                         </constraints>
                     </customView>
                 </subviews>
@@ -541,6 +287,26 @@
                             <action selector="exportToHearthstone:" target="-2" id="F7f-kw-pom"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="1B935CB6-E06D-4C5B-A5B7-1F3225DA829D" label="" paletteLabel="" id="Hyt-EI-Vfy">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="100" height="28"/>
+                        <size key="maxSize" width="100" height="28"/>
+                        <popUpButton key="view" verticalHuggingPriority="750" id="aIM-uG-j6C">
+                            <rect key="frame" x="0.0" y="14" width="100" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="0XN-R3-wDb" id="bzn-bj-qNJ">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="i7E-Vr-7OS">
+                                    <items>
+                                        <menuItem title="Item 1" state="on" id="0XN-R3-wDb"/>
+                                        <menuItem title="Item 2" id="6BA-8t-3vg"/>
+                                        <menuItem title="Item 3" id="DIF-oI-g1Y"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
@@ -552,6 +318,7 @@
                     <toolbarItem reference="aaa-LK-buD"/>
                     <toolbarItem reference="Fe5-be-5CS"/>
                     <toolbarItem reference="cu3-FG-2Cn"/>
+                    <toolbarItem reference="Hyt-EI-Vfy"/>
                     <toolbarItem reference="I75-rt-at9"/>
                     <toolbarItem reference="ddN-KV-afY"/>
                     <toolbarItem reference="Xxv-sY-tej"/>
@@ -570,33 +337,15 @@
         <image name="archive" width="32" height="32"/>
         <image name="delete-deck" width="32" height="32"/>
         <image name="donate" width="32" height="32"/>
-        <image name="druid" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="druid_dark" width="1437" height="1437"/>
         <image name="edit-deck" width="32" height="32"/>
         <image name="gitter" width="32" height="32"/>
         <image name="hearthstats_icon" width="7.679999828338623" height="7.1999998092651367"/>
         <image name="hearthstone" width="32" height="32"/>
-        <image name="hunter" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="hunter_dark" width="1437" height="1437"/>
-        <image name="mage" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="mage_dark" width="1437" height="1437"/>
-        <image name="paladin" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="paladin_dark" width="1437" height="1437"/>
         <image name="plus" width="32" height="32"/>
-        <image name="priest" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="priest_dark" width="1437" height="1437"/>
         <image name="rename-deck" width="32" height="32"/>
-        <image name="rogue" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="rogue_dark" width="1437" height="1437"/>
-        <image name="shaman" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="shaman_dark" width="1437" height="1437"/>
         <image name="statistics" width="32" height="32"/>
         <image name="trackobot_icon" width="18" height="18"/>
         <image name="twitter" width="32" height="32"/>
         <image name="use-deck" width="32" height="32"/>
-        <image name="warlock" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="warlock_dark" width="1437" height="1437"/>
-        <image name="warrior" width="344.8800048828125" height="344.8800048828125"/>
-        <image name="warrior_dark" width="1437" height="1437"/>
     </resources>
 </document>

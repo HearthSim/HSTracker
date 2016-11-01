@@ -67,6 +67,8 @@
 "paladin" = "Paladin";
 "priest" = "Priester";
 "rogue" = "Schurke";
+"All classes" = "All classes";
+"Archived" = "Archived";
 
 /* rarity */
 "all_rarities" = "Alle";

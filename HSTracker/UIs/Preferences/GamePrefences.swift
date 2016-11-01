@@ -17,6 +17,7 @@ class GamePreferences: NSViewController {
     @IBOutlet weak var hstrackerLanguage: NSComboBox!
     @IBOutlet weak var hearthstoneLanguage: NSComboBox!
     @IBOutlet weak var checkImage: NSImageView!
+    @IBOutlet weak var autoArchiveArenaDeck: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +48,8 @@ class GamePreferences: NSViewController {
             let index = Language.hsLanguages.index(of: locale) {
             hearthstoneLanguage.selectItem(at: index)
         }
+
+        autoArchiveArenaDeck.state = settings.autoArchiveArenaDeck ? NSOnState : NSOffState
     }
 
     @IBAction func choosePath(_ sender: NSButton) {
@@ -74,6 +77,13 @@ class GamePreferences: NSViewController {
         }
     }
 
+    @IBAction func checkboxClicked(_ sender: NSButton) {
+        let settings = Settings.instance
+
+        if sender == autoArchiveArenaDeck {
+            settings.autoArchiveArenaDeck = autoArchiveArenaDeck.state == NSOnState
+        }
+    }
 }
 
 // MARK: - NSComboBoxDataSource / NSComboBoxDelegatemethods
@@ -121,7 +131,6 @@ extension GamePreferences: NSComboBoxDataSource, NSComboBoxDelegate {
             }
         }
     }
-
 }
     // MARK: - NSOpenSavePanelDelegate
 extension GamePreferences: NSOpenSavePanelDelegate {

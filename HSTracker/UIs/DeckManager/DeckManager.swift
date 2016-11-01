@@ -21,16 +21,7 @@ class DeckManager: NSWindowController {
     @IBOutlet weak var archiveToolBarItem: NSToolbarItem!
     @IBOutlet weak var sortPopUp: NSPopUpButton!
 
-    @IBOutlet weak var druidButton: NSButton!
-    @IBOutlet weak var hunterButton: NSButton!
-    @IBOutlet weak var mageButton: NSButton!
-    @IBOutlet weak var paladinButton: NSButton!
-    @IBOutlet weak var priestButton: NSButton!
-    @IBOutlet weak var rogueButton: NSButton!
-    @IBOutlet weak var shamanButton: NSButton!
-    @IBOutlet weak var warlockButton: NSButton!
-    @IBOutlet weak var warriorButton: NSButton!
-    @IBOutlet weak var archiveButton: NSButton!
+    @IBOutlet weak var classesPopup: NSPopUpButton!
     @IBOutlet weak var toolbar: NSToolbar!
 
     @IBOutlet weak var hearthstatsButton: NSToolbarItem!
@@ -73,6 +64,7 @@ class DeckManager: NSWindowController {
         deckListTable.tableColumns.first?.resizingMask = .autoresizingMask
         
         loadSortPopUp()
+        loadClassesPopUp()
 
         NSEvent.addLocalMonitorForEvents(matching: .keyDown) { (e) -> NSEvent? in
             let isCmd = e.modifierFlags.contains(.command)
@@ -158,46 +150,14 @@ class DeckManager: NSWindowController {
         }
     }
 
-    @IBAction func filterClassesAction(_ sender: NSButton) {
-        let buttons = [druidButton, hunterButton, mageButton,
-            paladinButton, priestButton, rogueButton,
-            shamanButton, warlockButton, warriorButton,
-            archiveButton
-        ]
-        for button in buttons {
-            if sender != button {
-                button?.state = NSOffState
-            }
-        }
+    @IBAction func filterClassesAction(_ sender: Any) {
+        guard let menuItem = sender as? NSMenuItem else { return }
 
-        let oldCurrentClass = currentClass
-        switch sender {
-        case druidButton:
-            currentClass = .druid
-        case hunterButton:
-            currentClass = .hunter
-        case mageButton:
-            currentClass = .mage
-        case paladinButton:
-            currentClass = .paladin
-        case priestButton:
-            currentClass = .priest
-        case rogueButton:
-            currentClass = .rogue
-        case shamanButton:
-            currentClass = .shaman
-        case warlockButton:
-            currentClass = .warlock
-        case warriorButton:
-            currentClass = .warrior
-        default:
-            currentClass = nil
-        }
-
-        showArchivedDecks = sender == archiveButton
-
-        if currentClass == oldCurrentClass && currentDeck == nil {
-            currentClass = nil
+        if let selectedClass = menuItem.representedObject as? CardClass {
+            currentClass = selectedClass == .neutral ? nil : selectedClass
+            showArchivedDecks = false
+        } else {
+            showArchivedDecks = true
         }
 
         refreshDecks()
@@ -461,7 +421,32 @@ class DeckManager: NSWindowController {
         }
     }
 
-    fileprivate func loadSortPopUp() {
+    private func loadClassesPopUp() {
+        let popupMenu = NSMenu()
+        var popupMenuItem = NSMenuItem(title: NSLocalizedString("All classes", comment: ""),
+                                       action: #selector(filterClassesAction(_:)),
+                                       keyEquivalent: "")
+        popupMenuItem.representedObject = CardClass.neutral
+        popupMenu.addItem(popupMenuItem)
+        for playerClass in Cards.classes {
+            popupMenuItem = NSMenuItem(title: NSLocalizedString(playerClass.rawValue,
+                                                                comment: ""),
+                                       action: #selector(filterClassesAction(_:)),
+                                       keyEquivalent: "")
+            popupMenuItem.representedObject = playerClass
+            popupMenu.addItem(popupMenuItem)
+        }
+        classesPopup.menu = popupMenu
+
+        popupMenu.addItem(.separator())
+        popupMenuItem = NSMenuItem(title: NSLocalizedString("Archived", comment: ""),
+                                   action: #selector(filterClassesAction(_:)),
+                                   keyEquivalent: "")
+        popupMenuItem.state = NSOffState
+        popupMenu.addItem(popupMenuItem)
+    }
+
+    private func loadSortPopUp() {
         let popupMenu = NSMenu()
         
         for criteria in criterias {
