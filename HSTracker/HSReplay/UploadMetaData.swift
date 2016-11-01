@@ -55,6 +55,12 @@ class UploadMetaData {
         if let date = dateStart {
             self.matchStart = date.toIso8601String()
         }
+
+        if let game = game {
+            if game.currentGameMode == .arena {
+                gameType = BnetGameType.bgt_arena.rawValue
+            }
+        }
     }
 
     private func fillPlayerData() {

@@ -52,8 +52,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Paths.initDirs()
         let destination = Paths.HSTracker
 
-        var config = Realm.Configuration()
-        config.fileURL = destination.appendingPathComponent("hstracker.realm")
+        let config = Realm.Configuration(
+            fileURL: destination.appendingPathComponent("hstracker.realm"),
+            schemaVersion: 1,
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 1 {
+                    // version == 1 : add hearthstoneId in Deck, 
+                    // automatically managed by realm, nothing to do here
+                }
+        })
         Realm.Configuration.defaultConfiguration = config
 
         let settings = Settings.instance
@@ -265,15 +272,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 Log.error?.message(message)
             }
 
-            let alert = NSAlert()
-            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-            alert.informativeText = NSLocalizedString(message, comment: "")
-            alert.alertStyle = alertStyle
-            NSRunningApplication.current().activate(options: [
-                NSApplicationActivationOptions.activateAllWindows,
-                NSApplicationActivationOptions.activateIgnoringOtherApps])
-            NSApp.activate(ignoringOtherApps: true)
-            alert.runModal()
+            NSAlert.show(style: alertStyle,
+                         message: NSLocalizedString(message, comment: ""),
+                         forceFront: true)
             return
         }
 
@@ -326,13 +327,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func languageChange(_ notification: Notification) {
-        let alert = NSAlert()
-        alert.alertStyle = .informational
-        // swiftlint:disable line_length
-        alert.messageText = NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: "")
-        // swiftlint:enable line_length
-        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        alert.runModal()
+        let msg = "You must restart HSTracker for the language change to take effect"
+        NSAlert.show(style: .informational,
+                     message: NSLocalizedString(msg, comment: ""))
 
         appWillRestart = true
         NSApplication.shared().terminate(nil)
@@ -341,17 +338,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu
     func buildMenu() {
+        guard let realm = try? Realm() else {
+            Log.error?.message("Can not fetch decks")
+            return
+        }
+
         var decks: [CardClass: [Deck]] = [:]
-        do {
-            let realm = try Realm()
-            for deck in realm.objects(Deck.self).filter("isActive = true") {
-                if decks[deck.playerClass] == nil {
-                    decks[deck.playerClass] = [Deck]()
-                }
-                decks[deck.playerClass]?.append(deck)
+        for deck in realm.objects(Deck.self).filter("isActive = true") {
+            if decks[deck.playerClass] == nil {
+                decks[deck.playerClass] = [Deck]()
             }
-        } catch {
-            Log.error?.message("Can not load decks : \(error)")
+            decks[deck.playerClass]?.append(deck)
         }
 
         // build main menu
@@ -428,42 +425,37 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         replaysMenu?.submenu?.removeAllItems()
         replaysMenu?.isEnabled = false
         if let _ = Settings.instance.hsReplayUploadToken {
-            do {
-                let realm = try Realm()
-                let statistics = realm.objects(Statistic.self)
-                    .filter("hsReplayId != nil")
-                    .sorted(byProperty: "date")
-                replaysMenu?.isEnabled = statistics.count > 0
-                let max = min(statistics.count, 10)
-                for i in 0..<max {
-                    let stat = statistics[i]
-                    var deckName = ""
-                    if let deck = stat.deck.first, !deck.name.isEmpty {
-                        deckName = deck.name
-                    }
-                    let opponentName = stat.opponentName.isEmpty ? "unknow" : stat.opponentName
-                    let opponentClass = stat.opponentClass
-
-                    var name = ""
-                    if !deckName.isEmpty {
-                        name = "\(deckName) vs"
-                    } else {
-                        name = "Vs"
-                    }
-                    name += " \(opponentName)"
-                    if opponentClass != .neutral {
-                        name += " (\(NSLocalizedString(opponentClass.rawValue, comment: "")))"
-                    }
-
-                    if let item = replaysMenu?.submenu?
-                        .addItem(withTitle: name,
-                                 action: #selector(showReplay(_:)),
-                                 keyEquivalent: "") {
-                        item.representedObject = stat.hsReplayId
-                    }
+            let statistics = realm.objects(Statistic.self)
+                .filter("hsReplayId != nil")
+                .sorted(byProperty: "date", ascending: false)
+            replaysMenu?.isEnabled = statistics.count > 0
+            let max = min(statistics.count, 10)
+            for i in 0..<max {
+                let stat = statistics[i]
+                var deckName = ""
+                if let deck = stat.deck.first, !deck.name.isEmpty {
+                    deckName = deck.name
                 }
-            } catch {
-                Log.error?.message("Can not fetch statistics : \(error)")
+                let opponentName = stat.opponentName.isEmpty ? "unknow" : stat.opponentName
+                let opponentClass = stat.opponentClass
+
+                var name = ""
+                if !deckName.isEmpty {
+                    name = "\(deckName) vs"
+                } else {
+                    name = "Vs"
+                }
+                name += " \(opponentName)"
+                if opponentClass != .neutral {
+                    name += " (\(NSLocalizedString(opponentClass.rawValue, comment: "")))"
+                }
+
+                if let item = replaysMenu?.submenu?
+                    .addItem(withTitle: name,
+                             action: #selector(showReplay(_:)),
+                             keyEquivalent: "") {
+                    item.representedObject = stat.hsReplayId
+                }
             }
         }
 
@@ -571,6 +563,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 try realm.write {
                     let deck = Deck()
                     deck.isArena = true
+                    deck.hearthstoneId.value = draft.hearthstoneId
                     deck.playerClass = playerClass
                     realm.add(deck)
                     for card in cards {

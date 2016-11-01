@@ -496,6 +496,8 @@ class Game {
                     result in
                     if case UploadResult.successful(let replayId) = result {
                         self.showNotification(type: .hsReplayPush(replayId: replayId))
+                        NotificationCenter.default
+                            .post(name: Notification.Name(rawValue: "reload_decks"), object: nil)
                     }
                 }
             }

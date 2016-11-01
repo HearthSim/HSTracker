@@ -11,6 +11,7 @@ import Foundation
 class DeckCellView: NSView {
 
     @IBOutlet weak var image: NSImageView!
+    @IBOutlet weak var arenaImage: NSImageView!
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var moreButton: NSButton!
     @IBOutlet weak var detailTextLabel: NSTextField!

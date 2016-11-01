@@ -179,9 +179,7 @@ final class Hearthstone: NSObject {
 
     func startTracking() {
         Log.info?.message("Start Tracking")
-        //queue.async {
-            self.logReaderManager.start()
-        //}
+        self.logReaderManager.start()
     }
 
     func stopTracking() {

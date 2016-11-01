@@ -8,24 +8,17 @@
 
 import Foundation
 import CleanroomLogger
+import RealmSwift
 
 class Draft {
     // MARK: - vars
     var playerClass: CardClass?
     var cards: [Card]?
+    var hearthstoneId: Int?
     
     var drafting = false
     
-    static let token: Int = 0
-    
     static let instance = Draft()
-    
-    init() {
-    }
-    
-    init(playerClass: CardClass) {
-        startDraft(for: playerClass)
-    }
     
     func resetDraft() {
         Log.verbose?.message("Resetting draft")
@@ -49,24 +42,26 @@ class Draft {
     }
     
     func add(card: Card) {
+        guard drafting else { return }
+
         card.count = 1
         cards?.append(card)
-        
+        Log.info?.message("Adding card \(card)")
+
+        // Check if that draft already exists
+        if let realm = try? Realm(), let id = hearthstoneId {
+            if let _ = realm.objects(Deck.self).filter("hearthstoneId = \(id)").first {
+                Log.debug?.message("Arena deck \(id) already exists, skip")
+                return
+            }
+        }
+
         if let _ = playerClass, let cards = cards, cards.isValidDeck() {
             DispatchQueue.main.async {
-                let alert = NSAlert()
-                alert.alertStyle = .informational
-                // swiftlint:disable line_length
-                alert.messageText = NSLocalizedString("Your arena deck count 30 cards, do you want to save it ?",
-                                                      comment: "")
-                // swiftlint:enable line_length
-                alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-                NSRunningApplication.current().activate(options: [
-                    NSApplicationActivationOptions.activateAllWindows,
-                    NSApplicationActivationOptions.activateIgnoringOtherApps])
-                NSApp.activate(ignoringOtherApps: true)
-                if alert.runModal() == NSAlertFirstButtonReturn {
+                let msg = "Your arena deck count 30 cards, do you want to save it ?"
+                if NSAlert.show(style: .informational,
+                             message: NSLocalizedString(msg, comment: ""),
+                             forceFront: true) {
                     NotificationCenter.default
                         .post(name: Notification.Name(rawValue: "save_arena_deck"),
                               object: nil)

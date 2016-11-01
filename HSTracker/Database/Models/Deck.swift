@@ -32,6 +32,8 @@ class Deck: Object {
     dynamic var isActive = true
     dynamic var isArena = false
 
+    let hearthstoneId = RealmOptional<Int>()
+
     let cards = List<RealmCard>()
     let statistics = List<Statistic>()
 
@@ -93,6 +95,21 @@ class Deck: Object {
     func isValid() -> Bool {
         let count = countCards()
         return count == 30
+    }
+
+    func arenaFinished() -> Bool {
+        if !isArena { return false }
+
+        var win = 0
+        var loss = 0
+        for stat in statistics {
+            if stat.gameResult == .loss {
+                loss += 1
+            } else if stat.gameResult == .win {
+                win += 1
+            }
+        }
+        return win == 12 || loss == 3
     }
 
     func standardViable() -> Bool {
