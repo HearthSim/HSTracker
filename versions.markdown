@@ -7,6 +7,7 @@
 - Add an icon in the deck manager when a deck is marked as arena
 - Add an icon in the deck manager on arena deck when the run is finished
 - Arena deck imported by HSTracker are now correctly marked as "arena deck"
+- Correct an issue where HSTracker was not visible with fullscreen Hearthstone
 
 # 0.18.3
 ## Fixes:
