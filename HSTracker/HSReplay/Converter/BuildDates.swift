@@ -30,8 +30,7 @@ struct BuildDates {
         http.json(method: .get) { json in
             if let json: [String: String] = json as? [String: String] {
                 for (build, date) in json {
-                    if let nsdate = Date.NSDateFromString(date,
-                                                            inFormat: "yyyy-MM-dd"),
+                    if let nsdate = Date.NSDateFromString(date, inFormat: "yyyy-MM-dd"),
                         let intBuild = Int(build) {
                         let buildDate = BuildDate(date: nsdate, build: intBuild)
                         knownBuildDates.append(buildDate)
@@ -47,7 +46,11 @@ struct BuildDates {
         guard let latestBuild = self.latestBuild else { return true }
 
         let actual = UserDefaults.standard.integer(forKey: "hs_latest_build")
-        Log.info?.message("Latest build : \(latestBuild.build), actual is \(actual)")
+        var message = "Latest build: \(latestBuild.build), HSTracker build: \(actual)"
+        if let productId = getByProductDb() {
+            message += ", Hearthstone productId: \(productId)"
+        }
+        Log.info?.message(message)
 
         return actual != latestBuild.build
     }

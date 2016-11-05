@@ -206,6 +206,7 @@ final class Hearthstone: NSObject {
     }
 
     func spaceChange() {
+        Log.verbose?.message("Receive space changed event")
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: "space_changed"), object: nil)
     }
@@ -218,12 +219,6 @@ final class Hearthstone: NSObject {
             NotificationCenter.default.post(name:
                 Notification.Name(rawValue: "hearthstone_running"), object: nil)
             AppHealth.instance.setHearthstoneRunning(flag: true)
-
-            let time = DispatchTime.now() + DispatchTimeInterval.seconds(2)
-            DispatchQueue.main.asyncAfter(deadline: time) {
-                SizeHelper.hearthstoneWindow.reload()
-                WindowManager.default.updateTrackers()
-            }
         }
     }
 
@@ -232,6 +227,8 @@ final class Hearthstone: NSObject {
             app.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now closed")
             self.stopTracking()
+            self.hearthstoneActive = false
+            
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: "hearthstone_closed"), object: nil)
             AppHealth.instance.setHearthstoneRunning(flag: false)
@@ -250,7 +247,6 @@ final class Hearthstone: NSObject {
             Log.verbose?.message("Hearthstone is now active")
             self.hearthstoneActive = true
             AppHealth.instance.setHearthstoneRunning(flag: true)
-            SizeHelper.hearthstoneWindow.reload()
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: "hearthstone_active"), object: nil)
         }

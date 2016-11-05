@@ -140,6 +140,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Application init
     func loadSplashscreen() {
+        NSRunningApplication.current().activate(options: [
+            .activateAllWindows,
+            .activateIgnoringOtherApps
+            ])
+        NSApp.activate(ignoringOtherApps: true)
+
         splashscreen = Splashscreen(windowNibName: "Splashscreen")
         let screenFrame = NSScreen.screens()!.first!.frame
         let splashscreenWidth: CGFloat = 350

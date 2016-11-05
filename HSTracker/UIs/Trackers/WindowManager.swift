@@ -97,7 +97,7 @@ class WindowManager {
                       "can_join_fullscreen"]
         for event in reload {
             NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(updateTrackers(reset:)),
+                                                   selector: #selector(updateTrackersAfterEvent),
                                                    name: NSNotification.Name(rawValue: event),
                                                    object: nil)
         }
@@ -120,8 +120,16 @@ class WindowManager {
         }
     }
 
+    @objc private func updateTrackersAfterEvent() {
+        let time = DispatchTime.now() + DispatchTimeInterval.seconds(2)
+        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
+            SizeHelper.hearthstoneWindow.reload()
+            self?.updateTrackers()
+        }
+    }
+
     // MARK: - Updating trackers
-    @objc func updateTrackers(reset: Bool = false) {
+    func updateTrackers(reset: Bool = false) {
         DispatchQueue.main.async {
             SizeHelper.hearthstoneWindow.reload()
         }
@@ -153,8 +161,7 @@ class WindowManager {
         if settings.showCardHuds {
             if game.gameStarted {
                 lastCardsUpdateRequest = Date().timeIntervalSince1970
-                let when = DispatchTime.now()
-                    + Double(Int64(100 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
+                let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(100)
                 DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                     if Date().timeIntervalSince1970 - (self?.lastCardsUpdateRequest ??
                             Date.distantPast.timeIntervalSince1970) > 0.1 {
@@ -301,8 +308,7 @@ class WindowManager {
         guard Settings.instance.showFloatingCard else { return }
 
         self.closeFloatingCardRequest -= 1
-        let when = DispatchTime.now()
-            + Double(Int64(100 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
+        let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(100)
         let queue = DispatchQueue.main
         queue.asyncAfter(deadline: when) {
             if self.closeFloatingCardRequest > 0 {
@@ -335,7 +341,6 @@ class WindowManager {
                 }
 
                 // show window and set size
-                window.orderFront(nil)
                 if let frame = frame {
                     window.setFrame(frame, display: true)
                 }
@@ -366,6 +371,8 @@ class WindowManager {
                                         NSNonactivatingPanelMask]
                 }
                 window.ignoresMouseEvents = locked
+
+                window.orderFront(nil)
             } else {
                 NSApp.removeWindowsItem(window)
                 window.orderOut(nil)
