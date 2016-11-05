@@ -211,53 +211,54 @@ class WindowManager {
             show(controller: opponentBoardDamage, show: false)
         }
 
-        // opponent tracker
-        DispatchQueue.main.async { [weak self] in
-            let cards = settings.clearTrackersOnGameEnd && game.gameEnded
-                ? [] : game.opponent.opponentCardList
-            self?.opponentTracker.update(cards: cards, reset: reset)
-            self?.opponentTracker.setWindowSizes()
-        }
-
         var rect: NSRect?
-        if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
-            rect = SizeHelper.opponentTrackerFrame()
-        } else {
-            rect = Settings.instance.opponentTrackerFrame
-            if rect == nil {
-                let x = WindowManager.screenFrame.origin.x + 50
-                rect = NSRect(x: x,
-                              y: WindowManager.top + WindowManager.screenFrame.origin.y,
-                              width: WindowManager.cardWidth,
-                              height: WindowManager.top)
-            }
-        }
+
         if settings.showOpponentTracker {
+            // opponent tracker
+            DispatchQueue.main.async { [weak self] in
+                let cards = settings.clearTrackersOnGameEnd && game.gameEnded
+                    ? [] : game.opponent.opponentCardList
+                self?.opponentTracker.update(cards: cards, reset: reset)
+                self?.opponentTracker.setWindowSizes()
+            }
+
+            if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
+                rect = SizeHelper.opponentTrackerFrame()
+            } else {
+                rect = Settings.instance.opponentTrackerFrame
+                if rect == nil {
+                    let x = WindowManager.screenFrame.origin.x + 50
+                    rect = NSRect(x: x,
+                                  y: WindowManager.top + WindowManager.screenFrame.origin.y,
+                                  width: WindowManager.cardWidth,
+                                  height: WindowManager.top)
+                }
+            }
             show(controller: opponentTracker, show: true, frame: rect, title: "Opponent tracker")
         } else {
             show(controller: opponentTracker, show: false)
         }
 
         // player tracker
-        DispatchQueue.main.async { [weak self] in
-            self?.playerTracker.update(cards: game.player.playerCardList, reset: reset)
-            self?.playerTracker.setWindowSizes()
-        }
-
-        if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
-            rect = SizeHelper.playerTrackerFrame()
-        } else {
-            rect = settings.playerTrackerFrame
-            if rect == nil {
-                let x = WindowManager.screenFrame.width - WindowManager.cardWidth
-                    + WindowManager.screenFrame.origin.x
-                rect = NSRect(x: x,
-                              y: WindowManager.top + WindowManager.screenFrame.origin.y,
-                              width: WindowManager.cardWidth,
-                              height: WindowManager.top)
-            }
-        }
         if settings.showPlayerTracker {
+            DispatchQueue.main.async { [weak self] in
+                self?.playerTracker.update(cards: game.player.playerCardList, reset: reset)
+                self?.playerTracker.setWindowSizes()
+            }
+
+            if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
+                rect = SizeHelper.playerTrackerFrame()
+            } else {
+                rect = settings.playerTrackerFrame
+                if rect == nil {
+                    let x = WindowManager.screenFrame.width - WindowManager.cardWidth
+                        + WindowManager.screenFrame.origin.x
+                    rect = NSRect(x: x,
+                                  y: WindowManager.top + WindowManager.screenFrame.origin.y,
+                                  width: WindowManager.cardWidth,
+                                  height: WindowManager.top)
+                }
+            }
             show(controller: playerTracker, show: true, frame: rect, title: "Player tracker")
         } else {
             show(controller: playerTracker, show: false)
