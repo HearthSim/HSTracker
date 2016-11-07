@@ -35,8 +35,7 @@ extension Deck {
             let version = json["current_version"] as? String,
             let creationDate = jsonDeck["created_at"] as? String,
             let hearthstatsId = jsonDeck["id"] as? Int,
-            let archived = jsonDeck["archived"] as? Int,
-            let isArchived = archived.boolValue {
+            let archived = jsonDeck["archived"] as? Bool {
 
             var currentVersion: [String : Any]?
             (json["versions"] as? [[String: Any]])?
@@ -70,10 +69,10 @@ extension Deck {
                 deck.creationDate = date
                 deck.hearthstatsId.value = hearthstatsId
                 deck.hearthstatsVersionId.value = hearthstatsVersionId
-                deck.isActive = !isArchived
+                deck.isActive = !archived
                 deck.version = version
 
-                if deck.isValid() {
+                if cards.isValidDeck() {
                     return (deck, cards)
                 }
             }
@@ -223,38 +222,44 @@ struct HearthstatsAPI {
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
         let http = Http(url: "\(baseUrl)/decks/after_date?auth_token=\(settings.hearthstatsToken!)")
-        http.json(method: .post,
-                  parameters: ["date": "\(unixTime)"]) { json in
-                    if let json = json as? [String: Any],
-                        let status = json["status"] as? Int, status == 200 {
-                        var newDecks = 0
-                        (json["data"] as? [[String: Any]])?.forEach({
-                            newDecks += 1
-                            if let (deck, cards) = Deck.fromHearthstatsDict(json: $0),
-                                let hearthstatsId = deck.hearthstatsId.value {
-                                do {
-                                    let realm = try Realm()
-                                    if let existing = realm.objects(Deck.self)
-                                        .filter("hearthstatsId = \(hearthstatsId)").first {
-                                        try realm.write {
-                                            existing.merge(deck: deck, cards: cards)
-                                        }
-                                    } else {
-                                        try realm.write {
-                                            realm.add(deck)
-                                        }
+        http.json(method: .post, parameters: ["date": "\(unixTime)"]) { json in
+            if let json = json as? [String: Any],
+                let status = json["status"] as? Int,
+                let data = json["data"] as? [[String: Any]],
+                let realm = try? Realm(),
+                status == 200 {
+
+                var newDecks = 0
+                for jsonDeck in data {
+                    newDecks += 1
+                    if let (deck, cards) = Deck.fromHearthstatsDict(json: jsonDeck),
+                        let hearthstatsId = deck.hearthstatsId.value {
+
+                        do {
+                            if let existing = realm.objects(Deck.self)
+                                .filter("hearthstatsId = \(hearthstatsId)").first {
+                                try realm.write {
+                                    existing.merge(deck: deck, cards: cards)
+                                }
+                            } else {
+                                try realm.write {
+                                    realm.add(deck)
+                                    for card in cards {
+                                        deck.add(card: card)
                                     }
-                                } catch {
-                                    Log.error?.message("Can not update deck : \(error)")
                                 }
                             }
-                        })
-                        Settings.instance.hearthstatsLastDecksSync = Date().timeIntervalSince1970
-                        callback(true, newDecks)
-                        return
-                    } else {
-                        callback(false, 0)
+                        } catch {
+                            Log.error?.message("Can not update deck : \(error)")
+                        }
                     }
+                }
+                Settings.instance.hearthstatsLastDecksSync = Date().timeIntervalSince1970
+                callback(true, newDecks)
+                return
+            } else {
+                callback(false, 0)
+            }
         }
     }
 

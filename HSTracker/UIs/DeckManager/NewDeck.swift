@@ -26,7 +26,6 @@ class NewDeck: NSWindowController {
     @IBOutlet weak var chooseFile: NSButton!
     @IBOutlet weak var okButton: NSButton!
     @IBOutlet weak var arenaDeck: NSButton!
-    @IBOutlet weak var fromHearthstats: NSButton!
     @IBOutlet weak var loader: NSProgressIndicator!
 
     var delegate: NewDeckDelegate?
@@ -45,8 +44,7 @@ class NewDeck: NSWindowController {
         return [
             hstrackerDeckBuilder: [classesCombobox, arenaDeck],
             fromAFile: [chooseFile],
-            fromTheWeb: [urlDeck],
-            fromHearthstats: []
+            fromTheWeb: [urlDeck]
         ]
     }
 
@@ -111,21 +109,6 @@ class NewDeck: NSWindowController {
             }
         } else if fromAFile.state == NSOnState {
             // add here to remember this case exists
-        } else if fromHearthstats.state == NSOnState {
-            do {
-                loader.startAnimation(self)
-                try HearthstatsAPI.loadDecks(force: false) { (success, newDecks) in
-                    self.loader.stopAnimation(self)
-                    self.delegate?.refreshDecks()
-                    self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-                }
-            } catch HearthstatsError.notLogged {
-                print("not logged")
-                self.loader.stopAnimation(self)
-            } catch {
-                print("??? logged")
-                self.loader.stopAnimation(self)
-            }
         }
     }
 
@@ -197,8 +180,6 @@ class NewDeck: NSWindowController {
             enabled = !urlDeck.stringValue.isEmpty
         } else if fromAFile.state == NSOnState {
             enabled = false
-        } else if fromHearthstats.state == NSOnState {
-            enabled = true
         }
 
         if let enabled = enabled {

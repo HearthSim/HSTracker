@@ -8,6 +8,10 @@
 - Add an icon in the deck manager on arena deck when the run is finished
 - Arena deck imported by HSTracker are now correctly marked as "arena deck"
 - Correct an issue where HSTracker was not visible with fullscreen Hearthstone
+- Hearthstats decks are fetched correctly now 
+
+## Changes:
+- Hearthstats and Track-o-Bot login/logout is now done from settings (use *⌘,* to open them)
 
 # 0.18.3
 ## Fixes:

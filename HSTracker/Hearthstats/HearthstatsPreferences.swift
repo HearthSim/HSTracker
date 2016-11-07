@@ -15,6 +15,8 @@ class HearthstatsPreferences: NSViewController {
     @IBOutlet weak var synchronizeMatches: NSButton!
     @IBOutlet weak var loginButton: NSButton!
     private var hearthstatsLogin: HearthstatsLogin?
+    @IBOutlet weak var loadDecks: NSButton!
+    @IBOutlet weak var loader: NSProgressIndicator!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +31,7 @@ class HearthstatsPreferences: NSViewController {
     private func reloadStates() {
         autoSynchronize.isEnabled = HearthstatsAPI.isLogged()
         synchronizeMatches.isEnabled = HearthstatsAPI.isLogged()
+        loadDecks.isEnabled = HearthstatsAPI.isLogged()
 
         loginButton.title = HearthstatsAPI.isLogged() ?
             NSLocalizedString("Logout", comment: "") : NSLocalizedString("Login", comment: "")
@@ -60,6 +63,21 @@ class HearthstatsPreferences: NSViewController {
                     }
                 }
             }
+        }
+    }
+
+    @IBAction func loadDecks(_ sender: Any) {
+        do {
+            loader.startAnimation(self)
+            try HearthstatsAPI.loadDecks(force: true) { (success, newDecks) in
+                self.loader.stopAnimation(self)
+            }
+        } catch HearthstatsError.notLogged {
+            print("not logged")
+            self.loader.stopAnimation(self)
+        } catch {
+            print("??? logged")
+            self.loader.stopAnimation(self)
         }
     }
 }
