@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,7 +13,6 @@
                 <outlet property="curveView" destination="gl3-d5-lam" id="KjY-HS-ImR"/>
                 <outlet property="deckListTable" destination="Znw-pX-Aav" id="6Yh-1v-5F5"/>
                 <outlet property="decksTable" destination="Pdd-Yb-1af" id="CWs-js-WpT"/>
-                <outlet property="hearthstatsButton" destination="Xxv-sY-tej" id="F4e-jL-ZTz"/>
                 <outlet property="sortPopUp" destination="xO3-ES-jrX" id="Jcd-51-f2j"/>
                 <outlet property="statsLabel" destination="Y6G-cK-9fE" id="HHC-8d-lga"/>
                 <outlet property="toolbar" destination="UfZ-Rs-kI0" id="OFl-vz-Tv7"/>
@@ -207,11 +206,6 @@
                             <action selector="addDeck:" target="-2" id="vwS-C5-2yS"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="3AD67F15-DA3C-4D2A-868E-743C5D61F380" explicitItemIdentifier="hearthstats" label="Hearthstats" paletteLabel="Hearthstats" tag="-1" image="hearthstats_icon" id="Xxv-sY-tej">
-                        <connections>
-                            <action selector="hearthstatsLogin:" target="-2" id="Sji-Pf-eSY"/>
-                        </connections>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="78B3DA64-7816-4C98-B154-267CEFE9433D" explicitItemIdentifier="donate" label="Donate" paletteLabel="Donate" tag="-1" image="donate" id="wWN-25-Exd">
                         <connections>
                             <action selector="donate:" target="-2" id="c4R-LJ-JnO"/>
@@ -277,11 +271,6 @@
                             <action selector="showStatistics:" target="-2" id="736-au-4Ld"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="0137E887-2AB4-40CB-A410-1647660DE79D" explicitItemIdentifier="trackobot" label="Track-o-Bot" paletteLabel="Track-o-Bot" tag="-1" image="trackobot_icon" id="ddN-KV-afY">
-                        <connections>
-                            <action selector="trackobotLogin:" target="-2" id="4xl-K3-4pG"/>
-                        </connections>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="51D25816-2FB6-44D9-A6C0-63CD85BE8C03" explicitItemIdentifier="export_hearthstone" label="Export HS" paletteLabel="Export HS" tag="-1" image="hearthstone" id="PLl-9e-lE5">
                         <connections>
                             <action selector="exportToHearthstone:" target="-2" id="F7f-kw-pom"/>
@@ -320,8 +309,6 @@
                     <toolbarItem reference="cu3-FG-2Cn"/>
                     <toolbarItem reference="Hyt-EI-Vfy"/>
                     <toolbarItem reference="I75-rt-at9"/>
-                    <toolbarItem reference="ddN-KV-afY"/>
-                    <toolbarItem reference="Xxv-sY-tej"/>
                     <toolbarItem reference="d38-Pq-vZv"/>
                     <toolbarItem reference="0zG-7b-xsf"/>
                     <toolbarItem reference="wWN-25-Exd"/>
@@ -339,12 +326,10 @@
         <image name="donate" width="32" height="32"/>
         <image name="edit-deck" width="32" height="32"/>
         <image name="gitter" width="32" height="32"/>
-        <image name="hearthstats_icon" width="7.679999828338623" height="7.1999998092651367"/>
         <image name="hearthstone" width="32" height="32"/>
         <image name="plus" width="32" height="32"/>
         <image name="rename-deck" width="32" height="32"/>
         <image name="statistics" width="32" height="32"/>
-        <image name="trackobot_icon" width="18" height="18"/>
         <image name="twitter" width="32" height="32"/>
         <image name="use-deck" width="32" height="32"/>
     </resources>

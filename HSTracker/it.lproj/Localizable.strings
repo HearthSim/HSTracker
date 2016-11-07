@@ -50,6 +50,8 @@
 "Do you want to add some notes for this game ?" = "Do you want to add some notes for this game ?";
 "Your arena deck count 30 cards, do you want to save it ?" = "Your arena deck count 30 cards, do you want to save it ?";
 "Failed to import deck from \n" = "Failed to import deck from \n";
+"Login" = "Login";
+"Logout" = "Logout";
 
 /* notifications */
 "Your game begins" = "Your game begins";

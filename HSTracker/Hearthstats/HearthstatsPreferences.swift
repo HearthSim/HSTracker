@@ -13,6 +13,8 @@ class HearthstatsPreferences: NSViewController {
 
     @IBOutlet weak var autoSynchronize: NSButton!
     @IBOutlet weak var synchronizeMatches: NSButton!
+    @IBOutlet weak var loginButton: NSButton!
+    private var hearthstatsLogin: HearthstatsLogin?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,16 @@ class HearthstatsPreferences: NSViewController {
 
         autoSynchronize.state = settings.hearthstatsAutoSynchronize ? NSOnState : NSOffState
         synchronizeMatches.state = settings.hearthstatsSynchronizeMatches ? NSOnState : NSOffState
+
+        reloadStates()
+    }
+
+    private func reloadStates() {
+        autoSynchronize.isEnabled = HearthstatsAPI.isLogged()
+        synchronizeMatches.isEnabled = HearthstatsAPI.isLogged()
+
+        loginButton.title = HearthstatsAPI.isLogged() ?
+            NSLocalizedString("Logout", comment: "") : NSLocalizedString("Login", comment: "")
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -28,6 +40,26 @@ class HearthstatsPreferences: NSViewController {
             settings.hearthstatsAutoSynchronize = autoSynchronize.state == NSOnState
         } else if sender == synchronizeMatches {
             settings.hearthstatsSynchronizeMatches = synchronizeMatches.state == NSOnState
+        }
+    }
+
+    @IBAction func login(_ sender: Any) {
+        if HearthstatsAPI.isLogged() {
+            let msg = NSLocalizedString("Are you sure you want to disconnect from Hearthstats ?",
+                                        comment: "")
+            if NSAlert.show(style: .informational, message: msg) {
+                HearthstatsAPI.logout()
+                self.reloadStates()
+            }
+        } else {
+            hearthstatsLogin = HearthstatsLogin(windowNibName: "HearthstatsLogin")
+            if let hearthstatsLogin = hearthstatsLogin {
+                self.view.window?.beginSheet(hearthstatsLogin.window!) { [weak self] (response) in
+                    if response == NSModalResponseOK {
+                        self?.reloadStates()
+                    }
+                }
+            }
         }
     }
 }

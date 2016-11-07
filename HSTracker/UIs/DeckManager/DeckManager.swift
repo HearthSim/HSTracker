@@ -24,12 +24,8 @@ class DeckManager: NSWindowController {
     @IBOutlet weak var classesPopup: NSPopUpButton!
     @IBOutlet weak var toolbar: NSToolbar!
 
-    @IBOutlet weak var hearthstatsButton: NSToolbarItem!
-
     var editDeck: EditDeck?
     var newDeck: NewDeck?
-    var hearthstatsLogin: HearthstatsLogin?
-    var trackobotLogin: TrackOBotLogin?
 
     var decks = [Deck]()
     var currentClass: CardClass?
@@ -96,10 +92,6 @@ class DeckManager: NSWindowController {
                          selector: #selector(DeckManager.updateTheme(_:)),
                          name: NSNotification.Name(rawValue: "theme"),
                          object: nil)
-
-        if let index = toolbar.items.index(of: hearthstatsButton), !HearthstatsAPI.isLogged() {
-            toolbar.removeItem(at: index)
-        }
     }
 
     deinit {
@@ -180,7 +172,7 @@ class DeckManager: NSWindowController {
     // MARK: - Toolbar actions
     override func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
-        case "add", "donate", "twitter", "hearthstats", "gitter", "trackobot":
+        case "add", "donate", "twitter", "gitter":
             return true
         case "edit", "use", "delete", "rename", "archive", "statistics", "export_hearthstone":
             return currentDeck != nil
@@ -205,40 +197,6 @@ class DeckManager: NSWindowController {
             self.window!.beginSheet(statistics.window!, completionHandler: { (returnCode) in
                 self.refreshDecks()
             })
-        }
-    }
-    
-    @IBAction func trackobotLogin(_ sender: AnyObject) {
-        if TrackOBotAPI.isLogged() {
-            let msg = NSLocalizedString("Are you sure you want to disconnect from Track-o-Bot ?",
-                                        comment: "")
-            NSAlert.show(style: .informational,
-                         message: msg,
-                         window: self.window!) {
-                            TrackOBotAPI.logout()
-            }
-        } else {
-            trackobotLogin = TrackOBotLogin(windowNibName: "TrackOBotLogin")
-            if let trackobotLogin = trackobotLogin {
-                self.window!.beginSheet(trackobotLogin.window!, completionHandler: nil)
-            }
-        }
-    }
-    
-    @IBAction func hearthstatsLogin(_ sender: AnyObject) {
-        if HearthstatsAPI.isLogged() {
-            let msg = NSLocalizedString("Are you sure you want to disconnect from Hearthstats ?",
-                                        comment: "")
-            NSAlert.show(style: .informational,
-                         message: msg,
-                         window: self.window!) {
-                            HearthstatsAPI.logout()
-            }
-        } else {
-            hearthstatsLogin = HearthstatsLogin(windowNibName: "HearthstatsLogin")
-            if let hearthstatsLogin = hearthstatsLogin {
-                self.window!.beginSheet(hearthstatsLogin.window!, completionHandler: nil)
-            }
         }
     }
 

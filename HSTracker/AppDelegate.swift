@@ -37,6 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             TrackOBotPreferences(nibName: "TrackOBotPreferences", bundle: nil)!
         ]
 
+        // Hearthstats is deprecated, only show prefs for connected users
         if HearthstatsAPI.isLogged() {
             controllers.append(HearthstatsPreferences(nibName: "HearthstatsPreferences",
                                                       bundle: nil)!)
