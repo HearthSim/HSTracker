@@ -48,7 +48,7 @@ struct BuildDates {
         let actual = UserDefaults.standard.integer(forKey: "hs_latest_build")
         var message = "Latest build: \(latestBuild.build), HSTracker build: \(actual)"
         if let productId = getByProductDb() {
-            message += ", Hearthstone productId: \(productId)"
+            message += ", Hearthstone productId: \(productId.build)"
         }
         Log.info?.message(message)
 
@@ -120,7 +120,7 @@ struct BuildDates {
         guard let content = String(bytes: bytes, encoding: String.Encoding.ascii) else {
             return nil
         }
-        let matches = content.matches("(\\d+.\\d.\\d.(\\d+))")
+        let matches = content.matches("(\\d+\\.\\d\\.\\d\\.(\\d+))")
         guard let match = matches.last?.value, matches.count > 0 else {
             return nil
         }
