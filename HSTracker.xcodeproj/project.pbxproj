@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
+		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
 		340A15041D0939380012CA44 /* Draft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340A15031D0939380012CA44 /* Draft.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
 		4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
@@ -378,6 +379,8 @@
 
 /* Begin PBXFileReference section */
 		1C132F811DBA24C1002B1BF2 /* AppHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppHealth.swift; sourceTree = "<group>"; };
+		1CB623A51DD37C890045E0CF /* GlowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowFilter.h; sourceTree = "<group>"; };
+		1CB623A61DD37C890045E0CF /* GlowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowFilter.m; sourceTree = "<group>"; };
 		340A15031D0939380012CA44 /* Draft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Draft.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
 		4305CA3D1CF42AC60048E7EC /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/Mac/Wrap.framework; sourceTree = "<group>"; };
@@ -951,6 +954,8 @@
 				43A12C861CA3D24800090BFE /* SaveDeck.swift */,
 				432B5FC41CB5373D00B05D19 /* SaveDeck.xib */,
 				432B60381CBF9AD700B05D19 /* ManaGemButton.swift */,
+				1CB623A51DD37C890045E0CF /* GlowFilter.h */,
+				1CB623A61DD37C890045E0CF /* GlowFilter.m */,
 			);
 			path = DeckManager;
 			sourceTree = "<group>";
@@ -1722,6 +1727,7 @@
 				43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */,
 				4317197B1C8C19B500F5988B /* Statistic.swift in Sources */,
 				436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */,
+				1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */,
 				4349104E1D09757800B22DB2 /* BoardState.swift in Sources */,
 				43E77EED1C969C4100C26950 /* Regex.swift in Sources */,
 				434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */,

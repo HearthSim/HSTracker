@@ -20,5 +20,6 @@
 
 #import "CVRankDetectorWrapper.hpp"
 #import "CardMissingDetectorWrapper.hpp"
+#import "GlowFilter.h"
 
 #endif /* HSTracker_Bridging_Header_h */

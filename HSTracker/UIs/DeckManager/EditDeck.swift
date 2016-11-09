@@ -249,14 +249,16 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         undoCardAdd(card)
     }
 
-    func addCardToDeck(_ card: Card) {
+    func addCardToDeck(_ card: Card) -> Bool {
         let deckCard = cards.filter({ $0.id == card.id }).first
 
         if deckCard == nil || currentDeck!.isArena ||
             (deckCard!.count == 1 && card.rarity != .legendary) {
 
             redoCardAdd(card)
+            return true
         }
+        return false
     }
     
     // MARK: - Undo/Redo
@@ -614,7 +616,12 @@ extension EditDeck: JNWCollectionViewDelegate {
         }
         if let cell = collectionView.cellForItem(at: indexPath) as? CardCell,
             let card = cell.card {
-            addCardToDeck(card)
+            let res = true//addCardToDeck(card)
+            if res {
+                // animate card
+                //DispatchQueue.main.async { cell.flash() }
+                cell.flash()
+            }
         }
     }
 }
