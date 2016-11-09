@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -118,7 +118,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="Pdd-Yb-1af" customClass="DeckTable" customModule="HSTracker" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="689" height="615"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -161,6 +161,7 @@
                                             <connections>
                                                 <outlet property="dataSource" destination="-2" id="HfA-Ow-oxA"/>
                                                 <outlet property="delegate" destination="-2" id="Kjp-hY-XRR"/>
+                                                <outlet property="menu" destination="8SU-qe-9rM" id="n2G-2y-NYX"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
@@ -319,6 +320,35 @@
             </connections>
             <point key="canvasLocation" x="567" y="482.5"/>
         </window>
+        <menu id="8SU-qe-9rM" customClass="DeckContextMenu" customModule="HSTracker" customModuleProvider="target">
+            <items>
+                <menuItem title="Use" id="xp4-7a-GbL">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="useDeck:" target="-2" id="Pj9-7e-r85"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Edit" id="K4S-En-2ZL">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="editDeck:" target="-2" id="igk-6Z-sIZ"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Rename" id="YTC-HA-6U7">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="renameDeck:" target="-2" id="D4v-fM-M4b"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Delete" id="hbn-wb-w85">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="deleteDeck:" target="-2" id="pe8-dF-Btt"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="147.5" y="880.5"/>
+        </menu>
     </objects>
     <resources>
         <image name="archive" width="32" height="32"/>
