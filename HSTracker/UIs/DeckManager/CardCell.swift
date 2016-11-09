@@ -48,11 +48,15 @@ class CardCell: JNWCollectionViewCell {
                 alpha = 0.5
             }
         }
-        //self.layer!.opacity = alpha
-        //self.layer!.setNeedsDisplay()
+        self.layer!.opacity = alpha
+        self.layer!.setNeedsDisplay()
     }
     
     func flash() {
+        if !showCard {
+            return
+        }
+        
         self.layer!.masksToBounds = false
         self.layerUsesCoreImageFilters = true
         

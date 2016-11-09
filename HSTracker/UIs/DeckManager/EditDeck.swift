@@ -248,17 +248,17 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         
         undoCardAdd(card)
     }
-
-    func addCardToDeck(_ card: Card) -> Bool {
+    
+    func cardCanBeAdded(_ card: Card) -> Bool {
         let deckCard = cards.filter({ $0.id == card.id }).first
+        return deckCard == nil || currentDeck!.isArena ||
+            (deckCard!.count == 1 && card.rarity != .legendary)
+    }
 
-        if deckCard == nil || currentDeck!.isArena ||
-            (deckCard!.count == 1 && card.rarity != .legendary) {
-
+    func addCardToDeck(_ card: Card) {
+        if cardCanBeAdded(card) {
             redoCardAdd(card)
-            return true
         }
-        return false
     }
     
     // MARK: - Undo/Redo
@@ -298,7 +298,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             add(card: c)
             curveView.reload()
             deckCardsView.reloadData()
-            cardsCollectionView.reloadData()
+          //  cardsCollectionView.reloadData()
             countCards()
             isSaved = false
         }
@@ -616,11 +616,13 @@ extension EditDeck: JNWCollectionViewDelegate {
         }
         if let cell = collectionView.cellForItem(at: indexPath) as? CardCell,
             let card = cell.card {
-            let res = true//addCardToDeck(card)
-            if res {
-                // animate card
-                //DispatchQueue.main.async { cell.flash() }
+            if cardCanBeAdded(card) {
                 cell.flash()
+                addCardToDeck(card)
+                
+                if let deckCard = cards.filter({ $0.id == card.id }).first {
+                    cell.set(count: deckCard.count)
+                }
             }
         }
     }
