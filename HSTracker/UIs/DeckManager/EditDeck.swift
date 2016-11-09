@@ -91,6 +91,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         cardsCollectionView.collectionViewLayout = gridLayout
         cardsCollectionView.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
         cardsCollectionView.register(CardCell.self, forCellWithReuseIdentifier: "card_cell")
+        cardsCollectionView.backgroundColor = NSColor(
+            red: 233.0/255, green: 206.0/255, blue: 151.0/255, alpha: 1)
         changeLayout()
         presentationView.selectedSegment = settings.deckManagerPreferCards ? 0 : 1
         reloadCards()
