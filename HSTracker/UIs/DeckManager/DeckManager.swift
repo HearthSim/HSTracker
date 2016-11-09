@@ -10,6 +10,23 @@ import Foundation
 import RealmSwift
 import CleanroomLogger
 
+class DeckContextMenu: NSMenu {
+    public var clickedrow: Int = 0
+}
+
+class DeckTable: NSTableView {
+    override func menu(for event: NSEvent) -> NSMenu? {
+        let menu = super.menu(for: event)
+        if let m = menu as? DeckContextMenu {
+            let mousePoint: NSPoint  = self.convert(event.locationInWindow, from: nil)
+            m.clickedrow = self.row(at: mousePoint)
+            return m
+        }
+
+        return menu
+    }
+}
+
 class DeckManager: NSWindowController {
 
     @IBOutlet weak var decksTable: NSTableView!
@@ -220,73 +237,128 @@ class DeckManager: NSWindowController {
     }
     
     @IBAction func renameDeck(_ sender: AnyObject?) {
-        if let deck = currentDeck {
-            let deckNameInput = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
-            deckNameInput.stringValue = deck.name
-            NSAlert.show(style: .informational,
-                         message: NSLocalizedString("Deck name", comment: ""),
-                         accessoryView: deckNameInput,
-                         window: self.window) {
-                            do {
-                                let realm = try Realm()
-                                try realm.write {
-                                    deck.name = deckNameInput.stringValue
-                                }
-                            } catch {
-                                Log.error?.message("Can not update deck. \(error)")
-                            }
-
-                            if HearthstatsAPI.isLogged() &&
-                                Settings.instance.hearthstatsAutoSynchronize {
-                                do {
-                                    try HearthstatsAPI.update(deck: deck) {_ in}
-                                } catch {}
-                            }
-
-                            self.refreshDecks()
+        if (sender as? NSToolbarItem) != nil {
+            if let deck = currentDeck {
+                renameDeck(deck)
+            }
+        } else if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        renameDeck(sortedFilteredDecks()[deckmenu.clickedrow])
+                    }
+                }
             }
         }
     }
+    
+    private func renameDeck(_ deck: Deck) {
+        let deckNameInput = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
+        deckNameInput.stringValue = deck.name
+        NSAlert.show(style: .informational,
+                     message: NSLocalizedString("Deck name", comment: ""),
+                     accessoryView: deckNameInput,
+                     window: self.window) {
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                deck.name = deckNameInput.stringValue
+                            }
+                        } catch {
+                            Log.error?.message("Can not update deck. \(error)")
+                        }
+                        
+                        if HearthstatsAPI.isLogged() &&
+                            Settings.instance.hearthstatsAutoSynchronize {
+                            do {
+                                try HearthstatsAPI.update(deck: deck) {_ in}
+                            } catch {}
+                        }
+                        
+                        self.refreshDecks()
+        }
+
+    }
 
     @IBAction func editDeck(_ sender: AnyObject?) {
-        if let deck = currentDeck {
-            editDeck = EditDeck(windowNibName: "EditDeck")
-            if let editDeck = editDeck {
-                editDeck.set(deck: deck)
-                editDeck.set(playerClass: deck.playerClass)
-                editDeck.setDelegate(self)
-                editDeck.showWindow(self)
+        if (sender as? NSToolbarItem) != nil {
+            if let deck = currentDeck {
+                editDeck(deck)
             }
+        } else if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        editDeck(sortedFilteredDecks()[deckmenu.clickedrow])
+                    }
+                }
+            }
+        }
+    }
+    
+    private func editDeck(_ deck: Deck) {
+        editDeck = EditDeck(windowNibName: "EditDeck")
+        if let editDeck = editDeck {
+            editDeck.set(deck: deck)
+            editDeck.set(playerClass: deck.playerClass)
+            editDeck.setDelegate(self)
+            editDeck.showWindow(self)
         }
     }
 
     @IBAction func useDeck(_ sender: AnyObject?) {
-        if let deck = currentDeck {
-            if !deck.isActive {
-                do {
-                    let realm = try Realm()
-                    try realm.write {
-                        deck.isActive = true
+        if (sender as? NSToolbarItem) != nil {
+            self.useDeck(currentDeck)
+        } else if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        self.useDeck(sortedFilteredDecks()[deckmenu.clickedrow])
                     }
-                } catch {
-                    Log.error?.message("Can not update deck : \(error)")
                 }
-                refreshDecks()
             }
-            
-            Settings.instance.activeDeck = deck.deckId
-            Game.instance.set(activeDeck: deck)
         }
+    }
+    
+    private func useDeck(_ deck: Deck) {
+        if !deck.isActive {
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    deck.isActive = true
+                }
+            } catch {
+                Log.error?.message("Can not update deck : \(error)")
+            }
+            refreshDecks()
+        }
+        
+        Settings.instance.activeDeck = deck.deckId
+        Game.instance.set(activeDeck: deck)
     }
 
     @IBAction func deleteDeck(_ sender: AnyObject?) {
-        if let deck = currentDeck {
-            let message = String(format: NSLocalizedString("Are you sure you want to delete "
-                + "the deck %@ ?", comment: ""), deck.name)
-
-            NSAlert.show(style: .informational, message: message, window: self.window!) {
-                self._deleteDeck(deck)
+        if (sender as? NSToolbarItem) != nil {
+            if let deck = currentDeck {
+                deleteDeck(deck)
             }
+        } else if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        deleteDeck(sortedFilteredDecks()[deckmenu.clickedrow])
+                    }
+                }
+            }
+        }
+    }
+    
+    private func deleteDeck(_ deck: Deck) {
+        let message = String(format: NSLocalizedString("Are you sure you want to delete "
+            + "the deck %@ ?", comment: ""), deck.name)
+        
+        NSAlert.show(style: .informational, message: message, window: self.window!) {
+            self._deleteDeck(deck)
         }
     }
 
