@@ -1,3 +1,11 @@
+# 0.18.5
+## Fixes:
+- HSTracker now correctly save the opponent deck on game end
+
+## New:
+- Add a visual effect when you add a card in the deck manager
+- Add a right-click menu on the deck manager
+
 # 0.18.4
 ## Fixes: 
 - Arena deck will now appear correctly as arena deck on HsReplay
