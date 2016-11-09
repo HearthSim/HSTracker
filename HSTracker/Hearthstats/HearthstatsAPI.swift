@@ -174,7 +174,7 @@ struct HearthstatsAPI {
         let http = Http(url: "\(baseUrl)/users/sign_in")
         http.json(method: .post,
                   parameters: ["user_login": ["email": email, "password": password ]]) { json in
-                    if let json = json as? [String: AnyObject] {
+                    if let json = json as? [String: Any] {
                         if let success = json["success"] as? Bool, success {
                             let settings = Settings.instance
                             settings.hearthstatsLogin = json["email"] as? String
@@ -279,7 +279,7 @@ struct HearthstatsAPI {
                     "class": deck.playerClass.rawValue.capitalized,
                     "version": deck.version
         ]) { json in
-            if let json = json as? [String: AnyObject],
+            if let json = json as? [String: Any],
                 let data = json["data"] as? [String: Any],
                 let jsonDeck = data["deck"] as? [String: Any],
                 let hearthstatsId = jsonDeck["id"] as? Int,
@@ -341,8 +341,8 @@ struct HearthstatsAPI {
                     "cards": deck.sortedCards.map {["id": $0.id, "count": $0.count]},
                     "version": deck.version
         ]) { json in
-            if let json = json as? [String: AnyObject],
-                let data = json["data"] as? [String: AnyObject],
+            if let json = json as? [String: Any],
+                let data = json["data"] as? [String: Any],
                 let hearthstatsVersionId = data["id"] as? Int {
                 Log.debug?.message("post deck version : \(json)")
                 do {
@@ -387,9 +387,9 @@ struct HearthstatsAPI {
             "\(baseUrl)/matches/after_date?auth_token=\(settings.hearthstatsToken!)")
         http.json(method: .post,
                   parameters: ["date": "\(unixTime)"]) { json in
-                    if let json = json as? [String: AnyObject] {
+                    if let json = json as? [String: Any] {
                         Log.debug?.message("get games : \(json)")
-                        (json["data"] as? [[String: AnyObject]])?.forEach({
+                        (json["data"] as? [[String: Any]])?.forEach({
                             Decks.instance.addOrUpdateMatches(dict: $0)
                         })
 

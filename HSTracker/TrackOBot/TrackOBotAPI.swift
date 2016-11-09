@@ -22,7 +22,7 @@ struct TrackOBotAPI {
         let http = Http(url: "\(baseUrl)/profile/history.json")
         http.json(method: .get,
                   parameters: ["username": username, "token": token]) { json in
-                    if let json = json as? [String: AnyObject] {
+                    if let json = json as? [String: Any] {
                         if let error = json["error"] as? String {
                             callback(false, error)
                         } else {
