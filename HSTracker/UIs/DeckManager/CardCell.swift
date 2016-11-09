@@ -76,7 +76,7 @@ class CardCell: JNWCollectionViewCell {
         
         let expAnim: CABasicAnimation = CABasicAnimation()
         expAnim.keyPath = "filters.exposure.inputEV"
-        expAnim.fromValue = NSNumber(value: 10.0)
+        expAnim.fromValue = NSNumber(value: 5.0)
         expAnim.toValue = NSNumber(value: 0.0)
         expAnim.duration = 0.5
         
