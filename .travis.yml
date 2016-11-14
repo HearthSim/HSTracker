@@ -7,7 +7,7 @@ cache:
 
 before_install:
   - brew update
-  - brew upgrade carthage
+  - brew outdated carthage || brew upgrade carthage
   - gem install xcpretty
   - carthage bootstrap --platform mac
 
