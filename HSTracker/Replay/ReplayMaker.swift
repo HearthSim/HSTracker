@@ -13,39 +13,6 @@ import ZipArchive
 
 final class ReplayMaker {
     private static var points = [ReplayKeyPoint]()
-    
-    static func replayDir() -> String? {
-        guard let appSupport = NSSearchPathForDirectoriesInDomains(
-            .ApplicationSupportDirectory, .UserDomainMask, true).first else { return nil }
-        
-        let path = "\(appSupport)/HSTracker/replays"
-        do {
-            try NSFileManager.defaultManager()
-                .createDirectoryAtPath(path,
-                                       withIntermediateDirectories: true,
-                                       attributes: nil)
-        } catch {
-            Log.error?.message("Can not create replays dir")
-            return nil
-        }
-        return path
-    }
-    
-    static func tmpReplayDir() -> String? {
-        guard let path = replayDir() else { return nil }
-        
-        let tmp = "\(path)/tmp"
-        do {
-            try NSFileManager.defaultManager()
-                .createDirectoryAtPath(tmp,
-                                       withIntermediateDirectories: true,
-                                       attributes: nil)
-        } catch {
-            Log.error?.message("Can not create replays tmp dir")
-            return nil
-        }
-        return tmp
-    }
 
     static func reset() { points.removeAll() }
 
@@ -57,12 +24,14 @@ final class ReplayMaker {
         points.append(replay)
     }
 
-    static func saveToDisk(powerLog: [String]) {
+    static func saveToDisk(powerLog: [LogLine]) {
         guard points.count > 0 else {
             Log.warning?.message("replay is empty, skipping")
             return
         }
-        
+
+        let log = powerLog.sorted { $0.time < $1.time }.map { $0.line }
+
         resolveZonePos()
         resolveCardIds()
         removeObsoletePlays()
@@ -72,22 +41,22 @@ final class ReplayMaker {
             return
         }
         guard let opponent = points.last?.data
-            .firstWhere({$0.hasTag(.PLAYER_ID) && !$0.isPlayer}) else {
+            .firstWhere({$0.has(tag: .player_id) && !$0.isPlayer}) else {
                 Log.warning?.message("Replay : cannot get opponent, skipping")
                 return
         }
         
         guard let playerHero = points.last?.data
-            .firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue
-                && $0.isControlledBy(player.getTag(.CONTROLLER))
+            .firstWhere({$0[.cardtype] == CardType.hero.rawValue
+                && $0.isControlled(by: player[.controller])
             }) else {
                 Log.warning?.message("Replay : playerHero is nil, skipping")
                 return
         }
         
         var opponentHero = points.last?.data
-            .firstWhere({$0.getTag(.CARDTYPE) == CardType.HERO.rawValue &&
-                $0.isControlledBy(opponent.getTag(.CONTROLLER))
+            .firstWhere({$0[.cardtype] == CardType.hero.rawValue &&
+                $0.isControlled(by: opponent[.controller])
             })
         
         if opponentHero == nil {
@@ -103,59 +72,48 @@ final class ReplayMaker {
                 Log.warning?.message("Replay : opponentHero is nil")
                 return
             }
-            resolveOpponentName(Cards.hero(byId: opponentHero!.cardId)?.name)
+            resolve(opponentName: Cards.hero(byId: opponentHero!.cardId)?.name)
         }
         
         if let playerName = player.name,
-            playerHeroName = Cards.hero(byId: playerHero.cardId)?.name,
-            opponentName = opponent.name,
-            opponentHeroName = Cards.hero(byId: opponentHero!.cardId)?.name,
-            path = replayDir(),
-            tmp = tmpReplayDir() {
+            let playerHeroName = Cards.hero(byId: playerHero.cardId)?.name,
+            let opponentName = opponent.name,
+            let opponentHeroName = Cards.hero(byId: opponentHero!.cardId)?.name {
 
-            /*let data: NSData
-            do {
-                data = try Wrap(points)
-            } catch {
-                Log.error?.message("Can not convert points to json")
-                return
-            }
-            
-            let replay = "\(tmp)/replay.json"
-            data.writeToFile(replay, atomically: true)
-            */
+            let path = Paths.replays
+            let tmp = Paths.tmpReplays
                 
-            let output = "\(tmp)/output_log.txt"
+            let output = tmp.appendingPathComponent("output_log.txt")
             do {
-                try powerLog.joinWithSeparator("\n").writeToFile(output,
-                                                                 atomically: true,
-                                                                 encoding: NSUTF8StringEncoding)
+                try log.joined(separator: "\n").write(to: output,
+                                                      atomically: true,
+                                                      encoding: .utf8)
             } catch {
                 Log.error?.message("Can not save powerLog")
                 return
             }
-            
-            let filename = "\(path)/\(NSDate().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
+
+            let name = "\(Date().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
                 + "\(opponentName)(\(opponentHeroName)).hdtreplay"
-            
-            SSZipArchive.createZipFileAtPath(filename, withFilesAtPaths: [/*replay, */output])
+            let filename = path.appendingPathComponent(name)
+
+            SSZipArchive.createZipFile(atPath: filename.path, withFilesAtPaths: [output.path])
             Log.info?.message("Replay saved to \(filename)")
             
             do {
-                //try NSFileManager.defaultManager().removeItemAtPath(replay)
-                try NSFileManager.defaultManager().removeItemAtPath(output)
+                try FileManager.default.removeItem(at: output)
             } catch {
                 Log.error?.message("Can not remove tmp files")
             }
         }
     }
 
-    private static func resolveOpponentName(opponentName: String?) {
+    private static func resolve(opponentName: String?) {
         if opponentName == nil {
             return
         }
         for kp in points {
-            if let opponent = kp.data.firstWhere({ $0.hasTag(.PLAYER_ID) && !$0.isPlayer }) {
+            if let opponent = kp.data.firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer }) {
                 opponent.name = opponentName
             }
         }
@@ -180,25 +138,25 @@ final class ReplayMaker {
         // ZONE_POSITION changes happen after draws, meaning drawn card will not appear.
         var handPos = [Int: Int]()
         var boardPos = [Int: Int]()
-        points = points.reverse()
+        points = points.reversed()
         for kp in points {
-            if kp.type == .HandPos {
-                handPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?.getTag(.ZONE_POSITION)
-            } else if kp.type == .BoardPos {
-                boardPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?.getTag(.ZONE_POSITION)
-            } else if kp.type == .Draw || kp.type == .Obtain {
+            if kp.type == .handPos {
+                handPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?[.zone_position]
+            } else if kp.type == .boardPos {
+                boardPos[kp.id] = kp.data.firstWhere { $0.id == kp.id }?[.zone_position]
+            } else if kp.type == .draw || kp.type == .obtain {
                 if let zp = handPos[kp.id] {
-                    kp.data.firstWhere { $0.id == kp.id }?.setTag(.ZONE_POSITION, value: zp)
+                    kp.data.firstWhere { $0.id == kp.id }?[.zone_position] = zp
                     handPos[zp] = nil
                 }
-            } else if kp.type == .Summon || kp.type == .Play {
+            } else if kp.type == .summon || kp.type == .play {
                 if let zp = boardPos[kp.id] {
-                    kp.data.firstWhere { $0.id == kp.id }?.setTag(.ZONE_POSITION, value: zp)
+                    kp.data.firstWhere { $0.id == kp.id }?[.zone_position] = zp
                     boardPos[zp] = nil
                 }
             }
         }
-        let toRemove = points.filter { $0.type == .BoardPos || $0.type == .HandPos }
+        let toRemove = points.filter { $0.type == .boardPos || $0.type == .handPos }
         for kp in toRemove {
             points.remove(kp)
         }
@@ -208,17 +166,17 @@ final class ReplayMaker {
         var noUniqueZonePos = [Entity]()
         for kp in points {
             let currentEntity = kp.data.firstWhere { $0.id == kp.id }
-            if currentEntity == nil || !currentEntity!.hasTag(.ZONE_POSITION) {
+            if currentEntity == nil || !currentEntity!.has(tag: .zone_position) {
                 continue
             }
 
             occupiedZonePos.removeAll()
             noUniqueZonePos.removeAll()
             noUniqueZonePos.append(currentEntity!)
-            for entity in kp.data.filter({ $0.id != kp.id && $0.hasTag(.ZONE_POSITION) }) {
-                let zonePos = entity.getTag(.ZONE_POSITION)
-                if entity.getTag(.ZONE) == currentEntity!.getTag(.ZONE)
-                && entity.getTag(.CONTROLLER) == currentEntity!.getTag(.CONTROLLER) {
+            for entity in kp.data.filter({ $0.id != kp.id && $0.has(tag: .zone_position) }) {
+                let zonePos = entity[.zone_position]
+                if entity[.zone] == currentEntity![.zone]
+                && entity[.controller] == currentEntity![.controller] {
                     if !occupiedZonePos.contains(zonePos) {
                         occupiedZonePos.append(zonePos)
                     } else {
@@ -227,14 +185,14 @@ final class ReplayMaker {
                 }
             }
             for entity in noUniqueZonePos {
-                if occupiedZonePos.contains(entity.getTag(.ZONE_POSITION)) {
-                    if let max = occupiedZonePos.maxElement() {
+                if occupiedZonePos.contains(entity[.zone_position]) {
+                    if let max = occupiedZonePos.max() {
                         let targetPos = max + 1
-                        currentEntity!.setTag(.ZONE_POSITION, value: targetPos)
+                        currentEntity![.zone_position] = targetPos
                         occupiedZonePos.append(targetPos)
                     }
                 } else {
-                    occupiedZonePos.append(entity.getTag(.ZONE_POSITION))
+                    occupiedZonePos.append(entity[.zone_position])
                 }
             }
         }
@@ -242,7 +200,7 @@ final class ReplayMaker {
         var onBoard = [Entity]()
         for kp in points {
             let currentBoard = kp.data
-                .filter { $0.isInZone(.PLAY) && $0.hasTag(.HEALTH)
+                .filter { $0.isInZone(zone: .play) && $0.has(tag: .health)
                     && !String.isNullOrEmpty($0.cardId) && !$0.cardId.contains("HERO")
             }
             if onBoard.all({ (e) in
@@ -250,8 +208,8 @@ final class ReplayMaker {
                 && currentBoard.all({ (e) in onBoard.any({ (e2) in e2.id == e.id }) }) {
                 for entity in currentBoard {
                     if let pos = onBoard
-                        .firstWhere({ (e) in e.id == entity.id })?.getTag(.ZONE_POSITION) {
-                        entity.setTag(.ZONE_POSITION, value: pos)
+                        .firstWhere({ (e) in e.id == entity.id })?[.zone_position] {
+                        entity[.zone_position] = pos
                     }
                 }
             } else {
@@ -260,14 +218,14 @@ final class ReplayMaker {
         }
 
         // re-reverse
-        points = points.reverse()
+        points = points.reversed()
     }
 
     private static func removeObsoletePlays() {
-        let spellsWithTarget = points.filter { $0.type == .PlaySpell }.map { $0.id }
+        let spellsWithTarget = points.filter { $0.type == .playSpell }.map { $0.id }
         let obsoletePlays = points
             .filter { (kp) in
-                kp.type == .Play && spellsWithTarget.any { (id) in id == kp.id }
+                kp.type == .play && spellsWithTarget.any { (id) in id == kp.id }
         }
         for play in obsoletePlays {
             points.remove(play)

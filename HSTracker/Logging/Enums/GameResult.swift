@@ -9,16 +9,11 @@
  */
 
 import Foundation
-import Unbox
 import Wrap
 
-enum GameResult: Int, UnboxableEnum, WrappableEnum {
-    case Unknow = 0,
-    Win,
-    Loss,
-    Draw
-
-    static func unboxFallbackValue() -> GameResult {
-        return .Unknow
-    }
+enum GameResult: Int, WrappableEnum {
+    case unknow = 0,
+    win,
+    loss,
+    draw
 }

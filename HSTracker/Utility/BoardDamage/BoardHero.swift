@@ -33,7 +33,7 @@ class BoardHero: IBoardEntity {
     init(hero: Entity, weapon: Entity?, activeTurn: Bool) {
         _hero = BoardCard(entity: hero, active: activeTurn)
         // hero gains windfury with weapon, doubling attack get base attack
-        _baseAttack = hero.getTag(.ATK)
+        _baseAttack = hero[.atk]
         if let weapon = weapon {
             _weapon = BoardCard(entity: weapon, active: activeTurn)
         }
@@ -43,7 +43,7 @@ class BoardHero: IBoardEntity {
     
     private func attackWithWeapon() -> Int {
         // weapon is equipped
-        if let weapon = _weapon where include {
+        if let weapon = _weapon, include {
             // windfury weapon, with more than 2 chages
             // and hero hasn't attacked yet this turn.
             // better to check weapon for durability in

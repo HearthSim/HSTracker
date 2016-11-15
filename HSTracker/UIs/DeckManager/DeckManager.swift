@@ -7,7 +7,25 @@
 //
 
 import Foundation
+import RealmSwift
 import CleanroomLogger
+
+class DeckContextMenu: NSMenu {
+    public var clickedrow: Int = 0
+}
+
+class DeckTable: NSTableView {
+    override func menu(for event: NSEvent) -> NSMenu? {
+        let menu = super.menu(for: event)
+        if let m = menu as? DeckContextMenu {
+            let mousePoint: NSPoint  = self.convert(event.locationInWindow, from: nil)
+            m.clickedrow = self.row(at: mousePoint)
+            return m
+        }
+
+        return menu
+    }
+}
 
 class DeckManager: NSWindowController {
 
@@ -20,22 +38,11 @@ class DeckManager: NSWindowController {
     @IBOutlet weak var archiveToolBarItem: NSToolbarItem!
     @IBOutlet weak var sortPopUp: NSPopUpButton!
 
-    @IBOutlet weak var druidButton: NSButton!
-    @IBOutlet weak var hunterButton: NSButton!
-    @IBOutlet weak var mageButton: NSButton!
-    @IBOutlet weak var paladinButton: NSButton!
-    @IBOutlet weak var priestButton: NSButton!
-    @IBOutlet weak var rogueButton: NSButton!
-    @IBOutlet weak var shamanButton: NSButton!
-    @IBOutlet weak var warlockButton: NSButton!
-    @IBOutlet weak var warriorButton: NSButton!
-    @IBOutlet weak var archiveButton: NSButton!
+    @IBOutlet weak var classesPopup: NSPopUpButton!
     @IBOutlet weak var toolbar: NSToolbar!
 
     var editDeck: EditDeck?
     var newDeck: NewDeck?
-    var hearthstatsLogin: HearthstatsLogin?
-    var trackobotLogin: TrackOBotLogin?
 
     var decks = [Deck]()
     var currentClass: CardClass?
@@ -53,27 +60,27 @@ class DeckManager: NSWindowController {
         super.windowDidLoad()
 
         let nib = NSNib(nibNamed: "DeckCellView", bundle: nil)
-        decksTable.registerNib(nib, forIdentifier: "DeckCellView")
+        decksTable.register(nib, forIdentifier: "DeckCellView")
 
-        decksTable.backgroundColor = NSColor.clearColor()
-        decksTable.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable,
-                                       NSAutoresizingMaskOptions.ViewHeightSizable]
+        decksTable.backgroundColor = NSColor.clear
+        decksTable.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable,
+                                       NSAutoresizingMaskOptions.viewHeightSizable]
 
         decksTable.tableColumns.first?.width = decksTable.bounds.width
-        decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.AutoresizingMask
+        decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.autoresizingMask
 
         decksTable.target = self
 
-        decks = Decks.instance.decks().filter({$0.isActive})
-        decksTable.reloadData()
+        refreshDecks()
 
         deckListTable.tableColumns.first?.width = deckListTable.bounds.width
-        deckListTable.tableColumns.first?.resizingMask = .AutoresizingMask
+        deckListTable.tableColumns.first?.resizingMask = .autoresizingMask
         
         loadSortPopUp()
+        loadClassesPopUp()
 
-        NSEvent.addLocalMonitorForEventsMatchingMask(.KeyDown) { (e) -> NSEvent? in
-            let isCmd = e.modifierFlags.contains(.Command)
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { (e) -> NSEvent? in
+            let isCmd = e.modifierFlags.contains(.command)
             // let isShift = e.modifierFlags.contains(.ShiftKey)
 
             guard isCmd else { return e }
@@ -91,21 +98,21 @@ class DeckManager: NSWindowController {
             return e
         }
 
-        NSNotificationCenter.defaultCenter()
+        NotificationCenter.default
             .addObserver(self,
                          selector: #selector(DeckManager.updateStatsLabel),
-                         name: "reload_decks",
+                         name: NSNotification.Name(rawValue: "reload_decks"),
                          object: nil)
 
-        NSNotificationCenter.defaultCenter()
+        NotificationCenter.default
             .addObserver(self,
                          selector: #selector(DeckManager.updateTheme(_:)),
-                         name: "theme",
+                         name: NSNotification.Name(rawValue: "theme"),
                          object: nil)
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     func sortedFilteredDecks() -> [Deck] {
@@ -115,83 +122,51 @@ class DeckManager: NSWindowController {
         
         switch self.sortCriteria {
         case "name":
-            sortedDeck = filteredDeck.sort({ $0.name < $1.name })
+            sortedDeck = filteredDeck.sorted(by: { $0.name < $1.name })
         case "creation date":
-            sortedDeck = filteredDeck.sort({ $0.creationDate! < $1.creationDate! })
+            sortedDeck = filteredDeck.sorted(by: { $0.creationDate < $1.creationDate })
         case "win percentage":
-            sortedDeck = filteredDeck.sort({
-                  StatsHelper.getDeckWinRate(StatsHelper.getDeckRecord($0)) <
-                  StatsHelper.getDeckWinRate(StatsHelper.getDeckRecord($1)) })
+            sortedDeck = filteredDeck.sorted(by: {
+                  StatsHelper.getDeckWinRate(record: StatsHelper.getDeckRecord(deck: $0)) <
+                  StatsHelper.getDeckWinRate(record: StatsHelper.getDeckRecord(deck: $1)) })
         case "wins":
-            sortedDeck = filteredDeck.sort({
-                  StatsHelper.getDeckRecord($0).wins <
-                  StatsHelper.getDeckRecord($1).wins })
+            sortedDeck = filteredDeck.sorted(by: {
+                  StatsHelper.getDeckRecord(deck: $0).wins <
+                  StatsHelper.getDeckRecord(deck: $1).wins })
         case "losses":
-            sortedDeck = filteredDeck.sort({
-                  StatsHelper.getDeckRecord($0).losses <
-                  StatsHelper.getDeckRecord($1).losses })
+            sortedDeck = filteredDeck.sorted(by: {
+                  StatsHelper.getDeckRecord(deck: $0).losses <
+                  StatsHelper.getDeckRecord(deck: $1).losses })
         case "games played":
-            sortedDeck = filteredDeck.sort({
-                  StatsHelper.getDeckRecord($0).total <
-                  StatsHelper.getDeckRecord($1).total })
+            sortedDeck = filteredDeck.sorted(by: {
+                  StatsHelper.getDeckRecord(deck: $0).total <
+                  StatsHelper.getDeckRecord(deck: $1).total })
         default:
             sortedDeck = filteredDeck
         }
         
-        return ascend ? sortedDeck : sortedDeck.reverse()
+        return ascend ? sortedDeck : sortedDeck.reversed()
     }
     
     func unsortedFilteredDecks() -> [Deck] {
         if let currentClass = currentClass {
             return decks.filter({ $0.playerClass == currentClass && $0.isActive == true })
-                .sort { $0.name < $1.name }
+                .sorted { $0.name < $1.name }
         } else if showArchivedDecks {
-            return decks.filter({ $0.isActive != true }).sort { $0.name < $1.name }
+            return decks.filter({ $0.isActive != true }).sorted { $0.name < $1.name }
         } else {
-            return decks.filter({ $0.isActive == true }).sort { $0.name < $1.name }
+            return decks.filter({ $0.isActive == true }).sorted { $0.name < $1.name }
         }
     }
 
-    @IBAction func filterClassesAction(sender: NSButton) {
-        let buttons = [druidButton, hunterButton, mageButton,
-            paladinButton, priestButton, rogueButton,
-            shamanButton, warlockButton, warriorButton,
-            archiveButton
-        ]
-        for button in buttons {
-            if sender != button {
-                button.state = NSOffState
-            }
-        }
+    @IBAction func filterClassesAction(_ sender: Any) {
+        guard let menuItem = sender as? NSMenuItem else { return }
 
-        let oldCurrentClass = currentClass
-        switch sender {
-        case druidButton:
-            currentClass = .DRUID
-        case hunterButton:
-            currentClass = .HUNTER
-        case mageButton:
-            currentClass = .MAGE
-        case paladinButton:
-            currentClass = .PALADIN
-        case priestButton:
-            currentClass = .PRIEST
-        case rogueButton:
-            currentClass = .ROGUE
-        case shamanButton:
-            currentClass = .SHAMAN
-        case warlockButton:
-            currentClass = .WARLOCK
-        case warriorButton:
-            currentClass = .WARRIOR
-        default:
-            currentClass = nil
-        }
-
-        showArchivedDecks = sender == archiveButton
-
-        if currentClass == oldCurrentClass && currentDeck == nil {
-            currentClass = nil
+        if let selectedClass = menuItem.representedObject as? CardClass {
+            currentClass = selectedClass == .neutral ? nil : selectedClass
+            showArchivedDecks = false
+        } else {
+            showArchivedDecks = true
         }
 
         refreshDecks()
@@ -199,21 +174,22 @@ class DeckManager: NSWindowController {
     
     func updateStatsLabel() {
         if let currentDeck = self.currentDeck {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.statsLabel.stringValue = StatsHelper.getDeckManagerRecordLabel(currentDeck)
+            DispatchQueue.main.async {
+                self.statsLabel.stringValue = StatsHelper
+                    .getDeckManagerRecordLabel(deck: currentDeck, mode: .all)
                 self.curveView.reload()
             }
         }
     }
 
-    func updateTheme(notification: NSNotification) {
+    func updateTheme(_ notification: Notification) {
         deckListTable.reloadData()
     }
 
     // MARK: - Toolbar actions
-    override func validateToolbarItem(item: NSToolbarItem) -> Bool {
+    override func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
         switch item.itemIdentifier {
-        case "add", "donate", "twitter", "hearthstats", "gitter", "trackobot":
+        case "add", "donate", "twitter", "gitter":
             return true
         case "edit", "use", "delete", "rename", "archive", "statistics", "export_hearthstone":
             return currentDeck != nil
@@ -222,7 +198,7 @@ class DeckManager: NSWindowController {
         }
     }
 
-    @IBAction func addDeck(sender: AnyObject) {
+    @IBAction func addDeck(_ sender: AnyObject) {
         newDeck = NewDeck(windowNibName: "NewDeck")
         if let newDeck = newDeck {
             newDeck.setDelegate(self)
@@ -231,7 +207,7 @@ class DeckManager: NSWindowController {
         }
     }
 
-    @IBAction func showStatistics(sender: AnyObject) {
+    @IBAction func showStatistics(_ sender: AnyObject) {
         statistics = Statistics(windowNibName: "Statistics")
         if let statistics = statistics {
             statistics.deck = currentDeck
@@ -240,217 +216,266 @@ class DeckManager: NSWindowController {
             })
         }
     }
-    
-    @IBAction func trackobotLogin(sender: AnyObject) {
-        if TrackOBotAPI.isLogged() {
-            let alert = NSAlert()
-            alert.alertStyle = .Informational
-            // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("Are you sure you want to disconnect from Track-o-Bot ?", comment: "")
-            // swiftlint:enable line_length
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModalForWindow(self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                TrackOBotAPI.logout()
-                                            }
-            })
-        } else {
-            trackobotLogin = TrackOBotLogin(windowNibName: "TrackOBotLogin")
-            if let trackobotLogin = trackobotLogin {
-                self.window!.beginSheet(trackobotLogin.window!, completionHandler: nil)
-            }
-        }
-    }
-    
-    @IBAction func hearthstatsLogin(sender: AnyObject) {
-        if HearthstatsAPI.isLogged() {
-            let alert = NSAlert()
-            alert.alertStyle = .Informational
-            // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("Are you sure you want to disconnect from Hearthstats ?", comment: "")
-            // swiftlint:enable line_length
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModalForWindow(self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                HearthstatsAPI.logout()
-                                            }
-            })
-        } else {
-            hearthstatsLogin = HearthstatsLogin(windowNibName: "HearthstatsLogin")
-            if let hearthstatsLogin = hearthstatsLogin {
-                self.window!.beginSheet(hearthstatsLogin.window!, completionHandler: nil)
-            }
-        }
+
+    @IBAction func donate(_ sender: AnyObject) {
+        openUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_donations"
+            + "&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker"
+            + "&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
     }
 
-    @IBAction func donate(sender: AnyObject) {
-        // swiftlint:disable line_length
-        openUrl("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted")
-        // swiftlint:enable line_length
-    }
-
-    @IBAction func twitter(sender: AnyObject) {
+    @IBAction func twitter(_ sender: AnyObject) {
         openUrl("https://twitter.com/hstracker_mac")
     }
 
-    @IBAction func gitter(sender: AnyObject) {
+    @IBAction func gitter(_ sender: AnyObject) {
         openUrl("https://gitter.im/bmichotte/HSTracker")
     }
     
-    private func openUrl(url: String) {
-        let url = NSURL(string: url)
-        NSWorkspace.sharedWorkspace().openURL(url!)
+    fileprivate func openUrl(_ url: String) {
+        let url = URL(string: url)
+        NSWorkspace.shared().open(url!)
     }
     
-    @IBAction func renameDeck(sender: AnyObject?) {
-        // swiftlint:disable line_length
-        if let deck = currentDeck {
-            let deckNameInput = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
-            deckNameInput.stringValue = deck.name!
-            let alert = NSAlert()
-            alert.alertStyle = .Informational
-            alert.messageText = NSLocalizedString("Deck name", comment: "")
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            alert.accessoryView = deckNameInput
-            alert.beginSheetModalForWindow(self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                deck.name = deckNameInput.stringValue
-                                                Decks.instance.update(deck)
-
-                                                if HearthstatsAPI.isLogged() {
-                                                    if Settings.instance.hearthstatsAutoSynchronize {
-                                                        do {
-                                                            try HearthstatsAPI.updateDeck(deck) {_ in}
-                                                        } catch {}
-                                                    } else {
-                                                        // TODO Alert synchro
-                                                    }
-                                                }
-
-                                                self.refreshDecks()
-                                            }
-            })
-        }
-        // swiftlint:enable line_length
-    }
-
-    @IBAction func editDeck(sender: AnyObject?) {
-        if let deck = currentDeck {
-            editDeck = EditDeck(windowNibName: "EditDeck")
-            if let editDeck = editDeck {
-                editDeck.setDeck(deck)
-                editDeck.setPlayerClass(deck.playerClass)
-                editDeck.setDelegate(self)
-                editDeck.showWindow(self)
+    @IBAction func renameDeck(_ sender: AnyObject?) {
+        if (sender as? NSToolbarItem) != nil {
+            if let deck = currentDeck {
+                renameDeck(deck)
             }
-        }
-    }
-
-    @IBAction func useDeck(sender: AnyObject?) {
-        if let deck = currentDeck {
-            if !deck.isActive {
-                deck.isActive = true
-                Decks.instance.update(deck)
-                refreshDecks()
-            }
-            
-            Settings.instance.activeDeck = deck.deckId
-            Game.instance.setActiveDeck(deck)
-            Game.instance.updatePlayerTracker()
-        }
-    }
-
-    @IBAction func deleteDeck(sender: AnyObject?) {
-        if let deck = currentDeck {
-            let alert = NSAlert()
-            alert.alertStyle = .Informational
-            // swiftlint:disable line_length
-            alert.messageText = NSString(format: NSLocalizedString("Are you sure you want to delete the deck %@ ?", comment: ""), deck.name!) as String
-            // swiftlint:enable line_length
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModalForWindow(self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                self._deleteDeck(deck)
-                                            }
-            })
-        }
-    }
-
-    @IBAction func archiveDeck(sender: AnyObject) {
-        if let deck = currentDeck {
-            let alert = NSAlert()
-            alert.alertStyle = .Informational
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-
-            if deck.isActive {
-                alert.messageText = NSString(format:
-                    NSLocalizedString("Are you sure you want to archive the deck %@ ?",
-                        comment: ""), deck.name!) as String
-            } else {
-                alert.messageText = NSString(format:
-                    NSLocalizedString("Are you sure you want to unarchive the deck %@ ?",
-                        comment: ""), deck.name!) as String
-            }
-            alert.beginSheetModalForWindow(self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                deck.isActive = !deck.isActive
-                                                Settings.instance.activeDeck = nil
-                                                self.refreshDecks()
-                                                Decks.instance.update(deck)
-                                            }
-            })
-        }
-    }
-
-    private func _deleteDeck(deck: Deck) {
-        // swiftlint:disable line_length
-        Log.verbose?.message("in delete \(deck) -> \(HearthstatsAPI.isLogged()) -> \(Settings.instance.hearthstatsAutoSynchronize)")
-        if let _ = deck.hearthstatsId where HearthstatsAPI.isLogged() {
-            if Settings.instance.hearthstatsAutoSynchronize {
-                do {
-                    try HearthstatsAPI.deleteDeck(deck)
-                } catch {
-                    print("error delete hearthstats")
+        } else if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        renameDeck(sortedFilteredDecks()[deckmenu.clickedrow])
+                    }
                 }
-                Decks.instance.remove(deck)
-                refreshDecks()
-            } else {
-                let alert = NSAlert()
-                alert.alertStyle = .Informational
-                alert.messageText = NSLocalizedString("Do you want to delete the deck on Hearthstats ?", comment: "")
-                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                alert.beginSheetModalForWindow(self.window!,
-                                               completionHandler: { (returnCode) in
-                                                if returnCode == NSAlertFirstButtonReturn {
-                                                    do {
-                                                        try HearthstatsAPI.deleteDeck(deck)
-                                                    } catch {
-                                                        // TODO alert
-                                                        print("error delete hearthstats")
-                                                    }
-                                                    Decks.instance.remove(deck)
-                                                    self.refreshDecks()
-                                                }
-                })
             }
-        } else {
-            Decks.instance.remove(deck)
+        }
+    }
+    
+    private func renameDeck(_ deck: Deck) {
+        let deckNameInput = NSTextField(frame: NSRect(x: 0, y: 0, width: 220, height: 24))
+        deckNameInput.stringValue = deck.name
+        NSAlert.show(style: .informational,
+                     message: NSLocalizedString("Deck name", comment: ""),
+                     accessoryView: deckNameInput,
+                     window: self.window) {
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                deck.name = deckNameInput.stringValue
+                            }
+                        } catch {
+                            Log.error?.message("Can not update deck. \(error)")
+                        }
+                        
+                        if HearthstatsAPI.isLogged() &&
+                            Settings.instance.hearthstatsAutoSynchronize {
+                            do {
+                                try HearthstatsAPI.update(deck: deck) {_ in}
+                            } catch {}
+                        }
+                        
+                        self.refreshDecks()
+        }
+
+    }
+
+    @IBAction func editDeck(_ sender: AnyObject?) {
+        if (sender as? NSToolbarItem) != nil {
+            if let deck = currentDeck {
+                editDeck(deck)
+            }
+        } else if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        editDeck(sortedFilteredDecks()[deckmenu.clickedrow])
+                    }
+                }
+            }
+        }
+    }
+    
+    private func editDeck(_ deck: Deck) {
+        editDeck = EditDeck(windowNibName: "EditDeck")
+        if let editDeck = editDeck {
+            editDeck.set(deck: deck)
+            editDeck.set(playerClass: deck.playerClass)
+            editDeck.setDelegate(self)
+            editDeck.showWindow(self)
+        }
+    }
+
+    @IBAction func useDeck(_ sender: AnyObject?) {
+        if (sender as? NSToolbarItem) != nil {
+            self.useDeck(currentDeck)
+        } else if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        self.useDeck(sortedFilteredDecks()[deckmenu.clickedrow])
+                    }
+                }
+            }
+        }
+    }
+    
+    private func useDeck(_ deck: Deck) {
+        if !deck.isActive {
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    deck.isActive = true
+                }
+            } catch {
+                Log.error?.message("Can not update deck : \(error)")
+            }
             refreshDecks()
         }
-        // swiftlint:enable line_length
+        
+        Settings.instance.activeDeck = deck.deckId
+        Game.instance.set(activeDeck: deck)
+    }
+
+    @IBAction func deleteDeck(_ sender: AnyObject?) {
+        if (sender as? NSToolbarItem) != nil {
+            if let deck = currentDeck {
+                deleteDeck(deck)
+            }
+        } else if let menuitem = sender as? NSMenuItem {
+            if let menu = menuitem.menu {
+                if let deckmenu = menu as? DeckContextMenu {
+                    if deckmenu.clickedrow >= 0 {
+                        deleteDeck(sortedFilteredDecks()[deckmenu.clickedrow])
+                    }
+                }
+            }
+        }
     }
     
+    private func deleteDeck(_ deck: Deck) {
+        let message = String(format: NSLocalizedString("Are you sure you want to delete "
+            + "the deck %@ ?", comment: ""), deck.name)
+        
+        NSAlert.show(style: .informational, message: message, window: self.window!) {
+            self._deleteDeck(deck)
+        }
+    }
+
+    @IBAction func archiveDeck(_ sender: AnyObject) {
+        if let deck = currentDeck {
+            let msg: String
+            if deck.isActive {
+                msg = String(format: NSLocalizedString("Are you sure you want to archive "
+                    + "the deck %@ ?", comment: ""), deck.name)
+            } else {
+                msg = String(format: NSLocalizedString("Are you sure you want to unarchive "
+                    + "the deck %@ ?", comment: ""), deck.name)
+            }
+
+            NSAlert.show(style: .informational, message: msg, window: self.window!) {
+                do {
+                    let realm = try Realm()
+                    try realm.write {
+                        deck.isActive = !deck.isActive
+                    }
+                } catch {
+                    Log.error?.message("Can not update deck : \(error)")
+                }
+
+                Settings.instance.activeDeck = nil
+                self.refreshDecks()
+            }
+        }
+    }
+
+    fileprivate func _deleteDeck(_ currentDeck: Deck) {
+        decksTable.deselectAll(self)
+        self.currentDeck = nil
+
+        guard let realm = try? Realm() else {
+            Log.error?.message("Can not get realm instance")
+            refreshDecks()
+            return
+        }
+        guard let deck = realm.objects(Deck.self)
+            .filter("deckId = '\(currentDeck.deckId)'").first else {
+                Log.error?.message("Can not get deck")
+                refreshDecks()
+                return
+        }
+        
+        if let _ = deck.hearthstatsId.value, HearthstatsAPI.isLogged() {
+            if Settings.instance.hearthstatsAutoSynchronize {
+                do {
+                    try HearthstatsAPI.delete(deck: deck)
+                } catch {
+                    Log.error?.message("error delete hearthstats")
+                }
+                do {
+                    try realm.write {
+                        realm.delete(deck)
+                    }
+                } catch {
+                    Log.error?.message("Can not delete deck : \(error)")
+                }
+                refreshDecks()
+            } else {
+                let msg = NSLocalizedString("Do you want to delete the deck on Hearthstats ?",
+                                            comment: "")
+                NSAlert.show(style: .informational, message: msg, window: self.window!) {
+                    do {
+                        try HearthstatsAPI.delete(deck: deck)
+                    } catch {
+                        Log.error?.message("error delete hearthstats")
+                    }
+                    do {
+                        try realm.write {
+                            realm.delete(deck)
+                        }
+                    } catch {
+                        Log.error?.message("Can not delete deck : \(error)")
+                    }
+                    self.refreshDecks()
+                }
+            }
+        } else {
+            do {
+                try realm.write {
+                    realm.delete(deck)
+                }
+            } catch {
+                Log.error?.message("Can not delete deck : \(error)")
+            }
+            refreshDecks()
+        }
+    }
+
+    private func loadClassesPopUp() {
+        let popupMenu = NSMenu()
+        var popupMenuItem = NSMenuItem(title: NSLocalizedString("All classes", comment: ""),
+                                       action: #selector(filterClassesAction(_:)),
+                                       keyEquivalent: "")
+        popupMenuItem.representedObject = CardClass.neutral
+        popupMenu.addItem(popupMenuItem)
+        for playerClass in Cards.classes {
+            popupMenuItem = NSMenuItem(title: NSLocalizedString(playerClass.rawValue,
+                                                                comment: ""),
+                                       action: #selector(filterClassesAction(_:)),
+                                       keyEquivalent: "")
+            popupMenuItem.representedObject = playerClass
+            popupMenu.addItem(popupMenuItem)
+        }
+        classesPopup.menu = popupMenu
+
+        popupMenu.addItem(.separator())
+        popupMenuItem = NSMenuItem(title: NSLocalizedString("Archived", comment: ""),
+                                   action: #selector(filterClassesAction(_:)),
+                                   keyEquivalent: "")
+        popupMenuItem.state = NSOffState
+        popupMenu.addItem(popupMenuItem)
+    }
+
     private func loadSortPopUp() {
         let popupMenu = NSMenu()
         
@@ -462,7 +487,7 @@ class DeckManager: NSWindowController {
             popupMenu.addItem(popupMenuItem)
         }
         
-        popupMenu.addItem(NSMenuItem.separatorItem())
+        popupMenu.addItem(NSMenuItem.separator())
         
         for order in orders {
             let popupMenuItem = NSMenuItem(title: NSLocalizedString(order, comment: ""),
@@ -472,30 +497,29 @@ class DeckManager: NSWindowController {
             popupMenu.addItem(popupMenuItem)
         }
         
-        popupMenu.itemWithTitle(NSLocalizedString(sortCriteria, comment: ""))?.state = NSOnState
-        popupMenu.itemWithTitle(NSLocalizedString(sortOrder, comment: ""))?.state = NSOnState
+        popupMenu.item(withTitle: NSLocalizedString(sortCriteria, comment: ""))?.state = NSOnState
+        popupMenu.item(withTitle: NSLocalizedString(sortOrder, comment: ""))?.state = NSOnState
         
         let firstItemMenu = NSMenuItem(title: NSLocalizedString(sortCriteria, comment: ""),
                                        action: #selector(DeckManager.changeSort(_:)),
                                        keyEquivalent: "")
         firstItemMenu.representedObject = sortCriteria
-        popupMenu.insertItem(firstItemMenu, atIndex: 0)
+        popupMenu.insertItem(firstItemMenu, at: 0)
         
         sortPopUp.menu = popupMenu
     }
     
-    @IBAction func changeSort(sender: NSMenuItem) {
+    @IBAction func changeSort(_ sender: NSMenuItem) {
         // Unset the previously selected one, select the new one
         var previous: String = ""
-        let idx = sender.menu?.indexOfItem(sender)
-        
-        if idx <= criterias.count {
+
+        if let idx = sender.menu?.index(of: sender), idx <= criterias.count {
             previous = sortCriteria
             if let criteria = sender.representedObject as? String {
                 sortCriteria = criteria
                 Settings.instance.deckSortCriteria = sortCriteria
                 
-                let firstMenuItem = sortPopUp.menu?.itemAtIndex(0)
+                let firstMenuItem = sortPopUp.menu?.item(at: 0)
                 firstMenuItem?.representedObject = sender.representedObject
                 firstMenuItem?.title = sender.title
             }
@@ -508,7 +532,7 @@ class DeckManager: NSWindowController {
             }
         }
         
-        let prevSelected = sortPopUp.menu?.itemWithTitle(NSLocalizedString(previous, comment: ""))
+        let prevSelected = sortPopUp.menu?.item(withTitle: NSLocalizedString(previous, comment: ""))
         
         if sender.state != NSOnState {
             self.refreshDecks()
@@ -518,35 +542,27 @@ class DeckManager: NSWindowController {
         sender.state = NSOnState
     }
     
-    @IBAction func exportToHearthstone(sender: AnyObject?) {
+    @IBAction func exportToHearthstone(_ sender: AnyObject?) {
         if let deck = currentDeck {
-            let alert = NSAlert()
-            alert.alertStyle = .Informational
-            // swiftlint:disable line_length
-            alert.messageText = NSString(format: NSLocalizedString("To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.", comment: ""), deck.name!) as String
-            // swiftlint:enable line_length
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModalForWindow(self.window!,
-                                           completionHandler: { (returnCode) in
-                                            if returnCode == NSAlertFirstButtonReturn {
-                                                self.exportDeckToHearthstone(deck)
-                                            }
-            })
+            let msg = String(format: NSLocalizedString("To export a deck to Hearthstone, "
+                + "create a new deck with the correct class in your collection, then click OK "
+                + "and switch to Hearthstone.\nDo not touch your mouse or keyboard "
+                + "during the import.", comment: ""), deck.name)
+            NSAlert.show(style: .informational, message: msg, window: self.window!) {
+                self.exportDeckToHearthstone(deck)
+            }
         }
     }
     
-    private func exportDeckToHearthstone(deck: Deck) {
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
-        let queue = dispatch_get_main_queue()
-        dispatch_after(when, queue) {
+    fileprivate func exportDeckToHearthstone(_ deck: Deck) {
+        let when = DispatchTime.now() + DispatchTimeInterval.seconds(2)
+        let queue = DispatchQueue.main
+        queue.asyncAfter(deadline: when) {
             let automation = Automation()
-            automation.expertDeckToHearthstone(deck) {
-                let alert = NSAlert()
-                alert.alertStyle = .Informational
-                alert.messageText = NSLocalizedString("Export done", comment: "")
-                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                alert.beginSheetModalForWindow(self.window!, completionHandler: nil)
+            automation.expertDeckToHearthstone(deck: deck) {
+                NSAlert.show(style: .informational,
+                             message: NSLocalizedString("Export done", comment: ""),
+                             window: self.window!, forceFront: true)
             }
         }
     }
@@ -554,46 +570,51 @@ class DeckManager: NSWindowController {
 
 // MARK: - NSTableViewDelegate
 extension DeckManager: NSTableViewDelegate {
-    func tableView(tableView: NSTableView,
-                   viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView,
+                   viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView == decksTable {
-            if let cell = decksTable?.makeViewWithIdentifier("DeckCellView", owner: self)
+            if let cell = decksTable?.make(withIdentifier: "DeckCellView", owner: self)
                 as? DeckCellView {
 
                 let deck = sortedFilteredDecks()[row]
                 cell.deck = deck
-                cell.label.stringValue = deck.name!
-                cell.image.image = NSImage(named: deck.playerClass.rawValue.lowercaseString)
-                cell.wildImage.image = !deck.standardViable() ? NSImage(named: "Mode_Wild") : nil
-                cell.color = ClassColor.color(deck.playerClass)
+                cell.label.stringValue = deck.name
+                cell.image.image = NSImage(named: deck.playerClass.rawValue.lowercased())
+                cell.arenaImage.image = deck.isArena && deck.arenaFinished() ?
+                    NSImage(named: "silenced") : nil
+                cell.wildImage.image = deck.isArena ? NSImage(named: "arena") :
+                    !deck.standardViable() && !deck.isArena ?
+                    NSImage(named: "Mode_Wild") : nil
+                cell.color = ClassColor.color(playerClass: deck.playerClass)
                 cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
                 
-                let record = StatsHelper.getDeckRecord(deck)
+                let record = StatsHelper.getDeckRecord(deck: deck, mode: .all)
                 switch sortCriteria {
                 case "creation date":
-                    let formatter = NSDateFormatter()
-                    formatter.dateStyle = .MediumStyle
-                    formatter.timeStyle = .NoStyle
+                    let formatter = DateFormatter()
+                    formatter.dateStyle = .medium
+                    formatter.timeStyle = .none
                     cell.detailTextLabel.stringValue =
-                        "\(formatter.stringFromDate(deck.creationDate!))"
+                        "\(formatter.string(from: deck.creationDate))"
                 case "wins":
                     cell.detailTextLabel.stringValue = "\(record.wins) " +
-                        NSLocalizedString("wins", comment: "").lowercaseString
+                        NSLocalizedString("wins", comment: "").lowercased()
                 case "losses":
                     cell.detailTextLabel.stringValue = "\(record.losses) " +
-                        NSLocalizedString("losses", comment: "").lowercaseString
+                        NSLocalizedString("losses", comment: "").lowercased()
                 case "games played":
                     cell.detailTextLabel.stringValue = "\(record.total) " +
-                        NSLocalizedString("games", comment: "").lowercaseString
+                        NSLocalizedString("games", comment: "").lowercased()
                 default:
-                    cell.detailTextLabel.stringValue = StatsHelper.getDeckManagerRecordLabel(deck)
+                    cell.detailTextLabel.stringValue = StatsHelper
+                        .getDeckManagerRecordLabel(deck: deck, mode: .all)
                 }
 
                 return cell
             }
         } else {
             let cell = CardBar.factory()
-            cell.playerType = .DeckManager
+            cell.playerType = .deckManager
             cell.card = currentDeck?.sortedCards[row]
             return cell
         }
@@ -601,7 +622,7 @@ extension DeckManager: NSTableViewDelegate {
         return nil
     }
 
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         if tableView == self.decksTable {
             return 55
         } else if tableView == self.deckListTable {
@@ -610,23 +631,22 @@ extension DeckManager: NSTableViewDelegate {
         return 20
     }
 
-    func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return true
     }
 
-    func tableViewSelectionDidChange(notification: NSNotification) {
+    func tableViewSelectionDidChange(_ notification: Notification) {
         let decks = sortedFilteredDecks().count
-        guard decks == notification.object?.numberOfRows else { return }
+        guard decks == (notification.object as? NSTableView)?.numberOfRows else { return }
         
         for i in 0 ..< decks {
-            let row = decksTable?.viewAtColumn(0, row: i, makeIfNecessary: false) as? DeckCellView
+            let row = decksTable?.view(atColumn: 0, row: i, makeIfNecessary: false) as? DeckCellView
             row?.selected = decksTable?.selectedRow == -1 || decksTable?.selectedRow == i
-
         }
         
-        if let clickedRow = notification.object?.selectedRow where clickedRow >= 0 {
+        if let clickedRow = (notification.object as? NSTableView)?.selectedRow, clickedRow >= 0 {
             currentDeck = sortedFilteredDecks()[clickedRow]
-            let labelName = ((currentDeck?.isActive) == true) ? "Archive" : "Unarchive"
+            let labelName = currentDeck?.isActive == true ? "Archive" : "Unarchive"
             self.archiveToolBarItem.label = NSLocalizedString(labelName, comment: "")
             deckListTable.reloadData()
             curveView.deck = currentDeck
@@ -640,7 +660,7 @@ extension DeckManager: NSTableViewDelegate {
 
 // MARK: - NSTableViewDataSource
 extension DeckManager: NSTableViewDataSource {
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView == decksTable {
             return sortedFilteredDecks().count
         } else if let currentDeck = currentDeck {
@@ -660,10 +680,11 @@ extension DeckManager: NewDeckDelegate {
     func openDeckBuilder(playerClass: CardClass, arenaDeck: Bool) {
         editDeck = EditDeck(windowNibName: "EditDeck")
         if let editDeck = editDeck {
-            let deck = Deck(playerClass: playerClass)
+            let deck = Deck()
+            deck.playerClass = playerClass
             deck.isArena = arenaDeck
-            editDeck.setDeck(deck)
-            editDeck.setPlayerClass(playerClass)
+            editDeck.set(deck: deck)
+            editDeck.set(playerClass: playerClass)
             editDeck.setDelegate(self)
             editDeck.showWindow(self)
         }
@@ -671,10 +692,17 @@ extension DeckManager: NewDeckDelegate {
 
     func refreshDecks() {
         // Guard incase we are creating a new deck without the window loaded
-        guard windowLoaded else { return }
+        guard isWindowLoaded else { return }
         currentDeck = nil
         decksTable.deselectAll(self)
-        decks = Decks.instance.decks()
+        decks = []
+        do {
+            let realm = try Realm()
+            decks = Array(realm.objects(Deck.self))
+        } catch {
+            Log.error?.message("Can not load decks : \(error)")
+        }
         decksTable.reloadData()
+        deckListTable.reloadData()
     }
 }

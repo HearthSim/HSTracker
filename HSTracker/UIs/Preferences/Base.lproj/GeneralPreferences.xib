@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferences" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="closeTrackerWhenHSCloses" destination="hzK-vu-1RX" id="l95-tC-pd2"/>
+                <outlet property="enableDockBadge" destination="9ux-qy-79X" id="Dpj-Kw-Px3"/>
                 <outlet property="notifyGameStart" destination="08B-rI-8LA" id="cmw-gW-TgA"/>
                 <outlet property="notifyOpponentConcede" destination="Yit-xi-gbj" id="AV9-Bz-TtC"/>
                 <outlet property="notifyTurnStart" destination="c8y-VJ-p2U" id="B8P-nb-zWn"/>
@@ -81,11 +82,22 @@
                         <action selector="checkboxClicked:" target="-2" id="9fs-Sq-3TA"/>
                     </connections>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="9ux-qy-79X">
+                    <rect key="frame" x="18" y="92" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Enable Apphealth icon badge" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mBv-nX-Cn3">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="35J-zY-RjS"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="Yit-xi-gbj" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="0B0-QG-9Dn"/>
                 <constraint firstItem="hzK-vu-1RX" firstAttribute="top" secondItem="Yit-xi-gbj" secondAttribute="bottom" constant="10" id="4a4-F5-NRY"/>
                 <constraint firstAttribute="trailing" secondItem="ZLL-Et-PWS" secondAttribute="trailing" constant="20" id="9jq-ld-Wtn"/>
+                <constraint firstAttribute="trailing" secondItem="9ux-qy-79X" secondAttribute="trailing" constant="20" id="B6W-5H-T3a"/>
                 <constraint firstItem="ZLL-Et-PWS" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="JTv-GP-KA3"/>
                 <constraint firstAttribute="trailing" secondItem="hzK-vu-1RX" secondAttribute="trailing" constant="20" id="M9w-fO-gOz"/>
                 <constraint firstItem="lku-8T-sZE" firstAttribute="top" secondItem="ZLL-Et-PWS" secondAttribute="bottom" constant="10" id="Snx-eE-2dC"/>
@@ -95,11 +107,13 @@
                 <constraint firstAttribute="trailing" secondItem="c8y-VJ-p2U" secondAttribute="trailing" constant="20" id="XoQ-1A-pYd"/>
                 <constraint firstItem="c8y-VJ-p2U" firstAttribute="top" secondItem="08B-rI-8LA" secondAttribute="bottom" constant="10" id="aGW-Oi-8PP"/>
                 <constraint firstItem="Yit-xi-gbj" firstAttribute="top" secondItem="c8y-VJ-p2U" secondAttribute="bottom" constant="10" id="b5F-d8-vYj"/>
+                <constraint firstItem="9ux-qy-79X" firstAttribute="top" secondItem="lku-8T-sZE" secondAttribute="bottom" constant="10" id="bYA-Ja-Ahm"/>
                 <constraint firstItem="ZLL-Et-PWS" firstAttribute="top" secondItem="hzK-vu-1RX" secondAttribute="bottom" constant="10" id="hwq-ih-S94"/>
                 <constraint firstAttribute="trailing" secondItem="Yit-xi-gbj" secondAttribute="trailing" constant="20" id="ii7-vq-aXk"/>
                 <constraint firstItem="hzK-vu-1RX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="k3f-ob-5z7"/>
                 <constraint firstItem="08B-rI-8LA" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="m85-2p-jMA"/>
                 <constraint firstAttribute="trailing" secondItem="lku-8T-sZE" secondAttribute="trailing" constant="20" id="qyB-h6-3qv"/>
+                <constraint firstItem="9ux-qy-79X" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="tfw-qJ-dwG"/>
                 <constraint firstItem="lku-8T-sZE" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="vqx-Up-9VW"/>
             </constraints>
         </customView>

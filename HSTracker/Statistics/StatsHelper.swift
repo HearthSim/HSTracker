@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import RealmSwift
+import CleanroomLogger
 
 class StatsTableRow: NSObject { // Class instead of struct so we can use sortUsingDescriptors
     // Used for display
@@ -43,30 +45,31 @@ class StatsHelper {
     
     static let lg = LadderGrid()
     
-    static func getStatsUITableData(deck: Deck, mode: GameMode = .Ranked, season: Int)
+    static func getStatsUITableData(deck: Deck, mode: GameMode = .ranked, season: Int)
         -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
         
-        for againstClass in [.NEUTRAL] + Cards.classes {
+        for againstClass in [.neutral] + Cards.classes {
             let dataRow = StatsTableRow()
             
-            if againstClass == .NEUTRAL {
+            if againstClass == .neutral {
                 dataRow.classIcon = "AppIcon"
             } else {
-                dataRow.classIcon = againstClass.rawValue.lowercaseString
+                dataRow.classIcon = againstClass.rawValue
             }
             dataRow.opponentClassName =
-                NSLocalizedString(againstClass.rawValue.lowercaseString,
-                                  comment: "").capitalizedString
+                NSLocalizedString(againstClass.rawValue,
+                                  comment: "").capitalized
             
-            let record = getDeckRecord(deck, againstClass: againstClass, mode: mode, season: season)
-            dataRow.record = getDeckRecordString(record)
-            dataRow.winRate = getDeckWinRateString(record)
-            dataRow.winRateNumber = getDeckWinRate(record)
+            let record = getDeckRecord(deck: deck, againstClass: againstClass,
+                                       mode: mode, season: season)
+            dataRow.record = getDeckRecordString(record: record)
+            dataRow.winRate = getDeckWinRateString(record: record)
+            dataRow.winRateNumber = getDeckWinRate(record: record)
             dataRow.totalGames = record.total
-            dataRow.confidenceInterval = getDeckConfidenceString(record,
+            dataRow.confidenceInterval = getDeckConfidenceString(record: record,
                                                                  confidence: statsUIConfidence)
-            let interval = binomialProportionCondifenceInterval(record.wins,
+            let interval = binomialProportionCondifenceInterval(wins: record.wins,
                                                                 losses: record.losses,
                                                                 confidence: statsUIConfidence)
             dataRow.confidenceWindow   = interval.upper - interval.lower
@@ -83,10 +86,10 @@ class StatsHelper {
             
             var tableData = [LadderTableRow]()
             
-            let record = getDeckRecord(deck, againstClass: .NEUTRAL, mode: .Ranked)
-            let tpg = getDeckTimePerGame(deck, againstClass: .NEUTRAL, mode: .Ranked)
+            let record = getDeckRecord(deck: deck, againstClass: .neutral, mode: .ranked)
+            let tpg = getDeckTimePerGame(deck: deck, againstClass: .neutral, mode: .ranked)
             
-            let winRate = getDeckWinRate(record)
+            let winRate = getDeckWinRate(record: record)
             
             let totalStars = Ranks.starsAtRank[rank]! + stars
             var bonus: Int = 0
@@ -113,7 +116,7 @@ class StatsHelper {
                     // Closures for repeated tasks
                     let getGames = {
                         (winp: Double) -> Double? in
-                        return lg.getGamesToRank(target_rank,
+                        return lg.getGamesToRank(targetRank: target_rank,
                                                  stars: totalStars,
                                                  bonus: bonus,
                                                  winp: winp)
@@ -149,12 +152,12 @@ class StatsHelper {
                     
                     // swiftlint:disable line_length
                     //Confidence intervals
-                    let interval = binomialProportionCondifenceInterval(record.wins,
+                    let interval = binomialProportionCondifenceInterval(wins: record.wins,
                                                                         losses: record.losses,
                                                                         confidence: statsUIConfidence)
                     // swiftlint:enable line_length
                     if let lg2r = getGames(interval.lower),
-                        ug2r = getGames(interval.upper) {
+                        let ug2r = getGames(interval.upper) {
                         dataRow.gamesCI = "\(formatGames(ug2r)) - \(formatGames(lg2r))"
                         dataRow.timeCI = "\(formatTime(ug2r, tpg)) - \(formatTime(lg2r, tpg))"
                     } else {
@@ -169,15 +172,15 @@ class StatsHelper {
             return tableData
     }
     
-    static func getDeckManagerRecordLabel(deck: Deck) -> String {
-        let record = getDeckRecord(deck)
+    static func getDeckManagerRecordLabel(deck: Deck, mode: GameMode) -> String {
+        let record = getDeckRecord(deck: deck, mode: mode)
         
         let totalGames = record.total
         if totalGames == 0 {
             return "0 - 0"
         }
         
-        return "\(record.wins) - \(record.losses) (\(getDeckWinRateString(record)))"
+        return "\(record.wins) - \(record.losses) (\(getDeckWinRateString(record: record)))"
     }
     
     static func getDeckRecordString(record: StatsDeckRecord) -> String {
@@ -193,19 +196,19 @@ class StatsHelper {
         return winRate
     }
     
-    static func getDeckTimePerGame(deck: Deck, againstClass: CardClass = .NEUTRAL,
-                                   mode: GameMode = .Ranked) -> Double {
-        var stats = deck.statistics
+    static func getDeckTimePerGame(deck: Deck, againstClass: CardClass = .neutral,
+                                   mode: GameMode = .ranked) -> Double {
+        var stats = Array(deck.statistics)
         
-        if againstClass != .NEUTRAL {
-            stats = deck.statistics.filter({$0.opponentClass == againstClass})
+        if againstClass != .neutral {
+            stats = stats.filter { $0.opponentClass == againstClass }
         }
         
         var rankedStats: [Statistic]
-        if mode == .All {
+        if mode == .all {
             rankedStats = stats
         } else {
-            rankedStats = stats.filter({$0.playerMode == mode})
+            rankedStats = stats.filter { $0.playerMode == mode }
         }
         
         var time: Double = 0.0
@@ -220,7 +223,7 @@ class StatsHelper {
     
     static func getDeckWinRateString(record: StatsDeckRecord) -> String {
         var winRateString = "N/A"
-        let winRate = getDeckWinRate(record)
+        let winRate = getDeckWinRate(record: record)
         if winRate >= 0.0 {
             let winPercent = Int(round(winRate * 100))
             winRateString = String(winPercent) + "%"
@@ -228,27 +231,27 @@ class StatsHelper {
         return winRateString
     }
     
-    static func getDeckRecord(deck: Deck, againstClass: CardClass = .NEUTRAL,
-                              mode: GameMode = .Ranked, season: Int = 0)
+    static func getDeckRecord(deck: Deck, againstClass: CardClass = .neutral,
+                              mode: GameMode = .ranked, season: Int = 0)
         -> StatsDeckRecord {
-            var stats = deck.statistics
-            if againstClass != .NEUTRAL {
-                stats = deck.statistics.filter({$0.opponentClass == againstClass})
+            var stats = Array(deck.statistics)
+            if againstClass != .neutral {
+                stats = stats.filter { $0.opponentClass == againstClass }
             }
             if season > 0 {
-                stats = stats.filter({ $0.season == season })
+                stats = stats.filter { $0.season.value == season }
             }
             
             var rankedStats: [Statistic]
-            if mode == .All {
+            if mode == .all {
                 rankedStats = stats
             } else {
-                rankedStats = stats.filter({$0.playerMode == mode})
+                rankedStats = stats.filter { $0.playerMode == mode }
             }
             
-            let wins = rankedStats.filter({$0.gameResult == .Win}).count
-            let losses = rankedStats.filter({$0.gameResult == .Loss}).count
-            let draws = rankedStats.filter({$0.gameResult == .Draw}).count
+            let wins = rankedStats.filter { $0.gameResult == .win }.count
+            let losses = rankedStats.filter { $0.gameResult == .loss }.count
+            let draws = rankedStats.filter { $0.gameResult == .draw }.count
             
             return StatsDeckRecord(wins: wins,
                                    losses: losses,
@@ -258,7 +261,7 @@ class StatsHelper {
     
     static func getDeckConfidenceString(record: StatsDeckRecord,
                                         confidence: Double = 0.9) -> String {
-        let interval = binomialProportionCondifenceInterval(record.wins,
+        let interval = binomialProportionCondifenceInterval(wins: record.wins,
                                                             losses: record.losses,
                                                             confidence: confidence)
         let intLower = Int(round(interval.lower*100))
@@ -269,19 +272,29 @@ class StatsHelper {
     
     static func guessRank(deck: Deck) -> Int {
         let isStandard = deck.standardViable()
-        
-        let decks = Decks.instance.decks()
+
+        var rdecks: [Deck]? = nil
+        do {
+            let realm = try Realm()
+            rdecks = Array(realm.objects(Deck.self))
+        } catch {
+            Log.error?.message("Can not load decks : \(error)")
+            return -1
+        }
+
+        guard let sdecks = rdecks else { return -1 }
+
+        let decks = sdecks
             .filter({$0.standardViable() == isStandard})
             .filter({!$0.isArena})
         
         var mostRecent: Statistic?
         for deck_i in decks {
-            let datedRankedGames = deck_i.statistics
-                .filter({$0.playerMode == .Ranked})
-                .filter({$0.date != nil})
-            if let latest = datedRankedGames.maxElement({$0.date! < $1.date!}) {
+            let datedRankedGames = deck_i.statistics.filter { $0.playerMode == .ranked }
+
+            if let latest = datedRankedGames.max(by: {$0.date < $1.date}) {
                 if let mr = mostRecent {
-                    if mr.date! < latest.date! {
+                    if mr.date < latest.date {
                         mostRecent = latest
                     }
                 } else {
@@ -289,7 +302,7 @@ class StatsHelper {
                 }
             }
         }
-        
+
         if let mr = mostRecent {
             return mr.playerRank
         } else {
@@ -314,12 +327,13 @@ class StatsHelper {
             }
             
             let quantile = 1 - 0.5 * alpha
-            let z = sqrt(2) * erfinv(2 * quantile - 1)
+            let z = sqrt(2) * erfinv(y: 2 * quantile - 1)
             
             let p = Double(wins) / Double(n)
             
             let center = p + z * z / (2 * n)
-            let spread = z * sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+            let spl = p * (1 - p) / n + z * z / (4 * n * n)
+            let spread = z * sqrt(spl)
             let prefactor = 1 / (1 + z * z / n)
             
             var lower = prefactor * (center - spread)
@@ -363,7 +377,7 @@ class StatsHelper {
         } else if abs(y) == 1 {
             return y * Double(Int.max)
         } else {
-            return Double.NaN
+            return Double.nan
         }
     }
 }

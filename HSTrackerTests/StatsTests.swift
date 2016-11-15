@@ -32,21 +32,21 @@ class StatsTests: XCTestCase {
             [0.00856985966945 , 0.00759498641983],
             [0.51475402072 , 0.493482762145]]
         for i in 0...values.count-1 {
-            Log.info?.message("\(StatsHelper.erfinv(values[i][0])) ?= \(values[i][1])")
-            XCTAssert(fuzzyFloatEquals(StatsHelper.erfinv(values[i][0]), b: values[i][1]))
+            Log.info?.message("\(StatsHelper.erfinv(y: values[i][0])) ?= \(values[i][1])")
+            XCTAssert(fuzzyFloatEquals(a: StatsHelper.erfinv(y: values[i][0]), b: values[i][1]))
         }
     }
     
     func testBinomialProportionConfidenceInterval() {
         let correct_lower = 0.5838606324
         let correct_upper = 0.7914774104
-        let results = StatsHelper.binomialProportionCondifenceInterval(30, losses: 13, confidence: 0.87)
+        let results = StatsHelper.binomialProportionCondifenceInterval(wins: 30, losses: 13, confidence: 0.87)
         
         Log.info?.message("Lower bound: \(results.lower) \(correct_lower)")
         Log.info?.message("Upper bound: \(results.upper) \(correct_upper)")
         
-        XCTAssert(fuzzyFloatEquals(results.lower, b: correct_lower))
-        XCTAssert(fuzzyFloatEquals(results.upper, b: correct_upper))
+        XCTAssert(fuzzyFloatEquals(a: results.lower, b: correct_lower))
+        XCTAssert(fuzzyFloatEquals(a: results.upper, b: correct_upper))
     }
     
     func fuzzyFloatEquals(a: Double, b: Double) -> Bool{
@@ -58,7 +58,7 @@ class StatsTests: XCTestCase {
     {
         let lg = LadderGrid()
         
-        print(lg.getGamesToRank(5, stars: 0, bonus: 2 , winp: 0.655))
+        print(lg.getGamesToRank(targetRank: 5, stars: 0, bonus: 2 , winp: 0.655))
         
         
     }

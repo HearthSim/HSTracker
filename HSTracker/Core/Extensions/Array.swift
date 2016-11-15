@@ -9,7 +9,7 @@
  */
 
 extension Dictionary {
-    mutating func update(other: Dictionary) {
+    mutating func update(_ other: Dictionary) {
         for (key, value) in other {
             self.updateValue(value, forKey:key)
         }
@@ -18,7 +18,7 @@ extension Dictionary {
 
 extension Array where Element: Card {
     func sortCardList() -> [Card] {
-        return sort {
+        return sorted {
             if $0.cost == $1.cost {
                 return $0.name < $1.name
             }
@@ -26,23 +26,19 @@ extension Array where Element: Card {
         }
     }
 
-    func toDict() -> [String: Int] {
-        var result = [String: Int]()
-        for card in self {
-            result[card.id] = card.count
-        }
-        return result
+    func countCards() -> Int {
+        return map({ $0.count }).reduce(0, +)
     }
 
-    func shuffleOne() -> Card? {
-        return self[Int(arc4random()) % Int(count)]
+    func isValidDeck() -> Bool {
+        return countCards() == 30
     }
 }
 
 extension Array where Element: Equatable {
-    mutating func remove(element: Element) {
-        if let index = indexOf(element) {
-            removeAtIndex(index)
+    mutating func remove(_ element: Element) {
+        if let index = index(of: element) {
+            self.remove(at: index)
         }
     }
 }

@@ -1185,6 +1185,8 @@ struct CardIds {
             static let AIBuddyAllChargeAllWindfury_AllChargeAllWindfuryAllTheTimeEnchantment = "XXX_111e"
             static let FillDeck = "XXX_112"
             static let Again = "XXX_113"
+            static let DestroyPlayedCards = "XXX_115"
+            static let DestroyPlayedCards_DestroyPlayedCardEnchantmentEnchantment = "XXX_115e"
             static let CrashTheServer = "XXX_999_Crash"
             static let HomingChicken = "Mekka1"
             static let RepairBot = "Mekka2"
@@ -2650,7 +2652,8 @@ struct CardIds {
         }
 
         struct Mage {
-            static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock, MirrorEntity, Spellbender, Vaporize]
+            static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock,
+                              MirrorEntity, Spellbender, Vaporize]
             static let Counterspell = CardIds.Collectible.Mage.Counterspell
             static let Duplicate = CardIds.Collectible.Mage.Duplicate
             static let Effigy = CardIds.Collectible.Mage.Effigy
@@ -2671,7 +2674,8 @@ struct CardIds {
         }
 
         struct Paladin {
-            static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, NobleSacrifice, Redemption, Repentance, SacredTrial]
+            static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, NobleSacrifice,
+                              Redemption, Repentance, SacredTrial]
             static let Avenge = CardIds.Collectible.Paladin.Avenge
             static let CompetitiveSpirit = CardIds.Collectible.Paladin.CompetitiveSpirit
             static let EyeForAnEye = CardIds.Collectible.Paladin.EyeForAnEye

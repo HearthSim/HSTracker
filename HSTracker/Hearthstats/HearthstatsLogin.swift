@@ -16,26 +16,27 @@ class HearthstatsLogin: NSWindowController {
     @IBOutlet weak var cancelButton: NSButton!
     @IBOutlet weak var loginButton: NSButton!
 
-    @IBAction func cancel(sender: AnyObject) {
+    @IBAction func cancel(_ sender: AnyObject) {
         self.endSheet()
     }
 
-    @IBAction func connect(sender: AnyObject) {
-        configureUserInterfaceForNetworkActivity(true)
+    @IBAction func connect(_ sender: AnyObject) {
+        configureUserInterfaceForNetworkActivity(isNetworkActivityInProgress: true)
 
-        HearthstatsAPI.login(email.stringValue,
+        HearthstatsAPI.login(email: email.stringValue,
                              password: password.stringValue) { (success, message) in
             if success {
                 self.loadDecks() { (success) -> (Void) in
                     let message = NSLocalizedString("You are now connected to Hearthstats",
                                                     comment: "")
-                    self.displayAlert(.Informational, message: message) {
+                    self.displayAlert(style: .informational, message: message) {
                         self.endSheet()
                     }
                 }
             } else {
-                self.displayAlert(.Critical, message: message) {
-                    self.configureUserInterfaceForNetworkActivity(false)
+                self.displayAlert(style: .critical, message: message) {
+                    self.configureUserInterfaceForNetworkActivity(
+                        isNetworkActivityInProgress: false)
                     self.email.becomeFirstResponder()
                 }
             }
@@ -45,37 +46,38 @@ class HearthstatsLogin: NSWindowController {
     private func configureUserInterfaceForNetworkActivity(isNetworkActivityInProgress: Bool) {
         if isNetworkActivityInProgress {
             self.window?.makeFirstResponder(nil)
-            progressIndicator.hidden = false
+            progressIndicator.isHidden = false
             progressIndicator.startAnimation(self)
         } else {
-            progressIndicator.hidden = true
+            progressIndicator.isHidden = true
             self.window?.makeFirstResponder(email)
             progressIndicator.stopAnimation(self)
         }
 
         [ email, password ].forEach {
-            $0.selectable = !isNetworkActivityInProgress
-            $0.editable = !isNetworkActivityInProgress
+            $0?.isSelectable = !isNetworkActivityInProgress
+            $0?.isEditable = !isNetworkActivityInProgress
         }
-        [ loginButton, cancelButton ].forEach { $0.enabled = !isNetworkActivityInProgress }
+        [ loginButton, cancelButton ].forEach { $0.isEnabled = !isNetworkActivityInProgress }
     }
 
-    private func displayAlert(style: NSAlertStyle, message: String, completion: (Void) -> (Void)) {
+    private func displayAlert(style: NSAlertStyle, message: String,
+                              completion: @escaping (Void) -> (Void)) {
         let alert = NSAlert()
         alert.alertStyle = style
         alert.messageText = message
 
-        alert.beginSheetModalForWindow(self.window!) { (response) in
+        alert.beginSheetModal(for: self.window!, completionHandler: { (response) in
             completion()
-        }
+        }) 
     }
 
-    private func loadDecks(completion: (Bool) -> (Void)) {
+    private func loadDecks(completion: @escaping (Bool) -> (Void)) {
         do {
-            try HearthstatsAPI.loadDecks(true) { (success, newDecks) in
+            try HearthstatsAPI.loadDecks(force: true) { (success, newDecks) in
                 completion(success)
             }
-        } catch HearthstatsError.NotLogged {
+        } catch HearthstatsError.notLogged {
             print("not logged")
             completion(false)
         } catch {

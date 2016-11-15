@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CleanroomLogger
+import RealmSwift
 
 protocol SaveDeckDelegate {
     func deckSaveSaved()
@@ -20,21 +22,31 @@ class SaveDeck: NSWindowController {
     @IBOutlet weak var saveHearthstats: NSButton!
 
     var deck: Deck?
+    var cards: [Card]?
+    var exists = false
     private var _delegate: SaveDeckDelegate?
     var versions = ["1.0"]
 
-    func setDelegate(delegate: SaveDeckDelegate) {
+    func setDelegate(_ delegate: SaveDeckDelegate) {
         _delegate = delegate
     }
 
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        saveHearthstats.enabled = HearthstatsAPI.isLogged()
+        saveHearthstats.isEnabled = HearthstatsAPI.isLogged()
 
-        deckName.stringValue = deck!.name ?? ""
+        deckName.stringValue = deck!.name 
 
-        let exists = (deck!.creationDate != nil)
+        do {
+            let realm = try Realm()
+
+            if let _ = realm.objects(Deck.self).filter("deckId = '\(deck!.deckId)'").first {
+                exists = true
+            }
+        } catch {
+            Log.error?.message("Can not fetch deck")
+        }
 
         if exists {
             let version = deck!.version
@@ -42,28 +54,39 @@ class SaveDeck: NSWindowController {
             let nextMajorVersion = "\(round(Double(version)! + 1))"
             versions = [version, nextMinorVersion, nextMajorVersion]
         } else {
-            version.selectItemAtIndex(0)
+            version.selectItem(at: 0)
         }
-        version.enabled = exists
+        version.isEnabled = exists
         version.reloadData()
     }
 
     // MARK: - Actions
-    @IBAction func save(sender: AnyObject) {
-        deck?.name = deckName.stringValue
-        let currentVersion = deck?.version
+    @IBAction func save(_ sender: AnyObject) {
+        guard let deck = deck, let cards = cards, cards.isValidDeck() else { return }
+
+        let currentVersion = deck.version
         let selectedVersion = version.indexOfSelectedItem < 0
             ? versions[0] : versions[version.indexOfSelectedItem]
-        let exists = (deck!.creationDate != nil)
+
         let isNewVersion = currentVersion != selectedVersion
-        deck?.version = selectedVersion
+
+        do {
+            let realm = try Realm()
+
+            try realm.write {
+                deck.version = selectedVersion
+                deck.name = deckName.stringValue
+            }
+        } catch {
+            Log.error?.message("can not save deck : \(error)")
+        }
+
         if HearthstatsAPI.isLogged() && saveHearthstats.state == NSOnState {
-            if !exists || deck!.hearthstatsId == nil {
+            if !exists || deck.hearthstatsId.value == nil {
                 do {
-                    try HearthstatsAPI.postDeck(deck!, callback: { (success) in
+                    try HearthstatsAPI.post(deck: deck, callback: { (success) in
                         if success {
-                            Decks.instance.add(self.deck!)
-                            self._delegate?.deckSaveSaved()
+                            self.saveDeck(update: false)
                         }
                     })
                 } catch {
@@ -71,10 +94,9 @@ class SaveDeck: NSWindowController {
                 }
             } else if isNewVersion {
                 do {
-                    try HearthstatsAPI.postDeckVersion(deck!, callback: { (success) in
+                    try HearthstatsAPI.post(deckVersion: deck, callback: { (success) in
                         if success {
-                            Decks.instance.update(self.deck!)
-                            self._delegate?.deckSaveSaved()
+                            self.saveDeck(update: true)
                         }
                     })
                 } catch {
@@ -82,10 +104,9 @@ class SaveDeck: NSWindowController {
                 }
             } else {
                 do {
-                    try HearthstatsAPI.updateDeck(deck!, callback: { (success) in
+                    try HearthstatsAPI.update(deck: deck, callback: { (success) in
                         if success {
-                            Decks.instance.update(self.deck!)
-                            self._delegate?.deckSaveSaved()
+                            self.saveDeck(update: true)
                         }
                     })
                 } catch {
@@ -94,24 +115,48 @@ class SaveDeck: NSWindowController {
             }
         } else {
             if exists {
-                Decks.instance.update(deck!)
+                self.saveDeck(update: true)
             } else {
-                Decks.instance.add(deck!)
+                self.saveDeck(update: false)
             }
-            self._delegate?.deckSaveSaved()
         }
     }
 
-    @IBAction func cancel(sender: AnyObject) {
+    @IBAction func cancel(_ sender: AnyObject) {
         self._delegate?.deckSaveCanceled()
     }
 
-    // MARK: - NSComboboxDelegate/Datasource
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
+    func saveDeck(update: Bool) {
+        guard let deck = deck, let cards = cards, cards.isValidDeck() else { return }
+        do {
+            let realm = try Realm()
+            try realm.write {
+                if update {
+                    realm.add(deck, update: true)
+                } else {
+                    realm.add(deck)
+                }
+                deck.cards.removeAll()
+                for card in cards {
+                    deck.add(card: card)
+                }
+            }
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+                                            object: deck)
+            self._delegate?.deckSaveSaved()
+        } catch {
+            Log.error?.message("Can not save deck : \(error)")
+        }
+    }
+}
+
+// MARK: - NSComboboxDelegate/Datasource
+extension SaveDeck: NSComboBoxDelegate, NSComboBoxDataSource {
+    func numberOfItems(in aComboBox: NSComboBox) -> Int {
         return versions.count
     }
 
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject {
+    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
         return versions[index]
     }
 }

@@ -24,7 +24,7 @@ struct HearthstoneHeroes: HttpImporter {
         return false
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         var xpath = "//header[@class='panel-heading']/h1[@class='panel-title']"
         guard let nameNode = doc.at_xpath(xpath),
             let deckName = nameNode.text else {
@@ -39,15 +39,18 @@ struct HearthstoneHeroes: HttpImporter {
                 Log.error?.message("Class not found")
                 return nil
         }
-        let clazz = className.uppercaseString.replace("HSICON ", with: "")
+        let clazz = className.lowercased().replace("hsicon ", with: "")
         guard let playerClass = CardClass(rawValue: clazz) else {
             Log.error?.message("Class not found")
             return nil
         }
         Log.verbose?.message("Got class \(playerClass)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
+        var cards: [Card] = []
         xpath = "//*[@id='list']/div/table/tbody/tr"
         let cardNodes = doc.xpath(xpath)
         for cardNode in cardNodes {
@@ -55,14 +58,14 @@ struct HearthstoneHeroes: HttpImporter {
                 let englishName = a["data-lang-en"],
                 let card = Cards.by(englishName: englishName),
                 let span = cardNode.at_xpath(".//span[@class='text-muted']"),
-                let text = span.text?.lowercaseString.replace("x", with: ""),
+                let text = span.text?.lowercased().replace("x", with: ""),
                 let count = Int(text) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                cards.append(card)
             }
         }
         
-        return deck
+        return (deck, cards)
     }
 }

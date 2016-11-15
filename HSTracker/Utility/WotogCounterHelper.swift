@@ -41,22 +41,22 @@ class WotogCounterHelper {
     }
 
     static var playerSeenCthun: Bool {
-        return Game.instance.playerEntity?.hasTag(.SEEN_CTHUN) ?? false
+        return Game.instance.playerEntity?.has(tag: .seen_cthun) ?? false
     }
     static var opponentSeenCthun: Bool {
-        return Game.instance.opponentEntity?.hasTag(.SEEN_CTHUN) ?? false
+        return Game.instance.opponentEntity?.has(tag: .seen_cthun) ?? false
     }
     static var cthunInDeck: Bool? {
-        return deckContains(CardIds.Collectible.Neutral.Cthun)
+        return deckContains(cardId: CardIds.Collectible.Neutral.Cthun)
     }
     static var yoggInDeck: Bool? {
-        return deckContains(CardIds.Collectible.Neutral.YoggSaronHopesEnd)
+        return deckContains(cardId: CardIds.Collectible.Neutral.YoggSaronHopesEnd)
     }
     static var arcaneGiantInDeck: Bool? {
-        return deckContains(CardIds.Collectible.Neutral.ArcaneGiant)
+        return deckContains(cardId: CardIds.Collectible.Neutral.ArcaneGiant)
     }
     static var nzothInDeck: Bool? {
-        return deckContains(CardIds.Collectible.Neutral.NzothTheCorruptor)
+        return deckContains(cardId: CardIds.Collectible.Neutral.NzothTheCorruptor)
     }
 
     static var showPlayerCthunCounter: Bool {
@@ -97,6 +97,6 @@ class WotogCounterHelper {
     }
 
     private static func deckContains(cardId: String) -> Bool? {
-        return Game.instance.activeDeck?.sortedCards.any({ $0.id == cardId })
+        return Game.instance.currentDeck?.cards.any({ $0.id == cardId })
     }
 }

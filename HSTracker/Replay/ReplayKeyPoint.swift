@@ -9,7 +9,7 @@
 import Foundation
 import Wrap
 
-final class ReplayKeyPoint: Equatable {
+final class ReplayKeyPoint {
     var data: [Entity]
     var id: Int
     var player: PlayerType
@@ -17,7 +17,7 @@ final class ReplayKeyPoint: Equatable {
 
     init(data: [Entity]?, type: KeyPointType, id: Int, player: PlayerType) {
         if let data = data {
-            self.data = data.map { $0.copy() }
+            self.data = data.flatMap { $0.copy() as? Entity }
         } else {
             self.data = []
         }
@@ -28,7 +28,7 @@ final class ReplayKeyPoint: Equatable {
 
     var turn: Int {
         if let entity = data.first {
-            return entity.getTag(.TURN)
+            return entity[.turn]
         }
         return 0
     }
@@ -36,14 +36,14 @@ final class ReplayKeyPoint: Equatable {
     func getCardId() -> String? {
         var tag: Int = 0
         if let entity = data.first {
-            tag = entity.getTag(.PROPOSED_ATTACKER)
+            tag = entity[.proposed_attacker]
         }
-        let id = type == KeyPointType.Attack ? tag : self.id
+        let id = type == .attack ? tag : self.id
         return data.firstWhere { $0.id == id }?.cardId
     }
 
     func getAdditionalInfo() -> String {
-        if type == KeyPointType.Victory || type == KeyPointType.Defeat {
+        if type == .victory || type == .defeat {
             return type.rawValue
         }
         return String.isNullOrEmpty(getCardId()) ? "Entity \(id)"
@@ -51,13 +51,19 @@ final class ReplayKeyPoint: Equatable {
     }
 }
 
+extension ReplayKeyPoint: Equatable {
+    static func == (lhs: ReplayKeyPoint, rhs: ReplayKeyPoint) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 extension ReplayKeyPoint: WrapCustomizable {
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
+    func keyForWrapping(propertyNamed propertyName: String) -> String? {
         if ["description"].contains(propertyName) {
             return nil
         }
         
-        return propertyName.capitalizedString
+        return propertyName.capitalized
     }
 }
 
@@ -68,8 +74,4 @@ extension ReplayKeyPoint: CustomStringConvertible {
             + "player: \(player), "
             + "type: \(type)]"
     }
-}
-
-func == (lhs: ReplayKeyPoint, rhs: ReplayKeyPoint) -> Bool {
-    return lhs.id == rhs.id
 }

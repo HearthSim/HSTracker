@@ -63,7 +63,7 @@ int CVRankDetector::detectRank(std::string tempfile)
     
     try
     {
-        cv::Mat img_screen = cv::imread(tempfile,0);
+        cv::Mat img_screen = cv::imread(tempfile, 0);
         
         cv::Ptr<cv::Feature2D> detector = cv::xfeatures2d::SIFT::create();
         
@@ -89,7 +89,7 @@ int CVRankDetector::detectRank(std::string tempfile)
                 cv::DMatch nn1 = matches[i][0];
                 cv::DMatch nn2 = matches[i][1];
                 
-                if (nn1.distance < ratio_test_ratio*nn2.distance)
+                if (nn1.distance < ratio_test_ratio * nn2.distance)
                 {
                     good_matches.push_back(matches[i][0]);
                 }

@@ -24,7 +24,7 @@ struct Hearthpwn: HttpImporter {
         return false
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let nameNode = doc.at_xpath("//h2[contains(@class, 'deck-title')]"),
             let deckName = nameNode.text else {
                 Log.error?.message("Deck name not found")
@@ -35,14 +35,17 @@ struct Hearthpwn: HttpImporter {
         guard let classNode = doc.at_xpath("//section[contains(@class, 'deck-info')]"),
             let clazz = classNode["class"],
             let playerClass = CardClass(rawValue: clazz
-                .replace("deck-info", with: "").trim().uppercaseString) else {
+                .replace("deck-info", with: "").trim().lowercased()) else {
                     Log.error?.message("Class not found")
                     return nil
         }
         Log.verbose?.message("Got class \(playerClass)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
+        var cards: [Card] = []
         for clazz in ["class-listing", "neutral-listing"] {
             let xpath = "//*[contains(@class, '\(clazz)')]//td[contains(@class, 'col-name')]//a"
             let cardNodes = doc.xpath(xpath)
@@ -57,10 +60,10 @@ struct Hearthpwn: HttpImporter {
                     let card = Cards.by(englishName: cardName.trim()) {
                     card.count = count
                     Log.verbose?.message("Got card \(card)")
-                    deck.addCard(card)
+                    cards.append(card)
                 }
             }
         }
-        return deck
+        return (deck, cards)
     }
 }

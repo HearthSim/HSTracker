@@ -18,28 +18,28 @@ class StatsTab: NSViewController {
     
     var statsTableItems = [StatsTableRow]()
     
-    let modePickerItems: [GameMode] = [.All, .Ranked, .Casual, .Brawl, .Arena, .Friendly]
+    let modePickerItems: [GameMode] = [.all, .ranked, .casual, .brawl, .arena, .friendly, .practice]
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         for mode in modePickerItems {
-            modePicker.addItemWithTitle(mode.userFacingName)
+            modePicker.addItem(withTitle: mode.userFacingName)
         }
-        modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
+        modePicker.selectItem(at: modePickerItems.index(of: .ranked)!)
         
-        seasonPicker.addItemWithTitle(NSLocalizedString("all_seasons", comment: ""))
+        seasonPicker.addItem(withTitle: NSLocalizedString("all_seasons", comment: ""))
         if let deck = self.deck {
-            
-            let seasons = Set(deck.statistics.flatMap({ $0.season })).sort().reverse()
+            let seasons = Array(deck.statistics).flatMap({ $0.season.value })
+                .sorted().reversed()
             for season in seasons {
-                seasonPicker.addItemWithTitle(
-                    String(format: NSLocalizedString("season", comment: ""),
-                        NSNumber(integer: season)))
+                seasonPicker.addItem(
+                    withTitle: String(format: NSLocalizedString("season", comment: ""),
+                        NSNumber(value: season as Int)))
                 seasonPicker.lastItem?.tag = season
             }
         }
-        seasonPicker.selectItemAtIndex(0)
+        seasonPicker.selectItem(at: 0)
         
         update()
         
@@ -62,15 +62,16 @@ class StatsTab: NSViewController {
         
         // We need to update the display both when the
         // stats change
-        NSNotificationCenter.defaultCenter().addObserver(self,
-                                                         selector: #selector(update),
-                                                         name: "reload_decks",
-                                                         object: nil)
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(update),
+                         name: NSNotification.Name(rawValue: "reload_decks"),
+                         object: nil)
     }
-    
+
     func sortStatsTable() {
         let sorted = (statsTableItems as NSArray)
-            .sortedArrayUsingDescriptors(statsTable.sortDescriptors)
+            .sortedArray(using: statsTable.sortDescriptors)
         if let _statsTableItems = sorted as? [StatsTableRow] {
             statsTableItems = _statsTableItems
         }
@@ -80,44 +81,44 @@ class StatsTab: NSViewController {
         if let deck = self.deck {
             var index = modePicker.indexOfSelectedItem
             if index == -1 { // In case somehow nothing is selected
-                modePicker.selectItemAtIndex(modePickerItems.indexOf(.Ranked)!)
+                modePicker.selectItem(at: modePickerItems.index(of: .ranked)!)
                 index = modePicker.indexOfSelectedItem
             }
             var season = seasonPicker.indexOfSelectedItem
             if season == -1 {
                 season = 0
-                seasonPicker.selectItemAtIndex(0)
+                seasonPicker.selectItem(at: 0)
             }
             if season > 0 {
                 season = seasonPicker.selectedTag()
             }
             
-            dispatch_async(dispatch_get_main_queue()) {
-                self.statsTableItems = StatsHelper.getStatsUITableData(deck,
+            DispatchQueue.main.async {
+                self.statsTableItems = StatsHelper.getStatsUITableData(deck: deck,
                                                         mode: self.modePickerItems[index],
                                                         season: season)
                 self.sortStatsTable()
                 self.statsTable.reloadData()
             }
         } else {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.statsTableItems = []
                 self.statsTable.reloadData()
             }
         }
     }
     
-    @IBAction func modeSelected(sender: AnyObject) {
+    @IBAction func modeSelected(_ sender: AnyObject) {
         update()
     }
     
-    @IBAction func changeSeason(sender: AnyObject) {
+    @IBAction func changeSeason(_ sender: AnyObject) {
         update()
     }
 }
 
 extension StatsTab : NSTableViewDataSource {
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView == statsTable {
             return statsTableItems.count
         } else {
@@ -127,7 +128,7 @@ extension StatsTab : NSTableViewDataSource {
 }
 
 extension StatsTab : NSTableViewDelegate {
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?,
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
         
         if tableView != statsTable {
@@ -137,30 +138,30 @@ extension StatsTab : NSTableViewDelegate {
         var image: NSImage?
         var text: String = ""
         var cellIdentifier: String = ""
-        var alignment: NSTextAlignment = NSTextAlignment.Left
+        var alignment: NSTextAlignment = NSTextAlignment.left
         
         let item = statsTableItems[row]
         
         if tableColumn == tableView.tableColumns[0] {
             image = NSImage(named: item.classIcon)
             text  = item.opponentClassName
-            alignment = NSTextAlignment.Left
+            alignment = NSTextAlignment.left
             cellIdentifier = "StatsClassCellID"
         } else if tableColumn == tableView.tableColumns[1] {
             text = item.record
-            alignment = NSTextAlignment.Right
+            alignment = NSTextAlignment.right
             cellIdentifier = "StatsRecordCellID"
         } else if tableColumn == tableView.tableColumns[2] {
             text = item.winRate
-            alignment = NSTextAlignment.Right
+            alignment = NSTextAlignment.right
             cellIdentifier = "StatsWinRateCellID"
         } else if tableColumn == tableView.tableColumns[3] {
             text = item.confidenceInterval
-            alignment = NSTextAlignment.Right
+            alignment = NSTextAlignment.right
             cellIdentifier = "StatsCICellID"
         }
         
-        if let cell = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil)
+        if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
             cell.imageView?.image = image ?? nil
@@ -172,10 +173,10 @@ extension StatsTab : NSTableViewDelegate {
         return nil
     }
     
-    func tableView(tableView: NSTableView, sortDescriptorsDidChange
+    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange
         oldDescriptors: [NSSortDescriptor]) {
         if tableView == statsTable {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.sortStatsTable()
                 self.statsTable.reloadData()
             }

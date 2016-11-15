@@ -10,29 +10,23 @@ import Cocoa
 import CleanroomLogger
 import MASPreferences
 import HockeySDK
+import RealmSwift
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     var appWillRestart = false
     var splashscreen: Splashscreen?
-    var playerTracker: Tracker?
-    var opponentTracker: Tracker?
-    var secretTracker: SecretTracker?
-    var playerBoardDamage: BoardDamage?
-    var opponentBoardDamage: BoardDamage?
-    var timerHud: TimerHud?
-    var cardHudContainer: CardHudContainer?
     var initalConfig: InitialConfiguration?
     var deckManager: DeckManager?
-    var floatingCard: FloatingCard?
     @IBOutlet weak var sparkleUpdater: SUUpdater!
-    var operationQueue: NSOperationQueue?
+    var operationQueue: OperationQueue?
     var hstrackerIsStarted = false
     var dockMenu = NSMenu(title: "DockMenu")
+    var appHealth: AppHealth = AppHealth.instance
 
     var preferences: MASPreferencesWindowController = {
-        let preferences = MASPreferencesWindowController(viewControllers: [
+        var controllers = [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
             UpdatePreferences(nibName: "UpdatePreferences", bundle: nil)!,
             GamePreferences(nibName: "GamePreferences", bundle: nil)!,
@@ -40,38 +34,61 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil)!,
             OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil)!,
             HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)!,
-            HearthstatsPreferences(nibName: "HearthstatsPreferences", bundle: nil)!,
             TrackOBotPreferences(nibName: "TrackOBotPreferences", bundle: nil)!
-            ], title: NSLocalizedString("Preferences", comment: ""))
+        ]
+
+        // Hearthstats is deprecated, only show prefs for connected users
+        if HearthstatsAPI.isLogged() {
+            controllers.append(HearthstatsPreferences(nibName: "HearthstatsPreferences",
+                                                      bundle: nil)!)
+        }
+
+        let preferences = MASPreferencesWindowController(
+            viewControllers: controllers,
+            title: NSLocalizedString("Preferences", comment: ""))
         return preferences
     }()
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        Paths.initDirs()
+        let destination = Paths.HSTracker
+
+        let config = Realm.Configuration(
+            fileURL: destination.appendingPathComponent("hstracker.realm"),
+            schemaVersion: 1,
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 1 {
+                    // version == 1 : add hearthstoneId in Deck, 
+                    // automatically managed by realm, nothing to do here
+                }
+        })
+        Realm.Configuration.defaultConfiguration = config
+
         let settings = Settings.instance
-        
+
         let hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
         /*if settings.releaseChannel == .beta {
-            hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
-        }*/
+         hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
+         }*/
 
         let url = "https://hsdecktracker.net/hstracker/appcast.xml"
-        sparkleUpdater.feedURL = NSURL(string: url)
+        sparkleUpdater.feedURL = URL(string: url)
         sparkleUpdater.sendsSystemProfile = true
         sparkleUpdater.automaticallyDownloadsUpdates = settings.automaticallyDownloadsUpdates
 
-        BITHockeyManager.sharedHockeyManager().configureWithIdentifier(hockeyKey)
-        BITHockeyManager.sharedHockeyManager().crashManager.autoSubmitCrashReport = true
-        BITHockeyManager.sharedHockeyManager().delegate = self
-        BITHockeyManager.sharedHockeyManager().startManager()
+        BITHockeyManager.shared().configure(withIdentifier: hockeyKey)
+        BITHockeyManager.shared().crashManager.isAutoSubmitCrashReport = true
+        BITHockeyManager.shared().delegate = self
+        BITHockeyManager.shared().start()
 
-        if let _ = NSUserDefaults.standardUserDefaults().objectForKey("hstracker_v2") {
+        if let _ = UserDefaults.standard.object(forKey: "hstracker_v2") {
             // welcome to HSTracker v2
         } else {
-            for (key, _) in NSUserDefaults.standardUserDefaults().dictionaryRepresentation() {
-                NSUserDefaults.standardUserDefaults().removeObjectForKey(key)
+            for (key, _) in UserDefaults.standard.dictionaryRepresentation() {
+                UserDefaults.standard.removeObject(forKey: key)
             }
-            NSUserDefaults.standardUserDefaults().synchronize()
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hstracker_v2")
+            UserDefaults.standard.synchronize()
+            UserDefaults.standard.set(true, forKey: "hstracker_v2")
         }
 
         // init logger
@@ -81,32 +98,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                     logToASL: false,
                                                     colorizer: nil,
                                                     formatter: HSTrackerLogFormatter())
-        loggers.append(xcodeConfig)
+            loggers.append(xcodeConfig)
         #endif
 
-        if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory,
-                                                          .UserDomainMask, true).first {
-            do {
-                try NSFileManager.defaultManager().createDirectoryAtPath(
-                    "\(path)/Logs/HSTracker",
-                    withIntermediateDirectories: true,
-                    attributes: nil)
-                let severity = Settings.instance.logSeverity
-                // swiftlint:disable line_length
-                let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
-                                                                daysToKeep: 7,
-                                                                directoryPath: "\(path)/Logs/HSTracker",
-                                                                formatters: [HSTrackerLogFormatter()])
-                // swiftlint:enable line_length
-                loggers.append(rotatingConf)
-            } catch { }
-        }
+        let path = Paths.logs.path
+        let severity = Settings.instance.logSeverity
+        let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
+                                                        daysToKeep: 7,
+                                                        directoryPath: path,
+                                                        formatters: [HSTrackerLogFormatter()])
+        loggers.append(rotatingConf)
         Log.enable(configuration: loggers)
 
-        Log.info?.message("*** Starting \(Version.buildName)***")
+        Log.info?.message("*** Starting \(Version.buildName) ***")
 
         if settings.hearthstoneLogPath.hasSuffix("/Logs") {
-           settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
+            settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
         }
 
         if settings.validated() {
@@ -121,11 +128,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func applicationWillTerminate(notification: NSNotification) {
+    func applicationWillTerminate(_ notification: Notification) {
         Hearthstone.instance.stopTracking()
         if appWillRestart {
-            let appPath = NSBundle.mainBundle().bundlePath
-            let task = NSTask()
+            let appPath = Bundle.main.bundlePath
+            let task = Process()
             task.launchPath = "/usr/bin/open"
             task.arguments = [appPath]
             task.launch()
@@ -134,6 +141,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Application init
     func loadSplashscreen() {
+        NSRunningApplication.current().activate(options: [
+            .activateAllWindows,
+            .activateIgnoringOtherApps
+            ])
+        NSApp.activate(ignoringOtherApps: true)
+
         splashscreen = Splashscreen(windowNibName: "Splashscreen")
         let screenFrame = NSScreen.screens()!.first!.frame
         let splashscreenWidth: CGFloat = 350
@@ -147,125 +160,112 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                        display: true)
         splashscreen?.showWindow(self)
 
-        let buildsOperation = NSBlockOperation {
-            BuildDates.loadBuilds(self.splashscreen!)
+        Log.info?.message("Opening trackers")
+        WindowManager.default.startManager()
+        
+        let buildsOperation = BlockOperation {
+            BuildDates.loadBuilds(splashscreen: self.splashscreen!)
             if BuildDates.isOutdated() {
-                BuildDates.downloadCards(self.splashscreen!)
+                BuildDates.downloadCards(splashscreen: self.splashscreen!)
             }
         }
 
-        let databaseOperation = NSBlockOperation {
+        let databaseOperation = BlockOperation {
             let database = Database()
-            if let images = database.loadDatabase(self.splashscreen!) {
+            if let images = database.loadDatabase(splashscreen: self.splashscreen!) {
                 let imageDownloader = ImageDownloader()
                 imageDownloader.deleteImages()
-                imageDownloader.downloadImagesIfNeeded(images, splashscreen: self.splashscreen!)
+                imageDownloader.downloadImagesIfNeeded(splashscreen: self.splashscreen!,
+                                                       images: images)
             }
         }
-        let decksOperation = NSBlockOperation {
+        let decksOperation = BlockOperation {
             Log.info?.message("Loading decks")
-            Decks.instance.loadDecks(self.splashscreen)
+            Decks.instance.loadDecks(splashscreen: self.splashscreen)
         }
-        let loggingOperation = NSBlockOperation {
+        let loggingOperation = BlockOperation {
             while true {
-                if self.playerTracker != nil && self.opponentTracker != nil {
+                if WindowManager.default.isReady() {
                     break
                 }
-                NSThread.sleepForTimeInterval(0.5)
+                Thread.sleep(forTimeInterval: 0.5)
             }
-            let game = Game.instance
-            game.setPlayerTracker(self.playerTracker)
-            game.setOpponentTracker(self.opponentTracker)
-            game.secretTracker = self.secretTracker
-            game.timerHud = self.timerHud
-            game.cardHudContainer = self.cardHudContainer
-            game.playerBoardDamage = self.playerBoardDamage
-            game.opponentBoardDamage = self.opponentBoardDamage
 
-            NSOperationQueue.mainQueue().addOperationWithBlock() {
-                game.reset()
+            OperationQueue.main.addOperation() {
+                Game.instance.reset()
             }
         }
 
-        let trackerOperation = NSBlockOperation {
-            NSOperationQueue.mainQueue().addOperationWithBlock() {
-                Log.info?.message("Opening trackers")
-                self.openTrackers()
-            }
-        }
-        let menuOperation = NSBlockOperation {
-            NSOperationQueue.mainQueue().addOperationWithBlock() {
+        let menuOperation = BlockOperation {
+            OperationQueue.main.addOperation() {
                 Log.info?.message("Loading menu")
                 self.buildMenu()
             }
         }
 
         databaseOperation.addDependency(buildsOperation)
-        loggingOperation.addDependency(trackerOperation)
         loggingOperation.addDependency(menuOperation)
         decksOperation.addDependency(databaseOperation)
-        trackerOperation.addDependency(decksOperation)
         menuOperation.addDependency(decksOperation)
 
-        operationQueue = NSOperationQueue()
+        operationQueue = OperationQueue()
         operationQueue?.addOperation(buildsOperation)
-        operationQueue?.addOperation(trackerOperation)
         operationQueue?.addOperation(databaseOperation)
         operationQueue?.addOperation(decksOperation)
         operationQueue?.addOperation(loggingOperation)
         operationQueue?.addOperation(menuOperation)
 
         operationQueue?.addObserver(self,
-                                   forKeyPath: "operations",
-                                   options: NSKeyValueObservingOptions.New,
-                                   context: nil)
+                                    forKeyPath: "operations",
+                                    options: NSKeyValueObservingOptions.new,
+                                    context: nil)
     }
 
-    override func observeValueForKeyPath(keyPath: String?,
-                                         ofObject object: AnyObject?,
-                                                  change: [String : AnyObject]?,
-                                                  context: UnsafeMutablePointer<Void>) {
-        if let keyPath = keyPath, operationQueue = operationQueue,
-            object = object as? NSOperationQueue {
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        if let keyPath = keyPath, let operationQueue = operationQueue,
+            let object = object as? OperationQueue {
 
             if object == operationQueue && keyPath == "operations" {
                 if operationQueue.operationCount == 0 {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         self.hstrackerReady()
                     }
                 }
                 return
             }
         }
-        super.observeValueForKeyPath(keyPath,
-                                     ofObject: object,
-                                     change: change,
-                                     context: context)
+        super.observeValue(forKeyPath: keyPath,
+                           of: object,
+                           change: change,
+                           context: context)
     }
 
-    // debug stuff 
+    // debug stuff
     //var window: NSWindow?
     func hstrackerReady() {
         guard !hstrackerIsStarted else { return }
         hstrackerIsStarted = true
-        
+
         operationQueue?.removeObserver(self, forKeyPath: "operations")
         operationQueue = nil
 
         var message: String?
-        var alertStyle = NSAlertStyle.Critical
+        var alertStyle = NSAlertStyle.critical
         do {
             let canStart = try Hearthstone.instance.setup()
 
             if !canStart {
                 message = "You must restart Hearthstone for logs to be used"
-                alertStyle = .Informational
+                alertStyle = .informational
             }
-        } catch HearthstoneLogError.CanNotCreateDir {
+        } catch HearthstoneLogError.canNotCreateDir {
             message = "Can not create Hearthstone config dir"
-        } catch HearthstoneLogError.CanNotReadFile {
+        } catch HearthstoneLogError.canNotReadFile {
             message = "Can not read Hearthstone config file"
-        } catch HearthstoneLogError.CanNotCreateFile {
+        } catch HearthstoneLogError.canNotCreateFile {
             message = "Can not write Hearthstone config file"
         } catch {
             message = "Unknown error"
@@ -275,268 +275,120 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             splashscreen?.close()
             splashscreen = nil
 
-            if alertStyle == .Critical {
+            if alertStyle == .critical {
                 Log.error?.message(message)
             }
 
-            let alert = NSAlert()
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            alert.informativeText = NSLocalizedString(message, comment: "")
-            alert.alertStyle = alertStyle
-            NSRunningApplication.currentApplication().activateWithOptions([
-                NSApplicationActivationOptions.ActivateAllWindows,
-                NSApplicationActivationOptions.ActivateIgnoringOtherApps])
-            NSApp.activateIgnoringOtherApps(true)
-            alert.runModal()
+            NSAlert.show(style: alertStyle,
+                         message: NSLocalizedString(message, comment: ""),
+                         forceFront: true)
             return
         }
 
         Hearthstone.instance.start()
-        
+
         let events = [
-            "show_player_tracker": #selector(AppDelegate.showPlayerTracker(_:)),
-            "show_opponent_tracker": #selector(AppDelegate.showOpponentTracker(_:)),
             "reload_decks": #selector(AppDelegate.reloadDecks(_:)),
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
-            "show_floating_card": #selector(AppDelegate.showFloatingCard(_:)),
-            "hide_floating_card": #selector(AppDelegate.hideFloatingCard(_:)),
-            "theme": #selector(AppDelegate.reloadTheme(_:)),
+            "theme": #selector(reloadTheme),
             "save_arena_deck": #selector(AppDelegate.saveArenaDeck(_:)),
-        ]
+            ]
 
         for (event, selector) in events {
-            NSNotificationCenter.defaultCenter().addObserver(self,
-                                                             selector: selector,
-                                                             name: event,
-                                                             object: nil)
+            NotificationCenter.default.addObserver(self,
+                                                   selector: selector,
+                                                   name: NSNotification.Name(rawValue: event),
+                                                   object: nil)
         }
 
-        if let activeDeck = Settings.instance.activeDeck, deck = Decks.instance.byId(activeDeck) {
-            Game.instance.setActiveDeck(deck)
+        if let activeDeck = Settings.instance.activeDeck {
+            do {
+                let realm = try Realm()
+                if let deck = realm.objects(Deck.self).filter("deckId = '\(activeDeck)'").first {
+                    Game.instance.set(activeDeck: deck)
+                }
+            } catch {
+                Log.error?.message("Can not fetch deck : \(error)")
+            }
         }
 
-        NSNotificationCenter.defaultCenter()
-            .postNotification(NSNotification(name: "hstracker_is_ready", object: nil))
+        NotificationCenter.default
+            .post(Notification(name: Notification.Name(rawValue: "hstracker_is_ready"),
+                               object: nil))
 
         splashscreen?.close()
         splashscreen = nil
-    }
 
-    func openTrackers() {
-        let settings = Settings.instance
-
-        let screenFrame = NSScreen.mainScreen()!.frame
-        let y = screenFrame.height - 50
-        let width: CGFloat
-        switch settings.cardSize {
-        case .Tiny: width = CGFloat(kTinyFrameWidth)
-        case .Small: width = CGFloat(kSmallFrameWidth)
-        case .Medium: width = CGFloat(kMediumFrameWidth)
-        case .Big: width = CGFloat(kFrameWidth)
-        case .VeryBig: width = CGFloat(kHighRowFrameWidth)
+        let time = DispatchTime.now() + DispatchTimeInterval.milliseconds(500)
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            WindowManager.default.updateTrackers()
         }
-
-        playerTracker = Tracker(windowNibName: "Tracker")
-        playerTracker?.playerType = .Player
-        if let rect = settings.playerTrackerFrame {
-            playerTracker?.window?.setFrame(rect, display: true)
-        } else {
-            let x = screenFrame.width - width + screenFrame.origin.x
-            playerTracker?.window?.setFrame(NSRect(x: x,
-                y: y+screenFrame.origin.y, width: width, height: y),
-                                            display: true)
-        }
-        showPlayerTracker(nil)
-
-        opponentTracker = Tracker(windowNibName: "Tracker")
-        opponentTracker?.playerType = .Opponent
-
-        if let rect = settings.opponentTrackerFrame {
-            opponentTracker?.window?.setFrame(rect, display: true)
-        } else {
-            let x = screenFrame.origin.x + 50
-            opponentTracker?.window?.setFrame(NSRect(x: x,
-                y: y+screenFrame.origin.y, width: width, height: y),
-                                              display: true)
-        }
-        showOpponentTracker(nil)
-
-        secretTracker = SecretTracker(windowNibName: "SecretTracker")
-        secretTracker?.showWindow(self)
-
-        timerHud = TimerHud(windowNibName: "TimerHud")
-        timerHud?.showWindow(self)
-        timerHud?.window?.orderOut(self)
-        
-        playerBoardDamage = BoardDamage(windowNibName: "BoardDamage")
-        playerBoardDamage?.showWindow(self)
-        playerBoardDamage?.window?.orderOut(self)
-        
-        opponentBoardDamage = BoardDamage(windowNibName: "BoardDamage")
-        opponentBoardDamage?.showWindow(self)
-        opponentBoardDamage?.window?.orderOut(self)
-
-        cardHudContainer = CardHudContainer(windowNibName: "CardHudContainer")
-        cardHudContainer?.showWindow(self)
-
-        floatingCard = FloatingCard(windowNibName: "FloatingCard")
-        floatingCard?.showWindow(self)
-        floatingCard?.window?.orderOut(self)
     }
 
-    func showPlayerTracker(notification: NSNotification?) {
-        showHideTracker(self.playerTracker,
-                        show: Settings.instance.showPlayerTracker,
-                        title: "Player tracker")
-    }
-
-    func showOpponentTracker(notification: NSNotification?) {
-        showHideTracker(self.opponentTracker,
-                        show: Settings.instance.showOpponentTracker,
-                        title: "Opponent tracker")
-    }
-
-    func showHideTracker(tracker: Tracker?, show: Bool, title: String) {
-        if show {
-            tracker?.showWindow(self)
-            if let window = tracker?.window {
-                NSApp.addWindowsItem(window,
-                                     title: NSLocalizedString(title, comment: ""),
-                                     filename: false)
-                window.title = NSLocalizedString(title, comment: "")
-            }
-        } else {
-            if let window = tracker?.window {
-                NSApp.removeWindowsItem(window)
-            }
-            tracker?.window?.orderOut(self)
-        }
-        
-    }
-
-    func reloadDecks(notification: NSNotification) {
+    func reloadDecks(_ notification: Notification) {
         buildMenu()
     }
 
-    func reloadTheme(notification: NSNotification) {
-        Game.instance.updatePlayerTracker(true)
-        Game.instance.updateOpponentTracker(true)
+    func reloadTheme() {
+        WindowManager.default.updateTrackers(reset: true)
     }
 
-    var closeFloatingCardRequest = 0
-    var closeRequestTimer: NSTimer?
-    func showFloatingCard(notification: NSNotification) {
-        guard Settings.instance.showFloatingCard else {return}
-
-        if let card = notification.userInfo?["card"] as? Card,
-            arrayFrame = notification.userInfo?["frame"] as? [CGFloat] {
-            if closeRequestTimer != nil {
-                closeRequestTimer?.invalidate()
-                closeRequestTimer = nil
-            }
-
-            closeFloatingCardRequest += 1
-            floatingCard?.showWindow(self)
-            let frame = NSRect(x: arrayFrame[0],
-                               y: arrayFrame[1],
-                               width: arrayFrame[2],
-                               height: arrayFrame[3])
-            floatingCard?.window?.setFrame(frame, display: true)
-            floatingCard?.setCard(card)
-
-            closeRequestTimer = NSTimer.scheduledTimerWithTimeInterval(
-                3,
-                target: self,
-                selector: #selector(AppDelegate.forceHideFloatingCard),
-                userInfo: nil,
-                repeats: false)
-
-        }
-    }
-
-    func forceHideFloatingCard() {
-        closeFloatingCardRequest = 0
-        floatingCard?.window?.orderOut(self)
-        closeRequestTimer?.invalidate()
-        closeRequestTimer = nil
-    }
-
-    func hideFloatingCard(notification: NSNotification) {
-        guard Settings.instance.showFloatingCard else {return}
-
-        self.closeFloatingCardRequest -= 1
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(100 * Double(NSEC_PER_MSEC)))
-        let queue = dispatch_get_main_queue()
-        dispatch_after(when, queue) {
-            if self.closeFloatingCardRequest > 0 {
-                return
-            }
-            self.closeFloatingCardRequest = 0
-            self.floatingCard?.window?.orderOut(self)
-            self.closeRequestTimer?.invalidate()
-            self.closeRequestTimer = nil
-        }
-    }
-
-    func showHideCardHuds(notification: NSNotification) {
-        Game.instance.updateCardHuds(true)
-    }
-
-    func languageChange(notification: NSNotification) {
-        let alert = NSAlert()
-        alert.alertStyle = .Informational
-        // swiftlint:disable line_length
-        alert.messageText = NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: "")
-        // swiftlint:enable line_length
-        alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-        alert.runModal()
+    func languageChange(_ notification: Notification) {
+        let msg = "You must restart HSTracker for the language change to take effect"
+        NSAlert.show(style: .informational,
+                     message: NSLocalizedString(msg, comment: ""))
 
         appWillRestart = true
-        NSApplication.sharedApplication().terminate(nil)
+        NSApplication.shared().terminate(nil)
         exit(0)
     }
 
     // MARK: - Menu
     func buildMenu() {
-        var decks = [CardClass: [Deck]]()
-        Decks.instance.decks().filter({$0.isActive}).forEach({
-            if decks[$0.playerClass] == nil {
-                decks[$0.playerClass] = [Deck]()
+        guard let realm = try? Realm() else {
+            Log.error?.message("Can not fetch decks")
+            return
+        }
+
+        var decks: [CardClass: [Deck]] = [:]
+        for deck in realm.objects(Deck.self).filter("isActive = true") {
+            if decks[deck.playerClass] == nil {
+                decks[deck.playerClass] = [Deck]()
             }
-            decks[$0.playerClass]?.append($0)
-        })
+            decks[deck.playerClass]?.append(deck)
+        }
 
         // build main menu
         // ---------------
-        let mainMenu = NSApplication.sharedApplication().mainMenu
-        let deckMenu = mainMenu?.itemWithTitle(NSLocalizedString("Decks", comment: ""))
+        let mainMenu = NSApplication.shared().mainMenu
+        let deckMenu = mainMenu?.item(withTitle: NSLocalizedString("Decks", comment: ""))
         deckMenu?.submenu?.removeAllItems()
-        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Deck Manager", comment: ""),
-                                            action: #selector(AppDelegate.openDeckManager(_:)),
-                                            keyEquivalent: "d")
-        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Reset", comment: ""),
-                                            action: #selector(AppDelegate.resetTrackers(_:)),
-                                            keyEquivalent: "r")
+        deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
+                                   action: #selector(AppDelegate.openDeckManager(_:)),
+                                   keyEquivalent: "d")
+        deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Reset", comment: ""),
+                                   action: #selector(AppDelegate.resetTrackers(_:)),
+                                   keyEquivalent: "r")
         let saveMenus = NSMenu()
-        saveMenus.addItemWithTitle(NSLocalizedString("Save Current Deck", comment: ""),
-                                   action: #selector(AppDelegate.saveCurrentDeck(_:)),
-                                   keyEquivalent: "").tag = 2
-        saveMenus.addItemWithTitle(NSLocalizedString("Save Opponent's Deck", comment: ""),
-                                   action: #selector(AppDelegate.saveCurrentDeck(_:)),
-                                   keyEquivalent: "").tag = 1
-        saveMenus.addItemWithTitle(NSLocalizedString("Save Arena Deck", comment: ""),
-                                   action: #selector(AppDelegate.saveArenaDeck(_:)),
-                                   keyEquivalent: "")
-        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Save", comment: ""),
-                                            action: nil,
-                                            keyEquivalent: "").submenu = saveMenus
-        deckMenu?.submenu?.addItemWithTitle(NSLocalizedString("Clear", comment: ""),
-                                            action: #selector(AppDelegate.clearTrackers(_:)),
-                                            keyEquivalent: "R")
-        
+        saveMenus.addItem(withTitle: NSLocalizedString("Save Current Deck", comment: ""),
+                          action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                          keyEquivalent: "").tag = 2
+        saveMenus.addItem(withTitle: NSLocalizedString("Save Opponent's Deck", comment: ""),
+                          action: #selector(AppDelegate.saveCurrentDeck(_:)),
+                          keyEquivalent: "").tag = 1
+        saveMenus.addItem(withTitle: NSLocalizedString("Save Arena Deck", comment: ""),
+                          action: #selector(AppDelegate.saveArenaDeck(_:)),
+                          keyEquivalent: "")
+        deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Save", comment: ""),
+                                   action: nil,
+                                   keyEquivalent: "").submenu = saveMenus
+        deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Clear", comment: ""),
+                                   action: #selector(AppDelegate.clearTrackers(_:)),
+                                   keyEquivalent: "R")
+
         // build dock menu
         // ---------------
-        if let decksmenu = self.dockMenu.itemWithTag(1) {
+        if let decksmenu = self.dockMenu.item(withTag: 1) {
             decksmenu.submenu?.removeAllItems()
         } else {
             let decksmenu = NSMenuItem(title: NSLocalizedString("Decks", comment: ""),
@@ -545,25 +397,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             decksmenu.submenu = NSMenu()
             self.dockMenu.addItem(decksmenu)
         }
-        
-        let dockdeckMenu = self.dockMenu.itemWithTag(1)
+
+        let dockdeckMenu = self.dockMenu.item(withTag: 1)
 
         // add deck items to main and dock menu
         // ------------------------------------
-        deckMenu?.submenu?.addItem(NSMenuItem.separatorItem())
+        deckMenu?.submenu?.addItem(NSMenuItem.separator())
         for (playerClass, _decks) in decks
-            .sort({ NSLocalizedString($0.0.rawValue.lowercaseString, comment: "")
-                < NSLocalizedString($1.0.rawValue.lowercaseString, comment: "") }) {
+            .sorted(by: { NSLocalizedString($0.0.rawValue.lowercased(), comment: "")
+                < NSLocalizedString($1.0.rawValue.lowercased(), comment: "") }) {
                     // create menu item for all decks in this class
                     let classmenuitem = NSMenuItem(title: NSLocalizedString(
-                        playerClass.rawValue.lowercaseString,
+                        playerClass.rawValue.lowercased(),
                         comment: ""), action: nil, keyEquivalent: "")
                     let classsubMenu = NSMenu()
                     _decks.filter({ $0.isActive == true })
-                        .sort({$0.name!.lowercaseString < $1.name!.lowercaseString }).forEach({
-                            let item = classsubMenu.addItemWithTitle($0.name!,
-                                action: #selector(AppDelegate.playDeck(_:)),
-                                keyEquivalent: "")
+                        .sorted(by: {$0.name.lowercased() < $1.name.lowercased() }).forEach({
+                            let item = classsubMenu
+                                .addItem(withTitle: $0.name,
+                                         action: #selector(AppDelegate.playDeck(_:)),
+                                         keyEquivalent: "")
                             item.representedObject = $0
                         })
                     classmenuitem.submenu = classsubMenu
@@ -572,95 +425,106 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         dockdeckMenu?.submenu?.addItem(menuitemcopy)
                     }
         }
-        
-        let replayMenu = mainMenu?.itemWithTitle(NSLocalizedString("Replays", comment: ""))
-        let replaysMenu = replayMenu?.submenu?.itemWithTitle(NSLocalizedString("Last replays",
-            comment: ""))
+
+        let replayMenu = mainMenu?.item(withTitle: NSLocalizedString("Replays", comment: ""))
+        let replaysMenu = replayMenu?.submenu?.item(withTitle: NSLocalizedString("Last replays",
+                                                                                 comment: ""))
         replaysMenu?.submenu?.removeAllItems()
-        replaysMenu?.enabled = false
+        replaysMenu?.isEnabled = false
         if let _ = Settings.instance.hsReplayUploadToken {
-            replaysMenu?.enabled = HSReplayManager.instance.replays.count > 0
-            
-            HSReplayManager.instance.replays.sort({
-                $0.0.date.compare($0.1.date) == .OrderedDescending
-            }).take(10).forEach({
-                let name: String
-                if $0.deck.isEmpty {
-                    name = String(format: "Vs %@", $0.against)
+            let statistics = realm.objects(Statistic.self)
+                .filter("hsReplayId != nil")
+                .sorted(byProperty: "date", ascending: false)
+            replaysMenu?.isEnabled = statistics.count > 0
+            let max = min(statistics.count, 10)
+            for i in 0..<max {
+                let stat = statistics[i]
+                var deckName = ""
+                if let deck = stat.deck.first, !deck.name.isEmpty {
+                    deckName = deck.name
+                }
+                let opponentName = stat.opponentName.isEmpty ? "unknow" : stat.opponentName
+                let opponentClass = stat.opponentClass
+
+                var name = ""
+                if !deckName.isEmpty {
+                    name = "\(deckName) vs"
                 } else {
-                    name = String(format: "%@ vs %@", $0.deck, $0.against)
+                    name = "Vs"
                 }
-                if let item = replaysMenu?.submenu?.addItemWithTitle(name,
-                    action: #selector(AppDelegate.showReplay(_:)),
-                    keyEquivalent: "") {
-                    item.representedObject = $0.replayId
+                name += " \(opponentName)"
+                if opponentClass != .neutral {
+                    name += " (\(NSLocalizedString(opponentClass.rawValue, comment: "")))"
                 }
-            })
-            
+
+                if let item = replaysMenu?.submenu?
+                    .addItem(withTitle: name,
+                             action: #selector(showReplay(_:)),
+                             keyEquivalent: "") {
+                    item.representedObject = stat.hsReplayId
+                }
+            }
         }
-        
+
         let settings = Settings.instance
-        let windowMenu = mainMenu?.itemWithTitle(NSLocalizedString("Window", comment: ""))
-        let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString("Lock windows",
-            comment: ""))
+        let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
+        let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString("Lock windows",
+                                                                          comment: ""))
         item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                         comment: "")
     }
-    
-    func showReplay(sender: NSMenuItem) {
+
+    func showReplay(_ sender: NSMenuItem) {
         if let replayId = sender.representedObject as? String {
-            HSReplayManager.showReplay(replayId)
+            HSReplayManager.showReplay(replayId: replayId)
         }
     }
-    
-    @IBAction func importReplay(sender: NSMenuItem) {
+
+    @IBAction func importReplay(_ sender: NSMenuItem) {
         let panel = NSOpenPanel()
-        if let path = ReplayMaker.replayDir() {
-            panel.directoryURL = NSURL(fileURLWithPath: path)
-        }
+        panel.directoryURL = Paths.replays
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
         panel.allowedFileTypes = ["hdtreplay"]
-        panel.beginWithCompletionHandler { (returnCode) in
+        panel.begin { (returnCode) in
             if returnCode == NSFileHandlingPanelOKButton {
-                for filename in panel.URLs {
-                    if let path = filename.path {
-                        LogUploader.upload(path, completion: { (result) in
-                            if case UploadResult.successful(let replayId) = result {
-                                HSReplayManager.showReplay(replayId)
-                            }
-                        })
-                    }
+                for filename in panel.urls {
+                    let path = filename.path
+                    LogUploader.upload(filename: path, completion: { (result) in
+                        if case UploadResult.successful(let replayId) = result {
+                            HSReplayManager.showReplay(replayId: replayId)
+                        }
+                    })
                 }
             }
         }
     }
-    
-    func applicationDockMenu(sender: NSApplication) -> NSMenu? {
+
+    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
         return self.dockMenu
     }
 
-    func playDeck(sender: NSMenuItem) {
+    func playDeck(_ sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
             Settings.instance.activeDeck = deck.deckId
-            Game.instance.setActiveDeck(deck)
+            Game.instance.set(activeDeck: deck)
         }
     }
 
-    @IBAction func openDeckManager(sender: AnyObject) {
+    @IBAction func openDeckManager(_ sender: AnyObject) {
         if deckManager == nil {
             deckManager = DeckManager(windowNibName: "DeckManager")
         }
         deckManager?.showWindow(self)
     }
 
-    @IBAction func clearTrackers(sender: AnyObject) {
+    @IBAction func clearTrackers(_ sender: AnyObject) {
         Game.instance.removeActiveDeck()
         Settings.instance.activeDeck = nil
     }
 
-    @IBAction func saveCurrentDeck(sender: AnyObject) {
+    @IBAction func saveCurrentDeck(_ sender: AnyObject) {
         switch sender.tag {
         case 1: // Opponent
             saveDeck(Game.instance.opponent)
@@ -671,109 +535,123 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func saveDeck(player: Player) {
+    func saveDeck(_ player: Player) {
         if let playerClass = player.playerClass {
-            let deck = Deck(playerClass: playerClass)
-            player.playerCardList.filter({ $0.collectible == true }).forEach({ deck.addCard($0) })
-
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
             }
-            deckManager?.currentDeck = deck
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    let deck = Deck()
+                    deck.playerClass = playerClass
+                    deck.name = player.name ?? "Custom \(playerClass)"
+                    realm.add(deck)
+                    player.playerCardList.filter({ $0.collectible == true }).forEach {
+                        deck.add(card: $0)
+                    }
+                    deckManager?.currentDeck = deck
+                }
+            } catch {
+                Log.error?.message("Can not create deck")
+            }
             deckManager?.editDeck(self)
         }
     }
-    
-    @IBAction func saveArenaDeck(sender: AnyObject) {
-        if let deck = Draft.instance.deck {
+
+    @IBAction func saveArenaDeck(_ sender: AnyObject) {
+        let draft = Draft.instance
+        if let playerClass = draft.playerClass, let cards = draft.cards {
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
             }
-            deckManager?.currentDeck = deck
-            deckManager?.editDeck(self)
+            do {
+                let realm = try Realm()
+
+                try realm.write {
+                    let deck = Deck()
+                    deck.isArena = true
+                    deck.hearthstoneId.value = draft.hearthstoneId
+                    deck.playerClass = playerClass
+                    realm.add(deck)
+                    for card in cards {
+                        deck.add(card: card)
+                    }
+                    deckManager?.currentDeck = deck
+                }
+                deckManager?.editDeck(self)
+            } catch {
+                Log.error?.message("Can not create deck")
+            }
         } else {
             Log.error?.message("Arena deck doesn't exist. How?")
-            let alert = NSAlert()
-            alert.alertStyle = .Informational
-            // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again.", comment: "")
-            // swiftlint:enable line_length
-            alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-            NSRunningApplication.currentApplication().activateWithOptions([
-                NSApplicationActivationOptions.ActivateAllWindows,
-                NSApplicationActivationOptions.ActivateIgnoringOtherApps])
-            NSApp.activateIgnoringOtherApps(true)
-            alert.runModal()
+            let msg = NSLocalizedString("There was an issue saving your arena deck. "
+                + "Try relaunching Hearthstone and clicking on 'Arena', and then try to "
+                + "save again.", comment: "")
+            NSAlert.show(style: .critical,
+                         message: msg,
+                         forceFront: true)
         }
     }
 
-    @IBAction func resetTrackers(sender: AnyObject) {
-        Game.instance.opponent.reset()
-        Game.instance.updateOpponentTracker()
+    @IBAction func resetTrackers(_ sender: AnyObject) {
+        WindowManager.default.updateTrackers()
     }
 
-    @IBAction func openPreferences(sender: AnyObject) {
+    @IBAction func openPreferences(_ sender: AnyObject) {
         preferences.showWindow(self)
     }
 
-    @IBAction func lockWindows(sender: AnyObject) {
+    @IBAction func lockWindows(_ sender: AnyObject) {
         let settings = Settings.instance
-        let mainMenu = NSApplication.sharedApplication().mainMenu
-        let windowMenu = mainMenu?.itemWithTitle(NSLocalizedString("Window", comment: ""))
+        let mainMenu = NSApplication.shared().mainMenu
+        let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
         let text = settings.windowsLocked ? "Unlock windows" : "Lock windows"
-        let item = windowMenu?.submenu?.itemWithTitle(NSLocalizedString(text, comment: ""))
+        let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString(text, comment: ""))
         settings.windowsLocked = !settings.windowsLocked
         item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                         comment: "")
     }
 
     var windowMove: WindowMove?
-    @IBAction func openDebugPositions(sender: AnyObject) {
+    @IBAction func openDebugPositions(_ sender: AnyObject) {
         if windowMove == nil {
             windowMove = WindowMove(windowNibName: "WindowMove")
         }
         windowMove?.showWindow(self)
     }
 
-    @IBAction func closeWindow(sender: AnyObject) {
+    @IBAction func closeWindow(_ sender: AnyObject) {
     }
-    
-    @IBAction func openReplayDirectory(sender: AnyObject) {
-        if let path = ReplayMaker.replayDir() {
-            NSWorkspace.sharedWorkspace()
-                .activateFileViewerSelectingURLs([NSURL(fileURLWithPath: path)])
-        }
+
+    @IBAction func openReplayDirectory(_ sender: AnyObject) {
+        NSWorkspace.shared().activateFileViewerSelecting([Paths.replays])
     }
 }
 
 extension AppDelegate: SUUpdaterDelegate {
-    func feedParametersForUpdater(updater: SUUpdater!,
-                                  sendingSystemProfile sendingProfile: Bool) -> [AnyObject]! {
-        return BITSystemProfile.sharedSystemProfile().systemUsageData()
-            as NSMutableArray as [AnyObject]
+    func feedParameters(for updater: SUUpdater!,
+                        sendingSystemProfile sendingProfile: Bool) -> [Any]! {
+        return BITSystemProfile.shared().systemUsageData().map { $0 }
     }
 }
 
 extension AppDelegate: BITHockeyManagerDelegate {
-    func applicationLogForCrashManager(crashManager: BITCrashManager!) -> String! {
-        let fmt = NSDateFormatter()
+    func applicationLog(for crashManager: BITCrashManager!) -> String! {
+        let fmt = DateFormatter()
         fmt.dateFormat = "yyyy-MM-dd'.log'"
 
-        if let path = NSSearchPathForDirectoriesInDomains(.LibraryDirectory,
-                                                          .UserDomainMask, true).first {
-            let file = "\(path)/Logs/HSTracker/\(fmt.stringFromDate(NSDate()))"
-
-            if NSFileManager.defaultManager().fileExistsAtPath(file) {
-                do {
-                    let content = try String(contentsOfFile: file)
-                    return Array(content
-                        .componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-                        .reverse() // reverse to keep 400 last lines
-                        .prefix(400))
-                        .reverse() // re-reverse them
-                        .joinWithSeparator("\n")
-                } catch {}
-            }
+        let file = Paths.logs.appendingPathComponent("\(fmt.string(from: Date()))")
+        if FileManager.default.fileExists(atPath: file.path) {
+            do {
+                let content = try String(contentsOf: file)
+                return Array(content
+                    .components(separatedBy: CharacterSet.newlines)
+                    .reversed() // reverse to keep 400 last lines
+                    .prefix(400))
+                    .reversed() // re-reverse them
+                    .joined(separator: "\n")
+            } catch {}
         }
 
         return ""

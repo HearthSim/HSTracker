@@ -24,24 +24,27 @@ struct Hearthstats: HttpImporter {
         return true
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let node = doc.at_xpath("//div[contains(@class,'win-count')]//img"),
             let alt = node["alt"],
-            let playerClass = CardClass(rawValue: alt.uppercaseString) else {
+            let playerClass = CardClass(rawValue: alt.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
         Log.verbose?.message("Got class \(playerClass)")
 
         guard let deckNameNode = doc.at_xpath("//h1[contains(@class,'page-title')]"),
-            let deckName = deckNameNode.innerHTML?.componentsSeparatedByString("<").first else {
+            let deckName = deckNameNode.innerHTML?.components(separatedBy: "<").first else {
                 Log.error?.message("Deck name not found")
                 return nil
         }
         Log.verbose?.message("Got deck name \(deckName)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
+        var cards: [Card] = []
         for node in doc.xpath("//div[contains(@class,'cardWrapper')]") {
             if let cardName = node.at_xpath("div[@class='name']")?.text,
                 let countValue = node.at_xpath("div[@class='qty']")?.text,
@@ -49,9 +52,9 @@ struct Hearthstats: HttpImporter {
                 let count = Int(countValue) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                cards.append(card)
             }
         }
-        return deck
+        return (deck, cards)
     }
 }

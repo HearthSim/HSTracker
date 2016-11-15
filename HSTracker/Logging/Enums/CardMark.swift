@@ -12,10 +12,10 @@ import Foundation
 import Wrap
 
 enum CardMark: Int, WrappableEnum {
-    case None,
-    Coin,
-    Returned,
-    Mulliganed,
-    Created,
-    Kept
+    case none,
+    coin,
+    returned,
+    mulliganed,
+    created,
+    kept
 }

@@ -7,21 +7,16 @@
 //
 
 import Foundation
-import Unbox
 
-enum CardClass: String, UnboxableEnum {
-    case NEUTRAL,
-    DRUID,
-    HUNTER,
-    MAGE,
-    PALADIN,
-    PRIEST,
-    ROGUE,
-    SHAMAN,
-    WARLOCK,
-    WARRIOR
-    
-    static func unboxFallbackValue() -> CardClass {
-        return .NEUTRAL
-    }
+enum CardClass: String {
+    case neutral,
+    druid,
+    hunter,
+    mage,
+    paladin,
+    priest,
+    rogue,
+    shaman,
+    warlock,
+    warrior
 }

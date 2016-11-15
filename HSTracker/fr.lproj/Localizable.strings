@@ -50,6 +50,8 @@
 "Do you want to add some notes for this game ?" = "Voulez-vous ajouter une note sur cette partie ?";
 "Your arena deck count 30 cards, do you want to save it ?" = "Votre deck d'arène compte 30 cartes, voulez-vous le sauvegarder ?";
 "Failed to import deck from \n" = "Impossible d'importer le deck depuis \n";
+"Login" = "Se connecter";
+"Logout" = "Se déconnecter";
 
 /* notifications */
 "Your game begins" = "Votre partie commence";
@@ -68,6 +70,8 @@
 "paladin" = "Paladin";
 "priest" = "Prêtre";
 "rogue" = "Voleur";
+"All classes" = "Toutes les classes";
+"Archived" = "Archivés";
 
 /* rarity */
 "all_rarities" = "Tout";

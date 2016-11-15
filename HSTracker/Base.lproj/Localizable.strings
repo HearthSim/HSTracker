@@ -52,6 +52,8 @@
 "Are you sure you want to disconnect from Track-o-Bot ?" = "Are you sure you want to disconnect from Track-o-Bot ?";
 "You are now connected to Track-o-Bot" = "You are now connected to Track-o-Bot";
 "Failed to import deck from \n" = "Failed to import deck from \n";
+"Login" = "Login";
+"Logout" = "Logout";
 
 /* notifications */
 "Your game begins" = "Your game begins";
@@ -70,6 +72,8 @@
 "paladin" = "Paladin";
 "priest" = "Priest";
 "rogue" = "Rogue";
+"All classes" = "All classes";
+"Archived" = "Archived";
 
 /* rarity */
 "all_rarities" = "All";

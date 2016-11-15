@@ -14,12 +14,12 @@ class Toast {
     private static let toastWindow: ToastWindow = {
         let w = ToastWindow()
         
-        w.opaque = false
+        w.isOpaque = false
         w.hasShadow = false
         w.acceptsMouseMovedEvents = true
         w.styleMask = NSBorderlessWindowMask
-        w.level = Int(CGWindowLevelForKey(CGWindowLevelKey.MaximumWindowLevelKey))
-        w.backgroundColor = .clearColor()
+        w.level = Int(CGWindowLevelForKey(CGWindowLevelKey.maximumWindow))
+        w.backgroundColor = Color.clear
         
         w.orderFrontRegardless()
         
@@ -35,27 +35,27 @@ class Toast {
    
     class func show(title: String, message: String? = nil, duration: Double? = 3,
                     action: (() -> ())? = nil) {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             let panel = ToastPanel(title: title,
                                    message: message,
                                    duration: duration,
                                    action: action)
             
-            toastWindow.add(panel)
+            toastWindow.add(panel: panel)
         }
     }
     
     private class ToastPanel: NSView {
         private lazy var trackingArea: NSTrackingArea = {
             return NSTrackingArea(rect: NSRect.zero,
-                                  options: [.InVisibleRect, .ActiveAlways, .MouseEnteredAndExited],
+                                  options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
                                   owner: self,
                                   userInfo: nil)
         }()
         
         private var title: String?
         private var message: String?
-        private var duration: Double = 3
+        fileprivate var duration: Double = 3
         private var action: (() -> ())?
         
         private let buttonWidth: CGFloat = 80
@@ -76,19 +76,19 @@ class Toast {
             
             self.action = action
             
-            self.layerContentsRedrawPolicy = .OnSetNeedsDisplay
+            self.layerContentsRedrawPolicy = .onSetNeedsDisplay
             self.wantsLayer = true
-            self.layer?.backgroundColor = NSColor.clearColor().CGColor
+            self.layer?.backgroundColor = NSColor.clear.cgColor
             self.layer?.cornerRadius = 10
         }
         
-        private override func drawRect(dirtyRect: NSRect) {
-            super.drawRect(dirtyRect)
+        override func draw(_ dirtyRect: NSRect) {
+            super.draw(dirtyRect)
             
             let starting = NSColor(red: 0.9508, green: 0.9507, blue: 0.9507, alpha: 1.0)
             let ending = NSColor(red: 0.7928, green: 0.7928, blue: 0.7928, alpha: 1.0)
-            let gradient = NSGradient(startingColor: starting, endingColor: ending)
-            gradient?.drawInRect(dirtyRect, angle: 270)
+            let gradient = NSGradient(starting: starting, ending: ending)
+            gradient?.draw(in: dirtyRect, angle: 270)
             
             let titleFrame = NSRect(x: 20, y: dirtyRect.height - 30,
                                     width: dirtyRect.width - 40, height: 20)
@@ -98,25 +98,25 @@ class Toast {
             if let title = title {
                 let attributes = TextAttributes()
                     .font(NSFont(name: "ChunkFive", size: 16))
-                    .foregroundColor(.blackColor())
+                    .foregroundColor(.black)
                 NSAttributedString(string: title, attributes: attributes)
-                    .drawInRect(titleFrame)
+                    .draw(in: titleFrame)
             }
             if let message = message {
                 let attributes = TextAttributes()
                     .font(NSFont(name: "ChunkFive", size: 14))
-                    .foregroundColor(.blackColor())
+                    .foregroundColor(.black)
                 NSAttributedString(string: message, attributes: attributes)
-                    .drawInRect(messageFrame)
+                    .draw(in: messageFrame)
             }
         }
         
         func remove() {
             NSAnimationContext.beginGrouping()
-            NSAnimationContext.currentContext().completionHandler = { [weak self] in
+            NSAnimationContext.current().completionHandler = { [weak self] in
                 self?.removeFromSuperview()
             }
-            NSAnimationContext.currentContext().duration = 1.2
+            NSAnimationContext.current().duration = 1.2
             
             animator().alphaValue = 0
             
@@ -132,18 +132,18 @@ class Toast {
             }
         }
         
-        private override func mouseDown(event: NSEvent) {
+        override func mouseDown(with event: NSEvent) {
             guard let _ = self.action else { return }
             
             inClick = true
         }
-        private override func mouseUp(event: NSEvent) {
+        override func mouseUp(with event: NSEvent) {
             guard let _ = self.action else { return }
             guard inClick else { return }
             
             inClick = false
             action?()
-            toastWindow.remove(self)
+            toastWindow.remove(panel: self)
         }
     }
     
@@ -157,16 +157,18 @@ class Toast {
                 contentView.addSubview(panel)
                 panels.append(panel)
                 
-                var when = dispatch_time(DISPATCH_TIME_NOW, Int64(500 * Double(NSEC_PER_MSEC)))
-                let queue = dispatch_get_main_queue()
-                dispatch_after(when, queue) { [weak self] in
+                var when = DispatchTime.now()
+                    + Double(Int64(500 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
+                let queue = DispatchQueue.main
+                queue.asyncAfter(deadline: when) { [weak self] in
                     self?.refresh()
                 }
                 
-                when = dispatch_time(DISPATCH_TIME_NOW,
-                                     Int64((0.5 + panel.duration) * Double(NSEC_PER_SEC)))
-                dispatch_after(when, queue) { [weak self] in
-                    self?.remove(panel)
+                when = DispatchTime.now()
+                    + Double(Int64((0.5 + panel.duration) * Double(NSEC_PER_SEC)))
+                    / Double(NSEC_PER_SEC)
+                queue.asyncAfter(deadline: when) { [weak self] in
+                    self?.remove(panel: panel)
                 }
             }
         }
@@ -178,10 +180,10 @@ class Toast {
         
         private func refresh() {
             NSAnimationContext.beginGrouping()
-            NSAnimationContext.currentContext().duration = 0.8
+            NSAnimationContext.current().duration = 0.8
             
             var y: CGFloat = contentView!.frame.maxY
-            panels.reverse().forEach {
+            panels.reversed().forEach {
                 y -= 80
                 let newOrigin = NSPoint(x: 0, y: y)
                 $0.animator().setFrameOrigin(newOrigin)

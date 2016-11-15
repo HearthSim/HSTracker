@@ -8,18 +8,18 @@
 
 import Foundation
 
-class SecretHelper: Equatable, CustomStringConvertible {
+class SecretHelper {
     private(set) var id: Int
     private(set) var turnPlayed: Int
     private(set) var heroClass: CardClass
-    lazy var possibleSecrets = [String: Bool]()
+    var possibleSecrets: [String: Bool] = [:]
 
     init(heroClass: CardClass, id: Int, turnPlayed: Int) {
         self.id = id
         self.turnPlayed = turnPlayed
         self.heroClass = heroClass
 
-        SecretHelper.getSecretIds(heroClass).forEach({
+        SecretHelper.getSecretIds(heroClass: heroClass).forEach({
             possibleSecrets[$0] = true
         })
     }
@@ -37,19 +37,21 @@ class SecretHelper: Equatable, CustomStringConvertible {
     }
 
     static func getMaxSecretCount(heroClass: CardClass) -> Int {
-        return getSecretIds(heroClass).count
+        return getSecretIds(heroClass: heroClass).count
     }
 
     static func getSecretIds(heroClass: CardClass) -> [String] {
-        let standardOnly = Game.instance.currentFormat == .Standard
+        let standardOnly = Game.instance.currentFormat == .standard
         switch heroClass {
-        case .HUNTER: return CardIds.Secrets.Hunter.getCards(standardOnly)
-        case .MAGE: return CardIds.Secrets.Mage.getCards(standardOnly)
-        case .PALADIN: return CardIds.Secrets.Paladin.getCards(standardOnly)
-        default: return [String]()
+        case .hunter: return CardIds.Secrets.Hunter.getCards(standardOnly: standardOnly)
+        case .mage: return CardIds.Secrets.Mage.getCards(standardOnly: standardOnly)
+        case .paladin: return CardIds.Secrets.Paladin.getCards(standardOnly: standardOnly)
+        default: return []
         }
     }
+}
 
+extension SecretHelper: CustomStringConvertible {
     var description: String {
         return "<SecretHelper: "
             + "id=\(id)"
@@ -58,6 +60,9 @@ class SecretHelper: Equatable, CustomStringConvertible {
             + ", possibleSecrets=\(possibleSecrets)>"
     }
 }
-func == (lhs: SecretHelper, rhs: SecretHelper) -> Bool {
-    return lhs.id == rhs.id
+
+extension SecretHelper: Equatable {
+    static func == (lhs: SecretHelper, rhs: SecretHelper) -> Bool {
+        return lhs.id == rhs.id
+    }
 }

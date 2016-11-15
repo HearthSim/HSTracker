@@ -19,7 +19,7 @@ struct NetHandler {
 
         if logLine.line.match(ConnectRegex) {
             // let match = line.firstMatchWithDetails(NSRegularExpression.rx(regex))
-            game.gameStart(logLine.time)
+            game.gameStart(at: logLine.time)
         }
     }
 }

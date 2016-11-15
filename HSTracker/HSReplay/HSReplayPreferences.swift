@@ -17,7 +17,7 @@ class HSReplayPreferences: NSViewController {
     @IBOutlet weak var claimAccountInfo: NSTextField!
     @IBOutlet weak var disconnectButton: NSButton!
     @IBOutlet weak var showPushNotification: NSButton!
-    private var getAccountTimer: NSTimer?
+    private var getAccountTimer: Timer?
     private var requests = 0
     private let maxRequests = 10
     
@@ -34,7 +34,7 @@ class HSReplayPreferences: NSViewController {
         getAccountTimer?.invalidate()
     }
     
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
         
         if sender == synchronizeMatches {
@@ -44,19 +44,19 @@ class HSReplayPreferences: NSViewController {
         }
     }
     
-    @IBAction func disconnectAccount(sender: AnyObject) {
+    @IBAction func disconnectAccount(_ sender: AnyObject) {
         Settings.instance.hsReplayUsername = nil
         Settings.instance.hsReplayId = nil
         updateStatus()
     }
     
-    @IBAction func claimAccount(sender: AnyObject) {
-        claimAccountButton.enabled = false
+    @IBAction func claimAccount(_ sender: AnyObject) {
+        claimAccountButton.isEnabled = false
         requests = 0
         HSReplayAPI.getUploadToken { _ in
             HSReplayAPI.claimAccount()
             self.getAccountTimer?.invalidate()
-            self.getAccountTimer = NSTimer.scheduledTimerWithTimeInterval(5,
+            self.getAccountTimer = Timer.scheduledTimer(timeInterval: 5,
                 target: self,
                 selector: #selector(self.checkAccountInfo),
                 userInfo: nil,
@@ -83,13 +83,13 @@ class HSReplayPreferences: NSViewController {
         if let username = Settings.instance.hsReplayUsername {
             hsReplayAccountStatus.stringValue =
                 String(format: NSLocalizedString("Connected as %@", comment: ""), username)
-            claimAccountInfo.enabled = false
-            claimAccountButton.enabled = false
-            disconnectButton.enabled = true
+            claimAccountInfo.isEnabled = false
+            claimAccountButton.isEnabled = false
+            disconnectButton.isEnabled = true
         } else {
-            claimAccountInfo.enabled = true
-            claimAccountButton.enabled = true
-            disconnectButton.enabled = false
+            claimAccountInfo.isEnabled = true
+            claimAccountButton.isEnabled = true
+            disconnectButton.isEnabled = false
             hsReplayAccountStatus.stringValue = NSLocalizedString("Account status : Anonymous",
                                                                   comment: "")
         }

@@ -11,27 +11,27 @@
 import Foundation
 
 enum Mulligan: Int {
-    case INVALID = 0,
-    INPUT = 1,
-    DEALING = 2,
-    WAITING = 3,
-    DONE = 4
+    case invalid = 0,
+    input = 1,
+    dealing = 2,
+    waiting = 3,
+    done = 4
 
     init?(rawString: String) {
         for _enum in Mulligan.allValues() {
-            if "\(_enum)" == rawString {
+            if "\(_enum)" == rawString.lowercased() {
                 self = _enum
                 return
             }
         }
-        if let value = Int(rawString), _enum = Mulligan(rawValue: value) {
+        if let value = Int(rawString), let _enum = Mulligan(rawValue: value) {
             self = _enum
             return
         }
-        self = .INVALID
+        self = .invalid
     }
 
     static func allValues() -> [Mulligan] {
-        return [.INVALID, .INPUT, .DEALING, .WAITING, .DONE]
+        return [.invalid, .input, .dealing, .waiting, .done]
     }
 }

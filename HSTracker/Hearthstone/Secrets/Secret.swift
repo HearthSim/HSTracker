@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CleanroomLogger
+import RealmSwift
 
 class Secret {
 
@@ -19,13 +21,14 @@ class Secret {
     }
 
     var activeDeckIsConstructed: Bool {
-        return Game.instance.activeDeck != nil && !Game.instance.activeDeck!.isArena
+        guard let deck = Game.instance.currentDeck else { return false }
+
+        return !deck.isArena
     }
 
     func adjustedCount(game: Game) -> Int {
-        return (Settings.instance.autoGrayoutSecrets
-            && (game.currentGameMode == .Casual || game.currentGameMode == .Ranked
-                || game.currentGameMode == .Friendly || game.currentGameMode == .Practice
+        return ((game.currentGameMode == .casual || game.currentGameMode == .ranked
+                || game.currentGameMode == .friendly || game.currentGameMode == .practice
                 || activeDeckIsConstructed)
             && game.opponent.revealedEntities.filter { $0.id < 68 && $0.cardId == self.cardId }
                 .count >= 2) ? 0 : self.count

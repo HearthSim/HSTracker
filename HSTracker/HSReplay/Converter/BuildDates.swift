@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Unbox
 import CleanroomLogger
 
 struct BuildDates {
@@ -15,97 +14,90 @@ struct BuildDates {
     private static var knownBuildDates: [BuildDate] = []
     
     struct BuildDate {
-        let date: NSDate
+        let date: Date
         let build: Int
     }
 
     static func loadBuilds(splashscreen: Splashscreen) {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             splashscreen.display(NSLocalizedString("Loading Hearthstone builds", comment: ""),
                                  indeterminate: true)
         }
 
         let url = "https://raw.githubusercontent.com/HearthSim/HSTracker/master/hs-build-dates.json"
-        let semaphore = dispatch_semaphore_create(0)
+        let semaphore = DispatchSemaphore(value: 0)
         let http = Http(url: url)
-        http.json(.get) { json in
+        http.json(method: .get) { json in
             if let json: [String: String] = json as? [String: String] {
                 for (build, date) in json {
-                    if let nsdate = NSDate.NSDateFromString(date,
-                                                            inFormat: "yyyy-MM-dd"),
-                        intBuild = Int(build) {
+                    if let nsdate = Date.NSDateFromString(date, inFormat: "yyyy-MM-dd"),
+                        let intBuild = Int(build) {
                         let buildDate = BuildDate(date: nsdate, build: intBuild)
                         knownBuildDates.append(buildDate)
                     }
                 }
             }
-            dispatch_semaphore_signal(semaphore)
+            semaphore.signal()
         }
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
     }
 
     static func isOutdated() -> Bool {
         guard let latestBuild = self.latestBuild else { return true }
 
-        let actual = NSUserDefaults.standardUserDefaults().integerForKey("hs_latest_build")
-        Log.info?.message("Latest build : \(latestBuild.build), actual is \(actual)")
+        let actual = UserDefaults.standard.integer(forKey: "hs_latest_build")
+        var message = "Latest build: \(latestBuild.build), HSTracker build: \(actual)"
+        if let productId = getByProductDb() {
+            message += ", Hearthstone productId: \(productId.build)"
+        }
+        Log.info?.message(message)
 
         return actual != latestBuild.build
     }
 
     static func downloadCards(splashscreen: Splashscreen) {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             splashscreen.display(NSLocalizedString("Download Hearthstone cards", comment: ""),
                                  total: Double(Language.hsLanguages.count))
         }
 
-        if let latestBuild = self.latestBuild,
-            destination = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory,
-                                                                 .UserDomainMask, true).first {
 
-            let path = "\(destination)/HSTracker/json"
-            do {
-                try NSFileManager.defaultManager()
-                    .createDirectoryAtPath(path,
-                                           withIntermediateDirectories: true,
-                                           attributes: nil)
-            } catch { }
-
-            let build = latestBuild.build
-            for locale in Language.hsLanguages {
-                dispatch_async(dispatch_get_main_queue()) {
-                    splashscreen.increment(String(format:
-                        NSLocalizedString("Downloading %@", comment: ""),
-                        "cardsDB.\(locale).json"))
-                }
-
-                let semaphore = dispatch_semaphore_create(0)
-                let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale)/cards.json"
-
-                if let url = NSURL(string: cardUrl) {
-                    NSURLSession.sharedSession()
-                        .dataTaskWithURL(url) { (data, response, error) in
-                            if let data = data {
-                                Log.info?.message("Saving \(cardUrl) to "
-                                    + "\(path)/cardsDB.\(locale).json")
-                                data.writeToFile("\(path)/cardsDB.\(locale).json",
-                                                 atomically: true)
-                            } else if let error = error {
-                                Log.error?.message("\(error)")
-                            }
-
-                            dispatch_semaphore_signal(semaphore)
-                        }.resume()
-                }
-                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        guard let latestBuild = self.latestBuild else { return }
+        let build = latestBuild.build
+        for locale in Language.hsLanguages {
+            DispatchQueue.main.async {
+                splashscreen.increment(String(format:
+                    NSLocalizedString("Downloading %@", comment: ""),
+                                              "cardsDB.\(locale).json"))
             }
 
-            NSUserDefaults.standardUserDefaults().setInteger(build, forKey: "hs_latest_build")
+            let semaphore = DispatchSemaphore(value: 0)
+            let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale)/cards.json"
+
+            if let url = URL(string: cardUrl) {
+                URLSession.shared
+                    .dataTask(with: url, completionHandler: {
+                        (data, response, error) in
+                        if let data = data {
+                            let dir = Paths.cardJson
+                            let dest = dir.appendingPathComponent("cardsDB.\(locale).json")
+                            Log.info?.message("Saving \(cardUrl) to \(dest)")
+                            try? data.write(to: dest, options: [.atomic])
+                        } else if let error = error {
+                            Log.error?.message("\(error)")
+                        }
+
+                        semaphore.signal()
+                    }) .resume()
+            }
+            let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         }
+
+        UserDefaults.standard.set(build, forKey: "hs_latest_build")
     }
 
-    static func getByDate(date: NSDate) -> BuildDate? {
-        for buildDate in knownBuildDates.sort({
+    static func get(byDate date: Date) -> BuildDate? {
+        for buildDate in knownBuildDates.sorted(by: {
             $0.date > $1.date
         }) {
             if date >= buildDate.date {
@@ -118,28 +110,30 @@ struct BuildDates {
 
     static func getByProductDb() -> BuildDate? {
         let path = Settings.instance.hearthstoneLogPath
-        guard let data = NSData(contentsOfFile: "\(path)/.product.db") else {
+        guard let data = try? Data(contentsOf: URL(fileURLWithPath: "\(path)/.product.db")) else {
             return nil
         }
-        let bytes = UnsafeBufferPointer(start: UnsafePointer<UInt8>(data.bytes),
-                                        count: data.length)
-        guard let content = String(bytes: bytes, encoding: NSASCIIStringEncoding) else {
+        let bytes = UnsafeBufferPointer(start: (data as NSData)
+            .bytes.bindMemory(to: UInt8.self,
+                              capacity: data.count),
+                                        count: data.count)
+        guard let content = String(bytes: bytes, encoding: String.Encoding.ascii) else {
             return nil
         }
-        let matches = content.matches("(\\d+.\\d.\\d.(\\d+))")
-        guard let match = matches.last?.value where matches.count > 0 else {
+        let matches = content.matches("(\\d+\\.\\d\\.\\d\\.(\\d+))")
+        guard let match = matches.last?.value, matches.count > 0 else {
             return nil
         }
         guard let build = Int(match) else { return nil }
 
-        let buildDate = BuildDate(date: NSDate(), build: build)
+        let buildDate = BuildDate(date: Date(), build: build)
         Log.info?.message("Getting build from product DB : \(buildDate)")
         return buildDate
     }
 
     private static var latestBuild: BuildDate? {
-        return knownBuildDates.sort {
+        return knownBuildDates.sorted {
             $0.date < $1.date
-        }.reverse().first
+        }.reversed().first
     }
 }

@@ -10,5 +10,5 @@ import Foundation
 import Wrap
 
 enum PlayerType: Int, WrappableEnum {
-    case Player, Opponent, DeckManager, Secrets, CardList, Hero
+    case player, opponent, deckManager, secrets, cardList, hero
 }

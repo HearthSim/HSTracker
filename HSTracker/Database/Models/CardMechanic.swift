@@ -8,8 +8,6 @@
 
 import Foundation
 
-class CardMechanic {
-
-    var name: String = ""
-
+struct CardMechanic {
+    let name: String
 }

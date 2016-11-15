@@ -23,7 +23,7 @@ struct HearthstoneTopDeck: HttpImporter {
         return false
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let nameNode = doc.at_xpath("//h1[contains(@class, 'panel-title')]"),
             let deckName = nameNode.text?.replace("\\s+", with: " ") else {
                 Log.error?.message("Deck name not found")
@@ -35,14 +35,17 @@ struct HearthstoneTopDeck: HttpImporter {
             + "//span[contains(@class, 'midlarge')]/span"
         let nodeInfos = doc.xpath(xpath)
         guard let className = nodeInfos[1].text?.trim(),
-            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+            let playerClass = CardClass(rawValue: className.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
         Log.verbose?.message("Got class \(playerClass)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
+        var cards: [Card] = []
         let cardNodes = doc.xpath("//div[contains(@class, 'cardname')]/span")
         for cardNode in cardNodes {
             guard let nameStr = cardNode.text else { continue }
@@ -54,10 +57,10 @@ struct HearthstoneTopDeck: HttpImporter {
                 let card = Cards.by(englishNameCaseInsensitive: cardName) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                cards.append(card)
             }
         }
         Log.verbose?.message("is valid : \(deck.isValid()) \(deck.countCards())")
-        return deck
+        return (deck, cards)
     }
 }

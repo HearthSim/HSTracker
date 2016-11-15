@@ -9,7 +9,7 @@
 import Foundation
 import TextAttributes
 
-class TimerHud: NSWindowController {
+class TimerHud: OverWindowController {
 
     @IBOutlet weak var opponentLabel: NSTextField!
     @IBOutlet weak var turnLabel: NSTextField!
@@ -27,60 +27,19 @@ class TimerHud: NSWindowController {
 
         attributes
             .font(NSFont(name: "Belwe Bd BT", size: 18))
-            .foregroundColor(NSColor.whiteColor())
+            .foregroundColor(.white)
             .strokeWidth(-1.5)
-            .strokeColor(NSColor.blackColor())
-            .alignment(.Right)
+            .strokeColor(.black)
+            .alignment(.right)
         largeAttributes
             .font(NSFont(name: "Belwe Bd BT", size: 26))
-            .foregroundColor(NSColor.whiteColor())
+            .foregroundColor(.white)
             .strokeWidth(-1.5)
-            .strokeColor(NSColor.blackColor())
-            .alignment(.Right)
+            .strokeColor(.black)
+            .alignment(.right)
 
-        self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
-        self.window!.ignoresMouseEvents = true
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-
-        self.window!.opaque = false
-        self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clearColor()
-
-        NSNotificationCenter.defaultCenter()
-            .addObserver(self,
-                         selector: #selector(TimerHud.hearthstoneActive(_:)),
-                         name: "hearthstone_active",
-                         object: nil)
-        
-        self.window!.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
-        
-        if let panel = self.window as? NSPanel {
-            panel.floatingPanel = true
-        }
-        
-        NSWorkspace.sharedWorkspace().notificationCenter
-            .addObserver(self, selector: #selector(TimerHud.bringToFront),
-                         name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
-        
-        self.window?.orderFront(nil) // must be called after style change
     }
-    
-    func bringToFront() {
-        self.window?.orderFront(nil)
-    }
-
-    func hearthstoneActive(notification: NSNotification) {
-        let hs = Hearthstone.instance
-
-        let level: Int
-        if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-        } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
-        }
-        self.window!.level = level
-    }
-
+ 
     func tick(seconds: Int, playerSeconds: Int, opponentSeconds: Int) {
         guard Settings.instance.showTimer else {
             turnLabel.attributedStringValue = NSAttributedString(string: "")

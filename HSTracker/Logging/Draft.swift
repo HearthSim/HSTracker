@@ -8,32 +8,27 @@
 
 import Foundation
 import CleanroomLogger
+import RealmSwift
 
 class Draft {
     // MARK: - vars
-    var deck: Deck?
+    var playerClass: CardClass?
+    var cards: [Card]?
+    var hearthstoneId: Int?
     
     var drafting = false
     
-    static let token: dispatch_once_t = 0
-    
     static let instance = Draft()
-    
-    init() {
-    }
-    
-    init(playerClass: CardClass) {
-        startDraft(playerClass)
-    }
     
     func resetDraft() {
         Log.verbose?.message("Resetting draft")
         
         drafting = false
-        deck?.reset()
+        playerClass = nil
+        cards = nil
     }
     
-    func startDraft(playerClass: CardClass) {
+    func startDraft(for playerClass: CardClass) {
         // If we're already drafting and we start, we need to reset
         if drafting {
             Log.debug?.message("We're trying to start a draft when we " +
@@ -42,29 +37,34 @@ class Draft {
         }
         drafting = true
         Log.debug?.message("Starting a new deck for \(playerClass)")
-        deck = Deck(playerClass: playerClass)
+        self.playerClass = playerClass
+        self.cards = []
     }
     
-    func addCard(card: Card) {
-        deck?.addCard(card)
-        
-        if let deck = deck where deck.isValid() {
-            dispatch_async(dispatch_get_main_queue()) {
-                let alert = NSAlert()
-                alert.alertStyle = .Informational
-                // swiftlint:disable line_length
-                alert.messageText = NSLocalizedString("Your arena deck count 30 cards, do you want to save it ?",
-                                                      comment: "")
-                // swiftlint:enable line_length
-                alert.addButtonWithTitle(NSLocalizedString("OK", comment: ""))
-                alert.addButtonWithTitle(NSLocalizedString("Cancel", comment: ""))
-                NSRunningApplication.currentApplication().activateWithOptions([
-                    NSApplicationActivationOptions.ActivateAllWindows,
-                    NSApplicationActivationOptions.ActivateIgnoringOtherApps])
-                NSApp.activateIgnoringOtherApps(true)
-                if alert.runModal() == NSAlertFirstButtonReturn {
-                    NSNotificationCenter.defaultCenter().postNotificationName("save_arena_deck",
-                                                                              object: nil)
+    func add(card: Card) {
+        guard drafting else { return }
+
+        card.count = 1
+        cards?.append(card)
+        Log.info?.message("Adding card \(card)")
+
+        // Check if that draft already exists
+        if let realm = try? Realm(), let id = hearthstoneId {
+            if let _ = realm.objects(Deck.self).filter("hearthstoneId = \(id)").first {
+                Log.debug?.message("Arena deck \(id) already exists, skip")
+                return
+            }
+        }
+
+        if let _ = playerClass, let cards = cards, cards.isValidDeck() {
+            DispatchQueue.main.async {
+                let msg = "Your arena deck count 30 cards, do you want to save it ?"
+                if NSAlert.show(style: .informational,
+                             message: NSLocalizedString(msg, comment: ""),
+                             forceFront: true) {
+                    NotificationCenter.default
+                        .post(name: Notification.Name(rawValue: "save_arena_deck"),
+                              object: nil)
                 }
             }
         }

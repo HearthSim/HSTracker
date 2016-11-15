@@ -15,13 +15,13 @@ class PlayerBoard {
     var damage: Int {
         return cards.filter { $0.include }
             .map { $0.attack }
-            .reduce(0, combine: +)
+            .reduce(0, +)
     }
     
     init(list: [Entity], activeTurn: Bool) {
         cards = []
-        let filtered = filter(list)
-        let weapon = getWeapon(filtered)
+        let filtered = filter(cards: list)
+        let weapon = getWeapon(list: filtered)
         
         for card in filtered {
             if card.isHero {
@@ -36,16 +36,16 @@ class PlayerBoard {
     func getWeapon(list: [Entity]) -> Entity? {
         let weapons = list.filter { $0.isWeapon }
         return weapons.count == 1 ? weapons.first :
-            list.first { $0.hasTag(.JUST_PLAYED) && $0.getTag(.JUST_PLAYED) == 1 }
+            list.first { $0.has(tag: .just_played) && $0[.just_played] == 1 }
     }
     
     private func filter(cards: [Entity]) -> [Entity] {
         return cards.filter({ card in
-            return card.getTag(.CARDTYPE) != CardType.PLAYER.rawValue
-                && card.getTag(.CARDTYPE) != CardType.ENCHANTMENT.rawValue
-                && card.getTag(.CARDTYPE) != CardType.HERO_POWER.rawValue
-                && card.getTag(.ZONE) != Zone.SETASIDE.rawValue
-                && card.getTag(.ZONE) != Zone.GRAVEYARD.rawValue
+            return card[.cardtype] != CardType.player.rawValue
+                && card[.cardtype] != CardType.enchantment.rawValue
+                && card[.cardtype] != CardType.hero_power.rawValue
+                && card[.zone] != Zone.setaside.rawValue
+                && card[.zone] != Zone.graveyard.rawValue
         })
     }
 }

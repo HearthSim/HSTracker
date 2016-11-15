@@ -10,12 +10,12 @@ import Foundation
 import TextAttributes
 
 class ManaGemButtonCell: NSButtonCell {
-    override func drawTitle(title: NSAttributedString,
+    override func drawTitle(_ title: NSAttributedString,
                             withFrame frame: NSRect,
-                                      inView controlView: NSView) -> NSRect {
+                                      in controlView: NSView) -> NSRect {
         return super.drawTitle(title,
                                withFrame: NSRect(x: 2, y: -4, width: 28, height: 32),
-                               inView: controlView)
+                               in: controlView)
     }
 }
 
@@ -26,17 +26,17 @@ class ManaGemButton: NSButton {
         }
     }
 
-    @IBInspectable var textColor: NSColor = NSColor.whiteColor()
+    @IBInspectable var textColor: NSColor = NSColor.white
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
         let attributes = TextAttributes()
-            .alignment(.Center)
+            .alignment(.center)
             .font(NSFont(name: "Belwe Bd BT", size: 20))
             .foregroundColor(textColor)
             .strokeWidth(-2)
-            .strokeColor(NSColor.blackColor())
+            .strokeColor(.black)
         self.attributedTitle = NSAttributedString(string: self.title, attributes: attributes)
     }
 }

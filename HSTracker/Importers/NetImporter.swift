@@ -9,10 +9,10 @@
 import Foundation
 import Kanna
 import CleanroomLogger
+import RealmSwift
 
-enum NetImporterError: ErrorType {
-    case InvalidUrl,
-    UrlNotSupported
+enum NetImporterError: Error {
+    case invalidUrl, urlNotSupported
 }
 
 protocol Importer {
@@ -35,36 +35,36 @@ extension Importer {
 }
 
 protocol BaseFileImporter {
-    func fileImport(url: NSURL) -> Deck?
+    func fileImport(url: URL) -> (Deck, [Card])?
 }
 
 protocol HttpImporter: Importer {
-    func loadHtml(url: String, completion: HTMLDocument? -> Void)
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck?
+    func loadHtml(url: String, completion: @escaping (HTMLDocument?) -> Void)
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])?
 }
 
 extension HttpImporter {
-    func loadHtml(url: String, completion: HTMLDocument? -> Void) {
+    func loadHtml(url: String, completion: @escaping (HTMLDocument?) -> Void) {
         Log.info?.message("Fetching \(url)")
 
         let http = Http(url: url)
-        http.html(.get) { doc in
+        http.html(method: .get) { doc in
             completion(doc)
         }
     }
 }
 
 protocol JsonImporter: Importer {
-    func loadDeck(json: AnyObject, url: String) -> Deck?
-    func loadJson(url: String, completion: AnyObject? -> Void)
+    func loadDeck(json: Any, url: String) -> (Deck, [Card])?
+    func loadJson(url: String, completion: @escaping (Any?) -> Void)
 }
 
 extension JsonImporter {
-    func loadJson(url: String, completion: AnyObject? -> Void) {
+    func loadJson(url: String, completion: @escaping (Any?) -> Void) {
         Log.info?.message("Fetching \(url)")
 
         let http = Http(url: url)
-        http.json(.get) { json in
+        http.json(method: .get) { json in
             completion(json)
         }
     }
@@ -73,7 +73,7 @@ extension JsonImporter {
 final class NetImporter {
     static var importers: [Importer] {
         return [
-            Hearthpwn(), HearthpwnDeckBuilder(), HearthNews(), HearthHead(), HearthArena(),
+            Hearthpwn(), HearthpwnDeckBuilder(), HearthNews(), HearthArena(),
             Hearthstats(), HearthstoneDecks(), HearthstoneTopDecks(), Tempostorm(),
             HearthstoneHeroes(), HearthstoneTopDeck(),
 
@@ -82,34 +82,56 @@ final class NetImporter {
         ]
     }
 
-    static func netImport(url: String, completion: Deck? -> Void) throws {
-        guard let _ = NSURL(string: url) else {
-            throw NetImporterError.InvalidUrl
+    static func netImport(url: String, completion: @escaping (Deck?) -> Void) throws {
+        guard let _ = URL(string: url) else {
+            throw NetImporterError.invalidUrl
         }
 
         for importer in importers {
-            if url.lowercaseString.match(importer.handleUrl) {
-                let realUrl = importer.transformUrl(url)
+            if url.lowercased().match(importer.handleUrl) {
+                let realUrl = importer.transformUrl(url: url)
 
                 if let httpImporter = importer as? HttpImporter {
-                    httpImporter.loadHtml(realUrl, completion: { doc in
+                    httpImporter.loadHtml(url: realUrl, completion: { doc in
                         if let doc = doc,
-                            let deck = httpImporter.loadDeck(doc, url: url)
-                            where deck.isValid() {
-                            Decks.instance.add(deck)
-                            completion(deck)
+                            let (deck, cards) = httpImporter.loadDeck(doc: doc, url: url),
+                            cards.isValidDeck() {
+                            do {
+                                let realm = try Realm()
+                                try realm.write {
+                                    realm.add(deck)
+                                    for card in cards {
+                                        deck.add(card: card)
+                                    }
+                                }
+                                completion(deck)
+                            } catch {
+                                Log.error?.message("Can not import deck. Error : \(error)")
+                                completion(nil)
+                            }
                         } else {
                             completion(nil)
                         }
                     })
 
                 } else if let jsonImporter = importer as? JsonImporter {
-                    jsonImporter.loadJson(realUrl, completion: { json in
+                    jsonImporter.loadJson(url: realUrl, completion: { json in
                         if let json = json,
-                            let deck = jsonImporter.loadDeck(json, url: url)
-                            where deck.isValid() {
-                            Decks.instance.add(deck)
-                            completion(deck)
+                            let (deck, cards) = jsonImporter.loadDeck(json: json, url: url),
+                            cards.isValidDeck() {
+                            do {
+                                let realm = try Realm()
+                                try realm.write {
+                                    realm.add(deck)
+                                    for card in cards {
+                                        deck.add(card: card)
+                                    }
+                                }
+                                completion(deck)
+                            } catch {
+                                Log.error?.message("Can not import deck. Error : \(error)")
+                                completion(nil)
+                            }
                         } else {
                             completion(nil)
                         }

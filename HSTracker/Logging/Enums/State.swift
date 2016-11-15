@@ -11,26 +11,26 @@ import Foundation
 // swiftlint:disable type_name
 
 enum State: Int {
-    case INVALID = 0,
-    LOADING = 1,
-    RUNNING = 2,
-    COMPLETE = 3
+    case invalid = 0,
+    loading = 1,
+    running = 2,
+    complete = 3
 
     init?(rawString: String) {
         for _enum in State.allValues() {
-            if "\(_enum)" == rawString {
+            if "\(_enum)" == rawString.lowercased() {
                 self = _enum
                 return
             }
         }
-        if let value = Int(rawString), _enum = State(rawValue: value) {
+        if let value = Int(rawString), let _enum = State(rawValue: value) {
             self = _enum
             return
         }
-        self = .INVALID
+        self = .invalid
     }
 
     static func allValues() -> [State] {
-        return [.INVALID, .LOADING, .RUNNING, .COMPLETE]
+        return [.invalid, .loading, .running, .complete]
     }
 }

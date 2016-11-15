@@ -11,36 +11,36 @@
 import Foundation
 
 enum TagClass: Int {
-    case INVALID,
-    DEATHKNIGHT,
-    DRUID,
-    HUNTER,
-    MAGE,
-    PALADIN,
-    PRIEST,
-    ROGUE,
-    SHAMAN,
-    WARLOCK,
-    WARRIOR,
-    DREAM
+    case invalid,
+    deathknight,
+    druid,
+    hunter,
+    mage,
+    paladin,
+    priest,
+    rogue,
+    shaman,
+    warlock,
+    warrior,
+    dream
 
     init?(rawString: String) {
         for _enum in TagClass.allValues() {
-            if "\(_enum)" == rawString {
+            if "\(_enum)" == rawString.lowercased() {
                 self = _enum
                 return
             }
         }
-        if let value = Int(rawString), _enum = TagClass(rawValue: value) {
+        if let value = Int(rawString), let _enum = TagClass(rawValue: value) {
             self = _enum
             return
         }
-        self = .INVALID
+        self = .invalid
     }
 
     static func allValues() -> [TagClass] {
-        return [.INVALID, .DEATHKNIGHT, .DRUID, .HUNTER, .MAGE,
-                .PALADIN, .PRIEST, .ROGUE, .SHAMAN, .WARLOCK,
-                .WARRIOR, .DREAM]
+        return [.invalid, .deathknight, .druid, .hunter, .mage,
+                .paladin, .priest, .rogue, .shaman, .warlock,
+                .warrior, .dream]
     }
 }

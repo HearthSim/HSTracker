@@ -18,7 +18,7 @@ struct RachelleHandler {
     func handle(game: Game, logLine: LogLine) {
         if logLine.line.match(TowardsGolds) {
             if let match = logLine.line.matches(TowardsGolds).first,
-                victories = Int(match.value) {
+                let victories = Int(match.value) {
                 Log.info?.message("\(victories) / 3 -> 10 gold")
             }
         }
@@ -27,7 +27,7 @@ struct RachelleHandler {
             if let match = logLine.line.matches(CardInCache).first {
                 let cardId: String = match.value
                 if let card = Cards.by(cardId: cardId) {
-                    if game.currentGameMode == .Arena {
+                    if game.currentGameMode == .arena {
                         Log.verbose?.message("Possible arena card draft : \(card) ?")
                     } else {
                         Log.verbose?.message("Possible constructed card draft : \(card) ?")

@@ -10,22 +10,22 @@ import Foundation
 
 // swiftlint:disable type_name
 enum CardSet: String {
-    case ALL // fake one
-    case CORE, EXPERT1, NAXX, GVG, BRM,
-    TGT, LOE, PROMO, REWARD, HERO_SKINS,
-    OG, KARA
+    case all // fake one
+    case core, expert1, naxx, gvg, brm,
+    tgt, loe, promo, reward, hero_skins,
+    og, kara
     
     static func allValues() -> [CardSet] {
-        return [.CORE, .EXPERT1, .NAXX, .GVG, .BRM,
-                .TGT, .LOE, .PROMO, .REWARD, .HERO_SKINS,
-                .OG, .KARA]
+        return [.core, .expert1, .naxx, .gvg, .brm,
+                .tgt, .loe, .promo, .reward, .hero_skins,
+                .og, .kara]
     }
     
     static func deckManagerValidCardSets() -> [CardSet] {
-        return [.ALL, .EXPERT1, .NAXX, .GVG, .BRM, .TGT, .LOE, .OG, .KARA]
+        return [.all, .expert1, .naxx, .gvg, .brm, .tgt, .loe, .og, .kara]
     }
     
     static func wildSets() -> [CardSet] {
-        return [.NAXX, .GVG]
+        return [.naxx, .gvg]
     }
 }

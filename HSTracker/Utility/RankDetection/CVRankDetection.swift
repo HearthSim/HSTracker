@@ -18,23 +18,22 @@ class CVRankDetection {
             Log.warning?.message("Failed to initialize rank detector. Retrying once...")
             detector = CVRankDetectorWrapper()
             if !detector.didInit() {
-                // swiftlint:disable line_length
-                Log.error?.message("Still failed to initialize rank detector. Rank detection will be unavailiable.")
-                // swiftlint:enable line_length
+                Log.error?.message("Still failed to initialize rank detector. "
+                    + "Rank detection will be unavailiable.")
             }
         }
     }
     
     func playerRank() -> Int? {
         if let screenshot = ImageUtilities.screenshotPlayerRank() {
-            return findRank(screenshot, player: .Player)
+            return findRank(screenshot: screenshot, player: .player)
         }
         return nil
     }
     
     func opponentRank() -> Int? {
         if let screenshot = ImageUtilities.screenshotOpponentRank() {
-            return findRank(screenshot, player: .Opponent)
+            return findRank(screenshot: screenshot, player: .opponent)
         }
         return nil
     }
@@ -48,17 +47,17 @@ class CVRankDetection {
         }
         
         let directory = NSTemporaryDirectory()
-        let fileName = NSUUID().UUIDString
-        let fullURL = NSURL.fileURLWithPathComponents([directory, fileName])
-        
-        if let tempfile = fullURL?.path,
-            data = screenshot.TIFFRepresentation {
+        let fileName = UUID().uuidString
+        let fullURL = URL(fileURLWithPath: directory).appendingPathComponent(fileName)
+
+        let tempfile = fullURL.path
+        if let data = screenshot.tiffRepresentation {
             
-            data.writeToFile(tempfile, atomically: true)
+            try? data.write(to: URL(fileURLWithPath: tempfile), options: [.atomic])
             let rank = detector.detectRank(tempfile)
 
             do {
-                try NSFileManager.defaultManager().removeItemAtURL(fullURL!)
+                try FileManager.default.removeItem(at: fullURL)
             } catch {
                 Log.info?.message("Failed to remove temp")
             }

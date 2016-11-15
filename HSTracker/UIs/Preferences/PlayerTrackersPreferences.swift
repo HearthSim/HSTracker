@@ -44,20 +44,20 @@ class PlayerTrackersPreferences: NSViewController {
         showGraveyard.state = settings.showPlayerGraveyard ? NSOnState : NSOffState
         showGraveyardDetails.state = settings.showPlayerGraveyardDetails ? NSOnState : NSOffState
         if showGraveyard.state == NSOnState {
-            showGraveyardDetails.enabled = true
+            showGraveyardDetails.isEnabled = true
         } else {
-            showGraveyardDetails.enabled = false
+            showGraveyardDetails.isEnabled = false
         }
     }
     
-    @IBAction func colorChange(sender: NSColorWell) {
+    @IBAction func colorChange(_ sender: NSColorWell) {
         let settings = Settings.instance
         if sender == inHandColor {
             settings.playerInHandColor = inHandColor.color
         }
     }
 
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
 
         if sender == showPlayerTracker {
@@ -85,9 +85,9 @@ class PlayerTrackersPreferences: NSViewController {
         } else if sender == showGraveyard {
             settings.showPlayerGraveyard = showGraveyard.state == NSOnState
             if showGraveyard.state == NSOnState {
-                showGraveyardDetails.enabled = true
+                showGraveyardDetails.isEnabled = true
             } else {
-                showGraveyardDetails.enabled = false
+                showGraveyardDetails.isEnabled = false
             }
         } else if sender == showGraveyardDetails {
             settings.showPlayerGraveyardDetails = showGraveyardDetails.state == NSOnState

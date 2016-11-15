@@ -21,22 +21,20 @@ final class LogReaderManager {
     let loadingScreenHandler = LoadingScreenHandler()
     var fullScreenFxHandler = FullScreenFxHandler()
 
-    private let powerLog = LogReader(info: LogReaderInfo(name: .Power,
-        startsWithFilters: ["PowerTaskList.DebugPrintPower", "GameState.DebugPrintEntityChoices()"],
-        containsFilters: ["Begin Spectating",
-            "Start Spectator", "End Spectator"]))
-    private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .Power,
-        startsWithFilters: ["GameState."],
-        include: false))
-    private let bob = LogReader(info: LogReaderInfo(name: .Bob))
-    private let rachelle = LogReader(info: LogReaderInfo(name: .Rachelle))
-    private let asset = LogReader(info: LogReaderInfo(name: .Asset))
-    private let arena = LogReader(info: LogReaderInfo(name: .Arena))
-    private let loadingScreen = LogReader(info: LogReaderInfo(name: .LoadingScreen,
-        startsWithFilters: ["LoadingScreen.OnSceneLoaded",
-            "Gameplay"]))
-    private let net = LogReader(info: LogReaderInfo(name: .Net))
-    private let fullScreenFx = LogReader(info: LogReaderInfo(name: .FullScreenFX))
+    private let powerLog = LogReader(info: LogReaderInfo(name: .power,
+        startsWithFilters: ["PowerTaskList.DebugPrintPower",
+            "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"],
+        containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"]))
+    private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .power,
+        startsWithFilters: ["GameState."], include: false))
+    private let bob = LogReader(info: LogReaderInfo(name: .bob))
+    private let rachelle = LogReader(info: LogReaderInfo(name: .rachelle))
+    private let asset = LogReader(info: LogReaderInfo(name: .asset))
+    private let arena = LogReader(info: LogReaderInfo(name: .arena))
+    private let loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
+        startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay"]))
+    private let net = LogReader(info: LogReaderInfo(name: .net))
+    private let fullScreenFx = LogReader(info: LogReaderInfo(name: .fullScreenFX))
 
     private var readers: [LogReader] {
         return [powerLog, bob, rachelle, asset, arena, net, loadingScreen, fullScreenFx]
@@ -46,14 +44,18 @@ final class LogReaderManager {
     var stopped = false
 
     func start() {
-        guard !running else { return }
+        guard !running else {
+            Log.error?.message("LogReaderManager is already running")
+            return
+        }
 
+        stopped = false
         running = true
         let entryPoint = self.entryPoint()
         for reader in readers {
-            reader.start(self, entryPoint: entryPoint)
+            reader.start(manager: self, entryPoint: entryPoint)
         }
-        gameStatePowerLogReader.start(self, entryPoint: entryPoint)
+        gameStatePowerLogReader.start(manager: self, entryPoint: entryPoint)
     }
 
     func stop() {
@@ -67,13 +69,15 @@ final class LogReaderManager {
     }
 
     func restart() {
+        Log.info?.message("LogReaderManager is restarting")
         stop()
         start()
     }
 
-    private func entryPoint() -> NSDate {
-        let powerEntry = powerLog.findEntryPoint(["tag=GOLD_REWARD_STATE", "End Spectator"])
-        let loadingScreenEntry = loadingScreen.findEntryPoint("Gameplay.Start")
+    private func entryPoint() -> Date {
+        let powerEntry = powerLog.findEntryPoint(choices:
+            ["tag=GOLD_REWARD_STATE", "End Spectator"])
+        let loadingScreenEntry = loadingScreen.findEntryPoint(choice: "Gameplay.Start")
 
         Log.verbose?.message("powerEntry : \(powerEntry.millisecondsFormatted) / "
             + "loadingScreenEntry : \(loadingScreenEntry.millisecondsFormatted)")
@@ -86,19 +90,19 @@ final class LogReaderManager {
         
         if line.include {
             switch line.namespace {
-            case .Power: powerGameStateHandler.handle(game, logLine: line)
-            case .Net: netHandler.handle(game, logLine: line)
-            case .Asset: assetHandler.handle(game, logLine: line)
-            case .Bob: bobHandler.handle(game, logLine: line)
-            case .Rachelle: rachelleHandler.handle(game, logLine: line)
-            case .Arena: arenaHandler.handle(game, logLine: line)
-            case .LoadingScreen: loadingScreenHandler.handle(game, logLine: line)
-            case .FullScreenFX: fullScreenFxHandler.handle(game, logLine: line)
+            case .power: powerGameStateHandler.handle(game: game, logLine: line)
+            case .net: netHandler.handle(game: game, logLine: line)
+            case .asset: assetHandler.handle(game: game, logLine: line)
+            case .bob: bobHandler.handle(game: game, logLine: line)
+            case .rachelle: rachelleHandler.handle(game: game, logLine: line)
+            case .arena: arenaHandler.handle(game: game, logLine: line)
+            case .loadingScreen: loadingScreenHandler.handle(game: game, logLine: line)
+            case .fullScreenFX: fullScreenFxHandler.handle(game: game, logLine: line)
             default: break
             }
         } else {
-            if line.namespace == .Power {
-               game.powerLog.append(line.line)
+            if line.namespace == .power {
+               game.powerLog.append(line)
             }
         }
     }

@@ -17,6 +17,7 @@ class GeneralPreferences: NSViewController {
     @IBOutlet weak var closeTrackerWhenHSCloses: NSButton!
     @IBOutlet weak var promptNote: NSButton!
     @IBOutlet weak var saveReplays: NSButton!
+    @IBOutlet weak var enableDockBadge: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +29,10 @@ class GeneralPreferences: NSViewController {
         closeTrackerWhenHSCloses.state = settings.quitWhenHearthstoneCloses ? NSOnState : NSOffState
         promptNote.state = settings.promptNotes ? NSOnState : NSOffState
         saveReplays.state = settings.saveReplays ? NSOnState : NSOffState
+        enableDockBadge.state = settings.showAppHealth ? NSOnState : NSOffState
     }
 
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
         if sender == notifyGameStart {
             settings.notifyGameStart = notifyGameStart.state == NSOnState
@@ -44,6 +46,9 @@ class GeneralPreferences: NSViewController {
             settings.promptNotes = promptNote.state == NSOnState
         } else if sender == saveReplays {
             settings.saveReplays = saveReplays.state == NSOnState
+        } else if sender == enableDockBadge {
+            settings.showAppHealth = enableDockBadge.state == NSOnState
+            AppHealth.instance.updateBadge()
         }
     }
 

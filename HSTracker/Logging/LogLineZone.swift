@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LogLineZone: CustomStringConvertible {
+class LogLineZone {
     var namespace: LogLineNamespace
     var logLevel = 1
     var filePrinting = "true"
@@ -29,7 +29,7 @@ class LogLineZone: CustomStringConvertible {
     
     func toString() -> String {
         var content = [
-            "[\(namespace)]",
+            "[\(namespace.rawValue)]",
             "LogLevel=1",
             "FilePrinting=true",
             "ConsolePrinting=false",
@@ -38,11 +38,13 @@ class LogLineZone: CustomStringConvertible {
         if requireVerbose {
             content.append("Verbose=true")
         }
-        return content.joinWithSeparator("\n") + "\n"
+        return content.joined(separator: "\n") + "\n"
     }
-    
+}
+
+extension LogLineZone: CustomStringConvertible {
     var description: String {
-        return "[\(namespace): " +
+        return "[\(namespace.rawValue): " +
             "LogLevel=\(logLevel), " +
             "FilePrinting=\(filePrinting), " +
             "ConsolePrinting=\(consolePrinting), " +

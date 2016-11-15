@@ -11,6 +11,7 @@ import Foundation
 class DeckCellView: NSView {
 
     @IBOutlet weak var image: NSImageView!
+    @IBOutlet weak var arenaImage: NSImageView!
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var moreButton: NSButton!
     @IBOutlet weak var detailTextLabel: NSTextField!
@@ -20,15 +21,15 @@ class DeckCellView: NSView {
     var deck: Deck?
     var color: NSColor?
 
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         if var color = color {
             if !selected {
-                color = color.darken(0.50)
+                color = color.darken(amount: 0.50)
             }
             color.set()
             NSRectFill(dirtyRect)
         }
-        super.drawRect(dirtyRect)
+        super.draw(dirtyRect)
     }
 
 

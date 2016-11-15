@@ -11,31 +11,31 @@
 import Foundation
 
 enum PlayState: Int {
-    case INVALID = 0,
-    PLAYING = 1,
-    WINNING = 2,
-    LOSING = 3,
-    WON = 4,
-    LOST = 5,
-    TIED = 6,
-    DISCONNECTED = 7,
-    CONCEDED = 8
+    case invalid = 0,
+    playing = 1,
+    winning = 2,
+    losing = 3,
+    won = 4,
+    lost = 5,
+    tied = 6,
+    disconnected = 7,
+    conceded = 8
 
     init?(rawString: String) {
         for _enum in PlayState.allValues() {
-            if "\(_enum)" == rawString {
+            if "\(_enum)" == rawString.lowercased() {
                 self = _enum
                 return
             }
         }
-        if let value = Int(rawString), _enum = PlayState(rawValue: value) {
+        if let value = Int(rawString), let _enum = PlayState(rawValue: value) {
             self = _enum
             return
         }
-        self = .INVALID
+        self = .invalid
     }
 
     static func allValues() -> [PlayState] {
-        return [.INVALID, .PLAYING, .WINNING, .LOSING, .WON, .LOST, .TIED, .DISCONNECTED, .CONCEDED]
+        return [.invalid, .playing, .winning, .losing, .won, .lost, .tied, .disconnected, .conceded]
     }
 }

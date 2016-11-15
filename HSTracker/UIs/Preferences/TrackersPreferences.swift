@@ -24,6 +24,7 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var showRarityColors: NSButton!
     @IBOutlet weak var showFloatingCard: NSButton!
     @IBOutlet weak var theme: NSComboBox!
+    @IBOutlet weak var allowFullscreen: NSButton!
 
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -37,46 +38,47 @@ class TrackersPreferences: NSViewController {
         opacity.doubleValue = settings.trackerOpacity
         let index: Int
         switch settings.cardSize {
-        case .Tiny: index = 0
-        case .Small: index = 1
-        case .Medium: index = 2
-        case .Big: index = 3
-        case .VeryBig: index = 4
+        case .tiny: index = 0
+        case .small: index = 1
+        case .medium: index = 2
+        case .big: index = 3
+        case .huge: index = 4
         }
-        cardSize.selectItemAtIndex(index)
+        cardSize.selectItem(at: index)
         showTimer.state = settings.showTimer ? NSOnState : NSOffState
         autoPositionTrackers.state = settings.autoPositionTrackers ? NSOnState : NSOffState
         showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
         showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
         showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
-        theme.selectItemAtIndex(themes.indexOf(settings.theme) ?? 0)
+        theme.selectItem(at: themes.index(of: settings.theme) ?? 0)
+        allowFullscreen.state = settings.canJoinFullscreen ? NSOnState : NSOffState
     }
 
-    @IBAction func sliderChange(sender: AnyObject) {
+    @IBAction func sliderChange(_ sender: AnyObject) {
         let settings = Settings.instance
         settings.trackerOpacity = opacity.doubleValue
     }
 
-    @IBAction func comboboxChange(sender: NSComboBox) {
+    @IBAction func comboboxChange(_ sender: NSComboBox) {
         let settings = Settings.instance
         if sender == cardSize {
             if let value = cardSize.objectValueOfSelectedItem as? String {
                 let size: CardSize
                 switch value {
-                case NSLocalizedString("Tiny", comment: ""): size = .Tiny
-                case NSLocalizedString("Small", comment: ""): size = .Small
-                case NSLocalizedString("Big", comment: ""): size = .Big
-                case NSLocalizedString("Huge", comment: ""): size = .VeryBig
-                default: size = .Medium
+                case NSLocalizedString("Tiny", comment: ""): size = .tiny
+                case NSLocalizedString("Small", comment: ""): size = .small
+                case NSLocalizedString("Big", comment: ""): size = .big
+                case NSLocalizedString("Huge", comment: ""): size = .huge
+                default: size = .medium
                 }
                 settings.cardSize = size
             }
         } else if sender == theme {
-            settings.theme = themes[theme.indexOfSelectedItem] ?? "dark"
+            settings.theme = themes[theme.indexOfSelectedItem] 
         }
     }
 
-    @IBAction func checkboxClicked(sender: NSButton) {
+    @IBAction func checkboxClicked(_ sender: NSButton) {
         let settings = Settings.instance
 
         if sender == highlightCardsInHand {
@@ -100,6 +102,8 @@ class TrackersPreferences: NSViewController {
             settings.showTimer = showTimer.state == NSOnState
         } else if sender == showFloatingCard {
             settings.showFloatingCard = showFloatingCard.state == NSOnState
+        } else if sender == allowFullscreen {
+            settings.canJoinFullscreen = allowFullscreen.state == NSOnState
         }
     }
 }

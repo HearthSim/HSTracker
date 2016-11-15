@@ -24,21 +24,24 @@ struct HearthArena: HttpImporter {
         return false
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let classNode = doc.at_xpath("//h1[@class='class']"),
-            let className = classNode.text?.componentsSeparatedByString(" ").first,
-            let playerClass = CardClass(rawValue: className.uppercaseString) else {
+            let className = classNode.text?.components(separatedBy: " ").first,
+            let playerClass = CardClass(rawValue: className.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
         Log.verbose?.message("Got class \(playerClass)")
 
         let deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
-                              className, NSDate().shortDateString())
+                              className, Date().shortDateString)
         Log.verbose?.message("Got deck name \(deckName)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
+        var cards: [Card] = []
         for cardNode in doc.xpath("//ul[@class='deckList']/li") {
             if let qty = cardNode.at_xpath("span[@class='quantity']")?.text,
                 let count = Int(qty),
@@ -46,9 +49,9 @@ struct HearthArena: HttpImporter {
                 let card = Cards.by(englishName: cardName) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                cards.append(card)
             }
         }
-        return deck
+        return (deck, cards)
     }
 }

@@ -24,12 +24,12 @@ struct HearthpwnDeckBuilder: HttpImporter {
         return false
     }
 
-    func loadDeck(doc: HTMLDocument, url: String) -> Deck? {
-        var urlParts = url.componentsSeparatedByString("#")
-        let split = urlParts[0].componentsSeparatedByString("/")
+    func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
+        var urlParts = url.components(separatedBy: "#")
+        let split = urlParts[0].components(separatedBy: "/")
 
         guard let clazz = split.last,
-            let playerClass = CardClass(rawValue: clazz.uppercaseString) else {
+            let playerClass = CardClass(rawValue: clazz.lowercased()) else {
                 Log.error?.message("Class not found")
                 return nil
         }
@@ -42,14 +42,18 @@ struct HearthpwnDeckBuilder: HttpImporter {
         }
         Log.verbose?.message("Got deck name : \(deckName)")
 
-        let deck = Deck(playerClass: playerClass, name: deckName)
+        let deck = Deck()
+        deck.playerClass = playerClass
+        deck.name = deckName
 
-        guard let cardIds = urlParts.last?.componentsSeparatedByString(";") else {
+        guard let cardIds = urlParts.last?.components(separatedBy: ";") else {
             Log.error?.message("Card list not found")
             return nil
         }
+        
+        var cards: [Card] = []
         for str in cardIds {
-            let split = str.componentsSeparatedByString(":")
+            let split = str.components(separatedBy: ":")
             if let id = split.first, let last = split.last,
                 let count = Int(last),
                 let node = doc.at_xpath("//tr[@data-id='\(id)']/td[1]/b"),
@@ -57,10 +61,10 @@ struct HearthpwnDeckBuilder: HttpImporter {
                 let card = Cards.by(englishName: cardId) {
                 card.count = count
                 Log.verbose?.message("Got card \(card)")
-                deck.addCard(card)
+                cards.append(card)
             }
         }
         
-        return deck
+        return (deck, cards)
     }
 }

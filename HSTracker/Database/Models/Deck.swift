@@ -8,124 +8,88 @@
 
 import Foundation
 import CleanroomLogger
-import Unbox
-import Wrap
+import RealmSwift
 
 func generateId() -> String {
-    return "\(NSUUID().UUIDString)-\(NSDate().timeIntervalSince1970)"
+    return "\(UUID().uuidString)-\(Date().timeIntervalSince1970)"
 }
 
-final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible {
-    var deckId: String = generateId()
-    var name: String?
-    var playerClass: CardClass
-    var version: String = "1.0"
-    var creationDate: NSDate?
-    var hearthstatsId: Int?
-    var hearthstatsVersionId: Int?
-    var hearthStatsArenaId: Int?
-    var isActive: Bool = true
-    var isArena: Bool = false
-    private var _cards = [Card]()
-    private var cards: [Card]?
-    var statistics = [Statistic]()
+class Deck: Object {
+    dynamic var deckId: String = generateId()
+    dynamic var name = ""
 
-    init(unboxer: Unboxer) {
-        self.deckId = unboxer.unbox("deckId")
-        self.name = unboxer.unbox("name")
-        if let cardClass: CardClass? = unboxer.unbox("playerClass"),
-            let playerClass = cardClass {
-            self.playerClass = playerClass
-        } else {
-            let playerClass: String = unboxer.unbox("playerClass")
-            self.playerClass = CardClass(rawValue: playerClass.uppercaseString) ?? .NEUTRAL
-        }
-        self.version = unboxer.unbox("version")
-
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
-        self.creationDate = unboxer.unbox("creationDate", formatter: dateFormatter)
-        if self.creationDate == nil {
-            // support old version
-            self.creationDate = NSDate(timeIntervalSince1970: unboxer.unbox("creationDate"))
-        }
-        self.hearthstatsId = unboxer.unbox("hearthstatsId")
-        self.hearthstatsVersionId = unboxer.unbox("hearthstatsVersionId")
-        self.hearthStatsArenaId = unboxer.unbox("hearthStatsArenaId")
-        self.isActive = unboxer.unbox("isActive")
-        self.isArena = unboxer.unbox("isArena")
-
-        let tmpCards: [String: Int] = unboxer.unbox("cards")
-        for (cardId, count) in tmpCards {
-            if let card = Cards.by(cardId: cardId) {
-                card.count = count
-                _cards.append(card)
-            }
-        }
-
-        self.statistics = unboxer.unbox("statistics")
-        self.statistics.forEach({$0.deck = self})
+    private dynamic var _playerClass = CardClass.neutral.rawValue
+    var playerClass: CardClass {
+        get { return CardClass(rawValue: _playerClass)! }
+        set { _playerClass = newValue.rawValue }
     }
 
-    init(playerClass: CardClass, name: String? = nil, deckId: String? = nil) {
-        if let deckId = deckId {
-            self.deckId = deckId
-        }
-        self.name = name
-        self.playerClass = playerClass
+    dynamic var version = "1.0"
+    dynamic var creationDate = Date()
+    let hearthstatsId = RealmOptional<Int>()
+    let hearthstatsVersionId = RealmOptional<Int>()
+    let hearthStatsArenaId = RealmOptional<Int>()
+    dynamic var isActive = true
+    dynamic var isArena = false
+
+    let hearthstoneId = RealmOptional<Int>()
+
+    let cards = List<RealmCard>()
+    let statistics = List<Statistic>()
+
+    override static func primaryKey() -> String? {
+        return "deckId"
     }
 
-    func addCard(card: Card) {
+    func add(card: Card) {
         if card.count == 0 {
             card.count = 1
         }
 
-        if let _card = _cards.firstWhere({ $0.id == card.id }) {
+        if let _card = cards.filter("id = '\(card.id)'").first {
             _card.count += card.count
         } else {
-            _cards.append(card)
+            cards.append(RealmCard(id: card.id, count: card.count))
         }
-        reset()
     }
 
-    func removeAllCards() {
-        _cards = [Card]()
-    }
-
-    func removeCard(card: Card) {
-        if let _card = _cards.firstWhere({ $0.id == card.id }) {
+    func remove(card: Card) {
+        if let _card = cards.filter("id = '\(card.id)'").first {
             _card.count -= 1
             if _card.count <= 0 {
-                _cards.remove(_card)
+                if let index = cards.index(of: _card) {
+                    cards.remove(objectAtIndex: index)
+                }
             }
         }
 
         reset()
     }
 
+    private var _cacheCards: [Card]?
     var sortedCards: [Card] {
-        if let cards = self.cards {
-            return cards
-        } else {
-            var cards = [Card]()
-            for deckCard in _cards {
-                if let card = Cards.by(cardId: deckCard.id) {
-                    card.count = deckCard.count
-                    cards.append(card)
-                }
-            }
-            cards = cards.sortCardList()
-            self.cards = cards
+        if let cards = _cacheCards {
             return cards
         }
+
+        var cache: [Card] = []
+        for deckCard in cards {
+            if let card = Cards.by(cardId: deckCard.id) {
+                card.count = deckCard.count
+                cache.append(card)
+            }
+        }
+        cache = cache.sortCardList()
+        _cacheCards = cache
+        return cache
     }
 
     func reset() {
-        self.cards = nil
+        _cacheCards = nil
     }
 
     func countCards() -> Int {
-        return _cards.map({ $0.count }).reduce(0, combine: +)
+        return sortedCards.countCards()
     }
 
     func isValid() -> Bool {
@@ -133,53 +97,24 @@ final class Deck: Unboxable, WrapCustomizable, Hashable, CustomStringConvertible
         return count == 30
     }
 
-    var description: String {
-        return "<Deck: "
-            + "deckId=\(self.deckId)"
-            + ", name=\(self.name)"
-            + ", payerClass=\(self.playerClass)"
-            + ", cards=\(self._cards)"
-            + ">"
-    }
+    func arenaFinished() -> Bool {
+        if !isArena { return false }
 
-    var hashValue: Int {
-        return deckId.hashValue
-    }
-
-    func wrap() -> AnyObject? {
-        reset()
-        do {
-            var wrapped = try Wrapper().wrap(self)
-            wrapped["cards"] = sortedCards.toDict()
-            return wrapped
-        } catch {
-            return nil
+        var win = 0
+        var loss = 0
+        for stat in statistics {
+            if stat.gameResult == .loss {
+                loss += 1
+            } else if stat.gameResult == .win {
+                win += 1
+            }
         }
+        return win == 12 || loss == 3
     }
-
-    func keyForWrappingPropertyNamed(propertyName: String) -> String? {
-        if propertyName == "_cards" {
-            return nil
-        }
-
-        return propertyName
-    }
-    
-    func removeAllStatistics() {
-        statistics = []
-        Decks.instance.update(self)
-    }
-
-    func addStatistic(statistic: Statistic) {
-        statistic.deck = self
-        statistics.append(statistic)
-    }
-    
 
     func standardViable() -> Bool {
-        return !isArena && !_cards.any({ $0.set != nil && CardSet.wildSets().contains($0.set!) })
+        return !isArena && !sortedCards.any {
+            $0.set != nil && CardSet.wildSets().contains($0.set!)
+        }
     }
-}
-func == (lhs: Deck, rhs: Deck) -> Bool {
-    return lhs.deckId == rhs.deckId && lhs.version == rhs.version
 }

@@ -9,11 +9,11 @@
 import Foundation
 
 enum WotogCounterStyle {
-    case None,
-    Full,
-    Cthun,
-    Spells,
-    Deathrattles
+    case none,
+    full,
+    cthun,
+    spells,
+    deathrattles
 }
 
 class WotogCounter: TextFrame {
@@ -25,31 +25,31 @@ class WotogCounter: TextFrame {
     var health = 6
     var spell = 0
     var deathrattle = 0
-    var counterStyle: [WotogCounterStyle] = [.Full]
+    var counterStyle: [WotogCounterStyle] = [.full]
 
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
 
         var frame = frameRect
         var textFrame = attackFrame
-        if counterStyle.contains(.Full) || counterStyle.contains(.Cthun) {
-            addImage("cthun-frame.png", rect: frame)
-            addInt(attack, rect: textFrame)
-            addInt(health, rect: healthFrame)
+        if counterStyle.contains(.full) || counterStyle.contains(.cthun) {
+            add(image: "cthun-frame.png", rect: frame)
+            add(int: attack, rect: textFrame)
+            add(int: health, rect: healthFrame)
 
-            frame.offsetInPlace(dx: 0, dy: frame.height)
+            frame = frame.offsetBy(dx: 0, dy: frame.height)
             textFrame.origin.y += frame.height
         }
-        if counterStyle.contains(.Full) || counterStyle.contains(.Spells) {
-            addImage("yogg-frame.png", rect: frame)
-            addInt(spell, rect: textFrame)
+        if counterStyle.contains(.full) || counterStyle.contains(.spells) {
+            add(image: "yogg-frame.png", rect: frame)
+            add(int: spell, rect: textFrame)
 
-            frame.offsetInPlace(dx: 0, dy: frame.height)
+            frame = frame.offsetBy(dx: 0, dy: frame.height)
             textFrame.origin.y += frame.height
         }
-        if counterStyle.contains(.Full) || counterStyle.contains(.Deathrattles) {
-            addImage("deathrattle-frame.png", rect: frame)
-            addInt(deathrattle, rect: textFrame)
+        if counterStyle.contains(.full) || counterStyle.contains(.deathrattles) {
+            add(image: "deathrattle-frame.png", rect: frame)
+            add(int: deathrattle, rect: textFrame)
         }
     }
 }

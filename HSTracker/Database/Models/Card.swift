@@ -8,25 +8,28 @@
 
 import Foundation
 
-final class Card: Hashable, CustomStringConvertible {
+final class Card {
     // MARK: - Card data
     var id = ""
     var collectible = false
     var cost = 0
-    var faction: Faction = .INVALID
+    var faction: Faction = .invalid
     var flavor = ""
     var health = 0
     var attack = 0
+    var overload = 0
+    var durability = 0
     var name = "unknown"
     var enName = ""
-    var playerClass: CardClass = .NEUTRAL
-    var rarity: Rarity = .Free
+    var playerClass: CardClass = .neutral
+    var rarity: Rarity = .free
     var set: CardSet?
     var text = ""
-    var race: Race = .INVALID
-    var type: CardType = .INVALID
-    // var mechanics: Set<CardMechanic>
+    var race: Race = .invalid
+    var type: CardType = .invalid
+    var mechanics: [CardMechanic] = []
     var isStandard = false
+    var artist = ""
 
     // MARK: - deck / games
     var count = 0
@@ -41,7 +44,7 @@ final class Card: Hashable, CustomStringConvertible {
     var highlightFrame = false
 
     var englishName: String {
-        if let language = Settings.instance.hearthstoneLanguage where language == "enUS" {
+        if let language = Settings.instance.hearthstoneLanguage, language == "enUS" {
             return self.name
         }
         return self.enName
@@ -58,12 +61,15 @@ final class Card: Hashable, CustomStringConvertible {
         } else if wasDiscarded && Settings.instance.highlightDiscarded {
             color = NSColor(red: 0.803, green: 0.36, blue: 0.36, alpha: 1)
         } else {
-            color = NSColor.whiteColor()
+            color = NSColor.white
         }
         return color
     }
+}
 
-    func copy() -> Card {
+extension Card: NSCopying {
+
+    func copy(with zone: NSZone? = nil) -> Any {
         let copy = Card()
         copy.id = self.id
         copy.collectible = self.collectible
@@ -72,16 +78,19 @@ final class Card: Hashable, CustomStringConvertible {
         copy.flavor = self.flavor
         copy.health = self.health
         copy.attack = self.attack
+        copy.durability = self.durability
         copy.name = self.name
         copy.enName = self.enName
         copy.playerClass = self.playerClass
         copy.rarity = self.rarity
         copy.set = self.set
         copy.text = self.text
-        copy.type = self.type
         copy.race = self.race
-        // copy.mechanics = self.mechanics
+        copy.type = self.type
+        copy.overload = self.overload
+        copy.mechanics = self.mechanics
         copy.isStandard = self.isStandard
+        copy.artist = self.artist
         copy.count = self.count
         copy.hasChanged = self.hasChanged
         copy.jousted = self.jousted
@@ -93,15 +102,20 @@ final class Card: Hashable, CustomStringConvertible {
         copy.highlightFrame = self.highlightFrame
         return copy
     }
+}
 
+extension Card: CustomStringConvertible {
     var description: String {
         return "[\(name)(\(id)):\(count)]"
     }
+}
 
+extension Card: Hashable {
     var hashValue: Int {
         return id.hashValue
     }
-}
-func == (lhs: Card, rhs: Card) -> Bool {
-    return lhs.id == rhs.id
+
+    static func == (lhs: Card, rhs: Card) -> Bool {
+        return lhs.id == rhs.id
+    }
 }

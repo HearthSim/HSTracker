@@ -39,21 +39,21 @@ class ClassicBar: CardBar {
     }
 
     override func addCardName() {
-        addCardName(NSRect(x: 38,
+        addCardName(rect: NSRect(x: 38,
             y: 10,
             width: frameRect.width - boxRect.width - 38,
             height: 30))
     }
 
     override func addFadeOverlay() {
-        addFadeOverlay(_fadeRect, offsetByCountBox: true)
+        addFadeOverlay(rect: _fadeRect, offsetByCountBox: true)
     }
 
     override func addCardImage() {
-        addCardImage(_imageRect, offsetByCountBox: true)
+        addCardImage(rect: _imageRect, offsetByCountBox: true)
     }
 
     override func addCost() {
-        addCost(costTextRect.offsetBy(dx: 1, dy: 0))
+        addCost(rect: costTextRect.offsetBy(dx: 1, dy: 0))
     }
 }

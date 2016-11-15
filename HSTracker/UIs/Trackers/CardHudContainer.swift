@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class CardHudContainer: NSWindowController {
+class CardHudContainer: OverWindowController {
     
     var positions: [Int: [NSPoint]] = [:]
     var huds: [CardHud] = []
@@ -18,14 +18,6 @@ class CardHudContainer: NSWindowController {
     
     override func windowDidLoad() {
         super.windowDidLoad()
- 
-        self.window!.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
-        //self.window!.ignoresMouseEvents = true
-        self.window!.level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-        
-        self.window!.opaque = false
-        self.window!.hasShadow = false
-        self.window!.backgroundColor = NSColor.clearColor()
         
         for _ in 0 ..< 10 {
             let hud = CardHud()
@@ -34,27 +26,6 @@ class CardHudContainer: NSWindowController {
             huds.append(hud)
         }
         initPoints()
-        
-        NSNotificationCenter.defaultCenter()
-            .addObserver(self,
-                         selector: #selector(BoardDamage.hearthstoneActive(_:)),
-                         name: "hearthstone_active",
-                         object: nil)
-        self.window!.collectionBehavior = [.CanJoinAllSpaces, .FullScreenAuxiliary]
-        
-        if let panel = self.window as? NSPanel {
-            panel.floatingPanel = true
-        }
-        
-        NSWorkspace.sharedWorkspace().notificationCenter
-            .addObserver(self, selector: #selector(CardHudContainer.bringToFront),
-                         name: NSWorkspaceActiveSpaceDidChangeNotification, object: nil)
-        
-        self.window?.orderFront(nil) // must be called after style change
-    }
-    
-    func bringToFront() {
-        self.window?.orderFront(nil)
     }
     
     func initPoints() {
@@ -143,19 +114,7 @@ class CardHudContainer: NSWindowController {
             NSPoint(x: 319.0, y: 23.0)
         ]
     }
-    
-    func hearthstoneActive(notification: NSNotification) {
-        let hs = Hearthstone.instance
-        
-        let level: Int
-        if hs.hearthstoneActive {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.ScreenSaverWindowLevelKey))
-        } else {
-            level = Int(CGWindowLevelForKey(CGWindowLevelKey.NormalWindowLevelKey))
-        }
-        self.window!.level = level
-    }
-    
+
     func reset() {
         for hud in huds {
             hud.alphaValue = 0.0
@@ -164,13 +123,13 @@ class CardHudContainer: NSWindowController {
     }
     
     func update(entities: [Entity], cardCount: Int) {
-        for (i, hud) in huds.enumerate() {
+        for (i, hud) in huds.enumerated() {
             var hide = true
-            if let entity = entities.firstWhere({ $0.getTag(.ZONE_POSITION) == i + 1 }) {
+            if let entity = entities.firstWhere({ $0[.zone_position] == i + 1 }) {
                 hud.entity = entity
                 
                 var pos: NSPoint? = nil
-                if let points = positions[cardCount] where points.count > i {
+                if let points = positions[cardCount], points.count > i {
                     pos = points[i]
                     
                     if let pos = pos {

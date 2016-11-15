@@ -23,11 +23,11 @@ class BoardState {
     }
     
     convenience init(player: [Entity], opponent: [Entity], entities: [Int: Entity], playerId: Int) {
-        let player = BoardState.createBoard(player,
+        let player = BoardState.createBoard(list: player,
                                             entities: entities,
                                             isPlayer: true,
                                             playerId: playerId)
-        let opponent = BoardState.createBoard(opponent,
+        let opponent = BoardState.createBoard(list: opponent,
                                               entities: entities,
                                               isPlayer: false,
                                               playerId: playerId)
@@ -44,14 +44,14 @@ class BoardState {
     }
     
     private class func createPlayerBoard() -> PlayerBoard {
-        return createBoard(Game.instance.player.board,
+        return createBoard(list: Game.instance.player.board,
                            entities: Game.instance.entities,
                            isPlayer: true,
                            playerId: Game.instance.player.id)
     }
     
     private class func createOpponentBoard() -> PlayerBoard {
-        return createBoard(Game.instance.opponent.board,
+        return createBoard(list: Game.instance.opponent.board,
                            entities: Game.instance.entities,
                            isPlayer: false,
                            playerId: Game.instance.player.id)

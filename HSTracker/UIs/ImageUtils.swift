@@ -13,27 +13,20 @@ import CleanroomLogger
 
 struct ImageUtils {
 
-    static func cardImage(card: Card) -> NSImage? {
-        if let appSupport = NSSearchPathForDirectoriesInDomains(
-            .ApplicationSupportDirectory,
-            .UserDomainMask, true).first {
-
-            let path = "\(appSupport)/HSTracker/cards/\(card.id).png"
-            if let image = NSImage(contentsOfFile: path) {
-                return image
-            } else {
-                Log.info?.message("Image at \(path) may be corrupted or missing")
-                if NSFileManager.defaultManager().fileExistsAtPath(path) {
-                    do {
-                        try NSFileManager.defaultManager().removeItemAtPath(path)
-                    } catch {
-                        Log.verbose?.message("Failed to remove corrupted image at \(path)")
-                    }
+    static func image(for card: Card) -> NSImage? {
+        let path = Paths.cards.appendingPathComponent("\(card.id).png")
+        if let image = NSImage(contentsOf: path) {
+            return image
+        } else {
+            Log.info?.message("Image at \(path) may be corrupted or missing")
+            if FileManager.default.fileExists(atPath: path.path) {
+                do {
+                    try FileManager.default.removeItem(at: path)
+                } catch {
+                    Log.verbose?.message("Failed to remove corrupted image at \(path)")
                 }
-                return NSImage(named: "MissingCard")
             }
+            return NSImage(named: "MissingCard")
         }
-        return nil
     }
-
 }

@@ -29,21 +29,21 @@ class MinimalBar: CardBar {
         }
 
         if let cardId = cardId {
-            let fullPath = NSBundle.mainBundle().resourcePath! + "/Resources/Small/\(cardId).png"
+            let fullPath = Bundle.main.resourcePath! + "/Resources/Small/\(cardId).png"
             if let image = NSImage(contentsOfFile: fullPath) {
-                if let imageData = image.TIFFRepresentation,
+                if let imageData = image.tiffRepresentation,
                     let ciimage = CIImage(data: imageData),
                     let filter = filter {
                     filter.setDefaults()
                     filter.setValue(ciimage, forKey: kCIInputImageKey)
                     filter.setValue(1.5, forKey: kCIInputRadiusKey)
-                    filter.outputImage?.drawInRect(ratio(frameRect),
-                                                   fromRect: NSRect(origin: .zero,
+                    filter.outputImage?.draw(in: ratio(frameRect),
+                                                   from: NSRect(origin: .zero,
                                                     size: image.size),
-                                                   operation: .Copy,
+                                                   operation: .copy,
                                                    fraction: 1.0)
                 } else {
-                    image.drawInRect(ratio(frameRect))
+                    image.draw(in: ratio(frameRect))
                 }
             }
         }
@@ -54,17 +54,17 @@ class MinimalBar: CardBar {
     }
 
     override var countTextColor: NSColor {
-        guard let card = card else { return NSColor.whiteColor() }
+        guard let card = card else { return NSColor.white }
 
         switch card.rarity {
-        case .Rare:
+        case .rare:
             return NSColor(red: 0.1922, green: 0.5255, blue: 0.8706, alpha: 1.0)
-        case .Epic:
+        case .epic:
             return NSColor(red: 0.6784, green: 0.4431, blue: 0.9686, alpha: 1.0)
-        case .Legendary:
+        case .legendary:
             return NSColor(red: 1.0, green: 0.6039, blue: 0.0627, alpha: 1.0)
         default:
-            return NSColor.whiteColor()
+            return NSColor.white
         }
     }
 

@@ -17,11 +17,11 @@ class PlayerDrawChance: TextFrame {
     var drawChance1 = 0.0
     var drawChance2 = 0.0
 
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
 
-        addImage("player-chance-frame.png", rect: frameRect)
-        addDouble(drawChance1, rect: draw1Frame)
-        addDouble(drawChance2, rect: draw2Frame)
+        add(image: "player-chance-frame.png", rect: frameRect)
+        add(double: drawChance1, rect: draw1Frame)
+        add(double: drawChance2, rect: draw2Frame)
     }
 }
