@@ -141,6 +141,7 @@ final class Player {
     func reset(id resetID: Bool = true) {
         if resetID { id = -1 }
         name = ""
+        playerClass = nil
         goingFirst = false
         fatigue = 0
         spellsPlayedCount = 0
