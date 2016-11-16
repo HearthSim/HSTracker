@@ -188,6 +188,9 @@ class Game {
         lastTurnStart = [0, 0]
 
         player.reset()
+        if let currentdeck = self.currentDeck {
+            player.playerClass = currentdeck.playerClass
+        }
         opponent.reset()
 
         WindowManager.default.hideGameTrackers()
@@ -222,6 +225,7 @@ class Game {
         )
 
         player.reset(id: self.gameEnded ? true : false)
+        player.playerClass = currentDeck?.playerClass
         WindowManager.default.updateTrackers(reset: true)
     }
 
