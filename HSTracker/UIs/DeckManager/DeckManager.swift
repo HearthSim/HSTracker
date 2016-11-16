@@ -281,17 +281,17 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func editDeck(_ sender: AnyObject?) {
-        if (sender as? NSToolbarItem) != nil {
-            if let deck = currentDeck {
-                editDeck(deck)
-            }
-        } else if let menuitem = sender as? NSMenuItem {
+        if let menuitem = sender as? NSMenuItem {
             if let menu = menuitem.menu {
                 if let deckmenu = menu as? DeckContextMenu {
                     if deckmenu.clickedrow >= 0 {
                         editDeck(sortedFilteredDecks()[deckmenu.clickedrow])
                     }
                 }
+            }
+        } else {
+            if let deck = currentDeck {
+                editDeck(deck)
             }
         }
     }
