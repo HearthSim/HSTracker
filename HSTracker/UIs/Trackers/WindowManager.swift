@@ -286,9 +286,18 @@ class WindowManager {
                            y: arrayFrame[1],
                            width: arrayFrame[2],
                            height: arrayFrame[3])
+        
         floatingCard.window?.setFrame(frame, display: true)
         floatingCard.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
         floatingCard.set(card: card)
+        
+        if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float {
+            floatingCard.setDrawChanceTop(chance: drawchancetop)
+        }
+        
+        if let drawchancetop = notification.userInfo?["drawchancetop2"] as? Float {
+            floatingCard.setDrawChanceTop2(chance: drawchancetop)
+        }
 
         closeRequestTimer = Timer.scheduledTimer(
             timeInterval: 3,
