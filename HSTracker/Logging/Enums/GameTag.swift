@@ -73,7 +73,7 @@ enum GameTag: Int, WrappableEnum {
     divine_shield = 194,
     charge = 197,
     next_step = 198,
-    tag_class = 199,
+    `class` = 199,
     cardrace = 200,
     faction = 201,
     cardtype = 202,
@@ -254,10 +254,7 @@ enum GameTag: Int, WrappableEnum {
     equipped_weapon = 334
 
     init?(rawString: String) {
-        var string = rawString.lowercased()
-        if string == "class" {
-            string = "tag_class"
-        }
+        let string = rawString.lowercased()
         for _enum in GameTag.allValues() {
             if "\(_enum)" == string {
                 self = _enum
@@ -331,7 +328,7 @@ enum GameTag: Int, WrappableEnum {
                 .divine_shield,
                 .charge,
                 .next_step,
-                .tag_class,
+                .class,
                 .cardrace,
                 .faction,
                 .cardtype,

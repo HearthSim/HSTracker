@@ -168,7 +168,7 @@ class TagChangeHandler {
         case .cardtype:
             return CardType(rawString: rawValue)!.rawValue
 
-        case .tag_class:
+        case .class:
             return TagClass(rawString: rawValue)!.rawValue
 
         case .state:

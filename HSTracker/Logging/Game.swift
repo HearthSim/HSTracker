@@ -845,7 +845,7 @@ class Game {
 
         if entity.isSecret {
             var heroClass: CardClass?
-            var className = "\(entity[.tag_class]) "
+            var className = "\(entity[.class]) "
             if !String.isNullOrEmpty(className) {
                 className = className.lowercased()
                 heroClass = CardClass(rawValue: className)
@@ -957,7 +957,7 @@ class Game {
         }
 
         var heroClass: CardClass?
-        var className = "\(entity[.tag_class])"
+        var className = "\(entity[.class])"
         if !String.isNullOrEmpty(className) {
             className = className.lowercased()
             heroClass = CardClass(rawValue: className)
@@ -971,7 +971,7 @@ class Game {
                 heroClass = playerClass
             }
         }
-        Log.info?.message("Secret played by \(entity[.tag_class])"
+        Log.info?.message("Secret played by \(entity[.class])"
             + " -> \(heroClass) -> \(opponent.playerClass)")
         if let hero = heroClass {
             opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn)
