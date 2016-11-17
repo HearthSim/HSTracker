@@ -24,7 +24,7 @@ class FloatingCard: OverWindowController {
             //.strokeWidth(-1.5)
             .strokeColor(.black)
             .alignment(.center)
-        
+
         super.windowDidLoad()
     }
 

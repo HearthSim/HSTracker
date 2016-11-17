@@ -27,19 +27,17 @@
                         <rect key="frame" x="0.0" y="60" width="179" height="250"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="TheCoin" id="wJF-cp-16P"/>
                     </imageView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q4B-gt-csb">
-                        <rect key="frame" x="-2" y="35" width="183" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="ZSu-fv-3mR">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q4B-gt-csb">
+                        <rect key="frame" x="59" y="30" width="61" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Label" bezelStyle="round" id="ZSu-fv-3mR">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Hn-kN-m7s">
-                        <rect key="frame" x="-2" y="10" width="183" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="a91-sl-NJ3">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Hn-kN-m7s">
+                        <rect key="frame" x="59" y="4" width="61" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Label" bezelStyle="round" id="a91-sl-NJ3">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -47,6 +45,10 @@
                     </textField>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="4Hn-kN-m7s" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="4fK-7Z-voP"/>
+                    <constraint firstItem="4Hn-kN-m7s" firstAttribute="top" secondItem="Q4B-gt-csb" secondAttribute="bottom" constant="4" id="RWy-Pb-eUl"/>
+                    <constraint firstItem="Q4B-gt-csb" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="gzN-d4-PVV"/>
+                    <constraint firstItem="Q4B-gt-csb" firstAttribute="top" secondItem="oLt-dD-jrg" secondAttribute="bottom" constant="8" id="jRO-aI-Lhd"/>
                     <constraint firstItem="oLt-dD-jrg" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="poc-qS-yNe"/>
                     <constraint firstAttribute="trailing" secondItem="oLt-dD-jrg" secondAttribute="trailing" id="yCV-h0-Wzo"/>
                     <constraint firstItem="oLt-dD-jrg" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="zdc-HV-nVi"/>
