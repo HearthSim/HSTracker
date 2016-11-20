@@ -21,6 +21,10 @@ class Paths {
         return HSTracker.appendingPathComponent("cards", isDirectory: true)
     }()
 
+    static let tiles: URL = {
+        return HSTracker.appendingPathComponent("tiles", isDirectory: true)
+    }()
+
     static let decks: URL = {
         return HSTracker.appendingPathComponent("decks", isDirectory: true)
     }()
@@ -45,7 +49,7 @@ class Paths {
     }()
 
     static func initDirs() {
-        let paths = [cards, decks, replays, cardJson, logs, tmpReplays]
+        let paths = [cards, decks, replays, cardJson, logs, tmpReplays, tiles]
         let fileManager = FileManager.default
         for path in paths {
             if fileManager.fileExists(atPath: path.absoluteString) { continue }

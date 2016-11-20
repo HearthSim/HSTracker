@@ -298,27 +298,23 @@ class CardBar: NSView, CardBarTheme {
         addCardImage(rect: imageRect)
     }
     func addCardImage(rect: NSRect, offsetByCountBox: Bool = false) {
-        var cardId: String?
-        var rarity: Rarity = .free
-        var count = 1
+        guard let cardId = card?.id ?? playerClassID else { return }
+        let rarity = card?.rarity ?? .free
+        let count = card?.count ?? 1
 
-        if let card = card {
-            cardId = card.id
-            count = card.count
-            rarity = card.rarity
-        } else if let playerClassID = playerClassID {
-            cardId = playerClassID
-        }
-
-        if let cardId = cardId {
-            let fullPath = Bundle.main.resourcePath! + "/Resources/Small/\(cardId).png"
-            if let image = NSImage(contentsOfFile: fullPath) {
-                if offsetByCountBox && abs(count) > 1 || rarity == .legendary {
-                    add(image: image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
-                } else {
-                    add(image: image, rect: rect)
-                }
+        guard let image = ImageUtils.tile(for: cardId, completion: { [weak self] in
+            guard let _ = $0 else {
+                Log.warning?.message("No image for \(cardId)")
+                return
             }
+
+            self?.needsDisplay = true
+        }) else { return }
+
+        if offsetByCountBox && abs(count) > 1 || rarity == .legendary {
+            add(image: image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
+        } else {
+            add(image: image, rect: rect)
         }
     }
 
