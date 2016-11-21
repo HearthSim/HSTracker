@@ -588,7 +588,7 @@ extension Tracker: CardCellHover {
 
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSRect(x: 0, y: 0, width: 200, height: 300)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 200, height: 250)
 
         var x: CGFloat
         if windowRect.origin.x < hoverFrame.size.width {
@@ -613,25 +613,23 @@ extension Tracker: CardCellHover {
         ] as [String : Any]
         
         if self.playerType == .player {
-            // check if card is still in deck
-            if !card.highlightInHand {
-                let playercardlist: [Card] = player().playerCardList
-                let totalcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
-                if let cardindeck = playercardlist.firstWhere({ $0.id == card.id }) {
-                    let cardindeckount = cardindeck.count
-                    // probability that the top card is the one
-                    let drawchancetop = Float(cardindeckount) / Float(totalcardsindeck)
-                    userinfo["drawchancetop"] = drawchancetop * 100.0
+            
+            let playercardlist: [Card] = Game.instance.player.playerCardList
+            let totalcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
+            if let cardindeck = playercardlist.firstWhere({ $0.id == card.id }) {
+                let cardindeckount = cardindeck.count
+                // probability that the top card is the one
+                let drawchancetop = Float(cardindeckount) / Float(totalcardsindeck)
+                userinfo["drawchancetop"] = drawchancetop * 100.0
                     
-                    // probability that the card is in the first 2 cards
-                    let good_cases = (totalcardsindeck-1) + (totalcardsindeck-cardindeckount)
-                    let all_cases = StatsHelper.GetBinCoeff(N: totalcardsindeck, K: 2)
-                    let drawchancetop2 = Float(good_cases) / Float(all_cases)
-                    userinfo["drawchancetop2"] = drawchancetop2 * 100.0
+                // probability that the card is in the first 2 cards
+                let good_cases = (totalcardsindeck-1) + (totalcardsindeck-cardindeckount)
+                let all_cases = StatsHelper.GetBinCoeff(N: totalcardsindeck, K: 2)
+                let drawchancetop2 = Float(good_cases) / Float(all_cases)
+                userinfo["drawchancetop2"] = drawchancetop2 * 100.0
                     
-                    frame[3] = hoverFrame.height + 150
-                    userinfo["frame"] = frame
-                }
+                frame[3] = hoverFrame.height + 150
+                userinfo["frame"] = frame
             }
         }
         
