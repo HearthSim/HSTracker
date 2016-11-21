@@ -1,5 +1,5 @@
-"Are you sure you want to close this deck ? Your changes will not be saved." = "确定要关闭套牌 ？您的修改不会被保存.";
-"Are you sure you want to delete the deck %@ ?" = "确定要删除 %@ 套牌 ?";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "确定要关闭套牌 ？您的修改不会被保存。";
+"Are you sure you want to delete the deck %@ ?" = "确定要删除 %@ 套牌?";
 "Arena %@ %@" = "競技場 %@ %@";
 "Cancel" = "取消";
 "Clear" = "清除";
@@ -7,8 +7,8 @@
 "Deck name" = "套牌名字";
 "Decks" = "套牌";
 "Delete deck" = "删除套牌";
-"Do you want to add this deck on Hearthstats ?" = "想加这个套牌上 Hearthstats 吗 ?";
-"Do you want to delete the deck on Hearthstats ?" = "想要删除这个套牌在 Hearthstats 吗 ?";
+"Do you want to add this deck on Hearthstats ?" = "想加这个套牌上 Hearthstats 吗?";
+"Do you want to delete the deck on Hearthstats ?" = "想要删除这个套牌在 Hearthstats 吗?";
 "Download Hearthstone cards" = "Download Hearthstone cards";
 "Loading Hearthstone builds" = "Loading Hearthstone builds";
 "Downloading %@" = "下载 %@";
@@ -35,19 +35,19 @@
 "You are now connected to Hearthstats" = "现在您连接到 Hearthstats";
 "You must restart Hearthstone for logs to be used" = "必须重新启动炉石传说为要使用场记";
 "You must restart HSTracker for the language change to take effect" = "必须重启 HSTracker 已使得设置的语言生效";
-"Are you sure you want to disconnect from Hearthstats ?" = "确定要从断开 Hearthstats ?";
+"Are you sure you want to disconnect from Hearthstats ?" = "确定要从断开 Hearthstats?";
 "Save Opponent's Deck" = "保存对手的套牌";
 "Save Current Deck" = "保存现在的套牌";
-"Are you sure you want to archive the deck %@ ?" = "确定要存档 %@ 套牌 ?";
-"Are you sure you want to unarchive the deck %@ ?" = "确定要解除封存 %@ 套牌 ?";
+"Are you sure you want to archive the deck %@ ?" = "确定要存档 %@ 套牌?";
+"Are you sure you want to unarchive the deck %@ ?" = "确定要解除封存 %@ 套牌?";
 "Add Card" = "加卡";
 "Remove Card" = "取出卡";
-"Fatigue : " = "疲劳 : ";
+"Fatigue : " = "疲劳: ";
 "It is 90% certain that the true winrate falls between these values." = "是 90 % 肯定真正的赢率落在这些值之间.";
 "There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "你的競技場套牌没有保存 . 重启炉石传说和重新保存套牌 .";
-"Are you sure you want to delete the statistics for the deck %@ ?" = "确定要删除 %@ 套牌的统计 ?";
-"Do you want to add some notes for this game ?" = "想加评论给这个游戏吗 ?";
-"Your arena deck count 30 cards, do you want to save it ?" = "競技場套牌有 30 张卡, 要保存吗 ?";
+"Are you sure you want to delete the statistics for the deck %@ ?" = "确定要删除 %@ 套牌的统计?";
+"Do you want to add some notes for this game ?" = "想加评论给这个游戏吗?";
+"Your arena deck count 30 cards, do you want to save it ?" = "競技場套牌有 30 张卡, 要保存吗?";
 "Failed to import deck from \n" = "失败取回套牌从 \n";
 "Login" = "Login";
 "Logout" = "Logout";
@@ -69,8 +69,8 @@
 "paladin" = "圣骑士";
 "priest" = "牧师";
 "rogue" = "盗贼";
-"All classes" = "All classes";
-"Archived" = "Archived";
+"All classes" = "所有的英雄";
+"Archived" = "档案了";
 
 /* rarity */
 "all_rarities" = "所有";
@@ -140,6 +140,6 @@
 
 "Vs %@" = "Vs %@";
 "%@ vs %@" = "%@ vs %@";
-"Your replay has been uploaded on HSReplay" = "Your replay has been uploaded on HSReplay";
-"View" = "View";
-"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.\nWARNING, this is a beta feature !";
+"Your replay has been uploaded on HSReplay" = "重播传到上 HSReplay";
+"View" = "看重播";
+"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "如果想输出套牌到炉石传说, 做一个新的套牌与正确的类, 点 OK 然后 换到炉石传说。\n。别动鼠标或键盘。\n警告, 这是一个测试功能!";
