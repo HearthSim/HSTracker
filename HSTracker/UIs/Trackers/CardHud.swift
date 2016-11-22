@@ -122,7 +122,7 @@ class CardHud: NSView {
         var screenRect = frame
         screenRect.origin.x += rect.width - 30
         screenRect.origin.y -= 250
-        screenRect.size = NSSize(width: 200, height: 300)
+        screenRect.size = NSSize(width: 200, height: 250)
         
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: "show_floating_card"),

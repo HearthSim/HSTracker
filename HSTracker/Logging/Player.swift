@@ -102,6 +102,7 @@ final class Player {
         return hand.filter({ $0.isControlled(by: self.id) }).count
     }
 
+    /** Number of cards still in the deck */
     var deckCount: Int {
         return deck.filter({ $0.isControlled(by: self.id) }).count
     }
