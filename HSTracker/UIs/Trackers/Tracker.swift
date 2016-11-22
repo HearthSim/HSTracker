@@ -612,7 +612,7 @@ extension Tracker: CardCellHover {
             "frame": frame
         ] as [String : Any]
         
-        if self.playerType == .player {
+        if self.playerType == .player && Settings.instance.showTopdeckchance {
             
             let playercardlist: [Card] = Game.instance.player.playerCardList
             let totalcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
@@ -623,9 +623,12 @@ extension Tracker: CardCellHover {
                 userinfo["drawchancetop"] = drawchancetop * 100.0
                     
                 // probability that the card is in the first 2 cards
-                let good_cases = (totalcardsindeck-1) + (totalcardsindeck-cardindeckount)
-                let all_cases = StatsHelper.GetBinCoeff(N: totalcardsindeck, K: 2)
-                let drawchancetop2 = Float(good_cases) / Float(all_cases)
+                var drawchancetop2: Float = 0.0
+                if totalcardsindeck > 0 {
+                    let good_cases = (totalcardsindeck-1) + (totalcardsindeck-cardindeckount)
+                    let all_cases = StatsHelper.GetBinCoeff(N: totalcardsindeck, K: 2)
+                    drawchancetop2 = Float(good_cases) / Float(all_cases)
+                }
                 userinfo["drawchancetop2"] = drawchancetop2 * 100.0
                     
                 frame[3] = hoverFrame.height + 150

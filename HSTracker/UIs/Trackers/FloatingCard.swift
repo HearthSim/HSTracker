@@ -34,13 +34,15 @@ class FloatingCard: OverWindowController {
     
     func setDrawChanceTop(chance: Float) {
         drawchancetoplabel.attributedStringValue =
-            NSAttributedString(string: "\(String(format: "Top deck: %.2f", chance))%",
+            NSAttributedString(string:
+                NSLocalizedString("Top deck:", comment: "") + "\(String(format: " %.2f", chance))%",
             attributes: attributes)
     }
     
     func setDrawChanceTop2(chance: Float) {
         drawchancetop2label.attributedStringValue =
-            NSAttributedString(string: "\(String(format: "In top 2: %.2f", chance))%",
+            NSAttributedString(string:
+                NSLocalizedString("In top 2:", comment: "") + "\(String(format: " %.2f", chance))%",
             attributes: attributes)
     }
 }

@@ -33,6 +33,9 @@
 /* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
 "hJI-dG-QeP.title" = "Markiere Handkarten";
 
+/* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
+"Jj4-X9-UWO.title" = "Zeige Topdeck Wahrscheinlichkeit";
+
 /* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "ndN-hu-6Rx"; */
 "ndN-hu-6Rx.title" = "Entdeckte und fremde Karten mit einbeziehen";
 

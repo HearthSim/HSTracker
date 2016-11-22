@@ -111,6 +111,10 @@ final class Settings {
         set { set(name: "show_floating_card", value: newValue) }
         get { return get(name: "show_floating_card") as? Bool ?? true }
     }
+    var showTopdeckchance: Bool {
+        set { set(name: "show_topdeck_chance", value: newValue) }
+        get { return get(name: "show_topdeck_chance") as? Bool ?? true }
+    }
     var windowsLocked: Bool {
         set { set(name: "window_locked", value: newValue) }
         get { return get(name: "window_locked") as? Bool ?? true }

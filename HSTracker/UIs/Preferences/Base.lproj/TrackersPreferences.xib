@@ -18,6 +18,7 @@
                 <outlet property="showRarityColors" destination="HPM-az-sML" id="2fY-JA-SSd"/>
                 <outlet property="showSecretHelper" destination="jqc-dr-ATS" id="bRc-eW-TmL"/>
                 <outlet property="showTimer" destination="xW7-1C-T20" id="p89-Aa-JMK"/>
+                <outlet property="showTopdeckChance" destination="Jj4-X9-UWO" id="9dT-Sj-hQf"/>
                 <outlet property="theme" destination="d3D-Fi-17e" id="ppE-Lh-mWo"/>
                 <outlet property="view" destination="c22-O7-iKe" id="8Yr-e6-AQa"/>
             </connections>
@@ -156,7 +157,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="o0k-Kb-VAL">
-                    <rect key="frame" x="18" y="86" width="444" height="18"/>
+                    <rect key="frame" x="18" y="86" width="234" height="18"/>
                     <buttonCell key="cell" type="check" title="Show card on tracker hover" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="HY0-s6-p7U">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -200,16 +201,29 @@
                         <action selector="checkboxClicked:" target="-2" id="Xpf-PX-tbT"/>
                     </connections>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="Jj4-X9-UWO">
+                    <rect key="frame" x="258" y="86" width="204" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show topdeck chance" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fhr-Mz-lcf">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="xn6-KF-K2l"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="xW7-1C-T20" firstAttribute="top" secondItem="TNp-Jh-qS9" secondAttribute="bottom" constant="10" id="0GX-oK-naO"/>
                 <constraint firstAttribute="trailing" secondItem="oRs-V7-1J6" secondAttribute="trailing" constant="20" id="0aL-uO-BAr"/>
                 <constraint firstItem="Pny-Gh-Hqe" firstAttribute="top" secondItem="o0k-Kb-VAL" secondAttribute="bottom" constant="10" id="14w-95-0OT"/>
+                <constraint firstItem="Jj4-X9-UWO" firstAttribute="top" secondItem="HPM-az-sML" secondAttribute="bottom" constant="10" id="2n7-77-vfe"/>
                 <constraint firstAttribute="trailing" secondItem="KBy-Iy-S6O" secondAttribute="trailing" constant="20" id="31P-d3-sTl"/>
                 <constraint firstAttribute="trailing" secondItem="d3D-Fi-17e" secondAttribute="trailing" constant="20" id="4CU-Ad-I1w"/>
                 <constraint firstItem="xW7-1C-T20" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="4dk-8H-PYN"/>
                 <constraint firstItem="PL6-uo-7RN" firstAttribute="top" secondItem="MOS-w7-D1d" secondAttribute="bottom" constant="10" id="AJ0-C2-jsQ"/>
                 <constraint firstItem="1Ry-pR-4H6" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="CbI-HT-t1F"/>
+                <constraint firstAttribute="trailing" secondItem="Jj4-X9-UWO" secondAttribute="trailing" constant="20" id="DkG-Kf-r3b"/>
+                <constraint firstItem="Jj4-X9-UWO" firstAttribute="leading" secondItem="o0k-Kb-VAL" secondAttribute="trailing" constant="10" id="EAc-Y3-Lt1"/>
                 <constraint firstItem="KBy-Iy-S6O" firstAttribute="top" secondItem="avV-MQ-3U6" secondAttribute="bottom" constant="-17" id="EMj-eH-cem"/>
                 <constraint firstItem="7tL-jS-waw" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="EYd-eF-sHv"/>
                 <constraint firstItem="o0k-Kb-VAL" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Fxb-K6-pFN"/>
@@ -220,7 +234,7 @@
                 <constraint firstItem="MOS-w7-D1d" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Jb1-rs-yzh"/>
                 <constraint firstItem="oRs-V7-1J6" firstAttribute="centerY" secondItem="7tL-jS-waw" secondAttribute="centerY" id="Jfg-MN-nrB"/>
                 <constraint firstAttribute="trailing" secondItem="Q3s-94-J32" secondAttribute="trailing" constant="20" id="Jk2-FR-HQZ"/>
-                <constraint firstAttribute="trailing" secondItem="o0k-Kb-VAL" secondAttribute="trailing" constant="20" id="Mcq-qG-ZDC"/>
+                <constraint firstAttribute="trailing" secondItem="o0k-Kb-VAL" secondAttribute="trailing" constant="230" id="Mcq-qG-ZDC"/>
                 <constraint firstAttribute="trailing" secondItem="TNp-Jh-qS9" secondAttribute="trailing" constant="20" id="TML-YB-tow"/>
                 <constraint firstItem="oRs-V7-1J6" firstAttribute="leading" secondItem="7tL-jS-waw" secondAttribute="trailing" constant="10" id="XDm-79-P7F"/>
                 <constraint firstItem="PL6-uo-7RN" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="XzI-K6-fcZ"/>
