@@ -66,7 +66,7 @@
 "cBa-wb-tRb.ibShadowedObjectValues[3]" = "简单";
 
 /* Class = "NSButtonCell"; title = "Allow HSTracker to run on fullscreen mode"; ObjectID = "6Gc-EJ-z7F"; */
-"6Gc-EJ-z7F.title" = "Allow HSTracker to run on fullscreen mode";
+"6Gc-EJ-z7F.title" = "让 HSTracker 全屏运行";
 
 /* Class = "NSButton"; ibShadowedToolTip = "HSTracker will be visible on all your workspace while playing"; ObjectID = "aO1-IW-r7y"; */
-"aO1-IW-r7y.ibShadowedToolTip" = "HSTracker will be visible on all your workspace while playing";
+"aO1-IW-r7y.ibShadowedToolTip" = "HSTracker 会在所有的窗口";
