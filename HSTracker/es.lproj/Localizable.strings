@@ -52,6 +52,8 @@
 "Failed to import deck from \n" = "Failed to import deck from \n";
 "Login" = "Login";
 "Logout" = "Logout";
+"Top deck:" = "Top deck:";
+"In top 2:" = "In top 2:";
 
 /* notifications */
 "Your game begins" = "Empieza la partida";

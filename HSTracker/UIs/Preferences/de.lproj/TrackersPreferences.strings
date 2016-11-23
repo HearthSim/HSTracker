@@ -5,6 +5,9 @@
 /* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
 "HY0-s6-p7U.title" = "Zeige Karten-Vollansicht per Mouseover-Tooltip";
 
+/* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
+"Jj4-X9-UWO.title" = "Show topdeck chance";
+
 /* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
 "NLB-ON-zWk.title" = "Kartengröße";
 
@@ -32,6 +35,9 @@
 
 /* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
 "hJI-dG-QeP.title" = "Markiere Handkarten";
+
+/* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
+"Jj4-X9-UWO.title" = "Zeige Topdeck Wahrscheinlichkeit";
 
 /* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "ndN-hu-6Rx"; */
 "ndN-hu-6Rx.title" = "Entdeckte und fremde Karten mit einbeziehen";

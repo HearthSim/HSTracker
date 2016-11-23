@@ -23,6 +23,7 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var showSecretHelper: NSButton!
     @IBOutlet weak var showRarityColors: NSButton!
     @IBOutlet weak var showFloatingCard: NSButton!
+    @IBOutlet weak var showTopdeckChance: NSButton!
     @IBOutlet weak var theme: NSComboBox!
     @IBOutlet weak var allowFullscreen: NSButton!
 
@@ -50,6 +51,7 @@ class TrackersPreferences: NSViewController {
         showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
         showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
         showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
+        showFloatingCard.state = settings.showTopdeckchance ? NSOnState : NSOffState
         theme.selectItem(at: themes.index(of: settings.theme) ?? 0)
         allowFullscreen.state = settings.canJoinFullscreen ? NSOnState : NSOffState
     }
@@ -102,6 +104,9 @@ class TrackersPreferences: NSViewController {
             settings.showTimer = showTimer.state == NSOnState
         } else if sender == showFloatingCard {
             settings.showFloatingCard = showFloatingCard.state == NSOnState
+            showTopdeckChance.isEnabled = settings.showFloatingCard
+        } else if sender == showTopdeckChance {
+            settings.showTopdeckchance = showTopdeckChance.state == NSOnState
         } else if sender == allowFullscreen {
             settings.canJoinFullscreen = allowFullscreen.state == NSOnState
         }

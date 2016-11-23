@@ -5,6 +5,9 @@
 /* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
 "HY0-s6-p7U.title" = "Mostrar cartas al pasar por encima del tracker";
 
+/* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
+"Jj4-X9-UWO.title" = "Show topdeck chance";
+
 /* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
 "NLB-ON-zWk.title" = "Tamaño de carta";
 

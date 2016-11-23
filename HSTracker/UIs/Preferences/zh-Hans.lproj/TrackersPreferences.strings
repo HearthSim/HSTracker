@@ -5,6 +5,9 @@
 /* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
 "HY0-s6-p7U.title" = "显示卡牌如果悬停";
 
+/* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
+"Jj4-X9-UWO.title" = "Show topdeck chance";
+
 /* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
 "NLB-ON-zWk.title" = "卡牌大小";
 
@@ -70,3 +73,5 @@
 
 /* Class = "NSButton"; ibShadowedToolTip = "HSTracker will be visible on all your workspace while playing"; ObjectID = "aO1-IW-r7y"; */
 "aO1-IW-r7y.ibShadowedToolTip" = "HSTracker 会在所有的窗口";
+
+

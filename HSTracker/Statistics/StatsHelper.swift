@@ -380,4 +380,29 @@ class StatsHelper {
             return Double.nan
         }
     }
+    
+    static func GetBinCoeff(N: Int, K: Int) -> Int {
+        // This function gets the total number of unique combinations based upon N and K.
+        // N is the total number of items.
+        // K is the size of the group.
+        // Total number of unique combinations = N! / ( K! (N - K)! ).
+        // This function is less efficient,
+        // but is more likely to not overflow when N and K are large.
+        // Taken from:  http://blog.plover.com/math/choose.html
+        //
+        var r = 1
+        var d = 0
+    
+        if K > N { return 0 }
+        
+        var n = N
+        d = 1
+        while d <= K {
+            r *= n
+            n = n-1
+            r /= d
+            d = d+1
+        }
+        return r
+    }
 }
