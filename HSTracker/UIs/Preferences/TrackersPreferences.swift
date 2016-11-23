@@ -104,11 +104,7 @@ class TrackersPreferences: NSViewController {
             settings.showTimer = showTimer.state == NSOnState
         } else if sender == showFloatingCard {
             settings.showFloatingCard = showFloatingCard.state == NSOnState
-            if settings.showFloatingCard {
-                showTopdeckChance.isEnabled = true
-            } else {
-                showTopdeckChance.isEnabled = false
-            }
+            showTopdeckChance.isEnabled = settings.showFloatingCard
         } else if sender == showTopdeckChance {
             settings.showTopdeckchance = showTopdeckChance.state == NSOnState
         } else if sender == allowFullscreen {
