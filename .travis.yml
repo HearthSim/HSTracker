@@ -1,9 +1,5 @@
 language: objective-c
-osx_image: xcode8.1sneakpeek
-
-cache:
-  directories:
-    - Carthage
+osx_image: xcode8.1
 
 before_install:
   - brew update
