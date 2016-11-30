@@ -47,12 +47,13 @@ struct BuildDates {
 
         let actual = UserDefaults.standard.integer(forKey: "hs_latest_build")
         var message = "Latest build: \(latestBuild.build), HSTracker build: \(actual)"
-        if let productId = getByProductDb() {
+        let productId = getByProductDb()
+        if let productId = productId {
             message += ", Hearthstone productId: \(productId.build)"
         }
         Log.info?.message(message)
 
-        return actual != latestBuild.build
+        return actual < max(latestBuild.build, productId?.build ?? 0)
     }
 
     static func downloadCards(splashscreen: Splashscreen) {
@@ -128,6 +129,7 @@ struct BuildDates {
 
         let buildDate = BuildDate(date: Date(), build: build)
         Log.info?.message("Getting build from product DB : \(buildDate)")
+        knownBuildDates.append(buildDate)
         return buildDate
     }
 

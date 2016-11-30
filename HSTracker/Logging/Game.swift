@@ -1103,6 +1103,7 @@ class Game {
     func playerMinionPlayed() {
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Hunter.Snipe)
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.MirrorEntity)
+        opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.PotionOfPolymorph)
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.Repentance)
 
         WindowManager.default.updateTrackers()
@@ -1111,6 +1112,7 @@ class Game {
     func opponentMinionDeath(entity: Entity, turn: Int) {
          if opponent.handCount < 10 {
             opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.Duplicate)
+            opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.GetawayKodo)
         }
 
         var numDeathrattleMinions = 0

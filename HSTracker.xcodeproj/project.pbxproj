@@ -179,6 +179,7 @@
 		4387BED21CF4D7A00002ECBB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4387BED11CF4D7A00002ECBB /* State.swift */; };
 		43883F1E1DA382BA00A7B79C /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43883F1D1DA382BA00A7B79C /* Language.swift */; };
 		4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390FBB91DAA72E700AE71BB /* Version.swift */; };
+		439212151DEF5A5E0017AAE5 /* MultiClassGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */; };
 		4394C79A1D18700200007FAD /* CVRankDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7951D18700200007FAD /* CVRankDetection.swift */; };
 		4394C79B1D18700200007FAD /* CVRankDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7961D18700200007FAD /* CVRankDetector.cpp */; };
 		4394C79C1D18700200007FAD /* CVRankDetectorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4394C7991D18700200007FAD /* CVRankDetectorWrapper.mm */; };
@@ -632,6 +633,7 @@
 		4387BED11CF4D7A00002ECBB /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		43883F1D1DA382BA00A7B79C /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		4390FBB91DAA72E700AE71BB /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiClassGroup.swift; sourceTree = "<group>"; };
 		4394C7951D18700200007FAD /* CVRankDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVRankDetection.swift; sourceTree = "<group>"; };
 		4394C7961D18700200007FAD /* CVRankDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CVRankDetector.cpp; sourceTree = "<group>"; };
 		4394C7971D18700200007FAD /* CVRankDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CVRankDetector.hpp; sourceTree = "<group>"; };
@@ -1176,6 +1178,7 @@
 				433554551D62EE1200277B27 /* PlayerType.swift */,
 				433554571D62EE2D00277B27 /* NotificationType.swift */,
 				4361D8331DC8A21800D831CF /* BnetGameType.swift */,
+				439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -1632,6 +1635,7 @@
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
 				439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */,
 				43F000301C81BAE8000F2F8F /* Mode.swift in Sources */,
+				439212151DEF5A5E0017AAE5 /* MultiClassGroup.swift in Sources */,
 				434EAC961DBCD3E8009C7636 /* NSAlert.swift in Sources */,
 				434910501D09770000B22DB2 /* PlayerBoard.swift in Sources */,
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,

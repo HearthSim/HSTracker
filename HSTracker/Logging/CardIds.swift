@@ -2934,11 +2934,12 @@ struct CardIds {
 
         struct Hunter {
             static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
-                              Misdirection, Snipe, SnakeTrap, CatTrick]
+                              HiddenCache, Misdirection, Snipe, SnakeTrap, CatTrick]
             static let BearTrap = CardIds.Collectible.Hunter.BearTrap
             static let DartTrap = CardIds.Collectible.Hunter.DartTrap
             static let ExplosiveTrap = CardIds.Collectible.Hunter.ExplosiveTrap
             static let FreezingTrap = CardIds.Collectible.Hunter.FreezingTrap
+            static let HiddenCache = CardIds.Collectible.Hunter.HiddenCache
             static let Misdirection = CardIds.Collectible.Hunter.Misdirection
             static let Snipe = CardIds.Collectible.Hunter.Snipe
             static let SnakeTrap = CardIds.Collectible.Hunter.SnakeTrap
@@ -2956,13 +2957,14 @@ struct CardIds {
 
         struct Mage {
             static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock,
-                              MirrorEntity, Spellbender, Vaporize]
+                              MirrorEntity, PotionOfPolymorph, Spellbender, Vaporize]
             static let Counterspell = CardIds.Collectible.Mage.Counterspell
             static let Duplicate = CardIds.Collectible.Mage.Duplicate
             static let Effigy = CardIds.Collectible.Mage.Effigy
             static let IceBarrier = CardIds.Collectible.Mage.IceBarrier
             static let IceBlock = CardIds.Collectible.Mage.IceBlock
             static let MirrorEntity = CardIds.Collectible.Mage.MirrorEntity
+            static let PotionOfPolymorph = CardIds.Collectible.Mage.PotionOfPolymorph
             static let Spellbender = CardIds.Collectible.Mage.Spellbender
             static let Vaporize = CardIds.Collectible.Mage.Vaporize
 
@@ -2982,6 +2984,7 @@ struct CardIds {
             static let Avenge = CardIds.Collectible.Paladin.Avenge
             static let CompetitiveSpirit = CardIds.Collectible.Paladin.CompetitiveSpirit
             static let EyeForAnEye = CardIds.Collectible.Paladin.EyeForAnEye
+            static let GetawayKodo = CardIds.Collectible.Paladin.GetawayKodo
             static let NobleSacrifice = CardIds.Collectible.Paladin.NobleSacrifice
             static let Redemption = CardIds.Collectible.Paladin.Redemption
             static let Repentance = CardIds.Collectible.Paladin.Repentance
