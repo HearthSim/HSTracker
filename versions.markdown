@@ -5,6 +5,12 @@
 ## New:
 - Add a visual effect when you add a card in the deck manager
 - Add a right-click menu on the deck manager
+- Support for *Mean Streets of Gadgetzan*
+- Add the chance to top deck a card (when you hover a card in your tracker)
+
+## Changes:
+- Due to some problem with card images, the deck manager and the hovering on the tracker now show a tooltip of the card. I'm still trying to fix the issue, but in the meantime...
+- Tiles (little cards image) are now downloaded. It can take sometime the first time you show a card for the image to be downloaded.
 
 # 0.18.4
 ## Fixes: 
