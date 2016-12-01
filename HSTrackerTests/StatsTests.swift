@@ -32,7 +32,7 @@ class StatsTests: XCTestCase {
             [0.00856985966945 , 0.00759498641983],
             [0.51475402072 , 0.493482762145]]
         for i in 0...values.count-1 {
-            Log.info?.message("\(StatsHelper.erfinv(y: values[i][0])) ?= \(values[i][1])")
+            print("\(StatsHelper.erfinv(y: values[i][0])) ?= \(values[i][1])")
             XCTAssert(fuzzyFloatEquals(a: StatsHelper.erfinv(y: values[i][0]), b: values[i][1]))
         }
     }
@@ -58,8 +58,6 @@ class StatsTests: XCTestCase {
     {
         let lg = LadderGrid()
         
-        print(lg.getGamesToRank(targetRank: 5, stars: 0, bonus: 2 , winp: 0.655))
-        
-        
+        print("\(lg.getGamesToRank(targetRank: 5, stars: 0, bonus: 2 , winp: 0.655))")
     }
 }
