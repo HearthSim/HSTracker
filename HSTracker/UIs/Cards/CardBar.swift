@@ -20,6 +20,7 @@ protocol CardBarTheme {
     var playerType: PlayerType? {get set}
     var playerClassID: String? {get set}
     var playerName: String? {get set}
+    var isArena: Bool? {get set}
 }
 
 class CardBar: NSView, CardBarTheme {
@@ -60,6 +61,7 @@ class CardBar: NSView, CardBarTheme {
     var playerType: PlayerType?
     var playerClassID: String?
     var playerName: String?
+    var isArena: Bool?
 
     var hasAllRequired: Bool {
         let path = Bundle.main.resourcePath!
@@ -269,14 +271,14 @@ class CardBar: NSView, CardBarTheme {
         addFadeOverlay()
 
         if let card = card {
-            if abs(card.count) > 1 || card.rarity == .legendary {
+            if (abs(card.count) > 1 && playerType != .editDeck) || card.rarity == .legendary {
                 addCountBox()
                 addCountText()
             }
             if card.isCreated {
                 addCreatedIcon()
             }
-            if abs(card.count) <= 1 && card.rarity == .legendary {
+            if (abs(card.count) <= 1 || playerType == .editDeck) && card.rarity == .legendary {
                 addLegendaryIcon()
             }
         }
@@ -288,7 +290,11 @@ class CardBar: NSView, CardBarTheme {
         }
         addCardName()
         if let card = card {
-            if (card.count <= 0 || card.jousted) && playerType != .cardList {
+            if let isArena = isArena,
+                playerType == .editDeck && !isArena && card.count >= 2 {
+                addDarken()
+            } else if (card.count <= 0 || card.jousted)
+                && playerType != .cardList && playerType != .editDeck {
                 addDarken()
             }
         }
@@ -311,7 +317,7 @@ class CardBar: NSView, CardBarTheme {
             self?.needsDisplay = true
         }) else { return }
 
-        if offsetByCountBox && abs(count) > 1 || rarity == .legendary {
+        if offsetByCountBox && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
             add(image: image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
         } else {
             add(image: image, rect: rect)
@@ -466,7 +472,7 @@ class CardBar: NSView, CardBarTheme {
         guard let card = card else { return }
 
         var textColor = card.textColor()
-        if playerType == .cardList {
+        if playerType == .cardList || playerType == .editDeck {
             textColor = NSColor.white
         }
 
@@ -494,7 +500,7 @@ class CardBar: NSView, CardBarTheme {
     }
     func addCardName(rect: NSRect) {
         var name: String?
-        var textColor: NSColor = NSColor.white
+        var textColor: NSColor = .white
 
         if let card = card {
             name = card.name
@@ -503,7 +509,7 @@ class CardBar: NSView, CardBarTheme {
             name = playerName
         }
 
-        if playerType == .cardList {
+        if playerType == .cardList || playerType == .editDeck {
             textColor = NSColor.white
         }
 
@@ -578,7 +584,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private var ratioWidth: CGFloat {
-        if let playerType = playerType, playerType == .deckManager {
+        if let playerType = playerType, playerType == .deckManager || playerType == .editDeck {
             return 1.0
         }
 
@@ -594,7 +600,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private var ratioHeight: CGFloat {
-        if let playerType = playerType, playerType == .deckManager {
+        if let playerType = playerType, playerType == .deckManager || playerType == .editDeck {
             return ratioWidth
         }
 

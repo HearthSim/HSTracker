@@ -172,12 +172,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let databaseOperation = BlockOperation {
             let database = Database()
-            if let images = database.loadDatabase(splashscreen: self.splashscreen!) {
+            database.loadDatabase(splashscreen: self.splashscreen!)
+            /*if let images = database.loadDatabase(splashscreen: self.splashscreen!) {
                 let imageDownloader = ImageDownloader()
                 imageDownloader.deleteImages()
                 imageDownloader.downloadImagesIfNeeded(splashscreen: self.splashscreen!,
                                                        images: images)
-            }
+            }*/
         }
         let decksOperation = BlockOperation {
             Log.info?.message("Loading decks")

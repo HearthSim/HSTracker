@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -7,9 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FloatingCard" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="drawchancetop2label" destination="4Hn-kN-m7s" id="GeY-wq-hCr"/>
-                <outlet property="drawchancetoplabel" destination="Q4B-gt-csb" id="YfO-SL-Mwy"/>
-                <outlet property="image" destination="oLt-dD-jrg" id="xb6-1E-4NO"/>
+                <outlet property="text" destination="fSs-nf-8JT" id="M1c-8y-DGp"/>
+                <outlet property="title" destination="EJZ-Hb-t7o" id="QMV-TR-Yty"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="rsA-hu-GI1"/>
             </connections>
         </customObject>
@@ -23,41 +22,33 @@
                 <rect key="frame" x="0.0" y="0.0" width="179" height="310"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oLt-dD-jrg">
-                        <rect key="frame" x="0.0" y="60" width="179" height="250"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="TheCoin" id="wJF-cp-16P"/>
-                    </imageView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q4B-gt-csb">
-                        <rect key="frame" x="59" y="30" width="61" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Label" bezelStyle="round" id="ZSu-fv-3mR">
-                            <font key="font" metaFont="systemBold"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EJZ-Hb-t7o">
+                        <rect key="frame" x="0.0" y="293" width="179" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" drawsBackground="YES" id="CDF-je-3lS">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.28235294119999998" green="0.4941176471" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="fSs-nf-8JT">
+                        <rect key="frame" x="0.0" y="276" width="179" height="17"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Multiline Label" drawsBackground="YES" id="uk5-A7-l41">
+                            <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Hn-kN-m7s">
-                        <rect key="frame" x="59" y="4" width="61" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Label" bezelStyle="round" id="a91-sl-NJ3">
-                            <font key="font" metaFont="systemBold"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="4Hn-kN-m7s" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="4fK-7Z-voP"/>
-                    <constraint firstItem="4Hn-kN-m7s" firstAttribute="top" secondItem="Q4B-gt-csb" secondAttribute="bottom" constant="4" id="RWy-Pb-eUl"/>
-                    <constraint firstItem="Q4B-gt-csb" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="gzN-d4-PVV"/>
-                    <constraint firstItem="Q4B-gt-csb" firstAttribute="top" secondItem="oLt-dD-jrg" secondAttribute="bottom" constant="8" id="jRO-aI-Lhd"/>
-                    <constraint firstItem="oLt-dD-jrg" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="poc-qS-yNe"/>
-                    <constraint firstAttribute="trailing" secondItem="oLt-dD-jrg" secondAttribute="trailing" id="yCV-h0-Wzo"/>
-                    <constraint firstItem="oLt-dD-jrg" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="zdc-HV-nVi"/>
+                    <constraint firstItem="EJZ-Hb-t7o" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="4c5-0o-VaK"/>
+                    <constraint firstAttribute="trailing" secondItem="fSs-nf-8JT" secondAttribute="trailing" id="5Zy-o0-Fxy"/>
+                    <constraint firstItem="EJZ-Hb-t7o" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="D0G-g7-xxG"/>
+                    <constraint firstItem="fSs-nf-8JT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="hnU-Ag-9hg"/>
+                    <constraint firstAttribute="trailing" secondItem="EJZ-Hb-t7o" secondAttribute="trailing" id="ptK-mY-5my"/>
+                    <constraint firstItem="fSs-nf-8JT" firstAttribute="top" secondItem="EJZ-Hb-t7o" secondAttribute="bottom" id="rw3-ko-4jw"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="345.5" y="278"/>
         </window>
     </objects>
-    <resources>
-        <image name="TheCoin" width="179" height="250"/>
-    </resources>
 </document>

@@ -78,4 +78,9 @@ extension String {
         } catch { }
         return self
     }
+
+    func replace(_ pattern: String, using: (String, [Match]) -> String) -> String {
+        let matches = self.matches(pattern)
+        return using(self, matches)
+    }
 }

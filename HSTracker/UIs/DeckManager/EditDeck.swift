@@ -12,8 +12,8 @@ import RealmSwift
 
 class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
+    @IBOutlet weak var cardsTableView: NSTableView!
     @IBOutlet weak var countLabel: NSTextField!
-    @IBOutlet weak var cardsCollectionView: JNWCollectionView!
     @IBOutlet weak var classChooser: NSSegmentedControl!
     @IBOutlet weak var deckCardsView: NSTableView!
     @IBOutlet weak var searchField: NSSearchField!
@@ -37,8 +37,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBOutlet weak var rarity: NSPopUpButton!
     @IBOutlet weak var races: NSPopUpButton!
 
-    @IBOutlet weak var zoom: NSSlider!
-    @IBOutlet weak var presentationView: NSSegmentedControl!
+    //@IBOutlet weak var zoom: NSSlider!
 
     var isSaved: Bool = false
     var delegate: NewDeckDelegate?
@@ -85,16 +84,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        let settings = Settings.instance
-
-        let gridLayout = JNWCollectionViewGridLayout()
-        cardsCollectionView.collectionViewLayout = gridLayout
-        cardsCollectionView.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
-        cardsCollectionView.register(CardCell.self, forCellWithReuseIdentifier: "card_cell")
-        cardsCollectionView.backgroundColor = NSColor(
-            red: 233.0/255, green: 206.0/255, blue: 151.0/255, alpha: 1)
-        changeLayout()
-        presentationView.selectedSegment = settings.deckManagerPreferCards ? 0 : 1
         reloadCards()
 
         if let playerClass = currentPlayerClass {
@@ -125,8 +114,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             self.window?.title = "\(NSLocalizedString(playerClass, comment: ""))"
                 + " - \(name)"
         }
-
-        zoom.doubleValue = settings.deckManagerZoom
 
         if let cell = searchField.cell as? NSSearchFieldCell {
             cell.cancelButtonCell!.target = self
@@ -174,6 +161,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 // Using characters pressed rather than keycodes, as keycodes
                 // distinguish between numpads and numbers above qwerty etc..
                 //
+                /* TODO FIXME reactivate
                 guard let charsPressed = e.charactersIgnoringModifiers,
                     let numberPressed = Int(charsPressed.char(at: 0)),
                     let visibleCardIndexPaths = self.cardsCollectionView
@@ -191,6 +179,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                 }
 
                 Log.verbose?.message("unsupported keycode \(e.keyCode)")
+ */
             }
 
             return e
@@ -219,7 +208,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             health: currentHealth,
             type: currentCardType,
             race: currentRace)
-        cardsCollectionView.reloadData()
+
+        cardsTableView.reloadData()
     }
 
     func countCards() {
@@ -229,7 +219,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func updateTheme(_ notification: Notification) {
         deckCardsView.reloadData()
-        cardsCollectionView.reloadData()
+        cardsTableView.reloadData()
     }
 
     // MARK: - NSSegmentedControl
@@ -244,9 +234,26 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     @IBAction func clickCard(_ sender: NSTableView) {
         guard sender.clickedRow >= 0 else { return }
-        let card = cards.sortCardList()[sender.clickedRow]
-        
-        undoCardAdd(card)
+        let card: Card
+
+        if sender == cardsTableView {
+            card = currentClassCards[sender.clickedRow]
+            if cards.countCards() == 30 {
+                return
+            }
+
+            if cardCanBeAdded(card) {
+                //cell.flash()
+                addCardToDeck(card)
+
+                if let deckCard = cards.filter({ $0.id == card.id }).first {
+                    card.count = deckCard.count
+                }
+            }
+        } else {
+            card = cards.sortCardList()[sender.clickedRow]
+            undoCardAdd(card)
+        }
     }
     
     func cardCanBeAdded(_ card: Card) -> Bool {
@@ -277,7 +284,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             remove(card: c)
             curveView.reload()
             deckCardsView.reloadData()
-            cardsCollectionView.reloadData()
+            cardsTableView.reloadData()
             countCards()
             isSaved = false
         }
@@ -298,7 +305,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             add(card: c)
             curveView.reload()
             deckCardsView.reloadData()
-          //  cardsCollectionView.reloadData()
+            cardsTableView.reloadData()
             countCards()
             isSaved = false
         }
@@ -365,8 +372,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     @IBAction func changeSet(_ sender: NSMenuItem) {
         if let type = sender.representedObject as? String {
             switch type {
-            case "ALL": currentSet = []
-            case "EXPERT1": currentSet = [.core, .expert1, .promo]
+            case "all": currentSet = []
+            case "expert1": currentSet = [.core, .expert1, .promo]
             default:
                 if let set = CardSet(rawValue: type) {
                     currentSet = [set]
@@ -500,24 +507,6 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         currentSearchTerm = ""
         reloadCards()
     }
-
-    // MARK: - zoom
-    @IBAction func zoomChange(_ sender: NSSlider) {
-        let settings = Settings.instance
-        settings.deckManagerZoom = round(sender.doubleValue)
-        (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize
-            = NSSize(width: baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
-                     height: 259 / 100 * CGFloat(settings.deckManagerZoom))
-        cardsCollectionView.reloadData()
-    }
-
-    // MARK: - preferred view
-    @IBAction func changePreferredView(_ sender: NSSegmentedControl) {
-        let settings = Settings.instance
-        settings.deckManagerPreferCards = sender.selectedSegment == 0
-        changeLayout()
-        reloadCards()
-    }
 }
 
 // MARK: - NSWindowDelegate
@@ -545,7 +534,11 @@ extension EditDeck: NSWindowDelegate {
 // MARK: - NSTableViewDataSource
 extension EditDeck: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return cards.count
+        if tableView == cardsTableView {
+            return currentClassCards.count
+        } else {
+            return cards.count
+        }
     }
 }
 
@@ -554,77 +547,27 @@ extension EditDeck: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView,
                    viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = CardBar.factory()
-        cell.playerType = .deckManager
-        cell.card = cards.sortCardList()[row]
+
+        let card: Card
+        if tableView == cardsTableView {
+            card = currentClassCards[row]
+            var count: Int = 0
+            if let deckCard = cards.sortCardList().firstWhere({ $0.id == card.id }) {
+                count = deckCard.count
+            }
+            card.count = count
+            cell.playerType = .editDeck
+            cell.isArena = currentDeck!.isArena
+        } else {
+            cell.playerType = .deckManager
+            card = cards.sortCardList()[row]
+        }
+        cell.card = card
         return cell
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return CGFloat(kRowHeight)
-    }
-}
-
-// MARK: - JNWCollectionViewDataSource
-extension EditDeck: JNWCollectionViewDataSource {
-    public func collectionView(_ collectionView: JNWCollectionView!,
-        cellForItemAt indexPath: IndexPath!) -> JNWCollectionViewCell! {
-        let card = currentClassCards[(indexPath as NSIndexPath).jnw_item]
-        let settings = Settings.instance
-
-        if let cell = collectionView.dequeueReusableCell(withIdentifier: "card_cell") as? CardCell {
-            cell.showCard = settings.deckManagerPreferCards
-            cell.set(card: card)
-            var count: Int = 0
-            if let deckCard = cards.sortCardList().firstWhere({ $0.id == card.id }) {
-                count = deckCard.count
-            }
-            cell.isArena = currentDeck!.isArena
-            cell.set(count: count)
-            return cell
-        }
-        return nil
-    }
-
-    func collectionView(_ collectionView: JNWCollectionView!,
-                        numberOfItemsInSection section: Int) -> UInt {
-        return UInt(currentClassCards.count)
-    }
-}
-
-// MARK: - JNWCollectionViewDelegate
-extension EditDeck: JNWCollectionViewDelegate {
-    func changeLayout() {
-        let settings = Settings.instance
-
-        zoom.isEnabled = settings.deckManagerPreferCards
-
-        let size: NSSize
-        if settings.deckManagerPreferCards {
-            size = NSSize(width: baseCardWidth / 100 * CGFloat(settings.deckManagerZoom),
-                          height: baseCardHeight / 100 * CGFloat(settings.deckManagerZoom))
-        } else {
-            size = NSSize(width: CGFloat(kFrameWidth), height: CGFloat(kRowHeight))
-        }
-
-        (cardsCollectionView.collectionViewLayout as? JNWCollectionViewGridLayout)?.itemSize = size
-    }
-
-    func collectionView(_ collectionView: JNWCollectionView!,
-                        mouseUpInItemAt indexPath: IndexPath!) {
-        if cards.countCards() == 30 {
-            return
-        }
-        if let cell = collectionView.cellForItem(at: indexPath) as? CardCell,
-            let card = cell.card {
-            if cardCanBeAdded(card) {
-                cell.flash()
-                addCardToDeck(card)
-                
-                if let deckCard = cards.filter({ $0.id == card.id }).first {
-                    cell.set(count: deckCard.count)
-                }
-            }
-        }
     }
 }
 

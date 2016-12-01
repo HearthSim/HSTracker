@@ -50,6 +50,26 @@ final class Card {
         return self.enName
     }
 
+    func formattedText() -> String {
+        return text.replace("\\((\\d+)\\) \\|4\\((\\w+),(\\w+)\\)", using: { string, matches in
+            guard matches.count == 3 else { return string }
+
+            let single = matches[1].value
+            let plural = matches[2].value
+            let count = Int(matches[0].value) ?? 0
+
+            let replace = "\(count) \(count <= 1 ? single : plural)"
+            return string.replace("(\\(\\d+\\) \\|4\\(\\w+,\\w+\\))", with: replace)
+        }).replace("\\$", with: "")
+            .replace("<b>", with: "")
+            .replace("</b>", with: "")
+            .replace("<i>", with: "")
+            .replace("</i>", with: "")
+            .replace("#", with: "")
+            .replace("\\n", with: "\n")
+            .replace("\\[x\\]", with: "")
+    }
+
     func textColor() -> NSColor {
         var color: NSColor
         if highlightDraw && Settings.instance.highlightLastDrawn {

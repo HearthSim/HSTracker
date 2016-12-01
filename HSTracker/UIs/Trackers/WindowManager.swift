@@ -293,10 +293,14 @@ class WindowManager {
         
         if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float {
             floatingCard.setDrawChanceTop(chance: drawchancetop)
+        } else {
+            floatingCard.setDrawChanceTop(chance: 0)
         }
         
         if let drawchancetop = notification.userInfo?["drawchancetop2"] as? Float {
             floatingCard.setDrawChanceTop2(chance: drawchancetop)
+        } else {
+            floatingCard.setDrawChanceTop2(chance: 0)
         }
 
         closeRequestTimer = Timer.scheduledTimer(
