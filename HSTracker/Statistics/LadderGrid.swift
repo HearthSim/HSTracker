@@ -45,14 +45,14 @@ struct LadderGrid {
                 + " and stars = \(stars)"
                 + " and bonus = \(bonus)"
                 + " and winp = \(lowerWinp)"
-            lowerResult = Double.fetchOne(db, query)
+            lowerResult = try? Double.fetchOne(db, query) ?? 0
 
             query = "select games from grid"
             + " where target_rank = \(targetRank)"
             + " and stars = \(stars)"
             + " and bonus = \(bonus)"
             + " and winp = \(upperWinp)"
-            upperResult = Double.fetchOne(db, query)
+            upperResult = try? Double.fetchOne(db, query) ?? 0
         }
 
         guard let lower = lowerResult, let upper = upperResult else { return nil }
