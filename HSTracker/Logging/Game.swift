@@ -23,7 +23,6 @@ struct PlayingDeck {
 class Game {
     // MARK: - vars
     var currentTurn = 0
-    var maxId = 0
     var lastId = 0
     var gameTriggerCount = 0
     var powerLog: [LogLine] = []
@@ -34,9 +33,9 @@ class Game {
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
     var currentGameMode: GameMode = .none
-    var entities = [Int: Entity]()
-    var tmpEntities = [Entity]()
-    var knownCardIds = [Int: String]()
+    var entities: [Int: Entity] = [:]
+    var tmpEntities: [Entity] = []
+    var knownCardIds: [Int: [String]] = [:]
     var joustReveals = 0
     var gameStarted = false
     var gameEnded = true {
@@ -79,6 +78,9 @@ class Game {
     private var rankDetector = CVRankDetection()
     private var playerRanks: [Int] = []
     private var opponentRanks: [Int] = []
+
+    private var maxBlockId: Int = 0
+    private(set) var currentBlock: Block?
     
     fileprivate var lastGameStartTimestamp: Date = Date.distantPast
 
@@ -152,9 +154,10 @@ class Game {
         powerLog = []
         playedCards = []
         
-        maxId = 0
         lastId = 0
         gameTriggerCount = 0
+        maxBlockId = 0
+        currentBlock = nil
 
         entities.removeAll()
         tmpEntities.removeAll()
@@ -207,6 +210,17 @@ class Game {
 
     func resetCurrentEntity() {
         currentEntityId = 0
+    }
+
+    func blockStart() {
+        maxBlockId += 1
+        let blockId = maxBlockId
+        currentBlock = currentBlock?.createChild(blockId: blockId)
+            ?? Block(parent: nil, id: blockId)
+    }
+
+    func blockEnd() {
+        currentBlock = currentBlock?.parent
     }
 
     func set(activeDeck deck: Deck) {

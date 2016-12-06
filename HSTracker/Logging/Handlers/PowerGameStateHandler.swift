@@ -174,15 +174,18 @@ class PowerGameStateHandler {
         } else if logLine.line.match(CreationRegex) {
             let matches = logLine.line.matches(CreationRegex)
             let id = Int(matches[0].value)!
-            let zone = matches[1].value
-            var cardId = matches[2].value
+            guard let zone = Zone(rawString: matches[1].value) else { return }
+            var cardId: String? = matches[2].value
 
             if game.entities[id] == .none {
-                if String.isNullOrEmpty(cardId) {
-                    if game.knownCardIds[id] != .none {
-                        cardId = game.knownCardIds[id]!
-                        Log.verbose?.message("Found known cardId '\(cardId)' for entity \(id)")
-                        game.knownCardIds[id] = nil
+                if String.isNullOrEmpty(cardId) && zone != .setaside {
+                    if let blockId = game.currentBlock?.id,
+                        let cards = game.knownCardIds[blockId] {
+                        cardId = cards.first
+                        if !String.isNullOrEmpty(cardId) {
+                            Log.verbose?.message("Found known cardId '\(cardId)' for entity \(id)")
+                            game.knownCardIds[id] = nil
+                        }
                     }
                 }
 
@@ -191,7 +194,7 @@ class PowerGameStateHandler {
             }
 
             if !String.isNullOrEmpty(cardId) {
-                game.entities[id]!.cardId = cardId
+                game.entities[id]!.cardId = cardId!
             }
 
             game.set(currentEntity: id)
@@ -199,7 +202,7 @@ class PowerGameStateHandler {
                 tagChangeHandler.invokeQueuedActions(game: game)
             }
             game.currentEntityHasCardId = !String.isNullOrEmpty(cardId)
-            game.currentEntityZone = Zone(rawString: zone)!
+            game.currentEntityZone = zone
             return
         } else if logLine.line.match(UpdatingEntityRegex) {
             let matches = logLine.line.matches(UpdatingEntityRegex)
@@ -255,94 +258,116 @@ class PowerGameStateHandler {
         } else if logLine.line.contains("End Spectator") {
             game.currentGameMode = .spectator
             game.gameEnd()
-        } else if logLine.line.match(BlockStartRegex) {
-            let matches = logLine.line.matches(BlockStartRegex)
-            let type = matches[0].value
-            let actionStartingEntityId = Int(matches[1].value)!
-            var actionStartingCardId: String? = matches[3].value
+        } else if logLine.line.contains("BLOCK_START") {
+            game.blockStart()
 
-            let player = game.entities.map { $0.1 }
-                .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.player.id }
-            let opponent = game.entities.map { $0.1 }
-                .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.opponent.id }
+            if logLine.line.match(BlockStartRegex) {
+                let player = game.entities.map { $0.1 }
+                    .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.player.id }
+                let opponent = game.entities.map { $0.1 }
+                    .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.opponent.id }
 
-            if String.isNullOrEmpty(actionStartingCardId) {
-                if let actionEntity = game.entities[actionStartingEntityId] {
-                    actionStartingCardId = actionEntity.cardId
-                }
-            }
+                let matches = logLine.line.matches(BlockStartRegex)
+                let type = matches[0].value
+                let actionStartingEntityId = Int(matches[1].value)!
+                var actionStartingCardId: String? = matches[3].value
 
-            if String.isNullOrEmpty(actionStartingCardId) {
-                return
-            }
-
-            if type == "TRIGGER" {
-                if actionStartingCardId == CardIds.Collectible.Rogue.TradePrinceGallywix {
-                    if let lastCardPlayed = game.lastCardPlayed,
-                        let entity = game.entities[lastCardPlayed] {
-                        let cardId = entity.cardId
-                        addKnownCardId(game: game, cardId: cardId)
+                if String.isNullOrEmpty(actionStartingCardId) {
+                    if let actionEntity = game.entities[actionStartingEntityId] {
+                        actionStartingCardId = actionEntity.cardId
                     }
-                    addKnownCardId(game: game,
-                                   cardId: CardIds.NonCollectible.Neutral
-                                    .TradePrinceGallywix_GallywixsCoinToken)
                 }
-            } else {
-                if let actionStartingCardId = actionStartingCardId {
-                    switch actionStartingCardId {
-                    case CardIds.Collectible.Rogue.GangUp:
-                        addTargetAsKnownCardId(game: game, matches: matches, count: 3)
-                    case CardIds.Collectible.Rogue.BeneathTheGrounds:
-                        addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Rogue
-                                        .BeneaththeGrounds_AmbushToken,
-                                       count: 3)
-                    case CardIds.Collectible.Warrior.IronJuggernaut:
-                        addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Warrior
-                                        .IronJuggernaut_BurrowingMineToken)
-                    case CardIds.Collectible.Druid.Recycle:
-                        addTargetAsKnownCardId(game: game, matches: matches)
-                    case CardIds.Collectible.Mage.ForgottenTorch:
-                        addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Mage
-                                        .ForgottenTorch_RoaringTorchToken)
-                    case CardIds.Collectible.Warlock.CurseOfRafaam:
-                        addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Warlock
-                                        .CurseofRafaam_CursedToken)
-                    case CardIds.Collectible.Neutral.AncientShade:
-                        addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Neutral
-                                        .AncientShade_AncientCurseToken)
-                    case CardIds.Collectible.Priest.ExcavatedEvil:
-                        addKnownCardId(game: game,
-                                       cardId: CardIds.Collectible.Priest.ExcavatedEvil)
-                    case CardIds.Collectible.Neutral.EliseStarseeker:
-                        addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Neutral
-                                        .EliseStarseeker_MapToTheGoldenMonkeyToken)
-                    case CardIds.NonCollectible.Neutral.EliseStarseeker_MapToTheGoldenMonkeyToken:
-                        addKnownCardId(game: game,
-                                       cardId: CardIds.NonCollectible.Neutral
-                                        .EliseStarseeker_GoldenMonkeyToken)
-                    case CardIds.Collectible.Neutral.Doomcaller:
-                        addKnownCardId(game: game, cardId: CardIds.NonCollectible.Neutral.Cthun)
-                    default:
-                        if let card = Cards.any(byId: actionStartingCardId) {
-                            if (player != nil && player![.current_player] == 1
-                                && !game.playerUsedHeroPower)
-                                || (opponent != nil && opponent![.current_player] == 1
-                                    && !game.opponentUsedHeroPower) {
-                                if card.type == .hero_power {
-                                    if player != nil && player![.current_player] == 1 {
-                                        game.playerHeroPower(cardId: actionStartingCardId,
-                                                             turn: game.turnNumber())
-                                        game.playerUsedHeroPower = true
-                                    } else if opponent != nil {
-                                        game.opponentHeroPower(cardId: actionStartingCardId,
-                                                               turn: game.turnNumber())
-                                        game.opponentUsedHeroPower = true
+
+                if String.isNullOrEmpty(actionStartingCardId) {
+                    return
+                }
+
+                if type == "TRIGGER" {
+                    if let actionStartingCardId = actionStartingCardId {
+                        switch actionStartingCardId {
+                        case CardIds.Collectible.Rogue.TradePrinceGallywix:
+                            if let lastCardPlayed = game.lastCardPlayed,
+                                let entity = game.entities[lastCardPlayed] {
+                                let cardId = entity.cardId
+                                addKnownCardId(game: game, cardId: cardId)
+                            }
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Neutral
+                                            .TradePrinceGallywix_GallywixsCoinToken)
+                        case CardIds.Collectible.Shaman.WhiteEyes:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Shaman
+                                            .WhiteEyes_TheStormGuardianToken)
+                        default: break
+                        }
+                    }
+                } else {
+                    if let actionStartingCardId = actionStartingCardId {
+                        switch actionStartingCardId {
+                        case CardIds.Collectible.Rogue.GangUp:
+                            addKnownCardId(game: game,
+                                           cardId: getTargetCardId(matches: matches),
+                                           count: 3)
+                        case CardIds.Collectible.Rogue.BeneathTheGrounds:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Rogue
+                                            .BeneaththeGrounds_AmbushToken,
+                                           count: 3)
+                        case CardIds.Collectible.Warrior.IronJuggernaut:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Warrior
+                                            .IronJuggernaut_BurrowingMineToken)
+                        case CardIds.Collectible.Druid.Recycle,
+                             CardIds.Collectible.Mage.ManicSoulcaster:
+                            addKnownCardId(game: game,
+                                           cardId: getTargetCardId(matches: matches))
+                        case CardIds.Collectible.Mage.ForgottenTorch:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Mage
+                                            .ForgottenTorch_RoaringTorchToken)
+                        case CardIds.Collectible.Warlock.CurseOfRafaam:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Warlock
+                                            .CurseofRafaam_CursedToken)
+                        case CardIds.Collectible.Neutral.AncientShade:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Neutral
+                                            .AncientShade_AncientCurseToken)
+                        case CardIds.Collectible.Priest.ExcavatedEvil:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.Collectible.Priest.ExcavatedEvil)
+                        case CardIds.Collectible.Neutral.EliseStarseeker:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Neutral
+                                            .EliseStarseeker_MapToTheGoldenMonkeyToken)
+                        case CardIds.NonCollectible.Neutral
+                            .EliseStarseeker_MapToTheGoldenMonkeyToken:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Neutral
+                                            .EliseStarseeker_GoldenMonkeyToken)
+                        case CardIds.Collectible.Neutral.Doomcaller:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Neutral.Cthun)
+                        case CardIds.Collectible.Druid.JadeIdol:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.Collectible.Druid.JadeIdol,
+                                           count: 3)
+                        default:
+                            if let card = Cards.any(byId: actionStartingCardId) {
+                                if (player != nil && player![.current_player] == 1
+                                    && !game.playerUsedHeroPower)
+                                    || (opponent != nil && opponent![.current_player] == 1
+                                        && !game.opponentUsedHeroPower) {
+                                    if card.type == .hero_power {
+                                        if player != nil && player![.current_player] == 1 {
+                                            game.playerHeroPower(cardId: actionStartingCardId,
+                                                                 turn: game.turnNumber())
+                                            game.playerUsedHeroPower = true
+                                        } else if opponent != nil {
+                                            game.opponentHeroPower(cardId: actionStartingCardId,
+                                                                   turn: game.turnNumber())
+                                            game.opponentUsedHeroPower = true
+                                        }
                                     }
                                 }
                             }
@@ -357,12 +382,13 @@ class PowerGameStateHandler {
         } else if game.gameTriggerCount == 0
             && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
             game.gameTriggerCount += 1
-        } else if game.gameTriggerCount < 10 && logLine.line.contains("BLOCK_END") {
-            if let entity = game.gameEntity, entity.has(tag: .turn) {
+        } else if logLine.line.contains("BLOCK_END") {
+            if game.gameTriggerCount < 10 && (game.gameEntity?.has(tag: .turn) ?? false) {
                 game.gameTriggerCount += 10
                 tagChangeHandler.invokeQueuedActions(game: game)
                 game.setupDone = true
             }
+            game.blockEnd()
         }
 
         if game.isInMenu { return }
@@ -384,34 +410,29 @@ class PowerGameStateHandler {
         }
     }
 
-    private func addTargetAsKnownCardId(game: Game, matches: [Match], count: Int = 1) {
+    private func getTargetCardId(matches: [Match]) -> String? {
         let target = matches[4].value.trim()
-        guard target.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: target) else { return }
-        guard target.match(CardIdRegex) else { return }
+        guard target.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: target) else {
+            return nil
+        }
+        guard target.match(CardIdRegex) else { return nil }
 
         let cardIdMatch = target.matches(CardIdRegex)
-        let targetCardId = cardIdMatch[0].value.trim()
-        //print("**** CardIdRegex -> targetCardId:'\(targetCardId)'")
-        for i in 0 ..< count {
-            let id = getMaxEntityId() + i + 1
-            if game.knownCardIds[id] != nil {
-                game.knownCardIds[id] = targetCardId
-            }
-        }
+        return cardIdMatch.first?.value.trim()
     }
 
-    private func addKnownCardId(game: Game, cardId: String, count: Int = 1) {
-        for i in 0 ..< count {
-            let id = getMaxEntityId() + 1 + i
-            if game.knownCardIds[id] != nil {
-                game.knownCardIds[id] = cardId
+    private func addKnownCardId(game: Game, cardId: String?, count: Int = 1) {
+        guard let cardId = cardId else { return }
+
+        if let blockId = game.currentBlock?.id {
+            for _ in 0 ..< count {
+                if game.knownCardIds[blockId] == nil {
+                    game.knownCardIds[blockId] = []
+                }
+
+                game.knownCardIds[blockId]?.append(cardId)
             }
         }
-    }
-
-    private func getMaxEntityId() -> Int {
-        let game = Game.instance
-        return [game.entities.count, game.maxId].max()!
     }
 
     private func reset() {

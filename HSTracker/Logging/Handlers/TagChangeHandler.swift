@@ -49,10 +49,6 @@ class TagChangeHandler {
         }
         game.lastId = id
 
-        if id > game.maxId {
-            game.maxId = id
-        }
-
         if game.entities[id] == .none {
             game.entities[id] = Entity(id: id)
         }

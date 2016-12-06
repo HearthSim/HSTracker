@@ -62,6 +62,7 @@
 		434106A51C9868620045655A /* Classes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 434106A21C9868620045655A /* Classes.xcassets */; };
 		4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
 		4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899C1CAC05D700C962D1 /* Foundation.framework */; };
+		4345FE951DF54CA900E8936B /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345FE941DF54CA900E8936B /* Block.swift */; };
 		434910451D09505100B22DB2 /* BoardDamage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434910441D09505100B22DB2 /* BoardDamage.xib */; };
 		434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910461D09505E00B22DB2 /* BoardDamage.swift */; };
 		4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910491D09545C00B22DB2 /* BoardCard.swift */; };
@@ -522,6 +523,7 @@
 		4335545A1D65944700277B27 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		434106A11C9868620045655A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		434106A21C9868620045655A /* Classes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Classes.xcassets; sourceTree = "<group>"; };
+		4345FE941DF54CA900E8936B /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		434910441D09505100B22DB2 /* BoardDamage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoardDamage.xib; sourceTree = "<group>"; };
 		434910461D09505E00B22DB2 /* BoardDamage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardDamage.swift; sourceTree = "<group>"; };
 		434910491D09545C00B22DB2 /* BoardCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardCard.swift; sourceTree = "<group>"; };
@@ -1150,6 +1152,7 @@
 				4359BF931D52142D00F61993 /* PlayedCard.swift */,
 				439DD8F31DB23212004EBE47 /* PlayerTurn.swift */,
 				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
+				4345FE941DF54CA900E8936B /* Block.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1725,6 +1728,7 @@
 				437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */,
 				4349104A1D09545C00B22DB2 /* BoardCard.swift in Sources */,
 				43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */,
+				4345FE951DF54CA900E8936B /* Block.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
 				43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */,
 				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
