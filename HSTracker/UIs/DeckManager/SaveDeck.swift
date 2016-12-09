@@ -10,7 +10,7 @@ import Foundation
 import CleanroomLogger
 import RealmSwift
 
-protocol SaveDeckDelegate {
+protocol SaveDeckDelegate: class {
     func deckSaveSaved()
     func deckSaveCanceled()
 }
@@ -24,7 +24,7 @@ class SaveDeck: NSWindowController {
     var deck: Deck?
     var cards: [Card]?
     var exists = false
-    private var _delegate: SaveDeckDelegate?
+    weak private var _delegate: SaveDeckDelegate?
     var versions = ["1.0"]
 
     func setDelegate(_ delegate: SaveDeckDelegate) {

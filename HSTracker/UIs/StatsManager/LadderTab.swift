@@ -140,11 +140,8 @@ class LadderTab: NSViewController {
                     self.timeTable.reloadData()
                 }
             }
-            
-            
         }
     }
-    
 }
 
 extension LadderTab : NSTableViewDataSource {

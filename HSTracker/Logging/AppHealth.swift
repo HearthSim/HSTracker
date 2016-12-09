@@ -16,8 +16,6 @@ enum HealthLevel: Int {
     gameinprogress = 4
 }
 
-
-
 class AppHealth: NSObject {
     
     private var level: HealthLevel
@@ -29,8 +27,7 @@ class AppHealth: NSObject {
                                "trackerworks" : NSImage(named: "badge-icon-trackerworks")!,
                                "gamerunning" : NSImage(named: "badge-icon-gamerunning")!,
                                "gameinprogress" : NSImage(named: "badge-icon-gameinprogress")!]
-    
-    
+
     override init() {
         level = .undefined
         super.init()

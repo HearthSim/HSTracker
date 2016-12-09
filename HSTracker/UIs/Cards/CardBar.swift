@@ -10,7 +10,7 @@ import Foundation
 import CleanroomLogger
 import TextAttributes
 
-protocol CardCellHover {
+protocol CardCellHover: class {
     func hover(cell: CardBar, card: Card)
     func out(card: Card)
 }
@@ -30,7 +30,7 @@ class CardBar: NSView, CardBarTheme {
                               owner: self,
                               userInfo: nil)
     }()
-    private var delegate: CardCellHover?
+    weak private var delegate: CardCellHover?
 
     private var flashLayer: CALayer?
     private var cardLayer: CALayer?
@@ -141,7 +141,7 @@ class CardBar: NSView, CardBarTheme {
             .fadeOverlay: ThemeElementInfo(filename: "fade.png", rect: frameRect),
             .createdIcon: ThemeElementInfo(filename: "icon_created.png", rect: boxRect),
             .legendaryIcon: ThemeElementInfo(filename: "icon_legendary.png", rect: boxRect),
-            .flashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect),
+            .flashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect)
         ]
     }
     var optionalFrame: [ThemeElement: ThemeElementInfo] {
@@ -158,7 +158,7 @@ class CardBar: NSView, CardBarTheme {
             .commonGem: ThemeElementInfo(filename: "gem_common.png", rect: gemRect),
             .rareGem: ThemeElementInfo(filename: "gem_rare.png", rect: gemRect),
             .epicGem: ThemeElementInfo(filename: "gem_epic.png", rect: gemRect),
-            .legendaryGem: ThemeElementInfo(filename: "gem_legendary.png", rect: gemRect),
+            .legendaryGem: ThemeElementInfo(filename: "gem_legendary.png", rect: gemRect)
         ]
     }
 

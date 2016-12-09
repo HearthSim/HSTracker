@@ -62,7 +62,6 @@ struct BuildDates {
                                  total: Double(Language.hsLanguages.count))
         }
 
-
         guard let latestBuild = self.latestBuild else { return }
         let build = latestBuild.build
         for locale in Language.hsLanguages {

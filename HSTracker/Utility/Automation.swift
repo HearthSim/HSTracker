@@ -158,7 +158,7 @@ struct Automation {
         "ptBR": "artista",
         "ruRU": "художник",
         "esMX": "artista",
-        "esES": "artista",
+        "esES": "artista"
     ]
 
     private let manaDict = [
@@ -175,7 +175,7 @@ struct Automation {
         "ptBR": "mana",
         "ruRU": "мана",
         "esMX": "maná",
-        "esES": "maná",
+        "esES": "maná"
     ]
 
     private let attackDict = [
@@ -192,6 +192,6 @@ struct Automation {
         "ptBR": "ataque",
         "ruRU": "атака",
         "esMX": "ataque",
-        "esES": "ataque",
+        "esES": "ataque"
     ]
 }

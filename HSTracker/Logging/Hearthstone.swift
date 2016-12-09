@@ -195,7 +195,7 @@ final class Hearthstone: NSObject {
             NSNotification.Name.NSWorkspaceDidLaunchApplication: #selector(appLaunched(_:)),
             NSNotification.Name.NSWorkspaceDidTerminateApplication: #selector(appTerminated(_:)),
             NSNotification.Name.NSWorkspaceDidActivateApplication: #selector(appActivated(_:)),
-            NSNotification.Name.NSWorkspaceDidDeactivateApplication: #selector(appDeactivated(_:)),
+            NSNotification.Name.NSWorkspaceDidDeactivateApplication: #selector(appDeactivated(_:))
         ]
         for (name, selector) in notifications {
             notificationCenter.addObserver(self,

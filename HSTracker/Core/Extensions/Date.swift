@@ -21,7 +21,6 @@ extension Date {
         return self.toStringInFormat("yyyy-MM-dd HH:mm:ss.SSS",
                                      inTimeZone: TimeZone(identifier: "UTC"))
     }
-    
 
     init(fromString: String, inFormat: String, timeZone: TimeZone? = nil) {
         let dateFormater = DateFormatter()
@@ -53,98 +52,66 @@ extension Date {
     }
 
     public var era: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.era!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.era!
     }
     public var year: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.year!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.year!
     }
     public var month: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.month!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.month!
     }
     public var day: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.day!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.day!
     }
     public var dayInMonth: Int {
-        get {
-            return (Calendar.current as NSCalendar).range(of: .day, in: .month, for: self).length
-        }
+        return (Calendar.current as NSCalendar).range(of: .day, in: .month, for: self).length
     }
     public var hour: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.hour!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.hour!
     }
     public var minute: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.minute!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.minute!
     }
     public var second: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.second!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.second!
     }
     public var nanosecond: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.nanosecond!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.nanosecond!
     }
     public var weekday: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.weekday!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.weekday!
     }
     public var weekdaySymbol: String {
-        get {
-            return Calendar.current.weekdaySymbols[self.weekday - 1]
-        }
+        return Calendar.current.weekdaySymbols[self.weekday - 1]
     }
     public var weekdayOrdinal: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.weekdayOrdinal!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.weekdayOrdinal!
     }
     public var quarter: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.quarter!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.quarter!
     }
     public var weekOfMonth: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.weekOfMonth!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.weekOfMonth!
     }
     public var weekOfYear: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.weekOfYear!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.weekOfYear!
     }
     public var yearForWeekOfYear: Int {
-        get {
-            let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
-            return dateComponents.yearForWeekOfYear!
-        }
+        let dateComponents = (Calendar.current as NSCalendar).components(NSCalendar.Unit(rawValue: UInt.max), from: self)
+        return dateComponents.yearForWeekOfYear!
     }
 
     public static func NSDateFromYear(year: Int = -1, month: Int = -1, day: Int = -1,
@@ -191,7 +158,6 @@ extension Date {
 
         return dateFormater.date(from: date)
     }
-
 
     public static func NSDateAtKeyWord(_ keyWord: DateKeyWord) -> Date {
         switch keyWord {
@@ -321,8 +287,6 @@ extension Date {
     }
 
     /* COMPARISONS */
-
-
 
     public func between (_ first: Date, second: Date) -> Bool {
         return (first < self) && (self < second )
@@ -483,7 +447,6 @@ extension Date {
     public func subSeconds(_ seconds: Int) -> Date? {
         return self.changeTimeInterval(.second, value: seconds, modyfer: -1)
     }
-
 
     /*  DIFFERENCES */
 

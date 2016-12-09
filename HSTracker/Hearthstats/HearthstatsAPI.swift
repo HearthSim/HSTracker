@@ -476,7 +476,7 @@ struct HearthstatsAPI {
             "duration": stat.duration,
             "arena_run_id": deck.hearthStatsArenaId.value!,
             "oppclass": stat.opponentClass.rawValue.capitalized,
-            "oppname": stat.opponentName,
+            "oppname": stat.opponentName
             ]
         Log.info?.message("Posting arena match to Hearthstats \(parameters)")
         let http = Http(url:

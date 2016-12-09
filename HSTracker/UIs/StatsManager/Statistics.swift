@@ -49,8 +49,7 @@ class Statistics: NSWindowController {
         
         tabs.delegate = self
         tabs.selectTabViewItem(statsTabView)
-        
-       
+
         // We need to update the display both when the
         // stats change
         NotificationCenter.default
@@ -93,12 +92,10 @@ class Statistics: NSWindowController {
         }
     }
 
-    
     @IBAction func closeWindow(_ sender: AnyObject) {
         self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
     }
-    
-    
+
     @IBAction func deleteStatistics(_ sender: AnyObject) {
         if let deck = deck {
             let msg = String(format: NSLocalizedString("Are you sure you want to delete the "
@@ -129,6 +126,4 @@ extension Statistics: NSTabViewDelegate {
         }
     }
 }
-
-
 
