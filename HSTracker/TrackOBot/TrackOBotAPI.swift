@@ -49,7 +49,6 @@ struct TrackOBotAPI {
         return settings.trackobotUsername != nil && settings.trackobotToken != nil
     }
 
-
     /**
      TODO: try to check the archetype of the deck using
      https://trackobot.com/profile/settings/decks.json

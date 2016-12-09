@@ -40,7 +40,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     //@IBOutlet weak var zoom: NSSlider!
 
     var isSaved: Bool = false
-    var delegate: NewDeckDelegate?
+    weak var delegate: NewDeckDelegate?
     var currentDeck: Deck?
     var cards: [Card] = []
     var currentPlayerClass: CardClass?

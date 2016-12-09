@@ -79,8 +79,7 @@ class StatsHelper {
         
         return tableData
     }
-    
-    
+
     static func getLadderTableData(deck: Deck, rank: Int, stars: Int, streak: Bool)
         -> [LadderTableRow] {
             
@@ -309,8 +308,7 @@ class StatsHelper {
             return 25
         }
     }
-    
-    
+
     static func binomialProportionCondifenceInterval(wins: Int, losses: Int,
                                                      confidence: Double = 0.9)
         -> (lower: Double, upper: Double, mean: Double) {

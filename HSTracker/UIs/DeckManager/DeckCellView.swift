@@ -32,5 +32,4 @@ class DeckCellView: NSView {
         super.draw(dirtyRect)
     }
 
-
 }

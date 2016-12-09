@@ -10,7 +10,7 @@ import Foundation
 import CleanroomLogger
 import RealmSwift
 
-protocol NewDeckDelegate {
+protocol NewDeckDelegate: class {
     func addNewDeck(deck: Deck)
     func openDeckBuilder(playerClass: CardClass, arenaDeck: Bool)
     func refreshDecks()
@@ -28,7 +28,7 @@ class NewDeck: NSWindowController {
     @IBOutlet weak var arenaDeck: NSButton!
     @IBOutlet weak var loader: NSProgressIndicator!
 
-    var delegate: NewDeckDelegate?
+    weak var delegate: NewDeckDelegate?
     var defaultClass: CardClass?
 
     override func windowDidLoad() {

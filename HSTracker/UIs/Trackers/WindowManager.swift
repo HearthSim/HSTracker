@@ -81,7 +81,7 @@ class WindowManager {
     func startManager() {
         let events = [
             "show_floating_card": #selector(showFloatingCard(_:)),
-            "hide_floating_card": #selector(hideFloatingCard(_:)),
+            "hide_floating_card": #selector(hideFloatingCard(_:))
             ]
 
         for (event, selector) in events {

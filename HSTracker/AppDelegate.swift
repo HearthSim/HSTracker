@@ -292,7 +292,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "reload_decks": #selector(AppDelegate.reloadDecks(_:)),
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
             "theme": #selector(reloadTheme),
-            "save_arena_deck": #selector(AppDelegate.saveArenaDeck(_:)),
+            "save_arena_deck": #selector(AppDelegate.saveArenaDeck(_:))
             ]
 
         for (event, selector) in events {
