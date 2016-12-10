@@ -14,7 +14,7 @@ struct HSReplay {
     private static let baseApi = "/api/v1"
     private static let uploadRequestApi = "/replay/upload/request"
     private static let tokenApi = "/tokens"
-    private static let claimAccountApi = "/claim_account/"
+    private static let claimAccountApi = "/claim_account"
     
     static let baseApiUrl = "\(baseUrl)\(baseApi)"
     static let baseUploadApiUrl = "\(baseUploadUrl)\(baseApi)"

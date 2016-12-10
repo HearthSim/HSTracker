@@ -50,6 +50,13 @@ class HSReplayPreferences: NSViewController {
         updateStatus()
     }
     
+    @IBAction func resetAccount(_ sender: Any) {
+        Settings.instance.hsReplayUsername = nil
+        Settings.instance.hsReplayId = nil
+        Settings.instance.hsReplayUploadToken = nil
+        updateStatus()
+    }
+
     @IBAction func claimAccount(_ sender: AnyObject) {
         claimAccountButton.isEnabled = false
         requests = 0
@@ -80,9 +87,13 @@ class HSReplayPreferences: NSViewController {
     }
     
     private func updateStatus() {
-        if let username = Settings.instance.hsReplayUsername {
-            hsReplayAccountStatus.stringValue =
-                String(format: NSLocalizedString("Connected as %@", comment: ""), username)
+        if let _ = Settings.instance.hsReplayId {
+            var information = NSLocalizedString("Connected", comment: "")
+            if let username = Settings.instance.hsReplayUsername {
+                information = String(format: NSLocalizedString("Connected as %@", comment: ""),
+                                     username)
+            }
+            hsReplayAccountStatus.stringValue = information
             claimAccountInfo.isEnabled = false
             claimAccountButton.isEnabled = false
             disconnectButton.isEnabled = true

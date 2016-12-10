@@ -71,6 +71,7 @@ class HSReplayAPI {
                     "X-Api-Key": apiKey,
                     "Authorization": "Token \(token)"
         ]) { json in
+            print("\(json)")
             if let json = json as? [String: Any],
                 let user = json["user"] as? [String: Any] {
                 if let username = user["username"] as? String {

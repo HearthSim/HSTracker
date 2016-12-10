@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="HSReplayPreferences" customModule="HSTracker" customModuleProvider="target">
@@ -41,11 +42,8 @@
                         <action selector="checkboxClicked:" target="-2" id="pHL-Ks-v6p"/>
                     </connections>
                 </button>
-                <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="UbW-mX-Jca">
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UbW-mX-Jca">
                     <rect key="frame" x="20" y="207" width="440" height="5"/>
-                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <font key="titleFont" metaFont="system"/>
                 </box>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1W9-OR-1lE">
                     <rect key="frame" x="18" y="184" width="444" height="17"/>
@@ -83,6 +81,16 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aoh-vg-EJj">
+                    <rect key="frame" x="14" y="77" width="128" height="32"/>
+                    <buttonCell key="cell" type="push" title="Reset Account" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ikd-r0-oiT">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="resetAccount:" target="-2" id="PiD-qI-xRy"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="R7X-Vo-NSU" firstAttribute="top" secondItem="zU2-86-n1Q" secondAttribute="bottom" constant="6" symbolic="YES" id="0gA-tC-Tko"/>
@@ -98,8 +106,10 @@
                 <constraint firstItem="UbW-mX-Jca" firstAttribute="top" secondItem="R7X-Vo-NSU" secondAttribute="bottom" constant="8" symbolic="YES" id="YnP-I7-5xO"/>
                 <constraint firstAttribute="trailing" secondItem="UdW-1g-XMj" secondAttribute="trailing" constant="20" symbolic="YES" id="e52-0V-K0w"/>
                 <constraint firstItem="zU2-86-n1Q" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="fzT-xc-vDd"/>
+                <constraint firstItem="aoh-vg-EJj" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="gr3-TJ-kZm"/>
                 <constraint firstItem="UdW-1g-XMj" firstAttribute="top" secondItem="cYC-b2-h3Y" secondAttribute="bottom" constant="8" symbolic="YES" id="hgh-kq-jpE"/>
                 <constraint firstAttribute="trailing" secondItem="1W9-OR-1lE" secondAttribute="trailing" constant="20" symbolic="YES" id="oe8-tX-1gZ"/>
+                <constraint firstItem="aoh-vg-EJj" firstAttribute="top" secondItem="UdW-1g-XMj" secondAttribute="bottom" constant="8" symbolic="YES" id="rzj-vW-sIc"/>
                 <constraint firstItem="1W9-OR-1lE" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="sEX-E8-9v1"/>
                 <constraint firstAttribute="trailing" secondItem="zU2-86-n1Q" secondAttribute="trailing" constant="20" symbolic="YES" id="w9o-TS-HvD"/>
                 <constraint firstItem="cYC-b2-h3Y" firstAttribute="top" secondItem="1W9-OR-1lE" secondAttribute="bottom" constant="8" symbolic="YES" id="yME-jc-MUc"/>

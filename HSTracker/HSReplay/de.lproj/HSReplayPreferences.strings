@@ -10,3 +10,6 @@
 
 /* Class = "NSButtonCell"; title = "Disconnect from HSReplay"; ObjectID = "y6L-Kw-KFY"; */
 "y6L-Kw-KFY.title" = "Verbingung mit HSReplay trennen";
+
+/* Class = "NSButtonCell"; title = "Reset Account"; ObjectID = "Ikd-r0-oiT"; */
+"Ikd-r0-oiT.title" = "Reset Account";
