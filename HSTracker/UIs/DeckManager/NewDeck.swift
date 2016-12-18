@@ -17,11 +17,11 @@ protocol NewDeckDelegate: class {
 }
 
 class NewDeck: NSWindowController {
-
+    
     @IBOutlet weak var hstrackerDeckBuilder: NSButton!
     @IBOutlet weak var fromAFile: NSButton!
     @IBOutlet weak var fromTheWeb: NSButton!
-    @IBOutlet weak var classesCombobox: NSComboBox!
+    @IBOutlet weak var classesPopUpMenu: NSPopUpButton!
     @IBOutlet weak var urlDeck: NSTextField!
     @IBOutlet weak var chooseFile: NSButton!
     @IBOutlet weak var okButton: NSButton!
@@ -33,16 +33,16 @@ class NewDeck: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        if let hsClass = defaultClass, let index = Cards.classes.index(of: hsClass) {
-            classesCombobox.selectItem(at: index)
-        } else {
-            classesCombobox.becomeFirstResponder()
-        }
+        
+        classesPopUpMenu.addItems(withTitles: Cards.classes.map {
+            NSLocalizedString($0.rawValue.lowercased(), comment: "")
+        })
+        checkToEnableSave()
     }
 
     func radios() -> [NSButton: [NSControl]] {
         return [
-            hstrackerDeckBuilder: [classesCombobox, arenaDeck],
+            hstrackerDeckBuilder: [classesPopUpMenu, arenaDeck],
             fromAFile: [chooseFile],
             fromTheWeb: [urlDeck]
         ]
@@ -73,11 +73,11 @@ class NewDeck: NSWindowController {
 
     @IBAction func okClicked(_ sender: AnyObject) {
         if hstrackerDeckBuilder.state == NSOnState {
-            if classesCombobox.indexOfSelectedItem < 0 {
+            if classesPopUpMenu.indexOfSelectedItem < 0 {
                 return
             }
             delegate?.openDeckBuilder(playerClass:
-                Cards.classes[classesCombobox.indexOfSelectedItem],
+                Cards.classes[classesPopUpMenu.indexOfSelectedItem],
                                       arenaDeck: (arenaDeck.state == NSOnState))
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         } else if fromTheWeb.state == NSOnState {
@@ -173,54 +173,13 @@ class NewDeck: NSWindowController {
     }
 
     func checkToEnableSave() {
-        var enabled: Bool?
-        if hstrackerDeckBuilder.state == NSOnState {
-            enabled = classesCombobox.indexOfSelectedItem != -1
-        } else if fromTheWeb.state == NSOnState {
-            enabled = !urlDeck.stringValue.isEmpty
-        } else if fromAFile.state == NSOnState {
-            enabled = false
-        }
-
-        if let enabled = enabled {
-            okButton.isEnabled = enabled
-        }
+        okButton.isEnabled =
+            hstrackerDeckBuilder.state == NSOnState
+        || fromTheWeb.state == NSOnState && !urlDeck.stringValue.isEmpty
+        // notice that there's no statement needed to disable OK "fromAFile.state != NSOnState"
     }
 
-    override func controlTextDidChange(_ obj: Notification) {
+    override func controlTextDidChange(_ notification: Notification) {
         checkToEnableSave()
-    }
-}
-
-// MARK: - NSComboBoxDelegate
-extension NewDeck: NSComboBoxDelegate {
-    func comboBoxSelectionDidChange(_ notification: Notification) {
-        checkToEnableSave()
-    }
-
-    func comboBox(_ aComboBox: NSComboBox, completedString string: String) -> String? {
-        for (idx, hsClass) in Cards.classes.enumerated() {
-            if NSLocalizedString(hsClass.rawValue.lowercased(), comment: "")
-                .commonPrefix(with: string, options: .caseInsensitive)
-                .characters.count == string.characters.count {
-                DispatchQueue.main.async(execute: {
-                    self.classesCombobox.selectItem(at: idx)
-                })
-                checkToEnableSave()
-                return NSLocalizedString(hsClass.rawValue.lowercased(), comment: "")
-            }
-        }
-        return string
-    }
-}
-
-// MARK: - NSComboBoxDataSource
-extension NewDeck: NSComboBoxDataSource {
-    func numberOfItems(in aComboBox: NSComboBox) -> Int {
-        return Cards.classes.count
-    }
-
-    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        return NSLocalizedString(Cards.classes[index].rawValue.lowercased(), comment: "")
     }
 }
