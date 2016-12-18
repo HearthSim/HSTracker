@@ -417,20 +417,12 @@ class Game {
 
     private func saveMatch(rank: Int, note: String, playerClass: CardClass,
                            opponentName: String, opponentClass: CardClass, opponentRank: Int) {
-        guard let currentDeck = self.currentDeck else {
-            Log.info?.message("No deck, ignore statistic")
-            return
-        }
-
         DispatchQueue.main.async { [weak self] in
             guard let strong = self else { return }
             do {
                 let realm = try Realm()
-                guard let deck = realm.objects(Deck.self)
-                    .filter("deckId = '\(currentDeck.id)'").first else {
-                        Log.error?.message("Can not get deck")
-                        return
-                }
+                let deck = realm.objects(Deck.self)
+                    .filter("deckId = '\(strong.currentDeck?.id)'").first
 
                 let statistic = Statistic()
                 statistic.opponentName = opponentName
@@ -450,12 +442,7 @@ class Game {
                     startTime = Date()
                 }
 
-                let endTime: Date
-                if let gameEndDate = strong.gameEndDate {
-                    endTime = gameEndDate
-                } else {
-                    endTime = Date()
-                }
+                let endTime = strong.gameEndDate ?? Date()
 
                 statistic.duration = Int(endTime.timeIntervalSince1970
                     - startTime.timeIntervalSince1970)
@@ -468,12 +455,12 @@ class Game {
                     }
 
                     if Settings.instance.autoArchiveArenaDeck &&
-                        strong.currentGameMode == .arena &&
-                        deck.isArena && deck.arenaFinished() {
-                        deck.isActive = false
+                        strong.currentGameMode == .arena && deck != nil &&
+                        deck!.isArena && deck!.arenaFinished() {
+                        deck!.isActive = false
                     }
                     
-                    deck.statistics.append(statistic)
+                    deck?.statistics.append(statistic)
                 }
                 strong.syncStats(deck: deck, statistic: statistic)
             } catch {
@@ -482,9 +469,27 @@ class Game {
         }
     }
 
-    private func syncStats(deck: Deck, statistic: Statistic) {
+    private func syncStats(deck: Deck?, statistic: Statistic) {
         guard currentGameMode != .practice && currentGameMode != .none else {
             Log.info?.message("Game was in \(currentGameMode), don't send to third-party")
+            return
+        }
+
+        if Settings.instance.hsReplaySynchronizeMatches {
+            HSReplayAPI.getUploadToken { (token) in
+                LogUploader.upload(logLines: self.powerLog, game: self, statistic: statistic) {
+                    result in
+                    if case UploadResult.successful(let replayId) = result {
+                        self.showNotification(type: .hsReplayPush(replayId: replayId))
+                        NotificationCenter.default
+                            .post(name: Notification.Name(rawValue: "reload_decks"), object: nil)
+                    }
+                }
+            }
+        }
+
+        guard let deck = deck else {
+            Log.info?.message("Not uploading game to HearthStats, TrackoBot: no current deck set")
             return
         }
 
@@ -511,19 +516,6 @@ class Game {
                                            stat: statistic)
             } catch {
                 Log.error?.message("Track-o-Bot error : \(error)")
-            }
-        }
-
-        if Settings.instance.hsReplaySynchronizeMatches {
-            HSReplayAPI.getUploadToken { (token) in
-                LogUploader.upload(logLines: self.powerLog, game: self, statistic: statistic) {
-                    result in
-                    if case UploadResult.successful(let replayId) = result {
-                        self.showNotification(type: .hsReplayPush(replayId: replayId))
-                        NotificationCenter.default
-                            .post(name: Notification.Name(rawValue: "reload_decks"), object: nil)
-                    }
-                }
             }
         }
     }
