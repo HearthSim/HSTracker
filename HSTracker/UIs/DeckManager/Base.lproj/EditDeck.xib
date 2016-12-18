@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -223,7 +223,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="0" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="nh4-xI-0ip" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                    <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -242,7 +242,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="1" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="y1h-hB-XLJ" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                    <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -261,7 +261,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="2" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="Ozt-yZ-Bvj" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                    <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -280,7 +280,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="3" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="qse-SY-u1g" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                    <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -299,7 +299,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="4" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="DpA-dM-lQm" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                    <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -318,7 +318,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="5" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="41a-Fy-s1b" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                    <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -337,7 +337,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="6" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="Arp-VG-v1c" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                    <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -356,7 +356,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="bevel" title="7" bezelStyle="rounded" image="mana-dark" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="6IG-XF-IZv" customClass="ManaGemButtonCell" customModule="HSTracker" customModuleProvider="target">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="20" name="BelweBT-Bold"/>
+                                    <font key="font" metaFont="system" size="20"/>
                                 </buttonCell>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">

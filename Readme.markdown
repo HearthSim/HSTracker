@@ -36,10 +36,25 @@ Is it against the TOS ?
 Feel free to fork and pull-request, as well as filling [new issues](https://github.com/HearthSim/HSTracker/issues)
 
 In order to compile, you have to
-- fork and clone
-- `carthage update --platform osx`
-- `git submodule init`
-- `git submodule update`
+- Clone the code.  Make a fork on github!
+
+        git clone https://github.com/HearthSim/HSTracker.git
+
+- Get / update swift dependencies using [Carthage](https://github.com/Carthage/Carthage/blob/master/README.md#installing-carthage)
+
+        carthage update --platform osx
+
+- Fetch and update the submodule code (HSTracker-OpenCV)
+
+        git submodule init
+        git submodule update
+
+- Install [SwiftLint](https://github.com/realm/SwiftLint/blob/master/README.md#installation), example using Homebrew:
+
+        brew install swiftlint
+
+- Open the project in XCode and build
+  - If you run into code signing errors, disable it by setting "Don't Code Sign" in the "Build Settings"
 
 ## Donations
 Donations are always appreciated
