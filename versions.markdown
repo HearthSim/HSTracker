@@ -1,3 +1,18 @@
+# 0.18.6
+## Breaking change
+HearthStats has not been updated for Mean Streets of Gadgetzan and will likely remain unmaintained.
+Syncing causes your local decks to lose their MSG cards. HearthStats support is now disabled for all users.
+
+We are very sorry about the inconvenience and are working on a much improved replacement system!
+
+## Breaking change 2
+In order to sign properly HSTracker with my Apple developper account, you have to download manually this version from [hsdecktracker.net](https://hsdecktracker.net/hstracker/download/)
+
+## Changes:
+- Improve the new deck window
+- Add a option to fully reset your HSReplay account
+- Better support for MSG cards
+
 # 0.18.5
 ## Fixes:
 - HSTracker now correctly save the opponent deck on game end

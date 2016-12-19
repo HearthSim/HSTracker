@@ -201,8 +201,9 @@ struct HearthstatsAPI {
     }
 
     static func isLogged() -> Bool {
-        let settings = Settings.instance
-        return settings.hearthstatsLogin != nil && settings.hearthstatsToken != nil
+        return false
+        //let settings = Settings.instance
+        //return settings.hearthstatsLogin != nil && settings.hearthstatsToken != nil
     }
 
     static func loadDecks(force: Bool = false,
