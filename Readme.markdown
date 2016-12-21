@@ -5,7 +5,8 @@ HSTracker is a [Hearthstone](http://www.playhearthstone.com/) deck tracker for m
 [![Build Status](https://travis-ci.org/HearthSim/HSTracker.svg?branch=master)](https://travis-ci.org/HearthSim/HSTracker)
 
 ### Community : 
-- **Gitter**:  [![Join the chat at https://gitter.im/HearthSim/HSTracker](https://badges.gitter.im/HearthSim/HSTracker.svg)](https://gitter.im/HearthSim/HSTracker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+- [![Join HearthSim #hstracker](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/PggsQ7F)
+- [![Join the chat at https://gitter.im/HearthSim/HSTracker](https://badges.gitter.im/HearthSim/HSTracker.svg)](https://gitter.im/HearthSim/HSTracker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 - **HearthSim**: HSTracker is a [HearthSim](https://hearthsim.info) project. Come join us in #hearthsim on chat.freenode.net.
 - **Twitter**: Follow [@hstracker_mac](https://twitter.com/hstracker_mac) for updates / questions :)
 
