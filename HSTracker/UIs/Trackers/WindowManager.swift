@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CleanroomLogger
 
 class WindowManager {
     static let `default` = WindowManager()
@@ -130,9 +131,21 @@ class WindowManager {
 
     // MARK: - Updating trackers
     func updateTrackers(reset: Bool = false) {
-        DispatchQueue.main.async {
+        lastCardsUpdateRequest = NSDate().timeIntervalSince1970
+        let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(100)
+        DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard Date().timeIntervalSince1970 - strongSelf.lastCardsUpdateRequest > 0.1 else {
+                return
+            }
+
             SizeHelper.hearthstoneWindow.reload()
+
+            strongSelf.redrawTrackers(reset: reset)
         }
+    }
+
+    private func redrawTrackers(reset: Bool = false) {
         let settings = Settings.instance
         let game = Game.instance
 
@@ -146,9 +159,7 @@ class WindowManager {
         // secret helper
         if settings.showSecretHelper {
             if let secrets = game.opponentSecrets, secrets.allSecrets().count > 0 {
-                DispatchQueue.main.async { [weak self] in
-                    self?.secretTracker.setSecrets(secrets: secrets.allSecrets())
-                }
+                secretTracker.setSecrets(secrets: secrets.allSecrets())
                 show(controller: secretTracker, show: true, frame: SizeHelper.secretTrackerFrame())
             } else {
                 show(controller: secretTracker, show: false)
@@ -160,19 +171,10 @@ class WindowManager {
         // card hud
         if settings.showCardHuds {
             if game.gameStarted {
-                lastCardsUpdateRequest = Date().timeIntervalSince1970
-                let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(100)
-                DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-                    if Date().timeIntervalSince1970 - (self?.lastCardsUpdateRequest ??
-                            Date.distantPast.timeIntervalSince1970) > 0.1 {
-                        guard let hud = self?.cardHudContainer else { return }
-
-                        hud.update(entities: game.opponent.hand,
-                                   cardCount: game.opponent.handCount)
-                        self?.show(controller: hud, show: true,
-                                   frame: SizeHelper.cardHudContainerFrame())
-                    }
-                }
+                cardHudContainer.update(entities: game.opponent.hand,
+                                        cardCount: game.opponent.handCount)
+                show(controller: cardHudContainer, show: true,
+                           frame: SizeHelper.cardHudContainerFrame())
             } else {
                 show(controller: cardHudContainer, show: false)
             }
@@ -185,9 +187,7 @@ class WindowManager {
 
         if settings.playerBoardDamage {
             if game.gameStarted {
-                DispatchQueue.main.async { [weak self] in
-                    self?.playerBoardDamage.update(attack: board.player.damage)
-                }
+                playerBoardDamage.update(attack: board.player.damage)
                 show(controller: playerBoardDamage, show: true,
                      frame: SizeHelper.playerBoardDamageFrame())
             } else {
@@ -199,9 +199,7 @@ class WindowManager {
 
         if settings.opponentBoardDamage {
             if game.gameStarted {
-                DispatchQueue.main.async { [weak self] in
-                    self?.opponentBoardDamage.update(attack: board.opponent.damage)
-                }
+                opponentBoardDamage.update(attack: board.opponent.damage)
                 show(controller: opponentBoardDamage, show: true,
                      frame: SizeHelper.opponentBoardDamageFrame())
             } else {
@@ -215,12 +213,10 @@ class WindowManager {
 
         if settings.showOpponentTracker {
             // opponent tracker
-            DispatchQueue.main.async { [weak self] in
-                let cards = settings.clearTrackersOnGameEnd && game.gameEnded
-                    ? [] : game.opponent.opponentCardList
-                self?.opponentTracker.update(cards: cards, reset: reset)
-                self?.opponentTracker.setWindowSizes()
-            }
+            let cards = settings.clearTrackersOnGameEnd && game.gameEnded
+                ? [] : game.opponent.opponentCardList
+            opponentTracker.update(cards: cards, reset: reset)
+            opponentTracker.setWindowSizes()
 
             if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
                 rect = SizeHelper.opponentTrackerFrame()
@@ -241,10 +237,8 @@ class WindowManager {
 
         // player tracker
         if settings.showPlayerTracker {
-            DispatchQueue.main.async { [weak self] in
-                self?.playerTracker.update(cards: game.player.playerCardList, reset: reset)
-                self?.playerTracker.setWindowSizes()
-            }
+            playerTracker.update(cards: game.player.playerCardList, reset: reset)
+            playerTracker.setWindowSizes()
 
             if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
                 rect = SizeHelper.playerTrackerFrame()
