@@ -66,9 +66,9 @@ class TrackOBotLogin: NSWindowController {
         alert.alertStyle = style
         alert.messageText = message
         
-        alert.beginSheetModal(for: self.window!, completionHandler: { (response) in
+        alert.beginSheetModal(for: self.window!) { _ in
             completion()
-        }) 
+        }
     }
     
     private func endSheet() {

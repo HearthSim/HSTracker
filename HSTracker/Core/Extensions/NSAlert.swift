@@ -12,7 +12,7 @@ extension NSAlert {
     @discardableResult
     class func show(style: NSAlertStyle, message: String,
                     accessoryView: NSView? = nil, window: NSWindow? = nil,
-                    forceFront: Bool? = false, completion: (()->())? = nil) -> Bool {
+                    forceFront: Bool? = false, completion: ((Void) -> Void)? = nil) -> Bool {
         let alert = NSAlert()
         alert.alertStyle = style
         alert.messageText = message

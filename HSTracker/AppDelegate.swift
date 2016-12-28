@@ -56,7 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let config = Realm.Configuration(
             fileURL: destination.appendingPathComponent("hstracker.realm"),
             schemaVersion: 1,
-            migrationBlock: { migration, oldSchemaVersion in
+            migrationBlock: { _, oldSchemaVersion in
                 if oldSchemaVersion < 1 {
                     // version == 1 : add hearthstoneId in Deck, 
                     // automatically managed by realm, nothing to do here
@@ -192,13 +192,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 Thread.sleep(forTimeInterval: 0.5)
             }
 
-            OperationQueue.main.addOperation() {
+            OperationQueue.main.addOperation {
                 Game.instance.reset()
             }
         }
 
         let menuOperation = BlockOperation {
-            OperationQueue.main.addOperation() {
+            OperationQueue.main.addOperation {
                 Log.info?.message("Loading menu")
                 self.buildMenu()
             }

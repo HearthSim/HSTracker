@@ -69,7 +69,7 @@ class HearthstatsPreferences: NSViewController {
     @IBAction func loadDecks(_ sender: Any) {
         do {
             loader.startAnimation(self)
-            try HearthstatsAPI.loadDecks(force: true) { (success, newDecks) in
+            try HearthstatsAPI.loadDecks(force: true) { _, _ in
                 self.loader.stopAnimation(self)
             }
         } catch HearthstatsError.notLogged {

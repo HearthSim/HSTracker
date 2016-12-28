@@ -150,7 +150,7 @@ class PowerGameStateHandler {
                                 let id = tmpEntity[.entity_id]
                                 if game.entities[id] != .none {
                                     game.entities[id]!.name = tmpEntity.name
-                                    tmpEntity.tags.forEach({ (gameTag, val) -> () in
+                                    tmpEntity.tags.forEach({ gameTag, val -> Void in
                                         tagChangeHandler.tagChange(game: game,
                                             tag: gameTag,
                                             id: id,

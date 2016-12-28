@@ -103,8 +103,7 @@ final class ImageDownloader {
 
             URLSession.shared
                 .downloadTask(with: URLRequest(url: url),
-                              completionHandler: {
-                                (url, response, error) -> Void in
+                              completionHandler: { (url, _, error) -> Void in
                                 if error != nil {
                                     Log.error?.message("download error \(error)")
                                     self.downloadImages(language: language,

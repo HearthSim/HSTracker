@@ -29,7 +29,7 @@ struct Http {
                                                 return
         }
 
-        Http.session.dataTask(with: urlRequest, completionHandler: { data, response, error in
+        Http.session.dataTask(with: urlRequest, completionHandler: { data, _, error in
             Log.info?.message("Fetching \(self.url) complete")
 
             if let error = error {
@@ -217,8 +217,8 @@ extension Http {
         let acceptEncoding: String = "gzip;q=1.0, compress;q=0.5"
 
         // Accept-Language HTTP Header; see https://tools.ietf.org/html/rfc7231#section-5.3.5
-        let acceptLanguage = Locale.preferredLanguages.prefix(6).enumerated().map {
-            index, languageCode in
+        let acceptLanguage = Locale.preferredLanguages
+            .prefix(6).enumerated().map { index, languageCode in
             let quality = 1.0 - (Double(index) * 0.1)
             return "\(languageCode);q=\(quality)"
             }.joined(separator: ", ")

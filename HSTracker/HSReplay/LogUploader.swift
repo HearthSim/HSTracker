@@ -16,7 +16,7 @@ import RealmSwift
 class LogUploader {
     private static var inProgress: [UploaderItem] = []
     
-    static func upload(filename: String, completion: @escaping (UploadResult) -> ()) {
+    static func upload(filename: String, completion: @escaping (UploadResult) -> Void) {
         if !SSZipArchive.unzipFile(atPath: filename, toDestination: Paths.tmpReplays.path) {
             completion(.failed(error: "Can not unzip \(filename)"))
             return
@@ -89,7 +89,7 @@ class LogUploader {
 
     static func upload(logLines: [LogLine], game: Game? = nil, statistic: Statistic? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
-                       completion: @escaping (UploadResult) -> ()) {
+                       completion: @escaping (UploadResult) -> Void) {
         let log = logLines.sorted {
             if $0.time == $1.time {
                 return $0.nanoseconds < $1.nanoseconds
@@ -102,7 +102,7 @@ class LogUploader {
 
     static func upload(logLines: [String], game: Game? = nil, statistic: Statistic? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
-                       completion: @escaping (UploadResult) -> ()) {
+                       completion: @escaping (UploadResult) -> Void) {
         guard let token = Settings.instance.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))

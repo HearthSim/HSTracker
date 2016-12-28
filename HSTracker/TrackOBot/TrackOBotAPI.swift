@@ -18,7 +18,7 @@ struct TrackOBotAPI {
     
     // MARK: - Authentication
     static func login(username: String, token: String,
-                      callback: @escaping (_ success: Bool, _ message: String) -> ()) {
+                      callback: @escaping (_ success: Bool, _ message: String) -> Void) {
         let http = Http(url: "\(baseUrl)/profile/history.json")
         http.json(method: .get,
                   parameters: ["username": username, "token": token]) { json in

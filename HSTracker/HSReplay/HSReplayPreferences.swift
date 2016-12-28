@@ -77,7 +77,7 @@ class HSReplayPreferences: NSViewController {
             return
         }
         
-        HSReplayAPI.updateAccountStatus() { (status) in
+        HSReplayAPI.updateAccountStatus { (status) in
             self.requests += 1
             if status {
                 self.getAccountTimer?.invalidate()

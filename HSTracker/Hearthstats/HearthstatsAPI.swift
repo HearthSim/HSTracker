@@ -170,7 +170,7 @@ struct HearthstatsAPI {
 
     // MARK: - Authentication
     static func login(email: String, password: String,
-                      callback: @escaping (_ success: Bool, _ message: String) -> ()) {
+                      callback: @escaping (_ success: Bool, _ message: String) -> Void) {
         let http = Http(url: "\(baseUrl)/users/sign_in")
         http.json(method: .post,
                   parameters: ["user_login": ["email": email, "password": password ]]) { json in
@@ -207,7 +207,7 @@ struct HearthstatsAPI {
     }
 
     static func loadDecks(force: Bool = false,
-                          callback: @escaping (_ success: Bool, _ added: Int) -> ()) throws {
+                          callback: @escaping (_ success: Bool, _ added: Int) -> Void) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
         if force {
@@ -218,7 +218,8 @@ struct HearthstatsAPI {
 
     // MARK: - decks
     private static func getDecks(since unixTime: Double,
-                                 callback: @escaping (_ success: Bool, _ added: Int) -> ()) throws {
+                                 callback:
+        @escaping (_ success: Bool, _ added: Int) -> Void) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
@@ -264,7 +265,7 @@ struct HearthstatsAPI {
         }
     }
 
-    static func post(deck: Deck, callback: @escaping (_ success: Bool) -> ()) throws {
+    static func post(deck: Deck, callback: @escaping (_ success: Bool) -> Void) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
@@ -305,7 +306,7 @@ struct HearthstatsAPI {
         }
     }
 
-    static func update(deck: Deck, callback: @escaping (_ success: Bool) -> ()) throws {
+    static func update(deck: Deck, callback: @escaping (_ success: Bool) -> Void) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
@@ -328,7 +329,8 @@ struct HearthstatsAPI {
         }
     }
 
-    static func post(deckVersion deck: Deck, callback: @escaping (_ success: Bool) -> ()) throws {
+    static func post(deckVersion deck: Deck,
+                     callback: @escaping (_ success: Bool) -> Void) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 
@@ -380,7 +382,7 @@ struct HearthstatsAPI {
 
     // MARK: - matches
     static func getGames(since unixTime: Double,
-                         callback: @escaping (_ success: Bool) -> ()) throws {
+                         callback: @escaping (_ success: Bool) -> Void) throws {
         let settings = Settings.instance
         guard let _ = settings.hearthstatsToken else { throw HearthstatsError.notLogged }
 

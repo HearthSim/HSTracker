@@ -30,11 +30,13 @@ struct ImageUtils {
         }
     }
 
-    static func tile(for card: Card, completion: @escaping ((NSImage?) -> ())) -> NSImage? {
+    static func tile(for card: Card,
+                     completion: @escaping ((NSImage?) -> Void)) -> NSImage? {
         return tile(for: card.id, completion: completion)
     }
 
-    static func tile(for card: String, completion: @escaping ((NSImage?) -> ())) -> NSImage? {
+    static func tile(for card: String,
+                     completion: @escaping ((NSImage?) -> Void)) -> NSImage? {
         // Check in resource bundle
         if let image = NSImage(contentsOfFile:
             "\(Bundle.main.resourcePath!)/Resources/Small/\(card).png") {
@@ -53,7 +55,7 @@ struct ImageUtils {
         Log.verbose?.message("downloading \(url) to \(path)")
 
         DispatchQueue.global().async {
-            URLSession.shared.dataTask(with: url) { data, response, error in
+            URLSession.shared.dataTask(with: url) { data, _, error in
                 if error != nil {
                     Log.error?.message("download error \(error)")
                 } else if let data = data,

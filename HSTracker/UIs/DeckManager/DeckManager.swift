@@ -211,9 +211,9 @@ class DeckManager: NSWindowController {
         statistics = Statistics(windowNibName: "Statistics")
         if let statistics = statistics {
             statistics.deck = currentDeck
-            self.window!.beginSheet(statistics.window!, completionHandler: { (returnCode) in
+            self.window!.beginSheet(statistics.window!) { _ in
                 self.refreshDecks()
-            })
+            }
         }
     }
 

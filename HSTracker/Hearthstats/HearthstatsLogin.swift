@@ -26,7 +26,7 @@ class HearthstatsLogin: NSWindowController {
         HearthstatsAPI.login(email: email.stringValue,
                              password: password.stringValue) { (success, message) in
             if success {
-                self.loadDecks() { (success) -> (Void) in
+                self.loadDecks { _ in
                     let message = NSLocalizedString("You are now connected to Hearthstats",
                                                     comment: "")
                     self.displayAlert(style: .informational, message: message) {
@@ -67,14 +67,14 @@ class HearthstatsLogin: NSWindowController {
         alert.alertStyle = style
         alert.messageText = message
 
-        alert.beginSheetModal(for: self.window!, completionHandler: { (response) in
+        alert.beginSheetModal(for: self.window!) { _ in
             completion()
-        }) 
+        }
     }
 
     private func loadDecks(completion: @escaping (Bool) -> (Void)) {
         do {
-            try HearthstatsAPI.loadDecks(force: true) { (success, newDecks) in
+            try HearthstatsAPI.loadDecks(force: true) { success, _ in
                 completion(success)
             }
         } catch HearthstatsError.notLogged {

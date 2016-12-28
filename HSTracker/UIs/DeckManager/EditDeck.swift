@@ -136,8 +136,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
 
     func initKeyboardShortcuts() {
-        self.monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
-            (e) -> NSEvent? in
+        self.monitor = NSEvent
+            .addLocalMonitorForEvents(matching: .keyDown) { (e) -> NSEvent? in
 
             let isCmd = e.modifierFlags.contains(.command)
 

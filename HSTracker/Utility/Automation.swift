@@ -11,7 +11,7 @@ import Foundation
 struct Automation {
     private var queue: DispatchQueue = DispatchQueue(label: "export.hstracker", attributes: [])
     
-    func expertDeckToHearthstone(deck: Deck, callback: (()->())?) {
+    func expertDeckToHearthstone(deck: Deck, callback: (() -> Void)?) {
         queue.async {
             // bring HS to front
             Hearthstone.instance.bringToFront()

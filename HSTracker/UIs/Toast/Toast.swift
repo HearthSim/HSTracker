@@ -34,7 +34,7 @@ class Toast {
     }()
    
     class func show(title: String, message: String? = nil, duration: Double? = 3,
-                    action: (() -> ())? = nil) {
+                    action: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             let panel = ToastPanel(title: title,
                                    message: message,
@@ -56,13 +56,13 @@ class Toast {
         private var title: String?
         private var message: String?
         fileprivate var duration: Double = 3
-        private var action: (() -> ())?
+        private var action: (() -> Void)?
         
         private let buttonWidth: CGFloat = 80
         private var inClick = false
         
         convenience init(title: String, message: String? = nil, duration: Double? = nil,
-                         action: (() -> ())? = nil) {
+                         action: (() -> Void)? = nil) {
             self.init()
             
             self.title = title

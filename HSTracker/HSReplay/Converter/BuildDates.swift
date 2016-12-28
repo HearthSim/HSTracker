@@ -76,8 +76,7 @@ struct BuildDates {
 
             if let url = URL(string: cardUrl) {
                 URLSession.shared
-                    .dataTask(with: url, completionHandler: {
-                        (data, response, error) in
+                    .dataTask(with: url, completionHandler: { data, _, error in
                         if let data = data {
                             let dir = Paths.cardJson
                             let dest = dir.appendingPathComponent("cardsDB.\(locale).json")
