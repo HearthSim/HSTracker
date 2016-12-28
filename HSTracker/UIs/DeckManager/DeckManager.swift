@@ -306,21 +306,19 @@ class DeckManager: NSWindowController {
         }
     }
 
-    @IBAction func useDeck(_ sender: AnyObject?) {
-        if (sender as? NSToolbarItem) != nil {
-            self.useDeck(currentDeck)
-        } else if let menuitem = sender as? NSMenuItem {
-            if let menu = menuitem.menu {
-                if let deckmenu = menu as? DeckContextMenu {
-                    if deckmenu.clickedrow >= 0 {
-                        self.useDeck(sortedFilteredDecks()[deckmenu.clickedrow])
-                    }
-                }
-            }
+    @IBAction func useDeck(_ sender: Any?) {
+        if let _ = sender as? NSToolbarItem,
+            let deck = currentDeck {
+            useDeck(deck: deck)
+        } else if let menuitem = sender as? NSMenuItem,
+            let menu = menuitem.menu,
+            let deckmenu = menu as? DeckContextMenu,
+            deckmenu.clickedrow >= 0 {
+            useDeck(deck: sortedFilteredDecks()[deckmenu.clickedrow])
         }
     }
-    
-    private func useDeck(_ deck: Deck) {
+
+    private func useDeck(deck: Deck) {
         if !deck.isActive {
             do {
                 let realm = try Realm()
@@ -338,21 +336,17 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func deleteDeck(_ sender: AnyObject?) {
-        if (sender as? NSToolbarItem) != nil {
-            if let deck = currentDeck {
-                deleteDeck(deck)
-            }
-        } else if let menuitem = sender as? NSMenuItem {
-            if let menu = menuitem.menu {
-                if let deckmenu = menu as? DeckContextMenu {
-                    if deckmenu.clickedrow >= 0 {
-                        deleteDeck(sortedFilteredDecks()[deckmenu.clickedrow])
-                    }
-                }
-            }
+        if let _ = sender as? NSToolbarItem,
+            let deck = currentDeck {
+            deleteDeck(deck)
+        } else if let menuitem = sender as? NSMenuItem,
+            let menu = menuitem.menu,
+            let deckmenu = menu as? DeckContextMenu,
+            deckmenu.clickedrow >= 0 {
+            deleteDeck(sortedFilteredDecks()[deckmenu.clickedrow])
         }
     }
-    
+
     private func deleteDeck(_ deck: Deck) {
         let message = String(format: NSLocalizedString("Are you sure you want to delete "
             + "the deck %@ ?", comment: ""), deck.name)

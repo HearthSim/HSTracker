@@ -17,6 +17,9 @@ Starting from this version, HSTracker is signed with my Apple developper account
 ## New:
 - Add a jade counter
 
+## Fixes:
+- The "Use deck" in the deck manager is working again
+
 # 0.18.5
 ## Fixes:
 - HSTracker now correctly save the opponent deck on game end
