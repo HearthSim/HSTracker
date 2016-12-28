@@ -11,6 +11,9 @@
 /* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
 "eGQ-pE-MU0.title" = "Clear opponent tracker on game end";
 
+/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "BFR-Pw-i1H"; */
+"BFR-Pw-i1H.title" = "Show Jade Counter";
+
 /* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
 "iqA-b1-owW.title" = "Show opponent card count";
 

@@ -37,3 +37,6 @@
 
 /* Class = "NSButtonCell"; title = "Show graveyard"; ObjectID = "D65-CQ-243"; */
 "D65-CQ-243.title" = "Zeige Graveyard";
+
+/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
+"MDW-Ea-Q6M.title" = "Show Jade Counter";

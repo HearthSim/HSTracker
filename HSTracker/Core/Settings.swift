@@ -156,6 +156,10 @@ final class Settings {
         set { set(name: "player_graveyard_details_frame", value: newValue) }
         get { return get(name: "player_graveyard_details_frame") as? Bool ?? true }
     }
+    var showPlayerJadeCounter: Bool {
+        set { set(name: "player_jade_frame", value: newValue) }
+        get { return get(name: "player_jade_frame") as? Bool ?? true }
+    }
     var showOpponentCthun: Bool {
         set { set(name: "opponent_cthun_frame", value: newValue) }
         get { return get(name: "opponent_cthun_frame") as? Bool ?? true }
@@ -175,6 +179,10 @@ final class Settings {
     var showOpponentGraveyardDetails: Bool {
         set { set(name: "opponent_graveyard_details_frame", value: newValue) }
         get { return get(name: "opponent_graveyard_details_frame") as? Bool ?? true }
+    }
+    var showOpponentJadeCounter: Bool {
+        set { set(name: "opponent_jade_frame", value: newValue) }
+        get { return get(name: "opponent_jade_frame") as? Bool ?? true }
     }
     var removeCardsFromDeck: Bool {
         set { set(name: "remove_cards_from_deck", value: newValue) }

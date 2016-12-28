@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OpponentTrackersPreferences" customModule="HSTracker" customModuleProvider="target">
@@ -14,6 +15,7 @@
                 <outlet property="showDeathrattleCounter" destination="U2A-tO-ePh" id="deO-Wh-znY"/>
                 <outlet property="showGraveyard" destination="Uzg-vA-1f9" id="UEn-1g-mXh"/>
                 <outlet property="showGraveyardDetails" destination="p7I-gn-bIA" id="RHo-7Z-rjc"/>
+                <outlet property="showJadeCounter" destination="zhq-ub-Guc" id="so4-1B-sXe"/>
                 <outlet property="showOpponentCardCount" destination="vlC-Xd-bPQ" id="nGN-hb-FIG"/>
                 <outlet property="showOpponentDrawChance" destination="wnH-Tv-Haz" id="ZAv-yW-h6X"/>
                 <outlet property="showOpponentTracker" destination="bt4-kn-GjS" id="dK1-dQ-v0r"/>
@@ -25,11 +27,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="326"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="352"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="bt4-kn-GjS">
-                    <rect key="frame" x="18" y="290" width="444" height="18"/>
+                    <rect key="frame" x="18" y="316" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show opponent tracker" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MLJ-7t-LVJ">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -39,7 +41,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Jvp-6c-HZ0">
-                    <rect key="frame" x="18" y="266" width="444" height="18"/>
+                    <rect key="frame" x="18" y="292" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show opponent in-hand card huds" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="50X-Tt-yJa">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -49,7 +51,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="npw-Sr-U97">
-                    <rect key="frame" x="18" y="242" width="444" height="18"/>
+                    <rect key="frame" x="18" y="268" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Clear opponent tracker on game end" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eGQ-pE-MU0">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -59,7 +61,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="vlC-Xd-bPQ">
-                    <rect key="frame" x="18" y="218" width="444" height="18"/>
+                    <rect key="frame" x="18" y="244" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show opponent card count" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="iqA-b1-owW">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -69,7 +71,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="wnH-Tv-Haz">
-                    <rect key="frame" x="18" y="194" width="444" height="18"/>
+                    <rect key="frame" x="18" y="220" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show opponent draw chance" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="avf-qA-8vU">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -79,7 +81,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="gyI-vB-68v">
-                    <rect key="frame" x="18" y="170" width="444" height="18"/>
+                    <rect key="frame" x="18" y="196" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show C'Thun counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RyA-1i-LPY">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -89,7 +91,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="5FC-P8-tb7">
-                    <rect key="frame" x="18" y="146" width="444" height="18"/>
+                    <rect key="frame" x="18" y="172" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Spell counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="9eg-6X-x7A">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -99,7 +101,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Vgg-OU-9bx">
-                    <rect key="frame" x="18" y="122" width="444" height="18"/>
+                    <rect key="frame" x="18" y="148" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Include created cards" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="PrR-2g-WEA">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -109,7 +111,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="U2A-tO-ePh">
-                    <rect key="frame" x="18" y="98" width="444" height="18"/>
+                    <rect key="frame" x="18" y="124" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Deathrattle counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aZW-kf-zpy">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -119,7 +121,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="AOs-wd-f13">
-                    <rect key="frame" x="18" y="74" width="444" height="18"/>
+                    <rect key="frame" x="18" y="100" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show player class and name" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="aW1-2y-nKx">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -129,7 +131,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="mB7-0k-NWy">
-                    <rect key="frame" x="18" y="50" width="444" height="18"/>
+                    <rect key="frame" x="18" y="76" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show board damage" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fah-Dr-Amh">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -139,7 +141,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Uzg-vA-1f9">
-                    <rect key="frame" x="18" y="26" width="119" height="18"/>
+                    <rect key="frame" x="18" y="52" width="119" height="18"/>
                     <buttonCell key="cell" type="check" title="Show graveyard" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="W6j-bY-6aE">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -149,7 +151,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p7I-gn-bIA">
-                    <rect key="frame" x="209" y="26" width="199" height="18"/>
+                    <rect key="frame" x="209" y="52" width="199" height="18"/>
                     <buttonCell key="cell" type="check" title="Cardlist opens on mouseover" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="pMP-qQ-LuR">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -158,9 +160,21 @@
                         <action selector="checkboxClicked:" target="-2" id="D55-Rn-0hs"/>
                     </connections>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="zhq-ub-Guc">
+                    <rect key="frame" x="18" y="28" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Jade Counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="BFR-Pw-i1H">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Nr7-jM-ot5"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="AOs-wd-f13" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="0Js-eO-zSN"/>
+                <constraint firstItem="zhq-ub-Guc" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="0Lv-x0-nxe"/>
+                <constraint firstItem="zhq-ub-Guc" firstAttribute="top" secondItem="Uzg-vA-1f9" secondAttribute="bottom" constant="10" id="0Of-6B-Sah"/>
                 <constraint firstAttribute="trailing" secondItem="AOs-wd-f13" secondAttribute="trailing" constant="20" id="2Tl-q2-G3B"/>
                 <constraint firstItem="U2A-tO-ePh" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="32v-o9-tFI"/>
                 <constraint firstItem="wnH-Tv-Haz" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="35e-nJ-AOI"/>
@@ -191,6 +205,7 @@
                 <constraint firstAttribute="trailing" secondItem="gyI-vB-68v" secondAttribute="trailing" constant="20" id="fBk-sv-jbb"/>
                 <constraint firstItem="5FC-P8-tb7" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="gKd-cF-eQD"/>
                 <constraint firstItem="Uzg-vA-1f9" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="jdc-H9-hJP"/>
+                <constraint firstAttribute="trailing" secondItem="zhq-ub-Guc" secondAttribute="trailing" constant="20" symbolic="YES" id="kUY-0F-crO"/>
                 <constraint firstItem="npw-Sr-U97" firstAttribute="top" secondItem="Jvp-6c-HZ0" secondAttribute="bottom" constant="10" id="ldb-kG-Ti9"/>
                 <constraint firstItem="Jvp-6c-HZ0" firstAttribute="top" secondItem="bt4-kn-GjS" secondAttribute="bottom" constant="10" id="m3m-BI-GTn"/>
                 <constraint firstAttribute="trailing" secondItem="bt4-kn-GjS" secondAttribute="trailing" constant="20" id="oMQ-pI-8mt"/>
@@ -198,7 +213,7 @@
                 <constraint firstItem="p7I-gn-bIA" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="211" id="vcW-In-TJo"/>
                 <constraint firstItem="Jvp-6c-HZ0" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="xJU-nq-SJM"/>
             </constraints>
-            <point key="canvasLocation" x="476" y="332"/>
+            <point key="canvasLocation" x="476" y="345"/>
         </customView>
     </objects>
 </document>

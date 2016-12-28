@@ -17,6 +17,9 @@
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
 "Tex-bu-toa.title" = "Mostrar contador do C'Thun";
 
+/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
+"MDW-Ea-Q6M.title" = "Show Jade Counter";
+
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "IPf-hF-E74"; */
 "IPf-hF-E74.title" = "Mostrar contador de Último Suspiro";
 

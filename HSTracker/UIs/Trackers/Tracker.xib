@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="Tracker" customModule="HSTracker" customModuleProvider="target">
@@ -10,6 +11,7 @@
                 <outlet property="cardsView" destination="naK-zt-rPm" id="SQk-kS-AJ7"/>
                 <outlet property="fatigueTracker" destination="5Jh-EI-M0W" id="ygD-EJ-ZeH"/>
                 <outlet property="graveyardCounter" destination="aFR-AO-2Vy" id="ukz-pX-hST"/>
+                <outlet property="jadeCounter" destination="Ze5-XI-jWd" id="v7n-Xu-qv5"/>
                 <outlet property="opponentDrawChance" destination="Slp-Ya-S9h" id="R3r-Tb-bap"/>
                 <outlet property="playerClass" destination="YeM-kJ-hCT" id="xGi-5X-mTq"/>
                 <outlet property="playerDrawChance" destination="UC5-o5-y78" id="9EG-lm-GA7"/>
@@ -63,6 +65,10 @@
                     </customView>
                     <customView id="aFR-AO-2Vy" customClass="GraveyardCounter" customModule="HSTracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="100" width="217" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView misplaced="YES" id="Ze5-XI-jWd" customClass="JadeCounter" customModule="HSTracker" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="52" width="217" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                 </subviews>

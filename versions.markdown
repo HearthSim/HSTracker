@@ -6,12 +6,16 @@ Syncing causes your local decks to lose their MSG cards. HearthStats support is 
 We are very sorry about the inconvenience and are working on a much improved replacement system!
 
 ## Breaking change 2
-In order to sign properly HSTracker with my Apple developper account, you have to download manually this version from [hsdecktracker.net](https://hsdecktracker.net/hstracker/download/)
+Starting from this version, HSTracker is signed with my Apple developper account. You have to download manually this version from [hsdecktracker.net](https://hsdecktracker.net/hstracker/download/) since the update system will not allow this signature change.
 
 ## Changes:
-- Improve the new deck window
+- Improve the "new deck" window
+- Improve the tracker "refresh"
 - Add a option to fully reset your HSReplay account
 - Better support for MSG cards
+
+## New:
+- Add a jade counter
 
 # 0.18.5
 ## Fixes:

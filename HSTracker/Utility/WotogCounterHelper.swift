@@ -13,18 +13,22 @@ class WotogCounterHelper {
         return Game.instance.player.playerEntities
             .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.Cthun })
     }
+
     static var playerCthunProxy: Entity? {
         return Game.instance.player.playerEntities
             .firstWhere({ $0.cardId == CardIds.NonCollectible.Neutral.Cthun })
     }
+
     static var playerYogg: Entity? {
         return Game.instance.player.playerEntities
             .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.YoggSaronHopesEnd })
     }
+
     static var playerNzoth: Entity? {
         return Game.instance.player.playerEntities
             .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.NzothTheCorruptor })
     }
+
     static var playerArcaneGiant: Entity? {
         return Game.instance.player.playerEntities
             .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.ArcaneGiant
@@ -35,6 +39,7 @@ class WotogCounterHelper {
         return Game.instance.opponent.playerEntities
             .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.Cthun })
     }
+
     static var opponentCthunProxy: Entity? {
         return Game.instance.opponent.playerEntities
             .firstWhere({ $0.cardId == CardIds.NonCollectible.Neutral.Cthun })
@@ -43,18 +48,41 @@ class WotogCounterHelper {
     static var playerSeenCthun: Bool {
         return Game.instance.playerEntity?.has(tag: .seen_cthun) ?? false
     }
+
     static var opponentSeenCthun: Bool {
         return Game.instance.opponentEntity?.has(tag: .seen_cthun) ?? false
     }
+
+    static var playerSeenJade: Bool {
+        return Game.instance.playerEntity?.has(tag: .jade_golem) ?? false
+    }
+
+    static var playerNextJadeGolem: Int {
+        let jade = Game.instance.playerEntity?[.jade_golem] ?? 0
+        return playerSeenJade ? min(jade + 1, 30) : 1
+    }
+
+    static var opponentSeenJade: Bool {
+        return Game.instance.opponentEntity?.has(tag: .jade_golem) ?? false
+    }
+
+    static var opponentNextJadeGolem: Int {
+        let jade = Game.instance.opponentEntity?[.jade_golem] ?? 0
+        return opponentSeenJade ? min(jade + 1, 30) : 1
+    }
+
     static var cthunInDeck: Bool? {
         return deckContains(cardId: CardIds.Collectible.Neutral.Cthun)
     }
+
     static var yoggInDeck: Bool? {
         return deckContains(cardId: CardIds.Collectible.Neutral.YoggSaronHopesEnd)
     }
+
     static var arcaneGiantInDeck: Bool? {
         return deckContains(cardId: CardIds.Collectible.Neutral.ArcaneGiant)
     }
+
     static var nzothInDeck: Bool? {
         return deckContains(cardId: CardIds.Collectible.Neutral.NzothTheCorruptor)
     }
@@ -78,6 +106,14 @@ class WotogCounterHelper {
     
     static var showPlayerGraveyard: Bool {
         return Settings.instance.showPlayerGraveyard
+    }
+
+    static var showPlayerJadeCounter: Bool {
+        return Settings.instance.showPlayerJadeCounter && playerSeenJade
+    }
+
+    static var showOpponentJadeCounter: Bool {
+        return Settings.instance.showOpponentJadeCounter && opponentSeenJade
     }
 
     static var showOpponentCthunCounter: Bool {

@@ -25,6 +25,7 @@ class PlayerTrackersPreferences: NSViewController {
     @IBOutlet weak var showDeckName: NSButton!
     @IBOutlet weak var showGraveyard: NSButton!
     @IBOutlet weak var showGraveyardDetails: NSButton!
+    @IBOutlet weak var showJadeCounter: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +44,8 @@ class PlayerTrackersPreferences: NSViewController {
         showDeckName.state = settings.showDeckNameInTracker ? NSOnState : NSOffState
         showGraveyard.state = settings.showPlayerGraveyard ? NSOnState : NSOffState
         showGraveyardDetails.state = settings.showPlayerGraveyardDetails ? NSOnState : NSOffState
-        if showGraveyard.state == NSOnState {
-            showGraveyardDetails.isEnabled = true
-        } else {
-            showGraveyardDetails.isEnabled = false
-        }
+        showGraveyardDetails.isEnabled = showGraveyard.state == NSOnState
+        showJadeCounter.state = settings.showPlayerJadeCounter ? NSOnState : NSOffState
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
@@ -91,8 +89,9 @@ class PlayerTrackersPreferences: NSViewController {
             }
         } else if sender == showGraveyardDetails {
             settings.showPlayerGraveyardDetails = showGraveyardDetails.state == NSOnState
+        } else if sender == showJadeCounter {
+            settings.showPlayerJadeCounter = showJadeCounter.state == NSOnState
         }
-        
     }
 }
 

@@ -24,7 +24,8 @@ class OpponentTrackersPreferences: NSViewController {
     @IBOutlet weak var showBoardDamage: NSButton!
     @IBOutlet weak var showGraveyard: NSButton!
     @IBOutlet weak var showGraveyardDetails: NSButton!
-    
+    @IBOutlet weak var showJadeCounter: NSButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let settings = Settings.instance
@@ -41,11 +42,8 @@ class OpponentTrackersPreferences: NSViewController {
         showBoardDamage.state = settings.opponentBoardDamage ? NSOnState : NSOffState
         showGraveyard.state = settings.showOpponentGraveyard ? NSOnState : NSOffState
         showGraveyardDetails.state = settings.showOpponentGraveyardDetails ? NSOnState : NSOffState
-        if showGraveyard.state == NSOnState {
-            showGraveyardDetails.isEnabled = true
-        } else {
-            showGraveyardDetails.isEnabled = false
-        }
+        showGraveyardDetails.isEnabled = showGraveyard.state == NSOnState
+        showJadeCounter.state = settings.showOpponentJadeCounter ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -82,6 +80,8 @@ class OpponentTrackersPreferences: NSViewController {
             }
         } else if sender == showGraveyardDetails {
             settings.showOpponentGraveyardDetails = showGraveyardDetails.state == NSOnState
+        } else if sender == showJadeCounter {
+            settings.showOpponentJadeCounter = showJadeCounter.state == NSOnState
         }
     }
 }

@@ -23,6 +23,9 @@
 /* Class = "NSButtonCell"; title = "Flash on card draw"; ObjectID = "gpo-Wo-m50"; */
 "gpo-Wo-m50.title" = "Flash on card draw";
 
+/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
+"MDW-Ea-Q6M.title" = "Show Jade Counter";
+
 /* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "oIi-8e-cCP"; */
 "oIi-8e-cCP.title" = "Show win-loss ratio";
 

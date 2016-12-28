@@ -230,6 +230,7 @@
 		43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
 		43A12C8D1CA562B500090BFE /* HearthstatsLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */; };
 		43A12C931CA568A800090BFE /* HearthstatsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */; };
+		43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */; };
 		43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */; };
 		43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
 		43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695511C903A3600F4D0AC /* KeyPointType.swift */; };
@@ -433,7 +434,6 @@
 		432B5FD31CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Splashscreen.strings; sourceTree = "<group>"; };
 		432B5FD41CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		432B5FD51CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GamePreferences.strings; sourceTree = "<group>"; };
-		432B5FD61CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
 		432B5FD81CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FD91CB5492500B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/DeckManager.strings; sourceTree = "<group>"; };
 		432B5FDA1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/NewDeck.strings; sourceTree = "<group>"; };
@@ -608,7 +608,6 @@
 		437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WotogCounterHelper.swift; sourceTree = "<group>"; };
 		437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentTrackersPreferences.swift; sourceTree = "<group>"; };
 		437B5BB71CD2559300DE0A41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OpponentTrackersPreferences.xib; sourceTree = "<group>"; };
-		437B5BBB1CD255AF00DE0A41 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BBC1CD255B200DE0A41 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BBD1CD255B300DE0A41 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BBE1CD255B500DE0A41 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
@@ -696,6 +695,9 @@
 		43A12C861CA3D24800090BFE /* SaveDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveDeck.swift; sourceTree = "<group>"; };
 		43A12C8C1CA562B500090BFE /* HearthstatsLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsLogin.swift; sourceTree = "<group>"; };
 		43A12C921CA568A800090BFE /* HearthstatsPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HearthstatsPreferences.swift; sourceTree = "<group>"; };
+		43A8A0ED1E0BBA4600AF34FD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
+		43A8A0EF1E0BBB4700AF34FD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
+		43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JadeCounter.swift; sourceTree = "<group>"; };
 		43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeActions.swift; sourceTree = "<group>"; };
 		43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKeyPoint.swift; sourceTree = "<group>"; };
 		43B695511C903A3600F4D0AC /* KeyPointType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPointType.swift; sourceTree = "<group>"; };
@@ -1246,6 +1248,7 @@
 				43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */,
 				43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */,
 				BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */,
+				43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */,
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
 			);
 			path = Trackers;
@@ -1608,6 +1611,7 @@
 				43EECB961C7DE3BA0077AC1B /* DeckCellView.swift in Sources */,
 				434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */,
 				4359BF7F1D51F2EE00F61993 /* TrackOBotAPI.swift in Sources */,
+				43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */,
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
@@ -1839,12 +1843,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				432B5FB41CB5371C00B05D19 /* Base */,
-				432B5FD61CB5378B00B05D19 /* fr */,
 				432B5FE11CB5492600B05D19 /* de */,
 				432B5FEC1CB549F100B05D19 /* es */,
 				432B5FF71CB54A3600B05D19 /* it */,
 				432B60021CB54A6800B05D19 /* pt-BR */,
 				432B600D1CB54AD700B05D19 /* zh-Hans */,
+				43A8A0ED1E0BBA4600AF34FD /* fr */,
 			);
 			name = PlayerTrackersPreferences.xib;
 			sourceTree = "<group>";
@@ -2050,12 +2054,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				437B5BB71CD2559300DE0A41 /* Base */,
-				437B5BBB1CD255AF00DE0A41 /* fr */,
 				437B5BBC1CD255B200DE0A41 /* de */,
 				437B5BBD1CD255B300DE0A41 /* es */,
 				437B5BBE1CD255B500DE0A41 /* it */,
 				437B5BBF1CD255B600DE0A41 /* pt-BR */,
 				437B5BC01CD255B800DE0A41 /* zh-Hans */,
+				43A8A0EF1E0BBB4700AF34FD /* fr */,
 			);
 			name = OpponentTrackersPreferences.xib;
 			sourceTree = "<group>";

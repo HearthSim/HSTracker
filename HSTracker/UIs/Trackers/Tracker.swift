@@ -23,6 +23,7 @@ class Tracker: OverWindowController {
     @IBOutlet weak var recordTracker: StringTracker!
     @IBOutlet weak var fatigueTracker: StringTracker!
     @IBOutlet weak var graveyardCounter: GraveyardCounter!
+    @IBOutlet weak var jadeCounter: JadeCounter!
     
     var heroCard: Card?
     var animatedCards: [CardBar] = []
@@ -209,8 +210,10 @@ class Tracker: OverWindowController {
         let showCthunCounter: Bool
         let showSpellCounter: Bool
         let showDeathrattleCounter: Bool
+        let showJadeCounter: Bool
         let showGraveyard: Bool
         let proxy: Entity?
+        let jade: Int
 
         if playerType == .opponent {
             cardCounter.isHidden = !settings.showOpponentCardCount
@@ -221,9 +224,11 @@ class Tracker: OverWindowController {
             showSpellCounter = WotogCounterHelper.showOpponentSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showOpponentDeathrattleCounter
             showGraveyard = WotogCounterHelper.showOpponentGraveyard
+            showJadeCounter = WotogCounterHelper.showOpponentJadeCounter
             proxy = WotogCounterHelper.opponentCthunProxy
             playerClass.isHidden = !settings.showOpponentClassInTracker
             recordTracker.isHidden = true
+            jade = WotogCounterHelper.opponentNextJadeGolem
         } else {
             cardCounter.isHidden = !settings.showPlayerCardCount
             opponentDrawChance.isHidden = true
@@ -233,12 +238,15 @@ class Tracker: OverWindowController {
             showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
             showDeathrattleCounter = WotogCounterHelper.showPlayerDeathrattleCounter
             showGraveyard = WotogCounterHelper.showPlayerGraveyard
+            showJadeCounter = WotogCounterHelper.showPlayerJadeCounter
             proxy = WotogCounterHelper.playerCthunProxy
             playerClass.isHidden = !settings.showDeckNameInTracker
             recordTracker.isHidden = !settings.showWinLossRatio
+            jade = WotogCounterHelper.playerNextJadeGolem
         }
         fatigueTracker.isHidden = !(settings.fatigueIndicator && player().fatigue > 0)
         graveyardCounter.isHidden = !showGraveyard
+        jadeCounter.isHidden = !showJadeCounter
 
         if let currentDeck = Game.instance.currentDeck, !recordTracker.isHidden {
             do {
@@ -285,6 +293,11 @@ class Tracker: OverWindowController {
         wotogCounter.health = proxy?.health ?? 6
         wotogCounter.spell = player().spellsPlayedCount
         wotogCounter.deathrattle = player().deathrattlesPlayedCount
+
+        if !jadeCounter.isHidden {
+            jadeCounter.nextJade = jade
+            jadeCounter.needsDisplay = true
+        }
 
         let graveyard = player().graveyard
         // map entitiy to card [count]
@@ -387,6 +400,9 @@ class Tracker: OverWindowController {
         if showGraveyard {
             offsetFrames += smallFrameHeight
         }
+        if showJadeCounter {
+            offsetFrames += smallFrameHeight
+        }
         if !recordTracker.isHidden {
             offsetFrames += smallFrameHeight
         }
@@ -485,6 +501,13 @@ class Tracker: OverWindowController {
                                          y: y,
                                          width: windowWidth,
                                          height: smallFrameHeight)
+        }
+        if !jadeCounter.isHidden {
+            y -= smallFrameHeight
+            jadeCounter.frame = NSRect(x: 0,
+                                          y: y,
+                                          width: windowWidth,
+                                          height: smallFrameHeight)
         }
     }
 

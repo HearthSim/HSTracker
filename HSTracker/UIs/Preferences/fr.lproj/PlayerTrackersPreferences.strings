@@ -14,6 +14,9 @@
 /* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
 "LGM-aC-rL6.title" = "Voir le compteur de sorts";
 
+/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
+"MDW-Ea-Q6M.title" = "Voir le compteur Jade";
+
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
 "Tex-bu-toa.title" = "Voir le compteur C'Thun";
 
