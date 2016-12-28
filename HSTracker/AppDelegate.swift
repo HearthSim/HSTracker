@@ -631,8 +631,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 extension AppDelegate: SUUpdaterDelegate {
-    func feedParameters(for updater: SUUpdater!,
-                        sendingSystemProfile sendingProfile: Bool) -> [Any]! {
+    func feedParameters(for updater: SUUpdater,
+                        sendingSystemProfile sendingProfile: Bool) -> [Any] {
         return BITSystemProfile.shared().systemUsageData().map { $0 }
     }
 }
