@@ -114,7 +114,7 @@ struct TagChangeActions {
             } else if entity.isInZone(zone: .play) {
                 game.opponentStolen(entity: entity, cardId: entity.cardId, turn: game.turnNumber())
             }
-        } else if value == game.opponent.id {
+        } else if value == game.opponent.id && prevValue != value {
             if entity.isInZone(zone: .secret) {
                 game.playerStolen(entity: entity, cardId: entity.cardId, turn: game.turnNumber())
                 game.proposeKeyPoint(type: .secretStolen, id: id, player: .player)
