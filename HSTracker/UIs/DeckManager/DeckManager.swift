@@ -353,6 +353,8 @@ class DeckManager: NSWindowController {
         
         NSAlert.show(style: .informational, message: message, window: self.window!) {
             self._deleteDeck(deck)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+                                            object: deck)
         }
     }
 
