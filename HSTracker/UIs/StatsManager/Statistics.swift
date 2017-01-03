@@ -20,7 +20,7 @@ class Statistics: NSWindowController {
     var statsTab: StatsTab?
     var ladderTab: LadderTab?
     
-    var tabSizes = [NSTabViewItem : CGSize]()
+    var tabSizes = [NSTabViewItem: CGSize]()
 
     override func windowDidLoad() {
         super.windowDidLoad()

@@ -22,11 +22,11 @@ class AppHealth: NSObject {
 
     static let instance = AppHealth()
     
-    private let badge_icons = ["undefined" : NSImage(named: "badge-icon-undefined")!,
-                               "gameinstalled" : NSImage(named: "badge-icon-gameinstalled")!,
-                               "trackerworks" : NSImage(named: "badge-icon-trackerworks")!,
-                               "gamerunning" : NSImage(named: "badge-icon-gamerunning")!,
-                               "gameinprogress" : NSImage(named: "badge-icon-gameinprogress")!]
+    private let badge_icons = ["undefined": NSImage(named: "badge-icon-undefined")!,
+                               "gameinstalled": NSImage(named: "badge-icon-gameinstalled")!,
+                               "trackerworks": NSImage(named: "badge-icon-trackerworks")!,
+                               "gamerunning": NSImage(named: "badge-icon-gamerunning")!,
+                               "gameinprogress": NSImage(named: "badge-icon-gameinprogress")!]
 
     override init() {
         level = .undefined
