@@ -76,8 +76,8 @@ struct TrackOBotAPI {
         }
 
         let startTime: Date
-        if let gameStartDate = game.gameStartDate {
-            startTime = gameStartDate as Date
+        if let gameStartDate = game.currentGameStats?.startTime {
+            startTime = gameStartDate
         } else {
             startTime = Date()
         }
@@ -89,7 +89,7 @@ struct TrackOBotAPI {
                 "mode": mode,
                 "coin": stat.hasCoin,
                 "rank": stat.playerRank,
-                "win": game.gameResult == .win,
+                "win": (game.currentGameStats?.result ?? GameResult.unknow) == .win,
                 "duration": stat.duration,
                 "added": startTime.timeIntervalSince1970,
                 "note": stat.note,

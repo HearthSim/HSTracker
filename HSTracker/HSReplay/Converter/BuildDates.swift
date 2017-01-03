@@ -131,7 +131,7 @@ struct BuildDates {
         return buildDate
     }
 
-    private static var latestBuild: BuildDate? {
+    static var latestBuild: BuildDate? {
         return knownBuildDates.sorted {
             $0.date < $1.date
         }.reversed().first

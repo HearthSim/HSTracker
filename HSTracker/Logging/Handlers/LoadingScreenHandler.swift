@@ -19,23 +19,26 @@ struct LoadingScreenHandler {
         if logLine.line.match(GameModeRegex) {
             let matches = logLine.line.matches(GameModeRegex)
             
-            game.currentMode = Mode(rawValue: matches[1].value.lowercased())
-            game.previousMode = Mode(rawValue: matches[0].value.lowercased())
-            
-            var newMode: GameMode?
-            if let mode = game.currentMode, let currentMode = getGameMode(mode: mode) {
-                newMode = currentMode
-            } else if let mode = game.currentMode, let currentMode = getGameMode(mode: mode) {
-                newMode = currentMode
-            }
-            
-            if let newMode = newMode {
-                Log.info?.message("Game mode : \(newMode)")
-                game.currentGameMode = newMode
-            }
+            game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
+            game.previousMode = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
+
+            Log.info?.message("Game mode from \(game.previousMode) to \(game.currentMode)")
+
             if game.previousMode == .gameplay && game.currentMode != .gameplay {
                 game.inMenu()
             }
+
+            if game.currentMode == .draft {
+                //Watchers.ArenaWatcher.Run();
+            } else if game.currentMode == .packopening {
+                //Watchers.PackWatcher.Run();
+            } else if game.currentMode == .tavern_brawl {
+                //Core.Game.CacheBrawlInfo();
+            } else {
+                //Watchers.ArenaWatcher.Stop();
+                //Watchers.PackWatcher.Stop();
+            }
+
         } else if logLine.line.contains("Gameplay.Start") {
             game.gameStart(at: logLine.time)
         }

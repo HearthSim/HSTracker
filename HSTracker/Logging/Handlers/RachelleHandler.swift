@@ -22,18 +22,5 @@ struct RachelleHandler {
                 Log.info?.message("\(victories) / 3 -> 10 gold")
             }
         }
-
-        if logLine.line.match(CardInCache) {
-            if let match = logLine.line.matches(CardInCache).first {
-                let cardId: String = match.value
-                if let card = Cards.by(cardId: cardId) {
-                    if game.currentGameMode == .arena {
-                        Log.verbose?.message("Possible arena card draft : \(card) ?")
-                    } else {
-                        Log.verbose?.message("Possible constructed card draft : \(card) ?")
-                    }
-                }
-            }
-        }
     }
 }

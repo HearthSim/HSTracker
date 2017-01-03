@@ -55,11 +55,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let config = Realm.Configuration(
             fileURL: destination.appendingPathComponent("hstracker.realm"),
-            schemaVersion: 1,
-            migrationBlock: { _, oldSchemaVersion in
-                if oldSchemaVersion < 1 {
-                    // version == 1 : add hearthstoneId in Deck, 
-                    // automatically managed by realm, nothing to do here
+            schemaVersion: 2,
+            migrationBlock: { migration, oldSchemaVersion in
+                // version == 1 : add hearthstoneId in Deck,
+                // automatically managed by realm, nothing to do here
+
+                if oldSchemaVersion < 2 {
+                    migration.enumerateObjects(ofType:
+                    Deck.className()) { oldObject, newObject in
+                        // version == 2 : hearthstoneId is now hsDeckId,
+                        if let hearthstoneId = oldObject?["hearthstoneId"] as? Int {
+                            newObject!["hsDeckId"] = Int64(hearthstoneId)
+                        }
+                    }
                 }
         })
         Realm.Configuration.defaultConfiguration = config
@@ -291,8 +299,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let events = [
             "reload_decks": #selector(AppDelegate.reloadDecks(_:)),
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
-            "theme": #selector(reloadTheme),
-            "save_arena_deck": #selector(AppDelegate.saveArenaDeck(_:))
+            "theme": #selector(reloadTheme)
             ]
 
         for (event, selector) in events {
@@ -377,9 +384,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         saveMenus.addItem(withTitle: NSLocalizedString("Save Opponent's Deck", comment: ""),
                           action: #selector(AppDelegate.saveCurrentDeck(_:)),
                           keyEquivalent: "").tag = 1
-        saveMenus.addItem(withTitle: NSLocalizedString("Save Arena Deck", comment: ""),
-                          action: #selector(AppDelegate.saveArenaDeck(_:)),
-                          keyEquivalent: "")
         deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Save", comment: ""),
                                    action: nil,
                                    keyEquivalent: "").submenu = saveMenus
@@ -557,41 +561,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 Log.error?.message("Can not create deck")
             }
             deckManager?.editDeck(self)
-        }
-    }
-
-    @IBAction func saveArenaDeck(_ sender: AnyObject) {
-        let draft = Draft.instance
-        if let playerClass = draft.playerClass, let cards = draft.cards {
-            if deckManager == nil {
-                deckManager = DeckManager(windowNibName: "DeckManager")
-            }
-            do {
-                let realm = try Realm()
-
-                try realm.write {
-                    let deck = Deck()
-                    deck.isArena = true
-                    deck.hearthstoneId.value = draft.hearthstoneId
-                    deck.playerClass = playerClass
-                    realm.add(deck)
-                    for card in cards {
-                        deck.add(card: card)
-                    }
-                    deckManager?.currentDeck = deck
-                }
-                deckManager?.editDeck(self)
-            } catch {
-                Log.error?.message("Can not create deck")
-            }
-        } else {
-            Log.error?.message("Arena deck doesn't exist. How?")
-            let msg = NSLocalizedString("There was an issue saving your arena deck. "
-                + "Try relaunching Hearthstone and clicking on 'Arena', and then try to "
-                + "save again.", comment: "")
-            NSAlert.show(style: .critical,
-                         message: msg,
-                         forceFront: true)
         }
     }
 

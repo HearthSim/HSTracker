@@ -9,7 +9,19 @@
 import Foundation
 
 enum Format: String {
-    case all,
+    case unknown,
+    all,
     standard,
     wild
+
+    init(formatType: FormatType) {
+        switch formatType {
+        case .ft_wild:
+            self = .wild
+        case .ft_standard:
+            self = .standard
+        default:
+            self = .unknown
+        }
+    }
 }

@@ -16,3 +16,6 @@
 
 /* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "r3b-jQ-tUY"; */
 "r3b-jQ-tUY.title" = "Idioma do HSTracker";
+
+/* Class = "NSButtonCell"; title = "Auto import and select decks"; ObjectID = "mhj-j8-OPU"; */
+"mhj-j8-OPU.title" = "Auto import and select decks";

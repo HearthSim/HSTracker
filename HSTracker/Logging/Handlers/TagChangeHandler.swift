@@ -39,6 +39,10 @@ class TagChangeHandler {
 
     func tagChange(game: Game, tag: GameTag, id: Int,
                    value: Int, isCreationTag: Bool = false) {
+        if game.entities[id] == .none {
+            game.entities[id] = Entity(id: id)
+        }
+        
         if game.lastId != id {
             if let proposedKeyPoint = game.proposedKeyPoint {
                 ReplayMaker.generate(type: proposedKeyPoint.type,
@@ -48,17 +52,6 @@ class TagChangeHandler {
             }
         }
         game.lastId = id
-
-        if game.entities[id] == .none {
-            game.entities[id] = Entity(id: id)
-        }
-
-        if !game.determinedPlayers {
-            if let entity = game.entities[id],
-                tag == .controller && entity.isInHand && String.isNullOrEmpty(entity.cardId) {
-                determinePlayers(game: game, playerId: value)
-            }
-        }
 
         if let entity = game.entities[id] {
             let prevValue = entity[tag]
@@ -179,39 +172,5 @@ class TagChangeHandler {
             }
             return 0
         }
-    }
-
-    func determinePlayers(game: Game, playerId: Int, isOpponentId: Bool = true) {
-        if isOpponentId {
-            game.entities.map { $0.1 }
-                .firstWhere { $0[.player_id] == 1 }?.isPlayer = playerId != 1
-            game.entities.map { $0.1 }
-                .firstWhere { $0[.player_id] == 2 }?.isPlayer = playerId == 1
-
-            game.player.id = playerId % 2 + 1
-            game.opponent.id = playerId
-        } else {
-            game.entities.map { $0.1 }
-                .firstWhere { $0[.player_id] == 1 }?.isPlayer = playerId == 1
-            game.entities.map { $0.1 }
-                .firstWhere { $0[.player_id] == 2 }?.isPlayer = playerId != 1
-
-            game.player.id = playerId
-            game.opponent.id = playerId % 2 + 1
-        }
-
-        Log.info?.message("Setting player id: \(game.player.id), opponent id: \(game.opponent.id)")
-        if game.wasInProgress {
-            /*let playerName = game.getStoredPlayerName(game.player.id)
-            if !String.isNullOrEmpty(playerName) {
-                game.player.name = playerName
-            }
-            let opponentName = game.getStoredPlayerName(game.opponent.id)
-            if !String.isNullOrEmpty(opponentName) {
-                game.opponent.name = opponentName
-            }*/
-        }
-
-        game.determinedPlayers = game.playerEntity != nil
     }
 }

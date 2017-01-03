@@ -15,6 +15,7 @@ import RealmSwift
 struct PlayingDeck {
     let id: String
     let name: String
+    let hsDeckId: Int64?
     let playerClass: CardClass
     let cards: [Card]
     let isArena: Bool
@@ -27,12 +28,51 @@ class Game {
     var gameTriggerCount = 0
     var powerLog: [LogLine] = []
     var playedCards: [PlayedCard] = []
+    var currentGameStats: GameStats?
 
     var player: Player
     var opponent: Player
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
-    var currentGameMode: GameMode = .none
+
+    private var _spectator: Bool?
+    var spectator: Bool {
+        if let _spectator = _spectator {
+            return _spectator
+        }
+        _spectator = Hearthstone.instance.mirror?.isSpectating()
+        if let _spectator = _spectator {
+            return _spectator
+        }
+        return false
+    }
+
+    private var _currentGameMode: GameMode = .none
+    var currentGameMode: GameMode {
+        if spectator {
+            return .spectator
+        }
+
+        if _currentGameMode == .none {
+            _currentGameMode = GameMode(gameType: currentGameType)
+        }
+        return _currentGameMode
+    }
+
+    private var _currentGameType: GameType = .gt_unknown
+    var currentGameType: GameType {
+
+        if _currentGameType != .gt_unknown {
+            return _currentGameType
+        }
+        if let gameType = Hearthstone.instance.mirror?.getGameType() as? Int,
+            let type = GameType(rawValue: gameType) {
+            _currentGameType = type
+        }
+        return _currentGameType
+    }
+
+    var _matchInfoCacheInvalid = true
     var entities: [Int: Entity] = [:]
     var tmpEntities: [Entity] = []
     var knownCardIds: [Int: [String]] = [:]
@@ -43,10 +83,6 @@ class Game {
             WindowManager.default.updateTrackers(reset: true)
         }
     }
-    var gameStartDate: Date?
-    var gameResult: GameResult = .unknow
-    var gameEndDate: Date?
-    
     var lastCardPlayed: Int?
 
     var currentDeck: PlayingDeck?
@@ -57,7 +93,9 @@ class Game {
     private var hasCoin = false
     var currentEntityZone: Zone = .invalid
     var opponentUsedHeroPower = false
-    var determinedPlayers = false
+    var determinedPlayers: Bool {
+        return player.id > 0 && opponent.id > 0
+    }
     var setupDone = false
     var proposedKeyPoint: ReplayKeyPoint?
     var opponentSecrets: OpponentSecrets?
@@ -67,22 +105,42 @@ class Game {
     private var opponentSecretCount = 0
     private var awaitingAvenge = false
     var isInMenu = true
-    private var endGameStats = false
+    private var handledGameEnd = false
     var wasInProgress = false
-    private var hasBeenConceded = false
     var enqueueTime: Date = Date.distantPast
     private var lastCompetitiveSpiritCheck: Int = 0
     private var lastTurnStart: [Int] = [0, 0]
     private var turnQueue: Set<PlayerTurn> = Set()
-    
-    private var rankDetector = CVRankDetection()
-    private var playerRanks: [Int] = []
-    private var opponentRanks: [Int] = []
 
     private var maxBlockId: Int = 0
     private(set) var currentBlock: Block?
     
     fileprivate var lastGameStartTimestamp: Date = Date.distantPast
+
+    private var _matchInfo: MatchInfo?
+    var matchInfo: MatchInfo? {
+        if let _matchInfo = _matchInfo {
+            return _matchInfo
+        }
+        if let matchInfo = Hearthstone.instance.mirror?.getMatchInfo() {
+            _matchInfo = MatchInfo(info: matchInfo)
+        }
+        return _matchInfo
+    }
+
+    var arenaInfo: ArenaInfo? {
+        if let _arenaInfo = Hearthstone.instance.mirror?.getArenaDeck() {
+            return ArenaInfo(info: _arenaInfo)
+        }
+        return nil
+    }
+
+    var brawlInfo: BrawlInfo? {
+        if let _brawlInfo = Hearthstone.instance.mirror?.getBrawlInfo() {
+            return BrawlInfo(info: _brawlInfo)
+        }
+        return nil
+    }
 
     var playerEntity: Entity? {
         return entities.map { $0.1 }.firstWhere { $0.isPlayer }
@@ -116,25 +174,15 @@ class Game {
             .filter { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.player.id) }.count }
 
-    var currentFormat: Format? {
-        if currentGameMode != .casual && currentGameMode != .ranked {
-            return nil
+    private var _currentFormat = FormatType.ft_unknown
+    var currentFormat: Format {
+        if let mirror = Hearthstone.instance.mirror,
+            let mirrorFormat = mirror.getFormat() as? Int,
+            _currentFormat == .ft_unknown,
+            let format = FormatType(rawValue: mirrorFormat) {
+            _currentFormat = format
         }
-        if let currentDeck = self.currentDeck {
-            do {
-                let realm = try Realm()
-                if let deck = realm.objects(Deck.self).filter("deckId = '\(currentDeck.id)'").first,
-                    !deck.standardViable() {
-                    return .wild
-                }
-            } catch {
-                Log.error?.message("Can not fetch deck \(error)")
-            }
-        }
-        return entities.map { $0.1 }
-            .filter { !String.isNullOrEmpty($0.cardId)
-                && !$0.info.created && $0.card.set != nil }
-            .any { CardSet.wildSets().contains($0.card.set!) } ? .wild : .standard
+        return Format(formatType: _currentFormat)
     }
 
     static let instance = Game()
@@ -148,9 +196,7 @@ class Game {
     func reset() {
         Log.verbose?.message("Reseting Game")
         currentTurn = 0
-        
-        playerRanks = []
-        opponentRanks = []
+
         powerLog = []
         playedCards = []
         
@@ -159,15 +205,17 @@ class Game {
         maxBlockId = 0
         currentBlock = nil
 
+        _matchInfo = nil
+        _currentFormat = .ft_unknown
+        _currentGameType = .gt_unknown
+        currentGameStats = GameStats()
+
         entities.removeAll()
         tmpEntities.removeAll()
         knownCardIds.removeAll()
         joustReveals = 0
         gameStarted = false
         gameEnded = true
-        gameStartDate = nil
-        gameResult = .unknow
-        gameEndDate = nil
         lastCardPlayed = nil
         currentEntityId = 0
         currentEntityHasCardId = false
@@ -175,7 +223,6 @@ class Game {
         hasCoin = false
         currentEntityZone = .invalid
         opponentUsedHeroPower = false
-        determinedPlayers = false
         setupDone = false
         proposedKeyPoint = nil
         opponentSecrets?.clearSecrets()
@@ -185,9 +232,8 @@ class Game {
         opponentSecretCount = 0
         awaitingAvenge = false
         isInMenu = true
-        endGameStats = false
+        handledGameEnd = false
         wasInProgress = false
-        hasBeenConceded = false
         lastTurnStart = [0, 0]
 
         player.reset()
@@ -196,9 +242,16 @@ class Game {
         }
         opponent.reset()
 
-        WindowManager.default.hideGameTrackers()
+        if let localPlayer = matchInfo?.localPlayer,
+            let opposingPlayer = matchInfo?.opposingPlayer,
+            !_matchInfoCacheInvalid {
+            player.name = localPlayer.name
+            player.id = localPlayer.playerId
+            opponent.name = opposingPlayer.name
+            opponent.id = opposingPlayer.playerId
+        }
 
-        Log.verbose?.message("Game resetted")
+        WindowManager.default.hideGameTrackers()
     }
 
     func set(currentEntity id: Int) {
@@ -223,22 +276,25 @@ class Game {
         currentBlock = currentBlock?.parent
     }
 
-    func set(activeDeck deck: Deck) {
-        var cards: [Card] = []
-        for deckCard in deck.cards {
-            if let card = Cards.by(cardId: deckCard.id) {
-                card.count = deckCard.count
-                cards.append(card)
+    func set(activeDeck deck: Deck?) {
+        if let deck = deck {
+            var cards: [Card] = []
+            for deckCard in deck.cards {
+                if let card = Cards.by(cardId: deckCard.id) {
+                    card.count = deckCard.count
+                    cards.append(card)
+                }
             }
+            currentDeck = PlayingDeck(id: deck.deckId,
+                                      name: deck.name,
+                                      hsDeckId: deck.hsDeckId.value,
+                                      playerClass: deck.playerClass,
+                                      cards: cards.sortCardList(),
+                                      isArena: deck.isArena
+            )
+        } else {
+            currentDeck = nil
         }
-        currentDeck = PlayingDeck(id: deck.deckId,
-                                  name: deck.name,
-                                  playerClass: deck.playerClass,
-                                  cards: cards.sortCardList(),
-                                  isArena: deck.isArena
-        )
-
-        player.reset(id: self.gameEnded ? true : false)
         player.playerClass = currentDeck?.playerClass
         WindowManager.default.updateTrackers(reset: true)
     }
@@ -263,7 +319,6 @@ class Game {
         }
         reset()
         gameStarted = true
-        gameStartDate = Date()
         gameEnded = false
         isInMenu = false
 
@@ -277,9 +332,45 @@ class Game {
         }
 
         WindowManager.default.updateTrackers(reset: true)
-        checkForRank()
+
+        cacheMatchInfo()
+        currentGameStats?.startTime = timestamp
     }
-    
+
+    private func invalidateMatchInfoCache() {
+        _matchInfoCacheInvalid = true
+    }
+
+    private func cacheMatchInfo() {
+        if !_matchInfoCacheInvalid { return }
+
+        _matchInfoCacheInvalid = false
+        DispatchQueue.global().async {
+            guard let mirror = Hearthstone.instance.mirror else { return }
+
+            var matchInfo: MirrorMatchInfo? = mirror.getMatchInfo()
+            while matchInfo == nil {
+                matchInfo = mirror.getMatchInfo()
+                Thread.sleep(forTimeInterval: 0.1)
+            }
+            if let matchInfo = matchInfo {
+                DispatchQueue.main.async { [weak self] in
+                    Log.info?.message("\(matchInfo.localPlayer.name) vs "
+                        + "\(matchInfo.opposingPlayer.name)")
+                    self?._matchInfo = MatchInfo(info: matchInfo)
+                    if let _matchInfo = self?.matchInfo {
+                        self?.player.name = _matchInfo.localPlayer.name
+                        self?.opponent.name = _matchInfo.opposingPlayer.name
+                        self?.player.id = _matchInfo.localPlayer.playerId
+                        self?.opponent.id = _matchInfo.opposingPlayer.playerId
+
+                        WindowManager.default.updateTrackers()
+                    }
+                }
+            }
+        }
+    }
+
     private func adventureRestart() {
         // The game end is not logged in PowerTaskList
         Log.info?.message("Adventure was restarted. Simulating game end.")
@@ -288,39 +379,12 @@ class Game {
         gameEnd()
         inMenu()
     }
-    
-    func checkForRank() {
-        let when = DispatchTime.now()
-            + Double(Int64(30 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        let queue = DispatchQueue.main
-        queue.asyncAfter(deadline: when) {
-            guard !self.gameEnded else { return }
-            
-            if self.currentGameMode == .casual || self.currentGameMode == .ranked {
-                if let playerRank = self.rankDetector.playerRank(),
-                    let opponentRank = self.rankDetector.opponentRank() {
-                    self.playerRanks.append(playerRank)
-                    self.opponentRanks.append(opponentRank)
-                    
-                    // check if player rank is in range "opponent rank - 3 -> opponent rank + 3)
-                    if (opponentRank - 3) ... (opponentRank + 3) ~= playerRank {
-                        // we can imagine we are on ranked games
-                        self.currentGameMode = .ranked
-                    }
-                }
-            }
-            
-            // check again every 30 seconds during the game to get 
-            // something accurate
-            self.checkForRank()
-        }
-    }
 
     func gameEnd() {
         Log.info?.message("----- Game End -----")
         AppHealth.instance.setHearthstoneGameRunning(flag: false)
         gameStarted = false
-        gameEndDate = Date()
+        currentGameStats?.endTime = Date()
 
         handleEndGame()
 
@@ -342,26 +406,104 @@ class Game {
         }
 
         isInMenu = true
+
+        //resetStoredGameState()
+        /*if let currentDeck = self.currentDeck,
+            currentDeck.isArenaRunCompleted,
+            Settings.instance.autoArchiveArenaDeck {
+
+            if let realm = try? Realm(),
+                let deck = realm.objects(Deck.self)
+                    .filter("deckId = '\(currentDeck.id)'").first {
+                do {
+                    try realm.write {
+                        deck.isActive = false
+                    }
+                } catch {
+                    Log.error?.message("Can not update deck. Error : \(error)")
+                }
+            }
+        }*/
     }
 
     func handleEndGame() {
-        Log.verbose?.message("rank: \(playerRanks), currentGameMode: \(currentGameMode)")
-  
-        guard !endGameStats else { return }
-        endGameStats = true
-        
-        guard currentGameMode != .none else { return }
+        if currentGameStats == nil || handledGameEnd {
+            Log.warning?.message("HandleGameEnd was already called.")
+            return
+        }
+        handledGameEnd = true
+        invalidateMatchInfoCache()
 
-        let _player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
-        if let _player = _player {
-            hasCoin = !_player.has(tag: .first_player)
+        if let currentGameStats = currentGameStats,
+            currentGameMode == .spectator && currentGameStats.result == .none {
+            Log.info?.message("Game was spectator mode without a game result."
+                + " Probably exited spectator mode early.")
+            return
         }
 
-        if currentGameMode == .ranked || currentGameMode == .casual {
-            Log.info?.message("Format: \(currentFormat)")
+        if let name = player.name {
+            currentGameStats?.playerName = name
         }
-        
-        var result: [Int: Int] = [:]
+        if let _player = entities.map({ $0.1 }).firstWhere({ $0.isPlayer }) {
+            currentGameStats?.coin = !_player.has(tag: .first_player)
+        }
+
+        if let name = opponent.name {
+            currentGameStats?.opponentName = name
+        } else if let hero = currentGameStats?.opponentHero {
+            currentGameStats?.opponentName = hero.rawValue
+        }
+
+        currentGameStats?.turns = turnNumber()
+
+        currentGameStats?.gameMode = currentGameMode
+        currentGameStats?.format = currentFormat
+
+        if let matchInfo = self.matchInfo, currentGameMode == .ranked {
+            let wild = currentFormat == .wild
+
+            currentGameStats?.rank = wild
+                ? matchInfo.localPlayer.wildRank
+                : matchInfo.localPlayer.standardRank
+            currentGameStats?.opponentRank = wild
+                ? matchInfo.opposingPlayer.wildRank
+                : matchInfo.opposingPlayer.standardRank
+            currentGameStats?.legendRank = wild
+                ? matchInfo.localPlayer.wildLegendRank
+                : matchInfo.localPlayer.standardLegendRank
+            currentGameStats?.opponentLegendRank = wild
+                ? matchInfo.opposingPlayer.wildLegendRank
+                : matchInfo.opposingPlayer.standardLegendRank
+            currentGameStats?.stars = wild
+                ? matchInfo.localPlayer.wildStars
+                : matchInfo.localPlayer.standardStars
+        } else if currentGameMode == .arena {
+            currentGameStats?.arenaLosses = arenaInfo?.losses ?? 0
+            currentGameStats?.arenaWins = arenaInfo?.wins ?? 0
+        } else if let brawlInfo = self.brawlInfo, currentGameMode == .brawl {
+            currentGameStats?.brawlWins = brawlInfo.wins
+            currentGameStats?.brawlLosses = brawlInfo.losses
+        }
+
+        currentGameStats?.gameType = currentGameType
+        if let serverInfo = Hearthstone.instance.mirror?.getGameServerInfo() {
+            currentGameStats?.serverInfo = ServerInfo(info: serverInfo)
+        }
+        currentGameStats?.playerCardbackId = matchInfo?.localPlayer.cardBackId ?? 0
+        currentGameStats?.opponentCardbackId = matchInfo?.opposingPlayer.cardBackId ?? 0
+        currentGameStats?.friendlyPlayerId = matchInfo?.localPlayer.playerId ?? 0
+        currentGameStats?.scenarioId = matchInfo?.missionId ?? 0
+        currentGameStats?.brawlSeasonId = matchInfo?.brawlSeasonId ?? 0
+        currentGameStats?.rankedSeasonId = matchInfo?.rankedSeasonId ?? 0
+        currentGameStats?.hsDeckId = currentDeck?.hsDeckId ?? 0
+        // currentGameStats?.setPlayerCards(DeckList.Instance.ActiveDeckVersion,
+        // _game.Player.RevealedCards.Where(x => x.Collectible).ToList());
+        //currentGameStats?.setOpponentCards(_game.Opponent.OpponentCardList
+            //.Where(x => !x.IsCreated).ToList());
+
+        Log.verbose?.message("\(currentGameStats)")
+
+        /*var result: [Int: Int] = [:]
         playerRanks.forEach({ result[$0] = (result[$0] ?? 0) + 1 })
         let currentRank = Array(result).sorted { $0.1 < $1.1 }.last?.0 ?? -1
         
@@ -412,11 +554,12 @@ class Game {
                           opponentClass: opponentClass,
                           opponentRank: opponentRank)
             }
-        }
+        }*/
     }
 
     private func saveMatch(rank: Int, note: String, playerClass: CardClass,
                            opponentName: String, opponentClass: CardClass, opponentRank: Int) {
+        /*
         DispatchQueue.main.async { [weak self] in
             guard let strong = self else { return }
             do {
@@ -466,7 +609,7 @@ class Game {
             } catch {
                 Log.error?.message("Can not update deck : \(error)")
             }
-        }
+        }*/
     }
 
     private func syncStats(deck: Deck?, statistic: Statistic) {
@@ -545,6 +688,7 @@ class Game {
         if turn <= lastCompetitiveSpiritCheck
             || !entity.isMinion || !entity.isControlled(by: opponent.id)
             || !opponentEntity.isCurrentPlayer {
+            WindowManager.default.updateTrackers()
             return
         }
         lastCompetitiveSpiritCheck = turn
@@ -597,26 +741,27 @@ class Game {
 
     func concede() {
         Log.info?.message("Game has been conceded : (")
-        hasBeenConceded = true
+        currentGameStats?.wasConceded = true
     }
 
     func win() {
         Log.info?.message("You win ¯\\_(ツ) _ / ¯")
-        gameResult = .win
+        currentGameStats?.result = .win
 
-        if hasBeenConceded {
+        if let currentGameStats = currentGameStats,
+            currentGameStats.wasConceded {
             showNotification(type: .opponentConcede)
         }
     }
 
     func loss() {
         Log.info?.message("You lose : (")
-        gameResult = .loss
+        currentGameStats?.result = .loss
     }
 
     func tied() {
         Log.info?.message("You lose : ( / game tied: (")
-        gameResult = .draw
+        currentGameStats?.result = .draw
     }
 
     func isMulliganDone() -> Bool {
@@ -629,6 +774,43 @@ class Game {
         }
         return false
     }
+
+    /*private var storedPowerLogs: [Int: [LogLine]] = [:]
+    private var storedPlayerNames: [Int: String] = [:]
+    private var storedGameStats: GameStats?
+    func storeGameState() {
+        guard let _serverInfo = Hearthstone.instance.mirror?.getGameServerInfo() else { return }
+        let serverInfo = ServerInfo(info: _serverInfo)
+        if serverInfo.gameHandle == 0 {
+            return
+        }
+
+        Log.info?.message("Storing powerlog for gameId=\(serverInfo.gameHandle)")
+        storedPowerLogs[serverInfo.gameHandle] = powerLog
+
+        if player.id != -1 && storedPlayerNames[player.id] == nil {
+            storedPlayerNames[player.id] = player.name
+        }
+        if opponent.id != -1 && storedPlayerNames[opponent.id] == nil {
+            storedPlayerNames[opponent.id] = opponent.name
+        }
+        if storedGameStats == nil {
+            storedGameStats = currentGameStats
+        }
+    }
+
+    func getStoredPlayerName(id: Int) -> String? {
+        if let name = storedPlayerNames[id] {
+            return name
+        }
+        return nil
+    }
+
+    private func resetStoredGameState() {
+        storedPowerLogs.removeAll()
+        storedPlayerNames.removeAll()
+        storedGameStats = nil
+    }*/
 
     func handleThaurissanCostReduction() {
         let thaurissans = opponent.board.filter({
@@ -674,6 +856,8 @@ class Game {
             player.playerClass = card.playerClass
             player.playerClassId = cardId
             Log.info?.message("Player class is \(card) ")
+
+            currentGameStats?.playerHero = card.playerClass
         }
     }
 
@@ -735,10 +919,8 @@ class Game {
             opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.Counterspell)
 
             if opponentMinionCount < 7 {
-                let when = DispatchTime.now()
-                    + Double(Int64(50 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
-                let queue = DispatchQueue.main
-                queue.asyncAfter(deadline: when) { [weak self] in
+                let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(50)
+                DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                     guard let strongSelf = self else { return }
                     
                     // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
@@ -788,7 +970,7 @@ class Game {
         if String.isNullOrEmpty(cardId) {
             return
         }
-        // TurnTimer.Instance.MulliganDone(ActivePlayer.Player);
+
         player.mulligan(entity: entity)
         WindowManager.default.updateTrackers()
     }
@@ -851,7 +1033,7 @@ class Game {
 
         if entity.isSecret {
             var heroClass: CardClass?
-            var className = "\(entity[.class]) "
+            var className = "\(entity[.class])"
             if !String.isNullOrEmpty(className) {
                 className = className.lowercased()
                 heroClass = CardClass(rawValue: className)
@@ -895,6 +1077,8 @@ class Game {
             opponent.playerClassId = cardId
             WindowManager.default.updateTrackers()
             Log.info?.message("Opponent class is \(card) ")
+
+            currentGameStats?.opponentHero = card.playerClass
         }
     }
 
@@ -1187,19 +1371,15 @@ class Game {
         }
         awaitingAvenge = true
         if opponentMinionCount != 0 {
-            let when = DispatchTime.now()
-                + Double(Int64(50 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
-            let queue = DispatchQueue.main
-            queue.asyncAfter(deadline: when) { [weak self] in
+            let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(50)
+            DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
                 guard let strongSelf = self else { return }
                 if strongSelf.opponentMinionCount - strongSelf.avengeDeathRattleCount > 0 {
                     strongSelf.opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.Avenge)
-                    DispatchQueue.main.async { [weak self] in
-                        WindowManager.default.updateTrackers()
+                    WindowManager.default.updateTrackers()
 
-                        self?.awaitingAvenge = false
-                        self?.avengeDeathRattleCount = 0
-                    }
+                    self?.awaitingAvenge = false
+                    self?.avengeDeathRattleCount = 0
                 }
             }
         }

@@ -13,10 +13,12 @@ import Wrap
 
 class Entity {
     var id: Int
-    var isPlayer = false
+    var isPlayer: Bool {
+        return self[.player_id] == Game.instance.player.id
+    }
     var cardId = ""
     var name: String?
-    lazy var tags = [GameTag: Int]()
+    var tags: [GameTag: Int] = [:]
     lazy var info: EntityInfo = { return EntityInfo(entity: self) }()
 
     init() {
@@ -56,7 +58,7 @@ class Entity {
     var isOpponent: Bool { return !isPlayer && has(tag: .player_id) }
     var isMinion: Bool { return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue }
     var isWeapon: Bool { return has(tag: .cardtype) && self[.cardtype] == CardType.weapon.rawValue }
-    var isHero: Bool { return Cards.isHero(cardId: cardId) }
+    var isHero: Bool { return self[.cardtype] == CardType.hero.rawValue }
     var isHeroPower: Bool { return self[.cardtype] == CardType.hero_power.rawValue }
 
     var isInHand: Bool { return isInZone(zone: .hand) }
@@ -87,7 +89,6 @@ class Entity {
 extension Entity: NSCopying {
      func copy(with zone: NSZone? = nil) -> Any {
         let e = Entity(id: id)
-        e.isPlayer = isPlayer
         e.cardId = cardId
         e.name = name
         tags.forEach({ e.tags[$0.0] = $0.1 })

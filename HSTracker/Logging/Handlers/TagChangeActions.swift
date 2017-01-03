@@ -218,7 +218,7 @@ struct TagChangeActions {
         guard !game.setupDone && game.entities.first?.1.name == "GameEntity" else { return }
 
         Log.info?.message("Game was already in progress.")
-        // game.wasInProgress = true
+        game.wasInProgress = true
     }
 
     private func cardTypeChange(game: Game, id: Int, value: Int) {
@@ -665,8 +665,7 @@ struct TagChangeActions {
                 Log.info?.message("opponentEntity found playerClass : \(game.opponent.playerClass),"
                     + " \(id) -> \(opponentEntity[.hero_entity]) -> \(entity) ")
 
-                if game.opponent.playerClass == nil
-                    && id == opponentEntity[.hero_entity] {
+                if game.opponent.playerClass == nil && id == opponentEntity[.hero_entity] {
                     let cardId = entity.cardId
                     DispatchQueue.main.async {
                         game.set(opponentHero: cardId)

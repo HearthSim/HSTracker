@@ -22,6 +22,8 @@ final class Hearthstone: NSObject {
 
     lazy var logReaderManager = LogReaderManager()
 
+    var mirror: HearthMirror?
+
     var hearthstoneActive = false
     var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
 
@@ -48,6 +50,7 @@ final class Hearthstone: NSObject {
         if isHearthstoneRunning {
             hearthstoneActive = true
             Log.info?.message("Hearthstone is running, starting trackers now.")
+
             startTracking()
         }
     }
@@ -179,12 +182,24 @@ final class Hearthstone: NSObject {
 
     func startTracking() {
         Log.info?.message("Start Tracking")
+        // get rights to attach
+        if acquireTaskportRight() != 0 {
+            Log.error?.message("acquireTaskportRight() failed!")
+        }
+        if let hearthstoneApp = hearthstoneApp {
+            mirror = HearthMirror(pid: hearthstoneApp.processIdentifier)
+            if let battleTag = mirror?.getBattleTag() {
+                Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
+            }
+        }
+
         self.logReaderManager.start()
     }
 
     func stopTracking() {
         Log.info?.message("Stop Tracking")
         logReaderManager.stop()
+        mirror = nil
     }
 
     // MARK: - Events
@@ -284,6 +299,6 @@ final class Hearthstone: NSObject {
 
     var hearthstoneApp: NSRunningApplication? {
         let apps = NSWorkspace.shared().runningApplications
-        return apps.first { $0.localizedName ?? "" == self.applicationName }
+        return apps.first { $0.bundleIdentifier == "unity.Blizzard Entertainment.Hearthstone" }
     }
 }

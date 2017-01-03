@@ -32,7 +32,7 @@ class Deck: Object {
     dynamic var isActive = true
     dynamic var isArena = false
 
-    let hearthstoneId = RealmOptional<Int>()
+    let hsDeckId = RealmOptional<Int64>()
 
     let cards = List<RealmCard>()
     let statistics = List<Statistic>()

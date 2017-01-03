@@ -35,4 +35,23 @@ enum GameMode: Int, WrappableEnum {
         case .none: return NSLocalizedString("mode_none", comment: "")
         }
     }
+
+    init(gameType: GameType) {
+        switch gameType {
+        case .gt_vs_ai:
+            self = .practice
+        case .gt_vs_friend:
+            self = .friendly
+        case .gt_arena:
+            self = .arena
+        case .gt_ranked:
+            self = .ranked
+        case .gt_casual:
+            self = .casual
+        case .gt_tavernbrawl, .gt_tb_2p_coop, .gt_tb_1p_vs_ai:
+            self = .brawl
+        default:
+            self = .none
+        }
+    }
 }

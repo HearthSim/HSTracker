@@ -26,25 +26,4 @@ enum BnetGameType: Int {
     bgt_ranked_wild = 30,
     bgt_casual_wild = 31,
     bgt_last = 32
-
-    init?(rawString: String) {
-        for _enum in BnetGameType.allValues() {
-            if "\(_enum)" == rawString.lowercased() {
-                self = _enum
-                return
-            }
-        }
-        if let value = Int(rawString), let _enum = BnetGameType(rawValue: value) {
-            self = _enum
-            return
-        }
-        self = .bgt_unknown
-    }
-
-    static func allValues() -> [BnetGameType] {
-        return [.bgt_unknown, .bgt_friends, .bgt_ranked_standard, .bgt_arena, .bgt_vs_ai,
-                .bgt_tutorial, .bgt_async, .bgt_casual_standard, .bgt_test1, .bgt_newbie,
-                .bgt_test3, .bgt_tavernbrawl_pvp, .bgt_tavernbrawl_1p_versus_ai,
-                .bgt_tavernbrawl_2p_coop, .bgt_ranked_wild, .bgt_casual_wild, .bgt_last]
-    }
 }

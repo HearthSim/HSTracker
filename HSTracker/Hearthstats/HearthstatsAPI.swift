@@ -417,8 +417,8 @@ struct HearthstatsAPI {
         }
 
         let startTime: Date
-        if let gameStartDate = game.gameStartDate {
-            startTime = gameStartDate as Date
+        if let gameStartDate = game.currentGameStats?.startTime {
+            startTime = gameStartDate
         } else {
             startTime = Date()
         }
@@ -433,7 +433,7 @@ struct HearthstatsAPI {
         let parameters: [String: Any] = [
             "class": deck.playerClass.rawValue.capitalized,
             "mode": "\(game.currentGameMode)".capitalized,
-            "result": "\(game.gameResult)".capitalized,
+            "result": "\(game.currentGameStats?.result ?? GameResult.unknow)".capitalized,
             "coin": "\(stat.hasCoin)",
             "numturns": stat.numTurns,
             "duration": stat.duration,
@@ -473,7 +473,7 @@ struct HearthstatsAPI {
         let parameters: [String: Any] = [
             "class": deck.playerClass.rawValue.capitalized,
             "mode": "\(game.currentGameMode)".capitalized,
-            "result": "\(game.gameResult)".capitalized,
+            "result": "\(game.currentGameStats?.result ?? GameResult.unknow)".capitalized,
             "coin": "\(stat.hasCoin)",
             "numturns": stat.numTurns,
             "duration": stat.duration,

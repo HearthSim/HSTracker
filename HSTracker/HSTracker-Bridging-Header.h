@@ -22,4 +22,7 @@
 #import "CardMissingDetectorWrapper.hpp"
 #import "GlowFilter.h"
 
+#import <HearthMirror/HearthMirror.h>
+#import <HearthMirror/security.h>
+
 #endif /* HSTracker_Bridging_Header_h */

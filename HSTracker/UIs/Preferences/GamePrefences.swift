@@ -18,6 +18,7 @@ class GamePreferences: NSViewController {
     @IBOutlet weak var hearthstoneLanguage: NSComboBox!
     @IBOutlet weak var checkImage: NSImageView!
     @IBOutlet weak var autoArchiveArenaDeck: NSButton!
+    @IBOutlet weak var autoSelectDecks: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,7 @@ class GamePreferences: NSViewController {
         }
 
         autoArchiveArenaDeck.state = settings.autoArchiveArenaDeck ? NSOnState : NSOffState
+        autoSelectDecks.state = settings.autoDeckDetection ? NSOnState : NSOffState
     }
 
     @IBAction func choosePath(_ sender: NSButton) {
@@ -82,6 +84,8 @@ class GamePreferences: NSViewController {
 
         if sender == autoArchiveArenaDeck {
             settings.autoArchiveArenaDeck = autoArchiveArenaDeck.state == NSOnState
+        } else if sender == autoSelectDecks {
+            settings.autoDeckDetection = autoSelectDecks.state == NSOnState
         }
     }
 }
