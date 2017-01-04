@@ -6,7 +6,7 @@
 "HY0-s6-p7U.title" = "显示卡牌如果悬停";
 
 /* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
-"Jj4-X9-UWO.title" = "显示抽奖机会";
+"Jj4-X9-UWO.title" = "显示抽卡机会";
 
 /* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
 "NLB-ON-zWk.title" = "卡牌大小";
