@@ -6,7 +6,7 @@
 "TmO-9A-Ffe.title" = "显示你的卡牌数量";
 
 /* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
-"acK-XF-6wQ.title" = "显示你的卡牌机会";
+"acK-XF-6wQ.title" = "显示你的抽卡机会";
 
 /* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "r3h-Qd-YPW"; */
 "r3h-Qd-YPW.title" = "包括获得卡牌";
