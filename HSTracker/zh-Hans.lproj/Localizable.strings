@@ -9,15 +9,15 @@
 "Delete deck" = "删除套牌";
 "Do you want to add this deck on Hearthstats ?" = "想加这个套牌上 Hearthstats 吗?";
 "Do you want to delete the deck on Hearthstats ?" = "想要删除这个套牌在 Hearthstats 吗?";
-"Download Hearthstone cards" = "Download Hearthstone cards";
-"Loading Hearthstone builds" = "Loading Hearthstone builds";
+"Download Hearthstone cards" = "下载炉石传说图片";
+"Loading Hearthstone builds" = "载入炉石传说的版本";
 "Downloading %@" = "下载 %@";
 "Downloading images" = "下载图片";
 "Edit deck" = "修改套牌";
 "Game" = "游戏";
 "General" = "通用";
-"Loading %@ cards" = "加载 %@ 卡牌";
-"Loading decks" = "加载套牌";
+"Loading %@ cards" = "载入 %@ 卡牌";
+"Loading decks" = "载入套牌";
 "Lock windows" = "锁定窗口";
 "OK" = "确定";
 "Please select your Hearthstone app" = "选择炉石传说的应用程式";
@@ -44,17 +44,17 @@
 "Remove Card" = "取出卡";
 "Fatigue : " = "疲劳: ";
 "It is 90% certain that the true winrate falls between these values." = "是 90 % 肯定真正的赢率落在这些值之间.";
-"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "你的競技場套牌没有保存 . 重启炉石传说和重新保存套牌 .";
+"There was an issue saving your arena deck. Try relaunching Hearthstone and clicking on 'Arena', and then try to save again." = "你的競技場套牌没有保存。重启炉石传说和重新保存套牌。";
 "Are you sure you want to delete the statistics for the deck %@ ?" = "确定要删除 %@ 套牌的统计?";
 "Do you want to add some notes for this game ?" = "想加评论给这个游戏吗?";
 "Your arena deck count 30 cards, do you want to save it ?" = "競技場套牌有 30 张卡, 要保存吗?";
 "Failed to import deck from \n" = "失败取回套牌从 \n";
-"Login" = "Login";
-"Logout" = "Logout";
-"Top deck:" = "Top deck:";
-"In top 2:" = "In top 2:";
-"Connected" = "Connected";
-"Connected as %@" = "Connected as %@";
+"Login" = "登录";
+"Logout" = "登出";
+"Top deck:" = "抽卡机会:";
+"In top 2:" = "在前两:";
+"Connected" = "连接到";
+"Connected as %@" = "连接为 %@";
 
 /* notifications */
 "Your game begins" = "游戏开始";
@@ -97,7 +97,7 @@
 "OG" = "上古之神";
 "PROMO" = "促销";
 "KARA" = "卡拉赞之夜";
-"GANGS" = "Mean Streets of Gadgetzan";
+"GANGS" = "龙争虎斗加基森";
 
 /* card type */
 "all_types" = "所有";
