@@ -12,7 +12,7 @@
 "eGQ-pE-MU0.title" = "清除对手的跟踪器";
 
 /* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "BFR-Pw-i1H"; */
-"BFR-Pw-i1H.title" = "Show Jade Counter";
+"BFR-Pw-i1H.title" = "显示青玉反制";
 
 /* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
 "iqA-b1-owW.title" = "显示对手的卡牌数量";
