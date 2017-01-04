@@ -6,7 +6,7 @@
 "MLJ-7t-LVJ.title" = "显示对手的跟踪器";
 
 /* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
-"avf-qA-8vU.title" = "显示对手的卡牌机会";
+"avf-qA-8vU.title" = "显示对手的抽卡机会";
 
 /* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
 "eGQ-pE-MU0.title" = "清除对手的跟踪器";
