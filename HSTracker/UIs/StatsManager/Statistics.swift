@@ -104,7 +104,8 @@ class Statistics: NSWindowController {
                 do {
                     let realm = try Realm()
                     try realm.write {
-                        deck.statistics.removeAll()
+                        deck.gameStats
+                            .removeAll()
                     }
                 } catch {
                     Log.error?.message("Can not update deck : \(error)")

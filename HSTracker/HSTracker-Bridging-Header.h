@@ -18,7 +18,6 @@
 
 #import <Sparkle/Sparkle.h>
 
-#import "CVRankDetectorWrapper.hpp"
 #import "CardMissingDetectorWrapper.hpp"
 #import "GlowFilter.h"
 

@@ -35,7 +35,7 @@ class Deck: Object {
     let hsDeckId = RealmOptional<Int64>()
 
     let cards = List<RealmCard>()
-    let statistics = List<Statistic>()
+    let gameStats = List<GameStats>()
 
     override static func primaryKey() -> String? {
         return "deckId"
@@ -102,10 +102,10 @@ class Deck: Object {
 
         var win = 0
         var loss = 0
-        for stat in statistics {
-            if stat.gameResult == .loss {
+        for stat in gameStats {
+            if stat.result == .loss {
                 loss += 1
-            } else if stat.gameResult == .win {
+            } else if stat.result == .win {
                 win += 1
             }
         }

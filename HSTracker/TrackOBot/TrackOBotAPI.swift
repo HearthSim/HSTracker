@@ -56,7 +56,7 @@ struct TrackOBotAPI {
      */
 
     // MARK: - matches
-    static func postMatch(game: Game, playerClass: CardClass, stat: Statistic) throws {
+    static func postMatch(stat: GameStats) throws {
         let settings = Settings.instance
         guard let username = settings.trackobotUsername else {
             throw TrackOBotError.notLogged
@@ -66,7 +66,7 @@ struct TrackOBotAPI {
         }
 
         let mode: String
-        switch game.currentGameMode {
+        switch stat.gameMode {
         case .ranked: mode = "ranked"
         case .casual: mode = "casual"
         case .arena: mode = "arena"
@@ -75,31 +75,26 @@ struct TrackOBotAPI {
         default: mode = "unknown"
         }
 
-        let startTime: Date
-        if let gameStartDate = game.currentGameStats?.startTime {
-            startTime = gameStartDate
-        } else {
-            startTime = Date()
-        }
+        let duration = stat.endTime.timeIntervalSince1970 - stat.startTime.timeIntervalSince1970
 
         let parameters: [String: [String: Any]] = [
             "result": [
-                "hero": playerClass.rawValue.capitalized,
-                "opponent": stat.opponentClass.rawValue.capitalized,
+                "hero": stat.playerHero.rawValue.capitalized,
+                "opponent": stat.opponentHero.rawValue.capitalized,
                 "mode": mode,
-                "coin": stat.hasCoin,
-                "rank": stat.playerRank,
-                "win": (game.currentGameStats?.result ?? GameResult.unknow) == .win,
-                "duration": stat.duration,
-                "added": startTime.timeIntervalSince1970,
-                "note": stat.note,
-                "card_history": game.playedCards.map {
+                "coin": stat.coin,
+                "rank": stat.rank,
+                "win": stat.result == .win,
+                "duration": duration,
+                "added": stat.startTime.timeIntervalSince1970,
+                "note": stat.note/*,
+                "card_history": stat.revealedCards.map {
                     [
-                        "card_id": $0.cardId,
-                        "player": $0.player == .player ? "me" : "opponent",
+                        "card_id": $0.id,
+                        "player": "me",// : "opponent",
                         "turn": $0.turn
                     ]
-                }
+                }*/
             ]
         ]
 

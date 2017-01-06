@@ -37,12 +37,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             TrackOBotPreferences(nibName: "TrackOBotPreferences", bundle: nil)!
         ]
 
-        // Hearthstats is deprecated, only show prefs for connected users
-        if HearthstatsAPI.isLogged() {
-            controllers.append(HearthstatsPreferences(nibName: "HearthstatsPreferences",
-                                                      bundle: nil)!)
-        }
-
         let preferences = MASPreferencesWindowController(
             viewControllers: controllers,
             title: NSLocalizedString("Preferences", comment: ""))
@@ -55,7 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let config = Realm.Configuration(
             fileURL: destination.appendingPathComponent("hstracker.realm"),
-            schemaVersion: 2,
+            schemaVersion: 3,
             migrationBlock: { migration, oldSchemaVersion in
                 // version == 1 : add hearthstoneId in Deck,
                 // automatically managed by realm, nothing to do here
@@ -188,10 +182,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                        images: images)
             }*/
         }
-        let decksOperation = BlockOperation {
-            Log.info?.message("Loading decks")
-            Decks.instance.loadDecks(splashscreen: self.splashscreen)
-        }
         let loggingOperation = BlockOperation {
             while true {
                 if WindowManager.default.isReady() {
@@ -214,13 +204,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         databaseOperation.addDependency(buildsOperation)
         loggingOperation.addDependency(menuOperation)
-        decksOperation.addDependency(databaseOperation)
-        menuOperation.addDependency(decksOperation)
 
         operationQueue = OperationQueue()
         operationQueue?.addOperation(buildsOperation)
         operationQueue?.addOperation(databaseOperation)
-        operationQueue?.addOperation(decksOperation)
         operationQueue?.addOperation(loggingOperation)
         operationQueue?.addOperation(menuOperation)
 
@@ -437,9 +424,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         replaysMenu?.submenu?.removeAllItems()
         replaysMenu?.isEnabled = false
         if let _ = Settings.instance.hsReplayUploadToken {
-            let statistics = realm.objects(Statistic.self)
+            let statistics = realm.objects(GameStats.self)
                 .filter("hsReplayId != nil")
-                .sorted(byProperty: "date", ascending: false)
+                .sorted(byProperty: "startTime", ascending: false)
             replaysMenu?.isEnabled = statistics.count > 0
             let max = min(statistics.count, 10)
             for i in 0..<max {
@@ -449,7 +436,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     deckName = deck.name
                 }
                 let opponentName = stat.opponentName.isEmpty ? "unknow" : stat.opponentName
-                let opponentClass = stat.opponentClass
+                let opponentClass = stat.opponentHero
 
                 var name = ""
                 if !deckName.isEmpty {

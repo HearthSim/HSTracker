@@ -267,14 +267,7 @@ class DeckManager: NSWindowController {
                         } catch {
                             Log.error?.message("Can not update deck. \(error)")
                         }
-                        
-                        if HearthstatsAPI.isLogged() &&
-                            Settings.instance.hearthstatsAutoSynchronize {
-                            do {
-                                try HearthstatsAPI.update(deck: deck) {_ in}
-                            } catch {}
-                        }
-                        
+
                         self.refreshDecks()
         }
 
@@ -398,51 +391,15 @@ class DeckManager: NSWindowController {
                 refreshDecks()
                 return
         }
-        
-        if let _ = deck.hearthstatsId.value, HearthstatsAPI.isLogged() {
-            if Settings.instance.hearthstatsAutoSynchronize {
-                do {
-                    try HearthstatsAPI.delete(deck: deck)
-                } catch {
-                    Log.error?.message("error delete hearthstats")
-                }
-                do {
-                    try realm.write {
-                        realm.delete(deck)
-                    }
-                } catch {
-                    Log.error?.message("Can not delete deck : \(error)")
-                }
-                refreshDecks()
-            } else {
-                let msg = NSLocalizedString("Do you want to delete the deck on Hearthstats ?",
-                                            comment: "")
-                NSAlert.show(style: .informational, message: msg, window: self.window!) {
-                    do {
-                        try HearthstatsAPI.delete(deck: deck)
-                    } catch {
-                        Log.error?.message("error delete hearthstats")
-                    }
-                    do {
-                        try realm.write {
-                            realm.delete(deck)
-                        }
-                    } catch {
-                        Log.error?.message("Can not delete deck : \(error)")
-                    }
-                    self.refreshDecks()
-                }
+
+        do {
+            try realm.write {
+                realm.delete(deck)
             }
-        } else {
-            do {
-                try realm.write {
-                    realm.delete(deck)
-                }
-            } catch {
-                Log.error?.message("Can not delete deck : \(error)")
-            }
-            refreshDecks()
+        } catch {
+            Log.error?.message("Can not delete deck : \(error)")
         }
+        refreshDecks()
     }
 
     private func loadClassesPopUp() {

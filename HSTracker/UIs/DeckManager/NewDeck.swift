@@ -147,29 +147,8 @@ class NewDeck: NSWindowController {
 
     fileprivate func _addDeck(_ deck: Deck) {
         self.delegate?.addNewDeck(deck: deck)
-        if HearthstatsAPI.isLogged() {
-            if Settings.instance.hearthstatsAutoSynchronize {
-                do {
-                    try HearthstatsAPI.post(deck: deck) {_ in}
-                    self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-                } catch {}
-            } else {
-                let msg = NSLocalizedString("Do you want to add this deck on Hearthstats ?",
-                                            comment: "")
-                NSAlert.show(style: .informational, message: msg, window: self.window!) {
-                    do {
-                        try HearthstatsAPI.post(deck: deck) {_ in}
-                        self.window?.sheetParent?.endSheet(self.window!,
-                                                           returnCode: NSModalResponseOK)
-                    } catch {
-                        // TODO alert
-                        Log.error?.message("error")
-                    }
-                }
-            }
-        } else {
-            self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-        }
+
+        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
     }
 
     func checkToEnableSave() {

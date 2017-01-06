@@ -197,23 +197,24 @@ class StatsHelper {
     
     static func getDeckTimePerGame(deck: Deck, againstClass: CardClass = .neutral,
                                    mode: GameMode = .ranked) -> Double {
-        var stats = Array(deck.statistics)
+        var stats = Array(deck.gameStats)
         
         if againstClass != .neutral {
-            stats = stats.filter { $0.opponentClass == againstClass }
+            stats = stats.filter { $0.opponentHero == againstClass }
         }
         
-        var rankedStats: [Statistic]
+        var rankedStats: [GameStats]
         if mode == .all {
             rankedStats = stats
         } else {
-            rankedStats = stats.filter { $0.playerMode == mode }
+            rankedStats = stats.filter { $0.gameMode == mode }
         }
         
         var time: Double = 0.0
         
         for stat in rankedStats {
-            time += Double(stat.duration)
+            let duration = stat.endTime.timeIntervalSince1970 - stat.startTime.timeIntervalSince1970
+            time += Double(duration)
         }
         time /= Double(rankedStats.count)
         
@@ -233,29 +234,29 @@ class StatsHelper {
     static func getDeckRecord(deck: Deck, againstClass: CardClass = .neutral,
                               mode: GameMode = .ranked, season: Int = 0)
         -> StatsDeckRecord {
-            var stats = Array(deck.statistics)
+            var stats = Array(deck.gameStats)
             if againstClass != .neutral {
-                stats = stats.filter { $0.opponentClass == againstClass }
+                stats = stats.filter { $0.opponentHero == againstClass }
             }
             if season > 0 {
-                stats = stats.filter { $0.season.value == season }
+                stats = stats.filter { $0.season == season }
             }
             
-            var rankedStats: [Statistic]
+            var rankedStats: [GameStats]
             if mode == .all {
                 rankedStats = stats
             } else {
-                rankedStats = stats.filter { $0.playerMode == mode }
+                rankedStats = stats.filter { $0.gameMode == mode }
             }
             
-            let wins = rankedStats.filter { $0.gameResult == .win }.count
-            let losses = rankedStats.filter { $0.gameResult == .loss }.count
-            let draws = rankedStats.filter { $0.gameResult == .draw }.count
+            let wins = rankedStats.filter { $0.result == .win }.count
+            let losses = rankedStats.filter { $0.result == .loss }.count
+            let draws = rankedStats.filter { $0.result == .draw }.count
             
             return StatsDeckRecord(wins: wins,
                                    losses: losses,
                                    draws: draws,
-                                   total: wins+losses+draws)
+                                   total: wins + losses + draws)
     }
     
     static func getDeckConfidenceString(record: StatsDeckRecord,
@@ -287,13 +288,13 @@ class StatsHelper {
             .filter({$0.standardViable() == isStandard})
             .filter({!$0.isArena})
         
-        var mostRecent: Statistic?
+        var mostRecent: GameStats?
         for deck_i in decks {
-            let datedRankedGames = deck_i.statistics.filter { $0.playerMode == .ranked }
+            let datedRankedGames = deck_i.gameStats.filter { $0.gameMode == .ranked }
 
-            if let latest = datedRankedGames.max(by: {$0.date < $1.date}) {
+            if let latest = datedRankedGames.max(by: {$0.startTime < $1.startTime}) {
                 if let mr = mostRecent {
-                    if mr.date < latest.date {
+                    if mr.startTime < latest.startTime {
                         mostRecent = latest
                     }
                 } else {
@@ -303,7 +304,7 @@ class StatsHelper {
         }
 
         if let mr = mostRecent {
-            return mr.playerRank
+            return mr.rank
         } else {
             return 25
         }

@@ -24,4 +24,14 @@ enum Format: String {
             self = .unknown
         }
     }
+
+    func toFormatType() -> FormatType {
+        switch self {
+        case .standard:
+            return .ft_standard
+        case .wild:
+            return .ft_wild
+        default: return .ft_unknown
+        }
+    }
 }

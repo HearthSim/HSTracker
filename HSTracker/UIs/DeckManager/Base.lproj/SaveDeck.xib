@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SaveDeck" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="deckName" destination="KeI-hX-IEi" id="0je-nK-LXx"/>
-                <outlet property="saveHearthstats" destination="a0m-ZX-LSh" id="iq0-Pu-fnh"/>
                 <outlet property="version" destination="Nqw-nd-hoq" id="k2D-XO-IIA"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="C2n-ru-0Qx"/>
             </connections>
@@ -17,14 +17,14 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="146"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="126"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="146"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="126"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iKX-p3-DVO">
-                        <rect key="frame" x="18" y="109" width="184" height="17"/>
+                        <rect key="frame" x="18" y="89" width="184" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Deck Name" id="LWn-HE-BcI">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -32,7 +32,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KeI-hX-IEi">
-                        <rect key="frame" x="210" y="107" width="250" height="22"/>
+                        <rect key="frame" x="210" y="87" width="250" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="250" id="JZ5-Sp-tdX"/>
                         </constraints>
@@ -46,7 +46,7 @@
                         </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tJa-4O-9eb">
-                        <rect key="frame" x="18" y="82" width="184" height="17"/>
+                        <rect key="frame" x="18" y="62" width="184" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version" id="wfX-9F-Kz4">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -54,7 +54,7 @@
                         </textFieldCell>
                     </textField>
                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nqw-nd-hoq">
-                        <rect key="frame" x="210" y="77" width="253" height="26"/>
+                        <rect key="frame" x="210" y="57" width="253" height="26"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="250" id="lXU-zR-gCM"/>
                         </constraints>
@@ -68,13 +68,6 @@
                             <outlet property="delegate" destination="-2" id="N0E-QQ-RNt"/>
                         </connections>
                     </comboBox>
-                    <button translatesAutoresizingMaskIntoConstraints="NO" id="a0m-ZX-LSh">
-                        <rect key="frame" x="208" y="55" width="254" height="18"/>
-                        <buttonCell key="cell" type="check" title="Save on Hearthstats" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="N6n-fW-1Nf">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xXd-41-yWc">
                         <rect key="frame" x="316" y="13" width="82" height="32"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ERD-70-cWu">
@@ -102,14 +95,11 @@ Gw
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="gvA-pQ-P6a" secondAttribute="trailing" constant="20" id="4XT-oe-k3x"/>
                     <constraint firstItem="tJa-4O-9eb" firstAttribute="top" secondItem="iKX-p3-DVO" secondAttribute="bottom" constant="10" id="8Lz-Zr-wO8"/>
-                    <constraint firstItem="a0m-ZX-LSh" firstAttribute="leading" secondItem="Nqw-nd-hoq" secondAttribute="leading" id="9NU-78-6Pb"/>
                     <constraint firstItem="KeI-hX-IEi" firstAttribute="leading" secondItem="iKX-p3-DVO" secondAttribute="trailing" constant="10" id="AuV-Yq-6jP"/>
                     <constraint firstAttribute="bottom" secondItem="gvA-pQ-P6a" secondAttribute="bottom" constant="20" id="DIn-4E-1e1"/>
                     <constraint firstItem="iKX-p3-DVO" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="K6U-1U-WrK"/>
                     <constraint firstItem="tJa-4O-9eb" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="Ky0-cv-cT2"/>
-                    <constraint firstAttribute="trailing" secondItem="a0m-ZX-LSh" secondAttribute="trailing" constant="20" id="NnO-ED-yL2"/>
                     <constraint firstItem="gvA-pQ-P6a" firstAttribute="leading" secondItem="xXd-41-yWc" secondAttribute="trailing" constant="10" id="YPA-CO-8s7"/>
-                    <constraint firstItem="a0m-ZX-LSh" firstAttribute="top" secondItem="Nqw-nd-hoq" secondAttribute="bottom" constant="10" id="bKd-Dh-Oni"/>
                     <constraint firstItem="KeI-hX-IEi" firstAttribute="centerY" secondItem="iKX-p3-DVO" secondAttribute="centerY" id="ehx-CY-8ci"/>
                     <constraint firstItem="Nqw-nd-hoq" firstAttribute="leading" secondItem="tJa-4O-9eb" secondAttribute="trailing" constant="10" id="i9L-vO-6Mv"/>
                     <constraint firstAttribute="trailing" secondItem="Nqw-nd-hoq" secondAttribute="trailing" constant="20" id="j3Z-Yr-h6x"/>
@@ -119,7 +109,7 @@ Gw
                     <constraint firstItem="Nqw-nd-hoq" firstAttribute="centerY" secondItem="tJa-4O-9eb" secondAttribute="centerY" id="z7s-N0-9YC"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="471" y="338"/>
+            <point key="canvasLocation" x="471" y="328"/>
         </window>
     </objects>
 </document>

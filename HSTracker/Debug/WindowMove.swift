@@ -195,26 +195,4 @@ class WindowMove: NSWindowController {
             }
         }
     }
-    
-    @IBAction func screenshotPlayerRank(_ sender: AnyObject) {
-        if let image = ImageUtilities.screenshotPlayerRank() {
-            screenshot.image = image
-            
-            let imageCmp = ImageCompare(original: image)
-            let rank = imageCmp.rank()
-            Log.debug?.message("rank : \(rank)")
-        }
-    }
-
-    @IBAction func screenshotFirstCard(_ sender: AnyObject) {
-        if let image = ImageUtilities.screenshotFirstCard() {
-            screenshot.image = image
-
-            let cardMissingDetection = CardMissingDetection()
-            let silverLock = cardMissingDetection.silverLock()
-            let goldenLock = cardMissingDetection.goldenLock()
-
-            Log.debug?.message("silver : \(silverLock), golden : \(goldenLock)")
-        }
-    }
 }

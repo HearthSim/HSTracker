@@ -27,19 +27,6 @@ class ImageCompare {
         self.original = original
     }
     
-    func rank() -> Int {
-        var ranks: [Int: Int] = [:]
-        for i in 1 ... 25 {
-            if let fullImage = NSImage(named: "\(i).bmp"),
-                let image = ImageUtilities.resize(image: fullImage,
-                                                  size: NSSize(width: 24, height: 24)) {
-                ranks[i] = compare(with: image)
-            }
-        }
-        Log.verbose?.message("detected ranks : \(ranks)")
-        return Array(ranks).sorted { $0.1 < $1.1 }.last?.0 ?? -1
-    }
-    
     private func compare(with: NSImage,
                          threshold: CGFloat = 0.4, percent: CGFloat = 20) -> Int {
         guard let original = self.original else { return 0 }

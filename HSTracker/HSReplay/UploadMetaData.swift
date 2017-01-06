@@ -10,9 +10,9 @@ import Foundation
 import Wrap
 
 class UploadMetaData {
-    private var statistic: Statistic?
+    private var statistic: GameStats?
     private var game: Game?
-    private var log: [String]
+    private var log: [String] = []
     var dateStart: Date?
     
     var serverIp: String?
@@ -20,7 +20,7 @@ class UploadMetaData {
     var gameHandle: String?
     var clientHandle: String?
     var reconnected: String?
-    var resumable: String?
+    var resumable: Bool?
     var spectatePassword: String?
     var auroraPassword: String?
     var serverVersion: String?
@@ -30,88 +30,160 @@ class UploadMetaData {
     var spectatorMode: Bool?
     var _friendlyPlayerId: Int?
     var friendlyPlayerId: Int?
-
+    var ladderSeason: Int?
+    var brawlSeason: Int?
     var scenarioId: Int?
     var format: Int?
     var player1: Player = Player()
     var player2: Player = Player()
-    
-    init(log: [String], game: Game?, statistic: Statistic?, gameStart: Date? = nil) {
-        self.log = log
-        self.game = game
-        self.statistic = statistic
-        fillPlayerData()
 
-        self.friendlyPlayerId = self.game?.player.id ?? 0 > 0 ? self.game?.player.id ?? nil
-            : (self._friendlyPlayerId != nil && self._friendlyPlayerId! > 0
-                ? self._friendlyPlayerId : nil)
+    static func generate(game: GameStats?) -> UploadMetaData {
+        let metaData = UploadMetaData()
 
-        if let _date = statistic?.date {
-            dateStart = _date
-        } else if let _date = gameStart {
-            dateStart = _date
+        let playerInfo = getPlayerInfo(game: game)
+        if let _playerInfo = playerInfo {
+            metaData.player1 = _playerInfo.player1
+            metaData.player2 = _playerInfo.player2
         }
-        
-        if let date = dateStart {
-            self.matchStart = date.toIso8601String()
+
+        if let serverInfo = game?.serverInfo {
+            if !String.isNullOrEmpty(serverInfo.address) {
+                metaData.serverIp = serverInfo.address
+            }
+            if serverInfo.port > 0 {
+				metaData.serverPort = "\(serverInfo.port)"
+            }
+            if serverInfo.gameHandle > 0 {
+				metaData.gameHandle = "\(serverInfo.gameHandle)"
+            }
+            if serverInfo.clientHandle > 0 {
+				metaData.clientHandle = "\(serverInfo.clientHandle)"
+            }
+
+            if !String.isNullOrEmpty(serverInfo.spectatorPassword) {
+				metaData.spectatePassword = serverInfo.spectatorPassword
+            }
+            if !String.isNullOrEmpty(serverInfo.auroraPassword) {
+				metaData.auroraPassword = serverInfo.auroraPassword
+            }
+            if !String.isNullOrEmpty(serverInfo.version) {
+				metaData.serverVersion = serverInfo.version
+            }
         }
 
         if let game = game {
-            if game.currentGameMode == .arena {
-                gameType = BnetGameType.bgt_arena.rawValue
+            if game.startTime > Date.distantPast {
+                metaData.matchStart = game.startTime.toIso8601String()
             }
+
+            metaData.gameType = game.gameType != .gt_unknown
+                ? BnetGameType.getBnetGameType(gameType: game.gameType,
+                                               format: game.format).rawValue
+                : BnetGameType.getGameType(mode: game.gameMode,
+                                           format: game.format).rawValue
+
+            if let format = game.format {
+                metaData.format = format.toFormatType().rawValue
+            }
+
+            if game.brawlSeasonId > 0 {
+                metaData.brawlSeason = game.brawlSeasonId
+            }
+            if game.rankedSeasonId > 0 {
+                metaData.ladderSeason = game.rankedSeasonId
+            }
+
         }
+
+        metaData.spectatorMode = game?.gameMode == .spectator
+        //metaData.reconnected = gameMetaData?.reconnected ?? false
+        metaData.resumable = game?.serverInfo?.resumable ?? false
+
+        var friendlyPlayerId: Int? = nil
+        if let _friendlyPlayerId = game?.friendlyPlayerId,
+            _friendlyPlayerId > 0 {
+            friendlyPlayerId = _friendlyPlayerId
+        } else if let _playerFriendlyPlayerId = playerInfo?.friendlyPlayerId,
+            _playerFriendlyPlayerId > 0 {
+            friendlyPlayerId = _playerFriendlyPlayerId
+        }
+        metaData.friendlyPlayerId = friendlyPlayerId
+
+        let scenarioId = game?.serverInfo?.mission ?? 0
+        if scenarioId > 0 {
+				metaData.scenarioId = scenarioId
+        }
+
+        var build: Int? = nil
+        if let _build = game?.hearthstoneBuild {
+            build = _build.value
+        } else if let game = game {
+            build = BuildDates.get(byDate: game.startTime)?.build
+        }
+        if let _build = build, _build > 0 {
+            metaData.hearthstoneBuild = _build
+        }
+
+        return metaData
     }
 
-    private func fillPlayerData() {
+    static func getPlayerInfo(game: GameStats?) -> PlayerInfo? {
+        guard let game = game else { return nil }
+
+        if game.friendlyPlayerId == 0 {
+            return nil
+        }
+
         let friendly = Player()
         let opposing = Player()
-        
-        if let statistic = statistic {
-            if statistic.playerRank > 0 {
-                friendly.rank = statistic.playerRank
+
+        if game.rank > 0 {
+            friendly.rank = game.rank
+        }
+        if game.legendRank > 0 {
+            friendly.legendRank = game.legendRank
+        }
+        if game.playerCardbackId > 0 {
+            friendly.cardBack = game.playerCardbackId
+        }
+        if game.stars > 0 {
+            friendly.stars = game.stars
+        }
+
+        if let hsDeckId = game.hsDeckId.value, hsDeckId > 0 {
+            friendly.deckId = hsDeckId
+        }
+
+        if game.gameMode == .arena {
+            if game.arenaWins > 0 {
+                friendly.wins = game.arenaWins
             }
-            if let legendRank = statistic.legendRank.value, legendRank > 0 {
-                friendly.legendRank = legendRank
+            if game.arenaLosses > 0 {
+                friendly.losses = game.arenaLosses
             }
-            if let opponentLegendRank = statistic.opponentLegendRank.value, opponentLegendRank > 0 {
-                opposing.legendRank = opponentLegendRank
+        } else if game.gameMode == .brawl {
+            if game.brawlWins > 0 {
+                friendly.wins = game.brawlWins
             }
-            if let opponentRank = statistic.opponentRank.value, opponentRank > 0 {
-                opposing.rank = opponentRank
+            if game.brawlLosses > 0 {
+                friendly.losses = game.brawlLosses
             }
         }
 
-        if let game = game {
-            if game.player.id > 0 {
-                player1 = game.player.id == 1 ? friendly : opposing
-                player2 = game.player.id == 2 ? friendly : opposing
-            } else {
-                let player1Name = getPlayer1Name()
-                if player1Name == game.player.name {
-                    _friendlyPlayerId = 1
-                    player1 = friendly
-                    player2 = opposing
-                } else {
-                    _friendlyPlayerId = 2
-                    player1 = opposing
-                    player2 = friendly
-                }
-            }
+        if game.opponentRank > 0 {
+            opposing.rank = game.opponentRank
         }
-    }
-    
-    private func getPlayer1Name() -> String? {
-        let regex = "TAG_CHANGE Entity=(.+) tag=CONTROLLER value=1"
-        for line in log {
-            if line.match(regex) {
-                let matches = line.matches(regex)
-                return matches[0].value
-            }
+        if game.opponentLegendRank > 0 {
+            opposing.legendRank = game.opponentLegendRank
         }
-        return nil
+        if game.opponentCardbackId > 0 {
+            opposing.cardBack = game.opponentCardbackId
+        }
+
+        return PlayerInfo(player1: game.friendlyPlayerId == 1 ? friendly : opposing,
+                          player2: game.friendlyPlayerId == 2 ? friendly : opposing)
     }
-    
+
     class Player {
         var rank: Int?
         var legendRank: Int?
@@ -119,8 +191,20 @@ class UploadMetaData {
         var wins: Int?
         var losses: Int?
         var deck: [String]?
-        var deckId: Int?
+        var deckId: Int64?
         var cardBack: Int?
+    }
+
+    struct PlayerInfo {
+        let player1: Player
+        let player2: Player
+        let friendlyPlayerId: Int
+
+        init(player1: Player, player2: Player, friendlyPlayerId: Int = -1) {
+            self.player1 = player1
+            self.player2 = player2
+            self.friendlyPlayerId = friendlyPlayerId
+        }
     }
 }
 extension UploadMetaData.Player: WrapCustomizable {
@@ -152,6 +236,8 @@ extension UploadMetaData: WrapCustomizable {
         case "spectatorMode": return "spectator_mode"
         case "friendlyPlayerId": return "friendly_player"
         case "scenarioId": return "scenario_id"
+        case "ladderSeason": return "ladder_season"
+        case "brawlSeason": return "brawl_season"
         case "statistic", "game",
              "log", "gameStart":
             return nil

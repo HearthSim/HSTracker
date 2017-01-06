@@ -87,7 +87,7 @@ class LogUploader {
         }
     }
 
-    static func upload(logLines: [LogLine], game: Game? = nil, statistic: Statistic? = nil,
+    static func upload(logLines: [LogLine], statistic: GameStats? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         let log = logLines.sorted {
@@ -96,11 +96,11 @@ class LogUploader {
             }
             return $0.time < $1.time
             }.map { $0.line }
-        upload(logLines: log, game: game, statistic: statistic, gameStart: gameStart,
+        upload(logLines: log, statistic: statistic, gameStart: gameStart,
                fromFile: fromFile, completion: completion)
     }
 
-    static func upload(logLines: [String], game: Game? = nil, statistic: Statistic? = nil,
+    static func upload(logLines: [String], statistic: GameStats? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         guard let token = Settings.instance.hsReplayUploadToken else {
@@ -132,10 +132,7 @@ class LogUploader {
         inProgress.append(item)
 
         do {
-            let uploadMetaData = UploadMetaData(log: logLines,
-                                                game: game,
-                                                statistic: statistic,
-                                                gameStart: gameStart)
+            let uploadMetaData = UploadMetaData.generate(game: statistic)
             if let date = uploadMetaData.dateStart, fromFile {
                 uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: date)?.build
             } else if let build = BuildDates.getByProductDb() {
@@ -183,7 +180,7 @@ class LogUploader {
                             if let statId = statId {
                                 do {
                                     let realm = try Realm()
-                                    if let existing = realm.objects(Statistic.self)
+                                    if let existing = realm.objects(GameStats.self)
                                         .filter("statId = '\(statId)'").first {
                                         try realm.write {
                                             existing.hsReplayId = uploadShortId
