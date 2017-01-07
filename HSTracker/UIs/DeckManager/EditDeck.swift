@@ -524,10 +524,17 @@ extension EditDeck: NSWindowDelegate {
             delegate?.refreshDecks()
             return true
         }
-
-        let msg = NSLocalizedString("Are you sure you want to close this deck ? "
+        
+        let alert = NSAlert()
+        alert.alertStyle = .informational
+        // swiftlint:disable line_length
+        alert.messageText = NSLocalizedString("Are you sure you want to close this deck? "
             + "Your changes will not be saved.", comment: "")
-        return NSAlert.show(style: .informational, message: msg)
+        // swiftlint:enable line_length
+        alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        
+        return alert.runModal() == NSAlertFirstButtonReturn
     }
 }
 
