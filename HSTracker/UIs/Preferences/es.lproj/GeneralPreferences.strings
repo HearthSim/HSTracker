@@ -28,3 +28,6 @@
 
 /* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
 "mBv-nX-Cn3.title" = "Enable Apphealth icon badge";
+
+/* Class = "NSButtonCell"; title = "Prefer golden cards when exporting to Hearthstone"; ObjectID = "1BI-nh-nxq"; */
+"1BI-nh-nxq.title" = "Prefer golden cards when exporting to Hearthstone";

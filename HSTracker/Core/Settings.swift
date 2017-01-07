@@ -119,6 +119,10 @@ final class Settings {
         set { set(name: "window_locked", value: newValue) }
         get { return get(name: "window_locked") as? Bool ?? true }
     }
+    var preferGoldenCards: Bool {
+        set { set(name: "prefer_golden_cards", value: newValue) }
+        get { return get(name: "prefer_golden_cards") as? Bool ?? false }
+    }
     var autoDeckDetection: Bool {
         set { set(name: "auto_deck_detection", value: newValue) }
         get { return get(name: "auto_deck_detection") as? Bool ?? true }

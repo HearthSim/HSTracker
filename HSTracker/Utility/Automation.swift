@@ -7,11 +7,37 @@
 //
 
 import Foundation
+import CleanroomLogger
+import RealmSwift
 
 struct Automation {
     private var queue: DispatchQueue = DispatchQueue(label: "export.hstracker", attributes: [])
     
-    func expertDeckToHearthstone(deck: Deck, callback: (() -> Void)?) {
+    func expertDeckToHearthstone(deck: Deck, callback: @escaping ([Card]?, String?) -> Void) {
+        // get collection first
+        guard let collection = Hearthstone.instance.mirror?.getCardCollection() as? [MirrorCard]
+            else {
+                Log.error?.message("Can't get card collection")
+                callback(nil, NSLocalizedString("Can't get card collection", comment: ""))
+                return
+        }
+
+        var cards: [String: [Bool: Int]] = [:]
+        for card in collection {
+            if cards[card.cardId] == nil {
+                cards[card.cardId] = [:]
+            }
+            if cards[card.cardId]?[card.premium] == nil {
+                cards[card.cardId]?[card.premium] = card.count as Int
+            } else {
+                if let count = cards[card.cardId]?[card.premium] {
+                    let newCount = count + (card.count as Int)
+                    cards[card.cardId]?[card.premium] = newCount
+                }
+            }
+        }
+
+        let deckId = deck.deckId
         queue.async {
             // bring HS to front
             Hearthstone.instance.bringToFront()
@@ -20,24 +46,47 @@ struct Automation {
             let firstCardLocation = SizeHelper.firstCardLocation()
             let secondCardLocation = SizeHelper.secondCardLocation()
 
-            let cardMissingDetection = CardMissingDetection()
+            let preferGoldenCards = Settings.instance.preferGoldenCards
+
+            var missingCards: [Card] = []
 
             // click a first time to be sure we have the focus on hearthstone
             self.leftClick(at: searchLocation)
             Thread.sleep(forTimeInterval: 0.5)
 
-            deck.sortedCards.forEach {
+            for deckCard in deck.sortedCards {
+                guard let card = cards[deckCard.id] else {
+                    for _ in 1...deckCard.count {
+                        missingCards.append(deckCard)
+                    }
+                    continue
+                }
+
+                var goldenCount = card[true] ?? 0
+                var normalCount = card[false] ?? 0
+
+                if goldenCount + normalCount < deckCard.count {
+                    for _ in 1...(deckCard.count - (goldenCount + normalCount)) {
+                        missingCards.append(deckCard)
+                    }
+                }
+
                 self.leftClick(at: searchLocation)
                 Thread.sleep(forTimeInterval: 0.3)
-                self.write(string: self.searchText(card: $0))
+                self.write(string: self.searchText(card: deckCard))
                 Thread.sleep(forTimeInterval: 0.3)
 
-                for _ in 1...$0.count {
-                    let silverLock = cardMissingDetection.silverLock()
-                    let goldenLock = cardMissingDetection.goldenLock()
-                    if silverLock || goldenLock {
+                var takeGolden: Bool = false
+                for _ in 1...deckCard.count {
+                    takeGolden = (preferGoldenCards && goldenCount > 0)
+                        || normalCount == 0
+
+                    if takeGolden {
                         self.doubleClick(at: secondCardLocation)
+                        goldenCount -= 1
+                        takeGolden = preferGoldenCards && goldenCount > 0
                     } else {
+                        normalCount -= 1
                         self.doubleClick(at: firstCardLocation)
                     }
                     Thread.sleep(forTimeInterval: 0.3)
@@ -45,8 +94,23 @@ struct Automation {
             }
             
             Thread.sleep(forTimeInterval: 1)
+            guard let editedDeck = Hearthstone.instance.mirror?.getEditedDeck() else {
+                callback([], NSLocalizedString("Can't get edited deck", comment: ""))
+                return
+            }
+            if let realm = try? Realm(),
+                let _deck = realm.objects(Deck.self)
+                    .filter("deckId = '\(deckId)'").first {
+                        do {
+                            try realm.write {
+                                _deck.hsDeckId.value = editedDeck.id as Int64
+                            }
+                        } catch {
+                            Log.error?.message("Can't update deck")
+                        }
+            }
             DispatchQueue.main.async {
-                callback?()
+                callback(missingCards, NSLocalizedString("Export done", comment: ""))
             }
         }
     }

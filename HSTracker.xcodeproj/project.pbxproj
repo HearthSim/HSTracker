@@ -432,7 +432,6 @@
 		432B5FD11CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SaveDeck.strings; sourceTree = "<group>"; };
 		432B5FD21CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InitialConfiguration.strings; sourceTree = "<group>"; };
 		432B5FD31CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Splashscreen.strings; sourceTree = "<group>"; };
-		432B5FD41CB5378B00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		432B5FD81CB5378C00B05D19 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		432B5FD91CB5492500B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/DeckManager.strings; sourceTree = "<group>"; };
 		432B5FDA1CB5492600B05D19 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/NewDeck.strings; sourceTree = "<group>"; };
@@ -677,6 +676,7 @@
 		43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JadeCounter.swift; sourceTree = "<group>"; };
 		43A8A0F61E1557C900AF34FD /* FormatType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatType.swift; sourceTree = "<group>"; };
 		43A8A0F81E15596000AF34FD /* GameType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameType.swift; sourceTree = "<group>"; };
+		43AFEEE91E218B0800F6045A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeActions.swift; sourceTree = "<group>"; };
 		43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKeyPoint.swift; sourceTree = "<group>"; };
 		43B695511C903A3600F4D0AC /* KeyPointType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPointType.swift; sourceTree = "<group>"; };
@@ -1829,12 +1829,12 @@
 			isa = PBXVariantGroup;
 			children = (
 				432B5FBA1CB5372C00B05D19 /* Base */,
-				432B5FD41CB5378B00B05D19 /* fr */,
 				432B5FDF1CB5492600B05D19 /* de */,
 				432B5FEA1CB549F100B05D19 /* es */,
 				432B5FF51CB54A3600B05D19 /* it */,
 				432B60001CB54A6800B05D19 /* pt-BR */,
 				432B600B1CB54AD700B05D19 /* zh-Hans */,
+				43AFEEE91E218B0800F6045A /* fr */,
 			);
 			name = GeneralPreferences.xib;
 			sourceTree = "<group>";

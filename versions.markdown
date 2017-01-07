@@ -22,13 +22,14 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 ## New:
 - Add a jade counter
 - New way to get your data, which allows to get 
-- decks imported from Hearthstone for all game modes (arena, brawl, constructed) (in this version)
-- format (wild/standard) (in this version)
-- correct rank (in this version)
-- arena draft choice (which allows something like arena helper) (NOT in this version, planned for future release)
-- arena reward tracking (NOT in this version, planned for future release)
-- collection manager (we know the cards you have) (NOT in this version, planned for future release)
-- pack opening, end season rewards, ... (NOT in this version, planned for future release)
+    - Decks imported from Hearthstone for all game modes (arena, brawl, constructed) (in this version)
+    - Format (wild/standard) (in this version)
+    - Correct rank (in this version)
+    - Arena draft choice (which allows something like arena helper) (NOT in this version, planned for future release)
+    - Arena reward tracking (NOT in this version, planned for future release)
+    - Collection manager (we know the cards you have) (NOT in this version, planned for future release)
+    - Pack opening, end season rewards, ... (NOT in this version, planned for future release)
+- Add an option to prefer golden cards when exporting a deck to Hearthstone
 
 ## Fixes:
 - The "Use deck" in the deck manager is working again

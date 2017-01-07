@@ -151,3 +151,4 @@
 "Your replay has been uploaded on HSReplay" = "Your replay has been uploaded on HSReplay";
 "View" = "View";
 "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.\nWARNING, this is a beta feature !";
+"The followings cards were missing : " = "The followings cards were missing : ";

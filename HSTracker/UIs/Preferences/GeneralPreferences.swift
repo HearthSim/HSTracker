@@ -18,6 +18,7 @@ class GeneralPreferences: NSViewController {
     @IBOutlet weak var promptNote: NSButton!
     @IBOutlet weak var saveReplays: NSButton!
     @IBOutlet weak var enableDockBadge: NSButton!
+    @IBOutlet weak var preferGoldenCards: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ class GeneralPreferences: NSViewController {
         promptNote.state = settings.promptNotes ? NSOnState : NSOffState
         saveReplays.state = settings.saveReplays ? NSOnState : NSOffState
         enableDockBadge.state = settings.showAppHealth ? NSOnState : NSOffState
+        preferGoldenCards.state = settings.preferGoldenCards ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -49,6 +51,8 @@ class GeneralPreferences: NSViewController {
         } else if sender == enableDockBadge {
             settings.showAppHealth = enableDockBadge.state == NSOnState
             AppHealth.instance.updateBadge()
+        } else if sender == preferGoldenCards {
+            settings.preferGoldenCards = preferGoldenCards.state == NSOnState
         }
     }
 

@@ -28,3 +28,6 @@
 
 /* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
 "mBv-nX-Cn3.title" = "Activer le badge Santé de HSTracker";
+
+/* Class = "NSButtonCell"; title = "Prefer golden cards when exporting to Hearthstone"; ObjectID = "1BI-nh-nxq"; */
+"1BI-nh-nxq.title" = "Préférer les cartes dorées lors de l'export vers Hearthstone";
