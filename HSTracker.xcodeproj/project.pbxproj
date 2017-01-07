@@ -184,8 +184,6 @@
 		43883F1E1DA382BA00A7B79C /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43883F1D1DA382BA00A7B79C /* Language.swift */; };
 		4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390FBB91DAA72E700AE71BB /* Version.swift */; };
 		439212151DEF5A5E0017AAE5 /* MultiClassGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */; };
-		4394C79E1D188F9400007FAD /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; };
-		4394C79F1D188FD700007FAD /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4394C79D1D188F9400007FAD /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
 		439C7E851C777CFC00D29859 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E7D1C777CFC00D29859 /* Deck.swift */; };
@@ -258,9 +256,6 @@
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
 		43D308061C842DC900480488 /* GamePrefences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePrefences.swift */; };
 		43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* PlayerTrackersPreferences.swift */; };
-		43E6633A1DC76623007AB06E /* CardMissingDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43E663381DC76623007AB06E /* CardMissingDetector.cpp */; };
-		43E6633C1DC76913007AB06E /* CardMissingDetectorWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43E6633B1DC76913007AB06E /* CardMissingDetectorWrapper.mm */; };
-		43E6633F1DC769EC007AB06E /* CardMissingDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E6633E1DC769EC007AB06E /* CardMissingDetection.swift */; };
 		43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EDF1C949C6D00C26950 /* TimerHud.xib */; };
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
@@ -356,7 +351,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4394C79F1D188FD700007FAD /* opencv2.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
@@ -709,11 +703,6 @@
 		43D308051C842DC900480488 /* GamePrefences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePrefences.swift; sourceTree = "<group>"; };
 		43D308071C84410000480488 /* PlayerTrackersPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTrackersPreferences.swift; sourceTree = "<group>"; };
 		43E6632A1DC743BC007AB06E /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
-		43E663381DC76623007AB06E /* CardMissingDetector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CardMissingDetector.cpp; sourceTree = "<group>"; };
-		43E663391DC76623007AB06E /* CardMissingDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CardMissingDetector.hpp; sourceTree = "<group>"; };
-		43E6633B1DC76913007AB06E /* CardMissingDetectorWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CardMissingDetectorWrapper.mm; sourceTree = "<group>"; };
-		43E6633D1DC7693B007AB06E /* CardMissingDetectorWrapper.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CardMissingDetectorWrapper.hpp; sourceTree = "<group>"; };
-		43E6633E1DC769EC007AB06E /* CardMissingDetection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardMissingDetection.swift; sourceTree = "<group>"; };
 		43E77EDF1C949C6D00C26950 /* TimerHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerHud.xib; sourceTree = "<group>"; };
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
@@ -774,7 +763,6 @@
 				436789DA1CAE484800C962D1 /* JNWCollectionView.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
-				4394C79E1D188F9400007FAD /* opencv2.framework in Frameworks */,
 				43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */,
 				43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */,
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
@@ -972,7 +960,6 @@
 		437B5BB11CD2437D00DE0A41 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				43E663371DC764BD007AB06E /* CardMissing */,
 				434910481D09544200B22DB2 /* BoardDamage */,
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
@@ -1293,18 +1280,6 @@
 				43E6632A1DC743BC007AB06E /* .travis.yml */,
 			);
 			name = Configs;
-			sourceTree = "<group>";
-		};
-		43E663371DC764BD007AB06E /* CardMissing */ = {
-			isa = PBXGroup;
-			children = (
-				43E6633E1DC769EC007AB06E /* CardMissingDetection.swift */,
-				43E663381DC76623007AB06E /* CardMissingDetector.cpp */,
-				43E663391DC76623007AB06E /* CardMissingDetector.hpp */,
-				43E6633D1DC7693B007AB06E /* CardMissingDetectorWrapper.hpp */,
-				43E6633B1DC76913007AB06E /* CardMissingDetectorWrapper.mm */,
-			);
-			path = CardMissing;
 			sourceTree = "<group>";
 		};
 		43E77EEB1C969C2500C26950 /* Regex */ = {
@@ -1667,7 +1642,6 @@
 				434C2F341C7F4816001D1D91 /* HearthpwnDeckBuilder.swift in Sources */,
 				439C7EB61C777F8900D29859 /* CardMark.swift in Sources */,
 				43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */,
-				43E6633F1DC769EC007AB06E /* CardMissingDetection.swift in Sources */,
 				435907EC1CB13835008D4363 /* FileImporter.swift in Sources */,
 				431719711C84911300F5988B /* EditDeck.swift in Sources */,
 				432AD95B1DAD46FF00D8F959 /* Http.swift in Sources */,
@@ -1723,8 +1697,6 @@
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				C92C681A1D1F8E27009030DC /* Ranks.swift in Sources */,
 				64C11831FAF872B46E57E719 /* CardIds.swift in Sources */,
-				43E6633A1DC76623007AB06E /* CardMissingDetector.cpp in Sources */,
-				43E6633C1DC76913007AB06E /* CardMissingDetectorWrapper.mm in Sources */,
 				BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */,
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
 				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
@@ -2139,7 +2111,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
-					"$(PROJECT_DIR)/HSTracker-OpenCV",
 				);
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;
@@ -2151,7 +2122,7 @@
 				OTHER_SWIFT_FLAGS = "-DDEBUG $(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.hstracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/HSTracker/Core/Libraries/zlib";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2169,7 +2140,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
-					"$(PROJECT_DIR)/HSTracker-OpenCV",
 				);
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = HSTracker/Info.plist;
@@ -2179,7 +2149,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.hstracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/HSTracker/Core/Libraries/zlib";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

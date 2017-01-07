@@ -18,7 +18,6 @@
 
 #import <Sparkle/Sparkle.h>
 
-#import "CardMissingDetectorWrapper.hpp"
 #import "GlowFilter.h"
 
 #import <HearthMirror/HearthMirror.h>
