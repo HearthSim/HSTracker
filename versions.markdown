@@ -1,4 +1,4 @@
-# 0.18.6
+# 0.19
 ## Breaking change
 HearthStats has not been updated for Mean Streets of Gadgetzan and will likely remain unmaintained.
 Syncing causes your local decks to lose their MSG cards. HearthStats support is now disabled for all users.
@@ -8,6 +8,11 @@ We are very sorry about the inconvenience and are working on a much improved rep
 ## Breaking change 2
 Starting from this version, HSTracker is signed with my Apple developper account. You have to download manually this version from [hsdecktracker.net](https://hsdecktracker.net/hstracker/download/) since the update system will not allow this signature change.
 
+## Breaking change 3
+HSTracker now use a new system to improve your tracking. It allows HSTracker to auto-import decks from Hearthstone, detect ranks, game modes, ...
+You will be asked to authorize HSTracker to make some change to your system. It will only change a little think on Hearthstone. There's no other modification done to your system.
+_Please note_ that this version will delete your statistics, this is due to a big modification of the statistic system.
+
 ## Changes:
 - Improve the "new deck" window
 - Improve the tracker "refresh"
@@ -16,9 +21,18 @@ Starting from this version, HSTracker is signed with my Apple developper account
 
 ## New:
 - Add a jade counter
+- New way to get your data, which allows to get 
+- decks imported from Hearthstone for all game modes (arena, brawl, constructed) (in this version)
+- format (wild/standard) (in this version)
+- correct rank (in this version)
+- arena draft choice (which allows something like arena helper) (NOT in this version, planned for future release)
+- arena reward tracking (NOT in this version, planned for future release)
+- collection manager (we know the cards you have) (NOT in this version, planned for future release)
+- pack opening, end season rewards, ... (NOT in this version, planned for future release)
 
 ## Fixes:
 - The "Use deck" in the deck manager is working again
+- The new way we get data should correct a lot of issues
 
 # 0.18.5
 ## Fixes:

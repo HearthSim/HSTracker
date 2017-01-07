@@ -297,6 +297,7 @@ class Game {
             currentDeck = nil
         }
         player.playerClass = currentDeck?.playerClass
+        currentGameStats?.playerHero = currentDeck?.playerClass ?? .neutral
         WindowManager.default.updateTrackers(reset: true)
     }
 

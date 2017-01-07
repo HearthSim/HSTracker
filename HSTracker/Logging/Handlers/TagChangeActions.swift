@@ -645,7 +645,7 @@ struct TagChangeActions {
                 let entity = game.entities[id] {
                 Log.info?.message("playerEntity found playerClass : \(game.player.playerClass),"
                     + "\(id) -> \(playerEntity[.hero_entity]) -> \(entity) ")
-                if game.player.playerClass == nil && id == playerEntity[.hero_entity] {
+                if id == playerEntity[.hero_entity] {
                     let cardId = entity.cardId
                     DispatchQueue.main.async {
                         game.set(playerHero: cardId)
@@ -665,7 +665,7 @@ struct TagChangeActions {
                 Log.info?.message("opponentEntity found playerClass : \(game.opponent.playerClass),"
                     + " \(id) -> \(opponentEntity[.hero_entity]) -> \(entity) ")
 
-                if game.opponent.playerClass == nil && id == opponentEntity[.hero_entity] {
+                if id == opponentEntity[.hero_entity] {
                     let cardId = entity.cardId
                     DispatchQueue.main.async {
                         game.set(opponentHero: cardId)
