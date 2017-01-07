@@ -579,7 +579,7 @@ class Game {
 
         if TrackOBotAPI.isLogged() && Settings.instance.trackobotSynchronizeMatches {
             do {
-                try TrackOBotAPI.postMatch(stat: currentGameStats)
+                try TrackOBotAPI.postMatch(stat: currentGameStats, cards: playedCards)
             } catch {
                 Log.error?.message("Track-o-Bot error : \(error)")
             }

@@ -56,7 +56,7 @@ struct TrackOBotAPI {
      */
 
     // MARK: - matches
-    static func postMatch(stat: GameStats) throws {
+    static func postMatch(stat: GameStats, cards: [PlayedCard]) throws {
         let settings = Settings.instance
         guard let username = settings.trackobotUsername else {
             throw TrackOBotError.notLogged
@@ -87,14 +87,14 @@ struct TrackOBotAPI {
                 "win": stat.result == .win,
                 "duration": duration,
                 "added": stat.startTime.timeIntervalSince1970,
-                "note": stat.note/*,
-                "card_history": stat.revealedCards.map {
+                "note": stat.note,
+                "card_history": cards.map {
                     [
-                        "card_id": $0.id,
-                        "player": "me",// : "opponent",
+                        "card_id": $0.cardId,
+                        "player": $0.player == .player ? "me" : "opponent",
                         "turn": $0.turn
                     ]
-                }*/
+                }
             ]
         ]
 
