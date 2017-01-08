@@ -181,19 +181,29 @@ final class Hearthstone: NSObject {
     }
 
     func startTracking() {
-        Log.info?.message("Start Tracking")
-        // get rights to attach
-        if acquireTaskportRight() != 0 {
-            Log.error?.message("acquireTaskportRight() failed!")
-        }
-        if let hearthstoneApp = hearthstoneApp {
-            mirror = HearthMirror(pid: hearthstoneApp.processIdentifier)
-            if let battleTag = mirror?.getBattleTag() {
-                Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
+        let time = DispatchTime.now() + DispatchTimeInterval.seconds(1)
+        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
+            Log.info?.message("Start Tracking")
+            // get rights to attach
+            if acquireTaskportRight() != 0 {
+                Log.error?.message("acquireTaskportRight() failed!")
             }
-        }
+            if let hearthstoneApp = self?.hearthstoneApp {
+                self?.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier)
 
-        self.logReaderManager.start()
+                // waiting for mirror to be up and running
+                while true {
+                    if let battleTag = self?.mirror?.getBattleTag() {
+                        Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
+                        break
+                    } else {
+                        Thread.sleep(forTimeInterval: 0.5)
+                    }
+                }
+            }
+
+            self?.logReaderManager.start()
+        }
     }
 
     func stopTracking() {
