@@ -148,3 +148,5 @@
 "Your replay has been uploaded on HSReplay" = "重播传到上 HSReplay";
 "View" = "看重播";
 "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "如果想输出套牌到炉石传说, 做一个新的套牌与正确的类, 点 OK 然后 换到炉石传说。\n。别动鼠标或键盘。\n警告, 这是一个测试功能!";
+"The followings cards were missing : " = "The followings cards were missing : ";
+"Can't get card collection" = "Can't get card collection, is Hearthstone running ?";

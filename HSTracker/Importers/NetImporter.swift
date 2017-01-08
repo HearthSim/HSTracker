@@ -82,7 +82,7 @@ final class NetImporter {
         ]
     }
 
-    static func netImport(url: String, completion: @escaping (Deck?) -> Void) throws {
+    static func netImport(url: String, completion: @escaping (Deck?, String?) -> Void) throws {
         guard let _ = URL(string: url) else {
             throw NetImporterError.invalidUrl
         }
@@ -104,13 +104,13 @@ final class NetImporter {
                                         deck.add(card: card)
                                     }
                                 }
-                                completion(deck)
+                                completion(deck, checkDeckWithCollection(deck: deck))
                             } catch {
                                 Log.error?.message("Can not import deck. Error : \(error)")
-                                completion(nil)
+                                completion(nil, nil)
                             }
                         } else {
-                            completion(nil)
+                            completion(nil, nil)
                         }
                     })
 
@@ -127,18 +127,47 @@ final class NetImporter {
                                         deck.add(card: card)
                                     }
                                 }
-                                completion(deck)
+                                completion(deck, checkDeckWithCollection(deck: deck))
                             } catch {
                                 Log.error?.message("Can not import deck. Error : \(error)")
-                                completion(nil)
+                                completion(nil, nil)
                             }
                         } else {
-                            completion(nil)
+                            completion(nil, nil)
                         }
                     })
                 }
                 return
             }
         }
+    }
+
+    static func checkDeckWithCollection(deck: Deck) -> String? {
+        let cards = CollectionManager.default.collection()
+        if cards.count == 0 {
+            return NSLocalizedString("Can't get card collection", comment: "")
+        }
+
+        var missingCards: [Card] = []
+        for deckCard in deck.sortedCards {
+            guard let card = cards[deckCard.id] else {
+                for _ in 1...deckCard.count {
+                    missingCards.append(deckCard)
+                }
+                continue
+            }
+
+            let goldenCount = card[true] ?? 0
+            let normalCount = card[false] ?? 0
+            let cardCount = goldenCount + normalCount
+
+            if cardCount < deckCard.count {
+                for _ in 1...(deckCard.count - cardCount) {
+                    missingCards.append(deckCard)
+                }
+            }
+        }
+
+        return CollectionManager.default.checkMissingCards(missingCards: missingCards)
     }
 }

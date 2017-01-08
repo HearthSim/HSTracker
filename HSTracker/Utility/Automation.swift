@@ -13,28 +13,11 @@ import RealmSwift
 struct Automation {
     private var queue: DispatchQueue = DispatchQueue(label: "export.hstracker", attributes: [])
     
-    func expertDeckToHearthstone(deck: Deck, callback: @escaping ([Card]?, String?) -> Void) {
-        // get collection first
-        guard let collection = Hearthstone.instance.mirror?.getCardCollection() as? [MirrorCard]
-            else {
-                Log.error?.message("Can't get card collection")
-                callback(nil, NSLocalizedString("Can't get card collection", comment: ""))
+    func expertDeckToHearthstone(deck: Deck, callback: @escaping (String) -> Void) {
+        let cards = CollectionManager.default.collection()
+        if cards.count == 0 {
+                callback(NSLocalizedString("Can't get card collection", comment: ""))
                 return
-        }
-
-        var cards: [String: [Bool: Int]] = [:]
-        for card in collection {
-            if cards[card.cardId] == nil {
-                cards[card.cardId] = [:]
-            }
-            if cards[card.cardId]?[card.premium] == nil {
-                cards[card.cardId]?[card.premium] = card.count as Int
-            } else {
-                if let count = cards[card.cardId]?[card.premium] {
-                    let newCount = count + (card.count as Int)
-                    cards[card.cardId]?[card.premium] = newCount
-                }
-            }
         }
 
         let deckId = deck.deckId
@@ -95,7 +78,7 @@ struct Automation {
             
             Thread.sleep(forTimeInterval: 1)
             guard let editedDeck = Hearthstone.instance.mirror?.getEditedDeck() else {
-                callback([], NSLocalizedString("Can't get edited deck", comment: ""))
+                callback(NSLocalizedString("Can't get edited deck", comment: ""))
                 return
             }
             if let realm = try? Realm(),
@@ -110,7 +93,12 @@ struct Automation {
                         }
             }
             DispatchQueue.main.async {
-                callback(missingCards, NSLocalizedString("Export done", comment: ""))
+                var message = NSLocalizedString("Export done", comment: "")
+                if let msg = CollectionManager.default
+                    .checkMissingCards(missingCards: missingCards) {
+                    message = msg
+                }
+                callback(message)
             }
         }
     }

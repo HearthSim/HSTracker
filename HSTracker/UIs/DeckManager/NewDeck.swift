@@ -85,27 +85,28 @@ class NewDeck: NSWindowController {
             do {
                 loader.startAnimation(self)
                 try NetImporter.netImport(url: urlDeck.stringValue,
-                                          completion: { (deck) -> Void in
+                                          completion: { (deck, message) -> Void in
                                             self.loader.stopAnimation(self)
                                             if let deck = deck {
                                                 self._addDeck(deck)
+                                                if let message = message {
+                                                    NSAlert.show(style: .informational,
+                                                                 message: message)
+                                                }
                                             } else {
-                                                // show error
-                                                let alertDialog: NSAlert = NSAlert()
-                                                // swiftlint:disable line_length
-                                                alertDialog.messageText = NSLocalizedString("Failed to import deck from \n", comment: "") + self.urlDeck.stringValue
-                                                // swiftlint:enable line_length
-                                                alertDialog.runModal()
+                                                let msg = NSLocalizedString("Failed to import deck"
+                                                    + " from \n", comment: "")
+                                                    + self.urlDeck.stringValue
+                                                NSAlert.show(style: .critical,
+                                                             message: msg)
                                             }
                 })
             } catch {
                 self.loader.stopAnimation(self)
-                // show error
-                let alertDialog: NSAlert = NSAlert()
-                // swiftlint:disable line_length
-                alertDialog.messageText = NSLocalizedString("Failed to import deck from \n", comment: "") + self.urlDeck.stringValue
-                // swiftlint:enable line_length
-                alertDialog.runModal()
+                let msg = NSLocalizedString("Failed to import deck from \n", comment: "")
+                    + self.urlDeck.stringValue
+                NSAlert.show(style: .critical,
+                             message: msg)
             }
         } else if fromAFile.state == NSOnState {
             // add here to remember this case exists

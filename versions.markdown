@@ -10,7 +10,7 @@ Starting from this version, HSTracker is signed with my Apple developper account
 
 ## Breaking change 3
 HSTracker now use a new system to improve your tracking. It allows HSTracker to auto-import decks from Hearthstone, detect ranks, game modes, ...
-You will be asked to authorize HSTracker to make some change to your system. It will only change a little think on Hearthstone. There's no other modification done to your system. HSTracker will not work correclty if you don't accept this modification.
+You will be asked to authorize HSTracker to read the memory of Hearthstone. There's no other modification done to your system.
 _Please note_ that this version will delete your statistics, this is due to a big modification of the statistic and game history system.
 
 ## Changes:

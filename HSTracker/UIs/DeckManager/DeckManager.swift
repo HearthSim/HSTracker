@@ -512,23 +512,9 @@ class DeckManager: NSWindowController {
         let queue = DispatchQueue.main
         queue.asyncAfter(deadline: when) {
             let automation = Automation()
-            automation.expertDeckToHearthstone(deck: deck) { missingCards, message in
-                var msg = message ?? ""
-                if let missingCards = missingCards {
-                    msg = NSLocalizedString("The followings cards were missing : ", comment: "")
-                    var cards: [String: Int] = [:]
-                    for card in missingCards {
-                        if cards[card.name] == nil {
-                            cards[card.name] = 1
-                        } else {
-                            cards[card.name] = cards[card.name]! + 1
-                        }
-                    }
-
-                    msg += cards.map({ "\($0.0) x \($0.1)" }).joined(separator: ", ")
-                }
+            automation.expertDeckToHearthstone(deck: deck) { message in
                 NSAlert.show(style: .informational,
-                             message: msg,
+                             message: message,
                              window: self.window!, forceFront: true)
             }
         }
