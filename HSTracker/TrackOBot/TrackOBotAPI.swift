@@ -56,7 +56,7 @@ struct TrackOBotAPI {
      */
 
     // MARK: - matches
-    static func postMatch(stat: GameStats, cards: [PlayedCard]) throws {
+    static func postMatch(stat: InternalGameStats, cards: [PlayedCard]) throws {
         let settings = Settings.instance
         guard let username = settings.trackobotUsername else {
             throw TrackOBotError.notLogged

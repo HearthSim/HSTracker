@@ -48,6 +48,7 @@ struct FullScreenFxHandler {
 
         guard let selectedDeckId = mirror.getSelectedDeck() as? Int64 else {
             Log.warning?.message("Can't get selected deck id")
+            game.set(activeDeck: nil)
             return
         }
 
@@ -60,10 +61,12 @@ struct FullScreenFxHandler {
 
         guard let decks = mirror.getDecks() as? [MirrorDeck] else {
             Log.warning?.message("Can't get decks")
+            game.set(activeDeck: nil)
             return
         }
         guard let selectedDeck = decks.first({ $0.id as Int64 == selectedDeckId }) else {
             Log.warning?.message("No deck with id=\(selectedDeckId) found")
+            game.set(activeDeck: nil)
             return
         }
         Log.info?.message("Found selected deck : \(selectedDeck.name)")
@@ -73,7 +76,8 @@ struct FullScreenFxHandler {
         if let deck = realm.objects(Deck.self)
             .filter("hsDeckId = \(selectedDeckId)").first {
             Log.info?.message("Deck \(selectedDeck.name) exists, using it.")
-            game.set(activeDeck: deck)
+            let deckId = deck.deckId
+            game.set(activeDeck: deckId)
             return
         }
 
@@ -95,7 +99,8 @@ struct FullScreenFxHandler {
                 }
                 if deck.isValid() {
                     Log.info?.message("Saving and using deck : \(deck)")
-                    game.set(activeDeck: deck)
+                    let deckId = deck.deckId
+                    game.set(activeDeck: deckId)
                 }
             }
         } catch {
@@ -109,16 +114,18 @@ struct FullScreenFxHandler {
 
         guard let hsDeck = mirror.getArenaDeck()?.deck else {
             Log.warning?.message("Can't get arena deck")
+            game.set(activeDeck: nil)
             return
         }
 
         guard let realm = try? Realm() else { return }
-        let deckId = hsDeck.id as Int64
+        let hsDeckId = hsDeck.id as Int64
 
         if let deck = realm.objects(Deck.self)
-            .filter("hsDeckId = \(deckId)").first {
-            Log.info?.message("Arena deck \(deckId) exists, using it.")
-            game.set(activeDeck: deck)
+            .filter("hsDeckId = \(hsDeckId)").first {
+            Log.info?.message("Arena deck \(hsDeckId) exists, using it.")
+            let deckId = deck.deckId
+            game.set(activeDeck: deckId)
             return
         }
 
@@ -129,7 +136,7 @@ struct FullScreenFxHandler {
         let deck = Deck()
         deck.name = "Arena \(hero.name)"
         deck.playerClass = hero.playerClass
-        deck.hsDeckId.value = deckId
+        deck.hsDeckId.value = hsDeckId
         deck.isArena = true
 
         do {
@@ -142,7 +149,8 @@ struct FullScreenFxHandler {
                 }
                 if deck.isValid() {
                     Log.info?.message("Saving and using deck : \(deck)")
-                    game.set(activeDeck: deck)
+                    let deckId = deck.deckId
+                    game.set(activeDeck: deckId)
                 }
             }
         } catch {

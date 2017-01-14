@@ -147,10 +147,10 @@ class WindowManager {
 
     private func redrawTrackers(reset: Bool = false) {
         let settings = Settings.instance
-        let game = Game.instance
+        let game = Game.shared
 
         // timer
-        if Settings.instance.showTimer && game.gameStarted {
+        if Settings.instance.showTimer && !game.gameEnded {
             show(controller: timerHud, show: true, frame: SizeHelper.timerHudFrame())
         } else {
             show(controller: timerHud, show: false)
@@ -170,7 +170,7 @@ class WindowManager {
 
         // card hud
         if settings.showCardHuds {
-            if game.gameStarted {
+            if !game.gameEnded {
                 cardHudContainer.update(entities: game.opponent.hand,
                                         cardCount: game.opponent.handCount)
                 show(controller: cardHudContainer, show: true,
@@ -186,7 +186,7 @@ class WindowManager {
         let board = BoardState()
 
         if settings.playerBoardDamage {
-            if game.gameStarted {
+            if !game.gameEnded {
                 playerBoardDamage.update(attack: board.player.damage)
                 show(controller: playerBoardDamage, show: true,
                      frame: SizeHelper.playerBoardDamageFrame())
@@ -198,7 +198,7 @@ class WindowManager {
         }
 
         if settings.opponentBoardDamage {
-            if game.gameStarted {
+            if !game.gameEnded {
                 opponentBoardDamage.update(attack: board.opponent.damage)
                 show(controller: opponentBoardDamage, show: true,
                      frame: SizeHelper.opponentBoardDamageFrame())
@@ -213,7 +213,7 @@ class WindowManager {
 
         if settings.showOpponentTracker {
             // opponent tracker
-            let cards = settings.clearTrackersOnGameEnd && game.gameEnded
+            let cards = settings.clearTrackersOnGameEnd && !game.gameEnded
                 ? [] : game.opponent.opponentCardList
             opponentTracker.update(cards: cards, reset: reset)
             opponentTracker.setWindowSizes()

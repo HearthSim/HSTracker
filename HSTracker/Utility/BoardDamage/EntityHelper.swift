@@ -16,8 +16,8 @@ class EntityHelper {
     
     class func getHeroEntity(forPlayer: Bool) -> Entity? {
         return getHeroEntity(forPlayer: forPlayer,
-                             entities: Game.instance.entities,
-                             id: Game.instance.player.id)
+                             entities: Game.shared.entities,
+                             id: Game.shared.player.id)
     }
     
     class func getHeroEntity(forPlayer: Bool, entities: [Int: Entity], id: Int) -> Entity? {
@@ -30,7 +30,7 @@ class EntityHelper {
     }
     
     class func isPlayersTurn() -> Bool {
-        return isPlayersTurn(entities: Game.instance.entities)
+        return isPlayersTurn(entities: Game.shared.entities)
     }
     
     class func isPlayersTurn(entities: [Int: Entity]) -> Bool {

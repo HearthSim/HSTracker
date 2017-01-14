@@ -14,7 +14,7 @@ import Wrap
 class Entity {
     var id: Int
     var isPlayer: Bool {
-        return self[.player_id] == Game.instance.player.id
+        return self[.player_id] == Game.shared.player.id
     }
     var cardId = ""
     var name: String?

@@ -21,7 +21,7 @@ class Secret {
     }
 
     var activeDeckIsConstructed: Bool {
-        guard let deck = Game.instance.currentDeck else { return false }
+        guard let deck = Game.shared.currentDeck else { return false }
 
         return !deck.isArena
     }

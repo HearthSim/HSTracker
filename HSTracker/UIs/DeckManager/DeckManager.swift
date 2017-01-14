@@ -325,7 +325,10 @@ class DeckManager: NSWindowController {
         }
         
         Settings.instance.activeDeck = deck.deckId
-        Game.instance.set(activeDeck: deck)
+        let deckId = deck.deckId
+        DispatchQueue.main.async {
+            Game.shared.set(activeDeck: deckId)
+        }
     }
 
     @IBAction func deleteDeck(_ sender: AnyObject?) {

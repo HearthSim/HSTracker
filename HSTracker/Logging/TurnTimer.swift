@@ -95,7 +95,7 @@ import CleanroomLogger
             seconds -= 1
         }
 
-        if Game.instance.isMulliganDone() {
+        if Game.shared.isMulliganDone() {
             if isPlayersTurn {
                 playerSeconds += 1
             } else {

@@ -9,8 +9,112 @@
 import Foundation
 import RealmSwift
 
+class InternalGameStats {
+    var statId: String = generateId()
+    var playerHero: CardClass = .neutral
+    var opponentHero: CardClass = .neutral
+    var coin = false
+    var gameMode: GameMode = .none
+    var result: GameResult = .unknow
+    var turns = -1
+    var startTime = Date()
+    var endTime = Date()
+    var note = ""
+    var playerName = ""
+    var opponentName = ""
+    var wasConceded = false
+    var rank = -1
+    var stars = -1
+    var legendRank = -1
+    var opponentLegendRank = -1
+    var opponentRank = -1
+    var hearthstoneBuild: Int?
+    var playerCardbackId = -1
+    var opponentCardbackId = -1
+    var friendlyPlayerId = -1
+    var scenarioId = -1
+    var serverInfo: ServerInfo?
+    var season = 0
+    var gameType: GameType = .gt_unknown
+    var hsDeckId: Int64?
+    var brawlSeasonId = -1
+    var rankedSeasonId = -1
+    var arenaWins = 0
+    var arenaLosses = 0
+    var brawlWins = 0
+    var brawlLosses = 0
+    private var _format: Format?
+    var format: Format? {
+        get {
+            return gameMode == .ranked || gameMode == .casual ? _format : nil
+        }
+        set {
+            _format = newValue
+        }
+    }
+    var hsReplayId: String? = nil
+    var opponentCards: [Card] = []
+    var revealedCards: [Card] = []
+
+    func toGameStats() -> GameStats {
+        let gameStats = GameStats()
+        gameStats.statId = statId
+        gameStats.hearthstoneBuild.value = hearthstoneBuild
+        gameStats.playerCardbackId = playerCardbackId
+        gameStats.opponentCardbackId = opponentCardbackId
+        gameStats.friendlyPlayerId = friendlyPlayerId
+        gameStats.scenarioId = scenarioId
+        gameStats.serverInfo = serverInfo
+        gameStats.season = season
+        gameStats.gameType = gameType
+        gameStats.hsDeckId.value = hsDeckId
+        gameStats.brawlSeasonId = brawlSeasonId
+        gameStats.rankedSeasonId = rankedSeasonId
+        gameStats.arenaWins = arenaWins
+        gameStats.arenaLosses = arenaLosses
+        gameStats.brawlWins = brawlWins
+        gameStats.brawlLosses = brawlLosses
+        gameStats.format = format
+        gameStats.hsReplayId = hsReplayId
+        opponentCards.forEach {
+            let card = RealmCard(id: $0.id, count: $0.count)
+            gameStats.opponentCards.append(card)
+        }
+        revealedCards.forEach {
+            let card = RealmCard(id: $0.id, count: $0.count)
+            gameStats.revealedCards.append(card)
+        }
+        return gameStats
+    }
+}
+
+extension InternalGameStats: CustomStringConvertible {
+    var description: String {
+        return "statId: \(statId), " +
+        "hearthstoneBuild: \(hearthstoneBuild), " +
+        "playerCardbackId: \(playerCardbackId), " +
+        "opponentCardbackId: \(opponentCardbackId), " +
+        "friendlyPlayerId: \(friendlyPlayerId), " +
+        "scenarioId: \(scenarioId), " +
+        "serverInfo: \(serverInfo), " +
+        "season: \(season), " +
+        "gameType: \(gameType), " +
+        "hsDeckId: \(hsDeckId), " +
+        "brawlSeasonId: \(brawlSeasonId), " +
+        "rankedSeasonId: \(rankedSeasonId), " +
+        "arenaWins: \(arenaWins), " +
+        "arenaLosses: \(arenaLosses), " +
+        "brawlWins: \(brawlWins), " +
+        "brawlLosses: \(brawlLosses), " +
+        "format: \(format), " +
+        "hsReplayId: \(hsReplayId), " +
+        "opponentCards: \(opponentCards), " +
+        "revealedCards: \(revealedCards)"
+    }
+}
+
 class GameStats: Object {
-    dynamic var statId: String = generateId()
+    dynamic var statId = ""
 
     override static func primaryKey() -> String? {
         return "statId"

@@ -80,20 +80,22 @@ final class LogReaderManager {
     }
 
     func processLine(line: LogLine) {
-        let game = Game.instance
-        
-        if line.include {
-            switch line.namespace {
-            case .power: powerGameStateHandler.handle(game: game, logLine: line)
-            case .rachelle: rachelleHandler.handle(game: game, logLine: line)
-            case .arena: arenaHandler.handle(game: game, logLine: line)
-            case .loadingScreen: loadingScreenHandler.handle(game: game, logLine: line)
-            case .fullScreenFX: fullScreenFxHandler.handle(game: game, logLine: line)
-            default: break
-            }
-        } else {
-            if line.namespace == .power {
-               game.powerLog.append(line)
+        let game = Game.shared
+
+        DispatchQueue.main.async { [weak self] in
+            if line.include {
+                switch line.namespace {
+                case .power: self?.powerGameStateHandler.handle(game: game, logLine: line)
+                case .rachelle: self?.rachelleHandler.handle(game: game, logLine: line)
+                case .arena: self?.arenaHandler.handle(game: game, logLine: line)
+                case .loadingScreen: self?.loadingScreenHandler.handle(game: game, logLine: line)
+                case .fullScreenFX: self?.fullScreenFxHandler.handle(game: game, logLine: line)
+                default: break
+                }
+            } else {
+                if line.namespace == .power {
+                    game.powerLog.append(line)
+                }
             }
         }
     }

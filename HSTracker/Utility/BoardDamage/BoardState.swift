@@ -44,17 +44,17 @@ class BoardState {
     }
     
     private class func createPlayerBoard() -> PlayerBoard {
-        return createBoard(list: Game.instance.player.board,
-                           entities: Game.instance.entities,
+        return createBoard(list: Game.shared.player.board,
+                           entities: Game.shared.entities,
                            isPlayer: true,
-                           playerId: Game.instance.player.id)
+                           playerId: Game.shared.player.id)
     }
     
     private class func createOpponentBoard() -> PlayerBoard {
-        return createBoard(list: Game.instance.opponent.board,
-                           entities: Game.instance.entities,
+        return createBoard(list: Game.shared.opponent.board,
+                           entities: Game.shared.entities,
                            isPlayer: false,
-                           playerId: Game.instance.player.id)
+                           playerId: Game.shared.player.id)
     }
     
     private class func createBoard(list: [Entity],

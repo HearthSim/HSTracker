@@ -22,14 +22,19 @@ struct PlayingDeck {
 }
 
 class Game {
+
+    static let shared = Game()
+
+    func load() { /* nothing here, just say hello */ }
+
     // MARK: - vars
     var currentTurn = 0
     var lastId = 0
     var gameTriggerCount = 0
     var powerLog: [LogLine] = []
     var playedCards: [PlayedCard] = []
-    var currentGameStats: GameStats?
-    var lastGame: GameStats?
+    var currentGameStats: InternalGameStats?
+    var lastGame: InternalGameStats?
 
     var player: Player
     var opponent: Player
@@ -78,14 +83,9 @@ class Game {
     var tmpEntities: [Entity] = []
     var knownCardIds: [Int: [String]] = [:]
     var joustReveals = 0
-    var gameStarted = false
-    var gameEnded = true {
-        didSet {
-            WindowManager.default.updateTrackers(reset: true)
-        }
-    }
-    var lastCardPlayed: Int?
 
+    var lastCardPlayed: Int?
+    var gameEnded = false
     var currentDeck: PlayingDeck?
 
     var currentEntityId = 0
@@ -186,8 +186,6 @@ class Game {
         return Format(formatType: _currentFormat)
     }
 
-    static let instance = Game()
-
     init() {
         player = Player(local: true)
         opponent = Player(local: false)
@@ -209,14 +207,13 @@ class Game {
         _matchInfo = nil
         _currentFormat = .ft_unknown
         _currentGameType = .gt_unknown
-        currentGameStats = GameStats()
+        currentGameStats = InternalGameStats()
 
         entities.removeAll()
         tmpEntities.removeAll()
         knownCardIds.removeAll()
         joustReveals = 0
-        gameStarted = false
-        gameEnded = true
+        gameEnded = false
         lastCardPlayed = nil
         currentEntityId = 0
         currentEntityHasCardId = false
@@ -232,8 +229,6 @@ class Game {
         avengeDeathRattleCount = 0
         opponentSecretCount = 0
         awaitingAvenge = false
-        isInMenu = true
-        handledGameEnd = false
         wasInProgress = false
         lastTurnStart = [0, 0]
 
@@ -277,25 +272,35 @@ class Game {
         currentBlock = currentBlock?.parent
     }
 
-    func set(activeDeck deck: Deck?) {
-        if let deck = deck {
-            var cards: [Card] = []
-            for deckCard in deck.cards {
-                if let card = Cards.by(cardId: deckCard.id) {
-                    card.count = deckCard.count
-                    cards.append(card)
-                }
-            }
-            currentDeck = PlayingDeck(id: deck.deckId,
-                                      name: deck.name,
-                                      hsDeckId: deck.hsDeckId.value,
-                                      playerClass: deck.playerClass,
-                                      cards: cards.sortCardList(),
-                                      isArena: deck.isArena
-            )
-        } else {
+    func set(activeDeck deckId: String?) {
+        guard let deckId = deckId,
+            let realm = try? Realm(),
+            let deck = realm.objects(Deck.self).filter("deckId = '\(deckId)'").first else {
             currentDeck = nil
+            player.playerClass = nil
+            currentGameStats?.playerHero = .neutral
+            WindowManager.default.updateTrackers(reset: true)
+            return
         }
+
+        set(activeDeck: deck)
+    }
+
+    private func set(activeDeck deck: Deck) {
+        var cards: [Card] = []
+        for deckCard in deck.cards {
+            if let card = Cards.by(cardId: deckCard.id) {
+                card.count = deckCard.count
+                cards.append(card)
+            }
+        }
+        currentDeck = PlayingDeck(id: deck.deckId,
+                                  name: deck.name,
+                                  hsDeckId: deck.hsDeckId.value,
+                                  playerClass: deck.playerClass,
+                                  cards: cards.sortCardList(),
+                                  isArena: deck.isArena
+        )
         player.playerClass = currentDeck?.playerClass
         currentGameStats?.playerHero = currentDeck?.playerClass ?? .neutral
         WindowManager.default.updateTrackers(reset: true)
@@ -307,22 +312,29 @@ class Game {
     }
 
     // MARK: - game state
+    private var lastGameStart = Date.distantPast
     func gameStart(at timestamp: Date) {
-        if currentGameMode == .practice && !isInMenu && !gameEnded
+        Log.info?.message("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
+            + "handledGameEnd: \(handledGameEnd), "
+            + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
+            "timestamp: \(timestamp)")
+        if currentGameMode == .practice && !isInMenu && !handledGameEnd
             && lastGameStartTimestamp > Date.distantPast
             && timestamp > lastGameStartTimestamp {
             adventureRestart()
         }
         
         lastGameStartTimestamp = timestamp
-        
-        if gameStarted {
+        if lastGameStart > Date.distantPast && Date().diffInSeconds(lastGameStart) < 5 {
+            // game already started
             return
         }
+
         reset()
-        gameStarted = true
-        gameEnded = false
+        lastGameStart = Date()
+
         isInMenu = false
+        handledGameEnd = false
 
         Log.info?.message("----- Game Started -----")
         AppHealth.instance.setHearthstoneGameRunning(flag: true)
@@ -385,13 +397,11 @@ class Game {
     func gameEnd() {
         Log.info?.message("----- Game End -----")
         AppHealth.instance.setHearthstoneGameRunning(flag: false)
-        gameStarted = false
         currentGameStats?.endTime = Date()
 
-        DispatchQueue.main.async { [weak self] in
-            self?.handleEndGame()
-        }
+        handleEndGame()
 
+        opponentSecrets?.clearSecrets()
         WindowManager.default.updateTrackers(reset: true)
         WindowManager.default.hideGameTrackers()
         TurnTimer.instance.stop()
@@ -431,6 +441,8 @@ class Game {
     }
 
     func handleEndGame() {
+        Log.verbose?.message("currentGameStats: \(currentGameStats), " +
+            "handledGameEnd: \(handledGameEnd)")
         if currentGameStats == nil || handledGameEnd {
             Log.warning?.message("HandleGameEnd was already called.")
             return
@@ -450,7 +462,7 @@ class Game {
         }
 
         if let build = BuildDates.latestBuild {
-            currentGameStats.hearthstoneBuild.value = build.build
+            currentGameStats.hearthstoneBuild = build.build
         }
         currentGameStats.season = Database.currentSeason
 
@@ -508,7 +520,7 @@ class Game {
         currentGameStats.scenarioId = matchInfo?.missionId ?? 0
         currentGameStats.brawlSeasonId = matchInfo?.brawlSeasonId ?? 0
         currentGameStats.rankedSeasonId = matchInfo?.rankedSeasonId ?? 0
-        currentGameStats.hsDeckId.value = currentDeck?.hsDeckId
+        currentGameStats.hsDeckId = currentDeck?.hsDeckId
 
         if Settings.instance.promptNotes {
             let message = NSLocalizedString("Do you want to add some notes for this game ?",
@@ -529,19 +541,20 @@ class Game {
             let deck = realm.objects(Deck.self).filter("deckId = '\(currentDeck.id)'").first {
             do {
                 try realm.write {
-                    deck.gameStats.append(currentGameStats)
+
                     player.revealedCards.filter({
                         $0.collectible
                     }).forEach({
-                        let card = RealmCard(id: $0.id, count: $0.count)
-                        currentGameStats.revealedCards.append(card)
+                        currentGameStats.revealedCards.append($0)
                     })
                     opponent.opponentCardList.filter({
                         !$0.isCreated
                     }).forEach({
-                        let card = RealmCard(id: $0.id, count: $0.count)
-                        currentGameStats.opponentCards.append(card)
+                        currentGameStats.opponentCards.append($0)
                     })
+
+                    let stats = currentGameStats.toGameStats()
+                    deck.gameStats.append(stats)
 
                     if Settings.instance.autoArchiveArenaDeck &&
                         currentGameMode == .arena && deck.isArena && deck.arenaFinished() {
@@ -553,12 +566,12 @@ class Game {
             }
         }
 
-        syncStats()
         lastGame = currentGameStats
+        syncStats()
     }
 
     private func syncStats() {
-        guard let currentGameStats = currentGameStats else { return }
+        guard let currentGameStats = lastGame else { return }
         guard currentGameMode != .practice && currentGameMode != .none else {
             Log.info?.message("Game was in \(currentGameMode), don't send to third-party")
             return

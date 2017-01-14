@@ -21,7 +21,7 @@
 "hzK-vu-1RX.title" = "退出 HSTracker 当退出炉石传说";
 
 /* Class = "NSButtonCell"; title = "Add a note on end game (casual and ranked only)"; ObjectID = "4f5-xO-gik"; */
-"4f5-xO-gik.title" = "加评论当游戏结束 (休闲或排名)";
+"4f5-xO-gik.title" = "加评论当游戏结束";
 
 /* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "lku-8T-sZE"; */
 "lku-8T-sZE.title" = "保存录像";

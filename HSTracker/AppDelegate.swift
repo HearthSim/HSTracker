@@ -118,6 +118,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
         }
 
+        // make sure we initialize Game in the main thread
+        Game.shared.load()
+
         if settings.validated() {
             loadSplashscreen()
         } else {
@@ -175,12 +178,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let databaseOperation = BlockOperation {
             let database = Database()
             database.loadDatabase(splashscreen: self.splashscreen!)
-            /*if let images = database.loadDatabase(splashscreen: self.splashscreen!) {
-                let imageDownloader = ImageDownloader()
-                imageDownloader.deleteImages()
-                imageDownloader.downloadImagesIfNeeded(splashscreen: self.splashscreen!,
-                                                       images: images)
-            }*/
         }
         let loggingOperation = BlockOperation {
             while true {
@@ -190,9 +187,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 Thread.sleep(forTimeInterval: 0.5)
             }
 
-            OperationQueue.main.addOperation {
-                Game.instance.reset()
-            }
+            WindowManager.default.hideGameTrackers()
         }
 
         let menuOperation = BlockOperation {
@@ -297,13 +292,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         if let activeDeck = Settings.instance.activeDeck {
-            do {
-                let realm = try Realm()
-                if let deck = realm.objects(Deck.self).filter("deckId = '\(activeDeck)'").first {
-                    Game.instance.set(activeDeck: deck)
-                }
-            } catch {
-                Log.error?.message("Can not fetch deck : \(error)")
+            DispatchQueue.main.async {
+                Game.shared.set(activeDeck: activeDeck)
             }
         }
 
@@ -500,7 +490,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func playDeck(_ sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
             Settings.instance.activeDeck = deck.deckId
-            Game.instance.set(activeDeck: deck)
+            let deckId = deck.deckId
+            DispatchQueue.main.async {
+                Game.shared.set(activeDeck: deckId)
+            }
         }
     }
 
@@ -512,16 +505,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func clearTrackers(_ sender: AnyObject) {
-        Game.instance.removeActiveDeck()
+        Game.shared.removeActiveDeck()
         Settings.instance.activeDeck = nil
     }
 
     @IBAction func saveCurrentDeck(_ sender: AnyObject) {
         switch sender.tag {
         case 1: // Opponent
-            saveDeck(Game.instance.opponent)
+            saveDeck(Game.shared.opponent)
         case 2: // Self
-            saveDeck(Game.instance.player)
+            saveDeck(Game.shared.player)
         default:
             break
         }

@@ -91,7 +91,7 @@ class Tracker: OverWindowController {
     }
 
     func player() -> Player {
-        return playerType == .player ? Game.instance.player : Game.instance.opponent
+        return playerType == .player ? Game.shared.player : Game.shared.opponent
     }
 
     // MARK: - Notifications
@@ -248,14 +248,14 @@ class Tracker: OverWindowController {
         graveyardCounter.isHidden = !showGraveyard
         jadeCounter.isHidden = !showJadeCounter
 
-        if let currentDeck = Game.instance.currentDeck, !recordTracker.isHidden {
+        if let currentDeck = Game.shared.currentDeck, !recordTracker.isHidden {
             do {
                 let realm = try Realm()
                 if let deck = realm.objects(Deck.self)
                     .filter("deckId = '\(currentDeck.id)'").first {
                     recordTracker.message = StatsHelper
                         .getDeckManagerRecordLabel(deck: deck,
-                                                   mode: Game.instance.currentGameMode)
+                                                   mode: Game.shared.currentGameMode)
                     recordTracker.needsDisplay = true
                 }
             } catch {
@@ -333,8 +333,8 @@ class Tracker: OverWindowController {
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
         if !playerClass.isHidden && playerType == .opponent {
-            if let playerClassId = Game.instance.opponent.playerClassId,
-                let playerName = Game.instance.opponent.name {
+            if let playerClassId = Game.shared.opponent.playerClassId,
+                let playerName = Game.shared.opponent.name {
                 
                 offsetFrames += smallFrameHeight
                 
@@ -357,7 +357,7 @@ class Tracker: OverWindowController {
                 hero.update(highlight: false)
             }
         } else if !playerClass.isHidden && playerType == .player {
-            if let deck = Game.instance.currentDeck {
+            if let deck = Game.shared.currentDeck {
                 offsetFrames += smallFrameHeight
 
                 playerClass.frame = NSRect(x: 0,
@@ -512,7 +512,7 @@ class Tracker: OverWindowController {
     }
 
     private func updateCountFrames() {
-        let gameStarted = !Game.instance.isInMenu && Game.instance.entities.count >= 67
+        let gameStarted = !Game.shared.isInMenu && Game.shared.entities.count >= 67
         let deckCount = !gameStarted ? 30 : player().deckCount
         let handCount = !gameStarted ? 0 : player().handCount
 
@@ -637,7 +637,7 @@ extension Tracker: CardCellHover {
         
         if self.playerType == .player && Settings.instance.showTopdeckchance {
             
-            let playercardlist: [Card] = Game.instance.player.playerCardList
+            let playercardlist: [Card] = Game.shared.player.playerCardList
             let totalcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
             if let cardindeck = playercardlist.firstWhere({ $0.id == card.id }) {
                 let cardindeckount = cardindeck.count

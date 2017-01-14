@@ -27,7 +27,7 @@ _Please note_ that this version will delete your statistics, this is due to a bi
     - Correct rank (in this version)
     - Arena draft choice (which allows something like arena helper) (NOT in this version, planned for future release)
     - Arena reward tracking (NOT in this version, planned for future release)
-    - Collection manager (we know the cards you have) (NOT in this version, planned for future release)
+    - Collection manager. This is used when you export a deck to Hearthstone or import a net deck to tell you which cards are missings
     - Pack opening, end season rewards, ... (NOT in this version, planned for future release)
 - Add an option to prefer golden cards when exporting a deck to Hearthstone
 

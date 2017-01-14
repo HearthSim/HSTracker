@@ -10,7 +10,7 @@ import Foundation
 import Wrap
 
 class UploadMetaData {
-    private var statistic: GameStats?
+    private var statistic: InternalGameStats?
     private var game: Game?
     private var log: [String] = []
     var dateStart: Date?
@@ -37,7 +37,7 @@ class UploadMetaData {
     var player1: Player = Player()
     var player2: Player = Player()
 
-    static func generate(game: GameStats?) -> UploadMetaData {
+    static func generate(game: InternalGameStats?) -> UploadMetaData {
         let metaData = UploadMetaData()
 
         let playerInfo = getPlayerInfo(game: game)
@@ -116,7 +116,7 @@ class UploadMetaData {
 
         var build: Int? = nil
         if let _build = game?.hearthstoneBuild {
-            build = _build.value
+            build = _build
         } else if let game = game {
             build = BuildDates.get(byDate: game.startTime)?.build
         }
@@ -127,7 +127,7 @@ class UploadMetaData {
         return metaData
     }
 
-    static func getPlayerInfo(game: GameStats?) -> PlayerInfo? {
+    static func getPlayerInfo(game: InternalGameStats?) -> PlayerInfo? {
         guard let game = game else { return nil }
 
         if game.friendlyPlayerId == 0 {
@@ -150,7 +150,7 @@ class UploadMetaData {
             friendly.stars = game.stars
         }
 
-        if let hsDeckId = game.hsDeckId.value, hsDeckId > 0 {
+        if let hsDeckId = game.hsDeckId, hsDeckId > 0 {
             friendly.deckId = hsDeckId
         }
 

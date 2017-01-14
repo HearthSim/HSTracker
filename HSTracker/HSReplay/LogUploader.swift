@@ -87,7 +87,7 @@ class LogUploader {
         }
     }
 
-    static func upload(logLines: [LogLine], statistic: GameStats? = nil,
+    static func upload(logLines: [LogLine], statistic: InternalGameStats? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         let log = logLines.sorted {
@@ -100,7 +100,7 @@ class LogUploader {
                fromFile: fromFile, completion: completion)
     }
 
-    static func upload(logLines: [String], statistic: GameStats? = nil,
+    static func upload(logLines: [String], statistic: InternalGameStats? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         guard let token = Settings.instance.hsReplayUploadToken else {
