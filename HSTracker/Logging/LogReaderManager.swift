@@ -18,17 +18,12 @@ final class LogReaderManager {
     let loadingScreenHandler = LoadingScreenHandler()
     var fullScreenFxHandler = FullScreenFxHandler()
 
-    private let powerLog = LogReader(info: LogReaderInfo(name: .power,
-        startsWithFilters: ["PowerTaskList.DebugPrintPower",
-            "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"],
-        containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"]))
-    private let gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .power,
-        startsWithFilters: ["GameState."], include: false))
-    private let rachelle = LogReader(info: LogReaderInfo(name: .rachelle))
-    private let arena = LogReader(info: LogReaderInfo(name: .arena))
-    private let loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
-        startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay"]))
-    private let fullScreenFx = LogReader(info: LogReaderInfo(name: .fullScreenFX))
+    private let powerLog: LogReader
+    private let gameStatePowerLogReader: LogReader
+    private let rachelle: LogReader
+    private let arena: LogReader
+    private let loadingScreen: LogReader
+    private let fullScreenFx: LogReader
 
     private var readers: [LogReader] {
         return [powerLog, rachelle, arena, loadingScreen, fullScreenFx]
@@ -36,6 +31,21 @@ final class LogReaderManager {
 
     var running = false
     var stopped = false
+    
+    init(logPath: String) {
+        powerLog = LogReader(info: LogReaderInfo(name: .power,
+                        startsWithFilters: ["PowerTaskList.DebugPrintPower",
+                            "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"],
+                        containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"]), logPath: logPath)
+        
+        gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .power,
+                                startsWithFilters: ["GameState."], include: false), logPath: logPath)
+        rachelle = LogReader(info: LogReaderInfo(name: .rachelle), logPath: logPath)
+        arena = LogReader(info: LogReaderInfo(name: .arena), logPath: logPath)
+        loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
+                                startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay"]), logPath: logPath)
+        fullScreenFx = LogReader(info: LogReaderInfo(name: .fullScreenFX), logPath: logPath)
+    }
 
     func start() {
         guard !running else {

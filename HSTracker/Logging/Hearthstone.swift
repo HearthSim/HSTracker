@@ -20,12 +20,17 @@ enum HearthstoneLogError: Error {
 final class Hearthstone: NSObject {
     let applicationName = "Hearthstone"
 
-    lazy var logReaderManager = LogReaderManager()
+    var logReaderManager: LogReaderManager
 
     var mirror: HearthMirror?
 
     var hearthstoneActive = false
     var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
+    
+    override init() {
+        logReaderManager = LogReaderManager(logPath: Settings.instance.hearthstoneLogPath)
+        super.init()
+    }
 
     static let instance = Hearthstone()
 

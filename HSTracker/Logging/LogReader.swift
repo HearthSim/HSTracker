@@ -24,13 +24,13 @@ final class LogReader {
 
     private var queue: DispatchQueue?
 
-    init(info: LogReaderInfo) {
+    init(info: LogReaderInfo, logPath: String) {
         self.info = info
 
-        self.path = Hearthstone.instance.logPath + "/Logs/\(info.name).log"
+        self.path = logPath + "/Logs/\(info.name).log"
         Log.info?.message("Init reader for \(info.name) at path \(self.path)")
         if fileManager.fileExists(atPath: self.path)
-            && !Hearthstone.instance.isHearthstoneRunning {
+            && !FileUtils.isFileOpen(byHearthstone: self.path) {
             do {
                 try fileManager.removeItem(atPath: self.path)
             } catch {
