@@ -23,4 +23,6 @@
 #import <HearthMirror/HearthMirror.h>
 #import <HearthMirror/security.h>
 
+#import "FileUtils.h"
+
 #endif /* HSTracker_Bridging_Header_h */

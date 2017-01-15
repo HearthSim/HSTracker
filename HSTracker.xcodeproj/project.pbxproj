@@ -277,6 +277,7 @@
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
 		BC2B851E1D749E9800BC812B /* Hearthstonetopdecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */; };
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
+		BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C680C1D1F225F009030DC /* StatsTab.swift */; };
 		C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68101D1F3FC4009030DC /* LadderTab.swift */; };
 		C92C68181D1F74CE009030DC /* LadderGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68171D1F74CE009030DC /* LadderGrid.swift */; };
@@ -722,6 +723,8 @@
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
 		BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstonetopdecks.swift; sourceTree = "<group>"; };
 		BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraveyardCounter.swift; sourceTree = "<group>"; };
+		BCA70F281E2C16DD00038A6C /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
+		BCA70F291E2C16DD00038A6C /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
 		C92C680C1D1F225F009030DC /* StatsTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsTab.swift; path = StatsManager/StatsTab.swift; sourceTree = "<group>"; };
 		C92C68101D1F3FC4009030DC /* LadderTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderTab.swift; path = StatsManager/LadderTab.swift; sourceTree = "<group>"; };
 		C92C68171D1F74CE009030DC /* LadderGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderGrid.swift; path = Statistics/LadderGrid.swift; sourceTree = "<group>"; };
@@ -960,6 +963,8 @@
 				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
 				4359BFA41D5243FD00F61993 /* Automation.swift */,
 				43AFEEEA1E22529C00F6045A /* CollectionManager.swift */,
+				BCA70F281E2C16DD00038A6C /* FileUtils.h */,
+				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1693,6 +1698,7 @@
 				64C11831FAF872B46E57E719 /* CardIds.swift in Sources */,
 				BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */,
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
+				BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */,
 				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
 				435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */,
 				435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */,
