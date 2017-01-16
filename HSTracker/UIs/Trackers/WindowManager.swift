@@ -132,7 +132,7 @@ class WindowManager {
     // MARK: - Updating trackers
     func updateTrackers(reset: Bool = false) {
         lastCardsUpdateRequest = NSDate().timeIntervalSince1970
-        let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(100)
+        let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(110)
         DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
             guard let strongSelf = self else { return }
             guard Date().timeIntervalSince1970 - strongSelf.lastCardsUpdateRequest > 0.1 else {

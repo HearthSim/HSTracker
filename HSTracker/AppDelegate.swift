@@ -489,7 +489,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func playDeck(_ sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
-            Settings.instance.activeDeck = deck.deckId
             let deckId = deck.deckId
             DispatchQueue.main.async {
                 Game.shared.set(activeDeck: deckId)

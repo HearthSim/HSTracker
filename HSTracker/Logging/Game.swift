@@ -273,6 +273,8 @@ class Game {
     }
 
     func set(activeDeck deckId: String?) {
+        Settings.instance.activeDeck = deckId
+        
         guard let deckId = deckId,
             let realm = try? Realm(),
             let deck = realm.objects(Deck.self).filter("deckId = '\(deckId)'").first else {
@@ -321,7 +323,8 @@ class Game {
         if currentGameMode == .practice && !isInMenu && !handledGameEnd
             && lastGameStartTimestamp > Date.distantPast
             && timestamp > lastGameStartTimestamp {
-            adventureRestart()
+            //adventureRestart()
+            return
         }
         
         lastGameStartTimestamp = timestamp

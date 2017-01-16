@@ -33,17 +33,24 @@ final class LogReaderManager {
     var stopped = false
     
     init(logPath: String) {
-        powerLog = LogReader(info: LogReaderInfo(name: .power,
-                        startsWithFilters: ["PowerTaskList.DebugPrintPower",
-                            "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"],
-                        containsFilters: ["Begin Spectating", "Start Spectator", "End Spectator"]), logPath: logPath)
+        let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
+        let plReader = LogReaderInfo(name: .power,
+                                     startsWithFilters: ["PowerTaskList.DebugPrintPower", rx],
+                                     containsFilters: ["Begin Spectating", "Start Spectator",
+                                                       "End Spectator"])
+        powerLog = LogReader(info: plReader, logPath: logPath)
         
         gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .power,
-                                startsWithFilters: ["GameState."], include: false), logPath: logPath)
+                                                                startsWithFilters: ["GameState."],
+                                                                include: false),
+                                            logPath: logPath)
+
         rachelle = LogReader(info: LogReaderInfo(name: .rachelle), logPath: logPath)
         arena = LogReader(info: LogReaderInfo(name: .arena), logPath: logPath)
         loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
-                                startsWithFilters: ["LoadingScreen.OnSceneLoaded", "Gameplay"]), logPath: logPath)
+                                                      startsWithFilters: [
+                                                        "LoadingScreen.OnSceneLoaded", "Gameplay"]),
+                                  logPath: logPath)
         fullScreenFx = LogReader(info: LogReaderInfo(name: .fullScreenFX), logPath: logPath)
     }
 

@@ -27,7 +27,7 @@ final class LogReader {
     init(info: LogReaderInfo, logPath: String) {
         self.info = info
 
-        self.path = logPath + "/Logs/\(info.name).log"
+        self.path = "\(logPath)/Logs/\(info.name).log"
         Log.info?.message("Init reader for \(info.name) at path \(self.path)")
         if fileManager.fileExists(atPath: self.path)
             && !FileUtils.isFileOpen(byHearthstone: self.path) {
