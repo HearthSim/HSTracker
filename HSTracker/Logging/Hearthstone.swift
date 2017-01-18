@@ -194,7 +194,8 @@ final class Hearthstone: NSObject {
                 Log.error?.message("acquireTaskportRight() failed!")
             }
             if let hearthstoneApp = self?.hearthstoneApp {
-                self?.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier)
+                self?.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
+                                            withBlocking: true)
 
                 // waiting for mirror to be up and running
                 while true {

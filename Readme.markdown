@@ -29,6 +29,7 @@ Is it against the TOS ?
 - Move _HSTracker.app_ to your _Applications_ directory
 - Launch (make sure Hearthstone is not running when you first launch HSTracker) !
 - Create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthstats](https://hearthstats.net), [Hearthhead](http://www.hearthhead.com/), [Hearthnews](http://www.hearthnews.fr/) and many more
+- HSTracker can also auto-detect the deck you are playing with
 
 ## Versions
 [Complete changelog is here](versions.markdown)
@@ -44,11 +45,6 @@ In order to compile, you have to
 - Get / update swift dependencies using [Carthage](https://github.com/Carthage/Carthage/blob/master/README.md#installing-carthage)
 
         carthage update --platform osx
-
-- Fetch and update the submodule code (HSTracker-OpenCV)
-
-        git submodule init
-        git submodule update
 
 - Install [SwiftLint](https://github.com/realm/SwiftLint/blob/master/README.md#installation), example using Homebrew:
 
