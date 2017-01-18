@@ -85,7 +85,7 @@ class Game {
     var joustReveals = 0
 
     var lastCardPlayed: Int?
-    var gameEnded = false
+    var gameEnded = true
     var currentDeck: PlayingDeck?
 
     var currentEntityId = 0
