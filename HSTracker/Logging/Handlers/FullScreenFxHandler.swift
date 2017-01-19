@@ -46,10 +46,11 @@ struct FullScreenFxHandler {
         guard let mirror = Hearthstone.instance.mirror else { return }
         Log.info?.message("Trying to import deck from Hearthstone")
 
-        guard let selectedDeckId = mirror.getSelectedDeck() as? Int64 else {
-            Log.warning?.message("Can't get selected deck id")
-            game.set(activeDeck: nil)
-            return
+        var selectedDeckId: Int64 = 0
+        if let selectedId = mirror.getSelectedDeck() as? Int64 {
+            selectedDeckId = selectedId
+        } else {
+            selectedDeckId = Hearthstone.instance.deckWatcher.selectedDeckId
         }
 
         if selectedDeckId <= 0 {

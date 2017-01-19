@@ -23,6 +23,9 @@ final class Hearthstone: NSObject {
     var logReaderManager: LogReaderManager
 
     var mirror: HearthMirror?
+    
+    // watchers
+    let deckWatcher = DeckWatcher()
 
     var hearthstoneActive = false
     var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
@@ -215,6 +218,7 @@ final class Hearthstone: NSObject {
     func stopTracking() {
         Log.info?.message("Stop Tracking")
         logReaderManager.stop()
+        deckWatcher.stop()
         mirror = nil
     }
 

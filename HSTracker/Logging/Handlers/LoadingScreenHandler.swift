@@ -34,6 +34,10 @@ struct LoadingScreenHandler {
                 //Watchers.PackWatcher.Run();
             } else if game.currentMode == .tavern_brawl {
                 //Core.Game.CacheBrawlInfo();
+            } else if game.currentMode == .tournament {
+                Hearthstone.instance.deckWatcher.start()
+            } else if game.previousMode == .tournament {
+                Hearthstone.instance.deckWatcher.stop()
             } else {
                 //Watchers.ArenaWatcher.Stop();
                 //Watchers.PackWatcher.Stop();
