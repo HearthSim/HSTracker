@@ -607,28 +607,25 @@ extension Tracker: NSWindowDelegate {
 // MARK: - CardCellHover
 extension Tracker: CardCellHover {
     func hover(cell: CardBar, card: Card) {
-        let rect = cell.frame
-
+        
         let windowRect = self.window!.frame
 
-        let hoverFrame = NSRect(x: 0, y: 0, width: 200, height: 250)
+        let hoverFrame = NSRect(x: 0, y: 0, width: 180, height: 250)
 
         var x: CGFloat
+        // decide if the popup window should on the left or right side of the tracker
         if windowRect.origin.x < hoverFrame.size.width {
             x = windowRect.origin.x + windowRect.size.width
         } else {
             x = windowRect.origin.x - hoverFrame.size.width
         }
 
-        var y: CGFloat = max(30,
-                             windowRect.origin.y + cardsView.frame.origin.y
-                                + rect.origin.y - (hoverFrame.height / 2))
-        if let screen = self.window?.screen {
-            if y + hoverFrame.height > screen.frame.height {
-                y = screen.frame.height - hoverFrame.height
-            }
-        }
-        var frame = [x, y, hoverFrame.width, hoverFrame.height]
+        let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
+        let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
+        
+        let y: CGFloat = cellFrameRelativeToScreen!.origin.y
+
+        let frame = [x, y, hoverFrame.width, hoverFrame.height]
         
         var userinfo = [
             "card": card,
@@ -638,23 +635,20 @@ extension Tracker: CardCellHover {
         if self.playerType == .player && Settings.instance.showTopdeckchance {
             
             let playercardlist: [Card] = Game.shared.player.playerCardList
-            let totalcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
+            let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
             if let cardindeck = playercardlist.firstWhere({ $0.id == card.id }) {
-                let cardindeckount = cardindeck.count
+                let cardindeckcount = cardindeck.count
                 // probability that the top card is the one
-                let drawchancetop = Float(cardindeckount) / Float(totalcardsindeck)
-                userinfo["drawchancetop"] = drawchancetop * 100.0
+                let Pfirst = Float(cardindeckcount) / Float(remainingcardsindeck)
+                userinfo["drawchancetop"] = Pfirst * 100.0
                     
                 // probability that the card is in the first 2 cards
                 var drawchancetop2: Float = 0.0
-                if totalcardsindeck > 0 {
-                    let good_cases = (totalcardsindeck-1) + (totalcardsindeck-cardindeckount)
-                    let all_cases = StatsHelper.GetBinCoeff(N: totalcardsindeck, K: 2)
-                    drawchancetop2 = Float(good_cases) / Float(all_cases)
+                if remainingcardsindeck > 1 {
+                    let Psecond = Float(cardindeckcount) / Float(remainingcardsindeck-1)
+                    drawchancetop2 = Pfirst + ((1-Pfirst) * Psecond )
                 }
                 userinfo["drawchancetop2"] = drawchancetop2 * 100.0
-                    
-                frame[3] = hoverFrame.height + 150
                 userinfo["frame"] = frame
             }
         }
@@ -666,7 +660,11 @@ extension Tracker: CardCellHover {
     }
 
     func out(card: Card) {
+        let userinfo = [
+            "card": card
+            ] as [String : Any]
         NotificationCenter.default.post(name: Notification.Name(rawValue: "hide_floating_card"),
-                                        object: nil)
+                                        object: nil,
+                                        userInfo: userinfo)
     }
 }

@@ -260,7 +260,6 @@ class WindowManager {
     }
 
     // MARK: - Floating card
-    var closeFloatingCardRequest = 0
     var closeRequestTimer: Timer?
     @objc func showFloatingCard(_ notification: Notification) {
         guard Settings.instance.showFloatingCard else { return }
@@ -269,34 +268,27 @@ class WindowManager {
             let arrayFrame = notification.userInfo?["frame"] as? [CGFloat] else {
                 return
         }
-        if closeRequestTimer != nil {
-            closeRequestTimer?.invalidate()
+        if let timer = closeRequestTimer {
+            timer.invalidate()
             closeRequestTimer = nil
         }
-
-        closeFloatingCardRequest += 1
-        floatingCard.showWindow(self)
-        let frame = NSRect(x: arrayFrame[0],
-                           y: arrayFrame[1],
-                           width: arrayFrame[2],
-                           height: arrayFrame[3])
         
-        floatingCard.window?.setFrame(frame, display: true)
         floatingCard.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
-        floatingCard.set(card: card)
         
-        if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float {
-            floatingCard.setDrawChanceTop(chance: drawchancetop)
+        if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float,
+            let drawchancetop2 = notification.userInfo?["drawchancetop2"] as? Float {
+            floatingCard.set(card: card, drawChanceTop: drawchancetop,
+                             drawChanceTop2: drawchancetop2)
         } else {
-            floatingCard.setDrawChanceTop(chance: 0)
+            floatingCard.set(card: card, drawChanceTop: 0, drawChanceTop2: 0)
         }
         
-        if let drawchancetop = notification.userInfo?["drawchancetop2"] as? Float {
-            floatingCard.setDrawChanceTop2(chance: drawchancetop)
-        } else {
-            floatingCard.setDrawChanceTop2(chance: 0)
+        if let fWindow = floatingCard.window {
+            floatingCard.window?.setFrameOrigin(NSPoint(x: arrayFrame[0],
+                                                    y: arrayFrame[1] - fWindow.frame.size.height/2))
         }
-
+        floatingCard.showWindow(self)
+        
         closeRequestTimer = Timer.scheduledTimer(
             timeInterval: 3,
             target: self,
@@ -305,28 +297,24 @@ class WindowManager {
             repeats: false)
     }
 
+    @objc func hideFloatingCard(_ notification: Notification) {
+        guard Settings.instance.showFloatingCard else { return }
+        
+        // hide popup
+        guard let card = notification.userInfo?["card"] as? Card
+            else {
+                return
+        }
+
+        if card.id == floatingCard.card?.id {
+            forceHideFloatingCard()
+        }
+    }
+    
     @objc func forceHideFloatingCard() {
-        closeFloatingCardRequest = 0
         floatingCard.window?.orderOut(self)
         closeRequestTimer?.invalidate()
         closeRequestTimer = nil
-    }
-
-    @objc func hideFloatingCard(_ notification: Notification) {
-        guard Settings.instance.showFloatingCard else { return }
-
-        self.closeFloatingCardRequest -= 1
-        let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(100)
-        let queue = DispatchQueue.main
-        queue.asyncAfter(deadline: when) {
-            if self.closeFloatingCardRequest > 0 {
-                return
-            }
-            self.closeFloatingCardRequest = 0
-            self.floatingCard.window?.orderOut(self)
-            self.closeRequestTimer?.invalidate()
-            self.closeRequestTimer = nil
-        }
     }
 
     func showHideCardHuds(_ notification: Notification) {

@@ -12,9 +12,9 @@ import TextAttributes
 class FloatingCard: OverWindowController {
 
     @IBOutlet weak var title: NSTextField!
-    @IBOutlet weak var text: NSTextField!
+    @IBOutlet weak var text: NSTextView!
 
-    private var card: Card?
+    var card: Card?
     private var drawChanceTop: Float = 0
     private var drawChanceTop2: Float = 0
     
@@ -34,18 +34,20 @@ class FloatingCard: OverWindowController {
         return $0
     }(TextAttributes())
 
-    func set(card: Card) {
+    func set(card: Card, drawChanceTop: Float, drawChanceTop2: Float) {
+        self.drawChanceTop = drawChanceTop
+        self.drawChanceTop2 = drawChanceTop2
         self.card = card
         reloadText()
     }
 
-    func setDrawChanceTop(chance: Float) {
-        drawChanceTop = chance
+    func set(drawChanceTop: Float) {
+        self.drawChanceTop = drawChanceTop
         reloadText()
     }
     
-    func setDrawChanceTop2(chance: Float) {
-        drawChanceTop2 = chance
+    func set(drawChanceTop2: Float) {
+        self.drawChanceTop2 = drawChanceTop2
         reloadText()
     }
 
@@ -66,7 +68,28 @@ class FloatingCard: OverWindowController {
             information += NSLocalizedString("In top 2:", comment: "")
                 + "\(String(format: " %.2f", drawChanceTop2))%\n"
         }
-        text.attributedStringValue = NSAttributedString(string: information,
-                                                        attributes: attributes)
+        text.string = ""
+        text.textStorage?.append(NSAttributedString(string: information,
+                                                        attributes: attributes))
+        
+        // "pack frame"
+        if let window = self.window {
+            let layoutManager = NSLayoutManager()
+            let textStorage = NSTextStorage(attributedString:
+                NSAttributedString(string: information, attributes: attributes))
+            let textContainer = NSTextContainer(containerSize:
+                NSSize(width: window.frame.size.width, height: CGFloat(FLT_MAX)))
+            layoutManager.addTextContainer(textContainer)
+            textStorage.addLayoutManager(layoutManager)
+            
+            textContainer.lineFragmentPadding = 0.0
+            layoutManager.glyphRange(for: textContainer)
+            let textheight = layoutManager.usedRect(for: textContainer).size.height
+            
+            self.window?.setContentSize(NSSize(width: window.frame.size.width,
+                                               height: self.title.frame.size.height +
+                                                    textheight))
+        }
+        
     }
 }

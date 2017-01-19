@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FloatingCard" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="text" destination="fSs-nf-8JT" id="M1c-8y-DGp"/>
+                <outlet property="text" destination="sus-Fb-lGq" id="sDg-Zi-e93"/>
                 <outlet property="title" destination="EJZ-Hb-t7o" id="QMV-TR-Yty"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="rsA-hu-GI1"/>
             </connections>
@@ -16,39 +16,60 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="FloatingCard" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="179" height="310"/>
+            <rect key="contentRect" x="196" y="240" width="180" height="310"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="179" height="310"/>
+                <rect key="frame" x="0.0" y="0.0" width="180" height="310"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EJZ-Hb-t7o">
-                        <rect key="frame" x="0.0" y="293" width="179" height="17"/>
+                        <rect key="frame" x="0.0" y="285" width="180" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="9vk-LD-4jn"/>
+                        </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" drawsBackground="YES" id="CDF-je-3lS">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
                             <color key="backgroundColor" red="0.28235294119999998" green="0.4941176471" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="fSs-nf-8JT">
-                        <rect key="frame" x="0.0" y="276" width="179" height="17"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Multiline Label" drawsBackground="YES" id="uk5-A7-l41">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
+                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0k-t9-pNP">
+                        <rect key="frame" x="0.0" y="0.0" width="180" height="285"/>
+                        <clipView key="contentView" copiesOnScroll="NO" id="RgW-lh-Pc8">
+                            <rect key="frame" x="0.0" y="0.0" width="180" height="285"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="sus-Fb-lGq">
+                                    <rect key="frame" x="0.0" y="0.0" width="180" height="285"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="180" height="285"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                </textView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="akS-Bp-OHu">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="eX1-Di-LQR">
+                            <rect key="frame" x="-100" y="-100" width="15" height="135"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="L0k-t9-pNP" secondAttribute="trailing" id="2aY-C8-a8e"/>
                     <constraint firstItem="EJZ-Hb-t7o" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="4c5-0o-VaK"/>
-                    <constraint firstAttribute="trailing" secondItem="fSs-nf-8JT" secondAttribute="trailing" id="5Zy-o0-Fxy"/>
                     <constraint firstItem="EJZ-Hb-t7o" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="D0G-g7-xxG"/>
-                    <constraint firstItem="fSs-nf-8JT" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="hnU-Ag-9hg"/>
+                    <constraint firstItem="L0k-t9-pNP" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Mv9-y5-2ez"/>
                     <constraint firstAttribute="trailing" secondItem="EJZ-Hb-t7o" secondAttribute="trailing" id="ptK-mY-5my"/>
-                    <constraint firstItem="fSs-nf-8JT" firstAttribute="top" secondItem="EJZ-Hb-t7o" secondAttribute="bottom" id="rw3-ko-4jw"/>
+                    <constraint firstItem="L0k-t9-pNP" firstAttribute="top" secondItem="EJZ-Hb-t7o" secondAttribute="bottom" id="vzK-lZ-Jct"/>
+                    <constraint firstAttribute="bottom" secondItem="L0k-t9-pNP" secondAttribute="bottom" id="y2U-LI-2Tl"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="345.5" y="278"/>
+            <point key="canvasLocation" x="345" y="278"/>
         </window>
     </objects>
 </document>
