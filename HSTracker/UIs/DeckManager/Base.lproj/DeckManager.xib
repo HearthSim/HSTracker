@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DeckManager" customModule="HSTracker" customModuleProvider="target">
             <connections>
                 <outlet property="archiveToolBarItem" destination="Fe5-be-5CS" id="xAW-pf-TRk"/>
-                <outlet property="classes" destination="UfZ-Rs-kI0" id="tzh-2Q-J6l"/>
                 <outlet property="classesPopup" destination="aIM-uG-j6C" id="Nue-fE-55I"/>
                 <outlet property="curveView" destination="gl3-d5-lam" id="KjY-HS-ImR"/>
                 <outlet property="deckListTable" destination="Znw-pX-Aav" id="6Yh-1v-5F5"/>
@@ -25,7 +24,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="932" height="615"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <value key="minFullScreenContentSize" type="size" width="850" height="600"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="932" height="615"/>
@@ -242,16 +241,16 @@
                             <action selector="archiveDeck:" target="-2" id="ypI-Pe-P3H"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="8004B22B-F98D-4214-9261-255D430DC65D" label="Sort" paletteLabel="Sort" id="cu3-FG-2Cn">
+                    <toolbarItem implicitItemIdentifier="8004B22B-F98D-4214-9261-255D430DC65D" label="Sort by" paletteLabel="Sort" id="cu3-FG-2Cn">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="100" height="26"/>
-                        <size key="maxSize" width="100" height="26"/>
+                        <size key="minSize" width="100" height="27"/>
+                        <size key="maxSize" width="100" height="28"/>
                         <popUpButton key="view" verticalHuggingPriority="750" id="xO3-ES-jrX">
-                            <rect key="frame" x="0.0" y="14" width="100" height="26"/>
+                            <rect key="frame" x="0.0" y="14" width="100" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" allowsMixedState="YES" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="cCu-vJ-U3L" id="DqI-gA-1iM">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="menu"/>
+                                <font key="font" metaFont="system"/>
                                 <menu key="menu" id="EE3-OV-76S">
                                     <items>
                                         <menuItem title="Item 1" state="on" hidden="YES" id="cCu-vJ-U3L"/>
@@ -277,16 +276,16 @@
                             <action selector="exportToHearthstone:" target="-2" id="F7f-kw-pom"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="1B935CB6-E06D-4C5B-A5B7-1F3225DA829D" label="" paletteLabel="" id="Hyt-EI-Vfy">
+                    <toolbarItem implicitItemIdentifier="1B935CB6-E06D-4C5B-A5B7-1F3225DA829D" label="Classes" paletteLabel="Classes" id="Hyt-EI-Vfy">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="100" height="28"/>
+                        <size key="minSize" width="100" height="27"/>
                         <size key="maxSize" width="100" height="28"/>
                         <popUpButton key="view" verticalHuggingPriority="750" id="aIM-uG-j6C">
                             <rect key="frame" x="0.0" y="14" width="100" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="0XN-R3-wDb" id="bzn-bj-qNJ">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="menu"/>
+                                <font key="font" metaFont="system"/>
                                 <menu key="menu" id="i7E-Vr-7OS">
                                     <items>
                                         <menuItem title="Item 1" state="on" id="0XN-R3-wDb"/>

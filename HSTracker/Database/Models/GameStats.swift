@@ -76,6 +76,7 @@ class InternalGameStats {
         gameStats.brawlLosses = brawlLosses
         gameStats.format = format
         gameStats.hsReplayId = hsReplayId
+        gameStats.result = result
         opponentCards.forEach {
             let card = RealmCard(id: $0.id, count: $0.count)
             gameStats.opponentCards.append(card)

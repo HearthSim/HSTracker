@@ -110,7 +110,13 @@ class DeckManager: NSWindowController {
                          name: NSNotification.Name(rawValue: "theme"),
                          object: nil)
     }
-
+    
+    override func showWindow(_ sender: Any?) {
+        
+        refreshDecks()
+        super.showWindow(sender)
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

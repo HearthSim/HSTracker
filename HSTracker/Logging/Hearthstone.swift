@@ -206,6 +206,9 @@ final class Hearthstone: NSObject {
                         Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
                         break
                     } else {
+                        // mirror might be partially initialized, reset
+                        self?.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
+                                                    withBlocking: true)
                         Thread.sleep(forTimeInterval: 0.5)
                     }
                 }
