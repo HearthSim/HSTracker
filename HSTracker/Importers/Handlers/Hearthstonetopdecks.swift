@@ -46,9 +46,9 @@ struct HearthstoneTopDecks: HttpImporter {
         deck.name = deckName
 
         var cards: [Card] = []
-        let cardNodes = doc.xpath("//*[contains(@class, 'deck-class')]/li/a")
+        let cardNodes = doc.xpath("//*[contains(@class, 'deck-class')]/li")
         for cardNode in cardNodes {
-            if let cardName = cardNode.at_xpath("span[@class='card-name']")?.text,
+            if let cardName = cardNode.at_xpath(".//a/span[@class='card-name']")?.text,
                 let cardcountstr = cardNode.at_xpath("span[@class='card-count']")?.text,
                 let count = Int(cardcountstr) {
 
