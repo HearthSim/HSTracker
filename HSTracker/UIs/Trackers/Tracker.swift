@@ -89,6 +89,10 @@ class Tracker: OverWindowController {
         setOpacity()
         frameOptionsChange()
     }
+    
+    func isLoaded() -> Bool {
+        return self.isWindowLoaded
+    }
 
     func player() -> Player {
         return playerType == .player ? Game.shared.player : Game.shared.opponent
