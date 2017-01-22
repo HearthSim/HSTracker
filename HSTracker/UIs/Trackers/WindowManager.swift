@@ -230,6 +230,7 @@ class WindowManager {
                                   height: WindowManager.top)
                 }
             }
+            opponentTracker.hasValidFrame = true
             show(controller: opponentTracker, show: true, frame: rect, title: "Opponent tracker")
         } else {
             show(controller: opponentTracker, show: false)
@@ -253,6 +254,7 @@ class WindowManager {
                                   height: WindowManager.top)
                 }
             }
+            playerTracker.hasValidFrame = true
             show(controller: playerTracker, show: true, frame: rect, title: "Player tracker")
         } else {
             show(controller: playerTracker, show: false)

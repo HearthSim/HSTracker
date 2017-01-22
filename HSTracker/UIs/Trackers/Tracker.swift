@@ -29,6 +29,8 @@ class Tracker: OverWindowController {
     var animatedCards: [CardBar] = []
     var playerType: PlayerType?
     private var cellsCache = [String: NSView]()
+    
+    var hasValidFrame = false
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -599,6 +601,7 @@ extension Tracker: NSWindowDelegate {
     }
 
     private func onWindowMove() {
+        if !self.isWindowLoaded || !self.hasValidFrame {return}
         let settings = Settings.instance
         if playerType == .player {
             settings.playerTrackerFrame = self.window?.frame
