@@ -108,7 +108,7 @@ class WindowManager {
     }
 
     func isReady() -> Bool {
-        return playerTracker.window != nil && opponentTracker.window != nil
+        return playerTracker.isLoaded() && opponentTracker.isLoaded()
     }
 
     func hideGameTrackers() {
@@ -159,7 +159,7 @@ class WindowManager {
         // secret helper
         if settings.showSecretHelper {
             if let secrets = game.opponentSecrets, secrets.allSecrets().count > 0 {
-                secretTracker.setSecrets(secrets: secrets.allSecrets())
+                secretTracker.set(secrets: secrets.allSecrets())
                 show(controller: secretTracker, show: true, frame: SizeHelper.secretTrackerFrame())
             } else {
                 show(controller: secretTracker, show: false)

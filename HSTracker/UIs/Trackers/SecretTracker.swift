@@ -34,7 +34,7 @@ class SecretTracker: OverWindowController {
         setWindowSizes()
     }
 
-    func setSecrets(secrets: [Card]) {
+    func set(secrets: [Card]) {
         cards = secrets
         table.reloadData()
     }

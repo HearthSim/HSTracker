@@ -15,21 +15,29 @@ class Splashscreen: NSWindowController {
     @IBOutlet weak var progressBar: NSProgressIndicator!
 
     func display(_ str: String, indeterminate: Bool) {
-        information.stringValue = str
-        progressBar.isIndeterminate = indeterminate
+        DispatchQueue.main.async { [weak self] in
+            self?.information.stringValue = str
+            self?.progressBar.isIndeterminate = indeterminate
+        }
     }
 
     func display(_ str: String, total: Double) {
-        progressBar.isIndeterminate = false
-        information.stringValue = str
-        progressBar.maxValue = total
-        progressBar.doubleValue = 0
+        DispatchQueue.main.async { [weak self] in
+            self?.progressBar.isIndeterminate = false
+            self?.information.stringValue = str
+            self?.progressBar.maxValue = total
+            self?.progressBar.doubleValue = 0
+        }
+        
     }
 
     func increment(_ str: String? = nil) {
-        progressBar.increment(by: 1)
-        if let str = str {
-            information.stringValue = str
+        // UI should be adjusted on the main thread
+        DispatchQueue.main.async { [weak self] in
+            self?.progressBar.increment(by: 1)
+            if let str = str {
+                self?.information.stringValue = str
+            }
         }
     }
 }
