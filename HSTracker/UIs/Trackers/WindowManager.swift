@@ -182,14 +182,25 @@ class WindowManager {
             show(controller: cardHudContainer, show: false)
         }
 
+        var rect: NSRect?
+        
         // board damage
         let board = BoardState()
 
         if settings.playerBoardDamage {
             if !game.gameEnded {
                 playerBoardDamage.update(attack: board.player.damage)
+                if settings.autoPositionTrackers {
+                    rect = SizeHelper.playerBoardDamageFrame()
+                } else {
+                    rect = Settings.instance.playerBoardDamageFrame
+                    if rect == nil {
+                        rect = SizeHelper.playerBoardDamageFrame()
+                    }
+                }
+                playerBoardDamage.hasValidFrame = true
                 show(controller: playerBoardDamage, show: true,
-                     frame: SizeHelper.playerBoardDamageFrame())
+                     frame: rect)
             } else {
                 show(controller: playerBoardDamage, show: false)
             }
@@ -200,6 +211,15 @@ class WindowManager {
         if settings.opponentBoardDamage {
             if !game.gameEnded {
                 opponentBoardDamage.update(attack: board.opponent.damage)
+                if settings.autoPositionTrackers {
+                    rect = SizeHelper.opponentBoardDamageFrame()
+                } else {
+                    rect = Settings.instance.opponentBoardDamageFrame
+                    if rect == nil {
+                        rect = SizeHelper.opponentBoardDamageFrame()
+                    }
+                }
+                opponentBoardDamage.hasValidFrame = true
                 show(controller: opponentBoardDamage, show: true,
                      frame: SizeHelper.opponentBoardDamageFrame())
             } else {
@@ -208,8 +228,6 @@ class WindowManager {
         } else {
             show(controller: opponentBoardDamage, show: false)
         }
-
-        var rect: NSRect?
 
         if settings.showOpponentTracker {
             // opponent tracker

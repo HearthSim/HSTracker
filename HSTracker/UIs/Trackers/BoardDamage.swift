@@ -15,6 +15,8 @@ class BoardDamage: OverWindowController {
     let attributes = TextAttributes()
     var player: PlayerType?
     
+    var hasValidFrame = false
+    
     override func windowDidLoad() {
         super.windowDidLoad()
         
@@ -29,5 +31,22 @@ class BoardDamage: OverWindowController {
     func update(attack: Int) {      
         damage.attributedStringValue = NSAttributedString(string: "\(attack)",
                                                           attributes: attributes)
+    }
+}
+
+extension BoardDamage: NSWindowDelegate {
+    
+    func windowDidMove(_ notification: Notification) {
+        onWindowMove()
+    }
+    
+    private func onWindowMove() {
+        if !self.isWindowLoaded || !self.hasValidFrame {return}
+        let settings = Settings.instance
+        if player == .player {
+            settings.playerBoardDamageFrame = self.window?.frame
+        } else {
+            settings.opponentBoardDamageFrame = self.window?.frame
+        }
     }
 }

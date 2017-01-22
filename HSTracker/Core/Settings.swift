@@ -287,10 +287,34 @@ final class Settings {
         set { set(name: "player_board_damage", value: newValue) }
         get { return get(name: "player_board_damage") as? Bool ?? true }
     }
+    
+    var playerBoardDamageFrame: NSRect? {
+        set { set(name: "player_board_damage_frame",
+                  value: newValue == nil ? nil : NSStringFromRect(newValue!)) }
+        get {
+            if let stringRect = get(name: "player_board_damage_frame") as? String {
+                return NSRectFromString(stringRect)
+            }
+            return nil
+        }
+    }
+    
     var opponentBoardDamage: Bool {
         set { set(name: "opponent_board_damage", value: newValue) }
         get { return get(name: "opponent_board_damage") as? Bool ?? true }
     }
+    
+    var opponentBoardDamageFrame: NSRect? {
+        set { set(name: "opponent_board_damage_frame",
+                  value: newValue == nil ? nil : NSStringFromRect(newValue!)) }
+        get {
+            if let stringRect = get(name: "opponent_board_damage_frame") as? String {
+                return NSRectFromString(stringRect)
+            }
+            return nil
+        }
+    }
+    
     var fatigueIndicator: Bool {
         set { set(name: "show_fatigue", value: newValue) }
         get { return get(name: "show_fatigue") as? Bool ?? true }
