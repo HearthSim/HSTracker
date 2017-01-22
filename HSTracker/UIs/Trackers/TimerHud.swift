@@ -17,6 +17,7 @@ class TimerHud: OverWindowController {
     var currentPlayer: PlayerType?
     let attributes = TextAttributes()
     let largeAttributes = TextAttributes()
+    var hasValidFrame = false
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -57,5 +58,17 @@ class TimerHud: OverWindowController {
         opponentLabel.attributedStringValue = NSAttributedString(string:
             String(format: "%d:%02d", (opponentSeconds / 60) % 60, opponentSeconds % 60),
                                                                  attributes: attributes)
+    }
+}
+
+extension TimerHud: NSWindowDelegate {
+    
+    func windowDidMove(_ notification: Notification) {
+        onWindowMove()
+    }
+    
+    private func onWindowMove() {
+        if !self.isWindowLoaded || !self.hasValidFrame {return}
+        Settings.instance.timerHudFrame = self.window?.frame
     }
 }

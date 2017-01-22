@@ -231,6 +231,18 @@ final class Settings {
         set { set(name: "show_timer", value: newValue) }
         get { return get(name: "show_timer") as? Bool ?? true }
     }
+    
+    var timerHudFrame: NSRect? {
+        set { set(name: "timer_hud_frame",
+                  value: newValue == nil ? nil : NSStringFromRect(newValue!)) }
+        get {
+            if let stringRect = get(name: "timer_hud_frame") as? String {
+                return NSRectFromString(stringRect)
+            }
+            return nil
+        }
+    }
+    
     var showCardHuds: Bool {
         set { set(name: "show_card_huds", value: newValue) }
         get { return get(name: "show_card_huds") as? Bool ?? true }

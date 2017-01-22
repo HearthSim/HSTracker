@@ -148,10 +148,21 @@ class WindowManager {
     private func redrawTrackers(reset: Bool = false) {
         let settings = Settings.instance
         let game = Game.shared
+        
+        var rect: NSRect?
 
         // timer
         if Settings.instance.showTimer && !game.gameEnded {
-            show(controller: timerHud, show: true, frame: SizeHelper.timerHudFrame())
+            if settings.autoPositionTrackers {
+                rect = SizeHelper.timerHudFrame()
+            } else {
+                rect = Settings.instance.timerHudFrame
+                if rect == nil {
+                    rect = SizeHelper.timerHudFrame()
+                }
+            }
+            timerHud.hasValidFrame = true
+            show(controller: timerHud, show: true, frame: rect)
         } else {
             show(controller: timerHud, show: false)
         }
@@ -182,8 +193,6 @@ class WindowManager {
             show(controller: cardHudContainer, show: false)
         }
 
-        var rect: NSRect?
-        
         // board damage
         let board = BoardState()
 
