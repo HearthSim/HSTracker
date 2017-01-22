@@ -88,6 +88,10 @@ class Tracker: OverWindowController {
                            name: NSNotification.Name(rawValue: "card_size"),
                            object: nil)
 
+        center.addObserver(self,
+                           selector: #selector(setOpacity),
+                           name: NSNotification.Name(rawValue: "tracker_opacity"),
+                           object: nil)
         setOpacity()
         frameOptionsChange()
     }
