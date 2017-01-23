@@ -12,6 +12,8 @@ import XCTest
 
 @available(OSX 10.11, *)
 class NetImportTest: XCTestCase {
+    
+    let importTimeout: TimeInterval = 60
 
     override func setUp() {
         super.setUp()
@@ -31,8 +33,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
                 
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -50,8 +52,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
                 
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -69,8 +71,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
             
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -87,8 +89,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
             
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -105,8 +107,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
             
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -123,8 +125,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
             
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -141,8 +143,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
             
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -158,8 +160,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
 
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -175,8 +177,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
 
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -192,8 +194,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
 
-            self.waitForExpectations(timeout: 10) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
@@ -209,8 +211,8 @@ class NetImportTest: XCTestCase {
                 asyncExpectation.fulfill()
             })
 
-            self.waitForExpectations(timeout: 20) { error in
-                XCTAssertNil(error, "Something went horribly wrong")
+            self.waitForExpectations(timeout: importTimeout) { error in
+                XCTAssertNil(error, "Connection timed out after \(self.importTimeout) seconds")
             }
         } catch {
             XCTFail("Deck should not be nil")
