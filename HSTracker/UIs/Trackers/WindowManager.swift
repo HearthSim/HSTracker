@@ -371,7 +371,7 @@ class WindowManager {
                 }
 
                 // set the level of the window : over all if hearthstone is active
-                // as a normal window otherwize
+                // as a normal window otherwise
                 let level: Int
                 if Hearthstone.instance.hearthstoneActive {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
