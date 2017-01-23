@@ -570,7 +570,48 @@ class Game {
         }
 
         lastGame = currentGameStats
-        syncStats()
+        DispatchQueue.global().async { [weak self] in
+            self?.logIsComplete()
+        }
+    }
+
+    private func logIsComplete() {
+        if logContainsGoldRewardState || currentGameMode == .practice && logContainsStateComplete {
+            DispatchQueue.main.async { [weak self] in
+                self?.syncStats()
+            }
+            return
+        }
+
+        Log.info?.message("GOLD_REWARD_STATE not found")
+        Thread.sleep(forTimeInterval: 0.5)
+
+        if logContainsStateComplete || isInMenu {
+            DispatchQueue.main.async { [weak self] in
+                self?.syncStats()
+            }
+            return
+        }
+
+        Log.info?.message("STATE COMPLETE not found")
+        for i in 0...5 {
+            Thread.sleep(forTimeInterval: 1)
+            if logContainsStateComplete || isInMenu {
+                break
+            }
+			Log.info?.message("Waiting for STATE COMPLETE... (\(i))")
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.syncStats()
+        }
+    }
+
+    private var logContainsGoldRewardState: Bool {
+        return powerLog.filter({ $0.line.contains("tag=GOLD_REWARD_STATE value=1") }).count == 2
+    }
+
+    private var logContainsStateComplete: Bool {
+        return powerLog.any({ $0.line.contains("tag=STATE value=COMPLETE") }) 
     }
 
     private func syncStats() {
