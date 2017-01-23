@@ -416,7 +416,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let _ = Settings.instance.hsReplayUploadToken {
             let statistics = realm.objects(GameStats.self)
                 .filter("hsReplayId != nil")
-                .sorted(byProperty: "startTime", ascending: false)
+                .sorted(byKeyPath: "startTime", ascending: false)
             replaysMenu?.isEnabled = statistics.count > 0
             let max = min(statistics.count, 10)
             for i in 0..<max {
@@ -579,9 +579,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 extension AppDelegate: SUUpdaterDelegate {
+
     func feedParameters(for updater: SUUpdater,
-                        sendingSystemProfile sendingProfile: Bool) -> [Any] {
-        return BITSystemProfile.shared().systemUsageData().map { $0 }
+                        sendingSystemProfile sendingProfile: Bool) -> [[String : String]] {
+        var parameters: [[String : String]] = []
+        for data: Any in BITSystemProfile.shared().systemUsageData() {
+            if let dict = data as? [String: String] {
+                parameters.append(dict)
+            }
+        }
+        return parameters
     }
 }
 
