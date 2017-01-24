@@ -12,7 +12,12 @@ import TextAttributes
 class FloatingCard: OverWindowController {
 
     @IBOutlet weak var title: NSTextField!
-    @IBOutlet weak var text: NSTextView!
+    @IBOutlet weak var scrollview: NSScrollView!
+
+    // for reference http://stackoverflow.com/questions/24062437
+    var text: NSTextView? {
+        return scrollview.contentView.documentView as? NSTextView
+    }
 
     var card: Card?
     private var drawChanceTop: Float = 0
@@ -68,8 +73,8 @@ class FloatingCard: OverWindowController {
             information += NSLocalizedString("In top 2:", comment: "")
                 + "\(String(format: " %.2f", drawChanceTop2))%\n"
         }
-        text.string = ""
-        text.textStorage?.append(NSAttributedString(string: information,
+        text?.string = ""
+        text?.textStorage?.append(NSAttributedString(string: information,
                                                         attributes: attributes))
         
         // "pack frame"

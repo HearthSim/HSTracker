@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -7,7 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FloatingCard" customModule="HSTracker" customModuleProvider="target">
             <connections>
-                <outlet property="text" destination="sus-Fb-lGq" id="sDg-Zi-e93"/>
+                <outlet property="scrollview" destination="L0k-t9-pNP" id="Xn2-G3-3NX"/>
                 <outlet property="title" destination="EJZ-Hb-t7o" id="QMV-TR-Yty"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="rsA-hu-GI1"/>
             </connections>
