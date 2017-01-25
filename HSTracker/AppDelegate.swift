@@ -170,7 +170,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let buildsOperation = BlockOperation {
             BuildDates.loadBuilds(splashscreen: self.splashscreen!)
-            if BuildDates.isOutdated() {
+            if BuildDates.isOutdated() || !Database.jsonFilesAreValid() {
                 BuildDates.downloadCards(splashscreen: self.splashscreen!)
             }
         }

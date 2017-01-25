@@ -14,6 +14,23 @@ struct Database {
         let date = Date()
         return (date.year - 2014) * 12 - 3 + date.month
     }()
+
+    static func jsonFilesAreValid() -> Bool {
+        for locale in Language.hsLanguages {
+
+            let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(locale).json")
+            guard let jsonData = try? Data(contentsOf: jsonFile) else {
+                Log.error?.message("\(jsonFile) is not a valid file")
+                return false
+            }
+            guard let _ = try? JSONSerialization
+                .jsonObject(with: jsonData, options: []) as? [[String: Any]] else {
+                    Log.error?.message("\(jsonFile) is not a valid file")
+                    return false
+            }
+        }
+        return true
+    }
     
     static let validCardSets = CardSet.allValues()
 
