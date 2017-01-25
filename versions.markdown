@@ -1,39 +1,44 @@
 # 0.19
 ## Breaking change
+
 HearthStats has not been updated for Mean Streets of Gadgetzan and will likely remain unmaintained.
 Syncing causes your local decks to lose their MSG cards. HearthStats support is now disabled for all users.
 
 We are very sorry about the inconvenience and are working on a much improved replacement system!
 
 ## Breaking change 2
-Starting from this version, HSTracker is signed with my Apple developper account. You have to download manually this version from [hsdecktracker.net](https://hsdecktracker.net/hstracker/download/) since the update system will not allow this signature change.
+
+~~Starting from this version, HSTracker is signed with my Apple developper account. You have to download manually this version from [hsdecktracker.net](https://hsdecktracker.net/hstracker/download/) since the update system will not allow this signature change.~~ Not during beta :)
 
 ## Breaking change 3
+
 HSTracker now use a new system to improve your tracking. It allows HSTracker to auto-import decks from Hearthstone, detect ranks, game modes, ...
 You will be asked to authorize HSTracker to read the memory of Hearthstone. There's no other modification done to your system.
-_Please note_ that this version will delete your statistics, this is due to a big modification of the statistic and game history system.
+_Please note_ that this version will delete your statistics, this is due to a big modification of the statistic system.
 
 ## Changes:
 - Improve the "new deck" window
 - Improve the tracker "refresh"
-- Add an option to fully reset your HSReplay account
+- Add a option to fully reset your HSReplay account
 - Better support for MSG cards
 
 ## New:
 - Add a jade counter
 - New way to get your data, which allows to get 
-    - Decks imported from Hearthstone for all game modes (arena, brawl, constructed) (in this version)
-    - Format (wild/standard) (in this version)
-    - Correct rank (in this version)
-    - Arena draft choice (which allows something like arena helper) (NOT in this version, planned for future release)
-    - Arena reward tracking (NOT in this version, planned for future release)
-    - Collection manager. This is used when you export a deck to Hearthstone or import a net deck to tell you which cards are missings
-    - Pack opening, end season rewards, ... (NOT in this version, planned for future release)
+- Decks imported from Hearthstone for all game modes (arena, brawl, constructed) (in this version)
+- Format (wild/standard) (in this version)
+- Correct rank (in this version)
+- Arena draft choice (which allows something like arena helper) (NOT in this version, planned for future release)
+- Arena reward tracking (NOT in this version, planned for future release)
+- Collection manager (we know the cards you have) (NOT in this version, planned for future release)
+- Pack opening, end season rewards, ... (NOT in this version, planned for future release)
 - Add an option to prefer golden cards when exporting a deck to Hearthstone
 
 ## Fixes:
 - The "Use deck" in the deck manager is working again
 - The new way we get data should correct a lot of issues
+- Statistics are now correctly saved again
+- Better support of HsReplay
 
 # 0.18.5
 ## Fixes:
