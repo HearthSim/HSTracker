@@ -143,6 +143,8 @@ final class NetImporter {
     }
 
     static func checkDeckWithCollection(deck: Deck) -> String? {
+        if deck.isArena { return nil }
+        
         let cards = CollectionManager.default.collection()
         if cards.count == 0 {
             return NSLocalizedString("Can't get card collection", comment: "")
