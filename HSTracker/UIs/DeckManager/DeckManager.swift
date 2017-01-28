@@ -548,7 +548,7 @@ extension DeckManager: NSTableViewDelegate {
                     !deck.standardViable() && !deck.isArena ?
                     NSImage(named: "Mode_Wild") : nil
                 cell.color = ClassColor.color(playerClass: deck.playerClass)
-                cell.selected = tableView.selectedRow == -1 || tableView.selectedRow == row
+                cell.selected = tableView.selectedRow == row
                 
                 let record = StatsHelper.getDeckRecord(deck: deck, mode: .all)
                 switch sortCriteria {
