@@ -62,10 +62,12 @@ class InternalGameStats {
         gameStats.hearthstoneBuild.value = hearthstoneBuild
         gameStats.playerCardbackId = playerCardbackId
         gameStats.opponentCardbackId = opponentCardbackId
+        gameStats.opponentHero = opponentHero
         gameStats.friendlyPlayerId = friendlyPlayerId
         gameStats.scenarioId = scenarioId
         gameStats.serverInfo = serverInfo
         gameStats.season = season
+        gameStats.gameMode = gameMode
         gameStats.gameType = gameType
         gameStats.hsDeckId.value = hsDeckId
         gameStats.brawlSeasonId = brawlSeasonId
