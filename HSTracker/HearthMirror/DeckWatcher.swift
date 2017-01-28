@@ -43,7 +43,7 @@ class DeckWatcher {
                 continue
             }
             
-            self._selectedDeckId = deckId
+            self._selectedDeckId = deckId > 0 ? deckId : self._selectedDeckId
             
             Thread.sleep(forTimeInterval: 0.4)
         }
