@@ -95,11 +95,12 @@ final class LogReader {
             if fileHandle == nil && fileManager.fileExists(atPath: path) {
                 fileHandle = FileHandle(forReadingAtPath: path)
                 findInitialOffset()
+                fileHandle?.seek(toFileOffset: offset)
                 Log.verbose?.message("file exists \(path), " +
                     "offset for \(startingPoint.millisecondsFormatted) " +
                     "is \(offset)")
             }
-
+            
             if let data = fileHandle?.readDataToEndOfFile() {
                 if let linesStr = String(data: data, encoding: .utf8) {
 
