@@ -30,7 +30,7 @@ struct BuildDates {
         http.json(method: .get) { json in
             if let json: [String: String] = json as? [String: String] {
                 for (build, date) in json {
-                    if let nsdate = Date.NSDateFromString(date, inFormat: "yyyy-MM-dd"),
+                    if let nsdate = Date(fromString: date, inFormat: "yyyy-MM-dd"),
                         let intBuild = Int(build) {
                         let buildDate = BuildDate(date: nsdate, build: intBuild)
                         knownBuildDates.append(buildDate)

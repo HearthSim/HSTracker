@@ -62,12 +62,12 @@ class LogUploader {
             }
             if let line = lines.first({ $0.contains("CREATE_GAME") }) {
                 let (gameStart, _) = LogLine.parseTime(line: line)
-                date = Date.NSDateFromYear(year: date!.year,
-                                             month: date!.month,
-                                             day: date!.day,
-                                             hour: gameStart.hour,
-                                             minute: gameStart.minute,
-                                             second: gameStart.second)
+                date = Date(year: date!.year,
+                            month: date!.month,
+                            day: date!.day,
+                            hour: gameStart.hour,
+                            minute: gameStart.minute,
+                            second: gameStart.second)
             }
 
             let logLines = lines.map({

@@ -17,12 +17,6 @@ struct LogLine {
     let nanoseconds: Double
     let include: Bool
 
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(identifier: "UTC")
-        return formatter
-    }()
-
     init(namespace: LogLineNamespace, line: String, include: Bool = true) {
         self.namespace = namespace
         self.line = line
@@ -38,11 +32,11 @@ struct LogLine {
         
         guard !fromLine.isEmpty else { return (Date(), 0) }
         let components = fromLine.components(separatedBy: ".")
-        guard components.count >= 1 && components.count <= 2 else { return (Date(), 0) }
-        
-        let dateTime = Date(fromString: components[0],
-                              inFormat: "HH:mm:ss",
-                              timeZone: nil)
+        guard [1, 2].contains(components.count) else { return (Date(), 0) }
+
+        guard let dateTime = Date(fromString: components[0], inFormat: "HH:mm:ss") else {
+            return (Date(), 0)
+        }
         var nanoseconds: Double = 0
         if components.count == 2 && components[1].characters.count >= 3 {
             if let milliseconds = Double(components[1]) {
@@ -51,20 +45,20 @@ struct LogLine {
         }
         
         let today = Date()
-        if let date = Date.NSDateFromYear(year: today.year,
-                                            month: today.month,
-                                            day: today.day,
-                                            hour: dateTime.hour,
-                                            minute: dateTime.minute,
-                                            second: dateTime.second,
-                                            nanosecond: 0,
-                                            timeZone: TimeZone(identifier: "UTC")) {
-            if date > Date() {
-                return (date.addDays(-1)!, nanoseconds)
-            }
-            return  (date, nanoseconds)
+        guard let date = Date(year: today.year,
+                              month: today.month,
+                              day: today.day,
+                              hour: dateTime.hour,
+                              minute: dateTime.minute,
+                              second: dateTime.second,
+                              nanosecond: 0,
+                              timeZone: TimeZone(identifier: "UTC")) else {
+                                return (dateTime, nanoseconds)
         }
-        return (dateTime, nanoseconds)
+        if date > Date() {
+            return (date.addDays(-1)!, nanoseconds)
+        }
+        return (date, nanoseconds)
     }
 }
 
