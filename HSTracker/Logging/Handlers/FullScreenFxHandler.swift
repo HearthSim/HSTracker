@@ -71,42 +71,75 @@ struct FullScreenFxHandler {
             return
         }
         Log.info?.message("Found selected deck : \(selectedDeck.name)")
-
+        
         guard let realm = try? Realm() else { return }
 
-        if let deck = realm.objects(Deck.self)
+        if let storedDeck = realm.objects(Deck.self)
             .filter("hsDeckId = \(selectedDeckId)").first {
-            Log.info?.message("Deck \(selectedDeck.name) exists, using it.")
-            let deckId = deck.deckId
-            game.set(activeDeck: deckId)
-            return
-        }
+            
+            // deck found, check if data needs to be updated
+            if storedDeck.name != selectedDeck.name || !storedDeck.isContentEqualTo(mirrorDeck: selectedDeck) {
+                Log.info?.message("Deck \(selectedDeck.name) exists, updating and using it.")
+                
+                do {
+                    try realm.write {
+                        storedDeck.name = selectedDeck.name
+                        
+                        storedDeck.cards.removeAll()
+                        guard let cards = selectedDeck.cards as? [MirrorCard] else { game.set(activeDeck: nil); return }
+                        for card in cards {
+                            guard let c = Cards.by(cardId: card.cardId as String) else { continue }
+                            c.count = card.count as Int
+                            storedDeck.add(card: c)
+                        }
 
-        guard let hero = Cards.hero(byId: selectedDeck.hero as String) else { return }
-        let deck = Deck()
-        deck.name = selectedDeck.name as String
-        deck.playerClass = hero.playerClass
-        deck.hsDeckId.value = selectedDeckId
-
-        Log.info?.message("Deck \(selectedDeck.name) does not exists, creating it.")
-        guard let cards = selectedDeck.cards as? [MirrorCard] else { return }
-        do {
-            try realm.write {
-                realm.add(deck)
-                for card in cards {
-                    guard let c = Cards.by(cardId: card.cardId as String) else { continue }
-                    c.count = card.count as Int
-                    deck.add(card: c)
+                        if storedDeck.isValid() {
+                            Log.info?.message("Saving and using deck : \(storedDeck)")
+                            let deckId = storedDeck.deckId
+                            game.set(activeDeck: deckId)
+                            return
+                        }
+                    }
+                } catch {
+                    Log.error?.message("Can not import deck. Error : \(error)")
                 }
-                if deck.isValid() {
-                    Log.info?.message("Saving and using deck : \(deck)")
-                    let deckId = deck.deckId
-                    game.set(activeDeck: deckId)
-                }
+            } else {
+                Log.info?.message("Deck \(selectedDeck.name) exists, using it.")
+                
+                let deckId = storedDeck.deckId
+                game.set(activeDeck: deckId)
+                return
             }
-        } catch {
-            Log.error?.message("Can not import deck. Error : \(error)")
+            
+        } else {
+            Log.info?.message("Deck \(selectedDeck.name) does not exists, creating it.")
+            
+            guard let hero = Cards.hero(byId: selectedDeck.hero as String) else { return }
+            let deck = Deck()
+            deck.name = selectedDeck.name as String
+            deck.playerClass = hero.playerClass
+            deck.hsDeckId.value = selectedDeckId
+            
+            guard let cards = selectedDeck.cards as? [MirrorCard] else { return }
+            do {
+                try realm.write {
+                    realm.add(deck)
+                    for card in cards {
+                        guard let c = Cards.by(cardId: card.cardId as String) else { continue }
+                        c.count = card.count as Int
+                        deck.add(card: c)
+                    }
+                    if deck.isValid() {
+                        Log.info?.message("Saving and using deck : \(deck)")
+                        let deckId = deck.deckId
+                        game.set(activeDeck: deckId)
+                    }
+                }
+            } catch {
+                Log.error?.message("Can not import deck. Error : \(error)")
+            }
         }
+
     }
 
     private func autoSelectArenaDeck(game: Game) {

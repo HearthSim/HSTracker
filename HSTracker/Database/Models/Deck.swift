@@ -117,4 +117,21 @@ class Deck: Object {
             $0.set != nil && CardSet.wildSets().contains($0.set!)
         }
     }
+    
+    /**
+     * Compares the card content to the other deck
+     */
+    func isContentEqualTo(mirrorDeck: MirrorDeck) -> Bool {
+        guard let mirrorCards = mirrorDeck.cards as? [MirrorCard] else { return false }
+        
+        for c in self.cards {
+            guard let othercard = mirrorCards.first(where: {$0.cardId == c.id}) else {
+                return false
+            }
+            if c.count != othercard.count.intValue {
+                return false
+            }
+        }
+        return true
+    }
 }
