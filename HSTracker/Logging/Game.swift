@@ -324,7 +324,7 @@ class Game {
         if currentGameMode == .practice && !isInMenu && !handledGameEnd
             && lastGameStartTimestamp > DateInRegion.distantPast
             && timestamp > lastGameStartTimestamp {
-            //adventureRestart()
+            adventureRestart()
             return
         }
         
