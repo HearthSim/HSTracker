@@ -24,7 +24,9 @@ class Deck: Object {
         set { _playerClass = newValue.rawValue }
     }
 
-    dynamic var version = "1.0"
+    dynamic var deckMajorVersion: Int = 1
+    dynamic var deckMinorVersion: Int = 0
+    
     dynamic var creationDate = Date()
     let hearthstatsId = RealmOptional<Int>()
     let hearthstatsVersionId = RealmOptional<Int>()
@@ -133,5 +135,32 @@ class Deck: Object {
             }
         }
         return true
+    }
+    
+    func diffTo(mirrorDeck: MirrorDeck) -> (cards: [Card], success: Bool) {
+        var diffs = [Card]()
+        guard let mirrorCards = mirrorDeck.cards as? [MirrorCard] else { return (diffs, false) }
+        
+        for c in self.cards {
+            guard let othercard = mirrorCards.first(where: {$0.cardId == c.id}) else {
+                diffs.append(Card(fromRealCard: c))
+                continue
+            }
+            if c.count != othercard.count.intValue {
+                let diffc = Card(fromRealCard: c)
+                diffc.count = abs(c.count - othercard.count.intValue)
+                diffs.append(diffc)
+            }
+        }
+        
+        return (diffs, true)
+    }
+    
+    func incrementVersion(major: Int) {
+        self.deckMajorVersion = self.deckMajorVersion + major
+    }
+    
+    func incrementVersion(minor: Int) {
+        self.deckMinorVersion = self.deckMinorVersion + minor
     }
 }

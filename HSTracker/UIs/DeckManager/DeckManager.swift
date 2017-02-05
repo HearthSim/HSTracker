@@ -664,7 +664,9 @@ extension DeckManager: NewDeckDelegate {
         } catch {
             Log.error?.message("Can not load decks : \(error)")
         }
-        decksTable.reloadData()
-        deckListTable.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.decksTable.reloadData()
+            self?.deckListTable.reloadData()
+        }
     }
 }

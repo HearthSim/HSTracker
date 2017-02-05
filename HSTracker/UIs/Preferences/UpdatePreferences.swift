@@ -21,7 +21,10 @@ class UpdatePreferences: NSViewController {
         autoDownloadsUpdates.state = settings.automaticallyDownloadsUpdates ? NSOnState : NSOffState
         releaseChannel.selectItem(at: settings.releaseChannel.rawValue)
         if let lastUpdateCheckDate = sparkleUpdater.lastUpdateCheckDate {
-            lastUpdate.stringValue = lastUpdateCheckDate.toLocalizedString()
+            lastUpdate.stringValue = lastUpdateCheckDate
+                .string(format: .iso8601(options: [.withFullTime,
+                                                   .withFullDate,
+                                                   .withSpaceBetweenDateAndTime]))
         }
     }
     

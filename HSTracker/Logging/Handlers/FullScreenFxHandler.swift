@@ -9,12 +9,13 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
+import SwiftDate
 
 struct FullScreenFxHandler {
     
     let BeginBlurRegex = "BeginEffect blur \\d => 1"
     
-    private var lastQueueTime: Date = Date.distantPast
+    private var lastQueueTime: DateInRegion = DateInRegion.distantPast
     
     mutating func handle(game: Game, logLine: LogLine) {
         guard let currentMode = game.currentMode else { return }
@@ -24,7 +25,7 @@ struct FullScreenFxHandler {
             && modes.contains(currentMode) {
             game.enqueueTime = logLine.time
             Log.info?.message("now in queue (\(logLine.time))")
-            if Date().diffInSeconds(logLine.time) > 5
+            if (DateInRegion() - logLine.time).in(.second) ?? 0 > 5
                 || !game.isInMenu || logLine.time <= lastQueueTime {
                 return
             }
@@ -78,26 +79,47 @@ struct FullScreenFxHandler {
             .filter("hsDeckId = \(selectedDeckId)").first {
             
             // deck found, check if data needs to be updated
-            if storedDeck.name != selectedDeck.name || !storedDeck.isContentEqualTo(mirrorDeck: selectedDeck) {
-                Log.info?.message("Deck \(selectedDeck.name) exists, updating and using it.")
-                
+            let nameDoesNotMatch = storedDeck.name != selectedDeck.name
+            let cardsDontMatch = storedDeck.diffTo(mirrorDeck: selectedDeck)
+            if nameDoesNotMatch || (cardsDontMatch.success && (cardsDontMatch.cards.count > 0)) {
+                if nameDoesNotMatch {
+                    Log.info?.message("Deck \(selectedDeck.name) exists" +
+                        "with an old name, updating and using it.")
+                } else {
+                    Log.info?.message("Deck \(selectedDeck.name) exists, updating and using it.")
+                }
                 do {
                     try realm.write {
-                        storedDeck.name = selectedDeck.name
-                        
-                        storedDeck.cards.removeAll()
-                        guard let cards = selectedDeck.cards as? [MirrorCard] else { game.set(activeDeck: nil); return }
-                        for card in cards {
-                            guard let c = Cards.by(cardId: card.cardId as String) else { continue }
-                            c.count = card.count as Int
-                            storedDeck.add(card: c)
+                        if nameDoesNotMatch {
+                            storedDeck.name = selectedDeck.name
                         }
+                        
+                        let numDifferentCards: Int = cardsDontMatch.cards.reduce(0, {
+                            $0 + $1.count })
+                        if cardsDontMatch.success && numDifferentCards > 0 {
+                            storedDeck.cards.removeAll()
+                            guard let cards = selectedDeck.cards as? [MirrorCard]
+                                else { game.set(activeDeck: nil); return }
+                            for card in cards {
+                                guard let c = Cards.by(cardId: card.cardId as String)
+                                    else { continue }
+                                c.count = card.count as Int
+                                storedDeck.add(card: c)
+                            }
+                            
+                            // swapping 4 different cards yields to major update
+                            if cardsDontMatch.cards.count > 4 {
+                                storedDeck.incrementVersion(major: 1)
+                            } else {
+                                storedDeck.incrementVersion(minor: 1)
+                            }
 
-                        if storedDeck.isValid() {
-                            Log.info?.message("Saving and using deck : \(storedDeck)")
-                            let deckId = storedDeck.deckId
-                            game.set(activeDeck: deckId)
-                            return
+                            if storedDeck.isValid() {
+                                Log.info?.message("Saving and using deck : \(storedDeck)")
+                                let deckId = storedDeck.deckId
+                                game.set(activeDeck: deckId)
+                                return
+                            }
                         }
                     }
                 } catch {

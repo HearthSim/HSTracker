@@ -18,13 +18,11 @@ protocol SaveDeckDelegate: class {
 class SaveDeck: NSWindowController {
 
     @IBOutlet weak var deckName: NSTextField!
-    @IBOutlet weak var version: NSComboBox!
 
     var deck: Deck?
     var cards: [Card]?
     var exists = false
     weak private var _delegate: SaveDeckDelegate?
-    var versions = ["1.0"]
 
     func setDelegate(_ delegate: SaveDeckDelegate) {
         _delegate = delegate
@@ -44,31 +42,16 @@ class SaveDeck: NSWindowController {
         } catch {
             Log.error?.message("Can not fetch deck")
         }
-
-        if exists {
-            let version = deck!.version
-            let nextMinorVersion = "\(Double(version)! + 0.1)"
-            let nextMajorVersion = "\(round(Double(version)! + 1))"
-            versions = [version, nextMinorVersion, nextMajorVersion]
-        } else {
-            version.selectItem(at: 0)
-        }
-        version.isEnabled = exists
-        version.reloadData()
     }
 
     // MARK: - Actions
     @IBAction func save(_ sender: AnyObject) {
         guard let deck = deck, let cards = cards, cards.isValidDeck() else { return }
 
-        let selectedVersion = version.indexOfSelectedItem < 0
-            ? versions[0] : versions[version.indexOfSelectedItem]
-
         do {
             let realm = try Realm()
 
             try realm.write {
-                deck.version = selectedVersion
                 deck.name = deckName.stringValue
             }
         } catch {
@@ -103,16 +86,5 @@ class SaveDeck: NSWindowController {
         } catch {
             Log.error?.message("Can not save deck : \(error)")
         }
-    }
-}
-
-// MARK: - NSComboboxDelegate/Datasource
-extension SaveDeck: NSComboBoxDelegate, NSComboBoxDataSource {
-    func numberOfItems(in aComboBox: NSComboBox) -> Int {
-        return versions.count
-    }
-
-    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        return versions[index]
     }
 }

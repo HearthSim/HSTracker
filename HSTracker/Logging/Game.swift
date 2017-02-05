@@ -11,6 +11,7 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
+import SwiftDate
 
 struct PlayingDeck {
     let id: String
@@ -108,7 +109,7 @@ class Game {
     var isInMenu = true
     private var handledGameEnd = false
     var wasInProgress = false
-    var enqueueTime: Date = Date.distantPast
+    var enqueueTime: DateInRegion = DateInRegion.distantPast
     private var lastCompetitiveSpiritCheck: Int = 0
     private var lastTurnStart: [Int] = [0, 0]
     private var turnQueue: Set<PlayerTurn> = Set()
@@ -116,7 +117,7 @@ class Game {
     private var maxBlockId: Int = 0
     private(set) var currentBlock: Block?
     
-    fileprivate var lastGameStartTimestamp: Date = Date.distantPast
+    fileprivate var lastGameStartTimestamp: DateInRegion = DateInRegion.distantPast
 
     private var _matchInfo: MatchInfo?
     var matchInfo: MatchInfo? {
@@ -314,27 +315,28 @@ class Game {
     }
 
     // MARK: - game state
-    private var lastGameStart = Date.distantPast
-    func gameStart(at timestamp: Date) {
+    private var lastGameStart = DateInRegion.distantPast
+    func gameStart(at timestamp: DateInRegion) {
         Log.info?.message("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
             + "handledGameEnd: \(handledGameEnd), "
             + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
             "timestamp: \(timestamp)")
         if currentGameMode == .practice && !isInMenu && !handledGameEnd
-            && lastGameStartTimestamp > Date.distantPast
+            && lastGameStartTimestamp > DateInRegion.distantPast
             && timestamp > lastGameStartTimestamp {
             //adventureRestart()
             return
         }
         
         lastGameStartTimestamp = timestamp
-        if lastGameStart > Date.distantPast && Date().diffInSeconds(lastGameStart) < 5 {
+        if lastGameStart > DateInRegion.distantPast
+            && ((DateInRegion() - lastGameStart).in(.second) ?? 0 < 5) {
             // game already started
             return
         }
 
         reset()
-        lastGameStart = Date()
+        lastGameStart = DateInRegion()
 
         isInMenu = false
         handledGameEnd = false
@@ -351,7 +353,7 @@ class Game {
         WindowManager.default.updateTrackers(reset: true)
 
         cacheMatchInfo()
-        currentGameStats?.startTime = timestamp
+        currentGameStats?.startTime = timestamp.absoluteDate
     }
 
     private func invalidateMatchInfoCache() {
@@ -882,8 +884,7 @@ class Game {
         if entity.has(tag: .ritual) {
             // if this entity has the RITUAL tag, it will trigger some C'Thun change
             // we wait 300ms so the proxy have the time to be updated
-            let when = DispatchTime.now()
-                + Double(Int64(300 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
+            let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(300)
             let queue = DispatchQueue.main
             queue.asyncAfter(deadline: when) {
                 WindowManager.default.updateTrackers()
@@ -1096,8 +1097,7 @@ class Game {
         if entity.has(tag: .ritual) {
             // if this entity has the RITUAL tag, it will trigger some C'Thun change
             // we wait 300ms so the proxy have the time to be updated
-            let when = DispatchTime.now()
-                + Double(Int64(300 * Double(NSEC_PER_MSEC))) / Double(NSEC_PER_SEC)
+            let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(300)
             let queue = DispatchQueue.main
             queue.asyncAfter(deadline: when) {
                 WindowManager.default.updateTrackers()

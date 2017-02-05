@@ -85,6 +85,14 @@ final class Card {
         }
         return color
     }
+    
+    init() {
+    }
+    
+    init(fromRealCard: RealmCard) {
+        self.id = fromRealCard.id
+        self.count = fromRealCard.count
+    }
 }
 
 extension Card: NSCopying {

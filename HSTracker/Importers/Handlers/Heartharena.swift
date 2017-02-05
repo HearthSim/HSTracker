@@ -9,6 +9,7 @@
 import Foundation
 import Kanna
 import CleanroomLogger
+import SwiftDate
 
 struct HearthArena: HttpImporter {
 
@@ -34,7 +35,7 @@ struct HearthArena: HttpImporter {
         Log.verbose?.message("Got class \(playerClass)")
 
         let deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
-                              className, Date().shortDateString)
+                              className, Date().iso8601(opts: [.withFullDate]))
         Log.verbose?.message("Got deck name \(deckName)")
 
         let deck = Deck()

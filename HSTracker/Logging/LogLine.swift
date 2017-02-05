@@ -9,18 +9,20 @@
  */
 
 import CleanroomLogger
+import SwiftDate
 
 struct LogLine {
     let namespace: LogLineNamespace
-    let time: Date
+    let time: DateInRegion
     let line: String
     let nanoseconds: Double
     let include: Bool
 
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(identifier: "UTC")
-        return formatter
+    private static let utc: Region = {
+        let locale = Locale(identifier: Settings.instance.hsTrackerLanguage ?? "enUS")
+        return Region(tz: TimeZone(identifier: "UTC") ?? TimeZone.current,
+                      cal: CalendarName.gregorian.calendar,
+                      loc: locale)
     }()
 
     init(namespace: LogLineNamespace, line: String, include: Bool = true) {
@@ -30,46 +32,46 @@ struct LogLine {
         self.include = include
     }
     
-    static func parseTime(line: String) -> (Date, Double) {
-        guard line.characters.count > 20 else { return (Date(), 0) }
+    static func parseTime(line: String) -> (DateInRegion, Double) {
+        guard line.characters.count > 20 else { return (DateInRegion(), 0) }
 
         guard let fromLine = line.substringWithRange(2, location: 16)
-            .components(separatedBy: " ").first else { return (Date(), 0) }
+            .components(separatedBy: " ").first else { return (DateInRegion(), 0) }
         
-        guard !fromLine.isEmpty else { return (Date(), 0) }
+        guard !fromLine.isEmpty else { return (DateInRegion(), 0) }
         let components = fromLine.components(separatedBy: ".")
-        guard components.count >= 1 && components.count <= 2 else { return (Date(), 0) }
-        
-        let dateTime = Date(fromString: components[0],
-                              inFormat: "HH:mm:ss",
-                              timeZone: nil)
+        guard [1, 2].contains(components.count) else { return (DateInRegion(), 0) }
+
+        guard let dateTime = try? DateInRegion(string: components[0],
+                                            format: .custom("HH:mm:ss")) else {
+            return (DateInRegion(), 0)
+        }
+
         var nanoseconds: Double = 0
         if components.count == 2 && components[1].characters.count >= 3 {
             if let milliseconds = Double(components[1]) {
                 nanoseconds = milliseconds
             }
         }
-        
-        let today = Date()
-        if let date = Date.NSDateFromYear(year: today.year,
-                                            month: today.month,
-                                            day: today.day,
-                                            hour: dateTime.hour,
-                                            minute: dateTime.minute,
-                                            second: dateTime.second,
-                                            nanosecond: 0,
-                                            timeZone: TimeZone(identifier: "UTC")) {
-            if date > Date() {
-                return (date.addDays(-1)!, nanoseconds)
-            }
-            return  (date, nanoseconds)
+
+        guard let date = try? DateInRegion().atTime(hour: dateTime.hour,
+                                                    minute: dateTime.minute,
+                                                    second: dateTime.second) else {
+                return (dateTime, nanoseconds)
         }
-        return (dateTime, nanoseconds)
+        var dateInRegion = date
+        if dateInRegion.isInFuture {
+            dateInRegion = dateInRegion - 1.day
+        }
+        return (dateInRegion, nanoseconds)
     }
 }
 
 extension LogLine: CustomStringConvertible {
     var description: String {
-        return "\(namespace): \(time.millisecondsFormatted): \(line)"
+        let dateStr = time.string(format: .iso8601(options: [.withFullTime,
+                                                             .withFullDate,
+                                                             .withSpaceBetweenDateAndTime]))
+        return "\(namespace): \(dateStr).\(nanoseconds): \(line)"
     }
 }
