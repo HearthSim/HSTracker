@@ -73,7 +73,7 @@ class UploadMetaData {
 
         if let game = game {
             if game.startTime > Date.distantPast {
-                metaData.matchStart = game.startTime.toIso8601String()
+                metaData.matchStart = game.startTime.iso8601(opts: [.withInternetDateTime])
             }
 
             metaData.gameType = game.gameType != .gt_unknown

@@ -10,6 +10,7 @@
 
 import Foundation
 import CleanroomLogger
+import SwiftDate
 
 final class LogReaderManager {
     let powerGameStateHandler = PowerGameStateHandler()
@@ -85,13 +86,14 @@ final class LogReaderManager {
         start()
     }
 
-    private func entryPoint() -> Date {
+    private func entryPoint() -> DateInRegion {
         let powerEntry = powerLog.findEntryPoint(choices:
             ["tag=GOLD_REWARD_STATE", "End Spectator"])
         let loadingScreenEntry = loadingScreen.findEntryPoint(choice: "Gameplay.Start")
 
-        Log.verbose?.message("powerEntry : \(powerEntry.millisecondsFormatted) / "
-            + "loadingScreenEntry : \(loadingScreenEntry.millisecondsFormatted)")
+        let pe = powerEntry.string(format: .iso8601(options: [.withInternetDateTime]))
+        let lse = loadingScreenEntry.string(format: .iso8601(options: [.withInternetDateTime]))
+        Log.verbose?.message("powerEntry : \(pe) / loadingScreenEntry : \(lse)")
         
         return powerEntry > loadingScreenEntry ? powerEntry : loadingScreenEntry
     }

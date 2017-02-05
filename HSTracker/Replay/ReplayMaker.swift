@@ -10,6 +10,7 @@ import Foundation
 import CleanroomLogger
 import Wrap
 import ZipArchive
+import SwiftDate
 
 final class ReplayMaker {
     private static var points = [ReplayKeyPoint]()
@@ -93,7 +94,11 @@ final class ReplayMaker {
                 return
             }
 
-            let name = "\(Date().utcFormatted) - \(playerName)(\(playerHeroName)) vs "
+            let dateStr = DateInRegion()
+                .string(format: .iso8601(options: [.withFullTime,
+                                                   .withFullDate,
+                                                   .withSpaceBetweenDateAndTime]))
+            let name = "\(dateStr) - \(playerName)(\(playerHeroName)) vs "
                 + "\(opponentName)(\(opponentHeroName)).hdtreplay"
             let filename = path.appendingPathComponent(name)
 

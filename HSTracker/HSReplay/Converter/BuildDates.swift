@@ -8,13 +8,14 @@
 
 import Foundation
 import CleanroomLogger
+import SwiftDate
 
 struct BuildDates {
 
     private static var knownBuildDates: [BuildDate] = []
     
     struct BuildDate {
-        let date: Date
+        let date: DateInRegion
         let build: Int
     }
 
@@ -30,9 +31,10 @@ struct BuildDates {
         http.json(method: .get) { json in
             if let json: [String: String] = json as? [String: String] {
                 for (build, date) in json {
-                    if let nsdate = Date(fromString: date, inFormat: "yyyy-MM-dd"),
+                    if let dateInRegion = try? DateInRegion(string: date,
+                                                           format: .custom("yyyy-MM-dd")),
                         let intBuild = Int(build) {
-                        let buildDate = BuildDate(date: nsdate, build: intBuild)
+                        let buildDate = BuildDate(date: dateInRegion, build: intBuild)
                         knownBuildDates.append(buildDate)
                     }
                 }
@@ -99,7 +101,7 @@ struct BuildDates {
         for buildDate in knownBuildDates.sorted(by: {
             $0.date > $1.date
         }) {
-            if date >= buildDate.date {
+            if date >= buildDate.date.absoluteDate {
                 Log.info?.message("Getting build from date : \(buildDate)")
                 return buildDate
             }
@@ -125,7 +127,7 @@ struct BuildDates {
         }
         guard let build = Int(match) else { return nil }
 
-        let buildDate = BuildDate(date: Date(), build: build)
+        let buildDate = BuildDate(date: DateInRegion(), build: build)
         Log.info?.message("Getting build from product DB : \(buildDate)")
         knownBuildDates.append(buildDate)
         return buildDate

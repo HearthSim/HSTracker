@@ -12,6 +12,7 @@ import Wrap
 import ZipArchive
 import Gzip
 import RealmSwift
+import SwiftDate
 
 class LogUploader {
     private static var inProgress: [UploaderItem] = []
@@ -62,12 +63,13 @@ class LogUploader {
             }
             if let line = lines.first({ $0.contains("CREATE_GAME") }) {
                 let (gameStart, _) = LogLine.parseTime(line: line)
-                date = Date(year: date!.year,
-                            month: date!.month,
-                            day: date!.day,
-                            hour: gameStart.hour,
-                            minute: gameStart.minute,
-                            second: gameStart.second)
+                do {
+                    date = try date?.atTime(hour: gameStart.hour,
+                                            minute: gameStart.minute,
+                                            second: gameStart.second)
+                } catch {
+                    print("\(error)")
+                }
             }
 
             let logLines = lines.map({
