@@ -71,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         if let versionStr = oldObject?["version"] as? String {
                             if let ver = Double(versionStr) {
                                 let majorVersion = Int(ver)
-                                let minorVersion = Int(ver - Double(majorVersion) * 10.0)
+                                let minorVersion = Int((ver - Double(majorVersion)) * 10.0)
                                 newObject!["deckMajorVersion"] = majorVersion
                                 newObject!["deckMinorVersion"] = minorVersion
                             } else {
