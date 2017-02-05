@@ -240,7 +240,7 @@ struct SizeHelper {
     }
 
     static func secretTrackerFrame() -> NSRect {
-        let frame = NSRect(x: 200, y: hearthstoneWindow.frame.height - 550,
+        let frame = NSRect(x: 200, y: 550,
                            width: trackerWidth, height: 450)
         
         return hearthstoneWindow.relativeFrame(frame)
