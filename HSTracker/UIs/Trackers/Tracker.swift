@@ -265,7 +265,7 @@ class Tracker: OverWindowController {
                     .filter("deckId = '\(currentDeck.id)'").first {
                     recordTracker.message = StatsHelper
                         .getDeckManagerRecordLabel(deck: deck,
-                                                   mode: Game.shared.currentGameMode)
+                                                   mode: .all)
                     recordTracker.needsDisplay = true
                 }
             } catch {
