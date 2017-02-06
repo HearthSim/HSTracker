@@ -38,17 +38,12 @@ struct Database {
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [Race]()
 
-    @discardableResult
-    func loadDatabase(splashscreen: Splashscreen?) -> [String]? {
-        var imageLanguage = "enUS"
+    func loadDatabase(splashscreen: Splashscreen?) {
         var langs: [String] = []
         if let language = Settings.instance.hearthstoneLanguage, language != "enUS" {
             langs += [language]
-            imageLanguage = language
         }
         langs += ["enUS"]
-
-        var images: [String] = []
 
         for lang in langs {
             let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(lang).json")
@@ -99,7 +94,6 @@ struct Database {
                     // so we set it to 0
                     if card.id == "GAME_005" {
                         card.cost = 0
-                        images.append(card.id)
                     } else if let cost = jsonCard["cost"] as? Int {
                         card.cost = cost
                     }
@@ -149,11 +143,6 @@ struct Database {
                     }
                     if let collectible = jsonCard["collectible"] as? Bool {
                         card.collectible = collectible
-
-                        // card is collectible, mark it as needed for download
-                        if lang == imageLanguage && card.type != .hero {
-                            images.append(card.id)
-                        }
                     }
                     if let name = jsonCard["name"] as? String {
                         card.name = name
@@ -174,6 +163,5 @@ struct Database {
                 }
             }
         }
-        return images
     }
 }
