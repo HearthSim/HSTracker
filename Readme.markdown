@@ -51,7 +51,7 @@ In order to compile, you have to
         brew install swiftlint
 
 - Open the project in XCode and build
-  - If you run into code signing errors, disable it by setting "Don't Code Sign" in the "Build Settings"
+  - If you run into code signing errors, go to the "Build Settings" and change the signing enitity and certificate to your profile. HSTracker _must_ be code signed in order to function properly. 
 
 ## Donations
 Donations are always appreciated
