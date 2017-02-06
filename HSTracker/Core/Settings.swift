@@ -397,6 +397,34 @@ final class Settings {
         set { set(name: "hsreplay_show_push_notification", value: newValue) }
         get { return get(name: "hsreplay_show_push_notification") as? Bool ?? true }
     }
+    var hsReplayUploadRankedMatches: Bool {
+        set { set(name: "hsreplay_auto_synchronize_ranked_matches", value: newValue) }
+        get { return get(name: "hsreplay_auto_synchronize_ranked_matches") as? Bool ?? true }
+    }
+    var hsReplayUploadCasualMatches: Bool {
+        set { set(name: "hsreplay_auto_synchronize_casual_matches", value: newValue) }
+        get { return get(name: "hsreplay_auto_synchronize_casual_matches") as? Bool ?? true }
+    }
+    var hsReplayUploadArenaMatches: Bool {
+        set { set(name: "hsreplay_auto_synchronize_arena_matches", value: newValue) }
+        get { return get(name: "hsreplay_auto_synchronize_arena_matches") as? Bool ?? true }
+    }
+    var hsReplayUploadBrawlMatches: Bool {
+        set { set(name: "hsreplay_auto_synchronize_brawl_matches", value: newValue) }
+        get { return get(name: "hsreplay_auto_synchronize_brawl_matches") as? Bool ?? true }
+    }
+    var hsReplayUploadFriendlyMatches: Bool {
+        set { set(name: "hsreplay_auto_synchronize_friendly_matches", value: newValue) }
+        get { return get(name: "hsreplay_auto_synchronize_friendly_matches") as? Bool ?? true }
+    }
+    var hsReplayUploadAdventureMatches: Bool {
+        set { set(name: "hsreplay_auto_synchronize_adventure_matches", value: newValue) }
+        get { return get(name: "hsreplay_auto_synchronize_adventure_matches") as? Bool ?? true }
+    }
+    var hsReplayUploadSpectatorMatches: Bool {
+        set { set(name: "hsreplay_auto_synchronize_spectator_matches", value: newValue) }
+        get { return get(name: "hsreplay_auto_synchronize_spectator_matches") as? Bool ?? true }
+    }
 
     // MARK: - Hearthstats
     var hearthstatsLogin: String? {

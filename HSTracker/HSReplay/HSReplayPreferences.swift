@@ -12,6 +12,15 @@ import CleanroomLogger
 
 class HSReplayPreferences: NSViewController {
     @IBOutlet weak var synchronizeMatches: NSButton!
+    @IBOutlet weak var gameTypeSelector: NSView!
+    @IBOutlet weak var uploadRankedGames: NSButton!
+    @IBOutlet weak var uploadCasualGames: NSButton!
+    @IBOutlet weak var uploadArenaGames: NSButton!
+    @IBOutlet weak var uploadBrawlGames: NSButton!
+    @IBOutlet weak var uploadFriendlyGames: NSButton!
+    @IBOutlet weak var uploadAdventureGames: NSButton!
+    @IBOutlet weak var uploadSpectatorGames: NSButton!
+    
     @IBOutlet weak var hsReplayAccountStatus: NSTextField!
     @IBOutlet weak var claimAccountButton: NSButtonCell!
     @IBOutlet weak var claimAccountInfo: NSTextField!
@@ -25,8 +34,20 @@ class HSReplayPreferences: NSViewController {
         super.viewDidLoad()
         let settings = Settings.instance
         
-        synchronizeMatches.state = settings.hsReplaySynchronizeMatches ? NSOnState : NSOffState
         showPushNotification.state = settings.showHSReplayPushNotification ? NSOnState : NSOffState
+        synchronizeMatches.state = settings.hsReplaySynchronizeMatches ? NSOnState : NSOffState
+        
+        // swiftlint:disable line_length
+        uploadRankedGames.state = settings.hsReplayUploadRankedMatches ? NSOnState : NSOffState
+        uploadCasualGames.state = settings.hsReplayUploadCasualMatches ? NSOnState : NSOffState
+        uploadArenaGames.state = settings.hsReplayUploadArenaMatches ? NSOnState : NSOffState
+        uploadBrawlGames.state = settings.hsReplayUploadBrawlMatches ? NSOnState : NSOffState
+        uploadFriendlyGames.state = settings.hsReplayUploadFriendlyMatches ? NSOnState : NSOffState
+        uploadAdventureGames.state = settings.hsReplayUploadAdventureMatches ? NSOnState : NSOffState
+        uploadSpectatorGames.state = settings.hsReplayUploadSpectatorMatches ? NSOnState : NSOffState
+        // swiftlint:enable line_length
+        
+        updateUploadGameTypeView()
         updateStatus()
     }
     
@@ -41,6 +62,42 @@ class HSReplayPreferences: NSViewController {
             settings.hsReplaySynchronizeMatches = synchronizeMatches.state == NSOnState
         } else if sender == showPushNotification {
             settings.showHSReplayPushNotification = showPushNotification.state == NSOnState
+        } else if sender == uploadRankedGames {
+            settings.hsReplayUploadRankedMatches = uploadRankedGames.state == NSOnState
+        } else if sender == uploadCasualGames {
+            settings.hsReplayUploadCasualMatches = uploadCasualGames.state == NSOnState
+        } else if sender == uploadArenaGames {
+            settings.hsReplayUploadArenaMatches = uploadArenaGames.state == NSOnState
+        } else if sender == uploadBrawlGames {
+            settings.hsReplayUploadBrawlMatches = uploadBrawlGames.state == NSOnState
+        } else if sender == uploadFriendlyGames {
+            settings.hsReplayUploadFriendlyMatches = uploadFriendlyGames.state == NSOnState
+        } else if sender == uploadAdventureGames {
+            settings.hsReplayUploadAdventureMatches = uploadAdventureGames.state == NSOnState
+        } else if sender == uploadSpectatorGames {
+            settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == NSOnState
+        }
+        
+        updateUploadGameTypeView()
+    }
+    
+    fileprivate func updateUploadGameTypeView() {
+        if synchronizeMatches.state == NSOffState {
+            uploadRankedGames.isEnabled = false
+            uploadCasualGames.isEnabled = false
+            uploadArenaGames.isEnabled = false
+            uploadBrawlGames.isEnabled = false
+            uploadFriendlyGames.isEnabled = false
+            uploadAdventureGames.isEnabled = false
+            uploadSpectatorGames.isEnabled = false
+        } else {
+            uploadRankedGames.isEnabled = true
+            uploadCasualGames.isEnabled = true
+            uploadArenaGames.isEnabled = true
+            uploadBrawlGames.isEnabled = true
+            uploadFriendlyGames.isEnabled = true
+            uploadAdventureGames.isEnabled = true
+            uploadSpectatorGames.isEnabled = true
         }
     }
     

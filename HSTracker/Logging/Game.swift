@@ -623,7 +623,21 @@ class Game {
             return
         }
 
-        if Settings.instance.hsReplaySynchronizeMatches {
+        if Settings.instance.hsReplaySynchronizeMatches && (
+            (currentGameStats.gameMode == .ranked &&
+                Settings.instance.hsReplayUploadRankedMatches) ||
+            (currentGameStats.gameMode == .casual &&
+                Settings.instance.hsReplayUploadCasualMatches) ||
+            (currentGameStats.gameMode == .arena &&
+                Settings.instance.hsReplayUploadArenaMatches) ||
+            (currentGameStats.gameMode == .brawl &&
+                Settings.instance.hsReplayUploadBrawlMatches) ||
+            (currentGameStats.gameMode == .practice &&
+                Settings.instance.hsReplayUploadAdventureMatches) ||
+            (currentGameStats.gameMode == .friendly &&
+                Settings.instance.hsReplayUploadFriendlyMatches) ||
+            (currentGameStats.gameMode == .spectator &&
+                Settings.instance.hsReplayUploadFriendlyMatches)) {
             HSReplayAPI.getUploadToken { _ in
                 LogUploader.upload(logLines: self.powerLog,
                                    statistic: currentGameStats) { result in
