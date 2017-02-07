@@ -51,15 +51,16 @@ final class Card {
     }
 
     func formattedText() -> String {
-        return text.replace("\\((\\d+)\\) \\|4\\((\\w+),(\\w+)\\)", using: { string, matches in
-            guard matches.count == 3 else { return string }
+        let pluralRegex = "\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)"
+        return text.replace(pluralRegex, using: { string, matches in
+            guard matches.count == 4 else { return string }
 
             let single = matches[1].value
             let plural = matches[2].value
             let count = Int(matches[0].value) ?? 0
 
             let replace = "\(count) \(count <= 1 ? single : plural)"
-            return string.replace("(\\(\\d+\\) \\|4\\(\\w+,\\w+\\))", with: replace)
+            return string.replace(pluralRegex, with: replace)
         }).replace("\\$", with: "")
             .replace("<b>", with: "")
             .replace("</b>", with: "")
