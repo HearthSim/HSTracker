@@ -157,10 +157,10 @@ class Deck: Object {
     }
     
     func incrementVersion(major: Int) {
-        self.deckMajorVersion = self.deckMajorVersion + major
+        self.deckMajorVersion += major
     }
     
     func incrementVersion(minor: Int) {
-        self.deckMinorVersion = self.deckMinorVersion + minor
+        self.deckMinorVersion += minor
     }
 }
