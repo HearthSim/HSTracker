@@ -39,6 +39,7 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 - The new way we get data should correct a lot of issues
 - Statistics are now correctly saved again
 - Better support of HsReplay
+- Improve log reading speed
 
 # 0.18.5
 ## Fixes:
