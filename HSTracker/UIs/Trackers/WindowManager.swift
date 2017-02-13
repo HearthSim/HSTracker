@@ -240,7 +240,7 @@ class WindowManager {
 
         if settings.showOpponentTracker {
             // opponent tracker
-            let cards = settings.clearTrackersOnGameEnd && !game.gameEnded
+            let cards = settings.clearTrackersOnGameEnd && game.gameEnded
                 ? [] : game.opponent.opponentCardList
             opponentTracker.update(cards: cards, reset: reset)
             opponentTracker.setWindowSizes()
