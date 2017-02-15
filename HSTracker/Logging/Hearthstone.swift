@@ -23,6 +23,7 @@ final class Hearthstone: NSObject {
     var logReaderManager: LogReaderManager
 
     var mirror: HearthMirror?
+    private var waitingForMirror = false
     
     // watchers
     let deckWatcher = DeckWatcher()
@@ -190,31 +191,33 @@ final class Hearthstone: NSObject {
 
     func startTracking() {
         let time = DispatchTime.now() + DispatchTimeInterval.seconds(1)
-        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: time) { [unowned self] in
             Log.info?.message("Start Tracking")
             // get rights to attach
             if acquireTaskportRight() != 0 {
                 Log.error?.message("acquireTaskportRight() failed!")
             }
-            if let hearthstoneApp = self?.hearthstoneApp {
-                self?.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
+            if let hearthstoneApp = self.hearthstoneApp {
+                self.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
                                             withBlocking: true)
 
                 // waiting for mirror to be up and running
-                while true {
-                    if let battleTag = self?.mirror?.getBattleTag() {
+                self.waitingForMirror = true
+                while self.waitingForMirror {
+                    if let battleTag = self.mirror?.getBattleTag() {
                         Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
+                        self.waitingForMirror = false
                         break
                     } else {
                         // mirror might be partially initialized, reset
-                        self?.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
+                        self.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
                                                     withBlocking: true)
                         Thread.sleep(forTimeInterval: 0.5)
                     }
                 }
             }
 
-            self?.logReaderManager.start()
+            self.logReaderManager.start()
         }
     }
 
@@ -222,6 +225,7 @@ final class Hearthstone: NSObject {
         Log.info?.message("Stop Tracking")
         logReaderManager.stop()
         deckWatcher.stop()
+        self.waitingForMirror = false
         mirror = nil
     }
 
