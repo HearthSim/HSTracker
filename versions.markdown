@@ -8,7 +8,7 @@ We are very sorry about the inconvenience and are working on a much improved rep
 
 ## Breaking change 2
 
-~~Starting from this version, HSTracker is signed with my Apple developper account. You have to download manually this version from [hsdecktracker.net](https://hsdecktracker.net/hstracker/download/) since the update system will not allow this signature change.~~ Not during beta :)
+Starting from this version, HSTracker is signed with my Apple developper account. You have to download manually this version from [hsdecktracker.net](https://hsdecktracker.net/hstracker/download/) since the update system will not allow this signature change.
 
 ## Breaking change 3
 
@@ -25,12 +25,12 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 ## New:
 - Add a jade counter
 - New way to get your data, which allows to get 
-- Decks imported from Hearthstone for all game modes (arena, brawl, constructed) (in this version)
-- Format (wild/standard) (in this version)
-- Correct rank (in this version)
+- Decks imported from Hearthstone for all game modes (arena, brawl, constructed)
+- Format (wild/standard)
+- Correct rank
 - Arena draft choice (which allows something like arena helper) (NOT in this version, planned for future release)
 - Arena reward tracking (NOT in this version, planned for future release)
-- Collection manager (we know the cards you have) (NOT in this version, planned for future release)
+- Collection manager (we know the cards you have)
 - Pack opening, end season rewards, ... (NOT in this version, planned for future release)
 - Add an option to prefer golden cards when exporting a deck to Hearthstone
 
