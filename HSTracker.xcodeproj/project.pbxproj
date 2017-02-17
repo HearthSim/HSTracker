@@ -142,10 +142,10 @@
 		437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */; };
 		437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */; };
 		437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */; };
-		437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4323C5EC1E1A502900C97896 /* HearthMirror.framework.dSYM */; };
+		437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4323C5EC1E1A502900C97896 /* HearthMirror.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		437CEF6E1E44669B008E36D9 /* SwiftDate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437CEF6D1E44669B008E36D9 /* SwiftDate.framework */; };
 		437CEF6F1E4466A3008E36D9 /* SwiftDate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 437CEF6D1E44669B008E36D9 /* SwiftDate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		437CEF711E4466AB008E36D9 /* SwiftDate.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437CEF701E4466AB008E36D9 /* SwiftDate.framework.dSYM */; };
+		437CEF711E4466AB008E36D9 /* SwiftDate.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437CEF701E4466AB008E36D9 /* SwiftDate.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; };
 		437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
 		437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
