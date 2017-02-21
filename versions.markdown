@@ -1,3 +1,9 @@
+# 0.19.1
+## Fixes:
+- Fixed an issue where the opponent tracker should remain empty until the end of the game
+- Fixed an issue that caused an invalid mirror state caused by the game crashing at startup
+- Fixed an issue where HSTracker was using a lot of memory
+
 # 0.19
 ## Breaking change
 
