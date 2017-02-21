@@ -518,13 +518,15 @@ class DeckManager: NSWindowController {
     
     fileprivate func exportDeckToHearthstone(_ deck: Deck) {
         let when = DispatchTime.now() + DispatchTimeInterval.seconds(2)
-        let queue = DispatchQueue.main
-        queue.asyncAfter(deadline: when) {
+        DispatchQueue.main.asyncAfter(deadline: when) {
             let automation = Automation()
             automation.expertDeckToHearthstone(deck: deck) { message in
-                NSAlert.show(style: .informational,
-                             message: message,
-                             window: self.window!, forceFront: true)
+                DispatchQueue.main.async {
+                    NSAlert.show(style: .informational,
+                                 message: message,
+                                 window: self.window!,
+                                 forceFront: true)
+                }
             }
         }
     }
