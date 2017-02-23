@@ -714,7 +714,9 @@ class Game {
     
     func handleTurnStart(playerTurn: PlayerTurn) {
         let player = playerTurn.player
-        Log.info?.message("Turn \(playerTurn.turn) start for player \(player) ")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("Turn \(playerTurn.turn) start for player \(player) ")
+        }
         
         if player == .player {
             handleThaurissanCostReduction()
@@ -851,7 +853,9 @@ class Game {
         if let card = Cards.hero(byId: cardId) {
             player.playerClass = card.playerClass
             player.playerClassId = cardId
-            Log.info?.message("Player class is \(card) ")
+            if Settings.instance.fullGameLog {
+                Log.info?.message("Player class is \(card) ")
+            }
 
             currentGameStats?.playerHero = card.playerClass
         }
@@ -1013,7 +1017,9 @@ class Game {
     }
 
     func playerFatigue(value: Int) {
-        Log.info?.message("Player get \(value) fatigue")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("Player get \(value) fatigue")
+        }
         player.fatigue = value
         WindowManager.default.updateTrackers()
     }
@@ -1059,7 +1065,9 @@ class Game {
 
     func playerHeroPower(cardId: String, turn: Int) {
         player.heroPower(turn: turn)
-        Log.info?.message("Player Hero Power \(cardId) \(turn) ")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("Player Hero Power \(cardId) \(turn) ")
+        }
 
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Hunter.DartTrap)
         WindowManager.default.updateTrackers()
@@ -1071,7 +1079,9 @@ class Game {
             opponent.playerClass = card.playerClass
             opponent.playerClassId = cardId
             WindowManager.default.updateTrackers()
-            Log.info?.message("Opponent class is \(card) ")
+            if Settings.instance.fullGameLog {
+                Log.info?.message("Opponent class is \(card) ")
+            }
 
             currentGameStats?.opponentHero = card.playerClass
         }
@@ -1155,8 +1165,10 @@ class Game {
                 heroClass = playerClass
             }
         }
-        Log.info?.message("Secret played by \(entity[.class])"
-            + " -> \(heroClass) -> \(opponent.playerClass)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("Secret played by \(entity[.class])"
+                + " -> \(heroClass) -> \(opponent.playerClass)")
+        }
         if let hero = heroClass {
             opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn)
         }
@@ -1255,7 +1267,9 @@ class Game {
 
     func opponentHeroPower(cardId: String, turn: Int) {
         opponent.heroPower(turn: turn)
-        Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
+        }
         WindowManager.default.updateTrackers()
     }
 

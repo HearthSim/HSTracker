@@ -434,24 +434,32 @@ final class Player {
     func createInDeck(entity: Entity, turn: Int) {
         entity.info.created = entity.info.created || turn > 1
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func createInHand(entity: Entity, turn: Int) {
         entity.info.created = true
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
     
     func createInSetAside(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func boardToDeck(entity: Entity, turn: Int) {
         entity.info.turn = turn
         entity.info.returned = true
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func play(entity: Entity, turn: Int) {
@@ -468,7 +476,9 @@ final class Player {
         }
         entity.info.hidden = false
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func handDiscard(entity: Entity, turn: Int) {
@@ -477,23 +487,31 @@ final class Player {
         }
         entity.info.turn = turn
         entity.info.discarded = true
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func secretPlayedFromDeck(entity: Entity, turn: Int) {
         updateKnownEntitesInDeck(cardId: entity.cardId)
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func secretPlayedFromHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         spellsPlayedCount += 1
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func mulligan(entity: Entity) {
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func draw(entity: Entity, turn: Int) {
@@ -507,33 +525,42 @@ final class Player {
             }
         }
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func removeFromDeck(entity: Entity, turn: Int) {
         // Do not check for KnownCardIds here, this is how jousted cards get removed from the deck
         entity.info.turn = turn
         entity.info.discarded = true
-
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func removeFromPlay(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func deckDiscard(entity: Entity, turn: Int) {
         updateKnownEntitesInDeck(cardId: entity.cardId)
         entity.info.turn = turn
         entity.info.discarded = true
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func deckToPlay(entity: Entity, turn: Int) {
         updateKnownEntitesInDeck(cardId: entity.cardId)
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func playToGraveyard(entity: Entity, cardId: String?, turn: Int) {
@@ -541,7 +568,9 @@ final class Player {
         if entity.isMinion && entity.has(tag: .deathrattle) {
             deathrattlesPlayedCount += 1
         }
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func joustReveal(entity: Entity, turn: Int) {
@@ -551,40 +580,54 @@ final class Player {
         } else {
             inDeckPredictions.append(PredictedCard(cardId: entity.cardId, turn: turn))
         }
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func createInPlay(entity: Entity, turn: Int) {
         entity.info.created = true
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func createInSecret(entity: Entity, turn: Int) {
         entity.info.created = true
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func stolenByOpponent(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func stolenFromOpponent(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func boardToHand(entity: Entity, turn: Int) {
         entity.info.turn = turn
         entity.info.returned = true
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
 
     func secretTriggered(entity: Entity, turn: Int) {
         entity.info.turn = turn
-        Log.info?.message("\(debugName) \(#function) \(entity)")
+        if Settings.instance.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
     }
     
     func heroPower(turn: Int) {

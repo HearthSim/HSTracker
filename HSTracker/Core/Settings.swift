@@ -13,6 +13,8 @@ final class Settings {
 
     static let instance = Settings()
 
+    var fullGameLog: Bool = false
+
     func validated() -> Bool {
         return Hearthstone.validatedHearthstonePath()
             && hearthstoneLanguage != nil && hsTrackerLanguage != nil
