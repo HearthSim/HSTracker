@@ -1,3 +1,7 @@
+# Unreleased
+## New:
+- HSTracker is now localized in korean
+
 # 0.19.1
 ## Fixes:
 - Fixed an issue where the opponent tracker should remain empty until the end of the game
