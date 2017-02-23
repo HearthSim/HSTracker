@@ -1,0 +1,45 @@
+/* Class = "NSButtonCell"; title = "Reset Account"; ObjectID = "Ikd-r0-oiT"; */
+"Ikd-r0-oiT.title" = "계정 초기화";
+
+/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "JsZ-J6-FKG"; */
+"JsZ-J6-FKG.title" = "라벨";
+
+/* Class = "NSButtonCell"; title = "Friendly"; ObjectID = "Lla-JP-gmw"; */
+"Lla-JP-gmw.title" = "친선전";
+
+/* Class = "NSButtonCell"; title = "Claim Account"; ObjectID = "PFc-eW-dQG"; */
+"PFc-eW-dQG.title" = "Claim Account";
+
+/* Class = "NSButtonCell"; title = "Disconnect from HSReplay"; ObjectID = "Wij-ky-VUj"; */
+"Wij-ky-VUj.title" = "HSReplay 연결끊기";
+
+/* Class = "NSButtonCell"; title = "Arena"; ObjectID = "XLN-hm-TrI"; */
+"XLN-hm-TrI.title" = "투기장";
+
+/* Class = "NSButtonCell"; title = "Adventure / Practice"; ObjectID = "XWA-c6-mjM"; */
+"XWA-c6-mjM.title" = "모험모드 / 연습모드";
+
+/* Class = "NSButtonCell"; title = "Show upload notification"; ObjectID = "a4D-nA-Vqz"; */
+"a4D-nA-Vqz.title" = "업로드 알림 보여주기";
+
+/* Class = "NSButtonCell"; title = "Upload replays automatically"; ObjectID = "aAI-Yn-Z1P"; */
+"aAI-Yn-Z1P.title" = "리플레이 자동 업로드";
+
+/* Class = "NSTextFieldCell"; title = "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."; ObjectID = "alf-8N-P9t"; */
+"alf-8N-P9t.title" = "HSReplay.net 에서 리플레이를 업로드하기 위해 Battle.net 계정으로 로그인하세요. 로그인을 위해 웹브라우져가 실행됩니다.";
+
+/* Class = "NSButtonCell"; title = "Spectator"; ObjectID = "dX9-1S-Y1M"; */
+"dX9-1S-Y1M.title" = "관전모드";
+
+/* Class = "NSButtonCell"; title = "Ranked"; ObjectID = "hNI-pm-upP"; */
+"hNI-pm-upP.title" = "등급전";
+
+/* Class = "NSButtonCell"; title = "Tavern Brawl"; ObjectID = "lGJ-41-bPm"; */
+"lGJ-41-bPm.title" = "선술집 난투";
+
+/* Class = "NSBox"; title = "Upload game modes"; ObjectID = "qvg-bJ-3rk"; */
+"qvg-bJ-3rk.title" = "업로드 게임 모드";
+
+/* Class = "NSButtonCell"; title = "Casual"; ObjectID = "zUq-Mn-Mae"; */
+"zUq-Mn-Mae.title" = "일반전";
+
