@@ -15,5 +15,5 @@ struct Language {
     static let hearthstoneLanguages = ["de_DE", "en_US", "es_ES", "es_MX", "fr_FR",
                                 "it_IT", "ko_KR", "pl_PL", "pt_BR", "ru_RU",
                                 "zh_CN", "zh_TW", "ja_JP", "th_TH"]
-    static let hstrackerLanguages = ["de", "en", "fr", "it", "pt-br", "zh-cn", "es"]
+    static let hstrackerLanguages = ["de", "en", "fr", "it", "pt-br", "zh-cn", "es", "ko"]
 }

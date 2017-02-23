@@ -1,0 +1,96 @@
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "1Ts-wg-GXS"; */
+"1Ts-wg-GXS.title" = "Item 2";
+
+/* Class = "NSButtonCell"; title = "7"; ObjectID = "6IG-XF-IZv"; */
+"6IG-XF-IZv.title" = "7";
+
+/* Class = "NSButtonCell"; title = "Standard only"; ObjectID = "37M-wa-5DN"; */
+"37M-wa-5DN.title" = "정규전 카드만";
+
+/* Class = "NSButtonCell"; title = "5"; ObjectID = "41a-Fy-s1b"; */
+"41a-Fy-s1b.title" = "5";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "722-4W-cap"; */
+"722-4W-cap.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "AWD-Ik-C4V"; */
+"AWD-Ik-C4V.title" = "Item 3";
+
+/* Class = "NSButtonCell"; title = "6"; ObjectID = "Arp-VG-v1c"; */
+"Arp-VG-v1c.title" = "6";
+
+/* Class = "NSToolbarItem"; label = "Delete"; ObjectID = "CT1-aM-w9a"; */
+"CT1-aM-w9a.label" = "삭제";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Delete"; ObjectID = "CT1-aM-w9a"; */
+"CT1-aM-w9a.paletteLabel" = "삭제";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "CZP-YK-qKd"; */
+"CZP-YK-qKd.title" = "Item 2";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "DHL-8C-Ge9"; */
+"DHL-8C-Ge9.title" = "Item 3";
+
+/* Class = "NSButtonCell"; title = "4"; ObjectID = "DpA-dM-lQm"; */
+"DpA-dM-lQm.title" = "4";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "ESY-rM-sVQ"; */
+"ESY-rM-sVQ.title" = "Item 3";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "GKt-Mr-Jci"; */
+"GKt-Mr-Jci.title" = "Item 1";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "KK0-JD-9om"; */
+"KK0-JD-9om.title" = "Item 1";
+
+/* Class = "NSButtonCell"; title = "2"; ObjectID = "Ozt-yZ-Bvj"; */
+"Ozt-yZ-Bvj.title" = "2";
+
+/* Class = "NSWindow"; title = "Edit Deck"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "덱 수정하기";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "R90-PG-oAN"; */
+"R90-PG-oAN.title" = "Table View Cell";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "RVe-XS-HoX"; */
+"RVe-XS-HoX.title" = "Item 2";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "XLx-6A-9fG"; */
+"XLx-6A-9fG.title" = "Item 1";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "bfQ-B1-uvC"; */
+"bfQ-B1-uvC.title" = "Table View Cell";
+
+/* Class = "NSToolbarItem"; label = "Save"; ObjectID = "d1a-mc-Snn"; */
+"d1a-mc-Snn.label" = "저장하기";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Save"; ObjectID = "d1a-mc-Snn"; */
+"d1a-mc-Snn.paletteLabel" = "저장하기";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "m8v-z4-YUR"; */
+"m8v-z4-YUR.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "0"; ObjectID = "nh4-xI-0ip"; */
+"nh4-xI-0ip.title" = "0";
+
+/* Class = "NSToolbarItem"; label = "Cancel"; ObjectID = "o0Z-hh-Cdy"; */
+"o0Z-hh-Cdy.label" = "취소";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Cancel"; ObjectID = "o0Z-hh-Cdy"; */
+"o0Z-hh-Cdy.paletteLabel" = "취소";
+
+/* Class = "NSButtonCell"; title = "3"; ObjectID = "qse-SY-u1g"; */
+"qse-SY-u1g.title" = "3";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "rOD-OT-4iY"; */
+"rOD-OT-4iY.title" = "Item 2";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "v1p-j9-G0u"; */
+"v1p-j9-G0u.title" = "Item 3";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "xtb-5h-aMT"; */
+"xtb-5h-aMT.title" = "Item 1";
+
+/* Class = "NSButtonCell"; title = "1"; ObjectID = "y1h-hB-XLJ"; */
+"y1h-hB-XLJ.title" = "1";
+
