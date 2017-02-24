@@ -8,7 +8,6 @@
 
 import Foundation
 import CleanroomLogger
-import SwiftDate
 
 struct BuildDates {
 
@@ -127,7 +126,7 @@ struct BuildDates {
         }
         guard let build = Int(match) else { return nil }
 
-        let buildDate = BuildDate(date: DateInRegion(), build: build)
+        let buildDate = BuildDate(date: Date(), build: build)
         Log.info?.message("Getting build from product DB : \(buildDate)")
         knownBuildDates.append(buildDate)
         return buildDate

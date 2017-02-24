@@ -9,13 +9,12 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
-import SwiftDate
 
 struct FullScreenFxHandler {
     
     let BeginBlurRegex = "BeginEffect blur \\d => 1"
     
-    private var lastQueueTime: DateInRegion = DateInRegion.distantPast
+    private var lastQueueTime: Date = Date.distantPast
     
     mutating func handle(game: Game, logLine: LogLine) {
         guard let currentMode = game.currentMode else { return }

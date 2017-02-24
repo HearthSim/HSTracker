@@ -9,7 +9,6 @@
 import Foundation
 import Kanna
 import CleanroomLogger
-import SwiftDate
 
 struct HearthArena: HttpImporter {
 

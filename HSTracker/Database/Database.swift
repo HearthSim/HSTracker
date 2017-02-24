@@ -8,12 +8,12 @@
 
 import Foundation
 import CleanroomLogger
-import SwiftDate
 
 struct Database {
     static let currentSeason: Int = {
-        let date = Date()
-        return (date.year - 2014) * 12 - 3 + date.month
+        let today = Date()
+        let dc = Calendar.current.dateComponents(in: TimeZone.current, from: today)
+        return (dc.year! - 2014) * 12 - 3 + dc.month!
     }()
 
     static func jsonFilesAreValid() -> Bool {

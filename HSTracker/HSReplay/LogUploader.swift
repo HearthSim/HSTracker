@@ -12,7 +12,6 @@ import Wrap
 import ZipArchive
 import Gzip
 import RealmSwift
-import SwiftDate
 
 class LogUploader {
     private static var inProgress: [UploaderItem] = []

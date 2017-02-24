@@ -11,7 +11,6 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
-import SwiftDate
 
 struct PlayingDeck {
     let id: String
@@ -109,7 +108,7 @@ class Game {
     var isInMenu = true
     private var handledGameEnd = false
     var wasInProgress = false
-    var enqueueTime: DateInRegion = DateInRegion.distantPast
+    var enqueueTime = Date.distantPast
     private var lastCompetitiveSpiritCheck: Int = 0
     private var lastTurnStart: [Int] = [0, 0]
     private var turnQueue: Set<PlayerTurn> = Set()
@@ -117,7 +116,7 @@ class Game {
     private var maxBlockId: Int = 0
     private(set) var currentBlock: Block?
     
-    fileprivate var lastGameStartTimestamp: DateInRegion = DateInRegion.distantPast
+    fileprivate var lastGameStartTimestamp: Date = Date.distantPast
 
     private var _matchInfo: MatchInfo?
     var matchInfo: MatchInfo? {
@@ -315,28 +314,28 @@ class Game {
     }
 
     // MARK: - game state
-    private var lastGameStart = DateInRegion.distantPast
-    func gameStart(at timestamp: DateInRegion) {
+    private var lastGameStart = Date.distantPast
+    func gameStart(at timestamp: Date) {
         Log.info?.message("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
             + "handledGameEnd: \(handledGameEnd), "
             + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
             "timestamp: \(timestamp)")
         if currentGameMode == .practice && !isInMenu && !handledGameEnd
-            && lastGameStartTimestamp > DateInRegion.distantPast
+            && lastGameStartTimestamp > Date.distantPast
             && timestamp > lastGameStartTimestamp {
             adventureRestart()
             return
         }
         
         lastGameStartTimestamp = timestamp
-        if lastGameStart > DateInRegion.distantPast
-            && ((DateInRegion() - lastGameStart).in(.second) ?? 0 < 5) {
+        if lastGameStart > Date.distantPast
+            && ((Date() - lastGameStart).in(.second) ?? 0 < 5) {
             // game already started
             return
         }
 
         reset()
-        lastGameStart = DateInRegion()
+        lastGameStart = Date()
 
         isInMenu = false
         handledGameEnd = false

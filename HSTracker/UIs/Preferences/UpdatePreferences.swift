@@ -15,16 +15,20 @@ class UpdatePreferences: NSViewController {
     @IBOutlet weak var lastUpdate: NSTextField!
     @IBOutlet var sparkleUpdater: SUUpdater!
     
+    public static let dateStringFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
+        return formatter
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let settings = Settings.instance
         autoDownloadsUpdates.state = settings.automaticallyDownloadsUpdates ? NSOnState : NSOffState
         releaseChannel.selectItem(at: settings.releaseChannel.rawValue)
         if let lastUpdateCheckDate = sparkleUpdater.lastUpdateCheckDate {
-            lastUpdate.stringValue = lastUpdateCheckDate
-                .string(format: .iso8601(options: [.withFullTime,
-                                                   .withFullDate,
-                                                   .withSpaceBetweenDateAndTime]))
+            lastUpdate.stringValue = UpdatePreferences.dateStringFormatter.string(from: lastUpdateCheckDate)
         }
     }
     
