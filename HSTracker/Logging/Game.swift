@@ -329,7 +329,7 @@ class Game {
         
         lastGameStartTimestamp = timestamp
         if lastGameStart > Date.distantPast
-            && ((Date() - lastGameStart).in(.second) ?? 0 < 5) {
+            && (abs(lastGameStart.timeIntervalSinceNow) < 5) {
             // game already started
             return
         }
@@ -352,7 +352,7 @@ class Game {
         WindowManager.default.updateTrackers(reset: true)
 
         cacheMatchInfo()
-        currentGameStats?.startTime = timestamp.absoluteDate
+        currentGameStats?.startTime = timestamp
     }
 
     private func invalidateMatchInfoCache() {

@@ -80,7 +80,7 @@ final class LogReader {
         queue = DispatchQueue(label: queueName, attributes: [])
         if let queue = queue {
             Log.info?.message("Starting to track \(info.name)")
-            let sp = startingPoint.string(format: .iso8601(options: [.withInternetDateTime]))
+            let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
             Log.verbose?.message("\(info.name) has queue \(queueName) starting at \(sp)")
             queue.async {
                 self.readFile()
@@ -97,7 +97,7 @@ final class LogReader {
                 findInitialOffset()
                 fileHandle?.seek(toFileOffset: offset)
 
-                let sp = startingPoint.string(format: .iso8601(options: [.withInternetDateTime]))
+                let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
                 Log.verbose?.message("file exists \(path), offset for \(sp) is \(offset)")
             }
             

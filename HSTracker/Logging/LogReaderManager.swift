@@ -47,6 +47,9 @@ final class LogReaderManager {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
         return formatter
     }()
+    
+    public static let timeZone = TimeZone.current
+    public static let calendar = Calendar.current
 
     var running = false
     var stopped = false

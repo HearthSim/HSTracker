@@ -24,7 +24,7 @@ struct FullScreenFxHandler {
             && modes.contains(currentMode) {
             game.enqueueTime = logLine.time
             Log.info?.message("now in queue (\(logLine.time))")
-            if (DateInRegion() - logLine.time).in(.second) ?? 0 > 5
+            if abs(logLine.time.timeIntervalSinceNow) > 5
                 || !game.isInMenu || logLine.time <= lastQueueTime {
                 return
             }

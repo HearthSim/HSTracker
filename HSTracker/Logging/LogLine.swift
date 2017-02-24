@@ -49,16 +49,16 @@ struct LogLine {
         
         // construct full date from the partial one
         let today = Date()
-        var dayComponents = Calendar.current.dateComponents(in: TimeZone.current, from: today)
-        let logComponents = Calendar.current.dateComponents(in: TimeZone.current, from: dateTime)
+        var dayComponents = LogReaderManager.calendar.dateComponents(in: LogReaderManager.timeZone, from: today)
+        let logComponents = LogReaderManager.calendar.dateComponents(in: LogReaderManager.timeZone, from: dateTime)
         
         dayComponents.hour = logComponents.hour
         dayComponents.minute = logComponents.minute
         dayComponents.second = logComponents.second
         
-        if let logDate = Calendar.current.date(from: dayComponents) {
+        if let logDate = LogReaderManager.calendar.date(from: dayComponents) {
             if logDate > today {
-                return (Calendar.current.date(byAdding: .day, value: -1, to: logDate), nanoseconds)
+                return (LogReaderManager.calendar.date(byAdding: .day, value: -1, to: logDate) ?? Date(), nanoseconds)
             } else {
                 return (logDate, nanoseconds)
             }
