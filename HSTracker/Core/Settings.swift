@@ -105,6 +105,10 @@ final class Settings {
         set { set(name: "auto_position_trackers", value: newValue) }
         get { return get(name: "auto_position_trackers") as? Bool ?? false }
     }
+    var hideAllTrackersWhenNotInGame: Bool {
+        set { set(name: "hide_all_trackers_when_not_in_game", value: newValue) }
+        get { return get(name: "hide_all_trackers_when_not_in_game") as? Bool ?? false }
+    }
     var deckManagerPreferCards: Bool {
         set { set(name: "deckmanager_prefer_cards", value: newValue) }
         get { return get(name: "deckmanager_prefer_cards") as? Bool ?? true }

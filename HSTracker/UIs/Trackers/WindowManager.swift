@@ -235,7 +235,8 @@ class WindowManager {
         }
 
         let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone
-        if settings.showOpponentTracker {
+        if settings.showOpponentTracker &&
+            ( (settings.hideAllTrackersWhenNotInGame && !game.gameEnded) || (!settings.hideAllTrackersWhenNotInGame) ) {
             // opponent tracker
             let cards = settings.clearTrackersOnGameEnd && game.gameEnded
                 ? [] : game.opponent.opponentCardList
@@ -261,7 +262,8 @@ class WindowManager {
         }
 
         // player tracker
-        if settings.showPlayerTracker {
+        if settings.showPlayerTracker &&
+            ( (settings.hideAllTrackersWhenNotInGame && !game.gameEnded) || (!settings.hideAllTrackersWhenNotInGame) ) {
             playerTracker.update(cards: game.player.playerCardList, reset: reset)
             playerTracker.setWindowSizes()
 
