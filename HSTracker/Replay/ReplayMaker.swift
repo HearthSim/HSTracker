@@ -10,7 +10,6 @@ import Foundation
 import CleanroomLogger
 import Wrap
 import ZipArchive
-import SwiftDate
 
 final class ReplayMaker {
     private static var points = [ReplayKeyPoint]()
@@ -24,6 +23,13 @@ final class ReplayMaker {
                                     player: player)
         points.append(replay)
     }
+    
+    public static let dateStringFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
+        return formatter
+    }()
 
     static func saveToDisk(powerLog: [LogLine]) {
         guard points.count > 0 else {
@@ -94,10 +100,8 @@ final class ReplayMaker {
                 return
             }
 
-            let dateStr = DateInRegion()
-                .string(format: .iso8601(options: [.withFullTime,
-                                                   .withFullDate,
-                                                   .withSpaceBetweenDateAndTime]))
+            let dateStr = ReplayMaker.dateStringFormatter.string(from: Date())
+            
             let name = "\(dateStr) - \(playerName)(\(playerHeroName)) vs "
                 + "\(opponentName)(\(opponentHeroName)).hdtreplay"
             let filename = path.appendingPathComponent(name)

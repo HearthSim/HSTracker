@@ -9,7 +9,6 @@
 import Foundation
 import Kanna
 import CleanroomLogger
-import SwiftDate
 
 struct HearthArena: HttpImporter {
 
@@ -24,6 +23,12 @@ struct HearthArena: HttpImporter {
     var preferHttps: Bool {
         return false
     }
+    
+    public static let iso8601StringFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter
+    }()
 
     func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let classNode = doc.at_xpath("//h1[@class='class']"),
@@ -35,7 +40,7 @@ struct HearthArena: HttpImporter {
         Log.verbose?.message("Got class \(playerClass)")
 
         let deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
-                              className, Date().iso8601(opts: [.withFullDate]))
+                              className, HearthArena.iso8601StringFormatter.string(from: Date()) )
         Log.verbose?.message("Got deck name \(deckName)")
 
         let deck = Deck()

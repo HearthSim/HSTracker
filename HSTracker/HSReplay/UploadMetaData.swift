@@ -36,6 +36,12 @@ class UploadMetaData {
     var format: Int?
     var player1: Player = Player()
     var player2: Player = Player()
+    
+    public static let iso8601StringFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter
+    }()
 
     static func generate(game: InternalGameStats?) -> UploadMetaData {
         let metaData = UploadMetaData()
@@ -73,7 +79,7 @@ class UploadMetaData {
 
         if let game = game {
             if game.startTime > Date.distantPast {
-                metaData.matchStart = game.startTime.iso8601(opts: [.withInternetDateTime])
+                metaData.matchStart = UploadMetaData.iso8601StringFormatter.string(from: game.startTime)
             }
 
             metaData.gameType = game.gameType != .gt_unknown

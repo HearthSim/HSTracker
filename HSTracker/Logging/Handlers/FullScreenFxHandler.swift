@@ -9,14 +9,13 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
-import SwiftDate
 
 struct FullScreenFxHandler {
 
     let BeginBlurRegex = "BeginEffect blur \\d => 1"
-
-    private var lastQueueTime: DateInRegion = DateInRegion.distantPast
-
+    
+    private var lastQueueTime: Date = Date.distantPast
+    
     mutating func handle(game: Game, logLine: LogLine) {
         guard let currentMode = game.currentMode else {
             return
@@ -26,8 +25,8 @@ struct FullScreenFxHandler {
         if logLine.line.match(BeginBlurRegex) && game.isInMenu && modes.contains(currentMode) {
             game.enqueueTime = logLine.time
             Log.info?.message("now in queue (\(logLine.time))")
-            if (DateInRegion() - logLine.time).in(.second) ?? 0 > 5
-                       || !game.isInMenu || logLine.time <= lastQueueTime {
+            if abs(logLine.time.timeIntervalSinceNow) > 5
+                || !game.isInMenu || logLine.time <= lastQueueTime {
                 return
             }
             lastQueueTime = logLine.time

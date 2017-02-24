@@ -9,21 +9,13 @@
  */
 
 import CleanroomLogger
-import SwiftDate
 
 struct LogLine {
     let namespace: LogLineNamespace
-    let time: DateInRegion
+    let time: Date
     let line: String
     let nanoseconds: Double
     let include: Bool
-
-    private static let utc: Region = {
-        let locale = Locale(identifier: Settings.instance.hsTrackerLanguage ?? "enUS")
-        return Region(tz: TimeZone(identifier: "UTC") ?? TimeZone.current,
-                      cal: CalendarName.gregorian.calendar,
-                      loc: locale)
-    }()
 
     init(namespace: LogLineNamespace, line: String, include: Bool = true) {
         self.namespace = namespace
@@ -32,48 +24,54 @@ struct LogLine {
         self.include = include
     }
     
-    static func parseTime(line: String) -> (DateInRegion, Double) {
-        return autoreleasepool { () -> (DateInRegion, Double) in
-            guard line.characters.count > 20 else { return (DateInRegion(), 0) }
-            
-            guard let fromLine = line.substringWithRange(2, location: 16)
-                .components(separatedBy: " ").first else { return (DateInRegion(), 0) }
-            
-            guard !fromLine.isEmpty else { return (DateInRegion(), 0) }
-            let components = fromLine.components(separatedBy: ".")
-            guard [1, 2].contains(components.count) else { return (DateInRegion(), 0) }
-            
-            guard let dateTime = try? DateInRegion(string: components[0],
-                                                   format: .custom("HH:mm:ss")) else {
-                                                    return (DateInRegion(), 0)
+    static func parseTime(line: String) -> (Date, Double) {
+        
+        if line.characters.count <= 20 { return (Date(), 0) }
+        
+        guard let fromLine = line.substringWithRange(2, location: 16)
+            .components(separatedBy: " ").first else { return (Date(), 0) }
+        
+        if fromLine.isEmpty { return (Date(), 0) }
+        
+        let components = fromLine.components(separatedBy: ".")
+        if components.count > 2 { return (Date(), 0) }
+        
+        guard let dateTime = LogReaderManager.dateStringFormatter.date(from: components[0])
+            else { return (Date(), 0) }
+        
+        // check if nanoseconds are available
+        var nanoseconds: Double = 0
+        if components.count == 2 && components[1].characters.count >= 3 {
+            if let ns = Double(components[1]) {
+                nanoseconds = ns
             }
-            
-            var nanoseconds: Double = 0
-            if components.count == 2 && components[1].characters.count >= 3 {
-                if let milliseconds = Double(components[1]) {
-                    nanoseconds = milliseconds
-                }
-            }
-            
-            guard let date = try? DateInRegion().atTime(hour: dateTime.hour,
-                                                        minute: dateTime.minute,
-                                                        second: dateTime.second) else {
-                                                            return (dateTime, nanoseconds)
-            }
-            var dateInRegion = date
-            if dateInRegion.isInFuture {
-                dateInRegion = dateInRegion - 1.day
-            }
-            return (dateInRegion, nanoseconds)
         }
+        
+        // construct full date from the partial one
+        let today = Date()
+        var dayComponents = LogReaderManager.calendar.dateComponents(in: LogReaderManager.timeZone, from: today)
+        let logComponents = LogReaderManager.calendar.dateComponents(in: LogReaderManager.timeZone, from: dateTime)
+        
+        dayComponents.hour = logComponents.hour
+        dayComponents.minute = logComponents.minute
+        dayComponents.second = logComponents.second
+        
+        if let logDate = LogReaderManager.calendar.date(from: dayComponents) {
+            if logDate > today {
+                return (LogReaderManager.calendar.date(byAdding: .day, value: -1, to: logDate) ?? Date(), nanoseconds)
+            } else {
+                return (logDate, nanoseconds)
+            }
+        }
+        
+        return (Date(), 0)
+        
     }
 }
 
 extension LogLine: CustomStringConvertible {
     var description: String {
-        let dateStr = time.string(format: .iso8601(options: [.withFullTime,
-                                                             .withFullDate,
-                                                             .withSpaceBetweenDateAndTime]))
+        let dateStr = LogReaderManager.fullDateStringFormatter.string(from: time)
         return "\(namespace): \(dateStr).\(nanoseconds): \(line)"
     }
 }

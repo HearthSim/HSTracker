@@ -10,12 +10,11 @@
 
 import Foundation
 import CleanroomLogger
-import SwiftDate
 
 final class LogReader {
     var stopped = true
     var offset: UInt64 = 0
-    var startingPoint: DateInRegion = DateInRegion.distantPast
+    var startingPoint: Date = Date.distantPast
     var fileHandle: FileHandle?
 
     var path: String
@@ -40,19 +39,19 @@ final class LogReader {
         }
     }
 
-    func findEntryPoint(choice: String) -> DateInRegion {
+    func findEntryPoint(choice: String) -> Date {
         return findEntryPoint(choices: [choice])
     }
 
-    func findEntryPoint(choices: [String]) -> DateInRegion {
+    func findEntryPoint(choices: [String]) -> Date {
         guard fileManager.fileExists(atPath: path) else {
-            return DateInRegion.distantPast
+            return Date.distantPast
         }
         var fileContent: String
         do {
             fileContent = try String(contentsOfFile: path)
         } catch {
-            return DateInRegion.distantPast
+            return Date.distantPast
         }
 
         let lines: [String] = fileContent
@@ -66,10 +65,10 @@ final class LogReader {
             }
         }
 
-        return DateInRegion.distantPast
+        return Date.distantPast
     }
 
-    func start(manager logReaderManager: LogReaderManager, entryPoint: DateInRegion) {
+    func start(manager logReaderManager: LogReaderManager, entryPoint: Date) {
         stopped = false
         self.logReaderManager = logReaderManager
         startingPoint = entryPoint
@@ -81,7 +80,7 @@ final class LogReader {
         queue = DispatchQueue(label: queueName, attributes: [])
         if let queue = queue {
             Log.info?.message("Starting to track \(info.name)")
-            let sp = startingPoint.string(format: .iso8601(options: [.withInternetDateTime]))
+            let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
             Log.verbose?.message("\(info.name) has queue \(queueName) starting at \(sp)")
             queue.async {
                 self.readFile()
@@ -98,7 +97,7 @@ final class LogReader {
                 findInitialOffset()
                 fileHandle?.seek(toFileOffset: offset)
 
-                let sp = startingPoint.string(format: .iso8601(options: [.withInternetDateTime]))
+                let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
                 Log.verbose?.message("file exists \(path), offset for \(sp) is \(offset)")
             }
 

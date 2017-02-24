@@ -10,7 +10,6 @@
 
 import Foundation
 import CleanroomLogger
-import SwiftDate
 
 final class LogReaderManager {
     let powerGameStateHandler = PowerGameStateHandler()
@@ -29,6 +28,28 @@ final class LogReaderManager {
     private var readers: [LogReader] {
         return [powerLog, rachelle, arena, loadingScreen, fullScreenFx]
     }
+    
+    public static let dateStringFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter
+    }()
+    
+    public static let iso8601StringFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter
+    }()
+    
+    public static let fullDateStringFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
+        return formatter
+    }()
+    
+    public static let timeZone = TimeZone.current
+    public static let calendar = Calendar.current
 
     var running = false
     var stopped = false
@@ -86,13 +107,13 @@ final class LogReaderManager {
         start()
     }
 
-    private func entryPoint() -> DateInRegion {
+    private func entryPoint() -> Date {
         let powerEntry = powerLog.findEntryPoint(choices:
             ["tag=GOLD_REWARD_STATE", "End Spectator"])
         let loadingScreenEntry = loadingScreen.findEntryPoint(choice: "Gameplay.Start")
 
-        let pe = powerEntry.string(format: .iso8601(options: [.withInternetDateTime]))
-        let lse = loadingScreenEntry.string(format: .iso8601(options: [.withInternetDateTime]))
+        let pe = LogReaderManager.iso8601StringFormatter.string(from: powerEntry)
+        let lse = LogReaderManager.iso8601StringFormatter.string(from: loadingScreenEntry)
         Log.verbose?.message("powerEntry : \(pe) / loadingScreenEntry : \(lse)")
         
         return powerEntry > loadingScreenEntry ? powerEntry : loadingScreenEntry

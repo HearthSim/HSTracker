@@ -8,16 +8,22 @@
 
 import Foundation
 import CleanroomLogger
-import SwiftDate
 
 struct BuildDates {
 
     private static var knownBuildDates: [BuildDate] = []
     
     struct BuildDate {
-        let date: DateInRegion
+        let date: Date
         let build: Int
     }
+    
+    public static let dateStringFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 
     static func loadBuilds(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
@@ -31,10 +37,9 @@ struct BuildDates {
         http.json(method: .get) { json in
             if let json: [String: String] = json as? [String: String] {
                 for (build, date) in json {
-                    if let dateInRegion = try? DateInRegion(string: date,
-                                                           format: .custom("yyyy-MM-dd")),
+                    if let dateTime = BuildDates.dateStringFormatter.date(from: date),
                         let intBuild = Int(build) {
-                        let buildDate = BuildDate(date: dateInRegion, build: intBuild)
+                        let buildDate = BuildDate(date: dateTime, build: intBuild)
                         knownBuildDates.append(buildDate)
                     }
                 }
@@ -101,7 +106,7 @@ struct BuildDates {
         for buildDate in knownBuildDates.sorted(by: {
             $0.date > $1.date
         }) {
-            if date >= buildDate.date.absoluteDate {
+            if date >= buildDate.date {
                 Log.info?.message("Getting build from date : \(buildDate)")
                 return buildDate
             }
@@ -127,7 +132,7 @@ struct BuildDates {
         }
         guard let build = Int(match) else { return nil }
 
-        let buildDate = BuildDate(date: DateInRegion(), build: build)
+        let buildDate = BuildDate(date: Date(), build: build)
         Log.info?.message("Getting build from product DB : \(buildDate)")
         knownBuildDates.append(buildDate)
         return buildDate
