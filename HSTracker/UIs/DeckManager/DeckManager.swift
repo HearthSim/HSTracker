@@ -333,7 +333,8 @@ class DeckManager: NSWindowController {
         Settings.instance.activeDeck = deck.deckId
         let deckId = deck.deckId
         DispatchQueue.main.async {
-            Game.shared.set(activeDeck: deckId)
+            guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
+            game.set(activeDeck: deckId)
         }
     }
 

@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class OpponentSecrets: CustomStringConvertible {
+class OpponentSecrets {
     private(set) lazy var secrets = [SecretHelper]()
     var proposedAttackerEntityId: Int = 0
     var proposedDefenderEntityId: Int = 0
@@ -20,7 +20,9 @@ class OpponentSecrets: CustomStringConvertible {
     }
 
     var displayedClasses: [CardClass] {
-        return secrets.map({ $0.heroClass }).sorted { $0.rawValue < $1.rawValue }
+        return secrets.map({ $0.heroClass }).sorted {
+            $0.rawValue < $1.rawValue
+        }
     }
 
     func getIndexOffset(heroClass: CardClass) -> Int {
@@ -101,9 +103,9 @@ class OpponentSecrets: CustomStringConvertible {
             // been triggered by the attempted combat
             if CardIds.Secrets.FastCombat.contains(cardId) && attacker != nil && defender != nil {
                 zeroFromAttack(attacker: game.entities[proposedAttackerEntityId]!,
-                               defender: game.entities[proposedDefenderEntityId]!,
-                               fastOnly: true,
-                               _stopIndex: index)
+                        defender: game.entities[proposedDefenderEntityId]!,
+                        fastOnly: true,
+                        _stopIndex: index)
             }
 
             secrets.remove(secrets[index])
@@ -150,7 +152,11 @@ class OpponentSecrets: CustomStringConvertible {
             }
         }
 
-        WindowManager.default.updateTrackers()
+        guard let game = (NSApp.delegate as? AppDelegate)?.game,
+              let windowManager = game.windowManager else {
+            return
+        }
+        windowManager.updateTrackers()
     }
 
     func clearSecrets() {
@@ -205,22 +211,24 @@ class OpponentSecrets: CustomStringConvertible {
     func allSecrets() -> [Card] {
         var cards: [Card] = []
         getSecrets().forEach({ (secret) in
-            if let card = Cards.by(cardId: secret.cardId), secret.count > 0 {
-                card.count = secret.count
-                cards.append(card)
-            }
-        })
+                    if let card = Cards.by(cardId: secret.cardId), secret.count > 0 {
+                        card.count = secret.count
+                        cards.append(card)
+                    }
+                })
         return cards
     }
 
     func getDefaultSecrets(heroClass: CardClass) -> [Secret] {
         return SecretHelper.getSecretIds(heroClass: heroClass).map { Secret(cardId: $0, count: 1) }
     }
+}
 
+extension OpponentSecrets: CustomStringConvertible {
     var description: String {
-        return "<OpponentSecret: "
+        return "[OpponentSecret: "
             + "secrets=\(secrets)"
             + ", proposedAttackerEntityId=\(proposedAttackerEntityId)"
-            + ", proposedDefenderEntityId=\(proposedDefenderEntityId)>"
+            + ", proposedDefenderEntityId=\(proposedDefenderEntityId)]"
     }
 }

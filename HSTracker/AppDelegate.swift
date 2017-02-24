@@ -25,6 +25,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var dockMenu = NSMenu(title: "DockMenu")
     var appHealth: AppHealth = AppHealth.instance
 
+    var game = Game()
+    var hearthstone = Hearthstone()
+
     var preferences: MASPreferencesWindowController = {
         var controllers = [
             GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
@@ -136,8 +139,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
         }
 
-        // make sure we initialize Game in the main thread
-        Game.shared.load()
+        game.hearthstone = hearthstone
 
         if settings.validated() {
             loadSplashscreen()
@@ -152,7 +154,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
-        Hearthstone.instance.stopTracking()
+        hearthstone.stopTracking()
         if appWillRestart {
             let appPath = Bundle.main.bundlePath
             let task = Process()
@@ -184,8 +186,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         splashscreen?.showWindow(self)
 
         Log.info?.message("Opening trackers")
-        WindowManager.default.startManager()
-        
+        game.windowManager = WindowManager()
+        game.windowManager?.startManager()
+
         let buildsOperation = BlockOperation {
             BuildDates.loadBuilds(splashscreen: self.splashscreen!)
             if BuildDates.isOutdated() || !Database.jsonFilesAreValid() {
@@ -199,13 +202,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         let loggingOperation = BlockOperation {
             while true {
-                if WindowManager.default.isReady() {
+                if self.game.windowManager?.isReady() ?? false {
                     break
                 }
                 Thread.sleep(forTimeInterval: 0.5)
             }
 
-            WindowManager.default.hideGameTrackers()
+            self.game.windowManager?.hideGameTrackers()
         }
 
         let menuOperation = BlockOperation {
@@ -264,7 +267,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var message: String?
         var alertStyle = NSAlertStyle.critical
         do {
-            let canStart = try Hearthstone.instance.setup()
+            let canStart = try hearthstone.setup()
 
             if !canStart {
                 message = "You must restart Hearthstone for logs to be used"
@@ -294,7 +297,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        Hearthstone.instance.start()
+        hearthstone.start()
 
         let events = [
             "reload_decks": #selector(AppDelegate.reloadDecks(_:)),
@@ -310,8 +313,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         if let activeDeck = Settings.instance.activeDeck {
-            DispatchQueue.main.async {
-                Game.shared.set(activeDeck: activeDeck)
+            DispatchQueue.main.async { [weak self] in
+                self?.game.set(activeDeck: activeDeck)
             }
         }
 
@@ -323,8 +326,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         splashscreen = nil
 
         let time = DispatchTime.now() + DispatchTimeInterval.milliseconds(500)
-        DispatchQueue.main.asyncAfter(deadline: time) {
-            WindowManager.default.updateTrackers()
+        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
+            self?.game.windowManager?.updateTrackers()
         }
     }
 
@@ -333,7 +336,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func reloadTheme() {
-        WindowManager.default.updateTrackers(reset: true)
+        game.windowManager?.updateTrackers(reset: true)
     }
 
     func languageChange(_ notification: Notification) {
@@ -508,8 +511,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func playDeck(_ sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
             let deckId = deck.deckId
-            DispatchQueue.main.async {
-                Game.shared.set(activeDeck: deckId)
+            DispatchQueue.main.async { [weak self] in
+                self?.game.set(activeDeck: deckId)
             }
         }
     }
@@ -522,16 +525,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func clearTrackers(_ sender: AnyObject) {
-        Game.shared.removeActiveDeck()
+        game.removeActiveDeck()
         Settings.instance.activeDeck = nil
     }
 
     @IBAction func saveCurrentDeck(_ sender: AnyObject) {
         switch sender.tag {
         case 1: // Opponent
-            saveDeck(Game.shared.opponent)
+            saveDeck(game.opponent)
         case 2: // Self
-            saveDeck(Game.shared.player)
+            saveDeck(game.player)
         default:
             break
         }
@@ -562,7 +565,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func resetTrackers(_ sender: AnyObject) {
-        WindowManager.default.updateTrackers()
+        game.windowManager?.updateTrackers()
     }
 
     @IBAction func openPreferences(_ sender: AnyObject) {

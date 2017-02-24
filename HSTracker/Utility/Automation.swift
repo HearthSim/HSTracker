@@ -23,7 +23,7 @@ struct Automation {
         let deckId = deck.deckId
         queue.async {
             // bring HS to front
-            Hearthstone.instance.bringToFront()
+            (NSApp.delegate as? AppDelegate)?.hearthstone.bringToFront()
 
             let searchLocation = SizeHelper.searchLocation()
             let firstCardLocation = SizeHelper.firstCardLocation()
@@ -77,7 +77,8 @@ struct Automation {
             }
             
             Thread.sleep(forTimeInterval: 1)
-            guard let editedDeck = Hearthstone.instance.mirror?.getEditedDeck() else {
+            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+                  let editedDeck = hearthstone.mirror?.getEditedDeck() else {
                 callback(NSLocalizedString("Can't get edited deck", comment: ""))
                 return
             }

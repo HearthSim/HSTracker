@@ -36,8 +36,6 @@ final class Hearthstone: NSObject {
         super.init()
     }
 
-    static let instance = Hearthstone()
-
     static func findHearthstone() -> String? {
         let path = "/Applications/Hearthstone/Hearthstone.app"
         if FileManager.default.fileExists(atPath: path) {

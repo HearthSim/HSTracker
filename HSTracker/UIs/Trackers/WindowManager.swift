@@ -10,8 +10,6 @@ import Foundation
 import CleanroomLogger
 
 class WindowManager {
-    static let `default` = WindowManager()
-
     static let cardWidth: CGFloat = {
         switch Settings.instance.cardSize {
         case .tiny: return CGFloat(kTinyFrameWidth)
@@ -71,9 +69,6 @@ class WindowManager {
     }(CardHudContainer(windowNibName: "CardHudContainer"))
 
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
-
-    private init() {
-    }
 
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -146,9 +141,10 @@ class WindowManager {
     }
 
     private func redrawTrackers(reset: Bool = false) {
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
+
         let settings = Settings.instance
-        let game = Game.shared
-        
+
         var rect: NSRect?
 
         // timer
@@ -238,6 +234,7 @@ class WindowManager {
             show(controller: opponentBoardDamage, show: false)
         }
 
+        let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone
         if settings.showOpponentTracker {
             // opponent tracker
             let cards = settings.clearTrackersOnGameEnd && game.gameEnded
@@ -245,7 +242,7 @@ class WindowManager {
             opponentTracker.update(cards: cards, reset: reset)
             opponentTracker.setWindowSizes()
 
-            if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
+            if settings.autoPositionTrackers && hearthstone?.isHearthstoneRunning ?? false {
                 rect = SizeHelper.opponentTrackerFrame()
             } else {
                 rect = Settings.instance.opponentTrackerFrame
@@ -268,7 +265,7 @@ class WindowManager {
             playerTracker.update(cards: game.player.playerCardList, reset: reset)
             playerTracker.setWindowSizes()
 
-            if settings.autoPositionTrackers && Hearthstone.instance.isHearthstoneRunning {
+            if settings.autoPositionTrackers && hearthstone?.isHearthstoneRunning ?? false {
                 rect = SizeHelper.playerTrackerFrame()
             } else {
                 rect = settings.playerTrackerFrame
@@ -373,7 +370,8 @@ class WindowManager {
                 // set the level of the window : over all if hearthstone is active
                 // as a normal window otherwise
                 let level: Int
-                if Hearthstone.instance.hearthstoneActive {
+                if let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+                   hearthstone.hearthstoneActive {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
                 } else {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))

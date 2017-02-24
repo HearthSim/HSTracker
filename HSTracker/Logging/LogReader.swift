@@ -31,7 +31,7 @@ final class LogReader {
         self.path = "\(logPath)/Logs/\(info.name).log"
         Log.info?.message("Init reader for \(info.name) at path \(self.path)")
         if fileManager.fileExists(atPath: self.path)
-            && !FileUtils.isFileOpen(byHearthstone: self.path) {
+                   && !FileUtils.isFileOpen(byHearthstone: self.path) {
             do {
                 try fileManager.removeItem(atPath: self.path)
             } catch {
@@ -56,8 +56,8 @@ final class LogReader {
         }
 
         let lines: [String] = fileContent
-            .components(separatedBy: "\n")
-            .filter({ !String.isNullOrEmpty($0) }).reversed()
+                .components(separatedBy: "\n")
+                .filter({ !String.isNullOrEmpty($0) }).reversed()
         for line in lines {
             if choices.any({ line.range(of: $0) != nil }) {
                 Log.verbose?.message("Found \(line)")
@@ -101,30 +101,32 @@ final class LogReader {
                 let sp = startingPoint.string(format: .iso8601(options: [.withInternetDateTime]))
                 Log.verbose?.message("file exists \(path), offset for \(sp) is \(offset)")
             }
-            
+
             if let data = fileHandle?.readDataToEndOfFile() {
                 if let linesStr = String(data: data, encoding: .utf8) {
 
                     let lines = linesStr
-                        .components(separatedBy: CharacterSet.newlines)
-                        .filter { !$0.isEmpty && $0.hasPrefix("D ") && $0.characters.count > 20 }
+                            .components(separatedBy: CharacterSet.newlines)
+                            .filter {
+                                !$0.isEmpty && $0.hasPrefix("D ") && $0.characters.count > 20
+                            }
 
                     if !lines.isEmpty {
                         for line in lines {
                             offset += UInt64((line + "\n")
-                                .lengthOfBytes(using: .utf8))
+                                    .lengthOfBytes(using: .utf8))
                             let cutted = line.substring(from:
-                                line.characters.index(line.startIndex, offsetBy: 19))
+                            line.characters.index(line.startIndex, offsetBy: 19))
 
                             if !info.hasFilters
-                                || info.startsWithFilters.any({
-                                    cutted.hasPrefix($0) || cutted.match($0)
-                                })
-                                || info.containsFilters.any({ cutted.contains($0) }) {
+                                       || info.startsWithFilters.any({
+                                cutted.hasPrefix($0) || cutted.match($0)
+                            })
+                                       || info.containsFilters.any({ cutted.contains($0) }) {
 
                                 let logLine = LogLine(namespace: info.name,
-                                                      line: line,
-                                                      include: info.include)
+                                        line: line,
+                                        include: info.include)
                                 if logLine.time >= startingPoint {
                                     logReaderManager?.processLine(line: logLine)
                                 }
@@ -152,10 +154,14 @@ final class LogReader {
     }
 
     func findInitialOffset() {
-        guard fileManager.fileExists(atPath: path) else { return }
+        guard fileManager.fileExists(atPath: path) else {
+            return
+        }
 
         var offset: UInt64 = 0
-        guard let fileHandle = FileHandle(forReadingAtPath: path) else { return }
+        guard let fileHandle = FileHandle(forReadingAtPath: path) else {
+            return
+        }
         fileHandle.seekToEndOfFile()
         let fileLength = fileHandle.offsetInFile
         fileHandle.seek(toFileOffset: 0)
@@ -167,9 +173,9 @@ final class LogReader {
             fileHandle.seek(toFileOffset: fileOffset)
             let data = fileHandle.readData(ofLength: 4096)
             if let string = String(data: data, encoding: .ascii) {
-                
+
                 var skip: UInt64 = 0
-                for i in 0...4096 {
+                for i in 0 ... 4096 {
                     skip += 1
                     if i >= string.characters.count || string.char(at: i) == "\n" {
                         break
@@ -177,23 +183,23 @@ final class LogReader {
                 }
                 offset -= skip
                 let lines = String(string.characters.dropFirst(Int(skip)))
-                    .components(separatedBy: "\n")
-                    for i in 0...(lines.count - 1) {
-                        if String.isNullOrEmpty(lines[i].trim()) {
-                            continue
-                        }
-                        let logLine = LogLine(namespace: info.name, line: lines[i])
-                        if logLine.time < startingPoint {
-                            let negativeOffset = lines.take(i + 1)
+                        .components(separatedBy: "\n")
+                for i in 0 ... (lines.count - 1) {
+                    if String.isNullOrEmpty(lines[i].trim()) {
+                        continue
+                    }
+                    let logLine = LogLine(namespace: info.name, line: lines[i])
+                    if logLine.time < startingPoint {
+                        let negativeOffset = lines.take(i + 1)
                                 .map({ UInt64(($0 + "\n").characters.count) })
                                 .reduce(0, +)
-                            let current = Int64(fileLength) - Int64(offset)
+                        let current = Int64(fileLength) - Int64(offset)
                                 + Int64(negativeOffset) + Int64(sizeDiff)
-                            self.offset = UInt64(max(current, Int64(0)))
-                            return
-                        }
+                        self.offset = UInt64(max(current, Int64(0)))
+                        return
                     }
-            
+                }
+
             }
         }
     }
@@ -204,8 +210,8 @@ final class LogReader {
         fileHandle = nil
 
         // try to truncate log file when stopping
-        if fileManager.fileExists(atPath: path)
-            && !Hearthstone.instance.isHearthstoneRunning {
+        if let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+           fileManager.fileExists(atPath: path), !hearthstone.isHearthstoneRunning {
             let file = FileHandle(forWritingAtPath: path)
             file?.truncateFile(atOffset: UInt64(0))
             file?.closeFile()

@@ -24,14 +24,16 @@ struct SizeHelper {
         }
         
         func reload() {
+            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
+
             let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
             if let info = (windowListInfo as NSArray? as? [[String: AnyObject]])?.filter({
                 !$0.filter({ $0.0 == "kCGWindowName"
-                    && $0.1 as? String == Hearthstone.instance.applicationName }).isEmpty
+                    && $0.1 as? String == hearthstone.applicationName }).isEmpty
             }).filter({
                 !$0.filter({ $0.0 == "kCGWindowOwnerName"
-                    && $0.1 as? String == Hearthstone.instance.applicationName }).isEmpty
+                    && $0.1 as? String == hearthstone.applicationName }).isEmpty
             }).first {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)

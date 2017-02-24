@@ -20,8 +20,8 @@ class Secret {
         self.count = count
     }
 
-    var activeDeckIsConstructed: Bool {
-        guard let deck = Game.shared.currentDeck else { return false }
+    private func activeDeckIsConstructed(game: Game) -> Bool {
+        guard let deck = game.currentDeck else { return false }
 
         return !deck.isArena
     }
@@ -29,7 +29,7 @@ class Secret {
     func adjustedCount(game: Game) -> Int {
         return ((game.currentGameMode == .casual || game.currentGameMode == .ranked
                 || game.currentGameMode == .friendly || game.currentGameMode == .practice
-                || activeDeckIsConstructed)
+                || activeDeckIsConstructed(game: game))
             && game.opponent.revealedEntities.filter { $0.id < 68 && $0.cardId == self.cardId }
                 .count >= 2) ? 0 : self.count
     }

@@ -108,13 +108,15 @@ final class Player {
     }
 
     var playerEntities: [Entity] {
-        return Game.shared.entities.map({ $0.1 }).filter({
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return [] }
+        return game.entities.map({ $0.1 }).filter({
             return !$0.info.hasOutstandingTagChanges && $0.isControlled(by: self.id)
         })
     }
 
     var revealedEntities: [Entity] {
-        return Game.shared.entities.map({ $0.1 })
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return [] }
+        return game.entities.map({ $0.1 })
             .filter({
                 return !$0.info.hasOutstandingTagChanges
                     && ($0.isControlled(by: self.id) || $0.info.originalController == self.id)
@@ -266,7 +268,8 @@ final class Player {
     }
 
     func getHighlightedCardsInHand(cardsInDeck: [Card]) -> [Card] {
-        guard let deck = Game.shared.currentDeck else { return [] }
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return [] }
+        guard let deck = game.currentDeck else { return [] }
 
         return deck.cards.filter({ (c) -> Bool in
             cardsInDeck.all({ $0.id != c.id }) && hand.any({ $0.cardId == c.id })
@@ -284,7 +287,7 @@ final class Player {
     var playerCardList: [Card] {
         let settings = Settings.instance
         let createdInHand = settings.showPlayerGet ? createdCardsInHand : [Card]()
-        if Game.shared.currentDeck == nil {
+        if let game = (NSApp.delegate as? AppDelegate)?.game, game.currentDeck == nil {
             return (revealedCards + createdInHand
                 + knownCardsInDeck + predictedCardsInDeck).sortCardList()
         }
@@ -373,7 +376,7 @@ final class Player {
             .map { $0! }
 
         var originalCardsInDeck: [String] = []
-        if let deck = Game.shared.currentDeck {
+        if let game = (NSApp.delegate as? AppDelegate)?.game, let deck = game.currentDeck {
             originalCardsInDeck = deck.cards.flatMap {
                 Array(repeating: $0.id, count: $0.count)
                 }
@@ -518,7 +521,8 @@ final class Player {
         if isLocalPlayer {
             updateKnownEntitesInDeck(cardId: entity.cardId)
         } else {
-            if Game.shared.opponentEntity?[.mulligan_state] == Mulligan.dealing.rawValue {
+            let game = (NSApp.delegate as? AppDelegate)?.game
+            if game?.opponentEntity?[.mulligan_state] == Mulligan.dealing.rawValue {
                 entity.info.mulliganed = true
             } else {
                 entity.info.hidden = true

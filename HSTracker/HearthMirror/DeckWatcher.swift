@@ -9,19 +9,21 @@
 import Foundation
 
 class DeckWatcher {
-    
+
     private var isRunning = false
     private var _selectedDeckId: Int64 = 0
-    
+
     private var queue: DispatchQueue?
-    
+
     var selectedDeckId: Int64 {
         return _selectedDeckId
     }
-    
+
     func start() {
-        if isRunning {return}
-        
+        if isRunning {
+            return
+        }
+
         queue = DispatchQueue(label: "", attributes: [])
         if let queue = queue {
             isRunning = true
@@ -30,21 +32,21 @@ class DeckWatcher {
             }
         }
     }
-    
+
     func stop() {
         isRunning = false
     }
-    
+
     func readSelectedDeck() {
         while isRunning {
-            guard let mirror = Hearthstone.instance.mirror else { continue }
-            
-            guard let deckId = mirror.getSelectedDeck() as? Int64 else {
+            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+                  let mirror = hearthstone.mirror,
+                  let deckId = mirror.getSelectedDeck() as? Int64 else {
                 continue
             }
-            
+
             self._selectedDeckId = deckId > 0 ? deckId : self._selectedDeckId
-            
+
             Thread.sleep(forTimeInterval: 0.4)
         }
     }

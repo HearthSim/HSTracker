@@ -10,80 +10,121 @@ import Foundation
 
 class WotogCounterHelper {
     static var playerCthun: Entity? {
-        return Game.shared.player.playerEntities
-            .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.Cthun })
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return nil
+        }
+        return game.player.playerEntities
+                .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.Cthun })
     }
 
     static var playerCthunProxy: Entity? {
-        return Game.shared.player.playerEntities
-            .firstWhere({ $0.cardId == CardIds.NonCollectible.Neutral.Cthun })
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return nil
+        }
+        return game.player.playerEntities
+                .firstWhere({ $0.cardId == CardIds.NonCollectible.Neutral.Cthun })
     }
 
     static var playerYogg: Entity? {
-        return Game.shared.player.playerEntities
-            .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.YoggSaronHopesEnd })
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return nil
+        }
+        return game.player.playerEntities
+                .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.YoggSaronHopesEnd })
     }
 
     static var playerNzoth: Entity? {
-        return Game.shared.player.playerEntities
-            .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.NzothTheCorruptor })
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return nil
+        }
+        return game.player.playerEntities
+                .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.NzothTheCorruptor })
     }
 
     static var playerArcaneGiant: Entity? {
-        return Game.shared.player.playerEntities
-            .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.ArcaneGiant
-                && $0.info.originalZone != nil })
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return nil
+        }
+        return game.player.playerEntities
+                .firstWhere({
+            $0.cardId == CardIds.Collectible.Neutral.ArcaneGiant
+                    && $0.info.originalZone != nil
+        })
     }
 
     static var opponentCthun: Entity? {
-        return Game.shared.opponent.playerEntities
-            .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.Cthun })
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return nil
+        }
+        return game.opponent.playerEntities
+                .firstWhere({ $0.cardId == CardIds.Collectible.Neutral.Cthun })
     }
 
     static var opponentCthunProxy: Entity? {
-        return Game.shared.opponent.playerEntities
-            .firstWhere({ $0.cardId == CardIds.NonCollectible.Neutral.Cthun })
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return nil
+        }
+        return game.opponent.playerEntities
+                .firstWhere({ $0.cardId == CardIds.NonCollectible.Neutral.Cthun })
     }
 
     static var playerSeenCthun: Bool {
-        return Game.shared.playerEntity?.has(tag: .seen_cthun) ?? false
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return false
+        }
+        return game.playerEntity?.has(tag: .seen_cthun) ?? false
     }
 
     static var opponentSeenCthun: Bool {
-        return Game.shared.opponentEntity?.has(tag: .seen_cthun) ?? false
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return false
+        }
+        return game.opponentEntity?.has(tag: .seen_cthun) ?? false
     }
 
     static var playerSeenJade: Bool {
-        return Game.shared.playerEntity?.has(tag: .jade_golem) ?? false
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return false
+        }
+        return game.playerEntity?.has(tag: .jade_golem) ?? false
     }
 
     static var playerNextJadeGolem: Int {
-        let jade = Game.shared.playerEntity?[.jade_golem] ?? 0
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return 1
+        }
+        let jade = game.playerEntity?[.jade_golem] ?? 0
         return playerSeenJade ? min(jade + 1, 30) : 1
     }
 
     static var opponentSeenJade: Bool {
-        return Game.shared.opponentEntity?.has(tag: .jade_golem) ?? false
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return false
+        }
+        return game.opponentEntity?.has(tag: .jade_golem) ?? false
     }
 
     static var opponentNextJadeGolem: Int {
-        let jade = Game.shared.opponentEntity?[.jade_golem] ?? 0
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return 1
+        }
+        let jade = game.opponentEntity?[.jade_golem] ?? 0
         return opponentSeenJade ? min(jade + 1, 30) : 1
     }
 
-    static var cthunInDeck: Bool? {
+    static var cthunInDeck: Bool {
         return deckContains(cardId: CardIds.Collectible.Neutral.Cthun)
     }
 
-    static var yoggInDeck: Bool? {
+    static var yoggInDeck: Bool {
         return deckContains(cardId: CardIds.Collectible.Neutral.YoggSaronHopesEnd)
     }
 
-    static var arcaneGiantInDeck: Bool? {
+    static var arcaneGiantInDeck: Bool {
         return deckContains(cardId: CardIds.Collectible.Neutral.ArcaneGiant)
     }
 
-    static var nzothInDeck: Bool? {
+    static var nzothInDeck: Bool {
         return deckContains(cardId: CardIds.Collectible.Neutral.NzothTheCorruptor)
     }
 
@@ -92,18 +133,19 @@ class WotogCounterHelper {
     }
 
     static var showPlayerSpellsCounter: Bool {
-        guard Settings.instance.showPlayerSpell else { return false }
+        guard Settings.instance.showPlayerSpell else {
+            return false
+        }
 
-        return (yoggInDeck != nil && (playerYogg != nil || yoggInDeck == true))
-                || (arcaneGiantInDeck != nil
-                    && (playerArcaneGiant != nil || arcaneGiantInDeck == true))
+        return (playerYogg != nil || yoggInDeck == true)
+                || (playerArcaneGiant != nil || arcaneGiantInDeck == true)
     }
 
     static var showPlayerDeathrattleCounter: Bool {
         return Settings.instance.showPlayerDeathrattle
-            && nzothInDeck != nil && (playerYogg != nil || nzothInDeck == true)
+                && (playerYogg != nil || nzothInDeck == true)
     }
-    
+
     static var showPlayerGraveyard: Bool {
         return Settings.instance.showPlayerGraveyard
     }
@@ -127,12 +169,15 @@ class WotogCounterHelper {
     static var showOpponentDeathrattleCounter: Bool {
         return Settings.instance.showOpponentDeathrattle
     }
-    
+
     static var showOpponentGraveyard: Bool {
         return Settings.instance.showOpponentGraveyard
     }
 
-    private static func deckContains(cardId: String) -> Bool? {
-        return Game.shared.currentDeck?.cards.any({ $0.id == cardId })
+    private static func deckContains(cardId: String) -> Bool {
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return false
+        }
+        return game.currentDeck?.cards.any({ $0.id == cardId }) ?? false
     }
 }

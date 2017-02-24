@@ -99,7 +99,7 @@ final class LogReaderManager {
     }
 
     func processLine(line: LogLine) {
-        let game = Game.shared
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
 
         DispatchQueue.main.async { [weak self] in
             if line.include {

@@ -44,17 +44,23 @@ class BoardState {
     }
     
     private class func createPlayerBoard() -> PlayerBoard {
-        return createBoard(list: Game.shared.player.board,
-                           entities: Game.shared.entities,
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return createBoard(list: [], entities: [:], isPlayer: true, playerId: -1)
+        }
+        return createBoard(list: game.player.board,
+                           entities: game.entities,
                            isPlayer: true,
-                           playerId: Game.shared.player.id)
+                           playerId: game.player.id)
     }
     
     private class func createOpponentBoard() -> PlayerBoard {
-        return createBoard(list: Game.shared.opponent.board,
-                           entities: Game.shared.entities,
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            return createBoard(list: [], entities: [:], isPlayer: false, playerId: -1)
+        }
+        return createBoard(list: game.opponent.board,
+                           entities: game.entities,
                            isPlayer: false,
-                           playerId: Game.shared.player.id)
+                           playerId: game.player.id)
     }
     
     private class func createBoard(list: [Entity],

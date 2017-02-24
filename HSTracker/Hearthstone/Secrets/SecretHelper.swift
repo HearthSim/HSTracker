@@ -41,7 +41,9 @@ class SecretHelper {
     }
 
     static func getSecretIds(heroClass: CardClass) -> [String] {
-        let standardOnly = Game.shared.currentFormat == .standard
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return [] }
+
+        let standardOnly = game.currentFormat == .standard
         switch heroClass {
         case .hunter: return CardIds.Secrets.Hunter.getCards(standardOnly: standardOnly)
         case .mage: return CardIds.Secrets.Mage.getCards(standardOnly: standardOnly)

@@ -28,6 +28,8 @@ struct LoadingScreenHandler {
                 game.inMenu()
             }
 
+            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
+
             if game.currentMode == .draft {
                 //Watchers.ArenaWatcher.Run();
             } else if game.currentMode == .packopening {
@@ -35,9 +37,9 @@ struct LoadingScreenHandler {
             } else if game.currentMode == .tavern_brawl {
                 //Core.Game.CacheBrawlInfo();
             } else if game.currentMode == .tournament {
-                Hearthstone.instance.deckWatcher.start()
+                hearthstone.deckWatcher.start()
             } else if game.previousMode == .tournament {
-                Hearthstone.instance.deckWatcher.stop()
+                hearthstone.deckWatcher.stop()
             } else {
                 //Watchers.ArenaWatcher.Stop();
                 //Watchers.PackWatcher.Stop();

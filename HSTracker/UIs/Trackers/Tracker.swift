@@ -100,8 +100,8 @@ class Tracker: OverWindowController {
         return self.isWindowLoaded
     }
 
-    func player() -> Player {
-        return playerType == .player ? Game.shared.player : Game.shared.opponent
+    fileprivate func player(game: Game) -> Player {
+        return playerType == .player ? game.player : game.opponent
     }
 
     // MARK: - Notifications
@@ -112,18 +112,30 @@ class Tracker: OverWindowController {
     func cardSizeChange() {
         frameOptionsChange()
         setWindowSizes()
-        WindowManager.default.updateTrackers()
+        guard let game = (NSApp.delegate as? AppDelegate)?.game,
+              let windowManager = game.windowManager else {
+            return
+        }
+        windowManager.updateTrackers()
     }
 
     func playerOptionFrameChange() {
         if playerType == .player {
-            WindowManager.default.updateTrackers(reset: true)
+            guard let game = (NSApp.delegate as? AppDelegate)?.game,
+                  let windowManager = game.windowManager else {
+                return
+            }
+            windowManager.updateTrackers(reset: true)
         }
     }
 
     func opponentOptionFrameChange() {
         if playerType == .opponent {
-            WindowManager.default.updateTrackers(reset: true)
+            guard let game = (NSApp.delegate as? AppDelegate)?.game,
+                  let windowManager = game.windowManager else {
+                return
+            }
+            windowManager.updateTrackers(reset: true)
         }
     }
 
@@ -136,7 +148,11 @@ class Tracker: OverWindowController {
     }
 
     func frameOptionsChange() {
-        WindowManager.default.updateTrackers()
+        guard let game = (NSApp.delegate as? AppDelegate)?.game,
+              let windowManager = game.windowManager else {
+            return
+        }
+        windowManager.updateTrackers()
     }
 
     // MARK: - Game
@@ -197,11 +213,15 @@ class Tracker: OverWindowController {
             newCard.fadeIn(highlight: !reset)
         })
 
-        updateCountFrames()
-        updateCardFrames()
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            Log.warning?.message("No game instance")
+            return
+        }
+        updateCountFrames(game: game)
+        updateCardFrames(game: game)
     }
 
-    fileprivate func updateCardFrames() {
+    fileprivate func updateCardFrames(game: Game) {
         guard let windowFrame = self.window?.contentView?.frame else { return }
         let settings = Settings.instance
 
@@ -254,11 +274,12 @@ class Tracker: OverWindowController {
             recordTracker.isHidden = !settings.showWinLossRatio
             jade = WotogCounterHelper.playerNextJadeGolem
         }
-        fatigueTracker.isHidden = !(settings.fatigueIndicator && player().fatigue > 0)
+        let fatigue = player(game: game).fatigue > 0
+        fatigueTracker.isHidden = !(settings.fatigueIndicator && fatigue)
         graveyardCounter.isHidden = !showGraveyard
         jadeCounter.isHidden = !showJadeCounter
 
-        if let currentDeck = Game.shared.currentDeck, !recordTracker.isHidden {
+        if let currentDeck = game.currentDeck, !recordTracker.isHidden {
             do {
                 let realm = try Realm()
                 if let deck = realm.objects(Deck.self)
@@ -276,7 +297,7 @@ class Tracker: OverWindowController {
         }
         if !fatigueTracker.isHidden {
             fatigueTracker.message = "\(NSLocalizedString("Fatigue : ", comment: ""))"
-                + "\(player().fatigue)"
+                + "\(player(game: game).fatigue)"
             fatigueTracker.needsDisplay = true
         }
 
@@ -301,15 +322,15 @@ class Tracker: OverWindowController {
         wotogCounter.isHidden = wotogCounter.counterStyle.contains(.none)
         wotogCounter.attack = proxy?.attack ?? 6
         wotogCounter.health = proxy?.health ?? 6
-        wotogCounter.spell = player().spellsPlayedCount
-        wotogCounter.deathrattle = player().deathrattlesPlayedCount
+        wotogCounter.spell = player(game: game).spellsPlayedCount
+        wotogCounter.deathrattle = player(game: game).deathrattlesPlayedCount
 
         if !jadeCounter.isHidden {
             jadeCounter.nextJade = jade
             jadeCounter.needsDisplay = true
         }
 
-        let graveyard = player().graveyard
+        let graveyard = player(game: game).graveyard
         // map entitiy to card [count]
         var minionmap: [Card: Int] = [:]
         var minions: Int = 0
@@ -343,8 +364,8 @@ class Tracker: OverWindowController {
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
         if !playerClass.isHidden && playerType == .opponent {
-            if let playerClassId = Game.shared.opponent.playerClassId,
-                let playerName = Game.shared.opponent.name {
+            if let playerClassId = game.opponent.playerClassId,
+                let playerName = game.opponent.name {
                 
                 offsetFrames += smallFrameHeight
                 
@@ -367,7 +388,7 @@ class Tracker: OverWindowController {
                 hero.update(highlight: false)
             }
         } else if !playerClass.isHidden && playerType == .player {
-            if let deck = Game.shared.currentDeck {
+            if let deck = game.currentDeck {
                 offsetFrames += smallFrameHeight
 
                 playerClass.frame = NSRect(x: 0,
@@ -521,10 +542,10 @@ class Tracker: OverWindowController {
         }
     }
 
-    private func updateCountFrames() {
-        let gameStarted = !Game.shared.isInMenu && Game.shared.entities.count >= 67
-        let deckCount = !gameStarted ? 30 : player().deckCount
-        let handCount = !gameStarted ? 0 : player().handCount
+    private func updateCountFrames(game: Game) {
+        let gameStarted = !game.isInMenu && game.entities.count >= 67
+        let deckCount = !gameStarted ? 30 : player(game: game).deckCount
+        let handCount = !gameStarted ? 0 : player(game: game).handCount
 
         cardCounter?.deckCount = deckCount
         cardCounter?.handCount = handCount
@@ -544,7 +565,7 @@ class Tracker: OverWindowController {
                     hand1 = 100
                     hand2 = 100
                 } else {
-                    let handMinusCoin = handCount - (player().hasCoin == true ? 1 : 0)
+                    let handMinusCoin = handCount - (player(game: game).hasCoin == true ? 1 : 0)
                     let deckPlusHand = deckCount + handMinusCoin
 
                     // probabilities a given card (and a second one) are still in the deck
@@ -596,7 +617,11 @@ class Tracker: OverWindowController {
 // MARK: - NSWindowDelegate
 extension Tracker: NSWindowDelegate {
     func windowDidResize(_ notification: Notification) {
-        updateCardFrames()
+        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+            Log.warning?.message("No game instance")
+            return
+        }
+        updateCardFrames(game: game)
         onWindowMove()
     }
 
@@ -644,8 +669,8 @@ extension Tracker: CardCellHover {
         ] as [String : Any]
         
         if self.playerType == .player && Settings.instance.showTopdeckchance {
-            
-            let playercardlist: [Card] = Game.shared.player.playerCardList
+            let game = (NSApp.delegate as? AppDelegate)?.game
+            let playercardlist: [Card] = game?.player.playerCardList ?? []
             let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
             if let cardindeck = playercardlist.firstWhere({ $0.id == card.id }) {
                 let cardindeckcount = cardindeck.count

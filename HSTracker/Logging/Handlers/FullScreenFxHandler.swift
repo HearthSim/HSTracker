@@ -12,26 +12,29 @@ import RealmSwift
 import SwiftDate
 
 struct FullScreenFxHandler {
-    
+
     let BeginBlurRegex = "BeginEffect blur \\d => 1"
-    
+
     private var lastQueueTime: DateInRegion = DateInRegion.distantPast
-    
+
     mutating func handle(game: Game, logLine: LogLine) {
-        guard let currentMode = game.currentMode else { return }
+        guard let currentMode = game.currentMode else {
+            return
+        }
 
         let modes: [Mode] = [.tavern_brawl, .tournament, .draft, .friendly, .adventure]
-        if logLine.line.match(BeginBlurRegex) && game.isInMenu
-            && modes.contains(currentMode) {
+        if logLine.line.match(BeginBlurRegex) && game.isInMenu && modes.contains(currentMode) {
             game.enqueueTime = logLine.time
             Log.info?.message("now in queue (\(logLine.time))")
             if (DateInRegion() - logLine.time).in(.second) ?? 0 > 5
-                || !game.isInMenu || logLine.time <= lastQueueTime {
+                       || !game.isInMenu || logLine.time <= lastQueueTime {
                 return
             }
             lastQueueTime = logLine.time
 
-            guard Settings.instance.autoDeckDetection else { return }
+            guard Settings.instance.autoDeckDetection else {
+                return
+            }
 
             let selectedModes: [Mode] = [.tavern_brawl, .tournament,
                                          .friendly, .adventure]
@@ -44,14 +47,18 @@ struct FullScreenFxHandler {
     }
 
     private func autoSelectDeckById(game: Game, mode: Mode) {
-        guard let mirror = Hearthstone.instance.mirror else { return }
+        guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+              let mirror = hearthstone.mirror else {
+            return
+        }
+
         Log.info?.message("Trying to import deck from Hearthstone")
 
         var selectedDeckId: Int64 = 0
         if let selectedId = mirror.getSelectedDeck() as? Int64 {
             selectedDeckId = selectedId
         } else {
-            selectedDeckId = Hearthstone.instance.deckWatcher.selectedDeckId
+            selectedDeckId = hearthstone.deckWatcher.selectedDeckId
         }
 
         if selectedDeckId <= 0 {
@@ -72,19 +79,21 @@ struct FullScreenFxHandler {
             return
         }
         Log.info?.message("Found selected deck : \(selectedDeck.name)")
-        
-        guard let realm = try? Realm() else { return }
+
+        guard let realm = try? Realm() else {
+            return
+        }
 
         if let storedDeck = realm.objects(Deck.self)
-            .filter("hsDeckId = \(selectedDeckId)").first {
-            
+                .filter("hsDeckId = \(selectedDeckId)").first {
+
             // deck found, check if data needs to be updated
             let nameDoesNotMatch = storedDeck.name != selectedDeck.name
             let cardsDontMatch = storedDeck.diffTo(mirrorDeck: selectedDeck)
             if nameDoesNotMatch || (cardsDontMatch.success && (cardsDontMatch.cards.count > 0)) {
                 if nameDoesNotMatch {
                     Log.info?.message("Deck \(selectedDeck.name) exists" +
-                        "with an old name, updating and using it.")
+                            "with an old name, updating and using it.")
                 } else {
                     Log.info?.message("Deck \(selectedDeck.name) exists, updating and using it.")
                 }
@@ -93,20 +102,25 @@ struct FullScreenFxHandler {
                         if nameDoesNotMatch {
                             storedDeck.name = selectedDeck.name
                         }
-                        
+
                         let numDifferentCards: Int = cardsDontMatch.cards.reduce(0, {
-                            $0 + $1.count })
+                            $0 + $1.count
+                        })
                         if cardsDontMatch.success && numDifferentCards > 0 {
                             storedDeck.cards.removeAll()
-                            guard let cards = selectedDeck.cards as? [MirrorCard]
-                                else { game.set(activeDeck: nil); return }
+                            guard let cards = selectedDeck.cards as? [MirrorCard] else {
+                                game.set(activeDeck: nil)
+                                return
+                            }
                             for card in cards {
                                 guard let c = Cards.by(cardId: card.cardId as String)
-                                    else { continue }
+                                        else {
+                                    continue
+                                }
                                 c.count = card.count as Int
                                 storedDeck.add(card: c)
                             }
-                            
+
                             // swapping 4 different cards yields to major update
                             if cardsDontMatch.cards.count > 4 {
                                 storedDeck.incrementVersion(major: 1)
@@ -127,27 +141,33 @@ struct FullScreenFxHandler {
                 }
             } else {
                 Log.info?.message("Deck \(selectedDeck.name) exists, using it.")
-                
+
                 let deckId = storedDeck.deckId
                 game.set(activeDeck: deckId)
                 return
             }
-            
+
         } else {
             Log.info?.message("Deck \(selectedDeck.name) does not exists, creating it.")
-            
-            guard let hero = Cards.hero(byId: selectedDeck.hero as String) else { return }
+
+            guard let hero = Cards.hero(byId: selectedDeck.hero as String) else {
+                return
+            }
             let deck = Deck()
             deck.name = selectedDeck.name as String
             deck.playerClass = hero.playerClass
             deck.hsDeckId.value = selectedDeckId
-            
-            guard let cards = selectedDeck.cards as? [MirrorCard] else { return }
+
+            guard let cards = selectedDeck.cards as? [MirrorCard] else {
+                return
+            }
             do {
                 try realm.write {
                     realm.add(deck)
                     for card in cards {
-                        guard let c = Cards.by(cardId: card.cardId as String) else { continue }
+                        guard let c = Cards.by(cardId: card.cardId as String) else {
+                            continue
+                        }
                         c.count = card.count as Int
                         deck.add(card: c)
                     }
@@ -165,7 +185,10 @@ struct FullScreenFxHandler {
     }
 
     private func autoSelectArenaDeck(game: Game) {
-        guard let mirror = Hearthstone.instance.mirror else { return }
+        guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+              let mirror = hearthstone.mirror else {
+            return
+        }
         Log.info?.message("Trying to import arena deck from Hearthstone")
 
         guard let hsDeck = mirror.getArenaDeck()?.deck else {
@@ -174,11 +197,13 @@ struct FullScreenFxHandler {
             return
         }
 
-        guard let realm = try? Realm() else { return }
+        guard let realm = try? Realm() else {
+            return
+        }
         let hsDeckId = hsDeck.id as Int64
 
         if let deck = realm.objects(Deck.self)
-            .filter("hsDeckId = \(hsDeckId)").first {
+                .filter("hsDeckId = \(hsDeckId)").first {
             Log.info?.message("Arena deck \(hsDeckId) exists, using it.")
             let deckId = deck.deckId
             game.set(activeDeck: deckId)
@@ -186,9 +211,13 @@ struct FullScreenFxHandler {
         }
 
         Log.info?.message("Arena deck does not exists, creating it.")
-        guard let cards = hsDeck.cards as? [MirrorCard] else { return }
+        guard let cards = hsDeck.cards as? [MirrorCard] else {
+            return
+        }
 
-        guard let hero = Cards.hero(byId: hsDeck.hero as String) else { return }
+        guard let hero = Cards.hero(byId: hsDeck.hero as String) else {
+            return
+        }
         let deck = Deck()
         deck.name = "Arena \(hero.name)"
         deck.playerClass = hero.playerClass
@@ -199,7 +228,9 @@ struct FullScreenFxHandler {
             try realm.write {
                 realm.add(deck)
                 for card in cards {
-                    guard let c = Cards.by(cardId: card.cardId as String) else { continue }
+                    guard let c = Cards.by(cardId: card.cardId as String) else {
+                        continue
+                    }
                     c.count = card.count as Int
                     deck.add(card: c)
                 }

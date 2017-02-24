@@ -23,17 +23,17 @@ import CleanroomLogger
     private var game: Game?
 
     func set(player: PlayerType) {
-        guard let _ = game else {
+        guard let game = game else {
             seconds = 75
             return
         }
 
-        if player == .player && game!.playerEntity != nil {
-            seconds = game!.playerEntity!.has(tag: .timeout)
-                ? game!.playerEntity![.timeout] : 75
-        } else if player == .opponent && game!.opponentEntity != nil {
-            seconds = game!.opponentEntity!.has(tag: .timeout)
-                ? game!.opponentEntity![.timeout] : 75
+        if player == .player && game.playerEntity != nil {
+            seconds = game.playerEntity!.has(tag: .timeout)
+                    ? game.playerEntity![.timeout] : 75
+        } else if player == .opponent && game.opponentEntity != nil {
+            seconds = game.opponentEntity!.has(tag: .timeout)
+                    ? game.opponentEntity![.timeout] : 75
         } else {
             seconds = 75
             Log.warning?.message("Could not update timer, both player entities are null")
@@ -56,34 +56,39 @@ import CleanroomLogger
         seconds = 75
 
         DispatchQueue.global().async {
-            if game!.playerEntity == nil {
-                Log.verbose?.message("Waiting for player entity")
-                while game!.playerEntity == nil {
-                    Thread.sleep(forTimeInterval: 0.1)
-                }
-            }
-            if game!.opponentEntity == nil {
-                Log.verbose?.message("Waiting for player entity")
-                while game!.opponentEntity == nil {
-                    Thread.sleep(forTimeInterval: 0.1)
-                }
-            }
+                    guard let game = game else {
+                        return
+                    }
+                    if game.playerEntity == nil {
+                        Log.verbose?.message("Waiting for player entity")
+                        while game.playerEntity == nil {
+                            Thread.sleep(forTimeInterval: 0.1)
+                        }
+                    }
+                    if game.opponentEntity == nil {
+                        Log.verbose?.message("Waiting for player entity")
+                        while game.opponentEntity == nil {
+                            Thread.sleep(forTimeInterval: 0.1)
+                        }
+                    }
 
-            DispatchQueue.main.async {
-                if self.timer != nil {
-                    self.timer!.invalidate()
+                    DispatchQueue.main.async {
+                        if self.timer != nil {
+                            self.timer!.invalidate()
+                        }
+                        self.timer = Timer.scheduledTimer(timeInterval: 1,
+                                target: self,
+                                selector: #selector(self.timerTick),
+                                userInfo: nil,
+                                repeats: true)
+                    }
                 }
-                self.timer = Timer.scheduledTimer(timeInterval: 1,
-                    target: self,
-                    selector: #selector(self.timerTick),
-                    userInfo: nil,
-                    repeats: true)
-            }
-        }
     }
 
     func stop() {
-        guard let _ = game else {return}
+        guard let _ = game else {
+            return
+        }
 
         Log.info?.message("Stopping turn timer")
         timer?.invalidate()
@@ -91,21 +96,32 @@ import CleanroomLogger
     }
 
     func timerTick() {
+        guard let game = game else {
+            return
+        }
+
         if seconds > 0 {
             seconds -= 1
         }
 
-        if Game.shared.isMulliganDone() {
+        if game.isMulliganDone() {
             if isPlayersTurn {
                 playerSeconds += 1
             } else {
                 opponentSeconds += 1
             }
         }
-        DispatchQueue.main.async {
-            WindowManager.default.timerHud.tick(seconds: self.seconds,
-                                                playerSeconds: self.playerSeconds,
-                                                opponentSeconds: self.opponentSeconds)
+        DispatchQueue.main.async { [weak self] in
+            guard let game = self?.game,
+                  let windowManager = game.windowManager,
+                  let seconds = self?.seconds,
+                  let playerSeconds = self?.playerSeconds,
+                  let opponentSeconds = self?.opponentSeconds else {
+                return
+            }
+            windowManager.timerHud.tick(seconds: seconds,
+                    playerSeconds: playerSeconds,
+                    opponentSeconds: opponentSeconds)
         }
     }
 }
