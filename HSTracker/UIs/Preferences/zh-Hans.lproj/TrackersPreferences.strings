@@ -74,4 +74,6 @@
 /* Class = "NSButton"; ibShadowedToolTip = "HSTracker will be visible on all your workspace while playing"; ObjectID = "aO1-IW-r7y"; */
 "aO1-IW-r7y.ibShadowedToolTip" = "HSTracker 会在所有的窗口";
 
+/* Class = "NSButtonCell"; title = "Hide all trackers if not in game"; ObjectID = "hvr-dD-qVr"; */
+"hvr-dD-qVr.title" = "Hide all trackers if not in game";
 
