@@ -257,6 +257,10 @@ final class Settings {
         set { set(name: "show_secret_helper", value: newValue) }
         get { return get(name: "show_secret_helper") as? Bool ?? true }
     }
+    var showArenaHelper: Bool {
+        set { set(name: "show_arena_helper", value: newValue) }
+        get { return get(name: "show_arena_helper") as? Bool ?? true }
+    }
     var showWinLossRatio: Bool {
         set { set(name: "show_win_loss_ratio", value: newValue) }
         get { return get(name: "show_win_loss_ratio") as? Bool ?? false }

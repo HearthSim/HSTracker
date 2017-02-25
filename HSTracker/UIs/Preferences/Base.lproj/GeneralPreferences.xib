@@ -15,6 +15,7 @@
                 <outlet property="preferGoldenCards" destination="qet-kh-hRB" id="bDD-3D-qmM"/>
                 <outlet property="promptNote" destination="ZLL-Et-PWS" id="WfU-qJ-lHB"/>
                 <outlet property="saveReplays" destination="lku-8T-sZE" id="GRO-sB-dzb"/>
+                <outlet property="useArenaHelper" destination="qVY-kW-az1" id="yG1-2z-xsL"/>
                 <outlet property="view" destination="c22-O7-iKe" id="g0K-Jv-9qq"/>
             </connections>
         </customObject>
@@ -104,6 +105,16 @@
                         <action selector="checkboxClicked:" target="-2" id="glN-oA-TCo"/>
                     </connections>
                 </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="qVY-kW-az1">
+                    <rect key="frame" x="18" y="76" width="129" height="18"/>
+                    <buttonCell key="cell" type="check" title="Use Arena Helper" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="TKd-w3-odf">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="LQc-rn-ehZ"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="Yit-xi-gbj" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="0B0-QG-9Dn"/>
@@ -112,9 +123,11 @@
                 <constraint firstAttribute="trailing" secondItem="9ux-qy-79X" secondAttribute="trailing" constant="20" symbolic="YES" id="B6W-5H-T3a"/>
                 <constraint firstAttribute="trailing" secondItem="qet-kh-hRB" secondAttribute="trailing" constant="20" symbolic="YES" id="Ioq-bs-dNt"/>
                 <constraint firstItem="ZLL-Et-PWS" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="JTv-GP-KA3"/>
+                <constraint firstItem="qVY-kW-az1" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="L4p-ep-5dR"/>
                 <constraint firstAttribute="trailing" secondItem="hzK-vu-1RX" secondAttribute="trailing" constant="20" symbolic="YES" id="M9w-fO-gOz"/>
                 <constraint firstItem="qet-kh-hRB" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="RUZ-Jt-5XX"/>
                 <constraint firstItem="lku-8T-sZE" firstAttribute="top" secondItem="ZLL-Et-PWS" secondAttribute="bottom" constant="6" symbolic="YES" id="Snx-eE-2dC"/>
+                <constraint firstItem="qVY-kW-az1" firstAttribute="top" secondItem="qet-kh-hRB" secondAttribute="bottom" constant="6" symbolic="YES" id="SwG-4a-7RC"/>
                 <constraint firstItem="08B-rI-8LA" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" symbolic="YES" id="VaG-S9-qeb"/>
                 <constraint firstItem="c8y-VJ-p2U" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Vdd-JU-GGZ"/>
                 <constraint firstAttribute="trailing" secondItem="08B-rI-8LA" secondAttribute="trailing" constant="20" symbolic="YES" id="XDP-fc-z3O"/>

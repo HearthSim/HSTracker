@@ -241,6 +241,15 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame)
     }
 
+    static func arenaHelperFrame() -> NSRect {
+        let height: CGFloat = 450
+        let frame = NSRect(x: 0,
+                           y: (hearthstoneWindow.frame.height / 2) - (height / 2),
+                           width: trackerWidth, height: height)
+
+        return hearthstoneWindow.relativeFrame(frame)
+    }
+
     static func secretTrackerFrame() -> NSRect {
         let frame = NSRect(x: 200, y: 550,
                            width: trackerWidth, height: 450)

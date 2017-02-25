@@ -24,11 +24,11 @@ class DeckWatcher {
             return
         }
 
-        queue = DispatchQueue(label: "", attributes: [])
+        queue = DispatchQueue(label: "be.michotte.hstracker.watchers.deck", attributes: [])
         if let queue = queue {
             isRunning = true
-            queue.async {
-                self.readSelectedDeck()
+            queue.async { [weak self] in
+                self?.readSelectedDeck()
             }
         }
     }
@@ -42,6 +42,7 @@ class DeckWatcher {
             guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
                   let mirror = hearthstone.mirror,
                   let deckId = mirror.getSelectedDeck() as? Int64 else {
+                Thread.sleep(forTimeInterval: 0.4)
                 continue
             }
 

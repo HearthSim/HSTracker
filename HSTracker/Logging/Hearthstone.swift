@@ -27,6 +27,7 @@ final class Hearthstone: NSObject {
     
     // watchers
     let deckWatcher = DeckWatcher()
+    let arenaWatcher = ArenaWatcher()
 
     var hearthstoneActive = false
     var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
