@@ -190,7 +190,14 @@ struct FullScreenFxHandler {
         }
         Log.info?.message("Trying to import arena deck from Hearthstone")
 
-        guard let hsDeck = mirror.getArenaDeck()?.deck else {
+        var hsMirrorDeck: MirrorDeck?
+        if let mDeck = mirror.getArenaDeck()?.deck {
+            hsMirrorDeck = mDeck
+        } else {
+            hsMirrorDeck = hearthstone.arenaDeckWatcher.selectedDeck
+        }
+        
+        guard let hsDeck = hsMirrorDeck else {
             Log.warning?.message("Can't get arena deck")
             game.set(activeDeck: nil)
             return

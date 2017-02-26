@@ -10,10 +10,10 @@ import Foundation
 
 class DeckWatcher {
 
-    private var isRunning = false
+    internal var isRunning = false
     private var _selectedDeckId: Int64 = 0
 
-    private var queue: DispatchQueue?
+    internal var queue: DispatchQueue?
 
     var selectedDeckId: Int64 {
         return _selectedDeckId
@@ -42,6 +42,7 @@ class DeckWatcher {
             guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
                   let mirror = hearthstone.mirror,
                   let deckId = mirror.getSelectedDeck() as? Int64 else {
+                Thread.sleep(forTimeInterval: 0.4)
                 continue
             }
 
@@ -50,4 +51,33 @@ class DeckWatcher {
             Thread.sleep(forTimeInterval: 0.4)
         }
     }
+}
+
+class ArenaDeckWatcher: DeckWatcher {
+    
+    private var _selectedDeck: MirrorDeck?
+    
+    var selectedDeck: MirrorDeck? {
+        return self._selectedDeck
+    }
+    
+    override var selectedDeckId: Int64 {
+        return selectedDeck?.id as Int64? ?? 0
+    }
+    
+    override func readSelectedDeck() {
+        while isRunning {
+            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+                let mirror = hearthstone.mirror,
+                let arenaInfo = mirror.getArenaDeck() else {
+                Thread.sleep(forTimeInterval: 0.4)
+                continue
+            }
+            
+            self._selectedDeck = arenaInfo.deck
+            
+            Thread.sleep(forTimeInterval: 0.4)
+        }
+    }
+    
 }

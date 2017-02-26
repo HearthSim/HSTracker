@@ -27,6 +27,7 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var theme: NSComboBox!
     @IBOutlet weak var allowFullscreen: NSButton!
     @IBOutlet weak var hideAllWhenNotInGame: NSButton!
+    @IBOutlet weak var hideAllWhenGameInBackground: NSButton!
 
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -56,6 +57,7 @@ class TrackersPreferences: NSViewController {
         theme.selectItem(at: themes.index(of: settings.theme) ?? 0)
         allowFullscreen.state = settings.canJoinFullscreen ? NSOnState : NSOffState
         hideAllWhenNotInGame.state = settings.hideAllTrackersWhenNotInGame ? NSOnState : NSOffState
+        hideAllWhenGameInBackground.state = settings.hideAllWhenGameInBackground ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {
@@ -113,6 +115,8 @@ class TrackersPreferences: NSViewController {
             settings.canJoinFullscreen = allowFullscreen.state == NSOnState
         } else if sender == hideAllWhenNotInGame {
             settings.hideAllTrackersWhenNotInGame = hideAllWhenNotInGame.state == NSOnState
+        } else if sender == hideAllWhenGameInBackground {
+            settings.hideAllWhenGameInBackground = hideAllWhenGameInBackground.state == NSOnState
         }
     }
 }

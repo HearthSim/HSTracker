@@ -32,6 +32,7 @@ struct LoadingScreenHandler {
 
             if game.currentMode == .draft {
                 //Watchers.ArenaWatcher.Run();
+                hearthstone.arenaDeckWatcher.start()
             } else if game.currentMode == .packopening {
                 //Watchers.PackWatcher.Run();
             } else if game.currentMode == .tavern_brawl {
@@ -40,6 +41,8 @@ struct LoadingScreenHandler {
                 hearthstone.deckWatcher.start()
             } else if game.previousMode == .tournament {
                 hearthstone.deckWatcher.stop()
+            } else if game.previousMode == .draft {
+                hearthstone.arenaDeckWatcher.stop()
             } else {
                 //Watchers.ArenaWatcher.Stop();
                 //Watchers.PackWatcher.Stop();

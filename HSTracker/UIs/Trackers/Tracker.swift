@@ -67,7 +67,7 @@ class Tracker: OverWindowController {
         let options = ["show_opponent_draw", "show_opponent_mulligan", "show_opponent_play",
             "show_player_draw", "show_player_mulligan", "show_player_play", "rarity_colors",
             "remove_cards_from_deck", "highlight_last_drawn", "highlight_cards_in_hand",
-            "highlight_discarded", "show_player_get", "hide_all_trackers_when_not_in_game"]
+            "highlight_discarded", "show_player_get"]
         for option in options {
             center.addObserver(self,
                                selector: #selector(trackerOptionsChange),

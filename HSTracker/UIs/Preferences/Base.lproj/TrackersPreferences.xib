@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -10,6 +10,7 @@
                 <outlet property="allowFullscreen" destination="aO1-IW-r7y" id="Y7p-zj-Y0J"/>
                 <outlet property="autoPositionTrackers" destination="TNp-Jh-qS9" id="tWk-Iu-CQp"/>
                 <outlet property="cardSize" destination="oRs-V7-1J6" id="hMc-ok-6ju"/>
+                <outlet property="hideAllWhenGameInBackground" destination="GbU-Ts-Vje" id="6E9-Rh-b40"/>
                 <outlet property="hideAllWhenNotInGame" destination="dGD-b8-UwI" id="OlZ-EN-L3z"/>
                 <outlet property="highlightCardsInHand" destination="MOS-w7-D1d" id="XUa-7d-V1f"/>
                 <outlet property="highlightDiscarded" destination="1Ry-pR-4H6" id="RCX-SP-P36"/>
@@ -221,6 +222,17 @@
                     </buttonCell>
                     <connections>
                         <action selector="checkboxClicked:" target="-2" id="Gw3-Pi-NjY"/>
+                    </connections>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GbU-Ts-Vje">
+                    <rect key="frame" x="18" y="21" width="444" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Hide all trackers when game is in background" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HEr-xo-koe">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="W0k-Vl-XqE"/>
                     </connections>
                 </button>
             </subviews>
