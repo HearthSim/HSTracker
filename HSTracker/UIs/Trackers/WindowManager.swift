@@ -142,7 +142,8 @@ class WindowManager {
     }
 
     private func redrawTrackers(reset: Bool = false) {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
+        guard let game = (NSApp.delegate as? AppDelegate)?.game,
+            let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
 
         let settings = Settings.instance
         let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone
@@ -178,6 +179,11 @@ class WindowManager {
             }
         } else {
             show(controller: secretTracker, show: false)
+        }
+
+        // arena helper
+        if settings.showArenaHelper && hearthstone.arenaWatcher.isRunning {
+            show(controller: secretTracker, show: true, frame: SizeHelper.arenaHelperFrame())
         }
 
         // card hud
@@ -256,7 +262,7 @@ class WindowManager {
             opponentTracker.update(cards: cards, reset: reset)
             opponentTracker.setWindowSizes()
 
-            if settings.autoPositionTrackers && hearthstone?.isHearthstoneRunning ?? false {
+            if settings.autoPositionTrackers && hearthstone.isHearthstoneRunning {
                 rect = SizeHelper.opponentTrackerFrame()
             } else {
                 rect = Settings.instance.opponentTrackerFrame
@@ -283,7 +289,7 @@ class WindowManager {
             playerTracker.update(cards: game.player.playerCardList, reset: reset)
             playerTracker.setWindowSizes()
 
-            if settings.autoPositionTrackers && hearthstone?.isHearthstoneRunning ?? false {
+            if settings.autoPositionTrackers && hearthstone.isHearthstoneRunning {
                 rect = SizeHelper.playerTrackerFrame()
             } else {
                 rect = settings.playerTrackerFrame
@@ -366,7 +372,7 @@ class WindowManager {
     }
 
     // MARK: - Utility functions
-    private func show(controller: OverWindowController, show: Bool,
+    func show(controller: OverWindowController, show: Bool,
                       frame: NSRect? = nil, title: String? = nil) {
         guard let window = controller.window else { return }
 

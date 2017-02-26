@@ -19,6 +19,7 @@ class GeneralPreferences: NSViewController {
     @IBOutlet weak var saveReplays: NSButton!
     @IBOutlet weak var enableDockBadge: NSButton!
     @IBOutlet weak var preferGoldenCards: NSButton!
+    @IBOutlet weak var useArenaHelper: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,7 @@ class GeneralPreferences: NSViewController {
         saveReplays.state = settings.saveReplays ? NSOnState : NSOffState
         enableDockBadge.state = settings.showAppHealth ? NSOnState : NSOffState
         preferGoldenCards.state = settings.preferGoldenCards ? NSOnState : NSOffState
+        useArenaHelper.state = settings.showArenaHelper ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -53,6 +55,8 @@ class GeneralPreferences: NSViewController {
             AppHealth.instance.updateBadge()
         } else if sender == preferGoldenCards {
             settings.preferGoldenCards = preferGoldenCards.state == NSOnState
+        } else if sender == useArenaHelper {
+            settings.showArenaHelper = useArenaHelper.state == NSOnState
         }
     }
 

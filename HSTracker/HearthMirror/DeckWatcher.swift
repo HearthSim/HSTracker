@@ -24,11 +24,11 @@ class DeckWatcher {
             return
         }
 
-        queue = DispatchQueue(label: "", attributes: [])
+        queue = DispatchQueue(label: "be.michotte.hstracker.watchers.deck", attributes: [])
         if let queue = queue {
             isRunning = true
-            queue.async {
-                self.readSelectedDeck()
+            queue.async { [weak self] in
+                self?.readSelectedDeck()
             }
         }
     }
