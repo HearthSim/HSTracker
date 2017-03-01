@@ -99,6 +99,7 @@
 "PROMO" = "Promotion";
 "KARA" = "Une nuit à Karazhan";
 "GANGS" = "Main basse sur Gadgetzan";
+"UNG" = "Voyage au centre d'Un'Goro";
 
 /* card type */
 "all_types" = "Tout";

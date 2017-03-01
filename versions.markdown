@@ -1,6 +1,11 @@
 # Unreleased
 ## New:
 - HSTracker is now localized in korean
+- There's an arena helper available when you craft your arena deck
+- Add an option to hide all trackers when not in game
+
+## Fixes:
+- Fixed an issue where HSTracker was using a lot of memory and cpu
 
 # 0.19.1
 ## Fixes:
