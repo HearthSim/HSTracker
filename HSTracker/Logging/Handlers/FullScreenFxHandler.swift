@@ -67,11 +67,7 @@ struct FullScreenFxHandler {
             }
         }
 
-        guard let decks = mirror.getDecks() as? [MirrorDeck] else {
-            Log.warning?.message("Can't get decks")
-            game.set(activeDeck: nil)
-            return
-        }
+        let decks = mirror.getDecks()
         guard let selectedDeck = decks.first({ $0.id as Int64 == selectedDeckId }) else {
             Log.warning?.message("No deck with id=\(selectedDeckId) found")
             game.set(activeDeck: nil)
@@ -107,10 +103,7 @@ struct FullScreenFxHandler {
                         })
                         if cardsDontMatch.success && numDifferentCards > 0 {
                             storedDeck.cards.removeAll()
-                            guard let cards = selectedDeck.cards as? [MirrorCard] else {
-                                game.set(activeDeck: nil)
-                                return
-                            }
+                            let cards = selectedDeck.cards
                             for card in cards {
                                 guard let c = Cards.by(cardId: card.cardId as String)
                                         else {
@@ -157,9 +150,7 @@ struct FullScreenFxHandler {
             deck.playerClass = hero.playerClass
             deck.hsDeckId.value = selectedDeckId
 
-            guard let cards = selectedDeck.cards as? [MirrorCard] else {
-                return
-            }
+            let cards = selectedDeck.cards
             do {
                 try realm.write {
                     realm.add(deck)
@@ -220,9 +211,7 @@ struct FullScreenFxHandler {
         }
 
         Log.info?.message("Arena deck does not exists, creating it.")
-        guard let cards = hsDeck.cards as? [MirrorCard] else {
-            return
-        }
+        let cards = hsDeck.cards
 
         guard let hero = Cards.hero(byId: hsDeck.hero as String) else {
             return

@@ -19,11 +19,7 @@ struct ArenaInfo {
         losses = info.losses as Int
         wins = info.wins as Int
         currentSlot = info.currentSlot as Int
-        if let mirrorRewards = info.rewards as? [MirrorRewardData] {
-            rewards = ArenaInfo.parseRewards(mirrorRewards: mirrorRewards)
-        } else {
-            rewards = []
-        }
+        rewards = ArenaInfo.parseRewards(mirrorRewards: info.rewards)
     }
 
     private static func parseRewards(mirrorRewards: [MirrorRewardData]) -> [RewardData] {

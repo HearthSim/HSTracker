@@ -124,8 +124,7 @@ class Deck: Object {
      * Compares the card content to the other deck
      */
     func isContentEqualTo(mirrorDeck: MirrorDeck) -> Bool {
-        guard let mirrorCards = mirrorDeck.cards as? [MirrorCard] else { return false }
-        
+        let mirrorCards = mirrorDeck.cards
         for c in self.cards {
             guard let othercard = mirrorCards.first(where: {$0.cardId == c.id}) else {
                 return false
@@ -139,7 +138,7 @@ class Deck: Object {
     
     func diffTo(mirrorDeck: MirrorDeck) -> (cards: [Card], success: Bool) {
         var diffs = [Card]()
-        guard let mirrorCards = mirrorDeck.cards as? [MirrorCard] else { return (diffs, false) }
+        let mirrorCards = mirrorDeck.cards
         
         for c in self.cards {
             guard let othercard = mirrorCards.first(where: {$0.cardId == c.id}) else {

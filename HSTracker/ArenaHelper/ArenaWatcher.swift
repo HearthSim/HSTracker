@@ -65,9 +65,8 @@ class ArenaWatcher {
             }
 
             var cards: [Card] = []
-            for item in choices {
-                if let mirrorCard = item as? MirrorCard,
-                    let cardInfo = getCardTierInfo(id: mirrorCard.cardId),
+            for mirrorCard in choices {
+                if let cardInfo = getCardTierInfo(id: mirrorCard.cardId),
                     let card = Cards.by(cardId: mirrorCard.cardId),
                     let index = heroes.indexOf(hero) {
                     card.cost = Int(cardInfo.values[index]) ?? 0

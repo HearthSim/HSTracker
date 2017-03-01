@@ -199,7 +199,7 @@ final class Hearthstone: NSObject {
             }
             if let hearthstoneApp = self.hearthstoneApp {
                 self.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
-                                            withBlocking: true)
+                                           blocking: true)
 
                 // waiting for mirror to be up and running
                 self.waitingForMirror = true
@@ -211,7 +211,7 @@ final class Hearthstone: NSObject {
                     } else {
                         // mirror might be partially initialized, reset
                         self.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
-                                                    withBlocking: true)
+                                                   blocking: true)
                         Thread.sleep(forTimeInterval: 0.5)
                     }
                 }

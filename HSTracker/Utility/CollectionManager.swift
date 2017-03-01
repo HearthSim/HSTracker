@@ -15,12 +15,12 @@ class CollectionManager {
     func collection() -> [String: [Bool: Int]] {
         // get collection first
         guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-              let collection = hearthstone.mirror?.getCardCollection() as? [MirrorCard]
-            else {
+            let mirror = hearthstone.mirror else {
                 Log.error?.message("Can't get card collection")
                 return [:]
         }
 
+        let collection = mirror.getCardCollection()
         var cards: [String: [Bool: Int]] = [:]
         for card in collection {
             if cards[card.cardId] == nil {
