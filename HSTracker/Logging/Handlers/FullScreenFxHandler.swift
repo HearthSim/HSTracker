@@ -174,6 +174,9 @@ struct FullScreenFxHandler {
                         Log.info?.message("Saving and using deck : \(deck)")
                         let deckId = deck.deckId
                         game.set(activeDeck: deckId)
+                        NotificationCenter.default
+                            .post(name: Notification.Name(rawValue: "reload_decks"),
+                                  object: deck)
                     }
                 }
             } catch {
@@ -243,6 +246,9 @@ struct FullScreenFxHandler {
                 if deck.isValid() {
                     Log.info?.message("Saving and using deck : \(deck)")
                     let deckId = deck.deckId
+                    NotificationCenter.default
+                        .post(name: Notification.Name(rawValue: "reload_decks"),
+                              object: deck)
                     game.set(activeDeck: deckId)
                 }
             }
