@@ -64,6 +64,15 @@ class InternalGameStats {
         gameStats.opponentCardbackId = opponentCardbackId
         gameStats.opponentHero = opponentHero
         gameStats.friendlyPlayerId = friendlyPlayerId
+        gameStats.opponentName = opponentName
+        gameStats.opponentRank = opponentRank
+        gameStats.opponentLegendRank = opponentLegendRank
+        gameStats.playerName = playerName
+        gameStats.rank = rank
+        gameStats.legendRank = legendRank
+        gameStats.stars = stars
+        gameStats.wasConceded = wasConceded
+        gameStats.turns = turns
         gameStats.scenarioId = scenarioId
         gameStats.serverInfo = serverInfo
         gameStats.season = season

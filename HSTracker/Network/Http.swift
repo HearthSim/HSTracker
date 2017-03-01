@@ -29,7 +29,7 @@ struct Http {
                                                 return
         }
 
-        Http.session.dataTask(with: urlRequest, completionHandler: { data, _, error in
+        Http.session.dataTask(with: urlRequest) { data, _, error in
             Log.info?.message("Fetching \(self.url) complete")
 
             if let error = error {
@@ -40,9 +40,9 @@ struct Http {
             } else if let data = data {
                 var convertedNSString: NSString?
                 NSString.stringEncoding(for: data,
-                                               encodingOptions: nil,
-                                               convertedString: &convertedNSString,
-                                               usedLossyConversion: nil)
+                                        encodingOptions: nil,
+                                        convertedString: &convertedNSString,
+                                        usedLossyConversion: nil)
 
                 if let html = convertedNSString as? String,
                     let doc = Kanna.HTML(html: html, encoding: .utf8) {
@@ -55,7 +55,7 @@ struct Http {
                     }
                 }
             }
-            }) .resume()
+            }.resume()
     }
 
     func json(method: HttpMethod,
@@ -70,7 +70,7 @@ struct Http {
                                                 return
         }
 
-        Http.session.dataTask(with: urlRequest, completionHandler: { data, response, error in
+        Http.session.dataTask(with: urlRequest) { data, response, error in
             Log.info?.message("Fetching \(self.url) complete")
 
             if let error = error {
@@ -82,7 +82,7 @@ struct Http {
             } else if let data = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data,
-                        options: .allowFragments)
+                                                                options: .allowFragments)
                     DispatchQueue.main.async {
                         completion(json)
                     }
@@ -94,12 +94,12 @@ struct Http {
                     }
                 }
             } else {
-                Log.error?.message("\(error), \(data), \(response)")
+                Log.error?.message("\(#function): \(error), \(data), \(response)")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
             }
-            }) .resume()
+            }.resume()
     }
 
     func upload(method: HttpMethod,
@@ -113,15 +113,16 @@ struct Http {
         }
 
         Http.session.uploadTask(with: urlRequest,
-                                           from: data, completionHandler: { data, response, error in
-                                            if let error = error {
-                                                Log.error?.message("request error : \(error)")
-                                            } else if let data = data {
-                                                Log.verbose?.message("\(data)")
-                                            } else {
-                                                Log.error?.message("\(error), \(data), \(response)")
-                                            }
-        }) .resume()
+                                from: data) { data, response, error in
+                                    if let error = error {
+                                        Log.error?.message("request error : \(error)")
+                                    } else if let data = data {
+                                        Log.verbose?.message("upload result : \(data)")
+                                    } else {
+                                        Log.error?.message("\(#function): \(error), "
+                                            + "data: \(data), response: \(response)")
+                                    }
+            }.resume()
     }
 
     private func prepareRequest(method: HttpMethod,

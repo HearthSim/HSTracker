@@ -133,78 +133,86 @@ class LogUploader {
         
         inProgress.append(item)
 
-        do {
-            let uploadMetaData = UploadMetaData.generate(game: statistic)
-            if let date = uploadMetaData.dateStart, fromFile {
-                uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: date)?.build
-            } else if let build = BuildDates.getByProductDb() {
-                uploadMetaData.hearthstoneBuild = build.build
-            } else {
-                uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: Date())?.build
-            }
-            let metaData: [String : Any] = try wrap(uploadMetaData)
-            Log.info?.message("Uploading \(item.hash) -> \(metaData)")
+        let uploadMetaData = UploadMetaData.generate(game: statistic)
+        if let date = uploadMetaData.dateStart, fromFile {
+            uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: date)?.build
+        } else if let build = BuildDates.getByProductDb() {
+            uploadMetaData.hearthstoneBuild = build.build
+        } else {
+            uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: Date())?.build
+        }
 
-            let headers = [
-                "X-Api-Key": HSReplayAPI.apiKey,
-                "Authorization": "Token \(token)"
-            ]
+        guard let metaData: [String : Any] = try? wrap(uploadMetaData) else {
+            Log.warning?.message("Can not encode to json game metadata")
+            completion(.failed(error: "Can not encode to json game metadata"))
+            return
+        }
+        Log.info?.message("Uploading \(item.hash) -> \(metaData)")
 
-            var statId: String?
-            if let stat = statistic {
-                statId = stat.statId
-            }
+        let headers = [
+            "X-Api-Key": HSReplayAPI.apiKey,
+            "Authorization": "Token \(token)"
+        ]
 
-            let http = Http(url: HSReplay.uploadRequestUrl)
-            http.json(method: .post,
-                      parameters: metaData,
-                      headers: headers) { json in
-                        if let json = json as? [String: Any],
-                            let putUrl = json["put_url"] as? String,
-                            let uploadShortId = json["shortid"] as? String {
+        var statId: String?
+        if let stat = statistic {
+            statId = stat.statId
+        }
 
-                            if let data = log.data(using: .utf8) {
-                                do {
-                                    let gzip = try data.gzipped()
+        let http = Http(url: HSReplay.uploadRequestUrl)
+        http.json(method: .post,
+                  parameters: metaData,
+                  headers: headers) { jsonData in
 
-                                    let http = Http(url: putUrl)
-                                    http.upload(method: .put,
-                                                headers: [
-                                                    "Content-Type": "text/plain",
-                                                    "Content-Encoding": "gzip"
-                                        ],
-                                                data: gzip)
-                                } catch {
-                                    Log.error?.message("can not gzip")
-                                }
-                            }
-
-                            if let statId = statId {
-                                do {
-                                    let realm = try Realm()
-                                    if let existing = realm.objects(GameStats.self)
-                                        .filter("statId = '\(statId)'").first {
-                                        try realm.write {
-                                            existing.hsReplayId = uploadShortId
-                                        }
-                                    }
-                                } catch {
-                                    Log.error?.message("Can not update statistic : \(error)")
-                                }
-                            }
-
-                            let result = UploadResult.successful(replayId: uploadShortId)
-
-                            Log.info?.message("\(item.hash) upload done: Success")
-                            inProgress = inProgress.filter({ $0.hash == item.hash })
-
-                            completion(result)
+                    guard let json = jsonData as? [String: Any],
+                        let putUrl = json["put_url"] as? String,
+                        let uploadShortId = json["shortid"] as? String else {
+                            Log.error?.message("JSON Error : \(jsonData)")
+                            completion(.failed(error: "Can not gzip : \(jsonData)"))
                             return
+                    }
+
+                    guard let data = log.data(using: .utf8) else {
+                        Log.error?.message("Can not convert log to data")
+                        completion(.failed(error: "Can not convert log to data"))
+                        return
+                    }
+                    guard let gzip = try? data.gzipped() else {
+                        Log.error?.message("Can not gzip log")
+                        completion(.failed(error: "Can not gzip log"))
+                        return
+                    }
+
+                    let http = Http(url: putUrl)
+                    http.upload(method: .put,
+                                headers: [
+                                    "Content-Type": "text/plain",
+                                    "Content-Encoding": "gzip"
+                        ],
+                                data: gzip)
+
+                    guard let statId = statId,
+                        let realm = try? Realm(),
+                        let existing = realm.objects(GameStats.self)
+                            .filter("statId = '\(statId)'").first else {
+                                Log.error?.message("Can not update statistic")
+                                completion(.failed(error: "Can not update statistic"))
+                                return
+                    }
+                    do {
+                        try realm.write {
+                            existing.hsReplayId = uploadShortId
                         }
-            }
-        } catch {
-            Log.error?.message("\(error)")
-            completion(.failed(error: "\(error)"))
+                    } catch {
+                        Log.error?.message("Can not update statistic")
+                        completion(.failed(error: "Can not update statistic"))
+                        return
+                    }
+
+                    Log.info?.message("\(item.hash) upload done: Success")
+                    inProgress = inProgress.filter({ $0.hash == item.hash })
+
+                    completion(.successful(replayId: uploadShortId))
         }
     }
 }

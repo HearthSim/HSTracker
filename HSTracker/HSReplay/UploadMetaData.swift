@@ -117,7 +117,7 @@ class UploadMetaData {
 
         let scenarioId = game?.serverInfo?.mission ?? 0
         if scenarioId > 0 {
-				metaData.scenarioId = scenarioId
+            metaData.scenarioId = scenarioId
         }
 
         var build: Int? = nil

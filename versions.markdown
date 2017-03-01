@@ -3,9 +3,13 @@
 - HSTracker is now localized in korean
 - There's an arena helper available when you craft your arena deck
 - Add an option to hide all trackers when not in game
+- Updated for patch 7.1.0.17720
 
 ## Fixes:
 - Fixed an issue where HSTracker was using a lot of memory and cpu
+- Fixed an issue where HSTracker was not saving all informations in statistics
+- Fixed an issue where HSTracker was not uploading correctly to HsReplay
+- Decks imported from Hearthstone are now visible in deck menu and dock menu
 
 # 0.19.1
 ## Fixes:
