@@ -1,4 +1,4 @@
-# Unreleased
+# 0.19.2
 ## New:
 - HSTracker is now localized in korean
 - There's an arena helper available when you craft your arena deck
