@@ -119,6 +119,17 @@ final class Settings {
         set { set(name: "show_floating_card", value: newValue) }
         get { return get(name: "show_floating_card") as? Bool ?? true }
     }
+    static var floatingCardStyle: FloatingCardStyle {
+        set { set(name: "floating_card_style", value: newValue.rawValue) }
+        get {
+            if let _style = get(name: "floating_card_style") as? String,
+               let style = FloatingCardStyle(rawValue: _style) {
+                return style
+            }
+            return .image
+        }
+    }
+
     static var showTopdeckchance: Bool {
         set { set(name: "show_topdeck_chance", value: newValue) }
         get { return get(name: "show_topdeck_chance") as? Bool ?? true }

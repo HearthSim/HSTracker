@@ -67,7 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         }
                     }
                 }
-                
+
                 if oldSchemaVersion < 4 {
                     // deck.version changes from string to two ints (major, minor)
                     migration.enumerateObjects(ofType:
@@ -203,7 +203,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             let path = Settings.hearthstonePath
             self.hearthstone.assetGenerator = try? HearthAssets(path: path)
-            //self.hearthstone.assetGenerator?.locale = locale
+            self.hearthstone.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
         }
 
         let databaseOperation = BlockOperation {

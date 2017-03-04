@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FloatingCard" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="imageView" destination="6Oc-im-VnY" id="Ec7-Lv-9JJ"/>
                 <outlet property="scrollview" destination="L0k-t9-pNP" id="Xn2-G3-3NX"/>
                 <outlet property="title" destination="EJZ-Hb-t7o" id="QMV-TR-Yty"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="rsA-hu-GI1"/>
@@ -58,6 +59,11 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Oc-im-VnY">
+                        <rect key="frame" x="0.0" y="0.0" width="179" height="250"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="TheCoin" id="IKM-g0-sQD"/>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="L0k-t9-pNP" secondAttribute="trailing" id="2aY-C8-a8e"/>
@@ -72,4 +78,7 @@
             <point key="canvasLocation" x="345" y="278"/>
         </window>
     </objects>
+    <resources>
+        <image name="TheCoin" width="179" height="250"/>
+    </resources>
 </document>

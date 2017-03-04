@@ -28,6 +28,7 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var allowFullscreen: NSButton!
     @IBOutlet weak var hideAllWhenNotInGame: NSButton!
     @IBOutlet weak var hideAllWhenGameInBackground: NSButton!
+    @IBOutlet weak var floatingCardStyle: NSComboBox!
 
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -38,7 +39,7 @@ class TrackersPreferences: NSViewController {
         removeCards.state = Settings.removeCardsFromDeck ? NSOnState : NSOffState
         highlightDiscarded.state = Settings.highlightDiscarded ? NSOnState : NSOffState
         opacity.doubleValue = Settings.trackerOpacity
-        let index: Int
+        var index: Int
         switch Settings.cardSize {
         case .tiny: index = 0
         case .small: index = 1
@@ -52,11 +53,20 @@ class TrackersPreferences: NSViewController {
         showSecretHelper.state = Settings.showSecretHelper ? NSOnState : NSOffState
         showRarityColors.state = Settings.showRarityColors ? NSOnState : NSOffState
         showFloatingCard.state = Settings.showFloatingCard ? NSOnState : NSOffState
-        showFloatingCard.state = Settings.showTopdeckchance ? NSOnState : NSOffState
+        showTopdeckChance.state = Settings.showTopdeckchance ? NSOnState : NSOffState
+
+        floatingCardStyle.isEnabled = Settings.showFloatingCard
+        switch Settings.floatingCardStyle {
+        case .text: index = 0
+        case .image: index = 1
+        }
+        floatingCardStyle.selectItem(at: index)
+
         theme.selectItem(at: themes.index(of: Settings.theme) ?? 0)
         allowFullscreen.state = Settings.canJoinFullscreen ? NSOnState : NSOffState
         hideAllWhenNotInGame.state = Settings.hideAllTrackersWhenNotInGame ? NSOnState : NSOffState
-        hideAllWhenGameInBackground.state = Settings.hideAllWhenGameInBackground ? NSOnState : NSOffState
+        hideAllWhenGameInBackground.state = Settings.hideAllWhenGameInBackground
+            ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {

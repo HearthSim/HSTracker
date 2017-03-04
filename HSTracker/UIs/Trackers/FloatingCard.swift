@@ -8,11 +8,18 @@
 
 import Foundation
 import TextAttributes
+import CleanroomLogger
+
+enum FloatingCardStyle: String {
+    case text
+    case image
+}
 
 class FloatingCard: OverWindowController {
 
     @IBOutlet weak var title: NSTextField!
     @IBOutlet weak var scrollview: NSScrollView!
+    @IBOutlet weak var imageView: NSImageView!
 
     // for reference http://stackoverflow.com/questions/24062437
     var text: NSTextView? {
@@ -46,20 +53,51 @@ class FloatingCard: OverWindowController {
         self.drawChanceTop = drawChanceTop
         self.drawChanceTop2 = drawChanceTop2
         self.card = card
-        reloadText()
+        reload()
     }
 
     func set(drawChanceTop: Float) {
         self.drawChanceTop = drawChanceTop
-        reloadText()
+        reload()
     }
     
     func set(drawChanceTop2: Float) {
         self.drawChanceTop2 = drawChanceTop2
-        reloadText()
+        reload()
+    }
+
+    private func reload() {
+        switch Settings.floatingCardStyle {
+        case .image: reloadImage()
+        case .text: reloadText()
+        }
+    }
+
+    private func reloadImage() {
+        guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+            let card = card else {
+            imageView.image = nil
+            return
+        }
+
+        title.isHidden = true
+        scrollview.isHidden = true
+        imageView.isHidden = false
+
+        hearthstone.assetGenerator?.generate(card: card) { [weak self] (image, error) in
+                if let image = image {
+                    self?.imageView.image = image
+                } else if let error = error {
+                    Log.warning?.message("asset generation: \(error)")
+            }
+        }
     }
 
     private func reloadText() {
+        title.isHidden = false
+        scrollview.isHidden = false
+        imageView.isHidden = true
+
         var information = ""
         if let card = card, let title = self.title {
             title.attributedStringValue = NSAttributedString(string: card.name,

@@ -86,6 +86,7 @@ struct Database {
                     card.enName = name
                 } else {
                     let card = Card()
+                    card.jsonRepresentation = jsonCard
                     card.id = cardId
 
                     card.isStandard = !CardSet.wildSets().contains(set)

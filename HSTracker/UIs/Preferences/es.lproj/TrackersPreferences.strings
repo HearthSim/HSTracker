@@ -76,3 +76,12 @@
 
 /* Class = "NSButtonCell"; title = "Hide all trackers if not in game"; ObjectID = "hvr-dD-qVr"; */
 "hvr-dD-qVr.title" = "Hide all trackers if not in game";
+
+/* Class = "NSTextFieldCell"; title = "Floating card style"; ObjectID = "36t-98-K9E"; */
+"36t-98-K9E.title" = "Floating card style";
+
+/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[0] = "Text"; ObjectID = "GY2-Lg-KWo"; */
+"GY2-Lg-KWo.ibShadowedObjectValues[0]" = "Text";
+
+/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[1] = "Image"; ObjectID = "GY2-Lg-KWo"; */
+"GY2-Lg-KWo.ibShadowedObjectValues[1]" = "Image";
