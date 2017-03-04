@@ -44,7 +44,7 @@ final class Card {
     var highlightFrame = false
 
     var englishName: String {
-        if let language = Settings.instance.hearthstoneLanguage, language == "enUS" {
+        if let language = Settings.hearthstoneLanguage, language == "enUS" {
             return self.name
         }
         return self.enName
@@ -73,13 +73,13 @@ final class Card {
 
     func textColor() -> NSColor {
         var color: NSColor
-        if highlightDraw && Settings.instance.highlightLastDrawn {
+        if highlightDraw && Settings.highlightLastDrawn {
             color = NSColor(red: 1, green: 0.647, blue: 0, alpha: 1)
-        } else if highlightInHand && Settings.instance.highlightCardsInHand {
-            color = Settings.instance.playerInHandColor
+        } else if highlightInHand && Settings.highlightCardsInHand {
+            color = Settings.playerInHandColor
         } else if count <= 0 || jousted {
             color = NSColor(red: 0.501, green: 0.501, blue: 0.501, alpha: 1)
-        } else if wasDiscarded && Settings.instance.highlightDiscarded {
+        } else if wasDiscarded && Settings.highlightDiscarded {
             color = NSColor(red: 0.803, green: 0.36, blue: 0.36, alpha: 1)
         } else {
             color = NSColor.white

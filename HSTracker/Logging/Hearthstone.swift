@@ -35,7 +35,7 @@ final class Hearthstone: NSObject {
     var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
     
     override init() {
-        logReaderManager = LogReaderManager(logPath: Settings.instance.hearthstoneLogPath)
+        logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath)
         super.init()
     }
 
@@ -48,7 +48,7 @@ final class Hearthstone: NSObject {
     }
 
     static func validatedHearthstonePath() -> Bool {
-        let path = "\(Settings.instance.hearthstoneLogPath)/Hearthstone.app"
+        let path = "\(Settings.hearthstonePath)/Hearthstone.app"
         let exists = FileManager.default.fileExists(atPath: path)
         AppHealth.instance.setHSInstalled(flag: exists)
         return exists
@@ -277,7 +277,7 @@ final class Hearthstone: NSObject {
                 .post(name: Notification.Name(rawValue: "hearthstone_closed"), object: nil)
             AppHealth.instance.setHearthstoneRunning(flag: false)
 
-            if Settings.instance.quitWhenHearthstoneCloses {
+            if Settings.quitWhenHearthstoneCloses {
                 NSApplication.shared().terminate(self)
             } else {
                 Log.info?.message("Not closing app since setting says so.")
@@ -316,10 +316,6 @@ final class Hearthstone: NSObject {
     var configPath: String {
         return NSString(string: "~/Library/Preferences/Blizzard/Hearthstone/log.config")
             .expandingTildeInPath
-    }
-
-    var logPath: String {
-        return Settings.instance.hearthstoneLogPath
     }
 
     var isHearthstoneRunning: Bool {

@@ -105,7 +105,7 @@ class LogUploader {
     static func upload(logLines: [String], statistic: InternalGameStats? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
-        guard let token = Settings.instance.hsReplayUploadToken else {
+        guard let token = Settings.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))
             return

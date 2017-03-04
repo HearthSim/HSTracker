@@ -40,7 +40,7 @@ struct Database {
 
     func loadDatabase(splashscreen: Splashscreen?) {
         var langs: [String] = []
-        if let language = Settings.instance.hearthstoneLanguage, language != "enUS" {
+        if let language = Settings.hearthstoneLanguage, language != "enUS" {
             langs += [language]
         }
         langs += ["enUS"]

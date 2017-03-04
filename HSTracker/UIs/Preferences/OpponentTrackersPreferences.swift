@@ -28,60 +28,57 @@ class OpponentTrackersPreferences: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        showOpponentTracker.state = settings.showOpponentTracker ? NSOnState : NSOffState
-        showCardHuds.state = settings.showCardHuds ? NSOnState : NSOffState
-        clearTrackersOnGameEnd.state = settings.clearTrackersOnGameEnd ? NSOnState : NSOffState
-        showOpponentCardCount.state = settings.showOpponentCardCount ? NSOnState : NSOffState
-        showOpponentDrawChance.state = settings.showOpponentDrawChance ? NSOnState : NSOffState
-        showCthunCounter.state = settings.showOpponentCthun ? NSOnState : NSOffState
-        showSpellCounter.state = settings.showOpponentSpell ? NSOnState : NSOffState
-        includeCreated.state = settings.showOpponentCreated ? NSOnState : NSOffState
-        showDeathrattleCounter.state = settings.showOpponentDeathrattle ? NSOnState : NSOffState
-        showPlayerClass.state = settings.showOpponentClassInTracker ? NSOnState : NSOffState
-        showBoardDamage.state = settings.opponentBoardDamage ? NSOnState : NSOffState
-        showGraveyard.state = settings.showOpponentGraveyard ? NSOnState : NSOffState
-        showGraveyardDetails.state = settings.showOpponentGraveyardDetails ? NSOnState : NSOffState
+        showOpponentTracker.state = Settings.showOpponentTracker ? NSOnState : NSOffState
+        showCardHuds.state = Settings.showCardHuds ? NSOnState : NSOffState
+        clearTrackersOnGameEnd.state = Settings.clearTrackersOnGameEnd ? NSOnState : NSOffState
+        showOpponentCardCount.state = Settings.showOpponentCardCount ? NSOnState : NSOffState
+        showOpponentDrawChance.state = Settings.showOpponentDrawChance ? NSOnState : NSOffState
+        showCthunCounter.state = Settings.showOpponentCthun ? NSOnState : NSOffState
+        showSpellCounter.state = Settings.showOpponentSpell ? NSOnState : NSOffState
+        includeCreated.state = Settings.showOpponentCreated ? NSOnState : NSOffState
+        showDeathrattleCounter.state = Settings.showOpponentDeathrattle ? NSOnState : NSOffState
+        showPlayerClass.state = Settings.showOpponentClassInTracker ? NSOnState : NSOffState
+        showBoardDamage.state = Settings.opponentBoardDamage ? NSOnState : NSOffState
+        showGraveyard.state = Settings.showOpponentGraveyard ? NSOnState : NSOffState
+        showGraveyardDetails.state = Settings.showOpponentGraveyardDetails ? NSOnState : NSOffState
         showGraveyardDetails.isEnabled = showGraveyard.state == NSOnState
-        showJadeCounter.state = settings.showOpponentJadeCounter ? NSOnState : NSOffState
+        showJadeCounter.state = Settings.showOpponentJadeCounter ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-
         if sender == showOpponentTracker {
-            settings.showOpponentTracker = showOpponentTracker.state == NSOnState
+            Settings.showOpponentTracker = showOpponentTracker.state == NSOnState
         } else if sender == showCardHuds {
-            settings.showCardHuds = showCardHuds.state == NSOnState
+            Settings.showCardHuds = showCardHuds.state == NSOnState
         } else if sender == clearTrackersOnGameEnd {
-            settings.clearTrackersOnGameEnd = clearTrackersOnGameEnd.state == NSOnState
+            Settings.clearTrackersOnGameEnd = clearTrackersOnGameEnd.state == NSOnState
         } else if sender == showOpponentCardCount {
-            settings.showOpponentCardCount = showOpponentCardCount.state == NSOnState
+            Settings.showOpponentCardCount = showOpponentCardCount.state == NSOnState
         } else if sender == showOpponentDrawChance {
-            settings.showOpponentDrawChance = showOpponentDrawChance.state == NSOnState
+            Settings.showOpponentDrawChance = showOpponentDrawChance.state == NSOnState
         } else if sender == showCthunCounter {
-            settings.showOpponentCthun = showCthunCounter.state == NSOnState
+            Settings.showOpponentCthun = showCthunCounter.state == NSOnState
         } else if sender == showSpellCounter {
-            settings.showOpponentSpell = showSpellCounter.state == NSOnState
+            Settings.showOpponentSpell = showSpellCounter.state == NSOnState
         } else if sender == includeCreated {
-            settings.showOpponentCreated = includeCreated.state == NSOnState
+            Settings.showOpponentCreated = includeCreated.state == NSOnState
         } else if sender == showDeathrattleCounter {
-            settings.showOpponentDeathrattle = showDeathrattleCounter.state == NSOnState
+            Settings.showOpponentDeathrattle = showDeathrattleCounter.state == NSOnState
         } else if sender == showPlayerClass {
-            settings.showOpponentClassInTracker = showPlayerClass.state == NSOnState
+            Settings.showOpponentClassInTracker = showPlayerClass.state == NSOnState
         } else if sender == showBoardDamage {
-            settings.opponentBoardDamage = showBoardDamage.state == NSOnState
+            Settings.opponentBoardDamage = showBoardDamage.state == NSOnState
         } else if sender == showGraveyard {
-            settings.showOpponentGraveyard = showGraveyard.state == NSOnState
+            Settings.showOpponentGraveyard = showGraveyard.state == NSOnState
             if showGraveyard.state == NSOnState {
                 showGraveyardDetails.isEnabled = true
             } else {
                 showGraveyardDetails.isEnabled = false
             }
         } else if sender == showGraveyardDetails {
-            settings.showOpponentGraveyardDetails = showGraveyardDetails.state == NSOnState
+            Settings.showOpponentGraveyardDetails = showGraveyardDetails.state == NSOnState
         } else if sender == showJadeCounter {
-            settings.showOpponentJadeCounter = showJadeCounter.state == NSOnState
+            Settings.showOpponentJadeCounter = showJadeCounter.state == NSOnState
         }
     }
 }

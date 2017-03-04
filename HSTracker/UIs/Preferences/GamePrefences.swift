@@ -22,10 +22,9 @@ class GamePreferences: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
 
         if Hearthstone.validatedHearthstonePath() {
-            hearthstonePath.stringValue = settings.hearthstoneLogPath
+            hearthstonePath.stringValue = Settings.hearthstonePath
             hearthstonePath.isEnabled = false
             chooseHearthstonePath.isEnabled = false
             checkImage.image = NSImage(named: "check")
@@ -41,17 +40,17 @@ class GamePreferences: NSViewController {
             alert.runModal()
         }
 
-        if let locale = settings.hsTrackerLanguage,
+        if let locale = Settings.hsTrackerLanguage,
             let index = Language.hstrackerLanguages.index(of: locale) {
             hstrackerLanguage.selectItem(at: index)
         }
-        if let locale = settings.hearthstoneLanguage,
+        if let locale = Settings.hearthstoneLanguage,
             let index = Language.hsLanguages.index(of: locale) {
             hearthstoneLanguage.selectItem(at: index)
         }
 
-        autoArchiveArenaDeck.state = settings.autoArchiveArenaDeck ? NSOnState : NSOffState
-        autoSelectDecks.state = settings.autoDeckDetection ? NSOnState : NSOffState
+        autoArchiveArenaDeck.state = Settings.autoArchiveArenaDeck ? NSOnState : NSOffState
+        autoSelectDecks.state = Settings.autoDeckDetection ? NSOnState : NSOffState
     }
 
     @IBAction func choosePath(_ sender: NSButton) {
@@ -68,24 +67,21 @@ class GamePreferences: NSViewController {
 
         if openDialog.runModal() == NSModalResponseOK {
             if let url = openDialog.urls.first {
-                let settings = Settings.instance
                 if sender == chooseHearthstonePath {
                     let path = url.path
                     hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
                     checkImage.image = NSImage(named: "check")
-                    settings.hearthstoneLogPath = hearthstonePath.stringValue
+                    Settings.hearthstonePath = hearthstonePath.stringValue
                 }
             }
         }
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-
         if sender == autoArchiveArenaDeck {
-            settings.autoArchiveArenaDeck = autoArchiveArenaDeck.state == NSOnState
+            Settings.autoArchiveArenaDeck = autoArchiveArenaDeck.state == NSOnState
         } else if sender == autoSelectDecks {
-            settings.autoDeckDetection = autoSelectDecks.state == NSOnState
+            Settings.autoDeckDetection = autoSelectDecks.state == NSOnState
         }
     }
 }
@@ -121,16 +117,15 @@ extension GamePreferences: NSComboBoxDataSource, NSComboBoxDelegate {
 
     func comboBoxSelectionDidChange(_ notification: Notification) {
         if let sender = notification.object as? NSComboBox {
-            let settings = Settings.instance
             if sender == hearthstoneLanguage {
                 let hearthstone = Language.hsLanguages[hearthstoneLanguage!.indexOfSelectedItem]
-                if settings.hearthstoneLanguage != hearthstone {
-                    settings.hearthstoneLanguage = hearthstone
+                if Settings.hearthstoneLanguage != hearthstone {
+                    Settings.hearthstoneLanguage = hearthstone
                 }
             } else if sender == hstrackerLanguage {
                 let hstracker = Language.hstrackerLanguages[hstrackerLanguage!.indexOfSelectedItem]
-                if settings.hsTrackerLanguage != hstracker {
-                    settings.hsTrackerLanguage = hstracker
+                if Settings.hsTrackerLanguage != hstracker {
+                    Settings.hsTrackerLanguage = hstracker
                 }
             }
         }

@@ -33,7 +33,7 @@ struct LoadingScreenHandler {
 
             if game.currentMode == .draft {
                 hearthstone.arenaDeckWatcher.start()
-                if Settings.instance.showArenaHelper {
+                if Settings.showArenaHelper {
                     hearthstone.arenaWatcher.start()
                 }
             } else if game.previousMode == .draft {

@@ -140,7 +140,7 @@ class Tracker: OverWindowController {
     }
 
     func setOpacity() {
-        let alpha = CGFloat(Settings.instance.trackerOpacity / 100.0)
+        let alpha = CGFloat(Settings.trackerOpacity / 100.0)
         self.window!.backgroundColor = NSColor(red: 0,
                                                green: 0,
                                                blue: 0,
@@ -223,13 +223,12 @@ class Tracker: OverWindowController {
 
     fileprivate func updateCardFrames(game: Game) {
         guard let windowFrame = self.window?.contentView?.frame else { return }
-        let settings = Settings.instance
 
         let windowWidth = windowFrame.width
         let windowHeight = windowFrame.height
 
         let ratio: CGFloat
-        switch settings.cardSize {
+        switch Settings.cardSize {
         case .tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
         case .small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
         case .medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
@@ -246,8 +245,8 @@ class Tracker: OverWindowController {
         let jade: Int
 
         if playerType == .opponent {
-            cardCounter.isHidden = !settings.showOpponentCardCount
-            opponentDrawChance.isHidden = !settings.showOpponentDrawChance
+            cardCounter.isHidden = !Settings.showOpponentCardCount
+            opponentDrawChance.isHidden = !Settings.showOpponentDrawChance
             playerDrawChance.isHidden = true
 
             showCthunCounter = WotogCounterHelper.showOpponentCthunCounter
@@ -256,13 +255,13 @@ class Tracker: OverWindowController {
             showGraveyard = WotogCounterHelper.showOpponentGraveyard
             showJadeCounter = WotogCounterHelper.showOpponentJadeCounter
             proxy = WotogCounterHelper.opponentCthunProxy
-            playerClass.isHidden = !settings.showOpponentClassInTracker
+            playerClass.isHidden = !Settings.showOpponentClassInTracker
             recordTracker.isHidden = true
             jade = WotogCounterHelper.opponentNextJadeGolem
         } else {
-            cardCounter.isHidden = !settings.showPlayerCardCount
+            cardCounter.isHidden = !Settings.showPlayerCardCount
             opponentDrawChance.isHidden = true
-            playerDrawChance.isHidden = !settings.showPlayerDrawChance
+            playerDrawChance.isHidden = !Settings.showPlayerDrawChance
 
             showCthunCounter = WotogCounterHelper.showPlayerCthunCounter
             showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
@@ -270,12 +269,12 @@ class Tracker: OverWindowController {
             showGraveyard = WotogCounterHelper.showPlayerGraveyard
             showJadeCounter = WotogCounterHelper.showPlayerJadeCounter
             proxy = WotogCounterHelper.playerCthunProxy
-            playerClass.isHidden = !settings.showDeckNameInTracker
-            recordTracker.isHidden = !settings.showWinLossRatio
+            playerClass.isHidden = !Settings.showDeckNameInTracker
+            recordTracker.isHidden = !Settings.showWinLossRatio
             jade = WotogCounterHelper.playerNextJadeGolem
         }
         let fatigue = player(game: game).fatigue > 0
-        fatigueTracker.isHidden = !(settings.fatigueIndicator && fatigue)
+        fatigueTracker.isHidden = !(Settings.fatigueIndicator && fatigue)
         graveyardCounter.isHidden = !showGraveyard
         jadeCounter.isHidden = !showJadeCounter
 
@@ -442,7 +441,7 @@ class Tracker: OverWindowController {
         }
 
         var cardHeight: CGFloat
-        switch settings.cardSize {
+        switch Settings.cardSize {
         case .tiny: cardHeight = CGFloat(kTinyRowHeight)
         case .small: cardHeight = CGFloat(kSmallRowHeight)
         case .medium: cardHeight = CGFloat(kMediumRowHeight)
@@ -512,9 +511,9 @@ class Tracker: OverWindowController {
                                              width: windowWidth,
                                              height: smallFrameHeight)
             if playerType == .opponent {
-                graveyardCounter?.displayDetails = settings.showOpponentGraveyardDetails
+                graveyardCounter?.displayDetails = Settings.showOpponentGraveyardDetails
             } else {
-                graveyardCounter?.displayDetails = settings.showPlayerGraveyardDetails
+                graveyardCounter?.displayDetails = Settings.showPlayerGraveyardDetails
             }
             graveyardCounter?.cardHeight = cardHeight
             graveyardCounter?.needsDisplay = true
@@ -610,7 +609,7 @@ class Tracker: OverWindowController {
 
     fileprivate func areEqualForList(_ c1: Card, _ c2: Card) -> Bool {
         return c1.id == c2.id && c1.jousted == c2.jousted && c1.isCreated == c2.isCreated
-            && (!Settings.instance.highlightDiscarded || c1.wasDiscarded == c2.wasDiscarded)
+            && (!Settings.highlightDiscarded || c1.wasDiscarded == c2.wasDiscarded)
     }
 }
 
@@ -631,11 +630,10 @@ extension Tracker: NSWindowDelegate {
 
     private func onWindowMove() {
         if !self.isWindowLoaded || !self.hasValidFrame {return}
-        let settings = Settings.instance
         if playerType == .player {
-            settings.playerTrackerFrame = self.window?.frame
+            Settings.playerTrackerFrame = self.window?.frame
         } else {
-            settings.opponentTrackerFrame = self.window?.frame
+            Settings.opponentTrackerFrame = self.window?.frame
         }
     }
 }
@@ -668,7 +666,7 @@ extension Tracker: CardCellHover {
             "frame": frame
         ] as [String : Any]
         
-        if self.playerType == .player && Settings.instance.showTopdeckchance {
+        if self.playerType == .player && Settings.showTopdeckchance {
             let game = (NSApp.delegate as? AppDelegate)?.game
             let playercardlist: [Card] = game?.player.playerCardList ?? []
             let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}

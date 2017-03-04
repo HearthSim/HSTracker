@@ -29,68 +29,64 @@ class PlayerTrackersPreferences: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        showPlayerTracker.state = settings.showPlayerTracker ? NSOnState : NSOffState
-        showPlayerCardCount.state = settings.showPlayerCardCount ? NSOnState : NSOffState
-        showPlayerDrawChance.state = settings.showPlayerDrawChance ? NSOnState : NSOffState
-        showPlayerGet.state = settings.showPlayerGet ? NSOnState : NSOffState
-        showCthunCounter.state = settings.showPlayerCthun ? NSOnState : NSOffState
-        showSpellCounter.state = settings.showPlayerSpell ? NSOnState : NSOffState
-        showDeathrattleCounter.state = settings.showPlayerDeathrattle ? NSOnState : NSOffState
-        flashOnDraw.state = settings.flashOnDraw ? NSOnState : NSOffState
-        showRecord.state = settings.showWinLossRatio ? NSOnState : NSOffState
-        inHandColor.color = settings.playerInHandColor
-        showBoardDamage.state = settings.playerBoardDamage ? NSOnState : NSOffState
-        showDeckName.state = settings.showDeckNameInTracker ? NSOnState : NSOffState
-        showGraveyard.state = settings.showPlayerGraveyard ? NSOnState : NSOffState
-        showGraveyardDetails.state = settings.showPlayerGraveyardDetails ? NSOnState : NSOffState
+        showPlayerTracker.state = Settings.showPlayerTracker ? NSOnState : NSOffState
+        showPlayerCardCount.state = Settings.showPlayerCardCount ? NSOnState : NSOffState
+        showPlayerDrawChance.state = Settings.showPlayerDrawChance ? NSOnState : NSOffState
+        showPlayerGet.state = Settings.showPlayerGet ? NSOnState : NSOffState
+        showCthunCounter.state = Settings.showPlayerCthun ? NSOnState : NSOffState
+        showSpellCounter.state = Settings.showPlayerSpell ? NSOnState : NSOffState
+        showDeathrattleCounter.state = Settings.showPlayerDeathrattle ? NSOnState : NSOffState
+        flashOnDraw.state = Settings.flashOnDraw ? NSOnState : NSOffState
+        showRecord.state = Settings.showWinLossRatio ? NSOnState : NSOffState
+        inHandColor.color = Settings.playerInHandColor
+        showBoardDamage.state = Settings.playerBoardDamage ? NSOnState : NSOffState
+        showDeckName.state = Settings.showDeckNameInTracker ? NSOnState : NSOffState
+        showGraveyard.state = Settings.showPlayerGraveyard ? NSOnState : NSOffState
+        showGraveyardDetails.state = Settings.showPlayerGraveyardDetails ? NSOnState : NSOffState
         showGraveyardDetails.isEnabled = showGraveyard.state == NSOnState
-        showJadeCounter.state = settings.showPlayerJadeCounter ? NSOnState : NSOffState
+        showJadeCounter.state = Settings.showPlayerJadeCounter ? NSOnState : NSOffState
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
-        let settings = Settings.instance
         if sender == inHandColor {
-            settings.playerInHandColor = inHandColor.color
+            Settings.playerInHandColor = inHandColor.color
         }
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-
         if sender == showPlayerTracker {
-            settings.showPlayerTracker = showPlayerTracker.state == NSOnState
+            Settings.showPlayerTracker = showPlayerTracker.state == NSOnState
         } else if sender == showPlayerGet {
-            settings.showPlayerGet = showPlayerGet.state == NSOnState
+            Settings.showPlayerGet = showPlayerGet.state == NSOnState
         } else if sender == showPlayerCardCount {
-            settings.showPlayerCardCount = showPlayerCardCount.state == NSOnState
+            Settings.showPlayerCardCount = showPlayerCardCount.state == NSOnState
         } else if sender == showPlayerDrawChance {
-            settings.showPlayerDrawChance = showPlayerDrawChance.state == NSOnState
+            Settings.showPlayerDrawChance = showPlayerDrawChance.state == NSOnState
         } else if sender == showCthunCounter {
-            settings.showPlayerCthun = showCthunCounter.state == NSOnState
+            Settings.showPlayerCthun = showCthunCounter.state == NSOnState
         } else if sender == showSpellCounter {
-            settings.showPlayerSpell = showSpellCounter.state == NSOnState
+            Settings.showPlayerSpell = showSpellCounter.state == NSOnState
         } else if sender == showDeathrattleCounter {
-            settings.showPlayerDeathrattle = showDeathrattleCounter.state == NSOnState
+            Settings.showPlayerDeathrattle = showDeathrattleCounter.state == NSOnState
         } else if sender == flashOnDraw {
-            settings.flashOnDraw = flashOnDraw.state == NSOnState
+            Settings.flashOnDraw = flashOnDraw.state == NSOnState
         } else if sender == showRecord {
-            settings.showWinLossRatio = showRecord.state == NSOnState
+            Settings.showWinLossRatio = showRecord.state == NSOnState
         } else if sender == showBoardDamage {
-            settings.playerBoardDamage = showBoardDamage.state == NSOnState
+            Settings.playerBoardDamage = showBoardDamage.state == NSOnState
         } else if sender == showDeckName {
-            settings.showDeckNameInTracker = showDeckName.state == NSOnState
+            Settings.showDeckNameInTracker = showDeckName.state == NSOnState
         } else if sender == showGraveyard {
-            settings.showPlayerGraveyard = showGraveyard.state == NSOnState
+            Settings.showPlayerGraveyard = showGraveyard.state == NSOnState
             if showGraveyard.state == NSOnState {
                 showGraveyardDetails.isEnabled = true
             } else {
                 showGraveyardDetails.isEnabled = false
             }
         } else if sender == showGraveyardDetails {
-            settings.showPlayerGraveyardDetails = showGraveyardDetails.state == NSOnState
+            Settings.showPlayerGraveyardDetails = showGraveyardDetails.state == NSOnState
         } else if sender == showJadeCounter {
-            settings.showPlayerJadeCounter = showJadeCounter.state == NSOnState
+            Settings.showPlayerJadeCounter = showJadeCounter.state == NSOnState
         }
     }
 }

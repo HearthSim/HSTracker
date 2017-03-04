@@ -32,19 +32,18 @@ class HSReplayPreferences: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        
-        showPushNotification.state = settings.showHSReplayPushNotification ? NSOnState : NSOffState
-        synchronizeMatches.state = settings.hsReplaySynchronizeMatches ? NSOnState : NSOffState
+
+        showPushNotification.state = Settings.showHSReplayPushNotification ? NSOnState : NSOffState
+        synchronizeMatches.state = Settings.hsReplaySynchronizeMatches ? NSOnState : NSOffState
         
         // swiftlint:disable line_length
-        uploadRankedGames.state = settings.hsReplayUploadRankedMatches ? NSOnState : NSOffState
-        uploadCasualGames.state = settings.hsReplayUploadCasualMatches ? NSOnState : NSOffState
-        uploadArenaGames.state = settings.hsReplayUploadArenaMatches ? NSOnState : NSOffState
-        uploadBrawlGames.state = settings.hsReplayUploadBrawlMatches ? NSOnState : NSOffState
-        uploadFriendlyGames.state = settings.hsReplayUploadFriendlyMatches ? NSOnState : NSOffState
-        uploadAdventureGames.state = settings.hsReplayUploadAdventureMatches ? NSOnState : NSOffState
-        uploadSpectatorGames.state = settings.hsReplayUploadSpectatorMatches ? NSOnState : NSOffState
+        uploadRankedGames.state = Settings.hsReplayUploadRankedMatches ? NSOnState : NSOffState
+        uploadCasualGames.state = Settings.hsReplayUploadCasualMatches ? NSOnState : NSOffState
+        uploadArenaGames.state = Settings.hsReplayUploadArenaMatches ? NSOnState : NSOffState
+        uploadBrawlGames.state = Settings.hsReplayUploadBrawlMatches ? NSOnState : NSOffState
+        uploadFriendlyGames.state = Settings.hsReplayUploadFriendlyMatches ? NSOnState : NSOffState
+        uploadAdventureGames.state = Settings.hsReplayUploadAdventureMatches ? NSOnState : NSOffState
+        uploadSpectatorGames.state = Settings.hsReplayUploadSpectatorMatches ? NSOnState : NSOffState
         // swiftlint:enable line_length
         
         updateUploadGameTypeView()
@@ -56,26 +55,24 @@ class HSReplayPreferences: NSViewController {
     }
     
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-        
         if sender == synchronizeMatches {
-            settings.hsReplaySynchronizeMatches = synchronizeMatches.state == NSOnState
+            Settings.hsReplaySynchronizeMatches = synchronizeMatches.state == NSOnState
         } else if sender == showPushNotification {
-            settings.showHSReplayPushNotification = showPushNotification.state == NSOnState
+            Settings.showHSReplayPushNotification = showPushNotification.state == NSOnState
         } else if sender == uploadRankedGames {
-            settings.hsReplayUploadRankedMatches = uploadRankedGames.state == NSOnState
+            Settings.hsReplayUploadRankedMatches = uploadRankedGames.state == NSOnState
         } else if sender == uploadCasualGames {
-            settings.hsReplayUploadCasualMatches = uploadCasualGames.state == NSOnState
+            Settings.hsReplayUploadCasualMatches = uploadCasualGames.state == NSOnState
         } else if sender == uploadArenaGames {
-            settings.hsReplayUploadArenaMatches = uploadArenaGames.state == NSOnState
+            Settings.hsReplayUploadArenaMatches = uploadArenaGames.state == NSOnState
         } else if sender == uploadBrawlGames {
-            settings.hsReplayUploadBrawlMatches = uploadBrawlGames.state == NSOnState
+            Settings.hsReplayUploadBrawlMatches = uploadBrawlGames.state == NSOnState
         } else if sender == uploadFriendlyGames {
-            settings.hsReplayUploadFriendlyMatches = uploadFriendlyGames.state == NSOnState
+            Settings.hsReplayUploadFriendlyMatches = uploadFriendlyGames.state == NSOnState
         } else if sender == uploadAdventureGames {
-            settings.hsReplayUploadAdventureMatches = uploadAdventureGames.state == NSOnState
+            Settings.hsReplayUploadAdventureMatches = uploadAdventureGames.state == NSOnState
         } else if sender == uploadSpectatorGames {
-            settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == NSOnState
+            Settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == NSOnState
         }
         
         updateUploadGameTypeView()
@@ -102,15 +99,15 @@ class HSReplayPreferences: NSViewController {
     }
     
     @IBAction func disconnectAccount(_ sender: AnyObject) {
-        Settings.instance.hsReplayUsername = nil
-        Settings.instance.hsReplayId = nil
+        Settings.hsReplayUsername = nil
+        Settings.hsReplayId = nil
         updateStatus()
     }
     
     @IBAction func resetAccount(_ sender: Any) {
-        Settings.instance.hsReplayUsername = nil
-        Settings.instance.hsReplayId = nil
-        Settings.instance.hsReplayUploadToken = nil
+        Settings.hsReplayUsername = nil
+        Settings.hsReplayId = nil
+        Settings.hsReplayUploadToken = nil
         updateStatus()
     }
 
@@ -144,9 +141,9 @@ class HSReplayPreferences: NSViewController {
     }
     
     private func updateStatus() {
-        if let _ = Settings.instance.hsReplayId {
+        if let _ = Settings.hsReplayId {
             var information = NSLocalizedString("Connected", comment: "")
-            if let username = Settings.instance.hsReplayUsername {
+            if let username = Settings.hsReplayUsername {
                 information = String(format: NSLocalizedString("Connected as %@", comment: ""),
                                      username)
             }

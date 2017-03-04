@@ -36,7 +36,7 @@ class CardBar: NSView, CardBarTheme {
     private var cardLayer: CALayer?
 
     class func factory() -> CardBar {
-        switch Settings.instance.theme {
+        switch Settings.theme {
         case "frost":
             return FrostBar()
         case "dark":
@@ -123,9 +123,9 @@ class CardBar: NSView, CardBarTheme {
         return "ChunkFive"
     }
     var textFont: String {
-        if Settings.instance.isAsianLanguage {
+        if Settings.isAsianLanguage {
             return "NanumGothic"
-        } else if Settings.instance.isCyrillicLanguage {
+        } else if Settings.isCyrillicLanguage {
             return "BenguiatBold"
         } else {
             return "ChunkFive"
@@ -209,7 +209,7 @@ class CardBar: NSView, CardBarTheme {
     }
 
     func update(highlight: Bool) {
-        if highlight && Settings.instance.flashOnDraw {
+        if highlight && Settings.flashOnDraw {
             if let themeElement = required[.flashFrame] {
                 let fullPath = Bundle.main.resourcePath!
                     + "/Resources/Themes/Bars/\(themeDir)/\(themeElement.filename)"
@@ -351,7 +351,7 @@ class CardBar: NSView, CardBarTheme {
         guard let card = card else { return }
 
         var countBox = required[.defaultCountBox]
-        if Settings.instance.showRarityColors && hasAllOptionalCountBoxes {
+        if Settings.showRarityColors && hasAllOptionalCountBoxes {
             switch card.rarity {
             case .rare:
                 countBox = optionalCountBoxes[.rareCountBox]
@@ -424,7 +424,7 @@ class CardBar: NSView, CardBarTheme {
         }
 
         var frame = required[.defaultFrame]
-        if Settings.instance.showRarityColors && hasAllOptionalFrames {
+        if Settings.showRarityColors && hasAllOptionalFrames {
             switch rarity {
             case .rare:
                 frame = optionalFrame[.rareFrame]
@@ -447,7 +447,7 @@ class CardBar: NSView, CardBarTheme {
         guard let card = card else { return }
 
         var gem = required[.defaultGem]
-         if Settings.instance.showRarityColors && hasAllOptionalGems {
+         if Settings.showRarityColors && hasAllOptionalGems {
             switch card.rarity {
             case .rare:
                 gem = optionalGems[.rareGem]
@@ -589,7 +589,7 @@ class CardBar: NSView, CardBarTheme {
         }
 
         var ratio: CGFloat
-        switch Settings.instance.cardSize {
+        switch Settings.cardSize {
         case .tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
         case .small: ratio = CGFloat(kRowHeight / kSmallRowHeight)
         case .medium: ratio = CGFloat(kRowHeight / kMediumRowHeight)
@@ -605,7 +605,7 @@ class CardBar: NSView, CardBarTheme {
         }
 
         let baseHeight: CGFloat
-        switch Settings.instance.cardSize {
+        switch Settings.cardSize {
         case .tiny: baseHeight = CGFloat(kTinyRowHeight)
         case .small: baseHeight = CGFloat(kSmallRowHeight)
         case .medium: baseHeight = CGFloat(kMediumRowHeight)

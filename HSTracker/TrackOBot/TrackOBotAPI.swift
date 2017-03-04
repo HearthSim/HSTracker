@@ -26,9 +26,8 @@ struct TrackOBotAPI {
                         if let error = json["error"] as? String {
                             callback(false, error)
                         } else {
-                            let settings = Settings.instance
-                            settings.trackobotUsername = username
-                            settings.trackobotToken = token
+                            Settings.trackobotUsername = username
+                            Settings.trackobotToken = token
                             callback(true, "")
                         }
                     } else {
@@ -39,14 +38,12 @@ struct TrackOBotAPI {
     }
 
     static func logout() {
-        let settings = Settings.instance
-        settings.trackobotUsername = nil
-        settings.trackobotToken = nil
+        Settings.trackobotUsername = nil
+        Settings.trackobotToken = nil
     }
 
     static func isLogged() -> Bool {
-        let settings = Settings.instance
-        return settings.trackobotUsername != nil && settings.trackobotToken != nil
+        return Settings.trackobotUsername != nil && Settings.trackobotToken != nil
     }
 
     /**
@@ -57,11 +54,10 @@ struct TrackOBotAPI {
 
     // MARK: - matches
     static func postMatch(stat: InternalGameStats, cards: [PlayedCard]) throws {
-        let settings = Settings.instance
-        guard let username = settings.trackobotUsername else {
+        guard let username = Settings.trackobotUsername else {
             throw TrackOBotError.notLogged
         }
-        guard let token = settings.trackobotToken else {
+        guard let token = Settings.trackobotToken else {
             throw TrackOBotError.notLogged
         }
 

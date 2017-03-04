@@ -40,7 +40,7 @@ class TextFrame: NSView {
     }
 
     var ratioWidth: CGFloat {
-        switch Settings.instance.cardSize {
+        switch Settings.cardSize {
         case .tiny: return CGFloat(kRowHeight / kTinyRowHeight)
         case .small: return CGFloat(kRowHeight / kSmallRowHeight)
         case .medium: return CGFloat(kRowHeight / kMediumRowHeight)
@@ -54,7 +54,7 @@ class TextFrame: NSView {
     }
 
     func add(image filename: String, rect: NSRect) {
-        let theme = Settings.instance.theme
+        let theme = Settings.theme
 
         var fullPath = Bundle.main.resourcePath!
             + "/Resources/Themes/Overlay/\(theme)/\(filename)"

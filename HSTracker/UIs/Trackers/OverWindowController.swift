@@ -25,8 +25,7 @@ class OverWindowController: NSWindowController {
 
     func setWindowSizes() {
         var width: Double
-        let settings = Settings.instance
-        switch settings.cardSize {
+        switch Settings.cardSize {
         case .tiny: width = kTinyFrameWidth
         case .small: width = kSmallFrameWidth
         case .medium: width = kMediumFrameWidth

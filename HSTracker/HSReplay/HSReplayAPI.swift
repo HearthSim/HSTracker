@@ -13,7 +13,7 @@ class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
 
     static func getUploadToken(handle: @escaping (String) -> Void) {
-        if let token = Settings.instance.hsReplayUploadToken {
+        if let token = Settings.hsReplayUploadToken {
             handle(token)
             return
         }
@@ -24,7 +24,7 @@ class HSReplayAPI {
                     if let json = json as? [String: Any],
                         let key = json["key"] as? String {
                         Log.info?.message("HSReplay : Obtained new upload-token")
-                        Settings.instance.hsReplayUploadToken = key
+                        Settings.hsReplayUploadToken = key
                         handle(key)
                     } else {
                         // TODO error handling
@@ -33,7 +33,7 @@ class HSReplayAPI {
     }
 
     static func claimAccount() {
-        guard let token = Settings.instance.hsReplayUploadToken else {
+        guard let token = Settings.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             return
         }
@@ -58,7 +58,7 @@ class HSReplayAPI {
     }
 
     static func updateAccountStatus(handle: @escaping (Bool) -> Void) {
-        guard let token = Settings.instance.hsReplayUploadToken else {
+        guard let token = Settings.hsReplayUploadToken else {
             Log.error?.message("Authorization token not set yet")
             handle(false)
             return
@@ -75,11 +75,11 @@ class HSReplayAPI {
             if let json = json as? [String: Any],
                 let user = json["user"] as? [String: Any] {
                 if let username = user["username"] as? String {
-                    Settings.instance.hsReplayUsername = username
+                    Settings.hsReplayUsername = username
                 }
-                Settings.instance.hsReplayId = user["id"] as? Int ?? 0
-                Log.info?.message("id=\(Settings.instance.hsReplayId), "
-                    + "Username=\(Settings.instance.hsReplayUsername)")
+                Settings.hsReplayId = user["id"] as? Int ?? 0
+                Log.info?.message("id=\(Settings.hsReplayId), "
+                    + "Username=\(Settings.hsReplayUsername)")
                 handle(true)
             } else {
                 handle(false)

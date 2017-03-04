@@ -24,39 +24,37 @@ class GeneralPreferences: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let settings = Settings.instance
-        notifyGameStart.state = settings.notifyGameStart ? NSOnState : NSOffState
-        notifyTurnStart.state = settings.notifyTurnStart ? NSOnState : NSOffState
-        notifyOpponentConcede.state = settings.notifyOpponentConcede ? NSOnState : NSOffState
-        closeTrackerWhenHSCloses.state = settings.quitWhenHearthstoneCloses ? NSOnState : NSOffState
-        promptNote.state = settings.promptNotes ? NSOnState : NSOffState
-        saveReplays.state = settings.saveReplays ? NSOnState : NSOffState
-        enableDockBadge.state = settings.showAppHealth ? NSOnState : NSOffState
-        preferGoldenCards.state = settings.preferGoldenCards ? NSOnState : NSOffState
-        useArenaHelper.state = settings.showArenaHelper ? NSOnState : NSOffState
+        notifyGameStart.state = Settings.notifyGameStart ? NSOnState : NSOffState
+        notifyTurnStart.state = Settings.notifyTurnStart ? NSOnState : NSOffState
+        notifyOpponentConcede.state = Settings.notifyOpponentConcede ? NSOnState : NSOffState
+        closeTrackerWhenHSCloses.state = Settings.quitWhenHearthstoneCloses ? NSOnState : NSOffState
+        promptNote.state = Settings.promptNotes ? NSOnState : NSOffState
+        saveReplays.state = Settings.saveReplays ? NSOnState : NSOffState
+        enableDockBadge.state = Settings.showAppHealth ? NSOnState : NSOffState
+        preferGoldenCards.state = Settings.preferGoldenCards ? NSOnState : NSOffState
+        useArenaHelper.state = Settings.showArenaHelper ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
         if sender == notifyGameStart {
-            settings.notifyGameStart = notifyGameStart.state == NSOnState
+            Settings.notifyGameStart = notifyGameStart.state == NSOnState
         } else if sender == notifyTurnStart {
-            settings.notifyTurnStart = notifyTurnStart.state == NSOnState
+            Settings.notifyTurnStart = notifyTurnStart.state == NSOnState
         } else if sender == notifyOpponentConcede {
-            settings.notifyOpponentConcede = notifyOpponentConcede.state == NSOnState
+            Settings.notifyOpponentConcede = notifyOpponentConcede.state == NSOnState
         } else if sender == closeTrackerWhenHSCloses {
-            settings.quitWhenHearthstoneCloses = closeTrackerWhenHSCloses.state == NSOnState
+            Settings.quitWhenHearthstoneCloses = closeTrackerWhenHSCloses.state == NSOnState
         } else if sender == promptNote {
-            settings.promptNotes = promptNote.state == NSOnState
+            Settings.promptNotes = promptNote.state == NSOnState
         } else if sender == saveReplays {
-            settings.saveReplays = saveReplays.state == NSOnState
+            Settings.saveReplays = saveReplays.state == NSOnState
         } else if sender == enableDockBadge {
-            settings.showAppHealth = enableDockBadge.state == NSOnState
+            Settings.showAppHealth = enableDockBadge.state == NSOnState
             AppHealth.instance.updateBadge()
         } else if sender == preferGoldenCards {
-            settings.preferGoldenCards = preferGoldenCards.state == NSOnState
+            Settings.preferGoldenCards = preferGoldenCards.state == NSOnState
         } else if sender == useArenaHelper {
-            settings.showArenaHelper = useArenaHelper.state == NSOnState
+            Settings.showArenaHelper = useArenaHelper.state == NSOnState
         }
     }
 

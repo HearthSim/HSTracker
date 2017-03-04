@@ -29,7 +29,7 @@ struct Automation {
             let firstCardLocation = SizeHelper.firstCardLocation()
             let secondCardLocation = SizeHelper.secondCardLocation()
 
-            let preferGoldenCards = Settings.instance.preferGoldenCards
+            let preferGoldenCards = Settings.preferGoldenCards
 
             var missingCards: [Card] = []
 
@@ -175,7 +175,7 @@ struct Automation {
 
     private func searchText(card: Card) -> String {
         var str = card.name
-        guard let lang = Settings.instance.hearthstoneLanguage else {
+        guard let lang = Settings.hearthstoneLanguage else {
             return str
         }
 

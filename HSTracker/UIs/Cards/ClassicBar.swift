@@ -14,9 +14,9 @@ class ClassicBar: CardBar {
     private let _costRect = NSRect(x: 1, y: -13, width: 34, height: 37)
 
     override var textFont: String {
-        if Settings.instance.isAsianLanguage {
+        if Settings.isAsianLanguage {
             return "NanumGothic"
-        } else if Settings.instance.isCyrillicLanguage {
+        } else if Settings.isCyrillicLanguage {
             return "Benguiat Rus"
         } else {
             return "Belwe Bd BT"

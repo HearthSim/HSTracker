@@ -18,9 +18,7 @@ class TrackOBotPreferences: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        
-        synchronizeMatches.state = settings.trackobotSynchronizeMatches ? NSOnState : NSOffState
+        synchronizeMatches.state = Settings.trackobotSynchronizeMatches ? NSOnState : NSOffState
 
         reloadStates()
     }
@@ -33,9 +31,8 @@ class TrackOBotPreferences: NSViewController {
     }
     
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
         if sender == synchronizeMatches {
-            settings.trackobotSynchronizeMatches = synchronizeMatches.state == NSOnState
+            Settings.trackobotSynchronizeMatches = synchronizeMatches.state == NSOnState
         }
     }
     

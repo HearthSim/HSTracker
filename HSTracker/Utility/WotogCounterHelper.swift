@@ -129,11 +129,11 @@ class WotogCounterHelper {
     }
 
     static var showPlayerCthunCounter: Bool {
-        return Settings.instance.showPlayerCthun && playerSeenCthun
+        return Settings.showPlayerCthun && playerSeenCthun
     }
 
     static var showPlayerSpellsCounter: Bool {
-        guard Settings.instance.showPlayerSpell else {
+        guard Settings.showPlayerSpell else {
             return false
         }
 
@@ -142,36 +142,36 @@ class WotogCounterHelper {
     }
 
     static var showPlayerDeathrattleCounter: Bool {
-        return Settings.instance.showPlayerDeathrattle
+        return Settings.showPlayerDeathrattle
                 && (playerYogg != nil || nzothInDeck == true)
     }
 
     static var showPlayerGraveyard: Bool {
-        return Settings.instance.showPlayerGraveyard
+        return Settings.showPlayerGraveyard
     }
 
     static var showPlayerJadeCounter: Bool {
-        return Settings.instance.showPlayerJadeCounter && playerSeenJade
+        return Settings.showPlayerJadeCounter && playerSeenJade
     }
 
     static var showOpponentJadeCounter: Bool {
-        return Settings.instance.showOpponentJadeCounter && opponentSeenJade
+        return Settings.showOpponentJadeCounter && opponentSeenJade
     }
 
     static var showOpponentCthunCounter: Bool {
-        return Settings.instance.showOpponentCthun && opponentSeenCthun
+        return Settings.showOpponentCthun && opponentSeenCthun
     }
 
     static var showOpponentSpellsCounter: Bool {
-        return Settings.instance.showOpponentSpell
+        return Settings.showOpponentSpell
     }
 
     static var showOpponentDeathrattleCounter: Bool {
-        return Settings.instance.showOpponentDeathrattle
+        return Settings.showOpponentDeathrattle
     }
 
     static var showOpponentGraveyard: Bool {
-        return Settings.instance.showOpponentGraveyard
+        return Settings.showOpponentGraveyard
     }
 
     private static func deckContains(cardId: String) -> Bool {

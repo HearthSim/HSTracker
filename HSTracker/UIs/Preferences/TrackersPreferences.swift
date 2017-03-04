@@ -33,14 +33,13 @@ class TrackersPreferences: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        highlightCardsInHand.state = settings.highlightCardsInHand ? NSOnState : NSOffState
-        highlightLastDrawn.state = settings.highlightLastDrawn ? NSOnState : NSOffState
-        removeCards.state = settings.removeCardsFromDeck ? NSOnState : NSOffState
-        highlightDiscarded.state = settings.highlightDiscarded ? NSOnState : NSOffState
-        opacity.doubleValue = settings.trackerOpacity
+        highlightCardsInHand.state = Settings.highlightCardsInHand ? NSOnState : NSOffState
+        highlightLastDrawn.state = Settings.highlightLastDrawn ? NSOnState : NSOffState
+        removeCards.state = Settings.removeCardsFromDeck ? NSOnState : NSOffState
+        highlightDiscarded.state = Settings.highlightDiscarded ? NSOnState : NSOffState
+        opacity.doubleValue = Settings.trackerOpacity
         let index: Int
-        switch settings.cardSize {
+        switch Settings.cardSize {
         case .tiny: index = 0
         case .small: index = 1
         case .medium: index = 2
@@ -48,25 +47,23 @@ class TrackersPreferences: NSViewController {
         case .huge: index = 4
         }
         cardSize.selectItem(at: index)
-        showTimer.state = settings.showTimer ? NSOnState : NSOffState
-        autoPositionTrackers.state = settings.autoPositionTrackers ? NSOnState : NSOffState
-        showSecretHelper.state = settings.showSecretHelper ? NSOnState : NSOffState
-        showRarityColors.state = settings.showRarityColors ? NSOnState : NSOffState
-        showFloatingCard.state = settings.showFloatingCard ? NSOnState : NSOffState
-        showFloatingCard.state = settings.showTopdeckchance ? NSOnState : NSOffState
-        theme.selectItem(at: themes.index(of: settings.theme) ?? 0)
-        allowFullscreen.state = settings.canJoinFullscreen ? NSOnState : NSOffState
-        hideAllWhenNotInGame.state = settings.hideAllTrackersWhenNotInGame ? NSOnState : NSOffState
-        hideAllWhenGameInBackground.state = settings.hideAllWhenGameInBackground ? NSOnState : NSOffState
+        showTimer.state = Settings.showTimer ? NSOnState : NSOffState
+        autoPositionTrackers.state = Settings.autoPositionTrackers ? NSOnState : NSOffState
+        showSecretHelper.state = Settings.showSecretHelper ? NSOnState : NSOffState
+        showRarityColors.state = Settings.showRarityColors ? NSOnState : NSOffState
+        showFloatingCard.state = Settings.showFloatingCard ? NSOnState : NSOffState
+        showFloatingCard.state = Settings.showTopdeckchance ? NSOnState : NSOffState
+        theme.selectItem(at: themes.index(of: Settings.theme) ?? 0)
+        allowFullscreen.state = Settings.canJoinFullscreen ? NSOnState : NSOffState
+        hideAllWhenNotInGame.state = Settings.hideAllTrackersWhenNotInGame ? NSOnState : NSOffState
+        hideAllWhenGameInBackground.state = Settings.hideAllWhenGameInBackground ? NSOnState : NSOffState
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {
-        let settings = Settings.instance
-        settings.trackerOpacity = opacity.doubleValue
+        Settings.trackerOpacity = opacity.doubleValue
     }
 
     @IBAction func comboboxChange(_ sender: NSComboBox) {
-        let settings = Settings.instance
         if sender == cardSize {
             if let value = cardSize.objectValueOfSelectedItem as? String {
                 let size: CardSize
@@ -77,51 +74,50 @@ class TrackersPreferences: NSViewController {
                 case NSLocalizedString("Huge", comment: ""): size = .huge
                 default: size = .medium
                 }
-                settings.cardSize = size
+                Settings.cardSize = size
             }
         } else if sender == theme {
-            settings.theme = themes[theme.indexOfSelectedItem] 
+            Settings.theme = themes[theme.indexOfSelectedItem]
         }
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-
         if sender == highlightCardsInHand {
-            settings.highlightCardsInHand = highlightCardsInHand.state == NSOnState
+            Settings.highlightCardsInHand = highlightCardsInHand.state == NSOnState
         } else if sender == highlightLastDrawn {
-            settings.highlightLastDrawn = highlightLastDrawn.state == NSOnState
+            Settings.highlightLastDrawn = highlightLastDrawn.state == NSOnState
         } else if sender == removeCards {
-            settings.removeCardsFromDeck = removeCards.state == NSOnState
+            Settings.removeCardsFromDeck = removeCards.state == NSOnState
         } else if sender == highlightDiscarded {
-            settings.highlightDiscarded = highlightDiscarded.state == NSOnState
+            Settings.highlightDiscarded = highlightDiscarded.state == NSOnState
         } else if sender == autoPositionTrackers {
-            settings.autoPositionTrackers = autoPositionTrackers.state == NSOnState
-            if settings.autoPositionTrackers {
-                settings.windowsLocked = true
+            Settings.autoPositionTrackers = autoPositionTrackers.state == NSOnState
+            if Settings.autoPositionTrackers {
+                Settings.windowsLocked = true
             }
         } else if sender == showSecretHelper {
-            settings.showSecretHelper = showSecretHelper.state == NSOnState
+            Settings.showSecretHelper = showSecretHelper.state == NSOnState
         } else if sender == showRarityColors {
-            settings.showRarityColors = showRarityColors.state == NSOnState
+            Settings.showRarityColors = showRarityColors.state == NSOnState
         } else if sender == showTimer {
-            settings.showTimer = showTimer.state == NSOnState
+            Settings.showTimer = showTimer.state == NSOnState
         } else if sender == showFloatingCard {
-            settings.showFloatingCard = showFloatingCard.state == NSOnState
-            showTopdeckChance.isEnabled = settings.showFloatingCard
+            Settings.showFloatingCard = showFloatingCard.state == NSOnState
+            showTopdeckChance.isEnabled = Settings.showFloatingCard
         } else if sender == showTopdeckChance {
-            settings.showTopdeckchance = showTopdeckChance.state == NSOnState
+            Settings.showTopdeckchance = showTopdeckChance.state == NSOnState
         } else if sender == allowFullscreen {
-            settings.canJoinFullscreen = allowFullscreen.state == NSOnState
+            Settings.canJoinFullscreen = allowFullscreen.state == NSOnState
         } else if sender == hideAllWhenNotInGame {
-            settings.hideAllTrackersWhenNotInGame = hideAllWhenNotInGame.state == NSOnState
+            Settings.hideAllTrackersWhenNotInGame = hideAllWhenNotInGame.state == NSOnState
         } else if sender == hideAllWhenGameInBackground {
-            settings.hideAllWhenGameInBackground = hideAllWhenGameInBackground.state == NSOnState
+            Settings.hideAllWhenGameInBackground = hideAllWhenGameInBackground.state == NSOnState
         }
     }
 }
 
 // MARK: - MASPreferencesViewController
+
 extension TrackersPreferences: MASPreferencesViewController {
     override var identifier: String? {
         get {

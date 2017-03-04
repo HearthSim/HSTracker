@@ -278,7 +278,7 @@ class Game {
     }
 
     func set(activeDeck deckId: String?) {
-        Settings.instance.activeDeck = deckId
+        Settings.activeDeck = deckId
 
         guard let deckId = deckId,
             let realm = try? Realm(),
@@ -350,7 +350,7 @@ class Game {
 
         showNotification(type: .gameStart)
 
-        if Settings.instance.showTimer {
+        if Settings.showTimer {
             TurnTimer.instance.start(game: self)
         }
 
@@ -424,7 +424,7 @@ class Game {
 
         TurnTimer.instance.stop()
 
-        if Settings.instance.saveReplays {
+        if Settings.saveReplays {
             ReplayMaker.saveToDisk(powerLog: powerLog)
         }
 
@@ -433,7 +433,7 @@ class Game {
         //resetStoredGameState()
         /*if let currentDeck = self.currentDeck,
             currentDeck.isArenaRunCompleted,
-            Settings.instance.autoArchiveArenaDeck {
+            Settings.autoArchiveArenaDeck {
 
             if let realm = try? Realm(),
                 let deck = realm.objects(Deck.self)
@@ -531,7 +531,7 @@ class Game {
         currentGameStats.rankedSeasonId = matchInfo?.rankedSeasonId ?? 0
         currentGameStats.hsDeckId = currentDeck?.hsDeckId
 
-        if Settings.instance.promptNotes {
+        if Settings.promptNotes {
             let message = NSLocalizedString("Do you want to add some notes for this game ?",
                                             comment: "")
             let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
@@ -565,7 +565,7 @@ class Game {
                     let stats = currentGameStats.toGameStats()
                     deck.gameStats.append(stats)
 
-                    if Settings.instance.autoArchiveArenaDeck &&
+                    if Settings.autoArchiveArenaDeck &&
                         currentGameMode == .arena && deck.isArena && deck.arenaFinished() {
                         deck.isActive = false
                     }
@@ -627,21 +627,21 @@ class Game {
             return
         }
 
-        if Settings.instance.hsReplaySynchronizeMatches && (
+        if Settings.hsReplaySynchronizeMatches && (
             (currentGameStats.gameMode == .ranked &&
-                Settings.instance.hsReplayUploadRankedMatches) ||
+                Settings.hsReplayUploadRankedMatches) ||
             (currentGameStats.gameMode == .casual &&
-                Settings.instance.hsReplayUploadCasualMatches) ||
+                Settings.hsReplayUploadCasualMatches) ||
             (currentGameStats.gameMode == .arena &&
-                Settings.instance.hsReplayUploadArenaMatches) ||
+                Settings.hsReplayUploadArenaMatches) ||
             (currentGameStats.gameMode == .brawl &&
-                Settings.instance.hsReplayUploadBrawlMatches) ||
+                Settings.hsReplayUploadBrawlMatches) ||
             (currentGameStats.gameMode == .practice &&
-                Settings.instance.hsReplayUploadAdventureMatches) ||
+                Settings.hsReplayUploadAdventureMatches) ||
             (currentGameStats.gameMode == .friendly &&
-                Settings.instance.hsReplayUploadFriendlyMatches) ||
+                Settings.hsReplayUploadFriendlyMatches) ||
             (currentGameStats.gameMode == .spectator &&
-                Settings.instance.hsReplayUploadFriendlyMatches)) {
+                Settings.hsReplayUploadFriendlyMatches)) {
             HSReplayAPI.getUploadToken { _ in
                 LogUploader.upload(logLines: self.powerLog,
                                    statistic: currentGameStats) { result in
@@ -654,7 +654,7 @@ class Game {
             }
         }
 
-        if TrackOBotAPI.isLogged() && Settings.instance.trackobotSynchronizeMatches {
+        if TrackOBotAPI.isLogged() && Settings.trackobotSynchronizeMatches {
             do {
                 try TrackOBotAPI.postMatch(stat: currentGameStats, cards: playedCards)
             } catch {
@@ -718,7 +718,7 @@ class Game {
 
     func handleTurnStart(playerTurn: PlayerTurn) {
         let player = playerTurn.player
-        if Settings.instance.fullGameLog {
+        if Settings.fullGameLog {
             Log.info?.message("Turn \(playerTurn.turn) start for player \(player) ")
         }
 
@@ -857,7 +857,7 @@ class Game {
         if let card = Cards.hero(byId: cardId) {
             player.playerClass = card.playerClass
             player.playerClassId = cardId
-            if Settings.instance.fullGameLog {
+            if Settings.fullGameLog {
                 Log.info?.message("Player class is \(card) ")
             }
 
@@ -1020,7 +1020,7 @@ class Game {
     }
 
     func playerFatigue(value: Int) {
-        if Settings.instance.fullGameLog {
+        if Settings.fullGameLog {
             Log.info?.message("Player get \(value) fatigue")
         }
         player.fatigue = value
@@ -1068,7 +1068,7 @@ class Game {
 
     func playerHeroPower(cardId: String, turn: Int) {
         player.heroPower(turn: turn)
-        if Settings.instance.fullGameLog {
+        if Settings.fullGameLog {
             Log.info?.message("Player Hero Power \(cardId) \(turn) ")
         }
 
@@ -1082,7 +1082,7 @@ class Game {
             opponent.playerClass = card.playerClass
             opponent.playerClassId = cardId
             windowManager?.updateTrackers()
-            if Settings.instance.fullGameLog {
+            if Settings.fullGameLog {
                 Log.info?.message("Opponent class is \(card) ")
             }
 
@@ -1167,7 +1167,7 @@ class Game {
                 heroClass = playerClass
             }
         }
-        if Settings.instance.fullGameLog {
+        if Settings.fullGameLog {
             Log.info?.message("Secret played by \(entity[.class])"
                 + " -> \(heroClass) -> \(opponent.playerClass)")
         }
@@ -1269,7 +1269,7 @@ class Game {
 
     func opponentHeroPower(cardId: String, turn: Int) {
         opponent.heroPower(turn: turn)
-        if Settings.instance.fullGameLog {
+        if Settings.fullGameLog {
             Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
         }
         windowManager?.updateTrackers()
@@ -1412,33 +1412,32 @@ class Game {
     }
 
      func showNotification(type: NotificationType) {
-        let settings = Settings.instance
          guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
 
         switch type {
         case .gameStart:
-            guard settings.notifyGameStart else { return }
+            guard Settings.notifyGameStart else { return }
             if hearthstone.hearthstoneActive { return }
 
             Toast.show(title: NSLocalizedString("Hearthstone", comment: ""),
                        message: NSLocalizedString("Your game begins", comment: ""))
 
         case .opponentConcede:
-            guard settings.notifyOpponentConcede else { return }
+            guard Settings.notifyOpponentConcede else { return }
             if hearthstone.hearthstoneActive { return }
 
             Toast.show(title: NSLocalizedString("Victory", comment: ""),
                        message: NSLocalizedString("Your opponent have conceded", comment: ""))
 
         case .turnStart:
-            guard settings.notifyTurnStart else { return }
+            guard Settings.notifyTurnStart else { return }
             if hearthstone.hearthstoneActive { return }
 
             Toast.show(title: NSLocalizedString("Hearthstone", comment: ""),
                        message: NSLocalizedString("It's your turn to play", comment: ""))
 
         case .hsReplayPush(let replayId):
-            guard settings.showHSReplayPushNotification else { return }
+            guard Settings.showHSReplayPushNotification else { return }
 
             Toast.show(title: NSLocalizedString("HSReplay", comment: ""),
                        message: NSLocalizedString("Your replay has been uploaded on HSReplay",

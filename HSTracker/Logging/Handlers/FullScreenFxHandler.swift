@@ -31,7 +31,7 @@ struct FullScreenFxHandler {
             }
             lastQueueTime = logLine.time
 
-            guard Settings.instance.autoDeckDetection else {
+            guard Settings.autoDeckDetection else {
                 return
             }
 

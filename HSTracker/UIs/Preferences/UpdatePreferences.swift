@@ -24,29 +24,25 @@ class UpdatePreferences: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let settings = Settings.instance
-        autoDownloadsUpdates.state = settings.automaticallyDownloadsUpdates ? NSOnState : NSOffState
-        releaseChannel.selectItem(at: settings.releaseChannel.rawValue)
+        autoDownloadsUpdates.state = Settings.automaticallyDownloadsUpdates ? NSOnState : NSOffState
+        releaseChannel.selectItem(at: Settings.releaseChannel.rawValue)
         if let lastUpdateCheckDate = sparkleUpdater.lastUpdateCheckDate {
             lastUpdate.stringValue = UpdatePreferences.dateStringFormatter.string(from: lastUpdateCheckDate)
         }
     }
     
     @IBAction func changeChannel(_ sender: AnyObject) {
-        let settings = Settings.instance
         if let release = ReleaseChannel(rawValue: releaseChannel.indexOfSelectedItem) {
-            settings.releaseChannel = release
+            Settings.releaseChannel = release
         } else {
-            settings.releaseChannel = .beta
+            Settings.releaseChannel = .beta
         }
     }
     
     @IBAction func checkboxClicked(_ sender: NSButton) {
-        let settings = Settings.instance
-        
         if sender == autoDownloadsUpdates {
-            settings.automaticallyDownloadsUpdates = autoDownloadsUpdates.state == NSOnState
-            sparkleUpdater.automaticallyDownloadsUpdates = settings.automaticallyDownloadsUpdates
+            Settings.automaticallyDownloadsUpdates = autoDownloadsUpdates.state == NSOnState
+            sparkleUpdater.automaticallyDownloadsUpdates = Settings.automaticallyDownloadsUpdates
         }
     }
 }

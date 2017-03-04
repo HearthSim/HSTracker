@@ -11,7 +11,7 @@ import CleanroomLogger
 
 class WindowManager {
     static let cardWidth: CGFloat = {
-        switch Settings.instance.cardSize {
+        switch Settings.cardSize {
         case .tiny: return CGFloat(kTinyFrameWidth)
         case .small: return CGFloat(kSmallFrameWidth)
         case .medium: return CGFloat(kMediumFrameWidth)
@@ -145,18 +145,16 @@ class WindowManager {
         guard let game = (NSApp.delegate as? AppDelegate)?.game,
             let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
 
-        let settings = Settings.instance
-
         var rect: NSRect?
 
         // timer
-        if settings.showTimer && !game.gameEnded &&
-            ( (settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
-                || !settings.hideAllWhenGameInBackground) {
-            if settings.autoPositionTrackers {
+        if Settings.showTimer && !game.gameEnded &&
+            ( (Settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
+                || !Settings.hideAllWhenGameInBackground) {
+            if Settings.autoPositionTrackers {
                 rect = SizeHelper.timerHudFrame()
             } else {
-                rect = settings.timerHudFrame
+                rect = Settings.timerHudFrame
                 if rect == nil {
                     rect = SizeHelper.timerHudFrame()
                 }
@@ -168,9 +166,9 @@ class WindowManager {
         }
 
         // secret helper
-        if settings.showSecretHelper &&
-            ( (settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
-                || !settings.hideAllWhenGameInBackground) {
+        if Settings.showSecretHelper &&
+            ( (Settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
+                || !Settings.hideAllWhenGameInBackground) {
             if let secrets = game.opponentSecrets, secrets.allSecrets().count > 0 {
                 secretTracker.set(secrets: secrets.allSecrets())
                 show(controller: secretTracker, show: true, frame: SizeHelper.secretTrackerFrame())
@@ -182,17 +180,17 @@ class WindowManager {
         }
 
         // arena helper
-        if settings.showArenaHelper && hearthstone.arenaWatcher.isRunning &&
+        if Settings.showArenaHelper && hearthstone.arenaWatcher.isRunning &&
             secretTracker.cards.count == 3 && 
-            ( (settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
-                || !settings.hideAllWhenGameInBackground ) {
+            ( (Settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
+                || !Settings.hideAllWhenGameInBackground ) {
             show(controller: secretTracker, show: true, frame: SizeHelper.arenaHelperFrame())
         }
 
         // card hud
-        if settings.showCardHuds &&
-            ( (settings.hideAllWhenGameInBackground &&
-                hearthstone.hearthstoneActive) || !settings.hideAllWhenGameInBackground) {
+        if Settings.showCardHuds &&
+            ( (Settings.hideAllWhenGameInBackground &&
+                hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             if !game.gameEnded {
                 cardHudContainer.update(entities: game.opponent.hand,
                                         cardCount: game.opponent.handCount)
@@ -208,15 +206,15 @@ class WindowManager {
         // board damage
         let board = BoardState()
 
-        if settings.playerBoardDamage &&
-            ( (settings.hideAllWhenGameInBackground &&
-                hearthstone.hearthstoneActive) || !settings.hideAllWhenGameInBackground) {
+        if Settings.playerBoardDamage &&
+            ( (Settings.hideAllWhenGameInBackground &&
+                hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             if !game.gameEnded {
                 playerBoardDamage.update(attack: board.player.damage)
-                if settings.autoPositionTrackers {
+                if Settings.autoPositionTrackers {
                     rect = SizeHelper.playerBoardDamageFrame()
                 } else {
-                    rect = Settings.instance.playerBoardDamageFrame
+                    rect = Settings.playerBoardDamageFrame
                     if rect == nil {
                         rect = SizeHelper.playerBoardDamageFrame()
                     }
@@ -231,15 +229,15 @@ class WindowManager {
             show(controller: playerBoardDamage, show: false)
         }
 
-        if settings.opponentBoardDamage &&
-            ( (settings.hideAllWhenGameInBackground &&
-                hearthstone.hearthstoneActive) || !settings.hideAllWhenGameInBackground) {
+        if Settings.opponentBoardDamage &&
+            ( (Settings.hideAllWhenGameInBackground &&
+                hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             if !game.gameEnded {
                 opponentBoardDamage.update(attack: board.opponent.damage)
-                if settings.autoPositionTrackers {
+                if Settings.autoPositionTrackers {
                     rect = SizeHelper.opponentBoardDamageFrame()
                 } else {
-                    rect = Settings.instance.opponentBoardDamageFrame
+                    rect = Settings.opponentBoardDamageFrame
                     if rect == nil {
                         rect = SizeHelper.opponentBoardDamageFrame()
                     }
@@ -254,21 +252,21 @@ class WindowManager {
             show(controller: opponentBoardDamage, show: false)
         }
  
-        if settings.showOpponentTracker &&
-            ( (settings.hideAllTrackersWhenNotInGame && !game.gameEnded)
-                || !settings.hideAllTrackersWhenNotInGame) &&
-            ( (settings.hideAllWhenGameInBackground &&
-                hearthstone.hearthstoneActive) || !settings.hideAllWhenGameInBackground) {
+        if Settings.showOpponentTracker &&
+            ( (Settings.hideAllTrackersWhenNotInGame && !game.gameEnded)
+                || !Settings.hideAllTrackersWhenNotInGame) &&
+            ( (Settings.hideAllWhenGameInBackground &&
+                hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             // opponent tracker
-            let cards = settings.clearTrackersOnGameEnd && game.gameEnded
+            let cards = Settings.clearTrackersOnGameEnd && game.gameEnded
                 ? [] : game.opponent.opponentCardList
             opponentTracker.update(cards: cards, reset: reset)
             opponentTracker.setWindowSizes()
 
-            if settings.autoPositionTrackers && hearthstone.isHearthstoneRunning {
+            if Settings.autoPositionTrackers && hearthstone.isHearthstoneRunning {
                 rect = SizeHelper.opponentTrackerFrame()
             } else {
-                rect = Settings.instance.opponentTrackerFrame
+                rect = Settings.opponentTrackerFrame
                 if rect == nil {
                     let x = WindowManager.screenFrame.origin.x + 50
                     rect = NSRect(x: x,
@@ -284,18 +282,18 @@ class WindowManager {
         }
 
         // player tracker
-        if settings.showPlayerTracker &&
-            ( (settings.hideAllTrackersWhenNotInGame && !game.gameEnded)
-                || (!settings.hideAllTrackersWhenNotInGame) ) &&
-            ( (settings.hideAllWhenGameInBackground &&
-                hearthstone.hearthstoneActive) || !settings.hideAllWhenGameInBackground) {
+        if Settings.showPlayerTracker &&
+            ( (Settings.hideAllTrackersWhenNotInGame && !game.gameEnded)
+                || (!Settings.hideAllTrackersWhenNotInGame) ) &&
+            ( (Settings.hideAllWhenGameInBackground &&
+                hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             playerTracker.update(cards: game.player.playerCardList, reset: reset)
             playerTracker.setWindowSizes()
 
-            if settings.autoPositionTrackers && hearthstone.isHearthstoneRunning {
+            if Settings.autoPositionTrackers && hearthstone.isHearthstoneRunning {
                 rect = SizeHelper.playerTrackerFrame()
             } else {
-                rect = settings.playerTrackerFrame
+                rect = Settings.playerTrackerFrame
                 if rect == nil {
                     let x = WindowManager.screenFrame.width - WindowManager.cardWidth
                         + WindowManager.screenFrame.origin.x
@@ -315,7 +313,7 @@ class WindowManager {
     // MARK: - Floating card
     var closeRequestTimer: Timer?
     @objc func showFloatingCard(_ notification: Notification) {
-        guard Settings.instance.showFloatingCard else { return }
+        guard Settings.showFloatingCard else { return }
 
         guard let card = notification.userInfo?["card"] as? Card,
             let arrayFrame = notification.userInfo?["frame"] as? [CGFloat] else {
@@ -351,7 +349,7 @@ class WindowManager {
     }
 
     @objc func hideFloatingCard(_ notification: Notification) {
-        guard Settings.instance.showFloatingCard else { return }
+        guard Settings.showFloatingCard else { return }
         
         // hide popup
         guard let card = notification.userInfo?["card"] as? Card
@@ -406,13 +404,13 @@ class WindowManager {
                 window.level = level
 
                 // if the setting is on, set the window behavior to join all workspaces
-                if Settings.instance.canJoinFullscreen {
+                if Settings.canJoinFullscreen {
                     window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
                 } else {
                     window.collectionBehavior = []
                 }
 
-                let locked = Settings.instance.windowsLocked
+                let locked = Settings.windowsLocked
                 if locked {
                     window.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
                 } else {

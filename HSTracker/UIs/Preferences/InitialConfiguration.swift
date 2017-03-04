@@ -60,9 +60,9 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         let hstracker = Language.hstrackerLanguages[hstrackerLanguage.indexOfSelectedItem]
         let hearthstone = Language.hsLanguages[hearthstoneLanguage.indexOfSelectedItem]
 
-        Settings.instance.hearthstoneLanguage = hearthstone
-        Settings.instance.hsTrackerLanguage = hstracker
-        Settings.instance.hearthstoneLogPath = hearthstonePath.stringValue
+        Settings.hearthstoneLanguage = hearthstone
+        Settings.hsTrackerLanguage = hstracker
+        Settings.hearthstonePath = hearthstonePath.stringValue
 
         if let completionHandler = self.completionHandler {
             DispatchQueue.main.async {

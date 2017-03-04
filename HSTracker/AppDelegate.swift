@@ -87,17 +87,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
         Realm.Configuration.defaultConfiguration = config
 
-        let settings = Settings.instance
-
         let hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
-        /*if settings.releaseChannel == .beta {
+        /*if Settings.releaseChannel == .beta {
          hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
          }*/
 
         let url = "https://hsdecktracker.net/hstracker/appcast.xml"
         sparkleUpdater.feedURL = URL(string: url)
         sparkleUpdater.sendsSystemProfile = true
-        sparkleUpdater.automaticallyDownloadsUpdates = settings.automaticallyDownloadsUpdates
+        sparkleUpdater.automaticallyDownloadsUpdates = Settings.automaticallyDownloadsUpdates
 
         BITHockeyManager.shared().configure(withIdentifier: hockeyKey)
         BITHockeyManager.shared().crashManager.isAutoSubmitCrashReport = true
@@ -125,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         #endif
 
         let path = Paths.logs.path
-        let severity = Settings.instance.logSeverity
+        let severity = Settings.logSeverity
         let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
                                                         daysToKeep: 7,
                                                         directoryPath: path,
@@ -135,13 +133,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         Log.info?.message("*** Starting \(Version.buildName) ***")
 
-        if settings.hearthstoneLogPath.hasSuffix("/Logs") {
-            settings.hearthstoneLogPath = settings.hearthstoneLogPath.replace("/Logs", with: "")
+        if Settings.hearthstonePath.hasSuffix("/Logs") {
+            Settings.hearthstonePath = Settings.hearthstonePath.replace("/Logs", with: "")
         }
 
         game.hearthstone = hearthstone
 
-        if settings.validated() {
+        if Settings.validated() {
             loadSplashscreen()
         } else {
             initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
@@ -312,7 +310,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                    object: nil)
         }
 
-        if let activeDeck = Settings.instance.activeDeck {
+        if let activeDeck = Settings.activeDeck {
             DispatchQueue.main.async { [weak self] in
                 self?.game.set(activeDeck: activeDeck)
             }
@@ -434,7 +432,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                                                  comment: ""))
         replaysMenu?.submenu?.removeAllItems()
         replaysMenu?.isEnabled = false
-        if let _ = Settings.instance.hsReplayUploadToken {
+        if let _ = Settings.hsReplayUploadToken {
             let statistics = realm.objects(GameStats.self)
                 .filter("hsReplayId != nil")
                 .sorted(byKeyPath: "startTime", ascending: false)
@@ -469,11 +467,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-        let settings = Settings.instance
         let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
         let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString("Lock windows",
                                                                           comment: ""))
-        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+        item?.title = NSLocalizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                         comment: "")
     }
 
@@ -526,7 +523,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func clearTrackers(_ sender: AnyObject) {
         game.removeActiveDeck()
-        Settings.instance.activeDeck = nil
+        Settings.activeDeck = nil
     }
 
     @IBAction func saveCurrentDeck(_ sender: AnyObject) {
@@ -573,13 +570,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func lockWindows(_ sender: AnyObject) {
-        let settings = Settings.instance
         let mainMenu = NSApplication.shared().mainMenu
         let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
-        let text = settings.windowsLocked ? "Unlock windows" : "Lock windows"
+        let text = Settings.windowsLocked ? "Unlock windows" : "Lock windows"
         let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString(text, comment: ""))
-        settings.windowsLocked = !settings.windowsLocked
-        item?.title = NSLocalizedString(settings.windowsLocked ?  "Unlock windows" : "Lock windows",
+        Settings.windowsLocked = !Settings.windowsLocked
+        item?.title = NSLocalizedString(Settings.windowsLocked ?  "Unlock windows" : "Lock windows",
                                         comment: "")
     }
 

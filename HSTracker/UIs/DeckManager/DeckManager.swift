@@ -53,8 +53,8 @@ class DeckManager: NSWindowController {
     
     let criterias = ["name", "creation date", "win percentage", "wins", "losses", "games played"]
     let orders = ["ascending", "descending"]
-    var sortCriteria = Settings.instance.deckSortCriteria
-    var sortOrder = Settings.instance.deckSortOrder
+    var sortCriteria = Settings.deckSortCriteria
+    var sortOrder = Settings.deckSortOrder
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -330,7 +330,7 @@ class DeckManager: NSWindowController {
             refreshDecks()
         }
         
-        Settings.instance.activeDeck = deck.deckId
+        Settings.activeDeck = deck.deckId
         let deckId = deck.deckId
         DispatchQueue.main.async {
             guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
@@ -382,7 +382,7 @@ class DeckManager: NSWindowController {
                     Log.error?.message("Can not update deck : \(error)")
                 }
 
-                Settings.instance.activeDeck = nil
+                Settings.activeDeck = nil
                 self.refreshDecks()
             }
         }
@@ -480,7 +480,7 @@ class DeckManager: NSWindowController {
             previous = sortCriteria
             if let criteria = sender.representedObject as? String {
                 sortCriteria = criteria
-                Settings.instance.deckSortCriteria = sortCriteria
+                Settings.deckSortCriteria = sortCriteria
                 
                 let firstMenuItem = sortPopUp.menu?.item(at: 0)
                 firstMenuItem?.representedObject = sender.representedObject
@@ -491,7 +491,7 @@ class DeckManager: NSWindowController {
             previous = sortOrder
             if let order = sender.representedObject as? String {
                 sortOrder = order
-                Settings.instance.deckSortOrder = sortOrder
+                Settings.deckSortOrder = sortOrder
             }
         }
         

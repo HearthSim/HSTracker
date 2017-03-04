@@ -58,7 +58,7 @@ final class ImageDownloader {
             return
         }
 
-        if let lang = Settings.instance.hearthstoneLanguage {
+        if let lang = Settings.hearthstoneLanguage {
             semaphore = DispatchSemaphore(value: 0)
             let total = Double(images.count)
             DispatchQueue.main.async {

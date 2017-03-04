@@ -65,7 +65,7 @@ extension SecretTracker: NSTableViewDelegate {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        switch Settings.instance.cardSize {
+        switch Settings.cardSize {
         case .tiny: return CGFloat(kTinyRowHeight)
         case .small: return CGFloat(kSmallRowHeight)
         case .medium: return CGFloat(kMediumRowHeight)

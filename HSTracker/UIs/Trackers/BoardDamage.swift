@@ -42,11 +42,10 @@ extension BoardDamage: NSWindowDelegate {
     
     private func onWindowMove() {
         if !self.isWindowLoaded || !self.hasValidFrame {return}
-        let settings = Settings.instance
         if player == .player {
-            settings.playerBoardDamageFrame = self.window?.frame
+            Settings.playerBoardDamageFrame = self.window?.frame
         } else {
-            settings.opponentBoardDamageFrame = self.window?.frame
+            Settings.opponentBoardDamageFrame = self.window?.frame
         }
     }
 }

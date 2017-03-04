@@ -82,7 +82,7 @@ class AppHealth: NSObject {
     func updateBadge() {
         // update app icon
         // check if feature is enabled in preferences
-        if Settings.instance.showAppHealth {
+        if Settings.showAppHealth {
             switch self.level {
             case .undefined:
                 NSApp.applicationIconImage = badge_icons["undefined"]
