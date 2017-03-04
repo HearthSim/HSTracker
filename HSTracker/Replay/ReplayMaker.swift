@@ -114,6 +114,8 @@ final class ReplayMaker {
             } catch {
                 Log.error?.message("Can not remove tmp files")
             }
+
+            reset()
         }
     }
 
