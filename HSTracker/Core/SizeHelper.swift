@@ -18,7 +18,7 @@ struct SizeHelper {
         var _frame = NSRect.zero
         var windowId: CGWindowID?
         var screenRect: NSRect = NSRect()
-        
+
         init() {
             reload()
         }
@@ -51,7 +51,7 @@ struct SizeHelper {
                         frame.origin.y = screen.frame.maxY - rect.maxY
                     }
 
-                    Log.debug?.message("HS Frame is : \(rect)")
+                    //Log.debug?.message("HS Frame is : \(rect)")
                     self._frame = frame
                 }
             }
@@ -251,8 +251,12 @@ struct SizeHelper {
     }
 
     static func secretTrackerFrame() -> NSRect {
-        let frame = NSRect(x: 200, y: 550,
-                           width: trackerWidth, height: 450)
+        let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
+
+        let frame = NSRect(x: 200,
+                           y: offset,
+                           width: trackerWidth,
+                           height: 450)
         
         return hearthstoneWindow.relativeFrame(frame)
     }

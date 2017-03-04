@@ -183,6 +183,7 @@ class WindowManager {
 
         // arena helper
         if settings.showArenaHelper && hearthstone.arenaWatcher.isRunning &&
+            secretTracker.cards.count == 3 && 
             ( (settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
                 || !settings.hideAllWhenGameInBackground ) {
             show(controller: secretTracker, show: true, frame: SizeHelper.arenaHelperFrame())
