@@ -126,6 +126,7 @@
 		436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
 		436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DFAA21E6AE1D8001C8F34 /* PackWatcher.swift */; };
 		436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0B1CFD5F6A00DEB9A1 /* CardBar.swift */; };
 		436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0D1CFD64A300DEB9A1 /* ThemeElementInfo.swift */; };
 		436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0F1CFD79B500DEB9A1 /* ClassicBar.swift */; };
@@ -578,6 +579,7 @@
 		436789B61CACF64600C962D1 /* CardCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCounter.swift; sourceTree = "<group>"; };
 		436789BA1CACF79800C962D1 /* TrackerFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerFrame.swift; sourceTree = "<group>"; };
 		436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDrawChance.swift; sourceTree = "<group>"; };
+		436DFAA21E6AE1D8001C8F34 /* PackWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackWatcher.swift; sourceTree = "<group>"; };
 		436F5D0B1CFD5F6A00DEB9A1 /* CardBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardBar.swift; sourceTree = "<group>"; };
 		436F5D0D1CFD64A300DEB9A1 /* ThemeElementInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeElementInfo.swift; sourceTree = "<group>"; };
 		436F5D0F1CFD79B500DEB9A1 /* ClassicBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassicBar.swift; sourceTree = "<group>"; };
@@ -949,6 +951,14 @@
 			path = CleanroomLogger;
 			sourceTree = "<group>";
 		};
+		436DFAA11E6AE1AB001C8F34 /* PackWatcher */ = {
+			isa = PBXGroup;
+			children = (
+				436DFAA21E6AE1D8001C8F34 /* PackWatcher.swift */,
+			);
+			path = PackWatcher;
+			sourceTree = "<group>";
+		};
 		436F5D0A1CFD5F4900DEB9A1 /* Cards */ = {
 			isa = PBXGroup;
 			children = (
@@ -1021,12 +1031,13 @@
 				439C7E901C777EE800D29859 /* Core */,
 				439C7E7A1C777CC000D29859 /* Database */,
 				43873CBF1CA6E68D00F01CB4 /* Debug */,
-				43B695551C90653A00F4D0AC /* Hearthstone */,
 				4323C5E31E1695DD00C97896 /* HearthMirror */,
+				43B695551C90653A00F4D0AC /* Hearthstone */,
 				43C567EA1D5E309600451B6F /* HSReplay */,
 				434C2F2D1C7F433E001D1D91 /* Importers */,
 				439C7E931C777F8900D29859 /* Logging */,
 				432AD9571DAD468000D8F959 /* Network */,
+				436DFAA11E6AE1AB001C8F34 /* PackWatcher */,
 				43B6954E1C90387F00F4D0AC /* Replay */,
 				439C7E8E1C777D6C00D29859 /* Resources */,
 				C99C0C9B1D0A607D000DD6FB /* Statistics */,
@@ -1675,6 +1686,7 @@
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,
+				436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */,
 				437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */,
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,

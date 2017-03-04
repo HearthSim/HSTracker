@@ -28,26 +28,27 @@ struct LoadingScreenHandler {
                 game.inMenu()
             }
 
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
+            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
+                let game = (NSApp.delegate as? AppDelegate)?.game else { return }
 
             if game.currentMode == .draft {
-                //Watchers.ArenaWatcher.Run();
                 hearthstone.arenaDeckWatcher.start()
-                hearthstone.arenaWatcher.start()
+                if Settings.instance.showArenaHelper {
+                    hearthstone.arenaWatcher.start()
+                }
             } else if game.previousMode == .draft {
                 hearthstone.arenaWatcher.stop()
                 hearthstone.arenaDeckWatcher.stop()
             } else if game.currentMode == .packopening {
-                //Watchers.PackWatcher.Run();
-            } else if game.currentMode == .tavern_brawl {
-                //Core.Game.CacheBrawlInfo();
+                hearthstone.packWatcher.start()
+            } else if game.previousMode == .packopening {
+                hearthstone.packWatcher.stop()
             } else if game.currentMode == .tournament {
                 hearthstone.deckWatcher.start()
             } else if game.previousMode == .tournament {
                 hearthstone.deckWatcher.stop()
-            } else {
-                //Watchers.ArenaWatcher.Stop();
-                //Watchers.PackWatcher.Stop();
+            } else if game.currentMode == .hub {
+                game.clean()
             }
 
         } else if logLine.line.contains("Gameplay.Start") {

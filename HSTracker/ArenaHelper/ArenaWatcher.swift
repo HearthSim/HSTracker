@@ -7,7 +7,7 @@ import Foundation
 import Unbox
 import CleanroomLogger
 
-class ArenaWatcher {
+class ArenaWatcher: Watcher {
     private let heroes: [CardClass] = [
             .warrior,
             .shaman,
@@ -23,26 +23,7 @@ class ArenaWatcher {
     private var cardTiers: [ArenaCard] = []
     private var currentCards: [String] = []
 
-    private var queue: DispatchQueue?
-    var isRunning = false
-
-    func start() {
-        loadCardTiers()
-
-        Log.info?.message("Starting arena watcher")
-        queue = DispatchQueue(label: "be.michotte.hstracker.watchers.arena", attributes: [])
-        if let queue = queue {
-            isRunning = true
-            queue.async { [weak self] in
-                self?.waitForCard()
-            }
-        }
-    }
-
-    func stop() {
-        Log.info?.message("Stopping arena watcher")
-        isRunning = false
-
+    override func clean() {
         DispatchQueue.main.async {
             guard let game = (NSApp.delegate as? AppDelegate)?.game,
                 let secretTracker = game.windowManager?.secretTracker else { return }
@@ -50,7 +31,7 @@ class ArenaWatcher {
         }
     }
 
-    private func waitForCard() {
+    override func run() {
         while isRunning {
             guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
                   let mirror = hearthstone.mirror else {
@@ -95,6 +76,8 @@ class ArenaWatcher {
 
             Thread.sleep(forTimeInterval: 0.4)
         }
+
+        queue = nil
     }
 
     private func getCardTierInfo(id: String) -> ArenaCard? {

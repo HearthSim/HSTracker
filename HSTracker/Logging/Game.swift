@@ -249,6 +249,12 @@ class Game {
         windowManager?.hideGameTrackers()
     }
 
+    func clean() {
+        reset()
+
+        lastGame = nil
+    }
+
     func set(currentEntity id: Int) {
         currentEntityId = id
         if let entity = entities[id] {

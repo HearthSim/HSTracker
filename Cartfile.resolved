@@ -1,7 +1,7 @@
 github "emaloney/CleanroomASL" "2.1.2"
 github "groue/GRDB.swift" "v0.101.1"
 github "1024jp/GzipSwift" "3.1.4"
-github "HearthSim/HearthMirror" "da1b5282faec8d39f798b543790392b13c5452f6"
+github "HearthSim/HearthMirror" "aec4fe1ffe3fc4249f50272c34812d52a4488ded"
 github "bitstadium/HockeySDK-Mac" "4.1.2"
 github "jwilling/JNWCollectionView" "908fcdb5596774ed2179ee4e2bfbfe7e52395ddc"
 github "tid-kijyun/Kanna" "a53d4e4bf3f2db2c393eced3a3c97d45560cb14c"

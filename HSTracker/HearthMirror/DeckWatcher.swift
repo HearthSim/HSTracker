@@ -7,37 +7,48 @@
 //
 
 import Foundation
+import CleanroomLogger
 
-class DeckWatcher {
-
+class Watcher {
     internal var isRunning = false
-    private var _selectedDeckId: Int64 = 0
-
     internal var queue: DispatchQueue?
-
-    var selectedDeckId: Int64 {
-        return _selectedDeckId
-    }
 
     func start() {
         if isRunning {
             return
         }
 
-        queue = DispatchQueue(label: "be.michotte.hstracker.watchers.deck", attributes: [])
+        Log.info?.message("Starting \(type(of: self))")
+
+        queue = DispatchQueue(label: "be.michotte.hstracker.watchers.\(type(of: self))",
+            attributes: [])
         if let queue = queue {
             isRunning = true
             queue.async { [weak self] in
-                self?.readSelectedDeck()
+                self?.run()
             }
         }
     }
 
     func stop() {
         isRunning = false
+        Log.info?.message("Stopping \(type(of: self))")
+
+        clean()
     }
 
-    func readSelectedDeck() {
+    internal func run() {}
+    internal func clean() {}
+}
+
+class DeckWatcher: Watcher {
+    private var _selectedDeckId: Int64 = 0
+
+    var selectedDeckId: Int64 {
+        return _selectedDeckId
+    }
+
+    override func run() {
         while isRunning {
             guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
                   let mirror = hearthstone.mirror,
@@ -50,6 +61,8 @@ class DeckWatcher {
 
             Thread.sleep(forTimeInterval: 0.4)
         }
+
+        queue = nil
     }
 }
 
@@ -65,7 +78,7 @@ class ArenaDeckWatcher: DeckWatcher {
         return selectedDeck?.id as Int64? ?? 0
     }
     
-    override func readSelectedDeck() {
+    override func run() {
         while isRunning {
             guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
                 let mirror = hearthstone.mirror,
@@ -78,6 +91,8 @@ class ArenaDeckWatcher: DeckWatcher {
             
             Thread.sleep(forTimeInterval: 0.4)
         }
+
+        queue = nil
     }
     
 }
