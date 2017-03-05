@@ -399,7 +399,7 @@ class Tracker: OverWindowController {
                 playerClass.subviews.forEach({$0.removeFromSuperview()})
                 let hero = CardBar.factory()
                 hero.playerType = .hero
-                hero.playerClassID = Cards.hero(byPlayerClass: deck.playerClass)?.id
+                hero.playerClassID = game.player.playerClassId
                 hero.playerName = deck.name
 
                 playerClass.addSubview(hero)
