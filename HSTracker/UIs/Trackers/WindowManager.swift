@@ -55,6 +55,21 @@ class WindowManager {
     }(TimerHud(windowNibName: "TimerHud"))
 
     var floatingCard: FloatingCard = {
+        if let fWindow = $0.window {
+            
+            fWindow.level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
+            
+            if Settings.canJoinFullscreen {
+                fWindow.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+            } else {
+                fWindow.collectionBehavior = []
+            }
+            
+            fWindow.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
+            fWindow.ignoresMouseEvents = true
+            
+            fWindow.orderFront(nil)
+        }
         return $0
     }(FloatingCard(windowNibName: "FloatingCard"))
     
@@ -307,39 +322,51 @@ class WindowManager {
     // MARK: - Floating card
     var closeRequestTimer: Timer?
     @objc func showFloatingCard(_ notification: Notification) {
-        guard Settings.showFloatingCard else { return }
-
-        guard let card = notification.userInfo?["card"] as? Card,
-            let arrayFrame = notification.userInfo?["frame"] as? [CGFloat] else {
-                return
+        DispatchQueue.main.async { [unowned self] in
+            guard Settings.showFloatingCard else { return }
+            
+            guard let card = notification.userInfo?["card"] as? Card,
+                let arrayFrame = notification.userInfo?["frame"] as? [CGFloat] else {
+                    return
+            }
+            if let timer = self.closeRequestTimer {
+                timer.invalidate()
+                self.closeRequestTimer = nil
+            }
+            
+            if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float,
+                let drawchancetop2 = notification.userInfo?["drawchancetop2"] as? Float {
+                self.floatingCard.set(card: card, drawChanceTop: drawchancetop,
+                                 drawChanceTop2: drawchancetop2)
+            } else {
+                self.floatingCard.set(card: card, drawChanceTop: 0, drawChanceTop2: 0)
+            }
+            
+            if let fWindow = self.floatingCard.window {
+                fWindow.setFrameOrigin(NSPoint(x: arrayFrame[0],
+                                                            y: arrayFrame[1] - fWindow.frame.size.height/2))
+                
+                fWindow.level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
+                
+                if Settings.canJoinFullscreen {
+                    fWindow.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+                } else {
+                    fWindow.collectionBehavior = []
+                }
+                
+                fWindow.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
+                fWindow.ignoresMouseEvents = true
+                
+                fWindow.orderFront(nil)
+            }
+            
+            self.closeRequestTimer = Timer.scheduledTimer(
+                timeInterval: 3,
+                target: self,
+                selector: #selector(self.forceHideFloatingCard),
+                userInfo: nil,
+                repeats: false)
         }
-        if let timer = closeRequestTimer {
-            timer.invalidate()
-            closeRequestTimer = nil
-        }
-        
-        floatingCard.window?.level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
-        
-        if let drawchancetop = notification.userInfo?["drawchancetop"] as? Float,
-            let drawchancetop2 = notification.userInfo?["drawchancetop2"] as? Float {
-            floatingCard.set(card: card, drawChanceTop: drawchancetop,
-                             drawChanceTop2: drawchancetop2)
-        } else {
-            floatingCard.set(card: card, drawChanceTop: 0, drawChanceTop2: 0)
-        }
-        
-        if let fWindow = floatingCard.window {
-            floatingCard.window?.setFrameOrigin(NSPoint(x: arrayFrame[0],
-                                                    y: arrayFrame[1] - fWindow.frame.size.height/2))
-        }
-        floatingCard.showWindow(self)
-        
-        closeRequestTimer = Timer.scheduledTimer(
-            timeInterval: 3,
-            target: self,
-            selector: #selector(forceHideFloatingCard),
-            userInfo: nil,
-            repeats: false)
     }
 
     @objc func hideFloatingCard(_ notification: Notification) {
@@ -357,9 +384,11 @@ class WindowManager {
     }
     
     @objc func forceHideFloatingCard() {
-        floatingCard.window?.orderOut(self)
-        closeRequestTimer?.invalidate()
-        closeRequestTimer = nil
+        DispatchQueue.main.async { [unowned self] in
+            self.floatingCard.window?.orderOut(self)
+            self.closeRequestTimer?.invalidate()
+            self.closeRequestTimer = nil
+        }
     }
 
     func showHideCardHuds(_ notification: Notification) {

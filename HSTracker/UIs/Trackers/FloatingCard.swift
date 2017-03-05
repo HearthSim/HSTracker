@@ -16,7 +16,10 @@ class FloatingCard: OverWindowController {
 
     // for reference http://stackoverflow.com/questions/24062437
     var text: NSTextView? {
-        return scrollview.contentView.documentView as? NSTextView
+        if let scrollview = self.scrollview {
+            return scrollview.contentView.documentView as? NSTextView
+        }
+        return nil
     }
 
     var card: Card?
@@ -58,7 +61,7 @@ class FloatingCard: OverWindowController {
 
     private func reloadText() {
         var information = ""
-        if let card = card {
+        if let card = card, let title = self.title {
             title.attributedStringValue = NSAttributedString(string: card.name,
                                                              attributes: titleAttributes)
             if !card.text.isEmpty {

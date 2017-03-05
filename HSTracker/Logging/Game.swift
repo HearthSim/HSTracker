@@ -251,7 +251,7 @@ class Game {
 
     func clean() {
         reset()
-
+        gameEnded = true
         lastGame = nil
     }
 
