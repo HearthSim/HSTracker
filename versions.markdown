@@ -1,3 +1,9 @@
+# 0.19.3
+## Fixes:
+- Fixed an issue where HSTracker was using a lot of memory and cpu (eventually ?)
+- Fixed an issue where HSTracker was sending bad log lines to HsReplay
+- Fixed an issue where some UI parts were not visible on fullscreen mode 
+
 # 0.19.2
 ## New:
 - HSTracker is now localized in korean
