@@ -56,20 +56,20 @@ class LogUploader {
                 print("\(error)")
             }
 
-            if date == nil {
+            guard let _ = date else {
                 completion(.failed(error: "Cannot find game start date"))
                 return
             }
             if let line = lines.first({ $0.contains("CREATE_GAME") }) {
                 let (gameStart, _) = LogLine.parseTime(line: line)
-                //do {
-                    /*date = try date?.atTime(hour: gameStart.hour,
-                                            minute: gameStart.minute,
-                                            second: gameStart.second)*/
-                    date = gameStart
-                /*} catch {
-                    print("\(error)")
-                }*/
+                var dateComponents = LogReaderManager.calendar
+                    .dateComponents(in: LogReaderManager.timeZone,
+                                    from: date!)
+                dateComponents.hour = gameStart.hour
+                dateComponents.minute = gameStart.minute
+                dateComponents.second = gameStart.second
+
+                date = LogReaderManager.calendar.date(from: dateComponents)
             }
 
             let logLines = lines.map({

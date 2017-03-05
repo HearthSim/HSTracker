@@ -55,6 +55,7 @@ struct LogLine {
         dayComponents.hour = logComponents.hour
         dayComponents.minute = logComponents.minute
         dayComponents.second = logComponents.second
+        dayComponents.nanosecond = 0
         
         if let logDate = LogReaderManager.calendar.date(from: dayComponents) {
             if logDate > today {
