@@ -37,34 +37,28 @@ class WindowManager {
     }(Tracker(windowNibName: "Tracker"))
 
     var secretTracker: SecretTracker = {
-        $0.window?.orderFront(nil)
         return $0
     }(SecretTracker(windowNibName: "SecretTracker"))
     
     var playerBoardDamage: BoardDamage = {
         $0.player = .player
-        $0.window?.orderFront(nil)
         return $0
     }(BoardDamage(windowNibName: "BoardDamage"))
 
     var opponentBoardDamage: BoardDamage = {
         $0.player = .opponent
-        $0.window?.orderFront(nil)
         return $0
     }(BoardDamage(windowNibName: "BoardDamage"))
 
     var timerHud: TimerHud = {
-        $0.window?.orderFront(nil)
         return $0
     }(TimerHud(windowNibName: "TimerHud"))
 
     var floatingCard: FloatingCard = {
-        $0.window?.orderFront(nil)
         return $0
     }(FloatingCard(windowNibName: "FloatingCard"))
     
     var cardHudContainer: CardHudContainer = {
-        $0.window?.orderFront(nil)
         return $0
     }(CardHudContainer(windowNibName: "CardHudContainer"))
 
@@ -111,7 +105,7 @@ class WindowManager {
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
             self?.timerHud.window?.orderOut(nil)
-            self?.playerBoardDamage.window?.orderOut(nil)
+            //self?.playerBoardDamage.window?.orderOut(nil)
             self?.opponentBoardDamage.window?.orderOut(nil)
             self?.cardHudContainer.reset()
         }
@@ -422,7 +416,9 @@ class WindowManager {
 
                 window.orderFront(nil)
             } else {
-                NSApp.removeWindowsItem(window)
+                if title != nil {
+                    NSApp.removeWindowsItem(window)
+                }
                 window.orderOut(nil)
             }
         }
