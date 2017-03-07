@@ -23,6 +23,7 @@ class Deck: Object {
         get { return CardClass(rawValue: _playerClass)! }
         set { _playerClass = newValue.rawValue }
     }
+    dynamic var heroId = ""
 
     dynamic var deckMajorVersion: Int = 1
     dynamic var deckMinorVersion: Int = 0

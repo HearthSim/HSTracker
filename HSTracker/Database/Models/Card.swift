@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import HearthAssets
+import CleanroomLogger
 
 final class Card {
     // MARK: - Card data
@@ -30,6 +32,7 @@ final class Card {
     var mechanics: [CardMechanic] = []
     var isStandard = false
     var artist = ""
+    var jsonRepresentation: [String: Any] = [:]
 
     // MARK: - deck / games
     var count = 0
@@ -129,6 +132,8 @@ extension Card: NSCopying {
         copy.highlightDraw = self.highlightDraw
         copy.highlightInHand = self.highlightInHand
         copy.highlightFrame = self.highlightFrame
+        copy.jsonRepresentation = self.jsonRepresentation
+
         return copy
     }
 }
@@ -146,5 +151,17 @@ extension Card: Hashable {
 
     static func == (lhs: Card, rhs: Card) -> Bool {
         return lhs.id == rhs.id
+    }
+}
+
+extension HearthAssets {
+    func generate(card: Card,
+                  completed: @escaping ((NSImage?, HearthAssets.AssetError?) -> Void)) {
+        generate(card: card.jsonRepresentation, completed: completed)
+    }
+
+    func tile(card: Card,
+              completed: @escaping ((NSImage?, HearthAssets.AssetError?) -> Void)) {
+        tile(card: card.jsonRepresentation, completed: completed)
     }
 }

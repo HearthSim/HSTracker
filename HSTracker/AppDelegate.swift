@@ -11,6 +11,7 @@ import CleanroomLogger
 import MASPreferences
 import HockeySDK
 import RealmSwift
+import HearthAssets
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -52,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let config = Realm.Configuration(
             fileURL: destination.appendingPathComponent("hstracker.realm"),
-            schemaVersion: 4,
+            schemaVersion: 5,
             migrationBlock: { migration, oldSchemaVersion in
                 // version == 1 : add hearthstoneId in Deck,
                 // automatically managed by realm, nothing to do here
@@ -194,6 +195,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
+        let assetsOperation = BlockOperation {
+            DispatchQueue.main.async { [weak self] in
+                self?.splashscreen?.display(
+                        NSLocalizedString("Loading Hearthstone assets", comment: ""),
+                        indeterminate: true)
+            }
+            let path = Settings.hearthstonePath
+            self.hearthstone.assetGenerator = try? HearthAssets(path: path)
+            //self.hearthstone.assetGenerator?.locale = locale
+        }
+
         let databaseOperation = BlockOperation {
             let database = Database()
             database.loadDatabase(splashscreen: self.splashscreen!)
@@ -216,11 +228,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
+        databaseOperation.addDependency(assetsOperation)
         databaseOperation.addDependency(buildsOperation)
+        assetsOperation.addDependency(buildsOperation)
         loggingOperation.addDependency(menuOperation)
 
         operationQueue = OperationQueue()
         operationQueue?.addOperation(buildsOperation)
+        operationQueue?.addOperation(assetsOperation)
         operationQueue?.addOperation(databaseOperation)
         operationQueue?.addOperation(loggingOperation)
         operationQueue?.addOperation(menuOperation)

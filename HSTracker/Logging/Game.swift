@@ -17,6 +17,7 @@ struct PlayingDeck {
     let name: String
     let hsDeckId: Int64?
     let playerClass: CardClass
+    let heroId: String
     let cards: [Card]
     let isArena: Bool
 }
@@ -305,6 +306,7 @@ class Game {
                                   name: deck.name,
                                   hsDeckId: deck.hsDeckId.value,
                                   playerClass: deck.playerClass,
+                                  heroId: deck.heroId,
                                   cards: cards.sortCardList(),
                                   isArena: deck.isArena
         )
@@ -339,6 +341,7 @@ class Game {
             return
         }
 
+        ImageUtils.clearCache()
         reset()
         lastGameStart = Date()
 

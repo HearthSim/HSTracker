@@ -24,12 +24,13 @@ class Tracker: OverWindowController {
     @IBOutlet weak var fatigueTracker: StringTracker!
     @IBOutlet weak var graveyardCounter: GraveyardCounter!
     @IBOutlet weak var jadeCounter: JadeCounter!
-    
+
+    var hero: CardBar?
     var heroCard: Card?
     var animatedCards: [CardBar] = []
     var playerType: PlayerType?
     private var cellsCache = [String: NSView]()
-    
+
     var hasValidFrame = false
 
     override func windowDidLoad() {
@@ -95,7 +96,7 @@ class Tracker: OverWindowController {
         setOpacity()
         frameOptionsChange()
     }
-    
+
     func isLoaded() -> Bool {
         return self.isWindowLoaded
     }
@@ -365,26 +366,45 @@ class Tracker: OverWindowController {
         if !playerClass.isHidden && playerType == .opponent {
             if let playerClassId = game.opponent.playerClassId,
                 let playerName = game.opponent.name {
-                
+
                 offsetFrames += smallFrameHeight
-                
+
                 playerClass.frame = NSRect(x: 0,
                                            y: windowHeight - smallFrameHeight,
                                            width: windowHeight,
                                            height: smallFrameHeight)
                 startHeight += smallFrameHeight
-                
-                playerClass.subviews.forEach({$0.removeFromSuperview()})
-                let hero = CardBar.factory()
-                hero.playerType = .hero
-                hero.playerClassID = playerClassId
-                hero.playerName = playerName
-                
-                playerClass.addSubview(hero)
-                hero.frame = NSRect(x: 0, y: 0,
+
+                if hero == nil {
+                    hero = CardBar.factory()
+                    if let hero = hero {
+                        playerClass.addSubview(hero)
+                    }
+                }
+
+                hero?.playerType = .hero
+                hero?.card = Cards.hero(byId: playerClassId)
+                if let matchInfo = game.matchInfo, game.currentGameMode == .ranked {
+                    let wild = game.currentFormat == .wild
+                    var rank = wild
+                            ? matchInfo.opposingPlayer.wildRank
+                            : matchInfo.opposingPlayer.standardRank
+                    if rank < 0 {
+                        rank = wild
+                                ? matchInfo.opposingPlayer.wildLegendRank
+                                : matchInfo.opposingPlayer.standardLegendRank
+                    }
+
+                    if rank > 0 {
+                        hero?.playerRank = rank
+                    }
+                }
+                hero?.card?.count = 1
+                hero?.playerName = playerName
+                hero?.frame = NSRect(x: 0, y: 0,
                                     width: windowWidth,
                                     height: smallFrameHeight)
-                hero.update(highlight: false)
+                hero?.update(highlight: false)
             }
         } else if !playerClass.isHidden && playerType == .player {
             if let deck = game.currentDeck {
@@ -395,18 +415,42 @@ class Tracker: OverWindowController {
                                            width: windowHeight,
                                            height: smallFrameHeight)
                 startHeight += smallFrameHeight
+                if hero == nil {
 
-                playerClass.subviews.forEach({$0.removeFromSuperview()})
-                let hero = CardBar.factory()
-                hero.playerType = .hero
-                hero.playerClassID = game.player.playerClassId
-                hero.playerName = deck.name
+                    hero = CardBar.factory()
+                    if let hero = hero {
+                        playerClass.addSubview(hero)
+                    }
+                }
+                hero?.playerType = .hero
+                if !deck.heroId.isEmpty {
+                    hero?.card = Cards.hero(byId: deck.heroId)
+                } else {
+                    hero?.card = Cards.hero(byPlayerClass: deck.playerClass)
+                }
 
-                playerClass.addSubview(hero)
-                hero.frame = NSRect(x: 0, y: 0,
+                if let matchInfo = game.matchInfo, game.currentGameMode == .ranked {
+                    let wild = game.currentFormat == .wild
+                    var rank = wild
+                            ? matchInfo.localPlayer.wildRank
+                            : matchInfo.localPlayer.standardRank
+                    if rank < 0 {
+                        rank = wild
+                                ? matchInfo.localPlayer.wildLegendRank
+                                : matchInfo.localPlayer.standardLegendRank
+                    }
+
+                    if rank > 0 {
+                        hero?.playerRank = rank
+                    }
+                }
+                hero?.card?.count = 1
+                hero?.playerName = deck.name
+
+                hero?.frame = NSRect(x: 0, y: 0,
                                     width: windowWidth,
                                     height: smallFrameHeight)
-                hero.update(highlight: false)
+                hero?.update(highlight: false)
             }
         }
         if !opponentDrawChance.isHidden {
@@ -641,7 +685,7 @@ extension Tracker: NSWindowDelegate {
 // MARK: - CardCellHover
 extension Tracker: CardCellHover {
     func hover(cell: CardBar, card: Card) {
-        
+
         let windowRect = self.window!.frame
 
         let hoverFrame = NSRect(x: 0, y: 0, width: 180, height: 250)
@@ -656,16 +700,16 @@ extension Tracker: CardCellHover {
 
         let cellFrameRelativeToWindow = cell.convert(cell.bounds, to: nil)
         let cellFrameRelativeToScreen = cell.window?.convertToScreen(cellFrameRelativeToWindow)
-        
+
         let y: CGFloat = cellFrameRelativeToScreen!.origin.y
 
         let frame = [x, y, hoverFrame.width, hoverFrame.height]
-        
+
         var userinfo = [
             "card": card,
             "frame": frame
         ] as [String : Any]
-        
+
         if self.playerType == .player && Settings.showTopdeckchance {
             let game = (NSApp.delegate as? AppDelegate)?.game
             let playercardlist: [Card] = game?.player.playerCardList ?? []
@@ -675,7 +719,7 @@ extension Tracker: CardCellHover {
                 // probability that the top card is the one
                 let Pfirst = Float(cardindeckcount) / Float(remainingcardsindeck)
                 userinfo["drawchancetop"] = Pfirst * 100.0
-                    
+
                 // probability that the card is in the first 2 cards
                 var drawchancetop2: Float = 0.0
                 if remainingcardsindeck > 1 {
@@ -686,7 +730,7 @@ extension Tracker: CardCellHover {
                 userinfo["frame"] = frame
             }
         }
-        
+
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: "show_floating_card"),
                                   object: nil,

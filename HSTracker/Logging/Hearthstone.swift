@@ -10,6 +10,7 @@
 
 import Foundation
 import CleanroomLogger
+import HearthAssets
 
 enum HearthstoneLogError: Error {
     case canNotCreateDir,
@@ -21,6 +22,7 @@ final class Hearthstone: NSObject {
     let applicationName = "Hearthstone"
 
     var logReaderManager: LogReaderManager
+    var assetGenerator: HearthAssets?
 
     var mirror: HearthMirror?
     private var waitingForMirror = false

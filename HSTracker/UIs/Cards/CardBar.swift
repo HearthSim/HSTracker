@@ -18,8 +18,8 @@ protocol CardCellHover: class {
 protocol CardBarTheme {
     var card: Card? {get set}
     var playerType: PlayerType? {get set}
-    var playerClassID: String? {get set}
     var playerName: String? {get set}
+    var playerRank: Int? {get set}
     var isArena: Bool? {get set}
 }
 
@@ -52,15 +52,19 @@ class CardBar: NSView, CardBarTheme {
         return ""
     }
 
+    private var cardTile: NSImage?
     private var oldCard: Card?
     var card: Card? {
         didSet {
             oldCard = oldValue
+            if oldCard?.id != card?.id {
+                cardTile = nil
+            }
         }
     }
     var playerType: PlayerType?
-    var playerClassID: String?
     var playerName: String?
+    var playerRank: Int?
     var isArena: Bool?
 
     var hasAllRequired: Bool {
@@ -289,7 +293,7 @@ class CardBar: NSView, CardBarTheme {
             addCost()
         }
         addCardName()
-        if let card = card {
+        if let card = card, playerType != .hero {
             if let isArena = isArena,
                 playerType == .editDeck && !isArena && card.count >= 2 {
                 addDarken()
@@ -304,24 +308,32 @@ class CardBar: NSView, CardBarTheme {
         addCardImage(rect: imageRect)
     }
     func addCardImage(rect: NSRect, offsetByCountBox: Bool = false) {
-        guard let cardId = card?.id ?? playerClassID else { return }
-        let rarity = card?.rarity ?? .free
-        let count = card?.count ?? 1
+        guard let card = card else { return }
+        let rarity = card.rarity
+        var count = card.count
+        if count == 0 { count = 1 }
 
-        guard let image = ImageUtils.tile(for: cardId, completion: { [weak self] in
-            guard let _ = $0 else {
-                Log.warning?.message("No image for \(cardId)")
+        if let image = cardTile {
+            if offsetByCountBox && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
+                add(image: image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
+            } else {
+                add(image: image, rect: rect)
+            }
+
+            return
+        }
+
+        ImageUtils.tile(for: card, completion: { [weak self] in
+            guard let image = $0 else {
+                Log.warning?.message("No image for \(card)")
                 return
             }
 
-            self?.needsDisplay = true
-        }) else { return }
-
-        if offsetByCountBox && abs(count) > 1 && playerType != .editDeck || rarity == .legendary {
-            add(image: image, rect: rect.offsetBy(dx: imageOffset, dy: 0))
-        } else {
-            add(image: image, rect: rect)
-        }
+            self?.cardTile = image
+            DispatchQueue.main.async { [weak self] in
+                self?.needsDisplay = true
+            }
+        })
     }
 
     func addFadeOverlay() {
@@ -445,6 +457,7 @@ class CardBar: NSView, CardBarTheme {
 
     func addGem() {
         guard let card = card else { return }
+        if Cards.isHero(cardId: card.id) && (playerRank == nil || playerRank! < 0) { return }
 
         var gem = required[.defaultGem]
          if Settings.showRarityColors && hasAllOptionalGems {
@@ -471,12 +484,22 @@ class CardBar: NSView, CardBarTheme {
     func addCost(rect: NSRect) {
         guard let card = card else { return }
 
+        var cost = card.cost
+
         var textColor = card.textColor()
         if playerType == .cardList || playerType == .editDeck {
-            textColor = NSColor.white
+            textColor = .white
+        }
+        if Cards.isHero(cardId: card.id) {
+            if let rank = playerRank, rank > 0 {
+                textColor = .white
+                cost = rank
+            } else {
+                return
+            }
         }
 
-        add(text: card.cost, fontSize: costFontSize, rect: rect,
+        add(text: cost, fontSize: costFontSize, rect: rect,
                 textColor: textColor, font: numbersFont,
                 strokeThickness: -1.0, centered: true)
     }
@@ -492,7 +515,7 @@ class CardBar: NSView, CardBarTheme {
                 width -= abs(createdIconOffset)
             }
         }
-        
+
         addCardName(rect: NSRect(x: 38,
             y: 10,
             width: width,
@@ -502,11 +525,11 @@ class CardBar: NSView, CardBarTheme {
         var name: String?
         var textColor: NSColor = .white
 
-        if let card = card {
+        if let playerName = playerName {
+            name = playerName
+        } else if let card = card {
             name = card.name
             textColor = card.textColor()
-        } else if let playerName = playerName {
-            name = playerName
         }
 
         if playerType == .cardList || playerType == .editDeck {

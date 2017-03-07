@@ -24,8 +24,6 @@ class MinimalBar: CardBar {
 
         if let card = card {
             cardId = card.id
-        } else if let playerClassID = playerClassID {
-            cardId = playerClassID
         }
 
         if let cardId = cardId {

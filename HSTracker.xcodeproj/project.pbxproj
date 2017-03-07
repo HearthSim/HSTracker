@@ -10,7 +10,13 @@
 		1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
 		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
-		43050C641E6C1E05007600EA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43050C631E6C1E05007600EA /* Date.swift */; };
+		43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; };
+		43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43050C581E6B10DE007600EA /* UnityPack.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
+		43050C5C1E6B11A9007600EA /* HearthAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43050C5E1E6B11B3007600EA /* HearthAssets.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C5D1E6B11B3007600EA /* HearthAssets.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
 		4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
 		4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -179,6 +185,7 @@
 		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
 		4387BED21CF4D7A00002ECBB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4387BED11CF4D7A00002ECBB /* State.swift */; };
 		43883F1E1DA382BA00A7B79C /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43883F1D1DA382BA00A7B79C /* Language.swift */; };
+		438B04F91E6F55720071594B /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438B04F81E6F55720071594B /* Date.swift */; };
 		4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390FBB91DAA72E700AE71BB /* Version.swift */; };
 		439212151DEF5A5E0017AAE5 /* MultiClassGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
@@ -331,7 +338,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				43050C5E1E6B11B3007600EA /* HearthAssets.framework.dSYM in CopyFiles */,
 				436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */,
+				43050C581E6B10DE007600EA /* UnityPack.framework.dSYM in CopyFiles */,
 				437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */,
 				436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */,
 				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */,
@@ -362,8 +371,10 @@
 				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
 				431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */,
 				43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */,
+				43050C5C1E6B11A9007600EA /* HearthAssets.framework in Embed Frameworks */,
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				436789D51CAE484800C962D1 /* CleanroomASL.framework in Embed Frameworks */,
+				43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
 				43C568111D5F698C00451B6F /* ZipArchive.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
@@ -382,7 +393,12 @@
 		1CB623A51DD37C890045E0CF /* GlowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowFilter.h; sourceTree = "<group>"; };
 		1CB623A61DD37C890045E0CF /* GlowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowFilter.m; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
-		43050C631E6C1E05007600EA /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		43050C531E6B10B0007600EA /* UnityPack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UnityPack.framework; path = Carthage/Build/Mac/UnityPack.framework; sourceTree = "<group>"; };
+		43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = UnityPack.framework.dSYM; path = Carthage/Build/Mac/UnityPack.framework.dSYM; sourceTree = "<group>"; };
+		43050C591E6B11A4007600EA /* HearthAssets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HearthAssets.framework; path = Carthage/Build/Mac/HearthAssets.framework; sourceTree = "<group>"; };
+		43050C5D1E6B11B3007600EA /* HearthAssets.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthAssets.framework.dSYM; path = Carthage/Build/Mac/HearthAssets.framework.dSYM; sourceTree = "<group>"; };
+		43050C601E6B2C0E007600EA /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		43050C611E6B484D007600EA /* Hearthstone.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Hearthstone.xcassets; sourceTree = "<group>"; };
 		4305CA3D1CF42AC60048E7EC /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/Mac/Wrap.framework; sourceTree = "<group>"; };
 		4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Wrap.framework.dSYM; path = Carthage/Build/Mac/Wrap.framework.dSYM; sourceTree = "<group>"; };
 		4305CA461CF434E30048E7EC /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
@@ -619,6 +635,7 @@
 		43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowMove.swift; sourceTree = "<group>"; };
 		4387BED11CF4D7A00002ECBB /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		43883F1D1DA382BA00A7B79C /* Language.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		438B04F81E6F55720071594B /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		4390FBB91DAA72E700AE71BB /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiClassGroup.swift; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -716,7 +733,6 @@
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
 		43E77EE51C94B4B400C26950 /* CardHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHud.swift; sourceTree = "<group>"; };
 		43E77EEC1C969C4100C26950 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
-		43E7BEA31DBB67AB0057DC0C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		43E7BEA41DBB7F8E0057DC0C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/Mac/Realm.framework; sourceTree = "<group>"; };
 		43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/Mac/RealmSwift.framework; sourceTree = "<group>"; };
 		43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Realm.framework.dSYM; path = Carthage/Build/Mac/Realm.framework.dSYM; sourceTree = "<group>"; };
@@ -767,8 +783,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
+				43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */,
 				43BBAAA11E61A11F009B6298 /* JNWCollectionView.framework in Frameworks */,
 				4323C5EB1E1A501E00C97896 /* HearthMirror.framework in Frameworks */,
+				43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
@@ -843,6 +861,7 @@
 			children = (
 				434106A11C9868620045655A /* Assets.xcassets */,
 				434106A21C9868620045655A /* Classes.xcassets */,
+				43050C611E6B484D007600EA /* Hearthstone.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -1230,13 +1249,13 @@
 		439C7EE71C777FCF00D29859 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				438B04F81E6F55720071594B /* Date.swift */,
 				437E56E91DAAB81400FC0FC1 /* Array.swift */,
 				437E56EA1DAAB81400FC0FC1 /* Color.swift */,
 				437E56EC1DAAB81400FC0FC1 /* Int.swift */,
 				437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */,
 				437E56EF1DAAB81400FC0FC1 /* String.swift */,
 				434EAC951DBCD3E8009C7636 /* NSAlert.swift */,
-				43050C631E6C1E05007600EA /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1358,6 +1377,8 @@
 				431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */,
 				439DD8FD1DB24F83004EBE47 /* Gzip.framework */,
 				439DD8FF1DB24F8A004EBE47 /* Gzip.framework.dSYM */,
+				43050C591E6B11A4007600EA /* HearthAssets.framework */,
+				43050C5D1E6B11B3007600EA /* HearthAssets.framework.dSYM */,
 				4323C5EA1E1A501E00C97896 /* HearthMirror.framework */,
 				4323C5EC1E1A502900C97896 /* HearthMirror.framework.dSYM */,
 				436789911CABFB1600C962D1 /* HockeySDK.framework */,
@@ -1379,6 +1400,8 @@
 				43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */,
 				43BBAA991E619AA9009B6298 /* Unbox.framework */,
 				43BBAA9C1E619AD8009B6298 /* Unbox.framework.dSYM */,
+				43050C531E6B10B0007600EA /* UnityPack.framework */,
+				43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */,
 				4305CA3D1CF42AC60048E7EC /* Wrap.framework */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
 				43C5680F1D5F692800451B6F /* ZipArchive.framework */,
@@ -1437,7 +1460,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Benjamin Michotte";
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
@@ -1492,6 +1515,7 @@
 				4359BF951D5221FF00F61993 /* TrackOBotPreferences.xib in Resources */,
 				432B5FB91CB5372C00B05D19 /* GeneralPreferences.xib in Resources */,
 				4323C5ED1E1A502900C97896 /* HearthMirror.framework.dSYM in Resources */,
+				43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
@@ -1582,7 +1606,7 @@
 				434C2F2F1C7F437D001D1D91 /* NetImporter.swift in Sources */,
 				4359BF7F1D51F2EE00F61993 /* TrackOBotAPI.swift in Sources */,
 				43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */,
-				43050C641E6C1E05007600EA /* Date.swift in Sources */,
+				438B04F91E6F55720071594B /* Date.swift in Sources */,
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
@@ -2012,7 +2036,7 @@
 				437B5BC81CD256B000DE0A41 /* it */,
 				437B5BC91CD256B100DE0A41 /* es */,
 				437B5BCA1CD256B200DE0A41 /* de */,
-				43E7BEA31DBB67AB0057DC0C /* fr */,
+				43050C601E6B2C0E007600EA /* fr */,
 			);
 			name = TrackersPreferences.xib;
 			sourceTree = "<group>";

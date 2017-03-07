@@ -84,6 +84,7 @@ struct FullScreenFxHandler {
 
             // deck found, check if data needs to be updated
             let nameDoesNotMatch = storedDeck.name != selectedDeck.name
+                    || storedDeck.heroId != selectedDeck.hero
             let cardsDontMatch = storedDeck.diffTo(mirrorDeck: selectedDeck)
             if nameDoesNotMatch || (cardsDontMatch.success && (cardsDontMatch.cards.count > 0)) {
                 if nameDoesNotMatch {
@@ -96,6 +97,7 @@ struct FullScreenFxHandler {
                     try realm.write {
                         if nameDoesNotMatch {
                             storedDeck.name = selectedDeck.name
+                            storedDeck.heroId = selectedDeck.hero
                         }
 
                         let numDifferentCards: Int = cardsDontMatch.cards.reduce(0, {
@@ -148,6 +150,7 @@ struct FullScreenFxHandler {
             let deck = Deck()
             deck.name = selectedDeck.name as String
             deck.playerClass = hero.playerClass
+            deck.heroId = selectedDeck.hero as String
             deck.hsDeckId.value = selectedDeckId
 
             let cards = selectedDeck.cards
