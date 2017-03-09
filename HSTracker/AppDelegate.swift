@@ -228,14 +228,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-        databaseOperation.addDependency(assetsOperation)
         databaseOperation.addDependency(buildsOperation)
-        assetsOperation.addDependency(buildsOperation)
+        if Settings.useHearthstoneAssets {
+            databaseOperation.addDependency(assetsOperation)
+            assetsOperation.addDependency(buildsOperation)
+        }
         loggingOperation.addDependency(menuOperation)
 
         operationQueue = OperationQueue()
         operationQueue?.addOperation(buildsOperation)
-        operationQueue?.addOperation(assetsOperation)
+        if Settings.useHearthstoneAssets {
+            operationQueue?.addOperation(assetsOperation)
+        }
         operationQueue?.addOperation(databaseOperation)
         operationQueue?.addOperation(loggingOperation)
         operationQueue?.addOperation(menuOperation)

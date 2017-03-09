@@ -520,4 +520,10 @@ final class Settings {
         set { set(name: "automatically_downloads_updates", value: newValue) }
         get { return get(name: "automatically_downloads_updates") as? Bool ?? true }
     }
+
+    // MARK: - HearthAssets / HearthMirror
+    static var useHearthstoneAssets: Bool {
+        set { set(name: "use_hearthstone_assets", value: newValue) }
+        get { return get(name: "use_hearthstone_assets") as? Bool ?? false }
+    }
 }

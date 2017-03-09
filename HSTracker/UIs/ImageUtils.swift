@@ -43,7 +43,8 @@ struct ImageUtils {
         }
 
         if let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-           let assetGenerator = hearthstone.assetGenerator {
+           let assetGenerator = hearthstone.assetGenerator,
+            Settings.useHearthstoneAssets {
             assetGenerator.tile(card: card) { (image, error) in
                  if let _ = error {
                     loadTile(card: card, completion: completion)
@@ -52,6 +53,8 @@ struct ImageUtils {
                     completion(image)
                 }
             }
+        } else {
+            loadTile(card: card, completion: completion)
         }
     }
 
@@ -73,7 +76,8 @@ struct ImageUtils {
         }
 
         // Download image
-        guard let url = URL(string: "https://art.hearthstonejson.com/v1/tiles/\(card.id).png") else {
+        let cardUrl = "https://art.hearthstonejson.com/v1/tiles/\(card.id).png"
+        guard let url = URL(string: cardUrl) else {
             completion(nil)
             return
         }

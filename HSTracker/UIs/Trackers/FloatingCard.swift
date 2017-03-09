@@ -67,17 +67,19 @@ class FloatingCard: OverWindowController {
     }
 
     private func reload() {
-        switch Settings.floatingCardStyle {
-        case .image: reloadImage()
-        case .text: reloadText()
+        if Settings.useHearthstoneAssets && Settings.floatingCardStyle == .image {
+            reloadImage()
+        } else {
+            reloadText()
         }
     }
 
     private func reloadImage() {
         guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
             let card = card else {
-            imageView.image = nil
-            return
+                imageView.image = nil
+                reloadText()
+                return
         }
 
         title.isHidden = true
