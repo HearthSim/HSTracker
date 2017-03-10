@@ -71,6 +71,8 @@ struct BuildDates {
 
         guard let latestBuild = self.latestBuild else { return }
         let build = latestBuild.build
+
+        var hasError = false
         for locale in Language.hsLanguages {
             DispatchQueue.main.async {
                 splashscreen.increment(String(format:
@@ -83,23 +85,31 @@ struct BuildDates {
 
             if let url = URL(string: cardUrl) {
                 URLSession.shared
-                    .dataTask(with: url, completionHandler: { data, _, error in
-                        if let data = data {
+                    .dataTask(with: url) { data, response, error in
+                        if let response = response as? HTTPURLResponse,
+                            response.statusCode != 200 {
+                            hasError = true
+                            Log.error?.message("Can not download \(cardUrl) "
+                                + "-> statusCode : \(response.statusCode)")
+                        } else if let error = error {
+                            hasError = true
+                            Log.error?.message("\(error)")
+                        } else if let data = data {
                             let dir = Paths.cardJson
                             let dest = dir.appendingPathComponent("cardsDB.\(locale).json")
                             Log.info?.message("Saving \(cardUrl) to \(dest)")
                             try? data.write(to: dest, options: [.atomic])
-                        } else if let error = error {
-                            Log.error?.message("\(error)")
                         }
 
                         semaphore.signal()
-                    }) .resume()
+                    }.resume()
             }
             let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         }
 
-        UserDefaults.standard.set(build, forKey: "hs_latest_build")
+        if !hasError {
+            UserDefaults.standard.set(build, forKey: "hs_latest_build")
+        }
     }
 
     static func get(byDate date: Date) -> BuildDate? {
