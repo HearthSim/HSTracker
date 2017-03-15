@@ -89,9 +89,18 @@ class TagChangeHandler {
         creationTagActionQueue.removeAll()
     }
 
+    struct LogEntity {
+        var id: Int?
+        var zonePos: Int?
+        var player: Int?
+        var name: String?
+        var zone: String?
+        var cardId: String?
+        var type: String?
+    }
+
     // parse an entity
-    func parseEntity(entity: String) -> (id: Int?, zonePos: Int?, player: Int?,
-        name: String?, zone: String?, cardId: String?, type: String?) {
+    func parseEntity(entity: String) -> LogEntity {
 
         var id: Int?, zonePos: Int?, player: Int?
         if entity.match(ParseEntityIDRegex) {
@@ -132,7 +141,7 @@ class TagChangeHandler {
             }
         }
 
-        return (id, zonePos, player, name, zone, cardId, type)
+        return LogEntity (id: id, zonePos: zonePos, player: player, name: name, zone: zone, cardId: cardId, type: type)
     }
 
     // check if the entity is a raw entity
