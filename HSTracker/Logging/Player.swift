@@ -123,6 +123,21 @@ final class Player {
             }).filter({ $0.hasCardId })
     }
 
+    var heroPowerDmg: Int {
+        let isJusticar = revealedCards.index (where: {(card) -> Bool in
+            card.id == CardIds.Collectible.Neutral.JusticarTrueheart}) != nil
+        switch playerClass! {
+            case .hunter: return isJusticar ? 3 : 2
+            case .druid,
+                 .rogue,
+                 .mage: return isJusticar ? 2 : 1
+            case .priest:
+                let shadowCount = revealedCards.filter({ $0.id == CardIds.Collectible.Priest.Shadowform }).count
+                return shadowCount == 0 ? 0 : shadowCount + 1
+            default: return 0
+        }
+    }
+
     var hand: [Entity] { return playerEntities.filter({ $0.isInHand }) }
     var board: [Entity] { return playerEntities.filter({ $0.isInPlay }) }
     var deck: [Entity] { return playerEntities.filter({ $0.isInDeck }) }

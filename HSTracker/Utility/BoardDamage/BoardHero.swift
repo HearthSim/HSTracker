@@ -20,17 +20,6 @@ class BoardHero: IBoardEntity {
         return _weapon != nil
     }
 
-    var heroPowerAttack: Int {
-        switch _hero._class {
-        case "MAGE":
-            return 1
-        case "HUNTER":
-            return 2
-        default:
-            return 0
-        }
-    }
-
     // total health, including armor
     var health: Int {
         return _hero.health
