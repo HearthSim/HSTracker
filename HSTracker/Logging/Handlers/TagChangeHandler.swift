@@ -97,12 +97,18 @@ class TagChangeHandler {
         var zone: String?
         var cardId: String?
         var type: String?
+
+        func isValid() -> Bool {
+            let a: [Any?] = [id, zonePos, player, name, zone, cardId, type]
+            return a.any { $0 != nil }
+        }
     }
 
     // parse an entity
     func parseEntity(entity: String) -> LogEntity {
-
         var id: Int?, zonePos: Int?, player: Int?
+        var name: String?, zone: String?, cardId: String?, type: String?
+
         if entity.match(ParseEntityIDRegex) {
             if let match = entity.matches(ParseEntityIDRegex).first {
                 id = Int(match.value)
@@ -118,8 +124,6 @@ class TagChangeHandler {
                 player = Int(match.value)
             }
         }
-
-        var name: String?, zone: String?, cardId: String?, type: String?
         if entity.match(ParseEntityNameRegex) {
             if let match = entity.matches(ParseEntityNameRegex).first {
                 name = match.value
@@ -141,15 +145,13 @@ class TagChangeHandler {
             }
         }
 
-        return LogEntity (id: id, zonePos: zonePos, player: player, name: name, zone: zone, cardId: cardId, type: type)
+        return LogEntity(id: id, zonePos: zonePos, player: player,
+                         name: name, zone: zone, cardId: cardId, type: type)
     }
 
     // check if the entity is a raw entity
     func isEntity(rawEntity: String) -> Bool {
-        let entity = parseEntity(entity: rawEntity)
-        let a: [Any?] = [entity.id, entity.zonePos, entity.player,
-                               entity.name, entity.zone, entity.cardId, entity.type]
-        return a.any {$0 != nil}
+        return parseEntity(entity: rawEntity).isValid()
     }
 
     func parseTag(tag: GameTag, rawValue: String) -> Int {
