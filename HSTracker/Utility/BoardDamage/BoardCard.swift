@@ -16,7 +16,8 @@ class BoardCard: IBoardEntity {
     private var _frozen = false
     private var _health = 0
     private var _stdAttack = 0
-    
+
+    private(set) var _class = ""
     private(set) var cardId = ""
     private(set) var taunt = false
     private(set) var charge = false
@@ -39,6 +40,7 @@ class BoardCard: IBoardEntity {
         name = String.isNullOrEmpty(entity.name) ? cardName : entity.name!
         
         _stdAttack = entity[.atk]
+        _class = entity[.class]
         _health = entity[.health]
         _armor = entity[.armor]
         _durability = entity[.durability]

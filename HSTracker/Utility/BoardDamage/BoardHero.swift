@@ -12,24 +12,47 @@ class BoardHero: IBoardEntity {
     private(set) var _baseAttack = 0
     private(set) var _hero: BoardCard
     private(set) var _weapon: BoardCard?
-    
-    var name: String { return _hero.name }
-    var hasWeapon: Bool { return _weapon != nil }
-    
+
+    var name: String {
+        return _hero.name
+    }
+    var hasWeapon: Bool {
+        return _weapon != nil
+    }
+
+    var heroPowerAttack: Int {
+        switch _hero._class {
+        case "MAGE":
+            return 1
+        case "HUNTER":
+            return 2
+        default:
+            return 0
+        }
+    }
+
     // total health, including armor
-    var health: Int { return _hero.health }
-    
+    var health: Int {
+        return _hero.health
+    }
+
     // total attack, weapon plus abilities
     private(set) var attack = 0
-    
-    var attacksThisTurn: Int { return _hero.attacksThisTurn }
-    
-    var exhausted: Bool { return _hero.exhausted }
-    
+
+    var attacksThisTurn: Int {
+        return _hero.attacksThisTurn
+    }
+
+    var exhausted: Bool {
+        return _hero.exhausted
+    }
+
     private(set) var include = false
-    
-    var zone: String { return _hero.zone }
-    
+
+    var zone: String {
+        return _hero.zone
+    }
+
     init(hero: Entity, weapon: Entity?, activeTurn: Bool) {
         _hero = BoardCard(entity: hero, active: activeTurn)
         // hero gains windfury with weapon, doubling attack get base attack
@@ -40,8 +63,8 @@ class BoardHero: IBoardEntity {
         include = activeTurn && _hero.include
         attack = attackWithWeapon()
     }
-    
-    private func attackWithWeapon() -> Int {
+
+    func attackWithWeapon() -> Int {
         // weapon is equipped
         if let weapon = _weapon, include {
             // windfury weapon, with more than 2 chages
