@@ -317,7 +317,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
 
         if let c = cards.first({ $0.id == card.id }) {
-            c.count = c.count + 1
+            c.count += 1
         } else {
             cards.append(card)
         }
@@ -325,7 +325,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func remove(card: Card) {
         guard let c = cards.first({ $0.id == card.id }) else { return }
-        c.count = c.count - 1
+        c.count -= 1
         if c.count == 0 {
             cards.remove(c)
         }

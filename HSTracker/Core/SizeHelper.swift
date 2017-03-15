@@ -103,8 +103,8 @@ struct SizeHelper {
             let height = frame.height
             
             if relative {
-                pointX = pointX * scaleX
-                pointY = pointY * scaleY
+                pointX *= scaleX
+                pointY *= scaleY
             }
             
             let x: CGFloat = self.frame.minX + pointX
@@ -186,7 +186,7 @@ struct SizeHelper {
 
         // correct location with window origin.
         loc.x += hsRect.origin.x
-        loc.y = loc.y + (
+        loc.y += (
             hearthstoneWindow.screenRect.height - hsRect.origin.y - hsRect.size.height)
         return loc
     }
@@ -212,7 +212,7 @@ struct SizeHelper {
 
         // correct location with window origin.
         loc.x += hsRect.origin.x
-        loc.y = loc.y + (hearthstoneWindow.screenRect.height - hsRect.origin.y - hsRect.size.height)
+        loc.y += (hearthstoneWindow.screenRect.height - hsRect.origin.y - hsRect.size.height)
         return loc
     }
 
