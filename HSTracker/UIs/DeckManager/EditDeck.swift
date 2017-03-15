@@ -57,7 +57,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var currentCardType: CardType = .invalid
     var deckUndoManager: UndoManager?
 
-    var monitor: Any? = nil
+    var monitor: Any?
 
     var saveDeck: SaveDeck?
 

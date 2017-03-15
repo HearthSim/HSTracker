@@ -397,7 +397,7 @@ class WindowManager {
 
     // MARK: - Utility functions
     func show(controller: OverWindowController, show: Bool,
-                      frame: NSRect? = nil, title: String? = nil) {
+              frame: NSRect? = nil, title: String? = nil) {
         guard let window = controller.window else { return }
 
         DispatchQueue.main.async {

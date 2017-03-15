@@ -59,9 +59,9 @@ struct Http {
     }
 
     func json(method: HttpMethod,
-                      parameters: [String: Any] = [:],
-                      headers: [String: String] = [:],
-                      completion: @escaping (Any?) -> Void) {
+              parameters: [String: Any] = [:],
+              headers: [String: String] = [:],
+              completion: @escaping (Any?) -> Void) {
         guard let urlRequest = prepareRequest(method: method,
                                               encoding: .json,
                                               parameters: parameters,

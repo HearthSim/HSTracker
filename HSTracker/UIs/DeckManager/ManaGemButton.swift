@@ -12,7 +12,7 @@ import TextAttributes
 class ManaGemButtonCell: NSButtonCell {
     override func drawTitle(_ title: NSAttributedString,
                             withFrame frame: NSRect,
-                                      in controlView: NSView) -> NSRect {
+                            in controlView: NSView) -> NSRect {
         return super.drawTitle(title,
                                withFrame: NSRect(x: 2, y: -4, width: 28, height: 32),
                                in: controlView)

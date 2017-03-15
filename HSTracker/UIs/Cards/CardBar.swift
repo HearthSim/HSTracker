@@ -549,16 +549,16 @@ class CardBar: NSView, CardBarTheme {
     }
 
     private func add(text value: Int, fontSize: CGFloat,
-                         rect: NSRect, textColor: NSColor, font: String,
-                         strokeThickness: CGFloat = -2.0, centered: Bool = false) {
+                     rect: NSRect, textColor: NSColor, font: String,
+                     strokeThickness: CGFloat = -2.0, centered: Bool = false) {
         add(text: "\(value)", fontSize: fontSize,
-                rect: rect, textColor: textColor, font: font,
-                strokeThickness: strokeThickness, centered: centered)
+            rect: rect, textColor: textColor, font: font,
+            strokeThickness: strokeThickness, centered: centered)
     }
 
     private func add(text value: String, fontSize: CGFloat,
-                         rect: NSRect, textColor: NSColor, font: String,
-                         strokeThickness: CGFloat = -2.0, centered: Bool = false) {
+                     rect: NSRect, textColor: NSColor, font: String,
+                     strokeThickness: CGFloat = -2.0, centered: Bool = false) {
 
         if let font = NSFont(name: font, size: round(fontSize / ratioHeight)) {
             let ratioRect = ratio(rect)

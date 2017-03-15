@@ -45,8 +45,8 @@ class StatsHelper {
     
     static let lg = LadderGrid()
     
-    static func getStatsUITableData(deck: Deck, mode: GameMode = .ranked, season: Int)
-        -> [StatsTableRow] {
+    static func getStatsUITableData(deck: Deck,
+                                    mode: GameMode = .ranked, season: Int) -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
         
         for againstClass in [.neutral] + Cards.classes {
@@ -72,7 +72,7 @@ class StatsHelper {
             let interval = binomialProportionCondifenceInterval(wins: record.wins,
                                                                 losses: record.losses,
                                                                 confidence: statsUIConfidence)
-            dataRow.confidenceWindow   = interval.upper - interval.lower
+            dataRow.confidenceWindow = interval.upper - interval.lower
             
             tableData.append(dataRow)
         }
@@ -80,105 +80,99 @@ class StatsHelper {
         return tableData
     }
 
-    static func getLadderTableData(deck: Deck, rank: Int, stars: Int, streak: Bool)
-        -> [LadderTableRow] {
-            
-            var tableData = [LadderTableRow]()
-            
-            let record = getDeckRecord(deck: deck, againstClass: .neutral, mode: .ranked)
-            let tpg = getDeckTimePerGame(deck: deck, againstClass: .neutral, mode: .ranked)
-            
-            let winRate = getDeckWinRate(record: record)
-            
-            let totalStars = Ranks.starsAtRank[rank]! + stars
-            var bonus: Int = 0
-            if streak {
-                bonus = 2
+    static func getLadderTableData(deck: Deck, rank: Int,
+                                   stars: Int, streak: Bool) -> [LadderTableRow] {
+        var tableData = [LadderTableRow]()
+
+        let record = getDeckRecord(deck: deck, againstClass: .neutral, mode: .ranked)
+        let tpg = getDeckTimePerGame(deck: deck, againstClass: .neutral, mode: .ranked)
+
+        let winRate = getDeckWinRate(record: record)
+
+        let totalStars = Ranks.starsAtRank[rank]! + stars
+        var bonus: Int = 0
+        if streak {
+            bonus = 2
+        }
+
+        for target_rank in [20, 15, 10, 5, 0] {
+            let dataRow = LadderTableRow()
+
+            if target_rank == 0 {
+                dataRow.rank = "Legend"
+            } else {
+                dataRow.rank = String(target_rank)
             }
-            
-            for target_rank in [20, 15, 10, 5, 0] {
-                let dataRow = LadderTableRow()
-                
-                if target_rank == 0 {
-                    dataRow.rank = "Legend"
-                } else {
-                    dataRow.rank = String(target_rank)
+
+            if rank <= target_rank || winRate == -1.0 {
+                dataRow.games = "--"
+                dataRow.gamesCI = "--"
+                dataRow.time = "--"
+                dataRow.timeCI = "--"
+            } else {
+
+                // Closures for repeated tasks
+                let getGames = { (winp: Double) -> Double? in
+                    return lg.getGamesToRank(targetRank: target_rank,
+                                             stars: totalStars,
+                                             bonus: bonus,
+                                             winp: winp)
                 }
-                
-                if rank <= target_rank || winRate == -1.0 {
-                    dataRow.games = "--"
-                    dataRow.gamesCI = "--"
-                    dataRow.time = "--"
-                    dataRow.timeCI = "--"
-                } else {
-                    
-                    // Closures for repeated tasks
-                    let getGames = {
-                        (winp: Double) -> Double? in
-                        return lg.getGamesToRank(targetRank: target_rank,
-                                                 stars: totalStars,
-                                                 bonus: bonus,
-                                                 winp: winp)
-                    }
-                    
-                    let formatGames = {
-                        (games: Double) -> String in
-                        if games > 1000 {
-                            return ">1000"
-                        } else {
-                            return String(Int(round(games)))
-                        }
-                    }
-                    
-                    let formatTime = {
-                        (games: Double, timePerGame: Double) -> String in
-                        let hours = games * timePerGame / 3600
-                        if hours > 100 {
-                            return ">100"
-                        } else {
-                            return String(format: "%.1f", hours)
-                        }
-                    }
-                    
-                    // Means
-                    if let g2r = getGames(winRate) {
-                        dataRow.games = formatGames(g2r)
-                        dataRow.time = formatTime(g2r, tpg)
+
+                let formatGames = { (games: Double) -> String in
+                    if games > 1000 {
+                        return ">1000"
                     } else {
-                        dataRow.games = "Error"
-                        dataRow.time = "Error"
-                    }
-                    
-                    // swiftlint:disable line_length
-                    //Confidence intervals
-                    let interval = binomialProportionCondifenceInterval(wins: record.wins,
-                                                                        losses: record.losses,
-                                                                        confidence: statsUIConfidence)
-                    // swiftlint:enable line_length
-                    if let lg2r = getGames(interval.lower),
-                        let ug2r = getGames(interval.upper) {
-                        dataRow.gamesCI = "\(formatGames(ug2r)) - \(formatGames(lg2r))"
-                        dataRow.timeCI = "\(formatTime(ug2r, tpg)) - \(formatTime(lg2r, tpg))"
-                    } else {
-                        dataRow.gamesCI = "Error"
-                        dataRow.timeCI = "Error"
+                        return String(Int(round(games)))
                     }
                 }
-                
-                tableData.append(dataRow)
+
+                let formatTime = { (games: Double, timePerGame: Double) -> String in
+                    let hours = games * timePerGame / 3600
+                    if hours > 100 {
+                        return ">100"
+                    } else {
+                        return String(format: "%.1f", hours)
+                    }
+                }
+
+                // Means
+                if let g2r = getGames(winRate) {
+                    dataRow.games = formatGames(g2r)
+                    dataRow.time = formatTime(g2r, tpg)
+                } else {
+                    dataRow.games = "Error"
+                    dataRow.time = "Error"
+                }
+
+                //Confidence intervals
+                let interval = binomialProportionCondifenceInterval(wins: record.wins,
+                                                                    losses: record.losses,
+                                                                    confidence: statsUIConfidence)
+                if let lg2r = getGames(interval.lower),
+                    let ug2r = getGames(interval.upper) {
+                    dataRow.gamesCI = "\(formatGames(ug2r)) - \(formatGames(lg2r))"
+                    dataRow.timeCI = "\(formatTime(ug2r, tpg)) - \(formatTime(lg2r, tpg))"
+                } else {
+                    dataRow.gamesCI = "Error"
+                    dataRow.timeCI = "Error"
+                }
             }
-            
-            return tableData
+
+            tableData.append(dataRow)
+        }
+
+        return tableData
     }
-    
+
     static func getDeckManagerRecordLabel(deck: Deck, mode: GameMode) -> String {
         let record = getDeckRecord(deck: deck, mode: mode)
-        
+
         let totalGames = record.total
         if totalGames == 0 {
             return "0 - 0"
         }
-        
+
         return "\(record.wins) - \(record.losses) (\(getDeckWinRateString(record: record)))"
     }
     
@@ -232,33 +226,32 @@ class StatsHelper {
     }
     
     static func getDeckRecord(deck: Deck, againstClass: CardClass = .neutral,
-                              mode: GameMode = .ranked, season: Int = 0)
-        -> StatsDeckRecord {
-            var stats = Array(deck.gameStats)
-            if againstClass != .neutral {
-                stats = stats.filter { $0.opponentHero == againstClass }
-            }
-            if season > 0 {
-                stats = stats.filter { $0.season == season }
-            }
-            
-            var rankedStats: [GameStats]
-            if mode == .all {
-                rankedStats = stats
-            } else {
-                rankedStats = stats.filter { $0.gameMode == mode }
-            }
-            
-            let wins = rankedStats.filter { $0.result == .win }.count
-            let losses = rankedStats.filter { $0.result == .loss }.count
-            let draws = rankedStats.filter { $0.result == .draw }.count
-            
-            return StatsDeckRecord(wins: wins,
-                                   losses: losses,
-                                   draws: draws,
-                                   total: wins + losses + draws)
+                              mode: GameMode = .ranked, season: Int = 0) -> StatsDeckRecord {
+        var stats = Array(deck.gameStats)
+        if againstClass != .neutral {
+            stats = stats.filter { $0.opponentHero == againstClass }
+        }
+        if season > 0 {
+            stats = stats.filter { $0.season == season }
+        }
+
+        var rankedStats: [GameStats]
+        if mode == .all {
+            rankedStats = stats
+        } else {
+            rankedStats = stats.filter { $0.gameMode == mode }
+        }
+
+        let wins = rankedStats.filter { $0.result == .win }.count
+        let losses = rankedStats.filter { $0.result == .loss }.count
+        let draws = rankedStats.filter { $0.result == .draw }.count
+
+        return StatsDeckRecord(wins: wins,
+                               losses: losses,
+                               draws: draws,
+                               total: wins + losses + draws)
     }
-    
+
     static func getDeckConfidenceString(record: StatsDeckRecord,
                                         confidence: Double = 0.9) -> String {
         let interval = binomialProportionCondifenceInterval(wins: record.wins,
@@ -310,46 +303,48 @@ class StatsHelper {
         }
     }
 
-    static func binomialProportionCondifenceInterval(wins: Int, losses: Int,
-                                                     confidence: Double = 0.9)
-        -> (lower: Double, upper: Double, mean: Double) {
-            // Implements the Wilson interval
-            
-            let alpha = 1.0 - confidence
-            assert(alpha >= 0.0)
-            assert(alpha <= 1.0)
-            
-            let n = Double(wins + losses)
-            // bounds checking
-            if n < 1 {
-                return (0.0, 1.0, 0.5)
-            }
-            
-            let quantile = 1 - 0.5 * alpha
-            let z = sqrt(2) * erfinv(y: 2 * quantile - 1)
-            
-            let p = Double(wins) / Double(n)
-            
-            let center = p + z * z / (2 * n)
-            let spl = p * (1 - p) / n + z * z / (4 * n * n)
-            let spread = z * sqrt(spl)
-            let prefactor = 1 / (1 + z * z / n)
-            
-            var lower = prefactor * (center - spread)
-            var upper = prefactor * (center + spread)
-            let mean = prefactor * (center)
-            
-            lower = max(lower, 0.0)
-            upper = min(upper, 1.0)
-            
-            return (lower, upper, mean)
+    struct BinomialInterval {
+        var lower: Double
+        var upper: Double
+        var mean: Double
     }
-    
+
+    static func binomialProportionCondifenceInterval(wins: Int, losses: Int,
+                                                     confidence: Double = 0.9) -> BinomialInterval {
+        // Implements the Wilson interval
+
+        let alpha = 1.0 - confidence
+        assert(alpha >= 0.0)
+        assert(alpha <= 1.0)
+
+        let n = Double(wins + losses)
+        // bounds checking
+        if n < 1 {
+            return BinomialInterval(lower: 0.0, upper: 1.0, mean: 0.5)
+        }
+
+        let quantile = 1 - 0.5 * alpha
+        let z = sqrt(2) * erfinv(y: 2 * quantile - 1)
+
+        let p = Double(wins) / Double(n)
+
+        let center = p + z * z / (2 * n)
+        let spl = p * (1 - p) / n + z * z / (4 * n * n)
+        let spread = z * sqrt(spl)
+        let prefactor = 1 / (1 + z * z / n)
+
+        var lower = prefactor * (center - spread)
+        var upper = prefactor * (center + spread)
+        let mean = prefactor * (center)
+
+        lower = max(lower, 0.0)
+        upper = min(upper, 1.0)
+
+        return BinomialInterval(lower: lower, upper: upper, mean: mean)
+    }
+
     static func erfinv(y: Double) -> Double {
-        // swiftlint:disable line_length
-        // Taken from:
-        // http://stackoverflow.com/questions/36784763/is-there-an-inverse-error-function-available-in-swifts-foundation-import
-        // swiftlint:enable line_length
+        // Taken from: http://stackoverflow.com/questions/36784763
         
         let center = 0.7
         let a = [ 0.886226899, -1.645349621, 0.914624893, -0.140543331]

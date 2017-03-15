@@ -95,10 +95,10 @@ final class Cards {
     }
 
     static func search(className: CardClass?, sets: [CardSet] = [],
-                                 term: String = "", cost: Int = -1,
-                                 rarity: Rarity? = .none, standardOnly: Bool = false,
-                                 damage: Int = -1, health: Int = -1, type: CardType = .invalid,
-                                 race: Race?) -> [Card] {
+                       term: String = "", cost: Int = -1,
+                       rarity: Rarity? = .none, standardOnly: Bool = false,
+                       damage: Int = -1, health: Int = -1, type: CardType = .invalid,
+                       race: Race?) -> [Card] {
         var cards = collectible()
 
         if term.isEmpty {

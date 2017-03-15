@@ -52,7 +52,7 @@ class InternalGameStats {
             _format = newValue
         }
     }
-    var hsReplayId: String? = nil
+    var hsReplayId: String?
     var opponentCards: [Card] = []
     var revealedCards: [Card] = []
 
@@ -193,7 +193,7 @@ class GameStats: Object {
     dynamic var brawlWins = 0
     dynamic var brawlLosses = 0
 
-    dynamic var __format: String? = nil
+    dynamic var __format: String?
     private var _format: Format? {
         get {
             if let __format = __format {
@@ -212,7 +212,7 @@ class GameStats: Object {
         }
     }
 
-    dynamic var hsReplayId: String? = nil
+    dynamic var hsReplayId: String?
     let opponentCards = List<RealmCard>()
     let revealedCards = List<RealmCard>()
 

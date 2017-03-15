@@ -173,8 +173,8 @@ extension StatsTab : NSTableViewDelegate {
         return nil
     }
     
-    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange
-        oldDescriptors: [NSSortDescriptor]) {
+    func tableView(_ tableView: NSTableView,
+                   sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         if tableView == statsTable {
             DispatchQueue.main.async {
                 self.sortStatsTable()

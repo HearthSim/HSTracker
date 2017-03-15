@@ -1142,7 +1142,7 @@ class Game {
 
     func opponentSecretPlayed(entity: Entity, cardId: String?,
                               from: Int, turn: Int,
-                                fromZone: Zone, otherId: Int) {
+                              fromZone: Zone, otherId: Int) {
         opponentSecretCount += 1
 
         switch fromZone {

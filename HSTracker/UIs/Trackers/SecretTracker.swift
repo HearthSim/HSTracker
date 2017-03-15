@@ -51,7 +51,7 @@ extension SecretTracker: NSTableViewDataSource {
 extension SecretTracker: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView,
                    viewFor tableColumn: NSTableColumn?,
-                                      row: Int) -> NSView? {
+                   row: Int) -> NSView? {
         let card = cards[row]
         let cell = CardBar.factory()
         cell.card = card
