@@ -12,6 +12,7 @@ import CleanroomLogger
 class Watcher {
     internal var isRunning = false
     internal var queue: DispatchQueue?
+    internal var refreshInterval: TimeInterval = 0.5
 
     func start() {
         if isRunning {
@@ -42,24 +43,22 @@ class Watcher {
 }
 
 class DeckWatcher: Watcher {
-    private var _selectedDeckId: Int64 = 0
-
-    var selectedDeckId: Int64 {
-        return _selectedDeckId
-    }
+    private(set) var selectedDeckId: Int64 = 0
 
     override func run() {
         while isRunning {
             guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
                   let mirror = hearthstone.mirror,
                   let deckId = mirror.getSelectedDeck() as? Int64 else {
-                Thread.sleep(forTimeInterval: 0.4)
+                Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
 
-            self._selectedDeckId = deckId > 0 ? deckId : self._selectedDeckId
+            if deckId > 0 {
+                self.selectedDeckId = deckId
+            }
 
-            Thread.sleep(forTimeInterval: 0.4)
+            Thread.sleep(forTimeInterval: refreshInterval)
         }
 
         queue = nil
@@ -68,11 +67,7 @@ class DeckWatcher: Watcher {
 
 class ArenaDeckWatcher: DeckWatcher {
     
-    private var _selectedDeck: MirrorDeck?
-    
-    var selectedDeck: MirrorDeck? {
-        return self._selectedDeck
-    }
+    private(set) var selectedDeck: MirrorDeck?
     
     override var selectedDeckId: Int64 {
         return selectedDeck?.id as Int64? ?? 0
@@ -83,13 +78,13 @@ class ArenaDeckWatcher: DeckWatcher {
             guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
                 let mirror = hearthstone.mirror,
                 let arenaInfo = mirror.getArenaDeck() else {
-                Thread.sleep(forTimeInterval: 0.4)
+                Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
             
-            self._selectedDeck = arenaInfo.deck
+            self.selectedDeck = arenaInfo.deck
             
-            Thread.sleep(forTimeInterval: 0.4)
+            Thread.sleep(forTimeInterval: refreshInterval)
         }
 
         queue = nil
