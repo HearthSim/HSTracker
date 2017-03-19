@@ -220,7 +220,7 @@ class WindowManager {
                 hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             if !game.gameEnded {
                 var heroPowerDmg = 0
-                if !game.playerUsedHeroPower, let heroPower = board.opponent.heroPower {
+                if !game.playerUsedHeroPower, let heroPower = board.player.heroPower {
                     heroPowerDmg = heroPower.damage
                 }
                 playerBoardDamage.update(attack: board.player.damage + heroPowerDmg)
