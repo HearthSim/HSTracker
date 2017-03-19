@@ -121,21 +121,19 @@ final class LogReaderManager {
 
     func processLine(line: LogLine) {
         guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
-
-        DispatchQueue.main.async { [weak self] in
-            if line.include {
-                switch line.namespace {
-                case .power: self?.powerGameStateHandler.handle(game: game, logLine: line)
-                case .rachelle: self?.rachelleHandler.handle(game: game, logLine: line)
-                case .arena: self?.arenaHandler.handle(game: game, logLine: line)
-                case .loadingScreen: self?.loadingScreenHandler.handle(game: game, logLine: line)
-                case .fullScreenFX: self?.fullScreenFxHandler.handle(game: game, logLine: line)
-                default: break
-                }
-            } else {
-                if line.namespace == .power {
-                    game.powerLog.append(line)
-                }
+        
+        if line.include {
+            switch line.namespace {
+            case .power: self.powerGameStateHandler.handle(game: game, logLine: line)
+            case .rachelle: self.rachelleHandler.handle(game: game, logLine: line)
+            case .arena: self.arenaHandler.handle(game: game, logLine: line)
+            case .loadingScreen: self.loadingScreenHandler.handle(game: game, logLine: line)
+            case .fullScreenFX: self.fullScreenFxHandler.handle(game: game, logLine: line)
+            default: break
+            }
+        } else {
+            if line.namespace == .power {
+                game.powerLog.append(line)
             }
         }
     }
