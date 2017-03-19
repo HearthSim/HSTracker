@@ -15,21 +15,21 @@ class BoardHero: IBoardEntity {
     
     var name: String { return _hero.name }
     var hasWeapon: Bool { return _weapon != nil }
-
+    
     // total health, including armor
     var health: Int { return _hero.health }
-
+    
     // total attack, weapon plus abilities
     private(set) var attack = 0
-
+    
     var attacksThisTurn: Int { return _hero.attacksThisTurn }
-
+    
     var exhausted: Bool { return _hero.exhausted }
-
+    
     private(set) var include = false
-
+    
     var zone: String { return _hero.zone }
-
+    
     init(hero: Entity, weapon: Entity?, activeTurn: Bool) {
         _hero = BoardCard(entity: hero, active: activeTurn)
         // hero gains windfury with weapon, doubling attack get base attack
@@ -40,7 +40,7 @@ class BoardHero: IBoardEntity {
         include = activeTurn && _hero.include
         attack = attackWithWeapon()
     }
-
+    
     private func attackWithWeapon() -> Int {
         // weapon is equipped
         if let weapon = _weapon, include {

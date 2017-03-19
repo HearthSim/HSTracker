@@ -16,7 +16,7 @@ class BoardCard: IBoardEntity {
     private var _frozen = false
     private var _health = 0
     private var _stdAttack = 0
-
+    
     private(set) var cardId = ""
     private(set) var taunt = false
     private(set) var charge = false
