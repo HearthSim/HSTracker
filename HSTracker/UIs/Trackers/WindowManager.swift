@@ -219,7 +219,11 @@ class WindowManager {
             ( (Settings.hideAllWhenGameInBackground &&
                 hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             if !game.gameEnded {
-                playerBoardDamage.update(attack: board.player.damage + game.player.heroPowerDmg)
+                var heroPowerDmg = 0
+                if !game.playerUsedHeroPower, let heroPower = board.opponent.heroPower {
+                    heroPowerDmg = heroPower.damage
+                }
+                playerBoardDamage.update(attack: board.player.damage + heroPowerDmg)
                 if Settings.autoPositionTrackers {
                     rect = SizeHelper.playerBoardDamageFrame()
                 } else {
@@ -242,7 +246,11 @@ class WindowManager {
             ( (Settings.hideAllWhenGameInBackground &&
                 hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             if !game.gameEnded {
-                opponentBoardDamage.update(attack: board.opponent.damage + game.opponent.heroPowerDmg)
+                var heroPowerDmg = 0
+                if !game.opponentUsedHeroPower, let heroPower = board.opponent.heroPower {
+                    heroPowerDmg = heroPower.damage
+                }
+                opponentBoardDamage.update(attack: board.opponent.damage + heroPowerDmg)
                 if Settings.autoPositionTrackers {
                     rect = SizeHelper.opponentBoardDamageFrame()
                 } else {
