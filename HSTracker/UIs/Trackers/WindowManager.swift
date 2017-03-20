@@ -221,7 +221,7 @@ class WindowManager {
             if !game.gameEnded {
                 var heroPowerDmg = 0
                 if !game.playerUsedHeroPower, let heroPower = board.player.heroPower,
-                   heroPower.cost <= game.turnNumber()  {
+                   heroPower.cost <= game.turnNumber() {
                     heroPowerDmg = heroPower.damage
                 }
                 playerBoardDamage.update(attack: board.player.damage + heroPowerDmg)
