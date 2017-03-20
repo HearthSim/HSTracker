@@ -19,6 +19,18 @@ struct MatchInfo {
         var wildLegendRank: Int
         var wildStars: Int
         var cardBackId: Int
+
+        init(player: MirrorPlayer) {
+            self.name = player.name
+            self.playerId = player.playerId as Int
+            self.standardRank = player.standardRank as Int
+            self.standardLegendRank = player.standardLegendRank as Int
+            self.standardStars = player.standardStars as Int
+            self.wildRank = player.wildRank as Int
+            self.wildLegendRank = player.wildLegendRank as Int
+            self.wildStars = player.wildStars as Int
+            self.cardBackId = player.cardBackId as Int
+        }
     }
 
     var localPlayer: Player
@@ -28,25 +40,8 @@ struct MatchInfo {
     var rankedSeasonId: Int
 
     init(info: MirrorMatchInfo) {
-        localPlayer = Player(name: info.localPlayer.name,
-                             playerId: info.localPlayer.playerId as Int,
-                             standardRank: info.localPlayer.standardRank as Int,
-                             standardLegendRank: info.localPlayer.standardLegendRank as Int,
-                             standardStars: info.localPlayer.standardStars as Int,
-                             wildRank: info.localPlayer.wildRank as Int,
-                             wildLegendRank: info.localPlayer.wildLegendRank as Int,
-                             wildStars: info.localPlayer.wildStars as Int,
-                             cardBackId: info.localPlayer.cardBackId as Int)
-
-        opposingPlayer = Player(name: info.opposingPlayer.name,
-                                playerId: info.opposingPlayer.playerId as Int,
-                                standardRank: info.opposingPlayer.standardRank as Int,
-                                standardLegendRank: info.opposingPlayer.standardLegendRank as Int,
-                                standardStars: info.opposingPlayer.standardStars as Int,
-                                wildRank: info.opposingPlayer.wildRank as Int,
-                                wildLegendRank: info.opposingPlayer.wildLegendRank as Int,
-                                wildStars: info.opposingPlayer.wildStars as Int,
-                                cardBackId: info.opposingPlayer.cardBackId as Int)
+        localPlayer = Player(player: info.localPlayer)
+        opposingPlayer = Player(player: info.opposingPlayer)
 
         brawlSeasonId = info.brawlSeasonId as Int
         missionId = info.missionId as Int
