@@ -289,6 +289,9 @@
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC2B851E1D749E9800BC812B /* Hearthstonetopdecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
+		BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
+		BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */; };
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
 		BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C680C1D1F225F009030DC /* StatsTab.swift */; };
@@ -339,6 +342,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */,
 				43050C5E1E6B11B3007600EA /* HearthAssets.framework.dSYM in CopyFiles */,
 				436789A91CAC07BB00C962D1 /* CleanroomASL.framework.dSYM in CopyFiles */,
 				43050C581E6B10DE007600EA /* UnityPack.framework.dSYM in CopyFiles */,
@@ -379,6 +383,7 @@
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
 				43C568111D5F698C00451B6F /* ZipArchive.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
+				BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */,
 				43E7BEA61DBB7F8F0057DC0C /* Realm.framework in Embed Frameworks */,
 				43BBAAA31E61A130009B6298 /* JNWCollectionView.framework in Embed Frameworks */,
 				43E7BEA71DBB7F8F0057DC0C /* RealmSwift.framework in Embed Frameworks */,
@@ -753,6 +758,8 @@
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstonetopdecks.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
+		BC78DD761E80871600DBA7C9 /* BTree.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BTree.framework; path = Carthage/Build/Mac/BTree.framework; sourceTree = "<group>"; };
+		BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = BTree.framework.dSYM; path = Carthage/Build/Mac/BTree.framework.dSYM; sourceTree = "<group>"; };
 		BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraveyardCounter.swift; sourceTree = "<group>"; };
 		BCA70F281E2C16DD00038A6C /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		BCA70F291E2C16DD00038A6C /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
@@ -792,17 +799,16 @@
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
-				43050C551E6B10B7007600EA /* UnityPack.framework in Frameworks */,
 				43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */,
 				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
 				43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */,
-				43050C5B1E6B11A9007600EA /* HearthAssets.framework in Frameworks */,
 				43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */,
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
 				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
+				BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */,
 				431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */,
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
@@ -1028,6 +1034,8 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
+				BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */,
+				BC78DD761E80871600DBA7C9 /* BTree.framework */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
 				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,

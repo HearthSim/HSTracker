@@ -75,6 +75,7 @@ public class LinkedList<T> {
     public func clear() {
         head = nil
         tail = nil
+        _count = 0
     }
     
     public func remove(node: Node<T>) -> T {
@@ -118,20 +119,39 @@ public class ConcurrentQueue<T> {
     private var elements = LinkedList<T>()
     private let accessQueue = DispatchQueue(label: "SynchronizedQueueAccess", attributes: .concurrent)
     
-    public func append(value: T) {
+    public func enqueue(value: T) {
         self.accessQueue.async(flags:.barrier) {
             self.elements.append(value: value)
         }
     }
     
+    public func dequeue() -> T? {
+        var result: T?
+        self.accessQueue.async(flags:.barrier) {
+            if let tail = self.elements.last {
+                result = self.elements.remove(node: tail)
+            }
+        }
+        return result
+    }
+    
     public func removeAtIndex(index: Int) {
-        
         self.accessQueue.async(flags:.barrier) {
             self.elements.remove(at: index)
         }
     }
     
     public func count() -> Int {
-        return elements.count()
+        var result = 0
+        self.accessQueue.async(flags:.barrier) {
+            result = self.elements.count()
+        }
+        return result
+    }
+    
+    public func clear() {
+        self.accessQueue.async(flags:.barrier) {
+            self.elements.clear()
+        }
     }
 }

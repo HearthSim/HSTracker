@@ -10,6 +10,7 @@
 
 import Foundation
 import CleanroomLogger
+import BTree
 
 final class LogReaderManager {
     let powerGameStateHandler = PowerGameStateHandler()
@@ -53,6 +54,8 @@ final class LogReaderManager {
 
     var running = false
     var stopped = false
+    private var queue: DispatchQueue?
+    private var processMap = Map<Date, [LogLine]>()
     
     init(logPath: String) {
         let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
@@ -81,7 +84,17 @@ final class LogReaderManager {
             Log.error?.message("LogReaderManager is already running")
             return
         }
-
+        
+        queue = DispatchQueue(label: "be.michotte.hstracker.logReaderManager", attributes: [])
+        
+        if let queue = queue {
+            queue.async {
+                self.startLogReaders()
+            }
+        }
+    }
+    
+    private func startLogReaders() {
         stopped = false
         running = true
         let entryPoint = self.entryPoint()
@@ -89,6 +102,44 @@ final class LogReaderManager {
             reader.start(manager: self, entryPoint: entryPoint)
         }
         gameStatePowerLogReader.start(manager: self, entryPoint: entryPoint)
+        
+        while !stopped {
+            for reader in readers {
+                let loglines = reader.collect()
+                for line in loglines {
+                    var lineList: [LogLine]?
+                    if let loglist = processMap[line.time] {
+                        lineList = loglist
+                    } else {
+                        lineList = [LogLine]()
+                    }
+                    lineList?.append(line)
+                    processMap[line.time] = lineList
+                }
+                
+            }
+            
+            for lineList in processMap.values {
+                if stopped {
+                    break
+                }
+                for line in lineList {
+                    if stopped {
+                        break
+                    }
+                    processLine(line: line)
+                }
+            }
+            processMap.removeAll()
+            
+            let powerLines = gameStatePowerLogReader.collect()
+            for line in powerLines {
+                processLine(line: line)
+            }
+            
+            Thread.sleep(forTimeInterval: 0.1)
+        }
+        running = false
     }
 
     func stop() {
@@ -119,7 +170,7 @@ final class LogReaderManager {
         return powerEntry > loadingScreenEntry ? powerEntry : loadingScreenEntry
     }
 
-    func processLine(line: LogLine) {
+    private func processLine(line: LogLine) {
         guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
         
         if line.include {

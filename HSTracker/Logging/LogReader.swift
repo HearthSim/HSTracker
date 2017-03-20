@@ -23,6 +23,7 @@ final class LogReader {
     private var logReaderManager: LogReaderManager?
 
     private var queue: DispatchQueue?
+    private var _lines = ConcurrentQueue<LogLine>()
 
     init(info: LogReaderInfo, logPath: String) {
         self.info = info
@@ -127,7 +128,7 @@ final class LogReader {
                                         line: line,
                                         include: info.include)
                                 if logLine.time >= startingPoint {
-                                    logReaderManager?.processLine(line: logLine)
+                                    _lines.enqueue(value: logLine)
                                 }
                             }
                         }
@@ -207,7 +208,9 @@ final class LogReader {
         Log.info?.message("Stopping tracker \(info.name)")
         fileHandle?.closeFile()
         fileHandle = nil
-
+        
+        _lines.clear()
+        
         // try to truncate log file when stopping
         if let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
            fileManager.fileExists(atPath: path), !hearthstone.isHearthstoneRunning {
@@ -217,5 +220,18 @@ final class LogReader {
             offset = 0
         }
         stopped = true
+    }
+    
+    func collect() -> [LogLine] {
+        var items = [LogLine]()
+        let size = _lines.count()
+        
+        for _ in 0..<size {
+            if let elem = _lines.dequeue() {
+                items.append(elem)
+            }
+        }
+
+        return items
     }
 }
