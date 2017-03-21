@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
 		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
+		1CF1B58A1E81426D007DCBF2 /* AlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
 		43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; };
 		43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -398,6 +399,7 @@
 		1C132F811DBA24C1002B1BF2 /* AppHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppHealth.swift; sourceTree = "<group>"; };
 		1CB623A51DD37C890045E0CF /* GlowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowFilter.h; sourceTree = "<group>"; };
 		1CB623A61DD37C890045E0CF /* GlowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowFilter.m; sourceTree = "<group>"; };
+		1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
 		43050C531E6B10B0007600EA /* UnityPack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UnityPack.framework; path = Carthage/Build/Mac/UnityPack.framework; sourceTree = "<group>"; };
 		43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = UnityPack.framework.dSYM; path = Carthage/Build/Mac/UnityPack.framework.dSYM; sourceTree = "<group>"; };
@@ -1009,6 +1011,7 @@
 		437B5BB11CD2437D00DE0A41 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */,
 				434910481D09544200B22DB2 /* BoardDamage */,
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
@@ -1017,7 +1020,6 @@
 				43AFEEEA1E22529C00F6045A /* CollectionManager.swift */,
 				BCA70F281E2C16DD00038A6C /* FileUtils.h */,
 				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
-				BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1034,8 +1036,6 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
-				BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */,
-				BC78DD761E80871600DBA7C9 /* BTree.framework */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
 				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
@@ -1086,10 +1086,11 @@
 		439C7E5F1C7772C100D29859 /* HSTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
+				1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */,
 				C94596811D174FBA008CD47A /* StatsTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
-				439C7E621C7772C100D29859 /* Info.plist */,
 				43D307FC1C835DBA00480488 /* NetImportTest.swift */,
+				439C7E621C7772C100D29859 /* Info.plist */,
 			);
 			path = HSTrackerTests;
 			sourceTree = "<group>";
@@ -1381,6 +1382,8 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BC78DD761E80871600DBA7C9 /* BTree.framework */,
+				BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */,
 				4367898F1CABFB1600C962D1 /* CleanroomASL.framework */,
 				436789A21CAC07BB00C962D1 /* CleanroomASL.framework.dSYM */,
 				436789901CABFB1600C962D1 /* CleanroomLogger.framework */,
@@ -1786,6 +1789,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */,
+				1CF1B58A1E81426D007DCBF2 /* AlgorithmTests.swift in Sources */,
 				C94596821D174FBA008CD47A /* StatsTests.swift in Sources */,
 				439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */,
 			);

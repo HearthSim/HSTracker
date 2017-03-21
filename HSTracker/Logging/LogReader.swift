@@ -149,7 +149,7 @@ final class LogReader {
                 fileHandle = nil
             }
 
-            Thread.sleep(forTimeInterval: 0.1)
+            Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
     }
 
@@ -224,7 +224,7 @@ final class LogReader {
     
     func collect() -> [LogLine] {
         var items = [LogLine]()
-        let size = _lines.count()
+        let size = _lines.count
         
         for _ in 0..<size {
             if let elem = _lines.dequeue() {

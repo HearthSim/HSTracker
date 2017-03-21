@@ -106,7 +106,7 @@ public class LinkedList<T> {
         }
     }
     
-    public func count() -> Int {
+	public var count: Int {
         return self._count
     }
 }
@@ -127,24 +127,18 @@ public class ConcurrentQueue<T> {
     
     public func dequeue() -> T? {
         var result: T?
-        self.accessQueue.async(flags:.barrier) {
-            if let tail = self.elements.last {
-                result = self.elements.remove(node: tail)
+        self.accessQueue.sync(flags:.barrier) {
+            if let head = self.elements.first {
+                result = self.elements.remove(node: head)
             }
         }
         return result
     }
     
-    public func removeAtIndex(index: Int) {
-        self.accessQueue.async(flags:.barrier) {
-            self.elements.remove(at: index)
-        }
-    }
-    
-    public func count() -> Int {
+	public var count: Int {
         var result = 0
-        self.accessQueue.async(flags:.barrier) {
-            result = self.elements.count()
+        self.accessQueue.sync(flags:.barrier) {
+            result = self.elements.count
         }
         return result
     }

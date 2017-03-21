@@ -13,6 +13,9 @@ import CleanroomLogger
 import BTree
 
 final class LogReaderManager {
+	
+	static let updateDelay: TimeInterval = 0.1
+	
     let powerGameStateHandler = PowerGameStateHandler()
     let rachelleHandler = RachelleHandler()
     let arenaHandler = ArenaHandler()
@@ -137,7 +140,7 @@ final class LogReaderManager {
                 processLine(line: line)
             }
             
-            Thread.sleep(forTimeInterval: 0.1)
+            Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
         running = false
     }
