@@ -1,78 +1,97 @@
 /*
- * This file is part of the HSTracker package.
- * (c) Benjamin Michotte <bmichotte@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * Created on 13/02/16.
- */
+* This file is part of the HSTracker package.
+* (c) Benjamin Michotte <bmichotte@gmail.com>
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*
+* Created on 13/02/16.
+*/
 
 import CleanroomLogger
 
 struct LogLine {
-    let namespace: LogLineNamespace
-    let time: Date
-    let line: String
-    let nanoseconds: Double
-    let include: Bool
-
-    init(namespace: LogLineNamespace, line: String, include: Bool = true) {
-        self.namespace = namespace
-        self.line = line
-        (self.time, self.nanoseconds) = LogLine.parseTime(line: line)
-        self.include = include
-    }
-    
-    static func parseTime(line: String) -> (Date, Double) {
-        
-        if line.characters.count <= 20 { return (Date(), 0) }
-        
-        guard let fromLine = line.substringWithRange(2, location: 16)
-            .components(separatedBy: " ").first else { return (Date(), 0) }
-        
-        if fromLine.isEmpty { return (Date(), 0) }
-        
-        let components = fromLine.components(separatedBy: ".")
-        if components.count > 2 { return (Date(), 0) }
-        
-        guard let dateTime = LogReaderManager.dateStringFormatter.date(from: components[0])
-            else { return (Date(), 0) }
-        
-        // check if nanoseconds are available
-        var nanoseconds: Double = 0
-        if components.count == 2 && components[1].characters.count >= 3 {
-            if let ns = Double(components[1]) {
-                nanoseconds = ns
-            }
-        }
-        
-        // construct full date from the partial one
-        let today = Date()
-        var dayComponents = LogReaderManager.calendar.dateComponents(in: LogReaderManager.timeZone, from: today)
-        let logComponents = LogReaderManager.calendar.dateComponents(in: LogReaderManager.timeZone, from: dateTime)
-        
-        dayComponents.hour = logComponents.hour
-        dayComponents.minute = logComponents.minute
-        dayComponents.second = logComponents.second
-        dayComponents.nanosecond = 0
-        
-        if let logDate = LogReaderManager.calendar.date(from: dayComponents) {
-            if logDate > today {
-                return (LogReaderManager.calendar.date(byAdding: .day, value: -1, to: logDate) ?? Date(), nanoseconds)
-            } else {
-                return (logDate, nanoseconds)
-            }
-        }
-        
-        return (Date(), 0)
-        
-    }
+	let namespace: LogLineNamespace
+	let time: Date
+	let content: String
+	let line: String
+	let include: Bool
+	
+	private static let dateStringFormatterNS: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.locale = Locale(identifier: "en_US_POSIX")
+		formatter.dateFormat = "HH:mm:ss.SSSSSSS"
+		formatter.timeZone = TimeZone.current
+		return formatter
+	}()
+	
+	private static let dateStringFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.locale = Locale(identifier: "en_US_POSIX")
+		formatter.dateFormat = "HH:mm:ss"
+		formatter.timeZone = TimeZone.current
+		return formatter
+	}()
+	
+	private static let trimFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.timeStyle = DateFormatter.Style.none
+		formatter.dateStyle = DateFormatter.Style.short
+		return formatter
+	}()
+	
+	init(namespace: LogLineNamespace, line: String, include: Bool = true) {
+		self.namespace = namespace
+		self.include = include // FIXME: we dont want this here
+		self.line = line
+		
+		if line.characters.count <= 20 {
+			self.time = Date()
+			self.content = ""
+			return
+		}
+		
+		let linecomponents = line.components(separatedBy: " ")
+		
+		if linecomponents.count < 3 {
+			self.time = Date()
+			self.content = ""
+			return
+		}
+		
+		var time = Date()
+		
+		// parse time
+		if linecomponents[1].components(separatedBy: ".").count > 1 {
+			LogLine.dateStringFormatterNS.defaultDate = LogLine.DateNoTime(date: time)
+			if let date = LogLine.dateStringFormatterNS.date(from: linecomponents[1]) {
+				time = date
+			}
+		} else {
+			LogLine.dateStringFormatter.defaultDate = LogLine.DateNoTime(date: time)
+			if let date = LogLine.dateStringFormatter.date(from: linecomponents[1]) {
+				time = date
+			}
+		}
+		
+		if time > Date() {
+			time = LogReaderManager.calendar.date(byAdding: .day, value: -1, to: time) ?? Date()
+		}
+		
+		self.time = time
+		self.content = linecomponents[2..<linecomponents.count].joined(separator: " ")
+	}
+	
+	private static func DateNoTime(date: Date) -> Date {
+		
+		let str = LogLine.trimFormatter.string(from: date) // 12/15/16
+		return LogLine.trimFormatter.date(from: str)!
+	}
 }
 
 extension LogLine: CustomStringConvertible {
-    var description: String {
-        let dateStr = LogReaderManager.fullDateStringFormatter.string(from: time)
-        return "\(namespace): \(dateStr).\(nanoseconds): \(line)"
-    }
+	var description: String {
+		let dateStr = LogReaderManager.fullDateStringFormatter.string(from: time)
+		return "\(namespace): \(dateStr): \(content)"
+	}
 }

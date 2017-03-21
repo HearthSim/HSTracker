@@ -10,6 +10,7 @@
 		1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
 		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
 		1CF1B58A1E81426D007DCBF2 /* AlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */; };
+		1CF1B58C1E815810007DCBF2 /* LogReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
 		43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; };
 		43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -400,6 +401,7 @@
 		1CB623A51DD37C890045E0CF /* GlowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowFilter.h; sourceTree = "<group>"; };
 		1CB623A61DD37C890045E0CF /* GlowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowFilter.m; sourceTree = "<group>"; };
 		1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
+		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
 		43050C531E6B10B0007600EA /* UnityPack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UnityPack.framework; path = Carthage/Build/Mac/UnityPack.framework; sourceTree = "<group>"; };
 		43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = UnityPack.framework.dSYM; path = Carthage/Build/Mac/UnityPack.framework.dSYM; sourceTree = "<group>"; };
@@ -1087,9 +1089,10 @@
 			isa = PBXGroup;
 			children = (
 				1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */,
-				C94596811D174FBA008CD47A /* StatsTests.swift */,
 				439C7E601C7772C100D29859 /* HSTrackerTests.swift */,
+				1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */,
 				43D307FC1C835DBA00480488 /* NetImportTest.swift */,
+				C94596811D174FBA008CD47A /* StatsTests.swift */,
 				439C7E621C7772C100D29859 /* Info.plist */,
 			);
 			path = HSTrackerTests;
@@ -1792,6 +1795,7 @@
 				1CF1B58A1E81426D007DCBF2 /* AlgorithmTests.swift in Sources */,
 				C94596821D174FBA008CD47A /* StatsTests.swift in Sources */,
 				439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */,
+				1CF1B58C1E815810007DCBF2 /* LogReaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

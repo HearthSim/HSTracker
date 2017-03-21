@@ -61,7 +61,7 @@ class LogUploader {
                 return
             }
             if let line = lines.first({ $0.contains("CREATE_GAME") }) {
-                let (gameStart, _) = LogLine.parseTime(line: line)
+                let gameStart = LogLine(namespace: .power, line: line).time
                 var dateComponents = LogReaderManager.calendar
                     .dateComponents(in: LogReaderManager.timeZone,
                                     from: date!)
@@ -93,9 +93,6 @@ class LogUploader {
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         let log = logLines.sorted {
-            if $0.time == $1.time {
-                return $0.nanoseconds < $1.nanoseconds
-            }
             return $0.time < $1.time
             }.map { $0.line }
         upload(logLines: log, statistic: statistic, gameStart: gameStart,

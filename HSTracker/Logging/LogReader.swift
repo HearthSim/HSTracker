@@ -61,8 +61,7 @@ final class LogReader {
         for line in lines {
             if choices.any({ line.range(of: $0) != nil }) {
                 Log.verbose?.message("Found \(line)")
-                let (date, _) = LogLine.parseTime(line: line)
-                return date
+				return LogLine(namespace: .power, line: line).time
             }
         }
 
