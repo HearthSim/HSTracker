@@ -32,22 +32,26 @@ class ArenaWatcher: Watcher {
     }
 
     override func run() {
+        if cardTiers.count == 0 {
+            loadCardTiers()
+        }
+
         while isRunning {
             guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                  let mirror = hearthstone.mirror else {
-                Thread.sleep(forTimeInterval: 0.4)
-                continue
+                let mirror = hearthstone.mirror else {
+                    Thread.sleep(forTimeInterval: refreshInterval)
+                    continue
             }
 
             let choices = mirror.getArenaDraftChoices()
             if choices.count != 3 {
-                Thread.sleep(forTimeInterval: 0.4)
+                Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
 
             var cards: [Card] = []
             for mirrorCard in choices {
-                if let cardInfo = getCardTierInfo(id: mirrorCard.cardId),
+                if let cardInfo = cardTiers.first({ $0.id == mirrorCard.cardId }),
                     let card = Cards.by(cardId: mirrorCard.cardId),
                     let index = heroes.indexOf(hero) {
                     card.cost = Int(cardInfo.values[index]) ?? 0
@@ -68,22 +72,16 @@ class ArenaWatcher: Watcher {
 
                         secretTracker.set(secrets: cards.sorted { $0.cost > $1.cost })
                         game.windowManager?.show(controller: secretTracker,
-                                                  show: true,
-                                                  frame: SizeHelper.arenaHelperFrame())
+                                                 show: true,
+                                                 frame: SizeHelper.arenaHelperFrame())
                     }
                 }
             }
-
-            Thread.sleep(forTimeInterval: 0.4)
+            
+            Thread.sleep(forTimeInterval: refreshInterval)
         }
-
+        
         queue = nil
-    }
-
-    private func getCardTierInfo(id: String) -> ArenaCard? {
-        return cardTiers.first {
-            $0.id == id
-        }
     }
 
     private func loadCardTiers() {
