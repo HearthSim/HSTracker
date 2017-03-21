@@ -286,6 +286,7 @@
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		64C11831FAF872B46E57E719 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
+		7E0AA26B1E7FAD700049F4C4 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0AA26A1E7FAD700049F4C4 /* HeroPower.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC2B851E1D749E9800BC812B /* Hearthstonetopdecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */; };
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
@@ -749,6 +750,7 @@
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		64C117BCDB7C91174D0EAD99 /* CardIds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardIds.swift; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
+		7E0AA26A1E7FAD700049F4C4 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeroPower.swift; path = HSTracker/Utility/BoardDamage/HeroPower.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstonetopdecks.swift; sourceTree = "<group>"; };
 		BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraveyardCounter.swift; sourceTree = "<group>"; };
@@ -790,13 +792,11 @@
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
-				43050C551E6B10B7007600EA /* UnityPack.framework in Frameworks */,
 				43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */,
 				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
 				43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */,
-				43050C5B1E6B11A9007600EA /* HearthAssets.framework in Frameworks */,
 				43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */,
 				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
@@ -1025,6 +1025,7 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
+				7E0AA26A1E7FAD700049F4C4 /* HeroPower.swift */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
 				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
@@ -1747,6 +1748,7 @@
 				431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */,
 				1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */,
 				439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */,
+				7E0AA26B1E7FAD700049F4C4 /* HeroPower.swift in Sources */,
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,

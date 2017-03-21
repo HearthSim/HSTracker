@@ -151,7 +151,7 @@ class WindowManager {
     }
 
     private func redrawTrackers(reset: Bool = false) {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game,
+        guard let game: Game = (NSApp.delegate as? AppDelegate)?.game,
             let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
 
         var rect: NSRect?
@@ -219,7 +219,12 @@ class WindowManager {
             ( (Settings.hideAllWhenGameInBackground &&
                 hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             if !game.gameEnded {
-                playerBoardDamage.update(attack: board.player.damage)
+                var heroPowerDmg = 0
+                if !game.playerUsedHeroPower, let heroPower = board.player.heroPower,
+                   heroPower.cost <= game.turnNumber() {
+                    heroPowerDmg = heroPower.damage
+                }
+                playerBoardDamage.update(attack: board.player.damage + heroPowerDmg)
                 if Settings.autoPositionTrackers {
                     rect = SizeHelper.playerBoardDamageFrame()
                 } else {
@@ -242,7 +247,12 @@ class WindowManager {
             ( (Settings.hideAllWhenGameInBackground &&
                 hearthstone.hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
             if !game.gameEnded {
-                opponentBoardDamage.update(attack: board.opponent.damage)
+                var heroPowerDmg = 0
+                if !game.opponentUsedHeroPower, let heroPower = board.opponent.heroPower,
+                   heroPower.cost <= game.turnNumber() {
+                    heroPowerDmg = heroPower.damage
+                }
+                opponentBoardDamage.update(attack: board.opponent.damage + heroPowerDmg)
                 if Settings.autoPositionTrackers {
                     rect = SizeHelper.opponentBoardDamageFrame()
                 } else {
