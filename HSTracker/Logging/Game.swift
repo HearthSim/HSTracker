@@ -453,134 +453,135 @@ class Game {
     }
 
     func handleEndGame() {
-        Log.verbose?.message("currentGameStats: \(currentGameStats), " +
-            "handledGameEnd: \(handledGameEnd)")
-        if currentGameStats == nil || handledGameEnd {
-            Log.warning?.message("HandleGameEnd was already called.")
-            return
-        }
-        handledGameEnd = true
-        invalidateMatchInfoCache()
-
-        guard let currentGameStats = currentGameStats else {
-            Log.error?.message("No current game stats, ignoring")
-            return
-        }
-
-        if currentGameMode == .spectator && currentGameStats.result == .none {
-            Log.info?.message("Game was spectator mode without a game result."
-                + " Probably exited spectator mode early.")
-            return
-        }
-
-        if let build = BuildDates.latestBuild {
-            currentGameStats.hearthstoneBuild = build.build
-        }
-        currentGameStats.season = Database.currentSeason
-
-        if let name = player.name {
-            currentGameStats.playerName = name
-        }
-        if let _player = entities.map({ $0.1 }).firstWhere({ $0.isPlayer }) {
-            currentGameStats.coin = !_player.has(tag: .first_player)
-        }
-
-        if let name = opponent.name {
-            currentGameStats.opponentName = name
-        } else if currentGameStats.opponentHero != .neutral {
-            currentGameStats.opponentName = currentGameStats.opponentHero.rawValue
-        }
-
-        currentGameStats.turns = turnNumber()
-
-        currentGameStats.gameMode = currentGameMode
-        currentGameStats.format = currentFormat
-
-        if let matchInfo = self.matchInfo, currentGameMode == .ranked {
-            let wild = currentFormat == .wild
-
-            currentGameStats.rank = wild
-                ? matchInfo.localPlayer.wildRank
-                : matchInfo.localPlayer.standardRank
-            currentGameStats.opponentRank = wild
-                ? matchInfo.opposingPlayer.wildRank
-                : matchInfo.opposingPlayer.standardRank
-            currentGameStats.legendRank = wild
-                ? matchInfo.localPlayer.wildLegendRank
-                : matchInfo.localPlayer.standardLegendRank
-            currentGameStats.opponentLegendRank = wild
-                ? matchInfo.opposingPlayer.wildLegendRank
-                : matchInfo.opposingPlayer.standardLegendRank
-            currentGameStats.stars = wild
-                ? matchInfo.localPlayer.wildStars
-                : matchInfo.localPlayer.standardStars
-        } else if currentGameMode == .arena {
-            currentGameStats.arenaLosses = arenaInfo?.losses ?? 0
-            currentGameStats.arenaWins = arenaInfo?.wins ?? 0
-        } else if let brawlInfo = self.brawlInfo, currentGameMode == .brawl {
-            currentGameStats.brawlWins = brawlInfo.wins
-            currentGameStats.brawlLosses = brawlInfo.losses
-        }
-
-        currentGameStats.gameType = currentGameType
-        if let serverInfo = hearthstone?.mirror?.getGameServerInfo() {
-            currentGameStats.serverInfo = ServerInfo(info: serverInfo)
-        }
-        currentGameStats.playerCardbackId = matchInfo?.localPlayer.cardBackId ?? 0
-        currentGameStats.opponentCardbackId = matchInfo?.opposingPlayer.cardBackId ?? 0
-        currentGameStats.friendlyPlayerId = matchInfo?.localPlayer.playerId ?? 0
-        currentGameStats.scenarioId = matchInfo?.missionId ?? 0
-        currentGameStats.brawlSeasonId = matchInfo?.brawlSeasonId ?? 0
-        currentGameStats.rankedSeasonId = matchInfo?.rankedSeasonId ?? 0
-        currentGameStats.hsDeckId = currentDeck?.hsDeckId
-
-        if Settings.promptNotes {
-            let message = NSLocalizedString("Do you want to add some notes for this game ?",
-                                            comment: "")
-            let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
-            let input = NSTextView(frame: frame)
-
-            if NSAlert.show(style: .informational, message: message,
-                            accessoryView: input, forceFront: true) {
-                currentGameStats.note = input.string ?? ""
+        DispatchQueue.main.sync { [unowned self] in
+            
+            Log.verbose?.message("currentGameStats: \(self.currentGameStats), " +
+                "handledGameEnd: \(self.handledGameEnd)")
+            if self.currentGameStats == nil || self.handledGameEnd {
+                Log.warning?.message("HandleGameEnd was already called.")
+                return
             }
-        }
-
-        Log.verbose?.message("End game: \(currentGameStats)")
-
-        if let realm = try? Realm(),
-            let currentDeck = currentDeck,
-            let deck = realm.objects(Deck.self).filter("deckId = '\(currentDeck.id)'").first {
-            do {
-                try realm.write {
-
-                    player.revealedCards.filter({
-                        $0.collectible
-                    }).forEach({
-                        currentGameStats.revealedCards.append($0)
-                    })
-                    opponent.opponentCardList.filter({
-                        !$0.isCreated
-                    }).forEach({
-                        currentGameStats.opponentCards.append($0)
-                    })
-
-                    let stats = currentGameStats.toGameStats()
-                    deck.gameStats.append(stats)
-
-                    if Settings.autoArchiveArenaDeck &&
-                        currentGameMode == .arena && deck.isArena && deck.arenaFinished() {
-                        deck.isActive = false
-                    }
+            self.handledGameEnd = true
+            self.invalidateMatchInfoCache()
+            
+            guard let currentGameStats = self.currentGameStats else {
+                Log.error?.message("No current game stats, ignoring")
+                return
+            }
+            
+            if self.currentGameMode == .spectator && currentGameStats.result == .none {
+                Log.info?.message("Game was spectator mode without a game result."
+                    + " Probably exited spectator mode early.")
+                return
+            }
+            
+            if let build = BuildDates.latestBuild {
+                currentGameStats.hearthstoneBuild = build.build
+            }
+            currentGameStats.season = Database.currentSeason
+            
+            if let name = self.player.name {
+                currentGameStats.playerName = name
+            }
+            if let _player = self.entities.map({ $0.1 }).firstWhere({ $0.isPlayer }) {
+                currentGameStats.coin = !_player.has(tag: .first_player)
+            }
+            
+            if let name = self.opponent.name {
+                currentGameStats.opponentName = name
+            } else if currentGameStats.opponentHero != .neutral {
+                currentGameStats.opponentName = currentGameStats.opponentHero.rawValue
+            }
+            
+            currentGameStats.turns = self.turnNumber()
+            
+            currentGameStats.gameMode = self.currentGameMode
+            currentGameStats.format = self.currentFormat
+            
+            if let matchInfo = self.matchInfo, self.currentGameMode == .ranked {
+                let wild = self.currentFormat == .wild
+                
+                currentGameStats.rank = wild
+                    ? matchInfo.localPlayer.wildRank
+                    : matchInfo.localPlayer.standardRank
+                currentGameStats.opponentRank = wild
+                    ? matchInfo.opposingPlayer.wildRank
+                    : matchInfo.opposingPlayer.standardRank
+                currentGameStats.legendRank = wild
+                    ? matchInfo.localPlayer.wildLegendRank
+                    : matchInfo.localPlayer.standardLegendRank
+                currentGameStats.opponentLegendRank = wild
+                    ? matchInfo.opposingPlayer.wildLegendRank
+                    : matchInfo.opposingPlayer.standardLegendRank
+                currentGameStats.stars = wild
+                    ? matchInfo.localPlayer.wildStars
+                    : matchInfo.localPlayer.standardStars
+            } else if self.currentGameMode == .arena {
+                currentGameStats.arenaLosses = self.arenaInfo?.losses ?? 0
+                currentGameStats.arenaWins = self.arenaInfo?.wins ?? 0
+            } else if let brawlInfo = self.brawlInfo, self.currentGameMode == .brawl {
+                currentGameStats.brawlWins = brawlInfo.wins
+                currentGameStats.brawlLosses = brawlInfo.losses
+            }
+            
+            currentGameStats.gameType = self.currentGameType
+            if let serverInfo = self.hearthstone?.mirror?.getGameServerInfo() {
+                currentGameStats.serverInfo = ServerInfo(info: serverInfo)
+            }
+            currentGameStats.playerCardbackId = self.matchInfo?.localPlayer.cardBackId ?? 0
+            currentGameStats.opponentCardbackId = self.matchInfo?.opposingPlayer.cardBackId ?? 0
+            currentGameStats.friendlyPlayerId = self.matchInfo?.localPlayer.playerId ?? 0
+            currentGameStats.scenarioId = self.matchInfo?.missionId ?? 0
+            currentGameStats.brawlSeasonId = self.matchInfo?.brawlSeasonId ?? 0
+            currentGameStats.rankedSeasonId = self.matchInfo?.rankedSeasonId ?? 0
+            currentGameStats.hsDeckId = self.currentDeck?.hsDeckId
+            
+            if Settings.promptNotes {
+                let message = NSLocalizedString("Do you want to add some notes for this game ?",
+                                                comment: "")
+                let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
+                let input = NSTextView(frame: frame)
+                
+                if NSAlert.show(style: .informational, message: message,
+                                accessoryView: input, forceFront: true) {
+                    currentGameStats.note = input.string ?? ""
                 }
-            } catch {
-                Log.error?.message("Can't save statistic : \(error)")
             }
-        }
-
-        lastGame = currentGameStats
-        DispatchQueue.global().async { [weak self] in
-            self?.logIsComplete()
+            
+            Log.verbose?.message("End game: \(currentGameStats)")
+            
+            if let realm = try? Realm(),
+                let currentDeck = self.currentDeck,
+                let deck = realm.objects(Deck.self).filter("deckId = '\(currentDeck.id)'").first {
+                do {
+                    try realm.write {
+                        
+                        self.player.revealedCards.filter({
+                            $0.collectible
+                        }).forEach({
+                            currentGameStats.revealedCards.append($0)
+                        })
+                        self.opponent.opponentCardList.filter({
+                            !$0.isCreated
+                        }).forEach({
+                            currentGameStats.opponentCards.append($0)
+                        })
+                        
+                        let stats = currentGameStats.toGameStats()
+                        deck.gameStats.append(stats)
+                        
+                        if Settings.autoArchiveArenaDeck &&
+                            self.currentGameMode == .arena && deck.isArena && deck.arenaFinished() {
+                            deck.isActive = false
+                        }
+                    }
+                } catch {
+                    Log.error?.message("Can't save statistic : \(error)")
+                }
+            }
+            
+            self.lastGame = currentGameStats
+            self.logIsComplete()
         }
     }
 
