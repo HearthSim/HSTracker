@@ -9,6 +9,7 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
+import AppKit
 
 protocol SaveDeckDelegate: class {
     func deckSaveSaved()

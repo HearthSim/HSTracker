@@ -234,7 +234,7 @@ struct TagChangeActions {
 
         guard !game.gameEnded else { return }
 
-        if let entity = game.entities[id], !entity.isPlayer {
+		if let entity = game.entities[id], !entity.isPlayer(game: game) {
             return
         }
 

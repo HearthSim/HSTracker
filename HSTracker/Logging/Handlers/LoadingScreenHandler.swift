@@ -11,13 +11,20 @@
 import Foundation
 import CleanroomLogger
 
-struct LoadingScreenHandler {
+struct LoadingScreenHandler: LogEventHandler {
+	
+	private unowned let hearthstone: Hearthstone
+	
+	init(with hearthstone: Hearthstone) {
+		self.hearthstone = hearthstone
+	}
 
     let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
 
-    func handle(game: Game, logLine: LogLine) {
+    func handle(logLine: LogLine) {
         if logLine.line.match(GameModeRegex) {
             let matches = logLine.line.matches(GameModeRegex)
+			let game = hearthstone.game
             
             game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
             game.previousMode = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
@@ -27,9 +34,6 @@ struct LoadingScreenHandler {
             if game.previousMode == .gameplay && game.currentMode != .gameplay {
                 game.inMenu()
             }
-
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                let game = (NSApp.delegate as? AppDelegate)?.game else { return }
 
             if game.currentMode == .draft {
                 hearthstone.arenaDeckWatcher.start()
@@ -52,18 +56,7 @@ struct LoadingScreenHandler {
             }
 
         } else if logLine.line.contains("Gameplay.Start") {
-            game.gameStart(at: logLine.time)
-        }
-    }
-
-    func getGameMode(mode: Mode) -> GameMode? {
-        switch mode {
-        case .tournament: return .casual
-        case .friendly: return .friendly
-        case .draft: return .arena
-        case .adventure: return .practice
-        case .tavern_brawl: return .brawl
-        default: return .none
+            hearthstone.game.gameStart(at: logLine.time)
         }
     }
 }

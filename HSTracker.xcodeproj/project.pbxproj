@@ -8,14 +8,191 @@
 
 /* Begin PBXBuildFile section */
 		1C132F821DBA24C1002B1BF2 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
+		1C17D2481E82BFC500ED4047 /* SecretHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955C1C90681200F4D0AC /* SecretHelper.swift */; };
+		1C17D2491E82C4FF00ED4047 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
+		1C17D24A1E82C66D00ED4047 /* LogLineZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E81D5D0F5700451B6F /* LogLineZone.swift */; };
+		1C17D24C1E82C81700ED4047 /* LogEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D24B1E82C81700ED4047 /* LogEventHandler.swift */; };
+		1C17D24D1E82C8E000ED4047 /* LogEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D24B1E82C81700ED4047 /* LogEventHandler.swift */; };
+		1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D2511E82DEE700ED4047 /* RealmHelper.swift */; };
+		1CB43A141E83175000E42181 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
+		1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
+		1CB43A161E83218500E42181 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
 		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
+		1CCB4AC31E846A02003FD1AD /* HSReplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567EB1D5E314500451B6F /* HSReplay.swift */; };
+		1CCB4AC41E846A05003FD1AD /* HSReplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567FC1D5E448200451B6F /* HSReplayManager.swift */; };
+		1CCB4AC51E846A0D003FD1AD /* UploadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568021D5E59E500451B6F /* UploadResult.swift */; };
+		1CCB4AC61E846A10003FD1AD /* UploadMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568041D5E5BFF00451B6F /* UploadMetaData.swift */; };
+		1CCB4AC71E846A13003FD1AD /* HSReplayPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554381D5FABD600277B27 /* HSReplayPreferences.swift */; };
+		1CCB4AC81E846B11003FD1AD /* BnetGameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4361D8331DC8A21800D831CF /* BnetGameType.swift */; };
+		1CCB4AC91E846B25003FD1AD /* MultiClassGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */; };
+		1CCB4ACA1E846C13003FD1AD /* ClassColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB971C7DEF7F0077AC1B /* ClassColor.swift */; };
+		1CCB4ACB1E846E05003FD1AD /* NSAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EAC951DBCD3E8009C7636 /* NSAlert.swift */; };
+		1CCB4ACC1E846E61003FD1AD /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EA1DAAB81400FC0FC1 /* Color.swift */; };
+		1CCB4ACD1E846F89003FD1AD /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
+		1CCB4ACE1E846FA5003FD1AD /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
+		1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
+		1CCB4AD01E8470AA003FD1AD /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; };
+		1CCB4AD11E8470D6003FD1AD /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
+		1CCB4AD21E8470E7003FD1AD /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4323C5EA1E1A501E00C97896 /* HearthMirror.framework */; };
+		1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
+		1CCB4AD41E847177003FD1AD /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; };
+		1CCB4AD51E847177003FD1AD /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; };
+		1CCB4AD61E847233003FD1AD /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
+		1CCB4AD71E847323003FD1AD /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438B04F81E6F55720071594B /* Date.swift */; };
+		1CCB4AD81E847334003FD1AD /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EC1DAAB81400FC0FC1 /* Int.swift */; };
+		1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CCB4ADC1E847468003FD1AD /* HearthAssets.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4323C5EA1E1A501E00C97896 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CCB4AE01E8474DD003FD1AD /* UnityPack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CE89EFC1E82ADC5000ABE99 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
+		1CE89EFD1E82ADF6000ABE99 /* LadderGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68171D1F74CE009030DC /* LadderGrid.swift */; };
+		1CE89EFE1E82AE1F000ABE99 /* LogLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAD1C777F8900D29859 /* LogLine.swift */; };
+		1CE89EFF1E82AE4E000ABE99 /* LogLineNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */; };
+		1CE89F001E82AEFD000ABE99 /* LogReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EB11C777F8900D29859 /* LogReaderManager.swift */; };
+		1CE89F011E82AF27000ABE99 /* LogReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAF1C777F8900D29859 /* LogReader.swift */; };
+		1CE89F021E82AF41000ABE99 /* PowerGameStateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA81C777F8900D29859 /* PowerGameStateHandler.swift */; };
+		1CE89F031E82AF43000ABE99 /* RachelleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA91C777F8900D29859 /* RachelleHandler.swift */; };
+		1CE89F041E82AF48000ABE99 /* LoadingScreenHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */; };
+		1CE89F051E82AF4B000ABE99 /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */; };
+		1CE89F061E82AF70000ABE99 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA11C777F8900D29859 /* Game.swift */; };
+		1CE89F071E82AF8D000ABE99 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EB31C777F8900D29859 /* Player.swift */; };
+		1CE89F081E82AF99000ABE99 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F0002F1C81BAE8000F2F8F /* Mode.swift */; };
+		1CE89F091E82AFFC000ABE99 /* LogReaderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */; };
+		1CE89F0A1E82B00F000ABE99 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
+		1CE89F0B1E82B018000ABE99 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E7D1C777CFC00D29859 /* Deck.swift */; };
+		1CE89F0C1E82B01D000ABE99 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E951C777F8900D29859 /* Entity.swift */; };
+		1CE89F0D1E82B03B000ABE99 /* GameTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E9B1C777F8900D29859 /* GameTag.swift */; };
+		1CE89F0E1E82B040000ABE99 /* CardMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E971C777F8900D29859 /* CardMark.swift */; };
+		1CE89F0F1E82B050000ABE99 /* RealmCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7BEB01DBB81B10057DC0C /* RealmCard.swift */; };
+		1CE89F101E82B059000ABE99 /* CardClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CE1D3632BC0030AD22 /* CardClass.swift */; };
+		1CE89F111E82B062000ABE99 /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD9081E1E3AB4000AF3DE /* GameStats.swift */; };
+		1CE89F121E82B08D000ABE99 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E811C777CFC00D29859 /* Card.swift */; };
+		1CE89F131E82B096000ABE99 /* EntityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */; };
+		1CE89F141E82B09C000ABE99 /* Zone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E9F1C777F8900D29859 /* Zone.swift */; };
+		1CE89F151E82B0C8000ABE99 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56E91DAAB81400FC0FC1 /* Array.swift */; };
+		1CE89F161E82B0CF000ABE99 /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C36D2B1D08623D00F6723C /* CardSet.swift */; };
+		1CE89F171E82B165000ABE99 /* TagChangeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */; };
+		1CE89F181E82B16D000ABE99 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EEC1C969C4100C26950 /* Regex.swift */; };
+		1CE89F191E82B174000ABE99 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CC1D362ECB0030AD22 /* Race.swift */; };
+		1CE89F1A1E82B17A000ABE99 /* Faction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CA1D362DBA0030AD22 /* Faction.swift */; };
+		1CE89F1B1E82B180000ABE99 /* CardMechanic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E831C777CFC00D29859 /* CardMechanic.swift */; };
+		1CE89F1C1E82B186000ABE99 /* CardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E981C777F8900D29859 /* CardType.swift */; };
+		1CE89F1D1E82B1D5000ABE99 /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
+		1CE89F1E1E82B1DE000ABE99 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */; };
+		1CE89F1F1E82B1F4000ABE99 /* CardIds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117BCDB7C91174D0EAD99 /* CardIds.swift */; };
+		1CE89F201E82B208000ABE99 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E991C777F8900D29859 /* GameMode.swift */; };
+		1CE89F211E82B20E000ABE99 /* GameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E9A1C777F8900D29859 /* GameResult.swift */; };
+		1CE89F221E82B229000ABE99 /* ServerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD90A1E1E4447000AF3DE /* ServerInfo.swift */; };
+		1CE89F231E82B22D000ABE99 /* GameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F81E15596000AF34FD /* GameType.swift */; };
+		1CE89F241E82B231000ABE99 /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C11AA1CCF6B460067C5FE /* Format.swift */; };
+		1CE89F251E82B247000ABE99 /* FormatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F61E1557C900AF34FD /* FormatType.swift */; };
+		1CE89F261E82B24F000ABE99 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345FE941DF54CA900E8936B /* Block.swift */; };
+		1CE89F271E82B255000ABE99 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
+		1CE89F281E82B283000ABE99 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EDC1C777FA900D29859 /* Tracker.swift */; };
+		1CE89F291E82B2AE000ABE99 /* OverWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BB1DB7FB040081964A /* OverWindowController.swift */; };
+		1CE89F2B1E82B2CF000ABE99 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
+		1CE89F2C1E82B2D2000ABE99 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
+		1CE89F2D1E82B2D7000ABE99 /* PlayerDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */; };
+		1CE89F2E1E82B2DC000ABE99 /* OpponentDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4317197C1C8C54FF00F5988B /* OpponentDrawChance.swift */; };
+		1CE89F2F1E82B2E0000ABE99 /* WotogCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */; };
+		1CE89F301E82B2E5000ABE99 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
+		1CE89F311E82B2EA000ABE99 /* JadeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */; };
+		1CE89F321E82B2EE000ABE99 /* CardBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0B1CFD5F6A00DEB9A1 /* CardBar.swift */; };
+		1CE89F331E82B2F8000ABE99 /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554551D62EE1200277B27 /* PlayerType.swift */; };
+		1CE89F341E82B361000ABE99 /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
+		1CE89F351E82B368000ABE99 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E911C777EFA00D29859 /* Settings.swift */; };
+		1CE89F361E82B36C000ABE99 /* ThemeElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F91DB236A4004EBE47 /* ThemeElement.swift */; };
+		1CE89F371E82B41C000ABE99 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BD1DB89A830081964A /* WindowManager.swift */; };
+		1CE89F381E82B420000ABE99 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAC1C777F8900D29859 /* Hearthstone.swift */; };
+		1CE89F391E82B423000ABE99 /* PlayedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF931D52142D00F61993 /* PlayedCard.swift */; };
+		1CE89F3A1E82B42A000ABE99 /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
+		1CE89F3B1E82B42D000ABE99 /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
+		1CE89F3C1E82B431000ABE99 /* MatchInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4323C5E71E16963200C97896 /* MatchInfo.swift */; };
+		1CE89F3D1E82B466000ABE99 /* KeyPointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695511C903A3600F4D0AC /* KeyPointType.swift */; };
+		1CE89F3E1E82B46E000ABE99 /* ThemeElementInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0D1CFD64A300DEB9A1 /* ThemeElementInfo.swift */; };
+		1CE89F3F1E82B48E000ABE99 /* PlayerTurn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F31DB23212004EBE47 /* PlayerTurn.swift */; };
+		1CE89F401E82B492000ABE99 /* ArenaInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4323C5F41E1BC09500C97896 /* ArenaInfo.swift */; };
+		1CE89F411E82B497000ABE99 /* BrawlInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4323C5F61E1BE28800C97896 /* BrawlInfo.swift */; };
+		1CE89F421E82B49B000ABE99 /* FrostBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D131CFD803C00DEB9A1 /* FrostBar.swift */; };
+		1CE89F431E82B49E000ABE99 /* DarkBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D111CFD7E7500DEB9A1 /* DarkBar.swift */; };
+		1CE89F441E82B4A1000ABE99 /* MinimalBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D151CFD822600DEB9A1 /* MinimalBar.swift */; };
+		1CE89F451E82B4A4000ABE99 /* ClassicBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F5D0F1CFD79B500DEB9A1 /* ClassicBar.swift */; };
+		1CE89F461E82B4D9000ABE99 /* NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433554571D62EE2D00277B27 /* NotificationType.swift */; };
+		1CE89F471E82B4E3000ABE99 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ECF1C777FA900D29859 /* ImageUtils.swift */; };
+		1CE89F481E82B4E6000ABE99 /* CardSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F51DB2324A004EBE47 /* CardSize.swift */; };
+		1CE89F491E82B754000ABE99 /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
+		1CE89F4A1E82B75A000ABE99 /* PackWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DFAA21E6AE1D8001C8F34 /* PackWatcher.swift */; };
+		1CE89F4B1E82B764000ABE99 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
+		1CE89F4C1E82B855000ABE99 /* ArenaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA31C777F8900D29859 /* ArenaHandler.swift */; };
+		1CE89F4D1E82B873000ABE99 /* TagChangeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */; };
+		1CE89F4E1E82B894000ABE99 /* SecretTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* SecretTracker.swift */; };
+		1CE89F4F1E82B89A000ABE99 /* BoardDamage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434910461D09505E00B22DB2 /* BoardDamage.swift */; };
+		1CE89F501E82B8A0000ABE99 /* FloatingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60321CB69FA600B05D19 /* FloatingCard.swift */; };
+		1CE89F511E82B8A5000ABE99 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
+		1CE89F521E82B8DB000ABE99 /* CardHudContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */; };
+		1CE89F531E82B910000ABE99 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
+		1CE89F541E82BBA1000ABE99 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
+		1CE89F551E82BD8C000ABE99 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955A1C9065AC00F4D0AC /* Secret.swift */; };
 		1CF1B58A1E81426D007DCBF2 /* AlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */; };
 		1CF1B58C1E815810007DCBF2 /* LogReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */; };
+		1CF204F71E83B43F00037A42 /* ReplayMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695531C903AC900F4D0AC /* ReplayMaker.swift */; };
+		1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
+		1CF204FA1E84257400037A42 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
+		1CF204FB1E84257800037A42 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
+		1CF204FC1E8439D900037A42 /* Mulligan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E9C1C777F8900D29859 /* Mulligan.swift */; };
+		1CF204FD1E843A0300037A42 /* RealmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D2511E82DEE700ED4047 /* RealmHelper.swift */; };
+		1CF204FE1E843A1000037A42 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43883F1D1DA382BA00A7B79C /* Language.swift */; };
+		1CF204FF1E84461800037A42 /* NewDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2B1C7F122A001D1D91 /* NewDeck.swift */; };
+		1CF205001E84461D00037A42 /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB9B1C7E4EA20077AC1B /* CurveView.swift */; };
+		1CF205011E84462700037A42 /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
+		1CF205021E84463400037A42 /* DeckCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EECB951C7DE3BA0077AC1B /* DeckCellView.swift */; };
+		1CF205031E84463800037A42 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C971D0A6079000DD6FB /* Statistics.swift */; };
+		1CF205041E8446EA00037A42 /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C680C1D1F225F009030DC /* StatsTab.swift */; };
+		1CF205051E8446EF00037A42 /* LadderTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68101D1F3FC4009030DC /* LadderTab.swift */; };
+		1CF205061E84471000037A42 /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
+		1CF205071E8448CA00037A42 /* BuildDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567F41D5E342C00451B6F /* BuildDates.swift */; };
+		1CF205081E8448D000037A42 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E8C1C777D1C00D29859 /* Database.swift */; };
+		1CF205091E8448E900037A42 /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
+		1CF2050A1E844AD100037A42 /* ManaGemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432B60381CBF9AD700B05D19 /* ManaGemButton.swift */; };
+		1CF2050B1E844ADD00037A42 /* Ranks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68191D1F8E27009030DC /* Ranks.swift */; };
+		1CF2050C1E8450A500037A42 /* HSReplayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567FE1D5E4F9700451B6F /* HSReplayAPI.swift */; };
+		1CF2050D1E8450AA00037A42 /* LogUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568001D5E584F00451B6F /* LogUploader.swift */; };
+		1CF2050E1E8450B800037A42 /* TrackOBotAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF7E1D51F2EE00F61993 /* TrackOBotAPI.swift */; };
+		1CF2050F1E8450BB00037A42 /* TrackOBotLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF7A1D51EED200F61993 /* TrackOBotLogin.swift */; };
+		1CF205101E8450FE00037A42 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
+		1CF205111E84510B00037A42 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
+		1CF205121E8454B000037A42 /* TrackOBotPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF8F1D51FD5500F61993 /* TrackOBotPreferences.swift */; };
+		1CF205141E84608100037A42 /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AD95A1DAD46FF00D8F959 /* Http.swift */; };
+		1CF205151E8460AA00037A42 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BE58BD1DC47C6D00B24A21 /* Paths.swift */; };
+		1CF205161E8460D000037A42 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AD9581DAD46AA00D8F959 /* HttpMethod.swift */; };
+		1CF205171E8460F700037A42 /* HttpEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AD95C1DAD81B500D8F959 /* HttpEncoding.swift */; };
+		1CF205181E8466EF00037A42 /* PlayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E9D1C777F8900D29859 /* PlayState.swift */; };
+		1CF205191E8466F600037A42 /* TagClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E9E1C777F8900D29859 /* TagClass.swift */; };
+		1CF2051A1E8466FE00037A42 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4387BED11CF4D7A00002ECBB /* State.swift */; };
+		1CF2051B1E84670900037A42 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAB1CD1E6AF00DE0A41 /* Step.swift */; };
+		1CF2051C1E84671500037A42 /* NetImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F2E1C7F437D001D1D91 /* NetImporter.swift */; };
+		1CF2051D1E84672700037A42 /* FileImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435907EB1CB13835008D4363 /* FileImporter.swift */; };
+		1CF2051E1E84672B00037A42 /* MetaTagImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43552F621D7368AE00980ABA /* MetaTagImporter.swift */; };
+		1CF2051F1E84673000037A42 /* Hearthpwn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F311C7F475E001D1D91 /* Hearthpwn.swift */; };
+		1CF205201E84673300037A42 /* HearthpwnDeckBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F331C7F4816001D1D91 /* HearthpwnDeckBuilder.swift */; };
+		1CF205211E84673600037A42 /* HearthstoneDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F351C7F4857001D1D91 /* HearthstoneDecks.swift */; };
+		1CF205221E84673900037A42 /* Hearthstats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F371C7F487D001D1D91 /* Hearthstats.swift */; };
+		1CF205231E84673C00037A42 /* Hearthnews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F3B1C7F48E9001D1D91 /* Hearthnews.swift */; };
+		1CF205241E84674000037A42 /* Heartharena.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434C2F3D1C7F491C001D1D91 /* Heartharena.swift */; };
+		1CF205251E84674300037A42 /* Hearthstonetopdecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2B851D1D749E9800BC812B /* Hearthstonetopdecks.swift */; };
+		1CF205261E84674700037A42 /* Tempostorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */; };
+		1CF205271E84674A00037A42 /* Hearthstoneheroes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */; };
+		1CF205281E84674D00037A42 /* HearthstoneTopDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43776C871DACB5C2006489B2 /* HearthstoneTopDeck.swift */; };
+		1CF205291E8467B000037A42 /* CollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFEEEA1E22529C00F6045A /* CollectionManager.swift */; };
+		1CF2052A1E8467ED00037A42 /* Automation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BFA41D5243FD00F61993 /* Automation.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
 		43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; };
 		43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43050C581E6B10DE007600EA /* UnityPack.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
 		43050C5C1E6B11A9007600EA /* HearthAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43050C5E1E6B11B3007600EA /* HearthAssets.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C5D1E6B11B3007600EA /* HearthAssets.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
@@ -145,7 +322,6 @@
 		43776C881DACB5C2006489B2 /* HearthstoneTopDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43776C871DACB5C2006489B2 /* HearthstoneTopDeck.swift */; };
 		437B5BAC1CD1E6AF00DE0A41 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAB1CD1E6AF00DE0A41 /* Step.swift */; };
 		437B5BAE1CD1F76C00DE0A41 /* WotogCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */; };
-		437B5BB31CD2439800DE0A41 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
 		437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */; };
 		437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */; };
 		437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */; };
@@ -324,6 +500,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */,
+				1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */,
+				1CCB4AE01E8474DD003FD1AD /* UnityPack.framework in CopyFiles */,
+				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
+				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
+				1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */,
+				1CCB4ADC1E847468003FD1AD /* HearthAssets.framework in CopyFiles */,
+				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
 				437E56D81DAAA33200FC0FC1 /* GRDB.framework in CopyFiles */,
 				437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */,
 				437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */,
@@ -398,10 +582,13 @@
 
 /* Begin PBXFileReference section */
 		1C132F811DBA24C1002B1BF2 /* AppHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppHealth.swift; sourceTree = "<group>"; };
+		1C17D24B1E82C81700ED4047 /* LogEventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEventHandler.swift; sourceTree = "<group>"; };
+		1C17D2511E82DEE700ED4047 /* RealmHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmHelper.swift; sourceTree = "<group>"; };
 		1CB623A51DD37C890045E0CF /* GlowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowFilter.h; sourceTree = "<group>"; };
 		1CB623A61DD37C890045E0CF /* GlowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowFilter.m; sourceTree = "<group>"; };
 		1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
+		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
 		43050C531E6B10B0007600EA /* UnityPack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UnityPack.framework; path = Carthage/Build/Mac/UnityPack.framework; sourceTree = "<group>"; };
 		43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = UnityPack.framework.dSYM; path = Carthage/Build/Mac/UnityPack.framework.dSYM; sourceTree = "<group>"; };
@@ -795,27 +982,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
-				43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */,
-				43BBAAA11E61A11F009B6298 /* JNWCollectionView.framework in Frameworks */,
-				4323C5EB1E1A501E00C97896 /* HearthMirror.framework in Frameworks */,
-				43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */,
+				BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */,
+				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
+				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
+				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
+				431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */,
+				1CCB4AD61E847233003FD1AD /* HearthAssets.framework in Frameworks */,
+				4323C5EB1E1A501E00C97896 /* HearthMirror.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
-				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
-				43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */,
-				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
-				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
+				43BBAAA11E61A11F009B6298 /* JNWCollectionView.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
+				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
+				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
 				43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */,
 				43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */,
-				436789D61CAE484800C962D1 /* CleanroomLogger.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
-				436789D41CAE484800C962D1 /* CleanroomASL.framework in Frameworks */,
-				BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */,
-				431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */,
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
-				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
+				43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */,
+				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
+				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,19 +1009,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
+				437E56D21DAAA32E00FC0FC1 /* CleanroomASL.framework in Frameworks */,
+				437E56D31DAAA32E00FC0FC1 /* CleanroomLogger.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
 				437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */,
-				437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */,
-				437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */,
-				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
-				437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */,
-				437E56D21DAAA32E00FC0FC1 /* CleanroomASL.framework in Frameworks */,
-				437E56D31DAAA32E00FC0FC1 /* CleanroomLogger.framework in Frameworks */,
+				1CCB4AD11E8470D6003FD1AD /* HearthAssets.framework in Frameworks */,
+				1CCB4AD21E8470E7003FD1AD /* HearthMirror.framework in Frameworks */,
 				437E56D41DAAA32E00FC0FC1 /* HockeySDK.framework in Frameworks */,
 				437E56D51DAAA32E00FC0FC1 /* JNWCollectionView.framework in Frameworks */,
 				437E56D61DAAA32E00FC0FC1 /* Kanna.framework in Frameworks */,
+				1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */,
 				437E56D71DAAA32E00FC0FC1 /* MASPreferences.framework in Frameworks */,
+				1CCB4AD41E847177003FD1AD /* Realm.framework in Frameworks */,
+				1CCB4AD51E847177003FD1AD /* RealmSwift.framework in Frameworks */,
+				437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */,
+				1CCB4AD01E8470AA003FD1AD /* UnityPack.framework in Frameworks */,
+				437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */,
+				437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */,
+				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,6 +1042,7 @@
 				4323C5F41E1BC09500C97896 /* ArenaInfo.swift */,
 				4323C5F61E1BE28800C97896 /* BrawlInfo.swift */,
 				BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */,
+				1CF204F81E83B74300037A42 /* MirrorHelper.swift */,
 			);
 			path = HearthMirror;
 			sourceTree = "<group>";
@@ -1115,6 +1309,7 @@
 				436032971C79D59C005F1893 /* ImageDownloader.swift */,
 				4305CA461CF434E30048E7EC /* Cards.swift */,
 				43883F1D1DA382BA00A7B79C /* Language.swift */,
+				1C17D2511E82DEE700ED4047 /* RealmHelper.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -1214,6 +1409,7 @@
 				439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */,
 				43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */,
 				43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */,
+				1C17D24B1E82C81700ED4047 /* LogEventHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -1492,7 +1688,6 @@
 					439C7E5B1C7772C100D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
 						LastSwiftMigration = 0800;
-						TestTargetID = 439C7E471C7772C000D29859;
 					};
 				};
 			};
@@ -1642,12 +1837,13 @@
 				43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */,
 				43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
+				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
 				4317197D1C8C54FF00F5988B /* OpponentDrawChance.swift in Sources */,
 				43776C881DACB5C2006489B2 /* HearthstoneTopDeck.swift in Sources */,
 				4349104C1D09739C00B22DB2 /* BoardHero.swift in Sources */,
+				1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
-				437B5BB31CD2439800DE0A41 /* WotogCounterHelper.swift in Sources */,
 				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */,
@@ -1738,6 +1934,7 @@
 				436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */,
 				437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */,
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
+				1C17D24C1E82C81700ED4047 /* LogEventHandler.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				433554561D62EE1200277B27 /* PlayerType.swift in Sources */,
@@ -1753,6 +1950,7 @@
 				43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */,
 				4345FE951DF54CA900E8936B /* Block.swift in Sources */,
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
+				1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */,
 				43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */,
 				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
 				43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */,
@@ -1791,11 +1989,169 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CE89F4E1E82B894000ABE99 /* SecretTracker.swift in Sources */,
+				1CE89F0B1E82B018000ABE99 /* Deck.swift in Sources */,
+				1CE89F091E82AFFC000ABE99 /* LogReaderInfo.swift in Sources */,
+				1CCB4AC61E846A10003FD1AD /* UploadMetaData.swift in Sources */,
+				1CF205091E8448E900037A42 /* StatsHelper.swift in Sources */,
+				1CE89F321E82B2EE000ABE99 /* CardBar.swift in Sources */,
+				1CE89F221E82B229000ABE99 /* ServerInfo.swift in Sources */,
+				1CE89F521E82B8DB000ABE99 /* CardHudContainer.swift in Sources */,
+				1CE89F021E82AF41000ABE99 /* PowerGameStateHandler.swift in Sources */,
+				1CE89F241E82B231000ABE99 /* Format.swift in Sources */,
+				1CF2050B1E844ADD00037A42 /* Ranks.swift in Sources */,
+				1CE89F0A1E82B00F000ABE99 /* String.swift in Sources */,
+				1CF205011E84462700037A42 /* EditDeck.swift in Sources */,
+				1CE89F0F1E82B050000ABE99 /* RealmCard.swift in Sources */,
+				1CE89F131E82B096000ABE99 /* EntityInfo.swift in Sources */,
+				1CE89F341E82B361000ABE99 /* GraveyardCounter.swift in Sources */,
+				1CF205071E8448CA00037A42 /* BuildDates.swift in Sources */,
+				1CE89F3E1E82B46E000ABE99 /* ThemeElementInfo.swift in Sources */,
+				1CE89F011E82AF27000ABE99 /* LogReader.swift in Sources */,
+				1CCB4AC41E846A05003FD1AD /* HSReplayManager.swift in Sources */,
+				1CE89F331E82B2F8000ABE99 /* PlayerType.swift in Sources */,
+				1CE89F3B1E82B42D000ABE99 /* OpponentSecrets.swift in Sources */,
+				1CE89F2B1E82B2CF000ABE99 /* CardCounter.swift in Sources */,
 				43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */,
+				1CF205251E84674300037A42 /* Hearthstonetopdecks.swift in Sources */,
+				1CE89F1A1E82B17A000ABE99 /* Faction.swift in Sources */,
+				1CE89F3D1E82B466000ABE99 /* KeyPointType.swift in Sources */,
+				1C17D24D1E82C8E000ED4047 /* LogEventHandler.swift in Sources */,
+				1CE89F041E82AF48000ABE99 /* LoadingScreenHandler.swift in Sources */,
+				1CCB4ACB1E846E05003FD1AD /* NSAlert.swift in Sources */,
+				1C17D2481E82BFC500ED4047 /* SecretHelper.swift in Sources */,
+				1CE89F001E82AEFD000ABE99 /* LogReaderManager.swift in Sources */,
+				1CE89F031E82AF43000ABE99 /* RachelleHandler.swift in Sources */,
+				1CE89F401E82B492000ABE99 /* ArenaInfo.swift in Sources */,
+				1CE89F1D1E82B1D5000ABE99 /* Rarity.swift in Sources */,
+				1CE89F441E82B4A1000ABE99 /* MinimalBar.swift in Sources */,
+				1CF205291E8467B000037A42 /* CollectionManager.swift in Sources */,
+				1CCB4AD81E847334003FD1AD /* Int.swift in Sources */,
+				1CE89EFD1E82ADF6000ABE99 /* LadderGrid.swift in Sources */,
+				1CE89F531E82B910000ABE99 /* CardHud.swift in Sources */,
+				1CF205041E8446EA00037A42 /* StatsTab.swift in Sources */,
+				1CF205191E8466F600037A42 /* TagClass.swift in Sources */,
+				1CE89F2D1E82B2D7000ABE99 /* PlayerDrawChance.swift in Sources */,
+				1CE89F201E82B208000ABE99 /* GameMode.swift in Sources */,
+				1CE89F3F1E82B48E000ABE99 /* PlayerTurn.swift in Sources */,
+				1CF2051C1E84671500037A42 /* NetImporter.swift in Sources */,
+				1CE89F271E82B255000ABE99 /* Cards.swift in Sources */,
+				1C17D2491E82C4FF00ED4047 /* AppHealth.swift in Sources */,
+				1CF2051B1E84670900037A42 /* Step.swift in Sources */,
+				1CE89F111E82B062000ABE99 /* GameStats.swift in Sources */,
+				1CE89EFE1E82AE1F000ABE99 /* LogLine.swift in Sources */,
+				1CE89F501E82B8A0000ABE99 /* FloatingCard.swift in Sources */,
+				1CE89F161E82B0CF000ABE99 /* CardSet.swift in Sources */,
+				1CF2051D1E84672700037A42 /* FileImporter.swift in Sources */,
+				1CF205061E84471000037A42 /* SaveDeck.swift in Sources */,
+				1CE89F361E82B36C000ABE99 /* ThemeElement.swift in Sources */,
+				1CCB4ACD1E846F89003FD1AD /* FileUtils.m in Sources */,
+				1CE89F481E82B4E6000ABE99 /* CardSize.swift in Sources */,
+				1CCB4AC31E846A02003FD1AD /* HSReplay.swift in Sources */,
+				1CF2052A1E8467ED00037A42 /* Automation.swift in Sources */,
+				1CE89F491E82B754000ABE99 /* ArenaWatcher.swift in Sources */,
+				1CCB4AC91E846B25003FD1AD /* MultiClassGroup.swift in Sources */,
+				1CF204FC1E8439D900037A42 /* Mulligan.swift in Sources */,
+				1CF205051E8446EF00037A42 /* LadderTab.swift in Sources */,
+				1CF204FF1E84461800037A42 /* NewDeck.swift in Sources */,
+				1CE89F101E82B059000ABE99 /* CardClass.swift in Sources */,
+				1CE89F281E82B283000ABE99 /* Tracker.swift in Sources */,
+				1CE89F1B1E82B180000ABE99 /* CardMechanic.swift in Sources */,
+				1CF204FD1E843A0300037A42 /* RealmHelper.swift in Sources */,
+				1CE89F391E82B423000ABE99 /* PlayedCard.swift in Sources */,
+				1CCB4AC81E846B11003FD1AD /* BnetGameType.swift in Sources */,
+				1CF205211E84673600037A42 /* HearthstoneDecks.swift in Sources */,
+				1CF205181E8466EF00037A42 /* PlayState.swift in Sources */,
+				1CF205231E84673C00037A42 /* Hearthnews.swift in Sources */,
+				1CE89F171E82B165000ABE99 /* TagChangeHandler.swift in Sources */,
+				1CE89F251E82B247000ABE99 /* FormatType.swift in Sources */,
+				1CF2050E1E8450B800037A42 /* TrackOBotAPI.swift in Sources */,
+				1CE89F3C1E82B431000ABE99 /* MatchInfo.swift in Sources */,
+				1CE89F291E82B2AE000ABE99 /* OverWindowController.swift in Sources */,
+				1CF205081E8448D000037A42 /* Database.swift in Sources */,
+				1CCB4AD71E847323003FD1AD /* Date.swift in Sources */,
+				1CE89F421E82B49B000ABE99 /* FrostBar.swift in Sources */,
+				1CF205001E84461D00037A42 /* CurveView.swift in Sources */,
+				1CF205161E8460D000037A42 /* HttpMethod.swift in Sources */,
+				1CE89F371E82B41C000ABE99 /* WindowManager.swift in Sources */,
+				1CE89F4B1E82B764000ABE99 /* DeckWatcher.swift in Sources */,
+				1CE89F081E82AF99000ABE99 /* Mode.swift in Sources */,
+				1CE89F431E82B49E000ABE99 /* DarkBar.swift in Sources */,
+				1CE89EFC1E82ADC5000ABE99 /* Algorithm.swift in Sources */,
+				1CF205241E84674000037A42 /* Heartharena.swift in Sources */,
+				1CF2051E1E84672B00037A42 /* MetaTagImporter.swift in Sources */,
+				1CCB4ACA1E846C13003FD1AD /* ClassColor.swift in Sources */,
+				1CE89F141E82B09C000ABE99 /* Zone.swift in Sources */,
+				1CE89F311E82B2EA000ABE99 /* JadeCounter.swift in Sources */,
 				1CF1B58A1E81426D007DCBF2 /* AlgorithmTests.swift in Sources */,
+				1CE89F4D1E82B873000ABE99 /* TagChangeActions.swift in Sources */,
+				1CE89F211E82B20E000ABE99 /* GameResult.swift in Sources */,
+				1C17D24A1E82C66D00ED4047 /* LogLineZone.swift in Sources */,
+				1CF204FA1E84257400037A42 /* TurnTimer.swift in Sources */,
+				1CB43A161E83218500E42181 /* DeckManager.swift in Sources */,
+				1CF205141E84608100037A42 /* Http.swift in Sources */,
+				1CE89F0E1E82B040000ABE99 /* CardMark.swift in Sources */,
+				1CE89EFF1E82AE4E000ABE99 /* LogLineNamespace.swift in Sources */,
+				1CE89F181E82B16D000ABE99 /* Regex.swift in Sources */,
+				1CE89F2F1E82B2E0000ABE99 /* WotogCounter.swift in Sources */,
 				C94596821D174FBA008CD47A /* StatsTests.swift in Sources */,
+				1CE89F511E82B8A5000ABE99 /* TimerHud.swift in Sources */,
+				1CE89F3A1E82B42A000ABE99 /* ReplayKeyPoint.swift in Sources */,
+				1CF205101E8450FE00037A42 /* Splashscreen.swift in Sources */,
+				1CF2051F1E84673000037A42 /* Hearthpwn.swift in Sources */,
+				1CF205031E84463800037A42 /* Statistics.swift in Sources */,
+				1CCB4AC71E846A13003FD1AD /* HSReplayPreferences.swift in Sources */,
+				1CE89F261E82B24F000ABE99 /* Block.swift in Sources */,
+				1CCB4ACC1E846E61003FD1AD /* Color.swift in Sources */,
+				1CF205021E84463400037A42 /* DeckCellView.swift in Sources */,
+				1CCB4AC51E846A0D003FD1AD /* UploadResult.swift in Sources */,
+				1CE89F051E82AF4B000ABE99 /* FullScreenFxHandler.swift in Sources */,
 				439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */,
+				1CE89F541E82BBA1000ABE99 /* ReleaseChannel.swift in Sources */,
+				1CE89F0C1E82B01D000ABE99 /* Entity.swift in Sources */,
+				1CF205271E84674A00037A42 /* Hearthstoneheroes.swift in Sources */,
+				1CE89F1E1E82B1DE000ABE99 /* LinqExtension.swift in Sources */,
+				1CE89F411E82B497000ABE99 /* BrawlInfo.swift in Sources */,
+				1CE89F121E82B08D000ABE99 /* Card.swift in Sources */,
+				1CE89F471E82B4E3000ABE99 /* ImageUtils.swift in Sources */,
+				1CE89F301E82B2E5000ABE99 /* StringTracker.swift in Sources */,
+				1CF205281E84674D00037A42 /* HearthstoneTopDeck.swift in Sources */,
+				1CE89F551E82BD8C000ABE99 /* Secret.swift in Sources */,
+				1CCB4ACE1E846FA5003FD1AD /* GlowFilter.m in Sources */,
+				1CE89F191E82B174000ABE99 /* Race.swift in Sources */,
+				1CE89F1F1E82B1F4000ABE99 /* CardIds.swift in Sources */,
+				1CF205121E8454B000037A42 /* TrackOBotPreferences.swift in Sources */,
+				1CF205151E8460AA00037A42 /* Paths.swift in Sources */,
+				1CE89F351E82B368000ABE99 /* Settings.swift in Sources */,
+				1CE89F381E82B420000ABE99 /* Hearthstone.swift in Sources */,
+				1CE89F2E1E82B2DC000ABE99 /* OpponentDrawChance.swift in Sources */,
+				1CE89F4F1E82B89A000ABE99 /* BoardDamage.swift in Sources */,
+				1CE89F231E82B22D000ABE99 /* GameType.swift in Sources */,
+				1CF204FB1E84257800037A42 /* MirrorHelper.swift in Sources */,
+				1CF205261E84674700037A42 /* Tempostorm.swift in Sources */,
+				1CE89F4A1E82B75A000ABE99 /* PackWatcher.swift in Sources */,
 				1CF1B58C1E815810007DCBF2 /* LogReaderTests.swift in Sources */,
+				1CF205201E84673300037A42 /* HearthpwnDeckBuilder.swift in Sources */,
+				1CE89F071E82AF8D000ABE99 /* Player.swift in Sources */,
+				1CF204FE1E843A1000037A42 /* Language.swift in Sources */,
+				1CF205221E84673900037A42 /* Hearthstats.swift in Sources */,
+				1CE89F461E82B4D9000ABE99 /* NotificationType.swift in Sources */,
+				1CE89F4C1E82B855000ABE99 /* ArenaHandler.swift in Sources */,
+				1CF2050D1E8450AA00037A42 /* LogUploader.swift in Sources */,
+				1CF2050C1E8450A500037A42 /* HSReplayAPI.swift in Sources */,
+				1CE89F451E82B4A4000ABE99 /* ClassicBar.swift in Sources */,
+				1CF204F71E83B43F00037A42 /* ReplayMaker.swift in Sources */,
+				1CE89F0D1E82B03B000ABE99 /* GameTag.swift in Sources */,
+				1CE89F061E82AF70000ABE99 /* Game.swift in Sources */,
+				1CF2051A1E8466FE00037A42 /* State.swift in Sources */,
+				1CB43A141E83175000E42181 /* WotogCounterHelper.swift in Sources */,
+				1CF2050A1E844AD100037A42 /* ManaGemButton.swift in Sources */,
+				1CE89F151E82B0C8000ABE99 /* Array.swift in Sources */,
+				1CE89F2C1E82B2D2000ABE99 /* TrackerFrame.swift in Sources */,
+				1CF205171E8460F700037A42 /* HttpEncoding.swift in Sources */,
+				1CF205111E84510B00037A42 /* SizeHelper.swift in Sources */,
+				1CE89F1C1E82B186000ABE99 /* CardType.swift in Sources */,
+				1CF2050F1E8450BB00037A42 /* TrackOBotLogin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2242,7 +2598,6 @@
 		439C7E741C7772C100D29859 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2253,15 +2608,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HSTracker.app/Contents/MacOS/HSTracker";
 			};
 			name = Debug;
 		};
 		439C7E751C7772C100D29859 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2272,8 +2626,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HSTracker.app/Contents/MacOS/HSTracker";
 			};
 			name = Release;
 		};

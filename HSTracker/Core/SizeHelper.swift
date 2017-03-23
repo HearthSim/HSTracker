@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import AppKit
 
 struct SizeHelper {
     
@@ -24,7 +25,8 @@ struct SizeHelper {
         }
         
         func reload() {
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
+			//TODO: fix sizehelper reload
+            /*guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
 
             let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
@@ -54,7 +56,7 @@ struct SizeHelper {
                     //Log.debug?.message("HS Frame is : \(rect)")
                     self._frame = frame
                 }
-            }
+            }*/
         }
         
         fileprivate var width: CGFloat {

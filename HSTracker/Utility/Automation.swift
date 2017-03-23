@@ -13,7 +13,7 @@ import RealmSwift
 struct Automation {
     private var queue: DispatchQueue = DispatchQueue(label: "export.hstracker", attributes: [])
     
-    func expertDeckToHearthstone(deck: Deck, callback: @escaping (String) -> Void) {
+    func exportDeckToHearthstone(deck: Deck, callback: @escaping (String) -> Void) {
         let cards = CollectionManager.default.collection()
         if cards.count == 0 {
                 callback(NSLocalizedString("Can't get card collection", comment: ""))
@@ -22,8 +22,8 @@ struct Automation {
 
         let deckId = deck.deckId
         queue.async {
-            // bring HS to front
-            (NSApp.delegate as? AppDelegate)?.hearthstone.bringToFront()
+            // bring HS to front, TODO: fix automation
+            //(NSApp.delegate as? AppDelegate)?.hearthstone.bringToFront()
 
             let searchLocation = SizeHelper.searchLocation()
             let firstCardLocation = SizeHelper.firstCardLocation()
@@ -77,8 +77,7 @@ struct Automation {
             }
             
             Thread.sleep(forTimeInterval: 1)
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                  let editedDeck = hearthstone.mirror?.getEditedDeck() else {
+            guard let editedDeck = MirrorHelper.getEditedDeck() else {
                 callback(NSLocalizedString("Can't get edited deck", comment: ""))
                 return
             }

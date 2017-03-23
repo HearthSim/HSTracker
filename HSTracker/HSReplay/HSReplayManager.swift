@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import AppKit
 
 class HSReplayManager {
 

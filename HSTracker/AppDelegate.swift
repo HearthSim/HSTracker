@@ -26,7 +26,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var dockMenu = NSMenu(title: "DockMenu")
     var appHealth: AppHealth = AppHealth.instance
 
-    var game = Game()
     var hearthstone = Hearthstone()
 
     var preferences: MASPreferencesWindowController = {
@@ -138,8 +137,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             Settings.hearthstonePath = Settings.hearthstonePath.replace("/Logs", with: "")
         }
 
-        game.hearthstone = hearthstone
-
         if Settings.validated() {
             loadSplashscreen()
         } else {
@@ -185,8 +182,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         splashscreen?.showWindow(self)
 
         Log.info?.message("Opening trackers")
-        game.windowManager = WindowManager()
-        game.windowManager?.startManager()
+        hearthstone.game.windowManager = WindowManager()
+        hearthstone.game.windowManager?.startManager()
 
         let buildsOperation = BlockOperation {
             BuildDates.loadBuilds(splashscreen: self.splashscreen!)
@@ -212,13 +209,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         let loggingOperation = BlockOperation {
             while true {
-                if self.game.windowManager?.isReady() ?? false {
+                if self.hearthstone.game.windowManager?.isReady() ?? false {
                     break
                 }
                 Thread.sleep(forTimeInterval: 0.5)
             }
 
-            self.game.windowManager?.hideGameTrackers()
+            self.hearthstone.game.windowManager?.hideGameTrackers()
         }
 
         let menuOperation = BlockOperation {
@@ -272,8 +269,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                            context: context)
     }
 
-    // debug stuff
-    //var window: NSWindow?
     func hstrackerReady() {
         guard !hstrackerIsStarted else { return }
         hstrackerIsStarted = true
@@ -317,6 +312,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         hearthstone.start()
 
         let events = [
+			// TODO: rework
             "reload_decks": #selector(AppDelegate.reloadDecks(_:)),
             "hstracker_language": #selector(AppDelegate.languageChange(_:)),
             "theme": #selector(reloadTheme)
@@ -330,9 +326,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         if let activeDeck = Settings.activeDeck {
-            DispatchQueue.main.async { [weak self] in
-                self?.game.set(activeDeck: activeDeck)
-            }
+                self.hearthstone.game.set(activeDeckId: activeDeck)
         }
 
         NotificationCenter.default
@@ -342,10 +336,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         splashscreen?.close()
         splashscreen = nil
 
-        let time = DispatchTime.now() + DispatchTimeInterval.milliseconds(500)
+		// TODO: rework
+        /*let time = DispatchTime.now() + DispatchTimeInterval.milliseconds(500)
         DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
             self?.game.windowManager?.updateTrackers()
-        }
+        }*/
     }
 
     func reloadDecks(_ notification: Notification) {
@@ -353,7 +348,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func reloadTheme() {
-        game.windowManager?.updateTrackers(reset: true)
+        hearthstone.game.windowManager?.updateTrackers(reset: true)
     }
 
     func languageChange(_ notification: Notification) {
@@ -527,36 +522,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func playDeck(_ sender: NSMenuItem) {
         if let deck = sender.representedObject as? Deck {
             let deckId = deck.deckId
-            DispatchQueue.main.async { [weak self] in
-                self?.game.set(activeDeck: deckId)
-            }
+			self.hearthstone.game.set(activeDeckId: deckId)
         }
     }
 
     @IBAction func openDeckManager(_ sender: AnyObject) {
         if deckManager == nil {
             deckManager = DeckManager(windowNibName: "DeckManager")
+			deckManager?.game = hearthstone.game
         }
         deckManager?.showWindow(self)
     }
 
     @IBAction func clearTrackers(_ sender: AnyObject) {
-        game.removeActiveDeck()
+        hearthstone.game.removeActiveDeck()
         Settings.activeDeck = nil
     }
 
     @IBAction func saveCurrentDeck(_ sender: AnyObject) {
         switch sender.tag {
         case 1: // Opponent
-            saveDeck(game.opponent)
+            saveDeck(hearthstone.game.opponent)
         case 2: // Self
-            saveDeck(game.player)
+            saveDeck(hearthstone.game.player)
         default:
             break
         }
     }
 
     func saveDeck(_ player: Player) {
+		// TODO: move it to realhelper
         if let playerClass = player.playerClass {
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
@@ -581,7 +576,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func resetTrackers(_ sender: AnyObject) {
-        game.windowManager?.updateTrackers()
+        hearthstone.game.windowManager?.updateTrackers()
     }
 
     @IBAction func openPreferences(_ sender: AnyObject) {
@@ -601,7 +596,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var windowMove: WindowMove?
     @IBAction func openDebugPositions(_ sender: AnyObject) {
         if windowMove == nil {
-            windowMove = WindowMove(windowNibName: "WindowMove")
+			windowMove = WindowMove(windowNibName: "WindowMove", windowManager: hearthstone.game.windowManager!)
         }
         windowMove?.showWindow(self)
     }

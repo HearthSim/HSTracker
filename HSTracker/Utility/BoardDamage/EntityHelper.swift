@@ -8,15 +8,14 @@
 
 import Foundation
 
+// TODO: this class is very messy, clean it up
 class EntityHelper {
     class func isHero(entity: Entity) -> Bool {
         return entity.has(tag: .cardtype) && entity[.cardtype] == CardType.hero.rawValue
                 && entity.has(tag: .zone) && entity[.zone] == Zone.play.rawValue
     }
 
-    class func getHeroEntity(forPlayer: Bool) -> Entity? {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return nil }
-
+	class func getHeroEntity(forPlayer: Bool, game: Game) -> Entity? {
         return getHeroEntity(forPlayer: forPlayer, entities: game.entities, id: game.player.id)
     }
 
@@ -35,21 +34,15 @@ class EntityHelper {
         }
     }
 
-    class func isPlayersTurn() -> Bool {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
-            return false
-        }
-        return isPlayersTurn(entities: game.entities)
-    }
-
-    class func isPlayersTurn(entities: [Int: Entity]) -> Bool {
+	class func isPlayersTurn(game: Game) -> Bool {
+		let entities = game.entities
         let firstPlayer = entities.map {
             $0.1
         }.first {
             $0.has(tag: .first_player)
         }
         if let firstPlayer = firstPlayer {
-            let offset = firstPlayer.isPlayer ? 0 : 1
+			let offset = firstPlayer.isPlayer(game: game) ? 0 : 1
             guard let gameRoot = entities.map({ $0.1 }).first({ $0.name == "GameEntity" }) else {
                 return false
             }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 class ClassicBar: CardBar {
     private let _fadeRect = NSRect(x: 28, y: 0, width: 189, height: 34)

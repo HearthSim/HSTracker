@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 import CleanroomLogger
+import AppKit
 
 class DeckContextMenu: NSMenu {
     public var clickedrow: Int = 0
@@ -55,6 +56,8 @@ class DeckManager: NSWindowController {
     let orders = ["ascending", "descending"]
     var sortCriteria = Settings.deckSortCriteria
     var sortOrder = Settings.deckSortOrder
+	
+	weak var game: Game?
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -332,9 +335,8 @@ class DeckManager: NSWindowController {
         
         Settings.activeDeck = deck.deckId
         let deckId = deck.deckId
-        DispatchQueue.main.async {
-            guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
-            game.set(activeDeck: deckId)
+        DispatchQueue.main.async { [unowned self] in
+            self.game?.set(activeDeckId: deckId)
         }
     }
 
@@ -521,7 +523,7 @@ class DeckManager: NSWindowController {
         let when = DispatchTime.now() + DispatchTimeInterval.seconds(2)
         DispatchQueue.main.asyncAfter(deadline: when) {
             let automation = Automation()
-            automation.expertDeckToHearthstone(deck: deck) { message in
+            automation.exportDeckToHearthstone(deck: deck) { message in
                 DispatchQueue.main.async {
                     NSAlert.show(style: .informational,
                                  message: message,

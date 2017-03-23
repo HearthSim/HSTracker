@@ -17,9 +17,9 @@ class BoardState {
         self.opponent = opponent
     }
 
-    convenience init() {
-        self.init(player: BoardState.createPlayerBoard(),
-                  opponent: BoardState.createOpponentBoard())
+	convenience init(game: Game) {
+		self.init(player: BoardState.createPlayerBoard(game: game),
+                  opponent: BoardState.createOpponentBoard(game: game))
     }
     
     convenience init(player: [Entity], opponent: [Entity], entities: [Int: Entity], playerId: Int) {
@@ -43,8 +43,8 @@ class BoardState {
         return opponent.hero == nil || player.damage >= opponent.hero?.health ?? 0
     }
     
-    private class func createPlayerBoard() -> PlayerBoard {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+	private class func createPlayerBoard(game: Game?) -> PlayerBoard {
+        guard let game = game else {
             return createBoard(list: [], entities: [:], isPlayer: true, playerId: -1)
         }
         return createBoard(list: game.player.board,
@@ -53,8 +53,8 @@ class BoardState {
                            playerId: game.player.id)
     }
     
-    private class func createOpponentBoard() -> PlayerBoard {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+    private class func createOpponentBoard(game: Game?) -> PlayerBoard {
+        guard let game = game else {
             return createBoard(list: [], entities: [:], isPlayer: false, playerId: -1)
         }
         return createBoard(list: game.opponent.board,

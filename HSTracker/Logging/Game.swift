@@ -11,6 +11,7 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
+import HearthMirror
 
 struct PlayingDeck {
     let id: String
@@ -22,10 +23,15 @@ struct PlayingDeck {
     let isArena: Bool
 }
 
+/**
+ * Game object represents the current state of the tracker
+ */
 class Game {
 
+	/**
+	 * View controller of this game object
+	 */
     var windowManager: WindowManager?
-    var hearthstone: Hearthstone?
 
     // MARK: - vars
     var currentTurn = 0
@@ -36,8 +42,8 @@ class Game {
     var currentGameStats: InternalGameStats?
     var lastGame: InternalGameStats?
 
-    var player: Player
-    var opponent: Player
+	var player: Player!
+    var opponent: Player!
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
 
@@ -46,12 +52,12 @@ class Game {
         if let _spectator = _spectator {
             return _spectator
         }
-        _spectator = hearthstone?.mirror?.isSpectating()
+        _spectator = MirrorHelper.isSpectating()
         if let _spectator = _spectator {
             return _spectator
         }
         return false
-    }
+	}
 
     private var _currentGameMode: GameMode = .none
     var currentGameMode: GameMode {
@@ -71,7 +77,7 @@ class Game {
         if _currentGameType != .gt_unknown {
             return _currentGameType
         }
-        if let gameType = hearthstone?.mirror?.getGameType() as? Int,
+        if let gameType = MirrorHelper.getGameType(),
             let type = GameType(rawValue: gameType) {
             _currentGameType = type
         }
@@ -123,32 +129,32 @@ class Game {
         if let _matchInfo = _matchInfo {
             return _matchInfo
         }
-        if let matchInfo = hearthstone?.mirror?.getMatchInfo() {
+        if let matchInfo = MirrorHelper.getMatchInfo() {
             _matchInfo = MatchInfo(info: matchInfo)
         }
         return _matchInfo
     }
 
     var arenaInfo: ArenaInfo? {
-        if let _arenaInfo = hearthstone?.mirror?.getArenaDeck() {
+        if let _arenaInfo = MirrorHelper.getArenaDeck() {
             return ArenaInfo(info: _arenaInfo)
         }
         return nil
     }
 
     var brawlInfo: BrawlInfo? {
-        if let _brawlInfo = hearthstone?.mirror?.getBrawlInfo() {
+        if let _brawlInfo = MirrorHelper.getBrawlInfo() {
             return BrawlInfo(info: _brawlInfo)
         }
         return nil
     }
 
     var playerEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.isPlayer }
+		return entities.map { $0.1 }.firstWhere { $0.isPlayer(game: self) }
     }
 
     var opponentEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer }
+        return entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer(game: self) }
     }
 
     var gameEntity: Entity? {
@@ -177,8 +183,7 @@ class Game {
 
     private var _currentFormat = FormatType.ft_unknown
     var currentFormat: Format {
-        if let mirror = hearthstone?.mirror,
-            let mirrorFormat = mirror.getFormat() as? Int,
+        if let mirrorFormat = MirrorHelper.getFormat(),
             _currentFormat == .ft_unknown,
             let format = FormatType(rawValue: mirrorFormat) {
             _currentFormat = format
@@ -186,9 +191,11 @@ class Game {
         return Format(formatType: _currentFormat)
     }
 
+	// MARK: - Lifecycle
+	
     init() {
-        player = Player(local: true)
-        opponent = Player(local: false)
+		player = Player(local: true, game: self)
+        opponent = Player(local: false, game: self)
         opponentSecrets = OpponentSecrets(game: self)
     }
 
@@ -278,23 +285,21 @@ class Game {
         currentBlock = currentBlock?.parent
     }
 
-    func set(activeDeck deckId: String?) {
-        Settings.activeDeck = deckId
-
-        guard let deckId = deckId,
-            let realm = try? Realm(),
-            let deck = realm.objects(Deck.self).filter("deckId = '\(deckId)'").first else {
-            currentDeck = nil
-            player.playerClass = nil
-            currentGameStats?.playerHero = .neutral
-            windowManager?.updateTrackers(reset: true)
-            return
-        }
-
-        set(activeDeck: deck)
-    }
-
-    private func set(activeDeck deck: Deck) {
+	func set(activeDeckId: String?) {
+		Settings.activeDeck = activeDeckId
+		
+		if let id = activeDeckId, let deck = RealmHelper.getDeck(with: id) {
+			set(activeDeck: deck)
+		} else {
+			currentDeck = nil
+			player.playerClass = nil
+			currentGameStats?.playerHero = .neutral
+			windowManager?.updateTrackers(reset: true)
+		}
+	}
+	
+	private func set(activeDeck deck: Deck) {
+		
         var cards: [Card] = []
         for deckCard in deck.cards {
             if let card = Cards.by(cardId: deckCard.id) {
@@ -372,11 +377,11 @@ class Game {
 
         _matchInfoCacheInvalid = false
         DispatchQueue.global().async { [weak self] in
-            guard let mirror = self?.hearthstone?.mirror else { return }
-
-            var matchInfo: MirrorMatchInfo? = mirror.getMatchInfo()
+			
+			// TODO: add timeout here, threading?
+            var matchInfo: MirrorMatchInfo? = MirrorHelper.getMatchInfo()
             while matchInfo == nil {
-                matchInfo = mirror.getMatchInfo()
+                matchInfo = MirrorHelper.getMatchInfo()
                 Thread.sleep(forTimeInterval: 0.1)
             }
             if let matchInfo = matchInfo {
@@ -483,7 +488,7 @@ class Game {
             if let name = self.player.name {
                 currentGameStats.playerName = name
             }
-            if let _player = self.entities.map({ $0.1 }).firstWhere({ $0.isPlayer }) {
+			if let _player = self.entities.map({ $0.1 }).firstWhere({ $0.isPlayer(game: self) }) {
                 currentGameStats.coin = !_player.has(tag: .first_player)
             }
             
@@ -525,7 +530,7 @@ class Game {
             }
             
             currentGameStats.gameType = self.currentGameType
-            if let serverInfo = self.hearthstone?.mirror?.getGameServerInfo() {
+            if let serverInfo = MirrorHelper.getGameServerInfo() {
                 currentGameStats.serverInfo = ServerInfo(info: serverInfo)
             }
             currentGameStats.playerCardbackId = self.matchInfo?.localPlayer.cardBackId ?? 0
@@ -771,8 +776,8 @@ class Game {
     }
 
     func isMulliganDone() -> Bool {
-        let player = entities.map { $0.1 }.firstWhere { $0.isPlayer }
-        let opponent = entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer }
+		let player = entities.map { $0.1 }.firstWhere { $0.isPlayer(game: self) }
+        let opponent = entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer(game: self) }
 
         if let player = player, let opponent = opponent {
             return player[.mulligan_state] == Mulligan.done.rawValue
@@ -1057,7 +1062,7 @@ class Game {
             }
             guard let _ = heroClass else { return }
             opponentSecretCount += 1
-            opponentSecrets?.newSecretPlayed(heroClass: heroClass!, id: entity.id, turn: turn)
+            opponentSecrets?.newSecretPlayed(heroClass: heroClass!, id: entity.id, turn: turn, gameFormat: .all)
             windowManager?.updateTrackers()
         }
     }
@@ -1176,7 +1181,7 @@ class Game {
                 + " -> \(heroClass) -> \(opponent.playerClass)")
         }
         if let hero = heroClass {
-            opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn)
+            opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn, gameFormat: .all)
         }
         windowManager?.updateTrackers()
     }
@@ -1288,6 +1293,7 @@ class Game {
             if entity.isControlled(by: opponent.id) {
                 opponentSecrets?.zeroFromAttack(attacker: attackingEntity,
                                                 defender: defendingEntity)
+				windowManager?.updateTrackers()
             }
         }
     }
@@ -1300,6 +1306,7 @@ class Game {
             if entity.isControlled(by: player.id) {
                 opponentSecrets?.zeroFromAttack(attacker: attackingEntity,
                                                 defender: defendingEntity)
+				windowManager?.updateTrackers()
             }
         }
     }
@@ -1416,6 +1423,7 @@ class Game {
     }
 
      func showNotification(type: NotificationType) {
+		/* TODO: move this to separate part
          guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
 
         switch type {
@@ -1449,6 +1457,6 @@ class Game {
                         HSReplayManager.showReplay(replayId: replayId)
             }
 
-        }
+        }*/
     }
 }

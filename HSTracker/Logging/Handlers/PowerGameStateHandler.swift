@@ -11,7 +11,7 @@
 import Foundation
 import CleanroomLogger
 
-class PowerGameStateHandler {
+class PowerGameStateHandler: LogEventHandler {
 
     let BlockStartRegex = ".*BLOCK_START.*BlockType=(POWER|TRIGGER).*id=(\\d*)"
         + ".*(cardId=(\\w*)).*Target=(.+)"
@@ -26,9 +26,16 @@ class PowerGameStateHandler {
 
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
+	
+	private unowned let hearthstone: Hearthstone
+	
+	init(with hearthstone: Hearthstone) {
+		self.hearthstone = hearthstone
+	}
 
-    func handle(game: Game, logLine: LogLine) {
+    func handle(logLine: LogLine) {
         var creationTag = false
+		let game = hearthstone.game
 
         // current game
         if logLine.line.match(GameEntityRegex) {

@@ -11,11 +11,11 @@
 import Foundation
 import CleanroomLogger
 
-struct RachelleHandler {
+struct RachelleHandler: LogEventHandler {
     let TowardsGolds = "(\\d)/3 wins towards 10 gold"
     let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
 
-    func handle(game: Game, logLine: LogLine) {
+    func handle(logLine: LogLine) {
         if logLine.line.match(TowardsGolds) {
             if let match = logLine.line.matches(TowardsGolds).first,
                 let victories = Int(match.value) {

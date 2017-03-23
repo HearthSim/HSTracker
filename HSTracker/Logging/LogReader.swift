@@ -124,8 +124,7 @@ final class LogReader {
                                        || info.containsFilters.any({ cutted.contains($0) }) {
 
                                 let logLine = LogLine(namespace: info.name,
-                                        line: line,
-                                        include: info.include)
+                                        line: line)
                                 if logLine.time >= startingPoint {
                                     _lines.enqueue(value: logLine)
                                 }
@@ -203,7 +202,7 @@ final class LogReader {
         }
     }
 
-    func stop() {
+	func stop(eraseLogFile: Bool) {
         Log.info?.message("Stopping tracker \(info.name)")
         fileHandle?.closeFile()
         fileHandle = nil
@@ -211,8 +210,7 @@ final class LogReader {
         _lines.clear()
         
         // try to truncate log file when stopping
-        if let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-           fileManager.fileExists(atPath: path), !hearthstone.isHearthstoneRunning {
+        if fileManager.fileExists(atPath: path) && eraseLogFile {
             let file = FileHandle(forWritingAtPath: path)
             file?.truncateFile(atOffset: UInt64(0))
             file?.closeFile()

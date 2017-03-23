@@ -13,10 +13,7 @@ import Wrap
 
 class Entity {
     var id: Int
-    var isPlayer: Bool {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
-            return false
-        }
+	func isPlayer(game: Game) -> Bool {
         return self[.player_id] == game.player.id
     }
     var cardId = ""
@@ -71,8 +68,8 @@ class Entity {
     var isSpell: Bool {
         return self[.cardtype] == CardType.spell.rawValue
     }
-    var isOpponent: Bool {
-        return !isPlayer && has(tag: .player_id)
+	func isOpponent(game: Game) -> Bool {
+		return !isPlayer(game: game) && has(tag: .player_id)
     }
     var isMinion: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue

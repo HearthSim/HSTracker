@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 class SecretHelper {
     private(set) var id: Int
@@ -14,12 +15,12 @@ class SecretHelper {
     private(set) var heroClass: CardClass
     var possibleSecrets: [String: Bool] = [:]
 
-    init(heroClass: CardClass, id: Int, turnPlayed: Int) {
+	init(heroClass: CardClass, id: Int, turnPlayed: Int, gameFormat: Format) {
         self.id = id
         self.turnPlayed = turnPlayed
         self.heroClass = heroClass
 
-        SecretHelper.getSecretIds(heroClass: heroClass).forEach({
+		SecretHelper.getSecretIds(heroClass: heroClass, gameFormat: gameFormat).forEach({
             possibleSecrets[$0] = true
         })
     }
@@ -36,14 +37,13 @@ class SecretHelper {
         return active
     }
 
-    static func getMaxSecretCount(heroClass: CardClass) -> Int {
-        return getSecretIds(heroClass: heroClass).count
+    static func getMaxSecretCount(heroClass: CardClass, gameFormat: Format) -> Int {
+		return getSecretIds(heroClass: heroClass, gameFormat: gameFormat).count
     }
 
-    static func getSecretIds(heroClass: CardClass) -> [String] {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return [] }
+	static func getSecretIds(heroClass: CardClass, gameFormat: Format) -> [String] {
 
-        let standardOnly = game.currentFormat == .standard
+        let standardOnly = gameFormat == .standard
         switch heroClass {
         case .hunter: return CardIds.Secrets.Hunter.getCards(standardOnly: standardOnly)
         case .mage: return CardIds.Secrets.Mage.getCards(standardOnly: standardOnly)

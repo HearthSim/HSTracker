@@ -75,6 +75,7 @@ class FloatingCard: OverWindowController {
     }
 
     private func reloadImage() {
+		/* TODO: image reload
         guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
             let card = card else {
                 imageView.image = nil
@@ -92,7 +93,7 @@ class FloatingCard: OverWindowController {
                 } else if let error = error {
                     Log.warning?.message("asset generation: \(error)")
             }
-        }
+        }*/
     }
 
     private func reloadText() {

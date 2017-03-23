@@ -11,6 +11,7 @@
 import Foundation
 import CleanroomLogger
 import HearthAssets
+import HearthMirror
 
 enum HearthstoneLogError: Error {
     case canNotCreateDir,
@@ -21,11 +22,10 @@ enum HearthstoneLogError: Error {
 final class Hearthstone: NSObject {
     let applicationName = "Hearthstone"
 
-    var logReaderManager: LogReaderManager
+    var logReaderManager: LogReaderManager!
     var assetGenerator: HearthAssets?
 
-    var mirror: HearthMirror?
-    private var waitingForMirror = false
+	var game = Game()
     
     // watchers
     let deckWatcher = DeckWatcher()
@@ -33,12 +33,11 @@ final class Hearthstone: NSObject {
     let arenaWatcher = ArenaWatcher()
     let packWatcher = PackWatcher()
 
-    var hearthstoneActive = false
     var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
     
     override init() {
-        logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath)
         super.init()
+		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, hearthstone: self)
     }
 
     static func findHearthstone() -> String? {
@@ -60,7 +59,6 @@ final class Hearthstone: NSObject {
     func start() {
         startListeners()
         if isHearthstoneRunning {
-            hearthstoneActive = true
             Log.info?.message("Hearthstone is running, starting trackers now.")
 
             startTracking()
@@ -193,31 +191,13 @@ final class Hearthstone: NSObject {
     }
 
     func startTracking() {
+		// TODO: revise if delay is really needed
         let time = DispatchTime.now() + DispatchTimeInterval.seconds(1)
         DispatchQueue.main.asyncAfter(deadline: time) { [unowned self] in
             Log.info?.message("Start Tracking")
-            // get rights to attach
-            if acquireTaskportRight() != 0 {
-                Log.error?.message("acquireTaskportRight() failed!")
-            }
+            
             if let hearthstoneApp = self.hearthstoneApp {
-                self.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
-                                           blocking: true)
-
-                // waiting for mirror to be up and running
-                self.waitingForMirror = true
-                while self.waitingForMirror {
-                    if let battleTag = self.mirror?.getBattleTag() {
-                        Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
-                        self.waitingForMirror = false
-                        break
-                    } else {
-                        // mirror might be partially initialized, reset
-                        self.mirror = HearthMirror(pid: hearthstoneApp.processIdentifier,
-                                                   blocking: true)
-                        Thread.sleep(forTimeInterval: 0.5)
-                    }
-                }
+				MirrorHelper.initMirror(pid: hearthstoneApp.processIdentifier, blocking: true)
             }
 
             self.logReaderManager.start()
@@ -226,11 +206,10 @@ final class Hearthstone: NSObject {
 
     func stopTracking() {
         Log.info?.message("Stop Tracking")
-        logReaderManager.stop()
+		logReaderManager.stop(eraseLogFile: !self.isHearthstoneRunning)
         deckWatcher.stop()
         arenaDeckWatcher.stop()
-        self.waitingForMirror = false
-        mirror = nil
+        MirrorHelper.destroy()
     }
 
     // MARK: - Events
@@ -273,7 +252,6 @@ final class Hearthstone: NSObject {
             app.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now closed")
             self.stopTracking()
-            self.hearthstoneActive = false
             
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: "hearthstone_closed"), object: nil)
@@ -291,7 +269,7 @@ final class Hearthstone: NSObject {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now active")
-            self.hearthstoneActive = true
+			
             AppHealth.instance.setHearthstoneRunning(flag: true)
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: "hearthstone_active"), object: nil)
@@ -302,7 +280,7 @@ final class Hearthstone: NSObject {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == applicationName {
             Log.verbose?.message("Hearthstone is now inactive")
-            self.hearthstoneActive = false
+            
             NotificationCenter.default
                 .post(name: Notification.Name(rawValue: "hearthstone_deactived"), object: nil)
         }
@@ -328,4 +306,60 @@ final class Hearthstone: NSObject {
         let apps = NSWorkspace.shared().runningApplications
         return apps.first { $0.bundleIdentifier == "unity.Blizzard Entertainment.Hearthstone" }
     }
+	
+	// MARK: - Deck detection
+	func autoDetectDeck(mode: Mode) -> Deck? {
+		
+		let selectedModes: [Mode] = [.tavern_brawl, .tournament,
+		                             .friendly, .adventure]
+		if selectedModes.contains(mode) {
+			
+			Log.info?.message("Trying to import deck from Hearthstone")
+			
+			var selectedDeckId: Int64 = 0
+			if let selectedId = MirrorHelper.getSelectedDeck() {
+				selectedDeckId = selectedId
+			} else {
+				selectedDeckId = deckWatcher.selectedDeckId
+			}
+			
+			if selectedDeckId <= 0 {
+				if mode != .tavern_brawl {
+					return nil
+				}
+			}
+			
+			if let decks = MirrorHelper.getDecks() {
+				guard let selectedDeck = decks.first({ $0.id as Int64 == selectedDeckId }) else {
+					Log.warning?.message("No deck with id=\(selectedDeckId) found")
+					return nil
+				}
+				Log.info?.message("Found selected deck : \(selectedDeck.name)")
+				
+				return RealmHelper.checkAndUpdateDeck(deckId: selectedDeckId, selectedDeck: selectedDeck)
+			} else {
+				return nil
+			}
+			
+		} else if mode == .draft {
+			Log.info?.message("Trying to import arena deck from Hearthstone")
+			
+			var hsMirrorDeck: MirrorDeck?
+			if let mDeck = MirrorHelper.getArenaDeck()?.deck {
+				hsMirrorDeck = mDeck
+			} else {
+				hsMirrorDeck = arenaDeckWatcher.selectedDeck
+			}
+			
+			guard let hsDeck = hsMirrorDeck else {
+				Log.warning?.message("Can't get arena deck")
+				return nil
+			}
+			
+			return RealmHelper.checkOrCreateArenaDeck(mirrorDeck: hsDeck)
+		}
+		
+		Log.error?.message("Auto-importing deck of \(mode) is not supported")
+		return nil
+	}
 }

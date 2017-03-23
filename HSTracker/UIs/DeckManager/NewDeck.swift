@@ -9,6 +9,7 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
+import AppKit
 
 protocol NewDeckDelegate: class {
     func addNewDeck(deck: Deck)

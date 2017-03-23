@@ -9,13 +9,13 @@
 */
 
 import CleanroomLogger
+import Foundation
 
 struct LogLine {
 	let namespace: LogLineNamespace
 	let time: Date
 	let content: String
 	let line: String
-	let include: Bool
 	
 	private static let dateStringFormatterNS: DateFormatter = {
 		let formatter = DateFormatter()
@@ -40,9 +40,8 @@ struct LogLine {
 		return formatter
 	}()
 	
-	init(namespace: LogLineNamespace, line: String, include: Bool = true) {
+	init(namespace: LogLineNamespace, line: String) {
 		self.namespace = namespace
-		self.include = include // FIXME: we dont want this here
 		self.line = line
 		
 		if line.characters.count <= 20 {

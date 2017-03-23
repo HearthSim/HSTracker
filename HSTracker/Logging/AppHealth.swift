@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 enum HealthLevel: Int {
     case undefined = 0,

@@ -8,8 +8,10 @@
  * Created on 16/02/16.
  */
 
+import AppKit
 import Foundation
 import CleanroomLogger
+import HearthMirror
 
 struct ImageUtils {
 
@@ -41,7 +43,7 @@ struct ImageUtils {
             completion(image)
             return
         }
-
+		/* TODO: fix imageutil
         if let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
            let assetGenerator = hearthstone.assetGenerator,
             Settings.useHearthstoneAssets {
@@ -55,7 +57,7 @@ struct ImageUtils {
             }
         } else {
             loadTile(card: card, completion: completion)
-        }
+        }*/
     }
 
     private static func loadTile(card: Card, completion: @escaping ((NSImage?) -> Void)) {

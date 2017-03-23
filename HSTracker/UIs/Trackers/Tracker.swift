@@ -109,35 +109,36 @@ class Tracker: OverWindowController {
     func trackerOptionsChange() {
         frameOptionsChange()
     }
-
+// TODO: refactor these
     func cardSizeChange() {
+		/*
         frameOptionsChange()
         setWindowSizes()
         guard let game = (NSApp.delegate as? AppDelegate)?.game,
               let windowManager = game.windowManager else {
             return
         }
-        windowManager.updateTrackers()
+        windowManager.updateTrackers()*/
     }
 
     func playerOptionFrameChange() {
-        if playerType == .player {
+        /*if playerType == .player {
             guard let game = (NSApp.delegate as? AppDelegate)?.game,
                   let windowManager = game.windowManager else {
                 return
             }
             windowManager.updateTrackers(reset: true)
-        }
+        }*/
     }
 
     func opponentOptionFrameChange() {
-        if playerType == .opponent {
+        /*if playerType == .opponent {
             guard let game = (NSApp.delegate as? AppDelegate)?.game,
                   let windowManager = game.windowManager else {
                 return
             }
             windowManager.updateTrackers(reset: true)
-        }
+        }*/
     }
 
     func setOpacity() {
@@ -149,11 +150,13 @@ class Tracker: OverWindowController {
     }
 
     func frameOptionsChange() {
+		/* TODO: fix Tracker UI interaction
         guard let game = (NSApp.delegate as? AppDelegate)?.game,
               let windowManager = game.windowManager else {
             return
         }
         windowManager.updateTrackers()
+		*/
     }
 
     // MARK: - Game
@@ -214,12 +217,14 @@ class Tracker: OverWindowController {
             newCard.fadeIn(highlight: !reset)
         })
 
+		/* TODO: fix tracker game dependency
         guard let game = (NSApp.delegate as? AppDelegate)?.game else {
             Log.warning?.message("No game instance")
             return
         }
         updateCountFrames(game: game)
         updateCardFrames(game: game)
+		*/
     }
 
     fileprivate func updateCardFrames(game: Game) {
@@ -250,29 +255,29 @@ class Tracker: OverWindowController {
             opponentDrawChance.isHidden = !Settings.showOpponentDrawChance
             playerDrawChance.isHidden = true
 
-            showCthunCounter = WotogCounterHelper.showOpponentCthunCounter
-            showSpellCounter = WotogCounterHelper.showOpponentSpellsCounter
-            showDeathrattleCounter = WotogCounterHelper.showOpponentDeathrattleCounter
-            showGraveyard = WotogCounterHelper.showOpponentGraveyard
-            showJadeCounter = WotogCounterHelper.showOpponentJadeCounter
-            proxy = WotogCounterHelper.opponentCthunProxy
+            showCthunCounter = game.showPlayerCthunCounter
+            showSpellCounter = game.showOpponentSpellsCounter
+            showDeathrattleCounter = game.showOpponentDeathrattleCounter
+            showGraveyard = game.showOpponentGraveyard
+            showJadeCounter = game.showOpponentJadeCounter
+            proxy = game.opponentCthunProxy
             playerClass.isHidden = !Settings.showOpponentClassInTracker
             recordTracker.isHidden = true
-            jade = WotogCounterHelper.opponentNextJadeGolem
+            jade = game.opponentNextJadeGolem
         } else {
             cardCounter.isHidden = !Settings.showPlayerCardCount
             opponentDrawChance.isHidden = true
             playerDrawChance.isHidden = !Settings.showPlayerDrawChance
 
-            showCthunCounter = WotogCounterHelper.showPlayerCthunCounter
-            showSpellCounter = WotogCounterHelper.showPlayerSpellsCounter
-            showDeathrattleCounter = WotogCounterHelper.showPlayerDeathrattleCounter
-            showGraveyard = WotogCounterHelper.showPlayerGraveyard
-            showJadeCounter = WotogCounterHelper.showPlayerJadeCounter
-            proxy = WotogCounterHelper.playerCthunProxy
+            showCthunCounter = game.showPlayerCthunCounter
+            showSpellCounter = game.showPlayerSpellsCounter
+            showDeathrattleCounter = game.showPlayerDeathrattleCounter
+            showGraveyard = game.showPlayerGraveyard
+            showJadeCounter = game.showPlayerJadeCounter
+            proxy = game.playerCthunProxy
             playerClass.isHidden = !Settings.showDeckNameInTracker
             recordTracker.isHidden = !Settings.showWinLossRatio
-            jade = WotogCounterHelper.playerNextJadeGolem
+            jade = game.playerNextJadeGolem
         }
         let fatigue = player(game: game).fatigue > 0
         fatigueTracker.isHidden = !(Settings.fatigueIndicator && fatigue)
@@ -660,12 +665,14 @@ class Tracker: OverWindowController {
 // MARK: - NSWindowDelegate
 extension Tracker: NSWindowDelegate {
     func windowDidResize(_ notification: Notification) {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
+		// TODO: Tracker UI
+		/*guard let game = (NSApp.delegate as? AppDelegate)?.game else {
             Log.warning?.message("No game instance")
             return
         }
         updateCardFrames(game: game)
-        onWindowMove()
+        onWindowMove()*/
+
     }
 
     func windowDidMove(_ notification: Notification) {
@@ -711,7 +718,8 @@ extension Tracker: CardCellHover {
         ] as [String : Any]
 
         if self.playerType == .player && Settings.showTopdeckchance {
-            let game = (NSApp.delegate as? AppDelegate)?.game
+			// TODO: topdeck chance
+			/*let game = (NSApp.delegate as? AppDelegate)?.game
             let playercardlist: [Card] = game?.player.playerCardList ?? []
             let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
             if let cardindeck = playercardlist.firstWhere({ $0.id == card.id }) {
@@ -728,7 +736,7 @@ extension Tracker: CardCellHover {
                 }
                 userinfo["drawchancetop2"] = drawchancetop2 * 100.0
                 userinfo["frame"] = frame
-            }
+            }*/
         }
 
         NotificationCenter.default

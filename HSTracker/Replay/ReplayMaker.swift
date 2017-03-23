@@ -42,7 +42,8 @@ final class ReplayMaker {
         resolveZonePos()
         resolveCardIds()
         removeObsoletePlays()
-        
+		
+		/* TODO: better way of handling this, game might be already "old"
         guard let player = points.last?.data.firstWhere({$0.isPlayer}) else {
             Log.warning?.message("Replay : cannot get player, skipping")
             return
@@ -116,15 +117,15 @@ final class ReplayMaker {
             }
 
             reset()
-        }
+        }*/
     }
 
-    private static func resolve(opponentName: String?) {
+	private static func resolve(opponentName: String?, game: Game) {
         if opponentName == nil {
             return
         }
         for kp in points {
-            if let opponent = kp.data.firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer }) {
+			if let opponent = kp.data.firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer(game: game) }) {
                 opponent.name = opponentName
             }
         }

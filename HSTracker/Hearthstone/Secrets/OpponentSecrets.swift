@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import AppKit
 
 class OpponentSecrets {
     private(set) lazy var secrets = [SecretHelper]()
@@ -25,27 +26,27 @@ class OpponentSecrets {
         }
     }
 
-    func getIndexOffset(heroClass: CardClass) -> Int {
+	func getIndexOffset(heroClass: CardClass, gameFormat: Format) -> Int {
         switch heroClass {
         case .hunter:
             return 0
 
         case .mage:
             if displayedClasses.contains(.hunter) {
-                return SecretHelper.getMaxSecretCount(heroClass: .hunter)
+				return SecretHelper.getMaxSecretCount(heroClass: .hunter, gameFormat: gameFormat)
             }
             return 0
 
         case .paladin:
             if displayedClasses.contains(.hunter) && displayedClasses.contains(.mage) {
-                return SecretHelper.getMaxSecretCount(heroClass: .hunter)
-                    + SecretHelper.getMaxSecretCount(heroClass: .mage)
+                return SecretHelper.getMaxSecretCount(heroClass: .hunter, gameFormat: gameFormat)
+                    + SecretHelper.getMaxSecretCount(heroClass: .mage, gameFormat: gameFormat)
             }
             if displayedClasses.contains(.hunter) {
-                return SecretHelper.getMaxSecretCount(heroClass: .hunter)
+                return SecretHelper.getMaxSecretCount(heroClass: .hunter, gameFormat: gameFormat)
             }
             if displayedClasses.contains(.mage) {
-                return SecretHelper.getMaxSecretCount(heroClass: .mage)
+                return SecretHelper.getMaxSecretCount(heroClass: .mage, gameFormat: gameFormat)
             }
             return 0
 
@@ -70,10 +71,10 @@ class OpponentSecrets {
     }
 
     func newSecretPlayed(heroClass: CardClass, id: Int, turn: Int,
-                         knownCardId: String? = nil) {
-        let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn)
+                         knownCardId: String? = nil, gameFormat: Format) {
+		let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn, gameFormat: gameFormat)
         if let knownCardId = knownCardId {
-            SecretHelper.getSecretIds(heroClass: heroClass).forEach({
+			SecretHelper.getSecretIds(heroClass: heroClass, gameFormat: gameFormat).forEach({
                 helper.trySetSecret(cardId: $0, active: $0 == knownCardId)
             })
         }
@@ -151,12 +152,6 @@ class OpponentSecrets {
                 setZeroOlder(cardId: CardIds.Secrets.Hunter.FreezingTrap, stopIndex: stopIndex)
             }
         }
-
-        guard let game = (NSApp.delegate as? AppDelegate)?.game,
-              let windowManager = game.windowManager else {
-            return
-        }
-        windowManager.updateTrackers()
     }
 
     func clearSecrets() {
@@ -192,9 +187,9 @@ class OpponentSecrets {
         }
     }
 
-    func getSecrets() -> [Secret] {
+    func getSecrets(gameFormat: Format) -> [Secret] {
         let returnThis = displayedClasses.expand({
-            SecretHelper.getSecretIds(heroClass: $0).map { Secret(cardId: $0, count: 0) }
+            SecretHelper.getSecretIds(heroClass: $0, gameFormat: gameFormat).map { Secret(cardId: $0, count: 0) }
         })
 
         for secret in secrets {
@@ -208,9 +203,9 @@ class OpponentSecrets {
         return returnThis
     }
 
-    func allSecrets() -> [Card] {
+    func allSecrets(gameFormat: Format) -> [Card] {
         var cards: [Card] = []
-        getSecrets().forEach({ (secret) in
+        getSecrets(gameFormat: gameFormat).forEach({ (secret) in
                     if let card = Cards.by(cardId: secret.cardId), secret.count > 0 {
                         card.count = secret.count
                         cards.append(card)
@@ -219,8 +214,8 @@ class OpponentSecrets {
         return cards
     }
 
-    func getDefaultSecrets(heroClass: CardClass) -> [Secret] {
-        return SecretHelper.getSecretIds(heroClass: heroClass).map { Secret(cardId: $0, count: 1) }
+    func getDefaultSecrets(heroClass: CardClass, gameFormat: Format) -> [Secret] {
+        return SecretHelper.getSecretIds(heroClass: heroClass, gameFormat: gameFormat).map { Secret(cardId: $0, count: 1) }
     }
 }
 

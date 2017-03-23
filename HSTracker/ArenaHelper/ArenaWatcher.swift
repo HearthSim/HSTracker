@@ -24,11 +24,12 @@ class ArenaWatcher: Watcher {
     private var currentCards: [String] = []
 
     override func clean() {
-        DispatchQueue.main.async {
+		// TODO: fix arenawatcher UI
+        /*DispatchQueue.main.async {
             guard let game = (NSApp.delegate as? AppDelegate)?.game,
                 let secretTracker = game.windowManager?.secretTracker else { return }
             game.windowManager?.show(controller: secretTracker, show: false)
-        }
+        }*/
     }
 
     override func run() {
@@ -37,13 +38,12 @@ class ArenaWatcher: Watcher {
         }
 
         while isRunning {
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                let mirror = hearthstone.mirror else {
-                    Thread.sleep(forTimeInterval: refreshInterval)
-                    continue
-            }
+			
+			guard let choices = MirrorHelper.getArenaDraftChoices() else {
+				Thread.sleep(forTimeInterval: refreshInterval)
+				continue
 
-            let choices = mirror.getArenaDraftChoices()
+			}
             if choices.count != 3 {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
@@ -65,7 +65,7 @@ class ArenaWatcher: Watcher {
                 if ids.sorted() != currentCards.sorted() {
                     Log.debug?.message("cards: \(cards)")
                     currentCards = ids
-
+					/* TODO: arenahelper should not use secrettracker (at least not this way)
                     DispatchQueue.main.async {
                         guard let game = (NSApp.delegate as? AppDelegate)?.game,
                             let secretTracker = game.windowManager?.secretTracker else { return }
@@ -74,7 +74,7 @@ class ArenaWatcher: Watcher {
                         game.windowManager?.show(controller: secretTracker,
                                                  show: true,
                                                  frame: SizeHelper.arenaHelperFrame())
-                    }
+                    }*/
                 }
             }
             

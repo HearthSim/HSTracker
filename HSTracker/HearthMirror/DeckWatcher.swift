@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import HearthMirror
 
 class Watcher {
     internal var isRunning = false
@@ -47,9 +48,7 @@ class DeckWatcher: Watcher {
 
     override func run() {
         while isRunning {
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                  let mirror = hearthstone.mirror,
-                  let deckId = mirror.getSelectedDeck() as? Int64 else {
+            guard let deckId = MirrorHelper.getSelectedDeck() else {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
@@ -75,9 +74,7 @@ class ArenaDeckWatcher: DeckWatcher {
     
     override func run() {
         while isRunning {
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                let mirror = hearthstone.mirror,
-                let arenaInfo = mirror.getArenaDeck() else {
+            guard let arenaInfo = MirrorHelper.getArenaDeck() else {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }

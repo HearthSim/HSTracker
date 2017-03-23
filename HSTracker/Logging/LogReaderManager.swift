@@ -16,11 +16,11 @@ final class LogReaderManager {
 	
 	static let updateDelay: TimeInterval = 0.1
 	
-    let powerGameStateHandler = PowerGameStateHandler()
+    let powerGameStateHandler: LogEventHandler
     let rachelleHandler = RachelleHandler()
-    let arenaHandler = ArenaHandler()
-    let loadingScreenHandler = LoadingScreenHandler()
-    var fullScreenFxHandler = FullScreenFxHandler()
+	let arenaHandler: LogEventHandler
+	let loadingScreenHandler: LogEventHandler
+	let fullScreenFxHandler: LogEventHandler
 
     private let powerLog: LogReader
     private let gameStatePowerLogReader: LogReader
@@ -60,7 +60,12 @@ final class LogReaderManager {
     private var queue: DispatchQueue?
     private var processMap = Map<Date, [LogLine]>()
     
-    init(logPath: String) {
+	init(logPath: String, hearthstone: Hearthstone) {
+		loadingScreenHandler = LoadingScreenHandler(with: hearthstone)
+		fullScreenFxHandler = FullScreenFxHandler(with: hearthstone)
+		powerGameStateHandler = PowerGameStateHandler(with: hearthstone)
+		arenaHandler = ArenaHandler(with: hearthstone)
+		
         let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
         let plReader = LogReaderInfo(name: .power,
                                      startsWithFilters: ["PowerTaskList.DebugPrintPower", rx],
@@ -137,7 +142,7 @@ final class LogReaderManager {
             
             let powerLines = gameStatePowerLogReader.collect()
             for line in powerLines {
-                processLine(line: line)
+                //FIXME: game.powerLog.append(line)
             }
             
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
@@ -145,19 +150,19 @@ final class LogReaderManager {
         running = false
     }
 
-    func stop() {
+	func stop(eraseLogFile: Bool) {
         Log.info?.message("Stopping all trackers")
         stopped = true
         running = false
         for reader in readers {
-            reader.stop()
+			reader.stop(eraseLogFile: eraseLogFile)
         }
-        gameStatePowerLogReader.stop()  
+		gameStatePowerLogReader.stop(eraseLogFile: eraseLogFile)
     }
 
-    func restart() {
+	func restart(eraseLogFile: Bool = false) {
         Log.info?.message("LogReaderManager is restarting")
-        stop()
+		stop(eraseLogFile: eraseLogFile)
         start()
     }
 
@@ -171,24 +176,16 @@ final class LogReaderManager {
         Log.verbose?.message("powerEntry : \(pe) / loadingScreenEntry : \(lse)")
         
         return powerEntry > loadingScreenEntry ? powerEntry : loadingScreenEntry
-    }
-
-    private func processLine(line: LogLine) {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
-        
-        if line.include {
-            switch line.namespace {
-            case .power: self.powerGameStateHandler.handle(game: game, logLine: line)
-            case .rachelle: self.rachelleHandler.handle(game: game, logLine: line)
-            case .arena: self.arenaHandler.handle(game: game, logLine: line)
-            case .loadingScreen: self.loadingScreenHandler.handle(game: game, logLine: line)
-            case .fullScreenFX: self.fullScreenFxHandler.handle(game: game, logLine: line)
-            default: break
-            }
-        } else {
-            if line.namespace == .power {
-                game.powerLog.append(line)
-            }
-        }
-    }
+	}
+	
+	private func processLine(line: LogLine) {
+		switch line.namespace {
+		case .power: self.powerGameStateHandler.handle(logLine: line)
+		case .rachelle: self.rachelleHandler.handle(logLine: line)
+		case .arena: self.arenaHandler.handle(logLine: line)
+		case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
+		case .fullScreenFX: self.fullScreenFxHandler.handle(logLine: line)
+		default: break
+		}
+	}
 }
