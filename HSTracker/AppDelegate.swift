@@ -490,7 +490,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			player.playerCardList.filter({ $0.collectible == true }).forEach {
 				deck.add(card: $0)
 			}
-			RealmHelper.addDeck(deck: deck)
+			RealmHelper.add(deck: deck)
 			deckManager?.currentDeck = deck
 			
 			deckManager?.editDeck(self)

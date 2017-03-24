@@ -314,7 +314,7 @@ struct RealmHelper {
 		return runOnMain(execute: _checkOrCreateArenaDeck, param: mirrorDeck)
 	}
 	
-	private static func _addDeck(deck: Deck) {
+	private static func _add(deck: Deck) {
 		
 		guard let realm = try? Realm() else {
 			Log.error?.message("Error accessing Realm database")
@@ -330,13 +330,36 @@ struct RealmHelper {
 		}
 	}
 	
-	static func addDeck(deck: Deck) {
+	static func add(deck: Deck) {
 		
 		if Thread.current == Thread.main {
-			_addDeck(deck: deck)
+			_add(deck: deck)
 		}
 		
-		runOnMain(execute: _addDeck, param: deck)
+		runOnMain(execute: _add, param: deck)
+	}
+	
+	private static func _delete(deck: Deck) {
+		guard let realm = try? Realm() else {
+			Log.error?.message("Error accessing Realm database")
+			return
+		}
+		
+		do {
+			try realm.write {
+				realm.delete(deck)
+			}
+		} catch {
+			Log.error?.message("Can not delete deck : \(error)")
+		}
+	}
+	
+	static func delete(deck: Deck) {
+		if Thread.current == Thread.main {
+			_delete(deck: deck)
+		}
+		
+		runOnMain(execute: _delete, param: deck)
 	}
 	
 	// MARK: - Deck properties

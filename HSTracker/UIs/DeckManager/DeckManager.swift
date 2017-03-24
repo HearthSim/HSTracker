@@ -394,25 +394,12 @@ class DeckManager: NSWindowController {
         decksTable.deselectAll(self)
         self.currentDeck = nil
 
-        guard let realm = try? Realm() else {
-            Log.error?.message("Can not get realm instance")
-            refreshDecks()
-            return
-        }
-        guard let deck = realm.objects(Deck.self)
-            .filter("deckId = '\(currentDeck.deckId)'").first else {
-                Log.error?.message("Can not get deck")
-                refreshDecks()
-                return
-        }
+        if let deck = RealmHelper.getDeck(with: currentDeck.deckId) {
+			RealmHelper.delete(deck: deck)
+		} else {
+			Log.error?.message("Can not get deck")
+		}
 
-        do {
-            try realm.write {
-                realm.delete(deck)
-            }
-        } catch {
-            Log.error?.message("Can not delete deck : \(error)")
-        }
         refreshDecks()
     }
 
