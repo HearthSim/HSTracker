@@ -65,6 +65,7 @@ final class Hearthstone: NSObject {
         }
     }
 
+	/** Configures Hearthstone app logging so we can read them */
     func setup() throws -> Bool {
         let fileManager = FileManager.default
         let requireVerbose = [LogLineNamespace.power]

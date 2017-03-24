@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	var deckManager: DeckManager?
 	@IBOutlet weak var sparkleUpdater: SUUpdater!
 	var operationQueue: OperationQueue!
-	var hstrackerIsStarted = false
+	
 	var dockMenu = NSMenu(title: "DockMenu")
 	var appHealth: AppHealth = AppHealth.instance
 	
@@ -134,102 +134,79 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		hearthstone = Hearthstone()
 		
-		// load build dates via http request
-		let buildsOperation = BlockOperation {
-			BuildDates.loadBuilds(splashscreen: self.splashscreen!)
-			if BuildDates.isOutdated() || !Database.jsonFilesAreValid() {
-				BuildDates.downloadCards(splashscreen: self.splashscreen!)
-			}
-		}
-		
-		// load and generate assets from hearthstone files
-		let assetsOperation = BlockOperation {
-			DispatchQueue.main.async { [weak self] in
-				self?.splashscreen?.display(
-					NSLocalizedString("Loading Hearthstone assets", comment: ""),
-					indeterminate: true)
-			}
-			let path = Settings.hearthstonePath
-			self.hearthstone.assetGenerator = try? HearthAssets(path: path)
-			self.hearthstone.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
-		}
-		
-		// load and init local database
-		let databaseOperation = BlockOperation {
-			let database = Database()
-			database.loadDatabase(splashscreen: self.splashscreen!)
-		}
-		
-		/*
-		let loggingOperation = BlockOperation {
-		while true {
-		if self.hearthstone.game.windowManager?.isReady() ?? false {
-		break
-		}
-		Thread.sleep(forTimeInterval: 0.5)
-		}
-		
-		self.hearthstone.game.windowManager?.hideGameTrackers()
-		}*/
-		
-		// build menu
-		let menuOperation = BlockOperation {
-			OperationQueue.main.addOperation {
-				Log.info?.message("Loading menu")
-				self.buildMenu()
-			}
-		}
-		
-		databaseOperation.addDependency(buildsOperation)
-		if Settings.useHearthstoneAssets {
-			databaseOperation.addDependency(assetsOperation)
-			assetsOperation.addDependency(buildsOperation)
-		}
-		//loggingOperation.addDependency(menuOperation)
-		
-		operationQueue = OperationQueue()
-		operationQueue.addOperation(buildsOperation)
-		if Settings.useHearthstoneAssets {
-			operationQueue.addOperation(assetsOperation)
-		}
-		operationQueue.addOperation(databaseOperation)
-		//operationQueue?.addOperation(loggingOperation)
-		operationQueue.addOperation(menuOperation)
-		
-		operationQueue.addObserver(self,
-		                           forKeyPath: "operations",
-		                           options: NSKeyValueObservingOptions.new,
-		                           context: nil)
-	}
-	
-	override func observeValue(forKeyPath keyPath: String?,
-	                           of object: Any?,
-	                           change: [NSKeyValueChangeKey : Any]?,
-	                           context: UnsafeMutableRawPointer?) {
-		if let keyPath = keyPath, let operationQueue = operationQueue,
-			let object = object as? OperationQueue {
-			
-			if object == operationQueue && keyPath == "operations" {
-				if operationQueue.operationCount == 0 {
-					DispatchQueue.main.async {
-						self.hstrackerReady()
-					}
+		DispatchQueue.global().async { [unowned self] in
+			// load build dates via http request
+			let buildsOperation = BlockOperation {
+				BuildDates.loadBuilds(splashscreen: self.splashscreen!)
+				if BuildDates.isOutdated() || !Database.jsonFilesAreValid() {
+					BuildDates.downloadCards(splashscreen: self.splashscreen!)
 				}
-				return
+			}
+			
+			// load and generate assets from hearthstone files
+			let assetsOperation = BlockOperation {
+				DispatchQueue.main.async { [weak self] in
+					self?.splashscreen?.display(
+						NSLocalizedString("Loading Hearthstone assets", comment: ""),
+						indeterminate: true)
+				}
+				let path = Settings.hearthstonePath
+				self.hearthstone.assetGenerator = try? HearthAssets(path: path)
+				self.hearthstone.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
+			}
+			
+			// load and init local database
+			let databaseOperation = BlockOperation {
+				let database = Database()
+				database.loadDatabase(splashscreen: self.splashscreen!)
+			}
+			
+			/*
+			let loggingOperation = BlockOperation {
+			while true {
+			if self.hearthstone.game.windowManager?.isReady() ?? false {
+			break
+			}
+			Thread.sleep(forTimeInterval: 0.5)
+			}
+			
+			self.hearthstone.game.windowManager?.hideGameTrackers()
+			}*/
+			
+			// build menu
+			let menuOperation = BlockOperation {
+				OperationQueue.main.addOperation {
+					Log.info?.message("Loading menu")
+					self.buildMenu()
+				}
+			}
+			
+			databaseOperation.addDependency(buildsOperation)
+			if Settings.useHearthstoneAssets {
+				databaseOperation.addDependency(assetsOperation)
+				assetsOperation.addDependency(buildsOperation)
+			}
+			//loggingOperation.addDependency(menuOperation)
+			
+			var operations = [Operation]()
+			operations.append(buildsOperation)
+			if Settings.useHearthstoneAssets {
+				operations.append(assetsOperation)
+			}
+			operations.append(databaseOperation)
+			operations.append(menuOperation)
+			
+			self.operationQueue = OperationQueue()
+			self.operationQueue.addOperations(operations, waitUntilFinished: true)
+			
+			DispatchQueue.main.async { [unowned self] in
+				self.completeSetup()
 			}
 		}
-		super.observeValue(forKeyPath: keyPath,
-		                   of: object,
-		                   change: change,
-		                   context: context)
 	}
 	
-	func hstrackerReady() {
-		guard !hstrackerIsStarted else { return }
-		hstrackerIsStarted = true
-		
-		operationQueue.removeObserver(self, forKeyPath: "operations")
-		//operationQueue = nil
+	/** Finished setup, should only be called once */
+	private func completeSetup() {
 		
 		var message: String?
 		var alertStyle = NSAlertStyle.critical
