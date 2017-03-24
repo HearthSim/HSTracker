@@ -9,13 +9,12 @@
 import Cocoa
 import CleanroomLogger
 import MASPreferences
-import HockeySDK
-import RealmSwift
 import HearthAssets
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+	let hockeyDelegate = HockeyDelegate()
     var appWillRestart = false
     var splashscreen: Splashscreen?
     var initalConfig: InitialConfiguration?
@@ -47,60 +46,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        Paths.initDirs()
-        let destination = Paths.HSTracker
+		
+		// create folders in file system
+		Paths.initDirs()
 
-        let config = Realm.Configuration(
-            fileURL: destination.appendingPathComponent("hstracker.realm"),
-            schemaVersion: 5,
-            migrationBlock: { migration, oldSchemaVersion in
-                // version == 1 : add hearthstoneId in Deck,
-                // automatically managed by realm, nothing to do here
-
-                if oldSchemaVersion < 2 {
-                    migration.enumerateObjects(ofType:
-                    Deck.className()) { oldObject, newObject in
-                        // version == 2 : hearthstoneId is now hsDeckId,
-                        if let hearthstoneId = oldObject?["hearthstoneId"] as? Int {
-                            newObject!["hsDeckId"] = Int64(hearthstoneId)
-                        }
-                    }
-                }
-
-                if oldSchemaVersion < 4 {
-                    // deck.version changes from string to two ints (major, minor)
-                    migration.enumerateObjects(ofType:
-                    Deck.className()) { oldObject, newObject in
-                        if let versionStr = oldObject?["version"] as? String {
-                            if let ver = Double(versionStr) {
-                                let majorVersion = Int(ver)
-                                let minorVersion = Int((ver - Double(majorVersion)) * 10.0)
-                                newObject!["deckMajorVersion"] = majorVersion
-                                newObject!["deckMinorVersion"] = minorVersion
-                            } else {
-                                newObject!["deckMajorVersion"] = 1
-                                newObject!["deckMinorVersion"] = 0
-                            }
-                        }
-                    }
-                }
-        })
-        Realm.Configuration.defaultConfiguration = config
-
-        let hockeyKey = "2f0021b9bb1842829aa1cfbbd85d3bed"
-        /*if Settings.releaseChannel == .beta {
-         hockeyKey = "c8af7f051ae14d0eb67438f27c3d9dc1"
-         }*/
+		// initialize realm's database
+		RealmHelper.initRealm(destination: Paths.HSTracker)
 
         let url = "https://hsdecktracker.net/hstracker/appcast.xml"
         sparkleUpdater.feedURL = URL(string: url)
         sparkleUpdater.sendsSystemProfile = true
         sparkleUpdater.automaticallyDownloadsUpdates = Settings.automaticallyDownloadsUpdates
-
-        BITHockeyManager.shared().configure(withIdentifier: hockeyKey)
-        BITHockeyManager.shared().crashManager.isAutoSubmitCrashReport = true
-        BITHockeyManager.shared().delegate = self
-        BITHockeyManager.shared().start()
 
         if let _ = UserDefaults.standard.object(forKey: "hstracker_v2") {
             // welcome to HSTracker v2
@@ -620,27 +576,5 @@ extension AppDelegate: SUUpdaterDelegate {
             }
         }
         return parameters
-    }
-}
-
-extension AppDelegate: BITHockeyManagerDelegate {
-    func applicationLog(for crashManager: BITCrashManager!) -> String! {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy-MM-dd'.log'"
-
-        let file = Paths.logs.appendingPathComponent("\(fmt.string(from: Date()))")
-        if FileManager.default.fileExists(atPath: file.path) {
-            do {
-                let content = try String(contentsOf: file)
-                return Array(content
-                    .components(separatedBy: CharacterSet.newlines)
-                    .reversed() // reverse to keep 400 last lines
-                    .prefix(400))
-                    .reversed() // re-reverse them
-                    .joined(separator: "\n")
-            } catch {}
-        }
-
-        return ""
     }
 }

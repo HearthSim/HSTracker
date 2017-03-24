@@ -16,7 +16,49 @@ import HearthMirror
  */
 struct RealmHelper {
 	
-	static func getDeck(with id: String) -> Deck?  {
+	/** 
+		Initializes the realm database. Calls migration if current database's version differs from the latest one
+	*/
+	static func initRealm(destination: URL) {
+		let config = Realm.Configuration(
+			fileURL: destination.appendingPathComponent("hstracker.realm"),
+			schemaVersion: 5,
+			migrationBlock: { migration, oldSchemaVersion in
+				// version == 1 : add hearthstoneId in Deck,
+				// automatically managed by realm, nothing to do here
+				
+				if oldSchemaVersion < 2 {
+					migration.enumerateObjects(ofType:
+					Deck.className()) { oldObject, newObject in
+						// version == 2 : hearthstoneId is now hsDeckId,
+						if let hearthstoneId = oldObject?["hearthstoneId"] as? Int {
+							newObject!["hsDeckId"] = Int64(hearthstoneId)
+						}
+					}
+				}
+				
+				if oldSchemaVersion < 4 {
+					// deck.version changes from string to two ints (major, minor)
+					migration.enumerateObjects(ofType:
+					Deck.className()) { oldObject, newObject in
+						if let versionStr = oldObject?["version"] as? String {
+							if let ver = Double(versionStr) {
+								let majorVersion = Int(ver)
+								let minorVersion = Int((ver - Double(majorVersion)) * 10.0)
+								newObject!["deckMajorVersion"] = majorVersion
+								newObject!["deckMinorVersion"] = minorVersion
+							} else {
+								newObject!["deckMajorVersion"] = 1
+								newObject!["deckMinorVersion"] = 0
+							}
+						}
+					}
+				}
+		})
+		Realm.Configuration.defaultConfiguration = config
+	}
+	
+	static func getDeck(with id: String) -> Deck? {
 		return DispatchQueue.main.sync { () -> Deck? in
 			guard let realm = try? Realm() else {
 				Log.error?.message("Error accessing Realm database")

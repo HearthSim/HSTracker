@@ -9,6 +9,9 @@
 import Foundation
 import CleanroomLogger
 
+/**
+	Helper object for system folder locations
+ */
 class Paths {
     static let HSTracker: URL = {
         let paths = FileManager.default.urls(for: .applicationSupportDirectory,
@@ -48,6 +51,9 @@ class Paths {
         return libraryDirectory.appendingPathComponent("Logs/HSTracker", isDirectory: true)
     }()
 
+	/**
+		Creates folders at all path object location
+	*/
     static func initDirs() {
         let paths = [cards, decks, replays, cardJson, logs, tmpReplays, tiles]
         let fileManager = FileManager.default
