@@ -81,17 +81,8 @@ struct Automation {
                 callback(NSLocalizedString("Can't get edited deck", comment: ""))
                 return
             }
-            if let realm = try? Realm(),
-                let _deck = realm.objects(Deck.self)
-                    .filter("deckId = '\(deckId)'").first {
-                        do {
-                            try realm.write {
-                                _deck.hsDeckId.value = editedDeck.id as Int64
-                            }
-                        } catch {
-                            Log.error?.message("Can't update deck")
-                        }
-            }
+			RealmHelper.set(hsDeckId: editedDeck.id as Int64, for: deckId)
+			
             DispatchQueue.main.async {
                 var message = NSLocalizedString("Export done", comment: "")
                 if let msg = CollectionManager.default

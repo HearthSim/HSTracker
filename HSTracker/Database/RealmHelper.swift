@@ -114,6 +114,33 @@ struct RealmHelper {
 		return runOnMain(execute: _getDeck, param: id)
 	}
 	
+	private static func _set(hsDeckId: Int64, for deckId: String) {
+		guard let realm = try? Realm() else {
+			Log.error?.message("Error accessing Realm database")
+			return
+		}
+		
+		if let _deck = realm.objects(Deck.self)
+			.filter("deckId = '\(deckId)'").first {
+			do {
+				try realm.write {
+					_deck.hsDeckId.value = hsDeckId
+				}
+			} catch {
+				Log.error?.message("Can't update deck")
+			}
+		}
+	}
+	
+	static func set(hsDeckId: Int64, for deckId: String) {
+		
+		if Thread.current == Thread.main {
+			_set(hsDeckId: hsDeckId, for: deckId)
+		}
+		
+		runOnMain(execute: _set, param1: hsDeckId, param2: deckId)
+	}
+	
 	private static func _getActiveDecks() -> [CardClass: [Deck]]? {
 		
 		guard let realm = try? Realm() else {
@@ -312,6 +339,31 @@ struct RealmHelper {
 		runOnMain(execute: _addDeck, param: deck)
 	}
 	
+	// MARK: - Deck properties
+	
+	private static func _set(deck: Deck, active: Bool) {
+		guard let realm = try? Realm() else {
+			Log.error?.message("Error accessing Realm database")
+			return
+		}
+		
+		do {
+			try realm.write {
+				deck.isActive = active
+			}
+		} catch {
+			Log.error?.message("Can't set deck as active : \(error)")
+		}
+	}
+	
+	static func set(deck: Deck, active: Bool) {
+		if Thread.current == Thread.main {
+			return _set(deck: deck, active: active)
+		}
+		
+		runOnMain(execute: _set, param1: deck, param2: active)
+	}
+	
 	// MARK: - Statistics
 	
 	private static func _getValidStatistics() -> Results<GameStats>? {
@@ -333,6 +385,29 @@ struct RealmHelper {
 		}
 		
 		return runOnMain(execute: _getValidStatistics)
+	}
+	
+	private static func _addStatistics(to deck: Deck, stats: GameStats) {
+		guard let realm = try? Realm() else {
+			Log.error?.message("Error accessing Realm database")
+			return
+		}
+		
+		do {
+			try realm.write {
+				deck.gameStats.append(stats)
+			}
+		} catch {
+			Log.error?.message("Can't save statistic : \(error)")
+		}
+	}
+	
+	static func addStatistics(to deck: Deck, stats: GameStats) {
+		if Thread.current == Thread.main {
+			return _addStatistics(to: deck, stats: stats)
+		}
+		
+		runOnMain(execute: _addStatistics, param1: deck, param2: stats)
 	}
 	
 }

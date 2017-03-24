@@ -555,37 +555,32 @@ class Game {
             }
             
             Log.verbose?.message("End game: \(currentGameStats)")
-            
-            if let realm = try? Realm(),
-                let currentDeck = self.currentDeck,
-                let deck = realm.objects(Deck.self).filter("deckId = '\(currentDeck.id)'").first {
-                do {
-                    try realm.write {
-                        
-                        self.player.revealedCards.filter({
-                            $0.collectible
-                        }).forEach({
-                            currentGameStats.revealedCards.append($0)
-                        })
-                        self.opponent.opponentCardList.filter({
-                            !$0.isCreated
-                        }).forEach({
-                            currentGameStats.opponentCards.append($0)
-                        })
-                        
-                        let stats = currentGameStats.toGameStats()
-                        deck.gameStats.append(stats)
-                        
-                        if Settings.autoArchiveArenaDeck &&
-                            self.currentGameMode == .arena && deck.isArena && deck.arenaFinished() {
-                            deck.isActive = false
-                        }
-                    }
-                } catch {
-                    Log.error?.message("Can't save statistic : \(error)")
-                }
-            }
-            
+			
+			self.player.revealedCards.filter({
+				$0.collectible
+			}).forEach({
+				currentGameStats.revealedCards.append($0)
+			})
+			
+			self.opponent.opponentCardList.filter({
+				!$0.isCreated
+			}).forEach({
+				currentGameStats.opponentCards.append($0)
+			})
+			
+			let stats = currentGameStats.toGameStats()
+			
+			if let currentDeck = self.currentDeck {
+				if let deck = RealmHelper.getDeck(with: currentDeck.id) {
+					
+					RealmHelper.addStatistics(to: deck, stats: stats)
+					if Settings.autoArchiveArenaDeck &&
+						self.currentGameMode == .arena && deck.isArena && deck.arenaFinished() {
+						RealmHelper.set(deck: deck, active: false)
+					}
+				}
+			}
+			
             self.lastGame = currentGameStats
             self.logIsComplete()
         }
