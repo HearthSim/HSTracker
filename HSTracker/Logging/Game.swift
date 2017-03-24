@@ -444,17 +444,7 @@ class Game {
             currentDeck.isArenaRunCompleted,
             Settings.autoArchiveArenaDeck {
 
-            if let realm = try? Realm(),
-                let deck = realm.objects(Deck.self)
-                    .filter("deckId = '\(currentDeck.id)'").first {
-                do {
-                    try realm.write {
-                        deck.isActive = false
-                    }
-                } catch {
-                    Log.error?.message("Can not update deck. Error : \(error)")
-                }
-            }
+            RealmHelper.set(deck: currentDeck.id, active: false)
         }*/
     }
 

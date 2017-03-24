@@ -189,22 +189,12 @@ class LogUploader {
                                 data: gzip)
 
                     guard let statId = statId,
-                        let realm = try? Realm(),
-                        let existing = realm.objects(GameStats.self)
-                            .filter("statId = '\(statId)'").first else {
+                        let existing = RealmHelper.getGameStat(with: statId)  else {
                                 Log.error?.message("Can not update statistic")
                                 completion(.failed(error: "Can not update statistic"))
                                 return
                     }
-                    do {
-                        try realm.write {
-                            existing.hsReplayId = uploadShortId
-                        }
-                    } catch {
-                        Log.error?.message("Can not update statistic")
-                        completion(.failed(error: "Can not update statistic"))
-                        return
-                    }
+                    RealmHelper.update(stat: existing, hsReplayId: uploadShortId)
 
                     Log.info?.message("\(item.hash) upload done: Success")
                     inProgress = inProgress.filter({ $0.hash == item.hash })

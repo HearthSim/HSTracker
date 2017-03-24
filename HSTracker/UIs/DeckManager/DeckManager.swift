@@ -268,15 +268,7 @@ class DeckManager: NSWindowController {
                      message: NSLocalizedString("Deck name", comment: ""),
                      accessoryView: deckNameInput,
                      window: self.window) {
-                        do {
-                            let realm = try Realm()
-                            try realm.write {
-                                deck.name = deckNameInput.stringValue
-                            }
-                        } catch {
-                            Log.error?.message("Can not update deck. \(error)")
-                        }
-
+                        RealmHelper.rename(deck: deck, to: deckNameInput.stringValue)
                         self.refreshDecks()
         }
 
@@ -321,17 +313,8 @@ class DeckManager: NSWindowController {
     }
 
     private func useDeck(deck: Deck) {
-        if !deck.isActive {
-            do {
-                let realm = try Realm()
-                try realm.write {
-                    deck.isActive = true
-                }
-            } catch {
-                Log.error?.message("Can not update deck : \(error)")
-            }
-            refreshDecks()
-        }
+        RealmHelper.set(deck: deck, active: true)
+        refreshDecks()
         
         Settings.activeDeck = deck.deckId
         let deckId = deck.deckId
@@ -375,15 +358,8 @@ class DeckManager: NSWindowController {
             }
 
             NSAlert.show(style: .informational, message: msg, window: self.window!) {
-                do {
-                    let realm = try Realm()
-                    try realm.write {
-                        deck.isActive = !deck.isActive
-                    }
-                } catch {
-                    Log.error?.message("Can not update deck : \(error)")
-                }
-
+                RealmHelper.set(deck: deck, active: !deck.isActive)
+                
                 Settings.activeDeck = nil
                 self.refreshDecks()
             }
@@ -650,12 +626,10 @@ extension DeckManager: NewDeckDelegate {
         currentDeck = nil
         decksTable.deselectAll(self)
         decks = []
-        do {
-            let realm = try Realm()
-            decks = Array(realm.objects(Deck.self))
-        } catch {
-            Log.error?.message("Can not load decks : \(error)")
+        if let realmdecks = RealmHelper.getDecks() {
+            decks = Array(realmdecks)
         }
+    
         DispatchQueue.main.async { [weak self] in
             self?.decksTable.reloadData()
             self?.deckListTable.reloadData()

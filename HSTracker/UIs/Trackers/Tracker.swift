@@ -283,19 +283,13 @@ class Tracker: OverWindowController {
         fatigueTracker.isHidden = !(Settings.fatigueIndicator && fatigue)
         graveyardCounter.isHidden = !showGraveyard
         jadeCounter.isHidden = !showJadeCounter
-
+        
         if let currentDeck = game.currentDeck, !recordTracker.isHidden {
-            do {
-                let realm = try Realm()
-                if let deck = realm.objects(Deck.self)
-                    .filter("deckId = '\(currentDeck.id)'").first {
-                    recordTracker.message = StatsHelper
-                        .getDeckManagerRecordLabel(deck: deck,
-                                                   mode: .all)
-                    recordTracker.needsDisplay = true
-                }
-            } catch {
-                Log.error?.message("Can not fetch deck \(error)")
+            if let deck = RealmHelper.getDeck(with: currentDeck.id) {
+                recordTracker.message = StatsHelper
+                    .getDeckManagerRecordLabel(deck: deck,
+                                               mode: .all)
+                recordTracker.needsDisplay = true
             }
         } else {
             recordTracker.isHidden = true

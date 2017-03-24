@@ -101,15 +101,8 @@ class Statistics: NSWindowController {
             let msg = String(format: NSLocalizedString("Are you sure you want to delete the "
                 + "statistics for the deck %@ ?", comment: ""), deck.name)
             NSAlert.show(style: .informational, message: msg, window: self.window!) {
-                do {
-                    let realm = try Realm()
-                    try realm.write {
-                        deck.gameStats
-                            .removeAll()
-                    }
-                } catch {
-                    Log.error?.message("Can not update deck : \(error)")
-                }
+                RealmHelper.removeAllGameStats(from: deck)
+                
                 DispatchQueue.main.async {
                     self.statsTab!.statsTable.reloadData()
                 }

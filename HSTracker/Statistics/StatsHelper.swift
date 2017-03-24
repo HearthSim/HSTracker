@@ -266,15 +266,8 @@ class StatsHelper {
     static func guessRank(deck: Deck) -> Int {
         let isStandard = deck.standardViable()
 
-        var rdecks: [Deck]? = nil
-        do {
-            let realm = try Realm()
-            rdecks = Array(realm.objects(Deck.self))
-        } catch {
-            Log.error?.message("Can not load decks : \(error)")
-            return -1
-        }
-
+        var rdecks: [Deck]? = RealmHelper.getDecks()
+        
         guard let sdecks = rdecks else { return -1 }
 
         let decks = sdecks

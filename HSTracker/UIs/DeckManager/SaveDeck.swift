@@ -34,13 +34,9 @@ class SaveDeck: NSWindowController {
 
         deckName.stringValue = deck!.name 
 
-        do {
-            let realm = try Realm()
-
-            if let _ = realm.objects(Deck.self).filter("deckId = '\(deck!.deckId)'").first {
-                exists = true
-            }
-        } catch {
+        if let _ = RealmHelper.getDeck(with: deck!.deckId) {
+            exists = true
+        } else {
             Log.error?.message("Can not fetch deck")
         }
     }
@@ -49,16 +45,7 @@ class SaveDeck: NSWindowController {
     @IBAction func save(_ sender: AnyObject) {
         guard let deck = deck, let cards = cards, cards.isValidDeck() else { return }
 
-        do {
-            let realm = try Realm()
-
-            try realm.write {
-                deck.name = deckName.stringValue
-            }
-        } catch {
-            Log.error?.message("can not save deck : \(error)")
-        }
-
+        RealmHelper.rename(deck: deck, to: deckName.stringValue)
         self.saveDeck(update: exists)
     }
 
@@ -68,24 +55,17 @@ class SaveDeck: NSWindowController {
 
     func saveDeck(update: Bool) {
         guard let deck = deck, let cards = cards, cards.isValidDeck() else { return }
-        do {
-            let realm = try Realm()
-            try realm.write {
-                if update {
-                    realm.add(deck, update: true)
-                } else {
-                    realm.add(deck)
-                }
-                deck.cards.removeAll()
-                for card in cards {
-                    deck.add(card: card)
-                }
-            }
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
-                                            object: deck)
-            self._delegate?.deckSaveSaved()
-        } catch {
-            Log.error?.message("Can not save deck : \(error)")
+        
+        deck.cards.removeAll()
+        for card in cards {
+            deck.add(card: card)
         }
+        
+        RealmHelper.add(deck: deck, update: update)
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+                                        object: deck)
+        self._delegate?.deckSaveSaved()
+        
     }
 }

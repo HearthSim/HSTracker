@@ -75,10 +75,12 @@ struct RealmHelper {
 	private static func runOnMain<A, R>(execute: @escaping (A) -> (R?), param: A) -> R? {
 		var result: R?
 		let mainSemaphore = DispatchSemaphore(value: 0)
-		DispatchQueue.main.async { () in
+
+		DispatchQueue.main.async {
 			result = execute(param)
 			mainSemaphore.signal()
 		}
+
 		mainSemaphore.wait()
 		return result
 	}
@@ -140,6 +142,23 @@ struct RealmHelper {
 		
 		runOnMain(execute: _set, param1: hsDeckId, param2: deckId)
 	}
+    
+    private static func _getDecks() -> [Deck]? {
+        guard let realm = try? Realm() else {
+            Log.error?.message("Error accessing Realm database")
+            return nil
+        }
+        
+        return Array(realm.objects(Deck.self))
+    }
+    
+    static func getDecks() -> [Deck]? {
+        if Thread.current == Thread.main {
+            return _getDecks()
+        }
+        
+        return runOnMain(execute: _getDecks)
+    }
 	
 	private static func _getActiveDecks() -> [CardClass: [Deck]]? {
 		
@@ -314,29 +333,33 @@ struct RealmHelper {
 		return runOnMain(execute: _checkOrCreateArenaDeck, param: mirrorDeck)
 	}
 	
-	private static func _add(deck: Deck) {
-		
-		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
-			return
-		}
-		
-		do {
-			try realm.write {
-				realm.add(deck)
-			}
-		} catch {
-			Log.error?.message("Can not create deck")
-		}
+	private static func _add(deck: Deck, update: Bool) {
+        
+        guard let realm = try? Realm() else {
+            Log.error?.message("Error accessing Realm database")
+            return
+        }
+        
+        do {
+            try realm.write {
+                if update {
+                    realm.add(deck, update: update)
+                } else {
+                    realm.add(deck)
+                }
+            }
+        } catch {
+            Log.error?.message("Can not add deck : \(error)")
+        }
 	}
 	
-	static func add(deck: Deck) {
+    static func add(deck: Deck, update: Bool = false) {
 		
 		if Thread.current == Thread.main {
-			_add(deck: deck)
+            _add(deck: deck, update: update)
 		}
 		
-		runOnMain(execute: _add, param: deck)
+        runOnMain(execute: _add, param1: deck, param2: update)
 	}
 	
 	private static func _delete(deck: Deck) {
@@ -386,11 +409,33 @@ struct RealmHelper {
 		
 		runOnMain(execute: _set, param1: deck, param2: active)
 	}
+    
+    private static func _rename(deck: Deck, to name: String) {
+        guard let realm = try? Realm() else {
+            Log.error?.message("Error accessing Realm database")
+            return
+        }
+        
+        do {
+            try realm.write {
+                deck.name = name
+            }
+        } catch {
+            Log.error?.message("Can not rename deck. \(error)")
+        }
+    }
+    
+    static func rename(deck: Deck, to name: String) {
+        if Thread.current == Thread.main {
+            return rename(deck: deck, to: name)
+        }
+        
+        runOnMain(execute: rename, param1: deck, param2: name)
+    }
 	
 	// MARK: - Statistics
 	
 	private static func _getValidStatistics() -> Results<GameStats>? {
-		
 		guard let realm = try? Realm() else {
 			Log.error?.message("Error accessing Realm database")
 			return nil
@@ -402,7 +447,6 @@ struct RealmHelper {
 	}
 	
 	static func getValidStatistics() -> Results<GameStats>? {
-		
 		if Thread.current == Thread.main {
 			return _getValidStatistics()
 		}
@@ -432,5 +476,69 @@ struct RealmHelper {
 		
 		runOnMain(execute: _addStatistics, param1: deck, param2: stats)
 	}
-	
+    
+    private static func _removeAllGameStats(from deck: Deck) {
+        guard let realm = try? Realm() else {
+            Log.error?.message("Error accessing Realm database")
+            return
+        }
+        
+        do {
+            try realm.write {
+                deck.gameStats.removeAll()
+            }
+        } catch {
+            Log.error?.message("Can't save statistic : \(error)")
+        }
+    }
+    
+    static func removeAllGameStats(from deck: Deck) {
+        if Thread.current == Thread.main {
+            return _removeAllGameStats(from: deck)
+        }
+        
+        runOnMain(execute: _removeAllGameStats, param: deck)
+    }
+    
+    private static func _getGameStat(with statId: String) -> GameStats? {
+        guard let realm = try? Realm() else {
+            Log.error?.message("Error accessing Realm database")
+            return nil
+        }
+        
+        return realm.objects(GameStats.self)
+            .filter("statId = '\(statId)'").first
+    }
+    
+    static func getGameStat(with statId: String) -> GameStats? {
+        if Thread.current == Thread.main {
+            return _getGameStat(with: statId)
+        }
+        
+        return runOnMain(execute: _getGameStat, param: statId)
+    }
+    
+    private static func _update(stat: GameStats, hsReplayId: String) {
+        guard let realm = try? Realm() else {
+            Log.error?.message("Error accessing Realm database")
+            return
+        }
+        
+        do {
+            try realm.write {
+                stat.hsReplayId = hsReplayId
+            }
+        } catch {
+            Log.error?.message("Can not update statistic")
+        }
+        
+    }
+    
+	static func update(stat: GameStats, hsReplayId: String) {
+        if Thread.current == Thread.main {
+            _update(stat: stat, hsReplayId: hsReplayId)
+        }
+        
+        runOnMain(execute: _update, param1: stat, param2: hsReplayId)
+    }
 }

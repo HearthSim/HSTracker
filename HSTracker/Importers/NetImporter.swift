@@ -96,42 +96,31 @@ final class NetImporter {
                         if let doc = doc,
                             let (deck, cards) = httpImporter.loadDeck(doc: doc, url: url),
                             cards.isValidDeck() {
-                            do {
-                                let realm = try Realm()
-                                try realm.write {
-                                    realm.add(deck)
-                                    for card in cards {
-                                        deck.add(card: card)
-                                    }
-                                }
-                                completion(deck, checkDeckWithCollection(deck: deck))
-                            } catch {
-                                Log.error?.message("Can not import deck. Error : \(error)")
-                                completion(nil, nil)
+                            
+                            for card in cards {
+                                deck.add(card: card)
                             }
+                            RealmHelper.add(deck: deck)
+                            completion(deck, checkDeckWithCollection(deck: deck))
+                            
                         } else {
                             completion(nil, nil)
                         }
                     })
-
+                    
                 } else if let jsonImporter = importer as? JsonImporter {
                     jsonImporter.loadJson(url: realUrl, completion: { json in
                         if let json = json,
                             let (deck, cards) = jsonImporter.loadDeck(json: json, url: url),
                             cards.isValidDeck() {
-                            do {
-                                let realm = try Realm()
-                                try realm.write {
-                                    realm.add(deck)
-                                    for card in cards {
-                                        deck.add(card: card)
-                                    }
-                                }
-                                completion(deck, checkDeckWithCollection(deck: deck))
-                            } catch {
-                                Log.error?.message("Can not import deck. Error : \(error)")
-                                completion(nil, nil)
+                            
+                            for card in cards {
+                                deck.add(card: card)
                             }
+                            RealmHelper.add(deck: deck)
+                            
+                            completion(deck, checkDeckWithCollection(deck: deck))
+                            
                         } else {
                             completion(nil, nil)
                         }

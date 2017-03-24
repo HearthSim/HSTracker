@@ -126,18 +126,10 @@ class NewDeck: NSWindowController {
                 for filename in panel.urls {
                     let importer = FileImporter()
                     if let (deck, cards) = importer.fileImport(url: filename), cards.isValidDeck() {
-                        do {
-                            let realm = try Realm()
-                            try realm.write {
-                                realm.add(deck)
-                            }
-
-                            for card in cards {
-                                deck.add(card: card)
-                            }
-                        } catch {
-                            Log.error?.message("Can not import deck. Error : \(error)")
+                        for card in cards {
+                            deck.add(card: card)
                         }
+                        RealmHelper.add(deck: deck)
                         self._addDeck(deck)
                     } else {
                         // TODO show error
