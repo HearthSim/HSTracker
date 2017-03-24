@@ -10,11 +10,12 @@ import Cocoa
 import CleanroomLogger
 import MASPreferences
 import HearthAssets
+import HockeySDK
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-	let hockeyDelegate = HockeyDelegate()
+	let hockeyHelper = HockeyHelper()
     var appWillRestart = false
     var splashscreen: Splashscreen?
     var initalConfig: InitialConfiguration?
@@ -25,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var dockMenu = NSMenu(title: "DockMenu")
     var appHealth: AppHealth = AppHealth.instance
 
-    var hearthstone = Hearthstone()
+	var hearthstone: Hearthstone!
 
     var preferences: MASPreferencesWindowController = {
         var controllers = [
@@ -53,22 +54,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		// initialize realm's database
 		RealmHelper.initRealm(destination: Paths.HSTracker)
 
+		// configure sprakle update mechanism
         let url = "https://hsdecktracker.net/hstracker/appcast.xml"
         sparkleUpdater.feedURL = URL(string: url)
         sparkleUpdater.sendsSystemProfile = true
         sparkleUpdater.automaticallyDownloadsUpdates = Settings.automaticallyDownloadsUpdates
 
-        if let _ = UserDefaults.standard.object(forKey: "hstracker_v2") {
-            // welcome to HSTracker v2
-        } else {
-            for (key, _) in UserDefaults.standard.dictionaryRepresentation() {
-                UserDefaults.standard.removeObject(forKey: key)
-            }
-            UserDefaults.standard.synchronize()
-            UserDefaults.standard.set(true, forKey: "hstracker_v2")
-        }
-
-        // init logger
+        // init debug loggers
         var loggers = [LogConfiguration]()
         #if DEBUG
             let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .verbose,
@@ -89,6 +81,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         Log.info?.message("*** Starting \(Version.buildName) ***")
 
+		// fix hearthstone log folder path
         if Settings.hearthstonePath.hasSuffix("/Logs") {
             Settings.hearthstonePath = Settings.hearthstonePath.replace("/Logs", with: "")
         }
@@ -138,9 +131,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         splashscreen?.showWindow(self)
 
         Log.info?.message("Opening trackers")
-        hearthstone.game.windowManager = WindowManager()
-        hearthstone.game.windowManager?.startManager()
+		
+        hearthstone = Hearthstone()
 
+		// load build dates via http request
         let buildsOperation = BlockOperation {
             BuildDates.loadBuilds(splashscreen: self.splashscreen!)
             if BuildDates.isOutdated() || !Database.jsonFilesAreValid() {
@@ -148,6 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
+		// load and generate assets from hearthstone files
         let assetsOperation = BlockOperation {
             DispatchQueue.main.async { [weak self] in
                 self?.splashscreen?.display(
@@ -159,10 +154,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.hearthstone.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
         }
 
+		// load and init local database
         let databaseOperation = BlockOperation {
             let database = Database()
             database.loadDatabase(splashscreen: self.splashscreen!)
         }
+		
+		/*
         let loggingOperation = BlockOperation {
             while true {
                 if self.hearthstone.game.windowManager?.isReady() ?? false {
@@ -172,8 +170,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             self.hearthstone.game.windowManager?.hideGameTrackers()
-        }
+        }*/
 
+		// build menu
         let menuOperation = BlockOperation {
             OperationQueue.main.addOperation {
                 Log.info?.message("Loading menu")
@@ -186,7 +185,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             databaseOperation.addDependency(assetsOperation)
             assetsOperation.addDependency(buildsOperation)
         }
-        loggingOperation.addDependency(menuOperation)
+        //loggingOperation.addDependency(menuOperation)
 
         operationQueue = OperationQueue()
         operationQueue?.addOperation(buildsOperation)
@@ -194,7 +193,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             operationQueue?.addOperation(assetsOperation)
         }
         operationQueue?.addOperation(databaseOperation)
-        operationQueue?.addOperation(loggingOperation)
+        //operationQueue?.addOperation(loggingOperation)
         operationQueue?.addOperation(menuOperation)
 
         operationQueue?.addObserver(self,
@@ -304,7 +303,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func reloadTheme() {
-        hearthstone.game.windowManager?.updateTrackers(reset: true)
+		// TODO: move this to notifications
+        //hearthstone.game.windowManager?.updateTrackers(reset: true)
     }
 
     func languageChange(_ notification: Notification) {
@@ -319,19 +319,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // MARK: - Menu
     func buildMenu() {
-        guard let realm = try? Realm() else {
-            Log.error?.message("Can not fetch decks")
-            return
-        }
-
-        var decks: [CardClass: [Deck]] = [:]
-        for deck in realm.objects(Deck.self).filter("isActive = true") {
-            if decks[deck.playerClass] == nil {
-                decks[deck.playerClass] = [Deck]()
-            }
-            decks[deck.playerClass]?.append(deck)
-        }
-
+		
+		guard let decks = RealmHelper.getActiveDecks() else {
+			return
+		}
+		
         // build main menu
         // ---------------
         let mainMenu = NSApplication.shared().mainMenu
@@ -402,10 +394,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                                                                  comment: ""))
         replaysMenu?.submenu?.removeAllItems()
         replaysMenu?.isEnabled = false
-        if let _ = Settings.hsReplayUploadToken {
-            let statistics = realm.objects(GameStats.self)
-                .filter("hsReplayId != nil")
-                .sorted(byKeyPath: "startTime", ascending: false)
+        if let _ = Settings.hsReplayUploadToken, let statistics = RealmHelper.getValidStatistics() {
+            
             replaysMenu?.isEnabled = statistics.count > 0
             let max = min(statistics.count, 10)
             for i in 0..<max {
@@ -506,33 +496,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func saveDeck(_ player: Player) {
+    private func saveDeck(_ player: Player) {
 		// TODO: move it to realhelper
         if let playerClass = player.playerClass {
             if deckManager == nil {
                 deckManager = DeckManager(windowNibName: "DeckManager")
             }
-            do {
-                let realm = try Realm()
-                try realm.write {
-                    let deck = Deck()
-                    deck.playerClass = playerClass
-                    deck.name = player.name ?? "Custom \(playerClass)"
-                    realm.add(deck)
-                    player.playerCardList.filter({ $0.collectible == true }).forEach {
-                        deck.add(card: $0)
-                    }
-                    deckManager?.currentDeck = deck
-                }
-            } catch {
-                Log.error?.message("Can not create deck")
-            }
+			let deck = Deck()
+			deck.playerClass = playerClass
+			deck.name = player.name ?? "Custom \(playerClass)"
+			player.playerCardList.filter({ $0.collectible == true }).forEach {
+				deck.add(card: $0)
+			}
+			RealmHelper.addDeck(deck: deck)
+			deckManager?.currentDeck = deck
+			
             deckManager?.editDeck(self)
         }
     }
 
     @IBAction func resetTrackers(_ sender: AnyObject) {
-        hearthstone.game.windowManager?.updateTrackers()
+		// TODO rework this, do we even need this?
+		//hearthstone.game.windowManager?.updateTrackers()
     }
 
     @IBAction func openPreferences(_ sender: AnyObject) {
@@ -551,10 +536,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var windowMove: WindowMove?
     @IBAction func openDebugPositions(_ sender: AnyObject) {
-        if windowMove == nil {
+		// TODO rework (remove?) windowdebug
+        /*if windowMove == nil {
 			windowMove = WindowMove(windowNibName: "WindowMove", windowManager: hearthstone.game.windowManager!)
         }
-        windowMove?.showWindow(self)
+        windowMove?.showWindow(self)*/
     }
 
     @IBAction func closeWindow(_ sender: AnyObject) {

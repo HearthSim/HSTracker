@@ -48,7 +48,7 @@
 		1CCB4AE01E8474DD003FD1AD /* UnityPack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1CCB4AE41E850E13003FD1AD /* HockeyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AE31E850E13003FD1AD /* HockeyDelegate.swift */; };
+		1CCB4AE41E850E13003FD1AD /* HockeyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AE31E850E13003FD1AD /* HockeyHelper.swift */; };
 		1CE89EFC1E82ADC5000ABE99 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		1CE89EFD1E82ADF6000ABE99 /* LadderGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68171D1F74CE009030DC /* LadderGrid.swift */; };
 		1CE89EFE1E82AE1F000ABE99 /* LogLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAD1C777F8900D29859 /* LogLine.swift */; };
@@ -587,7 +587,7 @@
 		1C17D2511E82DEE700ED4047 /* RealmHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmHelper.swift; sourceTree = "<group>"; };
 		1CB623A51DD37C890045E0CF /* GlowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowFilter.h; sourceTree = "<group>"; };
 		1CB623A61DD37C890045E0CF /* GlowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowFilter.m; sourceTree = "<group>"; };
-		1CCB4AE31E850E13003FD1AD /* HockeyDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HockeyDelegate.swift; sourceTree = "<group>"; };
+		1CCB4AE31E850E13003FD1AD /* HockeyHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HockeyHelper.swift; sourceTree = "<group>"; };
 		1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
@@ -1218,7 +1218,7 @@
 				43AFEEEA1E22529C00F6045A /* CollectionManager.swift */,
 				BCA70F281E2C16DD00038A6C /* FileUtils.h */,
 				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
-				1CCB4AE31E850E13003FD1AD /* HockeyDelegate.swift */,
+				1CCB4AE31E850E13003FD1AD /* HockeyHelper.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1971,7 +1971,7 @@
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
-				1CCB4AE41E850E13003FD1AD /* HockeyDelegate.swift in Sources */,
+				1CCB4AE41E850E13003FD1AD /* HockeyHelper.swift in Sources */,
 				439DD8F61DB2324A004EBE47 /* CardSize.swift in Sources */,
 				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
 				4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */,

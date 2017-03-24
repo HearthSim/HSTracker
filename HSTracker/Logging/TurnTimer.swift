@@ -110,7 +110,7 @@ import CleanroomLogger
             } else {
                 opponentSeconds += 1
             }
-        }
+        }/* TODO: rework turn timer
         DispatchQueue.main.async { [weak self] in
             guard let game = self?.game,
                   let windowManager = game.windowManager,
@@ -122,6 +122,6 @@ import CleanroomLogger
             windowManager.timerHud.tick(seconds: seconds,
                     playerSeconds: playerSeconds,
                     opponentSeconds: opponentSeconds)
-        }
+        }*/
     }
 }

@@ -69,6 +69,25 @@ struct RealmHelper {
 		}
 	}
 	
+	static func getActiveDecks() -> [CardClass: [Deck]]? {
+		
+		return DispatchQueue.main.sync { () -> [CardClass: [Deck]]? in
+			guard let realm = try? Realm() else {
+				Log.error?.message("Can not fetch decks")
+				return nil
+			}
+			
+			var decks: [CardClass: [Deck]] = [:]
+			for deck in realm.objects(Deck.self).filter("isActive = true") {
+				if decks[deck.playerClass] == nil {
+					decks[deck.playerClass] = [Deck]()
+				}
+				decks[deck.playerClass]?.append(deck)
+			}
+			return decks
+		}
+	}
+	
 	/**
 	 * Checks if given deck exists in realm and returns it.
 	 */
@@ -203,5 +222,37 @@ struct RealmHelper {
 		}
 	}
 	
+	static func addDeck(deck: Deck) {
+		return DispatchQueue.main.sync { () in
+			
+			guard let realm = try? Realm() else {
+				Log.error?.message("Error accessing Realm database")
+				return
+			}
+			
+			do {
+				try realm.write {
+					realm.add(deck)
+				}
+			} catch {
+				Log.error?.message("Can not create deck")
+			}
+		}
+	}
+	
+	static func getValidStatistics() -> Results<GameStats>? {
+		
+		return DispatchQueue.main.sync { () -> Results<GameStats>? in
+			
+			guard let realm = try? Realm() else {
+				Log.error?.message("Error accessing Realm database")
+				return nil
+			}
+			
+			return realm.objects(GameStats.self)
+				.filter("hsReplayId != nil")
+				.sorted(byKeyPath: "startTime", ascending: false)
+		}
+	}
 	
 }

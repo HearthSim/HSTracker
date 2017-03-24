@@ -84,11 +84,11 @@ class WindowManager {
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        //NotificationCenter.default.removeObserver(self)
     }
 
     func startManager() {
-        let events = [
+        /*let events = [
             "show_floating_card": #selector(showFloatingCard(_:)),
             "hide_floating_card": #selector(hideFloatingCard(_:))
             ]
@@ -124,9 +124,10 @@ class WindowManager {
 		                                       object: nil)
 
         updateTrackers()
-        forceHideFloatingCard()
+        forceHideFloatingCard()*/
     }
 
+	// TODO: remove this function, gui does not communicate back!
     func isReady() -> Bool {
         return playerTracker.isLoaded() && opponentTracker.isLoaded()
     }
