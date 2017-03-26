@@ -39,7 +39,6 @@ class PowerGameStateHandler: LogEventHandler {
 
         // current game
         if logLine.line.match(GameEntityRegex) {
-            game.gameStart(at: logLine.time)
 
             if let match = logLine.line.matches(GameEntityRegex).first,
                 let id = Int(match.value) {
@@ -366,6 +365,15 @@ class PowerGameStateHandler: LogEventHandler {
             }
         } else if logLine.line.contains("CREATE_GAME") {
             tagChangeHandler.clearQueuedActions()
+            if Settings.autoDeckDetection {
+                if let currentMode = game.currentMode, let deck = coreManager.autoDetectDeck(mode: currentMode) {
+                    game.set(activeDeckId: deck.deckId)
+                } else {
+                    Log.warning?.message("could not autodetect deck")
+                    game.set(activeDeckId: nil)
+                }
+            }
+            game.gameStart(at: logLine.time)
         } else if logLine.line.contains("BLOCK_END") {
             if game.gameTriggerCount < 10 && (game.gameEntity?.has(tag: .turn) ?? false) {
                 game.gameTriggerCount += 10

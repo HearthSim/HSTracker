@@ -20,17 +20,15 @@ final class LogReaderManager {
     let rachelleHandler = RachelleHandler()
 	let arenaHandler: LogEventHandler
 	let loadingScreenHandler: LogEventHandler
-	let fullScreenFxHandler: LogEventHandler
 
     private let powerLog: LogReader
     private let gameStatePowerLogReader: LogReader
     private let rachelle: LogReader
     private let arena: LogReader
     private let loadingScreen: LogReader
-    private let fullScreenFx: LogReader
 
     private var readers: [LogReader] {
-        return [powerLog, rachelle, arena, loadingScreen, fullScreenFx]
+        return [powerLog, rachelle, arena, loadingScreen]
     }
     
     public static let dateStringFormatter: DateFormatter = {
@@ -62,7 +60,6 @@ final class LogReaderManager {
     
 	init(logPath: String, coreManager: CoreManager) {
 		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
-		fullScreenFxHandler = FullScreenFxHandler(with: coreManager)
 		powerGameStateHandler = PowerGameStateHandler(with: coreManager)
 		arenaHandler = ArenaHandler(with: coreManager)
 		
@@ -84,7 +81,6 @@ final class LogReaderManager {
                                                       startsWithFilters: [
                                                         "LoadingScreen.OnSceneLoaded", "Gameplay"]),
                                   logPath: logPath)
-        fullScreenFx = LogReader(info: LogReaderInfo(name: .fullScreenFX), logPath: logPath)
     }
 
     func start() {
@@ -184,7 +180,7 @@ final class LogReaderManager {
 		case .rachelle: self.rachelleHandler.handle(logLine: line)
 		case .arena: self.arenaHandler.handle(logLine: line)
 		case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
-		case .fullScreenFX: self.fullScreenFxHandler.handle(logLine: line)
+		//case .fullScreenFX: self.fullScreenFxHandler.handle(logLine: line)
 		default: break
 		}
 	}

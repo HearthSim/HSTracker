@@ -37,6 +37,7 @@ class Game {
     
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
+        self.updateTrackers()
     }
     
     func setHearthstoneActived(flag: Bool) {
@@ -98,7 +99,7 @@ class Game {
                 
                 tracker.graveyard = self.player.graveyard
                 
-                tracker.playerClassId = self.opponent.playerClassId
+                //tracker.playerClassId = self.opponent.playerClassId
                 
                 tracker.currentFormat = self.currentFormat
                 tracker.currentGameMode = self.currentGameMode
@@ -190,7 +191,7 @@ class Game {
 
     var lastCardPlayed: Int?
     var gameEnded = true
-    var currentDeck: PlayingDeck?
+    internal private(set) var currentDeck: PlayingDeck?
 
     var currentEntityId = 0
     var currentEntityHasCardId = false
@@ -357,7 +358,7 @@ class Game {
         windowManager.hideGameTrackers()
     }
 
-    func clean() {
+    private func clean() { // TODO: remove this
         reset()
         gameEnded = true
         lastGame = nil
@@ -478,7 +479,7 @@ class Game {
         if !_matchInfoCacheInvalid { return }
 
         _matchInfoCacheInvalid = false
-        DispatchQueue.global().async { [weak self] in
+        //DispatchQueue.global().async { [weak self] in
 			
 			// TODO: add timeout here, threading?
             var matchInfo: MirrorMatchInfo? = MirrorHelper.getMatchInfo()
@@ -487,21 +488,21 @@ class Game {
                 Thread.sleep(forTimeInterval: 0.1)
             }
             if let matchInfo = matchInfo {
-                DispatchQueue.main.async { [weak self] in
+                //DispatchQueue.main.async { [weak self] in
                     Log.info?.message("\(matchInfo.localPlayer.name) vs "
                         + "\(matchInfo.opposingPlayer.name)")
-                    self?._matchInfo = MatchInfo(info: matchInfo)
-                    if let _matchInfo = self?.matchInfo {
-                        self?.player.name = _matchInfo.localPlayer.name
-                        self?.opponent.name = _matchInfo.opposingPlayer.name
-                        self?.player.id = _matchInfo.localPlayer.playerId
-                        self?.opponent.id = _matchInfo.opposingPlayer.playerId
+                    self._matchInfo = MatchInfo(info: matchInfo)
+                    if let _matchInfo = self.matchInfo {
+                        self.player.name = _matchInfo.localPlayer.name
+                        self.opponent.name = _matchInfo.opposingPlayer.name
+                        self.player.id = _matchInfo.localPlayer.playerId
+                        self.opponent.id = _matchInfo.opposingPlayer.playerId
 
-                        self?.updateTrackers()
+                        //self?.updateTrackers()
                     }
-                }
+               // }
             }
-        }
+        //}
     }
 
     private func adventureRestart() {

@@ -207,10 +207,6 @@ final class CoreManager: NSObject {
         let time = DispatchTime.now() + DispatchTimeInterval.seconds(1)
         DispatchQueue.main.asyncAfter(deadline: time) { [unowned self] in
             Log.info?.message("Start Tracking")
-            
-            if let hearthstoneApp = CoreManager.hearthstoneApp {
-				MirrorHelper.initMirror(pid: hearthstoneApp.processIdentifier, blocking: true)
-            }
 
             self.logReaderManager.start()
         }
@@ -279,7 +275,6 @@ final class CoreManager: NSObject {
     func appActivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
-            Log.verbose?.message("Hearthstone is now active")
 			
             AppHealth.instance.setHearthstoneRunning(flag: true)
             self.game.setHearthstoneActived(flag: true)
@@ -289,7 +284,6 @@ final class CoreManager: NSObject {
     func appDeactivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
-            Log.verbose?.message("Hearthstone is now inactive")
             
             self.game.setHearthstoneActived(flag: false)
         }
@@ -311,7 +305,7 @@ final class CoreManager: NSObject {
         return CoreManager.hearthstoneApp != nil
     }
 
-    private static var hearthstoneApp: NSRunningApplication? {
+    static var hearthstoneApp: NSRunningApplication? {
         let apps = NSWorkspace.shared().runningApplications
         return apps.first { $0.bundleIdentifier == "unity.Blizzard Entertainment.Hearthstone" }
     }

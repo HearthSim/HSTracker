@@ -215,7 +215,8 @@ class OpponentSecrets {
     }
 
     func getDefaultSecrets(heroClass: CardClass, gameFormat: Format) -> [Secret] {
-        return SecretHelper.getSecretIds(heroClass: heroClass, gameFormat: gameFormat).map { Secret(cardId: $0, count: 1) }
+        return SecretHelper.getSecretIds(heroClass: heroClass,
+                                         gameFormat: gameFormat).map { Secret(cardId: $0, count: 1) }
     }
 }
 

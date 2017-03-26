@@ -22,6 +22,7 @@ class FullScreenFxHandler: LogEventHandler {
 	}
     
     func handle(logLine: LogLine) {
+        
         guard let currentMode = coreManager.game.currentMode else {
             return
         }

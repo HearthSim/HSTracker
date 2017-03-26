@@ -52,11 +52,11 @@ struct LoadingScreenHandler: LogEventHandler {
             } else if game.previousMode == .tournament {
                 coreManager.deckWatcher.stop()
             } else if game.currentMode == .hub {
-                game.clean()
+                //game.clean()
             }
 
         } else if logLine.line.contains("Gameplay.Start") {
-            coreManager.game.gameStart(at: logLine.time)
+            //coreManager.game.gameStart(at: logLine.time)
         }
     }
 }

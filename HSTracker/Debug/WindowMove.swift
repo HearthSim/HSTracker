@@ -33,7 +33,7 @@ class WindowMove: NSWindowController {
 	
 	private weak var windowManager: WindowManager!
 	
-	override var windowNibName : String! {
+	override var windowNibName: String! {
 		return "WindowMove"
 	}
 	

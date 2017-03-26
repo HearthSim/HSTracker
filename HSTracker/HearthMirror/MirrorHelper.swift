@@ -15,40 +15,48 @@ import CleanroomLogger
  */
 struct MirrorHelper {
 	
-	private static var _mirror: HearthMirror?
-	private static var _waitingForMirror = false
-	
-	static func initMirror(pid: Int32, blocking: Bool) {
+    private static var _mirror: HearthMirror? = {
+        if let hsApp = CoreManager.hearthstoneApp {
+            return MirrorHelper.initMirror(pid: hsApp.processIdentifier, blocking: true)
+        }
+        return nil
+    }()
+    
+	private static func initMirror(pid: Int32, blocking: Bool) -> HearthMirror {
 		
+        var _waitingForMirror = false
+        
 		// get rights to attach
 		if acquireTaskportRight() != 0 {
 			Log.error?.message("acquireTaskportRight() failed!")
 		}
 		
-		self._mirror = HearthMirror(pid: pid,
+		var mirror = HearthMirror(pid: pid,
 		                           blocking: true)
 		
 		// waiting for mirror to be up and running
 		_waitingForMirror = true
 		while _waitingForMirror {
-			if let battleTag = self._mirror?.getBattleTag() {
+			if let battleTag = mirror.getBattleTag() {
 				Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
 				_waitingForMirror = false
 				break
 			} else {
 				// mirror might be partially initialized, reset
-				_mirror = HearthMirror(pid: pid,
+                Log.error?.message("Mirror is not working, trying again...")
+				mirror = HearthMirror(pid: pid,
 				                           blocking: true)
 				Thread.sleep(forTimeInterval: 0.5)
 			}
 		}
+        
+        return mirror
 	}
 	
 	/**
 	 * De-initializes the current mirror object, thus any further mirror calls will fail until the next initMirror
 	 */
 	static func destroy() {
-		_waitingForMirror = false
 		_mirror = nil
 	}
 	
