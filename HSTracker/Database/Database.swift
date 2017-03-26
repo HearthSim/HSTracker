@@ -91,11 +91,7 @@ struct Database {
 
                     card.isStandard = !CardSet.wildSets().contains(set)
 
-                    // "fake" the coin... in the game files, Coin cost is empty
-                    // so we set it to 0
-                    if card.id == "GAME_005" {
-                        card.cost = 0
-                    } else if let cost = jsonCard["cost"] as? Int {
+                    if let cost = jsonCard["cost"] as? Int {
                         card.cost = cost
                     }
 
@@ -147,6 +143,9 @@ struct Database {
                     }
                     if let name = jsonCard["name"] as? String {
                         card.name = name
+                        if lang == "enUS" && langs.count == 1 {
+                            card.enName = name
+                        }
                     }
                     if let text = jsonCard["text"] as? String {
                         card.text = text

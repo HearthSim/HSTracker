@@ -367,6 +367,7 @@
 		438B04F91E6F55720071594B /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438B04F81E6F55720071594B /* Date.swift */; };
 		4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4390FBB91DAA72E700AE71BB /* Version.swift */; };
 		439212151DEF5A5E0017AAE5 /* MultiClassGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */; };
+		439B1DF61E86CC280098BBBC /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439B1DF51E86CC280098BBBC /* DatabaseTests.swift */; };
 		439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
 		439C7E611C7772C100D29859 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
 		439C7E851C777CFC00D29859 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E7D1C777CFC00D29859 /* Deck.swift */; };
@@ -837,6 +838,7 @@
 		438B04F81E6F55720071594B /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		4390FBB91DAA72E700AE71BB /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		439212141DEF5A5E0017AAE5 /* MultiClassGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiClassGroup.swift; sourceTree = "<group>"; };
+		439B1DF51E86CC280098BBBC /* DatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseTests.swift; sourceTree = "<group>"; };
 		439C7E481C7772C000D29859 /* HSTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E4B1C7772C000D29859 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = HSTracker/AppDelegate.swift; sourceTree = "<group>"; };
 		439C7E571C7772C000D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = HSTracker/Info.plist; sourceTree = "<group>"; };
@@ -1291,6 +1293,7 @@
 				43D307FC1C835DBA00480488 /* NetImportTest.swift */,
 				C94596811D174FBA008CD47A /* StatsTests.swift */,
 				439C7E621C7772C100D29859 /* Info.plist */,
+				439B1DF51E86CC280098BBBC /* DatabaseTests.swift */,
 			);
 			path = HSTrackerTests;
 			sourceTree = "<group>";
@@ -2043,6 +2046,7 @@
 				1C17D2491E82C4FF00ED4047 /* AppHealth.swift in Sources */,
 				1CF2051B1E84670900037A42 /* Step.swift in Sources */,
 				1CE89F111E82B062000ABE99 /* GameStats.swift in Sources */,
+				439B1DF61E86CC280098BBBC /* DatabaseTests.swift in Sources */,
 				1CE89EFE1E82AE1F000ABE99 /* LogLine.swift in Sources */,
 				1CE89F501E82B8A0000ABE99 /* FloatingCard.swift in Sources */,
 				1CE89F161E82B0CF000ABE99 /* CardSet.swift in Sources */,
