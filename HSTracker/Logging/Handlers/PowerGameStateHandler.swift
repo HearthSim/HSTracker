@@ -27,15 +27,15 @@ class PowerGameStateHandler: LogEventHandler {
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 	
-	private unowned let hearthstone: Hearthstone
+	private unowned let coreManager: CoreManager
 	
-	init(with hearthstone: Hearthstone) {
-		self.hearthstone = hearthstone
+	init(with coreManager: CoreManager) {
+		self.coreManager = coreManager
 	}
 
     func handle(logLine: LogLine) {
         var creationTag = false
-		let game = hearthstone.game
+		let game = coreManager.game
 
         // current game
         if logLine.line.match(GameEntityRegex) {

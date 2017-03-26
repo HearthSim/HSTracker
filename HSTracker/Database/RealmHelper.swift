@@ -109,11 +109,11 @@ struct RealmHelper {
 	
 	static func getDeck(with id: String) -> Deck? {
 		
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			return _getDeck(with: id)
-		}
+		//}
 		
-		return runOnMain(execute: _getDeck, param: id)
+		//return runOnMain(execute: _getDeck, param: id)
 	}
 	
 	private static func _set(hsDeckId: Int64, for deckId: String) {
@@ -136,11 +136,11 @@ struct RealmHelper {
 	
 	static func set(hsDeckId: Int64, for deckId: String) {
 		
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			_set(hsDeckId: hsDeckId, for: deckId)
-		}
+		//}
 		
-		runOnMain(execute: _set, param1: hsDeckId, param2: deckId)
+		//runOnMain(execute: _set, param1: hsDeckId, param2: deckId)
 	}
     
     private static func _getDecks() -> [Deck]? {
@@ -153,11 +153,11 @@ struct RealmHelper {
     }
     
     static func getDecks() -> [Deck]? {
-        if Thread.current == Thread.main {
+        //if Thread.current == Thread.main {
             return _getDecks()
-        }
+        //}
         
-        return runOnMain(execute: _getDecks)
+        //return runOnMain(execute: _getDecks)
     }
 	
 	private static func _getActiveDecks() -> [CardClass: [Deck]]? {
@@ -179,11 +179,11 @@ struct RealmHelper {
 	
 	static func getActiveDecks() -> [CardClass: [Deck]]? {
 		
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			return _getActiveDecks()
-		}
+		//}
 		
-		return runOnMain(execute: _getActiveDecks)
+		//return runOnMain(execute: _getActiveDecks)
 	}
 	
 	/**
@@ -262,11 +262,11 @@ struct RealmHelper {
 	
 	static func checkAndUpdateDeck(deckId: Int64, selectedDeck: MirrorDeck?) -> Deck? {
 		
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			return _checkAndUpdateDeck(deckId: deckId, selectedDeck: selectedDeck)
-		}
+		//}
 		
-		return runOnMain(execute: _checkAndUpdateDeck, param1: deckId, param2: selectedDeck)
+		//return runOnMain(execute: _checkAndUpdateDeck, param1: deckId, param2: selectedDeck)
 	}
 	
 	private static func _checkOrCreateArenaDeck(mirrorDeck: MirrorDeck) -> Deck? {
@@ -326,11 +326,11 @@ struct RealmHelper {
 	
 	static func checkOrCreateArenaDeck(mirrorDeck: MirrorDeck) -> Deck? {
 		
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			return _checkOrCreateArenaDeck(mirrorDeck: mirrorDeck)
-		}
+		//}
 		
-		return runOnMain(execute: _checkOrCreateArenaDeck, param: mirrorDeck)
+		//return runOnMain(execute: _checkOrCreateArenaDeck, param: mirrorDeck)
 	}
 	
 	private static func _add(deck: Deck, update: Bool) {
@@ -355,11 +355,11 @@ struct RealmHelper {
 	
     static func add(deck: Deck, update: Bool = false) {
 		
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
             _add(deck: deck, update: update)
-		}
+		//}
 		
-        runOnMain(execute: _add, param1: deck, param2: update)
+        //runOnMain(execute: _add, param1: deck, param2: update)
 	}
 	
 	private static func _delete(deck: Deck) {
@@ -378,11 +378,11 @@ struct RealmHelper {
 	}
 	
 	static func delete(deck: Deck) {
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			_delete(deck: deck)
-		}
+		//}
 		
-		runOnMain(execute: _delete, param: deck)
+		//runOnMain(execute: _delete, param: deck)
 	}
 	
 	// MARK: - Deck properties
@@ -403,11 +403,11 @@ struct RealmHelper {
 	}
 	
 	static func set(deck: Deck, active: Bool) {
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			return _set(deck: deck, active: active)
-		}
+		//}
 		
-		runOnMain(execute: _set, param1: deck, param2: active)
+		//runOnMain(execute: _set, param1: deck, param2: active)
 	}
     
     private static func _rename(deck: Deck, to name: String) {
@@ -426,11 +426,11 @@ struct RealmHelper {
     }
     
     static func rename(deck: Deck, to name: String) {
-        if Thread.current == Thread.main {
+        //if Thread.current == Thread.main {
             return rename(deck: deck, to: name)
-        }
+        //}
         
-        runOnMain(execute: rename, param1: deck, param2: name)
+        //runOnMain(execute: rename, param1: deck, param2: name)
     }
 	
 	// MARK: - Statistics
@@ -447,11 +447,11 @@ struct RealmHelper {
 	}
 	
 	static func getValidStatistics() -> Results<GameStats>? {
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			return _getValidStatistics()
-		}
+		//}
 		
-		return runOnMain(execute: _getValidStatistics)
+		//return runOnMain(execute: _getValidStatistics)
 	}
 	
 	private static func _addStatistics(to deck: Deck, stats: GameStats) {
@@ -470,11 +470,11 @@ struct RealmHelper {
 	}
 	
 	static func addStatistics(to deck: Deck, stats: GameStats) {
-		if Thread.current == Thread.main {
+		//if Thread.current == Thread.main {
 			return _addStatistics(to: deck, stats: stats)
-		}
+		//}
 		
-		runOnMain(execute: _addStatistics, param1: deck, param2: stats)
+		//runOnMain(execute: _addStatistics, param1: deck, param2: stats)
 	}
     
     private static func _removeAllGameStats(from deck: Deck) {
@@ -493,11 +493,11 @@ struct RealmHelper {
     }
     
     static func removeAllGameStats(from deck: Deck) {
-        if Thread.current == Thread.main {
+        //if Thread.current == Thread.main {
             return _removeAllGameStats(from: deck)
-        }
+        //}
         
-        runOnMain(execute: _removeAllGameStats, param: deck)
+        //runOnMain(execute: _removeAllGameStats, param: deck)
     }
     
     private static func _getGameStat(with statId: String) -> GameStats? {
@@ -511,11 +511,11 @@ struct RealmHelper {
     }
     
     static func getGameStat(with statId: String) -> GameStats? {
-        if Thread.current == Thread.main {
+        //if Thread.current == Thread.main {
             return _getGameStat(with: statId)
-        }
+        //}
         
-        return runOnMain(execute: _getGameStat, param: statId)
+        //return runOnMain(execute: _getGameStat, param: statId)
     }
     
     private static func _update(stat: GameStats, hsReplayId: String) {
@@ -535,10 +535,10 @@ struct RealmHelper {
     }
     
 	static func update(stat: GameStats, hsReplayId: String) {
-        if Thread.current == Thread.main {
+        //if Thread.current == Thread.main {
             _update(stat: stat, hsReplayId: hsReplayId)
-        }
+        //}
         
-        runOnMain(execute: _update, param1: stat, param2: hsReplayId)
+        //runOnMain(execute: _update, param1: stat, param2: hsReplayId)
     }
 }

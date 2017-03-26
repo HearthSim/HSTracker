@@ -15,32 +15,34 @@ class FullScreenFxHandler: LogEventHandler {
     
     private var lastQueueTime: Date = Date.distantPast
 	
-	private unowned let hearthstone: Hearthstone
+	private unowned let coreManager: CoreManager
 	
-	init(with hearthstone: Hearthstone) {
-		self.hearthstone = hearthstone
+	init(with coreManager: CoreManager) {
+		self.coreManager = coreManager
 	}
     
     func handle(logLine: LogLine) {
-        guard let currentMode = hearthstone.game.currentMode else {
+        guard let currentMode = coreManager.game.currentMode else {
             return
         }
 
         let modes: [Mode] = [.tavern_brawl, .tournament, .draft, .friendly, .adventure]
-        if logLine.line.match(BeginBlurRegex) && hearthstone.game.isInMenu && modes.contains(currentMode) {
-            hearthstone.game.enqueueTime = logLine.time
+        if logLine.line.match(BeginBlurRegex) && coreManager.game.isInMenu && modes.contains(currentMode) {
+            // player entered queue
+            coreManager.game.enqueueTime = logLine.time
             Log.info?.message("now in queue (\(logLine.time))")
             if abs(logLine.time.timeIntervalSinceNow) > 5
-                || !hearthstone.game.isInMenu || logLine.time <= lastQueueTime {
+                || !coreManager.game.isInMenu || logLine.time <= lastQueueTime {
                 return
             }
             lastQueueTime = logLine.time
 
             if Settings.autoDeckDetection {
-				if let deck = hearthstone.autoDetectDeck(mode: currentMode) {
-					hearthstone.game.set(activeDeckId: deck.deckId)
+				if let deck = coreManager.autoDetectDeck(mode: currentMode) {
+					coreManager.game.set(activeDeckId: deck.deckId)
 				} else {
-					hearthstone.game.set(activeDeckId: nil)
+                    Log.warning?.message("could not autodetect deck")
+					coreManager.game.set(activeDeckId: nil)
 				}
             }
         }

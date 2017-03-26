@@ -60,11 +60,11 @@ final class LogReaderManager {
     private var queue: DispatchQueue?
     private var processMap = Map<Date, [LogLine]>()
     
-	init(logPath: String, hearthstone: Hearthstone) {
-		loadingScreenHandler = LoadingScreenHandler(with: hearthstone)
-		fullScreenFxHandler = FullScreenFxHandler(with: hearthstone)
-		powerGameStateHandler = PowerGameStateHandler(with: hearthstone)
-		arenaHandler = ArenaHandler(with: hearthstone)
+	init(logPath: String, coreManager: CoreManager) {
+		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
+		fullScreenFxHandler = FullScreenFxHandler(with: coreManager)
+		powerGameStateHandler = PowerGameStateHandler(with: coreManager)
+		arenaHandler = ArenaHandler(with: coreManager)
 		
         let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
         let plReader = LogReaderInfo(name: .power,

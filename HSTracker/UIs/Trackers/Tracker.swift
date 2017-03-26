@@ -14,25 +14,46 @@ import CleanroomLogger
 
 class Tracker: OverWindowController {
 
-    @IBOutlet weak var cardsView: NSView!
-    @IBOutlet weak var cardCounter: CardCounter!
-    @IBOutlet weak var playerDrawChance: PlayerDrawChance!
-    @IBOutlet weak var opponentDrawChance: OpponentDrawChance!
-    @IBOutlet weak var wotogCounter: WotogCounter!
-    @IBOutlet weak var playerClass: NSView!
-    @IBOutlet weak var recordTracker: StringTracker!
-    @IBOutlet weak var fatigueTracker: StringTracker!
-    @IBOutlet weak var graveyardCounter: GraveyardCounter!
-    @IBOutlet weak var jadeCounter: JadeCounter!
+    // UI elements
+    @IBOutlet weak private var cardsView: NSView!
+    @IBOutlet weak private var cardCounter: CardCounter!
+    @IBOutlet weak private var playerDrawChance: PlayerDrawChance!
+    @IBOutlet weak private var opponentDrawChance: OpponentDrawChance!
+    @IBOutlet weak private var wotogCounter: WotogCounter!
+    @IBOutlet weak private var playerClass: NSView!
+    @IBOutlet weak private var recordTracker: StringTracker!
+    @IBOutlet weak private var fatigueTracker: StringTracker!
+    @IBOutlet weak private var graveyardCounter: GraveyardCounter!
+    @IBOutlet weak private var jadeCounter: JadeCounter!
 
-    var hero: CardBar?
-    var heroCard: Card?
-    var animatedCards: [CardBar] = []
-    var playerType: PlayerType?
+    private var hero: CardBar?
+    private var heroCard: Card?
+    private var animatedCards: [CardBar] = []
+    
     private var cellsCache = [String: NSView]()
 
     var hasValidFrame = false
-
+    
+    var playerType: PlayerType?
+    var showCthunCounter: Bool = false
+    var showSpellCounter: Bool = false
+    var showDeathrattleCounter: Bool = false
+    var showJadeCounter: Bool = false
+    var showGraveyard: Bool = false
+    var proxy: Entity?
+    var nextJadeSize: Int = 1
+    var fatigueCounter: Int = 0
+    var graveyard: [Entity]?
+    var spellsPlayedCount = 0
+    var deathrattlesPlayedCount = 0
+    
+    var playerClassId: String?
+    var playerName: String?
+    var currentGameMode: GameMode = .none
+    var currentFormat: Format = .unknown
+    var matchInfo: MatchInfo?
+    var recordTrackerMessage: String = ""
+    
     override func windowDidLoad() {
         super.windowDidLoad()
 
@@ -99,10 +120,6 @@ class Tracker: OverWindowController {
 
     func isLoaded() -> Bool {
         return self.isWindowLoaded
-    }
-
-    fileprivate func player(game: Game) -> Player {
-        return playerType == .player ? game.player : game.opponent
     }
 
     // MARK: - Notifications
@@ -216,23 +233,14 @@ class Tracker: OverWindowController {
             animatedCards.insert(newCard, at: index)
             newCard.fadeIn(highlight: !reset)
         })
-
-		/* TODO: fix tracker game dependency
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
-            Log.warning?.message("No game instance")
-            return
-        }
-        updateCountFrames(game: game)
-        updateCardFrames(game: game)
-		*/
     }
-
-    fileprivate func updateCardFrames(game: Game) {
+    
+    override func updateFrames() {
         guard let windowFrame = self.window?.contentView?.frame else { return }
-
+        
         let windowWidth = windowFrame.width
         let windowHeight = windowFrame.height
-
+        
         let ratio: CGFloat
         switch Settings.cardSize {
         case .tiny: ratio = CGFloat(kRowHeight / kTinyRowHeight)
@@ -241,65 +249,36 @@ class Tracker: OverWindowController {
         case .huge: ratio = CGFloat(kRowHeight / kHighRowHeight)
         case .big: ratio = 1.0
         }
-
-        let showCthunCounter: Bool
-        let showSpellCounter: Bool
-        let showDeathrattleCounter: Bool
-        let showJadeCounter: Bool
-        let showGraveyard: Bool
-        let proxy: Entity?
-        let jade: Int
-
+        
         if playerType == .opponent {
             cardCounter.isHidden = !Settings.showOpponentCardCount
             opponentDrawChance.isHidden = !Settings.showOpponentDrawChance
             playerDrawChance.isHidden = true
-
-            showCthunCounter = game.showPlayerCthunCounter
-            showSpellCounter = game.showOpponentSpellsCounter
-            showDeathrattleCounter = game.showOpponentDeathrattleCounter
-            showGraveyard = game.showOpponentGraveyard
-            showJadeCounter = game.showOpponentJadeCounter
-            proxy = game.opponentCthunProxy
             playerClass.isHidden = !Settings.showOpponentClassInTracker
             recordTracker.isHidden = true
-            jade = game.opponentNextJadeGolem
         } else {
             cardCounter.isHidden = !Settings.showPlayerCardCount
             opponentDrawChance.isHidden = true
             playerDrawChance.isHidden = !Settings.showPlayerDrawChance
-
-            showCthunCounter = game.showPlayerCthunCounter
-            showSpellCounter = game.showPlayerSpellsCounter
-            showDeathrattleCounter = game.showPlayerDeathrattleCounter
-            showGraveyard = game.showPlayerGraveyard
-            showJadeCounter = game.showPlayerJadeCounter
-            proxy = game.playerCthunProxy
+            
             playerClass.isHidden = !Settings.showDeckNameInTracker
             recordTracker.isHidden = !Settings.showWinLossRatio
-            jade = game.playerNextJadeGolem
         }
-        let fatigue = player(game: game).fatigue > 0
-        fatigueTracker.isHidden = !(Settings.fatigueIndicator && fatigue)
+        
+        fatigueTracker.isHidden = !(Settings.fatigueIndicator && (fatigueCounter > 0))
         graveyardCounter.isHidden = !showGraveyard
         jadeCounter.isHidden = !showJadeCounter
         
-        if let currentDeck = game.currentDeck, !recordTracker.isHidden {
-            if let deck = RealmHelper.getDeck(with: currentDeck.id) {
-                recordTracker.message = StatsHelper
-                    .getDeckManagerRecordLabel(deck: deck,
-                                               mode: .all)
-                recordTracker.needsDisplay = true
-            }
-        } else {
-            recordTracker.isHidden = true
+        if !recordTracker.isHidden {
+            recordTracker.needsDisplay = true
         }
+        
         if !fatigueTracker.isHidden {
             fatigueTracker.message = "\(NSLocalizedString("Fatigue : ", comment: ""))"
-                + "\(player(game: game).fatigue)"
+                + "\(fatigueCounter)"
             fatigueTracker.needsDisplay = true
         }
-
+        
         var counterStyle: [WotogCounterStyle] = []
         if showCthunCounter && showSpellCounter && showDeathrattleCounter {
             counterStyle.append(.full)
@@ -316,38 +295,40 @@ class Tracker: OverWindowController {
                 counterStyle.append(.cthun)
             }
         }
-
+        
+        recordTracker.message = recordTrackerMessage
+        
         wotogCounter.counterStyle = counterStyle
         wotogCounter.isHidden = wotogCounter.counterStyle.contains(.none)
         wotogCounter.attack = proxy?.attack ?? 6
         wotogCounter.health = proxy?.health ?? 6
-        wotogCounter.spell = player(game: game).spellsPlayedCount
-        wotogCounter.deathrattle = player(game: game).deathrattlesPlayedCount
-
+        wotogCounter.spell = spellsPlayedCount
+        wotogCounter.deathrattle = deathrattlesPlayedCount
+        
         if !jadeCounter.isHidden {
-            jadeCounter.nextJade = jade
+            jadeCounter.nextJade = nextJadeSize
             jadeCounter.needsDisplay = true
         }
-
-        let graveyard = player(game: game).graveyard
+        
         // map entitiy to card [count]
         var minionmap: [Card: Int] = [:]
         var minions: Int = 0
         var murlocks: Int = 0
-        for e: Entity in graveyard {
-            if e.isMinion {
-                if let value = minionmap[e.card] {
-                    minionmap[e.card] = value + 1
-                } else {
-                    minionmap[e.card] = 1
-                }
-                minions += 1
-                if e.card.race == .murloc {
-                    murlocks += 1
+        if let graveyard = self.graveyard {
+            for e: Entity in graveyard {
+                if e.isMinion {
+                    if let value = minionmap[e.card] {
+                        minionmap[e.card] = value + 1
+                    } else {
+                        minionmap[e.card] = 1
+                    }
+                    minions += 1
+                    if e.card.race == .murloc {
+                        murlocks += 1
+                    }
                 }
             }
         }
-
         var graveyardminions: [Card] = []
         for (card, count) in minionmap {
             card.count = count
@@ -356,44 +337,43 @@ class Tracker: OverWindowController {
         graveyardCounter.graveyard = graveyardminions.sortCardList()
         graveyardCounter.minions = minions
         graveyardCounter.murlocks = murlocks
-
+        
         let bigFrameHeight = round(71 / ratio)
         let smallFrameHeight = round(40 / ratio)
-
+        
         var offsetFrames: CGFloat = 0
         var startHeight: CGFloat = 0
+        
         if !playerClass.isHidden && playerType == .opponent {
-            if let playerClassId = game.opponent.playerClassId,
-                let playerName = game.opponent.name {
-
+            if let playerClassId = self.playerClassId {
                 offsetFrames += smallFrameHeight
-
+                
                 playerClass.frame = NSRect(x: 0,
                                            y: windowHeight - smallFrameHeight,
                                            width: windowHeight,
                                            height: smallFrameHeight)
                 startHeight += smallFrameHeight
-
+                
                 if hero == nil {
                     hero = CardBar.factory()
                     if let hero = hero {
                         playerClass.addSubview(hero)
                     }
                 }
-
+                
                 hero?.playerType = .hero
                 hero?.card = Cards.hero(byId: playerClassId)
-                if let matchInfo = game.matchInfo, game.currentGameMode == .ranked {
-                    let wild = game.currentFormat == .wild
+                if let matchInfo = matchInfo, currentGameMode == .ranked {
+                    let wild = currentFormat == .wild
                     var rank = wild
-                            ? matchInfo.opposingPlayer.wildRank
-                            : matchInfo.opposingPlayer.standardRank
+                        ? matchInfo.opposingPlayer.wildRank
+                        : matchInfo.opposingPlayer.standardRank
                     if rank < 0 {
                         rank = wild
-                                ? matchInfo.opposingPlayer.wildLegendRank
-                                : matchInfo.opposingPlayer.standardLegendRank
+                            ? matchInfo.opposingPlayer.wildLegendRank
+                            : matchInfo.opposingPlayer.standardLegendRank
                     }
-
+                    
                     if rank > 0 {
                         hero?.playerRank = rank
                     }
@@ -401,57 +381,54 @@ class Tracker: OverWindowController {
                 hero?.card?.count = 1
                 hero?.playerName = playerName
                 hero?.frame = NSRect(x: 0, y: 0,
-                                    width: windowWidth,
-                                    height: smallFrameHeight)
+                                     width: windowWidth,
+                                     height: smallFrameHeight)
                 hero?.update(highlight: false)
             }
         } else if !playerClass.isHidden && playerType == .player {
-            if let deck = game.currentDeck {
-                offsetFrames += smallFrameHeight
-
-                playerClass.frame = NSRect(x: 0,
-                                           y: windowHeight - smallFrameHeight,
-                                           width: windowHeight,
-                                           height: smallFrameHeight)
-                startHeight += smallFrameHeight
-                if hero == nil {
-
-                    hero = CardBar.factory()
-                    if let hero = hero {
-                        playerClass.addSubview(hero)
-                    }
+            
+            offsetFrames += smallFrameHeight
+            
+            playerClass.frame = NSRect(x: 0,
+                                       y: windowHeight - smallFrameHeight,
+                                       width: windowHeight,
+                                       height: smallFrameHeight)
+            startHeight += smallFrameHeight
+            if hero == nil {
+                
+                hero = CardBar.factory()
+                if let hero = hero {
+                    playerClass.addSubview(hero)
                 }
-                hero?.playerType = .hero
-                if !deck.heroId.isEmpty {
-                    hero?.card = Cards.hero(byId: deck.heroId)
-                } else {
-                    hero?.card = Cards.hero(byPlayerClass: deck.playerClass)
-                }
-
-                if let matchInfo = game.matchInfo, game.currentGameMode == .ranked {
-                    let wild = game.currentFormat == .wild
-                    var rank = wild
-                            ? matchInfo.localPlayer.wildRank
-                            : matchInfo.localPlayer.standardRank
-                    if rank < 0 {
-                        rank = wild
-                                ? matchInfo.localPlayer.wildLegendRank
-                                : matchInfo.localPlayer.standardLegendRank
-                    }
-
-                    if rank > 0 {
-                        hero?.playerRank = rank
-                    }
-                }
-                hero?.card?.count = 1
-                hero?.playerName = deck.name
-
-                hero?.frame = NSRect(x: 0, y: 0,
-                                    width: windowWidth,
-                                    height: smallFrameHeight)
-                hero?.update(highlight: false)
             }
+            hero?.playerType = .hero
+            hero?.card = Cards.hero(byId: self.playerClassId ?? "")
+            
+            if let matchInfo = matchInfo, currentGameMode == .ranked {
+                let wild = currentFormat == .wild
+                var rank = wild
+                    ? matchInfo.localPlayer.wildRank
+                    : matchInfo.localPlayer.standardRank
+                if rank < 0 {
+                    rank = wild
+                        ? matchInfo.localPlayer.wildLegendRank
+                        : matchInfo.localPlayer.standardLegendRank
+                }
+                
+                if rank > 0 {
+                    hero?.playerRank = rank
+                }
+            }
+            hero?.card?.count = 1
+            hero?.playerName = playerName
+            
+            hero?.frame = NSRect(x: 0, y: 0,
+                                 width: windowWidth,
+                                 height: smallFrameHeight)
+            hero?.update(highlight: false)
+            
         }
+        
         if !opponentDrawChance.isHidden {
             offsetFrames += bigFrameHeight
         }
@@ -482,7 +459,7 @@ class Tracker: OverWindowController {
         if !fatigueTracker.isHidden {
             offsetFrames += smallFrameHeight
         }
-
+        
         var cardHeight: CGFloat
         switch Settings.cardSize {
         case .tiny: cardHeight = CGFloat(kTinyRowHeight)
@@ -493,25 +470,25 @@ class Tracker: OverWindowController {
         }
         if animatedCards.count > 0 {
             cardHeight = round(min(cardHeight,
-                (windowHeight - offsetFrames) / CGFloat(animatedCards.count)))
+                                   (windowHeight - offsetFrames) / CGFloat(animatedCards.count)))
         }
         for view in cardsView.subviews {
             view.removeFromSuperview()
         }
-
+        
         let cardViewHeight = CGFloat(animatedCards.count) * cardHeight
         var y: CGFloat = cardViewHeight
         cardsView.frame = NSRect(x: 0,
                                  y: windowHeight - startHeight - cardViewHeight,
                                  width: windowWidth,
                                  height: cardViewHeight)
-
+        
         for cell in animatedCards {
             y -= cardHeight
             cell.frame = NSRect(x: 0, y: y, width: windowWidth, height: cardHeight)
             cardsView.addSubview(cell)
         }
-
+        
         y = windowHeight - startHeight - cardViewHeight
         if !cardCounter.isHidden {
             y -= smallFrameHeight
@@ -543,7 +520,7 @@ class Tracker: OverWindowController {
                 height += smallFrameHeight
             }
             y -= height
-
+            
             wotogCounter?.frame = NSRect(x: 0, y: y, width: windowWidth, height: height)
             wotogCounter?.needsDisplay = true
         }
@@ -571,28 +548,26 @@ class Tracker: OverWindowController {
         if !fatigueTracker.isHidden {
             y -= smallFrameHeight
             fatigueTracker.frame = NSRect(x: 0,
-                                         y: y,
-                                         width: windowWidth,
-                                         height: smallFrameHeight)
-        }
-        if !jadeCounter.isHidden {
-            y -= smallFrameHeight
-            jadeCounter.frame = NSRect(x: 0,
                                           y: y,
                                           width: windowWidth,
                                           height: smallFrameHeight)
         }
+        if !jadeCounter.isHidden {
+            y -= smallFrameHeight
+            jadeCounter.frame = NSRect(x: 0,
+                                       y: y,
+                                       width: windowWidth,
+                                       height: smallFrameHeight)
+        }
+        
     }
 
-    private func updateCountFrames(game: Game) {
-        let gameStarted = !game.isInMenu && game.entities.count >= 67
-        let deckCount = !gameStarted ? 30 : player(game: game).deckCount
-        let handCount = !gameStarted ? 0 : player(game: game).handCount
-
+    func updateCardCounter(deckCount: Int, handCount: Int, hasCoin: Bool, gameStarted: Bool) {
+        
         cardCounter?.deckCount = deckCount
         cardCounter?.handCount = handCount
         cardCounter?.needsDisplay = true
-
+        
         if playerType == .opponent {
             var draw1 = 0.0, draw2 = 0.0, hand1 = 0.0, hand2 = 0.0
             if deckCount > 0 {
@@ -607,7 +582,7 @@ class Tracker: OverWindowController {
                     hand1 = 100
                     hand2 = 100
                 } else {
-                    let handMinusCoin = handCount - (player(game: game).hasCoin == true ? 1 : 0)
+                    let handMinusCoin = handCount - (hasCoin == true ? 1 : 0)
                     let deckPlusHand = deckCount + handMinusCoin
 
                     // probabilities a given card (and a second one) are still in the deck

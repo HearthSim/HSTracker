@@ -108,7 +108,7 @@
 		1CE89F351E82B368000ABE99 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E911C777EFA00D29859 /* Settings.swift */; };
 		1CE89F361E82B36C000ABE99 /* ThemeElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F91DB236A4004EBE47 /* ThemeElement.swift */; };
 		1CE89F371E82B41C000ABE99 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BD1DB89A830081964A /* WindowManager.swift */; };
-		1CE89F381E82B420000ABE99 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAC1C777F8900D29859 /* Hearthstone.swift */; };
+		1CE89F381E82B420000ABE99 /* CoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAC1C777F8900D29859 /* CoreManager.swift */; };
 		1CE89F391E82B423000ABE99 /* PlayedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF931D52142D00F61993 /* PlayedCard.swift */; };
 		1CE89F3A1E82B42A000ABE99 /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
 		1CE89F3B1E82B42D000ABE99 /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
@@ -391,7 +391,7 @@
 		439C7EC51C777F8900D29859 /* PowerGameStateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA81C777F8900D29859 /* PowerGameStateHandler.swift */; };
 		439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA91C777F8900D29859 /* RachelleHandler.swift */; };
 		439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */; };
-		439C7EC81C777F8900D29859 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAC1C777F8900D29859 /* Hearthstone.swift */; };
+		439C7EC81C777F8900D29859 /* CoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAC1C777F8900D29859 /* CoreManager.swift */; };
 		439C7EC91C777F8900D29859 /* LogLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAD1C777F8900D29859 /* LogLine.swift */; };
 		439C7ECA1C777F8900D29859 /* LogReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAF1C777F8900D29859 /* LogReader.swift */; };
 		439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EB11C777F8900D29859 /* LogReaderManager.swift */; };
@@ -868,7 +868,7 @@
 		439C7EA81C777F8900D29859 /* PowerGameStateHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerGameStateHandler.swift; sourceTree = "<group>"; };
 		439C7EA91C777F8900D29859 /* RachelleHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RachelleHandler.swift; sourceTree = "<group>"; };
 		439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeHandler.swift; sourceTree = "<group>"; };
-		439C7EAC1C777F8900D29859 /* Hearthstone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstone.swift; sourceTree = "<group>"; };
+		439C7EAC1C777F8900D29859 /* CoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreManager.swift; sourceTree = "<group>"; };
 		439C7EAD1C777F8900D29859 /* LogLine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLine.swift; sourceTree = "<group>"; };
 		439C7EAF1C777F8900D29859 /* LogReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReader.swift; sourceTree = "<group>"; };
 		439C7EB11C777F8900D29859 /* LogReaderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderManager.swift; sourceTree = "<group>"; };
@@ -1350,23 +1350,23 @@
 			children = (
 				439C7E961C777F8900D29859 /* Enums */,
 				439C7EA21C777F8900D29859 /* Handlers */,
+				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
+				4345FE941DF54CA900E8936B /* Block.swift */,
+				64C117BCDB7C91174D0EAD99 /* CardIds.swift */,
 				439C7E951C777F8900D29859 /* Entity.swift */,
 				439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */,
 				439C7EA11C777F8900D29859 /* Game.swift */,
-				439C7EAC1C777F8900D29859 /* Hearthstone.swift */,
+				439C7EAC1C777F8900D29859 /* CoreManager.swift */,
 				439C7EAD1C777F8900D29859 /* LogLine.swift */,
 				43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */,
 				43C567E81D5D0F5700451B6F /* LogLineZone.swift */,
 				439C7EAF1C777F8900D29859 /* LogReader.swift */,
+				432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */,
 				439C7EB11C777F8900D29859 /* LogReaderManager.swift */,
 				439C7EB31C777F8900D29859 /* Player.swift */,
-				64C117BCDB7C91174D0EAD99 /* CardIds.swift */,
-				43E77EE31C94A19700C26950 /* TurnTimer.swift */,
-				432A392E1CF0B0F80029F0EA /* LogReaderInfo.swift */,
 				4359BF931D52142D00F61993 /* PlayedCard.swift */,
 				439DD8F31DB23212004EBE47 /* PlayerTurn.swift */,
-				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
-				4345FE941DF54CA900E8936B /* Block.swift */,
+				43E77EE31C94A19700C26950 /* TurnTimer.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1864,7 +1864,7 @@
 				434EAC961DBCD3E8009C7636 /* NSAlert.swift in Sources */,
 				434910501D09770000B22DB2 /* PlayerBoard.swift in Sources */,
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,
-				439C7EC81C777F8900D29859 /* Hearthstone.swift in Sources */,
+				439C7EC81C777F8900D29859 /* CoreManager.swift in Sources */,
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				4359BFA51D5243FD00F61993 /* Automation.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
@@ -2127,7 +2127,7 @@
 				1CF205121E8454B000037A42 /* TrackOBotPreferences.swift in Sources */,
 				1CF205151E8460AA00037A42 /* Paths.swift in Sources */,
 				1CE89F351E82B368000ABE99 /* Settings.swift in Sources */,
-				1CE89F381E82B420000ABE99 /* Hearthstone.swift in Sources */,
+				1CE89F381E82B420000ABE99 /* CoreManager.swift in Sources */,
 				1CE89F2E1E82B2DC000ABE99 /* OpponentDrawChance.swift in Sources */,
 				1CE89F4F1E82B89A000ABE99 /* BoardDamage.swift in Sources */,
 				1CE89F231E82B22D000ABE99 /* GameType.swift in Sources */,

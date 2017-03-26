@@ -15,7 +15,7 @@ final class Settings {
     static var fullGameLog: Bool = false
 
     static func validated() -> Bool {
-        return Hearthstone.validatedHearthstonePath()
+        return CoreManager.validatedHearthstonePath()
             && hearthstoneLanguage != nil && hsTrackerLanguage != nil
     }
 

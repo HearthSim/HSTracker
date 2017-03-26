@@ -83,10 +83,6 @@ class WindowManager {
 
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 
-    deinit {
-        //NotificationCenter.default.removeObserver(self)
-    }
-
     func startManager() {
         /*let events = [
             "show_floating_card": #selector(showFloatingCard(_:)),
@@ -149,29 +145,30 @@ class WindowManager {
         let time = DispatchTime.now() + DispatchTimeInterval.seconds(2)
         DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
             SizeHelper.hearthstoneWindow.reload()
-            self?.updateTrackers()
+            //self?.updateTrackers()
         }
     }
 
     // MARK: - Updating trackers
-    func updateTrackers(reset: Bool = false) {
+    /*func updateTrackers(reset: Bool = false) {
+        // TODO: what is lastCardsUpdateRequest ?
         lastCardsUpdateRequest = NSDate().timeIntervalSince1970
         let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(110)
-        DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-            guard let strongSelf = self else { return }
-            guard Date().timeIntervalSince1970 - strongSelf.lastCardsUpdateRequest > 0.1 else {
+        DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
+            
+            guard Date().timeIntervalSince1970 - self.lastCardsUpdateRequest > 0.1 else {
                 return
             }
 
             SizeHelper.hearthstoneWindow.reload()
 
-            strongSelf.redrawTrackers(reset: reset)
+            self.redrawTrackers(reset: reset)
         }
-    }
+    }*/
 
     private func redrawTrackers(reset: Bool = false) {
-        var rect: NSRect?
-/* TODO: dissect redraw code
+       /* var rect: NSRect?
+ TODO: dissect redraw code
         // timer
         if Settings.showTimer && !game.gameEnded &&
             ( (Settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
@@ -305,34 +302,10 @@ class WindowManager {
         } else {
             show(controller: opponentTracker, show: false)
         }
-
+*/
         // player tracker
-        if Settings.showPlayerTracker &&
-            ( (Settings.hideAllTrackersWhenNotInGame && !game.gameEnded)
-                || (!Settings.hideAllTrackersWhenNotInGame) ) &&
-            ( (Settings.hideAllWhenGameInBackground &&
-                hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
-            playerTracker.update(cards: game.player.playerCardList, reset: reset)
-            playerTracker.setWindowSizes()
-
-            if Settings.autoPositionTrackers && hearthstone.isHearthstoneRunning {
-                rect = SizeHelper.playerTrackerFrame()
-            } else {
-                rect = Settings.playerTrackerFrame
-                if rect == nil {
-                    let x = WindowManager.screenFrame.width - WindowManager.cardWidth
-                        + WindowManager.screenFrame.origin.x
-                    rect = NSRect(x: x,
-                                  y: WindowManager.top + WindowManager.screenFrame.origin.y,
-                                  width: WindowManager.cardWidth,
-                                  height: WindowManager.top)
-                }
-            }
-            playerTracker.hasValidFrame = true
-            show(controller: playerTracker, show: true, frame: rect, title: "Player tracker")
-        } else {
-            show(controller: playerTracker, show: false)
-        }*/
+        
+        //playerTracker.update()
     }
 
     // MARK: - Floating card
@@ -408,14 +381,14 @@ class WindowManager {
     }
 
     func showHideCardHuds(_ notification: Notification) {
-        updateTrackers()
+        //updateTrackers()
     }
 
     // MARK: - Utility functions
     func show(controller: OverWindowController, show: Bool,
-              frame: NSRect? = nil, title: String? = nil) {
+              frame: NSRect? = nil, title: String? = nil, overlay: Bool = true) {
         guard let window = controller.window else { return }
-/* TODO: rework
+
         DispatchQueue.main.async {
             if show {
                 // add the window in the "windows menu"
@@ -426,6 +399,9 @@ class WindowManager {
                     window.title = NSLocalizedString(title, comment: "")
                 }
 
+                // update gui elements
+                controller.updateFrames()
+                
                 // show window and set size
                 if let frame = frame {
                     window.setFrame(frame, display: true)
@@ -434,8 +410,7 @@ class WindowManager {
                 // set the level of the window : over all if hearthstone is active
                 // as a normal window otherwise
                 let level: Int
-                if let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                   hearthstone.hearthstoneActive {
+                if overlay {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
                 } else {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
@@ -466,6 +441,6 @@ class WindowManager {
                 }
                 window.orderOut(nil)
             }
-        }*/
+        }
     }
 }

@@ -28,7 +28,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         hearthstoneLanguage.reloadData()
         hstrackerLanguage.reloadData()
 
-        if let path = Hearthstone.findHearthstone() {
+        if let path = CoreManager.findHearthstone() {
             hearthstonePath.stringValue = path
             hearthstonePath.isEnabled = false
             choosePath.isEnabled = false

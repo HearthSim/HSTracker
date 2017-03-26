@@ -25,17 +25,15 @@ struct SizeHelper {
         }
         
         func reload() {
-			//TODO: fix sizehelper reload
-            /*guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
 
             let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
             if let info = (windowListInfo as NSArray? as? [[String: AnyObject]])?.filter({
                 !$0.filter({ $0.0 == "kCGWindowName"
-                    && $0.1 as? String == hearthstone.applicationName }).isEmpty
+                    && $0.1 as? String == CoreManager.applicationName }).isEmpty
             }).filter({
                 !$0.filter({ $0.0 == "kCGWindowOwnerName"
-                    && $0.1 as? String == hearthstone.applicationName }).isEmpty
+                    && $0.1 as? String == CoreManager.applicationName }).isEmpty
             }).first {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
@@ -56,7 +54,7 @@ struct SizeHelper {
                     //Log.debug?.message("HS Frame is : \(rect)")
                     self._frame = frame
                 }
-            }*/
+            }
         }
         
         fileprivate var width: CGFloat {

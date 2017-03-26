@@ -623,14 +623,15 @@ extension DeckManager: NewDeckDelegate {
     func refreshDecks() {
         // Guard incase we are creating a new deck without the window loaded
         guard isWindowLoaded else { return }
-        currentDeck = nil
-        decksTable.deselectAll(self)
-        decks = []
-        if let realmdecks = RealmHelper.getDecks() {
-            decks = Array(realmdecks)
-        }
-    
+        
         DispatchQueue.main.async { [weak self] in
+            self?.currentDeck = nil
+            self?.decksTable.deselectAll(self)
+            self?.decks = []
+            if let realmdecks = RealmHelper.getDecks() {
+                self?.decks = Array(realmdecks)
+            }
+            
             self?.decksTable.reloadData()
             self?.deckListTable.reloadData()
         }

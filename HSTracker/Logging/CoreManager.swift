@@ -19,25 +19,36 @@ enum HearthstoneLogError: Error {
     canNotCreateFile
 }
 
-final class Hearthstone: NSObject {
-    let applicationName = "Hearthstone"
+class HearthstoneRunState {
+    var isRunning = false
+    var isActive = false
+    init(isRunning: Bool, isActive: Bool) {
+        self.isRunning = isRunning
+        self.isActive = isActive
+    }
+}
+
+final class CoreManager: NSObject {
+    static let applicationName = "Hearthstone"
 
     var logReaderManager: LogReaderManager!
     var assetGenerator: HearthAssets?
-
-	var game = Game()
     
     // watchers
     let deckWatcher = DeckWatcher()
     let arenaDeckWatcher = ArenaDeckWatcher()
     let arenaWatcher = ArenaWatcher()
     let packWatcher = PackWatcher()
+    
+    let game: Game
 
     var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
     
     override init() {
+        self.game = Game(hearthstoneRunState: HearthstoneRunState(isRunning: CoreManager.isHearthstoneRunning(),
+                                                                  isActive: CoreManager.isHearthstoneActive()))
         super.init()
-		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, hearthstone: self)
+		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, coreManager: self)
     }
 
     static func findHearthstone() -> String? {
@@ -58,7 +69,7 @@ final class Hearthstone: NSObject {
     // MARK: - Initialisation
     func start() {
         startListeners()
-        if isHearthstoneRunning {
+        if CoreManager.isHearthstoneRunning() {
             Log.info?.message("Hearthstone is running, starting trackers now.")
 
             startTracking()
@@ -181,7 +192,7 @@ final class Hearthstone: NSObject {
                 throw HearthstoneLogError.canNotCreateFile
             }
 
-            if isHearthstoneRunning {
+            if CoreManager.isHearthstoneRunning() {
                 AppHealth.instance.setLoggerWorks(flag: false)
                 return false
             }
@@ -197,7 +208,7 @@ final class Hearthstone: NSObject {
         DispatchQueue.main.asyncAfter(deadline: time) { [unowned self] in
             Log.info?.message("Start Tracking")
             
-            if let hearthstoneApp = self.hearthstoneApp {
+            if let hearthstoneApp = CoreManager.hearthstoneApp {
 				MirrorHelper.initMirror(pid: hearthstoneApp.processIdentifier, blocking: true)
             }
 
@@ -207,7 +218,7 @@ final class Hearthstone: NSObject {
 
     func stopTracking() {
         Log.info?.message("Stop Tracking")
-		logReaderManager.stop(eraseLogFile: !self.isHearthstoneRunning)
+		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
         deckWatcher.stop()
         arenaDeckWatcher.stop()
         MirrorHelper.destroy()
@@ -233,29 +244,28 @@ final class Hearthstone: NSObject {
 
     func spaceChange() {
         Log.verbose?.message("Receive space changed event")
+        // TODO: what to do with space change?
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: "space_changed"), object: nil)
     }
 
     func appLaunched(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
-            app.localizedName == applicationName {
+            app.localizedName == CoreManager.applicationName {
             Log.verbose?.message("Hearthstone is now launched")
             self.startTracking()
-            NotificationCenter.default.post(name:
-                Notification.Name(rawValue: "hearthstone_running"), object: nil)
+            self.game.setHearthstoneRunning(flag: true)
             AppHealth.instance.setHearthstoneRunning(flag: true)
         }
     }
 
     func appTerminated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
-            app.localizedName == applicationName {
+            app.localizedName == CoreManager.applicationName {
             Log.verbose?.message("Hearthstone is now closed")
             self.stopTracking()
             
-            NotificationCenter.default
-                .post(name: Notification.Name(rawValue: "hearthstone_closed"), object: nil)
+            self.game.setHearthstoneRunning(flag: false)
             AppHealth.instance.setHearthstoneRunning(flag: false)
 
             if Settings.quitWhenHearthstoneCloses {
@@ -268,27 +278,25 @@ final class Hearthstone: NSObject {
 
     func appActivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
-            app.localizedName == applicationName {
+            app.localizedName == CoreManager.applicationName {
             Log.verbose?.message("Hearthstone is now active")
 			
             AppHealth.instance.setHearthstoneRunning(flag: true)
-            NotificationCenter.default
-                .post(name: Notification.Name(rawValue: "hearthstone_active"), object: nil)
+            self.game.setHearthstoneActived(flag: true)
         }
     }
 
     func appDeactivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
-            app.localizedName == applicationName {
+            app.localizedName == CoreManager.applicationName {
             Log.verbose?.message("Hearthstone is now inactive")
             
-            NotificationCenter.default
-                .post(name: Notification.Name(rawValue: "hearthstone_deactived"), object: nil)
+            self.game.setHearthstoneActived(flag: false)
         }
     }
 
     func bringToFront() {
-        if let hsapp = hearthstoneApp {
+        if let hsapp = CoreManager.hearthstoneApp {
             hsapp.activate(options: .activateIgnoringOtherApps)
         }
     }
@@ -299,13 +307,17 @@ final class Hearthstone: NSObject {
             .expandingTildeInPath
     }
 
-    var isHearthstoneRunning: Bool {
-        return hearthstoneApp != nil
+    private static func isHearthstoneRunning() -> Bool {
+        return CoreManager.hearthstoneApp != nil
     }
 
-    var hearthstoneApp: NSRunningApplication? {
+    private static var hearthstoneApp: NSRunningApplication? {
         let apps = NSWorkspace.shared().runningApplications
         return apps.first { $0.bundleIdentifier == "unity.Blizzard Entertainment.Hearthstone" }
+    }
+    
+    private static func isHearthstoneActive() -> Bool {
+        return CoreManager.hearthstoneApp?.isActive ?? false
     }
 	
 	// MARK: - Deck detection

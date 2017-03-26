@@ -33,7 +33,7 @@ class TagChangeHandler {
             tagChange(game: game, tag: tag, id: id, value: value,
                       isCreationTag: isCreationTag)
         } else {
-            Log.warning?.message("Can't parse \(rawTag) -> \(rawValue)")
+            //Log.warning?.message("Can't parse \(rawTag) -> \(rawValue)")
         }
     }
 

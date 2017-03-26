@@ -13,10 +13,10 @@ import CleanroomLogger
 
 struct LoadingScreenHandler: LogEventHandler {
 	
-	private unowned let hearthstone: Hearthstone
+	private unowned let coreManager: CoreManager
 	
-	init(with hearthstone: Hearthstone) {
-		self.hearthstone = hearthstone
+	init(with coreManager: CoreManager) {
+		self.coreManager = coreManager
 	}
 
     let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
@@ -24,7 +24,7 @@ struct LoadingScreenHandler: LogEventHandler {
     func handle(logLine: LogLine) {
         if logLine.line.match(GameModeRegex) {
             let matches = logLine.line.matches(GameModeRegex)
-			let game = hearthstone.game
+			let game = coreManager.game
             
             game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
             game.previousMode = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
@@ -36,27 +36,27 @@ struct LoadingScreenHandler: LogEventHandler {
             }
 
             if game.currentMode == .draft {
-                hearthstone.arenaDeckWatcher.start()
+                coreManager.arenaDeckWatcher.start()
                 if Settings.showArenaHelper {
-                    hearthstone.arenaWatcher.start()
+                    coreManager.arenaWatcher.start()
                 }
             } else if game.previousMode == .draft {
-                hearthstone.arenaWatcher.stop()
-                hearthstone.arenaDeckWatcher.stop()
+                coreManager.arenaWatcher.stop()
+                coreManager.arenaDeckWatcher.stop()
             } else if game.currentMode == .packopening {
-                hearthstone.packWatcher.start()
+                coreManager.packWatcher.start()
             } else if game.previousMode == .packopening {
-                hearthstone.packWatcher.stop()
+                coreManager.packWatcher.stop()
             } else if game.currentMode == .tournament {
-                hearthstone.deckWatcher.start()
+                coreManager.deckWatcher.start()
             } else if game.previousMode == .tournament {
-                hearthstone.deckWatcher.stop()
+                coreManager.deckWatcher.stop()
             } else if game.currentMode == .hub {
                 game.clean()
             }
 
         } else if logLine.line.contains("Gameplay.Start") {
-            hearthstone.game.gameStart(at: logLine.time)
+            coreManager.game.gameStart(at: logLine.time)
         }
     }
 }

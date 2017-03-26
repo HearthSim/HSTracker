@@ -43,7 +43,7 @@ struct ImageUtils {
             completion(image)
             return
         }
-		/* TODO: fix imageutil
+		/* TODO: fix assetgenerator in imageutil
         if let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
            let assetGenerator = hearthstone.assetGenerator,
             Settings.useHearthstoneAssets {
@@ -56,8 +56,9 @@ struct ImageUtils {
                 }
             }
         } else {
-            loadTile(card: card, completion: completion)
+         
         }*/
+        loadTile(card: card, completion: completion)
     }
 
     private static func loadTile(card: Card, completion: @escaping ((NSImage?) -> Void)) {

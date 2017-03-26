@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	var dockMenu = NSMenu(title: "DockMenu")
 	var appHealth: AppHealth = AppHealth.instance
 	
-	var hearthstone: Hearthstone!
+	var coreManager: CoreManager!
 	
 	var preferences: MASPreferencesWindowController = {
 		var controllers = [
@@ -99,7 +99,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	func applicationWillTerminate(_ notification: Notification) {
-		hearthstone.stopTracking()
+		coreManager.stopTracking()
 		if appWillRestart {
 			let appPath = Bundle.main.bundlePath
 			let task = Process()
@@ -132,7 +132,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		Log.info?.message("Opening trackers")
 		
-		hearthstone = Hearthstone()
+		coreManager = CoreManager()
 		
 		DispatchQueue.global().async { [unowned self] in
 			// load build dates via http request
@@ -151,8 +151,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 						indeterminate: true)
 				}
 				let path = Settings.hearthstonePath
-				self.hearthstone.assetGenerator = try? HearthAssets(path: path)
-				self.hearthstone.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
+				self.coreManager.assetGenerator = try? HearthAssets(path: path)
+				self.coreManager.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
 			}
 			
 			// load and init local database
@@ -211,7 +211,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		var message: String?
 		var alertStyle = NSAlertStyle.critical
 		do {
-			let canStart = try hearthstone.setup()
+			let canStart = try coreManager.setup()
 			
 			if !canStart {
 				message = "You must restart Hearthstone for logs to be used"
@@ -241,10 +241,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			return
 		}
 		
-		hearthstone.start()
+		coreManager.start()
 		
 		let events = [
-			// TODO: rework
+			// TODO: rework events
 			"reload_decks": #selector(AppDelegate.reloadDecks(_:)),
 			"hstracker_language": #selector(AppDelegate.languageChange(_:)),
 			"theme": #selector(reloadTheme)
@@ -258,17 +258,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 		
 		if let activeDeck = Settings.activeDeck {
-			self.hearthstone.game.set(activeDeckId: activeDeck)
+			self.coreManager.game.set(activeDeckId: activeDeck)
 		}
-		
-		NotificationCenter.default
-			.post(Notification(name: Notification.Name(rawValue: "hstracker_is_ready"),
-			                   object: nil))
 		
 		splashscreen?.close()
 		splashscreen = nil
 		
-		// TODO: rework
+		// TODO: rework delayed update needed at all?
 		/*let time = DispatchTime.now() + DispatchTimeInterval.milliseconds(500)
 		DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
 		self?.game.windowManager?.updateTrackers()
@@ -313,9 +309,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
 			                           action: #selector(AppDelegate.openDeckManager(_:)),
 			                           keyEquivalent: "d")
-			deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Reset", comment: ""),
-			                           action: #selector(AppDelegate.resetTrackers(_:)),
-			                           keyEquivalent: "r")
 			let saveMenus = NSMenu()
 			saveMenus.addItem(withTitle: NSLocalizedString("Save Current Deck", comment: ""),
 			                  action: #selector(AppDelegate.saveCurrentDeck(_:)),
@@ -450,36 +443,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func playDeck(_ sender: NSMenuItem) {
 		if let deck = sender.representedObject as? Deck {
 			let deckId = deck.deckId
-			self.hearthstone.game.set(activeDeckId: deckId)
+			self.coreManager.game.set(activeDeckId: deckId)
 		}
 	}
 	
 	@IBAction func openDeckManager(_ sender: AnyObject) {
 		if deckManager == nil {
 			deckManager = DeckManager(windowNibName: "DeckManager")
-			deckManager?.game = hearthstone.game
+			deckManager?.game = coreManager.game
 		}
 		deckManager?.showWindow(self)
 	}
 	
 	@IBAction func clearTrackers(_ sender: AnyObject) {
-		hearthstone.game.removeActiveDeck()
-		Settings.activeDeck = nil
+		coreManager.game.removeActiveDeck()
 	}
 	
 	@IBAction func saveCurrentDeck(_ sender: AnyObject) {
 		switch sender.tag {
 		case 1: // Opponent
-			saveDeck(hearthstone.game.opponent)
+			saveDeck(coreManager.game.opponent)
 		case 2: // Self
-			saveDeck(hearthstone.game.player)
+			saveDeck(coreManager.game.player)
 		default:
 			break
 		}
 	}
 	
 	private func saveDeck(_ player: Player) {
-		// TODO: move it to realhelper
 		if let playerClass = player.playerClass {
 			if deckManager == nil {
 				deckManager = DeckManager(windowNibName: "DeckManager")
@@ -492,16 +483,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             
             RealmHelper.add(deck: deck)
-            
             deckManager?.currentDeck = deck
-            
             deckManager?.editDeck(self)
 		}
-	}
-	
-	@IBAction func resetTrackers(_ sender: AnyObject) {
-		// TODO rework this, do we even need this?
-		//hearthstone.game.windowManager?.updateTrackers()
 	}
 	
 	@IBAction func openPreferences(_ sender: AnyObject) {

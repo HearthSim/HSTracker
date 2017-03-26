@@ -32,6 +32,104 @@ class Game {
 	 * View controller of this game object
 	 */
     private let windowManager = WindowManager()
+    
+    private let hearthstoneRunState: HearthstoneRunState
+    
+    func setHearthstoneRunning(flag: Bool) {
+        hearthstoneRunState.isRunning = flag
+    }
+    
+    func setHearthstoneActived(flag: Bool) {
+        hearthstoneRunState.isActive = flag
+    }
+    
+    // MARK: - GUI calls
+    func updateTrackers(reset: Bool = false) {
+        // TODO: this call should be in a slow/hashed queue with small fixed size
+        SizeHelper.hearthstoneWindow.reload()
+        
+        self.updatePlayerTracker(reset: reset)
+    }
+
+    private func updatePlayerTracker(reset: Bool = false) {
+        DispatchQueue.main.async { [unowned self] in
+            
+            let tracker = self.windowManager.playerTracker
+            if Settings.showPlayerTracker &&
+                ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
+                    || (!Settings.hideAllTrackersWhenNotInGame) ) &&
+                ( (Settings.hideAllWhenGameInBackground &&
+                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                
+                // update cards
+                tracker.update(cards: self.player.playerCardList, reset: reset)
+                
+                // update card counter values
+                let gameStarted = !self.isInMenu && self.entities.count >= 67
+                tracker.updateCardCounter(deckCount: !gameStarted ? 30 : self.player.deckCount,
+                                          handCount: !gameStarted ? 0 : self.player.handCount,
+                                          hasCoin: self.player.hasCoin,
+                                          gameStarted: gameStarted)
+                
+                tracker.showCthunCounter = self.showPlayerCthunCounter
+                tracker.showSpellCounter = self.showOpponentSpellsCounter
+                tracker.showDeathrattleCounter = self.showPlayerDeathrattleCounter
+                tracker.showGraveyard = self.showPlayerGraveyard
+                tracker.showJadeCounter = self.showPlayerJadeCounter
+                tracker.proxy = self.playerCthunProxy
+                tracker.nextJadeSize = self.playerNextJadeGolem
+                tracker.fatigueCounter = self.player.fatigue
+                tracker.spellsPlayedCount = self.player.spellsPlayedCount
+                tracker.deathrattlesPlayedCount = self.player.deathrattlesPlayedCount
+                
+                if let currentDeck = self.currentDeck {
+                    if let deck = RealmHelper.getDeck(with: currentDeck.id) {
+                        tracker.recordTrackerMessage = StatsHelper
+                            .getDeckManagerRecordLabel(deck: deck,
+                                                       mode: .all)
+                    }
+                    tracker.playerName = currentDeck.name//opponent.name
+                    if !currentDeck.heroId.isEmpty {
+                        tracker.playerClassId = currentDeck.heroId
+                    } else {
+                        tracker.playerClassId = currentDeck.playerClass.defaultHeroCardId
+                    }
+                }
+                
+                tracker.graveyard = self.player.graveyard
+                
+                tracker.playerClassId = self.opponent.playerClassId
+                
+                tracker.currentFormat = self.currentFormat
+                tracker.currentGameMode = self.currentGameMode
+                tracker.matchInfo = self.matchInfo
+                
+                tracker.setWindowSizes()
+                
+                var rect: NSRect?
+                
+                if Settings.autoPositionTrackers && self.hearthstoneRunState.isRunning {
+                    rect = SizeHelper.playerTrackerFrame()
+                } else {
+                    rect = Settings.playerTrackerFrame
+                    if rect == nil {
+                        let x = WindowManager.screenFrame.width - WindowManager.cardWidth
+                            + WindowManager.screenFrame.origin.x
+                        rect = NSRect(x: x,
+                                      y: WindowManager.top + WindowManager.screenFrame.origin.y,
+                                      width: WindowManager.cardWidth,
+                                      height: WindowManager.top)
+                    }
+                }
+                tracker.hasValidFrame = true
+                self.windowManager.show(controller: tracker, show: true,
+                                   frame: rect, title: "Player tracker",
+                                   overlay: self.hearthstoneRunState.isActive)
+            } else {
+                self.windowManager.show(controller: tracker, show: false)
+            }
+        }
+    }
 
     // MARK: - vars
     var currentTurn = 0
@@ -193,7 +291,8 @@ class Game {
 
 	// MARK: - Lifecycle
 	
-    init() {
+    init(hearthstoneRunState: HearthstoneRunState) {
+        self.hearthstoneRunState = hearthstoneRunState
 		player = Player(local: true, game: self)
         opponent = Player(local: false, game: self)
         opponentSecrets = OpponentSecrets(game: self)
@@ -275,6 +374,7 @@ class Game {
         currentEntityId = 0
     }
 
+    // TODO: why do we keep track here and not in the logger?
     func blockStart() {
         maxBlockId += 1
         let blockId = maxBlockId
@@ -295,7 +395,7 @@ class Game {
 			currentDeck = nil
 			player.playerClass = nil
 			currentGameStats?.playerHero = .neutral
-			windowManager.updateTrackers(reset: true)
+			updateTrackers(reset: true)
 		}
 	}
 	
@@ -318,12 +418,13 @@ class Game {
         )
         player.playerClass = currentDeck?.playerClass
         currentGameStats?.playerHero = currentDeck?.playerClass ?? .neutral
-        windowManager.updateTrackers(reset: true)
+        updateTrackers(reset: true)
     }
 
     func removeActiveDeck() {
         currentDeck = nil
-        windowManager.updateTrackers(reset: true)
+        Settings.activeDeck = nil
+        updateTrackers(reset: true)
     }
 
     // MARK: - game state
@@ -363,7 +464,7 @@ class Game {
             TurnTimer.instance.start(game: self)
         }
 
-        windowManager.updateTrackers(reset: true)
+        updateTrackers(reset: true)
 
         cacheMatchInfo()
         currentGameStats?.startTime = timestamp
@@ -396,7 +497,7 @@ class Game {
                         self?.player.id = _matchInfo.localPlayer.playerId
                         self?.opponent.id = _matchInfo.opposingPlayer.playerId
 
-                        self?.windowManager.updateTrackers()
+                        self?.updateTrackers()
                     }
                 }
             }
@@ -420,7 +521,7 @@ class Game {
         handleEndGame()
 
         opponentSecrets?.clearSecrets()
-        windowManager.updateTrackers(reset: true)
+        updateTrackers(reset: true)
         windowManager.hideGameTrackers()
         TurnTimer.instance.stop()
     }
@@ -683,12 +784,12 @@ class Game {
         if turn <= lastCompetitiveSpiritCheck
             || !entity.isMinion || !entity.isControlled(by: opponent.id)
             || !opponentEntity.isCurrentPlayer {
-            windowManager.updateTrackers()
+            updateTrackers()
             return
         }
         lastCompetitiveSpiritCheck = turn
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func turnStart(player: PlayerType, turn: Int) {
@@ -733,7 +834,7 @@ class Game {
             showNotification(type: .turnStart)
         }
 
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func concede() {
@@ -869,14 +970,14 @@ class Game {
             return
         }
         player.createInHand(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerBackToHand(entity: Entity, cardId: String?, turn: Int) {
         if String.isNullOrEmpty(cardId) {
             return
         }
-        windowManager.updateTrackers()
+        updateTrackers()
         player.boardToHand(entity: entity, turn: turn)
     }
 
@@ -885,7 +986,7 @@ class Game {
             return
         }
         player.boardToDeck(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerPlay(entity: Entity, cardId: String?, turn: Int) {
@@ -903,12 +1004,12 @@ class Game {
             // we wait 300ms so the proxy have the time to be updated
             let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(300)
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-                self?.windowManager.updateTrackers()
+                self?.updateTrackers()
             }
         }
 
         secretsOnPlay(entity: entity)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func secretsOnPlay(entity: Entity) {
@@ -928,12 +1029,12 @@ class Game {
                             .setZero(cardId: CardIds.Secrets.Mage.Spellbender)
                     }
                     strongSelf.opponentSecrets?.setZero(cardId: CardIds.Secrets.Hunter.CatTrick)
-                    self?.windowManager.updateTrackers()
+                    self?.updateTrackers()
                 }
             }
         } else if entity.isMinion && playerMinionCount > 3 {
             opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.SacredTrial)
-            windowManager.updateTrackers()
+            updateTrackers()
         }
     }
 
@@ -942,7 +1043,7 @@ class Game {
             return
         }
         player.handDiscard(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone) {
@@ -960,7 +1061,7 @@ class Game {
             player.createInSecret(entity: entity, turn: turn)
             return
         }
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerMulligan(entity: Entity, cardId: String?) {
@@ -969,7 +1070,7 @@ class Game {
         }
 
         player.mulligan(entity: entity)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerDraw(entity: Entity, cardId: String?, turn: Int) {
@@ -980,38 +1081,38 @@ class Game {
             playerGet(entity: entity, cardId: cardId, turn: turn)
         } else {
             player.draw(entity: entity, turn: turn)
-            windowManager.updateTrackers()
+            updateTrackers()
         }
     }
 
     func playerRemoveFromDeck(entity: Entity, turn: Int) {
         player.removeFromDeck(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
         player.deckDiscard(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
         player.deckToPlay(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int) {
         player.playToGraveyard(entity: entity, cardId: cardId, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerJoust(entity: Entity, cardId: String?, turn: Int) {
         player.joustReveal(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerGetToDeck(entity: Entity, cardId: String?, turn: Int) {
         player.createInDeck(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerFatigue(value: Int) {
@@ -1019,7 +1120,7 @@ class Game {
             Log.info?.message("Player get \(value) fatigue")
         }
         player.fatigue = value
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func playerCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
@@ -1049,7 +1150,7 @@ class Game {
             guard let _ = heroClass else { return }
             opponentSecretCount += 1
             opponentSecrets?.newSecretPlayed(heroClass: heroClass!, id: entity.id, turn: turn, gameFormat: .all)
-            windowManager.updateTrackers()
+            updateTrackers()
         }
     }
 
@@ -1068,7 +1169,7 @@ class Game {
         }
 
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Hunter.DartTrap)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     // MARK: - opponent
@@ -1076,7 +1177,7 @@ class Game {
         if let card = Cards.hero(byId: cardId) {
             opponent.playerClass = card.playerClass
             opponent.playerClassId = cardId
-            windowManager.updateTrackers()
+            updateTrackers()
             if Settings.fullGameLog {
                 Log.info?.message("Opponent class is \(card) ")
             }
@@ -1087,7 +1188,7 @@ class Game {
 
     func set(opponentName name: String) {
         opponent.name = name
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentGet(entity: Entity, turn: Int, id: Int) {
@@ -1096,17 +1197,17 @@ class Game {
         }
 
         opponent.createInHand(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentPlayToHand(entity: Entity, cardId: String?, turn: Int, id: Int) {
         opponent.boardToHand(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentPlayToDeck(entity: Entity, cardId: String?, turn: Int) {
         opponent.boardToDeck(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentPlay(entity: Entity, cardId: String?, from: Int, turn: Int) {
@@ -1121,15 +1222,15 @@ class Game {
             // we wait 300ms so the proxy have the time to be updated
             let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(300)
             DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-                self?.windowManager.updateTrackers()
+                self?.updateTrackers()
             }
         }
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentHandDiscard(entity: Entity, cardId: String?, from: Int, turn: Int) {
         opponent.handDiscard(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentSecretPlayed(entity: Entity, cardId: String?,
@@ -1169,32 +1270,32 @@ class Game {
         if let hero = heroClass {
             opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn, gameFormat: .all)
         }
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentMulligan(entity: Entity, from: Int) {
         opponent.mulligan(entity: entity)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentDraw(entity: Entity, turn: Int) {
         opponent.draw(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentRemoveFromDeck(entity: Entity, turn: Int) {
         opponent.removeFromDeck(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentDeckDiscard(entity: Entity, cardId: String?, turn: Int) {
         opponent.deckDiscard(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentDeckToPlay(entity: Entity, cardId: String?, turn: Int) {
         opponent.deckToPlay(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentPlayToGraveyard(entity: Entity, cardId: String?,
@@ -1203,17 +1304,17 @@ class Game {
         if playersTurn && entity.isMinion {
             opponentMinionDeath(entity: entity, turn: turn)
         }
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentJoust(entity: Entity, cardId: String?, turn: Int) {
         opponent.joustReveal(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentGetToDeck(entity: Entity, turn: Int) {
         opponent.createInDeck(entity: entity, turn: turn)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int) {
@@ -1227,12 +1328,12 @@ class Game {
         if opponentSecretCount > 0 {
             opponentSecrets?.setZero(cardId: cardId!)
         }
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentFatigue(value: Int) {
         opponent.fatigue = value
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentCreateInPlay(entity: Entity, cardId: String?, turn: Int) {
@@ -1250,7 +1351,7 @@ class Game {
                 opponentSecrets?.setZero(cardId: cardId!)
             }
 
-            windowManager.updateTrackers()
+            updateTrackers()
         }
     }
 
@@ -1267,7 +1368,7 @@ class Game {
         if Settings.fullGameLog {
             Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
         }
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     // MARK: - game actions
@@ -1279,7 +1380,7 @@ class Game {
             if entity.isControlled(by: opponent.id) {
                 opponentSecrets?.zeroFromAttack(attacker: attackingEntity,
                                                 defender: defendingEntity)
-				windowManager.updateTrackers()
+				updateTrackers()
             }
         }
     }
@@ -1292,7 +1393,7 @@ class Game {
             if entity.isControlled(by: player.id) {
                 opponentSecrets?.zeroFromAttack(attacker: attackingEntity,
                                                 defender: defendingEntity)
-				windowManager.updateTrackers()
+				updateTrackers()
             }
         }
     }
@@ -1303,7 +1404,7 @@ class Game {
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.PotionOfPolymorph)
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.Repentance)
 
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentMinionDeath(entity: Entity, turn: Int) {
@@ -1368,7 +1469,7 @@ class Game {
                                           stopIndex: secretOffset)
         }
 
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func avengeAsync(deathRattleCount: Int) {
@@ -1383,7 +1484,7 @@ class Game {
                 guard let strongSelf = self else { return }
                 if strongSelf.opponentMinionCount - strongSelf.avengeDeathRattleCount > 0 {
                     strongSelf.opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.Avenge)
-                    self?.windowManager.updateTrackers()
+                    self?.updateTrackers()
 
                     self?.awaitingAvenge = false
                     self?.avengeDeathRattleCount = 0
@@ -1397,7 +1498,7 @@ class Game {
             return
         }
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.EyeForAnEye)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
     func opponentTurnStart(entity: Entity) {
@@ -1405,7 +1506,7 @@ class Game {
             return
         }
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
-        windowManager.updateTrackers()
+        updateTrackers()
     }
 
      func showNotification(type: NotificationType) {

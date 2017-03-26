@@ -23,7 +23,7 @@ class GamePreferences: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if Hearthstone.validatedHearthstonePath() {
+        if CoreManager.validatedHearthstonePath() {
             hearthstonePath.stringValue = Settings.hearthstonePath
             hearthstonePath.isEnabled = false
             chooseHearthstonePath.isEnabled = false
