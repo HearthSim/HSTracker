@@ -273,19 +273,27 @@ final class CoreManager: NSObject {
     }
 
     func appActivated(_ notification: Notification) {
-        if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
-            app.localizedName == CoreManager.applicationName {
+        if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
 			
-            AppHealth.instance.setHearthstoneRunning(flag: true)
-            self.game.setHearthstoneActived(flag: true)
+			if app.localizedName == CoreManager.applicationName {
+				AppHealth.instance.setHearthstoneRunning(flag: true)
+				self.game.setHearthstoneActived(flag: true)
+			}
+			
+			if app.bundleIdentifier == Bundle.main.bundleIdentifier {
+				self.game.setSelfActivated(flag: false)
+			}
         }
     }
 
     func appDeactivated(_ notification: Notification) {
-        if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
-            app.localizedName == CoreManager.applicationName {
-            
-            self.game.setHearthstoneActived(flag: false)
+        if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
+			if app.localizedName == CoreManager.applicationName {
+				self.game.setHearthstoneActived(flag: false)
+			}
+			if app.bundleIdentifier == Bundle.main.bundleIdentifier {
+				self.game.setSelfActivated(flag: false)
+			}
         }
     }
 

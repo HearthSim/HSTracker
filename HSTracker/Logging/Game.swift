@@ -34,6 +34,7 @@ class Game {
     private let windowManager = WindowManager()
     
     private let hearthstoneRunState: HearthstoneRunState
+	private var selfAppActive: Bool = true
     
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
@@ -43,6 +44,10 @@ class Game {
     func setHearthstoneActived(flag: Bool) {
         hearthstoneRunState.isActive = flag
     }
+	
+	func setSelfActivated(flag: Bool) {
+		self.selfAppActive = flag
+	}
     
     // MARK: - GUI calls
     func updateTrackers(reset: Bool = false) {
@@ -58,7 +63,7 @@ class Game {
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
                 ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
-                    || (!Settings.hideAllTrackersWhenNotInGame) ) &&
+                    || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
                 ( (Settings.hideAllWhenGameInBackground &&
                     self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 
