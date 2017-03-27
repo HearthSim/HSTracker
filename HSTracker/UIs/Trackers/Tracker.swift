@@ -58,7 +58,7 @@ class Tracker: OverWindowController {
         super.windowDidLoad()
 
         let center = NotificationCenter.default
-        var observers: [String] = []
+        /*var observers: [String] = []
         var selector: Selector? = nil
         if playerType == .player {
             selector = #selector(playerOptionFrameChange)
@@ -73,49 +73,12 @@ class Tracker: OverWindowController {
                          "show_opponent_class", "opponent_graveyard_frame",
                          "opponent_graveyard_details_frame"]
         }
-
-        guard let currentSelector = selector else {
-            Log.error?.message("\(playerType) is unknown")
-            return
-        }
-
-        for name in observers {
-            center.addObserver(self,
-                               selector: currentSelector,
-                               name: NSNotification.Name(rawValue: name),
-                               object: nil)
-        }
-
-        let options = ["show_opponent_draw", "show_opponent_mulligan", "show_opponent_play",
-            "show_player_draw", "show_player_mulligan", "show_player_play", "rarity_colors",
-            "remove_cards_from_deck", "highlight_last_drawn", "highlight_cards_in_hand",
-            "highlight_discarded", "show_player_get"]
-        for option in options {
-            center.addObserver(self,
-                               selector: #selector(trackerOptionsChange),
-                               name: NSNotification.Name(rawValue: option),
-                               object: nil)
-        }
-
-        let frames = ["player_draw_chance", "player_card_count",
-                      "opponent_card_count", "opponent_draw_chance"]
-        for name in frames {
-            center.addObserver(self,
-                               selector: #selector(frameOptionsChange),
-                               name: NSNotification.Name(rawValue: name),
-                               object: nil)
-        }
-        center.addObserver(self,
-                           selector: #selector(cardSizeChange),
-                           name: NSNotification.Name(rawValue: "card_size"),
-                           object: nil)
-
+*/
         center.addObserver(self,
                            selector: #selector(setOpacity),
                            name: NSNotification.Name(rawValue: "tracker_opacity"),
                            object: nil)
         setOpacity()
-        frameOptionsChange()
     }
 
     func isLoaded() -> Bool {
@@ -123,40 +86,6 @@ class Tracker: OverWindowController {
     }
 
     // MARK: - Notifications
-    func trackerOptionsChange() {
-        frameOptionsChange()
-    }
-// TODO: refactor these
-    func cardSizeChange() {
-		/*
-        frameOptionsChange()
-        setWindowSizes()
-        guard let game = (NSApp.delegate as? AppDelegate)?.game,
-              let windowManager = game.windowManager else {
-            return
-        }
-        windowManager.updateTrackers()*/
-    }
-
-    func playerOptionFrameChange() {
-        /*if playerType == .player {
-            guard let game = (NSApp.delegate as? AppDelegate)?.game,
-                  let windowManager = game.windowManager else {
-                return
-            }
-            windowManager.updateTrackers(reset: true)
-        }*/
-    }
-
-    func opponentOptionFrameChange() {
-        /*if playerType == .opponent {
-            guard let game = (NSApp.delegate as? AppDelegate)?.game,
-                  let windowManager = game.windowManager else {
-                return
-            }
-            windowManager.updateTrackers(reset: true)
-        }*/
-    }
 
     func setOpacity() {
         let alpha = CGFloat(Settings.trackerOpacity / 100.0)
@@ -164,16 +93,6 @@ class Tracker: OverWindowController {
                                                green: 0,
                                                blue: 0,
                                                alpha: alpha)
-    }
-
-    func frameOptionsChange() {
-		/* TODO: fix Tracker UI interaction
-        guard let game = (NSApp.delegate as? AppDelegate)?.game,
-              let windowManager = game.windowManager else {
-            return
-        }
-        windowManager.updateTrackers()
-		*/
     }
 
     // MARK: - Game

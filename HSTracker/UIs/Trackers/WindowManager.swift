@@ -73,6 +73,7 @@ class WindowManager {
             fWindow.ignoresMouseEvents = true
             
             fWindow.orderFront(nil)
+			fWindow.orderOut(nil)
         }
         return $0
     }(FloatingCard(windowNibName: "FloatingCard"))
@@ -84,7 +85,8 @@ class WindowManager {
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 
     func startManager() {
-        /*let events = [
+		
+        let events = [
             "show_floating_card": #selector(showFloatingCard(_:)),
             "hide_floating_card": #selector(hideFloatingCard(_:))
             ]
@@ -95,32 +97,6 @@ class WindowManager {
                                                    name: NSNotification.Name(rawValue: event),
                                                    object: nil)
         }
-
-		// TODO: remove general update to specific ones coming from game
-        let reload = ["window_locked", "show_player_tracker", "show_opponent_tracker",
-                      "auto_position_trackers", "space_changed", "hearthstone_closed",
-                      "hearthstone_running", "hearthstone_active", "hearthstone_deactived",
-                      "can_join_fullscreen", "hide_all_trackers_when_not_in_game",
-                      "hide_all_trackers_when_game_in_background"]
-        for event in reload {
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(updateTrackersAfterEvent),
-                                                   name: NSNotification.Name(rawValue: event),
-                                                   object: nil)
-        }
-		
-		NotificationCenter.default.addObserver(self,
-		                                       selector: #selector(setHearthstoneActive),
-		                                       name: NSNotification.Name(rawValue: "hearthstone_active"),
-		                                       object: nil)
-		
-		NotificationCenter.default.addObserver(self,
-		                                       selector: #selector(setHearthstoneBackground),
-		                                       name: NSNotification.Name(rawValue: "hearthstone_deactived"),
-		                                       object: nil)
-
-        updateTrackers()
-        forceHideFloatingCard()*/
     }
 
 	// TODO: remove this function, gui does not communicate back!
@@ -132,39 +108,17 @@ class WindowManager {
 	@objc private func setHearthstoneBackground() { hearthstoneActive = false }
 
     func hideGameTrackers() {
+		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
             self?.timerHud.window?.orderOut(nil)
-            //self?.playerBoardDamage.window?.orderOut(nil)
+            self?.playerBoardDamage.window?.orderOut(nil)
             self?.opponentBoardDamage.window?.orderOut(nil)
             self?.cardHudContainer.reset()
         }
     }
 
-    @objc private func updateTrackersAfterEvent() {
-        let time = DispatchTime.now() + DispatchTimeInterval.seconds(2)
-        DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
-            SizeHelper.hearthstoneWindow.reload()
-            //self?.updateTrackers()
-        }
-    }
-
     // MARK: - Updating trackers
-    /*func updateTrackers(reset: Bool = false) {
-        // TODO: what is lastCardsUpdateRequest ?
-        lastCardsUpdateRequest = NSDate().timeIntervalSince1970
-        let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(110)
-        DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
-            
-            guard Date().timeIntervalSince1970 - self.lastCardsUpdateRequest > 0.1 else {
-                return
-            }
-
-            SizeHelper.hearthstoneWindow.reload()
-
-            self.redrawTrackers(reset: reset)
-        }
-    }*/
 
     private func redrawTrackers(reset: Bool = false) {
        /* var rect: NSRect?
@@ -274,38 +228,8 @@ class WindowManager {
             show(controller: opponentBoardDamage, show: false)
         }
  
-        if Settings.showOpponentTracker &&
-            ( (Settings.hideAllTrackersWhenNotInGame && !game.gameEnded)
-                || !Settings.hideAllTrackersWhenNotInGame) &&
-            ( (Settings.hideAllWhenGameInBackground &&
-                hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
-            // opponent tracker
-            let cards = Settings.clearTrackersOnGameEnd && game.gameEnded
-                ? [] : game.opponent.opponentCardList
-            opponentTracker.update(cards: cards, reset: reset)
-            opponentTracker.setWindowSizes()
-
-            if Settings.autoPositionTrackers && isHearthstoneRunning {
-                rect = SizeHelper.opponentTrackerFrame()
-            } else {
-                rect = Settings.opponentTrackerFrame
-                if rect == nil {
-                    let x = WindowManager.screenFrame.origin.x + 50
-                    rect = NSRect(x: x,
-                                  y: WindowManager.top + WindowManager.screenFrame.origin.y,
-                                  width: WindowManager.cardWidth,
-                                  height: WindowManager.top)
-                }
-            }
-            opponentTracker.hasValidFrame = true
-            show(controller: opponentTracker, show: true, frame: rect, title: "Opponent tracker")
-        } else {
-            show(controller: opponentTracker, show: false)
-        }
-*/
-        // player tracker
         
-        //playerTracker.update()
+*/
     }
 
     // MARK: - Floating card

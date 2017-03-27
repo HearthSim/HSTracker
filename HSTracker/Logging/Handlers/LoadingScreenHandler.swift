@@ -56,7 +56,7 @@ struct LoadingScreenHandler: LogEventHandler {
             }
 
         } else if logLine.line.contains("Gameplay.Start") {
-            //coreManager.game.gameStart(at: logLine.time)
+            coreManager.game.gameStart(at: logLine.time)
         }
     }
 }

@@ -50,16 +50,77 @@ class Game {
 	}
     
     // MARK: - GUI calls
-    func updateTrackers(reset: Bool = false) {
+    @objc func updateTrackers(reset: Bool = false) {
         // TODO: this call should be in a slow/hashed queue with small fixed size
         SizeHelper.hearthstoneWindow.reload()
         
         self.updatePlayerTracker(reset: reset)
+		self.updateOpponentTracker(reset: reset)
     }
+	
+	@objc private func updateOpponentTracker(reset: Bool = false) {
+		DispatchQueue.main.async { [unowned self] in
+			
+			let tracker = self.windowManager.opponentTracker
+			if Settings.showOpponentTracker &&
+				( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
+					|| !Settings.hideAllTrackersWhenNotInGame) &&
+				( (Settings.hideAllWhenGameInBackground &&
+					self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+				
+				// update cards
+				tracker.update(cards: self.opponent.opponentCardList, reset: reset)
+				
+				let gameStarted = !self.isInMenu && self.entities.count >= 67
+				tracker.updateCardCounter(deckCount: !gameStarted ? 30 : self.opponent.deckCount,
+				                          handCount: !gameStarted ? 0 : self.opponent.handCount,
+				                          hasCoin: self.opponent.hasCoin,
+				                          gameStarted: gameStarted)
 
-    private func updatePlayerTracker(reset: Bool = false) {
+				tracker.showCthunCounter = self.showOpponentCthunCounter
+				tracker.showSpellCounter = self.showOpponentSpellsCounter
+				tracker.showDeathrattleCounter = self.showOpponentDeathrattleCounter
+				tracker.showGraveyard = self.showOpponentGraveyard
+				tracker.showJadeCounter = self.showOpponentJadeCounter
+				tracker.proxy = self.opponentCthunProxy
+				tracker.nextJadeSize = self.opponentNextJadeGolem
+				tracker.fatigueCounter = self.opponent.fatigue
+				tracker.spellsPlayedCount = self.opponent.spellsPlayedCount
+				tracker.deathrattlesPlayedCount = self.opponent.deathrattlesPlayedCount
+				tracker.playerName = self.opponent.name
+				tracker.graveyard = self.opponent.graveyard
+				tracker.playerClassId = self.opponent.playerClassId
+				
+				tracker.currentFormat = self.currentFormat
+				tracker.currentGameMode = self.currentGameMode
+				tracker.matchInfo = self.matchInfo
+				
+				tracker.setWindowSizes()
+				var rect: NSRect?
+				
+				if Settings.autoPositionTrackers && self.hearthstoneRunState.isRunning {
+					rect = SizeHelper.opponentTrackerFrame()
+				} else {
+					rect = Settings.opponentTrackerFrame
+					if rect == nil {
+						let x = WindowManager.screenFrame.origin.x + 50
+						rect = NSRect(x: x,
+						              y: WindowManager.top + WindowManager.screenFrame.origin.y,
+						              width: WindowManager.cardWidth,
+						              height: WindowManager.top)
+					}
+				}
+				tracker.hasValidFrame = true
+				self.windowManager.show(controller: tracker, show: true, frame: rect, title: "Opponent tracker")
+			} else {
+				self.windowManager.show(controller: tracker, show: false)
+			}
+		}
+	}
+
+    @objc private func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [unowned self] in
-            
+			
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
                 ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
@@ -78,7 +139,7 @@ class Game {
                                           gameStarted: gameStarted)
                 
                 tracker.showCthunCounter = self.showPlayerCthunCounter
-                tracker.showSpellCounter = self.showOpponentSpellsCounter
+                tracker.showSpellCounter = self.showPlayerSpellsCounter
                 tracker.showDeathrattleCounter = self.showPlayerDeathrattleCounter
                 tracker.showGraveyard = self.showPlayerGraveyard
                 tracker.showJadeCounter = self.showPlayerJadeCounter
@@ -94,7 +155,7 @@ class Game {
                             .getDeckManagerRecordLabel(deck: deck,
                                                        mode: .all)
                     }
-                    tracker.playerName = currentDeck.name//opponent.name
+                    tracker.playerName = currentDeck.name
                     if !currentDeck.heroId.isEmpty {
                         tracker.playerClassId = currentDeck.heroId
                     } else {
@@ -156,6 +217,11 @@ class Game {
         if let _spectator = _spectator {
             return _spectator
         }
+		
+		if self.gameEnded {
+			return false
+		}
+		
         _spectator = MirrorHelper.isSpectating()
         if let _spectator = _spectator {
             return _spectator
@@ -303,6 +369,52 @@ class Game {
         opponent = Player(local: false, game: self)
         opponentSecrets = OpponentSecrets(game: self)
 		windowManager.startManager()
+		
+		let center = NotificationCenter.default
+		
+		// events that should update the player tracker
+		let playerTrackerUpdateEvents = ["show_player_tracker", "show_player_draw", "show_player_mulligan",
+		                                 "show_player_play", "rarity_colors", "remove_cards_from_deck",
+		                                 "highlight_last_drawn", "highlight_cards_in_hand", "highlight_discarded",
+		                                 "show_player_get", "player_draw_chance", "player_card_count",
+		                                 "player_cthun_frame", "player_yogg_frame", "player_deathrattle_frame",
+		                                 "show_win_loss_ratio", "player_in_hand_color", "show_deck_name",
+		                                 "player_graveyard_details_frame", "player_graveyard_frame"]
+		
+		// events that should update the opponent's tracker
+		let opponentTrackerUpdateEvents = ["show_opponent_tracker", "show_opponent_draw", "show_opponent_mulligan",
+		                                   "show_opponent_play", "opponent_card_count", "opponent_draw_chance",
+		                                   "opponent_cthun_frame", "opponent_yogg_frame", "opponent_deathrattle_frame",
+		                                   "show_opponent_class", "opponent_graveyard_frame",
+		                                   "opponent_graveyard_details_frame"]
+		
+		// events that should update all trackers
+		let allTrackerUpdateEvents = ["rarity_colors", "reload_decks", "window_locked", "auto_position_trackers",
+		                              "space_changed", "hearthstone_closed", "hearthstone_running",
+		                              "hearthstone_active", "hearthstone_deactived", "can_join_fullscreen",
+		                              "hide_all_trackers_when_not_in_game", "hide_all_trackers_when_game_in_background",
+		                              "card_size"]
+		
+		for option in playerTrackerUpdateEvents {
+			center.addObserver(self,
+			                   selector: #selector(updatePlayerTracker),
+			                   name: NSNotification.Name(rawValue: option),
+			                   object: nil)
+		}
+		
+		for option in opponentTrackerUpdateEvents {
+			center.addObserver(self,
+			                   selector: #selector(updateOpponentTracker),
+			                   name: NSNotification.Name(rawValue: option),
+			                   object: nil)
+		}
+		
+		for option in allTrackerUpdateEvents {
+			center.addObserver(self,
+			                   selector: #selector(updateTrackers),
+			                   name: NSNotification.Name(rawValue: option),
+			                   object: nil)
+		}
     }
 
     func reset() {
@@ -361,12 +473,6 @@ class Game {
         }
 
         windowManager.hideGameTrackers()
-    }
-
-    private func clean() { // TODO: remove this
-        reset()
-        gameEnded = true
-        lastGame = nil
     }
 
     func set(currentEntity id: Int) {
