@@ -15,12 +15,12 @@ class SecretHelper {
     private(set) var heroClass: CardClass
     var possibleSecrets: [String: Bool] = [:]
 
-	init(heroClass: CardClass, id: Int, turnPlayed: Int, gameFormat: Format) {
+    init(game: Game, heroClass: CardClass, id: Int, turnPlayed: Int) {
         self.id = id
         self.turnPlayed = turnPlayed
         self.heroClass = heroClass
 
-		SecretHelper.getSecretIds(heroClass: heroClass, gameFormat: gameFormat).forEach({
+        SecretHelper.getSecretIds(heroClass: heroClass, game: game).forEach({
             possibleSecrets[$0] = true
         })
     }
@@ -37,13 +37,12 @@ class SecretHelper {
         return active
     }
 
-    static func getMaxSecretCount(heroClass: CardClass, gameFormat: Format) -> Int {
-		return getSecretIds(heroClass: heroClass, gameFormat: gameFormat).count
+    static func getMaxSecretCount(heroClass: CardClass, game: Game) -> Int {
+        return getSecretIds(heroClass: heroClass, game: game).count
     }
 
-	static func getSecretIds(heroClass: CardClass, gameFormat: Format) -> [String] {
-
-        let standardOnly = gameFormat == .standard
+    static func getSecretIds(heroClass: CardClass, game: Game) -> [String] {
+        let standardOnly = game.currentFormat == .standard || game.currentGameType == .gt_arena
         switch heroClass {
         case .hunter: return CardIds.Secrets.Hunter.getCards(standardOnly: standardOnly)
         case .mage: return CardIds.Secrets.Mage.getCards(standardOnly: standardOnly)

@@ -1150,7 +1150,7 @@ class Game {
             }
             guard let _ = heroClass else { return }
             opponentSecretCount += 1
-            opponentSecrets?.newSecretPlayed(heroClass: heroClass!, id: entity.id, turn: turn, gameFormat: .all)
+            opponentSecrets?.newSecretPlayed(heroClass: heroClass!, id: entity.id, turn: turn)
             updateTrackers()
         }
     }
@@ -1250,26 +1250,19 @@ class Game {
         }
 
         var heroClass: CardClass?
-        var className = "\(entity[.class])"
-        if !String.isNullOrEmpty(className) {
-            className = className.lowercased()
-            heroClass = CardClass(rawValue: className)
-            if heroClass == .none {
-                if let playerClass = opponent.playerClass {
-                    heroClass = playerClass
-                }
-            }
-        } else {
-            if let playerClass = opponent.playerClass {
-                heroClass = playerClass
-            }
+        let className = "\(entity[.class])".lowercased()
+        if let _heroClass = CardClass(rawValue: className), !String.isNullOrEmpty(className) {
+            heroClass = _heroClass
+        } else if let playerClass = opponent.playerClass {
+            heroClass = playerClass
         }
+
         if Settings.fullGameLog {
             Log.info?.message("Secret played by \(entity[.class])"
                 + " -> \(heroClass) -> \(opponent.playerClass)")
         }
         if let hero = heroClass {
-            opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn, gameFormat: .all)
+            opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn)
         }
         updateTrackers()
     }

@@ -33,20 +33,20 @@ class OpponentSecrets {
 
         case .mage:
             if displayedClasses.contains(.hunter) {
-				return SecretHelper.getMaxSecretCount(heroClass: .hunter, gameFormat: gameFormat)
+                return SecretHelper.getMaxSecretCount(heroClass: .hunter, game: game)
             }
             return 0
 
         case .paladin:
             if displayedClasses.contains(.hunter) && displayedClasses.contains(.mage) {
-                return SecretHelper.getMaxSecretCount(heroClass: .hunter, gameFormat: gameFormat)
-                    + SecretHelper.getMaxSecretCount(heroClass: .mage, gameFormat: gameFormat)
+                return SecretHelper.getMaxSecretCount(heroClass: .hunter, game: game)
+                    + SecretHelper.getMaxSecretCount(heroClass: .mage, game: game)
             }
             if displayedClasses.contains(.hunter) {
-                return SecretHelper.getMaxSecretCount(heroClass: .hunter, gameFormat: gameFormat)
+                return SecretHelper.getMaxSecretCount(heroClass: .hunter, game: game)
             }
             if displayedClasses.contains(.mage) {
-                return SecretHelper.getMaxSecretCount(heroClass: .mage, gameFormat: gameFormat)
+                return SecretHelper.getMaxSecretCount(heroClass: .mage, game: game)
             }
             return 0
 
@@ -70,11 +70,10 @@ class OpponentSecrets {
         }
     }
 
-    func newSecretPlayed(heroClass: CardClass, id: Int, turn: Int,
-                         knownCardId: String? = nil, gameFormat: Format) {
-		let helper = SecretHelper(heroClass: heroClass, id: id, turnPlayed: turn, gameFormat: gameFormat)
+    func newSecretPlayed(heroClass: CardClass, id: Int, turn: Int, knownCardId: String? = nil) {
+        let helper = SecretHelper(game: game, heroClass: heroClass, id: id, turnPlayed: turn)
         if let knownCardId = knownCardId {
-			SecretHelper.getSecretIds(heroClass: heroClass, gameFormat: gameFormat).forEach({
+            SecretHelper.getSecretIds(heroClass: heroClass, game: game).forEach({
                 helper.trySetSecret(cardId: $0, active: $0 == knownCardId)
             })
         }
@@ -189,7 +188,9 @@ class OpponentSecrets {
 
     func getSecrets(gameFormat: Format) -> [Secret] {
         let returnThis = displayedClasses.expand({
-            SecretHelper.getSecretIds(heroClass: $0, gameFormat: gameFormat).map { Secret(cardId: $0, count: 0) }
+            SecretHelper.getSecretIds(heroClass: $0, game: game).map {
+                Secret(cardId: $0, count: 0)
+            }
         })
 
         for secret in secrets {
@@ -215,8 +216,9 @@ class OpponentSecrets {
     }
 
     func getDefaultSecrets(heroClass: CardClass, gameFormat: Format) -> [Secret] {
-        return SecretHelper.getSecretIds(heroClass: heroClass,
-                                         gameFormat: gameFormat).map { Secret(cardId: $0, count: 1) }
+        return SecretHelper.getSecretIds(heroClass: heroClass, game: game).map {
+            Secret(cardId: $0, count: 1)
+        }
     }
 }
 
