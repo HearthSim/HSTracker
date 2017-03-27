@@ -68,7 +68,6 @@ class DatabaseTests: XCTestCase {
     func testHeroSkins() {
         let alleria = Cards.hero(byId: "HERO_05a")
         XCTAssertNotNil(alleria, "Found Alleria")
-        print("ALLERIA : \(alleria)")
         XCTAssertEqual(alleria!.playerClass, CardClass.hunter, "Alleria")
         XCTAssertEqual(alleria!.set, CardSet.hero_skins, "Alleria set")
         XCTAssertEqual(alleria!.type, CardType.hero, "Alleria type")
