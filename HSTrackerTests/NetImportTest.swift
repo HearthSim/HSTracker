@@ -16,6 +16,10 @@ class NetImportTest: XCTestCase {
     let importTimeout: TimeInterval = 60
 
     override func setUp() {
+		Paths.initDirs()
+		
+		// initialize realm's database
+		RealmHelper.initRealm(destination: Paths.HSTracker)
         super.setUp()
     }
 

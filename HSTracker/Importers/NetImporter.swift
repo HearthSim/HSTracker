@@ -96,11 +96,8 @@ final class NetImporter {
                         if let doc = doc,
                             let (deck, cards) = httpImporter.loadDeck(doc: doc, url: url),
                             cards.isValidDeck() {
-                            
-                            for card in cards {
-                                deck.add(card: card)
-                            }
-                            RealmHelper.add(deck: deck)
+							
+							RealmHelper.add(deck: deck, with: cards)
                             completion(deck, checkDeckWithCollection(deck: deck))
                             
                         } else {
