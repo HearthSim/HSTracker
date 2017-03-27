@@ -34,11 +34,18 @@ class Game {
     private let windowManager = WindowManager()
     
     private let hearthstoneRunState: HearthstoneRunState
-	private var selfAppActive: Bool = true
+    private var selfAppActive: Bool = true
     
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
-        self.updateTrackers()
+        if flag {
+            // delay update as game might not have a proper window
+            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [unowned self] in
+                self.updateTrackers()
+            })
+        } else {
+            self.updateTrackers()
+        }
     }
     
     func setHearthstoneActived(flag: Bool) {
@@ -47,6 +54,7 @@ class Game {
 	
 	func setSelfActivated(flag: Bool) {
 		self.selfAppActive = flag
+        self.updateTrackers()
 	}
     
     // MARK: - GUI calls

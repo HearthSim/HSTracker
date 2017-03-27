@@ -98,7 +98,8 @@ final class LogReader {
                 fileHandle?.seek(toFileOffset: offset)
 
                 let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
-                Log.verbose?.message("file exists \(path), offset for \(sp) is \(offset)")
+                Log.verbose?.message("file exists \(path), offset for \(sp) is \(offset),"
+                    + " queue: be.michotte.hstracker.readers.\(info.name)")
             }
 
             if let data = fileHandle?.readDataToEndOfFile() {
