@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-struct Database {
+class Database {
     static let currentSeason: Int = {
         let today = Date()
         let dc = Calendar.current.dateComponents(in: TimeZone.current, from: today)
@@ -46,7 +46,16 @@ struct Database {
         langs += ["enUS"]
 
         for lang in langs {
-            let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(lang).json")
+            var file: URL? = Paths.cardJson.appendingPathComponent("cardsDB.\(lang).json")
+            if file != nil && !FileManager.default.fileExists(atPath: file!.absoluteString) {
+                file = Bundle(for: type(of: self))
+                    .url(forResource: "Resources/Cards/cardsDB.\(lang)", withExtension: "json")
+            }
+            guard let jsonFile = file else {
+                Log.error?.message("Can't find cardsDB.\(lang).json")
+                continue
+            }
+
             Log.verbose?.message("json file : \(jsonFile)")
 
             guard let jsonData = try? Data(contentsOf: jsonFile) else {
