@@ -173,8 +173,6 @@ class Game {
                 
                 tracker.graveyard = self.player.graveyard
                 
-                //tracker.playerClassId = self.opponent.playerClassId
-                
                 tracker.currentFormat = self.currentFormat
                 tracker.currentGameMode = self.currentGameMode
                 tracker.matchInfo = self.matchInfo

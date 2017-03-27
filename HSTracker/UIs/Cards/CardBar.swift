@@ -267,7 +267,7 @@ class CardBar: NSView, CardBarTheme {
 
         guard hasAllRequired else { return }
 
-        if let card = card, areEquals(card, oldCard) { return }
+        if let card = card, areEquals(card, oldCard) && playerType != .hero { return }
 
         cardLayer?.sublayers?.forEach { $0.removeFromSuperlayer() }
 
