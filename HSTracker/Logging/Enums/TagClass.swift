@@ -43,4 +43,20 @@ enum TagClass: Int {
                 .paladin, .priest, .rogue, .shaman, .warlock,
                 .warrior, .dream]
     }
+
+    var cardClassValue: CardClass {
+        switch self {
+        case .druid: return CardClass.druid
+        case .hunter: return CardClass.hunter
+        case .mage: return CardClass.mage
+        case .paladin: return CardClass.paladin
+        case .priest: return CardClass.priest
+        case .rogue: return CardClass.rogue
+        case .shaman: return CardClass.shaman
+        case .warlock: return CardClass.warlock
+        case .warrior: return CardClass.warrior
+
+        case .invalid, .deathknight, .dream: return CardClass.neutral
+        }
+    }
 }

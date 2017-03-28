@@ -292,6 +292,7 @@
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
 		4361D8341DC8A21800D831CF /* BnetGameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4361D8331DC8A21800D831CF /* BnetGameType.swift */; };
 		43640BE11E89A25F00FAFD07 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
+		43640BE31E8A328700FAFD07 /* SecretTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43640BE21E8A328700FAFD07 /* SecretTests.swift */; };
 		43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
 		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -784,6 +785,7 @@
 		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
 		4361D8331DC8A21800D831CF /* BnetGameType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BnetGameType.swift; sourceTree = "<group>"; };
+		43640BE21E8A328700FAFD07 /* SecretTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretTests.swift; sourceTree = "<group>"; };
 		43647A521CDC9A3D00C2B78E /* TextAttributes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TextAttributes.framework; path = Carthage/Build/Mac/TextAttributes.framework; sourceTree = "<group>"; };
 		43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = TextAttributes.framework.dSYM; path = Carthage/Build/Mac/TextAttributes.framework.dSYM; sourceTree = "<group>"; };
 		4367898F1CABFB1600C962D1 /* CleanroomASL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CleanroomASL.framework; path = Carthage/Build/Mac/CleanroomASL.framework; sourceTree = "<group>"; };
@@ -1312,6 +1314,7 @@
 				439C7E621C7772C100D29859 /* Info.plist */,
 				439B1DF51E86CC280098BBBC /* DatabaseTests.swift */,
 				1CCB4AE71E8A41E3003FD1AD /* PowerParserTests.swift */,
+				43640BE21E8A328700FAFD07 /* SecretTests.swift */,
 			);
 			path = HSTrackerTests;
 			sourceTree = "<group>";
@@ -2107,6 +2110,7 @@
 				1CE89EFC1E82ADC5000ABE99 /* Algorithm.swift in Sources */,
 				1CF205241E84674000037A42 /* Heartharena.swift in Sources */,
 				1CF2051E1E84672B00037A42 /* MetaTagImporter.swift in Sources */,
+				43640BE31E8A328700FAFD07 /* SecretTests.swift in Sources */,
 				1CCB4ACA1E846C13003FD1AD /* ClassColor.swift in Sources */,
 				1CE89F141E82B09C000ABE99 /* Zone.swift in Sources */,
 				1CE89F311E82B2EA000ABE99 /* JadeCounter.swift in Sources */,

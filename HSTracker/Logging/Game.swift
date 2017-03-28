@@ -1147,16 +1147,13 @@ class Game: PowerEventHandler {
             if opponentMinionCount < 7 {
                 let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(50)
                 DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-                    guard let strongSelf = self else { return }
-
                     // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
-                    if entity.has(tag: .card_target)
-                        && strongSelf.entities[entity[.card_target]] != nil
-                        && strongSelf.entities[entity[.card_target]]!.isMinion {
-                        strongSelf.opponentSecrets?
+                    if let target = self?.entities[entity[.card_target]],
+                        target.isMinion && entity.has(tag: .card_target) {
+                        self?.opponentSecrets?
                             .setZero(cardId: CardIds.Secrets.Mage.Spellbender)
                     }
-                    strongSelf.opponentSecrets?.setZero(cardId: CardIds.Secrets.Hunter.CatTrick)
+                    self?.opponentSecrets?.setZero(cardId: CardIds.Secrets.Hunter.CatTrick)
                     self?.updateTrackers()
                 }
             }
@@ -1378,7 +1375,9 @@ class Game: PowerEventHandler {
 
         var heroClass: CardClass?
         let className = "\(entity[.class])".lowercased()
-        if let _heroClass = CardClass(rawValue: className), !String.isNullOrEmpty(className) {
+        if let tagClass = TagClass(rawValue: entity[.class]) {
+            heroClass = tagClass.cardClassValue
+        } else if let _heroClass = CardClass(rawValue: className), !String.isNullOrEmpty(className) {
             heroClass = _heroClass
         } else if let playerClass = opponent.playerClass {
             heroClass = playerClass
