@@ -77,11 +77,12 @@ struct Automation {
             }
             
             Thread.sleep(forTimeInterval: 1)
-            guard let editedDeck = MirrorHelper.getEditedDeck() else {
+            guard let editedDeck = MirrorHelper.getEditedDeck(),
+                let hsDeckId = editedDeck.id as? Int64 else {
                 callback(NSLocalizedString("Can't get edited deck", comment: ""))
                 return
             }
-			RealmHelper.set(hsDeckId: editedDeck.id as Int64, for: deckId)
+			RealmHelper.set(hsDeckId: hsDeckId, for: deckId)
 			
             DispatchQueue.main.async {
                 var message = NSLocalizedString("Export done", comment: "")

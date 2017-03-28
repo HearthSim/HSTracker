@@ -9,6 +9,7 @@
 import Foundation
 import CleanroomLogger
 
+@available(*, deprecated, message: "Not used anymore, to be removed")
 final class ImageDownloader {
     var semaphore: DispatchSemaphore?
 
@@ -104,18 +105,12 @@ final class ImageDownloader {
             URLSession.shared
                 .downloadTask(with: URLRequest(url: url),
                               completionHandler: { (url, _, error) -> Void in
-                                if error != nil {
+                                if let error = error {
                                     Log.error?.message("download error \(error)")
-                                    self.downloadImages(language: language,
-                                                        splashscreen: splashscreen)
-                                    return
-                                }
-
-                                if let url = url {
-                                    if let data = try? Data(contentsOf: url) {
-                                        try? data.write(to: path,
-                                                        options: [.atomic])
-                                    }
+                                } else if let url = url,
+                                    let data = try? Data(contentsOf: url) {
+                                    try? data.write(to: path,
+                                                    options: [.atomic])
                                 }
                                 self.downloadImages(language: language,
                                                     splashscreen: splashscreen)

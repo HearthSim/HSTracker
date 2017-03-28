@@ -344,7 +344,9 @@ final class CoreManager: NSObject {
 			}
 			
 			if let decks = MirrorHelper.getDecks() {
-				guard let selectedDeck = decks.first({ $0.id as Int64 == selectedDeckId }) else {
+				guard let selectedDeck = decks.first({
+                    $0.id as? Int64 ?? 0 == selectedDeckId
+                }) else {
 					Log.warning?.message("No deck with id=\(selectedDeckId) found")
 					return nil
 				}

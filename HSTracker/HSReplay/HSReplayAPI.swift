@@ -71,15 +71,14 @@ class HSReplayAPI {
                     "X-Api-Key": apiKey,
                     "Authorization": "Token \(token)"
         ]) { json in
-            print("\(json)")
             if let json = json as? [String: Any],
                 let user = json["user"] as? [String: Any] {
                 if let username = user["username"] as? String {
                     Settings.hsReplayUsername = username
                 }
                 Settings.hsReplayId = user["id"] as? Int ?? 0
-                Log.info?.message("id=\(Settings.hsReplayId), "
-                    + "Username=\(Settings.hsReplayUsername)")
+                Log.info?.message("id=\(String(describing: Settings.hsReplayId)), "
+                    + "Username=\(String(describing: Settings.hsReplayUsername))")
                 handle(true)
             } else {
                 handle(false)

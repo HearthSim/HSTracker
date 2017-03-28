@@ -349,8 +349,8 @@ class StatsHelper {
             let num = (((a[3] * z + a[2]) * z + a[1]) * z) + a[0]
             let den = ((((b[3] * z + b[2]) * z + b[1]) * z + b[0]) * z + 1.0)
             var x = y * num / den
-            x -= (erf(x) - y) / (2.0 / sqrt(M_PI) * exp(-x * x))
-            x -= (erf(x) - y) / (2.0 / sqrt(M_PI) * exp(-x * x))
+            x -= (erf(x) - y) / (2.0 / sqrt(.pi) * exp(-x * x))
+            x -= (erf(x) - y) / (2.0 / sqrt(.pi) * exp(-x * x))
             return x
         } else if abs(y) > center && abs(y) < 1.0 {
             let z = pow(-log((1.0 - abs(y)) / 2), 0.5)
@@ -358,8 +358,8 @@ class StatsHelper {
             let den = (d[1] * z + d[0]) * z + 1
             // should use the sign function instead of pow(pow(y,2),0.5)
             var x = y / pow(pow(y, 2), 0.5) * num / den
-            x -= (erf(x) - y) / (2.0 / sqrt(M_PI) * exp(-x * x))
-            x -= (erf(x) - y) / (2.0 / sqrt(M_PI) * exp(-x * x))
+            x -= (erf(x) - y) / (2.0 / sqrt(.pi) * exp(-x * x))
+            x -= (erf(x) - y) / (2.0 / sqrt(.pi) * exp(-x * x))
             return x
         } else if abs(y) == 1 {
             return y * Double(Int.max)

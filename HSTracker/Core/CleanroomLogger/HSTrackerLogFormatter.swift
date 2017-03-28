@@ -31,7 +31,7 @@ class HSTrackerLogFormatter: XcodeLogFormatter {
         switch entry.payload {
         case .trace: message = entry.callingStackFrame
         case .message(let msg): message = msg
-        case .value(let value): message = "\(value)"
+        case .value(let value): message = "\(String(describing: value))"
         }
 
         return "|\(severity)|\(dateFormatter.string(from: entry.timestamp))| \(message)"

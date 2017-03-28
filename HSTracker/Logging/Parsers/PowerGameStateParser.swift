@@ -169,7 +169,8 @@ class PowerGameStateParser: LogEventParser {
                         let cards = eventHandler.knownCardIds[blockId] {
                         cardId = cards.first
                         if !String.isNullOrEmpty(cardId) {
-                            Log.verbose?.message("Found known cardId '\(cardId)' for entity \(id)")
+                            Log.verbose?.message("Found known cardId "
+                                + "'\(String(describing: cardId))' for entity \(id)")
                             eventHandler.knownCardIds[id] = nil
                         }
                     }
@@ -365,7 +366,8 @@ class PowerGameStateParser: LogEventParser {
         } else if logLine.line.contains("CREATE_GAME") {
             tagChangeHandler.clearQueuedActions()
             if Settings.autoDeckDetection {
-                if let currentMode = eventHandler.currentMode, let deck = CoreManager.autoDetectDeck(mode: currentMode) {
+                if let currentMode = eventHandler.currentMode,
+                    let deck = CoreManager.autoDetectDeck(mode: currentMode) {
                     eventHandler.set(activeDeckId: deck.deckId)
                 } else {
                     Log.warning?.message("could not autodetect deck")

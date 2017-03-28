@@ -643,7 +643,8 @@ struct TagChangeActions {
 
             if let playerEntity = eventHandler.playerEntity,
                 let entity = eventHandler.entities[id] {
-                Log.info?.message("playerEntity found playerClass : \(eventHandler.player.playerClass),"
+                Log.info?.message("playerEntity found playerClass : "
+                    + "\(String(describing: eventHandler.player.playerClass)), "
                     + "\(id) -> \(playerEntity[.hero_entity]) -> \(entity) ")
                 if id == playerEntity[.hero_entity] {
                     let cardId = entity.cardId
@@ -662,7 +663,8 @@ struct TagChangeActions {
             }
             if let opponentEntity = eventHandler.opponentEntity,
                 let entity = eventHandler.entities[id] {
-                Log.info?.message("opponentEntity found playerClass : \(eventHandler.opponent.playerClass),"
+                Log.info?.message("opponentEntity found playerClass : "
+                    + "\(String(describing: eventHandler.opponent.playerClass)),"
                     + " \(id) -> \(opponentEntity[.hero_entity]) -> \(entity) ")
 
                 if id == opponentEntity[.hero_entity] {

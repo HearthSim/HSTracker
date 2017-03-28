@@ -199,7 +199,7 @@ struct RealmHelper {
 								else {
 									continue
 							}
-							c.count = card.count as Int
+							c.count = card.count as? Int ?? 0
 							storedDeck.add(card: c)
 						}
 						
@@ -231,7 +231,10 @@ struct RealmHelper {
 			Log.error?.message("Error accessing Realm database")
 			return nil
 		}
-		let hsDeckId = mirrorDeck.id as Int64
+        guard let hsDeckId = mirrorDeck.id as? Int64 else {
+            Log.error?.message("Can not parse hs deck is")
+            return nil
+        }
 		
 		if let deck = realm.objects(Deck.self)
 			.filter("hsDeckId = \(hsDeckId)").first {
@@ -260,7 +263,7 @@ struct RealmHelper {
 					guard let c = Cards.by(cardId: card.cardId as String) else {
 						continue
 					}
-					c.count = card.count as Int
+					c.count = card.count as? Int ?? 0
 					deck.add(card: c)
 				}
 			}

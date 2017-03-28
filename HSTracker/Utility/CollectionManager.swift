@@ -24,10 +24,10 @@ class CollectionManager {
                 cards[card.cardId] = [:]
             }
             if cards[card.cardId]?[card.premium] == nil {
-                cards[card.cardId]?[card.premium] = card.count as Int
+                cards[card.cardId]?[card.premium] = card.count as? Int ?? 0
             } else {
                 if let count = cards[card.cardId]?[card.premium] {
-                    let newCount = count + (card.count as Int)
+                    let newCount = count + (card.count as? Int ?? 0)
                     cards[card.cardId]?[card.premium] = newCount
                 }
             }

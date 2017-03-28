@@ -23,14 +23,14 @@ struct MatchInfo {
 
         init(player: MirrorPlayer) {
             self.name = player.name
-            self.playerId = player.playerId as Int
-            self.standardRank = player.standardRank as Int
-            self.standardLegendRank = player.standardLegendRank as Int
-            self.standardStars = player.standardStars as Int
-            self.wildRank = player.wildRank as Int
-            self.wildLegendRank = player.wildLegendRank as Int
-            self.wildStars = player.wildStars as Int
-            self.cardBackId = player.cardBackId as Int
+            self.playerId = player.playerId as? Int ?? 0
+            self.standardRank = player.standardRank as? Int ?? 0
+            self.standardLegendRank = player.standardLegendRank as? Int ?? 0
+            self.standardStars = player.standardStars as? Int ?? 0
+            self.wildRank = player.wildRank as? Int ?? 0
+            self.wildLegendRank = player.wildLegendRank as? Int ?? 0
+            self.wildStars = player.wildStars as? Int ?? 0
+            self.cardBackId = player.cardBackId as? Int ?? 0
         }
     }
 
@@ -44,8 +44,8 @@ struct MatchInfo {
         localPlayer = Player(player: info.localPlayer)
         opposingPlayer = Player(player: info.opposingPlayer)
 
-        brawlSeasonId = info.brawlSeasonId as Int
-        missionId = info.missionId as Int
-        rankedSeasonId = info.rankedSeasonId as Int
+        brawlSeasonId = info.brawlSeasonId as? Int ?? 0
+        missionId = info.missionId as? Int ?? 0
+        rankedSeasonId = info.rankedSeasonId as? Int ?? 0
     }
 }

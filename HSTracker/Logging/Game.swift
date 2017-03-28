@@ -76,8 +76,6 @@ class Game: PowerEventHandler {
 		return player.id > 0 && opponent.id > 0
 	}
 	
-	
-	
     // MARK: - GUI calls
     @objc func updateTrackers(reset: Bool = false) {
         // TODO: this call should be in a slow/hashed queue with small fixed size
@@ -679,10 +677,10 @@ class Game: PowerEventHandler {
 
     func handleEndGame() {
         DispatchQueue.main.sync { [unowned self] in
-            
-            Log.verbose?.message("currentGameStats: \(self.currentGameStats), " +
-                "handledGameEnd: \(self.handledGameEnd)")
-            if self.currentGameStats == nil || self.handledGameEnd {
+            if let stats = self.currentGameStats {
+                Log.verbose?.message("currentGameStats: \(stats), "
+                    + "handledGameEnd: \(self.handledGameEnd)")
+            } else if self.currentGameStats == nil || self.handledGameEnd {
                 Log.warning?.message("HandleGameEnd was already called.")
                 return
             }
@@ -1385,7 +1383,8 @@ class Game: PowerEventHandler {
 
         if Settings.fullGameLog {
             Log.info?.message("Secret played by \(entity[.class])"
-                + " -> \(heroClass) -> \(opponent.playerClass)")
+                + " -> \(String(describing: heroClass)) "
+                + "-> \(String(describing: opponent.playerClass))")
         }
         if let hero = heroClass {
             opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn)

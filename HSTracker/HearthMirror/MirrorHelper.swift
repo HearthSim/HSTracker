@@ -67,7 +67,7 @@ struct MirrorHelper {
 	}
 	
 	static func getSelectedDeck() -> Int64? {
-		return _mirror?.getSelectedDeck() as Int64?
+		return _mirror?.getSelectedDeck() as? Int64? ?? nil
 	}
 	
 	static func getArenaDeck() -> MirrorArenaInfo? {
@@ -90,7 +90,7 @@ struct MirrorHelper {
 	}
 	
 	static func getGameType() -> Int? {
-		return _mirror?.getGameType() as Int?
+		return _mirror?.getGameType() as? Int? ?? nil
 	}
 	
 	static func getMatchInfo() -> MirrorMatchInfo? {
@@ -98,7 +98,7 @@ struct MirrorHelper {
 	}
 	
 	static func getFormat() -> Int? {
-		return _mirror?.getFormat() as Int?
+		return _mirror?.getFormat() as? Int? ?? nil
 	}
 	
 	static func getGameServerInfo() -> MirrorGameServerInfo? {
