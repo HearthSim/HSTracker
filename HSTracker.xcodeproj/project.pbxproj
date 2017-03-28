@@ -476,7 +476,7 @@
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
 		BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */; };
+		BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
 		BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C680C1D1F225F009030DC /* StatsTab.swift */; };
