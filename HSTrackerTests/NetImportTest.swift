@@ -7,7 +7,7 @@
 //
 
 import XCTest
-
+import RealmSwift
 @testable import HSTracker
 
 @available(OSX 10.11, *)
@@ -18,8 +18,8 @@ class NetImportTest: XCTestCase {
     override func setUp() {
 		Paths.initDirs()
 		
-		// initialize realm's database
-		RealmHelper.initRealm(destination: Paths.HSTracker)
+		// initialize test realm's database
+        Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
         super.setUp()
     }
 
