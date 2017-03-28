@@ -11,7 +11,7 @@
 import Foundation
 import CleanroomLogger
 
-class PowerGameStateHandler: LogEventHandler {
+class PowerGameStateParser: LogEventParser {
 
     let BlockStartRegex = ".*BLOCK_START.*BlockType=(POWER|TRIGGER).*id=(\\d*)"
         + ".*(cardId=(\\w*)).*Target=(.+)"
@@ -27,15 +27,14 @@ class PowerGameStateHandler: LogEventHandler {
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 	
-	private unowned let coreManager: CoreManager
+	private unowned let eventHandler: PowerEventHandler
 	
-	init(with coreManager: CoreManager) {
-		self.coreManager = coreManager
+	init(with eventHandler: PowerEventHandler) {
+		self.eventHandler = eventHandler
 	}
 
     func handle(logLine: LogLine) {
         var creationTag = false
-		let game = coreManager.game
 
         // current game
         if logLine.line.match(GameEntityRegex) {
@@ -43,14 +42,14 @@ class PowerGameStateHandler: LogEventHandler {
             if let match = logLine.line.matches(GameEntityRegex).first,
                 let id = Int(match.value) {
                 //print("**** GameEntityRegex id:'\(id)'")
-                if game.entities[id] == .none {
-                    let entity = Entity(id: id)
-                    entity.name = "GameEntity"
-                    game.entities[id] = entity
-                }
-                game.set(currentEntity: id)
-                if game.determinedPlayers {
-                    tagChangeHandler.invokeQueuedActions(game: game)
+				let entity = Entity(id: id)
+				entity.name = "GameEntity"
+				
+				eventHandler.add(entity: entity)
+                eventHandler.set(currentEntity: id)
+				
+                if eventHandler.determinedPlayers() {
+                    tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
                 return
             }
@@ -60,15 +59,15 @@ class PowerGameStateHandler: LogEventHandler {
         else if logLine.line.match(PlayerEntityRegex) {
             if let match = logLine.line.matches(PlayerEntityRegex).first,
                 let id = Int(match.value) {
-                if game.entities[id] == .none {
-                    game.entities[id] = Entity(id: id)
-                }
-                if game.wasInProgress {
+				let entity = Entity(id: id)
+                eventHandler.add(entity: entity)
+				
+                if eventHandler.wasInProgress {
                     //game.entities[id]?.name = game.getStoredPlayerName(id: id)
                 }
-                game.set(currentEntity: id)
-                if game.determinedPlayers {
-                    tagChangeHandler.invokeQueuedActions(game: game)
+                eventHandler.set(currentEntity: id)
+                if eventHandler.determinedPlayers() {
+                    tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
                 return
             }
@@ -82,18 +81,18 @@ class PowerGameStateHandler: LogEventHandler {
             if rawEntity.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: rawEntity) {
                 let entity = tagChangeHandler.parseEntity(entity: rawEntity)
                 if let id = entity.id {
-                    tagChangeHandler.tagChange(game: game, rawTag: tag, id: id, rawValue: value)
+                    tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: id, rawValue: value)
                 }
             } else if let id = Int(rawEntity) {
-                tagChangeHandler.tagChange(game: game, rawTag: tag, id: id, rawValue: value)
+                tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: id, rawValue: value)
             } else {
-                var entity = game.entities.map { $0.1 }.firstWhere { $0.name == rawEntity }
+                var entity = eventHandler.entities.map { $0.1 }.firstWhere { $0.name == rawEntity }
 
                 if let entity = entity {
-                    tagChangeHandler.tagChange(game: game, rawTag: tag,
+                    tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag,
                                                id: entity.id, rawValue: value)
                 } else {
-                    let players = game.entities.map { $0.1 }
+                    let players = eventHandler.entities.map { $0.1 }
                         .filter { $0.has(tag: .player_id) }.take(2)
                     let unnamedPlayers = players.filter { String.isNullOrEmpty($0.name) }
                     let unknownHumanPlayer = players
@@ -103,11 +102,11 @@ class PowerGameStateHandler: LogEventHandler {
                         entity = unknownHumanPlayer
                     }
 
-                    var tmpEntity = game.tmpEntities.firstWhere { $0.name == rawEntity }
+                    var tmpEntity = eventHandler.tmpEntities.firstWhere { $0.name == rawEntity }
                     if tmpEntity == .none {
-                        tmpEntity = Entity(id: game.tmpEntities.count + 1)
+                        tmpEntity = Entity(id: eventHandler.tmpEntities.count + 1)
                         tmpEntity!.name = rawEntity
-                        game.tmpEntities.append(tmpEntity!)
+                        eventHandler.tmpEntities.append(tmpEntity!)
                     }
 
                     if let _tag = GameTag(rawString: tag) {
@@ -117,42 +116,42 @@ class PowerGameStateHandler: LogEventHandler {
                             entity = unnamedPlayers.first
                         } else if unnamedPlayers.count == 2 &&
                             _tag == .current_player && tagValue == 0 {
-                            entity = game.entities.map { $0.1 }
+                            entity = eventHandler.entities.map { $0.1 }
                                 .first { $0.has(tag: .current_player) }
                         }
 
                         if let entity = entity, let tmpEntity = tmpEntity {
                             entity.name = tmpEntity.name
                             tmpEntity.tags.forEach({ (gameTag, val) in
-                                tagChangeHandler.tagChange(game: game,
+                                tagChangeHandler.tagChange(eventHandler: eventHandler,
                                     tag: gameTag, id: entity.id,
                                     value: val)
                             })
-                            game.tmpEntities.remove(tmpEntity)
-                            tagChangeHandler.tagChange(game: game,
+                            eventHandler.tmpEntities.remove(tmpEntity)
+                            tagChangeHandler.tagChange(eventHandler: eventHandler,
                                                        rawTag: tag,
                                                        id: entity.id,
                                                        rawValue: value)
                         }
 
-                        if let tmpEntity = tmpEntity, game.tmpEntities.contains(tmpEntity) {
+                        if let tmpEntity = tmpEntity, eventHandler.tmpEntities.contains(tmpEntity) {
                             tmpEntity[_tag] = tagValue
-                            let player: Player? = game.player.name == tmpEntity.name
-                                ? game.player
-                                : (game.opponent.name == tmpEntity.name ? game.opponent : nil)
+                            let player: Player? = eventHandler.player.name == tmpEntity.name
+                                ? eventHandler.player
+                                : (eventHandler.opponent.name == tmpEntity.name ? eventHandler.opponent : nil)
 
                             if let _player = player,
-                                let playerEntity = game.entities.map({$0.1}).first({
+                                let playerEntity = eventHandler.entities.map({$0.1}).first({
                                     $0[.player_id] == _player.id
                                 }) {
                                 playerEntity.name = tmpEntity.name
                                 tmpEntity.tags.forEach({ gameTag, val in
-                                    tagChangeHandler.tagChange(game: game,
+                                    tagChangeHandler.tagChange(eventHandler: eventHandler,
                                                                tag: gameTag,
                                                                id: playerEntity.id,
                                                                value: val)
                                 })
-                                game.tmpEntities.remove(tmpEntity)
+                                eventHandler.tmpEntities.remove(tmpEntity)
                             }
                         }
                     }
@@ -164,32 +163,32 @@ class PowerGameStateHandler: LogEventHandler {
             guard let zone = Zone(rawString: matches[1].value) else { return }
             var cardId: String? = matches[2].value
 
-            if game.entities[id] == .none {
+            if eventHandler.entities[id] == .none {
                 if String.isNullOrEmpty(cardId) && zone != .setaside {
-                    if let blockId = game.currentBlock?.id,
-                        let cards = game.knownCardIds[blockId] {
+                    if let blockId = eventHandler.currentBlock?.id,
+                        let cards = eventHandler.knownCardIds[blockId] {
                         cardId = cards.first
                         if !String.isNullOrEmpty(cardId) {
                             Log.verbose?.message("Found known cardId '\(cardId)' for entity \(id)")
-                            game.knownCardIds[id] = nil
+                            eventHandler.knownCardIds[id] = nil
                         }
                     }
                 }
 
                 let entity = Entity(id: id)
-                game.entities[id] = entity
+                eventHandler.entities[id] = entity
             }
 
             if !String.isNullOrEmpty(cardId) {
-                game.entities[id]!.cardId = cardId!
+                eventHandler.entities[id]!.cardId = cardId!
             }
 
-            game.set(currentEntity: id)
-            if game.determinedPlayers {
-                tagChangeHandler.invokeQueuedActions(game: game)
+            eventHandler.set(currentEntity: id)
+            if eventHandler.determinedPlayers() {
+                tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
             }
-            game.currentEntityHasCardId = !String.isNullOrEmpty(cardId)
-            game.currentEntityZone = zone
+            eventHandler.currentEntityHasCardId = !String.isNullOrEmpty(cardId)
+            eventHandler.currentEntityZone = zone
             return
         } else if logLine.line.match(UpdatingEntityRegex) {
             let matches = logLine.line.matches(UpdatingEntityRegex)
@@ -207,25 +206,25 @@ class PowerGameStateHandler: LogEventHandler {
             }
 
             if let entityId = entityId {
-                if game.entities[entityId] == .none {
+                if eventHandler.entities[entityId] == .none {
                     let entity = Entity(id: entityId)
-                    game.entities[entityId] = entity
+                    eventHandler.entities[entityId] = entity
                 }
-                game.entities[entityId]!.cardId = cardId
-                game.set(currentEntity: entityId)
-                if game.determinedPlayers {
-                    tagChangeHandler.invokeQueuedActions(game: game)
+                eventHandler.entities[entityId]!.cardId = cardId
+                eventHandler.set(currentEntity: entityId)
+                if eventHandler.determinedPlayers() {
+                    tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
             }
 
-            if game.joustReveals > 0 {
-                if let currentEntity = game.entities[entityId!] {
-                    if currentEntity.isControlled(by: game.opponent.id) {
-                        game.opponentJoust(entity: currentEntity, cardId: cardId,
-                                           turn: game.turnNumber())
-                    } else if currentEntity.isControlled(by: game.player.id) {
-                        game.playerJoust(entity: currentEntity, cardId: cardId,
-                                         turn: game.turnNumber())
+            if eventHandler.joustReveals > 0 {
+                if let currentEntity = eventHandler.entities[entityId!] {
+                    if currentEntity.isControlled(by: eventHandler.opponent.id) {
+                        eventHandler.opponentJoust(entity: currentEntity, cardId: cardId,
+                                           turn: eventHandler.turnNumber())
+                    } else if currentEntity.isControlled(by: eventHandler.player.id) {
+                        eventHandler.playerJoust(entity: currentEntity, cardId: cardId,
+                                         turn: eventHandler.turnNumber())
                     }
                 }
             }
@@ -235,20 +234,20 @@ class PowerGameStateHandler: LogEventHandler {
             let matches = logLine.line.matches(CreationTagRegex)
             let tag = matches[0].value
             let value = matches[1].value
-            tagChangeHandler.tagChange(game: game, rawTag: tag, id: game.currentEntityId,
+            tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: eventHandler.currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
         }
         if logLine.line.contains("End Spectator") {
-            game.gameEnd()
+            eventHandler.gameEnd()
         } else if logLine.line.contains("BLOCK_START") {
-            game.blockStart()
+            eventHandler.blockStart()
 
             if logLine.line.match(BlockStartRegex) {
-                let player = game.entities.map { $0.1 }
-                    .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.player.id }
-                let opponent = game.entities.map { $0.1 }
-                    .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == game.opponent.id }
+                let player = eventHandler.entities.map { $0.1 }
+                    .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }
+                let opponent = eventHandler.entities.map { $0.1 }
+                    .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }
 
                 let matches = logLine.line.matches(BlockStartRegex)
                 let type = matches[0].value
@@ -256,7 +255,7 @@ class PowerGameStateHandler: LogEventHandler {
                 var actionStartingCardId: String? = matches[3].value
 
                 if String.isNullOrEmpty(actionStartingCardId) {
-                    if let actionEntity = game.entities[actionStartingEntityId] {
+                    if let actionEntity = eventHandler.entities[actionStartingEntityId] {
                         actionStartingCardId = actionEntity.cardId
                     }
                 }
@@ -269,16 +268,16 @@ class PowerGameStateHandler: LogEventHandler {
                     if let actionStartingCardId = actionStartingCardId {
                         switch actionStartingCardId {
                         case CardIds.Collectible.Rogue.TradePrinceGallywix:
-                            if let lastCardPlayed = game.lastCardPlayed,
-                                let entity = game.entities[lastCardPlayed] {
+                            if let lastCardPlayed = eventHandler.lastCardPlayed,
+                                let entity = eventHandler.entities[lastCardPlayed] {
                                 let cardId = entity.cardId
-                                addKnownCardId(game: game, cardId: cardId)
+                                addKnownCardId(eventHandler: eventHandler, cardId: cardId)
                             }
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
                                             .TradePrinceGallywix_GallywixsCoinToken)
                         case CardIds.Collectible.Shaman.WhiteEyes:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Shaman
                                             .WhiteEyes_TheStormGuardianToken)
                         default: break
@@ -288,68 +287,68 @@ class PowerGameStateHandler: LogEventHandler {
                     if let actionStartingCardId = actionStartingCardId {
                         switch actionStartingCardId {
                         case CardIds.Collectible.Rogue.GangUp:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches),
                                            count: 3)
                         case CardIds.Collectible.Rogue.BeneathTheGrounds:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Rogue
                                             .BeneaththeGrounds_AmbushToken,
                                            count: 3)
                         case CardIds.Collectible.Warrior.IronJuggernaut:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Warrior
                                             .IronJuggernaut_BurrowingMineToken)
                         case CardIds.Collectible.Druid.Recycle,
                              CardIds.Collectible.Mage.ManicSoulcaster:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches))
                         case CardIds.Collectible.Mage.ForgottenTorch:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Mage
                                             .ForgottenTorch_RoaringTorchToken)
                         case CardIds.Collectible.Warlock.CurseOfRafaam:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Warlock
                                             .CurseofRafaam_CursedToken)
                         case CardIds.Collectible.Neutral.AncientShade:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
                                             .AncientShade_AncientCurseToken)
                         case CardIds.Collectible.Priest.ExcavatedEvil:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Priest.ExcavatedEvil)
                         case CardIds.Collectible.Neutral.EliseStarseeker:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
                                             .EliseStarseeker_MapToTheGoldenMonkeyToken)
                         case CardIds.NonCollectible.Neutral
                             .EliseStarseeker_MapToTheGoldenMonkeyToken:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
                                             .EliseStarseeker_GoldenMonkeyToken)
                         case CardIds.Collectible.Neutral.Doomcaller:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.Cthun)
                         case CardIds.Collectible.Druid.JadeIdol:
-                            addKnownCardId(game: game,
+                            addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Druid.JadeIdol,
                                            count: 3)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
-                                    && !game.playerUsedHeroPower)
+                                    && !eventHandler.playerUsedHeroPower)
                                     || (opponent != nil && opponent![.current_player] == 1
-                                        && !game.opponentUsedHeroPower) {
+                                        && !eventHandler.opponentUsedHeroPower) {
                                     if card.type == .hero_power {
                                         if player != nil && player![.current_player] == 1 {
-                                            game.playerHeroPower(cardId: actionStartingCardId,
-                                                                 turn: game.turnNumber())
-                                            game.playerUsedHeroPower = true
+                                            eventHandler.playerHeroPower(cardId: actionStartingCardId,
+                                                                 turn: eventHandler.turnNumber())
+                                            eventHandler.playerUsedHeroPower = true
                                         } else if opponent != nil {
-                                            game.opponentHeroPower(cardId: actionStartingCardId,
-                                                                   turn: game.turnNumber())
-                                            game.opponentUsedHeroPower = true
+                                            eventHandler.opponentHeroPower(cardId: actionStartingCardId,
+                                                                   turn: eventHandler.turnNumber())
+                                            eventHandler.opponentUsedHeroPower = true
                                         }
                                     }
                                 }
@@ -358,38 +357,38 @@ class PowerGameStateHandler: LogEventHandler {
                     }
                 }
             } else if logLine.line.contains("BlockType=JOUST") {
-                game.joustReveals = 2
-            } else if game.gameTriggerCount == 0
+                eventHandler.joustReveals = 2
+            } else if eventHandler.gameTriggerCount == 0
                 && logLine.line.contains("BLOCK_START BlockType=TRIGGER Entity=GameEntity") {
-                game.gameTriggerCount += 1
+                eventHandler.gameTriggerCount += 1
             }
         } else if logLine.line.contains("CREATE_GAME") {
             tagChangeHandler.clearQueuedActions()
             if Settings.autoDeckDetection {
-                if let currentMode = game.currentMode, let deck = coreManager.autoDetectDeck(mode: currentMode) {
-                    game.set(activeDeckId: deck.deckId)
+                if let currentMode = eventHandler.currentMode, let deck = CoreManager.autoDetectDeck(mode: currentMode) {
+                    eventHandler.set(activeDeckId: deck.deckId)
                 } else {
                     Log.warning?.message("could not autodetect deck")
-                    game.set(activeDeckId: nil)
+                    eventHandler.set(activeDeckId: nil)
                 }
             }
-            game.gameStart(at: logLine.time)
+            eventHandler.gameStart(at: logLine.time)
         } else if logLine.line.contains("BLOCK_END") {
-            if game.gameTriggerCount < 10 && (game.gameEntity?.has(tag: .turn) ?? false) {
-                game.gameTriggerCount += 10
-                tagChangeHandler.invokeQueuedActions(game: game)
-                game.setupDone = true
+            if eventHandler.gameTriggerCount < 10 && (eventHandler.gameEntity?.has(tag: .turn) ?? false) {
+                eventHandler.gameTriggerCount += 10
+                tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
+                eventHandler.setupDone = true
             }
-            game.blockEnd()
+            eventHandler.blockEnd()
         }
 
-        if game.isInMenu { return }
+        if eventHandler.isInMenu { return }
 
-        if !creationTag && game.determinedPlayers {
-            tagChangeHandler.invokeQueuedActions(game: game)
+        if !creationTag && eventHandler.determinedPlayers() {
+            tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
         }
         if !creationTag {
-            game.resetCurrentEntity()
+            eventHandler.resetCurrentEntity()
         }
     }
 
@@ -404,16 +403,16 @@ class PowerGameStateHandler: LogEventHandler {
         return cardIdMatch.first?.value.trim()
     }
 
-    private func addKnownCardId(game: Game, cardId: String?, count: Int = 1) {
+    private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1) {
         guard let cardId = cardId else { return }
 
-        if let blockId = game.currentBlock?.id {
+        if let blockId = eventHandler.currentBlock?.id {
             for _ in 0 ..< count {
-                if game.knownCardIds[blockId] == nil {
-                    game.knownCardIds[blockId] = []
+                if eventHandler.knownCardIds[blockId] == nil {
+                    eventHandler.knownCardIds[blockId] = []
                 }
 
-                game.knownCardIds[blockId]?.append(cardId)
+                eventHandler.knownCardIds[blockId]?.append(cardId)
             }
         }
     }

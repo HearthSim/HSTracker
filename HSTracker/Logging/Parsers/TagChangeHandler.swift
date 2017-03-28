@@ -22,60 +22,60 @@ class TagChangeHandler {
     let ParseEntityTypeRegex = "type=(\\w+)"
 
     private var creationTagActionQueue = [
-        (tag: GameTag, game: Game, id: Int, value: Int, prevValue: Int)
+        (tag: GameTag, eventHandler: PowerEventHandler, id: Int, value: Int, prevValue: Int)
         ]()
     private var tagChangeAction = TagChangeActions()
 
-    func tagChange(game: Game, rawTag: String, id: Int,
+    func tagChange(eventHandler: PowerEventHandler, rawTag: String, id: Int,
                    rawValue: String, isCreationTag: Bool = false) {
         if let tag = GameTag(rawString: rawTag) {
             let value = self.parseTag(tag: tag, rawValue: rawValue)
-            tagChange(game: game, tag: tag, id: id, value: value,
+            tagChange(eventHandler: eventHandler, tag: tag, id: id, value: value,
                       isCreationTag: isCreationTag)
         } else {
             //Log.warning?.message("Can't parse \(rawTag) -> \(rawValue)")
         }
     }
 
-    func tagChange(game: Game, tag: GameTag, id: Int,
+    func tagChange(eventHandler: PowerEventHandler, tag: GameTag, id: Int,
                    value: Int, isCreationTag: Bool = false) {
-        if game.entities[id] == .none {
-            game.entities[id] = Entity(id: id)
+        if eventHandler.entities[id] == .none {
+            eventHandler.entities[id] = Entity(id: id)
         }
         
-        if game.lastId != id {
-            if let proposedKeyPoint = game.proposedKeyPoint {
+        if eventHandler.lastId != id {
+            if let proposedKeyPoint = eventHandler.proposedKeyPoint {
                 ReplayMaker.generate(type: proposedKeyPoint.type,
                                      id: proposedKeyPoint.id,
-                                     player: proposedKeyPoint.player, game: game)
-                game.proposedKeyPoint = nil
+                                     player: proposedKeyPoint.player, eventHandler: eventHandler)
+                eventHandler.proposedKeyPoint = nil
             }
         }
-        game.lastId = id
+        eventHandler.lastId = id
 
-        if let entity = game.entities[id] {
+        if let entity = eventHandler.entities[id] {
             let prevValue = entity[tag]
             entity[tag ] = value
             //print("Set tag \(tag) with value \(value) to entity \(id)")
 
             if isCreationTag {
-                creationTagActionQueue.append((tag, game, id, value, prevValue))
+                creationTagActionQueue.append((tag, eventHandler, id, value, prevValue))
             } else {
-                tagChangeAction.callAction(game: game, tag: tag,
+                tagChangeAction.callAction(eventHandler: eventHandler, tag: tag,
                                            id: id, value: value,
                                            prevValue: prevValue)
             }
         }
     }
 
-    func invokeQueuedActions(game: Game) {
+    func invokeQueuedActions(eventHandler: PowerEventHandler) {
         while creationTagActionQueue.count > 0 {
             let act = creationTagActionQueue.removeFirst()
-            tagChangeAction.callAction(game: game, tag: act.tag, id: act.id,
+            tagChangeAction.callAction(eventHandler: eventHandler, tag: act.tag, id: act.id,
                                        value: act.value, prevValue: act.prevValue)
 
-            if creationTagActionQueue.all({ $0.id != act.id }) && game.entities[act.id] != nil {
-                game.entities[act.id]!.info.hasOutstandingTagChanges = false
+            if creationTagActionQueue.all({ $0.id != act.id }) && eventHandler.entities[act.id] != nil {
+                eventHandler.entities[act.id]!.info.hasOutstandingTagChanges = false
             }
         }
     }

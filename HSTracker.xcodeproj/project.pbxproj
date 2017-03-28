@@ -11,8 +11,8 @@
 		1C17D2481E82BFC500ED4047 /* SecretHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955C1C90681200F4D0AC /* SecretHelper.swift */; };
 		1C17D2491E82C4FF00ED4047 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
 		1C17D24A1E82C66D00ED4047 /* LogLineZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E81D5D0F5700451B6F /* LogLineZone.swift */; };
-		1C17D24C1E82C81700ED4047 /* LogEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D24B1E82C81700ED4047 /* LogEventHandler.swift */; };
-		1C17D24D1E82C8E000ED4047 /* LogEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D24B1E82C81700ED4047 /* LogEventHandler.swift */; };
+		1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D24B1E82C81700ED4047 /* LogEventParser.swift */; };
+		1C17D24D1E82C8E000ED4047 /* LogEventParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D24B1E82C81700ED4047 /* LogEventParser.swift */; };
 		1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D2511E82DEE700ED4047 /* RealmHelper.swift */; };
 		1CB43A141E83175000E42181 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
 		1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
@@ -49,13 +49,16 @@
 		1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AE41E850E13003FD1AD /* HockeyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AE31E850E13003FD1AD /* HockeyHelper.swift */; };
+		1CCB4AE81E8A41E3003FD1AD /* PowerParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AE71E8A41E3003FD1AD /* PowerParserTests.swift */; };
+		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
+		1CCB4AEC1E8A5CB5003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
 		1CE89EFC1E82ADC5000ABE99 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		1CE89EFD1E82ADF6000ABE99 /* LadderGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68171D1F74CE009030DC /* LadderGrid.swift */; };
 		1CE89EFE1E82AE1F000ABE99 /* LogLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAD1C777F8900D29859 /* LogLine.swift */; };
 		1CE89EFF1E82AE4E000ABE99 /* LogLineNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */; };
 		1CE89F001E82AEFD000ABE99 /* LogReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EB11C777F8900D29859 /* LogReaderManager.swift */; };
 		1CE89F011E82AF27000ABE99 /* LogReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAF1C777F8900D29859 /* LogReader.swift */; };
-		1CE89F021E82AF41000ABE99 /* PowerGameStateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA81C777F8900D29859 /* PowerGameStateHandler.swift */; };
+		1CE89F021E82AF41000ABE99 /* PowerGameStateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA81C777F8900D29859 /* PowerGameStateParser.swift */; };
 		1CE89F031E82AF43000ABE99 /* RachelleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA91C777F8900D29859 /* RachelleHandler.swift */; };
 		1CE89F041E82AF48000ABE99 /* LoadingScreenHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */; };
 		1CE89F051E82AF4B000ABE99 /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */; };
@@ -390,7 +393,7 @@
 		439C7EBF1C777F8900D29859 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA11C777F8900D29859 /* Game.swift */; };
 		439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA31C777F8900D29859 /* ArenaHandler.swift */; };
 		439C7EC31C777F8900D29859 /* LoadingScreenHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */; };
-		439C7EC51C777F8900D29859 /* PowerGameStateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA81C777F8900D29859 /* PowerGameStateHandler.swift */; };
+		439C7EC51C777F8900D29859 /* PowerGameStateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA81C777F8900D29859 /* PowerGameStateParser.swift */; };
 		439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA91C777F8900D29859 /* RachelleHandler.swift */; };
 		439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */; };
 		439C7EC81C777F8900D29859 /* CoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAC1C777F8900D29859 /* CoreManager.swift */; };
@@ -585,11 +588,13 @@
 
 /* Begin PBXFileReference section */
 		1C132F811DBA24C1002B1BF2 /* AppHealth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppHealth.swift; sourceTree = "<group>"; };
-		1C17D24B1E82C81700ED4047 /* LogEventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEventHandler.swift; sourceTree = "<group>"; };
+		1C17D24B1E82C81700ED4047 /* LogEventParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEventParser.swift; sourceTree = "<group>"; };
 		1C17D2511E82DEE700ED4047 /* RealmHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmHelper.swift; sourceTree = "<group>"; };
 		1CB623A51DD37C890045E0CF /* GlowFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowFilter.h; sourceTree = "<group>"; };
 		1CB623A61DD37C890045E0CF /* GlowFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowFilter.m; sourceTree = "<group>"; };
 		1CCB4AE31E850E13003FD1AD /* HockeyHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HockeyHelper.swift; sourceTree = "<group>"; };
+		1CCB4AE71E8A41E3003FD1AD /* PowerParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerParserTests.swift; sourceTree = "<group>"; };
+		1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEventHandlers.swift; sourceTree = "<group>"; };
 		1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlgorithmTests.swift; sourceTree = "<group>"; };
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
@@ -868,7 +873,7 @@
 		439C7EA11C777F8900D29859 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		439C7EA31C777F8900D29859 /* ArenaHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaHandler.swift; sourceTree = "<group>"; };
 		439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScreenHandler.swift; sourceTree = "<group>"; };
-		439C7EA81C777F8900D29859 /* PowerGameStateHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerGameStateHandler.swift; sourceTree = "<group>"; };
+		439C7EA81C777F8900D29859 /* PowerGameStateParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerGameStateParser.swift; sourceTree = "<group>"; };
 		439C7EA91C777F8900D29859 /* RachelleHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RachelleHandler.swift; sourceTree = "<group>"; };
 		439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeHandler.swift; sourceTree = "<group>"; };
 		439C7EAC1C777F8900D29859 /* CoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreManager.swift; sourceTree = "<group>"; };
@@ -1040,6 +1045,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1CCB4AE91E8A46F0003FD1AD /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				1C17D24B1E82C81700ED4047 /* LogEventParser.swift */,
+				439C7EA81C777F8900D29859 /* PowerGameStateParser.swift */,
+				439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */,
+				43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */,
+			);
+			path = Parsers;
+			sourceTree = "<group>";
+		};
 		4323C5E31E1695DD00C97896 /* HearthMirror */ = {
 			isa = PBXGroup;
 			children = (
@@ -1295,6 +1311,7 @@
 				C94596811D174FBA008CD47A /* StatsTests.swift */,
 				439C7E621C7772C100D29859 /* Info.plist */,
 				439B1DF51E86CC280098BBBC /* DatabaseTests.swift */,
+				1CCB4AE71E8A41E3003FD1AD /* PowerParserTests.swift */,
 			);
 			path = HSTrackerTests;
 			sourceTree = "<group>";
@@ -1352,6 +1369,7 @@
 		439C7E931C777F8900D29859 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
+				1CCB4AE91E8A46F0003FD1AD /* Parsers */,
 				439C7E961C777F8900D29859 /* Enums */,
 				439C7EA21C777F8900D29859 /* Handlers */,
 				1C132F811DBA24C1002B1BF2 /* AppHealth.swift */,
@@ -1411,12 +1429,9 @@
 			children = (
 				439C7EA31C777F8900D29859 /* ArenaHandler.swift */,
 				439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */,
-				439C7EA81C777F8900D29859 /* PowerGameStateHandler.swift */,
 				439C7EA91C777F8900D29859 /* RachelleHandler.swift */,
-				439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */,
-				43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */,
 				43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */,
-				1C17D24B1E82C81700ED4047 /* LogEventHandler.swift */,
+				1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -1835,7 +1850,7 @@
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
 				432AD95D1DAD81B500D8F959 /* HttpEncoding.swift in Sources */,
-				439C7EC51C777F8900D29859 /* PowerGameStateHandler.swift in Sources */,
+				439C7EC51C777F8900D29859 /* PowerGameStateParser.swift in Sources */,
 				43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */,
 				43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */,
 				43C567FF1D5E4F9700451B6F /* HSReplayAPI.swift in Sources */,
@@ -1869,6 +1884,7 @@
 				434EAC961DBCD3E8009C7636 /* NSAlert.swift in Sources */,
 				434910501D09770000B22DB2 /* PlayerBoard.swift in Sources */,
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,
+				1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */,
 				439C7EC81C777F8900D29859 /* CoreManager.swift in Sources */,
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				4359BFA51D5243FD00F61993 /* Automation.swift in Sources */,
@@ -1942,7 +1958,7 @@
 				436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */,
 				437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */,
 				434C2F3C1C7F48E9001D1D91 /* Hearthnews.swift in Sources */,
-				1C17D24C1E82C81700ED4047 /* LogEventHandler.swift in Sources */,
+				1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				433554561D62EE1200277B27 /* PlayerType.swift in Sources */,
@@ -2006,7 +2022,7 @@
 				1CE89F321E82B2EE000ABE99 /* CardBar.swift in Sources */,
 				1CE89F221E82B229000ABE99 /* ServerInfo.swift in Sources */,
 				1CE89F521E82B8DB000ABE99 /* CardHudContainer.swift in Sources */,
-				1CE89F021E82AF41000ABE99 /* PowerGameStateHandler.swift in Sources */,
+				1CE89F021E82AF41000ABE99 /* PowerGameStateParser.swift in Sources */,
 				1CE89F241E82B231000ABE99 /* Format.swift in Sources */,
 				1CF2050B1E844ADD00037A42 /* Ranks.swift in Sources */,
 				1CE89F0A1E82B00F000ABE99 /* String.swift in Sources */,
@@ -2023,9 +2039,10 @@
 				1CE89F2B1E82B2CF000ABE99 /* CardCounter.swift in Sources */,
 				43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */,
 				1CF205251E84674300037A42 /* Hearthstonetopdecks.swift in Sources */,
+				1CCB4AE81E8A41E3003FD1AD /* PowerParserTests.swift in Sources */,
 				1CE89F1A1E82B17A000ABE99 /* Faction.swift in Sources */,
 				1CE89F3D1E82B466000ABE99 /* KeyPointType.swift in Sources */,
-				1C17D24D1E82C8E000ED4047 /* LogEventHandler.swift in Sources */,
+				1C17D24D1E82C8E000ED4047 /* LogEventParser.swift in Sources */,
 				1CE89F041E82AF48000ABE99 /* LoadingScreenHandler.swift in Sources */,
 				1CCB4ACB1E846E05003FD1AD /* NSAlert.swift in Sources */,
 				1C17D2481E82BFC500ED4047 /* SecretHelper.swift in Sources */,
@@ -2161,6 +2178,7 @@
 				1CF205171E8460F700037A42 /* HttpEncoding.swift in Sources */,
 				1CF205111E84510B00037A42 /* SizeHelper.swift in Sources */,
 				1CE89F1C1E82B186000ABE99 /* CardType.swift in Sources */,
+				1CCB4AEC1E8A5CB5003FD1AD /* LogEventHandlers.swift in Sources */,
 				1CF2050F1E8450BB00037A42 /* TrackOBotLogin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -35,8 +35,6 @@ final class CoreManager: NSObject {
     var assetGenerator: HearthAssets?
     
     // watchers
-    let deckWatcher = DeckWatcher()
-    let arenaDeckWatcher = ArenaDeckWatcher()
     let arenaWatcher = ArenaWatcher()
     let packWatcher = PackWatcher()
     
@@ -215,8 +213,8 @@ final class CoreManager: NSObject {
     func stopTracking() {
         Log.info?.message("Stop Tracking")
 		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
-        deckWatcher.stop()
-        arenaDeckWatcher.stop()
+        DeckWatcher.stop()
+        ArenaDeckWatcher.stop()
         MirrorHelper.destroy()
     }
 
@@ -322,7 +320,7 @@ final class CoreManager: NSObject {
     }
 	
 	// MARK: - Deck detection
-	func autoDetectDeck(mode: Mode) -> Deck? {
+	static func autoDetectDeck(mode: Mode) -> Deck? {
 		
 		let selectedModes: [Mode] = [.tavern_brawl, .tournament,
 		                             .friendly, .adventure]
@@ -335,7 +333,7 @@ final class CoreManager: NSObject {
 				selectedDeckId = selectedId
                 Log.info?.message("Found selected deck id via mirror: \(selectedDeckId)")
 			} else {
-				selectedDeckId = deckWatcher.selectedDeckId
+				selectedDeckId = DeckWatcher.selectedDeckId
                 Log.info?.message("Found selected deck id via watcher: \(selectedDeckId)")
 			}
 			
@@ -365,7 +363,7 @@ final class CoreManager: NSObject {
 			if let mDeck = MirrorHelper.getArenaDeck()?.deck {
 				hsMirrorDeck = mDeck
 			} else {
-				hsMirrorDeck = arenaDeckWatcher.selectedDeck
+				hsMirrorDeck = ArenaDeckWatcher.selectedDeck
 			}
 			
 			guard let hsDeck = hsMirrorDeck else {

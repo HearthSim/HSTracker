@@ -34,15 +34,15 @@ class EntityHelper {
         }
     }
 
-	class func isPlayersTurn(game: Game) -> Bool {
-		let entities = game.entities
+	class func isPlayersTurn(eventHandler: PowerEventHandler) -> Bool {
+		let entities = eventHandler.entities
         let firstPlayer = entities.map {
             $0.1
         }.first {
             $0.has(tag: .first_player)
         }
         if let firstPlayer = firstPlayer {
-			let offset = firstPlayer.isPlayer(game: game) ? 0 : 1
+			let offset = firstPlayer.isPlayer(eventHandler: eventHandler) ? 0 : 1
             guard let gameRoot = entities.map({ $0.1 }).first({ $0.name == "GameEntity" }) else {
                 return false
             }

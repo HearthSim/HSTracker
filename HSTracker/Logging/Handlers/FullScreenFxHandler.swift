@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class FullScreenFxHandler: LogEventHandler {
+class FullScreenFxHandler: LogEventParser {
 
     let BeginBlurRegex = "BeginEffect blur \\d => 1"
     
@@ -39,10 +39,10 @@ class FullScreenFxHandler: LogEventHandler {
             lastQueueTime = logLine.time
 
             if Settings.autoDeckDetection {
-				if let deck = coreManager.autoDetectDeck(mode: currentMode) {
+				if let deck = CoreManager.autoDetectDeck(mode: currentMode) {
 					coreManager.game.set(activeDeckId: deck.deckId)
 				} else {
-                    Log.warning?.message("could not autodetect deck")
+                    Log.warning?.message("could not autodetect deck (fullscreenFxHandler)")
 					coreManager.game.set(activeDeckId: nil)
 				}
             }

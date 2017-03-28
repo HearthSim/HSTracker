@@ -11,7 +11,7 @@
 import Foundation
 import CleanroomLogger
 
-struct ArenaHandler: LogEventHandler {
+struct ArenaHandler: LogEventParser {
 
     let HeroRegex = "Draft Deck ID: (\\d+), Hero Card = (HERO_\\w+)"
     let ClientChoosesRegex = "Client chooses: .* \\((\\w*)\\)"

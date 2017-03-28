@@ -11,7 +11,7 @@
 import Foundation
 import CleanroomLogger
 
-struct RachelleHandler: LogEventHandler {
+struct RachelleHandler: LogEventParser {
     let TowardsGolds = "(\\d)/3 wins towards 10 gold"
     let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
 

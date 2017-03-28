@@ -26,7 +26,7 @@ struct PlayingDeck {
 /**
  * Game object represents the current state of the tracker
  */
-class Game {
+class Game: PowerEventHandler {
 
 	/**
 	 * View controller of this game object
@@ -56,7 +56,28 @@ class Game {
 		self.selfAppActive = flag
         self.updateTrackers()
 	}
-    
+	
+	// MARK: - PowerEventHandler protocol
+	
+	func add(entity: Entity) {
+		if entities[entity.id] == .none {
+			entities[entity.id] = entity
+		}
+	}
+	
+	func set(currentEntity id: Int) {
+		currentEntityId = id
+		if let entity = entities[id] {
+			entity.info.hasOutstandingTagChanges = true
+		}
+	}
+	
+	func determinedPlayers() -> Bool {
+		return player.id > 0 && opponent.id > 0
+	}
+	
+	
+	
     // MARK: - GUI calls
     @objc func updateTrackers(reset: Bool = false) {
         // TODO: this call should be in a slow/hashed queue with small fixed size
@@ -276,9 +297,7 @@ class Game {
     private var hasCoin = false
     var currentEntityZone: Zone = .invalid
     var opponentUsedHeroPower = false
-    var determinedPlayers: Bool {
-        return player.id > 0 && opponent.id > 0
-    }
+	var wasInProgress = false
     var setupDone = false
     var proposedKeyPoint: ReplayKeyPoint?
     var opponentSecrets: OpponentSecrets?
@@ -289,7 +308,7 @@ class Game {
     private var awaitingAvenge = false
     var isInMenu = true
     private var handledGameEnd = false
-    var wasInProgress = false
+    
     var enqueueTime = Date.distantPast
     private var lastCompetitiveSpiritCheck: Int = 0
     private var lastTurnStart: [Int] = [0, 0]
@@ -326,11 +345,11 @@ class Game {
     }
 
     var playerEntity: Entity? {
-		return entities.map { $0.1 }.firstWhere { $0.isPlayer(game: self) }
+		return entities.map { $0.1 }.firstWhere { $0.isPlayer(eventHandler: self) }
     }
 
     var opponentEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer(game: self) }
+        return entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
     }
 
     var gameEntity: Entity? {
@@ -460,7 +479,6 @@ class Game {
         avengeDeathRattleCount = 0
         opponentSecretCount = 0
         awaitingAvenge = false
-        wasInProgress = false
         lastTurnStart = [0, 0]
 
         player.reset()
@@ -481,18 +499,10 @@ class Game {
         windowManager.hideGameTrackers()
     }
 
-    func set(currentEntity id: Int) {
-        currentEntityId = id
-        if let entity = entities[id] {
-            entity.info.hasOutstandingTagChanges = true
-        }
-    }
-
     func resetCurrentEntity() {
         currentEntityId = 0
     }
 
-    // TODO: why do we keep track here and not in the logger?
     func blockStart() {
         maxBlockId += 1
         let blockId = maxBlockId
@@ -698,7 +708,7 @@ class Game {
             if let name = self.player.name {
                 currentGameStats.playerName = name
             }
-			if let _player = self.entities.map({ $0.1 }).firstWhere({ $0.isPlayer(game: self) }) {
+			if let _player = self.entities.map({ $0.1 }).firstWhere({ $0.isPlayer(eventHandler: self) }) {
                 currentGameStats.coin = !_player.has(tag: .first_player)
             }
             
@@ -981,8 +991,8 @@ class Game {
     }
 
     func isMulliganDone() -> Bool {
-		let player = entities.map { $0.1 }.firstWhere { $0.isPlayer(game: self) }
-        let opponent = entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer(game: self) }
+		let player = entities.map { $0.1 }.firstWhere { $0.isPlayer(eventHandler: self) }
+        let opponent = entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
 
         if let player = player, let opponent = opponent {
             return player[.mulligan_state] == Mulligan.done.rawValue
@@ -1050,7 +1060,7 @@ class Game {
         if let proposedKeyPoint = proposedKeyPoint {
             ReplayMaker.generate(type: proposedKeyPoint.type,
                                  id: proposedKeyPoint.id,
-                                 player: proposedKeyPoint.player, game: self)
+                                 player: proposedKeyPoint.player, eventHandler: self)
         }
         proposedKeyPoint = ReplayKeyPoint(data: nil, type: type, id: id, player: player)
     }
@@ -1059,11 +1069,11 @@ class Game {
         if let proposedKeyPoint = proposedKeyPoint {
             ReplayMaker.generate(type: proposedKeyPoint.type,
                                  id: proposedKeyPoint.id,
-                                 player: proposedKeyPoint.player, game: self)
+                                 player: proposedKeyPoint.player, eventHandler: self)
             self.proposedKeyPoint = nil
         }
         ReplayMaker.generate(type: victory ? .victory : .defeat, id: id,
-                             player: .player, game: self)
+                             player: .player, eventHandler: self)
     }
 
     // MARK: - player

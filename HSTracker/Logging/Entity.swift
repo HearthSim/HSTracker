@@ -13,8 +13,8 @@ import Wrap
 
 class Entity {
     var id: Int
-	func isPlayer(game: Game) -> Bool {
-        return self[.player_id] == game.player.id
+	func isPlayer(eventHandler: PowerEventHandler) -> Bool {
+        return self[.player_id] == eventHandler.player.id
     }
     var cardId = ""
     var name: String?
@@ -68,8 +68,8 @@ class Entity {
     var isSpell: Bool {
         return self[.cardtype] == CardType.spell.rawValue
     }
-	func isOpponent(game: Game) -> Bool {
-		return !isPlayer(game: game) && has(tag: .player_id)
+	func isOpponent(eventHandler: PowerEventHandler) -> Bool {
+		return !isPlayer(eventHandler: eventHandler) && has(tag: .player_id)
     }
     var isMinion: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue

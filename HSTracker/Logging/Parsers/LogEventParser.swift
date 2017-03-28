@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol LogEventHandler {
+protocol LogEventParser {
 	
 	func handle(logLine: LogLine)
 }

@@ -16,8 +16,8 @@ final class ReplayMaker {
 
     static func reset() { points.removeAll() }
 
-    static func generate(type: KeyPointType, id: Int, player: PlayerType, game: Game) {
-        let replay = ReplayKeyPoint(data: game.entities.map { $0.1 },
+    static func generate(type: KeyPointType, id: Int, player: PlayerType, eventHandler: PowerEventHandler) {
+        let replay = ReplayKeyPoint(data: eventHandler.entities.map { $0.1 },
                                     type: type,
                                     id: id,
                                     player: player)
@@ -120,12 +120,12 @@ final class ReplayMaker {
         }*/
     }
 
-	private static func resolve(opponentName: String?, game: Game) {
+	private static func resolve(opponentName: String?, eventHandler: PowerEventHandler) {
         if opponentName == nil {
             return
         }
         for kp in points {
-			if let opponent = kp.data.firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer(game: game) }) {
+			if let opponent = kp.data.firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: eventHandler) }) {
                 opponent.name = opponentName
             }
         }

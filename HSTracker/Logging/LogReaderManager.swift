@@ -16,10 +16,10 @@ final class LogReaderManager {
 	
 	static let updateDelay: TimeInterval = 0.1
 	
-    let powerGameStateHandler: LogEventHandler
+    let powerGameStateParser: LogEventParser
     let rachelleHandler = RachelleHandler()
-	let arenaHandler: LogEventHandler
-	let loadingScreenHandler: LogEventHandler
+	let arenaHandler: LogEventParser
+	let loadingScreenHandler: LogEventParser
 
     private let powerLog: LogReader
     private let gameStatePowerLogReader: LogReader
@@ -60,7 +60,7 @@ final class LogReaderManager {
     
 	init(logPath: String, coreManager: CoreManager) {
 		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
-		powerGameStateHandler = PowerGameStateHandler(with: coreManager)
+		powerGameStateParser = PowerGameStateParser(with: coreManager.game)
 		arenaHandler = ArenaHandler(with: coreManager)
 		
         let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
@@ -176,7 +176,7 @@ final class LogReaderManager {
 	
 	private func processLine(line: LogLine) {
 		switch line.namespace {
-		case .power: self.powerGameStateHandler.handle(logLine: line)
+		case .power: self.powerGameStateParser.handle(logLine: line)
 		case .rachelle: self.rachelleHandler.handle(logLine: line)
 		case .arena: self.arenaHandler.handle(logLine: line)
 		case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)

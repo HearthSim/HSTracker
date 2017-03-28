@@ -11,7 +11,7 @@
 import Foundation
 import CleanroomLogger
 
-struct LoadingScreenHandler: LogEventHandler {
+struct LoadingScreenHandler: LogEventParser {
 	
 	private unowned let coreManager: CoreManager
 	
@@ -36,21 +36,21 @@ struct LoadingScreenHandler: LogEventHandler {
             }
 
             if game.currentMode == .draft {
-                coreManager.arenaDeckWatcher.start()
+                ArenaDeckWatcher.start()
                 if Settings.showArenaHelper {
-                    coreManager.arenaWatcher.start()
+                    coreManager.arenaWatcher.startWatching()
                 }
             } else if game.previousMode == .draft {
-                coreManager.arenaWatcher.stop()
-                coreManager.arenaDeckWatcher.stop()
+                coreManager.arenaWatcher.stopWatching()
+                ArenaDeckWatcher.stop()
             } else if game.currentMode == .packopening {
-                coreManager.packWatcher.start()
+                coreManager.packWatcher.startWatching()
             } else if game.previousMode == .packopening {
-                coreManager.packWatcher.stop()
+                coreManager.packWatcher.stopWatching()
             } else if game.currentMode == .tournament {
-                coreManager.deckWatcher.start()
+                DeckWatcher.start()
             } else if game.previousMode == .tournament {
-                coreManager.deckWatcher.stop()
+                DeckWatcher.stop()
             } else if game.currentMode == .hub {
                 //game.clean()
             }
