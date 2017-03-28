@@ -13,20 +13,23 @@ import CleanroomLogger
 // Reads precomputed Monte Carlo data from grid.db
 // TODO: run long simulation on cluster for better grid
 
-struct LadderGrid {
+class LadderGrid {
     var dbQueue: DatabaseQueue?
 
     init() {
         do {
-            // TODO: put the db in the bundle
-            let path = Bundle.main.resourcePath! + "/Resources/grid.db"
+            guard let path = Bundle(for: type(of: self))
+                .path(forResource: "Resources/grid", ofType: "db") else {
+                    Log.warning?.message("Failed to load grid db! "
+                        + "Will result in Ladder stats tab not working.")
+                    return
+            }
             Log.verbose?.message("Loading grid at \(path)")
             dbQueue = try DatabaseQueue(path: path)
         } catch {
             dbQueue = nil
-            // swiftlint:disable line_length
-            Log.warning?.message("Failed to load grid db! Will result in Ladder stats tab not working.")
-            // swiftlint:enable line_length
+            Log.warning?.message("Failed to load grid db! "
+                + "Will result in Ladder stats tab not working.")
         }
     }
     

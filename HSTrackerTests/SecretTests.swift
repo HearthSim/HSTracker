@@ -103,7 +103,7 @@ class SecretTests: XCTestCase {
 
     private func createNewEntity(cardId: String) -> Entity {
         let entity = Entity(id: entityId)
-        defer { entityId += 1 }
+        entityId += 1
         entity.cardId = cardId
         return entity
     }
