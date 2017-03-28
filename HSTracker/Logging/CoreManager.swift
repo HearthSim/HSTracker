@@ -204,7 +204,7 @@ final class CoreManager: NSObject {
 
     func startTracking() {
 		// TODO: revise if delay is really needed
-        let time = DispatchTime.now() + DispatchTimeInterval.seconds(1)
+        let time = DispatchTime.now() + .seconds(1)
         DispatchQueue.main.asyncAfter(deadline: time) { [unowned self] in
             Log.info?.message("Start Tracking")
 
@@ -240,7 +240,6 @@ final class CoreManager: NSObject {
 
     func spaceChange() {
         Log.verbose?.message("Receive space changed event")
-        // TODO: what to do with space change?
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: "space_changed"), object: nil)
     }
@@ -334,8 +333,10 @@ final class CoreManager: NSObject {
 			var selectedDeckId: Int64 = 0
 			if let selectedId = MirrorHelper.getSelectedDeck() {
 				selectedDeckId = selectedId
+                Log.info?.message("Found selected deck id via mirror: \(selectedDeckId)")
 			} else {
 				selectedDeckId = deckWatcher.selectedDeckId
+                Log.info?.message("Found selected deck id via watcher: \(selectedDeckId)")
 			}
 			
 			if selectedDeckId <= 0 {
@@ -353,6 +354,7 @@ final class CoreManager: NSObject {
 				
 				return RealmHelper.checkAndUpdateDeck(deckId: selectedDeckId, selectedDeck: selectedDeck)
 			} else {
+                Log.warning?.message("Mirror returned no decks")
 				return nil
 			}
 			
