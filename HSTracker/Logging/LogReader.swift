@@ -23,7 +23,7 @@ final class LogReader {
     private var logReaderManager: LogReaderManager?
 
     private var queue: DispatchQueue?
-    private var _lines = ConcurrentQueue<LogLine>()
+    private var _lines = [ConcurrentQueue<LogLine>]()
 
     init(info: LogReaderInfo, logPath: String) {
         self.info = info
@@ -37,6 +37,13 @@ final class LogReader {
             } catch {
                 Log.error?.message("\(error)")
             }
+        }
+        
+        for _ in info.startsWithFiltersGroup {
+            _lines.append(ConcurrentQueue<LogLine>())
+        }
+        if _lines.count == 0 {
+            _lines.append(ConcurrentQueue<LogLine>())
         }
     }
 
@@ -74,7 +81,7 @@ final class LogReader {
         startingPoint = entryPoint
 
         var queueName = "be.michotte.hstracker.readers.\(info.name)"
-        if let filter = info.startsWithFilters.first {
+        if info.startsWithFiltersGroup.count > 0, let filter = info.startsWithFiltersGroup[0].first {
             queueName += ".\(filter.lowercased())"
         }
         queue = DispatchQueue(label: queueName, attributes: [])
@@ -118,17 +125,28 @@ final class LogReader {
                             let cutted = line.substring(from:
                             line.characters.index(line.startIndex, offsetBy: 19))
 
-                            if !info.hasFilters
-                                       || info.startsWithFilters.any({
-                                cutted.hasPrefix($0) || cutted.match($0)
-                            })
-                                       || info.containsFilters.any({ cutted.contains($0) }) {
-
+                            if !info.hasFilters {
                                 let logLine = LogLine(namespace: info.name,
-                                        line: line)
+                                                      line: line)
                                 if logLine.time >= startingPoint {
-                                    _lines.enqueue(value: logLine)
+                                    _lines[0].enqueue(value: logLine)
                                 }
+                            } else {
+                                
+                                for i in 0..<info.startsWithFiltersGroup.count {
+                                    if (info.startsWithFiltersGroup.count > i && info.startsWithFiltersGroup[i].any({
+                                            cutted.hasPrefix($0) || cutted.match($0)
+                                        }))
+                                        || (info.containsFiltersGroup.count > i &&
+                                            info.containsFiltersGroup[i].any({ cutted.contains($0) })) {
+                                        let logLine = LogLine(namespace: info.name,
+                                                              line: line)
+                                        if logLine.time >= startingPoint {
+                                            _lines[i].enqueue(value: logLine)
+                                        }
+                                    }
+                                }
+                                
                             }
                         }
                     }
@@ -208,7 +226,9 @@ final class LogReader {
         fileHandle?.closeFile()
         fileHandle = nil
         
-        _lines.clear()
+        for lines in _lines {
+            lines.clear()
+        }
         
         // try to truncate log file when stopping
         if fileManager.fileExists(atPath: path) && eraseLogFile {
@@ -220,12 +240,12 @@ final class LogReader {
         stopped = true
     }
     
-    func collect() -> [LogLine] {
+    func collect(index: Int) -> [LogLine] {
         var items = [LogLine]()
         let size = _lines.count
         
         for _ in 0..<size {
-            if let elem = _lines.dequeue() {
+            if let elem = _lines[index].dequeue() {
                 items.append(elem)
             }
         }

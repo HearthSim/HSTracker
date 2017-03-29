@@ -22,7 +22,6 @@ final class LogReaderManager {
 	let loadingScreenHandler: LogEventParser
 
     private let powerLog: LogReader
-    private let gameStatePowerLogReader: LogReader
     private let rachelle: LogReader
     private let arena: LogReader
     private let loadingScreen: LogReader
@@ -57,29 +56,26 @@ final class LogReaderManager {
     var stopped = false
     private var queue: DispatchQueue?
     private var processMap = Map<Date, [LogLine]>()
+    private let coreManager: CoreManager
     
 	init(logPath: String, coreManager: CoreManager) {
+        self.coreManager = coreManager
 		loadingScreenHandler = LoadingScreenHandler(with: coreManager)
 		powerGameStateParser = PowerGameStateParser(with: coreManager.game)
 		arenaHandler = ArenaHandler(with: coreManager)
 		
         let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
         let plReader = LogReaderInfo(name: .power,
-                                     startsWithFilters: ["PowerTaskList.DebugPrintPower", rx],
-                                     containsFilters: ["Begin Spectating", "Start Spectator",
-                                                       "End Spectator"])
+                                     startsWithFilters: [["PowerTaskList.DebugPrintPower", rx], ["GameState."]],
+                                     containsFilters: [["Begin Spectating", "Start Spectator",
+                                                       "End Spectator"], []])
         powerLog = LogReader(info: plReader, logPath: logPath)
-        
-        gameStatePowerLogReader = LogReader(info: LogReaderInfo(name: .power,
-                                                                startsWithFilters: ["GameState."],
-                                                                include: false),
-                                            logPath: logPath)
 
         rachelle = LogReader(info: LogReaderInfo(name: .rachelle), logPath: logPath)
         arena = LogReader(info: LogReaderInfo(name: .arena), logPath: logPath)
         loadingScreen = LogReader(info: LogReaderInfo(name: .loadingScreen,
-                                                      startsWithFilters: [
-                                                        "LoadingScreen.OnSceneLoaded", "Gameplay"]),
+                                                      startsWithFilters: [[
+                                                        "LoadingScreen.OnSceneLoaded", "Gameplay"]]),
                                   logPath: logPath)
     }
 
@@ -105,11 +101,10 @@ final class LogReaderManager {
         for reader in readers {
             reader.start(manager: self, entryPoint: entryPoint)
         }
-        gameStatePowerLogReader.start(manager: self, entryPoint: entryPoint)
         
         while !stopped {
             for reader in readers {
-                let loglines = reader.collect()
+                let loglines = reader.collect(index: 0)
                 for line in loglines {
                     var lineList: [LogLine]?
                     if let loglist = processMap[line.time] {
@@ -136,9 +131,9 @@ final class LogReaderManager {
             }
             processMap.removeAll()
             
-            let powerLines = gameStatePowerLogReader.collect()
+            let powerLines = powerLog.collect(index: 1)
             for line in powerLines {
-                //FIXME: game.powerLog.append(line)
+                coreManager.game.powerLog.append(line)
             }
             
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
@@ -153,7 +148,6 @@ final class LogReaderManager {
         for reader in readers {
 			reader.stop(eraseLogFile: eraseLogFile)
         }
-		gameStatePowerLogReader.stop(eraseLogFile: eraseLogFile)
     }
 
 	func restart(eraseLogFile: Bool = false) {
