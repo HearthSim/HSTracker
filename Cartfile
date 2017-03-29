@@ -8,7 +8,7 @@ github "JohnSundell/Wrap"
 github "JohnSundell/Unbox"
 github "ZipArchive/ZipArchive"
 github "emaloney/CleanroomLogger" ~> 3.0.0
-github "groue/GRDB.swift"
+github "groue/GRDB.swift" "Xcode8.3beta"
 github "1024jp/GzipSwift" ~> 3.0.0
 github "realm/realm-cocoa"
 github "HearthSim/HearthMirror" "cpp"
