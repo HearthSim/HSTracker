@@ -33,19 +33,22 @@ class Game: PowerEventHandler {
 	 */
     private let windowManager = WindowManager()
     
-    private let hearthstoneRunState: HearthstoneRunState
+	private var hearthstoneRunState: HearthstoneRunState {
+		didSet {
+			if hearthstoneRunState.isRunning {
+				// delay update as game might not have a proper window
+				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [unowned self] in
+					self.updateTrackers()
+				})
+			} else {
+				self.updateTrackers()
+			}
+		}
+	}
     private var selfAppActive: Bool = true
-    
+	
     func setHearthstoneRunning(flag: Bool) {
         hearthstoneRunState.isRunning = flag
-        if flag {
-            // delay update as game might not have a proper window
-            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [unowned self] in
-                self.updateTrackers()
-            })
-        } else {
-            self.updateTrackers()
-        }
     }
     
     func setHearthstoneActived(flag: Bool) {
@@ -237,21 +240,13 @@ class Game: PowerEventHandler {
     var currentMode: Mode? = .invalid
     var previousMode: Mode? = .invalid
 
-    private var _spectator: Bool?
+    private var _spectator: Bool = false
     var spectator: Bool {
-        if let _spectator = _spectator {
-            return _spectator
-        }
-		
 		if self.gameEnded {
 			return false
 		}
 		
-        _spectator = MirrorHelper.isSpectating()
-        if let _spectator = _spectator {
-            return _spectator
-        }
-        return false
+		return _spectator
 	}
 
     private var _currentGameMode: GameMode = .none
@@ -279,7 +274,6 @@ class Game: PowerEventHandler {
         return _currentGameType
     }
 
-    var _matchInfoCacheInvalid = true
     var entities: [Int: Entity] = [:]
     var tmpEntities: [Entity] = []
     var knownCardIds: [Int: [String]] = [:]
@@ -317,17 +311,8 @@ class Game: PowerEventHandler {
     
     fileprivate var lastGameStartTimestamp: Date = Date.distantPast
 
-    private var _matchInfo: MatchInfo?
-    var matchInfo: MatchInfo? {
-        if let _matchInfo = _matchInfo {
-            return _matchInfo
-        }
-        if let matchInfo = MirrorHelper.getMatchInfo() {
-            _matchInfo = MatchInfo(info: matchInfo)
-        }
-        return _matchInfo
-    }
-
+    private var matchInfo: MatchInfo?
+	
     var arenaInfo: ArenaInfo? {
         if let _arenaInfo = MirrorHelper.getArenaDeck() {
             return ArenaInfo(info: _arenaInfo)
@@ -374,15 +359,7 @@ class Game: PowerEventHandler {
             .filter { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.player.id) }.count }
 
-    private var _currentFormat = FormatType.ft_unknown
-    var currentFormat: Format {
-        if let mirrorFormat = MirrorHelper.getFormat(),
-            _currentFormat == .ft_unknown,
-            let format = FormatType(rawValue: mirrorFormat) {
-            _currentFormat = format
-        }
-        return Format(formatType: _currentFormat)
-    }
+    private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
 
 	// MARK: - Lifecycle
 	
@@ -452,8 +429,8 @@ class Game: PowerEventHandler {
         maxBlockId = 0
         currentBlock = nil
 
-        _matchInfo = nil
-        _currentFormat = .ft_unknown
+        matchInfo = nil
+        currentFormat = Format(formatType: FormatType.ft_unknown)
         _currentGameType = .gt_unknown
         currentGameStats = InternalGameStats()
 
@@ -461,7 +438,7 @@ class Game: PowerEventHandler {
         tmpEntities.removeAll()
         knownCardIds.removeAll()
         joustReveals = 0
-        gameEnded = false
+		
         lastCardPlayed = nil
         currentEntityId = 0
         currentEntityHasCardId = false
@@ -485,16 +462,9 @@ class Game: PowerEventHandler {
         }
         opponent.reset()
 
-        if let localPlayer = matchInfo?.localPlayer,
-            let opposingPlayer = matchInfo?.opposingPlayer,
-            !_matchInfoCacheInvalid {
-            player.name = localPlayer.name
-            player.id = localPlayer.playerId
-            opponent.name = opposingPlayer.name
-            opponent.id = opposingPlayer.playerId
-        }
-
         windowManager.hideGameTrackers()
+		
+		_spectator = false
     }
 
     func resetCurrentEntity() {
@@ -578,6 +548,7 @@ class Game: PowerEventHandler {
         reset()
         lastGameStart = Date()
 
+		gameEnded = false
         isInMenu = false
         handledGameEnd = false
 
@@ -587,47 +558,36 @@ class Game: PowerEventHandler {
         showNotification(type: .gameStart)
 
         if Settings.showTimer {
+			// TODO: fix turn timer
             TurnTimer.instance.start(game: self)
         }
-
+		
+		// update spectator information
+		_spectator = MirrorHelper.isSpectating() ?? false
+		
+		// update current match info
+		if let matchInfo = MirrorHelper.getMatchInfo() {
+			Log.info?.message("\(matchInfo.localPlayer.name) vs "
+				+ "\(matchInfo.opposingPlayer.name)")
+			self.matchInfo = MatchInfo(info: matchInfo)
+			
+			if let minfo = self.matchInfo {
+				self.player.name = minfo.localPlayer.name
+				self.opponent.name = minfo.opposingPlayer.name
+				self.player.id = minfo.localPlayer.playerId
+				self.opponent.id = minfo.opposingPlayer.playerId
+			}
+		}
+		
+		// update game format
+		if let mirrorFormat = MirrorHelper.getFormat(),
+			let format = FormatType(rawValue: mirrorFormat) {
+			self.currentFormat = Format(formatType: format)
+		}
+		
         updateTrackers(reset: true)
 
-        cacheMatchInfo()
         currentGameStats?.startTime = timestamp
-    }
-
-    private func invalidateMatchInfoCache() {
-        _matchInfoCacheInvalid = true
-    }
-
-    private func cacheMatchInfo() {
-        if !_matchInfoCacheInvalid { return }
-
-        _matchInfoCacheInvalid = false
-        //DispatchQueue.global().async { [weak self] in
-			
-			// TODO: add timeout here, threading?
-            var matchInfo: MirrorMatchInfo? = MirrorHelper.getMatchInfo()
-            while matchInfo == nil {
-                matchInfo = MirrorHelper.getMatchInfo()
-                Thread.sleep(forTimeInterval: 0.1)
-            }
-            if let matchInfo = matchInfo {
-                //DispatchQueue.main.async { [weak self] in
-                    Log.info?.message("\(matchInfo.localPlayer.name) vs "
-                        + "\(matchInfo.opposingPlayer.name)")
-                    self._matchInfo = MatchInfo(info: matchInfo)
-                    if let _matchInfo = self.matchInfo {
-                        self.player.name = _matchInfo.localPlayer.name
-                        self.opponent.name = _matchInfo.opposingPlayer.name
-                        self.player.id = _matchInfo.localPlayer.playerId
-                        self.opponent.id = _matchInfo.opposingPlayer.playerId
-
-                        //self?.updateTrackers()
-                    }
-               // }
-            }
-        //}
     }
 
     private func adventureRestart() {
@@ -685,7 +645,6 @@ class Game: PowerEventHandler {
                 return
             }
             self.handledGameEnd = true
-            self.invalidateMatchInfoCache()
             
             guard let currentGameStats = self.currentGameStats else {
                 Log.error?.message("No current game stats, ignoring")

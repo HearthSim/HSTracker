@@ -607,7 +607,7 @@ extension Tracker: CardCellHover {
         ] as [String : Any]
 
         if self.playerType == .player && Settings.showTopdeckchance {
-			// TODO: topdeck chance
+			// TODO: fix topdeck chance
 			/*let game = (NSApp.delegate as? AppDelegate)?.game
             let playercardlist: [Card] = game?.player.playerCardList ?? []
             let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}

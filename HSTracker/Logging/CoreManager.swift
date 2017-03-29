@@ -19,7 +19,7 @@ enum HearthstoneLogError: Error {
     canNotCreateFile
 }
 
-class HearthstoneRunState {
+struct HearthstoneRunState {
     var isRunning = false
     var isActive = false
     init(isRunning: Bool, isActive: Bool) {
