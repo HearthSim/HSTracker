@@ -29,7 +29,7 @@ struct Http {
                                                 return
         }
 
-        Http.session.dataTask(with: urlRequest) { data, _, error in
+        Http.session.dataTask(with: urlRequest) { data, response, error in
             Log.info?.message("Fetching \(self.url) complete")
 
             if let error = error {
@@ -38,14 +38,16 @@ struct Http {
                     completion(nil)
                 }
             } else if let data = data {
-                var convertedNSString: NSString?
-                NSString.stringEncoding(for: data,
-                                        encodingOptions: nil,
-                                        convertedString: &convertedNSString,
-                                        usedLossyConversion: nil)
-
-                if let html = convertedNSString as String?,
-                    let doc = Kanna.HTML(html: html, encoding: .utf8) {
+                var usedEncoding = String.Encoding.utf8
+                if let encodingName = response?.textEncodingName {
+                    let encoding = CFStringConvertEncodingToNSStringEncoding(
+                        CFStringConvertIANACharSetNameToEncoding(encodingName as CFString))
+                    if encoding != UInt(kCFStringEncodingInvalidId) {
+                        usedEncoding = String.Encoding(rawValue: encoding)
+                    }
+                }
+                if let html = String(data: data, encoding: usedEncoding),
+                    let doc = Kanna.HTML(html: html, encoding: usedEncoding) {
                     DispatchQueue.main.async {
                         completion(doc)
                     }

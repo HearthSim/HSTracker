@@ -29,6 +29,11 @@ struct HearthArena: HttpImporter {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return formatter
     }()
+    public static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 
     func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let classNode = doc.at_xpath("//h1[@class='class']"),
@@ -40,7 +45,7 @@ struct HearthArena: HttpImporter {
         Log.verbose?.message("Got class \(playerClass)")
 
         let deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
-                              className, HearthArena.iso8601StringFormatter.string(from: Date()) )
+                              className, HearthArena.dateFormatter.string(from: Date()))
         Log.verbose?.message("Got deck name \(deckName)")
 
         let deck = Deck()

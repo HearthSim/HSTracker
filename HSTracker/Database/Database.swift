@@ -38,13 +38,7 @@ class Database {
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [Race]()
 
-    func loadDatabase(splashscreen: Splashscreen?) {
-        var langs: [String] = []
-        if let language = Settings.hearthstoneLanguage, language != "enUS" {
-            langs += [language]
-        }
-        langs += ["enUS"]
-
+    func loadDatabase(splashscreen: Splashscreen?, withLanguages langs: [String]) {
         for lang in langs {
             var file: URL? = Paths.cardJson.appendingPathComponent("cardsDB.\(lang).json")
             if file != nil && !FileManager.default.fileExists(atPath: file!.absoluteString) {

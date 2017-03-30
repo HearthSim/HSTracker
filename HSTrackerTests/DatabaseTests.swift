@@ -16,7 +16,7 @@ class DatabaseTests: XCTestCase {
     override func setUp() {
         super.setUp()
         database = Database()
-        database.loadDatabase(splashscreen: nil)
+        database.loadDatabase(splashscreen: nil, withLanguages: ["enUS"])
     }
 
     override func tearDown() {

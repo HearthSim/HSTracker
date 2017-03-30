@@ -158,7 +158,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			// load and init local database
 			let databaseOperation = BlockOperation {
 				let database = Database()
-				database.loadDatabase(splashscreen: self.splashscreen!)
+                var langs: [String] = []
+                if let language = Settings.hearthstoneLanguage, language != "enUS" {
+                    langs += [language]
+                }
+                langs += ["enUS"]
+				database.loadDatabase(splashscreen: self.splashscreen!, withLanguages: langs)
 			}
 			
 			/*

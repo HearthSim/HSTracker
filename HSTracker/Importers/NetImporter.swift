@@ -92,7 +92,7 @@ final class NetImporter {
                 let realUrl = importer.transformUrl(url: url)
 
                 if let httpImporter = importer as? HttpImporter {
-                    httpImporter.loadHtml(url: realUrl, completion: { doc in
+                    httpImporter.loadHtml(url: realUrl) { doc in
                         if let doc = doc,
                             let (deck, cards) = httpImporter.loadDeck(doc: doc, url: url),
                             cards.isValidDeck() {
@@ -103,25 +103,21 @@ final class NetImporter {
                         } else {
                             completion(nil, nil)
                         }
-                    })
+                    }
                     
                 } else if let jsonImporter = importer as? JsonImporter {
-                    jsonImporter.loadJson(url: realUrl, completion: { json in
+                    jsonImporter.loadJson(url: realUrl) { json in
                         if let json = json,
                             let (deck, cards) = jsonImporter.loadDeck(json: json, url: url),
                             cards.isValidDeck() {
                             
-                            for card in cards {
-                                deck.add(card: card)
-                            }
-                            RealmHelper.add(deck: deck)
-                            
+                            RealmHelper.add(deck: deck, with: cards)
                             completion(deck, checkDeckWithCollection(deck: deck))
                             
                         } else {
                             completion(nil, nil)
                         }
-                    })
+                    }
                 }
                 return
             }

@@ -25,7 +25,7 @@ struct HearthstoneTopDeck: HttpImporter {
 
     func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let nameNode = doc.at_xpath("//h1[contains(@class, 'panel-title')]"),
-            let deckName = nameNode.text?.replace("\\s+", with: " ") else {
+            let deckName = nameNode.text?.replace("\\s+", with: " ").trim() else {
                 Log.error?.message("Deck name not found")
                 return nil
         }
