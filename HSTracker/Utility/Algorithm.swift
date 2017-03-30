@@ -117,7 +117,7 @@ public class LinkedList<T> {
 public class ConcurrentQueue<T> {
 
     private var elements = LinkedList<T>()
-    private let accessQueue = DispatchQueue(label: "SynchronizedQueueAccess", attributes: .concurrent)
+    private let accessQueue = DispatchQueue(label: "be.michotte.hstracker.concurrentQueue")
     
     public func enqueue(value: T) {
         self.accessQueue.async(flags:.barrier) {
@@ -144,7 +144,7 @@ public class ConcurrentQueue<T> {
     }
     
     public func clear() {
-        self.accessQueue.async(flags:.barrier) {
+        self.accessQueue.sync(flags:.barrier) {
             self.elements.clear()
         }
     }

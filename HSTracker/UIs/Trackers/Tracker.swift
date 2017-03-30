@@ -298,6 +298,7 @@ class Tracker: OverWindowController {
                     }
                 }
                 hero?.card?.count = 1
+				Log.info?.message("Updating opponent's name to \(playerName)");
                 hero?.playerName = playerName
                 hero?.frame = NSRect(x: 0, y: 0,
                                      width: windowWidth,

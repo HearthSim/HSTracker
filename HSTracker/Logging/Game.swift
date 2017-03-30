@@ -32,6 +32,8 @@ class Game: PowerEventHandler {
 	 * View controller of this game object
 	 */
     private let windowManager = WindowManager()
+	
+	static let guiUpdateDelay: TimeInterval = 1.0
     
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
@@ -79,13 +81,21 @@ class Game: PowerEventHandler {
 		return player.id > 0 && opponent.id > 0
 	}
 	
+	private var guiNeedsUpdate = false;
+	private var guiUpdateResets = false;
+	private let _queue = DispatchQueue(label: "be.michotte.hstracker.guiupdate", attributes: [])
+	
+	private func _updateTrackers() {
+		SizeHelper.hearthstoneWindow.reload()
+		
+		self.updatePlayerTracker(reset: guiUpdateResets)
+		self.updateOpponentTracker(reset: guiUpdateResets)
+	}
+	
     // MARK: - GUI calls
     @objc func updateTrackers(reset: Bool = false) {
-        // TODO: this call should be in a slow/hashed queue with small fixed size
-        SizeHelper.hearthstoneWindow.reload()
-        
-        self.updatePlayerTracker(reset: reset)
-		self.updateOpponentTracker(reset: reset)
+		self.guiNeedsUpdate = true
+		self.guiUpdateResets = reset || self.guiUpdateResets
     }
 	
 	@objc private func updateOpponentTracker(reset: Bool = false) {
@@ -414,6 +424,20 @@ class Game: PowerEventHandler {
 			                   selector: #selector(updateTrackers),
 			                   name: NSNotification.Name(rawValue: option),
 			                   object: nil)
+		}
+		
+		// start gui updater thread
+		_queue.async {
+			while true {
+				if self.guiNeedsUpdate {
+					
+					self._updateTrackers()
+					self.guiNeedsUpdate = false
+					self.guiUpdateResets = false
+					
+					Thread.sleep(forTimeInterval: Game.guiUpdateDelay)
+				}
+			}
 		}
     }
 
@@ -1558,14 +1582,14 @@ class Game: PowerEventHandler {
         awaitingAvenge = true
         if opponentMinionCount != 0 {
             let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(50)
-            DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in
-                guard let strongSelf = self else { return }
-                if strongSelf.opponentMinionCount - strongSelf.avengeDeathRattleCount > 0 {
-                    strongSelf.opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.Avenge)
-                    self?.updateTrackers()
+            DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
 
-                    self?.awaitingAvenge = false
-                    self?.avengeDeathRattleCount = 0
+                if self.opponentMinionCount - self.avengeDeathRattleCount > 0 {
+                    self.opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.Avenge)
+                    self.updateTrackers()
+
+                    self.awaitingAvenge = false
+                    self.avengeDeathRattleCount = 0
                 }
             }
         }
