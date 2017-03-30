@@ -81,8 +81,8 @@ class Game: PowerEventHandler {
 		return player.id > 0 && opponent.id > 0
 	}
 	
-	private var guiNeedsUpdate = false;
-	private var guiUpdateResets = false;
+	private var guiNeedsUpdate = false
+	private var guiUpdateResets = false
 	private let _queue = DispatchQueue(label: "be.michotte.hstracker.guiupdate", attributes: [])
 	
 	private func _updateTrackers() {

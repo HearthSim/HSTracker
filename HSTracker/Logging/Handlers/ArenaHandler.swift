@@ -10,6 +10,7 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
 struct ArenaHandler: LogEventParser {
 
