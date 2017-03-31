@@ -80,7 +80,6 @@
 		1CE89F151E82B0C8000ABE99 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56E91DAAB81400FC0FC1 /* Array.swift */; };
 		1CE89F161E82B0CF000ABE99 /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C36D2B1D08623D00F6723C /* CardSet.swift */; };
 		1CE89F171E82B165000ABE99 /* TagChangeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EAA1C777F8900D29859 /* TagChangeHandler.swift */; };
-		1CE89F181E82B16D000ABE99 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EEC1C969C4100C26950 /* Regex.swift */; };
 		1CE89F191E82B174000ABE99 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CC1D362ECB0030AD22 /* Race.swift */; };
 		1CE89F1A1E82B17A000ABE99 /* Faction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431AA0CA1D362DBA0030AD22 /* Faction.swift */; };
 		1CE89F1B1E82B180000ABE99 /* CardMechanic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E831C777CFC00D29859 /* CardMechanic.swift */; };
@@ -362,6 +361,10 @@
 		437E56F61DAAB81400FC0FC1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
 		437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */; };
 		437E56FA1DAAE48E00FC0FC1 /* Hearthstoneheroes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */; };
+		43847D8E1E8D965E0060C2D2 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; };
+		43847D8F1E8D96720060C2D2 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; };
+		43847D901E8D96720060C2D2 /* RegexUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43847D911E8D96970060C2D2 /* RegexUtil.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
 		4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -453,7 +456,6 @@
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
 		43E77EE61C94B4B400C26950 /* CardHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE51C94B4B400C26950 /* CardHud.swift */; };
-		43E77EED1C969C4100C26950 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EEC1C969C4100C26950 /* Regex.swift */; };
 		43E7BEA61DBB7F8F0057DC0C /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43E7BEA71DBB7F8F0057DC0C /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; };
@@ -552,6 +554,7 @@
 				43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in CopyFiles */,
 				4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */,
 				436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */,
+				43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in CopyFiles */,
 				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -578,6 +581,7 @@
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
 				BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */,
 				43E7BEA61DBB7F8F0057DC0C /* Realm.framework in Embed Frameworks */,
+				43847D901E8D96720060C2D2 /* RegexUtil.framework in Embed Frameworks */,
 				43BBAAA31E61A130009B6298 /* JNWCollectionView.framework in Embed Frameworks */,
 				43E7BEA71DBB7F8F0057DC0C /* RealmSwift.framework in Embed Frameworks */,
 				4323C5EE1E1A503700C97896 /* HearthMirror.framework in Embed Frameworks */,
@@ -837,6 +841,8 @@
 		437E56EF1DAAB81400FC0FC1 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tempostorm.swift; sourceTree = "<group>"; };
 		437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstoneheroes.swift; sourceTree = "<group>"; };
+		43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RegexUtil.framework; path = Carthage/Build/Mac/RegexUtil.framework; sourceTree = "<group>"; };
+		43847D911E8D96970060C2D2 /* RegexUtil.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RegexUtil.framework.dSYM; path = Carthage/Build/Mac/RegexUtil.framework.dSYM; sourceTree = "<group>"; };
 		4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = "<group>"; };
 		438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Sparkle.framework.dSYM; path = Carthage/Build/Mac/Sparkle.framework.dSYM; sourceTree = "<group>"; };
 		43873CC01CA6E6C200F01CB4 /* WindowMove.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WindowMove.xib; sourceTree = "<group>"; };
@@ -941,7 +947,6 @@
 		43E77EE11C949C7800C26950 /* TimerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerHud.swift; sourceTree = "<group>"; };
 		43E77EE31C94A19700C26950 /* TurnTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TurnTimer.swift; sourceTree = "<group>"; };
 		43E77EE51C94B4B400C26950 /* CardHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHud.swift; sourceTree = "<group>"; };
-		43E77EEC1C969C4100C26950 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		43E7BEA41DBB7F8E0057DC0C /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/Mac/Realm.framework; sourceTree = "<group>"; };
 		43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/Mac/RealmSwift.framework; sourceTree = "<group>"; };
 		43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Realm.framework.dSYM; path = Carthage/Build/Mac/Realm.framework.dSYM; sourceTree = "<group>"; };
@@ -1006,6 +1011,7 @@
 				43BBAAA11E61A11F009B6298 /* JNWCollectionView.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
+				43847D8F1E8D96720060C2D2 /* RegexUtil.framework in Frameworks */,
 				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
 				43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */,
 				43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */,
@@ -1013,6 +1019,7 @@
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
 				43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
+				43847D8E1E8D965E0060C2D2 /* RegexUtil.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1358,7 +1365,6 @@
 			isa = PBXGroup;
 			children = (
 				43647A571CDF491F00C2B78E /* CleanroomLogger */,
-				43E77EEB1C969C2500C26950 /* Regex */,
 				439C7EE71C777FCF00D29859 /* Extensions */,
 				439C7E911C777EFA00D29859 /* Settings.swift */,
 				43D307FA1C83159C00480488 /* SizeHelper.swift */,
@@ -1564,14 +1570,6 @@
 			name = Configs;
 			sourceTree = "<group>";
 		};
-		43E77EEB1C969C2500C26950 /* Regex */ = {
-			isa = PBXGroup;
-			children = (
-				43E77EEC1C969C4100C26950 /* Regex.swift */,
-			);
-			path = Regex;
-			sourceTree = "<group>";
-		};
 		64C115E3AADB89B1C02BC1D0 /* ArenaHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -1635,6 +1633,8 @@
 				43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */,
 				43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */,
 				43E7BEAD1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM */,
+				43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */,
+				43847D911E8D96970060C2D2 /* RegexUtil.framework.dSYM */,
 				4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */,
 				438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */,
 				43647A521CDC9A3D00C2B78E /* TextAttributes.framework */,
@@ -1984,7 +1984,6 @@
 				436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */,
 				1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */,
 				4349104E1D09757800B22DB2 /* BoardState.swift in Sources */,
-				43E77EED1C969C4100C26950 /* Regex.swift in Sources */,
 				434910471D09505E00B22DB2 /* BoardDamage.swift in Sources */,
 				439C7EDE1C777FA900D29859 /* ImageUtils.swift in Sources */,
 				431AA0CD1D362ECB0030AD22 /* Race.swift in Sources */,
@@ -2123,7 +2122,6 @@
 				1CF205141E84608100037A42 /* Http.swift in Sources */,
 				1CE89F0E1E82B040000ABE99 /* CardMark.swift in Sources */,
 				1CE89EFF1E82AE4E000ABE99 /* LogLineNamespace.swift in Sources */,
-				1CE89F181E82B16D000ABE99 /* Regex.swift in Sources */,
 				1CE89F2F1E82B2E0000ABE99 /* WotogCounter.swift in Sources */,
 				C94596821D174FBA008CD47A /* StatsTests.swift in Sources */,
 				1CE89F511E82B8A5000ABE99 /* TimerHud.swift in Sources */,

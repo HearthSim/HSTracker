@@ -9,6 +9,7 @@
 import Foundation
 import HearthAssets
 import CleanroomLogger
+import RegexUtil
 
 final class Card {
     // MARK: - Card data
