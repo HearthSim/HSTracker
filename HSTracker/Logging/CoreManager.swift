@@ -352,7 +352,12 @@ final class CoreManager: NSObject {
 				}
 				Log.info?.message("Found selected deck : \(selectedDeck.name)")
 				
-				return RealmHelper.checkAndUpdateDeck(deckId: selectedDeckId, selectedDeck: selectedDeck)
+				if let deck = RealmHelper.checkAndUpdateDeck(deckId: selectedDeckId, selectedDeck: selectedDeck) {
+					return deck
+				}
+				
+				// deck does not exist, add it
+				return RealmHelper.add(mirrorDeck: selectedDeck)
 			} else {
                 Log.warning?.message("Mirror returned no decks")
 				return nil

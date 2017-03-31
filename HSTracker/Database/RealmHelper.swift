@@ -163,6 +163,7 @@ struct RealmHelper {
 		
 		guard let storedDeck = realm.objects(Deck.self)
 			.filter("hsDeckId = \(deckId)").first else {
+				Log.error?.message("No realm deck found with \(deckId)")
 				return nil
 		}
 		
@@ -225,36 +226,33 @@ struct RealmHelper {
 		}
 	}
 	
-	static func checkOrCreateArenaDeck(mirrorDeck: MirrorDeck) -> Deck? {
+	static func add(mirrorDeck: MirrorDeck, name: String? = nil, isArena: Bool = false) -> Deck? {
 		
 		guard let realm = try? Realm() else {
 			Log.error?.message("Error accessing Realm database")
 			return nil
 		}
-        guard let hsDeckId = mirrorDeck.id as? Int64 else {
-            Log.error?.message("Can not parse hs deck is")
-            return nil
-        }
 		
-		if let deck = realm.objects(Deck.self)
-			.filter("hsDeckId = \(hsDeckId)").first {
-			Log.info?.message("Arena deck \(hsDeckId) exists, using it.")
-			return deck
-		}
-		
-		Log.info?.message("Arena deck does not exists, creating it.")
 		let cards = mirrorDeck.cards
 		
 		guard let hero = Cards.hero(byId: mirrorDeck.hero as String) else {
-			Log.error?.message("Mirrored arena deck has unknown hero id: \(mirrorDeck.hero)")
+			Log.error?.message("Mirrored deck has unknown hero id: \(mirrorDeck.hero)")
 			return nil
 		}
 		
 		let deck = Deck()
-		deck.name = "Arena \(hero.name)"
+		if let name = name {
+			deck.name = name
+		} else {
+			deck.name = mirrorDeck.name
+		}
 		deck.playerClass = hero.playerClass
+		guard let hsDeckId = mirrorDeck.id as? Int64 else {
+			Log.error?.message("Can not parse hs deck id")
+			return nil
+		}
 		deck.hsDeckId.value = hsDeckId
-		deck.isArena = true
+		deck.isArena = isArena
 		
 		do {
 			try realm.write {
@@ -271,16 +269,41 @@ struct RealmHelper {
 			Log.error?.message("Can not import deck. Error : \(error)")
 			return nil
 		}
+		
 		if deck.isValid() {
-			Log.info?.message("Saving and using new arena deck : \(deck)")
-			NotificationCenter.default
-				.post(name: Notification.Name(rawValue: "reload_decks"),
-				      object: deck)
-			return deck
+			Log.info?.message("Saving and using new deck : \(deck)")
 		} else {
-			Log.error?.message("Mirrored arena deck is not valid")
+			Log.error?.message("Mirrored deck is not valid")
 			return nil
 		}
+		
+		NotificationCenter.default
+			.post(name: Notification.Name(rawValue: "reload_decks"),
+			      object: deck)
+		
+		return deck
+	}
+	
+	static func checkOrCreateArenaDeck(mirrorDeck: MirrorDeck) -> Deck? {
+		
+		guard let realm = try? Realm() else {
+			Log.error?.message("Error accessing Realm database")
+			return nil
+		}
+        guard let hsDeckId = mirrorDeck.id as? Int64 else {
+            Log.error?.message("Can not parse hs deck id")
+            return nil
+        }
+		
+		if let deck = realm.objects(Deck.self)
+			.filter("hsDeckId = \(hsDeckId)").first {
+			Log.info?.message("Arena deck \(hsDeckId) exists, using it.")
+			return deck
+		}
+		
+		Log.info?.message("Arena deck does not exists, creating it.")
+		
+		return RealmHelper.add(mirrorDeck: mirrorDeck, name: "Arena \(mirrorDeck.name)")
 	}
 	
 	static func add(deck: Deck, update: Bool = false) {

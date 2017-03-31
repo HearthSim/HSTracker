@@ -104,7 +104,7 @@ class Game: PowerEventHandler {
 			let tracker = self.windowManager.opponentTracker
 			if Settings.showOpponentTracker &&
 				( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
-					|| !Settings.hideAllTrackersWhenNotInGame) &&
+					|| (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
 				( (Settings.hideAllWhenGameInBackground &&
 					self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
 				
@@ -434,9 +434,9 @@ class Game: PowerEventHandler {
 					self._updateTrackers()
 					self.guiNeedsUpdate = false
 					self.guiUpdateResets = false
-					
-					Thread.sleep(forTimeInterval: Game.guiUpdateDelay)
 				}
+				
+				Thread.sleep(forTimeInterval: Game.guiUpdateDelay)
 			}
 		}
     }
