@@ -53,7 +53,7 @@ class UploadMetaData {
         }
 
         if let serverInfo = game?.serverInfo {
-            if !String.isNullOrEmpty(serverInfo.address) {
+            if !serverInfo.address.isBlank {
                 metaData.serverIp = serverInfo.address
             }
             if serverInfo.port > 0 {
@@ -66,13 +66,13 @@ class UploadMetaData {
 				metaData.clientHandle = "\(serverInfo.clientHandle)"
             }
 
-            if !String.isNullOrEmpty(serverInfo.spectatorPassword) {
+            if !serverInfo.spectatorPassword.isBlank {
 				metaData.spectatePassword = serverInfo.spectatorPassword
             }
-            if !String.isNullOrEmpty(serverInfo.auroraPassword) {
+            if !serverInfo.auroraPassword.isBlank {
 				metaData.auroraPassword = serverInfo.auroraPassword
             }
-            if !String.isNullOrEmpty(serverInfo.version) {
+            if !serverInfo.version.isBlank {
 				metaData.serverVersion = serverInfo.version
             }
         }

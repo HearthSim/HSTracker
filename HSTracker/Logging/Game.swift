@@ -1075,7 +1075,7 @@ class Game: PowerEventHandler {
     }
 
     func playerGet(entity: Entity, cardId: String?, turn: Int) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
         player.createInHand(entity: entity, turn: turn)
@@ -1083,7 +1083,7 @@ class Game: PowerEventHandler {
     }
 
     func playerBackToHand(entity: Entity, cardId: String?, turn: Int) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
         updateTrackers()
@@ -1091,7 +1091,7 @@ class Game: PowerEventHandler {
     }
 
     func playerPlayToDeck(entity: Entity, cardId: String?, turn: Int) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
         player.boardToDeck(entity: entity, turn: turn)
@@ -1099,7 +1099,7 @@ class Game: PowerEventHandler {
     }
 
     func playerPlay(entity: Entity, cardId: String?, turn: Int) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
 
@@ -1145,7 +1145,7 @@ class Game: PowerEventHandler {
     }
 
     func playerHandDiscard(entity: Entity, cardId: String?, turn: Int) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
         player.handDiscard(entity: entity, turn: turn)
@@ -1153,7 +1153,7 @@ class Game: PowerEventHandler {
     }
 
     func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
 
@@ -1171,7 +1171,7 @@ class Game: PowerEventHandler {
     }
 
     func playerMulligan(entity: Entity, cardId: String?) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
 
@@ -1180,7 +1180,7 @@ class Game: PowerEventHandler {
     }
 
     func playerDraw(entity: Entity, cardId: String?, turn: Int) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
         if cardId == "GAME_005" {
@@ -1240,7 +1240,7 @@ class Game: PowerEventHandler {
         if entity.isSecret {
             var heroClass: CardClass?
             var className = "\(entity[.class])"
-            if !String.isNullOrEmpty(className) {
+            if !className.isBlank {
                 className = className.lowercased()
                 heroClass = CardClass(rawValue: className)
                 if heroClass == .none {
@@ -1358,7 +1358,7 @@ class Game: PowerEventHandler {
         let className = "\(entity[.class])".lowercased()
         if let tagClass = TagClass(rawValue: entity[.class]) {
             heroClass = tagClass.cardClassValue
-        } else if let _heroClass = CardClass(rawValue: className), !String.isNullOrEmpty(className) {
+        } else if let _heroClass = CardClass(rawValue: className), !className.isBlank {
             heroClass = _heroClass
         } else if let playerClass = opponent.playerClass {
             heroClass = playerClass

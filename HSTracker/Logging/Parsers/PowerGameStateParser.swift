@@ -95,7 +95,7 @@ class PowerGameStateParser: LogEventParser {
                 } else {
                     let players = eventHandler.entities.map { $0.1 }
                         .filter { $0.has(tag: .player_id) }.take(2)
-                    let unnamedPlayers = players.filter { String.isNullOrEmpty($0.name) }
+                    let unnamedPlayers = players.filter { $0.name.isBlank }
                     let unknownHumanPlayer = players
                         .first { $0.name == "UNKNOWN HUMAN PLAYER" }
                     
@@ -165,11 +165,11 @@ class PowerGameStateParser: LogEventParser {
             var cardId: String? = matches[2].value
 
             if eventHandler.entities[id] == .none {
-                if String.isNullOrEmpty(cardId) && zone != .setaside {
+                if cardId.isBlank && zone != .setaside {
                     if let blockId = eventHandler.currentBlock?.id,
                         let cards = eventHandler.knownCardIds[blockId] {
                         cardId = cards.first
-                        if !String.isNullOrEmpty(cardId) {
+                        if !cardId.isBlank {
                             Log.verbose?.message("Found known cardId "
                                 + "'\(String(describing: cardId))' for entity \(id)")
                             eventHandler.knownCardIds[id] = nil
@@ -181,7 +181,7 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.entities[id] = entity
             }
 
-            if !String.isNullOrEmpty(cardId) {
+            if !cardId.isBlank {
                 eventHandler.entities[id]!.cardId = cardId!
             }
 
@@ -189,7 +189,7 @@ class PowerGameStateParser: LogEventParser {
             if eventHandler.determinedPlayers() {
                 tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
             }
-            eventHandler.currentEntityHasCardId = !String.isNullOrEmpty(cardId)
+            eventHandler.currentEntityHasCardId = !cardId.isBlank
             eventHandler.currentEntityZone = zone
             return
         } else if logLine.line.match(UpdatingEntityRegex) {
@@ -256,13 +256,13 @@ class PowerGameStateParser: LogEventParser {
                 let actionStartingEntityId = Int(matches[1].value)!
                 var actionStartingCardId: String? = matches[3].value
 
-                if String.isNullOrEmpty(actionStartingCardId) {
+                if actionStartingCardId.isBlank {
                     if let actionEntity = eventHandler.entities[actionStartingEntityId] {
                         actionStartingCardId = actionEntity.cardId
                     }
                 }
 
-                if String.isNullOrEmpty(actionStartingCardId) {
+                if actionStartingCardId.isBlank {
                     return
                 }
 

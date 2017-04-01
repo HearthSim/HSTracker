@@ -64,7 +64,7 @@ final class LogReader {
 
         let lines: [String] = fileContent
                 .components(separatedBy: "\n")
-                .filter({ !String.isNullOrEmpty($0) }).reversed()
+                .filter({ !$0.isBlank }).reversed()
         for line in lines {
             if choices.any({ line.range(of: $0) != nil }) {
                 Log.verbose?.message("Found \(line)")
@@ -202,7 +202,7 @@ final class LogReader {
                 let lines = String(string.characters.dropFirst(Int(skip)))
                         .components(separatedBy: "\n")
                 for i in 0 ... (lines.count - 1) {
-                    if String.isNullOrEmpty(lines[i].trim()) {
+                    if lines[i].isBlank {
                         continue
                     }
                     let logLine = LogLine(namespace: info.name, line: lines[i])

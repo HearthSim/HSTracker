@@ -159,7 +159,7 @@ class OpponentSecrets {
     }
 
     func setMax(_ cardId: String) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
         secrets.forEach {
@@ -168,14 +168,14 @@ class OpponentSecrets {
     }
 
     func setZero(cardId: String) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
         setZeroOlder(cardId: cardId, stopIndex: secrets.count)
     }
 
     func setZeroOlder(cardId: String, stopIndex: Int) {
-        if String.isNullOrEmpty(cardId) {
+        if cardId.isBlank {
             return
         }
         for index in 0 ..< stopIndex {

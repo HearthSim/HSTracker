@@ -11,10 +11,21 @@
 import Foundation
 
 extension String {
-
-    static func isNullOrEmpty(_ str: String?) -> Bool {
-        return str == nil || str!.isEmpty
+    func trim() -> String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
     }
+
+    var isBlank: Bool {
+        return trim().isEmpty
+    }
+}
+extension Optional where Wrapped == String {
+    var isBlank: Bool {
+        return self?.isBlank ?? true
+    }
+}
+
+extension String {
 
     func substringWithRange(_ start: Int, end: Int) -> String {
         if start < 0 || start > self.characters.count {
@@ -42,10 +53,6 @@ extension String {
         let endPos = self.characters.index(self.startIndex, offsetBy: start + location)
         let range = startPos ..< endPos
         return self.substring(with: range)
-    }
-
-    func trim() -> String {
-        return self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     func char(at: Int) -> String {

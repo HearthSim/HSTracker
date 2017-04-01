@@ -122,7 +122,7 @@ final class CoreManager: NSObject {
                     .filter { !$0.isEmpty }
 
                 for splittedZone in splittedZones {
-                    var zoneData = splittedZone.filter { !String.isNullOrEmpty($0) }
+                    var zoneData = splittedZone.filter { !$0.isBlank }
                     if zoneData.count < 1 {
                         continue
                     }

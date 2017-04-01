@@ -71,7 +71,7 @@ final class ReplayMaker {
             // adventure bosses
             opponentHero = points.last?.data
                 .firstWhere({
-                    !String.isNullOrEmpty($0.cardId)
+                    !$0.cardId.isBlank
                         && (($0.cardId.hasPrefix("NAX") && $0.cardId.contains("_01"))
                             || $0.cardId.hasPrefix("BRMA"))
                         && Cards.hero(byId: $0.cardId) != nil
@@ -135,7 +135,7 @@ final class ReplayMaker {
         if let lastKeyPoint = points.last {
             for kp in points {
                 for entity in lastKeyPoint.data {
-                    if !String.isNullOrEmpty(entity.cardId) {
+                    if !entity.cardId.isBlank {
                         if let e2 = kp.data.firstWhere({ $0.id == entity.id }) {
                             e2.cardId = entity.cardId
                             e2.name = entity.name
@@ -213,7 +213,7 @@ final class ReplayMaker {
         for kp in points {
             let currentBoard = kp.data
                 .filter { $0.isInZone(zone: .play) && $0.has(tag: .health)
-                    && !String.isNullOrEmpty($0.cardId) && !$0.cardId.contains("HERO")
+                    && !$0.cardId.isBlank && !$0.cardId.contains("HERO")
             }
             if onBoard.all({ (e) in
                 currentBoard.any({ (e2) in e2.id == e.id }) })

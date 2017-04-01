@@ -111,7 +111,7 @@ class Entity {
     }
 
     var hasCardId: Bool {
-        return !String.isNullOrEmpty(cardId)
+        return !cardId.isBlank
     }
 
     private var _cachedCard: Card?

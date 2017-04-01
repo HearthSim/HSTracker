@@ -36,7 +36,7 @@ class BoardCard: IBoardEntity {
     init(entity: Entity, active: Bool = true) {
         let card = Cards.by(cardId: entity.cardId)
         let cardName = card != nil ? card!.name : ""
-        name = String.isNullOrEmpty(entity.name) ? cardName : entity.name!
+        name = entity.name.isBlank ? cardName : entity.name!
         
         _stdAttack = entity[.atk]
         _health = entity[.health]
@@ -70,7 +70,7 @@ class BoardCard: IBoardEntity {
     
     private func calculateAttack(active: Bool, isWeapon: Bool) -> Int {
         // V-07-TR-0N is a special case Mega-Windfury
-        if !String.isNullOrEmpty(cardId) && cardId == "GVG_111t" {
+        if !cardId.isBlank && cardId == "GVG_111t" {
             return V07TRONAttack(active: active)
         }
         
