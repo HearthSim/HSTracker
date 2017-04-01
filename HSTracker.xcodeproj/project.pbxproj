@@ -361,7 +361,6 @@
 		437E56F61DAAB81400FC0FC1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
 		437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */; };
 		437E56FA1DAAE48E00FC0FC1 /* Hearthstoneheroes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */; };
-		43847D8E1E8D965E0060C2D2 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; };
 		43847D8F1E8D96720060C2D2 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; };
 		43847D901E8D96720060C2D2 /* RegexUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43847D911E8D96970060C2D2 /* RegexUtil.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1019,7 +1018,6 @@
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
 				43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
-				43847D8E1E8D965E0060C2D2 /* RegexUtil.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1701,7 +1699,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Benjamin Michotte";
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
