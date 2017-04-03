@@ -201,7 +201,7 @@ final class CoreManager: NSObject {
     }
 
     func startTracking() {
-		// TODO: revise if delay is really needed
+		// Starting logreaders after short delay is as game might be still in loading state
         let time = DispatchTime.now() + .seconds(1)
         DispatchQueue.main.asyncAfter(deadline: time) { [unowned self] in
             Log.info?.message("Start Tracking")

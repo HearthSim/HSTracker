@@ -31,7 +31,11 @@ class Game: PowerEventHandler {
 	/**
 	 * View controller of this game object
 	 */
-    private let windowManager = WindowManager()
+	#if DEBUG
+		internal let windowManager = WindowManager()
+	#else
+		private let windowManager = WindowManager()
+	#endif
 	
 	static let guiUpdateDelay: TimeInterval = 1.0
     
@@ -403,7 +407,7 @@ class Game: PowerEventHandler {
 		                              "space_changed", "hearthstone_closed", "hearthstone_running",
 		                              "hearthstone_active", "hearthstone_deactived", "can_join_fullscreen",
 		                              "hide_all_trackers_when_not_in_game", "hide_all_trackers_when_game_in_background",
-		                              "card_size"]
+		                              "card_size", "theme"]
 		
 		for option in playerTrackerUpdateEvents {
 			center.addObserver(self,

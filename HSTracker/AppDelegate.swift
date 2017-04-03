@@ -249,10 +249,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		coreManager.start()
 		
 		let events = [
-			// TODO: rework events
 			"reload_decks": #selector(AppDelegate.reloadDecks(_:)),
-			"hstracker_language": #selector(AppDelegate.languageChange(_:)),
-			"theme": #selector(reloadTheme)
+			"hstracker_language": #selector(AppDelegate.languageChange(_:))
 		]
 		
 		for (event, selector) in events {
@@ -268,21 +266,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		splashscreen?.close()
 		splashscreen = nil
-		
-		// TODO: rework delayed update needed at all?
-		/*let time = DispatchTime.now() + DispatchTimeInterval.milliseconds(500)
-		DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
-		self?.game.windowManager?.updateTrackers()
-		}*/
 	}
 	
 	func reloadDecks(_ notification: Notification) {
 		buildMenu()
-	}
-	
-	func reloadTheme() {
-		// TODO: move this to notifications
-		//hearthstone.game.windowManager?.updateTrackers(reset: true)
 	}
 	
 	func languageChange(_ notification: Notification) {
@@ -507,14 +494,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		                                comment: "")
 	}
 	
+	#if DEBUG
 	var windowMove: WindowMove?
 	@IBAction func openDebugPositions(_ sender: AnyObject) {
-		// TODO rework (remove?) windowdebug
-		/*if windowMove == nil {
-		windowMove = WindowMove(windowNibName: "WindowMove", windowManager: hearthstone.game.windowManager!)
+		if windowMove == nil {
+			windowMove = WindowMove(windowNibName: "WindowMove", windowManager: coreManager.game.windowManager)
 		}
-		windowMove?.showWindow(self)*/
+		windowMove?.showWindow(self)
 	}
+	#endif
 	
 	@IBAction func closeWindow(_ sender: AnyObject) {
 	}
