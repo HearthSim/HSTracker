@@ -118,9 +118,9 @@ class Game: PowerEventHandler {
 				                          gameStarted: gameStarted)
 
 				tracker.showCthunCounter = self.showOpponentCthunCounter
-				tracker.showSpellCounter = self.showOpponentSpellsCounter
-				tracker.showDeathrattleCounter = self.showOpponentDeathrattleCounter
-				tracker.showGraveyard = self.showOpponentGraveyard
+				tracker.showSpellCounter = Settings.showOpponentSpell
+				tracker.showDeathrattleCounter = Settings.showOpponentDeathrattle
+				tracker.showGraveyard = Settings.showOpponentGraveyard
 				tracker.showJadeCounter = self.showOpponentJadeCounter
 				tracker.proxy = self.opponentCthunProxy
 				tracker.nextJadeSize = self.opponentNextJadeGolem
@@ -181,7 +181,7 @@ class Game: PowerEventHandler {
                 tracker.showCthunCounter = self.showPlayerCthunCounter
                 tracker.showSpellCounter = self.showPlayerSpellsCounter
                 tracker.showDeathrattleCounter = self.showPlayerDeathrattleCounter
-                tracker.showGraveyard = self.showPlayerGraveyard
+                tracker.showGraveyard = Settings.showPlayerGraveyard
                 tracker.showJadeCounter = self.showPlayerJadeCounter
                 tracker.proxy = self.playerCthunProxy
                 tracker.nextJadeSize = self.playerNextJadeGolem

@@ -294,7 +294,7 @@ final class CoreManager: NSObject {
         }
     }
 
-    func bringToFront() {
+    static func bringHSToFront() {
         if let hsapp = CoreManager.hearthstoneApp {
             hsapp.activate(options: .activateIgnoringOtherApps)
         }

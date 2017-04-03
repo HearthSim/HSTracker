@@ -22,8 +22,7 @@ struct Automation {
 
         let deckId = deck.deckId
         queue.async {
-            // bring HS to front, TODO: fix automation
-            //(NSApp.delegate as? AppDelegate)?.hearthstone.bringToFront()
+			CoreManager.bringHSToFront()
 
             let searchLocation = SizeHelper.searchLocation()
             let firstCardLocation = SizeHelper.firstCardLocation()

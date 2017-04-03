@@ -111,11 +111,6 @@ extension Game {
 			&& (playerYogg != nil || nzothInDeck == true)
 	}
 	
-	// TODO: why here??
-	var showPlayerGraveyard: Bool {
-		return Settings.showPlayerGraveyard
-	}
-	
 	var showPlayerJadeCounter: Bool {
 		return Settings.showPlayerJadeCounter && playerSeenJade
 	}
@@ -126,17 +121,5 @@ extension Game {
 	
 	var showOpponentCthunCounter: Bool {
 		return Settings.showOpponentCthun && opponentSeenCthun
-	}
-	
-	var showOpponentSpellsCounter: Bool {
-		return Settings.showOpponentSpell
-	}
-	
-	var showOpponentDeathrattleCounter: Bool {
-		return Settings.showOpponentDeathrattle
-	}
-	
-	var showOpponentGraveyard: Bool {
-		return Settings.showOpponentGraveyard
 	}
 }

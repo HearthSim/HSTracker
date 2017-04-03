@@ -265,10 +265,8 @@ class StatsHelper {
     
     static func guessRank(deck: Deck) -> Int {
         let isStandard = deck.standardViable()
-
-        var rdecks: [Deck]? = RealmHelper.getDecks()
         
-        guard let sdecks = rdecks else { return -1 }
+        guard let sdecks = RealmHelper.getDecks() else { return -1 }
 
         let decks = sdecks
             .filter({$0.standardViable() == isStandard})
