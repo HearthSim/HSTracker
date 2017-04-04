@@ -406,6 +406,10 @@ class Game: PowerEventHandler {
             .filter { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.player.id) }.count }
 
+    var opponentHandCount: Int {
+        return entities.map { $0.1 }
+            .filter { $0.isInHand && $0.isControlled(by: self.opponent.id) }.count }
+
     private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
 
 	// MARK: - Lifecycle
