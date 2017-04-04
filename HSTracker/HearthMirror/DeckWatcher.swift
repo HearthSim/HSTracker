@@ -64,6 +64,9 @@ class DeckWatcher: Watcher {
             }
 
             if deckId > 0 {
+                if deckId != DeckWatcher.selectedDeckId {
+                    Log.info?.message("found deck id: \(deckId)")
+                }
                 DeckWatcher.selectedDeckId = deckId
             }
 

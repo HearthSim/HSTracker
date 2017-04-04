@@ -70,16 +70,19 @@ class Game: PowerEventHandler {
 	
 	// MARK: - PowerEventHandler protocol
 	
-	func handleEntitiesChange(added: [Int],
-	                          removed: [Int],
-	                          changed: [(old: Entity, new: Entity)]) {
+	func handleEntitiesChange(changed: [(old: Entity, new: Entity)]) {
 
 		if let playerPair = changed.firstWhere({ $0.old.id == self.player.id }) {
 			// TODO: player entity changed
 			if let oldName = playerPair.old.name, let newName = playerPair.new.name, oldName != newName {
 				print("Player entity name changed from \(oldName) to \(newName)")
 			} else {
-				print("Player tag changed ")
+                // get added/removed tags
+                let newTags = playerPair.new.tags.keys.filter { !playerPair.old.tags.keys.contains($0) }
+                
+                if newTags.contains(.mulligan_state) {
+                    print("Player new mulligan state: \(playerPair.new[.mulligan_state])")
+                }
 			}
 		}
 	}
@@ -110,6 +113,8 @@ class Game: PowerEventHandler {
 		
 		self.updatePlayerTracker(reset: guiUpdateResets)
 		self.updateOpponentTracker(reset: guiUpdateResets)
+        
+        self.updateTurnTimer()
 	}
 	
     // MARK: - GUI calls
@@ -256,6 +261,34 @@ class Game: PowerEventHandler {
         }
     }
 
+    func updateTurnTimer() {
+        DispatchQueue.main.async { [unowned self] in
+            // timer
+            if Settings.showTimer && !self.gameEnded &&
+                ( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground) {
+                var rect: NSRect?
+                if Settings.autoPositionTrackers {
+                    rect = SizeHelper.timerHudFrame()
+                } else {
+                    rect = Settings.timerHudFrame
+                    if rect == nil {
+                        rect = SizeHelper.timerHudFrame()
+                    }
+                }
+                if let timerHud = self.turnTimer.timerHud {
+                    timerHud.hasValidFrame = true
+                    self.windowManager.show(controller: timerHud, show: true, frame: rect)
+                }
+            } else {
+                if let timerHud = self.turnTimer.timerHud {
+                    self.windowManager.show(controller: timerHud, show: false)
+                }
+            }
+            
+        }
+    }
+    
     // MARK: - vars
     var currentTurn = 0
     var lastId = 0
@@ -297,6 +330,9 @@ class Game: PowerEventHandler {
         if _currentGameType != .gt_unknown {
             return _currentGameType
         }
+        if self.gameEnded {
+            return .gt_unknown
+        }
         if let gameType = MirrorHelper.getGameType(),
             let type = GameType(rawValue: gameType) {
             _currentGameType = type
@@ -307,19 +343,15 @@ class Game: PowerEventHandler {
 	var entities: [Int: Entity] = [:] {
 		didSet {
 			// collect all elements that changed
-			let oldKeys = oldValue.keys
 			let newKeys = entities.keys
-			let addedElements = newKeys.filter { !oldKeys.contains($0) }
-			let removedElements = oldKeys.filter { !newKeys.contains($0) }
+			
 			let changedElements = Array(newKeys.filter {
 				if let oldEntity = oldValue[$0] {
 					return oldEntity != self.entities[$0]
 				}
 				return false
 			}).map { (old: oldValue[$0]!, new: self.entities[$0]!) }
-			self.handleEntitiesChange(added: Array(addedElements),
-			                          removed: Array(removedElements),
-			                          changed: changedElements)
+			self.handleEntitiesChange(changed: changedElements)
 		}
 	}
     var tmpEntities: [Entity] = []
@@ -977,7 +1009,14 @@ class Game: PowerEventHandler {
             return
         }
 
-		turnTimer.startTurn(for: player)
+        var timeout = -1
+        if player == .player && playerEntity!.has(tag: .timeout) {
+            timeout = playerEntity![.timeout]
+        } else if player == .opponent && opponentEntity!.has(tag: .timeout) {
+            timeout = opponentEntity![.timeout]
+        }
+		
+        turnTimer.startTurn(for: player, timeout: timeout)
 
         if player == .player && !isInMenu {
             showNotification(type: .turnStart)

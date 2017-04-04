@@ -323,7 +323,7 @@ final class CoreManager: NSObject {
 	static func autoDetectDeck(mode: Mode) -> Deck? {
 		
 		let selectedModes: [Mode] = [.tavern_brawl, .tournament,
-		                             .friendly, .adventure]
+		                             .friendly, .adventure, .gameplay]
 		if selectedModes.contains(mode) {
 			
 			Log.info?.message("Trying to import deck from Hearthstone")

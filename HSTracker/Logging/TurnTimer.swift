@@ -19,7 +19,7 @@ import CleanroomLogger
     private(set) var opponentSeconds: Int = 0
     private var turnTime: Int = 75
     private var timer: Timer?
-	private weak var timerHud: TimerHud?
+	weak var timerHud: TimerHud?
 	
 	private var currentPlayer: PlayerType = .player
 	
@@ -31,7 +31,8 @@ import CleanroomLogger
 		self.timerHud = gui
 	}
 	
-    func startTurn(for player: PlayerType) {
+    func startTurn(for player: PlayerType, timeout: Int = -1) {
+        Log.info?.message("Starting turn for \(player)")
 		seconds = TurnTimer.TurnLengthSec
 		self.currentPlayer = player
 		
@@ -41,55 +42,21 @@ import CleanroomLogger
 		                                  selector: #selector(self.timerTick),
 		                                  userInfo: nil,
 		                                  repeats: true)
-/*
-        if player == .player && game.playerEntity != nil {
-            seconds = game.playerEntity!.has(tag: .timeout)
-                    ? game.playerEntity![.timeout] : 75
-        } else if player == .opponent && game.opponentEntity != nil {
-            seconds = game.opponentEntity!.has(tag: .timeout)
-                    ? game.opponentEntity![.timeout] : 75
-        } else {
+        if timeout < 0 {
             seconds = 75
-            Log.warning?.message("Could not update timer, both player entities are null")
-        }*/
+        } else {
+            seconds = timeout
+        }
+
     }
 
     func start() {
-		
-        Log.info?.message("Starting turn timer")
-		
+
         playerSeconds = 0
         opponentSeconds = 0
         seconds = 75
 		
 		timer?.invalidate()
-/*
-        DispatchQueue.global().async {
-			
-                    if game.playerEntity == nil {
-                        Log.verbose?.message("Waiting for player entity")
-                        while game.playerEntity == nil {
-                            Thread.sleep(forTimeInterval: 0.1)
-                        }
-                    }
-                    if game.opponentEntity == nil {
-                        Log.verbose?.message("Waiting for player entity")
-                        while game.opponentEntity == nil {
-                            Thread.sleep(forTimeInterval: 0.1)
-                        }
-                    }
-
-                    DispatchQueue.main.async {
-                        if self.timer != nil {
-                            self.timer!.invalidate()
-                        }
-                        self.timer = Timer.scheduledTimer(timeInterval: 1,
-                                target: self,
-                                selector: #selector(self.timerTick),
-                                userInfo: nil,
-                                repeats: true)
-                    }
-                }*/
     }
 
     func stop() {

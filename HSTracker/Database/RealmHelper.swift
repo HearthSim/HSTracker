@@ -176,8 +176,8 @@ struct RealmHelper {
 		
 		if nameDoesNotMatch || (cardsDontMatch.success && (cardsDontMatch.cards.count > 0)) {
 			if nameDoesNotMatch {
-				Log.info?.message("Deck \(selectedDeck.name) exists" +
-					"with an old name, updating it.")
+				Log.info?.message("Deck \(selectedDeck.name) exists " +
+					"with an old name (\(storedDeck.name)), updating it.")
 			} else {
 				Log.info?.message("Deck \(selectedDeck.name) exists, updating it.")
 			}

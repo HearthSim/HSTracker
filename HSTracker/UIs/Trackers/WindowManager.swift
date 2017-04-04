@@ -123,24 +123,7 @@ class WindowManager {
     private func redrawTrackers(reset: Bool = false) {
        /* var rect: NSRect?
  TODO: dissect redraw code
-        // timer
-        if Settings.showTimer && !game.gameEnded &&
-            ( (Settings.hideAllWhenGameInBackground && hearthstone.hearthstoneActive)
-                || !Settings.hideAllWhenGameInBackground) {
-            if Settings.autoPositionTrackers {
-                rect = SizeHelper.timerHudFrame()
-            } else {
-                rect = Settings.timerHudFrame
-                if rect == nil {
-                    rect = SizeHelper.timerHudFrame()
-                }
-            }
-            timerHud.hasValidFrame = true
-            show(controller: timerHud, show: true, frame: rect)
-        } else {
-            show(controller: timerHud, show: false)
-        }
-
+        
         // secret helper
         if Settings.showSecretHelper &&
             ( (Settings.hideAllWhenGameInBackground && hearthstoneActive)
