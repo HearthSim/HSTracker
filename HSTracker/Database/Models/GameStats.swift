@@ -103,23 +103,23 @@ class InternalGameStats {
 extension InternalGameStats: CustomStringConvertible {
     var description: String {
         return "statId: \(statId), " +
-        "hearthstoneBuild: \(hearthstoneBuild), " +
+        "hearthstoneBuild: \(String(describing: hearthstoneBuild)), " +
         "playerCardbackId: \(playerCardbackId), " +
         "opponentCardbackId: \(opponentCardbackId), " +
         "friendlyPlayerId: \(friendlyPlayerId), " +
         "scenarioId: \(scenarioId), " +
-        "serverInfo: \(serverInfo), " +
+        "serverInfo: \(String(describing: serverInfo)), " +
         "season: \(season), " +
         "gameType: \(gameType), " +
-        "hsDeckId: \(hsDeckId), " +
+        "hsDeckId: \(String(describing: hsDeckId)), " +
         "brawlSeasonId: \(brawlSeasonId), " +
         "rankedSeasonId: \(rankedSeasonId), " +
         "arenaWins: \(arenaWins), " +
         "arenaLosses: \(arenaLosses), " +
         "brawlWins: \(brawlWins), " +
         "brawlLosses: \(brawlLosses), " +
-        "format: \(format), " +
-        "hsReplayId: \(hsReplayId), " +
+        "format: \(String(describing: format)), " +
+        "hsReplayId: \(String(describing: hsReplayId)), " +
         "opponentCards: \(opponentCards), " +
         "revealedCards: \(revealedCards)"
     }

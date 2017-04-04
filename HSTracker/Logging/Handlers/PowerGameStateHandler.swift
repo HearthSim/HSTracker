@@ -164,7 +164,7 @@ class PowerGameStateHandler {
                         let cards = game.knownCardIds[blockId] {
                         cardId = cards.first
                         if !String.isNullOrEmpty(cardId) {
-                            Log.verbose?.message("Found known cardId '\(cardId)' for entity \(id)")
+                            Log.verbose?.message("Found known cardId '\(String(describing: cardId))' for entity \(id)")
                             game.knownCardIds[id] = nil
                         }
                     }

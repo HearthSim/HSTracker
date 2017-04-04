@@ -87,7 +87,7 @@ struct Automation {
                     .filter("deckId = '\(deckId)'").first {
                         do {
                             try realm.write {
-                                _deck.hsDeckId.value = editedDeck.id as Int64
+                                _deck.hsDeckId.value = editedDeck.id as? Int64 ?? 0
                             }
                         } catch {
                             Log.error?.message("Can't update deck")

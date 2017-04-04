@@ -26,10 +26,10 @@ class ServerInfo: Object {
         self.init()
         address = info.address
         auroraPassword = info.auroraPassword
-        clientHandle = info.clientHandle as Int
-        gameHandle = info.gameHandle as Int
-        mission = info.mission as Int
-        port = info.port as Int
+        clientHandle = info.clientHandle as? Int ?? 0
+        gameHandle = info.gameHandle as? Int ?? 0
+        mission = info.mission as? Int ?? 0
+        port = info.port as? Int ?? 0
         resumable = info.resumable
         spectatorMode = info.spectatorMode
         spectatorPassword = info.spectatorPassword

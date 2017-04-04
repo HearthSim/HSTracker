@@ -167,8 +167,8 @@ class LogUploader {
                     guard let json = jsonData as? [String: Any],
                         let putUrl = json["put_url"] as? String,
                         let uploadShortId = json["shortid"] as? String else {
-                            Log.error?.message("JSON Error : \(jsonData)")
-                            completion(.failed(error: "Can not gzip : \(jsonData)"))
+                            Log.error?.message("JSON Error : \(String(describing: jsonData))")
+                            completion(.failed(error: "Can not gzip : \(String(describing: jsonData))"))
                             return
                     }
 

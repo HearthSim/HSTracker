@@ -44,7 +44,7 @@ struct Http {
                                         convertedString: &convertedNSString,
                                         usedLossyConversion: nil)
 
-                if let html = convertedNSString as? String,
+                if let html = convertedNSString as String?,
                     let doc = Kanna.HTML(html: html, encoding: .utf8) {
                     DispatchQueue.main.async {
                         completion(doc)
@@ -94,7 +94,8 @@ struct Http {
                     }
                 }
             } else {
-                Log.error?.message("\(#function): \(error), \(data), \(response)")
+                Log.error?.message("\(#function): \(String(describing: error)), "
+                    + "\(String(describing: data)), \(String(describing: response))")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -119,8 +120,10 @@ struct Http {
                                     } else if let data = data {
                                         Log.verbose?.message("upload result : \(data)")
                                     } else {
-                                        Log.error?.message("\(#function): \(error), "
-                                            + "data: \(data), response: \(response)")
+                                        Log.error?.message("\(#function): "
+                                            + "\(String(describing: error)), "
+                                            + "data: \(String(describing: data)), "
+                                            + "response: \(String(describing: response))")
                                     }
             }.resume()
     }

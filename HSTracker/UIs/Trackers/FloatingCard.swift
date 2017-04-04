@@ -125,8 +125,9 @@ class FloatingCard: OverWindowController {
             let layoutManager = NSLayoutManager()
             let textStorage = NSTextStorage(attributedString:
                 NSAttributedString(string: information, attributes: attributes))
+            let flt = Float.greatestFiniteMagnitude
             let textContainer = NSTextContainer(containerSize:
-                NSSize(width: window.frame.size.width, height: CGFloat(FLT_MAX)))
+                NSSize(width: window.frame.size.width, height: CGFloat(flt)))
             layoutManager.addTextContainer(textContainer)
             textStorage.addLayoutManager(layoutManager)
             

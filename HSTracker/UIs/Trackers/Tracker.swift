@@ -54,7 +54,7 @@ class Tracker: OverWindowController {
         }
 
         guard let currentSelector = selector else {
-            Log.error?.message("\(playerType) is unknown")
+            Log.error?.message("\(String(describing: playerType)) is unknown")
             return
         }
 

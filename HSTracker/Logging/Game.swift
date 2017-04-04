@@ -453,7 +453,7 @@ class Game {
     }
 
     func handleEndGame() {
-        Log.verbose?.message("currentGameStats: \(currentGameStats), " +
+        Log.verbose?.message("currentGameStats: \(String(describing: currentGameStats)), " +
             "handledGameEnd: \(handledGameEnd)")
         if currentGameStats == nil || handledGameEnd {
             Log.warning?.message("HandleGameEnd was already called.")
@@ -1172,7 +1172,7 @@ class Game {
         }
         if Settings.fullGameLog {
             Log.info?.message("Secret played by \(entity[.class])"
-                + " -> \(heroClass) -> \(opponent.playerClass)")
+                + " -> \(String(describing: heroClass)) -> \(String(describing: opponent.playerClass))")
         }
         if let hero = heroClass {
             opponentSecrets?.newSecretPlayed(heroClass: hero, id: otherId, turn: turn)

@@ -68,7 +68,7 @@ struct FullScreenFxHandler {
         }
 
         let decks = mirror.getDecks()
-        guard let selectedDeck = decks.first({ $0.id as Int64 == selectedDeckId }) else {
+        guard let selectedDeck = decks.first({ $0.id as? Int64 ?? 0 == selectedDeckId }) else {
             Log.warning?.message("No deck with id=\(selectedDeckId) found")
             game.set(activeDeck: nil)
             return
@@ -111,7 +111,7 @@ struct FullScreenFxHandler {
                                         else {
                                     continue
                                 }
-                                c.count = card.count as Int
+                                c.count = card.count as? Int ?? 0
                                 storedDeck.add(card: c)
                             }
 
@@ -161,7 +161,7 @@ struct FullScreenFxHandler {
                         guard let c = Cards.by(cardId: card.cardId as String) else {
                             continue
                         }
-                        c.count = card.count as Int
+                        c.count = card.count as? Int ?? 0
                         deck.add(card: c)
                     }
                     if deck.isValid() {
@@ -203,7 +203,7 @@ struct FullScreenFxHandler {
         guard let realm = try? Realm() else {
             return
         }
-        let hsDeckId = hsDeck.id as Int64
+        let hsDeckId = hsDeck.id as? Int64 ?? 0
 
         if let deck = realm.objects(Deck.self)
                 .filter("hsDeckId = \(hsDeckId)").first {
@@ -232,7 +232,7 @@ struct FullScreenFxHandler {
                     guard let c = Cards.by(cardId: card.cardId as String) else {
                         continue
                     }
-                    c.count = card.count as Int
+                    c.count = card.count as? Int ?? 0
                     deck.add(card: c)
                 }
                 if deck.isValid() {

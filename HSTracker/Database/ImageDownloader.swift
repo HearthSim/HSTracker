@@ -105,7 +105,7 @@ final class ImageDownloader {
                 .downloadTask(with: URLRequest(url: url),
                               completionHandler: { (url, _, error) -> Void in
                                 if error != nil {
-                                    Log.error?.message("download error \(error)")
+                                    Log.error?.message("download error \(String(describing: error))")
                                     self.downloadImages(language: language,
                                                         splashscreen: splashscreen)
                                     return

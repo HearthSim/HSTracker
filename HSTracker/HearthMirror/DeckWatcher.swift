@@ -70,7 +70,7 @@ class ArenaDeckWatcher: DeckWatcher {
     private(set) var selectedDeck: MirrorDeck?
     
     override var selectedDeckId: Int64 {
-        return selectedDeck?.id as Int64? ?? 0
+        return selectedDeck?.id as? Int64 ?? 0
     }
     
     override func run() {

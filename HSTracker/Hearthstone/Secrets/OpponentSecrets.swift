@@ -188,7 +188,7 @@ class OpponentSecrets {
             secrets[index].trySetSecret(cardId: cardId, active: false)
         }
         if stopIndex > 0 {
-            Log.info?.message("Set secret to zero: \(Cards.by(cardId: cardId))")
+            Log.info?.message("Set secret to zero: \(String(describing: Cards.by(cardId: cardId)))")
         }
     }
 

@@ -22,7 +22,8 @@ struct LoadingScreenHandler {
             game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
             game.previousMode = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
 
-            Log.info?.message("Game mode from \(game.previousMode) to \(game.currentMode)")
+            Log.info?.message("Game mode from \(String(describing: game.previousMode)) "
+                + "to \(String(describing: game.currentMode))")
 
             if game.previousMode == .gameplay && game.currentMode != .gameplay {
                 game.inMenu()
