@@ -21,6 +21,10 @@
 		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4305F58E1E943B3100FDAC7C /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
+		4305F5901E94414800FDAC7C /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305F58F1E94414800FDAC7C /* RegexUtil.framework */; };
+		4305F5911E94415D00FDAC7C /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305F58F1E94414800FDAC7C /* RegexUtil.framework */; };
+		4305F5921E94415D00FDAC7C /* RegexUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305F58F1E94414800FDAC7C /* RegexUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4305F5941E94418000FDAC7C /* RegexUtil.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305F5931E94418000FDAC7C /* RegexUtil.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
 		4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */; };
 		4308EB831D775E2C000897C8 /* UpdatePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4308EB851D775E2C000897C8 /* UpdatePreferences.xib */; };
@@ -354,6 +358,7 @@
 				43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in CopyFiles */,
 				4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */,
 				436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */,
+				4305F5941E94418000FDAC7C /* RegexUtil.framework.dSYM in CopyFiles */,
 				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,6 +386,7 @@
 				43E7BEA61DBB7F8F0057DC0C /* Realm.framework in Embed Frameworks */,
 				43BBAAA31E61A130009B6298 /* JNWCollectionView.framework in Embed Frameworks */,
 				43E7BEA71DBB7F8F0057DC0C /* RealmSwift.framework in Embed Frameworks */,
+				4305F5921E94415D00FDAC7C /* RegexUtil.framework in Embed Frameworks */,
 				4323C5EE1E1A503700C97896 /* HearthMirror.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -402,6 +408,8 @@
 		4305CA3D1CF42AC60048E7EC /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/Mac/Wrap.framework; sourceTree = "<group>"; };
 		4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Wrap.framework.dSYM; path = Carthage/Build/Mac/Wrap.framework.dSYM; sourceTree = "<group>"; };
 		4305CA461CF434E30048E7EC /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
+		4305F58F1E94414800FDAC7C /* RegexUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RegexUtil.framework; path = Carthage/Build/Mac/RegexUtil.framework; sourceTree = "<group>"; };
+		4305F5931E94418000FDAC7C /* RegexUtil.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RegexUtil.framework.dSYM; path = Carthage/Build/Mac/RegexUtil.framework.dSYM; sourceTree = "<group>"; };
 		4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReleaseChannel.swift; sourceTree = "<group>"; };
 		4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePreferences.swift; sourceTree = "<group>"; };
 		4308EB841D775E2C000897C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/UpdatePreferences.xib; sourceTree = "<group>"; };
@@ -791,6 +799,7 @@
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
+				4305F5901E94414800FDAC7C /* RegexUtil.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
 				43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */,
@@ -801,6 +810,7 @@
 				431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */,
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
+				4305F5911E94415D00FDAC7C /* RegexUtil.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1394,6 +1404,8 @@
 				43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */,
 				43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */,
 				43E7BEAD1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM */,
+				4305F58F1E94414800FDAC7C /* RegexUtil.framework */,
+				4305F5931E94418000FDAC7C /* RegexUtil.framework.dSYM */,
 				4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */,
 				438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */,
 				43647A521CDC9A3D00C2B78E /* TextAttributes.framework */,
