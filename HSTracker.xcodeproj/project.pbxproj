@@ -13,7 +13,6 @@
 		43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; };
 		43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43050C581E6B10DE007600EA /* UnityPack.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
 		43050C5C1E6B11A9007600EA /* HearthAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43050C5E1E6B11B3007600EA /* HearthAssets.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C5D1E6B11B3007600EA /* HearthAssets.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
@@ -21,6 +20,7 @@
 		4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
+		4305F58E1E943B3100FDAC7C /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
 		4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */; };
 		4308EB831D775E2C000897C8 /* UpdatePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4308EB851D775E2C000897C8 /* UpdatePreferences.xib */; };
@@ -786,11 +786,10 @@
 				43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */,
 				43BBAAA11E61A11F009B6298 /* JNWCollectionView.framework in Frameworks */,
 				4323C5EB1E1A501E00C97896 /* HearthMirror.framework in Frameworks */,
-				43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */,
+				4305F58E1E943B3100FDAC7C /* HearthAssets.framework in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
-				43050C5A1E6B11A4007600EA /* HearthAssets.framework in Frameworks */,
 				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
@@ -1461,7 +1460,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Benjamin Michotte";
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
