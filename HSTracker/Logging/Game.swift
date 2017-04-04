@@ -38,6 +38,8 @@ class Game: PowerEventHandler {
 	#endif
 	
 	static let guiUpdateDelay: TimeInterval = 1.0
+	
+	private let turnTimer: TurnTimer
     
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
@@ -67,6 +69,20 @@ class Game: PowerEventHandler {
 	}
 	
 	// MARK: - PowerEventHandler protocol
+	
+	func handleEntitiesChange(added: [Int],
+	                          removed: [Int],
+	                          changed: [(old: Entity, new: Entity)]) {
+
+		if let playerPair = changed.firstWhere({ $0.old.id == self.player.id }) {
+			// TODO: player entity changed
+			if let oldName = playerPair.old.name, let newName = playerPair.new.name, oldName != newName {
+				print("Player entity name changed from \(oldName) to \(newName)")
+			} else {
+				print("Player tag changed ")
+			}
+		}
+	}
 	
 	func add(entity: Entity) {
 		if entities[entity.id] == .none {
@@ -288,7 +304,24 @@ class Game: PowerEventHandler {
         return _currentGameType
     }
 
-    var entities: [Int: Entity] = [:]
+	var entities: [Int: Entity] = [:] {
+		didSet {
+			// collect all elements that changed
+			let oldKeys = oldValue.keys
+			let newKeys = entities.keys
+			let addedElements = newKeys.filter { !oldKeys.contains($0) }
+			let removedElements = oldKeys.filter { !newKeys.contains($0) }
+			let changedElements = Array(newKeys.filter {
+				if let oldEntity = oldValue[$0] {
+					return oldEntity != self.entities[$0]
+				}
+				return false
+			}).map { (old: oldValue[$0]!, new: self.entities[$0]!) }
+			self.handleEntitiesChange(added: Array(addedElements),
+			                          removed: Array(removedElements),
+			                          changed: changedElements)
+		}
+	}
     var tmpEntities: [Entity] = []
     var knownCardIds: [Int: [String]] = [:]
     var joustReveals = 0
@@ -342,7 +375,7 @@ class Game: PowerEventHandler {
     }
 
     var playerEntity: Entity? {
-		return entities.map { $0.1 }.firstWhere { $0.isPlayer(eventHandler: self) }
+		return entities.map { $0.1 }.firstWhere { $0[.player_id] == self.player.id }
     }
 
     var opponentEntity: Entity? {
@@ -379,9 +412,11 @@ class Game: PowerEventHandler {
 	
     init(hearthstoneRunState: HearthstoneRunState) {
         self.hearthstoneRunState = hearthstoneRunState
+		turnTimer = TurnTimer(gui: windowManager.timerHud)
 		player = Player(local: true, game: self)
         opponent = Player(local: false, game: self)
         opponentSecrets = OpponentSecrets(game: self)
+		
 		windowManager.startManager()
 		
 		let center = NotificationCenter.default
@@ -586,8 +621,7 @@ class Game: PowerEventHandler {
         showNotification(type: .gameStart)
 
         if Settings.showTimer {
-			// TODO: fix turn timer
-            TurnTimer.instance.start(game: self)
+            self.turnTimer.start()
         }
 		
 		// update spectator information
@@ -637,7 +671,7 @@ class Game: PowerEventHandler {
         opponentSecrets?.clearSecrets()
         updateTrackers(reset: true)
         windowManager.hideGameTrackers()
-        TurnTimer.instance.stop()
+        turnTimer.stop()
     }
 
     func inMenu() {
@@ -646,7 +680,7 @@ class Game: PowerEventHandler {
         }
         Log.verbose?.message("Game is now in menu")
 
-        TurnTimer.instance.stop()
+        turnTimer.stop()
 
         if Settings.saveReplays {
             ReplayMaker.saveToDisk(powerLog: powerLog)
@@ -939,9 +973,7 @@ class Game: PowerEventHandler {
             return
         }
 
-        DispatchQueue.main.async {
-            TurnTimer.instance.set(player: player)
-        }
+		turnTimer.startTurn(for: player)
 
         if player == .player && !isInMenu {
             showNotification(type: .turnStart)

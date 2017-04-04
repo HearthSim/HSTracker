@@ -13,12 +13,11 @@ import Wrap
 
 class Entity {
     var id: Int
-	func isPlayer(eventHandler: PowerEventHandler) -> Bool {
-        return self[.player_id] == eventHandler.player.id
-    }
+	
     var cardId = ""
     var name: String?
     var tags: [GameTag: Int] = [:]
+	
     lazy var info: EntityInfo = { [unowned self] in
         return EntityInfo(entity: self) }()
 
@@ -45,6 +44,10 @@ class Entity {
     func has(tag: GameTag) -> Bool {
         return self[tag] > 0
     }
+	
+	func isPlayer(eventHandler: PowerEventHandler) -> Bool {
+		return self[.player_id] == eventHandler.player.id
+	}
 
     var isActiveDeathrattle: Bool {
         return has(tag: .deathrattle) && self[.deathrattle] == 1
