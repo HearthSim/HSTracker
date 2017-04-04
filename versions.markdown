@@ -1,3 +1,7 @@
+# 0.20
+## New:
+- Update to Journey to Un'Goro
+
 # 0.19.3
 ## Fixes:
 - Fixed an issue where HSTracker was using a lot of memory and cpu (eventually ?)
