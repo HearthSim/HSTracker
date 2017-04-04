@@ -101,7 +101,7 @@
 "PROMO" = "Promotion";
 "KARA" = "One Night In Karazhan";
 "GANGS" = "Mean Streets of Gadgetzan";
-"UNG" = "Journey to Un'Goro";
+"UNGORO" = "Journey to Un'Goro";
 
 /* card type */
 "all_types" = "All";
