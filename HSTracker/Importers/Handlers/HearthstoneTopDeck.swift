@@ -16,7 +16,7 @@ struct HearthstoneTopDeck: HttpImporter {
         return "Hearthstonetopdeck"
     }
 
-    var handleUrl: String {
+    var handleUrl: RegexPattern {
         return "hearthstonetopdeck\\.com\\/deck"
     }
 

@@ -10,6 +10,7 @@ import Foundation
 import Kanna
 import CleanroomLogger
 import RealmSwift
+import RegexUtil
 
 enum NetImporterError: Error {
     case invalidUrl, urlNotSupported
@@ -17,7 +18,7 @@ enum NetImporterError: Error {
 
 protocol Importer {
     var siteName: String { get }
-    var handleUrl: String { get }
+    var handleUrl: RegexPattern { get }
     var preferHttps: Bool { get }
     func transformUrl(url: String) -> String
 }

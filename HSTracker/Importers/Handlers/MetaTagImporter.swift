@@ -9,10 +9,11 @@
 import Foundation
 import Kanna
 import CleanroomLogger
+import RegexUtil
 
 struct MetaTagImporter: HttpImporter {
     var siteName: String { return "" }
-    var handleUrl: String { return ".*" }
+    var handleUrl: RegexPattern { return ".*" }
 
     func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         let nodes = doc.xpath("//meta")

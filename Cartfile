@@ -1,4 +1,4 @@
-github "bitstadium/HockeySDK-Mac" "4.1.2"
+github "bitstadium/HockeySDK-Mac" "4.1.3"
 github "jwilling/JNWCollectionView" "master"
 github "tid-kijyun/Kanna" "master"
 github "shpakovski/MASPreferences" "master"
@@ -8,7 +8,7 @@ github "JohnSundell/Wrap"
 github "JohnSundell/Unbox"
 github "ZipArchive/ZipArchive"
 github "emaloney/CleanroomLogger" ~> 3.0.0
-github "groue/GRDB.swift" "Xcode8.3beta"
+github "groue/GRDB.swift"
 github "1024jp/GzipSwift" ~> 3.0.0
 github "realm/realm-cocoa"
 github "HearthSim/HearthMirror" "cpp"

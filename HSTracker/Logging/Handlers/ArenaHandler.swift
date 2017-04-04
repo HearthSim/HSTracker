@@ -14,8 +14,8 @@ import RegexUtil
 
 struct ArenaHandler: LogEventParser {
 
-    let HeroRegex = "Draft Deck ID: (\\d+), Hero Card = (HERO_\\w+)"
-    let ClientChoosesRegex = "Client chooses: .* \\((\\w*)\\)"
+    let HeroRegex: RegexPattern = "Draft Deck ID: (\\d+), Hero Card = (HERO_\\w+)"
+    let ClientChoosesRegex: RegexPattern = "Client chooses: .* \\((\\w*)\\)"
 
 	private unowned let coreManager: CoreManager
 	

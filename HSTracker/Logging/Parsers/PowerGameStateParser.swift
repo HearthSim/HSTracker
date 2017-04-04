@@ -14,16 +14,15 @@ import RegexUtil
 
 class PowerGameStateParser: LogEventParser {
 
-    let BlockStartRegex = ".*BLOCK_START.*BlockType=(POWER|TRIGGER).*id=(\\d*)"
-        + ".*(cardId=(\\w*)).*Target=(.+)"
-    let CardIdRegex = "cardId=(\\w+)"
-    let CreationRegex = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
-    let CreationTagRegex = "tag=(\\w+) value=(\\w+)"
-    let GameEntityRegex = "GameEntity EntityID=(\\d+)"
-    let PlayerEntityRegex = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
-    let PlayerNameRegex = "id=(\\d) Player=(.+) TaskList=(\\d)"
-    let TagChangeRegex = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
-    let UpdatingEntityRegex = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
+    let BlockStartRegex: RegexPattern = ".*BLOCK_START.*BlockType=(POWER|TRIGGER).*id=(\\d*).*(cardId=(\\w*)).*Target=(.+)"
+    let CardIdRegex: RegexPattern = "cardId=(\\w+)"
+    let CreationRegex: RegexPattern = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
+    let CreationTagRegex: RegexPattern = "tag=(\\w+) value=(\\w+)"
+    let GameEntityRegex: RegexPattern = "GameEntity EntityID=(\\d+)"
+    let PlayerEntityRegex: RegexPattern = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
+    let PlayerNameRegex: RegexPattern = "id=(\\d) Player=(.+) TaskList=(\\d)"
+    let TagChangeRegex: RegexPattern = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
+    let UpdatingEntityRegex: RegexPattern = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
 
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?

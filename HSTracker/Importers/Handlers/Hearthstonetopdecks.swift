@@ -9,6 +9,7 @@
 import Foundation
 import Kanna
 import CleanroomLogger
+import RegexUtil
 
 struct HearthstoneTopDecks: HttpImporter {
 
@@ -16,7 +17,7 @@ struct HearthstoneTopDecks: HttpImporter {
         return "Hearthstonetopdecks"
     }
 
-    var handleUrl: String {
+    var handleUrl: RegexPattern {
         return "hearthstonetopdecks\\.com\\/decks"
     }
 

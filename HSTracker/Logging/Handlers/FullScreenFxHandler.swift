@@ -8,10 +8,11 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
 class FullScreenFxHandler: LogEventParser {
 
-    let BeginBlurRegex = "BeginEffect blur \\d => 1"
+    let BeginBlurRegex: RegexPattern = "BeginEffect blur \\d => 1"
     
     private var lastQueueTime: Date = Date.distantPast
 	

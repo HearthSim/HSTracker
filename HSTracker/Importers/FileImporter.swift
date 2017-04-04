@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
 struct FileImporter: BaseFileImporter {
 
@@ -34,7 +35,7 @@ struct FileImporter: BaseFileImporter {
         deck.name = deckName
 
         var cards: [Card] = []
-        let regex = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
+        let regex: RegexPattern = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
         for line in lines {
             guard !line.isBlank else { continue }
 

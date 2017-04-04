@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
 struct Tempostorm: JsonImporter {
 
@@ -15,7 +16,7 @@ struct Tempostorm: JsonImporter {
         return "TempoStorm"
     }
 
-    var handleUrl: String {
+    var handleUrl: RegexPattern {
         return "tempostorm\\.com\\/hearthstone\\/decks"
     }
 

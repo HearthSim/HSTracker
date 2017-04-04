@@ -10,6 +10,7 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
 struct LoadingScreenHandler: LogEventParser {
 	
@@ -19,7 +20,7 @@ struct LoadingScreenHandler: LogEventParser {
 		self.coreManager = coreManager
 	}
 
-    let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
+    let GameModeRegex: RegexPattern = "prevMode=(\\w+).*currMode=(\\w+)"
 
     func handle(logLine: LogLine) {
         if logLine.line.match(GameModeRegex) {

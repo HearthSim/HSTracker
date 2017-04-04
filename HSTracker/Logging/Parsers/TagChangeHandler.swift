@@ -10,16 +10,17 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
 class TagChangeHandler {
 
-    let ParseEntityIDRegex = "id=(\\d+)"
-    let ParseEntityZonePosRegex = "zonePos=(\\d+)"
-    let ParseEntityPlayerRegex = "player=(\\d+)"
-    let ParseEntityNameRegex = "name=(\\w+)"
-    let ParseEntityZoneRegex = "zone=(\\w+)"
-    let ParseEntityCardIDRegex = "cardId=(\\w+)"
-    let ParseEntityTypeRegex = "type=(\\w+)"
+    let ParseEntityIDRegex: RegexPattern = "id=(\\d+)"
+    let ParseEntityZonePosRegex: RegexPattern = "zonePos=(\\d+)"
+    let ParseEntityPlayerRegex: RegexPattern = "player=(\\d+)"
+    let ParseEntityNameRegex: RegexPattern = "name=(\\w+)"
+    let ParseEntityZoneRegex: RegexPattern = "zone=(\\w+)"
+    let ParseEntityCardIDRegex: RegexPattern = "cardId=(\\w+)"
+    let ParseEntityTypeRegex: RegexPattern = "type=(\\w+)"
 
     private var creationTagActionQueue = [
         (tag: GameTag, eventHandler: PowerEventHandler, id: Int, value: Int, prevValue: Int)
