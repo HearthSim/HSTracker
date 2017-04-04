@@ -175,6 +175,10 @@ class Game {
             .filter { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.player.id) }.count }
 
+    var opponentHandCount: Int {
+        return entities.map { $0.1 }
+            .filter { $0.isInHand && $0.isControlled(by: self.opponent.id) }.count }
+
     private var _currentFormat = FormatType.ft_unknown
     var currentFormat: Format {
         if let mirror = hearthstone?.mirror,
@@ -922,6 +926,10 @@ class Game {
     func secretsOnPlay(entity: Entity) {
         if entity.isSpell {
             opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.Counterspell)
+
+            if opponentHandCount < 10 {
+                opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.ManaBind)
+            }
 
             if opponentMinionCount < 7 {
                 let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(50)
