@@ -373,7 +373,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         if let type = sender.representedObject as? String {
             switch type {
             case "all": currentSet = []
-            case "expert1": currentSet = [.core, .expert1, .promo]
+            case "expert1": currentSet = [.core, .expert1, .promo, .hof]
             default:
                 if let set = CardSet(rawValue: type) {
                     currentSet = [set]
