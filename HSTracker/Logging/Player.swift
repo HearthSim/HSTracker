@@ -434,7 +434,12 @@ final class Player {
     }
 
     func createInDeck(entity: Entity, turn: Int) {
-        entity.info.created = entity.info.created || turn > 1
+        if entity.info.discarded {
+            entity.info.discarded = false
+            entity.info.created = false
+        } else {
+            entity.info.created = entity.info.created || turn > 1
+        }
         entity.info.turn = turn
         if Settings.fullGameLog {
             Log.info?.message("\(debugName) \(#function) \(entity)")
