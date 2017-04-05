@@ -166,12 +166,14 @@ extension CardIds.NonCollectible {
 extension CardIds.Secrets {
     struct Mage {
         static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock,
-                          MirrorEntity, PotionOfPolymorph, Spellbender, Vaporize]
+                          MirrorEntity, PotionOfPolymorph, Spellbender, Vaporize,
+                          ManaBind]
         static let Counterspell = CardIds.Collectible.Mage.Counterspell
         static let Duplicate = CardIds.Collectible.Mage.Duplicate
         static let Effigy = CardIds.Collectible.Mage.Effigy
         static let IceBarrier = CardIds.Collectible.Mage.IceBarrier
         static let IceBlock = CardIds.Collectible.Mage.IceBlock
+        static let ManaBind = CardIds.Collectible.Mage.ManaBind
         static let MirrorEntity = CardIds.Collectible.Mage.MirrorEntity
         static let PotionOfPolymorph = CardIds.Collectible.Mage.PotionOfPolymorph
         static let Spellbender = CardIds.Collectible.Mage.Spellbender
