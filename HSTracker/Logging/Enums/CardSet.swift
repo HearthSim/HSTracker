@@ -13,12 +13,12 @@ enum CardSet: String {
     case all // fake one
     case core, expert1, naxx, gvg, brm,
     tgt, loe, promo, reward, hero_skins,
-    og, kara, gangs, ungoro, hof, fp1, pe1
+    og, kara, gangs, ungoro, hof
     
     static func allValues() -> [CardSet] {
         return [.core, .expert1, .naxx, .gvg, .brm,
                 .tgt, .loe, .promo, .reward, .hero_skins,
-                .og, .kara, .gangs, .ungoro]
+                .og, .kara, .gangs, .ungoro, .hof]
     }
     
     static func deckManagerValidCardSets() -> [CardSet] {
@@ -26,6 +26,6 @@ enum CardSet: String {
     }
     
     static func wildSets() -> [CardSet] {
-        return [.naxx, .gvg, .brm, .tgt, .loe, .hof, .fp1, .pe1, .promo]
+        return [.naxx, .gvg, .brm, .tgt, .loe, .hof, .promo]
     }
 }
