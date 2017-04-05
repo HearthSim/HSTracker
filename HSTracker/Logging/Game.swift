@@ -1204,6 +1204,10 @@ class Game: PowerEventHandler {
         if entity.isSpell {
             opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.Counterspell)
 
+            if opponentHandCount < 10 {
+                opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.ManaBind)
+            }
+
             if opponentMinionCount < 7 {
                 let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(50)
                 DispatchQueue.main.asyncAfter(deadline: when) { [weak self] in

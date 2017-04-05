@@ -241,7 +241,7 @@ class SecretTests: XCTestCase {
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.CatTrick])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.Counterspell])
+                      triggered: [CardIds.Secrets.Mage.Counterspell, CardIds.Secrets.Mage.ManaBind])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
     }
 
