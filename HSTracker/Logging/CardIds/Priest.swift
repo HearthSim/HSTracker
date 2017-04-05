@@ -102,11 +102,22 @@ extension CardIds.Collectible {
         static let HeraldVolazj = "OG_316"
         static let HoodedAcolyte = "OG_334"
         static let ShiftingShade = "OG_335"
+        static let MirageCaller = "UNG_022"
+        static let ShadowVisions = "UNG_029"
+        static let BindingHeal = "UNG_030"
+        static let CrystallineOracle = "UNG_032"
+        static let RadiantElemental = "UNG_034"
+        static let CuriousGlimmerroot = "UNG_035"
+        static let TortollanShellraiser = "UNG_037"
+        static let FreeFromAmber = "UNG_854"
+        static let AwakenTheMakers = "UNG_940"
+        static let LyraTheSunshard = "UNG_963"
     }
 }
 
 extension CardIds.NonCollectible {
     struct Priest {
+        static let AwakentheMakers_AmaraWardenOfHopeToken = "UNG_940t8"
         static let LesserHeal = "CS1h_001"
         static let PowerWordShield_PowerWordShieldEnchantment = "CS2_004e"
         static let DivineSpirit_DivineSpiritEnchantment = "CS2_236e"
@@ -137,5 +148,7 @@ extension CardIds.NonCollectible {
         static let PotionofMadness_MadnessPotionEnchantment = "CFM_603e"
         static let ManaGeode_CrystalToken = "CFM_606t"
         static let PintSizePotion_ShrunkEnchantment = "CFM_661e"
+        static let MirageCaller_MirageEnchantment = "UNG_022e"
+        static let TortollanShellraiser_ShellshieldEnchantment = "UNG_037e"
     }
 }

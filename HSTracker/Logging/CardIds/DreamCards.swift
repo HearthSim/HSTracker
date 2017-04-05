@@ -36,5 +36,6 @@ extension CardIds.NonCollectible {
         static let EmeraldDrake = "DREAM_03"
         static let Dream = "DREAM_04"
         static let Nightmare = "DREAM_05"
+        static let RepurposedEnchantmentTavernBrawl = "TB_MP_02e"
     }
 }

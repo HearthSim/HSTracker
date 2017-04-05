@@ -46,7 +46,6 @@ extension CardIds.Collectible {
         static let HiddenCache = "CFM_026"
         static let Alleycat = "CFM_315"
         static let RatPack = "CFM_316"
-        static let SmallRaptor = "TODO ????"
         static let Knuckles = "CFM_333"
         static let SmugglersCrate = "CFM_334"
         static let DispatchKodo = "CFM_335"
@@ -104,6 +103,16 @@ extension CardIds.Collectible {
         static let GiantSandWorm = "OG_308"
         static let PrincessHuhuran = "OG_309"
         static let CarrionGrub = "OG_325"
+        static let TerrorscaleStalker = "UNG_800"
+        static let GrievousBite = "UNG_910"
+        static let JeweledMacaw = "UNG_912"
+        static let TolvirWarden = "UNG_913"
+        static let RaptorHatchling = "UNG_914"
+        static let CracklingRazormaw = "UNG_915"
+        static let Stampede = "UNG_916"
+        static let Dinomancy = "UNG_917"
+        static let SwampKingDred = "UNG_919"
+        static let TheMarshQueen = "UNG_920"
     }
 }
 
@@ -118,9 +127,6 @@ extension CardIds.NonCollectible {
         static let Leokk = "NEW1_033"
         static let Leokk_EyeInTheSkyEnchantment = "NEW1_033o"
         static let Huffer = "NEW1_034"
-        static let SmallRaptor_Token = "TODO ????"
-        static let QueenCarnassa = "TODO ????"
-        static let QueenCarnassa_CarnassasBroodToken = "TODO ????"
         static let GladiatorsLongbow_GladiatorsLongbowEnchantmentEnchantment = "DS1_188e"
         static let ScavengingHyena_WellFedEnchantment = "EX1_531e"
         static let SavannahHighmane_HyenaToken = "EX1_534t"
@@ -155,6 +161,12 @@ extension CardIds.NonCollectible {
         static let RatPack_RatToken = "CFM_316t"
         static let PiranhaLauncher_PiranhaToken = "CFM_337t"
         static let TroggBeastrager_SmugglingEnchantment = "CFM_338e"
+        static let RaptorHatchling_RaptorPatriarchToken = "UNG_914t1"
+        static let Stampede_StampedingEnchantment = "UNG_916e"
+        static let Dinomancy_WellFedEnchantment = "UNG_917e"
+        static let Dinomancy_DinomancyToken = "UNG_917t1"
+        static let TheMarshQueen_QueenCarnassaToken = "UNG_920t1"
+        static let TheMarshQueen_CarnassasBroodToken = "UNG_920t2"
     }
 }
 

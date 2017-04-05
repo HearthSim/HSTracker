@@ -102,11 +102,22 @@ extension CardIds.Collectible {
         static let StandAgainstDarkness = "OG_273"
         static let StewardOfDarkshire = "OG_310"
         static let ALightInTheDarkness = "OG_311"
+        static let Dinosize = "UNG_004"
+        static let Hydrologist = "UNG_011"
+        static let SunkeeperTarim = "UNG_015"
+        static let Vinecleaver = "UNG_950"
+        static let SpikeridgedSteed = "UNG_952"
+        static let PrimalfinChampion = "UNG_953"
+        static let TheLastKaleidosaur = "UNG_954"
+        static let LostInTheJungle = "UNG_960"
+        static let Adaptation = "UNG_961"
+        static let LightfusedStegodon = "UNG_962"
     }
 }
 
 extension CardIds.NonCollectible {
     struct Paladin {
+        static let Dinosize_RaaaarEnchantment = "UNG_004e"
         static let BlessingofMight_BlessingOfMightEnchantment = "CS2_087e"
         static let BlessingofKings_BlessingOfKingsEnchantment = "CS2_092e"
         static let Reinforce = "CS2_101"
@@ -140,6 +151,10 @@ extension CardIds.NonCollectible {
         static let RallyingBlade_RallyEnchantment = "OG_222e"
         static let NightbaneTemplar_Whelp = "KAR_010a"
         static let SmugglersRun_SmugglingEnchantment = "CFM_305e"
+        static let SunkeeperTarim_WatchedEnchantment = "UNG_015e"
+        static let SpikeridgedSteed_OnAStegodonEnchantment = "UNG_952e"
+        static let PrimalfinChampion_InspiredEnchantment = "UNG_953e"
+        static let TheLastKaleidosaur_GalvadonToken = "UNG_954t1"
     }
 }
 

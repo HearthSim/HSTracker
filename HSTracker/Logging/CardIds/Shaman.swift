@@ -102,11 +102,22 @@ extension CardIds.Collectible {
         static let Stormcrack = "OG_206"
         static let HallazealTheAscended = "OG_209"
         static let MasterOfEvolution = "OG_328"
+        static let AirElemental = "UNG_019"
+        static let Volcano = "UNG_025"
+        static let PrimalfinTotem = "UNG_201"
+        static let FirePlumeHarbinger = "UNG_202"
+        static let StoneSentinel = "UNG_208"
+        static let KalimosPrimalLord = "UNG_211"
+        static let TidalSurge = "UNG_817"
+        static let HotSpringGuardian = "UNG_938"
+        static let UniteTheMurlocs = "UNG_942"
+        static let SpiritEcho = "UNG_956"
     }
 }
 
 extension CardIds.NonCollectible {
     struct Shaman {
+        static let KalimosPrimalLord_InvocationOfEarth = "UNG_211a"
         static let AncestralHealing_AncestralInfusionEnchantment = "CS2_041e"
         static let RockbiterWeapon_RockbiterWeaponEnchantment = "CS2_045e"
         static let Bloodlust_BloodlustEnchantment = "CS2_046e"
@@ -132,6 +143,7 @@ extension CardIds.NonCollectible {
         static let JusticarTrueheart_SearingTotem = "AT_132_SHAMANb"
         static let JusticarTrueheart_StoneclawTotem = "AT_132_SHAMANc"
         static let JusticarTrueheart_WrathOfAirTotem = "AT_132_SHAMANd"
+        static let DanEmmons = "CRED_47"
         static let TotemicCall_TotemicCallHeroSkins = "CS2_049_H1"
         static let TotemicSlamHeroSkins = "CS2_049_H1_AT_132"
         static let SecondClassShamanTavernBrawl = "TB_ClassRandom_Shaman"
@@ -141,5 +153,12 @@ extension CardIds.NonCollectible {
         static let EvolveTavernBrawl = "TB_OG_027"
         static let CallintheFinishers_MurlocRazorgillToken = "CFM_310t"
         static let WhiteEyes_TheStormGuardianToken = "CFM_324t"
+        static let StoneSentinel_RockElementalToken = "UNG_208t"
+        static let KalimosPrimalLord_StoneElemental = "UNG_211aa"
+        static let KalimosPrimalLord_InvocationOfWater = "UNG_211b"
+        static let KalimosPrimalLord_InvocationOfFire = "UNG_211c"
+        static let KalimosPrimalLord_InvocationOfAir = "UNG_211d"
+        static let UnitetheMurlocs_MegafinToken = "UNG_942t"
+        static let SpiritEcho_EchoedSpiritEnchantment = "UNG_956e"
     }
 }

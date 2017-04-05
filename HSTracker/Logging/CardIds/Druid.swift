@@ -101,11 +101,22 @@ extension CardIds.Collectible {
         static let MireKeeper = "OG_202"
         static let DarkArakkoa = "OG_293"
         static let AddledGrizzly = "OG_313"
+        static let TortollanForager = "UNG_078"
+        static let GiantAnaconda = "UNG_086"
+        static let VerdantLongneck = "UNG_100"
+        static let Shellshifter = "UNG_101"
+        static let EvolvingSpores = "UNG_103"
+        static let EarthenScales = "UNG_108"
+        static let ElderLongneck = "UNG_109"
+        static let LivingMana = "UNG_111"
+        static let JungleGiants = "UNG_116"
+        static let Tyrantus = "UNG_852"
     }
 }
 
 extension CardIds.NonCollectible {
     struct Druid {
+        static let JungleGiants_BarnabusTheStomperToken = "UNG_116t"
         static let Claw_ClawEnchantment = "CS2_005o"
         static let MarkoftheWild_MarkOfTheWildEnchantment = "CS2_009e"
         static let SavageRoar_SavageRoarEnchantment = "CS2_011o"
@@ -196,5 +207,13 @@ extension CardIds.NonCollectible {
         static let KuntheForgottenKing_ForgottenMana = "CFM_308b"
         static let JadeIdol_JadeIdol1 = "CFM_602a"
         static let JadeIdol_JadeIdol2 = "CFM_602b"
+        static let Shellshifter_RaptorForm = "UNG_101a"
+        static let Shellshifter_DirehornForm = "UNG_101b"
+        static let Shellshifter_ShellshifterToken1 = "UNG_101t"
+        static let Shellshifter_ShellshifterToken2 = "UNG_101t2"
+        static let Shellshifter_ShellshifterToken3 = "UNG_101t3"
+        static let EarthenScales_ItsAllScaleyEnchantment = "UNG_108e"
+        static let LivingMana_ManaTreantToken = "UNG_111t1"
+        static let JungleGiants_RomperStompersEnchantmentToken = "UNG_116te"
     }
 }

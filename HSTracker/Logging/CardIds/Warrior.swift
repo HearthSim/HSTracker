@@ -40,7 +40,6 @@ extension CardIds.Collectible {
         static let AlexstraszasChampion = "AT_071"
         static let VarianWrynn = "AT_072"
         static let SeaReaver = "AT_130"
-        static let DirehornHatchling = "TODO ????"
         static let Revenge = "BRM_015"
         static let AxeFlinger = "BRM_016"
         static let PublicDefender = "CFM_300"
@@ -103,13 +102,22 @@ extension CardIds.Collectible {
         static let NzothsFirstMate = "OG_312"
         static let BloodToIchor = "OG_314"
         static let BloodsailCultist = "OG_315"
+        static let TarLord = "UNG_838"
+        static let ExploreUngoro = "UNG_922"
+        static let IronHide = "UNG_923"
+        static let OrneryDirehorn = "UNG_925"
+        static let CorneredSentry = "UNG_926"
+        static let SuddenGenesis = "UNG_927"
+        static let MoltenBlade = "UNG_929"
+        static let KingMosh = "UNG_933"
+        static let FirePlumesHeart = "UNG_934"
+        static let DirehornHatchling = "UNG_957"
     }
 }
 
 extension CardIds.NonCollectible {
     struct Warrior {
         static let ArmorUp = "CS2_102"
-        static let DirehornHatchling_DirehornToken = "TODO ????"
         static let Charge_ChargeEnchantment = "CS2_103e2"
         static let HeroicStrike_HeroicStrikeEnchantment = "CS2_105e"
         static let WarsongCommander_ChargeEnchantment = "EX1_084e"
@@ -138,6 +146,7 @@ extension CardIds.NonCollectible {
         static let ArmorUp_ArmorUpHeroSkins = "CS2_102_H1"
         static let TankUpHeroSkins = "CS2_102_H1_AT_132"
         static let SecondClassWarriorTavernBrawl = "TB_ClassRandom_Warrior"
+        static let ChargeEnchantmentTavernBrawl = "TB_MP_01e"
         static let TheCowKingTavernBrawl = "TB_SPT_DPromo_Hero2"
         static let VisionsOfTheAssassinTavernBrawl = "TB_SPT_DPromoSecre8"
         static let VisionsOfTheBarbarianTavernBrawl = "TB_SPT_DPromoSecret1"
@@ -163,5 +172,9 @@ extension CardIds.NonCollectible {
         static let OrcWarriorHeroic = "KARA_13_03H"
         static let HobartGrapplehammer_SmugglingEnchantment1 = "CFM_643e"
         static let HobartGrapplehammer_SmugglingEnchantment2 = "CFM_643e2"
+        static let ExploreUnGoro_ChooseYourPathToken = "UNG_922t1"
+        static let MoltenBlade_MagmicEnchantment = "UNG_929e"
+        static let FirePlumesHeart_SulfurasToken = "UNG_934t1"
+        static let DirehornHatchling_DirehornMatriarchToken = "UNG_957t1"
     }
 }

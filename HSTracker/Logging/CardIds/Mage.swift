@@ -70,7 +70,6 @@ extension CardIds.Collectible {
         static let IceBarrier = "EX1_289"
         static let MirrorEntity = "EX1_294"
         static let IceBlock = "EX1_295"
-        static let ManaBind = "TODO ????"
         static let ArchmageAntonidas = "EX1_559"
         static let Vaporize = "EX1_594"
         static let SorcerersApprentice = "EX1_608"
@@ -104,6 +103,16 @@ extension CardIds.Collectible {
         static let FacelessSummoner = "OG_207"
         static let CultSorcerer = "OG_303"
         static let Spellbender = "tt_010"
+        static let FlameGeyser = "UNG_018"
+        static let Arcanologist = "UNG_020"
+        static let SteamSurger = "UNG_021"
+        static let ManaBind = "UNG_024"
+        static let Pyros = "UNG_027"
+        static let OpenTheWaygate = "UNG_028"
+        static let ShimmeringTempest = "UNG_846"
+        static let PrimordialGlyph = "UNG_941"
+        static let MoltenReflection = "UNG_948"
+        static let Meteor = "UNG_955"
     }
 }
 
@@ -146,20 +155,23 @@ extension CardIds.NonCollectible {
         static let FlameWreath = "KARA_12_03"
         static let FlameWreathHeroic = "KARA_12_03H"
         static let InkmasterSolia_FreeSpellEnchantment = "CFM_687e"
+        static let Pyros_PyrosToken1 = "UNG_027t2"
+        static let Pyros_PyrosToken2 = "UNG_027t4"
+        static let OpentheWaygate_InsightfulEnchantment = "UNG_028e"
+        static let OpentheWaygate_TimeWarpToken = "UNG_028t"
+        static let PrimordialGlyph_PrimalMagicEnchantment = "UNG_941e"
     }
 }
 
 extension CardIds.Secrets {
     struct Mage {
         static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock,
-                          MirrorEntity, PotionOfPolymorph, Spellbender, Vaporize,
-                          ManaBind]
+                          MirrorEntity, PotionOfPolymorph, Spellbender, Vaporize]
         static let Counterspell = CardIds.Collectible.Mage.Counterspell
         static let Duplicate = CardIds.Collectible.Mage.Duplicate
         static let Effigy = CardIds.Collectible.Mage.Effigy
         static let IceBarrier = CardIds.Collectible.Mage.IceBarrier
         static let IceBlock = CardIds.Collectible.Mage.IceBlock
-        static let ManaBind = CardIds.Collectible.Mage.ManaBind
         static let MirrorEntity = CardIds.Collectible.Mage.MirrorEntity
         static let PotionOfPolymorph = CardIds.Collectible.Mage.PotionOfPolymorph
         static let Spellbender = CardIds.Collectible.Mage.Spellbender

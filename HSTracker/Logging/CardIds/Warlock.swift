@@ -101,6 +101,16 @@ extension CardIds.Collectible {
         static let Doom = "OG_239"
         static let PossessedVillager = "OG_241"
         static let UsherOfSouls = "OG_302"
+        static let RavenousPterrordax = "UNG_047"
+        static let TarLurker = "UNG_049"
+        static let LakkariSacrifice = "UNG_829"
+        static let CruelDinomancer = "UNG_830"
+        static let CorruptingMist = "UNG_831"
+        static let Bloodbloom = "UNG_832"
+        static let LakkariFelhound = "UNG_833"
+        static let FeedingTime = "UNG_834"
+        static let ChitteringTunneler = "UNG_835"
+        static let ClutchmotherZavas = "UNG_836"
     }
 }
 
@@ -110,13 +120,13 @@ extension CardIds.NonCollectible {
         static let Corruption_CorruptionEnchantment = "CS2_063e"
         static let BloodImp_BloodPactEnchantment = "CS2_059o"
         static let VoidTerror_ConsumeEnchantment = "EX1_304e"
-        static let PowerOverwhelming_PowerOverwhelmingEnchantment = "EX1_316e"
         static let SenseDemons_WorthlessImpToken = "EX1_317t"
         static let LordJaraxxusHeroic = "EX1_323h"
         static let LordJaraxxus_BloodFury = "EX1_323w"
         static let Demonfire_DemonfireEnchantment = "EX1_596e"
         static let Inferno = "EX1_tk33"
         static let Infernal = "EX1_tk34"
+        static let PowerOverwhelming_PowerOverwhelmingEnchantment = "EX1_316e"
         static let HeiganTheUnclean = "NAX5_01"
         static let HeiganTheUncleanHeroic = "NAX5_01H"
         static let Demonheart_DemonheartEnchantment = "GVG_019e"
@@ -141,5 +151,11 @@ extension CardIds.NonCollectible {
         static let Legion_Abyssal = "KARA_00_02a"
         static let Kilrek = "KARA_09_08"
         static let Kilrek_Kilrek = "KARA_09_08_heroic"
+        static let LakkariSacrifice_NetherPortalToken1 = "UNG_829t1"
+        static let LakkariSacrifice_NetherPortalToken2 = "UNG_829t2"
+        static let LakkariSacrifice_NetherImpToken = "UNG_829t3"
+        static let CorruptingMist_CorruptingMistEnchantment = "UNG_831e"
+        static let FeedingTime_PterrordaxToken = "UNG_834t1"
+        static let ClutchmotherZavas_RemembranceEnchantment = "UNG_836e"
     }
 }
