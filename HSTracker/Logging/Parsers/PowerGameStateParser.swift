@@ -281,6 +281,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Shaman
                                             .WhiteEyes_TheStormGuardianToken)
+                        case CardIds.Collectible.Hunter.RaptorHatchling:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Hunter
+                                            .RaptorHatchling_RaptorPatriarchToken)
                         default: break
                         }
                     }
@@ -335,6 +339,19 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Druid.JadeIdol,
                                            count: 3)
+                        case CardIds.NonCollectible.Hunter.TheMarshQueen_QueenCarnassaToken:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Hunter
+                                            .TheMarshQueen_CarnassasBroodToken,
+                                           count: 15)
+                        case CardIds.Collectible.Warrior.DirehornHatchling:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Warrior
+                                            .DirehornHatchling_DirehornMatriarchToken)
+                        case CardIds.Collectible.Neutral.EliseTheTrailblazer:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral
+                                            .ElisetheTrailblazer_UngoroPackToken)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
