@@ -24,7 +24,7 @@ class PowerGameStateParser: LogEventParser {
     let PlayerNameRegex: RegexPattern = "id=(\\d) Player=(.+) TaskList=(\\d)"
     let TagChangeRegex: RegexPattern = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
     let UpdatingEntityRegex: RegexPattern = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
-
+	
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
 	

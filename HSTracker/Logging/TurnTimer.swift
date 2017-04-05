@@ -37,11 +37,12 @@ import CleanroomLogger
 		self.currentPlayer = player
 		
 		timer?.invalidate()
-		self.timer = Timer.scheduledTimer(timeInterval: 1,
-		                                  target: self,
-		                                  selector: #selector(self.timerTick),
-		                                  userInfo: nil,
-		                                  repeats: true)
+		self.timer = Timer(timeInterval: 1,
+		                   target: self,
+		                   selector: #selector(self.timerTick),
+		                   userInfo: nil, repeats: true)
+		RunLoop.main.add(timer!, forMode: RunLoopMode.defaultRunLoopMode)
+		
         if timeout < 0 {
             seconds = 75
         } else {
