@@ -127,6 +127,7 @@ final class Player {
     var deck: [Entity] { return playerEntities.filter({ $0.isInDeck }) }
     var graveyard: [Entity] { return playerEntities.filter({ $0.isInGraveyard }) }
     var secrets: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isSecret }) }
+    var quests: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isQuest }) }
     var setAside: [Entity] { return playerEntities.filter({ $0.isInSetAside }) }
 
     fileprivate(set) lazy var inDeckPredictions = [PredictedCard]()
