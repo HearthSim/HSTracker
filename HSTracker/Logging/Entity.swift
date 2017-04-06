@@ -68,6 +68,9 @@ class Entity {
     var isSecret: Bool {
         return has(tag: .secret)
     }
+    var isQuest: Bool {
+        return has(tag: .quest)
+    }
     var isSpell: Bool {
         return self[.cardtype] == CardType.spell.rawValue
     }
