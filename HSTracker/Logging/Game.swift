@@ -966,6 +966,8 @@ class Game {
             return
         }
 
+        if !entity.isSecret { return }
+
         switch fromZone {
         case .deck:
             player.secretPlayedFromDeck(entity: entity, turn: turn)
@@ -1151,6 +1153,8 @@ class Game {
     func opponentSecretPlayed(entity: Entity, cardId: String?,
                               from: Int, turn: Int,
                               fromZone: Zone, otherId: Int) {
+        if !entity.isSecret { return }
+
         opponentSecretCount += 1
 
         switch fromZone {
@@ -1233,6 +1237,8 @@ class Game {
     }
 
     func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int) {
+        if !entity.isSecret { return }
+        
         opponent.secretTriggered(entity: entity, turn: turn)
 
         opponentSecretCount -= 1
