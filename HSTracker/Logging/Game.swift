@@ -1236,9 +1236,8 @@ class Game: PowerEventHandler {
     }
 
     func playerSecretPlayed(entity: Entity, cardId: String?, turn: Int, fromZone: Zone) {
-        if cardId.isBlank {
-            return
-        }
+        if cardId.isBlank { return }
+        if !entity.isSecret { return }
 
         switch fromZone {
         case .deck:
@@ -1425,6 +1424,8 @@ class Game: PowerEventHandler {
     func opponentSecretPlayed(entity: Entity, cardId: String?,
                               from: Int, turn: Int,
                               fromZone: Zone, otherId: Int) {
+        if !entity.isSecret { return }
+
         opponentSecretCount += 1
 
         switch fromZone {
@@ -1503,6 +1504,8 @@ class Game: PowerEventHandler {
     }
 
     func opponentSecretTrigger(entity: Entity, cardId: String?, turn: Int, otherId: Int) {
+        if !entity.isSecret { return }
+
         opponent.secretTriggered(entity: entity, turn: turn)
 
         opponentSecretCount -= 1

@@ -75,16 +75,22 @@ class SecretTests: XCTestCase {
 
         secretHunter1 = createNewEntity(cardId: "")
         secretHunter1[.class] = TagClass.hunter.rawValue
+        secretHunter1[.secret] = 1
         secretHunter2 = createNewEntity(cardId: "")
         secretHunter2[.class] = TagClass.hunter.rawValue
+        secretHunter2[.secret] = 1
         secretMage1 = createNewEntity(cardId: "")
         secretMage1[.class] = TagClass.mage.rawValue
+        secretMage1[.secret] = 1
         secretMage2 = createNewEntity(cardId: "")
         secretMage2[.class] = TagClass.mage.rawValue
+        secretMage2[.secret] = 1
         secretPaladin1 = createNewEntity(cardId: "")
         secretPaladin1[.class] = TagClass.paladin.rawValue
+        secretPaladin1[.secret] = 1
         secretPaladin2 = createNewEntity(cardId: "")
         secretPaladin2[.class] = TagClass.paladin.rawValue
+        secretPaladin2[.secret] = 1
 
         game.opponentSecretPlayed(entity: secretHunter1, cardId: "",
                                   from: 0, turn: 0,
@@ -229,7 +235,8 @@ class SecretTests: XCTestCase {
                       triggered: [CardIds.Secrets.Hunter.CatTrick])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Counterspell,
-                                  CardIds.Secrets.Mage.Spellbender])
+                                  CardIds.Secrets.Mage.Spellbender,
+                                  CardIds.Secrets.Mage.ManaBind])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
     }
 
