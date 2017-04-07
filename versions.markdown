@@ -1,3 +1,9 @@
+# 0.20.1
+## Fixes:
+- Fixed an issue where Quests would trigger the secret list.
+- Fixed an issue where some cards were not in the correct sets.
+- Fixed an issue where the Tracking (Hunter) pick would not be tracked correctly.
+
 # 0.20
 ## New:
 - Update to Journey to Un'Goro
