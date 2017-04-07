@@ -81,7 +81,7 @@ class NetImportTest: XCTestCase {
 
     func testHearthNews() {
         let url = "http://www.hearthnews.fr/decks/7070"
-        verifyDeck(importer: HearthNews(),
+        verifyDeck(importer: MetaTagImporter(),
                    url: url, name: "Réno NeFaitRien (Néfarian)", playerClass: .priest,
                    cardId: "FP1_001", cardCount: 1, cardName: "Zombie Chow")
     }
