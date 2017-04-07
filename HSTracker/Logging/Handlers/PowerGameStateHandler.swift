@@ -279,6 +279,10 @@ class PowerGameStateHandler {
                             addKnownCardId(game: game,
                                            cardId: CardIds.NonCollectible.Hunter
                                             .RaptorHatchling_RaptorPatriarchToken)
+                        case CardIds.Collectible.Warrior.DirehornHatchling:
+                            addKnownCardId(game: game,
+                                           cardId: CardIds.NonCollectible.Warrior
+                                            .DirehornHatchling_DirehornMatriarchToken)
                         default: break
                         }
                     }
@@ -338,10 +342,6 @@ class PowerGameStateHandler {
                                            cardId: CardIds.NonCollectible.Hunter
                                             .TheMarshQueen_CarnassasBroodToken,
                                            count: 15)
-                        case CardIds.Collectible.Warrior.DirehornHatchling:
-                            addKnownCardId(game: game,
-                                           cardId: CardIds.NonCollectible.Warrior
-                                            .DirehornHatchling_DirehornMatriarchToken)
                         case CardIds.Collectible.Neutral.EliseTheTrailblazer:
                             addKnownCardId(game: game,
                                            cardId: CardIds.NonCollectible.Neutral
