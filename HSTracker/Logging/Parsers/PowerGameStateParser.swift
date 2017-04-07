@@ -286,6 +286,10 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Hunter
                                             .RaptorHatchling_RaptorPatriarchToken)
+                        case CardIds.Collectible.Warrior.DirehornHatchling:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Warrior
+                                            .DirehornHatchling_DirehornMatriarchToken)
                         default: break
                         }
                     }
@@ -345,10 +349,6 @@ class PowerGameStateParser: LogEventParser {
                                            cardId: CardIds.NonCollectible.Hunter
                                             .TheMarshQueen_CarnassasBroodToken,
                                            count: 15)
-                        case CardIds.Collectible.Warrior.DirehornHatchling:
-                            addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Warrior
-                                            .DirehornHatchling_DirehornMatriarchToken)
                         case CardIds.Collectible.Neutral.EliseTheTrailblazer:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
