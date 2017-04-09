@@ -34,6 +34,7 @@ final class LogReader {
         if fileManager.fileExists(atPath: self.path)
                    && !FileUtils.isFileOpen(byHearthstone: self.path) {
             do {
+				Log.info?.message("Removing log file at \(self.path)")
                 try fileManager.removeItem(atPath: self.path)
             } catch {
                 Log.error?.message("\(error)")
@@ -111,7 +112,16 @@ final class LogReader {
             }
 
             if let data = fileHandle?.readDataToEndOfFile() {
+				
+				if self.info.name == .power {
+					Log.verbose?.message("data available")
+				}
+				
                 if let linesStr = String(data: data, encoding: .utf8) {
+					
+					if self.info.name == .power {
+						Log.verbose?.message("utf translation: \(linesStr)")
+					}
 
                     let lines = linesStr
                             .components(separatedBy: CharacterSet.newlines)
@@ -120,6 +130,9 @@ final class LogReader {
                             }
 
                     if !lines.isEmpty {
+						if self.info.name == .power {
+							Log.verbose?.message("There are \(lines.count) lines to be processed")
+						}
                         for line in lines {
                             offset += UInt64((line + "\n")
                                     .lengthOfBytes(using: .utf8))
@@ -130,6 +143,9 @@ final class LogReader {
                                 let logLine = LogLine(namespace: info.name,
                                                       line: line)
                                 if logLine.time >= startingPoint {
+									if self.info.name == .power {
+										Log.verbose?.message("enqueued:  \(logLine)")
+									}
                                     _lines[0].enqueue(value: logLine)
                                 }
                             } else {
@@ -143,6 +159,9 @@ final class LogReader {
                                         let logLine = LogLine(namespace: info.name,
                                                               line: line)
                                         if logLine.time >= startingPoint {
+											if self.info.name == .power {
+												Log.verbose?.message("enqueued:  \(logLine)")
+											}
                                             _lines[i].enqueue(value: logLine)
                                         }
                                     }
