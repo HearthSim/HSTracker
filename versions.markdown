@@ -1,3 +1,16 @@
+# unreleased
+## Fixes:
+- Fix quests not increasing spell counter
+
+## New: 
+- Auto check and download arena helper card tier list
+
+# 0.20.1
+## Fixes:
+- Fixed an issue where Quests would trigger the secret list.
+- Fixed an issue where some cards were not in the correct sets.
+- Fixed an issue where the Tracking (Hunter) pick would not be tracked correctly.
+
 # 0.20
 ## New:
 - Update to Journey to Un'Goro
@@ -140,7 +153,7 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 - HSTracker now synchronize your games with HSReplay.net ! Enjoy your replays now !
 - You can play with Hearthstone on fullscreen !
 - HSTracker use its own notifications, they should not appear under decklist anymore
-- Trackers should not disappear again when they « auto-position trackers » is checked
+- Trackers should not disappear again when they « auto-position trackers » is checked
 - Add a release channel for betas
 - Support for importing decks from http://www.hearthstonetopdecks.com
 - Add a graveyard and minion count in the trackers

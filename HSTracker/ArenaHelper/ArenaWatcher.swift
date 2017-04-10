@@ -85,8 +85,17 @@ class ArenaWatcher: Watcher {
     }
 
     private func loadCardTiers() {
-        let cardFile = URL(fileURLWithPath: "\(Bundle.main.resourcePath!)/Resources/cardtier.json")
-        guard let data = try? Data(contentsOf: cardFile) else {
+        let jsonFile = Paths.arenaJson.appendingPathComponent("cardtier.json")
+        var jsonData = try? Data(contentsOf: jsonFile)
+        if jsonData != nil {
+            Log.info?.message("Using \(jsonFile)")
+        } else {
+            Log.error?.message("\(jsonFile) is not a valid file")
+            let cardFile = URL(fileURLWithPath:
+                "\(Bundle.main.resourcePath!)/Resources/cardtier.json")
+            jsonData = try? Data(contentsOf: cardFile)
+        }
+        guard let data = jsonData else {
             Log.warning?.message("Can not load cardtier.json")
             return
         }

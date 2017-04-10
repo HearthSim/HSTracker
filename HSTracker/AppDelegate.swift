@@ -142,6 +142,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 					BuildDates.downloadCards(splashscreen: self.splashscreen!)
 				}
 			}
+
+            // load card tier via http request
+            let cardTierOperation = BlockOperation {
+                ArenaHelperSync.checkTierList(splashscreen: self.splashscreen!)
+                if ArenaHelperSync.isOutdated() || !ArenaHelperSync.jsonFilesAreValid() {
+                    ArenaHelperSync.downloadTierList(splashscreen: self.splashscreen!)
+                }
+            }
 			
 			// load and generate assets from hearthstone files
 			let assetsOperation = BlockOperation {
@@ -195,6 +203,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			
 			var operations = [Operation]()
 			operations.append(buildsOperation)
+            operations.append(cardTierOperation)
 			if Settings.useHearthstoneAssets {
 				operations.append(assetsOperation)
 			}
