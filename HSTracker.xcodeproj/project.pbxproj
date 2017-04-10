@@ -262,6 +262,7 @@
 		43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568041D5E5BFF00451B6F /* UploadMetaData.swift */; };
 		43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
 		43C568111D5F698C00451B6F /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43C9EF271E9C110F00D17F2A /* ArenaHelperSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9EF261E9C110F00D17F2A /* ArenaHelperSync.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D307FD1C835DBA00480488 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
@@ -727,6 +728,7 @@
 		43C568021D5E59E500451B6F /* UploadResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadResult.swift; sourceTree = "<group>"; };
 		43C568041D5E5BFF00451B6F /* UploadMetaData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadMetaData.swift; sourceTree = "<group>"; };
 		43C5680F1D5F692800451B6F /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipArchive.framework; path = Carthage/Build/Mac/ZipArchive.framework; sourceTree = "<group>"; };
+		43C9EF261E9C110F00D17F2A /* ArenaHelperSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaHelperSync.swift; sourceTree = "<group>"; };
 		43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSTrackerLogFormatter.swift; sourceTree = "<group>"; };
 		43D307FA1C83159C00480488 /* SizeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizeHelper.swift; sourceTree = "<group>"; };
 		43D307FC1C835DBA00480488 /* NetImportTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetImportTest.swift; sourceTree = "<group>"; };
@@ -1344,6 +1346,7 @@
 			isa = PBXGroup;
 			children = (
 				64C117F078373147EF731146 /* ArenaWatcher.swift */,
+				43C9EF261E9C110F00D17F2A /* ArenaHelperSync.swift */,
 			);
 			path = ArenaHelper;
 			sourceTree = "<group>";
@@ -1696,6 +1699,7 @@
 				4359BF901D51FD5500F61993 /* TrackOBotPreferences.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */,
+				43C9EF271E9C110F00D17F2A /* ArenaHelperSync.swift in Sources */,
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
 				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
 				437E56FA1DAAE48E00FC0FC1 /* Hearthstoneheroes.swift in Sources */,

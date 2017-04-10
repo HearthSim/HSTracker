@@ -195,6 +195,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
+        let cardTierOperation = BlockOperation {
+            ArenaHelperSync.checkTierList(splashscreen: self.splashscreen!)
+            if ArenaHelperSync.isOutdated() || !ArenaHelperSync.jsonFilesAreValid() {
+                ArenaHelperSync.downloadTierList(splashscreen: self.splashscreen!)
+            }
+        }
+
         let assetsOperation = BlockOperation {
             DispatchQueue.main.async { [weak self] in
                 self?.splashscreen?.display(
@@ -237,6 +244,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         operationQueue = OperationQueue()
         operationQueue?.addOperation(buildsOperation)
+        operationQueue?.addOperation(cardTierOperation)
         if Settings.useHearthstoneAssets {
             operationQueue?.addOperation(assetsOperation)
         }

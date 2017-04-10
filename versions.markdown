@@ -1,3 +1,10 @@
+# unreleased
+## Fixes:
+- Fix quests not increasing spell counter
+
+## New: 
+- Auto check and download arena helper card tier list
+
 # 0.20.1
 ## Fixes:
 - Fixed an issue where Quests would trigger the secret list.
