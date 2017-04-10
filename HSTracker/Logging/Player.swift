@@ -516,6 +516,14 @@ final class Player {
         }
     }
 
+    func questPlayedFromHand(entity: Entity, turn: Int) {
+        entity.info.turn = turn
+        spellsPlayedCount += 1
+        if Settings.fullGameLog {
+            Log.info?.message("\(debugName) \(#function) \(entity)")
+        }
+    }
+
     func mulligan(entity: Entity) {
         if Settings.fullGameLog {
             Log.info?.message("\(debugName) \(#function) \(entity)")
