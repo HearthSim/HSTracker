@@ -7,7 +7,7 @@ github "delba/TextAttributes"
 github "JohnSundell/Wrap"
 github "JohnSundell/Unbox"
 github "ZipArchive/ZipArchive"
-github "emaloney/CleanroomLogger" ~> 3.0.0
+github "emaloney/CleanroomLogger" ~> 5.1.0
 github "groue/GRDB.swift"
 github "1024jp/GzipSwift" ~> 3.0.0
 github "realm/realm-cocoa"
