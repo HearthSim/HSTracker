@@ -579,6 +579,9 @@ class Game: PowerEventHandler {
 
     func blockEnd() {
         currentBlock = currentBlock?.parent
+        if let entity = entities[currentEntityId] {
+            entity.info.hasOutstandingTagChanges = false
+        }
     }
 
 	func set(activeDeckId: String?) {
