@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-class HSTrackerLogFormatter: XcodeLogFormatter {
+class HSTrackerLogFormatter: LogFormatter {
 
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -17,7 +17,7 @@ class HSTrackerLogFormatter: XcodeLogFormatter {
         return formatter
     }()
 
-    override func format(_ entry: LogEntry) -> String? {
+    func format(_ entry: LogEntry) -> String? {
         let severity: String
         switch entry.severity {
         case .verbose: severity = "V"
