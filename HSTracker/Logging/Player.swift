@@ -314,7 +314,7 @@ final class Player {
                     || e.isInHand || e.isInDeck) && !(e.info.created && e.isInSetAside)
         })
             .map({ (e: Entity) -> (DynamicEntity) in
-                DynamicEntity(cardId: e.cardId,
+                DynamicEntity(cardId: e.info.wasTransformed ? e.info.originalCardId ?? e.cardId : e.cardId,
                     hidden: (e.isInHand || e.isInDeck) && e.isControlled(by:
                         self.id),
                     created: e.info.created ||

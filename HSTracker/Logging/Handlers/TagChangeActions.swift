@@ -36,8 +36,18 @@ struct TagChangeActions {
         case .step: self.stepChange(game: game)
         case .turn: self.turnChange(game: game)
         case .state: self.stateChange(game: game, value: value)
+        case .transformed_from_card: self.transformedFromCardChange(game: game,
+                                                                    id: id,
+                                                                    value: value)
         default: break
         }
+    }
+
+    private func transformedFromCardChange(game: Game, id: Int, value: Int) {
+        if value == 0 { return }
+        guard let entity = game.entities[id] else { return }
+
+        entity.info.set(originalCardId: value)
     }
 
     private func lastCardPlayedChange(game: Game, value: Int) {

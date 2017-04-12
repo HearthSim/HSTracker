@@ -88,6 +88,9 @@ struct Database {
                     let card = Card()
                     card.jsonRepresentation = jsonCard
                     card.id = cardId
+                    if let dbfId = jsonCard["dbfId"] as? Int {
+                        card.dbfId = dbfId
+                    }
 
                     card.isStandard = !CardSet.wildSets().contains(set)
 

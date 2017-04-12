@@ -9,7 +9,7 @@
 import Foundation
 import Wrap
 
-struct EntityInfo {
+class EntityInfo {
     private unowned var _entity: Entity
     var discarded = false
     var returned = false
@@ -26,6 +26,8 @@ struct EntityInfo {
     var originalZone: Zone?
     var createdInDeck: Bool { return originalZone == .deck }
     var createdInHand: Bool { return originalZone == .hand }
+    private(set) var originalCardId: String?
+    var wasTransformed: Bool { return !String.isNullOrEmpty(originalCardId) }
 
     init(entity: Entity) {
         _entity = entity
@@ -50,6 +52,12 @@ struct EntityInfo {
             return .mulliganed
         }
         return .none
+    }
+
+    func set(originalCardId dbfId: Int) {
+        if dbfId <= 0 { return }
+
+        originalCardId = Cards.by(dbfId: dbfId)?.id
     }
 }
 

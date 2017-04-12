@@ -13,6 +13,7 @@ import CleanroomLogger
 final class Card {
     // MARK: - Card data
     var id = ""
+    var dbfId = 0
     var collectible = false
     var cost = 0
     var faction: Faction = .invalid
@@ -104,6 +105,7 @@ extension Card: NSCopying {
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = Card()
         copy.id = self.id
+        copy.dbfId = self.dbfId
         copy.collectible = self.collectible
         copy.cost = self.cost
         copy.faction = self.faction
