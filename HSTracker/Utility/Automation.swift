@@ -65,7 +65,7 @@ struct Automation {
                         || normalCount == 0
 
                     if takeGolden {
-                        self.doubleClick(at: secondCardLocation)
+                        self.doubleClick(at: normalCount == 0 ? firstCardLocation : secondCardLocation)
                         goldenCount -= 1
                         takeGolden = preferGoldenCards && goldenCount > 0
                     } else {
