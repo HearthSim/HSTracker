@@ -157,9 +157,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 						NSLocalizedString("Loading Hearthstone assets", comment: ""),
 						indeterminate: true)
 				}
-				let path = Settings.hearthstonePath
-				self.coreManager.assetGenerator = try? HearthAssets(path: path)
-				self.coreManager.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
 			}
 			
 			// load and init local database

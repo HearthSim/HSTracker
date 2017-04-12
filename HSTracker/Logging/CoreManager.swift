@@ -32,7 +32,7 @@ final class CoreManager: NSObject {
     static let applicationName = "Hearthstone"
 
     var logReaderManager: LogReaderManager!
-    var assetGenerator: HearthAssets?
+    static var assetGenerator: HearthAssets?
     
     // watchers
     let arenaWatcher = ArenaWatcher()
@@ -47,6 +47,12 @@ final class CoreManager: NSObject {
                                                                   isActive: CoreManager.isHearthstoneActive()))
         super.init()
 		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, coreManager: self)
+		
+		if CoreManager.assetGenerator == nil {
+			let path = Settings.hearthstonePath
+			CoreManager.assetGenerator = try? HearthAssets(path: path)
+			CoreManager.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
+		}
     }
 
     static func findHearthstone() -> String? {
