@@ -37,7 +37,7 @@ class Game: PowerEventHandler {
 		private let windowManager = WindowManager()
 	#endif
 	
-	static let guiUpdateDelay: TimeInterval = 1.0
+	static let guiUpdateDelay: TimeInterval = 0.5
 	
 	private let turnTimer: TurnTimer
     
@@ -505,9 +505,8 @@ class Game: PowerEventHandler {
 		_queue.async {
 			while true {
 				if self.guiNeedsUpdate {
-					
-					self._updateTrackers()
 					self.guiNeedsUpdate = false
+					self._updateTrackers()
 					self.guiUpdateResets = false
 				}
 				

@@ -51,6 +51,12 @@ public class LinkedList<T> {
         tail = newNode
         _count += 1
     }
+	
+	public func appendAll(collection: [T]) {
+		for i in collection {
+			self.append(value: i)
+		}
+	}
     
     public func nodeAt(index: Int) -> Node<T>? {
 
@@ -124,7 +130,13 @@ public class ConcurrentQueue<T> {
             self.elements.append(value: value)
         }
     }
-    
+	
+	public func enqueueAll(collection: [T]) {
+		self.accessQueue.async(flags:.barrier) {
+			self.elements.appendAll(collection: collection)
+		}
+	}
+	
     public func dequeue() -> T? {
         var result: T?
         self.accessQueue.sync(flags:.barrier) {

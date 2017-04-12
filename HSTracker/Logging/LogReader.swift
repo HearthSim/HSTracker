@@ -113,15 +113,7 @@ final class LogReader {
 
             if let data = fileHandle?.readDataToEndOfFile() {
 				
-				if self.info.name == .power {
-					Log.verbose?.message("data available")
-				}
-				
                 if let linesStr = String(data: data, encoding: .utf8) {
-					
-					if self.info.name == .power {
-						Log.verbose?.message("utf translation: \(linesStr)")
-					}
 
                     let lines = linesStr
                             .components(separatedBy: CharacterSet.newlines)
@@ -130,9 +122,8 @@ final class LogReader {
                             }
 
                     if !lines.isEmpty {
-						if self.info.name == .power {
-							Log.verbose?.message("There are \(lines.count) lines to be processed")
-						}
+						var loglinesBuffer = Array(repeating: [LogLine](), count: _lines.count)
+						
                         for line in lines {
                             offset += UInt64((line + "\n")
                                     .lengthOfBytes(using: .utf8))
@@ -143,10 +134,8 @@ final class LogReader {
                                 let logLine = LogLine(namespace: info.name,
                                                       line: line)
                                 if logLine.time >= startingPoint {
-									if self.info.name == .power {
-										Log.verbose?.message("enqueued:  \(logLine)")
-									}
-                                    _lines[0].enqueue(value: logLine)
+                                    //_lines[0].enqueue(value: logLine)
+									loglinesBuffer[0].append(logLine)
                                 }
                             } else {
                                 
@@ -159,16 +148,20 @@ final class LogReader {
                                         let logLine = LogLine(namespace: info.name,
                                                               line: line)
                                         if logLine.time >= startingPoint {
-											if self.info.name == .power {
-												Log.verbose?.message("enqueued:  \(logLine)")
-											}
-                                            _lines[i].enqueue(value: logLine)
+                                            //_lines[i].enqueue(value: logLine)
+											loglinesBuffer[i].append(logLine)
                                         }
                                     }
                                 }
                                 
                             }
                         }
+						
+						// enqueue all buffers
+						for i in 0..<loglinesBuffer.count {
+							_lines[i].enqueueAll(collection: loglinesBuffer[i])
+						}
+						
                     }
                 } else {
                     Log.warning?.message("Can not read \(path) as utf8, resetting")
