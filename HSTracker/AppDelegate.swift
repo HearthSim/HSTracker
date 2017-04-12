@@ -116,7 +116,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // init logger
         var loggers = [LogConfiguration]()
         #if DEBUG
-            let xcodeConfig = XcodeLogConfiguration(minimumSeverity: .verbose)
+            let xcodeConfig = ConsoleLogConfiguration(minimumSeverity: .verbose,
+                                                      stdStreamsMode: .useExclusively,
+                                                      formatters: [HSTrackerLogFormatter()])
             loggers.append(xcodeConfig)
         #endif
 
