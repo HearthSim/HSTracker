@@ -1,6 +1,6 @@
 
 /* Class = "NSButtonCell"; title = "Standard only"; ObjectID = "37M-wa-5DN"; */
-"37M-wa-5DN.title" = "必须标准模式";
+"37M-wa-5DN.title" = "只能在标准模式中使用";
 
 /* Class = "NSToolbarItem"; label = "Delete"; ObjectID = "CT1-aM-w9a"; */
 "CT1-aM-w9a.label" = "删除";
@@ -9,7 +9,7 @@
 "CT1-aM-w9a.paletteLabel" = "删除";
 
 /* Class = "NSWindow"; title = "Edit Deck"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "修改套牌";
+"QvC-M9-y7g.title" = "修改卡组";
 
 /* Class = "NSToolbarItem"; label = "Save"; ObjectID = "d1a-mc-Snn"; */
 "d1a-mc-Snn.label" = "保存";

@@ -1,9 +1,9 @@
 
 /* Class = "NSTableColumn"; headerCell.title = "Versus Class"; ObjectID = "2EV-QP-KAN"; */
-"2EV-QP-KAN.headerCell.title" = "对手的类";
+"2EV-QP-KAN.headerCell.title" = "对手英雄";
 
 /* Class = "NSTableColumn"; headerCell.title = "Win Rate"; ObjectID = "UH6-zs-QqB"; */
-"UH6-zs-QqB.headerCell.title" = "赢率";
+"UH6-zs-QqB.headerCell.title" = "胜率";
 
 /* Class = "NSTableColumn"; headerCell.title = "90% CI"; ObjectID = "ZxL-Qi-a5P"; */
 "ZxL-Qi-a5P.headerCell.title" = "90 % 置信区间";
