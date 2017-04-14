@@ -1,36 +1,36 @@
 
 /* Class = "NSToolbarItem"; label = "Use Deck"; ObjectID = "3nu-q9-wC1"; */
-"3nu-q9-wC1.label" = "用牌组";
+"3nu-q9-wC1.label" = "使用卡组";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Use Deck"; ObjectID = "3nu-q9-wC1"; */
-"3nu-q9-wC1.paletteLabel" = "用牌组";
+"3nu-q9-wC1.paletteLabel" = "使用卡组";
 
 /* Class = "NSToolbarItem"; label = "Rename Deck"; ObjectID = "Qp2-0h-Sid"; */
-"Qp2-0h-Sid.label" = "改名套牌";
+"Qp2-0h-Sid.label" = "重命名卡组";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Rename Deck"; ObjectID = "Qp2-0h-Sid"; */
-"Qp2-0h-Sid.paletteLabel" = "改名套牌";
+"Qp2-0h-Sid.paletteLabel" = "重命名卡组";
 
 /* Class = "NSToolbarItem"; label = "Delete Deck"; ObjectID = "aaa-LK-buD"; */
-"aaa-LK-buD.label" = "删除套牌";
+"aaa-LK-buD.label" = "删除卡组";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Delete Deck"; ObjectID = "aaa-LK-buD"; */
-"aaa-LK-buD.paletteLabel" = "删除套牌";
+"aaa-LK-buD.paletteLabel" = "删除卡组";
 
 /* Class = "NSToolbarItem"; label = "Edit Deck"; ObjectID = "cbH-rI-BvP"; */
-"cbH-rI-BvP.label" = "修改套牌";
+"cbH-rI-BvP.label" = "修改卡组";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Edit Deck"; ObjectID = "cbH-rI-BvP"; */
-"cbH-rI-BvP.paletteLabel" = "修改套牌";
+"cbH-rI-BvP.paletteLabel" = "修改卡组";
 
 /* Class = "NSToolbarItem"; label = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.label" = "加套牌";
+"7FY-gv-qwP.label" = "新建卡组";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.paletteLabel" = "加套牌";
+"7FY-gv-qwP.paletteLabel" = "新建卡组";
 
 /* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "牌组管理器";
+"QvC-M9-y7g.title" = "卡组管理器";
 
 /* Class = "NSToolbarItem"; label = "Hearthstats"; ObjectID = "Xxv-sY-tej"; */
 "Xxv-sY-tej.label" = "Hearthstats";
@@ -45,16 +45,16 @@
 "wWN-25-Exd.paletteLabel" = "捐赠";
 
 /* Class = "NSToolbarItem"; label = "Archive"; ObjectID = "Fe5-be-5CS"; */
-"Fe5-be-5CS.label" = "档案";
+"Fe5-be-5CS.label" = "存档";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Archive"; ObjectID = "Fe5-be-5CS"; */
-"Fe5-be-5CS.paletteLabel" = "档案";
+"Fe5-be-5CS.paletteLabel" = "存档";
 
 /* Class = "NSToolbarItem"; label = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.label" = "分类";
+"cu3-FG-2Cn.label" = "英雄";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.paletteLabel" = "分类";
+"cu3-FG-2Cn.paletteLabel" = "英雄";
 
 /* Class = "NSToolbarItem"; label = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
 "T0e-lu-Gfj.label" = "统计";
@@ -63,7 +63,7 @@
 "T0e-lu-Gfj.paletteLabel" = "统计";
 
 /* Class = "NSToolbarItem"; label = "Export HS"; ObjectID = "PLl-9e-lE5"; */
-"PLl-9e-lE5.label" = "输出炉石传说";
+"PLl-9e-lE5.label" = "导出到炉石传说";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Export HS"; ObjectID = "PLl-9e-lE5"; */
-"PLl-9e-lE5.paletteLabel" = "输出炉石传说";
+"PLl-9e-lE5.paletteLabel" = "导出到炉石传说";

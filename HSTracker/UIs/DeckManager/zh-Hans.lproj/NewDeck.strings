@@ -1,24 +1,24 @@
 
 /* Class = "NSButtonCell"; title = "Arena deck"; ObjectID = "0dN-Ei-UM2"; */
-"0dN-Ei-UM2.title" = "競技場或旅店大套牌";
+"0dN-Ei-UM2.title" = "竞技场或旅店大卡组";
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "0dg-Pr-Io8"; */
 "0dg-Pr-Io8.title" = "取消";
 
 /* Class = "NSButtonCell"; title = "Using HSTracker deck builder"; ObjectID = "N10-sK-1gZ"; */
-"N10-sK-1gZ.title" = "用 HSTracker 的套牌建设者";
+"N10-sK-1gZ.title" = "使用 HSTracker 构建卡组";
 
 /* Class = "NSWindow"; title = "New Deck"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "新套牌";
+"QvC-M9-y7g.title" = "新卡组";
 
 /* Class = "NSTextFieldCell"; title = "How do you want to create your new deck ?"; ObjectID = "bnr-YF-pLP"; */
-"bnr-YF-pLP.title" = "你怎么想做新套牌?";
+"bnr-YF-pLP.title" = "你想如何创建新的卡组?";
 
 /* Class = "NSButtonCell"; title = "From the web"; ObjectID = "dhu-qo-xOJ"; */
-"dhu-qo-xOJ.title" = "从网络";
+"dhu-qo-xOJ.title" = "利用网络创建";
 
 /* Class = "NSButtonCell"; title = "From a file"; ObjectID = "tHo-vJ-FwV"; */
-"tHo-vJ-FwV.title" = "从文件";
+"tHo-vJ-FwV.title" = "利用文件创建";
 
 /* Class = "NSButtonCell"; title = "OK"; ObjectID = "trs-D1-mgZ"; */
 "trs-D1-mgZ.title" = "OK";
@@ -27,4 +27,4 @@
 "xPi-Gg-ebR.title" = "选择文件";
 
 /* Class = "NSButtonCell"; title = "From Hearthstats"; ObjectID = "sLd-eV-3AX"; */
-"sLd-eV-3AX.title" = "从 Hearthstats";
+"sLd-eV-3AX.title" = "利用 Hearthstats 创建";
