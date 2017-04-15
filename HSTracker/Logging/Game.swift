@@ -113,6 +113,7 @@ class Game: PowerEventHandler {
 		
 		self.updatePlayerTracker(reset: guiUpdateResets)
 		self.updateOpponentTracker(reset: guiUpdateResets)
+        self.updateSecretTracker()
         
         self.updateTurnTimer()
 	}
@@ -286,6 +287,27 @@ class Game: PowerEventHandler {
                 }
             }
             
+        }
+    }
+    
+    func updateSecretTracker() {
+        DispatchQueue.main.async { [unowned self] in
+            
+            let tracker = self.windowManager.secretTracker
+            
+            // secret helper
+            if Settings.showSecretHelper &&
+                ( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground) {
+                if let secrets = self.opponentSecrets, secrets.allSecrets(gameFormat: self.currentFormat).count > 0 {
+                    tracker.set(secrets: secrets.allSecrets(gameFormat: self.currentFormat))
+                    self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.secretTrackerFrame())
+                } else {
+                    self.windowManager.show(controller: tracker, show: false)
+                }
+            } else {
+                self.windowManager.show(controller: tracker, show: false)
+            }
         }
     }
     

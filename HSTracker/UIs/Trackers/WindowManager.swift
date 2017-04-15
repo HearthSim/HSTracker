@@ -98,11 +98,6 @@ class WindowManager {
                                                    object: nil)
         }
     }
-
-	// TODO: remove this function, gui does not communicate back!
-    func isReady() -> Bool {
-        return playerTracker.isLoaded() && opponentTracker.isLoaded()
-    }
 	
 	@objc private func setHearthstoneActive() { hearthstoneActive = true }
 	@objc private func setHearthstoneBackground() { hearthstoneActive = false }
@@ -123,21 +118,7 @@ class WindowManager {
     private func redrawTrackers(reset: Bool = false) {
        /* var rect: NSRect?
  TODO: dissect redraw code
-        
-        // secret helper
-        if Settings.showSecretHelper &&
-            ( (Settings.hideAllWhenGameInBackground && hearthstoneActive)
-                || !Settings.hideAllWhenGameInBackground) {
-            if let secrets = game.opponentSecrets, secrets.allSecrets().count > 0 {
-                secretTracker.set(secrets: secrets.allSecrets())
-                show(controller: secretTracker, show: true, frame: SizeHelper.secretTrackerFrame())
-            } else {
-                show(controller: secretTracker, show: false)
-            }
-        } else {
-            show(controller: secretTracker, show: false)
-        }
-
+    
         // arena helper
         if Settings.showArenaHelper && hearthstone.arenaWatcher.isRunning &&
             secretTracker.cards.count == 3 && 
