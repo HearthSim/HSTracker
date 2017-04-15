@@ -259,6 +259,7 @@ struct RealmHelper {
 				realm.add(deck)
 				for card in cards {
 					guard let c = Cards.by(cardId: card.cardId as String) else {
+                        Log.error?.message("Unknown card id \(card.cardId as String)")
 						continue
 					}
 					c.count = card.count as? Int ?? 0

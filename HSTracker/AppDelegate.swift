@@ -170,18 +170,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				database.loadDatabase(splashscreen: self.splashscreen!, withLanguages: langs)
 			}
 			
-			/*
-			let loggingOperation = BlockOperation {
-			while true {
-			if self.hearthstone.game.windowManager?.isReady() ?? false {
-			break
-			}
-			Thread.sleep(forTimeInterval: 0.5)
-			}
-			
-			self.hearthstone.game.windowManager?.hideGameTrackers()
-			}*/
-			
 			// build menu
 			let menuOperation = BlockOperation {
 				OperationQueue.main.addOperation {
@@ -195,7 +183,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				databaseOperation.addDependency(assetsOperation)
 				assetsOperation.addDependency(buildsOperation)
 			}
-			//loggingOperation.addDependency(menuOperation)
 			
 			var operations = [Operation]()
 			operations.append(buildsOperation)

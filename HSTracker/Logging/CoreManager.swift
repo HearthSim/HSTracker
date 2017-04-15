@@ -48,7 +48,7 @@ final class CoreManager: NSObject {
         super.init()
 		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, coreManager: self)
 		
-		if CoreManager.assetGenerator == nil {
+		if CoreManager.assetGenerator == nil && Settings.useHearthstoneAssets {
 			let path = Settings.hearthstonePath
 			CoreManager.assetGenerator = try? HearthAssets(path: path)
 			CoreManager.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
