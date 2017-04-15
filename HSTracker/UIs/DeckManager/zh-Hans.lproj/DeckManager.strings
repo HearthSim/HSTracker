@@ -51,10 +51,10 @@
 "Fe5-be-5CS.paletteLabel" = "存档";
 
 /* Class = "NSToolbarItem"; label = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.label" = "英雄";
+"cu3-FG-2Cn.label" = "职业";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
-"cu3-FG-2Cn.paletteLabel" = "英雄";
+"cu3-FG-2Cn.paletteLabel" = "职业";
 
 /* Class = "NSToolbarItem"; label = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
 "T0e-lu-Gfj.label" = "统计";
