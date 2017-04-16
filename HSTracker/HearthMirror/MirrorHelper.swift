@@ -14,17 +14,28 @@ import CleanroomLogger
  * MirrorHelper takes care of all Mirror-related activities
  */
 struct MirrorHelper {
+    
+    /** Internal represenation of the mirror object, do not access it directly */
+    private static var _mirror: HearthMirror?
+    
+    private static let accessQueue = DispatchQueue(label: "be.michotte.hstracker.mirrorQueue")
 	
-    private static var _mirror: HearthMirror? = {
-        if let hsApp = CoreManager.hearthstoneApp {
-            return MirrorHelper.initMirror(pid: hsApp.processIdentifier, blocking: true)
+    private static var mirror: HearthMirror? {
+        
+        if MirrorHelper._mirror == nil {
+            if let hsApp = CoreManager.hearthstoneApp {
+                Log.verbose?.message("Initializing HearthMirror with pid \(hsApp.processIdentifier)")
+                
+                MirrorHelper._mirror = MirrorHelper.initMirror(pid: hsApp.processIdentifier, blocking: true)
+            } else {
+                Log.error?.message("Failed to initialize HearthMirror: game is not running")
+            }
         }
-        return nil
-    }()
+        
+        return MirrorHelper._mirror
+    }
     
 	private static func initMirror(pid: Int32, blocking: Bool) -> HearthMirror {
-		
-        var _waitingForMirror = false
         
 		// get rights to attach
 		if acquireTaskportRight() != 0 {
@@ -35,7 +46,7 @@ struct MirrorHelper {
 		                           blocking: true)
 		
 		// waiting for mirror to be up and running
-		_waitingForMirror = true
+		var _waitingForMirror = true
 		while _waitingForMirror {
 			if let battleTag = mirror.getBattleTag() {
 				Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
@@ -57,64 +68,115 @@ struct MirrorHelper {
 	 * De-initializes the current mirror object, thus any further mirror calls will fail until the next initMirror
 	 */
 	static func destroy() {
-		_mirror = nil
+        Log.verbose?.message("Deinitializing mirror")
+        MirrorHelper.accessQueue.sync {
+            MirrorHelper._mirror = nil
+        }
 	}
 	
 	// MARK: - get player decks
 	
 	static func getDecks() -> [MirrorDeck]? {
-		return _mirror?.getDecks()
+        var result: [MirrorDeck]? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getDecks()
+        }
+		return result
 	}
 	
 	static func getSelectedDeck() -> Int64? {
-		return _mirror?.getSelectedDeck() as? Int64? ?? nil
+        var result: Int64? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getSelectedDeck() as? Int64? ?? nil
+        }
+		return result
 	}
 	
 	static func getArenaDeck() -> MirrorArenaInfo? {
-		return _mirror?.getArenaDeck()
+        var result: MirrorArenaInfo? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getArenaDeck()
+        }
+        return result
 	}
 	
 	static func getEditedDeck() -> MirrorDeck? {
-		return _mirror?.getEditedDeck()
+        var result: MirrorDeck? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getEditedDeck()
+        }
+        return result
 	}
 	
 	// MARK: - card collection
 	
 	static func getCardCollection() -> [MirrorCard]? {
-		return _mirror?.getCardCollection()
+        var result: [MirrorCard]? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getCardCollection()
+        }
+        return result
 	}
 	
 	// MARK: - game mode
 	static func isSpectating() -> Bool? {
-		return _mirror?.isSpectating()
+        var result: Bool? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.isSpectating()
+        }
+        return result
 	}
 	
 	static func getGameType() -> Int? {
-		return _mirror?.getGameType() as? Int? ?? nil
+        var result: Int? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getGameType() as? Int? ?? nil
+        }
+        return result
 	}
 	
 	static func getMatchInfo() -> MirrorMatchInfo? {
-		return _mirror?.getMatchInfo()
+        var result: MirrorMatchInfo? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMatchInfo()
+        }
+        return result
 	}
 	
 	static func getFormat() -> Int? {
-		return _mirror?.getFormat() as? Int? ?? nil
+        var result: Int? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getFormat() as? Int? ?? nil
+        }
+        return result
 	}
 	
 	static func getGameServerInfo() -> MirrorGameServerInfo? {
-		return _mirror?.getGameServerInfo()
+        var result: MirrorGameServerInfo? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getGameServerInfo()
+        }
+        return result
 	}
 	
 	// MARK: - arena
 	
 	static func getArenaDraftChoices() -> [MirrorCard]? {
-		return _mirror?.getArenaDraftChoices()
+        var result: [MirrorCard]? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getArenaDraftChoices()
+        }
+        return result
 	}
 	
 	// MARK: - brawl
 	
 	static func getBrawlInfo() -> MirrorBrawlInfo? {
-		return _mirror?.getBrawlInfo()
+        var result: MirrorBrawlInfo? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBrawlInfo()
+        }
+        return result
 	}
 	
 }

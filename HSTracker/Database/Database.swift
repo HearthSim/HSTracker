@@ -41,7 +41,8 @@ class Database {
     func loadDatabase(splashscreen: Splashscreen?, withLanguages langs: [String]) {
         for lang in langs {
             var file: URL? = Paths.cardJson.appendingPathComponent("cardsDB.\(lang).json")
-            if file != nil && !FileManager.default.fileExists(atPath: file!.absoluteString) {
+            
+            if file == nil || (file != nil && !FileManager.default.fileExists(atPath: file!.path)) {
                 file = Bundle(for: type(of: self))
                     .url(forResource: "Resources/Cards/cardsDB.\(lang)", withExtension: "json")
             }
