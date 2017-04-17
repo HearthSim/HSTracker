@@ -831,7 +831,7 @@ class Game: PowerEventHandler {
         turnTimer.stop()
 
         if Settings.saveReplays {
-            ReplayMaker.saveToDisk(powerLog: powerLog)
+            ReplayMaker.saveToDisk(powerLog: powerLog, eventHandler: self)
         }
 
         isInMenu = true

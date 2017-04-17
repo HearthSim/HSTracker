@@ -31,7 +31,7 @@ final class ReplayMaker {
         return formatter
     }()
 
-    static func saveToDisk(powerLog: [LogLine]) {
+    static func saveToDisk(powerLog: [LogLine], eventHandler: PowerEventHandler) {
         guard points.count > 0 else {
             Log.warning?.message("replay is empty, skipping")
             return
@@ -43,13 +43,12 @@ final class ReplayMaker {
         resolveCardIds()
         removeObsoletePlays()
 		
-		/* TODO: better way of handling this, game might be already "old"
-        guard let player = points.last?.data.firstWhere({$0.isPlayer}) else {
+        guard let player = points.last?.data.firstWhere({$0.isPlayer(eventHandler: eventHandler)}) else {
             Log.warning?.message("Replay : cannot get player, skipping")
             return
         }
         guard let opponent = points.last?.data
-            .firstWhere({$0.has(tag: .player_id) && !$0.isPlayer}) else {
+            .firstWhere({$0.has(tag: .player_id) && !$0.isPlayer(eventHandler: eventHandler)}) else {
                 Log.warning?.message("Replay : cannot get opponent, skipping")
                 return
         }
@@ -80,7 +79,7 @@ final class ReplayMaker {
                 Log.warning?.message("Replay : opponentHero is nil")
                 return
             }
-            resolve(opponentName: Cards.hero(byId: opponentHero!.cardId)?.name)
+            resolve(opponentName: Cards.hero(byId: opponentHero!.cardId)?.name, eventHandler: eventHandler)
         }
         
         if let playerName = player.name,
@@ -117,7 +116,7 @@ final class ReplayMaker {
             }
 
             reset()
-        }*/
+        }
     }
 
 	private static func resolve(opponentName: String?, eventHandler: PowerEventHandler) {
