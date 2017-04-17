@@ -126,23 +126,7 @@ class WindowManager {
                 || !Settings.hideAllWhenGameInBackground ) {
             show(controller: secretTracker, show: true, frame: SizeHelper.arenaHelperFrame())
         }
-
-        // card hud
-        if Settings.showCardHuds &&
-            ( (Settings.hideAllWhenGameInBackground &&
-                hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
-            if !game.gameEnded {
-                cardHudContainer.update(entities: game.opponent.hand,
-                                        cardCount: game.opponent.handCount)
-                show(controller: cardHudContainer, show: true,
-                           frame: SizeHelper.cardHudContainerFrame())
-            } else {
-                show(controller: cardHudContainer, show: false)
-            }
-        } else {
-            show(controller: cardHudContainer, show: false)
-        }
-
+         
         // board damage
         let board = BoardState()
 

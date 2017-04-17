@@ -114,7 +114,7 @@ class Game: PowerEventHandler {
 		self.updatePlayerTracker(reset: guiUpdateResets)
 		self.updateOpponentTracker(reset: guiUpdateResets)
         self.updateSecretTracker()
-        
+        self.updateCardHud()
         self.updateTurnTimer()
 	}
 	
@@ -264,7 +264,7 @@ class Game: PowerEventHandler {
 
     func updateTurnTimer() {
         DispatchQueue.main.async { [unowned self] in
-            // timer
+
             if Settings.showTimer && !self.gameEnded &&
                 ( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
@@ -295,7 +295,6 @@ class Game: PowerEventHandler {
             
             let tracker = self.windowManager.secretTracker
             
-            // secret helper
             if Settings.showSecretHelper &&
                 ( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
@@ -303,6 +302,30 @@ class Game: PowerEventHandler {
                     tracker.set(secrets: secrets)
                     self.windowManager.show(controller: tracker, show: true,
                                             frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight))
+                } else {
+                    self.windowManager.show(controller: tracker, show: false)
+                }
+            } else {
+                self.windowManager.show(controller: tracker, show: false)
+            }
+        }
+    }
+    
+    func updateCardHud() {
+        DispatchQueue.main.async { [unowned self] in
+            
+            let tracker = self.windowManager.cardHudContainer
+            
+            if Settings.showCardHuds &&
+                ( (Settings.hideAllWhenGameInBackground &&
+                    self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground) {
+                
+                if !self.gameEnded {
+                    tracker.update(entities: self.opponent.hand,
+                                            cardCount: self.opponent.handCount)
+                    self.windowManager.show(controller: tracker, show: true,
+                         frame: SizeHelper.cardHudContainerFrame())
                 } else {
                     self.windowManager.show(controller: tracker, show: false)
                 }
