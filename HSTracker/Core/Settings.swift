@@ -357,6 +357,10 @@ final class Settings {
     }
 
     // MARK: - Notifications
+    static var useToastNotification: Bool {
+        set { set(name: "useToastNotification", value: newValue) }
+        get { return get(name: "useToastNotification") as? Bool ?? true }
+    }
     static var notifyGameStart: Bool {
         set { set(name: "notify_game_start", value: newValue) }
         get { return get(name: "notify_game_start") as? Bool ?? true }

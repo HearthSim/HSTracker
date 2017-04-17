@@ -761,7 +761,7 @@ class Game: PowerEventHandler {
         Log.info?.message("----- Game Started -----")
         AppHealth.instance.setHearthstoneGameRunning(flag: true)
 
-        showNotification(type: .gameStart)
+        NotificationManager.showNotification(type: .gameStart)
 
         if Settings.showTimer {
             self.turnTimer.start()
@@ -1032,7 +1032,7 @@ class Game: PowerEventHandler {
                 LogUploader.upload(logLines: self.powerLog,
                                    statistic: currentGameStats) { result in
                     if case UploadResult.successful(let replayId) = result {
-                        self.showNotification(type: .hsReplayPush(replayId: replayId))
+                        NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
                         NotificationCenter.default
                             .post(name: Notification.Name(rawValue: "reload_decks"), object: nil)
                     }
@@ -1126,7 +1126,7 @@ class Game: PowerEventHandler {
         turnTimer.startTurn(for: player, timeout: timeout)
 
         if player == .player && !isInMenu {
-            showNotification(type: .turnStart)
+            NotificationManager.showNotification(type: .turnStart)
         }
 
         updateTrackers()
@@ -1143,7 +1143,7 @@ class Game: PowerEventHandler {
 
         if let currentGameStats = currentGameStats,
             currentGameStats.wasConceded {
-            showNotification(type: .opponentConcede)
+            NotificationManager.showNotification(type: .opponentConcede)
         }
     }
 
@@ -1813,43 +1813,5 @@ class Game: PowerEventHandler {
         }
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
         updateTrackers()
-    }
-
-     func showNotification(type: NotificationType) {
-		/* TODO: move this to separate part
-         guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
-
-        switch type {
-        case .gameStart:
-            guard Settings.notifyGameStart else { return }
-            if hearthstone.hearthstoneActive { return }
-
-            Toast.show(title: NSLocalizedString("Hearthstone", comment: ""),
-                       message: NSLocalizedString("Your game begins", comment: ""))
-
-        case .opponentConcede:
-            guard Settings.notifyOpponentConcede else { return }
-            if hearthstone.hearthstoneActive { return }
-
-            Toast.show(title: NSLocalizedString("Victory", comment: ""),
-                       message: NSLocalizedString("Your opponent have conceded", comment: ""))
-
-        case .turnStart:
-            guard Settings.notifyTurnStart else { return }
-            if hearthstone.hearthstoneActive { return }
-
-            Toast.show(title: NSLocalizedString("Hearthstone", comment: ""),
-                       message: NSLocalizedString("It's your turn to play", comment: ""))
-
-        case .hsReplayPush(let replayId):
-            guard Settings.showHSReplayPushNotification else { return }
-
-            Toast.show(title: NSLocalizedString("HSReplay", comment: ""),
-                       message: NSLocalizedString("Your replay has been uploaded on HSReplay",
-                        comment: "")) {
-                        HSReplayManager.showReplay(replayId: replayId)
-            }
-
-        }*/
     }
 }

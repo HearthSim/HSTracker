@@ -321,7 +321,7 @@ final class CoreManager: NSObject {
         return apps.first { $0.bundleIdentifier == "unity.Blizzard Entertainment.Hearthstone" }
     }
     
-    private static func isHearthstoneActive() -> Bool {
+    static func isHearthstoneActive() -> Bool {
         return CoreManager.hearthstoneApp?.isActive ?? false
     }
 	
