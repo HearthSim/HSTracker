@@ -779,31 +779,19 @@ class Game: PowerEventHandler {
     }
 
     private func loadMatchInfo() {
-        DispatchQueue.global().async { [weak self] in
-            var matchInfo = MirrorHelper.getMatchInfo()
-            while matchInfo == nil {
-                Log.debug?.message("matchinfo is still nil")
-                matchInfo = MirrorHelper.getMatchInfo()
-                Thread.sleep(forTimeInterval: 0.1)
+        if let _matchInfo = MirrorHelper.getMatchInfo() {
+            self.matchInfo = MatchInfo(info: _matchInfo)
+            Log.info?.message("\(String(describing: self.matchInfo?.localPlayer.name))"
+                + " vs \(String(describing: self.matchInfo?.opposingPlayer.name))"
+                + " matchInfo: \(String(describing: self.matchInfo))")
 
-                if self?.gameEnded ?? true {
-                    break
-                }
-            }
-            if let _matchInfo = matchInfo {
-                self?.matchInfo = MatchInfo(info: _matchInfo)
-                Log.info?.message("\(String(describing: self?.matchInfo?.localPlayer.name))"
-                    + " vs \(String(describing: self?.matchInfo?.opposingPlayer.name))"
-                    + " matchInfo: \(String(describing: self?.matchInfo))")
-
-                if let minfo = self?.matchInfo {
-                    self?.player.name = minfo.localPlayer.name
-                    self?.opponent.name = minfo.opposingPlayer.name
-                    self?.player.id = minfo.localPlayer.playerId
-                    self?.opponent.id = minfo.opposingPlayer.playerId
-                    self?._currentGameType = minfo.gameType
-                    self?.currentFormat = minfo.formatType
-                }
+            if let minfo = self.matchInfo {
+                self.player.name = minfo.localPlayer.name
+                self.opponent.name = minfo.opposingPlayer.name
+                self.player.id = minfo.localPlayer.playerId
+                self.opponent.id = minfo.opposingPlayer.playerId
+                self._currentGameType = minfo.gameType
+                self.currentFormat = minfo.formatType
             }
         }
     }
