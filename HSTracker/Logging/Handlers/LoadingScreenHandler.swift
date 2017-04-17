@@ -42,19 +42,25 @@ struct LoadingScreenHandler: LogEventParser {
                 if Settings.showArenaHelper {
                     coreManager.arenaWatcher.startWatching()
                 }
-            } else if game.previousMode == .draft {
-                coreManager.arenaWatcher.stopWatching()
-                ArenaDeckWatcher.stop()
             } else if game.currentMode == .packopening {
                 coreManager.packWatcher.startWatching()
-            } else if game.previousMode == .packopening {
-                coreManager.packWatcher.stopWatching()
             } else if game.currentMode == .tournament {
                 DeckWatcher.start()
-            } else if game.previousMode == .tournament {
-                DeckWatcher.stop()
+            } else if game.currentMode == .adventure {
+                DeckWatcher.start()
             } else if game.currentMode == .hub {
                 //game.clean()
+            }
+            
+            if game.previousMode == .draft {
+                coreManager.arenaWatcher.stopWatching()
+                ArenaDeckWatcher.stop()
+            } else if game.previousMode == .packopening {
+                coreManager.packWatcher.stopWatching()
+            } else if game.previousMode == .tournament {
+                DeckWatcher.stop()
+            } else if game.previousMode == .adventure {
+                DeckWatcher.stop()
             }
 
         } else if logLine.line.contains("Gameplay.Start") {
