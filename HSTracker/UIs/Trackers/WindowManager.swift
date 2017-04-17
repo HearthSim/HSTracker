@@ -126,57 +126,7 @@ class WindowManager {
                 || !Settings.hideAllWhenGameInBackground ) {
             show(controller: secretTracker, show: true, frame: SizeHelper.arenaHelperFrame())
         }
-         
-        // board damage
-        let board = BoardState()
 
-        if Settings.playerBoardDamage &&
-            ( (Settings.hideAllWhenGameInBackground &&
-                hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
-            if !game.gameEnded {
-                playerBoardDamage.update(attack: board.player.damage)
-                if Settings.autoPositionTrackers {
-                    rect = SizeHelper.playerBoardDamageFrame()
-                } else {
-                    rect = Settings.playerBoardDamageFrame
-                    if rect == nil {
-                        rect = SizeHelper.playerBoardDamageFrame()
-                    }
-                }
-                playerBoardDamage.hasValidFrame = true
-                show(controller: playerBoardDamage, show: true,
-                     frame: rect)
-            } else {
-                show(controller: playerBoardDamage, show: false)
-            }
-        } else {
-            show(controller: playerBoardDamage, show: false)
-        }
-
-        if Settings.opponentBoardDamage &&
-            ( (Settings.hideAllWhenGameInBackground &&
-                hearthstoneActive) || !Settings.hideAllWhenGameInBackground) {
-            if !game.gameEnded {
-                opponentBoardDamage.update(attack: board.opponent.damage)
-                if Settings.autoPositionTrackers {
-                    rect = SizeHelper.opponentBoardDamageFrame()
-                } else {
-                    rect = Settings.opponentBoardDamageFrame
-                    if rect == nil {
-                        rect = SizeHelper.opponentBoardDamageFrame()
-                    }
-                }
-                opponentBoardDamage.hasValidFrame = true
-                show(controller: opponentBoardDamage, show: true,
-                     frame: SizeHelper.opponentBoardDamageFrame())
-            } else {
-                show(controller: opponentBoardDamage, show: false)
-            }
-        } else {
-            show(controller: opponentBoardDamage, show: false)
-        }
- 
-        
 */
     }
 

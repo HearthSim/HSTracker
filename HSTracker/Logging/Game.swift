@@ -116,6 +116,7 @@ class Game: PowerEventHandler {
         self.updateSecretTracker()
         self.updateCardHud()
         self.updateTurnTimer()
+        self.updateBoardStateTrackers()
 	}
 	
     // MARK: - GUI calls
@@ -331,6 +332,64 @@ class Game: PowerEventHandler {
                 }
             } else {
                 self.windowManager.show(controller: tracker, show: false)
+            }
+        }
+    }
+    
+    func updateBoardStateTrackers() {
+        DispatchQueue.main.async {
+            // board damage
+            let board = BoardState(game: self)
+            
+            let playerBoardDamage = self.windowManager.playerBoardDamage
+            let opponentBoardDamage = self.windowManager.opponentBoardDamage
+            
+            var rect: NSRect?
+            
+            if Settings.playerBoardDamage &&
+                ( (Settings.hideAllWhenGameInBackground &&
+                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                if !self.gameEnded {
+                    playerBoardDamage.update(attack: board.player.damage)
+                    if Settings.autoPositionTrackers {
+                        rect = SizeHelper.playerBoardDamageFrame()
+                    } else {
+                        rect = Settings.playerBoardDamageFrame
+                        if rect == nil {
+                            rect = SizeHelper.playerBoardDamageFrame()
+                        }
+                    }
+                    playerBoardDamage.hasValidFrame = true
+                    self.windowManager.show(controller: playerBoardDamage, show: true,
+                         frame: rect)
+                } else {
+                    self.windowManager.show(controller: playerBoardDamage, show: false)
+                }
+            } else {
+                self.windowManager.show(controller: playerBoardDamage, show: false)
+            }
+            
+            if Settings.opponentBoardDamage &&
+                ( (Settings.hideAllWhenGameInBackground &&
+                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                if !self.gameEnded {
+                    opponentBoardDamage.update(attack: board.opponent.damage)
+                    if Settings.autoPositionTrackers {
+                        rect = SizeHelper.opponentBoardDamageFrame()
+                    } else {
+                        rect = Settings.opponentBoardDamageFrame
+                        if rect == nil {
+                            rect = SizeHelper.opponentBoardDamageFrame()
+                        }
+                    }
+                    opponentBoardDamage.hasValidFrame = true
+                    self.windowManager.show(controller: opponentBoardDamage, show: true,
+                         frame: SizeHelper.opponentBoardDamageFrame())
+                } else {
+                    self.windowManager.show(controller: opponentBoardDamage, show: false)
+                }
+            } else {
+                self.windowManager.show(controller: opponentBoardDamage, show: false)
             }
         }
     }
