@@ -43,6 +43,15 @@ final class Cards {
         return nil
     }
 
+    static func by(dbfId: Int?, collectible: Bool = true) -> Card? {
+        guard let dbfId = dbfId else { return nil }
+
+        if let card = (collectible ? self.collectible() : cards).first({ $0.dbfId == dbfId }) {
+            return card.copy() as? Card
+        }
+        return nil
+    }
+
     static func any(byId cardId: String) -> Card? {
         if cardId.isBlank { return nil }
         if let card = cards.firstWhere({ $0.id == cardId }) {
