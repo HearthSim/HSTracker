@@ -771,28 +771,41 @@ class Game: PowerEventHandler {
 		_spectator = MirrorHelper.isSpectating() ?? false
 		
 		// update current match info
-		if let matchInfo = MirrorHelper.getMatchInfo() {
-			Log.info?.message("\(matchInfo.localPlayer.name) vs "
-				+ "\(matchInfo.opposingPlayer.name)")
-			self.matchInfo = MatchInfo(info: matchInfo)
-			
-			if let minfo = self.matchInfo {
-				self.player.name = minfo.localPlayer.name
-				self.opponent.name = minfo.opposingPlayer.name
-				self.player.id = minfo.localPlayer.playerId
-				self.opponent.id = minfo.opposingPlayer.playerId
-			}
-		}
-		
-		// update game format
-		if let mirrorFormat = MirrorHelper.getFormat(),
-			let format = FormatType(rawValue: mirrorFormat) {
-			self.currentFormat = Format(formatType: format)
-		}
+		loadMatchInfo()
 		
         updateTrackers(reset: true)
 
         currentGameStats?.startTime = timestamp
+    }
+
+    private func loadMatchInfo() {
+        DispatchQueue.global().async { [weak self] in
+            var matchInfo = MirrorHelper.getMatchInfo()
+            while matchInfo == nil {
+                Log.debug?.message("matchinfo is still nil")
+                matchInfo = MirrorHelper.getMatchInfo()
+                Thread.sleep(forTimeInterval: 0.1)
+
+                if self?.gameEnded ?? true {
+                    break
+                }
+            }
+            if let _matchInfo = matchInfo {
+                self?.matchInfo = MatchInfo(info: _matchInfo)
+                Log.info?.message("\(String(describing: self?.matchInfo?.localPlayer.name))"
+                    + " vs \(String(describing: self?.matchInfo?.opposingPlayer.name))"
+                    + " matchInfo: \(String(describing: self?.matchInfo))")
+
+                if let minfo = self?.matchInfo {
+                    self?.player.name = minfo.localPlayer.name
+                    self?.opponent.name = minfo.opposingPlayer.name
+                    self?.player.id = minfo.localPlayer.playerId
+                    self?.opponent.id = minfo.opposingPlayer.playerId
+                    self?._currentGameType = minfo.gameType
+                    self?.currentFormat = minfo.formatType
+                }
+            }
+        }
     }
 
     private func adventureRestart() {
@@ -934,9 +947,7 @@ class Game: PowerEventHandler {
                     currentGameStats.note = input.string ?? ""
                 }
             }
-            
-            Log.verbose?.message("End game: \(currentGameStats)")
-			
+
 			self.player.revealedCards.filter({
 				$0.collectible
 			}).forEach({
@@ -948,7 +959,8 @@ class Game: PowerEventHandler {
 			}).forEach({
 				currentGameStats.opponentCards.append($0)
 			})
-			
+
+            Log.verbose?.message("End game: \(currentGameStats)")
 			let stats = currentGameStats.toGameStats()
 			
 			if let currentDeck = self.currentDeck {

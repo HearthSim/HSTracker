@@ -102,26 +102,42 @@ class InternalGameStats {
 
 extension InternalGameStats: CustomStringConvertible {
     var description: String {
-        return "statId: \(statId), " +
-        "hearthstoneBuild: \(String(describing: hearthstoneBuild)), " +
-        "playerCardbackId: \(playerCardbackId), " +
-        "opponentCardbackId: \(opponentCardbackId), " +
-        "friendlyPlayerId: \(friendlyPlayerId), " +
-        "scenarioId: \(scenarioId), " +
-        "serverInfo: \(String(describing: serverInfo)), " +
-        "season: \(season), " +
-        "gameType: \(gameType), " +
-        "hsDeckId: \(String(describing: hsDeckId)), " +
-        "brawlSeasonId: \(brawlSeasonId), " +
-        "rankedSeasonId: \(rankedSeasonId), " +
-        "arenaWins: \(arenaWins), " +
-        "arenaLosses: \(arenaLosses), " +
-        "brawlWins: \(brawlWins), " +
-        "brawlLosses: \(brawlLosses), " +
-        "format: \(String(describing: format)), " +
-        "hsReplayId: \(String(describing: hsReplayId)), " +
-        "opponentCards: \(opponentCards), " +
-        "revealedCards: \(revealedCards)"
+        return "playerHero: \(playerHero), " +
+            "opponentHero: \(opponentHero), " +
+            "coin: \(coin), " +
+            "gameMode: \(gameMode), " +
+            "result: \(result), " +
+            "turns: \(turns), " +
+            "startTime: \(startTime), " +
+            "endTime: \(endTime), " +
+            "note: \(note), " +
+            "playerName: \(playerName), " +
+            "opponentName: \(opponentName), " +
+            "wasConceded: \(wasConceded), " +
+            "rank: \(rank), " +
+            "stars: \(stars), " +
+            "legendRank: \(legendRank), " +
+            "opponentLegendRank: \(opponentLegendRank), " +
+            "opponentRank: \(opponentRank), " +
+            "hearthstoneBuild: \(String(describing: hearthstoneBuild)), " +
+            "playerCardbackId: \(playerCardbackId), " +
+            "opponentCardbackId: \(opponentCardbackId), " +
+            "friendlyPlayerId: \(friendlyPlayerId), " +
+            "scenarioId: \(scenarioId), " +
+            "serverInfo: \(String(describing: serverInfo)), " +
+            "season: \(season), " +
+            "gameType: \(gameType), " +
+            "hsDeckId: \(String(describing: hsDeckId)), " +
+            "brawlSeasonId: \(brawlSeasonId), " +
+            "rankedSeasonId: \(rankedSeasonId), " +
+            "arenaWins: \(arenaWins), " +
+            "arenaLosses: \(arenaLosses), " +
+            "brawlWins: \(brawlWins), " +
+            "brawlLosses: \(brawlLosses), " +
+            "format: \(String(describing: format)), " +
+            "hsReplayId: \(String(describing: hsReplayId)), " +
+            "opponentCards: \(opponentCards), " +
+            "revealedCards: \(revealedCards)"
     }
 }
 

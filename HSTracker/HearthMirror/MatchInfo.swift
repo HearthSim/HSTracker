@@ -39,6 +39,9 @@ struct MatchInfo {
     var brawlSeasonId: Int
     var missionId: Int
     var rankedSeasonId: Int
+    var gameType: GameType
+    var formatType: Format
+    var spectator: Bool
 
     init(info: MirrorMatchInfo) {
         localPlayer = Player(player: info.localPlayer)
@@ -47,5 +50,9 @@ struct MatchInfo {
         brawlSeasonId = info.brawlSeasonId as? Int ?? 0
         missionId = info.missionId as? Int ?? 0
         rankedSeasonId = info.rankedSeasonId as? Int ?? 0
+        gameType = GameType(rawValue: info.gameType as? Int ?? 0) ?? .gt_unknown
+        formatType = Format(formatType: FormatType(rawValue: info.formatType as? Int ?? 0)
+        ?? .ft_unknown)
+        spectator = info.spectator
     }
 }
