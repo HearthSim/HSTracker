@@ -250,15 +250,15 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame)
     }
 
-    static func secretTrackerFrame() -> NSRect {
-        let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
+    static func secretTrackerFrame(height: CGFloat) -> NSRect {
+        let yOffset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
 
-        let frame = NSRect(x: 200,
-                           y: offset,
+        let frame = NSRect(x: trackerWidth + 25,
+                           y: hearthstoneWindow.frame.height - height - yOffset,
                            width: trackerWidth,
-                           height: 450)
+                           height: height)
         
-        return hearthstoneWindow.relativeFrame(frame)
+        return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
 
     static func timerHudFrame() -> NSRect {

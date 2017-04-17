@@ -39,6 +39,18 @@ class SecretTracker: OverWindowController {
         cards = secrets
         table.reloadData()
     }
+    
+    var frameHeight: CGFloat {
+        var rowHeight = table.rowHeight
+        switch Settings.cardSize {
+        case .tiny: rowHeight = CGFloat(kTinyRowHeight)
+        case .small: rowHeight = CGFloat(kSmallRowHeight)
+        case .medium: rowHeight = CGFloat(kMediumRowHeight)
+        case .huge: rowHeight = CGFloat(kHighRowHeight)
+        case .big: rowHeight = CGFloat(kRowHeight)
+        }
+        return rowHeight * CGFloat(self.cards.count)
+    }
 }
 
 // MARK: - NSTableViewDataSource

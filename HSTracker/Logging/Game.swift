@@ -299,9 +299,10 @@ class Game: PowerEventHandler {
             if Settings.showSecretHelper &&
                 ( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
-                if let secrets = self.opponentSecrets, secrets.allSecrets(gameFormat: self.currentFormat).count > 0 {
-                    tracker.set(secrets: secrets.allSecrets(gameFormat: self.currentFormat))
-                    self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.secretTrackerFrame())
+                if let secrets = self.opponentSecrets?.allSecrets(gameFormat: self.currentFormat), secrets.count > 0 {
+                    tracker.set(secrets: secrets)
+                    self.windowManager.show(controller: tracker, show: true,
+                                            frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight))
                 } else {
                     self.windowManager.show(controller: tracker, show: false)
                 }
