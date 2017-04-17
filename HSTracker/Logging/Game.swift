@@ -495,7 +495,32 @@ class Game: PowerEventHandler {
     
     fileprivate var lastGameStartTimestamp: Date = Date.distantPast
 
-    private var matchInfo: MatchInfo?
+    private var _matchInfo: MatchInfo?
+    
+    var matchInfo: MatchInfo? {
+        
+        if _matchInfo != nil {
+            return _matchInfo
+        }
+        
+        if !self.gameEnded, let mInfo = MirrorHelper.getMatchInfo() {
+            self._matchInfo = MatchInfo(info: mInfo)
+            Log.info?.message("\(String(describing: self.matchInfo?.localPlayer.name))"
+                + " vs \(String(describing: self.matchInfo?.opposingPlayer.name))"
+                + " matchInfo: \(String(describing: self.matchInfo))")
+            
+            if let minfo = self.matchInfo {
+                self.player.name = minfo.localPlayer.name
+                self.opponent.name = minfo.opposingPlayer.name
+                self.player.id = minfo.localPlayer.playerId
+                self.opponent.id = minfo.opposingPlayer.playerId
+                self._currentGameType = minfo.gameType
+                self.currentFormat = minfo.formatType
+            }
+        }
+        
+        return _matchInfo
+    }
 	
     var arenaInfo: ArenaInfo? {
         if let _arenaInfo = MirrorHelper.getArenaDeck() {
@@ -632,7 +657,7 @@ class Game: PowerEventHandler {
         maxBlockId = 0
         currentBlock = nil
 
-        matchInfo = nil
+        _matchInfo = nil
         currentFormat = Format(formatType: FormatType.ft_unknown)
         _currentGameType = .gt_unknown
         currentGameStats = InternalGameStats()
@@ -770,30 +795,9 @@ class Game: PowerEventHandler {
 		// update spectator information
 		_spectator = MirrorHelper.isSpectating() ?? false
 		
-		// update current match info
-		loadMatchInfo()
-		
         updateTrackers(reset: true)
 
         currentGameStats?.startTime = timestamp
-    }
-
-    private func loadMatchInfo() {
-        if let _matchInfo = MirrorHelper.getMatchInfo() {
-            self.matchInfo = MatchInfo(info: _matchInfo)
-            Log.info?.message("\(String(describing: self.matchInfo?.localPlayer.name))"
-                + " vs \(String(describing: self.matchInfo?.opposingPlayer.name))"
-                + " matchInfo: \(String(describing: self.matchInfo))")
-
-            if let minfo = self.matchInfo {
-                self.player.name = minfo.localPlayer.name
-                self.opponent.name = minfo.opposingPlayer.name
-                self.player.id = minfo.localPlayer.playerId
-                self.opponent.id = minfo.opposingPlayer.playerId
-                self._currentGameType = minfo.gameType
-                self.currentFormat = minfo.formatType
-            }
-        }
     }
 
     private func adventureRestart() {
@@ -842,129 +846,128 @@ class Game: PowerEventHandler {
     }
 
     func handleEndGame() {
-        DispatchQueue.main.sync { [unowned self] in
-            if let stats = self.currentGameStats {
-                Log.verbose?.message("currentGameStats: \(stats), "
-                    + "handledGameEnd: \(self.handledGameEnd)")
-            } else if self.currentGameStats == nil || self.handledGameEnd {
-                Log.warning?.message("HandleGameEnd was already called.")
-                return
+        if let stats = self.currentGameStats {
+            Log.verbose?.message("currentGameStats: \(stats), "
+                + "handledGameEnd: \(self.handledGameEnd)")
+        } else if self.currentGameStats == nil || self.handledGameEnd {
+            Log.warning?.message("HandleGameEnd was already called.")
+            return
+        }
+        self.handledGameEnd = true
+        
+        guard let currentGameStats = self.currentGameStats else {
+            Log.error?.message("No current game stats, ignoring")
+            return
+        }
+        
+        if self.currentGameMode == .spectator && currentGameStats.result == .none {
+            Log.info?.message("Game was spectator mode without a game result."
+                + " Probably exited spectator mode early.")
+            return
+        }
+        
+        if let build = BuildDates.latestBuild {
+            currentGameStats.hearthstoneBuild = build.build
+        }
+        currentGameStats.season = Database.currentSeason
+        
+        if let name = self.player.name {
+            currentGameStats.playerName = name
+        }
+        if let _player = self.entities.map({ $0.1 }).firstWhere({ $0.isPlayer(eventHandler: self) }) {
+            currentGameStats.coin = !_player.has(tag: .first_player)
+        }
+        
+        if let name = self.opponent.name {
+            currentGameStats.opponentName = name
+        } else if currentGameStats.opponentHero != .neutral {
+            currentGameStats.opponentName = currentGameStats.opponentHero.rawValue
+        }
+        
+        currentGameStats.turns = self.turnNumber()
+        
+        currentGameStats.gameMode = self.currentGameMode
+        currentGameStats.format = self.currentFormat
+        
+        if let matchInfo = self.matchInfo, self.currentGameMode == .ranked {
+            let wild = self.currentFormat == .wild
+            
+            currentGameStats.rank = wild
+                ? matchInfo.localPlayer.wildRank
+                : matchInfo.localPlayer.standardRank
+            currentGameStats.opponentRank = wild
+                ? matchInfo.opposingPlayer.wildRank
+                : matchInfo.opposingPlayer.standardRank
+            currentGameStats.legendRank = wild
+                ? matchInfo.localPlayer.wildLegendRank
+                : matchInfo.localPlayer.standardLegendRank
+            currentGameStats.opponentLegendRank = wild
+                ? matchInfo.opposingPlayer.wildLegendRank
+                : matchInfo.opposingPlayer.standardLegendRank
+            currentGameStats.stars = wild
+                ? matchInfo.localPlayer.wildStars
+                : matchInfo.localPlayer.standardStars
+        } else if self.currentGameMode == .arena {
+            currentGameStats.arenaLosses = self.arenaInfo?.losses ?? 0
+            currentGameStats.arenaWins = self.arenaInfo?.wins ?? 0
+        } else if let brawlInfo = self.brawlInfo, self.currentGameMode == .brawl {
+            currentGameStats.brawlWins = brawlInfo.wins
+            currentGameStats.brawlLosses = brawlInfo.losses
+        }
+        
+        currentGameStats.gameType = self.currentGameType
+        if let serverInfo = MirrorHelper.getGameServerInfo() {
+            currentGameStats.serverInfo = ServerInfo(info: serverInfo)
+        }
+        currentGameStats.playerCardbackId = self.matchInfo?.localPlayer.cardBackId ?? 0
+        currentGameStats.opponentCardbackId = self.matchInfo?.opposingPlayer.cardBackId ?? 0
+        currentGameStats.friendlyPlayerId = self.matchInfo?.localPlayer.playerId ?? 0
+        currentGameStats.scenarioId = self.matchInfo?.missionId ?? 0
+        currentGameStats.brawlSeasonId = self.matchInfo?.brawlSeasonId ?? 0
+        currentGameStats.rankedSeasonId = self.matchInfo?.rankedSeasonId ?? 0
+        currentGameStats.hsDeckId = self.currentDeck?.hsDeckId
+        
+        if Settings.promptNotes {
+            let message = NSLocalizedString("Do you want to add some notes for this game ?",
+                                            comment: "")
+            let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
+            let input = NSTextView(frame: frame)
+            
+            if NSAlert.show(style: .informational, message: message,
+                            accessoryView: input, forceFront: true) {
+                currentGameStats.note = input.string ?? ""
             }
-            self.handledGameEnd = true
-            
-            guard let currentGameStats = self.currentGameStats else {
-                Log.error?.message("No current game stats, ignoring")
-                return
-            }
-            
-            if self.currentGameMode == .spectator && currentGameStats.result == .none {
-                Log.info?.message("Game was spectator mode without a game result."
-                    + " Probably exited spectator mode early.")
-                return
-            }
-            
-            if let build = BuildDates.latestBuild {
-                currentGameStats.hearthstoneBuild = build.build
-            }
-            currentGameStats.season = Database.currentSeason
-            
-            if let name = self.player.name {
-                currentGameStats.playerName = name
-            }
-			if let _player = self.entities.map({ $0.1 }).firstWhere({ $0.isPlayer(eventHandler: self) }) {
-                currentGameStats.coin = !_player.has(tag: .first_player)
-            }
-            
-            if let name = self.opponent.name {
-                currentGameStats.opponentName = name
-            } else if currentGameStats.opponentHero != .neutral {
-                currentGameStats.opponentName = currentGameStats.opponentHero.rawValue
-            }
-            
-            currentGameStats.turns = self.turnNumber()
-            
-            currentGameStats.gameMode = self.currentGameMode
-            currentGameStats.format = self.currentFormat
-            
-            if let matchInfo = self.matchInfo, self.currentGameMode == .ranked {
-                let wild = self.currentFormat == .wild
+        }
+        
+        self.player.revealedCards.filter({
+            $0.collectible
+        }).forEach({
+            currentGameStats.revealedCards.append($0)
+        })
+        
+        self.opponent.opponentCardList.filter({
+            !$0.isCreated
+        }).forEach({
+            currentGameStats.opponentCards.append($0)
+        })
+        
+        Log.verbose?.message("End game: \(currentGameStats)")
+        let stats = currentGameStats.toGameStats()
+        
+        if let currentDeck = self.currentDeck {
+            if let deck = RealmHelper.getDeck(with: currentDeck.id) {
                 
-                currentGameStats.rank = wild
-                    ? matchInfo.localPlayer.wildRank
-                    : matchInfo.localPlayer.standardRank
-                currentGameStats.opponentRank = wild
-                    ? matchInfo.opposingPlayer.wildRank
-                    : matchInfo.opposingPlayer.standardRank
-                currentGameStats.legendRank = wild
-                    ? matchInfo.localPlayer.wildLegendRank
-                    : matchInfo.localPlayer.standardLegendRank
-                currentGameStats.opponentLegendRank = wild
-                    ? matchInfo.opposingPlayer.wildLegendRank
-                    : matchInfo.opposingPlayer.standardLegendRank
-                currentGameStats.stars = wild
-                    ? matchInfo.localPlayer.wildStars
-                    : matchInfo.localPlayer.standardStars
-            } else if self.currentGameMode == .arena {
-                currentGameStats.arenaLosses = self.arenaInfo?.losses ?? 0
-                currentGameStats.arenaWins = self.arenaInfo?.wins ?? 0
-            } else if let brawlInfo = self.brawlInfo, self.currentGameMode == .brawl {
-                currentGameStats.brawlWins = brawlInfo.wins
-                currentGameStats.brawlLosses = brawlInfo.losses
-            }
-            
-            currentGameStats.gameType = self.currentGameType
-            if let serverInfo = MirrorHelper.getGameServerInfo() {
-                currentGameStats.serverInfo = ServerInfo(info: serverInfo)
-            }
-            currentGameStats.playerCardbackId = self.matchInfo?.localPlayer.cardBackId ?? 0
-            currentGameStats.opponentCardbackId = self.matchInfo?.opposingPlayer.cardBackId ?? 0
-            currentGameStats.friendlyPlayerId = self.matchInfo?.localPlayer.playerId ?? 0
-            currentGameStats.scenarioId = self.matchInfo?.missionId ?? 0
-            currentGameStats.brawlSeasonId = self.matchInfo?.brawlSeasonId ?? 0
-            currentGameStats.rankedSeasonId = self.matchInfo?.rankedSeasonId ?? 0
-            currentGameStats.hsDeckId = self.currentDeck?.hsDeckId
-            
-            if Settings.promptNotes {
-                let message = NSLocalizedString("Do you want to add some notes for this game ?",
-                                                comment: "")
-                let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
-                let input = NSTextView(frame: frame)
-                
-                if NSAlert.show(style: .informational, message: message,
-                                accessoryView: input, forceFront: true) {
-                    currentGameStats.note = input.string ?? ""
+                RealmHelper.addStatistics(to: deck, stats: stats)
+                if Settings.autoArchiveArenaDeck &&
+                    self.currentGameMode == .arena && deck.isArena && deck.arenaFinished() {
+                    RealmHelper.set(deck: deck, active: false)
                 }
             }
-
-			self.player.revealedCards.filter({
-				$0.collectible
-			}).forEach({
-				currentGameStats.revealedCards.append($0)
-			})
-			
-			self.opponent.opponentCardList.filter({
-				!$0.isCreated
-			}).forEach({
-				currentGameStats.opponentCards.append($0)
-			})
-
-            Log.verbose?.message("End game: \(currentGameStats)")
-			let stats = currentGameStats.toGameStats()
-			
-			if let currentDeck = self.currentDeck {
-				if let deck = RealmHelper.getDeck(with: currentDeck.id) {
-					
-					RealmHelper.addStatistics(to: deck, stats: stats)
-					if Settings.autoArchiveArenaDeck &&
-						self.currentGameMode == .arena && deck.isArena && deck.arenaFinished() {
-						RealmHelper.set(deck: deck, active: false)
-					}
-				}
-			}
-			
-            self.lastGame = currentGameStats
-            self.logIsComplete()
         }
+        
+        self.lastGame = currentGameStats
+        self.logIsComplete()
+        
     }
 
     private func logIsComplete() {
