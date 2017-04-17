@@ -118,6 +118,12 @@ final class LogReaderManager {
                 
             }
             
+            // save powerlines for replay upload
+            let powerLines = powerLog.collect(index: 1)
+            for line in powerLines {
+                coreManager.game.powerLog.append(line)
+            }
+            
             for lineList in processMap.values {
                 if stopped {
                     break
@@ -130,11 +136,6 @@ final class LogReaderManager {
                 }
             }
             processMap.removeAll()
-            
-            let powerLines = powerLog.collect(index: 1)
-            for line in powerLines {
-                coreManager.game.powerLog.append(line)
-            }
             
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }

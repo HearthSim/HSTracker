@@ -528,6 +528,7 @@
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
 		BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */; };
+		BCCCDB9F1EA55B0C00C328D0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */; };
 		BCFC60991EA29DE6005B879F /* ArenaHelperSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9EF281E9C1DED00D17F2A /* ArenaHelperSync.swift */; };
 		C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C680C1D1F225F009030DC /* StatsTab.swift */; };
 		C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68101D1F3FC4009030DC /* LadderTab.swift */; };
@@ -2278,6 +2279,7 @@
 				43C1CAA71E96CD6F008C20B1 /* FloatingCard.swift in Sources */,
 				43C1CAA81E96CD6F008C20B1 /* WotogCounter.swift in Sources */,
 				43C1CAA91E96CD6F008C20B1 /* StringTracker.swift in Sources */,
+				BCCCDB9F1EA55B0C00C328D0 /* NotificationManager.swift in Sources */,
 				43C1CAAA1E96CD6F008C20B1 /* BoardDamage.swift in Sources */,
 				43C1CAAB1E96CD6F008C20B1 /* CardHud.swift in Sources */,
 				43C1CAAC1E96CD6F008C20B1 /* CardHudContainer.swift in Sources */,
