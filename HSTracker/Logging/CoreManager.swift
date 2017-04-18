@@ -35,7 +35,6 @@ final class CoreManager: NSObject {
     static var assetGenerator: HearthAssets?
     
     // watchers
-    let arenaWatcher = ArenaWatcher()
     let packWatcher = PackWatcher()
     
     let game: Game

@@ -40,10 +40,14 @@ class WindowManager {
         return $0
     }(Tracker(windowNibName: "Tracker"))
 
-    var secretTracker: SecretTracker = {
+    var secretTracker: CardList = {
         return $0
-    }(SecretTracker(windowNibName: "SecretTracker"))
-    
+    }(CardList(windowNibName: "CardList"))
+	
+	var arenaHelper: CardList = {
+		return $0
+	}(CardList(windowNibName: "CardList"))
+	
     var playerBoardDamage: BoardDamage = {
         $0.player = .player
         return $0
@@ -106,28 +110,12 @@ class WindowManager {
 		// TODO: use not defered gui instead
         DispatchQueue.main.async { [weak self] in
             self?.secretTracker.window?.orderOut(nil)
+			self?.arenaHelper.window?.orderOut(nil)
             self?.timerHud.window?.orderOut(nil)
             self?.playerBoardDamage.window?.orderOut(nil)
             self?.opponentBoardDamage.window?.orderOut(nil)
             self?.cardHudContainer.reset()
         }
-    }
-
-    // MARK: - Updating trackers
-
-    private func redrawTrackers(reset: Bool = false) {
-       /* var rect: NSRect?
- TODO: dissect redraw code
-    
-        // arena helper
-        if Settings.showArenaHelper && hearthstone.arenaWatcher.isRunning &&
-            secretTracker.cards.count == 3 && 
-            ( (Settings.hideAllWhenGameInBackground && hearthstoneActive)
-                || !Settings.hideAllWhenGameInBackground ) {
-            show(controller: secretTracker, show: true, frame: SizeHelper.arenaHelperFrame())
-        }
-
-*/
     }
 
     // MARK: - Floating card

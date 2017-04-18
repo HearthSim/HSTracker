@@ -38,9 +38,9 @@ struct LoadingScreenHandler: LogEventParser {
             }
 
             if game.currentMode == .draft {
-                ArenaDeckWatcher.start()
+				ArenaDeckWatcher.start()
                 if Settings.showArenaHelper {
-                    coreManager.arenaWatcher.startWatching()
+                    ArenaWatcher.start(handler: game)
                 }
             } else if game.currentMode == .packopening {
                 coreManager.packWatcher.startWatching()
@@ -53,7 +53,7 @@ struct LoadingScreenHandler: LogEventParser {
             }
             
             if game.previousMode == .draft {
-                coreManager.arenaWatcher.stopWatching()
+                ArenaWatcher.stop()
                 ArenaDeckWatcher.stop()
             } else if game.previousMode == .packopening {
                 coreManager.packWatcher.stopWatching()

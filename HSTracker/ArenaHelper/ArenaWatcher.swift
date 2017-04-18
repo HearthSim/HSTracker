@@ -8,6 +8,22 @@ import Unbox
 import CleanroomLogger
 
 class ArenaWatcher: Watcher {
+	
+	static let _instance = ArenaWatcher()
+	
+	static func start(handler: PowerEventHandler) {
+		_instance.handler = handler
+		_instance.startWatching()
+	}
+	
+	static func stop() {
+		_instance.stopWatching()
+	}
+	
+	static func isRunning() -> Bool {
+		return _instance.isRunning
+	}
+	
     private let heroes: [CardClass] = [
             .warrior,
             .shaman,
@@ -19,19 +35,12 @@ class ArenaWatcher: Watcher {
             .mage,
             .priest
     ]
-    var hero: CardClass = .neutral
+	
+	static var hero: CardClass = .neutral
     private var cardTiers: [ArenaCard] = []
     private var currentCards: [String] = []
-
-    override func clean() {
-		// TODO: fix arenawatcher UI
-        /*DispatchQueue.main.async {
-            guard let game = (NSApp.delegate as? AppDelegate)?.game,
-                let secretTracker = game.windowManager?.secretTracker else { return }
-            game.windowManager?.show(controller: secretTracker, show: false)
-        }*/
-    }
-
+	private var handler: PowerEventHandler?
+	
     override func run() {
         if cardTiers.count == 0 {
             loadCardTiers()
@@ -53,7 +62,7 @@ class ArenaWatcher: Watcher {
             for mirrorCard in choices {
                 if let cardInfo = cardTiers.first({ $0.id == mirrorCard.cardId }),
                     let card = Cards.by(cardId: mirrorCard.cardId),
-                    let index = heroes.indexOf(hero) {
+                    let index = heroes.indexOf(ArenaWatcher.hero) {
                     card.cost = Int(cardInfo.values[index]) ?? 0
                     card.count = 1
                     cards.append(card)
@@ -65,22 +74,15 @@ class ArenaWatcher: Watcher {
                 if ids.sorted() != currentCards.sorted() {
                     Log.debug?.message("cards: \(cards)")
                     currentCards = ids
-					/* TODO: arenahelper should not use secrettracker (at least not this way)
-                    DispatchQueue.main.async {
-                        guard let game = (NSApp.delegate as? AppDelegate)?.game,
-                            let secretTracker = game.windowManager?.secretTracker else { return }
-
-                        secretTracker.set(secrets: cards.sorted { $0.cost > $1.cost })
-                        game.windowManager?.show(controller: secretTracker,
-                                                 show: true,
-                                                 frame: SizeHelper.arenaHelperFrame())
-                    }*/
+					
+					handler?.setArenaOptions(cards: cards.sorted { $0.cost > $1.cost })
                 }
             }
             
             Thread.sleep(forTimeInterval: refreshInterval)
         }
-        
+		
+		handler?.setArenaOptions(cards: [])
         queue = nil
     }
 

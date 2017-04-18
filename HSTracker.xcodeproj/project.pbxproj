@@ -256,8 +256,8 @@
 		43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955A1C9065AC00F4D0AC /* Secret.swift */; };
 		43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955C1C90681200F4D0AC /* SecretHelper.swift */; };
 		43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
-		43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* SecretTracker.swift */; };
-		43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* SecretTracker.xib */; };
+		43B695631C920A0500F4D0AC /* CardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* CardList.swift */; };
+		43B695651C920BD500F4D0AC /* CardList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* CardList.xib */; };
 		43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43BBAAA11E61A11F009B6298 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43BBAAA01E61A11F009B6298 /* JNWCollectionView.framework */; };
 		43BBAAA31E61A130009B6298 /* JNWCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43BBAAA01E61A11F009B6298 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -433,7 +433,7 @@
 		43C1CA9E1E96CD6F008C20B1 /* UpdatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */; };
 		43C1CA9F1E96CD6F008C20B1 /* OverWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BB1DB7FB040081964A /* OverWindowController.swift */; };
 		43C1CAA01E96CD6F008C20B1 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EDC1C777FA900D29859 /* Tracker.swift */; };
-		43C1CAA11E96CD6F008C20B1 /* SecretTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* SecretTracker.swift */; };
+		43C1CAA11E96CD6F008C20B1 /* CardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* CardList.swift */; };
 		43C1CAA21E96CD6F008C20B1 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43C1CAA31E96CD6F008C20B1 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
 		43C1CAA41E96CD6F008C20B1 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
@@ -959,8 +959,8 @@
 		43B6955A1C9065AC00F4D0AC /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		43B6955C1C90681200F4D0AC /* SecretHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretHelper.swift; sourceTree = "<group>"; };
 		43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentSecrets.swift; sourceTree = "<group>"; };
-		43B695621C920A0500F4D0AC /* SecretTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretTracker.swift; sourceTree = "<group>"; };
-		43B695641C920BD500F4D0AC /* SecretTracker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecretTracker.xib; sourceTree = "<group>"; };
+		43B695621C920A0500F4D0AC /* CardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardList.swift; sourceTree = "<group>"; };
+		43B695641C920BD500F4D0AC /* CardList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardList.xib; sourceTree = "<group>"; };
 		43BBAA991E619AA9009B6298 /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/Mac/Unbox.framework; sourceTree = "<group>"; };
 		43BBAA9C1E619AD8009B6298 /* Unbox.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Unbox.framework.dSYM; path = Carthage/Build/Mac/Unbox.framework.dSYM; sourceTree = "<group>"; };
 		43BBAAA01E61A11F009B6298 /* JNWCollectionView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JNWCollectionView.framework; path = Carthage/Build/Mac/JNWCollectionView.framework; sourceTree = "<group>"; };
@@ -1544,8 +1544,8 @@
 				43BDF0BB1DB7FB040081964A /* OverWindowController.swift */,
 				439C7EDC1C777FA900D29859 /* Tracker.swift */,
 				439C7EDD1C777FA900D29859 /* Tracker.xib */,
-				43B695621C920A0500F4D0AC /* SecretTracker.swift */,
-				43B695641C920BD500F4D0AC /* SecretTracker.xib */,
+				43B695621C920A0500F4D0AC /* CardList.swift */,
+				43B695641C920BD500F4D0AC /* CardList.xib */,
 				43E77EE11C949C7800C26950 /* TimerHud.swift */,
 				43E77EDF1C949C6D00C26950 /* TimerHud.xib */,
 				436789BA1CACF79800C962D1 /* TrackerFrame.swift */,
@@ -1840,7 +1840,7 @@
 				432B5FB61CB5372600B05D19 /* GamePreferences.xib in Resources */,
 				439C7EE41C777FA900D29859 /* Tracker.xib in Resources */,
 				43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */,
-				43B695651C920BD500F4D0AC /* SecretTracker.xib in Resources */,
+				43B695651C920BD500F4D0AC /* CardList.xib in Resources */,
 				C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */,
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
@@ -1953,7 +1953,7 @@
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */,
 				43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */,
-				43B695631C920A0500F4D0AC /* SecretTracker.swift in Sources */,
+				43B695631C920A0500F4D0AC /* CardList.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
 				439C7ECB1C777F8900D29859 /* LogReaderManager.swift in Sources */,
@@ -2270,7 +2270,7 @@
 				43C1CA9E1E96CD6F008C20B1 /* UpdatePreferences.swift in Sources */,
 				43C1CA9F1E96CD6F008C20B1 /* OverWindowController.swift in Sources */,
 				43C1CAA01E96CD6F008C20B1 /* Tracker.swift in Sources */,
-				43C1CAA11E96CD6F008C20B1 /* SecretTracker.swift in Sources */,
+				43C1CAA11E96CD6F008C20B1 /* CardList.swift in Sources */,
 				43C1CAA21E96CD6F008C20B1 /* TimerHud.swift in Sources */,
 				43C1CAA31E96CD6F008C20B1 /* TrackerFrame.swift in Sources */,
 				43C1CAA41E96CD6F008C20B1 /* CardCounter.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  SecretTracker.swift
+//  CardList.swift
 //  HSTracker
 //
 //  Created by Benjamin Michotte on 10/03/16.
@@ -9,7 +9,7 @@
 import Foundation
 import AppKit
 
-class SecretTracker: OverWindowController {
+class CardList: OverWindowController {
 
     @IBOutlet weak var table: NSTableView!
 
@@ -35,8 +35,8 @@ class SecretTracker: OverWindowController {
         setWindowSizes()
     }
 
-    func set(secrets: [Card]) {
-        cards = secrets
+    func set(cards: [Card]) {
+        self.cards = cards
         table.reloadData()
     }
     
@@ -54,14 +54,14 @@ class SecretTracker: OverWindowController {
 }
 
 // MARK: - NSTableViewDataSource
-extension SecretTracker: NSTableViewDataSource {
+extension CardList: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return cards.count
     }
 }
 
 // MARK: - NSTableViewDelegate
-extension SecretTracker: NSTableViewDelegate {
+extension CardList: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView,
                    viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
@@ -93,7 +93,7 @@ extension SecretTracker: NSTableViewDelegate {
 }
 
 // MARK: - CardCellHover
-extension SecretTracker: CardCellHover {
+extension CardList: CardCellHover {
     func hover(cell: CardBar, card: Card) {
         let row = table.row(for: cell)
         let rect = table.frameOfCell(atColumn: 0, row: row)

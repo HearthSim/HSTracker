@@ -554,7 +554,7 @@ class Tracker: OverWindowController {
 // MARK: - NSWindowDelegate
 extension Tracker: NSWindowDelegate {
     func windowDidResize(_ notification: Notification) {
-		// TODO: Tracker UI
+		// TODO: Tracker UI resize event
 		/*guard let game = (NSApp.delegate as? AppDelegate)?.game else {
             Log.warning?.message("No game instance")
             return

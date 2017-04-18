@@ -29,7 +29,7 @@ struct ArenaHandler: LogEventParser {
             let matches = logLine.line.matches(HeroRegex)
             if let heroID = Cards.hero(byId: matches[1].value) {
                 Log.info?.message("Found arena hero : \(heroID.playerClass)")
-                coreManager.arenaWatcher.hero = heroID.playerClass
+                ArenaWatcher.hero = heroID.playerClass
             }
         } else if logLine.line.contains("IN_REWARDS") && coreManager.game.currentMode == .draft {
             //Watchers.ArenaWatcher.Update();
@@ -37,7 +37,7 @@ struct ArenaHandler: LogEventParser {
             if let match = logLine.line.matches(ClientChoosesRegex).first,
                let card = Cards.hero(byId: match.value) {
                 Log.info?.message("Client choose arena hero : \(card.playerClass)")
-                coreManager.arenaWatcher.hero = card.playerClass
+                ArenaWatcher.hero = card.playerClass
             }
         }
     }

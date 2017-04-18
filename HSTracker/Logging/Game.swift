@@ -117,6 +117,7 @@ class Game: PowerEventHandler {
         self.updateCardHud()
         self.updateTurnTimer()
         self.updateBoardStateTrackers()
+		self.updateArenaHelper()
 	}
 	
     // MARK: - GUI calls
@@ -300,7 +301,7 @@ class Game: PowerEventHandler {
                 ( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
                 if let secrets = self.opponentSecrets?.allSecrets(gameFormat: self.currentFormat), secrets.count > 0 {
-                    tracker.set(secrets: secrets)
+                    tracker.set(cards: secrets)
                     self.windowManager.show(controller: tracker, show: true,
                                             frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight))
                 } else {
@@ -393,8 +394,24 @@ class Game: PowerEventHandler {
             }
         }
     }
-    
-    // MARK: - vars
+	
+	func updateArenaHelper() {
+		DispatchQueue.main.async {
+			
+			let tracker = self.windowManager.arenaHelper
+			
+			if Settings.showArenaHelper && ArenaWatcher.isRunning() &&
+				self.windowManager.arenaHelper.cards.count == 3 &&
+				( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+					|| !Settings.hideAllWhenGameInBackground ) {
+				self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.arenaHelperFrame())
+			} else {
+				self.windowManager.show(controller: tracker, show: false)
+			}
+		}
+	}
+	
+    // MARK: - Vars
     var currentTurn = 0
     var lastId = 0
     var gameTriggerCount = 0
@@ -1381,7 +1398,7 @@ class Game: PowerEventHandler {
         if cardId.isBlank {
             return
         }
-        if cardId == "GAME_005" {
+        if cardId == CardIds.NonCollectible.Neutral.TheCoin {
             playerGet(entity: entity, cardId: cardId, turn: turn)
         } else {
             player.draw(entity: entity, turn: turn)
@@ -1476,7 +1493,7 @@ class Game: PowerEventHandler {
         updateTrackers()
     }
 
-    // MARK: - opponent
+    // MARK: - Opponent actions
     func set(opponentHero cardId: String) {
         if let card = Cards.hero(byId: cardId) {
             opponent.playerClass = card.playerClass
@@ -1680,7 +1697,7 @@ class Game: PowerEventHandler {
         updateTrackers()
     }
 
-    // MARK: - game actions
+    // MARK: - Game actions
     func defending(entity: Entity?) {
         self.defendingEntity = entity
         if let attackingEntity = self.attackingEntity,
@@ -1817,4 +1834,11 @@ class Game: PowerEventHandler {
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
         updateTrackers()
     }
+	
+	// MARK: - Arena
+	
+	func setArenaOptions(cards: [Card]) {
+		self.windowManager.arenaHelper.set(cards: cards)
+		self.updateArenaHelper()
+	}
 }
