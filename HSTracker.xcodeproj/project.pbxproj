@@ -124,7 +124,6 @@
 		4359BFA51D5243FD00F61993 /* Automation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BFA41D5243FD00F61993 /* Automation.swift */; };
 		435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD9081E1E3AB4000AF3DE /* GameStats.swift */; };
 		435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD90A1E1E4447000AF3DE /* ServerInfo.swift */; };
-		436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
 		4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED31C777FA900D29859 /* Splashscreen.swift */; };
 		436032A21C7D0333005F1893 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032A11C7D0332005F1893 /* DeckManager.swift */; };
@@ -294,7 +293,6 @@
 		43C1CA111E96CD6F008C20B1 /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD9081E1E3AB4000AF3DE /* GameStats.swift */; };
 		43C1CA121E96CD6F008C20B1 /* ServerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD90A1E1E4447000AF3DE /* ServerInfo.swift */; };
 		43C1CA131E96CD6F008C20B1 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E8C1C777D1C00D29859 /* Database.swift */; };
-		43C1CA141E96CD6F008C20B1 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436032971C79D59C005F1893 /* ImageDownloader.swift */; };
 		43C1CA151E96CD6F008C20B1 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		43C1CA161E96CD6F008C20B1 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43883F1D1DA382BA00A7B79C /* Language.swift */; };
 		43C1CA171E96CD6F008C20B1 /* RealmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C17D2511E82DEE700ED4047 /* RealmHelper.swift */; };
@@ -832,7 +830,6 @@
 		435BC4B61DA3801E007EF301 /* hs-build-dates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "hs-build-dates.json"; sourceTree = "<group>"; };
 		435CD9081E1E3AB4000AF3DE /* GameStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStats.swift; sourceTree = "<group>"; };
 		435CD90A1E1E4447000AF3DE /* ServerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerInfo.swift; sourceTree = "<group>"; };
-		436032971C79D59C005F1893 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		436032A11C7D0332005F1893 /* DeckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
 		4361D8331DC8A21800D831CF /* BnetGameType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BnetGameType.swift; sourceTree = "<group>"; };
 		43640BE21E8A328700FAFD07 /* SecretTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretTests.swift; sourceTree = "<group>"; };
@@ -1418,7 +1415,6 @@
 			children = (
 				439C7E7B1C777CD500D29859 /* Models */,
 				439C7E8C1C777D1C00D29859 /* Database.swift */,
-				436032971C79D59C005F1893 /* ImageDownloader.swift */,
 				4305CA461CF434E30048E7EC /* Cards.swift */,
 				43883F1D1DA382BA00A7B79C /* Language.swift */,
 				1C17D2511E82DEE700ED4047 /* RealmHelper.swift */,
@@ -1962,7 +1958,6 @@
 				4349104C1D09739C00B22DB2 /* BoardHero.swift in Sources */,
 				1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
-				436032981C79D59C005F1893 /* ImageDownloader.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */,
 				437E56F41DAAB81400FC0FC1 /* LinqExtension.swift in Sources */,
@@ -2131,7 +2126,6 @@
 				43C1CA111E96CD6F008C20B1 /* GameStats.swift in Sources */,
 				43C1CA121E96CD6F008C20B1 /* ServerInfo.swift in Sources */,
 				43C1CA131E96CD6F008C20B1 /* Database.swift in Sources */,
-				43C1CA141E96CD6F008C20B1 /* ImageDownloader.swift in Sources */,
 				43C1CA151E96CD6F008C20B1 /* Cards.swift in Sources */,
 				43C1CA161E96CD6F008C20B1 /* Language.swift in Sources */,
 				43C1CA171E96CD6F008C20B1 /* RealmHelper.swift in Sources */,
