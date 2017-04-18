@@ -36,7 +36,11 @@ final class Settings {
         }
         return nil
     }
-
+	
+	static var showMemoryReadingWarning: Bool {
+		set { set(name: "showMemoryReadingWarning", value: newValue) }
+		get { return get(name: "showMemoryReadingWarning") as? Bool ?? true }
+	}
     static var canJoinFullscreen: Bool {
         set { set(name: "can_join_fullscreen", value: newValue) }
         get { return get(name: "can_join_fullscreen") as? Bool ?? true }

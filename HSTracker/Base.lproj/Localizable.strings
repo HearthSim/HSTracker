@@ -58,6 +58,7 @@
 "In top 2:" = "In top 2:";
 "Connected" = "Connected";
 "Connected as %@" = "Connected as %@";
+"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.";
 
 /* notifications */
 "Your game begins" = "Your game begins";

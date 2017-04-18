@@ -48,6 +48,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		
+		// warn user about memory reading
+		if Settings.showMemoryReadingWarning {
+			let alert = NSAlert()
+			alert.addButton(withTitle: NSLocalizedString("I understand", comment: ""))
+			// swiftlint:disable line_length
+			alert.messageText = NSLocalizedString("HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.", comment: "")
+			// swiftlint:enable line_length
+			alert.runModal()
+			Settings.showMemoryReadingWarning = false
+		}
+		
 		// create folders in file system
 		Paths.initDirs()
 		
