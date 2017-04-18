@@ -26,7 +26,7 @@ struct MirrorHelper {
             if let hsApp = CoreManager.hearthstoneApp {
                 Log.verbose?.message("Initializing HearthMirror with pid \(hsApp.processIdentifier)")
                 
-                MirrorHelper._mirror = MirrorHelper.initMirror(pid: hsApp.processIdentifier, blocking: true)
+                MirrorHelper._mirror = MirrorHelper.initMirror(pid: hsApp.processIdentifier, blocking: false)
             } else {
                 Log.error?.message("Failed to initialize HearthMirror: game is not running")
             }

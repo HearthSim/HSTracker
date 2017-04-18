@@ -23,16 +23,11 @@ import CleanroomLogger
 	
 	private var currentPlayer: PlayerType = .player
 	
-   /* private var isPlayersTurn: Bool {
-        return game?.playerEntity?.has(tag: .current_player) ?? false
-    }*/
-	
 	init(gui: TimerHud) {
 		self.timerHud = gui
 	}
 	
     func startTurn(for player: PlayerType, timeout: Int = -1) {
-        Log.info?.message("Starting turn for \(player)")
 		seconds = TurnTimer.TurnLengthSec
 		self.currentPlayer = player
 		
@@ -61,7 +56,6 @@ import CleanroomLogger
     }
 
     func stop() {
-        Log.info?.message("Stopping turn timer")
         timer?.invalidate()
     }
 

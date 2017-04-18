@@ -126,20 +126,20 @@ public class ConcurrentQueue<T> {
     private let accessQueue = DispatchQueue(label: "be.michotte.hstracker.concurrentQueue")
     
     public func enqueue(value: T) {
-        self.accessQueue.async(flags:.barrier) {
+        self.accessQueue.sync {
             self.elements.append(value: value)
         }
     }
 	
 	public func enqueueAll(collection: [T]) {
-		self.accessQueue.async(flags:.barrier) {
+		self.accessQueue.sync {
 			self.elements.appendAll(collection: collection)
 		}
 	}
 	
     public func dequeue() -> T? {
         var result: T?
-        self.accessQueue.sync(flags:.barrier) {
+        self.accessQueue.sync {
             if let head = self.elements.first {
                 result = self.elements.remove(node: head)
             }
@@ -149,14 +149,14 @@ public class ConcurrentQueue<T> {
     
 	public var count: Int {
         var result = 0
-        self.accessQueue.sync(flags:.barrier) {
+        self.accessQueue.sync {
             result = self.elements.count
         }
         return result
     }
     
     public func clear() {
-        self.accessQueue.sync(flags:.barrier) {
+        self.accessQueue.sync {
             self.elements.clear()
         }
     }

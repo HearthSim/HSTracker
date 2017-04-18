@@ -17,7 +17,7 @@ struct LogLine {
 	let content: String
 	let line: String
 	
-	private static let dateStringFormatterNS: DateFormatter = {
+	@nonobjc private static let dateStringFormatterNS: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.locale = Locale(identifier: "en_US_POSIX")
 		formatter.dateFormat = "HH:mm:ss.SSSSSSS"
@@ -25,7 +25,7 @@ struct LogLine {
 		return formatter
 	}()
 	
-	private static let dateStringFormatter: DateFormatter = {
+	@nonobjc private static let dateStringFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.locale = Locale(identifier: "en_US_POSIX")
 		formatter.dateFormat = "HH:mm:ss"
@@ -33,7 +33,7 @@ struct LogLine {
 		return formatter
 	}()
 	
-	private static let trimFormatter: DateFormatter = {
+	@nonobjc private static let trimFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.timeStyle = DateFormatter.Style.none
 		formatter.dateStyle = DateFormatter.Style.short

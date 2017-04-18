@@ -41,10 +41,8 @@ final class LogReader {
             }
         }
         
-        for _ in info.startsWithFiltersGroup {
-            _lines.append(ConcurrentQueue<LogLine>())
-        }
-        if _lines.count == 0 {
+        _lines.removeAll()
+        for _ in 1...max(1, max(info.startsWithFiltersGroup.count, info.containsFiltersGroup.count) ) {
             _lines.append(ConcurrentQueue<LogLine>())
         }
     }
@@ -134,7 +132,6 @@ final class LogReader {
                                 let logLine = LogLine(namespace: info.name,
                                                       line: line)
                                 if logLine.time >= startingPoint {
-                                    //_lines[0].enqueue(value: logLine)
 									loglinesBuffer[0].append(logLine)
                                 }
                             } else {
@@ -148,7 +145,6 @@ final class LogReader {
                                         let logLine = LogLine(namespace: info.name,
                                                               line: line)
                                         if logLine.time >= startingPoint {
-                                            //_lines[i].enqueue(value: logLine)
 											loglinesBuffer[i].append(logLine)
                                         }
                                     }
