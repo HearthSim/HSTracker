@@ -11,17 +11,17 @@ import AppKit
 
 class CardList: OverWindowController {
 
-    @IBOutlet weak var table: NSTableView!
+    @IBOutlet weak var table: NSTableView?
 
     var cards = [Card]()
 
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        table.intercellSpacing = NSSize(width: 0, height: 0)
+        table?.intercellSpacing = NSSize(width: 0, height: 0)
 
-        table.backgroundColor = NSColor.clear
-        table.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable,
+        table?.backgroundColor = NSColor.clear
+        table?.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable,
                                        NSAutoresizingMaskOptions.viewHeightSizable]
 
         NotificationCenter.default
@@ -37,11 +37,11 @@ class CardList: OverWindowController {
 
     func set(cards: [Card]) {
         self.cards = cards
-        table.reloadData()
+        table?.reloadData()
     }
     
     var frameHeight: CGFloat {
-        var rowHeight = table.rowHeight
+        var rowHeight: CGFloat = 0
         switch Settings.cardSize {
         case .tiny: rowHeight = CGFloat(kTinyRowHeight)
         case .small: rowHeight = CGFloat(kSmallRowHeight)
@@ -95,10 +95,10 @@ extension CardList: NSTableViewDelegate {
 // MARK: - CardCellHover
 extension CardList: CardCellHover {
     func hover(cell: CardBar, card: Card) {
-        let row = table.row(for: cell)
-        let rect = table.frameOfCell(atColumn: 0, row: row)
+        let row = table!.row(for: cell)
+        let rect = table!.frameOfCell(atColumn: 0, row: row)
 
-        let offset = rect.origin.y - table.enclosingScrollView!.documentVisibleRect.origin.y
+        let offset = rect.origin.y - table!.enclosingScrollView!.documentVisibleRect.origin.y
         let windowRect = self.window!.frame
 
         let hoverFrame = NSRect(x: 0, y: 0, width: 200, height: 300)
