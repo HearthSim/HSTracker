@@ -17,9 +17,9 @@ class Database {
     }()
 
     static func jsonFilesAreValid() -> Bool {
-        for locale in Language.hsLanguages {
+        for locale in Language.Hearthstone.allValues() {
 
-            let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(locale).json")
+            let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(locale.rawValue).json")
             guard let jsonData = try? Data(contentsOf: jsonFile) else {
                 Log.error?.message("\(jsonFile) is not a valid file")
                 return false
@@ -38,16 +38,17 @@ class Database {
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [Race]()
 
-    func loadDatabase(splashscreen: Splashscreen?, withLanguages langs: [String]) {
+    func loadDatabase(splashscreen: Splashscreen?, withLanguages langs: [Language.Hearthstone]) {
         for lang in langs {
-            var file: URL? = Paths.cardJson.appendingPathComponent("cardsDB.\(lang).json")
+            var file: URL? = Paths.cardJson.appendingPathComponent("cardsDB.\(lang.rawValue).json")
             
             if file == nil || (file != nil && !FileManager.default.fileExists(atPath: file!.path)) {
                 file = Bundle(for: type(of: self))
-                    .url(forResource: "Resources/Cards/cardsDB.\(lang)", withExtension: "json")
+                    .url(forResource: "Resources/Cards/cardsDB.\(lang.rawValue)",
+                        withExtension: "json")
             }
             guard let jsonFile = file else {
-                Log.error?.message("Can't find cardsDB.\(lang).json")
+                Log.error?.message("Can't find cardsDB.\(lang.rawValue).json")
                 continue
             }
 
@@ -67,7 +68,7 @@ class Database {
             if let splashscreen = splashscreen {
                 DispatchQueue.main.async {
                     let msg = String(format: NSLocalizedString("Loading %@ cards",
-                                                               comment: ""), lang)
+                                                               comment: ""), lang.localizedString)
                     splashscreen.display(msg, total: Double(cards.count))
                 }
             }
@@ -86,7 +87,7 @@ class Database {
 
                 if let name = jsonCard["name"] as? String,
                     let card = Cards.cards.first({ $0.id == cardId }),
-                    lang == "enUS" && langs.count > 1 {
+                    lang == .enUS && langs.count > 1 {
                     card.enName = name
                 } else {
                     let card = Card()
@@ -151,7 +152,7 @@ class Database {
                     }
                     if let name = jsonCard["name"] as? String {
                         card.name = name
-                        if lang == "enUS" && langs.count == 1 {
+                        if lang == .enUS && langs.count == 1 {
                             card.enName = name
                         }
                     }

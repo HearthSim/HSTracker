@@ -49,7 +49,7 @@ final class Card {
     var highlightFrame = false
 
     var englishName: String {
-        if let language = Settings.hearthstoneLanguage, language == "enUS" {
+        if let language = Settings.hearthstoneLanguage, language == .enUS {
             return self.name
         }
         return self.enName

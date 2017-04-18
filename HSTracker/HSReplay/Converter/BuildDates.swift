@@ -66,22 +66,22 @@ struct BuildDates {
     static func downloadCards(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
             splashscreen.display(NSLocalizedString("Download Hearthstone cards", comment: ""),
-                                 total: Double(Language.hsLanguages.count))
+                                 total: Double(Language.Hearthstone.allValues().count))
         }
 
         guard let latestBuild = self.latestBuild else { return }
         let build = latestBuild.build
 
         var hasError = false
-        for locale in Language.hsLanguages {
+        for locale in Language.Hearthstone.allValues() {
             DispatchQueue.main.async {
                 splashscreen.increment(String(format:
                     NSLocalizedString("Downloading %@", comment: ""),
-                                              "cardsDB.\(locale).json"))
+                                              "cardsDB.\(locale.rawValue).json"))
             }
 
             let semaphore = DispatchSemaphore(value: 0)
-            let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale)/cards.json"
+            let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale.rawValue)/cards.json"
 
             if let url = URL(string: cardUrl) {
                 URLSession.shared

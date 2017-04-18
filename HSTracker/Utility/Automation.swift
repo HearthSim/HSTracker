@@ -169,14 +169,14 @@ struct Automation {
             return str
         }
 
-        if let text = artistDict[lang],
+        if let text = artistDict[lang.rawValue],
             let artist = card.artist.components(separatedBy: " ").last {
             str += " \(text):\(artist)"
         }
-        if let text = manaDict[lang] {
+        if let text = manaDict[lang.rawValue] {
             str += " \(text):\(card.cost)"
         }
-        if let text = attackDict[lang], attackIds.contains(card.id) {
+        if let text = attackDict[lang.rawValue], attackIds.contains(card.id) {
             str += " \(text):\(card.attack)"
         }
         return str

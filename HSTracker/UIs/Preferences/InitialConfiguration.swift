@@ -57,8 +57,8 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             saveButton.isEnabled = false
             return
         }
-        let hstracker = Language.hstrackerLanguages[hstrackerLanguage.indexOfSelectedItem]
-        let hearthstone = Language.hsLanguages[hearthstoneLanguage.indexOfSelectedItem]
+        let hstracker = Language.HSTracker.allValues()[hstrackerLanguage.indexOfSelectedItem]
+        let hearthstone = Language.Hearthstone.allValues()[hearthstoneLanguage.indexOfSelectedItem]
 
         Settings.hearthstoneLanguage = hearthstone
         Settings.hsTrackerLanguage = hstracker
@@ -93,29 +93,22 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
     // MARK: - NSComboBoxDataSource methods
     func numberOfItems(in aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
-            return Language.hstrackerLanguages.count
+            return Language.HSTracker.allValues().count
         } else if aComboBox == hearthstoneLanguage {
-            return Language.hearthstoneLanguages.count
+            return Language.Hearthstone.allValues().count
         }
 
         return 0
     }
 
     func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        var language: String?
-        if aComboBox == hstrackerLanguage {
-            language = Language.hstrackerLanguages[index]
-        } else if aComboBox == hearthstoneLanguage {
-            language = Language.hearthstoneLanguages[index]
+        if aComboBox == hstrackerLanguage && Language.HSTracker.allValues().count > index {
+            return Language.HSTracker.allValues()[index].localizedString
+        } else if aComboBox == hearthstoneLanguage && Language.Hearthstone.allValues().count > index {
+            return Language.Hearthstone.allValues()[index].localizedString
         }
 
-        if let language = language {
-            let locale = Locale(identifier: language)
-            return (locale as NSLocale).displayName(forKey: NSLocale.Key.identifier,
-                                                    value: language)!.capitalized
-        } else {
-            return ""
-        }
+        return ""
     }
 
     func comboBoxSelectionDidChange(_ notification: Notification) {

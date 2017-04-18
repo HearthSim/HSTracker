@@ -82,19 +82,28 @@ final class Settings {
         set { set(name: "hearthstone_log_path", value: newValue) }
         get { return get(name: "hearthstone_log_path") as? String ?? "/Applications/Hearthstone" }
     }
-    static var hearthstoneLanguage: String? {
-        set { set(name: "hearthstone_language", value: newValue) }
-        get { return get(name: "hearthstone_language") as? String }
+    static var hearthstoneLanguage: Language.Hearthstone? {
+        set { set(name: "hearthstone_language", value: newValue?.rawValue) }
+        get {
+            guard let locale = get(name: "hearthstone_language") as? String else {
+                return nil
+            }
+            return Language.Hearthstone(rawValue: locale)
+        }
     }
-    static var hsTrackerLanguage: String? {
-
+    static var hsTrackerLanguage: Language.HSTracker? {
         set {
             if let locale = newValue {
-                defaults?.set([locale], forKey: "AppleLanguages")
+                defaults?.set([locale.rawValue], forKey: "AppleLanguages")
             }
-            set(name: "hstracker_language", value: newValue)
+            set(name: "hstracker_language", value: newValue?.rawValue)
         }
-        get { return get(name: "hstracker_language") as? String }
+        get {
+            guard let locale = get(name: "hstracker_language") as? String else {
+                return nil
+            }
+            return Language.HSTracker(rawValue: locale)
+        }
     }
     static var showRarityColors: Bool {
         set { set(name: "rarity_colors", value: newValue) }
@@ -505,13 +514,14 @@ final class Settings {
     static var isCyrillicLanguage: Bool {
         guard let language = hearthstoneLanguage else { return false }
 
-        return language == "ruRU"
+        return language == .ruRU
     }
 
     static var isAsianLanguage: Bool {
         guard let language = hearthstoneLanguage else { return false }
 
-        return language.match("^(zh|ko|ja|th)")
+        let asianLanguages: [Language.Hearthstone] = [.zhCN, .zhTW, .jaJP, .thTH, .koKR]
+        return asianLanguages.contains(language)
     }
 
     // MARK: - Updates

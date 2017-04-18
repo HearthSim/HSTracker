@@ -35,7 +35,7 @@ class SecretTests: XCTestCase {
         super.setUp()
 
         database = Database()
-        database.loadDatabase(splashscreen: nil, withLanguages: ["enUS"])
+        database.loadDatabase(splashscreen: nil, withLanguages: [.enUS])
 
         game = Game(hearthstoneRunState: HearthstoneRunState(isRunning: false, isActive: false))
         heroPlayer = createNewEntity(cardId: "HERO_01");

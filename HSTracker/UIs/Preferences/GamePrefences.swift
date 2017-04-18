@@ -41,11 +41,11 @@ class GamePreferences: NSViewController {
         }
 
         if let locale = Settings.hsTrackerLanguage,
-            let index = Language.hstrackerLanguages.index(of: locale) {
+            let index = Language.HSTracker.allValues().index(of: locale) {
             hstrackerLanguage.selectItem(at: index)
         }
         if let locale = Settings.hearthstoneLanguage,
-            let index = Language.hsLanguages.index(of: locale) {
+            let index = Language.Hearthstone.allValues().index(of: locale) {
             hearthstoneLanguage.selectItem(at: index)
         }
 
@@ -90,40 +90,37 @@ class GamePreferences: NSViewController {
 extension GamePreferences: NSComboBoxDataSource, NSComboBoxDelegate {
     func numberOfItems(in aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
-            return Language.hstrackerLanguages.count
+            return Language.HSTracker.allValues().count
         } else if aComboBox == hearthstoneLanguage {
-            return Language.hearthstoneLanguages.count
+            return Language.Hearthstone.allValues().count
         }
 
         return 0
     }
 
     func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        var language: String?
-        if aComboBox == hstrackerLanguage {
-            language = Language.hstrackerLanguages[index]
-        } else if aComboBox == hearthstoneLanguage {
-            language = Language.hearthstoneLanguages[index]
+        if aComboBox == hstrackerLanguage && Language.HSTracker.allValues().count > index {
+            return Language.HSTracker.allValues()[index].localizedString
+        } else if aComboBox == hearthstoneLanguage && Language.Hearthstone.allValues().count > index {
+            return Language.Hearthstone.allValues()[index].localizedString
         }
 
-        if let language = language {
-            let locale = Locale(identifier: language)
-            return (locale as NSLocale).displayName(forKey: NSLocale.Key.identifier,
-                                                    value: language)!.capitalized
-        } else {
-            return ""
-        }
+        return ""
     }
 
     func comboBoxSelectionDidChange(_ notification: Notification) {
         if let sender = notification.object as? NSComboBox {
-            if sender == hearthstoneLanguage {
-                let hearthstone = Language.hsLanguages[hearthstoneLanguage!.indexOfSelectedItem]
+            if sender == hearthstoneLanguage
+                && Language.Hearthstone.allValues().count > sender.indexOfSelectedItem {
+                let index = hearthstoneLanguage!.indexOfSelectedItem
+                let hearthstone = Language.Hearthstone.allValues()[index]
                 if Settings.hearthstoneLanguage != hearthstone {
                     Settings.hearthstoneLanguage = hearthstone
                 }
-            } else if sender == hstrackerLanguage {
-                let hstracker = Language.hstrackerLanguages[hstrackerLanguage!.indexOfSelectedItem]
+            } else if sender == hstrackerLanguage
+                && Language.HSTracker.allValues().count > sender.indexOfSelectedItem {
+                let index = sender.indexOfSelectedItem
+                let hstracker = Language.HSTracker.allValues()[index]
                 if Settings.hsTrackerLanguage != hstracker {
                     Settings.hsTrackerLanguage = hstracker
                 }

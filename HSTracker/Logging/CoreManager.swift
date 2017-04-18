@@ -50,7 +50,7 @@ final class CoreManager: NSObject {
 		if CoreManager.assetGenerator == nil && Settings.useHearthstoneAssets {
 			let path = Settings.hearthstonePath
 			CoreManager.assetGenerator = try? HearthAssets(path: path)
-			CoreManager.assetGenerator?.locale = Settings.hearthstoneLanguage ?? "enUS"
+			CoreManager.assetGenerator?.locale = (Settings.hearthstoneLanguage ?? .enUS).rawValue
 		}
     }
 

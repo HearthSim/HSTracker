@@ -22,7 +22,7 @@ class NetImportTest: XCTestCase {
         Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
 
         database = Database()
-        database.loadDatabase(splashscreen: nil, withLanguages: ["enUS"])
+        database.loadDatabase(splashscreen: nil, withLanguages: [.enUS])
 
         super.setUp()
     }
@@ -145,7 +145,7 @@ class NetImportTest: XCTestCase {
 
     func testHearthstoneHeroes() {
         Cards.cards.removeAll()
-        database.loadDatabase(splashscreen: nil, withLanguages: ["deDE", "enUS"])
+        database.loadDatabase(splashscreen: nil, withLanguages: [.deDE, .enUS])
         let url = "http://www.hearthstoneheroes.de/decks/hells-hexenmeister/"
         verifyDeck(importer: HearthstoneHeroes(),
                    url: url,
