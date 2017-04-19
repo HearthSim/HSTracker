@@ -31,7 +31,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	var preferences: MASPreferencesWindowController = {
 		var controllers = [
 			GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
-			UpdatePreferences(nibName: "UpdatePreferences", bundle: nil)!,
 			GamePreferences(nibName: "GamePreferences", bundle: nil)!,
 			TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
 			PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil)!,
@@ -64,12 +63,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		// initialize realm's database
 		RealmHelper.initRealm(destination: Paths.HSTracker)
-		
-		// configure sprakle update mechanism
-		let url = "https://hsdecktracker.net/hstracker/appcast.xml"
-		sparkleUpdater.feedURL = URL(string: url)
-		sparkleUpdater.sendsSystemProfile = true
-		sparkleUpdater.automaticallyDownloadsUpdates = Settings.automaticallyDownloadsUpdates
 		
 		// init debug loggers
 		var loggers = [LogConfiguration]()

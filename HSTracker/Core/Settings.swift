@@ -524,22 +524,6 @@ final class Settings {
         return asianLanguages.contains(language)
     }
 
-    // MARK: - Updates
-    static var releaseChannel: ReleaseChannel {
-        set { set(name: "release_channel", value: newValue.rawValue) }
-        get {
-            if let rawChannel = get(name: "release_channel") as? Int,
-                let channel = ReleaseChannel(rawValue: rawChannel) {
-                return channel
-            }
-            return .stable
-        }
-    }
-    static var automaticallyDownloadsUpdates: Bool {
-        set { set(name: "automatically_downloads_updates", value: newValue) }
-        get { return get(name: "automatically_downloads_updates") as? Bool ?? true }
-    }
-
     // MARK: - HearthAssets / HearthMirror
     static var useHearthstoneAssets: Bool {
         set { set(name: "use_hearthstone_assets", value: newValue) }

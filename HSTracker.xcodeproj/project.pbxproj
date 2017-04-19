@@ -43,8 +43,6 @@
 		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
-		4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */; };
-		4308EB831D775E2C000897C8 /* UpdatePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4308EB851D775E2C000897C8 /* UpdatePreferences.xib */; };
 		431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; };
 		431202B01D93B7E600606CA5 /* GRDB.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */; };
 		431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -428,7 +426,6 @@
 		43C1CA9B1E96CD6F008C20B1 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */; };
 		43C1CA9C1E96CD6F008C20B1 /* PlayerTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* PlayerTrackersPreferences.swift */; };
 		43C1CA9D1E96CD6F008C20B1 /* OpponentTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */; };
-		43C1CA9E1E96CD6F008C20B1 /* UpdatePreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */; };
 		43C1CA9F1E96CD6F008C20B1 /* OverWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BB1DB7FB040081964A /* OverWindowController.swift */; };
 		43C1CAA01E96CD6F008C20B1 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EDC1C777FA900D29859 /* Tracker.swift */; };
 		43C1CAA11E96CD6F008C20B1 /* CardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* CardList.swift */; };
@@ -658,14 +655,6 @@
 		4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Wrap.framework.dSYM; path = Carthage/Build/Mac/Wrap.framework.dSYM; sourceTree = "<group>"; };
 		4305CA461CF434E30048E7EC /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReleaseChannel.swift; sourceTree = "<group>"; };
-		4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePreferences.swift; sourceTree = "<group>"; };
-		4308EB841D775E2C000897C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/UpdatePreferences.xib; sourceTree = "<group>"; };
-		4308EB871D775E2E000897C8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
-		4308EB891D775E30000897C8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
-		4308EB8B1D775E31000897C8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
-		4308EB8D1D775E33000897C8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/UpdatePreferences.strings; sourceTree = "<group>"; };
-		4308EB8F1D775E35000897C8 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/UpdatePreferences.strings"; sourceTree = "<group>"; };
-		4308EB911D775E36000897C8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UpdatePreferences.strings"; sourceTree = "<group>"; };
 		431202AC1D93B1DB00606CA5 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		431202AD1D93B7E600606CA5 /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/Mac/GRDB.framework; sourceTree = "<group>"; };
 		431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = GRDB.framework.dSYM; path = Carthage/Build/Mac/GRDB.framework.dSYM; sourceTree = "<group>"; };
@@ -1249,8 +1238,6 @@
 				432B5FB51CB5371C00B05D19 /* PlayerTrackersPreferences.xib */,
 				437B5BB41CD2558500DE0A41 /* OpponentTrackersPreferences.swift */,
 				437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */,
-				4308EB7F1D76B764000897C8 /* UpdatePreferences.swift */,
-				4308EB851D775E2C000897C8 /* UpdatePreferences.xib */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -1820,7 +1807,6 @@
 			files = (
 				49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */,
 				432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */,
-				4308EB831D775E2C000897C8 /* UpdatePreferences.xib in Resources */,
 				432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */,
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
 				434910451D09505100B22DB2 /* BoardDamage.xib in Resources */,
@@ -1959,7 +1945,6 @@
 				1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
-				4308EB801D76B764000897C8 /* UpdatePreferences.swift in Sources */,
 				437E56F41DAAB81400FC0FC1 /* LinqExtension.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
@@ -2261,7 +2246,6 @@
 				43C1CA9B1E96CD6F008C20B1 /* TrackersPreferences.swift in Sources */,
 				43C1CA9C1E96CD6F008C20B1 /* PlayerTrackersPreferences.swift in Sources */,
 				43C1CA9D1E96CD6F008C20B1 /* OpponentTrackersPreferences.swift in Sources */,
-				43C1CA9E1E96CD6F008C20B1 /* UpdatePreferences.swift in Sources */,
 				43C1CA9F1E96CD6F008C20B1 /* OverWindowController.swift in Sources */,
 				43C1CAA01E96CD6F008C20B1 /* Tracker.swift in Sources */,
 				43C1CAA11E96CD6F008C20B1 /* CardList.swift in Sources */,
@@ -2318,20 +2302,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		4308EB851D775E2C000897C8 /* UpdatePreferences.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4308EB841D775E2C000897C8 /* Base */,
-				4308EB871D775E2E000897C8 /* fr */,
-				4308EB891D775E30000897C8 /* de */,
-				4308EB8B1D775E31000897C8 /* es */,
-				4308EB8D1D775E33000897C8 /* it */,
-				4308EB8F1D775E35000897C8 /* pt-BR */,
-				4308EB911D775E36000897C8 /* zh-Hans */,
-			);
-			name = UpdatePreferences.xib;
-			sourceTree = "<group>";
-		};
 		432B5FAD1CB5351800B05D19 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
