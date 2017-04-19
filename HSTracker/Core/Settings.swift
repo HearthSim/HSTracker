@@ -115,7 +115,7 @@ final class Settings {
     }
     static var autoPositionTrackers: Bool {
         set { set(name: "auto_position_trackers", value: newValue) }
-        get { return get(name: "auto_position_trackers") as? Bool ?? false }
+        get { return get(name: "auto_position_trackers") as? Bool ?? true }
     }
     static var hideAllTrackersWhenNotInGame: Bool {
         set { set(name: "hide_all_trackers_when_not_in_game", value: newValue) }
