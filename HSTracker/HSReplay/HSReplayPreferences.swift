@@ -141,7 +141,7 @@ class HSReplayPreferences: NSViewController {
     }
     
     private func updateStatus() {
-        if let _ = Settings.hsReplayId {
+        if Settings.hsReplayId != nil {
             var information = NSLocalizedString("Connected", comment: "")
             if let username = Settings.hsReplayUsername {
                 information = String(format: NSLocalizedString("Connected as %@", comment: ""),

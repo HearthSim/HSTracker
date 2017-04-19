@@ -133,12 +133,10 @@ final class ReplayMaker {
     private static func resolveCardIds() {
         if let lastKeyPoint = points.last {
             for kp in points {
-                for entity in lastKeyPoint.data {
-                    if !entity.cardId.isBlank {
-                        if let e2 = kp.data.firstWhere({ $0.id == entity.id }) {
-                            e2.cardId = entity.cardId
-                            e2.name = entity.name
-                        }
+                for entity in lastKeyPoint.data where !entity.cardId.isBlank {
+                    if let e2 = kp.data.firstWhere({ $0.id == entity.id }) {
+                        e2.cardId = entity.cardId
+                        e2.name = entity.name
                     }
                 }
             }

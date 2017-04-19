@@ -28,7 +28,7 @@ class ArenaHelperSync {
             }
             semaphore.signal()
         }
-        let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
     }
 
     static func isOutdated() -> Bool {
@@ -92,7 +92,7 @@ class ArenaHelperSync {
                     semaphore.signal()
                 }.resume()
         }
-        let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
 
         if !hasError {
             UserDefaults.standard.set(latest, forKey: "arena_helper_version")

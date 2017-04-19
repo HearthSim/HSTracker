@@ -234,17 +234,15 @@ class Tracker: OverWindowController {
         var minions: Int = 0
         var murlocks: Int = 0
         if let graveyard = self.graveyard {
-            for e: Entity in graveyard {
-                if e.isMinion {
-                    if let value = minionmap[e.card] {
-                        minionmap[e.card] = value + 1
-                    } else {
-                        minionmap[e.card] = 1
-                    }
-                    minions += 1
-                    if e.card.race == .murloc {
-                        murlocks += 1
-                    }
+            for e: Entity in graveyard where e.isMinion {
+                if let value = minionmap[e.card] {
+                    minionmap[e.card] = value + 1
+                } else {
+                    minionmap[e.card] = 1
+                }
+                minions += 1
+                if e.card.race == .murloc {
+                    murlocks += 1
                 }
             }
         }

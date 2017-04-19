@@ -288,7 +288,7 @@ class CardBar: NSView, CardBarTheme {
         }
         addFrame()
 
-        if let _ = card {
+        if card != nil {
             addGem()
             addCost()
         }

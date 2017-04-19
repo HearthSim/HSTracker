@@ -26,7 +26,7 @@ class SecretHelper {
     }
     
     func trySetSecret(cardId: String, active: Bool) {
-        if let _ = possibleSecrets[cardId] {
+        if possibleSecrets[cardId] != nil {
             possibleSecrets[cardId] = active
         }
     }

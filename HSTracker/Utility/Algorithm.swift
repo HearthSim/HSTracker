@@ -108,7 +108,7 @@ public class LinkedList<T> {
     
     public func remove(at: Int) {
         if let node = nodeAt(index: at) {
-            let _ = remove(node: node)
+            _ = remove(node: node)
         }
     }
     

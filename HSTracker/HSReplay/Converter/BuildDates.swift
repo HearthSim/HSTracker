@@ -46,7 +46,7 @@ struct BuildDates {
             }
             semaphore.signal()
         }
-        let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
     }
 
     static func isOutdated() -> Bool {
@@ -104,7 +104,7 @@ struct BuildDates {
                         semaphore.signal()
                     }.resume()
             }
-            let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+            _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         }
 
         if !hasError {
@@ -115,11 +115,9 @@ struct BuildDates {
     static func get(byDate date: Date) -> BuildDate? {
         for buildDate in knownBuildDates.sorted(by: {
             $0.date > $1.date
-        }) {
-            if date >= buildDate.date {
-                Log.info?.message("Getting build from date : \(buildDate)")
-                return buildDate
-            }
+        }) where date >= buildDate.date {
+            Log.info?.message("Getting build from date : \(buildDate)")
+            return buildDate
         }
         return nil
     }

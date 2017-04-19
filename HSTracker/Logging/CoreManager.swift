@@ -156,11 +156,9 @@ final class CoreManager: NSObject {
                 for zone in zones {
                     var currentZoneFound: LogLineZone?
 
-                    for zoneFound in zonesFound {
-                        if zoneFound.namespace == zone {
-                            currentZoneFound = zoneFound
-                            break
-                        }
+                    for zoneFound in zonesFound where zoneFound.namespace == zone {
+                        currentZoneFound = zoneFound
+                        break
                     }
 
                     if let currentZone = currentZoneFound {

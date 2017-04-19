@@ -17,7 +17,7 @@ extension NSAlert {
         alert.alertStyle = style
         alert.messageText = message
         alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        if let _ = completion {
+        if completion != nil {
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         }
         alert.accessoryView = accessoryView

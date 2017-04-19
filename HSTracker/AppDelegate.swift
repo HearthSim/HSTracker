@@ -356,7 +356,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			                                                                         comment: ""))
 			replaysMenu?.submenu?.removeAllItems()
 			replaysMenu?.isEnabled = false
-			if let _ = Settings.hsReplayUploadToken, let statistics = RealmHelper.getValidStatistics() {
+			if Settings.hsReplayUploadToken != nil,
+                let statistics = RealmHelper.getValidStatistics() {
 				
 				replaysMenu?.isEnabled = statistics.count > 0
 				let max = min(statistics.count, 10)

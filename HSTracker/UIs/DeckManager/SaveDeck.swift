@@ -34,7 +34,7 @@ class SaveDeck: NSWindowController {
 
         deckName.stringValue = deck!.name 
 
-        if let _ = RealmHelper.getDeck(with: deck!.deckId) {
+        if RealmHelper.getDeck(with: deck!.deckId) != nil {
             exists = true
         } else {
             Log.error?.message("Can not fetch deck")

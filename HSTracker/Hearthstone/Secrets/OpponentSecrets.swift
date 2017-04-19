@@ -194,10 +194,8 @@ class OpponentSecrets {
         })
 
         for secret in secrets {
-            for (cardId, possible) in secret.possibleSecrets {
-                if possible {
-                    returnThis.firstWhere({ $0.cardId == cardId })?.count += 1
-                }
+            for (cardId, possible) in secret.possibleSecrets where possible {
+                returnThis.firstWhere({ $0.cardId == cardId })?.count += 1
             }
         }
 

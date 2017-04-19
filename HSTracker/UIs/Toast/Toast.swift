@@ -70,7 +70,7 @@ class Toast {
             
             if let duration = duration {
                 self.duration = duration
-            } else if let _ = action {
+            } else if action != nil {
                 self.duration = 6
             }
             
