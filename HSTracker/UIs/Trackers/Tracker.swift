@@ -58,22 +58,7 @@ class Tracker: OverWindowController {
         super.windowDidLoad()
 
         let center = NotificationCenter.default
-        /*var observers: [String] = []
-        var selector: Selector? = nil
-        if playerType == .player {
-            selector = #selector(playerOptionFrameChange)
-            observers = ["player_draw_chance", "player_card_count", "player_cthun_frame",
-                         "player_yogg_frame", "player_deathrattle_frame", "show_win_loss_ratio",
-                         "reload_decks", "player_in_hand_color", "show_deck_name",
-                         "player_graveyard_details_frame", "player_graveyard_frame"]
-        } else if playerType == .opponent {
-            selector = #selector(opponentOptionFrameChange)
-            observers = ["opponent_card_count", "opponent_draw_chance", "opponent_cthun_frame",
-                         "opponent_yogg_frame", "opponent_deathrattle_frame",
-                         "show_opponent_class", "opponent_graveyard_frame",
-                         "opponent_graveyard_details_frame"]
-        }
-*/
+
         center.addObserver(self,
                            selector: #selector(setOpacity),
                            name: NSNotification.Name(rawValue: "tracker_opacity"),
@@ -546,33 +531,6 @@ class Tracker: OverWindowController {
     fileprivate func areEqualForList(_ c1: Card, _ c2: Card) -> Bool {
         return c1.id == c2.id && c1.jousted == c2.jousted && c1.isCreated == c2.isCreated
             && (!Settings.highlightDiscarded || c1.wasDiscarded == c2.wasDiscarded)
-    }
-}
-
-// MARK: - NSWindowDelegate
-extension Tracker: NSWindowDelegate {
-    func windowDidResize(_ notification: Notification) {
-		// TODO: Tracker UI resize event
-		/*guard let game = (NSApp.delegate as? AppDelegate)?.game else {
-            Log.warning?.message("No game instance")
-            return
-        }
-        updateCardFrames(game: game)
-        onWindowMove()*/
-
-    }
-
-    func windowDidMove(_ notification: Notification) {
-        onWindowMove()
-    }
-
-    private func onWindowMove() {
-        if !self.isWindowLoaded || !self.hasValidFrame {return}
-        if playerType == .player {
-            Settings.playerTrackerFrame = self.window?.frame
-        } else {
-            Settings.opponentTrackerFrame = self.window?.frame
-        }
     }
 }
 

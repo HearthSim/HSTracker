@@ -26,7 +26,7 @@ struct PlayingDeck {
 /**
  * Game object represents the current state of the tracker
  */
-class Game: PowerEventHandler {
+class Game: NSObject, PowerEventHandler {
 
 	/**
 	 * View controller of this game object
@@ -34,7 +34,7 @@ class Game: PowerEventHandler {
 	#if DEBUG
 		internal let windowManager = WindowManager()
 	#else
-		private let windowManager = WindowManager()
+		fileprivate let windowManager = WindowManager()
 	#endif
 	
 	static let guiUpdateDelay: TimeInterval = 0.5
@@ -126,7 +126,7 @@ class Game: PowerEventHandler {
 		self.guiUpdateResets = reset || self.guiUpdateResets
     }
 	
-	@objc private func updateOpponentTracker(reset: Bool = false) {
+	@objc fileprivate func updateOpponentTracker(reset: Bool = false) {
 		DispatchQueue.main.async { [unowned self] in
 			
 			let tracker = self.windowManager.opponentTracker
@@ -186,7 +186,7 @@ class Game: PowerEventHandler {
 		}
 	}
 
-    @objc private func updatePlayerTracker(reset: Bool = false) {
+    @objc fileprivate func updatePlayerTracker(reset: Bool = false) {
         DispatchQueue.main.async { [unowned self] in
 			
             let tracker = self.windowManager.playerTracker
@@ -596,11 +596,14 @@ class Game: PowerEventHandler {
     init(hearthstoneRunState: HearthstoneRunState) {
         self.hearthstoneRunState = hearthstoneRunState
 		turnTimer = TurnTimer(gui: windowManager.timerHud)
+        super.init()
 		player = Player(local: true, game: self)
         opponent = Player(local: false, game: self)
         opponentSecrets = OpponentSecrets(game: self)
 		
 		windowManager.startManager()
+        windowManager.playerTracker.window?.delegate = self
+        windowManager.opponentTracker.window?.delegate = self
 		
 		let center = NotificationCenter.default
 		
@@ -1308,7 +1311,7 @@ class Game: PowerEventHandler {
         if cardId.isBlank {
             return
         }
-
+        
         player.play(entity: entity, turn: turn)
         if let cardId = cardId, !cardId.isEmpty {
             playedCards.append(PlayedCard(player: .player, cardId: cardId, turn: turn))
@@ -1841,4 +1844,39 @@ class Game: PowerEventHandler {
 		self.windowManager.arenaHelper.set(cards: cards)
 		self.updateArenaHelper()
 	}
+}
+
+// MARK: NSWindowDelegate functions
+extension Game: NSWindowDelegate {
+    
+    func windowDidResize(_ notification: Notification) {
+        
+        guard let window = notification.object as? NSWindow else { return }
+        
+        if window == self.windowManager.playerTracker.window {
+            self.updatePlayerTracker(reset: false)
+            onWindowMove(tracker: self.windowManager.playerTracker)
+        } else if window == self.windowManager.opponentTracker.window {
+            self.updateOpponentTracker(reset: false)
+            onWindowMove(tracker: self.windowManager.opponentTracker)
+        }
+    }
+    
+    func windowDidMove(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow else { return }
+        if window == self.windowManager.playerTracker.window {
+            onWindowMove(tracker: self.windowManager.playerTracker)
+        } else if window == self.windowManager.opponentTracker.window {
+            onWindowMove(tracker: self.windowManager.opponentTracker)
+        }
+    }
+    
+    private func onWindowMove(tracker: Tracker) {
+        if !tracker.isWindowLoaded || !tracker.hasValidFrame {return}
+        if tracker.playerType == .player {
+            Settings.playerTrackerFrame = tracker.window?.frame
+        } else {
+            Settings.opponentTrackerFrame = tracker.window?.frame
+        }
+    }
 }
