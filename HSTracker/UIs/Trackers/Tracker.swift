@@ -28,7 +28,7 @@ class Tracker: OverWindowController {
 
     private var hero: CardBar?
     private var heroCard: Card?
-    private var animatedCards: [CardBar] = []
+    fileprivate var animatedCards: [CardBar] = []
     
     private var cellsCache = [String: NSView]()
 
@@ -563,9 +563,8 @@ extension Tracker: CardCellHover {
         ] as [String : Any]
 
         if self.playerType == .player && Settings.showTopdeckchance {
-			// TODO: fix topdeck chance
-			/*let game = (NSApp.delegate as? AppDelegate)?.game
-            let playercardlist: [Card] = game?.player.playerCardList ?? []
+			
+            let playercardlist: [Card] = self.animatedCards.map { $0.card! }
             let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
             if let cardindeck = playercardlist.firstWhere({ $0.id == card.id }) {
                 let cardindeckcount = cardindeck.count
@@ -581,7 +580,7 @@ extension Tracker: CardCellHover {
                 }
                 userinfo["drawchancetop2"] = drawchancetop2 * 100.0
                 userinfo["frame"] = frame
-            }*/
+            }
         }
 
         NotificationCenter.default
