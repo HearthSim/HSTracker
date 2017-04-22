@@ -302,6 +302,7 @@ class Game: NSObject, PowerEventHandler {
                     || !Settings.hideAllWhenGameInBackground) {
                 if let secrets = self.opponentSecrets?.allSecrets(gameFormat: self.currentFormat), secrets.count > 0 {
                     tracker.set(cards: secrets)
+					tracker.table?.reloadData()
                     self.windowManager.show(controller: tracker, show: true,
                                             frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight))
                 } else {
@@ -404,6 +405,7 @@ class Game: NSObject, PowerEventHandler {
 				self.windowManager.arenaHelper.cards.count == 3 &&
 				( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
 					|| !Settings.hideAllWhenGameInBackground ) {
+				tracker.table?.reloadData()
 				self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.arenaHelperFrame())
 			} else {
 				self.windowManager.show(controller: tracker, show: false)

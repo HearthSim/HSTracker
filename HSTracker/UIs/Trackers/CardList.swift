@@ -37,7 +37,6 @@ class CardList: OverWindowController {
 
     func set(cards: [Card]) {
         self.cards = cards
-        table?.reloadData()
     }
     
     var frameHeight: CGFloat {
