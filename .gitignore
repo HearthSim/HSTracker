@@ -29,3 +29,6 @@ xcuserdata/
 # Other
 *.moved-aside
 *.xcuserstate
+HSTracker.xcodeproj/project.pbxproj
+
+Cartfile.resolved
