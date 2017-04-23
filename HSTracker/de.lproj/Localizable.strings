@@ -150,4 +150,4 @@
 "View" = "Ansehen";
 "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "Um ein Deck nach Hearthstone zu exportieren, erstelle ein neues Deck mit der korrekten Klasse in deiner Sammlung. Klicke dann auf OK und wechsele zu Hearthstone.\nBerühre während des imports weder Deine Maus, noch das Keyboard.\nWARNUNG: Dies ist eine Beta-Funktion!";
 "The followings cards were missing : " = "Diese Karten fehlen: ";
-"Can't get card collection" = "Kartensammlung kann nicht geladen werden, läuft Hearthstone running?";
+"Can't get card collection" = "Kartensammlung kann nicht geladen werden, läuft Hearthstone?";
