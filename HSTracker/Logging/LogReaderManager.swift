@@ -14,7 +14,8 @@ import BTree
 
 final class LogReaderManager {
 	
-	static let updateDelay: TimeInterval = 0.1
+    // lower update times result in faster operation but higher CPU usage
+	static let updateDelay: TimeInterval = 0.05
 	
     let powerGameStateParser: LogEventParser
     let rachelleHandler = RachelleHandler()

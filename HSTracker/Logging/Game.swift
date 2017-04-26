@@ -682,7 +682,7 @@ class Game: NSObject, PowerEventHandler {
         Log.verbose?.message("Reseting Game")
         currentTurn = 0
 
-        powerLog = []
+        //powerLog = []
         playedCards = []
 
         lastId = 0
@@ -999,41 +999,8 @@ class Game: NSObject, PowerEventHandler {
         }
         
         self.lastGame = currentGameStats
-        self.logIsComplete()
-        
-    }
-
-    private func logIsComplete() {
-        /*if logContainsGoldRewardState || currentGameMode == .practice && logContainsStateComplete {
-            DispatchQueue.main.async { [weak self] in
-                self?.syncStats()
-            }
-            return
-        }
-
-        Log.info?.message("GOLD_REWARD_STATE not found")
-        Thread.sleep(forTimeInterval: 0.5)
-
-        if logContainsStateComplete || isInMenu {
-            DispatchQueue.main.async { [weak self] in
-                self?.syncStats()
-            }
-            return
-        }
-
-        Log.info?.message("STATE COMPLETE not found")
-        for i in 0...5 {
-            Thread.sleep(forTimeInterval: 1)
-            if logContainsStateComplete || isInMenu {
-                break
-            }
-			Log.info?.message("Waiting for STATE COMPLETE... (\(i))")
-        }
-         */
-        //let logs = self.powerLog
-        //DispatchQueue.main.async { [unowned self] in
-            self.syncStats(logLines: self.powerLog)
-        //}
+        self.syncStats(logLines: self.powerLog)
+        self.powerLog = []
     }
 
     private var logContainsGoldRewardState: Bool {
@@ -1073,6 +1040,8 @@ class Game: NSObject, PowerEventHandler {
                         NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
                         NotificationCenter.default
                             .post(name: Notification.Name(rawValue: "reload_decks"), object: nil)
+                    } else if case UploadResult.failed(let error) = result {
+                        NotificationManager.showNotification(type: .hsReplayUploadFailed(error: error))
                     }
                 }
             }

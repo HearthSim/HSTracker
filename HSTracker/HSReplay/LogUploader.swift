@@ -103,12 +103,14 @@ class LogUploader {
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         guard let token = Settings.hsReplayUploadToken else {
-            Log.error?.message("Authorization token not set yet")
+            Log.error?.message("HSReplay upload failed: Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))
             return
         }
 
-        if logLines.filter({ $0.contains("CREATE_GAME") }).count != 1 {
+        let numCreates = logLines.filter({ $0.contains("CREATE_GAME") }).count
+        if numCreates != 1 {
+            Log.error?.message("HSReplay upload failed: Log contains none or multiple games (\(numCreates))")
             completion(.failed(error: "Log contains none or multiple games"))
             return
         }

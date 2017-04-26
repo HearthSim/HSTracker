@@ -9,7 +9,7 @@
 import Foundation
 
 enum NotificationType {
-    case gameStart, turnStart, opponentConcede, hsReplayPush(replayId: String)
+    case gameStart, turnStart, opponentConcede, hsReplayPush(replayId: String), hsReplayUploadFailed(error: String)
 }
 
 class NotificationManager {
@@ -46,6 +46,9 @@ class NotificationManager {
                                                   comment: "")) {
                                                     HSReplayManager.showReplay(replayId: replayId)
             }
+        case .hsReplayUploadFailed(let error):
+            show(title: NSLocalizedString("HSReplay", comment: ""),
+                 message: NSLocalizedString("Failed to upload replay: \(error)", comment: ""))
             
         }
     }
