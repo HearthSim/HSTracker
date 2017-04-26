@@ -98,17 +98,19 @@ final class LogReader {
     func readFile() {
         Log.verbose?.message("reading \(path)")
 
+        self.offset = findInitialOffset()
+
         while !stopped {
             if fileHandle == nil && fileManager.fileExists(atPath: path) {
                 fileHandle = FileHandle(forReadingAtPath: path)
-                findInitialOffset()
-                fileHandle?.seek(toFileOffset: offset)
-
+                
                 let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
                 Log.verbose?.message("file exists \(path), offset for \(sp) is \(offset),"
                     + " queue: be.michotte.hstracker.readers.\(info.name)")
             }
-
+            
+            fileHandle?.seek(toFileOffset: offset)
+            
             if let data = fileHandle?.readDataToEndOfFile() {
 				
                 if let linesStr = String(data: data, encoding: .utf8) {
@@ -179,14 +181,14 @@ final class LogReader {
         }
     }
 
-    func findInitialOffset() {
+    func findInitialOffset() -> UInt64 {
         guard fileManager.fileExists(atPath: path) else {
-            return
+            return 0
         }
 
         var offset: UInt64 = 0
         guard let fileHandle = FileHandle(forReadingAtPath: path) else {
-            return
+            return 0
         }
         fileHandle.seekToEndOfFile()
         let fileLength = fileHandle.offsetInFile
@@ -221,13 +223,14 @@ final class LogReader {
                                 .reduce(0, +)
                         let current = Int64(fileLength) - Int64(offset)
                                 + Int64(negativeOffset) + Int64(sizeDiff)
-                        self.offset = UInt64(max(current, Int64(0)))
-                        return
+                        
+                        return UInt64(max(current, Int64(0)))
                     }
                 }
 
             }
         }
+        return 0
     }
 
 	func stop(eraseLogFile: Bool) {

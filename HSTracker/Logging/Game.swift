@@ -463,6 +463,14 @@ class Game: NSObject, PowerEventHandler {
         }
         return _currentGameType
     }
+    
+    private var _serverInfo: MirrorGameServerInfo?
+    var serverInfo: MirrorGameServerInfo? {
+        if _serverInfo == nil {
+            _serverInfo = MirrorHelper.getGameServerInfo()
+        }
+        return _serverInfo
+    }
 
 	var entities: [Int: Entity] = [:] {
 		didSet {
@@ -536,6 +544,9 @@ class Game: NSObject, PowerEventHandler {
                 self._currentGameType = minfo.gameType
                 self.currentFormat = minfo.formatType
             }
+            
+            // request a mirror read so we have this data at the end of the game
+            let _ = self.serverInfo
         }
         
         return _matchInfo
@@ -683,6 +694,7 @@ class Game: NSObject, PowerEventHandler {
         currentFormat = Format(formatType: FormatType.ft_unknown)
         _currentGameType = .gt_unknown
         currentGameStats = InternalGameStats()
+        _serverInfo = nil
 
         entities.removeAll()
         tmpEntities.removeAll()
@@ -858,7 +870,6 @@ class Game: NSObject, PowerEventHandler {
 
         isInMenu = true
 
-        //resetStoredGameState()
         /*if let currentDeck = self.currentDeck,
             currentDeck.isArenaRunCompleted,
             Settings.autoArchiveArenaDeck {
@@ -938,7 +949,7 @@ class Game: NSObject, PowerEventHandler {
         }
         
         currentGameStats.gameType = self.currentGameType
-        if let serverInfo = MirrorHelper.getGameServerInfo() {
+        if let serverInfo = self.serverInfo {
             currentGameStats.serverInfo = ServerInfo(info: serverInfo)
         }
         currentGameStats.playerCardbackId = self.matchInfo?.localPlayer.cardBackId ?? 0
@@ -993,7 +1004,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     private func logIsComplete() {
-        if logContainsGoldRewardState || currentGameMode == .practice && logContainsStateComplete {
+        /*if logContainsGoldRewardState || currentGameMode == .practice && logContainsStateComplete {
             DispatchQueue.main.async { [weak self] in
                 self?.syncStats()
             }
@@ -1018,9 +1029,11 @@ class Game: NSObject, PowerEventHandler {
             }
 			Log.info?.message("Waiting for STATE COMPLETE... (\(i))")
         }
-        DispatchQueue.main.async { [weak self] in
-            self?.syncStats()
-        }
+         */
+        //let logs = self.powerLog
+        //DispatchQueue.main.async { [unowned self] in
+            self.syncStats(logLines: self.powerLog)
+        //}
     }
 
     private var logContainsGoldRewardState: Bool {
@@ -1031,7 +1044,7 @@ class Game: NSObject, PowerEventHandler {
         return powerLog.any({ $0.line.contains("tag=STATE value=COMPLETE") })
     }
 
-    private func syncStats() {
+    private func syncStats(logLines: [LogLine]) {
         guard let currentGameStats = lastGame else { return }
         guard currentGameMode != .practice && currentGameMode != .none else {
             Log.info?.message("Game was in \(currentGameMode), don't send to third-party")
@@ -1054,7 +1067,7 @@ class Game: NSObject, PowerEventHandler {
             (currentGameStats.gameMode == .spectator &&
                 Settings.hsReplayUploadFriendlyMatches)) {
             HSReplayAPI.getUploadToken { _ in
-                LogUploader.upload(logLines: self.powerLog,
+                LogUploader.upload(logLines: logLines,
                                    statistic: currentGameStats) { result in
                     if case UploadResult.successful(let replayId) = result {
                         NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
