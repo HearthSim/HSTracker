@@ -1,9 +1,15 @@
 # unreleased
 ## Fixes:
 - Fix quests not increasing spell counter
+- Improve German translations
+- Improve Chinese translations
+- Fix memory issues
 
 ## New: 
 - Auto check and download arena helper card tier list
+
+## Changes:
+- Rewrite of a lot of core parts
 
 # 0.20.1
 ## Fixes:
