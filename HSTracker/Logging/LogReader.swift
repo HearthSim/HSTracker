@@ -26,13 +26,14 @@ final class LogReader {
     private var queue: DispatchQueue?
     private var _lines = [ConcurrentQueue<LogLine>]()
 
-    init(info: LogReaderInfo, logPath: String) {
+	init(info: LogReaderInfo, logPath: String, removeLogfile: Bool = true) {
         self.info = info
-
+		
         self.path = "\(logPath)/Logs/\(info.name).log"
         Log.info?.message("Init reader for \(info.name) at path \(self.path)")
         if fileManager.fileExists(atPath: self.path)
-                   && !FileUtils.isFileOpen(byHearthstone: self.path) {
+                   && !FileUtils.isFileOpen(byHearthstone: self.path)
+					&& removeLogfile {
             do {
 				Log.info?.message("Removing log file at \(self.path)")
                 try fileManager.removeItem(atPath: self.path)
