@@ -267,7 +267,6 @@
 		43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */; };
 		43C1C9FA1E96CCE9008C20B1 /* NetImportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FC1C835DBA00480488 /* NetImportTest.swift */; };
 		43C1C9FB1E96CCE9008C20B1 /* StatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94596811D174FBA008CD47A /* StatsTests.swift */; };
-		43C1C9FC1E96CCE9008C20B1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E621C7772C100D29859 /* Info.plist */; };
 		43C1C9FD1E96CCE9008C20B1 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439B1DF51E86CC280098BBBC /* DatabaseTests.swift */; };
 		43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AE71E8A41E3003FD1AD /* PowerParserTests.swift */; };
 		43C1C9FF1E96CD6F008C20B1 /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
@@ -1846,7 +1845,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43C1C9FC1E96CCE9008C20B1 /* Info.plist in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
