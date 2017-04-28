@@ -46,8 +46,7 @@ final class ReplayKeyPoint {
         if type == .victory || type == .defeat {
             return type.rawValue
         }
-        return String.isNullOrEmpty(getCardId()) ? "Entity \(id)"
-            : Cards.by(cardId: getCardId()!)!.name
+        return getCardId().isBlank ? "Entity \(id)" : Cards.by(cardId: getCardId()!)!.name
     }
 }
 

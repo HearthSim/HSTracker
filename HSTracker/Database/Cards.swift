@@ -27,13 +27,13 @@ final class Cards {
     }
 
     static func isHero(cardId: String?) -> Bool {
-        guard !String.isNullOrEmpty(cardId) else { return false }
+        guard !cardId.isBlank else { return false }
 
         return hero(byId: cardId!) != .none
     }
 
     static func by(cardId: String?) -> Card? {
-        guard !String.isNullOrEmpty(cardId) else { return nil }
+        guard !cardId.isBlank else { return nil }
 
         if let card = cards.filter({
             $0.type != .hero && $0.type != .hero_power
@@ -53,7 +53,7 @@ final class Cards {
     }
 
     static func any(byId cardId: String) -> Card? {
-        if String.isNullOrEmpty(cardId) { return nil }
+        if cardId.isBlank { return nil }
         if let card = cards.firstWhere({ $0.id == cardId }) {
             return card.copy() as? Card
         }

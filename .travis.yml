@@ -1,11 +1,11 @@
 language: objective-c
-osx_image: xcode8.2
+osx_image: xcode8.3
 
 before_install:
   - brew update
   - brew outdated carthage || brew upgrade carthage
   - gem install xcpretty
-  - carthage update --platform mac
+  - carthage update --no-use-binaries --platform mac
 
 script:
   - set -o pipefail 

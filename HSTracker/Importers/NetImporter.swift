@@ -10,6 +10,7 @@ import Foundation
 import Kanna
 import CleanroomLogger
 import RealmSwift
+import RegexUtil
 
 enum NetImporterError: Error {
     case invalidUrl, urlNotSupported
@@ -17,7 +18,7 @@ enum NetImporterError: Error {
 
 protocol Importer {
     var siteName: String { get }
-    var handleUrl: String { get }
+    var handleUrl: RegexPattern { get }
     var preferHttps: Bool { get }
     func transformUrl(url: String) -> String
 }
@@ -92,50 +93,32 @@ final class NetImporter {
                 let realUrl = importer.transformUrl(url: url)
 
                 if let httpImporter = importer as? HttpImporter {
-                    httpImporter.loadHtml(url: realUrl, completion: { doc in
+                    httpImporter.loadHtml(url: realUrl) { doc in
                         if let doc = doc,
                             let (deck, cards) = httpImporter.loadDeck(doc: doc, url: url),
                             cards.isValidDeck() {
-                            do {
-                                let realm = try Realm()
-                                try realm.write {
-                                    realm.add(deck)
-                                    for card in cards {
-                                        deck.add(card: card)
-                                    }
-                                }
-                                completion(deck, checkDeckWithCollection(deck: deck))
-                            } catch {
-                                Log.error?.message("Can not import deck. Error : \(error)")
-                                completion(nil, nil)
-                            }
+							
+							RealmHelper.add(deck: deck, with: cards)
+                            completion(deck, checkDeckWithCollection(deck: deck))
+                            
                         } else {
                             completion(nil, nil)
                         }
-                    })
-
+                    }
+                    
                 } else if let jsonImporter = importer as? JsonImporter {
-                    jsonImporter.loadJson(url: realUrl, completion: { json in
+                    jsonImporter.loadJson(url: realUrl) { json in
                         if let json = json,
                             let (deck, cards) = jsonImporter.loadDeck(json: json, url: url),
                             cards.isValidDeck() {
-                            do {
-                                let realm = try Realm()
-                                try realm.write {
-                                    realm.add(deck)
-                                    for card in cards {
-                                        deck.add(card: card)
-                                    }
-                                }
-                                completion(deck, checkDeckWithCollection(deck: deck))
-                            } catch {
-                                Log.error?.message("Can not import deck. Error : \(error)")
-                                completion(nil, nil)
-                            }
+                            
+                            RealmHelper.add(deck: deck, with: cards)
+                            completion(deck, checkDeckWithCollection(deck: deck))
+                            
                         } else {
                             completion(nil, nil)
                         }
-                    })
+                    }
                 }
                 return
             }

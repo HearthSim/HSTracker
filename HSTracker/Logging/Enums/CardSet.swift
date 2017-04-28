@@ -22,8 +22,7 @@ enum CardSet: String {
     }
     
     static func deckManagerValidCardSets() -> [CardSet] {
-        return [.all, .expert1, .naxx, .gvg, .brm, .tgt,
-                .loe, .og, .kara, .gangs, .ungoro]
+        return [.all, .expert1, .naxx, .gvg, .brm, .tgt, .loe, .og, .kara, .gangs, .ungoro]
     }
     
     static func wildSets() -> [CardSet] {

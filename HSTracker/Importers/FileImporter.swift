@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
 struct FileImporter: BaseFileImporter {
 
@@ -34,9 +35,9 @@ struct FileImporter: BaseFileImporter {
         deck.name = deckName
 
         var cards: [Card] = []
-        let regex = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
+        let regex: RegexPattern = "(\\d)(\\s|x)?([\\w\\s'\\.:!-]+)"
         for line in lines {
-            guard !String.isNullOrEmpty(line) else { continue }
+            guard !line.isBlank else { continue }
 
             // match "2xMirror Image" as well as "2 Mirror Image" or "2 GVG_002"
             if line.match(regex) {

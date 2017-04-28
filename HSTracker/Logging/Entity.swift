@@ -13,15 +13,11 @@ import Wrap
 
 class Entity {
     var id: Int
-    var isPlayer: Bool {
-        guard let game = (NSApp.delegate as? AppDelegate)?.game else {
-            return false
-        }
-        return self[.player_id] == game.player.id
-    }
+	
     var cardId = ""
     var name: String?
     var tags: [GameTag: Int] = [:]
+	
     lazy var info: EntityInfo = { [unowned self] in
         return EntityInfo(entity: self) }()
 
@@ -48,6 +44,10 @@ class Entity {
     func has(tag: GameTag) -> Bool {
         return self[tag] > 0
     }
+	
+	func isPlayer(eventHandler: PowerEventHandler) -> Bool {
+		return self[.player_id] == eventHandler.player.id
+	}
 
     var isActiveDeathrattle: Bool {
         return has(tag: .deathrattle) && self[.deathrattle] == 1
@@ -74,8 +74,8 @@ class Entity {
     var isSpell: Bool {
         return self[.cardtype] == CardType.spell.rawValue
     }
-    var isOpponent: Bool {
-        return !isPlayer && has(tag: .player_id)
+	func isOpponent(eventHandler: PowerEventHandler) -> Bool {
+		return !isPlayer(eventHandler: eventHandler) && has(tag: .player_id)
     }
     var isMinion: Bool {
         return has(tag: .cardtype) && self[.cardtype] == CardType.minion.rawValue
@@ -117,7 +117,7 @@ class Entity {
     }
 
     var hasCardId: Bool {
-        return !String.isNullOrEmpty(cardId)
+        return !cardId.isBlank
     }
 
     private var _cachedCard: Card?

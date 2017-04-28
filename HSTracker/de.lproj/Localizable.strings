@@ -53,8 +53,10 @@
 "Logout" = "Logout";
 "Top deck:" = "Top deck:";
 "In top 2:" = "In top 2:";
-"Connected" = "Connected";
-"Connected as %@" = "Connected as %@";
+"Connected" = "Verbunden";
+"Connected as %@" = "Verbunden als %@";
+"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.";
+"I understand" = "I understand";
 
 /* notifications */
 "Your game begins" = "Dein Spiel beginnt";
@@ -73,8 +75,8 @@
 "paladin" = "Paladin";
 "priest" = "Priester";
 "rogue" = "Schurke";
-"All classes" = "All classes";
-"Archived" = "Archived";
+"All classes" = "Alle Klassen";
+"Archived" = "Archiviert";
 
 /* rarity */
 "all_rarities" = "Alle";
@@ -97,7 +99,7 @@
 "OG" = "Das Flüstern der alten Götter";
 "PROMO" = "Belohnung";
 "KARA" = "Eine Nacht in Karazhan";
-"GANGS" = "Mean Streets of Gadgetzan";
+"GANGS" = "Die Straßen von Gadgetzan";
 "UNGORO" = "Reise nach Un'Goro";
 
 /* card type */
@@ -136,7 +138,7 @@
 "mode_friendly"  = "Freundschaftsspiel";
 "mode_practice"  = "Üben / Soloabenteuer";
 "mode_spectator" = "Zuschauer";
-"mode_none"      = "Keinen";
+"mode_none"      = "Keine";
 
 /* Stats tabs */
 "Statistics" = "Statistiken";
@@ -149,5 +151,5 @@
 "Your replay has been uploaded on HSReplay" = "Dein Replay wurde auf HSReplay hochgeladen";
 "View" = "Ansehen";
 "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "Um ein Deck nach Hearthstone zu exportieren, erstelle ein neues Deck mit der korrekten Klasse in deiner Sammlung. Klicke dann auf OK und wechsele zu Hearthstone.\nBerühre während des imports weder Deine Maus, noch das Keyboard.\nWARNUNG: Dies ist eine Beta-Funktion!";
-"The followings cards were missing : " = "The followings cards were missing : ";
-"Can't get card collection" = "Can't get card collection, is Hearthstone running ?";
+"The followings cards were missing : " = "Diese Karten fehlen: ";
+"Can't get card collection" = "Kartensammlung kann nicht geladen werden, läuft Hearthstone?";

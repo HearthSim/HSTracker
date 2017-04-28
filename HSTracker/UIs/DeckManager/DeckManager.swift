@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 import CleanroomLogger
+import AppKit
 
 class DeckContextMenu: NSMenu {
     public var clickedrow: Int = 0
@@ -55,6 +56,8 @@ class DeckManager: NSWindowController {
     let orders = ["ascending", "descending"]
     var sortCriteria = Settings.deckSortCriteria
     var sortOrder = Settings.deckSortOrder
+	
+	weak var game: Game?
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -265,15 +268,7 @@ class DeckManager: NSWindowController {
                      message: NSLocalizedString("Deck name", comment: ""),
                      accessoryView: deckNameInput,
                      window: self.window) {
-                        do {
-                            let realm = try Realm()
-                            try realm.write {
-                                deck.name = deckNameInput.stringValue
-                            }
-                        } catch {
-                            Log.error?.message("Can not update deck. \(error)")
-                        }
-
+                        RealmHelper.rename(deck: deck, to: deckNameInput.stringValue)
                         self.refreshDecks()
         }
 
@@ -318,23 +313,13 @@ class DeckManager: NSWindowController {
     }
 
     private func useDeck(deck: Deck) {
-        if !deck.isActive {
-            do {
-                let realm = try Realm()
-                try realm.write {
-                    deck.isActive = true
-                }
-            } catch {
-                Log.error?.message("Can not update deck : \(error)")
-            }
-            refreshDecks()
-        }
+        RealmHelper.set(deck: deck, active: true)
+        refreshDecks()
         
         Settings.activeDeck = deck.deckId
         let deckId = deck.deckId
-        DispatchQueue.main.async {
-            guard let game = (NSApp.delegate as? AppDelegate)?.game else { return }
-            game.set(activeDeck: deckId)
+        DispatchQueue.main.async { [unowned self] in
+            self.game?.set(activeDeckId: deckId)
         }
     }
 
@@ -373,15 +358,8 @@ class DeckManager: NSWindowController {
             }
 
             NSAlert.show(style: .informational, message: msg, window: self.window!) {
-                do {
-                    let realm = try Realm()
-                    try realm.write {
-                        deck.isActive = !deck.isActive
-                    }
-                } catch {
-                    Log.error?.message("Can not update deck : \(error)")
-                }
-
+                RealmHelper.set(deck: deck, active: !deck.isActive)
+                
                 Settings.activeDeck = nil
                 self.refreshDecks()
             }
@@ -392,25 +370,12 @@ class DeckManager: NSWindowController {
         decksTable.deselectAll(self)
         self.currentDeck = nil
 
-        guard let realm = try? Realm() else {
-            Log.error?.message("Can not get realm instance")
-            refreshDecks()
-            return
-        }
-        guard let deck = realm.objects(Deck.self)
-            .filter("deckId = '\(currentDeck.deckId)'").first else {
-                Log.error?.message("Can not get deck")
-                refreshDecks()
-                return
-        }
+        if let deck = RealmHelper.getDeck(with: currentDeck.deckId) {
+			RealmHelper.delete(deck: deck)
+		} else {
+			Log.error?.message("Can not get deck")
+		}
 
-        do {
-            try realm.write {
-                realm.delete(deck)
-            }
-        } catch {
-            Log.error?.message("Can not delete deck : \(error)")
-        }
         refreshDecks()
     }
 
@@ -521,7 +486,7 @@ class DeckManager: NSWindowController {
         let when = DispatchTime.now() + DispatchTimeInterval.seconds(2)
         DispatchQueue.main.asyncAfter(deadline: when) {
             let automation = Automation()
-            automation.expertDeckToHearthstone(deck: deck) { message in
+            automation.exportDeckToHearthstone(deck: deck) { message in
                 DispatchQueue.main.async {
                     NSAlert.show(style: .informational,
                                  message: message,
@@ -658,16 +623,15 @@ extension DeckManager: NewDeckDelegate {
     func refreshDecks() {
         // Guard incase we are creating a new deck without the window loaded
         guard isWindowLoaded else { return }
-        currentDeck = nil
-        decksTable.deselectAll(self)
-        decks = []
-        do {
-            let realm = try Realm()
-            decks = Array(realm.objects(Deck.self))
-        } catch {
-            Log.error?.message("Can not load decks : \(error)")
-        }
+        
         DispatchQueue.main.async { [weak self] in
+            self?.currentDeck = nil
+            self?.decksTable.deselectAll(self)
+            self?.decks = []
+            if let realmdecks = RealmHelper.getDecks() {
+                self?.decks = Array(realmdecks)
+            }
+            
             self?.decksTable.reloadData()
             self?.deckListTable.reloadData()
         }

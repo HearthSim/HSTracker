@@ -16,8 +16,8 @@ final class ReplayMaker {
 
     static func reset() { points.removeAll() }
 
-    static func generate(type: KeyPointType, id: Int, player: PlayerType, game: Game) {
-        let replay = ReplayKeyPoint(data: game.entities.map { $0.1 },
+    static func generate(type: KeyPointType, id: Int, player: PlayerType, eventHandler: PowerEventHandler) {
+        let replay = ReplayKeyPoint(data: eventHandler.entities.map { $0.1 },
                                     type: type,
                                     id: id,
                                     player: player)
@@ -31,7 +31,7 @@ final class ReplayMaker {
         return formatter
     }()
 
-    static func saveToDisk(powerLog: [LogLine]) {
+    static func saveToDisk(powerLog: [LogLine], eventHandler: PowerEventHandler) {
         guard points.count > 0 else {
             Log.warning?.message("replay is empty, skipping")
             return
@@ -42,13 +42,13 @@ final class ReplayMaker {
         resolveZonePos()
         resolveCardIds()
         removeObsoletePlays()
-        
-        guard let player = points.last?.data.firstWhere({$0.isPlayer}) else {
+		
+        guard let player = points.last?.data.firstWhere({$0.isPlayer(eventHandler: eventHandler)}) else {
             Log.warning?.message("Replay : cannot get player, skipping")
             return
         }
         guard let opponent = points.last?.data
-            .firstWhere({$0.has(tag: .player_id) && !$0.isPlayer}) else {
+            .firstWhere({$0.has(tag: .player_id) && !$0.isPlayer(eventHandler: eventHandler)}) else {
                 Log.warning?.message("Replay : cannot get opponent, skipping")
                 return
         }
@@ -70,7 +70,7 @@ final class ReplayMaker {
             // adventure bosses
             opponentHero = points.last?.data
                 .firstWhere({
-                    !String.isNullOrEmpty($0.cardId)
+                    !$0.cardId.isBlank
                         && (($0.cardId.hasPrefix("NAX") && $0.cardId.contains("_01"))
                             || $0.cardId.hasPrefix("BRMA"))
                         && Cards.hero(byId: $0.cardId) != nil
@@ -79,7 +79,7 @@ final class ReplayMaker {
                 Log.warning?.message("Replay : opponentHero is nil")
                 return
             }
-            resolve(opponentName: Cards.hero(byId: opponentHero!.cardId)?.name)
+            resolve(opponentName: Cards.hero(byId: opponentHero!.cardId)?.name, eventHandler: eventHandler)
         }
         
         if let playerName = player.name,
@@ -119,12 +119,12 @@ final class ReplayMaker {
         }
     }
 
-    private static func resolve(opponentName: String?) {
+	private static func resolve(opponentName: String?, eventHandler: PowerEventHandler) {
         if opponentName == nil {
             return
         }
         for kp in points {
-            if let opponent = kp.data.firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer }) {
+			if let opponent = kp.data.firstWhere({ $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: eventHandler) }) {
                 opponent.name = opponentName
             }
         }
@@ -133,12 +133,10 @@ final class ReplayMaker {
     private static func resolveCardIds() {
         if let lastKeyPoint = points.last {
             for kp in points {
-                for entity in lastKeyPoint.data {
-                    if !String.isNullOrEmpty(entity.cardId) {
-                        if let e2 = kp.data.firstWhere({ $0.id == entity.id }) {
-                            e2.cardId = entity.cardId
-                            e2.name = entity.name
-                        }
+                for entity in lastKeyPoint.data where !entity.cardId.isBlank {
+                    if let e2 = kp.data.firstWhere({ $0.id == entity.id }) {
+                        e2.cardId = entity.cardId
+                        e2.name = entity.name
                     }
                 }
             }
@@ -212,7 +210,7 @@ final class ReplayMaker {
         for kp in points {
             let currentBoard = kp.data
                 .filter { $0.isInZone(zone: .play) && $0.has(tag: .health)
-                    && !String.isNullOrEmpty($0.cardId) && !$0.cardId.contains("HERO")
+                    && !$0.cardId.isBlank && !$0.cardId.contains("HERO")
             }
             if onBoard.all({ (e) in
                 currentBoard.any({ (e2) in e2.id == e.id }) })

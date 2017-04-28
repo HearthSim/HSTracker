@@ -9,7 +9,7 @@
 import Foundation
 import CleanroomLogger
 
-struct Database {
+class Database {
     static let currentSeason: Int = {
         let today = Date()
         let dc = Calendar.current.dateComponents(in: TimeZone.current, from: today)
@@ -17,9 +17,9 @@ struct Database {
     }()
 
     static func jsonFilesAreValid() -> Bool {
-        for locale in Language.hsLanguages {
+        for locale in Language.Hearthstone.allValues() {
 
-            let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(locale).json")
+            let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(locale.rawValue).json")
             guard let jsonData = try? Data(contentsOf: jsonFile) else {
                 Log.error?.message("\(jsonFile) is not a valid file")
                 return false
@@ -38,15 +38,20 @@ struct Database {
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [Race]()
 
-    func loadDatabase(splashscreen: Splashscreen?) {
-        var langs: [String] = []
-        if let language = Settings.hearthstoneLanguage, language != "enUS" {
-            langs += [language]
-        }
-        langs += ["enUS"]
-
+    func loadDatabase(splashscreen: Splashscreen?, withLanguages langs: [Language.Hearthstone]) {
         for lang in langs {
-            let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(lang).json")
+            var file: URL? = Paths.cardJson.appendingPathComponent("cardsDB.\(lang.rawValue).json")
+            
+            if file == nil || (file != nil && !FileManager.default.fileExists(atPath: file!.path)) {
+                file = Bundle(for: type(of: self))
+                    .url(forResource: "Resources/Cards/cardsDB.\(lang.rawValue)",
+                        withExtension: "json")
+            }
+            guard let jsonFile = file else {
+                Log.error?.message("Can't find cardsDB.\(lang.rawValue).json")
+                continue
+            }
+
             Log.verbose?.message("json file : \(jsonFile)")
 
             guard let jsonData = try? Data(contentsOf: jsonFile) else {
@@ -63,7 +68,7 @@ struct Database {
             if let splashscreen = splashscreen {
                 DispatchQueue.main.async {
                     let msg = String(format: NSLocalizedString("Loading %@ cards",
-                                                               comment: ""), lang)
+                                                               comment: ""), lang.localizedString)
                     splashscreen.display(msg, total: Double(cards.count))
                 }
             }
@@ -82,7 +87,7 @@ struct Database {
 
                 if let name = jsonCard["name"] as? String,
                     let card = Cards.cards.first({ $0.id == cardId }),
-                    lang == "enUS" && langs.count > 1 {
+                    lang == .enUS && langs.count > 1 {
                     card.enName = name
                 } else {
                     let card = Card()
@@ -92,13 +97,13 @@ struct Database {
                         card.dbfId = dbfId
                     }
 
+                    if let dbfId = jsonCard["dbfId"] as? Int {
+                        card.dbfId = dbfId
+                    }
+
                     card.isStandard = !CardSet.wildSets().contains(set)
 
-                    // "fake" the coin... in the game files, Coin cost is empty
-                    // so we set it to 0
-                    if card.id == "GAME_005" {
-                        card.cost = 0
-                    } else if let cost = jsonCard["cost"] as? Int {
+                    if let cost = jsonCard["cost"] as? Int {
                         card.cost = cost
                     }
 
@@ -150,6 +155,9 @@ struct Database {
                     }
                     if let name = jsonCard["name"] as? String {
                         card.name = name
+                        if lang == .enUS && langs.count == 1 {
+                            card.enName = name
+                        }
                     }
                     if let text = jsonCard["text"] as? String {
                         card.text = text

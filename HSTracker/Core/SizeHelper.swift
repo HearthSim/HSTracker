@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import AppKit
 
 struct SizeHelper {
     
@@ -24,16 +25,15 @@ struct SizeHelper {
         }
         
         func reload() {
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone else { return }
 
             let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
             if let info = (windowListInfo as NSArray? as? [[String: AnyObject]])?.filter({
                 !$0.filter({ $0.0 == "kCGWindowName"
-                    && $0.1 as? String == hearthstone.applicationName }).isEmpty
+                    && $0.1 as? String == CoreManager.applicationName }).isEmpty
             }).filter({
                 !$0.filter({ $0.0 == "kCGWindowOwnerName"
-                    && $0.1 as? String == hearthstone.applicationName }).isEmpty
+                    && $0.1 as? String == CoreManager.applicationName }).isEmpty
             }).first {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
@@ -250,15 +250,15 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame)
     }
 
-    static func secretTrackerFrame() -> NSRect {
-        let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
+    static func secretTrackerFrame(height: CGFloat) -> NSRect {
+        let yOffset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
 
-        let frame = NSRect(x: 200,
-                           y: offset,
+        let frame = NSRect(x: trackerWidth + 25,
+                           y: hearthstoneWindow.frame.height - height - yOffset,
                            width: trackerWidth,
-                           height: 450)
+                           height: height)
         
-        return hearthstoneWindow.relativeFrame(frame)
+        return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
 
     static func timerHudFrame() -> NSRect {

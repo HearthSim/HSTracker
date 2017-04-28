@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import HearthMirror
 
 class ServerInfo: Object {
 

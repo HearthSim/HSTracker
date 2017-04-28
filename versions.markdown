@@ -1,9 +1,15 @@
 # unreleased
 ## Fixes:
 - Fix quests not increasing spell counter
+- Improve German translations
+- Improve Chinese translations
+- Fix memory issues
 
 ## New: 
 - Auto check and download arena helper card tier list
+
+## Changes:
+- Rewrite of a lot of core parts
 
 # 0.20.1
 ## Fixes:
@@ -153,7 +159,7 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 - HSTracker now synchronize your games with HSReplay.net ! Enjoy your replays now !
 - You can play with Hearthstone on fullscreen !
 - HSTracker use its own notifications, they should not appear under decklist anymore
-- Trackers should not disappear again when they « auto-position trackers » is checked
+- Trackers should not disappear again when they « auto-position trackers » is checked
 - Add a release channel for betas
 - Support for importing decks from http://www.hearthstonetopdecks.com
 - Add a graveyard and minion count in the trackers

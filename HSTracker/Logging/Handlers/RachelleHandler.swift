@@ -10,12 +10,13 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
-struct RachelleHandler {
-    let TowardsGolds = "(\\d)/3 wins towards 10 gold"
-    let CardInCache = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
+struct RachelleHandler: LogEventParser {
+    let TowardsGolds: RegexPattern = "(\\d)/3 wins towards 10 gold"
+    let CardInCache: RegexPattern = ".*somehow the card def for (\\w+_\\w+) was already in the cache\\.\\.\\."
 
-    func handle(game: Game, logLine: LogLine) {
+    func handle(logLine: LogLine) {
         if logLine.line.match(TowardsGolds) {
             if let match = logLine.line.matches(TowardsGolds).first,
                 let victories = Int(match.value) {

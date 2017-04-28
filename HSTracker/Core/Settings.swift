@@ -8,13 +8,14 @@
 
 import Foundation
 import CleanroomLogger
+import AppKit
 
 final class Settings {
 
     static var fullGameLog: Bool = false
 
     static func validated() -> Bool {
-        return Hearthstone.validatedHearthstonePath()
+        return CoreManager.validatedHearthstonePath()
             && hearthstoneLanguage != nil && hsTrackerLanguage != nil
     }
 
@@ -35,7 +36,11 @@ final class Settings {
         }
         return nil
     }
-
+	
+	static var showMemoryReadingWarning: Bool {
+		set { set(name: "showMemoryReadingWarning", value: newValue) }
+		get { return get(name: "showMemoryReadingWarning") as? Bool ?? true }
+	}
     static var canJoinFullscreen: Bool {
         set { set(name: "can_join_fullscreen", value: newValue) }
         get { return get(name: "can_join_fullscreen") as? Bool ?? true }
@@ -77,19 +82,28 @@ final class Settings {
         set { set(name: "hearthstone_log_path", value: newValue) }
         get { return get(name: "hearthstone_log_path") as? String ?? "/Applications/Hearthstone" }
     }
-    static var hearthstoneLanguage: String? {
-        set { set(name: "hearthstone_language", value: newValue) }
-        get { return get(name: "hearthstone_language") as? String }
+    static var hearthstoneLanguage: Language.Hearthstone? {
+        set { set(name: "hearthstone_language", value: newValue?.rawValue) }
+        get {
+            guard let locale = get(name: "hearthstone_language") as? String else {
+                return nil
+            }
+            return Language.Hearthstone(rawValue: locale)
+        }
     }
-    static var hsTrackerLanguage: String? {
-
+    static var hsTrackerLanguage: Language.HSTracker? {
         set {
             if let locale = newValue {
-                defaults?.set([locale], forKey: "AppleLanguages")
+                defaults?.set([locale.rawValue], forKey: "AppleLanguages")
             }
-            set(name: "hstracker_language", value: newValue)
+            set(name: "hstracker_language", value: newValue?.rawValue)
         }
-        get { return get(name: "hstracker_language") as? String }
+        get {
+            guard let locale = get(name: "hstracker_language") as? String else {
+                return nil
+            }
+            return Language.HSTracker(rawValue: locale)
+        }
     }
     static var showRarityColors: Bool {
         set { set(name: "rarity_colors", value: newValue) }
@@ -101,7 +115,7 @@ final class Settings {
     }
     static var autoPositionTrackers: Bool {
         set { set(name: "auto_position_trackers", value: newValue) }
-        get { return get(name: "auto_position_trackers") as? Bool ?? false }
+        get { return get(name: "auto_position_trackers") as? Bool ?? true }
     }
     static var hideAllTrackersWhenNotInGame: Bool {
         set { set(name: "hide_all_trackers_when_not_in_game", value: newValue) }
@@ -356,6 +370,10 @@ final class Settings {
     }
 
     // MARK: - Notifications
+    static var useToastNotification: Bool {
+        set { set(name: "useToastNotification", value: newValue) }
+        get { return get(name: "useToastNotification") as? Bool ?? true }
+    }
     static var notifyGameStart: Bool {
         set { set(name: "notify_game_start", value: newValue) }
         get { return get(name: "notify_game_start") as? Bool ?? true }
@@ -496,29 +514,14 @@ final class Settings {
     static var isCyrillicLanguage: Bool {
         guard let language = hearthstoneLanguage else { return false }
 
-        return language == "ruRU"
+        return language == .ruRU
     }
 
     static var isAsianLanguage: Bool {
         guard let language = hearthstoneLanguage else { return false }
 
-        return language.match("^(zh|ko|ja|th)")
-    }
-
-    // MARK: - Updates
-    static var releaseChannel: ReleaseChannel {
-        set { set(name: "release_channel", value: newValue.rawValue) }
-        get {
-            if let rawChannel = get(name: "release_channel") as? Int,
-                let channel = ReleaseChannel(rawValue: rawChannel) {
-                return channel
-            }
-            return .stable
-        }
-    }
-    static var automaticallyDownloadsUpdates: Bool {
-        set { set(name: "automatically_downloads_updates", value: newValue) }
-        get { return get(name: "automatically_downloads_updates") as? Bool ?? true }
+        let asianLanguages: [Language.Hearthstone] = [.zhCN, .zhTW, .jaJP, .thTH, .koKR]
+        return asianLanguages.contains(language)
     }
 
     // MARK: - HearthAssets / HearthMirror

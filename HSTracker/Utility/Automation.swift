@@ -13,7 +13,7 @@ import RealmSwift
 struct Automation {
     private var queue: DispatchQueue = DispatchQueue(label: "export.hstracker", attributes: [])
     
-    func expertDeckToHearthstone(deck: Deck, callback: @escaping (String) -> Void) {
+    func exportDeckToHearthstone(deck: Deck, callback: @escaping (String) -> Void) {
         let cards = CollectionManager.default.collection()
         if cards.count == 0 {
                 callback(NSLocalizedString("Can't get card collection", comment: ""))
@@ -22,8 +22,7 @@ struct Automation {
 
         let deckId = deck.deckId
         queue.async {
-            // bring HS to front
-            (NSApp.delegate as? AppDelegate)?.hearthstone.bringToFront()
+			CoreManager.bringHSToFront()
 
             let searchLocation = SizeHelper.searchLocation()
             let firstCardLocation = SizeHelper.firstCardLocation()
@@ -77,22 +76,13 @@ struct Automation {
             }
             
             Thread.sleep(forTimeInterval: 1)
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                  let editedDeck = hearthstone.mirror?.getEditedDeck() else {
+            guard let editedDeck = MirrorHelper.getEditedDeck(),
+                let hsDeckId = editedDeck.id as? Int64 else {
                 callback(NSLocalizedString("Can't get edited deck", comment: ""))
                 return
             }
-            if let realm = try? Realm(),
-                let _deck = realm.objects(Deck.self)
-                    .filter("deckId = '\(deckId)'").first {
-                        do {
-                            try realm.write {
-                                _deck.hsDeckId.value = editedDeck.id as? Int64 ?? 0
-                            }
-                        } catch {
-                            Log.error?.message("Can't update deck")
-                        }
-            }
+			RealmHelper.set(hsDeckId: hsDeckId, for: deckId)
+			
             DispatchQueue.main.async {
                 var message = NSLocalizedString("Export done", comment: "")
                 if let msg = CollectionManager.default
@@ -179,14 +169,14 @@ struct Automation {
             return str
         }
 
-        if let text = artistDict[lang],
+        if let text = artistDict[lang.rawValue],
             let artist = card.artist.components(separatedBy: " ").last {
             str += " \(text):\(artist)"
         }
-        if let text = manaDict[lang] {
+        if let text = manaDict[lang.rawValue] {
             str += " \(text):\(card.cost)"
         }
-        if let text = attackDict[lang], attackIds.contains(card.id) {
+        if let text = attackDict[lang.rawValue], attackIds.contains(card.id) {
             str += " \(text):\(card.attack)"
         }
         return str

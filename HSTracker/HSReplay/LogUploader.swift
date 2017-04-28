@@ -61,7 +61,7 @@ class LogUploader {
                 return
             }
             if let line = lines.first({ $0.contains("CREATE_GAME") }) {
-                let (gameStart, _) = LogLine.parseTime(line: line)
+                let gameStart = LogLine(namespace: .power, line: line).time
                 var dateComponents = LogReaderManager.calendar
                     .dateComponents(in: LogReaderManager.timeZone,
                                     from: date!)
@@ -93,9 +93,6 @@ class LogUploader {
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         let log = logLines.sorted {
-            if $0.time == $1.time {
-                return $0.nanoseconds < $1.nanoseconds
-            }
             return $0.time < $1.time
             }.map { $0.line }
         upload(logLines: log, statistic: statistic, gameStart: gameStart,
@@ -106,12 +103,14 @@ class LogUploader {
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         guard let token = Settings.hsReplayUploadToken else {
-            Log.error?.message("Authorization token not set yet")
+            Log.error?.message("HSReplay upload failed: Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))
             return
         }
 
-        if logLines.filter({ $0.contains("CREATE_GAME") }).count != 1 {
+        let numCreates = logLines.filter({ $0.contains("CREATE_GAME") }).count
+        if numCreates != 1 {
+            Log.error?.message("HSReplay upload failed: Log contains none or multiple games (\(numCreates))")
             completion(.failed(error: "Log contains none or multiple games"))
             return
         }
@@ -168,7 +167,8 @@ class LogUploader {
                         let putUrl = json["put_url"] as? String,
                         let uploadShortId = json["shortid"] as? String else {
                             Log.error?.message("JSON Error : \(String(describing: jsonData))")
-                            completion(.failed(error: "Can not gzip : \(String(describing: jsonData))"))
+                            let message = "Can not gzip : \(String(describing: jsonData))"
+                            completion(.failed(error: message))
                             return
                     }
 
@@ -192,22 +192,12 @@ class LogUploader {
                                 data: gzip)
 
                     guard let statId = statId,
-                        let realm = try? Realm(),
-                        let existing = realm.objects(GameStats.self)
-                            .filter("statId = '\(statId)'").first else {
+                        let existing = RealmHelper.getGameStat(with: statId)  else {
                                 Log.error?.message("Can not update statistic")
                                 completion(.failed(error: "Can not update statistic"))
                                 return
                     }
-                    do {
-                        try realm.write {
-                            existing.hsReplayId = uploadShortId
-                        }
-                    } catch {
-                        Log.error?.message("Can not update statistic")
-                        completion(.failed(error: "Can not update statistic"))
-                        return
-                    }
+                    RealmHelper.update(stat: existing, hsReplayId: uploadShortId)
 
                     Log.info?.message("\(item.hash) upload done: Success")
                     inProgress = inProgress.filter({ $0.hash == item.hash })

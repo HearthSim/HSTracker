@@ -46,7 +46,7 @@ struct BuildDates {
             }
             semaphore.signal()
         }
-        let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
     }
 
     static func isOutdated() -> Bool {
@@ -66,22 +66,22 @@ struct BuildDates {
     static func downloadCards(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
             splashscreen.display(NSLocalizedString("Download Hearthstone cards", comment: ""),
-                                 total: Double(Language.hsLanguages.count))
+                                 total: Double(Language.Hearthstone.allValues().count))
         }
 
         guard let latestBuild = self.latestBuild else { return }
         let build = latestBuild.build
 
         var hasError = false
-        for locale in Language.hsLanguages {
+        for locale in Language.Hearthstone.allValues() {
             DispatchQueue.main.async {
                 splashscreen.increment(String(format:
                     NSLocalizedString("Downloading %@", comment: ""),
-                                              "cardsDB.\(locale).json"))
+                                              "cardsDB.\(locale.rawValue).json"))
             }
 
             let semaphore = DispatchSemaphore(value: 0)
-            let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale)/cards.json"
+            let cardUrl = "https://api.hearthstonejson.com/v1/\(build)/\(locale.rawValue)/cards.json"
 
             if let url = URL(string: cardUrl) {
                 URLSession.shared
@@ -104,7 +104,7 @@ struct BuildDates {
                         semaphore.signal()
                     }.resume()
             }
-            let _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+            _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         }
 
         if !hasError {
@@ -115,11 +115,9 @@ struct BuildDates {
     static func get(byDate date: Date) -> BuildDate? {
         for buildDate in knownBuildDates.sorted(by: {
             $0.date > $1.date
-        }) {
-            if date >= buildDate.date {
-                Log.info?.message("Getting build from date : \(buildDate)")
-                return buildDate
-            }
+        }) where date >= buildDate.date {
+            Log.info?.message("Getting build from date : \(buildDate)")
+            return buildDate
         }
         return nil
     }

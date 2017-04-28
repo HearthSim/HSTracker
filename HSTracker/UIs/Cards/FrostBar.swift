@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 class FrostBar: CardBar {
     override var themeDir: String {

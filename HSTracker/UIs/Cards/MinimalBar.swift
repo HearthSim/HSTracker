@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreImage
+import AppKit
 
 class MinimalBar: CardBar {
     override var themeDir: String {

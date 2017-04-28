@@ -30,6 +30,17 @@ class WindowMove: NSWindowController {
     @IBOutlet weak var screenY: NSTextField!
     @IBOutlet weak var screenWidth: NSTextField!
     @IBOutlet weak var screenHeight: NSTextField!
+	
+	private weak var windowManager: WindowManager!
+	
+	override var windowNibName: String! {
+		return "WindowMove"
+	}
+	
+	convenience init(windowNibName: String, windowManager: WindowManager) {
+		self.init(window: nil)
+		self.windowManager = windowManager
+	}
 
     lazy var overlayWindow: NSWindow = {
         let window = NSWindow()
@@ -66,12 +77,6 @@ class WindowMove: NSWindowController {
          _show, _hide, _ffdown, _ffup
         ].forEach {
             $0.isEnabled = buttonEnabled
-        }
-
-        guard windowChooser.indexOfSelectedItem > 0,
-              let game = (NSApp.delegate as? AppDelegate)?.game,
-              let windowManager = game.windowManager else {
-            return
         }
 
         if let window = windowChooser

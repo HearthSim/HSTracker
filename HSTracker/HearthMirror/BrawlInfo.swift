@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HearthMirror
 
 struct BrawlInfo {
     let maxWins: Int?

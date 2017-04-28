@@ -9,6 +9,7 @@
 import Foundation
 import Kanna
 import CleanroomLogger
+import RegexUtil
 
 struct Hearthstats: HttpImporter {
 
@@ -16,7 +17,7 @@ struct Hearthstats: HttpImporter {
         return "HearthStats"
     }
 
-    var handleUrl: String {
+    var handleUrl: RegexPattern {
         return "hearthstats\\.net|hss\\.io"
     }
 

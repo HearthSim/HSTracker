@@ -27,7 +27,7 @@ class EntityInfo {
     var createdInDeck: Bool { return originalZone == .deck }
     var createdInHand: Bool { return originalZone == .hand }
     private(set) var originalCardId: String?
-    var wasTransformed: Bool { return !String.isNullOrEmpty(originalCardId) }
+    var wasTransformed: Bool { return !originalCardId.isBlank }
 
     init(entity: Entity) {
         _entity = entity

@@ -75,18 +75,17 @@ class FloatingCard: OverWindowController {
     }
 
     private func reloadImage() {
-        guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-            let card = card else {
-                imageView.image = nil
-                reloadText()
-                return
-        }
+		guard let card = self.card, let assetGenerator = CoreManager.assetGenerator else {
+			imageView.image = nil
+			reloadText()
+			return
+		}
 
         title.isHidden = true
         scrollview.isHidden = true
         imageView.isHidden = false
 
-        hearthstone.assetGenerator?.generate(card: card) { [weak self] (image, error) in
+        assetGenerator.generate(card: card) { [weak self] (image, error) in
                 if let image = image {
                     self?.imageView.image = image
                 } else if let error = error {
@@ -125,9 +124,9 @@ class FloatingCard: OverWindowController {
             let layoutManager = NSLayoutManager()
             let textStorage = NSTextStorage(attributedString:
                 NSAttributedString(string: information, attributes: attributes))
-            let flt = Float.greatestFiniteMagnitude
+            let flt_max = Float.greatestFiniteMagnitude
             let textContainer = NSTextContainer(containerSize:
-                NSSize(width: window.frame.size.width, height: CGFloat(flt)))
+                NSSize(width: window.frame.size.width, height: CGFloat(flt_max)))
             layoutManager.addTextContainer(textContainer)
             textStorage.addLayoutManager(layoutManager)
             

@@ -9,6 +9,7 @@
 import Foundation
 import Kanna
 import CleanroomLogger
+import RegexUtil
 
 struct Hearthpwn: HttpImporter {
 
@@ -16,7 +17,7 @@ struct Hearthpwn: HttpImporter {
         return "HearthPwn"
     }
 
-    var handleUrl: String {
+    var handleUrl: RegexPattern {
         return "hearthpwn\\.com\\/decks"
     }
 
@@ -46,22 +47,21 @@ struct Hearthpwn: HttpImporter {
         deck.name = deckName
 
         var cards: [Card] = []
-        for clazz in ["class-listing", "neutral-listing"] {
-            let xpath = "//*[contains(@class, '\(clazz)')]//td[contains(@class, 'col-name')]//a"
-            let cardNodes = doc.xpath(xpath)
-            for cardNode in cardNodes {
-                guard let cardName = cardNode.text?.trim() else { continue }
-                var count: Int?
-                if let dataCount = cardNode["data-count"] {
-                    count = Int(dataCount)
-                }
+        let xpath = "//td[contains(@class,'col-name')]//a[contains(@href,'/cards/') "
+            + "and contains(@class,'rarity')]"
+        let cardNodes = doc.xpath(xpath)
+        for cardNode in cardNodes {
+            guard let cardName = cardNode.text?.trim() else { continue }
+            var count: Int?
+            if let dataCount = cardNode["data-count"] {
+                count = Int(dataCount)
+            }
 
-                if let count = count,
-                    let card = Cards.by(englishName: cardName.trim()) {
-                    card.count = count
-                    Log.verbose?.message("Got card \(card)")
-                    cards.append(card)
-                }
+            if let count = count,
+                let card = Cards.by(englishName: cardName) {
+                card.count = count
+                Log.verbose?.message("Got card \(card)")
+                cards.append(card)
             }
         }
         return (deck, cards)

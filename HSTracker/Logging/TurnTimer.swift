@@ -10,118 +10,79 @@ import Foundation
 import CleanroomLogger
 
 @objc final class TurnTimer: NSObject {
-    static let instance = TurnTimer()
+	
+	/** How long a turn can last in seconds */
+	private static let TurnLengthSec = 75
 
     private(set) var seconds: Int = 75
     private(set) var playerSeconds: Int = 0
     private(set) var opponentSeconds: Int = 0
     private var turnTime: Int = 75
     private var timer: Timer?
-    private var isPlayersTurn: Bool {
-        return game?.playerEntity?.has(tag: .current_player) ?? false
-    }
-    private var game: Game?
-
-    func set(player: PlayerType) {
-        guard let game = game else {
+	weak var timerHud: TimerHud?
+	
+	private var currentPlayer: PlayerType = .player
+	
+	init(gui: TimerHud) {
+		self.timerHud = gui
+	}
+	
+    func startTurn(for player: PlayerType, timeout: Int = -1) {
+		seconds = TurnTimer.TurnLengthSec
+		self.currentPlayer = player
+		
+		timer?.invalidate()
+		self.timer = Timer(timeInterval: 1,
+		                   target: self,
+		                   selector: #selector(self.timerTick),
+		                   userInfo: nil, repeats: true)
+		RunLoop.main.add(timer!, forMode: RunLoopMode.defaultRunLoopMode)
+		
+        if timeout < 0 {
             seconds = 75
-            return
-        }
-
-        if player == .player && game.playerEntity != nil {
-            seconds = game.playerEntity!.has(tag: .timeout)
-                    ? game.playerEntity![.timeout] : 75
-        } else if player == .opponent && game.opponentEntity != nil {
-            seconds = game.opponentEntity!.has(tag: .timeout)
-                    ? game.opponentEntity![.timeout] : 75
         } else {
-            seconds = 75
-            Log.warning?.message("Could not update timer, both player entities are null")
+            seconds = timeout
         }
+
     }
 
-    func start(game: Game?) {
-        guard let _ = game else {
-            Log.warning?.message("Could not start timer, game is null")
-            return
-        }
-        Log.info?.message("Starting turn timer")
-        if self.game != nil {
-            Log.warning?.message("Turn timer is already running")
-            return
-        }
-        self.game = game
+    func start() {
+
         playerSeconds = 0
         opponentSeconds = 0
         seconds = 75
-
-        DispatchQueue.global().async {
-                    guard let game = game else {
-                        return
-                    }
-                    if game.playerEntity == nil {
-                        Log.verbose?.message("Waiting for player entity")
-                        while game.playerEntity == nil {
-                            Thread.sleep(forTimeInterval: 0.1)
-                        }
-                    }
-                    if game.opponentEntity == nil {
-                        Log.verbose?.message("Waiting for player entity")
-                        while game.opponentEntity == nil {
-                            Thread.sleep(forTimeInterval: 0.1)
-                        }
-                    }
-
-                    DispatchQueue.main.async {
-                        if self.timer != nil {
-                            self.timer!.invalidate()
-                        }
-                        self.timer = Timer.scheduledTimer(timeInterval: 1,
-                                target: self,
-                                selector: #selector(self.timerTick),
-                                userInfo: nil,
-                                repeats: true)
-                    }
-                }
+		
+		timer?.invalidate()
     }
 
     func stop() {
-        guard let _ = game else {
-            return
-        }
-
-        Log.info?.message("Stopping turn timer")
         timer?.invalidate()
-        game = nil
     }
 
     func timerTick() {
-        guard let game = game else {
-            return
-        }
 
         if seconds > 0 {
             seconds -= 1
         }
+		
+		if self.currentPlayer == .player {
+			self.playerSeconds += 1
+		} else {
+			self.opponentSeconds += 1
+		}
 
-        if game.isMulliganDone() {
+        /*if game.isMulliganDone() {
             if isPlayersTurn {
                 playerSeconds += 1
             } else {
                 opponentSeconds += 1
             }
-        }
-        DispatchQueue.main.async { [weak self] in
-            guard let game = self?.game,
-                  let windowManager = game.windowManager,
-                  let seconds = self?.seconds,
-                  let playerSeconds = self?.playerSeconds,
-                  let opponentSeconds = self?.opponentSeconds else {
-                return
-            }
-            windowManager.timerHud.tick(seconds: seconds,
-                    playerSeconds: playerSeconds,
-                    opponentSeconds: opponentSeconds)
-        }
+        }*/
+		DispatchQueue.main.async { [unowned self] in
+			self.timerHud?.tick(seconds: self.seconds,
+                    playerSeconds: self.playerSeconds,
+                    opponentSeconds: self.opponentSeconds)
+		}
+		
     }
 }

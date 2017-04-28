@@ -9,6 +9,7 @@
 import Foundation
 import HearthAssets
 import CleanroomLogger
+import RegexUtil
 
 final class Card {
     // MARK: - Card data
@@ -48,14 +49,14 @@ final class Card {
     var highlightFrame = false
 
     var englishName: String {
-        if let language = Settings.hearthstoneLanguage, language == "enUS" {
+        if let language = Settings.hearthstoneLanguage, language == .enUS {
             return self.name
         }
         return self.enName
     }
 
     func formattedText() -> String {
-        let pluralRegex = "\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)"
+        let pluralRegex: RegexPattern = "\\$(\\d+) \\|4\\((\\w+),(\\w+)\\)"
         return text.replace(pluralRegex, using: { string, matches in
             guard matches.count == 4 else { return string }
 

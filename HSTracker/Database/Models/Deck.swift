@@ -9,6 +9,7 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
+import HearthMirror
 
 func generateId() -> String {
     return "\(UUID().uuidString)-\(Date().timeIntervalSince1970)"

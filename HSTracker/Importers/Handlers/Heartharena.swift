@@ -9,6 +9,7 @@
 import Foundation
 import Kanna
 import CleanroomLogger
+import RegexUtil
 
 struct HearthArena: HttpImporter {
 
@@ -16,7 +17,7 @@ struct HearthArena: HttpImporter {
         return "HearthArena"
     }
 
-    var handleUrl: String {
+    var handleUrl: RegexPattern {
         return "heartharena\\.com"
     }
 
@@ -27,6 +28,11 @@ struct HearthArena: HttpImporter {
     public static let iso8601StringFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return formatter
+    }()
+    public static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
 
@@ -40,7 +46,7 @@ struct HearthArena: HttpImporter {
         Log.verbose?.message("Got class \(playerClass)")
 
         let deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
-                              className, HearthArena.iso8601StringFormatter.string(from: Date()) )
+                              className, HearthArena.dateFormatter.string(from: Date()))
         Log.verbose?.message("Got deck name \(deckName)")
 
         let deck = Deck()

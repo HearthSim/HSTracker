@@ -55,6 +55,8 @@
 "In top 2:" = "下两抽抽中概率:";
 "Connected" = "已连接";
 "Connected as %@" = "已连接，帐号为： %@";
+"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.";
+"I understand" = "I understand";
 
 /* notifications */
 "Your game begins" = "游戏开始";

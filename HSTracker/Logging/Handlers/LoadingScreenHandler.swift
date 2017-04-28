@@ -10,14 +10,22 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
-struct LoadingScreenHandler {
+struct LoadingScreenHandler: LogEventParser {
+	
+	private unowned let coreManager: CoreManager
+	
+	init(with coreManager: CoreManager) {
+		self.coreManager = coreManager
+	}
 
-    let GameModeRegex = "prevMode=(\\w+).*currMode=(\\w+)"
+    let GameModeRegex: RegexPattern = "prevMode=(\\w+).*currMode=(\\w+)"
 
-    func handle(game: Game, logLine: LogLine) {
+    func handle(logLine: LogLine) {
         if logLine.line.match(GameModeRegex) {
             let matches = logLine.line.matches(GameModeRegex)
+			let game = coreManager.game
             
             game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
             game.previousMode = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
@@ -29,42 +37,35 @@ struct LoadingScreenHandler {
                 game.inMenu()
             }
 
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                let game = (NSApp.delegate as? AppDelegate)?.game else { return }
-
             if game.currentMode == .draft {
-                hearthstone.arenaDeckWatcher.start()
+				ArenaDeckWatcher.start()
                 if Settings.showArenaHelper {
-                    hearthstone.arenaWatcher.start()
+                    ArenaWatcher.start(handler: game)
                 }
-            } else if game.previousMode == .draft {
-                hearthstone.arenaWatcher.stop()
-                hearthstone.arenaDeckWatcher.stop()
             } else if game.currentMode == .packopening {
-                hearthstone.packWatcher.start()
-            } else if game.previousMode == .packopening {
-                hearthstone.packWatcher.stop()
+                coreManager.packWatcher.startWatching()
             } else if game.currentMode == .tournament {
-                hearthstone.deckWatcher.start()
-            } else if game.previousMode == .tournament {
-                hearthstone.deckWatcher.stop()
+                DeckWatcher.start()
+            } else if game.currentMode == .adventure {
+                DeckWatcher.start()
             } else if game.currentMode == .hub {
-                game.clean()
+                //game.clean()
+            }
+            
+            if game.previousMode == .draft {
+                ArenaWatcher.stop()
+                ArenaDeckWatcher.stop()
+            } else if game.previousMode == .packopening {
+                coreManager.packWatcher.stopWatching()
+            } else if game.previousMode == .tournament {
+                DeckWatcher.stop()
+            } else if game.previousMode == .adventure {
+                DeckWatcher.stop()
             }
 
         } else if logLine.line.contains("Gameplay.Start") {
-            game.gameStart(at: logLine.time)
-        }
-    }
-
-    func getGameMode(mode: Mode) -> GameMode? {
-        switch mode {
-        case .tournament: return .casual
-        case .friendly: return .friendly
-        case .draft: return .arena
-        case .adventure: return .practice
-        case .tavern_brawl: return .brawl
-        default: return .none
+            // uncommenting this line will prevent powerlog reader to work properly
+            //coreManager.game.gameStart(at: logLine.time)
         }
     }
 }

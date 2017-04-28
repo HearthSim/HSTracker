@@ -8,6 +8,7 @@
 
 import Foundation
 import MASPreferences
+import AppKit
 
 class TrackOBotPreferences: NSViewController {
     

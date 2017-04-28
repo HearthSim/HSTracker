@@ -8,6 +8,7 @@
 
 import Foundation
 import CleanroomLogger
+import RegexUtil
 
 struct Tempostorm: JsonImporter {
 
@@ -15,7 +16,7 @@ struct Tempostorm: JsonImporter {
         return "TempoStorm"
     }
 
-    var handleUrl: String {
+    var handleUrl: RegexPattern {
         return "tempostorm\\.com\\/hearthstone\\/decks"
     }
 
@@ -34,8 +35,6 @@ struct Tempostorm: JsonImporter {
             "filter": "{\"where\":{\"slug\":\"\(slug)\"},\"fields\":{},\"include\":"
                 + "[{\"relation\":\"cards\",\"scope\":{\"include\":[\"card\"]}}]}"
         ]
-
-        Log.info?.message("Fetching \(url)")
 
         let http = Http(url: url)
         http.json(method: .get, parameters: parameters) { json in
@@ -67,13 +66,13 @@ struct Tempostorm: JsonImporter {
         let gameModeType = json["gameModeType"] as? String ?? "constructed"
         deck.isArena = gameModeType == "arena"
 
-        guard let jsonCards = json["cards"] as? [[String: AnyObject]] else {
+        guard let jsonCards = json["cards"] as? [[String: Any]] else {
             Log.error?.message("Card list not found")
             return nil
         }
         var cards: [Card] = []
-        for jsonCard: [String: AnyObject] in jsonCards {
-            if let cardData = jsonCard["card"] as? [String: AnyObject],
+        for jsonCard: [String: Any] in jsonCards {
+            if let cardData = jsonCard["card"] as? [String: Any],
                 let name = cardData["name"] as? String,
                 let card = Cards.by(englishNameCaseInsensitive: name),
                 let count = jsonCard["cardQuantity"] as? Int {

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HearthMirror
 
 struct ArenaInfo {
     //@property MirrorDeck *_Nonnull deck;

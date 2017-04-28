@@ -8,13 +8,14 @@
 
 import Foundation
 import CleanroomLogger
+import HearthMirror
 
 class Watcher {
     internal var isRunning = false
     internal var queue: DispatchQueue?
     internal var refreshInterval: TimeInterval = 0.5
 
-    func start() {
+    func startWatching() {
         if isRunning {
             return
         }
@@ -31,7 +32,7 @@ class Watcher {
         }
     }
 
-    func stop() {
+    func stopWatching() {
         isRunning = false
         Log.info?.message("Stopping \(type(of: self))")
 
@@ -43,19 +44,30 @@ class Watcher {
 }
 
 class DeckWatcher: Watcher {
-    private(set) var selectedDeckId: Int64 = 0
+    private(set) static var selectedDeckId: Int64 = 0
+	
+	static let _instance = DeckWatcher()
+	
+	static func start() {
+		_instance.startWatching()
+	}
+	
+	static func stop() {
+		_instance.stopWatching()
+	}
 
     override func run() {
         while isRunning {
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                  let mirror = hearthstone.mirror,
-                  let deckId = mirror.getSelectedDeck() as? Int64 else {
+            guard let deckId = MirrorHelper.getSelectedDeck() else {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
 
             if deckId > 0 {
-                self.selectedDeckId = deckId
+                if deckId != DeckWatcher.selectedDeckId {
+                    Log.info?.message("found deck id: \(deckId)")
+                }
+                DeckWatcher.selectedDeckId = deckId
             }
 
             Thread.sleep(forTimeInterval: refreshInterval)
@@ -65,24 +77,30 @@ class DeckWatcher: Watcher {
     }
 }
 
-class ArenaDeckWatcher: DeckWatcher {
+class ArenaDeckWatcher: Watcher {
     
-    private(set) var selectedDeck: MirrorDeck?
+    private(set) static var selectedDeck: MirrorDeck?
     
-    override var selectedDeckId: Int64 {
-        return selectedDeck?.id as? Int64 ?? 0
-    }
+    private(set) static var selectedDeckId: Int64 = 0
+	
+	static let _instance = ArenaDeckWatcher()
+	
+	static func start() {
+		_instance.startWatching()
+	}
+	
+	static func stop() {
+		_instance.stopWatching()
+	}
     
     override func run() {
         while isRunning {
-            guard let hearthstone = (NSApp.delegate as? AppDelegate)?.hearthstone,
-                let mirror = hearthstone.mirror,
-                let arenaInfo = mirror.getArenaDeck() else {
+            guard let arenaInfo = MirrorHelper.getArenaDeck() else {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
             
-            self.selectedDeck = arenaInfo.deck
+            ArenaDeckWatcher.selectedDeck = arenaInfo.deck
             
             Thread.sleep(forTimeInterval: refreshInterval)
         }

@@ -33,8 +33,17 @@ class OverWindowController: NSWindowController {
         case .big: width = kFrameWidth
         }
 
-        self.window!.contentMinSize = NSSize(width: CGFloat(width), height: 400)
-        self.window!.contentMaxSize = NSSize(width: CGFloat(width),
+        guard let window = self.window else { return }
+
+        window.contentMinSize = NSSize(width: CGFloat(width), height: 400)
+        window.contentMaxSize = NSSize(width: CGFloat(width),
                                              height: NSScreen.main()!.frame.height)
+    }
+    
+    /**
+        Updates the UI based on stored data. This method should only be called from the main thread
+     */
+    func updateFrames() {
+        // update gui elements based on internal data
     }
 }

@@ -9,6 +9,7 @@
 import Foundation
 import CleanroomLogger
 import RealmSwift
+import AppKit
 
 class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 

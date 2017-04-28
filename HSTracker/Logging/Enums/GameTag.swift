@@ -287,11 +287,9 @@ enum GameTag: Int, WrappableEnum {
 
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in GameTag.allValues() {
-            if "\(_enum)" == string {
-                self = _enum
-                return
-            }
+        for _enum in GameTag.allValues() where "\(_enum)" == string {
+            self = _enum
+            return
         }
         if let value = Int(rawString), let _enum = GameTag(rawValue: value) {
             self = _enum
