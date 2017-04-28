@@ -137,7 +137,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		coreManager = CoreManager()
 		
-		DispatchQueue.global().async { [unowned self] in
+		DispatchQueue.global().async { [unowned(unsafe) self] in
 			// load build dates via http request
 			let buildsOperation = BlockOperation {
 				BuildDates.loadBuilds(splashscreen: self.splashscreen!)
@@ -284,7 +284,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	Builds the menu and its items.
 	*/
 	func buildMenu() {		
-		DispatchQueue.main.async { [unowned self] in
+		DispatchQueue.main.async { [unowned(unsafe) self] in
 			guard let decks = RealmHelper.getActiveDecks() else {
 				return
 			}

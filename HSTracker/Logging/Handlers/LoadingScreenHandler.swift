@@ -14,7 +14,7 @@ import RegexUtil
 
 struct LoadingScreenHandler: LogEventParser {
 	
-	private unowned let coreManager: CoreManager
+	private unowned(unsafe) let coreManager: CoreManager
 	
 	init(with coreManager: CoreManager) {
 		self.coreManager = coreManager

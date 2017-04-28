@@ -16,7 +16,7 @@ class FullScreenFxHandler: LogEventParser {
     
     private var lastQueueTime: Date = Date.distantPast
 	
-	private unowned let coreManager: CoreManager
+	private unowned(unsafe) let coreManager: CoreManager
 	
 	init(with coreManager: CoreManager) {
 		self.coreManager = coreManager

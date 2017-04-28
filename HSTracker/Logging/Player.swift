@@ -93,7 +93,7 @@ final class Player {
     var heroPowerCount = 0
     fileprivate(set) var spellsPlayedCount = 0
     fileprivate(set) var deathrattlesPlayedCount = 0
-	private unowned let game: Game
+	private unowned(unsafe) let game: Game
 
     var hasCoin: Bool {
         return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoin }
