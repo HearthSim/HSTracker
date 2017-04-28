@@ -888,8 +888,6 @@
 		439C7E5C1C7772C100D29859 /* HSTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HSTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		439C7E601C7772C100D29859 /* HSTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTrackerTests.swift; sourceTree = "<group>"; };
 		439C7E621C7772C100D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTrackerUITests.swift; sourceTree = "<group>"; };
-		439C7E6D1C7772C100D29859 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HSTracker-Bridging-Header.h"; path = "HSTracker/HSTracker-Bridging-Header.h"; sourceTree = "<group>"; };
 		439C7E7D1C777CFC00D29859 /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		439C7E811C777CFC00D29859 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
@@ -1331,7 +1329,6 @@
 				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
 				43E6632B1DC743C1007AB06E /* Configs */,
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
-				439C7E6A1C7772C100D29859 /* HSTrackerUITests */,
 				439C7E491C7772C000D29859 /* Products */,
 				F997FED720A990D7DB50C540 /* Frameworks */,
 			);
@@ -1385,15 +1382,6 @@
 				43640BE21E8A328700FAFD07 /* SecretTests.swift */,
 			);
 			path = HSTrackerTests;
-			sourceTree = "<group>";
-		};
-		439C7E6A1C7772C100D29859 /* HSTrackerUITests */ = {
-			isa = PBXGroup;
-			children = (
-				439C7E6B1C7772C100D29859 /* HSTrackerUITests.swift */,
-				439C7E6D1C7772C100D29859 /* Info.plist */,
-			);
-			path = HSTrackerUITests;
 			sourceTree = "<group>";
 		};
 		439C7E7A1C777CC000D29859 /* Database */ = {
