@@ -179,7 +179,9 @@ class Game: NSObject, PowerEventHandler {
 					}
 				}
 				tracker.hasValidFrame = true
-				self.windowManager.show(controller: tracker, show: true, frame: rect, title: "Opponent tracker")
+                self.windowManager.show(controller: tracker, show: true,
+                                        frame: rect, title: "Opponent tracker",
+                                        overlay: self.hearthstoneRunState.isActive)
 			} else {
 				self.windowManager.show(controller: tracker, show: false)
 			}
