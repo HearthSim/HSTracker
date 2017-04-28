@@ -15,7 +15,7 @@ class InternalGameStats {
     var opponentHero: CardClass = .neutral
     var coin = false
     var gameMode: GameMode = .none
-    var result: GameResult = .unknow
+    var result: GameResult = .unknown
     var turns = -1
     var startTime = Date()
     var endTime = Date()
@@ -168,7 +168,7 @@ class GameStats: Object {
         set { _gameMode = newValue.rawValue }
     }
 
-    private dynamic var _result = GameResult.unknow.rawValue
+    private dynamic var _result = GameResult.unknown.rawValue
     var result: GameResult {
         get { return GameResult(rawValue: _result)! }
         set { _result = newValue.rawValue }

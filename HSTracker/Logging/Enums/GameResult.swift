@@ -12,7 +12,7 @@ import Foundation
 import Wrap
 
 enum GameResult: Int, WrappableEnum {
-    case unknow = 0,
+    case unknown = 0,
     win,
     loss,
     draw
