@@ -536,11 +536,11 @@ class Game: NSObject, PowerEventHandler {
         
         if !self.gameEnded, let mInfo = MirrorHelper.getMatchInfo() {
             self._matchInfo = MatchInfo(info: mInfo)
-            Log.info?.message("\(String(describing: self.matchInfo?.localPlayer.name))"
-                + " vs \(String(describing: self.matchInfo?.opposingPlayer.name))"
-                + " matchInfo: \(String(describing: self.matchInfo))")
+            Log.info?.message("\(String(describing: self._matchInfo?.localPlayer.name))"
+                + " vs \(String(describing: self._matchInfo?.opposingPlayer.name))"
+                + " matchInfo: \(String(describing: self._matchInfo))")
             
-            if let minfo = self.matchInfo {
+            if let minfo = self._matchInfo {
                 self.player.name = minfo.localPlayer.name
                 self.opponent.name = minfo.opposingPlayer.name
                 self.player.id = minfo.localPlayer.playerId
