@@ -104,40 +104,43 @@ final class LogReaderManager {
         }
         
         while !stopped {
-            for reader in readers {
-                let loglines = reader.collect(index: 0)
-                for line in loglines {
-                    var lineList: [LogLine]?
-                    if let loglist = processMap[line.time] {
-                        lineList = loglist
-                    } else {
-                        lineList = [LogLine]()
+            
+            autoreleasepool {
+                
+                for reader in readers {
+                    let loglines = reader.collect(index: 0)
+                    for line in loglines {
+                        var lineList: [LogLine]?
+                        if let loglist = processMap[line.time] {
+                            lineList = loglist
+                        } else {
+                            lineList = [LogLine]()
+                        }
+                        lineList?.append(line)
+                        processMap[line.time] = lineList
                     }
-                    lineList?.append(line)
-                    processMap[line.time] = lineList
+                    
                 }
                 
-            }
-            
-            // save powerlines for replay upload
-            let powerLines = powerLog.collect(index: 1)
-            for line in powerLines {
-                coreManager.game.powerLog.append(line)
-            }
-            
-            for lineList in processMap.values {
-                if stopped {
-                    break
+                // save powerlines for replay upload
+                let powerLines = powerLog.collect(index: 1)
+                for line in powerLines {
+                    coreManager.game.powerLog.append(line)
                 }
-                for line in lineList {
+                
+                for lineList in processMap.values {
                     if stopped {
                         break
                     }
-                    processLine(line: line)
+                    for line in lineList {
+                        if stopped {
+                            break
+                        }
+                        processLine(line: line)
+                    }
                 }
+                processMap.removeAll()
             }
-            processMap.removeAll()
-            
             Thread.sleep(forTimeInterval: LogReaderManager.updateDelay)
         }
         running = false

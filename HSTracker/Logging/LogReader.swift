@@ -113,66 +113,70 @@ final class LogReader {
             fileHandle?.seek(toFileOffset: offset)
             
             if let data = fileHandle?.readDataToEndOfFile() {
-				
-                if let linesStr = String(data: data, encoding: .utf8) {
-
-                    let lines = linesStr
+                
+                autoreleasepool {
+                    
+                    if let linesStr = String(data: data, encoding: .utf8) {
+                        
+                        let lines = linesStr
                             .components(separatedBy: CharacterSet.newlines)
                             .filter {
                                 !$0.isEmpty && $0.hasPrefix("D ") && $0.characters.count > 20
-                            }
-
-                    if !lines.isEmpty {
-						var loglinesBuffer = Array(repeating: [LogLine](), count: _lines.count)
-						
-                        for line in lines {
-                            offset += UInt64((line + "\n")
+                        }
+                        
+                        if !lines.isEmpty {
+                            var loglinesBuffer = Array(repeating: [LogLine](), count: _lines.count)
+                            
+                            for line in lines {
+                                offset += UInt64((line + "\n")
                                     .lengthOfBytes(using: .utf8))
-                            let cutted = line.substring(from:
-                            line.characters.index(line.startIndex, offsetBy: 19))
-
-                            if !info.hasFilters {
-                                let logLine = LogLine(namespace: info.name,
-                                                      line: line)
-                                if logLine.time >= startingPoint {
-									loglinesBuffer[0].append(logLine)
-                                }
-                            } else {
+                                let cutted = line.substring(from:
+                                    line.characters.index(line.startIndex, offsetBy: 19))
                                 
-                                for i in 0..<info.startsWithFiltersGroup.count {
-                                    if (info.startsWithFiltersGroup.count > i && info.startsWithFiltersGroup[i].any({
-                                        cutted.hasPrefix($0) || cutted.match(RegexPattern(stringLiteral: $0))
+                                if !info.hasFilters {
+                                    let logLine = LogLine(namespace: info.name,
+                                                          line: line)
+                                    if logLine.time >= startingPoint {
+                                        loglinesBuffer[0].append(logLine)
+                                    }
+                                } else {
+                                    
+                                    for i in 0..<info.startsWithFiltersGroup.count {
+                                        if (info.startsWithFiltersGroup.count > i
+                                            && info.startsWithFiltersGroup[i].any({
+                                            cutted.hasPrefix($0) || cutted.match(RegexPattern(stringLiteral: $0))
                                         }))
-                                        || (info.containsFiltersGroup.count > i &&
-                                            info.containsFiltersGroup[i].any({ cutted.contains($0) })) {
-                                        let logLine = LogLine(namespace: info.name,
-                                                              line: line)
-                                        if logLine.time >= startingPoint {
-											loglinesBuffer[i].append(logLine)
+                                            || (info.containsFiltersGroup.count > i &&
+                                                info.containsFiltersGroup[i].any({ cutted.contains($0) })) {
+                                            let logLine = LogLine(namespace: info.name,
+                                                                  line: line)
+                                            if logLine.time >= startingPoint {
+                                                loglinesBuffer[i].append(logLine)
+                                            }
                                         }
                                     }
+                                    
                                 }
-                                
                             }
+                            
+                            // enqueue all buffers
+                            for i in 0..<loglinesBuffer.count {
+                                _lines[i].enqueueAll(collection: loglinesBuffer[i])
+                            }
+                            
                         }
-						
-						// enqueue all buffers
-						for i in 0..<loglinesBuffer.count {
-							_lines[i].enqueueAll(collection: loglinesBuffer[i])
-						}
-						
+                    } else {
+                        Log.warning?.message("Can not read \(path) as utf8, resetting")
+                        fileHandle = nil
                     }
-                } else {
-                    Log.warning?.message("Can not read \(path) as utf8, resetting")
-                    fileHandle = nil
-                }
-
-                if !fileManager.fileExists(atPath: path) {
-                    Log.verbose?.message("setting \(path) handle to nil \(offset))")
-                    fileHandle = nil
-                }
-                if fileHandle == nil {
-                    offset = 0
+                    
+                    if !fileManager.fileExists(atPath: path) {
+                        Log.verbose?.message("setting \(path) handle to nil \(offset))")
+                        fileHandle = nil
+                    }
+                    if fileHandle == nil {
+                        offset = 0
+                    }
                 }
             } else {
                 fileHandle = nil
