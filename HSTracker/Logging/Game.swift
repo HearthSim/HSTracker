@@ -45,7 +45,7 @@ class Game: NSObject, PowerEventHandler {
 		didSet {
 			if hearthstoneRunState.isRunning {
 				// delay update as game might not have a proper window
-				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [unowned self] in
+				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [unowned(unsafe) self] in
 					self.updateTrackers()
 				})
 			} else {
@@ -127,7 +127,7 @@ class Game: NSObject, PowerEventHandler {
     }
 	
 	@objc fileprivate func updateOpponentTracker(reset: Bool = false) {
-		DispatchQueue.main.async { [unowned self] in
+		DispatchQueue.main.async { [unowned(unsafe) self] in
 			
 			let tracker = self.windowManager.opponentTracker
 			if Settings.showOpponentTracker &&
@@ -189,7 +189,7 @@ class Game: NSObject, PowerEventHandler {
 	}
 
     @objc fileprivate func updatePlayerTracker(reset: Bool = false) {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [unowned(unsafe) self] in
 			
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
@@ -267,7 +267,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func updateTurnTimer() {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [unowned(unsafe) self] in
 
             if Settings.showTimer && !self.gameEnded &&
                 ( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
@@ -295,7 +295,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateSecretTracker() {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [unowned(unsafe) self] in
             
             let tracker = self.windowManager.secretTracker
             
@@ -317,7 +317,7 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateCardHud() {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [unowned(unsafe) self] in
             
             let tracker = self.windowManager.cardHudContainer
             
@@ -1010,7 +1010,7 @@ class Game: NSObject, PowerEventHandler {
             }
         }
 		
-		self.syncStats(logLines: self.powerLog, stats: currentGameStats) { [unowned self] in
+		self.syncStats(logLines: self.powerLog, stats: currentGameStats) { [unowned(unsafe) self] in
 			self.powerLog.removeAll()
 		}
     }
@@ -1764,7 +1764,7 @@ class Game: NSObject, PowerEventHandler {
         awaitingAvenge = true
         if opponentMinionCount != 0 {
             let when = DispatchTime.now() + DispatchTimeInterval.milliseconds(50)
-            DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
+            DispatchQueue.main.asyncAfter(deadline: when) { [unowned(unsafe) self] in
 
                 if self.opponentMinionCount - self.avengeDeathRattleCount > 0 {
                     self.opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.Avenge)

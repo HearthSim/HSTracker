@@ -18,7 +18,7 @@ class Entity {
     var name: String?
     var tags: [GameTag: Int] = [:]
 	
-    lazy var info: EntityInfo = { [unowned self] in
+    lazy var info: EntityInfo = { [unowned(unsafe) self] in
         return EntityInfo(entity: self) }()
 
     init() {

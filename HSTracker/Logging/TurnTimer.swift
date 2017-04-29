@@ -78,7 +78,7 @@ import CleanroomLogger
                 opponentSeconds += 1
             }
         }*/
-		DispatchQueue.main.async { [unowned self] in
+		DispatchQueue.main.async { [unowned(unsafe) self] in
 			self.timerHud?.tick(seconds: self.seconds,
                     playerSeconds: self.playerSeconds,
                     opponentSeconds: self.opponentSeconds)

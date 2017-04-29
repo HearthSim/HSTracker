@@ -200,7 +200,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			self.operationQueue = OperationQueue()
 			self.operationQueue.addOperations(operations, waitUntilFinished: true)
 			
-			DispatchQueue.main.async { [unowned self] in
+			DispatchQueue.main.async { [unowned(unsafe) self] in
 				self.completeSetup()
 			}
 		}

@@ -121,7 +121,7 @@ class WindowManager {
     // MARK: - Floating card
     var closeRequestTimer: Timer?
     @objc func showFloatingCard(_ notification: Notification) {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [unowned(unsafe) self] in
             guard Settings.showFloatingCard else { return }
             
             guard let card = notification.userInfo?["card"] as? Card,
@@ -183,15 +183,11 @@ class WindowManager {
     }
     
     @objc func forceHideFloatingCard() {
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.async { [unowned(unsafe) self] in
             self.floatingCard.window?.orderOut(self)
             self.closeRequestTimer?.invalidate()
             self.closeRequestTimer = nil
         }
-    }
-
-    func showHideCardHuds(_ notification: Notification) {
-        //updateTrackers()
     }
 
     // MARK: - Utility functions
