@@ -286,6 +286,7 @@ class Tracker: OverWindowController {
                                      width: windowWidth,
                                      height: smallFrameHeight)
                 hero?.update(highlight: false)
+                hero?.needsDisplay = true
             }
         } else if !playerClass.isHidden && playerType == .player {
             
