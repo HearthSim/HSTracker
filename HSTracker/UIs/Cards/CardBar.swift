@@ -295,7 +295,7 @@ class CardBar: NSView, CardBarTheme {
         addCardName()
         if let card = card, playerType != .hero {
             if let isArena = isArena,
-                playerType == .editDeck && !isArena && card.count >= 2 {
+                playerType == .editDeck && !isArena && (card.count >= 2 || (card.count == 1 && card.rarity == .legendary)) {
                 addDarken()
             } else if (card.count <= 0 || card.jousted)
                 && playerType != .cardList && playerType != .editDeck {
