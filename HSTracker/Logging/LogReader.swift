@@ -190,52 +190,55 @@ final class LogReader {
         guard fileManager.fileExists(atPath: path) else {
             return 0
         }
-
-        var offset: UInt64 = 0
-        guard let fileHandle = FileHandle(forReadingAtPath: path) else {
-            return 0
-        }
-        fileHandle.seekToEndOfFile()
-        let fileLength = fileHandle.offsetInFile
-        fileHandle.seek(toFileOffset: 0)
-
-        while offset < fileLength {
-            let sizeDiff = 4096 - min(fileLength - offset, UInt64(4096))
-            offset += 4096
-            let fileOffset: UInt64 = UInt64(max(Int64(fileLength) - Int64(offset), Int64(0)))
-            fileHandle.seek(toFileOffset: fileOffset)
-            let data = fileHandle.readData(ofLength: 4096)
-            if let string = String(data: data, encoding: .ascii) {
-
-                var skip: UInt64 = 0
-                for i in 0 ... 4096 {
-                    skip += 1
-                    if i >= string.characters.count || string.char(at: i) == "\n" {
-                        break
+        
+        return autoreleasepool {
+            
+            var offset: UInt64 = 0
+            guard let fileHandle = FileHandle(forReadingAtPath: path) else {
+                return 0
+            }
+            fileHandle.seekToEndOfFile()
+            let fileLength = fileHandle.offsetInFile
+            fileHandle.seek(toFileOffset: 0)
+            
+            while offset < fileLength {
+                let sizeDiff = 4096 - min(fileLength - offset, UInt64(4096))
+                offset += 4096
+                let fileOffset: UInt64 = UInt64(max(Int64(fileLength) - Int64(offset), Int64(0)))
+                fileHandle.seek(toFileOffset: fileOffset)
+                let data = fileHandle.readData(ofLength: 4096)
+                if let string = String(data: data, encoding: .ascii) {
+                    
+                    var skip: UInt64 = 0
+                    for i in 0 ... 4096 {
+                        skip += 1
+                        if i >= string.characters.count || string.char(at: i) == "\n" {
+                            break
+                        }
                     }
-                }
-                offset -= skip
-                let lines = String(string.characters.dropFirst(Int(skip)))
+                    offset -= skip
+                    let lines = String(string.characters.dropFirst(Int(skip)))
                         .components(separatedBy: "\n")
-                for i in 0 ... (lines.count - 1) {
-                    if lines[i].isBlank {
-                        continue
-                    }
-                    let logLine = LogLine(namespace: info.name, line: lines[i])
-                    if logLine.time < startingPoint {
-                        let negativeOffset = lines.take(i + 1)
+                    for i in 0 ... (lines.count - 1) {
+                        if lines[i].isBlank {
+                            continue
+                        }
+                        let logLine = LogLine(namespace: info.name, line: lines[i])
+                        if logLine.time < startingPoint {
+                            let negativeOffset = lines.take(i + 1)
                                 .map({ UInt64(($0 + "\n").characters.count) })
                                 .reduce(0, +)
-                        let current = Int64(fileLength) - Int64(offset)
+                            let current = Int64(fileLength) - Int64(offset)
                                 + Int64(negativeOffset) + Int64(sizeDiff)
-                        
-                        return UInt64(max(current, Int64(0)))
+                            
+                            return UInt64(max(current, Int64(0)))
+                        }
                     }
+                    
                 }
-
             }
+            return 0
         }
-        return 0
     }
 
 	func stop(eraseLogFile: Bool) {
