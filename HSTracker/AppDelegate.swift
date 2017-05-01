@@ -141,9 +141,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			// load build dates via http request
 			let buildsOperation = BlockOperation {
 				BuildDates.loadBuilds(splashscreen: self.splashscreen!)
-				if BuildDates.isOutdated() || !Database.jsonFilesAreValid() {
+				/*if BuildDates.isOutdated() || !Database.jsonFilesAreValid() {
 					BuildDates.downloadCards(splashscreen: self.splashscreen!)
-				}
+				}*/
 			}
 
             // load card tier via http request
