@@ -4,6 +4,7 @@
 - Improve German translations
 - Improve Chinese translations
 - Fix memory issues
+- Fix an issue where opponent name and class were not modified
 
 ## New: 
 - Auto check and download arena helper card tier list
