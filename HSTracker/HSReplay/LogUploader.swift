@@ -56,7 +56,7 @@ class LogUploader {
                 print("\(error)")
             }
 
-            guard let _ = date else {
+            guard date != nil else {
                 completion(.failed(error: "Cannot find game start date"))
                 return
             }

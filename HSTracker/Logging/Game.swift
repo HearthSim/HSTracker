@@ -568,7 +568,7 @@ class Game: NSObject, PowerEventHandler {
             }
             
             // request a mirror read so we have this data at the end of the game
-            let _ = self.serverInfo
+            _ = self.serverInfo
         }
         
         return _matchInfo
@@ -1446,7 +1446,7 @@ class Game: NSObject, PowerEventHandler {
                     heroClass = playerClass
                 }
             }
-            guard let _ = heroClass else { return }
+            guard heroClass != nil else { return }
             opponentSecretCount += 1
             opponentSecrets?.newSecretPlayed(heroClass: heroClass!, id: entity.id, turn: turn)
             updateTrackers()

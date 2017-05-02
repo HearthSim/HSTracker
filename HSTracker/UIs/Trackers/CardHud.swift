@@ -139,7 +139,7 @@ class CardHud: NSView {
     }
 
     override func mouseExited(with event: NSEvent) {
-        guard let _ = card else { return }
+        guard card != nil else { return }
  
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: "hide_floating_card"), object: nil)

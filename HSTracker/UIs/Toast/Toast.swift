@@ -133,12 +133,12 @@ class Toast {
         }
         
         override func mouseDown(with event: NSEvent) {
-            guard let _ = self.action else { return }
+            guard self.action != nil else { return }
             
             inClick = true
         }
         override func mouseUp(with event: NSEvent) {
-            guard let _ = self.action else { return }
+            guard self.action != nil else { return }
             guard inClick else { return }
             
             inClick = false

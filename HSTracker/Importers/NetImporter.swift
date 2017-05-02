@@ -84,7 +84,7 @@ final class NetImporter {
     }
 
     static func netImport(url: String, completion: @escaping (Deck?, String?) -> Void) throws {
-        guard let _ = URL(string: url) else {
+        guard URL(string: url) != nil else {
             throw NetImporterError.invalidUrl
         }
 

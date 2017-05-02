@@ -301,7 +301,7 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func useDeck(_ sender: Any?) {
-        if let _ = sender as? NSToolbarItem,
+        if sender as? NSToolbarItem != nil,
             let deck = currentDeck {
             useDeck(deck: deck)
         } else if let menuitem = sender as? NSMenuItem,
@@ -324,7 +324,7 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func deleteDeck(_ sender: AnyObject?) {
-        if let _ = sender as? NSToolbarItem,
+        if sender as? NSToolbarItem != nil,
             let deck = currentDeck {
             deleteDeck(deck)
         } else if let menuitem = sender as? NSMenuItem,
