@@ -354,7 +354,16 @@ class Game: NSObject, PowerEventHandler {
                 ( (Settings.hideAllWhenGameInBackground &&
                     self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 if !self.gameEnded {
-                    playerBoardDamage.update(attack: board.player.damage)
+                    var heroPowerDmg = 0
+                    if let heroPower = board.player.heroPower {
+                        heroPowerDmg = heroPower.damage
+
+                        // Garrison Commander = hero power * 2
+                        if board.player.cards.first({ $0.cardId == "AT_080"}) != nil {
+                            heroPowerDmg *= 2
+                        }
+                    }
+                    playerBoardDamage.update(attack: board.player.damage + heroPowerDmg)
                     if Settings.autoPositionTrackers {
                         rect = SizeHelper.playerBoardDamageFrame()
                     } else {
@@ -377,7 +386,16 @@ class Game: NSObject, PowerEventHandler {
                 ( (Settings.hideAllWhenGameInBackground &&
                     self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 if !self.gameEnded {
-                    opponentBoardDamage.update(attack: board.opponent.damage)
+                    var heroPowerDmg = 0
+                    if let heroPower = board.opponent.heroPower {
+                        heroPowerDmg = heroPower.damage
+
+                        // Garrison Commander = hero power * 2
+                        if board.opponent.cards.first({ $0.cardId == "AT_080"}) != nil {
+                            heroPowerDmg *= 2
+                        }
+                    }
+                    opponentBoardDamage.update(attack: board.opponent.damage + heroPowerDmg)
                     if Settings.autoPositionTrackers {
                         rect = SizeHelper.opponentBoardDamageFrame()
                     } else {

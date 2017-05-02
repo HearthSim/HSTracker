@@ -480,6 +480,7 @@
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
 		43D308061C842DC900480488 /* GamePrefences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308051C842DC900480488 /* GamePrefences.swift */; };
 		43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308071C84410000480488 /* PlayerTrackersPreferences.swift */; };
+		43E5C0041EB9152A00D49D8A /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E77EDF1C949C6D00C26950 /* TimerHud.xib */; };
 		43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE11C949C7800C26950 /* TimerHud.swift */; };
 		43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E77EE31C94A19700C26950 /* TurnTimer.swift */; };
@@ -511,6 +512,7 @@
 		43F204111E93C2E600E0BC4A /* Shaman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204031E93C2E600E0BC4A /* Shaman.swift */; };
 		43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204041E93C2E600E0BC4A /* Warlock.swift */; };
 		43F204131E93C2E600E0BC4A /* Warrior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204051E93C2E600E0BC4A /* Warrior.swift */; };
+		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
@@ -1000,6 +1002,7 @@
 		43F204031E93C2E600E0BC4A /* Shaman.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shaman.swift; sourceTree = "<group>"; };
 		43F204041E93C2E600E0BC4A /* Warlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warlock.swift; sourceTree = "<group>"; };
 		43F204051E93C2E600E0BC4A /* Warrior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrior.swift; sourceTree = "<group>"; };
+		43F4D0481EB7A23D006B4479 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroPower.swift; sourceTree = "<group>"; };
 		43F8265A1E0A674000422F4F /* Readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.markdown; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
@@ -1175,6 +1178,7 @@
 				4349104F1D09770000B22DB2 /* PlayerBoard.swift */,
 				434910511D09773D00B22DB2 /* IBoardEntity.swift */,
 				434910531D097B0500B22DB2 /* EntityHelper.swift */,
+				43F4D0481EB7A23D006B4479 /* HeroPower.swift */,
 			);
 			path = BoardDamage;
 			sourceTree = "<group>";
@@ -2016,6 +2020,7 @@
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,
 				436F5D121CFD7E7500DEB9A1 /* DarkBar.swift in Sources */,
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
+				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,
 				436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */,
 				437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */,
@@ -2099,6 +2104,7 @@
 				43C1CA131E96CD6F008C20B1 /* Database.swift in Sources */,
 				43C1CA151E96CD6F008C20B1 /* Cards.swift in Sources */,
 				43C1CA161E96CD6F008C20B1 /* Language.swift in Sources */,
+				43E5C0041EB9152A00D49D8A /* HeroPower.swift in Sources */,
 				43C1CA171E96CD6F008C20B1 /* RealmHelper.swift in Sources */,
 				43C1CA181E96CD6F008C20B1 /* WindowMove.swift in Sources */,
 				43C1CA191E96CD6F008C20B1 /* MatchInfo.swift in Sources */,

@@ -10,6 +10,7 @@ import Foundation
 
 protocol IBoardEntity {
     var name: String { get }
+    var cardId: String { get }
     var health: Int { get }
     var attack: Int { get }
     // number of attacks made this turn
