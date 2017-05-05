@@ -10,7 +10,7 @@ import Foundation
 import RegexUtil
 
 struct Language {
-    enum Hearthstone: String {
+    enum Hearthstone: String, EnumCollection {
         case deDE, enUS, esES, esMX, frFR, itIT, koKR, plPL, ptBR, ruRU, zhCN, zhTW, jaJP, thTH
 
         var localeValue: Locale? {
@@ -24,15 +24,9 @@ struct Language {
             }
             return localized.capitalized(with: locale)
         }
-
-        static func allValues() -> [Hearthstone] {
-            return [.deDE, .enUS, .esES, .esMX, .frFR,
-                    .itIT, .koKR, .plPL, .ptBR, .ruRU,
-                    .zhCN, .zhTW, .jaJP, .thTH]
-        }
     }
 
-    enum HSTracker: String {
+    enum HSTracker: String, EnumCollection {
         case de, en, fr, it, pt_br = "pt-br", zh_cn = "zh-cn", es, ko
 
         var localeValue: Locale? {
@@ -45,10 +39,6 @@ struct Language {
                     return self.rawValue
             }
             return localized.capitalized(with: locale)
-        }
-
-        static func allValues() -> [HSTracker] {
-            return [.de, .en, .fr, .it, .pt_br, .zh_cn, .es, .ko]
         }
     }
 }

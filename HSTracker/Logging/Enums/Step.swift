@@ -10,7 +10,7 @@ import Foundation
 
 // swiftlint:disable type_name
 
-enum Step: Int {
+enum Step: Int, EnumCollection {
     case invalid = 0,
     begin_first = 1,
     begin_shuffle = 2,
@@ -31,37 +31,15 @@ enum Step: Int {
     main_start_triggers = 17
     
     init?(rawString: String) {
-        for _enum in Step.allValues() {
-            if "\(_enum)" == rawString.lowercased() {
-                self = _enum
-                return
-            }
+        let string = rawString.lowercased()
+        for _enum in Step.cases() where "\(_enum)" == string {
+            self = _enum
+            return
         }
         if let value = Int(rawString), let _enum = Step(rawValue: value) {
             self = _enum
             return
         }
         self = .invalid
-    }
-    
-    static func allValues() -> [Step] {
-        return [.invalid,
-                .begin_first,
-                .begin_shuffle,
-                .begin_draw,
-                .begin_mulligan,
-                .main_begin,
-                .main_ready,
-                .main_resource,
-                .main_draw,
-                .main_start,
-                .main_action,
-                .main_combat,
-                .main_end,
-                .main_next,
-                .final_wrapup,
-                .final_gameover,
-                .main_cleanup,
-                .main_start_triggers]
     }
 }
