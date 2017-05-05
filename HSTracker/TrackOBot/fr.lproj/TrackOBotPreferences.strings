@@ -1,3 +1,6 @@
 
 /* Class = "NSButtonCell"; title = "Synchronize matches results"; ObjectID = "x4D-lT-2S3"; */
 "x4D-lT-2S3.title" = "Synchroniser les résultats des parties";
+
+/* Class = "NSButtonCell"; title = "Open my profile"; ObjectID = "MpH-vW-kjF"; */
+"MpH-vW-kjF.title" = "Ouvrir mon profil";

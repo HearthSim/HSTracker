@@ -100,8 +100,30 @@ struct TrackOBotAPI {
         http.json(method: .post,
                   parameters: parameters) { json in
                     if let json = json {
-                        Log.debug?.message("post match : \(json)")
+                        Log.debug?.message("Track-o-Bot post match : \(json)")
                     }
+        }
+    }
+
+    static func openProfile() throws {
+        guard let username = Settings.trackobotUsername else {
+            throw TrackOBotError.notLogged
+        }
+        guard let token = Settings.trackobotToken else {
+            throw TrackOBotError.notLogged
+        }
+
+        let url = "\(baseUrl)/one_time_auth.json?username=\(username)&token=\(token)"
+        Log.info?.message("Getting Track-o-Bot auth")
+        let http = Http(url: url)
+        http.json(method: .post) { json in
+            if let json = json as? [String: String] {
+                Log.debug?.message("Track-o-Bot auth : \(json)")
+                if let url = json["url"],
+                    let nsurl = URL(string: url) {
+                    NSWorkspace.shared().open(nsurl)
+                }
+            }
         }
     }
 }
