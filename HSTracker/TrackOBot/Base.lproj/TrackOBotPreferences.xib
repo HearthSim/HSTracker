@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="TrackOBotPreferences">
             <connections>
                 <outlet property="loginButton" destination="B9Z-1d-GGa" id="Tpx-Av-ZV5"/>
+                <outlet property="openProfile" destination="hk4-Sl-JxJ" id="TMq-cP-AUp"/>
                 <outlet property="synchronizeMatches" destination="7zy-Z4-CYx" id="fxf-Pf-Si8"/>
                 <outlet property="view" destination="c22-O7-iKe" id="nBB-jm-Tfx"/>
             </connections>
@@ -38,8 +39,20 @@
                         <action selector="checkboxClicked:" target="-2" id="fXd-Ad-oez"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hk4-Sl-JxJ">
+                    <rect key="frame" x="14" y="149" width="137" height="32"/>
+                    <buttonCell key="cell" type="push" title="Open my profile" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="MpH-vW-kjF">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="openTrackobotProfile:" target="-2" id="BBe-0E-xfb"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
+                <constraint firstItem="hk4-Sl-JxJ" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Gv5-Lv-Rs4"/>
+                <constraint firstItem="hk4-Sl-JxJ" firstAttribute="top" secondItem="7zy-Z4-CYx" secondAttribute="bottom" constant="20" symbolic="YES" id="QUN-Cx-IDW"/>
                 <constraint firstItem="7zy-Z4-CYx" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="TZi-HM-z75"/>
                 <constraint firstItem="7zy-Z4-CYx" firstAttribute="top" secondItem="B9Z-1d-GGa" secondAttribute="bottom" constant="20" symbolic="YES" id="ZSd-8M-826"/>
                 <constraint firstAttribute="trailing" secondItem="7zy-Z4-CYx" secondAttribute="trailing" constant="20" symbolic="YES" id="i00-4c-DZW"/>

@@ -13,7 +13,7 @@ import AppKit
 class TrackOBotPreferences: NSViewController {
     
     @IBOutlet weak var synchronizeMatches: NSButton!
-
+    @IBOutlet weak var openProfile: NSButton!
     @IBOutlet weak var loginButton: NSButton!
     private var trackobotLogin: TrackOBotLogin?
     
@@ -26,6 +26,7 @@ class TrackOBotPreferences: NSViewController {
 
     private func reloadStates() {
         synchronizeMatches.isEnabled = TrackOBotAPI.isLogged()
+        openProfile.isEnabled = TrackOBotAPI.isLogged()
 
         loginButton.title = TrackOBotAPI.isLogged() ?
             NSLocalizedString("Logout", comment: "") : NSLocalizedString("Login", comment: "")
@@ -55,6 +56,10 @@ class TrackOBotPreferences: NSViewController {
                 }
             }
         }
+    }
+    
+    @IBAction func openTrackobotProfile(_ sender: Any) {
+        try? TrackOBotAPI.openProfile()
     }
 }
 
