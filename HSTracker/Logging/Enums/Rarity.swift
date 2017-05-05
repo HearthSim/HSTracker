@@ -8,15 +8,11 @@
 
 import Foundation
 
-enum Rarity: String {
+enum Rarity: String, EnumCollection {
     case free,
         common,
         rare,
         epic,
         legendary,
         golden
-
-    static func allValues() -> [Rarity] {
-        return [.free, .common, .rare, .epic, .legendary]
-    }
 }

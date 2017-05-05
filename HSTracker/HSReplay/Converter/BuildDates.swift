@@ -66,14 +66,14 @@ struct BuildDates {
     static func downloadCards(splashscreen: Splashscreen) {
         DispatchQueue.main.async {
             splashscreen.display(NSLocalizedString("Download Hearthstone cards", comment: ""),
-                                 total: Double(Language.Hearthstone.allValues().count))
+                                 total: Double(Array(Language.Hearthstone.cases()).count))
         }
 
         guard let latestBuild = self.latestBuild else { return }
         let build = latestBuild.build
 
         var hasError = false
-        for locale in Language.Hearthstone.allValues() {
+        for locale in Language.Hearthstone.cases() {
             DispatchQueue.main.async {
                 splashscreen.increment(String(format:
                     NSLocalizedString("Downloading %@", comment: ""),

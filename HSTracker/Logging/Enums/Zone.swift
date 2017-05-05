@@ -11,7 +11,7 @@
 import Foundation
 import Wrap
 
-enum Zone: Int, WrappableEnum {
+enum Zone: Int, WrappableEnum, EnumCollection {
     case invalid = 0,
     play = 1,
     deck = 2,
@@ -22,21 +22,15 @@ enum Zone: Int, WrappableEnum {
     secret = 7
 
     init?(rawString: String) {
-        for _enum in Zone.allValues() {
-            if "\(_enum)" == rawString.lowercased() {
-                self = _enum
-                return
-            }
+        let string = rawString.lowercased()
+        for _enum in Zone.cases() where "\(_enum)" == string {
+            self = _enum
+            return
         }
         if let value = Int(rawString), let _enum = Zone(rawValue: value) {
             self = _enum
             return
         }
         self = .invalid
-    }
-
-    static func allValues() -> [Zone] {
-        return [.invalid, .play, .deck, .hand, .graveyard,
-                .removedfromgame, .setaside, .secret]
     }
 }

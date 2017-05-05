@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum TagClass: Int {
+enum TagClass: Int, EnumCollection {
     case invalid,
     deathknight,
     druid,
@@ -25,23 +25,16 @@ enum TagClass: Int {
     dream
 
     init?(rawString: String) {
-        for _enum in TagClass.allValues() {
-            if "\(_enum)" == rawString.lowercased() {
-                self = _enum
-                return
-            }
+        let string = rawString.lowercased()
+        for _enum in TagClass.cases() where "\(_enum)" == string {
+            self = _enum
+            return
         }
         if let value = Int(rawString), let _enum = TagClass(rawValue: value) {
             self = _enum
             return
         }
         self = .invalid
-    }
-
-    static func allValues() -> [TagClass] {
-        return [.invalid, .deathknight, .druid, .hunter, .mage,
-                .paladin, .priest, .rogue, .shaman, .warlock,
-                .warrior, .dream]
     }
 
     var cardClassValue: CardClass {

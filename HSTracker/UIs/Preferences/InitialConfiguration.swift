@@ -57,8 +57,8 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             saveButton.isEnabled = false
             return
         }
-        let hstracker = Language.HSTracker.allValues()[hstrackerLanguage.indexOfSelectedItem]
-        let hearthstone = Language.Hearthstone.allValues()[hearthstoneLanguage.indexOfSelectedItem]
+        let hstracker = Array(Language.HSTracker.cases())[hstrackerLanguage.indexOfSelectedItem]
+        let hearthstone = Array(Language.Hearthstone.cases())[hearthstoneLanguage.indexOfSelectedItem]
 
         Settings.hearthstoneLanguage = hearthstone
         Settings.hsTrackerLanguage = hstracker
@@ -93,19 +93,19 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
     // MARK: - NSComboBoxDataSource methods
     func numberOfItems(in aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
-            return Language.HSTracker.allValues().count
+            return Array(Language.HSTracker.cases()).count
         } else if aComboBox == hearthstoneLanguage {
-            return Language.Hearthstone.allValues().count
+            return Array(Language.Hearthstone.cases()).count
         }
 
         return 0
     }
 
     func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        if aComboBox == hstrackerLanguage && Language.HSTracker.allValues().count > index {
-            return Language.HSTracker.allValues()[index].localizedString
-        } else if aComboBox == hearthstoneLanguage && Language.Hearthstone.allValues().count > index {
-            return Language.Hearthstone.allValues()[index].localizedString
+        if aComboBox == hstrackerLanguage && Array(Language.HSTracker.cases()).count > index {
+            return Array(Language.HSTracker.cases())[index].localizedString
+        } else if aComboBox == hearthstoneLanguage && Array(Language.Hearthstone.cases()).count > index {
+            return Array(Language.Hearthstone.cases())[index].localizedString
         }
 
         return ""
