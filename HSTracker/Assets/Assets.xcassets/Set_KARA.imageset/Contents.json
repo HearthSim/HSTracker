@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Set_KARA.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Set_KARA@2x.png",
-      "scale" : "2x"
+      "filename" : "Set_Kara.pdf"
     }
   ],
   "info" : {

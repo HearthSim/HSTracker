@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Set_LOE.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Set_LOE@2x.png",
-      "scale" : "2x"
+      "filename" : "Set_LOE.pdf"
     }
   ],
   "info" : {

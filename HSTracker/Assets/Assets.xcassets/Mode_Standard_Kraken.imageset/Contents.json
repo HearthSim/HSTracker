@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Mode_Standard_Kraken.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Mode_Standard_Kraken@2x.png",
-      "scale" : "2x"
+      "filename" : "Mode_Standard_Kraken.pdf"
     }
   ],
   "info" : {

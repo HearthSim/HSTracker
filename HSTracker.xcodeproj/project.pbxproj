@@ -163,6 +163,8 @@
 		437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BB61CD2559300DE0A41 /* OpponentTrackersPreferences.xib */; };
 		437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BC11CD2568100DE0A41 /* TrackersPreferences.swift */; };
 		437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437B5BC31CD2568E00DE0A41 /* TrackersPreferences.xib */; };
+		437C58301EBC7E8400FFD888 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C582F1EBC7E8400FFD888 /* NSImage.swift */; };
+		437C58311EBC816900FFD888 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C582F1EBC7E8400FFD888 /* NSImage.swift */; };
 		437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4323C5EC1E1A502900C97896 /* HearthMirror.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; };
 		437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
@@ -865,6 +867,7 @@
 		437B5BC81CD256B000DE0A41 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BC91CD256B100DE0A41 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		437B5BCA1CD256B200DE0A41 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		437C582F1EBC7E8400FFD888 /* NSImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSImage.swift; sourceTree = "<group>"; };
 		437E56E91DAAB81400FC0FC1 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		437E56EA1DAAB81400FC0FC1 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		437E56EC1DAAB81400FC0FC1 /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
@@ -1552,6 +1555,7 @@
 				437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */,
 				437E56EF1DAAB81400FC0FC1 /* String.swift */,
 				434EAC951DBCD3E8009C7636 /* NSAlert.swift */,
+				437C582F1EBC7E8400FFD888 /* NSImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1911,6 +1915,7 @@
 				4359BF7F1D51F2EE00F61993 /* TrackOBotAPI.swift in Sources */,
 				43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */,
 				438B04F91E6F55720071594B /* Date.swift in Sources */,
+				437C58301EBC7E8400FFD888 /* NSImage.swift in Sources */,
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
@@ -2173,6 +2178,7 @@
 				43C1CA5A1E96CD6F008C20B1 /* PlayState.swift in Sources */,
 				43C1CA5B1E96CD6F008C20B1 /* Race.swift in Sources */,
 				43C1CA5C1E96CD6F008C20B1 /* Rarity.swift in Sources */,
+				437C58311EBC816900FFD888 /* NSImage.swift in Sources */,
 				43C1CA5D1E96CD6F008C20B1 /* State.swift in Sources */,
 				43C1CA5E1E96CD6F008C20B1 /* Step.swift in Sources */,
 				43C1CA5F1E96CD6F008C20B1 /* TagClass.swift in Sources */,

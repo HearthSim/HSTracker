@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Set_BRM.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Set_BRM@2x.png",
-      "scale" : "2x"
+      "filename" : "Set_BRM.pdf"
     }
   ],
   "info" : {
