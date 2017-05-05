@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Set_GVG.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Set_GVG@2x.png",
-      "scale" : "2x"
+      "filename" : "Set_GVG.pdf"
     }
   ],
   "info" : {

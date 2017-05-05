@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Set_Naxx.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Set_Naxx@2x.png",
-      "scale" : "2x"
+      "filename" : "Set_Naxx.pdf"
     }
   ],
   "info" : {

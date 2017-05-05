@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Mode_Wild.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Mode_Wild@2x.png",
-      "scale" : "2x"
+      "filename" : "Mode_Wild.pdf"
     }
   ],
   "info" : {

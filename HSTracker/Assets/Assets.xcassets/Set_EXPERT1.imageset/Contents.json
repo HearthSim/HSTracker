@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Set_Classic.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Set_Classic@2x.png",
-      "scale" : "2x"
+      "filename" : "Set_Classic.pdf"
     }
   ],
   "info" : {

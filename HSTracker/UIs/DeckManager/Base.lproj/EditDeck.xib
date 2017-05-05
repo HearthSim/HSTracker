@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -46,7 +46,7 @@
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="QeX-zg-mEf" userLabel="DeckView">
                         <rect key="frame" x="721" y="0.0" width="240" height="580"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gsP-ol-oef">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gsP-ol-oef">
                                 <rect key="frame" x="-2" y="563" width="244" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="BnZ-82-qZv">
                                     <font key="font" metaFont="system"/>
@@ -90,7 +90,7 @@
                                                             <rect key="frame" x="1" y="1" width="237" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oOa-R9-jlt">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oOa-R9-jlt">
                                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="R90-PG-oAN">
@@ -155,7 +155,7 @@
                                     <action selector="changeClassTab:" target="-2" id="6qh-gD-eca"/>
                                 </connections>
                             </segmentedControl>
-                            <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ht0-2D-wE5">
+                            <searchField wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ht0-2D-wE5">
                                 <rect key="frame" x="316" y="9" width="190" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="190" id="uWF-gm-boe"/>
@@ -169,11 +169,11 @@
                                     <action selector="search:" target="-2" id="9wg-5h-5O2"/>
                                 </connections>
                             </searchField>
-                            <button horizontalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Z1I-mm-zAm">
-                                <rect key="frame" x="197" y="12" width="111" height="18"/>
-                                <buttonCell key="cell" type="check" title="Standard only" bezelStyle="regularSquare" imagePosition="left" inset="2" id="37M-wa-5DN">
+                            <button horizontalHuggingPriority="249" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Z1I-mm-zAm">
+                                <rect key="frame" x="196" y="12" width="112" height="18"/>
+                                <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="only" controlSize="small" state="on" inset="2" id="37M-wa-5DN">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="standardWildChange:" target="-2" id="nMb-Um-P6J"/>
@@ -375,7 +375,7 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="damage" id="XWM-pd-pbV"/>
                             </imageView>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XdO-sb-Lei">
+                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XdO-sb-Lei">
                                 <rect key="frame" x="315" y="10" width="30" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="QKY-0r-qQd"/>
@@ -398,7 +398,7 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="health" id="fBR-qa-4gA"/>
                             </imageView>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YXe-qt-7Cy">
+                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YXe-qt-7Cy">
                                 <rect key="frame" x="389" y="9" width="30" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="pbY-p1-9yW"/>
@@ -523,7 +523,7 @@
                                                     <rect key="frame" x="1" y="1" width="708" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hw2-qS-oxW">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hw2-qS-oxW">
                                                             <rect key="frame" x="0.0" y="0.0" width="708" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="bfQ-B1-uvC">
@@ -608,7 +608,7 @@
         <image name="close" width="32" height="32"/>
         <image name="damage" width="50" height="50"/>
         <image name="delete" width="32" height="32"/>
-        <image name="health" width="50" height="50"/>
+        <image name="health" width="167" height="218"/>
         <image name="mana-dark" width="50" height="50"/>
         <image name="save" width="32" height="32"/>
     </resources>

@@ -51,7 +51,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     var currentCardCost = -1
     var currentSearchTerm = ""
     var currentRarity: Rarity?
-    var standardOnly = false
+    var standardOnly = true
     var currentDamage = -1
     var currentHealth = -1
     var currentRace: Race?
@@ -101,6 +101,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
         curveView?.deck = currentDeck
         curveView?.reload()
+
+        standardOnlyCards.title = ""
+        standardOnlyCards.image = NSImage(named: "Mode_Standard_Mammoth",
+                                          size: NSSize(width: 25, height: 25))
 
         countCards()
 
@@ -335,6 +339,10 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     // MARK: - Standard/Wild
     @IBAction func standardWildChange(_ sender: NSButton) {
         standardOnly = sender.state == NSOnState
+
+        let name = standardOnly ? "Mode_Standard_Mammoth" : "Mode_Wild_Dark"
+        standardOnlyCards.image = NSImage(named: name,
+                                          size: NSSize(width: 25, height: 25))
         reloadCards()
     }
 
@@ -364,7 +372,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                            action: #selector(EditDeck.changeSet(_:)),
                                            keyEquivalent: "")
             popupMenuItem.representedObject = set.rawValue
-            popupMenuItem.image = NSImage(named: "Set_\(set.rawValue.uppercased())")
+            popupMenuItem.image = NSImage(named: "Set_\(set.rawValue.uppercased())",
+                size: NSSize(width: 15, height: 15))
             popupMenu.addItem(popupMenuItem)
         }
         sets.menu = popupMenu
@@ -457,7 +466,15 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                                            keyEquivalent: "")
             popupMenuItem.representedObject = rarity.rawValue
             let gemName = rarity == .free ? "gem" : "gem_\(rarity.rawValue)"
-            popupMenuItem.image = NSImage(named: gemName)
+
+            let fullPath = Bundle.main.resourcePath!
+                + "/Resources/Themes/Bars/classic/\(gemName).png"
+            if let image = NSImage(contentsOfFile: fullPath) {
+                popupMenuItem.image = image.resized(to: NSSize(width: 25, height: 25))
+            } else {
+                popupMenuItem.title = gemName
+            }
+
             popupMenu.addItem(popupMenuItem)
         }
         rarity.menu = popupMenu

@@ -2,12 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Mode_Standard_Mammoth.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "scale" : "2x"
+      "filename" : "Mode_Standard_Mammoth.pdf"
     }
   ],
   "info" : {

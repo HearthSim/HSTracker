@@ -2,12 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "warlock.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "scale" : "2x"
+      "filename" : "Class_Warlock.pdf"
     }
   ],
   "info" : {

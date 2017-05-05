@@ -2,13 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "Set_TGT.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "filename" : "Set_TGT@2x.png",
-      "scale" : "2x"
+      "filename" : "Set_TGT.pdf"
     }
   ],
   "info" : {

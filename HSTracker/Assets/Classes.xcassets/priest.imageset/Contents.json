@@ -2,12 +2,7 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "priest.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "mac",
-      "scale" : "2x"
+      "filename" : "Class_Priest.pdf"
     }
   ],
   "info" : {
