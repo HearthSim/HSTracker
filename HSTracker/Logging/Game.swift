@@ -833,6 +833,13 @@ class Game: NSObject, PowerEventHandler {
         ImageUtils.clearCache()
         reset()
         lastGameStart = Date()
+        
+        // remove every line before _last_ create game
+        if let gamestartLine = self.powerLog.reversed().index(where: { $0.line.contains("CREATE_GAME") }),
+            self.powerLog.count - 1 - gamestartLine.base > 0 {
+            let forwardIndex = self.powerLog.count - 1 - gamestartLine.base
+            self.powerLog.removeSubrange(0 ..< forwardIndex )
+        }
 
 		gameEnded = false
         isInMenu = false
@@ -1028,9 +1035,7 @@ class Game: NSObject, PowerEventHandler {
             }
         }
 		
-		self.syncStats(logLines: self.powerLog, stats: currentGameStats) { [unowned(unsafe) self] in
-			self.powerLog.removeAll()
-		}
+		self.syncStats(logLines: self.powerLog, stats: currentGameStats)
     }
 
     private var logContainsGoldRewardState: Bool {
@@ -1041,11 +1046,19 @@ class Game: NSObject, PowerEventHandler {
         return powerLog.any({ $0.line.contains("tag=STATE value=COMPLETE") })
     }
 
-	private func syncStats(logLines: [LogLine], stats: InternalGameStats, completion: @escaping () -> Void) {
+	private func syncStats(logLines: [LogLine], stats: InternalGameStats) {
 
         guard currentGameMode != .practice && currentGameMode != .none else {
             Log.info?.message("Game was in \(currentGameMode), don't send to third-party")
             return
+        }
+        
+        if TrackOBotAPI.isLogged() && Settings.trackobotSynchronizeMatches {
+            do {
+                try TrackOBotAPI.postMatch(stat: stats, cards: playedCards)
+            } catch {
+                Log.error?.message("Track-o-Bot error : \(error)")
+            }
         }
 
         if Settings.hsReplaySynchronizeMatches && (
@@ -1064,6 +1077,8 @@ class Game: NSObject, PowerEventHandler {
             (stats.gameMode == .spectator &&
                 Settings.hsReplayUploadFriendlyMatches)) {
             HSReplayAPI.getUploadToken { _ in
+                let numCreatesBefore = logLines.filter({ $0.line.contains("CREATE_GAME") }).count
+                print("Creates before upload: \(numCreatesBefore)")
                 LogUploader.upload(logLines: logLines,
                                    statistic: stats) { result in
                     if case UploadResult.successful(let replayId) = result {
@@ -1075,16 +1090,8 @@ class Game: NSObject, PowerEventHandler {
                     }
                 }
             }
+            
         }
-
-        if TrackOBotAPI.isLogged() && Settings.trackobotSynchronizeMatches {
-            do {
-                try TrackOBotAPI.postMatch(stat: stats, cards: playedCards)
-            } catch {
-                Log.error?.message("Track-o-Bot error : \(error)")
-            }
-        }
-		completion()
     }
 
     func turnNumber() -> Int {

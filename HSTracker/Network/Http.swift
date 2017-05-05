@@ -121,12 +121,13 @@ struct Http {
                                         Log.error?.message("request error : \(error)")
                                     } else if let data = data {
                                         Log.verbose?.message("upload result : \(data)")
-                                    } else {
+                                    }
+                                    
                                         Log.error?.message("\(#function): "
                                             + "\(String(describing: error)), "
                                             + "data: \(String(describing: data)), "
                                             + "response: \(String(describing: response))")
-                                    }
+                                    
             }.resume()
     }
 
