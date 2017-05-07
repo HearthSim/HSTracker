@@ -25,11 +25,14 @@ class LogReaderTests: XCTestCase {
 		
 		let lines = ["D 00:06:10.0000000 GameState",
 		             "D 00:06:10.0010000 GameState",
-		             "D 00:06:10 GameState.DebugPrintPower() -     tag=ZONE value=PLAY"]
+		             "D 00:06:10 GameState.DebugPrintPower() -     tag=ZONE value=PLAY",
+		             "D 00:06:10.0010001 GameState"
+                    ]
 		let loglines = lines.map { LogLine(namespace: .power, line: $0) }
 	
 		XCTAssertEqual(loglines[0].time, loglines[2].time)
 		XCTAssert(loglines[1].time > loglines[2].time, "\(loglines[1].time) is not bigger than \(loglines[2].time)")
+        XCTAssert(loglines[3].time > loglines[1].time, "\(loglines[3].time) is not bigger than \(loglines[1].time)")
 	}
 	
 	func testLineContent() {
