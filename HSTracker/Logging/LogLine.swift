@@ -10,22 +10,115 @@
 
 import CleanroomLogger
 import Foundation
+import RegexUtil
+
+class LogDateFormatter: DateFormatter {
+	
+	private static let subsecRegex: RegexPattern = "(S+)"
+	
+	func string(from date: LogDate) -> String {
+		var str = self.string(from: date.date)
+		
+		let matches = self.dateFormat.matches(LogDateFormatter.subsecRegex)
+		for match in matches {
+			let len = match.value.characters.count
+			let rcen = 10^^(7-len)
+			let roundedss = (date.subseconds + (rcen/2))/rcen * rcen
+			
+			let subsecstr = String(format: "%07d", roundedss).substringWithRange(0, end: len)
+
+			str.replaceSubrange(match.range, with: subsecstr)
+		}
+		
+		return str
+	}
+	
+	func date(from str: String) -> LogDate? {
+		if let d: Date = self.date(from: str) {
+			return LogDate(date: d)
+		}
+		return nil
+	}
+}
+
+struct LogDate: Comparable, Equatable {
+	fileprivate let date: Date
+	let subseconds: Int
+	
+	var timeIntervalSinceNow: TimeInterval {
+		return date.timeIntervalSinceNow
+	}
+	
+	var hour: Int {
+		return self.date.hour
+	}
+	
+	var minute: Int {
+		return self.date.minute
+	}
+	
+	var second: Int {
+		return self.date.second
+	}
+	
+	init() {
+		self.init(date: Date())
+	}
+	
+	init(date: Date, subseconds: Int = 0) {
+		self.date = date
+		self.subseconds = subseconds
+	}
+	
+	init(stringcomponents: [String]) {
+		var d: Date = Date()
+		var subsec: Int = 0
+		if stringcomponents.count > 0 {
+			LogLine.dateStringFormatter.defaultDate = LogLine.DateNoTime(date: d)
+			if let date = LogLine.dateStringFormatter.date(from: stringcomponents[0]) {
+				d = date
+			}
+			if stringcomponents.count > 1 {
+				if let ss = Int(stringcomponents[1]) {
+					subsec = ss
+				}
+			}
+		}
+		
+		self.init(date: d, subseconds: subsec)
+	}
+	
+	static func < (lhs: LogDate, rhs: LogDate) -> Bool {
+		if lhs.date != rhs.date {
+			return lhs.date < rhs.date
+		} else {
+			return lhs.subseconds < rhs.subseconds
+		}
+	}
+	
+	static func == (lhs: LogDate, rhs: LogDate) -> Bool {
+		return
+			lhs.date == rhs.date &&
+				lhs.subseconds == rhs.subseconds
+	}
+	
+	static func LogDateByAdding(component: Calendar.Component, value: Int,
+	                            to date: LogDate, from calendar: Calendar ) -> LogDate {
+		if let datePlusOne = calendar.date(byAdding: component, value: value, to: date.date) {
+			return LogDate(date: datePlusOne, subseconds: date.subseconds)
+		} else {
+			return date
+		}
+	}
+}
 
 struct LogLine {
 	let namespace: LogLineNamespace
-	let time: Date
+	let time: LogDate
 	let content: String
 	let line: String
 	
-	@nonobjc private static let dateStringFormatterNS: DateFormatter = {
-		let formatter = DateFormatter()
-		formatter.locale = Locale(identifier: "en_US_POSIX")
-		formatter.dateFormat = "HH:mm:ss.SSSSSSS"
-		formatter.timeZone = TimeZone.current
-		return formatter
-	}()
-	
-	@nonobjc private static let dateStringFormatter: DateFormatter = {
+	@nonobjc fileprivate static let dateStringFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.locale = Locale(identifier: "en_US_POSIX")
 		formatter.dateFormat = "HH:mm:ss"
@@ -40,12 +133,17 @@ struct LogLine {
 		return formatter
 	}()
 	
+	static func DateNoTime(date: Date) -> Date {
+		let str = LogLine.trimFormatter.string(from: date) // 12/15/16
+		return LogLine.trimFormatter.date(from: str)!
+	}
+	
 	init(namespace: LogLineNamespace, line: String) {
 		self.namespace = namespace
 		self.line = line
 		
 		if line.characters.count <= 20 {
-			self.time = Date()
+			self.time = LogDate()
 			self.content = ""
 			return
 		}
@@ -53,44 +151,27 @@ struct LogLine {
 		let linecomponents = line.components(separatedBy: " ")
 		
 		if linecomponents.count < 3 {
-			self.time = Date()
+			self.time = LogDate()
 			self.content = ""
 			return
 		}
 		
-		var time = Date()
-		
 		// parse time
-		if linecomponents[1].components(separatedBy: ".").count > 1 {
-			LogLine.dateStringFormatterNS.defaultDate = LogLine.DateNoTime(date: time)
-			if let date = LogLine.dateStringFormatterNS.date(from: linecomponents[1]) {
-				time = date
-			}
-		} else {
-			LogLine.dateStringFormatter.defaultDate = LogLine.DateNoTime(date: time)
-			if let date = LogLine.dateStringFormatter.date(from: linecomponents[1]) {
-				time = date
-			}
+		let timecomponents = linecomponents[1].components(separatedBy: ".")
+		var _time = LogDate(stringcomponents: timecomponents)
+		
+		if _time > LogDate() {
+			_time = LogDate.LogDateByAdding(component: .day, value: -1, to: _time, from: LogReaderManager.calendar)
 		}
 		
-		if time > Date() {
-			time = LogReaderManager.calendar.date(byAdding: .day, value: -1, to: time) ?? Date()
-		}
-		
-		self.time = time
+		self.time = _time
 		self.content = linecomponents[2..<linecomponents.count].joined(separator: " ")
-	}
-	
-	private static func DateNoTime(date: Date) -> Date {
-		
-		let str = LogLine.trimFormatter.string(from: date) // 12/15/16
-		return LogLine.trimFormatter.date(from: str)!
 	}
 }
 
 extension LogLine: CustomStringConvertible {
 	var description: String {
-		let dateStr = LogReaderManager.fullDateStringFormatter.string(from: time)
+		let dateStr = LogReaderManager.fullDateStringFormatter.string(from: self.time)
 		return "\(namespace): \(dateStr): \(content)"
 	}
 }

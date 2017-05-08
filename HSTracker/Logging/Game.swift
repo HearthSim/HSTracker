@@ -539,7 +539,7 @@ class Game: NSObject, PowerEventHandler {
     var isInMenu = true
     private var handledGameEnd = false
     
-    var enqueueTime = Date.distantPast
+	var enqueueTime = LogDate(date: Date.distantPast)
     private var lastCompetitiveSpiritCheck: Int = 0
     private var lastTurnStart: [Int] = [0, 0]
     private var turnQueue: Set<PlayerTurn> = Set()
@@ -547,7 +547,7 @@ class Game: NSObject, PowerEventHandler {
     private var maxBlockId: Int = 0
     private(set) var currentBlock: Block?
     
-    fileprivate var lastGameStartTimestamp: Date = Date.distantPast
+	fileprivate var lastGameStartTimestamp: LogDate = LogDate(date: Date.distantPast)
 
     private var _matchInfo: MatchInfo?
     
@@ -816,13 +816,13 @@ class Game: NSObject, PowerEventHandler {
 
     // MARK: - game state
     private var lastGameStart = Date.distantPast
-    func gameStart(at timestamp: Date) {
+    func gameStart(at timestamp: LogDate) {
         Log.info?.message("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
             + "handledGameEnd: \(handledGameEnd), "
             + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
             "timestamp: \(timestamp)")
         if currentGameMode == .practice && !isInMenu && !handledGameEnd
-            && lastGameStartTimestamp > Date.distantPast
+			&& lastGameStartTimestamp > LogDate(date: Date.distantPast)
             && timestamp > lastGameStartTimestamp {
             adventureRestart()
             return

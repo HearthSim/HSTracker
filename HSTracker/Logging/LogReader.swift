@@ -15,7 +15,7 @@ import RegexUtil
 final class LogReader {
     var stopped = true
     var offset: UInt64 = 0
-    var startingPoint: Date = Date.distantPast
+	var startingPoint: LogDate = LogDate(date: Date.distantPast)
     var fileHandle: FileHandle?
 
     var path: String
@@ -48,19 +48,19 @@ final class LogReader {
         }
     }
 
-    func findEntryPoint(choice: String) -> Date {
+    func findEntryPoint(choice: String) -> LogDate {
         return findEntryPoint(choices: [choice])
     }
 
-    func findEntryPoint(choices: [String]) -> Date {
+    func findEntryPoint(choices: [String]) -> LogDate {
         guard fileManager.fileExists(atPath: path) else {
-            return Date.distantPast
+			return LogDate(date: Date.distantPast)
         }
         var fileContent: String
         do {
             fileContent = try String(contentsOfFile: path)
         } catch {
-            return Date.distantPast
+            return LogDate(date: Date.distantPast)
         }
 
         let lines: [String] = fileContent
@@ -73,10 +73,10 @@ final class LogReader {
             }
         }
 
-        return Date.distantPast
+        return LogDate(date: Date.distantPast)
     }
 
-    func start(manager logReaderManager: LogReaderManager, entryPoint: Date) {
+    func start(manager logReaderManager: LogReaderManager, entryPoint: LogDate) {
         stopped = false
         self.logReaderManager = logReaderManager
         startingPoint = entryPoint
