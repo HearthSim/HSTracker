@@ -467,33 +467,6 @@ final class Settings {
         get { return get(name: "hsreplay_auto_synchronize_spectator_matches") as? Bool ?? true }
     }
 
-    // MARK: - Hearthstats
-    static var hearthstatsLogin: String? {
-        set { set(name: "hearthstats_login", value: newValue) }
-        get { return get(name: "hearthstats_login") as? String }
-    }
-    static var hearthstatsToken: String? {
-        set { set(name: "hearthstats_token", value: newValue) }
-        get { return get(name: "hearthstats_token") as? String }
-    }
-    static var hearthstatsLastDecksSync: Double {
-        set { set(name: "hearthstats_last_decks_sync", value: newValue) }
-        get { return get(name: "hearthstats_last_decks_sync") as? Double
-            ?? Date.distantPast.timeIntervalSince1970 }
-    }
-    static var hearthstatsLastMatchesSync: Double {
-        set { set(name: "hearthstats_last_matches_sync", value: newValue) }
-        get { return get(name: "hearthstats_last_matches_sync") as? Double ?? 0.0 }
-    }
-    static var hearthstatsAutoSynchronize: Bool {
-        set { set(name: "hearthstats_auto_synchronize_decks", value: newValue) }
-        get { return get(name: "hearthstats_auto_synchronize_decks") as? Bool ?? false }
-    }
-    static var hearthstatsSynchronizeMatches: Bool {
-        set { set(name: "hearthstats_auto_synchronize_matches", value: newValue) }
-        get { return get(name: "hearthstats_auto_synchronize_matches") as? Bool ?? false }
-    }
-
     static var theme: String {
         set { set(name: "theme", value: newValue) }
         get { return get(name: "theme") as? String ?? "dark" }
