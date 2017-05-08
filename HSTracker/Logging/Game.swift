@@ -438,7 +438,12 @@ class Game: NSObject, PowerEventHandler {
     var currentTurn = 0
     var lastId = 0
     var gameTriggerCount = 0
-    var powerLog: [LogLine] = []
+    
+    private var powerLog: [LogLine] = []
+    func add(powerLog: LogLine) {
+        self.powerLog.append(powerLog)
+    }
+    
     var playedCards: [PlayedCard] = []
 
 	var player: Player!
@@ -835,11 +840,25 @@ class Game: NSObject, PowerEventHandler {
         lastGameStart = Date()
         
         // remove every line before _last_ create game
-        if let gamestartLine = self.powerLog.reversed().index(where: { $0.line.contains("CREATE_GAME") }),
+        print("Number of create game before filter: \(powerLog.filter({ $0.line.contains("CREATE_GAME") }).count)")
+        /*if let gamestartLine = self.powerLog.reversed().index(where: { $0.line.contains("CREATE_GAME") }),
             self.powerLog.count - 1 - gamestartLine.base > 0 {
             let forwardIndex = self.powerLog.count - 1 - gamestartLine.base
-            self.powerLog.removeSubrange(0 ..< forwardIndex )
+            
+        }*/
+        
+        if self.powerLog.count > 1 {
+            var ind = self.powerLog.count - 1
+            while ind > 0 {
+                if self.powerLog[ind].line.contains("CREATE_GAME") {
+                    self.powerLog.removeSubrange(0 ..< ind )
+                    break
+                }
+                
+                ind -= 1
+            }
         }
+        print("Number of create game: \(powerLog.filter({ $0.line.contains("CREATE_GAME") }).count)")
 
 		gameEnded = false
         isInMenu = false
@@ -1076,11 +1095,22 @@ class Game: NSObject, PowerEventHandler {
                 Settings.hsReplayUploadFriendlyMatches) ||
             (stats.gameMode == .spectator &&
                 Settings.hsReplayUploadFriendlyMatches)) {
+            
+            let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats)
+            
             HSReplayAPI.getUploadToken { _ in
-                let numCreatesBefore = logLines.filter({ $0.line.contains("CREATE_GAME") }).count
+                let createsArray = logLines.filter({ $0.line.contains("CREATE_GAME") })
+                let numCreatesBefore = createsArray.count
                 print("Creates before upload: \(numCreatesBefore)")
+                
+                if numCreatesBefore > 1 {
+                    for line in createsArray {
+                        print(line.line)
+                    }
+                }
+                
                 LogUploader.upload(logLines: logLines,
-                                   statistic: stats) { result in
+                                   metaData: (uploadMetaData, statId)) { result in
                     if case UploadResult.successful(let replayId) = result {
                         NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
                         NotificationCenter.default

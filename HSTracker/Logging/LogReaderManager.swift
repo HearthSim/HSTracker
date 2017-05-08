@@ -125,7 +125,7 @@ final class LogReaderManager {
                 // save powerlines for replay upload
                 let powerLines = powerLog.collect(index: 1)
                 for line in powerLines {
-                    coreManager.game.powerLog.append(line)
+                    coreManager.game.add(powerLog: line)
                 }
                 
                 for lineList in processMap.values {
