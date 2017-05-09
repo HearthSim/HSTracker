@@ -31,32 +31,32 @@ final class LogReaderManager {
         return [powerLog, rachelle, arena, loadingScreen]
     }
     
-    public static let dateStringFormatter: DateFormatter = {
-        let formatter = DateFormatter()
+    public static let dateStringFormatter: LogDateFormatter = {
+        let formatter = LogDateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "HH:mm:ss"
         return formatter
     }()
     
-    public static let iso8601StringFormatter: DateFormatter = {
-        let formatter = DateFormatter()
+    public static let iso8601StringFormatter: LogDateFormatter = {
+        let formatter = LogDateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return formatter
     }()
     
-    public static let fullDateStringFormatter: DateFormatter = {
-        let formatter = DateFormatter()
+    public static let fullDateStringFormatter: LogDateFormatter = {
+        let formatter = LogDateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ssZZZZZ"
         return formatter
     }()
-    
+	
     public static let timeZone = TimeZone.current
     public static let calendar = Calendar.current
 
     var running = false
     var stopped = false
     private var queue: DispatchQueue?
-    private var processMap = Map<Date, [LogLine]>()
+    private var processMap = Map<LogDate, [LogLine]>()
     private let coreManager: CoreManager
     
 	init(logPath: String, coreManager: CoreManager) {
@@ -125,7 +125,7 @@ final class LogReaderManager {
                 // save powerlines for replay upload
                 let powerLines = powerLog.collect(index: 1)
                 for line in powerLines {
-                    coreManager.game.powerLog.append(line)
+                    coreManager.game.add(powerLog: line)
                 }
                 
                 for lineList in processMap.values {
@@ -161,7 +161,7 @@ final class LogReaderManager {
         start()
     }
 
-    private func entryPoint() -> Date {
+    private func entryPoint() -> LogDate {
         let powerEntry = powerLog.findEntryPoint(choices:
             ["tag=GOLD_REWARD_STATE", "End Spectator"])
         let loadingScreenEntry = loadingScreen.findEntryPoint(choice: "Gameplay.Start")

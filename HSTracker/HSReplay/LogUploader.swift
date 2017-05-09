@@ -89,17 +89,17 @@ class LogUploader {
         }
     }
 
-    static func upload(logLines: [LogLine], statistic: InternalGameStats? = nil,
+    static func upload(logLines: [LogLine], metaData: (metaData: UploadMetaData, statId: String )? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         let log = logLines.sorted {
             return $0.time < $1.time
             }.map { $0.line }
-        upload(logLines: log, statistic: statistic, gameStart: gameStart,
+        upload(logLines: log, metaData: metaData, gameStart: gameStart,
                fromFile: fromFile, completion: completion)
     }
 
-    static func upload(logLines: [String], statistic: InternalGameStats? = nil,
+    static func upload(logLines: [String], metaData: (metaData: UploadMetaData, statId: String )? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         guard let token = Settings.hsReplayUploadToken else {
@@ -132,40 +132,38 @@ class LogUploader {
         
         inProgress.append(item)
 
-        let uploadMetaData = UploadMetaData.generate(game: statistic)
-        if let date = uploadMetaData.dateStart, fromFile {
-            uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: date)?.build
+        if let date = metaData?.metaData.dateStart, fromFile {
+            metaData?.metaData.hearthstoneBuild = BuildDates.get(byDate: date)?.build
         } else if let build = BuildDates.getByProductDb() {
-            uploadMetaData.hearthstoneBuild = build.build
+            metaData?.metaData.hearthstoneBuild = build.build
         } else {
-            uploadMetaData.hearthstoneBuild = BuildDates.get(byDate: Date())?.build
+            metaData?.metaData.hearthstoneBuild = BuildDates.get(byDate: Date())?.build
         }
 
-        guard let metaData: [String : Any] = try? wrap(uploadMetaData) else {
+        guard let wrappedMetaData: [String : Any] = try? wrap(metaData?.metaData) else {
             Log.warning?.message("Can not encode to json game metadata")
             completion(.failed(error: "Can not encode to json game metadata"))
             return
         }
-        Log.info?.message("Uploading \(item.hash) -> \(metaData)")
+        Log.info?.message("Uploading \(item.hash)")
 
         let headers = [
             "X-Api-Key": HSReplayAPI.apiKey,
             "Authorization": "Token \(token)"
         ]
 
-        var statId: String?
-        if let stat = statistic {
-            statId = stat.statId
-        }
+        let statId: String? = metaData?.statId
 
         let http = Http(url: HSReplay.uploadRequestUrl)
         http.json(method: .post,
-                  parameters: metaData,
+                  parameters: wrappedMetaData,
                   headers: headers) { jsonData in
 
                     guard let json = jsonData as? [String: Any],
                         let putUrl = json["put_url"] as? String,
-                        let uploadShortId = json["shortid"] as? String else {
+                        let uploadShortId = json["shortid"] as? String,
+                        let replayUrl = json["url"] as? String
+                    else {
                             Log.error?.message("JSON Error : \(String(describing: jsonData))")
                             let message = "Can not gzip : \(String(describing: jsonData))"
                             completion(.failed(error: message))
@@ -182,6 +180,8 @@ class LogUploader {
                         completion(.failed(error: "Can not gzip log"))
                         return
                     }
+                    
+                    Log.info?.message("putURL: \(putUrl), replayUrl: \(replayUrl), shortid: \(uploadShortId)")
 
                     let http = Http(url: putUrl)
                     http.upload(method: .put,

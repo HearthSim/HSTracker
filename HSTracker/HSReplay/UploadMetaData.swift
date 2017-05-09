@@ -43,16 +43,16 @@ class UploadMetaData {
         return formatter
     }()
 
-    static func generate(game: InternalGameStats?) -> UploadMetaData {
+    static func generate(stats: InternalGameStats) -> (UploadMetaData, String) {
         let metaData = UploadMetaData()
 
-        let playerInfo = getPlayerInfo(game: game)
+        let playerInfo = getPlayerInfo(stats: stats)
         if let _playerInfo = playerInfo {
             metaData.player1 = _playerInfo.player1
             metaData.player2 = _playerInfo.player2
         }
 
-        if let serverInfo = game?.serverInfo {
+        if let serverInfo = stats.serverInfo {
             if !serverInfo.address.isBlank {
                 metaData.serverIp = serverInfo.address
             }
@@ -76,118 +76,113 @@ class UploadMetaData {
 				metaData.serverVersion = serverInfo.version
             }
         }
-
-        if let game = game {
-            if game.startTime > Date.distantPast {
-                metaData.matchStart = UploadMetaData.iso8601StringFormatter.string(from: game.startTime)
-            }
-
-            metaData.gameType = game.gameType != .gt_unknown
-                ? BnetGameType.getBnetGameType(gameType: game.gameType,
-                                               format: game.format).rawValue
-                : BnetGameType.getGameType(mode: game.gameMode,
-                                           format: game.format).rawValue
-
-            if let format = game.format {
-                metaData.format = format.toFormatType().rawValue
-            }
-
-            if game.brawlSeasonId > 0 {
-                metaData.brawlSeason = game.brawlSeasonId
-            }
-            if game.rankedSeasonId > 0 {
-                metaData.ladderSeason = game.rankedSeasonId
-            }
-
+        
+        if stats.startTime > Date.distantPast {
+            metaData.matchStart = UploadMetaData.iso8601StringFormatter.string(from: stats.startTime)
+        }
+        
+        metaData.gameType = stats.gameType != .gt_unknown
+            ? BnetGameType.getBnetGameType(gameType: stats.gameType,
+                                           format: stats.format).rawValue
+            : BnetGameType.getGameType(mode: stats.gameMode,
+                                       format: stats.format).rawValue
+        
+        if let format = stats.format {
+            metaData.format = format.toFormatType().rawValue
+        }
+        
+        if stats.brawlSeasonId > 0 {
+            metaData.brawlSeason = stats.brawlSeasonId
+        }
+        if stats.rankedSeasonId > 0 {
+            metaData.ladderSeason = stats.rankedSeasonId
         }
 
-        metaData.spectatorMode = game?.gameMode == .spectator
+        metaData.spectatorMode = stats.gameMode == .spectator
         //metaData.reconnected = gameMetaData?.reconnected ?? false
-        metaData.resumable = game?.serverInfo?.resumable ?? false
+        metaData.resumable = stats.serverInfo?.resumable ?? false
 
         var friendlyPlayerId: Int? = nil
-        if let _friendlyPlayerId = game?.friendlyPlayerId,
-            _friendlyPlayerId > 0 {
-            friendlyPlayerId = _friendlyPlayerId
+        if stats.friendlyPlayerId > 0 {
+            friendlyPlayerId = stats.friendlyPlayerId
         } else if let _playerFriendlyPlayerId = playerInfo?.friendlyPlayerId,
             _playerFriendlyPlayerId > 0 {
             friendlyPlayerId = _playerFriendlyPlayerId
         }
         metaData.friendlyPlayerId = friendlyPlayerId
 
-        let scenarioId = game?.serverInfo?.mission ?? 0
+        let scenarioId = stats.serverInfo?.mission ?? 0
         if scenarioId > 0 {
             metaData.scenarioId = scenarioId
         }
 
         var build: Int? = nil
-        if let _build = game?.hearthstoneBuild {
+        if let _build = stats.hearthstoneBuild {
             build = _build
-        } else if let game = game {
-            build = BuildDates.get(byDate: game.startTime)?.build
+        } else {
+            build = BuildDates.get(byDate: stats.startTime)?.build
         }
         if let _build = build, _build > 0 {
             metaData.hearthstoneBuild = _build
         }
 
-        return metaData
+        return (metaData, stats.statId)
     }
 
-    static func getPlayerInfo(game: InternalGameStats?) -> PlayerInfo? {
-        guard let game = game else { return nil }
+    static func getPlayerInfo(stats: InternalGameStats) -> PlayerInfo? {
 
-        if game.friendlyPlayerId == 0 {
+        if stats.friendlyPlayerId == 0 {
             return nil
         }
 
         let friendly = Player()
         let opposing = Player()
 
-        if game.rank > 0 {
-            friendly.rank = game.rank
+        if stats.rank > 0 {
+            friendly.rank = stats.rank
         }
-        if game.legendRank > 0 {
-            friendly.legendRank = game.legendRank
+        if stats.legendRank > 0 {
+            friendly.legendRank = stats.legendRank
         }
-        if game.playerCardbackId > 0 {
-            friendly.cardBack = game.playerCardbackId
+        if stats.playerCardbackId > 0 {
+            friendly.cardBack = stats.playerCardbackId
         }
-        if game.stars > 0 {
-            friendly.stars = game.stars
+        if stats.stars > 0 {
+            friendly.stars = stats.stars
         }
 
-        if let hsDeckId = game.hsDeckId, hsDeckId > 0 {
+        if let hsDeckId = stats.hsDeckId, hsDeckId > 0 {
             friendly.deckId = hsDeckId
         }
 
-        if game.gameMode == .arena {
-            if game.arenaWins > 0 {
-                friendly.wins = game.arenaWins
+        if stats.gameMode == .arena {
+            if stats.arenaWins > 0 {
+                friendly.wins = stats.arenaWins
             }
-            if game.arenaLosses > 0 {
-                friendly.losses = game.arenaLosses
+            if stats.arenaLosses > 0 {
+                friendly.losses = stats.arenaLosses
             }
-        } else if game.gameMode == .brawl {
-            if game.brawlWins > 0 {
-                friendly.wins = game.brawlWins
+        } else if stats.gameMode == .brawl {
+            if stats.brawlWins > 0 {
+                friendly.wins = stats.brawlWins
             }
-            if game.brawlLosses > 0 {
-                friendly.losses = game.brawlLosses
+            if stats.brawlLosses > 0 {
+                friendly.losses = stats.brawlLosses
             }
         }
 
-        if game.opponentRank > 0 {
-            opposing.rank = game.opponentRank
+        if stats.opponentRank > 0 {
+            opposing.rank = stats.opponentRank
         }
-        if game.opponentLegendRank > 0 {
-            opposing.legendRank = game.opponentLegendRank
+        if stats.opponentLegendRank > 0 {
+            opposing.legendRank = stats.opponentLegendRank
         }
-        if game.opponentCardbackId > 0 {
-            opposing.cardBack = game.opponentCardbackId
+        if stats.opponentCardbackId > 0 {
+            opposing.cardBack = stats.opponentCardbackId
         }
 
-        return PlayerInfo(player1: game.friendlyPlayerId == 1 ? friendly : opposing,
-                          player2: game.friendlyPlayerId == 2 ? friendly : opposing)
+        return PlayerInfo(player1: stats.friendlyPlayerId == 1 ? friendly : opposing,
+                          player2: stats.friendlyPlayerId == 2 ? friendly : opposing)
     }
 
     class Player {

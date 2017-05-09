@@ -14,7 +14,7 @@ class FullScreenFxHandler: LogEventParser {
 
     let BeginBlurRegex: RegexPattern = "BeginEffect blur \\d => 1"
     
-    private var lastQueueTime: Date = Date.distantPast
+	private var lastQueueTime: LogDate = LogDate(date: Date.distantPast)
 	
 	private unowned(unsafe) let coreManager: CoreManager
 	

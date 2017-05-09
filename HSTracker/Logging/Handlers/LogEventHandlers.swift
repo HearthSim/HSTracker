@@ -64,7 +64,7 @@ protocol PowerEventHandler: class {
 	
 	var gameEnded: Bool { get set }
 	
-	func gameStart(at timestamp: Date)
+	func gameStart(at timestamp: LogDate)
 	
 	func gameEnd()
 	

@@ -25,18 +25,21 @@ class LogReaderTests: XCTestCase {
 		
 		let lines = ["D 00:06:10.0000000 GameState",
 		             "D 00:06:10.0010000 GameState",
-		             "D 00:06:10 GameState.DebugPrintPower() -     tag=ZONE value=PLAY"]
+		             "D 00:06:10 GameState.DebugPrintPower() -     tag=ZONE value=PLAY",
+		             "D 00:06:10.0010001 GameState"
+                    ]
 		let loglines = lines.map { LogLine(namespace: .power, line: $0) }
 	
 		XCTAssertEqual(loglines[0].time, loglines[2].time)
 		XCTAssert(loglines[1].time > loglines[2].time, "\(loglines[1].time) is not bigger than \(loglines[2].time)")
+        XCTAssert(loglines[3].time > loglines[1].time, "\(loglines[3].time) is not bigger than \(loglines[1].time)")
 	}
 	
 	func testLineContent() {
-		let line = "D 00:06:10.0010000 GameState.DebugPrintPower() -     tag=ZONE value=PLAY"
+		let line = "D 00:06:10.0012345 GameState.DebugPrintPower() -     tag=ZONE value=PLAY"
 		let lineItem = LogLine(namespace: .power, line: line)
 		
-		let dateStringFormatter = DateFormatter()
+		let dateStringFormatter = LogDateFormatter()
 		dateStringFormatter.dateFormat = "HH:mm:ss.SSSSSSS"
 		
 		let str = String(format: "D %@ %@",dateStringFormatter.string(from: lineItem.time), lineItem.content)
@@ -45,19 +48,19 @@ class LogReaderTests: XCTestCase {
 	
 	func testDayRollover() {
 		
-		let future = Calendar.current.date(byAdding: .second, value: 5, to: Date())!
-		if trimTime(date: future) > trimTime(date: Date()) {
+		let future = LogDate(date: Calendar.current.date(byAdding: .second, value: 5, to: Date())!)
+		if trimTime(date: future) > trimTime(date: LogDate()) {
 			Thread.sleep(forTimeInterval: 5)
 		}
 		
 		let line = "D 23:59:59.9999999 GameState.DebugPrintPower() -     tag=ZONE value=PLAY"
 		let lineItem = LogLine(namespace: .power, line: line)
 
-		XCTAssertEqual(trimTime(date: lineItem.time), trimTime(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())! ))
+		XCTAssertEqual(trimTime(date: lineItem.time), trimTime(date: LogDate(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!) ))
 	}
 	
-	func trimTime(date: Date) -> Date {
-		let dateFormatter = DateFormatter()
+	func trimTime(date: LogDate) -> LogDate {
+		let dateFormatter = LogDateFormatter()
 		dateFormatter.timeStyle = DateFormatter.Style.none
 		dateFormatter.dateStyle = DateFormatter.Style.short
 		

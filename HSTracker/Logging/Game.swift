@@ -438,7 +438,12 @@ class Game: NSObject, PowerEventHandler {
     var currentTurn = 0
     var lastId = 0
     var gameTriggerCount = 0
-    var powerLog: [LogLine] = []
+    
+    private var powerLog: [LogLine] = []
+    func add(powerLog: LogLine) {
+        self.powerLog.append(powerLog)
+    }
+    
     var playedCards: [PlayedCard] = []
 
 	var player: Player!
@@ -534,7 +539,7 @@ class Game: NSObject, PowerEventHandler {
     var isInMenu = true
     private var handledGameEnd = false
     
-    var enqueueTime = Date.distantPast
+	var enqueueTime = LogDate(date: Date.distantPast)
     private var lastCompetitiveSpiritCheck: Int = 0
     private var lastTurnStart: [Int] = [0, 0]
     private var turnQueue: Set<PlayerTurn> = Set()
@@ -542,7 +547,7 @@ class Game: NSObject, PowerEventHandler {
     private var maxBlockId: Int = 0
     private(set) var currentBlock: Block?
     
-    fileprivate var lastGameStartTimestamp: Date = Date.distantPast
+	fileprivate var lastGameStartTimestamp: LogDate = LogDate(date: Date.distantPast)
 
     private var _matchInfo: MatchInfo?
     
@@ -811,13 +816,13 @@ class Game: NSObject, PowerEventHandler {
 
     // MARK: - game state
     private var lastGameStart = Date.distantPast
-    func gameStart(at timestamp: Date) {
+    func gameStart(at timestamp: LogDate) {
         Log.info?.message("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
             + "handledGameEnd: \(handledGameEnd), "
             + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
             "timestamp: \(timestamp)")
         if currentGameMode == .practice && !isInMenu && !handledGameEnd
-            && lastGameStartTimestamp > Date.distantPast
+			&& lastGameStartTimestamp > LogDate(date: Date.distantPast)
             && timestamp > lastGameStartTimestamp {
             adventureRestart()
             return
@@ -833,6 +838,27 @@ class Game: NSObject, PowerEventHandler {
         ImageUtils.clearCache()
         reset()
         lastGameStart = Date()
+        
+        // remove every line before _last_ create game
+        print("Number of create game before filter: \(powerLog.filter({ $0.line.contains("CREATE_GAME") }).count)")
+        /*if let gamestartLine = self.powerLog.reversed().index(where: { $0.line.contains("CREATE_GAME") }),
+            self.powerLog.count - 1 - gamestartLine.base > 0 {
+            let forwardIndex = self.powerLog.count - 1 - gamestartLine.base
+            
+        }*/
+        
+        if self.powerLog.count > 1 {
+            var ind = self.powerLog.count - 1
+            while ind > 0 {
+                if self.powerLog[ind].line.contains("CREATE_GAME") {
+                    self.powerLog.removeSubrange(0 ..< ind )
+                    break
+                }
+                
+                ind -= 1
+            }
+        }
+        print("Number of create game: \(powerLog.filter({ $0.line.contains("CREATE_GAME") }).count)")
 
 		gameEnded = false
         isInMenu = false
@@ -1028,9 +1054,7 @@ class Game: NSObject, PowerEventHandler {
             }
         }
 		
-		self.syncStats(logLines: self.powerLog, stats: currentGameStats) { [unowned(unsafe) self] in
-			self.powerLog.removeAll()
-		}
+		self.syncStats(logLines: self.powerLog, stats: currentGameStats)
     }
 
     private var logContainsGoldRewardState: Bool {
@@ -1041,11 +1065,19 @@ class Game: NSObject, PowerEventHandler {
         return powerLog.any({ $0.line.contains("tag=STATE value=COMPLETE") })
     }
 
-	private func syncStats(logLines: [LogLine], stats: InternalGameStats, completion: @escaping () -> Void) {
+	private func syncStats(logLines: [LogLine], stats: InternalGameStats) {
 
         guard currentGameMode != .practice && currentGameMode != .none else {
             Log.info?.message("Game was in \(currentGameMode), don't send to third-party")
             return
+        }
+        
+        if TrackOBotAPI.isLogged() && Settings.trackobotSynchronizeMatches {
+            do {
+                try TrackOBotAPI.postMatch(stat: stats, cards: playedCards)
+            } catch {
+                Log.error?.message("Track-o-Bot error : \(error)")
+            }
         }
 
         if Settings.hsReplaySynchronizeMatches && (
@@ -1063,9 +1095,22 @@ class Game: NSObject, PowerEventHandler {
                 Settings.hsReplayUploadFriendlyMatches) ||
             (stats.gameMode == .spectator &&
                 Settings.hsReplayUploadFriendlyMatches)) {
+            
+            let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats)
+            
             HSReplayAPI.getUploadToken { _ in
+                let createsArray = logLines.filter({ $0.line.contains("CREATE_GAME") })
+                let numCreatesBefore = createsArray.count
+                print("Creates before upload: \(numCreatesBefore)")
+                
+                if numCreatesBefore > 1 {
+                    for line in createsArray {
+                        print(line.line)
+                    }
+                }
+                
                 LogUploader.upload(logLines: logLines,
-                                   statistic: stats) { result in
+                                   metaData: (uploadMetaData, statId)) { result in
                     if case UploadResult.successful(let replayId) = result {
                         NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
                         NotificationCenter.default
@@ -1075,16 +1120,8 @@ class Game: NSObject, PowerEventHandler {
                     }
                 }
             }
+            
         }
-
-        if TrackOBotAPI.isLogged() && Settings.trackobotSynchronizeMatches {
-            do {
-                try TrackOBotAPI.postMatch(stat: stats, cards: playedCards)
-            } catch {
-                Log.error?.message("Track-o-Bot error : \(error)")
-            }
-        }
-		completion()
     }
 
     func turnNumber() -> Int {
