@@ -31,3 +31,6 @@
 
 /* Class = "NSButtonCell"; title = "Prefer golden cards when exporting to Hearthstone"; ObjectID = "1BI-nh-nxq"; */
 "1BI-nh-nxq.title" = "Prefer golden cards when exporting to Hearthstone";
+
+/* Class = "NSButtonCell"; title = "Use Toast notifications instead of Notification Center"; ObjectID = "XEI-kJ-kec"; */
+"XEI-kJ-kec.title" = "Use Toast notifications instead of Notification Center";
