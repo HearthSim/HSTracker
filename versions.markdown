@@ -1,4 +1,4 @@
-# unreleased
+# 1.0
 ## Fixes:
 - Fixed quests not increasing spell counter.
 - Improved German translations.
