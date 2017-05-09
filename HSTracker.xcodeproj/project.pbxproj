@@ -1309,8 +1309,8 @@
 		437B5BB11CD2437D00DE0A41 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */,
 				434910481D09544200B22DB2 /* BoardDamage */,
+				BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */,
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
 				434D1CB01D0C507900222B8E /* ImageCompare.swift */,

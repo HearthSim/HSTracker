@@ -52,9 +52,10 @@ class NotificationManager {
             
         }
     }
-    
-    private static func show(title: String, message: String, duration: Double? = 3, action: (() -> Void)? = nil) {
-        
+
+    private static var notificationDelegate = NotificationDelegate()
+    private static func show(title: String, message: String, duration: Double? = 3,
+                             action: (() -> Void)? = nil) {
         if Settings.useToastNotification {
             Toast.show(title: title, message: message, duration: duration, action: action)
         } else {
@@ -62,11 +63,25 @@ class NotificationManager {
             notification.title = title
             notification.subtitle = ""
             notification.informativeText = message
-            
-            notification.soundName = NSUserNotificationDefaultSoundName
+
+            if action != nil {
+                notification.actionButtonTitle = NSLocalizedString("Show", comment: "")
+                notification.hasActionButton = true
+                notificationDelegate.action = action
+                NSUserNotificationCenter.default.delegate = notificationDelegate
+            }
             
             notification.deliveryDate = Date()
             NSUserNotificationCenter.default.scheduleNotification(notification)
+        }
+    }
+
+    private class NotificationDelegate: NSObject, NSUserNotificationCenterDelegate {
+        var action: (() -> Void)?
+
+        func userNotificationCenter(_ center: NSUserNotificationCenter,
+                                    didActivate notification: NSUserNotification) {
+            self.action?()
         }
     }
     
