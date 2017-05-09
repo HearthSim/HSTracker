@@ -257,7 +257,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 		
 		if let activeDeck = Settings.activeDeck {
-			self.coreManager.game.set(activeDeckId: activeDeck)
+			self.coreManager.game.set(activeDeckId: activeDeck, autoDetected: false)
 		}
 		
 		splashscreen?.close()
@@ -432,7 +432,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func playDeck(_ sender: NSMenuItem) {
 		if let deck = sender.representedObject as? Deck {
 			let deckId = deck.deckId
-			self.coreManager.game.set(activeDeckId: deckId)
+			self.coreManager.game.set(activeDeckId: deckId, autoDetected: false)
 		}
 	}
 	

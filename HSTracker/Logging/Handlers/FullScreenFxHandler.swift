@@ -41,10 +41,10 @@ class FullScreenFxHandler: LogEventParser {
 
             if Settings.autoDeckDetection {
 				if let deck = CoreManager.autoDetectDeck(mode: currentMode) {
-					coreManager.game.set(activeDeckId: deck.deckId)
+					coreManager.game.set(activeDeckId: deck.deckId, autoDetected: true)
 				} else {
                     Log.warning?.message("could not autodetect deck (fullscreenFxHandler)")
-					coreManager.game.set(activeDeckId: nil)
+					coreManager.game.set(activeDeckId: nil, autoDetected: false)
 				}
             }
         }

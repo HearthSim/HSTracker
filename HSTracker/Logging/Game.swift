@@ -438,6 +438,7 @@ class Game: NSObject, PowerEventHandler {
     var currentTurn = 0
     var lastId = 0
     var gameTriggerCount = 0
+	private var playerDeckAutodetected: Bool = false
     
     private var powerLog: [LogLine] = []
     func add(powerLog: LogLine) {
@@ -775,8 +776,9 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-	func set(activeDeckId: String?) {
+	func set(activeDeckId: String?, autoDetected: Bool) {
 		Settings.activeDeck = activeDeckId
+		self.playerDeckAutodetected = autoDetected
 		
 		if let id = activeDeckId, let deck = RealmHelper.getDeck(with: id) {
 			set(activeDeck: deck)
@@ -1095,19 +1097,11 @@ class Game: NSObject, PowerEventHandler {
                 Settings.hsReplayUploadFriendlyMatches) ||
             (stats.gameMode == .spectator &&
                 Settings.hsReplayUploadFriendlyMatches)) {
-            
-            let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats)
-            
+			
+			let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats,
+				deck: self.playerDeckAutodetected && self.currentDeck != nil ? self.currentDeck : nil )
+			
             HSReplayAPI.getUploadToken { _ in
-                let createsArray = logLines.filter({ $0.line.contains("CREATE_GAME") })
-                let numCreatesBefore = createsArray.count
-                print("Creates before upload: \(numCreatesBefore)")
-                
-                if numCreatesBefore > 1 {
-                    for line in createsArray {
-                        print(line.line)
-                    }
-                }
                 
                 LogUploader.upload(logLines: logLines,
                                    metaData: (uploadMetaData, statId)) { result in

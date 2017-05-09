@@ -43,10 +43,10 @@ class UploadMetaData {
         return formatter
     }()
 
-    static func generate(stats: InternalGameStats) -> (UploadMetaData, String) {
+	static func generate(stats: InternalGameStats, deck: PlayingDeck?) -> (UploadMetaData, String) {
         let metaData = UploadMetaData()
 
-        let playerInfo = getPlayerInfo(stats: stats)
+		let playerInfo = getPlayerInfo(stats: stats, deck: deck)
         if let _playerInfo = playerInfo {
             metaData.player1 = _playerInfo.player1
             metaData.player2 = _playerInfo.player2
@@ -129,7 +129,7 @@ class UploadMetaData {
         return (metaData, stats.statId)
     }
 
-    static func getPlayerInfo(stats: InternalGameStats) -> PlayerInfo? {
+    static func getPlayerInfo(stats: InternalGameStats, deck: PlayingDeck?) -> PlayerInfo? {
 
         if stats.friendlyPlayerId == 0 {
             return nil
@@ -137,6 +137,10 @@ class UploadMetaData {
 
         let friendly = Player()
         let opposing = Player()
+		
+		if let deck = deck {
+			friendly.add(deck: deck)
+		}
 
         if stats.rank > 0 {
             friendly.rank = stats.rank
@@ -194,6 +198,16 @@ class UploadMetaData {
         var deck: [String]?
         var deckId: Int64?
         var cardBack: Int?
+		
+		func add(deck: PlayingDeck) {
+			var cards = [String]()
+			for card in deck.cards {
+				for _ in 0 ..< card.count {
+					cards.append(card.id)
+				}
+			}
+			self.deck = cards
+		}
     }
 
     struct PlayerInfo {

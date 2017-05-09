@@ -319,7 +319,7 @@ class DeckManager: NSWindowController {
         Settings.activeDeck = deck.deckId
         let deckId = deck.deckId
         DispatchQueue.main.async { [unowned(unsafe) self] in
-            self.game?.set(activeDeckId: deckId)
+            self.game?.set(activeDeckId: deckId, autoDetected: false)
         }
     }
 

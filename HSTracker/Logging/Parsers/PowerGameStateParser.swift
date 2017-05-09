@@ -386,10 +386,10 @@ class PowerGameStateParser: LogEventParser {
             if Settings.autoDeckDetection {
                 if let currentMode = eventHandler.currentMode,
                     let deck = CoreManager.autoDetectDeck(mode: currentMode) {
-                    eventHandler.set(activeDeckId: deck.deckId)
+                    eventHandler.set(activeDeckId: deck.deckId, autoDetected: true)
                 } else {
                     Log.warning?.message("could not autodetect deck")
-                    eventHandler.set(activeDeckId: nil)
+                    eventHandler.set(activeDeckId: nil, autoDetected: false)
                 }
             }
             eventHandler.gameStart(at: logLine.time)

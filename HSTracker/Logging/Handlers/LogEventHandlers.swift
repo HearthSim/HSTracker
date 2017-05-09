@@ -23,7 +23,7 @@ protocol PowerEventHandler: class {
 	func set(currentEntity id: Int)
 	func set(playerHero cardId: String)
 	func set(opponentHero cardId: String)
-	func set(activeDeckId: String?)
+	func set(activeDeckId: String?, autoDetected: Bool)
 	
 	var player: Player! { get set }
 	var opponent: Player! { get set }
