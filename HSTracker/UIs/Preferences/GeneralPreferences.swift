@@ -20,7 +20,8 @@ class GeneralPreferences: NSViewController {
     @IBOutlet weak var enableDockBadge: NSButton!
     @IBOutlet weak var preferGoldenCards: NSButton!
     @IBOutlet weak var useArenaHelper: NSButton!
-    
+    @IBOutlet weak var useToastNotifications: NSButton!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,6 +34,7 @@ class GeneralPreferences: NSViewController {
         enableDockBadge.state = Settings.showAppHealth ? NSOnState : NSOffState
         preferGoldenCards.state = Settings.preferGoldenCards ? NSOnState : NSOffState
         useArenaHelper.state = Settings.showArenaHelper ? NSOnState : NSOffState
+		useToastNotifications.state = Settings.useToastNotification ? NSOnState : NSOffState
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -55,7 +57,9 @@ class GeneralPreferences: NSViewController {
             Settings.preferGoldenCards = preferGoldenCards.state == NSOnState
         } else if sender == useArenaHelper {
             Settings.showArenaHelper = useArenaHelper.state == NSOnState
-        }
+		} else if sender == useToastNotifications {
+			Settings.useToastNotification = useToastNotifications.state == NSOnState
+		}
     }
 
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,6 +16,7 @@
                 <outlet property="promptNote" destination="ZLL-Et-PWS" id="WfU-qJ-lHB"/>
                 <outlet property="saveReplays" destination="lku-8T-sZE" id="GRO-sB-dzb"/>
                 <outlet property="useArenaHelper" destination="qVY-kW-az1" id="yG1-2z-xsL"/>
+                <outlet property="useToastNotifications" destination="ONL-4k-EMK" id="ffy-qM-KpE"/>
                 <outlet property="view" destination="c22-O7-iKe" id="g0K-Jv-9qq"/>
             </connections>
         </customObject>
@@ -113,6 +114,17 @@
                     </buttonCell>
                     <connections>
                         <action selector="checkboxClicked:" target="-2" id="LQc-rn-ehZ"/>
+                    </connections>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ONL-4k-EMK">
+                    <rect key="frame" x="18" y="56" width="343" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Use Toast notifications instead of Notification Center" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="XEI-kJ-kec">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Nhx-dm-liR"/>
                     </connections>
                 </button>
             </subviews>
