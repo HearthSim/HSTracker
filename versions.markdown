@@ -1,11 +1,12 @@
 # unreleased
 ## Fixes:
-- Fix quests not increasing spell counter.
-- Improve German translations.
-- Improve Chinese translations.
-- Fix memory issues.
-- Fix an issue where opponent name and class were not modified.
-- Fix an issue where golden cards were not exported to Hearthstone.
+- Fixed quests not increasing spell counter.
+- Improved German translations.
+- Improved Chinese translations.
+- Added an option to use macOS's Notification Center
+- Fixed memory issues and decreased general memory usage.
+- Fixed an issue where opponent name and class were not updated.
+- Fixed an issue where golden cards were not exported to Hearthstone.
 
 ## New: 
 - Auto check and download arena helper card tier list.
