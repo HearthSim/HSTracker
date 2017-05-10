@@ -36,6 +36,9 @@ final class Card {
     var artist = ""
     var jsonRepresentation: [String: Any] = [:]
 
+    // arena helper
+    var isBadAsMultiple = false
+
     // MARK: - deck / games
     var count = 0
     var hasChanged = false

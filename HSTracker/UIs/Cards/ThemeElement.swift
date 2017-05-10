@@ -26,6 +26,7 @@ enum ThemeElement {
     legendaryCountBox,
     legendaryIcon,
     createdIcon,
+    badAsMultipleIcon,
     darkOverlay,
     fadeOverlay,
     flashFrame

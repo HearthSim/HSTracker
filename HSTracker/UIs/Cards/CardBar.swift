@@ -119,6 +119,7 @@ class CardBar: NSView, CardBarTheme {
     let imageRect = NSRect(x: 83, y: 0, width: 134, height: 34)
     let countTextRect = NSRect(x: 198, y: 9, width: CGFloat.greatestFiniteMagnitude, height: 34)
     let costTextRect = NSRect(x: 0, y: 9, width: 34, height: 34)
+    let arenaHelperRect = NSRect(x: 17, y: 0, width: 34, height: 34)
 
     var countTextColor: NSColor {
         return NSColor ( red: 0.9221, green: 0.7215, blue: 0.2226, alpha: 1.0 )
@@ -144,6 +145,8 @@ class CardBar: NSView, CardBarTheme {
             .darkOverlay: ThemeElementInfo(filename: "dark.png", rect: frameRect),
             .fadeOverlay: ThemeElementInfo(filename: "fade.png", rect: frameRect),
             .createdIcon: ThemeElementInfo(filename: "icon_created.png", rect: boxRect),
+            .badAsMultipleIcon: ThemeElementInfo(filename: "icon_bad_multiple.png",
+                                                 rect: arenaHelperRect),
             .legendaryIcon: ThemeElementInfo(filename: "icon_legendary.png", rect: boxRect),
             .flashFrame: ThemeElementInfo(filename: "frame_mask.png", rect: frameRect)
         ]
@@ -293,6 +296,9 @@ class CardBar: NSView, CardBarTheme {
             addCost()
         }
         addCardName()
+        if let card = card, card.isBadAsMultiple {
+            addBadAsMultipleIcon()
+        }
         if let card = card, playerType != .hero {
             if let isArena = isArena,
                 playerType == .editDeck && !isArena
@@ -399,6 +405,17 @@ class CardBar: NSView, CardBarTheme {
                         width: CGFloat.greatestFiniteMagnitude,
                         height: CGFloat.greatestFiniteMagnitude),
                     textColor: countTextColor, font: textFont)
+        }
+    }
+
+    func addBadAsMultipleIcon() {
+        if let rect = required[.badAsMultipleIcon]?.rect {
+            addBadAsMultipleIcon(rect: rect)
+        }
+    }
+    func addBadAsMultipleIcon(rect: NSRect) {
+        if let badAsMultipleIcon = required[.badAsMultipleIcon] {
+            add(themeElement: badAsMultipleIcon, rect: rect)
         }
     }
 
