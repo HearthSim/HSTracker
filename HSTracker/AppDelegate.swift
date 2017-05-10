@@ -467,11 +467,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			let deck = Deck()
 			deck.playerClass = playerClass
             deck.name = player.name ?? "Custom \(playerClass)"
-            player.playerCardList.filter({ $0.collectible == true }).forEach {
-                deck.add(card: $0)
-            }
-            
-            RealmHelper.add(deck: deck)
+			let playerCardlist = player.playerCardList.filter({ $0.collectible == true })
+			
+			RealmHelper.add(deck: deck, with: playerCardlist)
             deckManager?.currentDeck = deck
             deckManager?.editDeck(self)
 		}
