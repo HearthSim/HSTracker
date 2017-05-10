@@ -55,12 +55,8 @@ class SaveDeck: NSWindowController {
 
     func saveDeck(update: Bool) {
         guard let deck = deck, let cards = cards, cards.isValidDeck() else { return }
-        
-        deck.cards.removeAll()
-        for card in cards {
-            deck.add(card: card)
-        }
-        
+		
+		RealmHelper.update(deck: deck, with: cards)
         RealmHelper.add(deck: deck, update: update)
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),

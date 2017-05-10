@@ -327,6 +327,24 @@ struct RealmHelper {
         }
 	}
 	
+	static func update(deck: Deck, with cards: [Card]) {
+		guard let realm = try? Realm() else {
+			Log.error?.message("Error accessing Realm database")
+			return
+		}
+		
+		do {
+			try realm.write {
+				deck.cards.removeAll()
+				for card in cards {
+					deck.add(card: card)
+				}
+			}
+		} catch {
+			Log.error?.message("Can not add deck : \(error)")
+		}
+	}
+	
 	static func add(deck: Deck, with cards: [Card]) {
 		
 		guard let realm = try? Realm() else {
