@@ -137,7 +137,11 @@ class Game: NSObject, PowerEventHandler {
 					self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
 				
 				// update cards
-				tracker.update(cards: self.opponent.opponentCardList, reset: reset)
+                if self.gameEnded && Settings.clearTrackersOnGameEnd {
+                    tracker.update(cards: [], reset: reset)
+                } else {
+                    tracker.update(cards: self.opponent.opponentCardList, reset: reset)
+                }
 				
 				let gameStarted = !self.isInMenu && self.entities.count >= 67
 				tracker.updateCardCounter(deckCount: !gameStarted ? 30 : self.opponent.deckCount,
