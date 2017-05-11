@@ -723,6 +723,7 @@ class Game: NSObject, PowerEventHandler {
         _matchInfo = nil
         currentFormat = Format(formatType: FormatType.ft_unknown)
         _currentGameType = .gt_unknown
+		_currentGameMode = .none
         _serverInfo = nil
 
         entities.removeAll()
