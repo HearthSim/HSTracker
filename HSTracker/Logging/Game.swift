@@ -134,7 +134,7 @@ class Game: NSObject, PowerEventHandler {
 				( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
 					|| (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
 				( (Settings.hideAllWhenGameInBackground &&
-					self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+					self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
 				
 				// update cards
 				tracker.update(cards: self.opponent.opponentCardList, reset: reset)
@@ -196,7 +196,7 @@ class Game: NSObject, PowerEventHandler {
                 ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
                     || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
                 ( (Settings.hideAllWhenGameInBackground &&
-                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
                 
                 // update cards
                 tracker.update(cards: self.player.playerCardList, reset: reset)

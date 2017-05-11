@@ -278,10 +278,11 @@ final class CoreManager: NSObject {
 			if app.localizedName == CoreManager.applicationName {
 				AppHealth.instance.setHearthstoneRunning(flag: true)
 				self.game.setHearthstoneActived(flag: true)
+                self.game.setSelfActivated(flag: false)
 			}
 			
 			if app.bundleIdentifier == Bundle.main.bundleIdentifier {
-				self.game.setSelfActivated(flag: false)
+				self.game.setSelfActivated(flag: true)
 			}
         }
     }
