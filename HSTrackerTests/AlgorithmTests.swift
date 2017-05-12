@@ -18,13 +18,37 @@ class AlgorithmTests: XCTestCase {
 	override func tearDown() {
 		super.tearDown()
 	}
+    
+    func testStack() {
+        let stack = Stack<Int>()
+        
+        XCTAssertEqual(stack.count, 0)
+        XCTAssertEqual(stack.peek(), nil)
+        XCTAssertEqual(stack.pop(), nil)
+        
+        let a = 5
+        stack.push(a)
+        XCTAssertEqual(stack.count, 1)
+        XCTAssertEqual(stack.peek(), a)
+        
+        let b = 10
+        stack.push(b)
+        XCTAssertEqual(stack.count, 2)
+        XCTAssertEqual(stack.peek(), b)
+        
+        XCTAssertEqual(stack.pop(), b)
+        XCTAssertEqual(stack.count, 1)
+        
+        XCTAssertEqual(stack.pop(), a)
+        XCTAssertEqual(stack.count, 0)
+    }
 	
 	func testLinkedList() {
 		let list = LinkedList<Int>()
 		
-		list.append(value: 0)
-		list.append(value: 1)
-		list.append(value: 2)
+		list.append(0)
+		list.append(1)
+		list.append(2)
 		
 		XCTAssertEqual(list.count, 3, "List elements do not match")
 		XCTAssertEqual(list.first?.value, 0, "List head does not match")

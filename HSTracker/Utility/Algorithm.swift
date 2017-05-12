@@ -8,12 +8,40 @@
 
 import Foundation
 
+/// integer power function operator
 precedencegroup PowerPrecedence { higherThan: MultiplicationPrecedence }
 infix operator ^^ : PowerPrecedence
 func ^^ (radix: Int, power: Int) -> Int {
 	return Int(pow(Double(radix), Double(power)))
 }
 
+// MARK: - Data structures
+
+/// Data structure that handles element in a LIFO way
+public class Stack<T> {
+    private var data = [T]()
+    
+    public var count: Int {
+        return data.count
+    }
+    
+    public func push(_ element: T) {
+        data.append(element)
+    }
+    
+    public func peek() -> T? {
+        return data.last
+    }
+    
+    public func pop() -> T? {
+        if self.count == 0 {
+            return nil
+        }
+        return data.removeLast()
+    }
+}
+
+/// Node for linked list containers
 public class Node<T> {
     var value: T
     
@@ -25,6 +53,7 @@ public class Node<T> {
     }
 }
 
+/// Data structure that stores element in a linked list
 public class LinkedList<T> {
     
     fileprivate var head: Node<T>?
@@ -43,7 +72,7 @@ public class LinkedList<T> {
         return tail
     }
     
-    public func append(value: T) {
+    public func append(_ value: T) {
         
         let newNode = Node(value: value)
         
@@ -58,9 +87,9 @@ public class LinkedList<T> {
         _count += 1
     }
 	
-	public func appendAll(collection: [T]) {
+	public func appendAll(_ collection: [T]) {
 		for i in collection {
-			self.append(value: i)
+			self.append(i)
 		}
 	}
     
@@ -133,13 +162,13 @@ public class ConcurrentQueue<T> {
     
     public func enqueue(value: T) {
         self.accessQueue.sync {
-            self.elements.append(value: value)
+            self.elements.append(value)
         }
     }
 	
 	public func enqueueAll(collection: [T]) {
 		self.accessQueue.sync {
-			self.elements.appendAll(collection: collection)
+			self.elements.appendAll(collection)
 		}
 	}
 	
