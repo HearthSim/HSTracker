@@ -534,7 +534,6 @@ class Game: NSObject, PowerEventHandler {
     var opponentUsedHeroPower = false
 	var wasInProgress = false
     var setupDone = false
-    var proposedKeyPoint: ReplayKeyPoint?
     var opponentSecrets: OpponentSecrets?
     private var defendingEntity: Entity?
     private var attackingEntity: Entity?
@@ -743,7 +742,6 @@ class Game: NSObject, PowerEventHandler {
         currentEntityZone = .invalid
         opponentUsedHeroPower = false
         setupDone = false
-        proposedKeyPoint = nil
         opponentSecrets?.clearSecrets()
         defendingEntity = nil
         attackingEntity = nil
@@ -898,10 +896,6 @@ class Game: NSObject, PowerEventHandler {
         Log.verbose?.message("Game is now in menu")
 
         turnTimer.stop()
-
-        if Settings.saveReplays {
-            ReplayMaker.saveToDisk(powerLog: powerLog, eventHandler: self)
-        }
 
         isInMenu = true
     }
@@ -1238,27 +1232,6 @@ class Game: NSObject, PowerEventHandler {
                 entity.info.costReduction += thaurissans.count
             }
         }
-    }
-
-    // MARK: - Replay
-    func proposeKeyPoint(type: KeyPointType, id: Int, player: PlayerType) {
-        if let proposedKeyPoint = proposedKeyPoint {
-            ReplayMaker.generate(type: proposedKeyPoint.type,
-                                 id: proposedKeyPoint.id,
-                                 player: proposedKeyPoint.player, eventHandler: self)
-        }
-        proposedKeyPoint = ReplayKeyPoint(data: nil, type: type, id: id, player: player)
-    }
-
-    func gameEndKeyPoint(victory: Bool, id: Int) {
-        if let proposedKeyPoint = proposedKeyPoint {
-            ReplayMaker.generate(type: proposedKeyPoint.type,
-                                 id: proposedKeyPoint.id,
-                                 player: proposedKeyPoint.player, eventHandler: self)
-            self.proposedKeyPoint = nil
-        }
-        ReplayMaker.generate(type: victory ? .victory : .defeat, id: id,
-                             player: .player, eventHandler: self)
     }
 
     // MARK: - player

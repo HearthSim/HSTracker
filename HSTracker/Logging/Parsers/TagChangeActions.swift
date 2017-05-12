@@ -120,14 +120,12 @@ struct TagChangeActions {
         if value == eventHandler.player.id {
             if entity.isInZone(zone: .secret) {
                 eventHandler.opponentStolen(entity: entity, cardId: entity.cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .secretStolen, id: id, player: .player)
             } else if entity.isInZone(zone: .play) {
                 eventHandler.opponentStolen(entity: entity, cardId: entity.cardId, turn: eventHandler.turnNumber())
             }
         } else if value == eventHandler.opponent.id && prevValue != value {
             if entity.isInZone(zone: .secret) {
                 eventHandler.playerStolen(entity: entity, cardId: entity.cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .secretStolen, id: id, player: .player)
             } else if entity.isInZone(zone: .play) {
                 eventHandler.playerStolen(entity: entity, cardId: entity.cardId, turn: eventHandler.turnNumber())
             }
@@ -138,69 +136,22 @@ struct TagChangeActions {
         guard value > 0 else { return }
         guard let entity = eventHandler.entities[id] else { return }
         guard entity[.cardtype] == CardType.hero_power.rawValue else { return }
-        
-        let controller = entity[.controller]
-        if controller == eventHandler.player.id {
-            eventHandler.proposeKeyPoint(type: .heroPower, id: id, player: .player)
-        } else if controller == eventHandler.opponent.id {
-            eventHandler.proposeKeyPoint(type: .heroPower, id: id, player: .opponent)
-        }
     }
 
     private func equippedWeaponChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
-        guard value == 0 else { return }
-        guard let entity = eventHandler.entities[id] else { return }
         
-        let controller = entity[.controller]
-        if controller == eventHandler.player.id {
-            eventHandler.proposeKeyPoint(type: .weaponDestroyed, id: id, player: .player)
-        } else if controller == eventHandler.opponent.id {
-            eventHandler.proposeKeyPoint(type: .weaponDestroyed, id: id, player: .opponent)
-        }
     }
 
     private func cardTargetChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
-        guard value > 0 else { return }
-        guard let entity = eventHandler.entities[id] else { return }
         
-        let controller = entity[.controller]
-        if controller == eventHandler.player.id {
-            eventHandler.proposeKeyPoint(type: .playSpell, id: id, player: .player)
-        } else if controller == eventHandler.opponent.id {
-            eventHandler.proposeKeyPoint(type: .playSpell, id: id, player: .opponent)
-        }
     }
 
     private func zonePositionChange(eventHandler: PowerEventHandler, id: Int) {
-        guard let entity = eventHandler.entities[id] else { return }
         
-        let zone = entity[.zone]
-        let controller = entity[.controller]
-        if zone == Zone.hand.rawValue {
-            if controller == eventHandler.player.id {
-                ReplayMaker.generate(type: .handPos, id: id, player: .player, eventHandler: eventHandler)
-            } else if controller == eventHandler.opponent.id {
-                ReplayMaker.generate(type: .handPos, id: id, player: .opponent, eventHandler: eventHandler)
-            }
-        } else if zone == Zone.play.rawValue {
-            if controller == eventHandler.player.id {
-                ReplayMaker.generate(type: .boardPos, id: id, player: .player, eventHandler: eventHandler)
-            } else if controller == eventHandler.opponent.id {
-                ReplayMaker.generate(type: .boardPos, id: id, player: .opponent, eventHandler: eventHandler)
-            }
-        }
     }
 
     private func numAttacksThisTurnChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
-        guard value > 0 else { return }
-        guard let entity = eventHandler.entities[id] else { return }
         
-        let controller = entity[.controller]
-        if controller == eventHandler.player.id {
-            eventHandler.proposeKeyPoint(type: .attack, id: id, player: .player)
-        } else if controller == eventHandler.opponent.id {
-            eventHandler.proposeKeyPoint(type: .attack, id: id, player: .opponent)
-        }
     }
 
     private func stateChange(eventHandler: PowerEventHandler, value: Int) {
@@ -251,13 +202,10 @@ struct TagChangeActions {
         if let value = PlayState(rawValue: value) {
             switch value {
             case .won:
-                eventHandler.gameEndKeyPoint(victory: true, id: id)
                 eventHandler.win()
             case .lost:
-                eventHandler.gameEndKeyPoint(victory: false, id: id)
                 eventHandler.loss()
             case .tied:
-                eventHandler.gameEndKeyPoint(victory: false, id: id)
                 eventHandler.tied()
             default: break
             }
@@ -378,10 +326,8 @@ struct TagChangeActions {
         case .play:
             if controller == eventHandler.player.id {
                 eventHandler.playerCreateInPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .summon, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentCreateInPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .summon, id: id, player: .opponent)
             }
             
         case .deck:
@@ -390,23 +336,19 @@ struct TagChangeActions {
                     break
                 }
                 eventHandler.playerGetToDeck(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .createToDeck, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 
                 if eventHandler.joustReveals > 0 {
                     break
                 }
                 eventHandler.opponentGetToDeck(entity: entity, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .createToDeck, id: id, player: .opponent)
             }
             
         case .hand:
             if controller == eventHandler.player.id {
                 eventHandler.playerGet(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .obtain, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentGet(entity: entity, turn: eventHandler.turnNumber(), id: id)
-                eventHandler.proposeKeyPoint(type: .obtain, id: id, player: .opponent)
             }
             
         case .secret:
@@ -415,14 +357,12 @@ struct TagChangeActions {
                     eventHandler.playerSecretPlayed(entity: entity, cardId: cardId,
                                             turn: eventHandler.turnNumber(), fromZone: prevZone)
                 }
-                eventHandler.proposeKeyPoint(type: .secretPlayed, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 if let prevZone = Zone(rawValue: prevValue) {
                     eventHandler.opponentSecretPlayed(entity: entity, cardId: cardId, from: -1,
                                               turn: eventHandler.turnNumber(),
                                               fromZone: prevZone, otherId: id)
                 }
-                eventHandler.proposeKeyPoint(type: .secretPlayed, id: id, player: .opponent)
             }
             
         case .setaside:
@@ -443,12 +383,9 @@ struct TagChangeActions {
         
         switch zoneValue {
         case .secret, .graveyard:
-            if controller == eventHandler.player.id {
-                eventHandler.proposeKeyPoint(type: .secretTriggered, id: id, player: .player)
-            } else if controller == eventHandler.opponent.id {
+            if controller == eventHandler.opponent.id {
                 eventHandler.opponentSecretTrigger(entity: entity, cardId: cardId,
                                            turn: eventHandler.turnNumber(), otherId: id)
-                eventHandler.proposeKeyPoint(type: .secretTriggered, id: id, player: .opponent)
             }
             
         default:
@@ -464,36 +401,26 @@ struct TagChangeActions {
         case .hand:
             if controller == eventHandler.player.id {
                 eventHandler.playerBackToHand(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .playToHand, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentPlayToHand(entity: entity, cardId: cardId,
                                         turn: eventHandler.turnNumber(), id: id)
-                eventHandler.proposeKeyPoint(type: .playToHand, id: id, player: .opponent)
             }
             
         case .deck:
             if controller == eventHandler.player.id {
                 eventHandler.playerPlayToDeck(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .playToDeck, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentPlayToDeck(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .playToDeck, id: id, player: .opponent)
             }
             
         case .graveyard:
             if controller == eventHandler.player.id {
                 eventHandler.playerPlayToGraveyard(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                if entity.has(tag: .health) {
-                    eventHandler.proposeKeyPoint(type: .death, id: id, player: .player)
-                }
             } else if controller == eventHandler.opponent.id {
                 if let playerEntity = eventHandler.playerEntity {
                     eventHandler.opponentPlayToGraveyard(entity: entity, cardId: cardId,
                                                  turn: eventHandler.turnNumber(),
                                                  playersTurn: playerEntity.isCurrentPlayer)
-                }
-                if entity.has(tag: .health) {
-                    eventHandler.proposeKeyPoint(type: .death, id: id, player: .opponent)
                 }
             }
             
@@ -520,22 +447,18 @@ struct TagChangeActions {
         case .play:
             if controller == eventHandler.player.id {
                 eventHandler.playerPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .play, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentPlay(entity: entity, cardId: cardId, from: entity[.zone_position],
                                   turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .play, id: id, player: .opponent)
             }
             
         case .removedfromgame, .setaside, .graveyard:
             if controller == eventHandler.player.id {
                 eventHandler.playerHandDiscard(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .handDiscard, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentHandDiscard(entity: entity, cardId: cardId,
                                          from: entity[.zone_position],
                                          turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .handDiscard, id: id, player: .opponent)
             }
             
         case .secret:
@@ -544,7 +467,6 @@ struct TagChangeActions {
                     eventHandler.playerSecretPlayed(entity: entity, cardId: cardId,
                                             turn: eventHandler.turnNumber(), fromZone: prevZone)
                 }
-                eventHandler.proposeKeyPoint(type: .secretPlayed, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 if let prevZone = Zone(rawValue: prevValue) {
                     eventHandler.opponentSecretPlayed(entity: entity, cardId: cardId,
@@ -552,16 +474,13 @@ struct TagChangeActions {
                                               turn: eventHandler.turnNumber(),
                                               fromZone: prevZone, otherId: id)
                 }
-                eventHandler.proposeKeyPoint(type: .secretPlayed, id: id, player: .opponent)
             }
             
         case .deck:
             if controller == eventHandler.player.id {
                 eventHandler.playerMulligan(entity: entity, cardId: cardId)
-                eventHandler.proposeKeyPoint(type: .mulligan, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentMulligan(entity: entity, from: entity[.zone_position])
-                eventHandler.proposeKeyPoint(type: .mulligan, id: id, player: .opponent)
             }
             
         default:
@@ -577,10 +496,8 @@ struct TagChangeActions {
         case .hand:
             if controller == eventHandler.player.id {
                 eventHandler.playerDraw(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .draw, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentDraw(entity: entity, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .draw, id: id, player: .opponent)
             }
             
         case .setaside, .removedfromgame:
@@ -605,19 +522,15 @@ struct TagChangeActions {
         case .graveyard:
             if controller == eventHandler.player.id {
                 eventHandler.playerDeckDiscard(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .deckDiscard, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentDeckDiscard(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .deckDiscard, id: id, player: .opponent)
             }
             
         case .play:
             if controller == eventHandler.player.id {
                 eventHandler.playerDeckToPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .deckDiscard, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 eventHandler.opponentDeckToPlay(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
-                eventHandler.proposeKeyPoint(type: .deckDiscard, id: id, player: .opponent)
             }
             
         case .secret:
@@ -626,14 +539,12 @@ struct TagChangeActions {
                     eventHandler.playerSecretPlayed(entity: entity, cardId: cardId,
                                             turn: eventHandler.turnNumber(), fromZone: prevZone)
                 }
-                eventHandler.proposeKeyPoint(type: .secretPlayed, id: id, player: .player)
             } else if controller == eventHandler.opponent.id {
                 if let prevZone = Zone(rawValue: prevValue) {
                     eventHandler.opponentSecretPlayed(entity: entity, cardId: cardId,
                                               from: -1, turn: eventHandler.turnNumber(),
                                               fromZone: prevZone, otherId: id)
                 }
-                eventHandler.proposeKeyPoint(type: .secretPlayed, id: id, player: .opponent)
             }
             
         default:

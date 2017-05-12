@@ -253,9 +253,6 @@
 		43A8A0F91E15596000AF34FD /* GameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F81E15596000AF34FD /* GameType.swift */; };
 		43AFEEEB1E22529C00F6045A /* CollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFEEEA1E22529C00F6045A /* CollectionManager.swift */; };
 		43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */; };
-		43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
-		43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695511C903A3600F4D0AC /* KeyPointType.swift */; };
-		43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695531C903AC900F4D0AC /* ReplayMaker.swift */; };
 		43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955A1C9065AC00F4D0AC /* Secret.swift */; };
 		43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955C1C90681200F4D0AC /* SecretHelper.swift */; };
 		43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
@@ -395,9 +392,6 @@
 		43C1CA771E96CD6F008C20B1 /* HttpEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AD95C1DAD81B500D8F959 /* HttpEncoding.swift */; };
 		43C1CA781E96CD6F008C20B1 /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432AD95A1DAD46FF00D8F959 /* Http.swift */; };
 		43C1CA791E96CD6F008C20B1 /* PackWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DFAA21E6AE1D8001C8F34 /* PackWatcher.swift */; };
-		43C1CA7A1E96CD6F008C20B1 /* ReplayKeyPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */; };
-		43C1CA7B1E96CD6F008C20B1 /* KeyPointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695511C903A3600F4D0AC /* KeyPointType.swift */; };
-		43C1CA7C1E96CD6F008C20B1 /* ReplayMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695531C903AC900F4D0AC /* ReplayMaker.swift */; };
 		43C1CA7D1E96CD6F008C20B1 /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 		43C1CA7E1E96CD6F008C20B1 /* LadderGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68171D1F74CE009030DC /* LadderGrid.swift */; };
 		43C1CA7F1E96CD6F008C20B1 /* Ranks.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C68191D1F8E27009030DC /* Ranks.swift */; };
@@ -948,9 +942,6 @@
 		43AFEEE91E218B0800F6045A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		43AFEEEA1E22529C00F6045A /* CollectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionManager.swift; sourceTree = "<group>"; };
 		43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeActions.swift; sourceTree = "<group>"; };
-		43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKeyPoint.swift; sourceTree = "<group>"; };
-		43B695511C903A3600F4D0AC /* KeyPointType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyPointType.swift; sourceTree = "<group>"; };
-		43B695531C903AC900F4D0AC /* ReplayMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayMaker.swift; sourceTree = "<group>"; };
 		43B6955A1C9065AC00F4D0AC /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		43B6955C1C90681200F4D0AC /* SecretHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretHelper.swift; sourceTree = "<group>"; };
 		43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentSecrets.swift; sourceTree = "<group>"; };
@@ -1372,7 +1363,6 @@
 				439C7E931C777F8900D29859 /* Logging */,
 				432AD9571DAD468000D8F959 /* Network */,
 				436DFAA11E6AE1AB001C8F34 /* PackWatcher */,
-				43B6954E1C90387F00F4D0AC /* Replay */,
 				439C7E8E1C777D6C00D29859 /* Resources */,
 				C99C0C9B1D0A607D000DD6FB /* Statistics */,
 				4359BF791D51EE9200F61993 /* TrackOBot */,
@@ -1568,16 +1558,6 @@
 				437C58321EBCC88600FFD888 /* EnumCollection.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		43B6954E1C90387F00F4D0AC /* Replay */ = {
-			isa = PBXGroup;
-			children = (
-				43B6954F1C9038A500F4D0AC /* ReplayKeyPoint.swift */,
-				43B695511C903A3600F4D0AC /* KeyPointType.swift */,
-				43B695531C903AC900F4D0AC /* ReplayMaker.swift */,
-			);
-			path = Replay;
 			sourceTree = "<group>";
 		};
 		43B695551C90653A00F4D0AC /* Hearthstone */ = {
@@ -1939,7 +1919,6 @@
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */,
-				43B695541C903AC900F4D0AC /* ReplayMaker.swift in Sources */,
 				43B695631C920A0500F4D0AC /* CardList.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
@@ -1983,7 +1962,6 @@
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				431AA0CB1D362DBA0030AD22 /* Faction.swift in Sources */,
 				437E56F31DAAB81400FC0FC1 /* Int.swift in Sources */,
-				43B695521C903A3600F4D0AC /* KeyPointType.swift in Sources */,
 				C92C68181D1F74CE009030DC /* LadderGrid.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
 				BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */,
@@ -2057,7 +2035,6 @@
 				434C2F3E1C7F491C001D1D91 /* Heartharena.swift in Sources */,
 				1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */,
 				43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */,
-				43B695501C9038A500F4D0AC /* ReplayKeyPoint.swift in Sources */,
 				43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */,
 				436F5D0E1CFD64A300DEB9A1 /* ThemeElementInfo.swift in Sources */,
 				1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */,
@@ -2221,9 +2198,6 @@
 				43C1CA771E96CD6F008C20B1 /* HttpEncoding.swift in Sources */,
 				43C1CA781E96CD6F008C20B1 /* Http.swift in Sources */,
 				43C1CA791E96CD6F008C20B1 /* PackWatcher.swift in Sources */,
-				43C1CA7A1E96CD6F008C20B1 /* ReplayKeyPoint.swift in Sources */,
-				43C1CA7B1E96CD6F008C20B1 /* KeyPointType.swift in Sources */,
-				43C1CA7C1E96CD6F008C20B1 /* ReplayMaker.swift in Sources */,
 				43C1CA7D1E96CD6F008C20B1 /* StatsHelper.swift in Sources */,
 				1C561C991EC1EC6600007A46 /* ReplayUploadTests.swift in Sources */,
 				43C1CA7E1E96CD6F008C20B1 /* LadderGrid.swift in Sources */,

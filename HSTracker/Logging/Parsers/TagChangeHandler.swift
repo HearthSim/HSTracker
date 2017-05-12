@@ -44,14 +44,6 @@ class TagChangeHandler {
             eventHandler.entities[id] = Entity(id: id)
         }
         
-        if eventHandler.lastId != id {
-            if let proposedKeyPoint = eventHandler.proposedKeyPoint {
-                ReplayMaker.generate(type: proposedKeyPoint.type,
-                                     id: proposedKeyPoint.id,
-                                     player: proposedKeyPoint.player, eventHandler: eventHandler)
-                eventHandler.proposedKeyPoint = nil
-            }
-        }
         eventHandler.lastId = id
 
         if let entity = eventHandler.entities[id] {

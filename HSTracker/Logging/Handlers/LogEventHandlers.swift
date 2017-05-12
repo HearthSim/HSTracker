@@ -30,9 +30,6 @@ protocol PowerEventHandler: class {
 	
 	var currentMode: Mode? { get set }
 	
-	func proposeKeyPoint(type: KeyPointType, id: Int, player: PlayerType)
-	var proposedKeyPoint: ReplayKeyPoint? { get set }
-	
 	var gameTriggerCount: Int { get set }
 	
 	var lastId: Int { get set }
@@ -47,8 +44,6 @@ protocol PowerEventHandler: class {
 	var currentEntityZone: Zone { get set }
 	
 	var currentBlock: Block? { get }
-	
-	func gameEndKeyPoint(victory: Bool, id: Int)
 	
 	func determinedPlayers() -> Bool
 	
