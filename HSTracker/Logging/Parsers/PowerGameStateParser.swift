@@ -33,6 +33,34 @@ class PowerGameStateParser: LogEventParser {
 	init(with eventHandler: PowerEventHandler) {
 		self.eventHandler = eventHandler
 	}
+    
+    // MARK: - Entities
+    
+    private var currentEntityId = 0
+    
+    func resetCurrentEntity() {
+        currentEntityId = 0
+    }
+    
+    // MARK - blocks
+    func blockStart() {
+        maxBlockId += 1
+        let blockId = maxBlockId
+        currentBlock = currentBlock?.createChild(blockId: blockId)
+            ?? Block(parent: nil, id: blockId)
+    }
+    
+    func blockEnd() {
+        currentBlock = currentBlock?.parent
+        if let entity = eventHandler.entities[currentEntityId] {
+            entity.info.hasOutstandingTagChanges = false
+        }
+    }
+    
+    private var maxBlockId: Int = 0
+    private var currentBlock: Block?
+    
+    // MARK - line handling
 
     func handle(logLine: LogLine) {
         var creationTag = false
@@ -47,6 +75,7 @@ class PowerGameStateParser: LogEventParser {
 				entity.name = "GameEntity"
 				
 				eventHandler.add(entity: entity)
+                currentEntityId = id
                 eventHandler.set(currentEntity: id)
 				
                 if eventHandler.determinedPlayers() {
@@ -66,6 +95,7 @@ class PowerGameStateParser: LogEventParser {
                 if eventHandler.wasInProgress {
                     //game.entities[id]?.name = game.getStoredPlayerName(id: id)
                 }
+                currentEntityId = id
                 eventHandler.set(currentEntity: id)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
@@ -166,7 +196,7 @@ class PowerGameStateParser: LogEventParser {
 
             if eventHandler.entities[id] == .none {
                 if cardId.isBlank && zone != .setaside {
-                    if let blockId = eventHandler.currentBlock?.id,
+                    if let blockId = currentBlock?.id,
                         let cards = eventHandler.knownCardIds[blockId] {
                         cardId = cards.first
                         if !cardId.isBlank {
@@ -185,6 +215,7 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.entities[id]!.cardId = cardId!
             }
 
+            currentEntityId = id
             eventHandler.set(currentEntity: id)
             if eventHandler.determinedPlayers() {
                 tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
@@ -213,6 +244,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.entities[entityId] = entity
                 }
                 eventHandler.entities[entityId]!.cardId = cardId
+                currentEntityId = entityId
                 eventHandler.set(currentEntity: entityId)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
@@ -236,14 +268,14 @@ class PowerGameStateParser: LogEventParser {
             let matches = logLine.line.matches(CreationTagRegex)
             let tag = matches[0].value
             let value = matches[1].value
-            tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: eventHandler.currentEntityId,
+            tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
         }
         if logLine.line.contains("End Spectator") {
             eventHandler.gameEnd()
         } else if logLine.line.contains("BLOCK_START") {
-            eventHandler.blockStart()
+            blockStart()
 
             if logLine.line.match(BlockStartRegex) {
                 let player = eventHandler.entities.map { $0.1 }
@@ -392,6 +424,11 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.set(activeDeckId: nil, autoDetected: false)
                 }
             }
+            
+            // indicate game start
+            maxBlockId = 0
+            currentBlock = nil
+            resetCurrentEntity()
             eventHandler.gameStart(at: logLine.time)
         } else if logLine.line.contains("BLOCK_END") {
             if eventHandler.gameTriggerCount < 10 && (eventHandler.gameEntity?.has(tag: .turn) ?? false) {
@@ -399,7 +436,7 @@ class PowerGameStateParser: LogEventParser {
                 tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 eventHandler.setupDone = true
             }
-            eventHandler.blockEnd()
+            blockEnd()
         }
 
         if eventHandler.isInMenu { return }
@@ -408,7 +445,7 @@ class PowerGameStateParser: LogEventParser {
             tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
         }
         if !creationTag {
-            eventHandler.resetCurrentEntity()
+            resetCurrentEntity()
         }
     }
 
@@ -426,7 +463,7 @@ class PowerGameStateParser: LogEventParser {
     private func addKnownCardId(eventHandler: PowerEventHandler, cardId: String?, count: Int = 1) {
         guard let cardId = cardId else { return }
 
-        if let blockId = eventHandler.currentBlock?.id {
+        if let blockId = currentBlock?.id {
             for _ in 0 ..< count {
                 if eventHandler.knownCardIds[blockId] == nil {
                     eventHandler.knownCardIds[blockId] = []

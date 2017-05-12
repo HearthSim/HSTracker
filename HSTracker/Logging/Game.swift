@@ -94,7 +94,6 @@ class Game: NSObject, PowerEventHandler {
 	}
 	
 	func set(currentEntity id: Int) {
-		currentEntityId = id
 		if let entity = entities[id] {
 			entity.info.hasOutstandingTagChanges = true
 		}
@@ -526,7 +525,6 @@ class Game: NSObject, PowerEventHandler {
     var gameEnded = true
     internal private(set) var currentDeck: PlayingDeck?
 
-    var currentEntityId = 0
     var currentEntityHasCardId = false
     var playerUsedHeroPower = false
     private var hasCoin = false
@@ -547,9 +545,6 @@ class Game: NSObject, PowerEventHandler {
     private var lastCompetitiveSpiritCheck: Int = 0
     private var lastTurnStart: [Int] = [0, 0]
     private var turnQueue: Set<PlayerTurn> = Set()
-
-    private var maxBlockId: Int = 0
-    private(set) var currentBlock: Block?
     
 	fileprivate var lastGameStartTimestamp: LogDate = LogDate(date: Date.distantPast)
 
@@ -720,8 +715,6 @@ class Game: NSObject, PowerEventHandler {
 
         lastId = 0
         gameTriggerCount = 0
-        maxBlockId = 0
-        currentBlock = nil
 
         _matchInfo = nil
         currentFormat = Format(formatType: FormatType.ft_unknown)
@@ -735,7 +728,7 @@ class Game: NSObject, PowerEventHandler {
         joustReveals = 0
 		
         lastCardPlayed = nil
-        currentEntityId = 0
+        
         currentEntityHasCardId = false
         playerUsedHeroPower = false
         hasCoin = false
@@ -759,24 +752,6 @@ class Game: NSObject, PowerEventHandler {
         windowManager.hideGameTrackers()
 		
 		_spectator = false
-    }
-
-    func resetCurrentEntity() {
-        currentEntityId = 0
-    }
-
-    func blockStart() {
-        maxBlockId += 1
-        let blockId = maxBlockId
-        currentBlock = currentBlock?.createChild(blockId: blockId)
-            ?? Block(parent: nil, id: blockId)
-    }
-
-    func blockEnd() {
-        currentBlock = currentBlock?.parent
-        if let entity = entities[currentEntityId] {
-            entity.info.hasOutstandingTagChanges = false
-        }
     }
 
 	func set(activeDeckId: String?, autoDetected: Bool) {

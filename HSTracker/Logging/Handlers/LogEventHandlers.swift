@@ -10,10 +10,6 @@ import Foundation
 
 protocol PowerEventHandler: class {
 	
-	// TODO: should absolutely be removed
-	func blockStart()
-	func blockEnd()
-	
 	// TODO: remove set on most properties to ensure encapsulation
 	var entities: [Int: Entity] { get set }
 	var tmpEntities: [Entity] { get set }
@@ -38,12 +34,7 @@ protocol PowerEventHandler: class {
 	
 	var currentEntityHasCardId: Bool { get set }
 	
-	func resetCurrentEntity()
-	
-	var currentEntityId: Int { get set }
 	var currentEntityZone: Zone { get set }
-	
-	var currentBlock: Block? { get }
 	
 	func determinedPlayers() -> Bool
 	
