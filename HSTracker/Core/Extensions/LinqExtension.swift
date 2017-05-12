@@ -122,6 +122,22 @@ extension Array {
         }
         return to
     }
+	
+	func takeUntil(_ include: Bool = false, fn: (Element) -> Bool) -> [Element] {
+		var to = [Element]()
+		for x in self {
+			let t = x as Element
+			if fn(t) {
+				if (include) {
+					to.append(t)
+				}
+				break;
+			} else {
+				to.append(t)
+			}
+		}
+		return to
+	}
 
     func firstWhere(_ fn: (Element) -> Bool) -> Element? {
         for x in self {

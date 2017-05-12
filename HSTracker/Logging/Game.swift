@@ -847,25 +847,7 @@ class Game: NSObject, PowerEventHandler {
         lastGameStart = Date()
         
         // remove every line before _last_ create game
-        print("Number of create game before filter: \(powerLog.filter({ $0.line.contains("CREATE_GAME") }).count)")
-        /*if let gamestartLine = self.powerLog.reversed().index(where: { $0.line.contains("CREATE_GAME") }),
-            self.powerLog.count - 1 - gamestartLine.base > 0 {
-            let forwardIndex = self.powerLog.count - 1 - gamestartLine.base
-            
-        }*/
-        
-        if self.powerLog.count > 1 {
-            var ind = self.powerLog.count - 1
-            while ind > 0 {
-                if self.powerLog[ind].line.contains("CREATE_GAME") {
-                    self.powerLog.removeSubrange(0 ..< ind )
-                    break
-                }
-                
-                ind -= 1
-            }
-        }
-        print("Number of create game: \(powerLog.filter({ $0.line.contains("CREATE_GAME") }).count)")
+		self.powerLog = self.powerLog.reversed().takeUntil(true, fn: { $0.line.contains("CREATE_GAME") }).reversed()
 
 		gameEnded = false
         isInMenu = false
