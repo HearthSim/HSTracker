@@ -262,11 +262,17 @@ final class LogReader {
     
     func collect(index: Int) -> [LogLine] {
         var items = [LogLine]()
-        let size = _lines.count
+        let size = _lines[index].count
+        
+        if size == 0 {
+            return items
+        }
         
         for _ in 0..<size {
             if let elem = _lines[index].dequeue() {
                 items.append(elem)
+            } else {
+                break
             }
         }
 
