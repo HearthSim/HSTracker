@@ -18,10 +18,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	let hockeyHelper = HockeyHelper()
 	var appWillRestart = false
 	var splashscreen: Splashscreen?
-	var initalConfig: InitialConfiguration?
-	var deckManager: DeckManager?
-	@IBOutlet weak var sparkleUpdater: SUUpdater!
-	var operationQueue: OperationQueue!
 	
 	var dockMenu = NSMenu(title: "DockMenu")
 	var appHealth: AppHealth = AppHealth.instance
