@@ -68,7 +68,7 @@
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="ZLL-Et-PWS">
                     <rect key="frame" x="18" y="156" width="444" height="18"/>
-                    <buttonCell key="cell" type="check" title="Add a note on end game" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4f5-xO-gik">
+                    <buttonCell key="cell" type="check" title="Add a note on end game" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="4f5-xO-gik">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>

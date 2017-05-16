@@ -109,10 +109,10 @@ final class Settings {
         set { set(name: "rarity_colors", value: newValue) }
         get { return get(name: "rarity_colors") as? Bool ?? true }
     }
-    static var promptNotes: Bool {
+    /*static var promptNotes: Bool {
         set { set(name: "prompt_for_notes", value: newValue) }
         get { return get(name: "prompt_for_notes") as? Bool ?? false }
-    }
+    }*/
     static var autoPositionTrackers: Bool {
         set { set(name: "auto_position_trackers", value: newValue) }
         get { return get(name: "auto_position_trackers") as? Bool ?? true }

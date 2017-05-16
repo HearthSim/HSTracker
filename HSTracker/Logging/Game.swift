@@ -986,7 +986,7 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         
-        if Settings.promptNotes {
+        /*if Settings.promptNotes {
             let message = NSLocalizedString("Do you want to add some notes for this game ?",
                                             comment: "")
             let frame = NSRect(x: 0, y: 0, width: 300, height: 80)
@@ -996,7 +996,7 @@ class Game: NSObject, PowerEventHandler {
                             accessoryView: input, forceFront: true) {
                 currentGameStats.note = input.string ?? ""
             }
-        }
+        }*/
 
         Log.verbose?.message("End game: \(currentGameStats)")
         let stats = currentGameStats.toGameStats()
