@@ -3,6 +3,7 @@
 
 build/
 DerivedData/
+Gemfile.lock
 
 # Sparkle private stuff
 sparkle/release
