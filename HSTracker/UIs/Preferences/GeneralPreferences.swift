@@ -29,7 +29,7 @@ class GeneralPreferences: NSViewController {
         notifyTurnStart.state = Settings.notifyTurnStart ? NSOnState : NSOffState
         notifyOpponentConcede.state = Settings.notifyOpponentConcede ? NSOnState : NSOffState
         closeTrackerWhenHSCloses.state = Settings.quitWhenHearthstoneCloses ? NSOnState : NSOffState
-        promptNote.state = Settings.promptNotes ? NSOnState : NSOffState
+        //promptNote.state = Settings.promptNotes ? NSOnState : NSOffState
         saveReplays.state = Settings.saveReplays ? NSOnState : NSOffState
         enableDockBadge.state = Settings.showAppHealth ? NSOnState : NSOffState
         preferGoldenCards.state = Settings.preferGoldenCards ? NSOnState : NSOffState
@@ -46,8 +46,8 @@ class GeneralPreferences: NSViewController {
             Settings.notifyOpponentConcede = notifyOpponentConcede.state == NSOnState
         } else if sender == closeTrackerWhenHSCloses {
             Settings.quitWhenHearthstoneCloses = closeTrackerWhenHSCloses.state == NSOnState
-        } else if sender == promptNote {
-            Settings.promptNotes = promptNote.state == NSOnState
+        //} else if sender == promptNote {
+        //    Settings.promptNotes = promptNote.state == NSOnState
         } else if sender == saveReplays {
             Settings.saveReplays = saveReplays.state == NSOnState
         } else if sender == enableDockBadge {
