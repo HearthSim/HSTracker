@@ -1,3 +1,16 @@
+# 1.0.1
+## Fixes:
+- Fixed a crash when the deck manager UI tries to save/update a deck
+- Fixed a crash when saving current player / opponent deck
+- Fixed an error where arena score were not shown if value contains non-numeric character
+- Fixed an error where game mode were not updated when switching from a game mode to another
+- Fixed an issue where tracker GUI's were hidden even when app was active
+- Clear trackers on game end now works properly
+- Fixed an issue when uploading to HSReplay
+
+## New
+- Add an indicator for bad card when multiple (arena helper)
+
 # 1.0
 ## Fixes:
 - Fixed quests not increasing spell counter.
