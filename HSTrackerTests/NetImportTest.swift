@@ -9,6 +9,7 @@
 import XCTest
 import RealmSwift
 import CleanroomLogger
+import Kanna
 @testable import HSTracker
 
 @available(OSX 10.10, *)
@@ -29,6 +30,87 @@ class NetImportTest: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
+    }
+
+    private func verifyDeck(html: String) {
+        guard let doc = Kanna.HTML(html: html, encoding: .utf8) else {
+            XCTFail("HTML is not valid")
+            return
+        }
+        let importer = MetaTagImporter()
+        guard let (deck, cards) = importer.loadDeck(doc: doc, url: ""),
+            cards.isValidDeck() else {
+                XCTFail("Deck is not valid")
+                return
+        }
+
+        RealmHelper.add(deck: deck, with: cards)
+        do {
+            let realm = try Realm()
+            guard let newDeck = realm.objects(Deck.self)
+                .filter("name = 'Classic Hunter'").first else {
+                    XCTFail("Can not fetch deck")
+                    return
+            }
+            XCTAssertEqual(newDeck.playerClass, .hunter, "Invalid class found")
+            XCTAssertEqual(newDeck.countCards(), 30, "Deck should have 30 cards")
+            XCTAssertNotNil(newDeck.sortedCards.first({
+                $0.id == "CS2_172" && $0.count == 2
+            }), "Bloodfen Raptor should be present")
+
+            guard let string = DeckSerializer.serialize(deck: deck) else {
+                XCTFail("Can not generate deck string")
+                return
+            }
+            XCTAssertEqual(string, "AAECAR8GxwPJBLsFmQfZB/gIDI0B2AGoArUDhwSSBe0G6wfbCe0JgQr+DAA=", "Generated deck string is not correct")
+        } catch {
+            XCTFail("Can not fetch deck")
+        }
+    }
+
+    func testMetatagsWithClassAndCards() {
+        let html = "<head>"
+            + "<meta property='x-hearthstone:deck' content='Classic Hunter'/>"
+            + "<meta property='x-hearthstone:deck:hero' content='HERO_05'/>"
+            + "<meta property='x-hearthstone:deck:cards' content='EX1_554,EX1_610,DS1_178,EX1_017,EX1_162,EX1_543,CS2_084,CS2_084,CS2_172,CS2_172,EX1_539,EX1_539,NEW1_031,NEW1_031,EX1_611,EX1_611,EX1_029,EX1_029,DS1_185,DS1_185,DS1_070,DS1_070,EX1_538,EX1_538,EX1_534,EX1_534,EX1_531,EX1_531,EX1_536,EX1_536'/>"
+            + "<meta property='x-hearthstone:deck:url' content='https://github.com/HearthSim/Hearthstone-Deck-Tracker/wiki/RFC-Importing-Implementation'/>"
+            + "</head>"
+        verifyDeck(html: html)
+    }
+
+    func testMetatagsWithDeckString() {
+        let html = "<head>"
+            + "<meta property='x-hearthstone:deck' content='Classic Hunter'/>"
+            + "<meta property='x-hearthstone:deck:deckstring' content='AAECAR8GxwPJBLsFmQfZB/gIDI0B2AGoArUDhwSSBe0G6wfbCe0JgQr+DAA='/>"
+            + "<meta property='x-hearthstone:deck:url' content='https://github.com/HearthSim/Hearthstone-Deck-Tracker/wiki/RFC-Importing-Implementation'/>"
+            + "</head>"
+        verifyDeck(html: html)
+    }
+
+    func testCompleteImport() {
+        let str = "### Classic Hunter\n"
+            + "# Class: Hunter\n"
+            + "# Format: Standard\n"
+            + "# Year of the Mammoth\n"
+            + "#\n"
+            + "# 2x (1) Arcane Shot\n"
+            + "# 2x (1) Hunter's Mark\n"
+            + "# 2x (1) Leper Gnome\n"
+            + "# 2x (2) Bloodfen Raptor\n"
+            + "# 1x (2) Dire Wolf Alpha\n"
+            + "# ....\n"
+            + "# \n"
+            + "AAECAR8GxwPJBLsFmQfZB/gIDI0B2AGoArUDhwSSBe0G6wfbCe0JgQr+DAA=\n"
+            + "#\n"
+            + "# To use this deck, copy it to your clipboard and create a new deck in Hearthstone\n"
+
+        guard let deck = DeckSerializer.deserialize(input: str) else {
+            XCTFail("Can not decode deck")
+            return
+        }
+        XCTAssertEqual(deck.name, "Classic Hunter", "Deck name is not correct")
+        XCTAssertEqual(deck.playerClass, .hunter, "Invalid class found")
+        XCTAssertTrue(deck.cards.map({ $0.id }).contains("EX1_539"), "Kill Command not found")
     }
 
     private func verifyDeck(importer: Importer, url: String, name: String, playerClass: CardClass,

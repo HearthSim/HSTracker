@@ -264,6 +264,10 @@
 		43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BB1DB7FB040081964A /* OverWindowController.swift */; };
 		43BDF0BE1DB89A830081964A /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDF0BD1DB89A830081964A /* WindowManager.swift */; };
 		43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BE58BD1DC47C6D00B24A21 /* Paths.swift */; };
+		43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF754B1ECC25F7005827FF /* DeckSerializer.swift */; };
+		43BF754D1ECC25F7005827FF /* DeckSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF754B1ECC25F7005827FF /* DeckSerializer.swift */; };
+		43BF754F1ECC4EB7005827FF /* Varint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF754E1ECC4EB7005827FF /* Varint.swift */; };
+		43BF75501ECC4EB7005827FF /* Varint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF754E1ECC4EB7005827FF /* Varint.swift */; };
 		43C1C9F61E96CCDB008C20B1 /* SecretTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43640BE21E8A328700FAFD07 /* SecretTests.swift */; };
 		43C1C9F71E96CCE9008C20B1 /* AlgorithmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1B5891E81426D007DCBF2 /* AlgorithmTests.swift */; };
 		43C1C9F81E96CCE9008C20B1 /* HSTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E601C7772C100D29859 /* HSTrackerTests.swift */; };
@@ -953,6 +957,8 @@
 		43BDF0BB1DB7FB040081964A /* OverWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverWindowController.swift; sourceTree = "<group>"; };
 		43BDF0BD1DB89A830081964A /* WindowManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		43BE58BD1DC47C6D00B24A21 /* Paths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paths.swift; sourceTree = "<group>"; };
+		43BF754B1ECC25F7005827FF /* DeckSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckSerializer.swift; sourceTree = "<group>"; };
+		43BF754E1ECC4EB7005827FF /* Varint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Varint.swift; sourceTree = "<group>"; };
 		43C36D2B1D08623D00F6723C /* CardSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSet.swift; sourceTree = "<group>"; };
 		43C567E31D5D0C6300451B6F /* versions.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = versions.markdown; sourceTree = "<group>"; };
 		43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
@@ -1191,6 +1197,7 @@
 				434C2F2E1C7F437D001D1D91 /* NetImporter.swift */,
 				435907EB1CB13835008D4363 /* FileImporter.swift */,
 				43552F621D7368AE00980ABA /* MetaTagImporter.swift */,
+				43BF754B1ECC25F7005827FF /* DeckSerializer.swift */,
 			);
 			path = Importers;
 			sourceTree = "<group>";
@@ -1556,6 +1563,7 @@
 				434EAC951DBCD3E8009C7636 /* NSAlert.swift */,
 				437C582F1EBC7E8400FFD888 /* NSImage.swift */,
 				437C58321EBCC88600FFD888 /* EnumCollection.swift */,
+				43BF754E1ECC4EB7005827FF /* Varint.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1933,6 +1941,7 @@
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */,
+				43BF754F1ECC4EB7005827FF /* Varint.swift in Sources */,
 				437B5BC21CD2568100DE0A41 /* TrackersPreferences.swift in Sources */,
 				439C7EC61C777F8900D29859 /* RachelleHandler.swift in Sources */,
 				434C2F2C1C7F122A001D1D91 /* NewDeck.swift in Sources */,
@@ -1987,6 +1996,7 @@
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */,
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
+				43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
 				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
 				437E56FA1DAAE48E00FC0FC1 /* Hearthstoneheroes.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
@@ -2208,6 +2218,7 @@
 				43C1CA831E96CD6F008C20B1 /* Toast.swift in Sources */,
 				43C1CA841E96CD6F008C20B1 /* Statistics.swift in Sources */,
 				43C1CA851E96CD6F008C20B1 /* StatsTab.swift in Sources */,
+				43BF75501ECC4EB7005827FF /* Varint.swift in Sources */,
 				43C1CA861E96CD6F008C20B1 /* LadderTab.swift in Sources */,
 				43C1CA871E96CD6F008C20B1 /* CardBar.swift in Sources */,
 				43C1CA881E96CD6F008C20B1 /* ThemeElementInfo.swift in Sources */,
@@ -2223,6 +2234,7 @@
 				43C1CA921E96CD6F008C20B1 /* DeckCellView.swift in Sources */,
 				43C1CA931E96CD6F008C20B1 /* NewDeck.swift in Sources */,
 				43C1CA941E96CD6F008C20B1 /* EditDeck.swift in Sources */,
+				43BF754D1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
 				43C1CA951E96CD6F008C20B1 /* SaveDeck.swift in Sources */,
 				43C1CA961E96CD6F008C20B1 /* ManaGemButton.swift in Sources */,
 				43C1CA971E96CD6F008C20B1 /* InitialConfiguration.swift in Sources */,

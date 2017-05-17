@@ -121,6 +121,10 @@ class Deck: Object {
             $0.set != nil && CardSet.wildSets().contains($0.set!)
         }
     }
+
+    var isWildDeck: Bool {
+        return sortedCards.any { CardSet.wildSets().contains($0.set ?? .all) }
+    }
     
     /**
      * Compares the card content to the other deck
