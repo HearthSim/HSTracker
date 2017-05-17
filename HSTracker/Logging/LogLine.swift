@@ -25,7 +25,7 @@ class LogDateFormatter: DateFormatter {
 			let rcen = 10^^(7-len)
 			let roundedss = (date.subseconds + (rcen/2))/rcen * rcen
 			
-			let subsecstr = String(format: "%07d", roundedss).substringWithRange(0, end: len)
+			let subsecstr = String(format: "%07d", roundedss).substring(from: 0, to: len)
 
 			str.replaceSubrange(match.range, with: subsecstr)
 		}

@@ -26,31 +26,39 @@ extension Optional where Wrapped == String {
 }
 
 extension String {
-
-    func substringWithRange(_ start: Int, end: Int) -> String {
-        if start < 0 || start > self.characters.count {
-            print("start index \(start) out of bounds")
-            return ""
-        } else if end < 0 || end > self.characters.count {
-            print("end index \(end) out of bounds")
+    func substring(from: Int) -> String {
+        if from < 0 || from > characters.count {
+            print("from index \(from) out of bounds")
             return ""
         }
-        let range = self.characters.index(self.startIndex, offsetBy: start)
-            ..< self.characters.index(self.startIndex, offsetBy: end)
+
+        return substring(from: index(startIndex, offsetBy: from))
+    }
+
+    func substring(from: Int, to: Int) -> String {
+        if from < 0 || from > self.characters.count {
+            print("from index \(from) out of bounds")
+            return ""
+        } else if to < 0 || to > self.characters.count {
+            print("to index \(to) out of bounds")
+            return ""
+        }
+        let range = self.characters.index(self.startIndex, offsetBy: from)
+            ..< self.characters.index(self.startIndex, offsetBy: to)
         return self.substring(with: range)
     }
 
-    func substringWithRange(_ start: Int, location: Int) -> String {
-        if start < 0 || start > self.characters.count {
-            print("start index \(start) out of bounds")
+    func substring(from: Int, length: Int) -> String {
+        if from < 0 || from > self.characters.count {
+            print("from index \(from) out of bounds")
             return ""
-        } else if location < 0 || start + location > self.characters.count {
-            print("end index \(start + location) out of bounds")
+        } else if length < 0 || from + length > self.characters.count {
+            print("end index \(from + length) out of bounds")
             return ""
         }
 
-        let startPos = self.characters.index(self.startIndex, offsetBy: start)
-        let endPos = self.characters.index(self.startIndex, offsetBy: start + location)
+        let startPos = self.characters.index(self.startIndex, offsetBy: from)
+        let endPos = self.characters.index(self.startIndex, offsetBy: from + length)
         let range = startPos ..< endPos
         return self.substring(with: range)
     }
