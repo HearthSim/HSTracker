@@ -13,7 +13,8 @@ import AppKit
 class HSReplayManager {
 
     class func showReplay(replayId: String) {
-        let url = URL(string: "\(HSReplay.baseUrl)/uploads/upload/\(replayId)")
+        let url = URL(string: "\(HSReplay.baseUrl)/uploads/upload/\(replayId)"
+            + "?utm_source=hstracker&utm_medium=client&utm_campaign=replay")
         NSWorkspace.shared().open(url!)
     }
 }
