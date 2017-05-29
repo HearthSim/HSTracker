@@ -34,8 +34,9 @@ class SaveDeck: NSWindowController {
 
         deckName.stringValue = deck!.name 
 
-        if RealmHelper.getDeck(with: deck!.deckId) != nil {
-            exists = true
+        if let deck = RealmHelper.getDeck(with: deck!.deckId) {
+			self.deck = deck
+			exists = true
         } else {
             Log.error?.message("Can not fetch deck")
         }
@@ -45,7 +46,11 @@ class SaveDeck: NSWindowController {
     @IBAction func save(_ sender: AnyObject) {
         guard let deck = deck, let cards = cards, cards.isValidDeck() else { return }
 
-        RealmHelper.rename(deck: deck, to: deckName.stringValue)
+		if self.exists {
+			RealmHelper.rename(deck: deck, to: deckName.stringValue)
+		} else {
+			deck.name = deckName.stringValue
+		}
         self.saveDeck(update: exists)
     }
 
@@ -56,8 +61,11 @@ class SaveDeck: NSWindowController {
     func saveDeck(update: Bool) {
         guard let deck = deck, let cards = cards, cards.isValidDeck() else { return }
 		
-		RealmHelper.update(deck: deck, with: cards)
-        RealmHelper.add(deck: deck, update: update)
+		if update {
+			RealmHelper.update(deck: deck, with: cards)
+		} else {
+			RealmHelper.add(deck: deck, with: cards)
+		}
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
                                         object: deck)
