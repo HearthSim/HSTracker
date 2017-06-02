@@ -137,9 +137,11 @@ extension CardIds.NonCollectible {
         static let TinyKnightofEvil_FelrageEnchantment = "AT_021e"
         static let WilfredFizzlebang_MasterSummonerEnchantment = "AT_027e"
         static let JusticarTrueheart_SoulTap = "AT_132_WARLOCK"
+        static let NextHeroWarlockEnch = "FB_TagTeam_Warlock_Ench"
         static let SecondClassWarlockTavernBrawl = "TB_ClassRandom_Warlock"
         static let DarkWandererTavernBrawl = "TB_SPT_DPromo_Hero"
         static let TwistingNetherTavernBrawl = "TB_SPT_DpromoEX1_312"
+        static let WarlockTavernBrawl = "TB_TagTeam_Warlock"
         static let CurseofRafaam_CursedToken = "LOE_007t"
         static let ObsidianDestroyer_SinisterPowerEnchantment = "LOE_009e"
         static let DarkshireCouncilman_PowerOfThePeopleEnchantment = "OG_113e"
@@ -159,3 +161,4 @@ extension CardIds.NonCollectible {
         static let ClutchmotherZavas_RemembranceEnchantment = "UNG_836e"
     }
 }
+

@@ -117,7 +117,6 @@ extension CardIds.Collectible {
 
 extension CardIds.NonCollectible {
     struct Priest {
-        static let AwakentheMakers_AmaraWardenOfHopeToken = "UNG_940t8"
         static let LesserHeal = "CS1h_001"
         static let PowerWordShield_PowerWordShieldEnchantment = "CS2_004e"
         static let DivineSpirit_DivineSpiritEnchantment = "CS2_236e"
@@ -139,16 +138,20 @@ extension CardIds.NonCollectible {
         static let JusticarTrueheart_Heal = "AT_132_PRIEST"
         static let LesserHeal_LesserHealHeroSkins = "CS1h_001_H1"
         static let HealHeroSkins = "CS1h_001_H1_AT_132"
+        static let NextHeroPriestEnch = "FB_TagTeam_Priest_Ench"
         static let SecondClassPriestTavernBrawl = "TB_ClassRandom_Priest"
         static let TwistedLightTavernBrawl = "TB_CoOpv3_002"
         static let ShadowOrLightTavernBrawl = "TB_Coopv3_102"
         static let ShadoworLight_SecretsOfShadowTavernBrawl = "TB_Coopv3_102a"
         static let ShadoworLight_AlmsOfLightTavernBrawl = "TB_Coopv3_102b"
+        static let PriestTavernBrawl = "TB_TagTeam_Priest"
         static let PowerWordTentacles_TentaclesEnchantment = "OG_094e"
         static let PotionofMadness_MadnessPotionEnchantment = "CFM_603e"
         static let ManaGeode_CrystalToken = "CFM_606t"
         static let PintSizePotion_ShrunkEnchantment = "CFM_661e"
         static let MirageCaller_MirageEnchantment = "UNG_022e"
         static let TortollanShellraiser_ShellshieldEnchantment = "UNG_037e"
+        static let AwakentheMakers_AmaraWardenOfHopeToken = "UNG_940t8"
     }
 }
+

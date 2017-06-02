@@ -34,3 +34,4 @@ extension CardIds.NonCollectible {
         static let TheRookeryTavernBrawl = "TB_BRMA10_3H"
     }
 }
+

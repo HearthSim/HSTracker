@@ -31,7 +31,7 @@ import Foundation
 
 extension CardIds.NonCollectible {
     struct Invalid {
-        static let DeathNoRattle_DeathNoRattleEnchantment = "XXX_119e"
         static let DiabolicalPowersTavernBrawl = "TB_SPT_DPromoHP"
     }
 }
+

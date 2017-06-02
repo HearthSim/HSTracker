@@ -39,3 +39,4 @@ extension CardIds.NonCollectible {
         static let RepurposedEnchantmentTavernBrawl = "TB_MP_02e"
     }
 }
+

@@ -133,7 +133,6 @@ extension CardIds.NonCollectible {
         static let InnerRage_InnerRageEnchantment = "EX1_607e"
         static let CommandingShout_CommandingShoutEnchantment1 = "NEW1_036e"
         static let CommandingShout_CommandingShoutEnchantment2 = "NEW1_036e2"
-        static let HoggerCheat = "XXX_040"
         static let Warbot_EnragedEnchantment = "GVG_051e"
         static let ScrewjankClunker_ScrewyJankEnchantment = "GVG_055e"
         static let IronJuggernaut_BurrowingMineToken = "GVG_056t"
@@ -145,6 +144,7 @@ extension CardIds.NonCollectible {
         static let JusticarTrueheart_TankUp = "AT_132_WARRIOR"
         static let ArmorUp_ArmorUpHeroSkins = "CS2_102_H1"
         static let TankUpHeroSkins = "CS2_102_H1_AT_132"
+        static let NextHeroWarriorEnch = "FB_TagTeam_Warrior_Ench"
         static let SecondClassWarriorTavernBrawl = "TB_ClassRandom_Warrior"
         static let ChargeEnchantmentTavernBrawl = "TB_MP_01e"
         static let TheCowKingTavernBrawl = "TB_SPT_DPromo_Hero2"
@@ -158,6 +158,7 @@ extension CardIds.NonCollectible {
         static let VisionsOfTheSorcererTavernBrawl = "TB_SPT_DPromoSecret6"
         static let VisionsOfTheNecromancerTavernBrawl = "TB_SPT_DPromoSecret7"
         static let VisionsOfKnowledgeTavernBrawl = "TB_SPT_DPromoSecret9"
+        static let WarriorTavernBrawl = "TB_TagTeam_Warrior"
         static let ObsidianDestroyer_ScarabToken = "LOE_009t"
         static let CursedBlade_CursedBladeEnchantment = "LOE_118e"
         static let RustyHook = "OG_058"
@@ -178,3 +179,4 @@ extension CardIds.NonCollectible {
         static let DirehornHatchling_DirehornMatriarchToken = "UNG_957t1"
     }
 }
+

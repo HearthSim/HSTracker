@@ -116,7 +116,6 @@ extension CardIds.Collectible {
 
 extension CardIds.NonCollectible {
     struct Druid {
-        static let JungleGiants_BarnabusTheStomperToken = "UNG_116t"
         static let Claw_ClawEnchantment = "CS2_005o"
         static let MarkoftheWild_MarkOfTheWildEnchantment = "CS2_009e"
         static let SavageRoar_SavageRoarEnchantment = "CS2_011o"
@@ -185,9 +184,11 @@ extension CardIds.NonCollectible {
         static let JusticarTrueheart_DireShapeshift = "AT_132_DRUID"
         static let JusticarTrueheart_DireClaws = "AT_132_DRUIDe"
         static let FandralStaghelm_SabertoothTiger = "OG_044c"
+        static let NextHeroDruidEnch = "FB_TagTeam_Druid_Ench"
         static let AyaBlackpawTavernBrawl = "TB_BossRumble_002"
         static let SecondClassDruidTavernBrawl = "TB_ClassRandom_Druid"
         static let AncientPowerTavernBrawl = "TB_LOEA13_2"
+        static let DruidTavernBrawl = "TB_TagTeam_Druid"
         static let RavenIdol_RavenIdol1 = "LOE_115a"
         static let RavenIdol_RavenIdol2 = "LOE_115b"
         static let Infest_NerubianSpores = "OG_045a"
@@ -214,6 +215,8 @@ extension CardIds.NonCollectible {
         static let Shellshifter_ShellshifterToken3 = "UNG_101t3"
         static let EarthenScales_ItsAllScaleyEnchantment = "UNG_108e"
         static let LivingMana_ManaTreantToken = "UNG_111t1"
+        static let JungleGiants_BarnabusTheStomperToken = "UNG_116t"
         static let JungleGiants_RomperStompersEnchantmentToken = "UNG_116te"
     }
 }
+

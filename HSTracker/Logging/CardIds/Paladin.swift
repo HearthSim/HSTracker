@@ -117,7 +117,6 @@ extension CardIds.Collectible {
 
 extension CardIds.NonCollectible {
     struct Paladin {
-        static let Dinosize_RaaaarEnchantment = "UNG_004e"
         static let BlessingofMight_BlessingOfMightEnchantment = "CS2_087e"
         static let BlessingofKings_BlessingOfKingsEnchantment = "CS2_092e"
         static let Reinforce = "CS2_101"
@@ -142,15 +141,18 @@ extension CardIds.NonCollectible {
         static let JusticarTrueheart_TheSilverHand = "AT_132_PALADIN"
         static let Reinforce_ReinforceHeroSkins = "CS2_101_H1"
         static let TheSilverHandHeroSkins = "CS2_101_H1_AT_132"
+        static let NextHeroPaladinEnch = "FB_TagTeam_Paladin_Ench"
         static let HanchoTavernBrawl = "TB_BossRumble_001"
         static let SecondClassPaladinTavernBrawl = "TB_ClassRandom_Paladin"
         static let FollowMyRulesTavernBrawl = "TB_CoOpv3_200"
+        static let PaladinTavernBrawl = "TB_TagTeam_Paladin"
         static let KeeperofUldaman_WatchedEnchantment = "LOE_017e"
         static let VilefinInquisitor_SilverHandMurloc = "OG_006a"
         static let VilefinInquisitor_TheTidalHand = "OG_006b"
         static let RallyingBlade_RallyEnchantment = "OG_222e"
         static let NightbaneTemplar_Whelp = "KAR_010a"
         static let SmugglersRun_SmugglingEnchantment = "CFM_305e"
+        static let Dinosize_RaaaarEnchantment = "UNG_004e"
         static let SunkeeperTarim_WatchedEnchantment = "UNG_015e"
         static let SpikeridgedSteed_OnAStegodonEnchantment = "UNG_952e"
         static let PrimalfinChampion_InspiredEnchantment = "UNG_953e"

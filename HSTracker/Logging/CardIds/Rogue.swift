@@ -117,11 +117,6 @@ extension CardIds.Collectible {
 
 extension CardIds.NonCollectible {
     struct Rogue {
-        static let JusticarTrueheart_PoisonedDaggers1 = "AT_132_ROGUE_H1"
-        static let JusticarTrueheart_PoisonedDagger1 = "AT_132_ROGUEt_H1"
-        static let WickedKnife_WickedKnife = "CS2_082_H1"
-        static let DaggerMastery2 = "CS2_083b_H1"
-        static let TheCavernsBelow_CrystalCoreToken = "UNG_067t1"
         static let WickedKnife = "CS2_082"
         static let DaggerMastery = "CS2_083b"
         static let SharpenedEnchantment = "CS2_083e"
@@ -137,15 +132,21 @@ extension CardIds.NonCollectible {
         static let PoisonedBlade_LacedEnchantment = "AT_034e"
         static let BeneaththeGrounds_AmbushToken = "AT_035t"
         static let Anubarak_NerubianToken = "AT_036t"
-        static let JusticarTrueheart_PoisonedDaggers2 = "AT_132_ROGUE"
-        static let JusticarTrueheart_PoisonedDagger2 = "AT_132_ROGUEt"
+        static let JusticarTrueheart_PoisonedDaggers = "AT_132_ROGUE"
+        static let JusticarTrueheart_PoisonedDagger = "AT_132_ROGUEt"
         static let RyanMasterson = "CRED_40"
+        static let JusticarTrueheart_PoisonedDaggersHeroSkins = "AT_132_ROGUE_H1"
+        static let JusticarTrueheart_PoisonedDaggerHeroSkins = "AT_132_ROGUEt_H1"
+        static let WickedKnife_WickedKnifeHeroSkins = "CS2_082_H1"
+        static let DaggerMasteryHeroSkins = "CS2_083b_H1"
+        static let NextHeroRogueEnch = "FB_TagTeam_Rogue_Ench"
         static let SharpenedTavernBrawl = "TB_BlingBrawl_Hero1e"
         static let SharpenTavernBrawl = "TB_BlingBrawl_Hero1p"
         static let SecondClassRogueTavernBrawl = "TB_ClassRandom_Rogue"
         static let CastFromShadowTavernBrawl = "TB_CoOpv3_201"
         static let FacilitatedTavernBrawl = "TB_Superfriends001e"
         static let DrawOffensivePlayTavernBrawl = "TB_Superfriends002e"
+        static let RogueTavernBrawl = "TB_TagTeam_Rogue"
         static let CashIn = "TP_Bling_HP2"
         static let UnearthedRaptor_UnearthedRaptorEnchantment = "LOE_019e"
         static let BladedCultist_ThirstyBladesEnchantment = "OG_070e"
@@ -161,5 +162,7 @@ extension CardIds.NonCollectible {
         static let RazorpetalVolley_RazorpetalToken = "UNG_057t1"
         static let Biteweed_SproutEnchantment = "UNG_063e"
         static let SherazinCorpseFlower_SherazinSeedToken = "UNG_065t"
+        static let TheCavernsBelow_CrystalCoreToken = "UNG_067t1"
     }
 }
+

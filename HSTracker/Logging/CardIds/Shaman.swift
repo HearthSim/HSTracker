@@ -117,7 +117,6 @@ extension CardIds.Collectible {
 
 extension CardIds.NonCollectible {
     struct Shaman {
-        static let KalimosPrimalLord_InvocationOfEarth = "UNG_211a"
         static let AncestralHealing_AncestralInfusionEnchantment = "CS2_041e"
         static let RockbiterWeapon_RockbiterWeaponEnchantment = "CS2_045e"
         static let Bloodlust_BloodlustEnchantment = "CS2_046e"
@@ -146,14 +145,17 @@ extension CardIds.NonCollectible {
         static let DanEmmons = "CRED_47"
         static let TotemicCall_TotemicCallHeroSkins = "CS2_049_H1"
         static let TotemicSlamHeroSkins = "CS2_049_H1_AT_132"
+        static let NextHeroShamanEnch = "FB_TagTeam_Shaman_Ench"
         static let SecondClassShamanTavernBrawl = "TB_ClassRandom_Shaman"
         static let ElementalEruptionTavernBrawl = "TB_CoOpv3_006"
+        static let ShamanTavernBrawl = "TB_TagTeam_Shaman"
         static let TunnelTrogg_TroggNoStupidEnchantment = "LOE_018e"
         static let HammerofTwilight_TwilightElemental = "OG_031a"
         static let EvolveTavernBrawl = "TB_OG_027"
         static let CallintheFinishers_MurlocRazorgillToken = "CFM_310t"
         static let WhiteEyes_TheStormGuardianToken = "CFM_324t"
         static let StoneSentinel_RockElementalToken = "UNG_208t"
+        static let KalimosPrimalLord_InvocationOfEarth = "UNG_211a"
         static let KalimosPrimalLord_StoneElemental = "UNG_211aa"
         static let KalimosPrimalLord_InvocationOfWater = "UNG_211b"
         static let KalimosPrimalLord_InvocationOfFire = "UNG_211c"
@@ -162,3 +164,4 @@ extension CardIds.NonCollectible {
         static let SpiritEcho_EchoedSpiritEnchantment = "UNG_956e"
     }
 }
+
