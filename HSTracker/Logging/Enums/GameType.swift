@@ -20,5 +20,8 @@ enum GameType: Int {
     gt_tavernbrawl = 16,
     gt_tb_1p_vs_ai = 17,
     gt_tb_2p_coop = 18,
-    gt_last = 19
+    gt_fsg_brawl_vs_friend = 19,
+    gt_fsg_brawl = 20,
+    gt_fsg_brawl_1p_vs_ai = 21,
+    gt_fsg_brawl_2p_coop = 22
 }

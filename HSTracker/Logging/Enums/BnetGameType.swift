@@ -16,16 +16,22 @@ enum BnetGameType: Int {
     bgt_vs_ai = 4,
     bgt_tutorial = 5,
     bgt_async = 6,
-    bgt_casual_standard = 7,
-    bgt_test1 = 8,
     bgt_newbie = 9,
-    bgt_test3 = 10,
+    //bgt_casual_standard_newbie = 9,
+    //bgt_casual_standard_normal = 10,
+    bgt_casual_standard = 10,
+    bgt_test1 = 11,
+    bgt_test2 = 12,
+    bgt_test3 = 13,
     bgt_tavernbrawl_pvp = 16,
     bgt_tavernbrawl_1p_versus_ai = 17,
     bgt_tavernbrawl_2p_coop = 18,
     bgt_ranked_wild = 30,
     bgt_casual_wild = 31,
-    bgt_last = 32
+    bgt_fsg_brawl_vs_friend = 40,
+    bgt_fsg_brawl_pvp = 41,
+    bgt_fsg_brawl_1p_versus_ai = 42,
+    bgt_fsg_brawl_2p_coop = 43
 
     static func getBnetGameType(gameType: GameType, format: Format?) -> BnetGameType {
         switch gameType {
@@ -49,8 +55,14 @@ enum BnetGameType: Int {
             return .bgt_tavernbrawl_1p_versus_ai
         case .gt_tb_2p_coop:
             return .bgt_tavernbrawl_2p_coop
-        case .gt_last:
-            return .bgt_last
+        case .gt_fsg_brawl:
+            return .bgt_fsg_brawl_vs_friend
+        case .gt_fsg_brawl_1p_vs_ai:
+            return .bgt_fsg_brawl_1p_versus_ai
+        case .gt_fsg_brawl_2p_coop:
+            return .bgt_fsg_brawl_2p_coop
+        case .gt_fsg_brawl_vs_friend:
+            return .bgt_fsg_brawl_vs_friend
         default:
             return .bgt_unknown
         }
