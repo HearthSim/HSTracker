@@ -5,7 +5,7 @@
 "0dg-Pr-Io8.title" = "Abbrechen";
 
 /* Class = "NSButtonCell"; title = "Using HSTracker deck builder"; ObjectID = "N10-sK-1gZ"; */
-"N10-sK-1gZ.title" = "Per Deck Builder";
+"N10-sK-1gZ.title" = "Deck Builder";
 
 /* Class = "NSWindow"; title = "New Deck"; ObjectID = "QvC-M9-y7g"; */
 "QvC-M9-y7g.title" = "Neues Deck";
@@ -14,10 +14,10 @@
 "bnr-YF-pLP.title" = "Wie möchtest Du Dein neues Deck erstellen?";
 
 /* Class = "NSButtonCell"; title = "From the web"; ObjectID = "dhu-qo-xOJ"; */
-"dhu-qo-xOJ.title" = "Per Internet (Deck-Link)";
+"dhu-qo-xOJ.title" = "Internet (Deck-Link)";
 
 /* Class = "NSButtonCell"; title = "From a file"; ObjectID = "tHo-vJ-FwV"; */
-"tHo-vJ-FwV.title" = "Per Datei-Import";
+"tHo-vJ-FwV.title" = "Datei-Import";
 
 /* Class = "NSButtonCell"; title = "OK"; ObjectID = "trs-D1-mgZ"; */
 "trs-D1-mgZ.title" = "OK";
@@ -26,4 +26,4 @@
 "xPi-Gg-ebR.title" = "Datei auswählen…";
 
 /* Class = "NSButtonCell"; title = "From deckstring"; ObjectID = "OSn-2r-6E8"; */
-"OSn-2r-6E8.title" = "From deckstring";
+"OSn-2r-6E8.title" = "Deckstring";
