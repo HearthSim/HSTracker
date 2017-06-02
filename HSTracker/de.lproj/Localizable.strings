@@ -9,8 +9,8 @@
 "Delete deck" = "Deck löschen";
 "Do you want to add this deck on Hearthstats ?" = "Möchtest Du dieses Deck zu Hearthstats hinzufügen?";
 "Do you want to delete the deck on Hearthstats ?" = "Möchtest Du dieses Deck aus Hearthstats löschen?";
-"Download Hearthstone cards" = "Download Hearthstone cards";
-"Loading Hearthstone builds" = "Loading Hearthstone builds";
+"Download Hearthstone cards" = "Lädt Hearthstone-Karten herunter";
+"Loading Hearthstone builds" = "Lädt Hearthstone-Builds";
 "Downloading %@" = "Lädt %@ herunter";
 "Downloading images" = "Lade Bilder herunter";
 "Edit deck" = "Deck bearbeiten";
@@ -55,8 +55,8 @@
 "In top 2:" = "In top 2:";
 "Connected" = "Verbunden";
 "Connected as %@" = "Verbunden als %@";
-"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.";
-"I understand" = "I understand";
+"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker benötigt erweiterte Privilegien um Daten aus dem Speicher von Hearthstone zu lesen. Es werden KEINE ÄNDERUNGEN an Deinem Mac vorgenommen, wenn macOS Dich nach Deinem Systempassword fragt.";
+"I understand" = "Verstanden";
 
 /* notifications */
 "Your game begins" = "Dein Spiel beginnt";
