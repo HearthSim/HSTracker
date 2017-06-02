@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,7 +10,9 @@
                 <outlet property="arenaDeck" destination="Hi4-1P-a8c" id="hZ9-K0-N9b"/>
                 <outlet property="chooseFile" destination="zId-Z2-sHp" id="E6R-75-GeI"/>
                 <outlet property="classesPopUpMenu" destination="Mqd-Tw-L0d" id="p2M-Y2-CZi"/>
+                <outlet property="deckString" destination="WXd-YG-Dns" id="fio-fr-Qla"/>
                 <outlet property="fromAFile" destination="cZL-u5-ElV" id="wUb-CF-zQY"/>
+                <outlet property="fromDeckString" destination="CZt-Rl-BuG" id="lgu-wk-gMA"/>
                 <outlet property="fromTheWeb" destination="zw5-rl-Uh0" id="S7o-df-Kcr"/>
                 <outlet property="hstrackerDeckBuilder" destination="HQy-Fh-m0E" id="FCQ-mJ-rDj"/>
                 <outlet property="loader" destination="AnM-ox-JdV" id="MLi-cL-vdt"/>
@@ -24,14 +26,14 @@
         <window title="New Deck" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="238"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="311"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="238"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="311"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="YM1-PJ-coX">
-                        <rect key="frame" x="18" y="211" width="444" height="17"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" preferredMaxLayoutWidth="440" translatesAutoresizingMaskIntoConstraints="NO" id="YM1-PJ-coX">
+                        <rect key="frame" x="18" y="284" width="444" height="17"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="How do you want to create your new deck ?" id="bnr-YF-pLP">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -39,7 +41,7 @@
                         </textFieldCell>
                     </textField>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="HQy-Fh-m0E">
-                        <rect key="frame" x="19" y="174" width="203" height="18"/>
+                        <rect key="frame" x="19" y="247" width="203" height="18"/>
                         <buttonCell key="cell" type="radio" title="Using HSTracker deck builder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="N10-sK-1gZ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -49,14 +51,38 @@
                         </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Hi4-1P-a8c">
-                        <rect key="frame" x="238" y="147" width="224" height="18"/>
+                        <rect key="frame" x="238" y="220" width="224" height="18"/>
                         <buttonCell key="cell" type="check" title="Arena or Brawl deck" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0dN-Ei-UM2">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="CZt-Rl-BuG">
+                        <rect key="frame" x="19" y="197" width="121" height="18"/>
+                        <buttonCell key="cell" type="radio" title="From deckstring" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="OSn-2r-6E8">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="radioChange:" target="-2" id="iPS-py-YL3"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXd-YG-Dns">
+                        <rect key="frame" x="240" y="195" width="220" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="220" id="fLo-5T-l9d"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="CWX-il-PNX">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="-2" id="H28-W8-39w"/>
+                        </connections>
+                    </textField>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="zw5-rl-Uh0">
-                        <rect key="frame" x="19" y="109" width="213" height="18"/>
+                        <rect key="frame" x="19" y="161" width="213" height="18"/>
                         <buttonCell key="cell" type="radio" title="From the web" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="dhu-qo-xOJ">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -65,8 +91,8 @@
                             <action selector="radioChange:" target="-2" id="4Wv-Es-dm5"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rai-VR-bB3">
-                        <rect key="frame" x="240" y="107" width="220" height="22"/>
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rai-VR-bB3">
+                        <rect key="frame" x="240" y="159" width="220" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="220" id="aua-GR-wE5"/>
                         </constraints>
@@ -80,7 +106,7 @@
                         </connections>
                     </textField>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="cZL-u5-ElV">
-                        <rect key="frame" x="19" y="68" width="336" height="18"/>
+                        <rect key="frame" x="19" y="120" width="336" height="18"/>
                         <buttonCell key="cell" type="radio" title="From a file" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="tHo-vJ-FwV">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -90,7 +116,7 @@
                         </connections>
                     </button>
                     <button horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zId-Z2-sHp">
-                        <rect key="frame" x="357" y="59" width="109" height="32"/>
+                        <rect key="frame" x="357" y="111" width="109" height="32"/>
                         <buttonCell key="cell" type="push" title="Choose file" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xPi-Gg-ebR">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -129,7 +155,7 @@ Gw
                         <rect key="frame" x="307" y="23" width="16" height="16"/>
                     </progressIndicator>
                     <popUpButton verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mqd-Tw-L0d">
-                        <rect key="frame" x="238" y="169" width="225" height="26"/>
+                        <rect key="frame" x="238" y="242" width="225" height="26"/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sXW-5w-NLm">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
@@ -144,9 +170,12 @@ Gw
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="trailing" secondItem="Mqd-Tw-L0d" secondAttribute="trailing" id="Few-SK-bAy"/>
                     <constraint firstItem="cZL-u5-ElV" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="G3x-hd-0jO"/>
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="trailing" secondItem="rai-VR-bB3" secondAttribute="trailing" id="GnA-aR-xJ8"/>
+                    <constraint firstItem="CZt-Rl-BuG" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="IHR-rW-1u2"/>
                     <constraint firstItem="YM1-PJ-coX" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="ItC-de-k6z"/>
                     <constraint firstAttribute="trailing" secondItem="5rB-EX-IcR" secondAttribute="trailing" constant="20" id="JXa-dK-mbl"/>
+                    <constraint firstItem="WXd-YG-Dns" firstAttribute="centerY" secondItem="CZt-Rl-BuG" secondAttribute="centerY" id="JxB-cE-dJG"/>
                     <constraint firstItem="HQy-Fh-m0E" firstAttribute="top" secondItem="YM1-PJ-coX" secondAttribute="bottom" constant="20" id="Ltl-zQ-xMI"/>
+                    <constraint firstItem="CZt-Rl-BuG" firstAttribute="top" secondItem="Hi4-1P-a8c" secondAttribute="bottom" constant="8" symbolic="YES" id="Nnt-1l-QP5"/>
                     <constraint firstAttribute="trailing" secondItem="YM1-PJ-coX" secondAttribute="trailing" constant="20" id="PpV-mm-l2l"/>
                     <constraint firstItem="zId-Z2-sHp" firstAttribute="top" secondItem="rai-VR-bB3" secondAttribute="bottom" constant="20" id="U0b-Fo-DuT"/>
                     <constraint firstAttribute="bottom" secondItem="5rB-EX-IcR" secondAttribute="bottom" constant="20" id="Wfz-He-sc7"/>
@@ -154,20 +183,21 @@ Gw
                     <constraint firstItem="kOn-oh-tpj" firstAttribute="leading" secondItem="AnM-ox-JdV" secondAttribute="trailing" constant="10" id="ZkX-Ly-vR4"/>
                     <constraint firstAttribute="trailing" secondItem="zId-Z2-sHp" secondAttribute="trailing" constant="20" id="b5w-7y-O2u"/>
                     <constraint firstItem="AnM-ox-JdV" firstAttribute="centerY" secondItem="kOn-oh-tpj" secondAttribute="centerY" id="dN1-jA-Y55"/>
+                    <constraint firstItem="zw5-rl-Uh0" firstAttribute="top" secondItem="CZt-Rl-BuG" secondAttribute="bottom" constant="20" id="dPU-TG-VZQ"/>
                     <constraint firstItem="rai-VR-bB3" firstAttribute="leading" secondItem="zw5-rl-Uh0" secondAttribute="trailing" constant="10" id="dWv-hx-e9T"/>
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="leading" secondItem="Mqd-Tw-L0d" secondAttribute="leading" id="e5k-Lh-ymI"/>
                     <constraint firstItem="HQy-Fh-m0E" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="e7w-6Y-G27"/>
-                    <constraint firstItem="rai-VR-bB3" firstAttribute="top" secondItem="Hi4-1P-a8c" secondAttribute="bottom" constant="20" id="k2L-46-7p3"/>
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="leading" secondItem="rai-VR-bB3" secondAttribute="leading" id="mrA-3W-mYg"/>
                     <constraint firstItem="cZL-u5-ElV" firstAttribute="centerY" secondItem="zId-Z2-sHp" secondAttribute="centerY" id="naQ-Lq-E1E"/>
                     <constraint firstItem="zw5-rl-Uh0" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="rZk-2i-uQw"/>
                     <constraint firstItem="YM1-PJ-coX" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="10" id="sTh-38-q2F"/>
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="top" secondItem="Mqd-Tw-L0d" secondAttribute="bottom" constant="9" id="tS6-3a-VgW"/>
+                    <constraint firstItem="WXd-YG-Dns" firstAttribute="leading" secondItem="Mqd-Tw-L0d" secondAttribute="leading" id="x9G-DO-oug"/>
                     <constraint firstItem="Hi4-1P-a8c" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="75" id="y5x-PG-D5g"/>
                     <constraint firstItem="zId-Z2-sHp" firstAttribute="leading" secondItem="cZL-u5-ElV" secondAttribute="trailing" constant="10" id="yWj-iN-yvF"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="315" y="235"/>
+            <point key="canvasLocation" x="315" y="271.5"/>
         </window>
     </objects>
 </document>

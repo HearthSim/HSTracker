@@ -26,5 +26,5 @@
 /* Class = "NSButtonCell"; title = "Choose file"; ObjectID = "xPi-Gg-ebR"; */
 "xPi-Gg-ebR.title" = "Choisir";
 
-/* Class = "NSButtonCell"; title = "From Hearthstats"; ObjectID = "sLd-eV-3AX"; */
-"sLd-eV-3AX.title" = "Depuis Hearthstats";
+/* Class = "NSButtonCell"; title = "From deckstring"; ObjectID = "OSn-2r-6E8"; */
+"OSn-2r-6E8.title" = "Depuis une chaine de caractères";

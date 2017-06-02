@@ -22,8 +22,10 @@ class NewDeck: NSWindowController {
     @IBOutlet weak var hstrackerDeckBuilder: NSButton!
     @IBOutlet weak var fromAFile: NSButton!
     @IBOutlet weak var fromTheWeb: NSButton!
+    @IBOutlet weak var fromDeckString: NSButton!
     @IBOutlet weak var classesPopUpMenu: NSPopUpButton!
     @IBOutlet weak var urlDeck: NSTextField!
+    @IBOutlet weak var deckString: NSTextField!
     @IBOutlet weak var chooseFile: NSButton!
     @IBOutlet weak var okButton: NSButton!
     @IBOutlet weak var arenaDeck: NSButton!
@@ -45,7 +47,8 @@ class NewDeck: NSWindowController {
         return [
             hstrackerDeckBuilder: [classesPopUpMenu, arenaDeck],
             fromAFile: [chooseFile],
-            fromTheWeb: [urlDeck]
+            fromTheWeb: [urlDeck],
+            fromDeckString: [deckString]
         ]
     }
 
@@ -82,7 +85,6 @@ class NewDeck: NSWindowController {
                                       arenaDeck: (arenaDeck.state == NSOnState))
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
         } else if fromTheWeb.state == NSOnState {
-            // TODO add loader
             do {
                 loader.startAnimation(self)
                 try NetImporter.netImport(url: urlDeck.stringValue,
@@ -111,6 +113,31 @@ class NewDeck: NSWindowController {
             }
         } else if fromAFile.state == NSOnState {
             // add here to remember this case exists
+        } else if fromDeckString.state == NSOnState {
+            let string = deckString.stringValue
+
+            let deck = Deck()
+            let cards: [Card]?
+            if let serializedDeck = DeckSerializer.deserialize(input: string) {
+                deck.playerClass = serializedDeck.playerClass
+                deck.name = serializedDeck.name
+                cards = serializedDeck.cards
+            } else if let (cardClass, _cards) = DeckSerializer.deserializeDeckString(deckString: string) {
+                deck.playerClass = cardClass
+                deck.name = "Imported deck"
+                cards = _cards
+            } else {
+                let msg = NSLocalizedString("Failed to import deck from \n", comment: "")
+                    + string
+                NSAlert.show(style: .critical,
+                             message: msg)
+                return
+            }
+
+            if let _cards = cards {
+                RealmHelper.add(deck: deck, with: _cards)
+                self._addDeck(deck)
+            }
         }
     }
 
@@ -149,6 +176,7 @@ class NewDeck: NSWindowController {
         okButton.isEnabled =
             hstrackerDeckBuilder.state == NSOnState
         || fromTheWeb.state == NSOnState && !urlDeck.stringValue.isEmpty
+        || fromDeckString.state == NSOnState && !deckString.stringValue.isEmpty
         // notice that there's no statement needed to disable OK "fromAFile.state != NSOnState"
     }
 
