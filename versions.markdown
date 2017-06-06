@@ -1,3 +1,10 @@
+# 1.0.3
+## Fixes:
+- Fixed an error where corrupted decks could crash HSTracker 
+
+## Changes:
+- Update german localization
+
 # 1.0.2
 ## Fixes: 
 - Fixed a crash when the deck manager UI tries to save a new deck
