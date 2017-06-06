@@ -59,43 +59,6 @@ struct RealmHelper {
 		Realm.Configuration.defaultConfiguration = config
 	}
 	
-	// MARK: - Helper functions
-	/*
-	private static func runOnMain<T>(execute: @escaping () -> (T?) ) -> T? {
-		var result: T?
-		let mainSemaphore = DispatchSemaphore(value: 0)
-		DispatchQueue.main.async { () in
-			result = execute()
-			mainSemaphore.signal()
-		}
-		mainSemaphore.wait()
-		return result
-	}
-	
-	private static func runOnMain<A, R>(execute: @escaping (A) -> (R?), param: A) -> R? {
-		var result: R?
-		let mainSemaphore = DispatchSemaphore(value: 0)
-
-		DispatchQueue.main.async {
-			result = execute(param)
-			mainSemaphore.signal()
-		}
-
-		mainSemaphore.wait()
-		return result
-	}
-	
-	private static func runOnMain<A1, A2, R>(execute: @escaping (A1, A2) -> (R?), param1: A1, param2: A2) -> R? {
-		var result: R?
-		let mainSemaphore = DispatchSemaphore(value: 0)
-		DispatchQueue.main.async { () in
-			result = execute(param1, param2)
-			mainSemaphore.signal()
-		}
-		mainSemaphore.wait()
-		return result
-	}*/
-	
 	// MARK: - Deck operations
 	
 	static func getDeck(with id: String) -> Deck? {
@@ -104,7 +67,30 @@ struct RealmHelper {
 			return nil
 		}
 		
-		return realm.objects(Deck.self).filter("deckId = '\(id)'").first
+		if let deck = realm.objects(Deck.self).filter("deckId = '\(id)'").first {
+			RealmHelper.validateCardCounts(deck)
+			return deck
+		}
+		return nil
+	}
+	
+	static func validateCardCounts(_ deck: Deck) {
+		guard let realm = try? Realm() else {
+			Log.error?.message("Error accessing Realm database")
+			return
+		}
+		
+		do {
+			try realm.write {
+				for card in deck.cards {
+					if card.count > 30 {
+						card.count = 1
+					}
+				}
+			}
+		} catch {
+			Log.error?.message("Can't update deck")
+		}
 	}
 	
 	static func set(hsDeckId: Int64, for deckId: String) {
@@ -130,8 +116,13 @@ struct RealmHelper {
             Log.error?.message("Error accessing Realm database")
             return nil
         }
-        
-        return Array(realm.objects(Deck.self))
+		
+		let decks = Array(realm.objects(Deck.self))
+		
+		for deck in decks {
+			RealmHelper.validateCardCounts(deck)
+		}
+		return decks
     }
 	
 	static func getActiveDecks() -> [CardClass: [Deck]]? {
@@ -146,6 +137,7 @@ struct RealmHelper {
 			if decks[deck.playerClass] == nil {
 				decks[deck.playerClass] = [Deck]()
 			}
+			RealmHelper.validateCardCounts(deck)
 			decks[deck.playerClass]?.append(deck)
 		}
 		return decks
