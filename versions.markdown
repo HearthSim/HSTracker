@@ -8,7 +8,7 @@
 # 1.0.2
 ## Fixes: 
 - Fixed a crash when the deck manager UI tries to save a new deck
-- Gateway Kodo is correctly handled by secret helper
+- Getaway Kodo is correctly handled by secret helper
 
 ## New:
 - Import a deck into HSTracker with the new deckstring
