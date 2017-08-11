@@ -322,6 +322,13 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Warrior
                                             .DirehornHatchling_DirehornMatriarchToken)
+                        case CardIds.Collectible.Mage.FrozenClone:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: getTargetCardId(matches: matches),
+                                           count: 2)
+                        case CardIds.Collectible.Shaman.Moorabi:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: getTargetCardId(matches: matches))
                         default: break
                         }
                     }
@@ -385,6 +392,9 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
                                             .ElisetheTrailblazer_UngoroPackToken)
+                        case CardIds.Collectible.Mage.GhastlyConjurer:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.Collectible.Mage.MirrorImage)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
