@@ -189,7 +189,8 @@ extension CardIds.NonCollectible {
 extension CardIds.Secrets {
     struct Hunter {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
-                          HiddenCache, Misdirection, Snipe, SnakeTrap, CatTrick]
+                          HiddenCache, Misdirection, Snipe, SnakeTrap, CatTrick,
+                          VemonstrikeTrap]
         static let BearTrap = CardIds.Collectible.Hunter.BearTrap
         static let DartTrap = CardIds.Collectible.Hunter.DartTrap
         static let ExplosiveTrap = CardIds.Collectible.Hunter.ExplosiveTrap
@@ -199,6 +200,7 @@ extension CardIds.Secrets {
         static let Snipe = CardIds.Collectible.Hunter.Snipe
         static let SnakeTrap = CardIds.Collectible.Hunter.SnakeTrap
         static let CatTrick = CardIds.Collectible.Hunter.CatTrick
+        static let VemonstrikeTrap = CardIds.Collectible.Hunter.VemonstrikeTrap
 
         static func getCards(standardOnly: Bool) -> [String] {
             return standardOnly ? All.filter {
