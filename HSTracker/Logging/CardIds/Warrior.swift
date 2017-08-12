@@ -170,7 +170,6 @@ extension CardIds.NonCollectible {
         static let VisionsOfTheSorcererTavernBrawl = "TB_SPT_DPromoSecret6"
         static let VisionsOfTheNecromancerTavernBrawl = "TB_SPT_DPromoSecret7"
         static let VisionsOfKnowledgeTavernBrawl = "TB_SPT_DPromoSecret9"
-        static let WarriorTavernBrawl = "TB_TagTeam_Warrior"
         static let ObsidianDestroyer_ScarabToken = "LOE_009t"
         static let CursedBlade_CursedBladeEnchantment = "LOE_118e"
         static let RustyHook = "OG_058"

@@ -161,7 +161,6 @@ extension CardIds.NonCollectible {
         static let SecondClassPaladinTavernBrawl = "TB_ClassRandom_Paladin"
         static let FollowMyRulesTavernBrawl = "TB_CoOpv3_200"
         static let MysteriousEScaleAtionTavernBrawl = "TB_TagTeam_Paladin"
-        static let PaladinTavernBrawl = "TB_TagTeam_Paladin"
         static let KeeperofUldaman_WatchedEnchantment = "LOE_017e"
         static let VilefinInquisitor_SilverHandMurloc = "OG_006a"
         static let VilefinInquisitor_TheTidalHand = "OG_006b"

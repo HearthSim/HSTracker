@@ -200,7 +200,6 @@ extension CardIds.NonCollectible {
         static let AyaBlackpawTavernBrawl = "TB_BossRumble_002"
         static let SecondClassDruidTavernBrawl = "TB_ClassRandom_Druid"
         static let AncientPowerTavernBrawl = "TB_LOEA13_2"
-        static let DruidTavernBrawl = "TB_TagTeam_Druid"
         static let RavenIdol_RavenIdol1 = "LOE_115a"
         static let RavenIdol_RavenIdol2 = "LOE_115b"
         static let Infest_NerubianSpores = "OG_045a"

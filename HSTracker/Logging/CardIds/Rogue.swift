@@ -158,7 +158,6 @@ extension CardIds.NonCollectible {
         static let CastFromShadowTavernBrawl = "TB_CoOpv3_201"
         static let FacilitatedTavernBrawl = "TB_Superfriends001e"
         static let DrawOffensivePlayTavernBrawl = "TB_Superfriends002e"
-        static let RogueTavernBrawl = "TB_TagTeam_Rogue"
         static let CashIn = "TP_Bling_HP2"
         static let UnearthedRaptor_UnearthedRaptorEnchantment = "LOE_019e"
         static let BladedCultist_ThirstyBladesEnchantment = "OG_070e"

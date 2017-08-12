@@ -160,7 +160,6 @@ extension CardIds.NonCollectible {
         static let NextHeroShamanEnch = "FB_TagTeam_Shaman_Ench"
         static let SecondClassShamanTavernBrawl = "TB_ClassRandom_Shaman"
         static let ElementalEruptionTavernBrawl = "TB_CoOpv3_006"
-        static let ShamanTavernBrawl = "TB_TagTeam_Shaman"
         static let TunnelTrogg_TroggNoStupidEnchantment = "LOE_018e"
         static let HammerofTwilight_TwilightElemental = "OG_031a"
         static let EvolveTavernBrawl = "TB_OG_027"

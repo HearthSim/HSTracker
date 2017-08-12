@@ -153,7 +153,6 @@ extension CardIds.NonCollectible {
         static let SecondClassWarlockTavernBrawl = "TB_ClassRandom_Warlock"
         static let DarkWandererTavernBrawl = "TB_SPT_DPromo_Hero"
         static let TwistingNetherTavernBrawl = "TB_SPT_DpromoEX1_312"
-        static let WarlockTavernBrawl = "TB_TagTeam_Warlock"
         static let CurseofRafaam_CursedToken = "LOE_007t"
         static let ObsidianDestroyer_SinisterPowerEnchantment = "LOE_009e"
         static let DarkshireCouncilman_PowerOfThePeopleEnchantment = "OG_113e"

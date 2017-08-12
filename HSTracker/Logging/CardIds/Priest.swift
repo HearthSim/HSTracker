@@ -156,7 +156,6 @@ extension CardIds.NonCollectible {
         static let ShadowOrLightTavernBrawl = "TB_Coopv3_102"
         static let ShadoworLight_SecretsOfShadowTavernBrawl = "TB_Coopv3_102a"
         static let ShadoworLight_AlmsOfLightTavernBrawl = "TB_Coopv3_102b"
-        static let PriestTavernBrawl = "TB_TagTeam_Priest"
         static let PowerWordTentacles_TentaclesEnchantment = "OG_094e"
         static let PotionofMadness_MadnessPotionEnchantment = "CFM_603e"
         static let ManaGeode_CrystalToken = "CFM_606t"
