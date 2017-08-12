@@ -102,6 +102,7 @@
 "KARA" = "One Night In Karazhan";
 "GANGS" = "Mean Streets of Gadgetzan";
 "UNGORO" = "Viaje a Un'Goro";
+"ICECROWN" = "Knights of the Frozen Throne";
 
 /* card type */
 "all_types" = "Todos";
