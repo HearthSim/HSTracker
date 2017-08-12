@@ -36,18 +36,28 @@ struct CardIds {
 
     static let DeathrattleSummonCardIds = [
         CardIds.Collectible.Druid.MountedRaptor: 1,
+        CardIds.Collectible.Hunter.InfestedWolf: 2,
+        CardIds.Collectible.Hunter.KindlyGrandmother: 1,
+        CardIds.Collectible.Hunter.RatPack: 2,
         CardIds.Collectible.Hunter.SavannahHighmane: 2,
         CardIds.Collectible.Rogue.Anubarak: 1,
+        CardIds.Collectible.Rogue.JadeSwarmer: 1,
         CardIds.Collectible.Warlock.Dreadsteed: 1,
         CardIds.Collectible.Warlock.Voidcaller: 1, // false negative better than false positive
+        CardIds.Collectible.Neutral.AyaBlackpaw: 1,
         CardIds.Collectible.Neutral.CairneBloodhoof: 1,
+        CardIds.Collectible.Neutral.DevilsaurEgg: 1,
+        CardIds.Collectible.Neutral.Eggnapper: 2,
         CardIds.Collectible.Neutral.HarvestGolem: 1,
+        CardIds.Collectible.Neutral.HauntedCreeper: 2,
+        CardIds.Collectible.Neutral.InfestedTauren: 1,
+        CardIds.Collectible.Neutral.NerubianEgg: 1,
         CardIds.Collectible.Neutral.PilotedShredder: 1,
         CardIds.Collectible.Neutral.PilotedSkyGolem: 1,
-        CardIds.Collectible.Neutral.SneedsOldShredder: 1,
-        CardIds.Collectible.Neutral.HauntedCreeper: 2,
-        CardIds.Collectible.Neutral.NerubianEgg: 1,
+        CardIds.Collectible.Neutral.SatedThreshadon: 3,
         CardIds.Collectible.Neutral.SludgeBelcher: 1,
+        CardIds.Collectible.Neutral.SneedsOldShredder: 1,
+        CardIds.Collectible.Neutral.TwilightSummoner: 1,
         CardIds.Collectible.Neutral.WobblingRunts: 3
     ]
 
