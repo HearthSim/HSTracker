@@ -508,7 +508,8 @@ class CardBar: NSView, CardBarTheme {
         if playerType == .cardList || playerType == .editDeck {
             textColor = .white
         }
-        if Cards.isHero(cardId: card.id) {
+     
+        if Cards.isHero(cardId: card.id) && !Cards.isPlayableHero(cardId: card.id) {
             if let rank = playerRank, rank > 0 {
                 textColor = .white
                 cost = rank

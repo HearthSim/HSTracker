@@ -31,12 +31,21 @@ final class Cards {
 
         return hero(byId: cardId!) != .none
     }
+    
+    static func isPlayableHero(cardId: String?) -> Bool {
+        if let _ = cards.firstWhere({ $0.id == cardId && $0.type == .hero &&
+            $0.set != CardSet.core && $0.set != CardSet.hero_skins}) {
+            return true
+        }
+        return false
+    }
 
     static func by(cardId: String?) -> Card? {
         guard !cardId.isBlank else { return nil }
 
         if let card = cards.filter({
-            $0.type != .hero && $0.type != .hero_power
+            $0.type != .hero_power && ($0.type != .hero || ($0.type == .hero &&
+                $0.set != CardSet.core && $0.set != CardSet.hero_skins)  )
         }).firstWhere({ $0.id == cardId }) {
             return card.copy() as? Card
         }
@@ -100,7 +109,8 @@ final class Cards {
     }
 
     static func collectible() -> [Card] {
-        return cards.filter { $0.collectible && $0.type != .hero && $0.type != .hero_power }
+        return cards.filter { $0.collectible && $0.type != .hero_power &&
+            ($0.type != .hero || ($0.type == .hero && $0.set != CardSet.core && $0.set != CardSet.hero_skins )) }
     }
 
     static func search(className: CardClass?, sets: [CardSet] = [],
