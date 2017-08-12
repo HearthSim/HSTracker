@@ -1,3 +1,7 @@
+# 1.1.0
+## New:
+- Support for Knights of the Frozen Throne
+
 # 1.0.3
 ## Fixes:
 - Fixed an error where corrupted decks could crash HSTracker 
