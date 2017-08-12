@@ -1,7 +1,7 @@
 github "bitstadium/HockeySDK-Mac" "4.1.3"
 github "jwilling/JNWCollectionView" "master"
 github "tid-kijyun/Kanna" "master"
-github "shpakovski/MASPreferences" "master"
+github "shpakovski/MASPreferences" "d0c45f3848d1d9bade4cb513312ee9aad0cfe32f"
 github "sparkle-project/Sparkle" "master"
 github "delba/TextAttributes"
 github "JohnSundell/Wrap"
