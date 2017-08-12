@@ -15,7 +15,7 @@ import RegexUtil
 class PowerGameStateParser: LogEventParser {
 
     let BlockStartRegex = RegexPattern(stringLiteral: ".*BLOCK_START.*BlockType=(POWER|TRIGGER)"
-        + ".*id=(\\d*).*(cardId=(\\w*)).*Target=(.+)")
+        + ".*id=(\\d*).*(cardId=(\\w*)).*Target=(.+).*SubOption=(.+)")
     let CardIdRegex: RegexPattern = "cardId=(\\w+)"
     let CreationRegex: RegexPattern = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
     let CreationTagRegex: RegexPattern = "tag=(\\w+) value=(\\w+)"
