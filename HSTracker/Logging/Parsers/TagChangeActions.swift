@@ -28,7 +28,7 @@ struct TagChangeActions {
         case .num_attacks_this_turn: self.numAttacksThisTurnChange(eventHandler: eventHandler, id: id, value: value)
         case .zone_position: self.zonePositionChange(eventHandler: eventHandler, id: id)
         case .card_target: self.cardTargetChange(eventHandler: eventHandler, id: id, value: value)
-        case .equipped_weapon: self.equippedWeaponChange(eventHandler: eventHandler, id: id, value: value)
+        //case .equipped_weapon: self.equippedWeaponChange(eventHandler: eventHandler, id: id, value: value)
         case .exhausted: self.exhaustedChange(eventHandler: eventHandler, id: id, value: value)
         case .controller:
             self.controllerChange(eventHandler: eventHandler, id: id, prevValue: prevValue, value: value)
@@ -288,8 +288,9 @@ struct TagChangeActions {
             return
         }
         
-        if entity.isHero || entity.isHeroPower || entity.has(tag: .player_id)
-            || entity[.cardtype] == CardType.game.rawValue || entity.has(tag: .creator) {
+        if entity.isHero && !entity.isPlayableHero || entity.isHeroPower
+            || entity.has(tag: .player_id) || entity[.cardtype] == CardType.game.rawValue
+            || entity.has(tag: .creator) {
             return
         }
         

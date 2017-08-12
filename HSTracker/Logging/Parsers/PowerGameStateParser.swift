@@ -42,7 +42,7 @@ class PowerGameStateParser: LogEventParser {
         currentEntityId = 0
     }
     
-    // MARK - blocks
+    // MARK: - blocks
     func blockStart() {
         maxBlockId += 1
         let blockId = maxBlockId
@@ -60,7 +60,7 @@ class PowerGameStateParser: LogEventParser {
     private var maxBlockId: Int = 0
     private var currentBlock: Block?
     
-    // MARK - line handling
+    // MARK: - line handling
 
     func handle(logLine: LogLine) {
         var creationTag = false
