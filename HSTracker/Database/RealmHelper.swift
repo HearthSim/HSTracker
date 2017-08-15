@@ -82,10 +82,8 @@ struct RealmHelper {
 		
 		do {
 			try realm.write {
-				for card in deck.cards {
-					if card.count > 30 {
-						card.count = 1
-					}
+				for card in deck.cards where card.count > 30 {
+                    card.count = 1
 				}
 			}
 		} catch {
