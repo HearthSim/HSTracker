@@ -27,16 +27,16 @@ class GraveyardCounter: TextFrame {
     private func initGraveyard() {
         graveyardWindow = NSWindow(contentRect:
             NSRect(x: 0, y: 0, width: (self.window?.frame.width)!, height: 800),
-                                   styleMask: NSBorderlessWindowMask,
+                                   styleMask: .borderless,
                                    backing: .buffered,
                                    defer: true)
         
         graveyardWindow?.setIsVisible(false)
-        graveyardWindow?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+        graveyardWindow?.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
         graveyardWindow?.ignoresMouseEvents = true
         graveyardWindow?.acceptsMouseMovedEvents = true
-        graveyardWindow?.level = Int(CGWindowLevelForKey(
-            CGWindowLevelKey.screenSaverWindow))
+        graveyardWindow?.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(
+            CGWindowLevelKey.screenSaverWindow)))
         graveyardWindow?.backgroundColor = NSColor.clear
     }
     
@@ -58,8 +58,8 @@ class GraveyardCounter: TextFrame {
         
         if displayDetails {
             let trackingarea = NSTrackingArea(rect: frameRect,
-                                              options: [.mouseEnteredAndExited,
-                                                .activeAlways, .inVisibleRect],
+                                              options: [NSTrackingArea.Options.mouseEnteredAndExited,
+                                                NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.inVisibleRect],
                                               owner: self, userInfo: nil)
             self.addTrackingArea(trackingarea)
         }

@@ -12,16 +12,16 @@ import HearthMirror
 
 class ServerInfo: Object {
 
-    dynamic var address = ""
-    dynamic var auroraPassword = ""
-    dynamic var clientHandle = 0
-    dynamic var gameHandle = 0
-    dynamic var mission = 0
-    dynamic var port = 0
-    dynamic var resumable = false
-    dynamic var spectatorMode = false
-    dynamic var spectatorPassword = ""
-    dynamic var version = ""
+    @objc dynamic var address = ""
+    @objc dynamic var auroraPassword = ""
+    @objc dynamic var clientHandle = 0
+    @objc dynamic var gameHandle = 0
+    @objc dynamic var mission = 0
+    @objc dynamic var port = 0
+    @objc dynamic var resumable = false
+    @objc dynamic var spectatorMode = false
+    @objc dynamic var spectatorPassword = ""
+    @objc dynamic var version = ""
 
     convenience init(info: MirrorGameServerInfo) {
         self.init()

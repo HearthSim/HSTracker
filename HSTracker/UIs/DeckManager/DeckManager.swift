@@ -62,28 +62,28 @@ class DeckManager: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        let nib = NSNib(nibNamed: "DeckCellView", bundle: nil)
-        decksTable.register(nib, forIdentifier: "DeckCellView")
+        let nib = NSNib(nibNamed: NSNib.Name(rawValue: "DeckCellView"), bundle: nil)
+        decksTable.register(nib, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DeckCellView"))
 
         decksTable.backgroundColor = NSColor.clear
-        decksTable.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable,
-                                       NSAutoresizingMaskOptions.viewHeightSizable]
+        decksTable.autoresizingMask = [NSView.AutoresizingMask.width,
+                                       NSView.AutoresizingMask.height]
 
         decksTable.tableColumns.first?.width = decksTable.bounds.width
-        decksTable.tableColumns.first?.resizingMask = NSTableColumnResizingOptions.autoresizingMask
+        decksTable.tableColumns.first?.resizingMask = NSTableColumn.ResizingOptions.autoresizingMask
 
         decksTable.target = self
 
         refreshDecks()
 
         deckListTable.tableColumns.first?.width = deckListTable.bounds.width
-        deckListTable.tableColumns.first?.resizingMask = .autoresizingMask
+        deckListTable.tableColumns.first?.resizingMask = NSTableColumn.ResizingOptions.autoresizingMask
         
         loadSortPopUp()
         loadClassesPopUp()
 
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { (e) -> NSEvent? in
-            let isCmd = e.modifierFlags.contains(.command)
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { (e) -> NSEvent? in
+            let isCmd = e.modifierFlags.contains(NSEvent.ModifierFlags.command)
             // let isShift = e.modifierFlags.contains(.ShiftKey)
 
             guard isCmd else { return e }
@@ -181,7 +181,7 @@ class DeckManager: NSWindowController {
         refreshDecks()
     }
     
-    func updateStatsLabel() {
+    @objc func updateStatsLabel() {
         if let currentDeck = self.currentDeck {
             DispatchQueue.main.async {
                 self.statsLabel.stringValue = StatsHelper
@@ -191,13 +191,13 @@ class DeckManager: NSWindowController {
         }
     }
 
-    func updateTheme(_ notification: Notification) {
+    @objc func updateTheme(_ notification: Notification) {
         deckListTable.reloadData()
     }
 
     // MARK: - Toolbar actions
     override func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
-        switch item.itemIdentifier {
+        switch item.itemIdentifier.rawValue {
         case "add", "donate", "twitter", "gitter":
             return true
         case "edit", "use", "delete", "rename", "archive", "statistics", "export_hearthstone":
@@ -208,7 +208,7 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func addDeck(_ sender: AnyObject) {
-        newDeck = NewDeck(windowNibName: "NewDeck")
+        newDeck = NewDeck(windowNibName: NSNib.Name(rawValue: "NewDeck"))
         if let newDeck = newDeck {
             newDeck.setDelegate(self)
             newDeck.defaultClass = currentClass ?? nil
@@ -217,7 +217,7 @@ class DeckManager: NSWindowController {
     }
 
     @IBAction func showStatistics(_ sender: AnyObject) {
-        statistics = Statistics(windowNibName: "Statistics")
+        statistics = Statistics(windowNibName: NSNib.Name(rawValue: "Statistics"))
         if let statistics = statistics {
             statistics.deck = currentDeck
             self.window!.beginSheet(statistics.window!) { _ in
@@ -242,7 +242,7 @@ class DeckManager: NSWindowController {
     
     fileprivate func openUrl(_ url: String) {
         let url = URL(string: url)
-        NSWorkspace.shared().open(url!)
+        NSWorkspace.shared.open(url!)
     }
     
     @IBAction func renameDeck(_ sender: AnyObject?) {
@@ -291,7 +291,7 @@ class DeckManager: NSWindowController {
     }
     
     private func editDeck(_ deck: Deck) {
-        editDeck = EditDeck(windowNibName: "EditDeck")
+        editDeck = EditDeck(windowNibName: NSNib.Name(rawValue: "EditDeck"))
         if let editDeck = editDeck {
             editDeck.set(deck: deck)
             editDeck.set(playerClass: deck.playerClass)
@@ -400,7 +400,7 @@ class DeckManager: NSWindowController {
         popupMenuItem = NSMenuItem(title: NSLocalizedString("Archived", comment: ""),
                                    action: #selector(filterClassesAction(_:)),
                                    keyEquivalent: "")
-        popupMenuItem.state = NSOffState
+        popupMenuItem.state = .off
         popupMenu.addItem(popupMenuItem)
     }
 
@@ -425,8 +425,8 @@ class DeckManager: NSWindowController {
             popupMenu.addItem(popupMenuItem)
         }
         
-        popupMenu.item(withTitle: NSLocalizedString(sortCriteria, comment: ""))?.state = NSOnState
-        popupMenu.item(withTitle: NSLocalizedString(sortOrder, comment: ""))?.state = NSOnState
+        popupMenu.item(withTitle: NSLocalizedString(sortCriteria, comment: ""))?.state = .on
+        popupMenu.item(withTitle: NSLocalizedString(sortOrder, comment: ""))?.state = .on
         
         let firstItemMenu = NSMenuItem(title: NSLocalizedString(sortCriteria, comment: ""),
                                        action: #selector(DeckManager.changeSort(_:)),
@@ -462,12 +462,12 @@ class DeckManager: NSWindowController {
         
         let prevSelected = sortPopUp.menu?.item(withTitle: NSLocalizedString(previous, comment: ""))
         
-        if sender.state != NSOnState {
+        if sender.state != .on {
             self.refreshDecks()
         }
         
-        prevSelected?.state = NSOffState
-        sender.state = NSOnState
+        prevSelected?.state = .off
+        sender.state = .on
     }
     
     @IBAction func exportToHearthstone(_ sender: AnyObject?) {
@@ -503,18 +503,18 @@ extension DeckManager: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView,
                    viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if tableView == decksTable {
-            if let cell = decksTable?.make(withIdentifier: "DeckCellView", owner: self)
+            if let cell = decksTable?.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DeckCellView"), owner: self)
                 as? DeckCellView {
 
                 let deck = sortedFilteredDecks()[row]
                 cell.deck = deck
                 cell.label.stringValue = deck.name
-                cell.image.image = NSImage(named: deck.playerClass.rawValue.lowercased())
+                cell.image.image = NSImage(named: NSImage.Name(rawValue: deck.playerClass.rawValue.lowercased()))
                 cell.arenaImage.image = deck.isArena && deck.arenaFinished() ?
-                    NSImage(named: "silenced") : nil
-                cell.wildImage.image = deck.isArena ? NSImage(named: "arena") :
+                    NSImage(named: NSImage.Name(rawValue: "silenced")) : nil
+                cell.wildImage.image = deck.isArena ? NSImage(named: NSImage.Name(rawValue: "arena")) :
                     !deck.standardViable() && !deck.isArena ?
-                    NSImage(named: "Mode_Wild") : nil
+                    NSImage(named: NSImage.Name(rawValue: "Mode_Wild")) : nil
                 cell.color = ClassColor.color(playerClass: deck.playerClass)
                 cell.selected = tableView.selectedRow == row
                 
@@ -608,7 +608,7 @@ extension DeckManager: NewDeckDelegate {
     }
 
     func openDeckBuilder(playerClass: CardClass, arenaDeck: Bool) {
-        editDeck = EditDeck(windowNibName: "EditDeck")
+        editDeck = EditDeck(windowNibName: NSNib.Name(rawValue: "EditDeck"))
         if let editDeck = editDeck {
             let deck = Deck()
             deck.playerClass = playerClass

@@ -77,7 +77,7 @@ class StatsTab: NSViewController {
         }
     }
         
-    func update() {
+    @objc func update() {
         if let deck = self.deck {
             var index = modePicker.indexOfSelectedItem
             if index == -1 { // In case somehow nothing is selected
@@ -143,7 +143,7 @@ extension StatsTab : NSTableViewDelegate {
         let item = statsTableItems[row]
         
         if tableColumn == tableView.tableColumns[0] {
-            image = NSImage(named: item.classIcon)
+            image = NSImage(named: NSImage.Name(rawValue: item.classIcon))
             text  = item.opponentClassName
             alignment = NSTextAlignment.left
             cellIdentifier = "StatsClassCellID"
@@ -161,7 +161,7 @@ extension StatsTab : NSTableViewDelegate {
             cellIdentifier = "StatsCICellID"
         }
         
-        if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil)
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
             cell.imageView?.image = image ?? nil

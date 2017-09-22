@@ -223,13 +223,13 @@ final class CoreManager: NSObject {
 
     // MARK: - Events
     func startListeners() {
-        let notificationCenter = NSWorkspace.shared().notificationCenter
+        let notificationCenter = NSWorkspace.shared.notificationCenter
         let notifications = [
-            NSNotification.Name.NSWorkspaceActiveSpaceDidChange: #selector(spaceChange),
-            NSNotification.Name.NSWorkspaceDidLaunchApplication: #selector(appLaunched(_:)),
-            NSNotification.Name.NSWorkspaceDidTerminateApplication: #selector(appTerminated(_:)),
-            NSNotification.Name.NSWorkspaceDidActivateApplication: #selector(appActivated(_:)),
-            NSNotification.Name.NSWorkspaceDidDeactivateApplication: #selector(appDeactivated(_:))
+            NSWorkspace.activeSpaceDidChangeNotification: #selector(spaceChange),
+            NSWorkspace.didLaunchApplicationNotification: #selector(appLaunched(_:)),
+            NSWorkspace.didTerminateApplicationNotification: #selector(appTerminated(_:)),
+            NSWorkspace.didActivateApplicationNotification: #selector(appActivated(_:)),
+            NSWorkspace.didDeactivateApplicationNotification: #selector(appDeactivated(_:))
         ]
         for (name, selector) in notifications {
             notificationCenter.addObserver(self,
@@ -239,13 +239,13 @@ final class CoreManager: NSObject {
         }
     }
 
-    func spaceChange() {
+    @objc func spaceChange() {
         Log.verbose?.message("Receive space changed event")
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: "space_changed"), object: nil)
     }
 
-    func appLaunched(_ notification: Notification) {
+    @objc func appLaunched(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
             Log.verbose?.message("Hearthstone is now launched")
@@ -255,7 +255,7 @@ final class CoreManager: NSObject {
         }
     }
 
-    func appTerminated(_ notification: Notification) {
+    @objc func appTerminated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
             Log.verbose?.message("Hearthstone is now closed")
@@ -265,14 +265,14 @@ final class CoreManager: NSObject {
             AppHealth.instance.setHearthstoneRunning(flag: false)
 
             if Settings.quitWhenHearthstoneCloses {
-                NSApplication.shared().terminate(self)
+                NSApplication.shared.terminate(self)
             } else {
                 Log.info?.message("Not closing app since setting says so.")
             }
         }
     }
 
-    func appActivated(_ notification: Notification) {
+    @objc func appActivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
 			
 			if app.localizedName == CoreManager.applicationName {
@@ -287,7 +287,7 @@ final class CoreManager: NSObject {
         }
     }
 
-    func appDeactivated(_ notification: Notification) {
+    @objc func appDeactivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
 			if app.localizedName == CoreManager.applicationName {
 				self.game.setHearthstoneActived(flag: false)
@@ -300,7 +300,7 @@ final class CoreManager: NSObject {
 
     static func bringHSToFront() {
         if let hsapp = CoreManager.hearthstoneApp {
-            hsapp.activate(options: .activateIgnoringOtherApps)
+            hsapp.activate(options: NSApplication.ActivationOptions.activateIgnoringOtherApps)
         }
     }
 
@@ -315,7 +315,7 @@ final class CoreManager: NSObject {
     }
 
     static var hearthstoneApp: NSRunningApplication? {
-        let apps = NSWorkspace.shared().runningApplications
+        let apps = NSWorkspace.shared.runningApplications
         return apps.first { $0.bundleIdentifier == "unity.Blizzard Entertainment.Hearthstone" }
     }
     

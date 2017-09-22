@@ -1,13 +1,13 @@
 //
-//  HSTracker-Bridging-Header.h
+//  HSTracker-Test-Bridging-Header.h
 //  HSTracker
 //
-//  Created by Benjamin Michotte on 19/02/16.
-//  Copyright © 2016 Benjamin Michotte. All rights reserved.
+//  Created by Benjamin Michotte on 22/09/17.
+//  Copyright © 2017 Benjamin Michotte. All rights reserved.
 //
 
-#ifndef HSTracker_Bridging_Header_h
-#define HSTracker_Bridging_Header_h
+#ifndef HSTracker_Test_Bridging_Header_h
+#define HSTracker_Test_Bridging_Header_h
 
 #import <MASPreferences/MASPreferencesViewController.h>
 #import <JNWCollectionView/JNWCollectionView.h>
@@ -27,4 +27,4 @@
 
 #import "FileUtils.h"
 
-#endif /* HSTracker_Bridging_Header_h */
+#endif /* HSTracker_Test_Bridging_Header_h */

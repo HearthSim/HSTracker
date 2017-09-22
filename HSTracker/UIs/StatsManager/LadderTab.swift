@@ -67,7 +67,7 @@ class LadderTab: NSViewController {
                          object: nil)
     }
 
-    func guessRankAndUpdate() {
+    @objc func guessRankAndUpdate() {
         if !self.isViewLoaded {
             return
         }
@@ -105,7 +105,7 @@ class LadderTab: NSViewController {
         streakButton.isEnabled = true
         if rank <= 5 {
             streakButton.isEnabled = false
-            streakButton.state = NSOffState
+            streakButton.state = .off
         }
     }
     
@@ -123,7 +123,7 @@ class LadderTab: NSViewController {
             let stars = Int(selectedStars.title)!
             
             if let deck = self.deck {
-                let streak = (streakButton.state == NSOnState)
+                let streak = (streakButton.state == .on)
                 DispatchQueue.main.async {
                     self.ladderTableItems = StatsHelper.getLadderTableData(deck: deck,
                                                                            rank: rank,
@@ -195,7 +195,7 @@ extension LadderTab : NSTableViewDelegate {
             return nil
         }
         
-        if let cell = tableView.make(withIdentifier: cellIdentifier, owner: nil)
+        if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil)
             as? NSTableCellView {
             cell.textField?.stringValue = text
             cell.textField?.alignment = alignment

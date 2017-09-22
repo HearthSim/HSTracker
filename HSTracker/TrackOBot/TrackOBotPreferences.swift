@@ -19,7 +19,7 @@ class TrackOBotPreferences: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        synchronizeMatches.state = Settings.trackobotSynchronizeMatches ? NSOnState : NSOffState
+        synchronizeMatches.state = Settings.trackobotSynchronizeMatches ? .on : .off
 
         reloadStates()
     }
@@ -34,7 +34,7 @@ class TrackOBotPreferences: NSViewController {
     
     @IBAction func checkboxClicked(_ sender: NSButton) {
         if sender == synchronizeMatches {
-            Settings.trackobotSynchronizeMatches = synchronizeMatches.state == NSOnState
+            Settings.trackobotSynchronizeMatches = synchronizeMatches.state == .on
         }
     }
     
@@ -47,10 +47,10 @@ class TrackOBotPreferences: NSViewController {
                 self.reloadStates()
             }
         } else {
-            trackobotLogin = TrackOBotLogin(windowNibName: "TrackOBotLogin")
+            trackobotLogin = TrackOBotLogin(windowNibName: NSNib.Name(rawValue: "TrackOBotLogin"))
             if let trackobotLogin = trackobotLogin {
                 self.view.window?.beginSheet(trackobotLogin.window!) { [weak self] (response) in
-                    if response == NSModalResponseOK {
+                    if response == NSApplication.ModalResponse.OK {
                         self?.reloadStates()
                     }
                 }
@@ -65,17 +65,12 @@ class TrackOBotPreferences: NSViewController {
 
 // MARK: - MASPreferencesViewController
 extension TrackOBotPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "trackobot"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "trackobot"
     }
     
     var toolbarItemImage: NSImage? {
-        return NSImage(named: "trackobot_icon")
+        return NSImage(named: NSImage.Name(rawValue: "trackobot_icon"))
     }
     
     var toolbarItemLabel: String? {

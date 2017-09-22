@@ -75,9 +75,8 @@ class TagChangeHandler {
 
     func clearQueuedActions() {
         if creationTagActionQueue.count > 0 {
-            // swiftlint:disable line_length
-            Log.warning?.message("Clearing tagActionQueue with \(creationTagActionQueue.count) elements in it")
-            // swiftlint:enable line_length
+            Log.warning?.message("Clearing tagActionQueue with \(creationTagActionQueue.count)"
+                + " elements in it")
         }
         creationTagActionQueue.removeAll()
     }
