@@ -163,13 +163,8 @@ class HSReplayPreferences: NSViewController {
 
 // MARK: - MASPreferencesViewController
 extension HSReplayPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "hsreplay"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "hsreplay"
     }
     
     var toolbarItemImage: NSImage? {

@@ -170,9 +170,10 @@ class WindowMove: NSWindowController {
     fileprivate func update() {
         let _x = defaultFrame.origin.x + x
         let _y = defaultFrame.origin.y + y
-        textbox.string = "NSRect(x: \(_x), y: \(_y), "
+        let str: String = "NSRect(x: \(_x), y: \(_y), "
                 + "width: \(defaultFrame.width), height: \(defaultFrame.height))\n"
                 + "NSPoint(x: \(_x), y: \(_y))"
+        textbox.string = str
 
         if let window = currentWindow {
             let frame = SizeHelper.hearthstoneWindow.relativeFrame(

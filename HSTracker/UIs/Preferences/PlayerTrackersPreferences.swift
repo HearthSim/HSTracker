@@ -93,13 +93,8 @@ class PlayerTrackersPreferences: NSViewController {
 
 // MARK: - MASPreferencesViewController
 extension PlayerTrackersPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "player_trackers"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "player_trackers"
     }
 
     var toolbarItemImage: NSImage? {

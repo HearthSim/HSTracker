@@ -34,7 +34,8 @@ class GamePreferences: NSViewController {
             let alert = NSAlert()
             alert.alertStyle = .critical
             // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
+            alert.messageText = NSLocalizedString("Can't find Hearthstone, please select"
+                + " Hearthstone.app", comment: "")
             // swiftlint:enable line_length
             alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
             alert.runModal()
@@ -143,13 +144,8 @@ extension GamePreferences: NSOpenSavePanelDelegate {
 
 // MARK: - MASPreferencesViewController
 extension GamePreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "game"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "game"
     }
     
     var toolbarItemImage: NSImage? {

@@ -65,13 +65,8 @@ class GeneralPreferences: NSViewController {
 }
 // MARK: - MASPreferencesViewController
 extension GeneralPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "general"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "general"
     }
 
     var toolbarItemImage: NSImage? {

@@ -85,13 +85,8 @@ class OpponentTrackersPreferences: NSViewController {
 
 // MARK: - MASPreferencesViewController
 extension OpponentTrackersPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "opponent_trackers"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "opponent_trackers"
     }
 
     var toolbarItemImage: NSImage? {

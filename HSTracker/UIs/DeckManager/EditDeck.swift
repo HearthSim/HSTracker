@@ -545,10 +545,8 @@ extension EditDeck: NSWindowDelegate {
         
         let alert = NSAlert()
         alert.alertStyle = .informational
-        // swiftlint:disable line_length
         alert.messageText = NSLocalizedString("Are you sure you want to close this deck? "
             + "Your changes will not be saved.", comment: "")
-        // swiftlint:enable line_length
         alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         

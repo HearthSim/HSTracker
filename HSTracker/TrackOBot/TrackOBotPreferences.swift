@@ -65,13 +65,8 @@ class TrackOBotPreferences: NSViewController {
 
 // MARK: - MASPreferencesViewController
 extension TrackOBotPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "trackobot"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "trackobot"
     }
     
     var toolbarItemImage: NSImage? {

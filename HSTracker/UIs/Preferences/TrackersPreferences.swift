@@ -129,13 +129,8 @@ class TrackersPreferences: NSViewController {
 // MARK: - MASPreferencesViewController
 
 extension TrackersPreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "trackers"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "trackers"
     }
 
     var toolbarItemImage: NSImage? {

@@ -62,7 +62,7 @@ class TrackOBotLogin: NSWindowController {
     }
     
     private func displayAlert(style: NSAlertStyle, message: String,
-                              completion: @escaping (Void) -> (Void)) {
+                              completion: @escaping () -> Void) {
         let alert = NSAlert()
         alert.alertStyle = style
         alert.messageText = message
