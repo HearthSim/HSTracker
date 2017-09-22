@@ -29,22 +29,22 @@ class PlayerTrackersPreferences: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        showPlayerTracker.state = Settings.showPlayerTracker ? NSOnState : NSOffState
-        showPlayerCardCount.state = Settings.showPlayerCardCount ? NSOnState : NSOffState
-        showPlayerDrawChance.state = Settings.showPlayerDrawChance ? NSOnState : NSOffState
-        showPlayerGet.state = Settings.showPlayerGet ? NSOnState : NSOffState
-        showCthunCounter.state = Settings.showPlayerCthun ? NSOnState : NSOffState
-        showSpellCounter.state = Settings.showPlayerSpell ? NSOnState : NSOffState
-        showDeathrattleCounter.state = Settings.showPlayerDeathrattle ? NSOnState : NSOffState
-        flashOnDraw.state = Settings.flashOnDraw ? NSOnState : NSOffState
-        showRecord.state = Settings.showWinLossRatio ? NSOnState : NSOffState
+        showPlayerTracker.state = Settings.showPlayerTracker ? .on : .off
+        showPlayerCardCount.state = Settings.showPlayerCardCount ? .on : .off
+        showPlayerDrawChance.state = Settings.showPlayerDrawChance ? .on : .off
+        showPlayerGet.state = Settings.showPlayerGet ? .on : .off
+        showCthunCounter.state = Settings.showPlayerCthun ? .on : .off
+        showSpellCounter.state = Settings.showPlayerSpell ? .on : .off
+        showDeathrattleCounter.state = Settings.showPlayerDeathrattle ? .on : .off
+        flashOnDraw.state = Settings.flashOnDraw ? .on : .off
+        showRecord.state = Settings.showWinLossRatio ? .on : .off
         inHandColor.color = Settings.playerInHandColor
-        showBoardDamage.state = Settings.playerBoardDamage ? NSOnState : NSOffState
-        showDeckName.state = Settings.showDeckNameInTracker ? NSOnState : NSOffState
-        showGraveyard.state = Settings.showPlayerGraveyard ? NSOnState : NSOffState
-        showGraveyardDetails.state = Settings.showPlayerGraveyardDetails ? NSOnState : NSOffState
-        showGraveyardDetails.isEnabled = showGraveyard.state == NSOnState
-        showJadeCounter.state = Settings.showPlayerJadeCounter ? NSOnState : NSOffState
+        showBoardDamage.state = Settings.playerBoardDamage ? .on : .off
+        showDeckName.state = Settings.showDeckNameInTracker ? .on : .off
+        showGraveyard.state = Settings.showPlayerGraveyard ? .on : .off
+        showGraveyardDetails.state = Settings.showPlayerGraveyardDetails ? .on : .off
+        showGraveyardDetails.isEnabled = showGraveyard.state == .on
+        showJadeCounter.state = Settings.showPlayerJadeCounter ? .on : .off
     }
     
     @IBAction func colorChange(_ sender: NSColorWell) {
@@ -55,38 +55,38 @@ class PlayerTrackersPreferences: NSViewController {
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
         if sender == showPlayerTracker {
-            Settings.showPlayerTracker = showPlayerTracker.state == NSOnState
+            Settings.showPlayerTracker = showPlayerTracker.state == .on
         } else if sender == showPlayerGet {
-            Settings.showPlayerGet = showPlayerGet.state == NSOnState
+            Settings.showPlayerGet = showPlayerGet.state == .on
         } else if sender == showPlayerCardCount {
-            Settings.showPlayerCardCount = showPlayerCardCount.state == NSOnState
+            Settings.showPlayerCardCount = showPlayerCardCount.state == .on
         } else if sender == showPlayerDrawChance {
-            Settings.showPlayerDrawChance = showPlayerDrawChance.state == NSOnState
+            Settings.showPlayerDrawChance = showPlayerDrawChance.state == .on
         } else if sender == showCthunCounter {
-            Settings.showPlayerCthun = showCthunCounter.state == NSOnState
+            Settings.showPlayerCthun = showCthunCounter.state == .on
         } else if sender == showSpellCounter {
-            Settings.showPlayerSpell = showSpellCounter.state == NSOnState
+            Settings.showPlayerSpell = showSpellCounter.state == .on
         } else if sender == showDeathrattleCounter {
-            Settings.showPlayerDeathrattle = showDeathrattleCounter.state == NSOnState
+            Settings.showPlayerDeathrattle = showDeathrattleCounter.state == .on
         } else if sender == flashOnDraw {
-            Settings.flashOnDraw = flashOnDraw.state == NSOnState
+            Settings.flashOnDraw = flashOnDraw.state == .on
         } else if sender == showRecord {
-            Settings.showWinLossRatio = showRecord.state == NSOnState
+            Settings.showWinLossRatio = showRecord.state == .on
         } else if sender == showBoardDamage {
-            Settings.playerBoardDamage = showBoardDamage.state == NSOnState
+            Settings.playerBoardDamage = showBoardDamage.state == .on
         } else if sender == showDeckName {
-            Settings.showDeckNameInTracker = showDeckName.state == NSOnState
+            Settings.showDeckNameInTracker = showDeckName.state == .on
         } else if sender == showGraveyard {
-            Settings.showPlayerGraveyard = showGraveyard.state == NSOnState
-            if showGraveyard.state == NSOnState {
+            Settings.showPlayerGraveyard = showGraveyard.state == .on
+            if showGraveyard.state == .on {
                 showGraveyardDetails.isEnabled = true
             } else {
                 showGraveyardDetails.isEnabled = false
             }
         } else if sender == showGraveyardDetails {
-            Settings.showPlayerGraveyardDetails = showGraveyardDetails.state == NSOnState
+            Settings.showPlayerGraveyardDetails = showGraveyardDetails.state == .on
         } else if sender == showJadeCounter {
-            Settings.showPlayerJadeCounter = showJadeCounter.state == NSOnState
+            Settings.showPlayerJadeCounter = showJadeCounter.state == .on
         }
     }
 }
@@ -98,7 +98,7 @@ extension PlayerTrackersPreferences: MASPreferencesViewController {
     }
 
     var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImageNameAdvanced)
+        return NSImage(named: NSImage.Name.advanced)
     }
 
     var toolbarItemLabel: String? {

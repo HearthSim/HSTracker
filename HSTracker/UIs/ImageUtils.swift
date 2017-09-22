@@ -28,7 +28,7 @@ struct ImageUtils {
                     Log.verbose?.message("Failed to remove corrupted image at \(path)")
                 }
             }
-            return NSImage(named: "MissingCard")
+            return NSImage(named: NSImage.Name(rawValue: "MissingCard"))
         }
     }
 

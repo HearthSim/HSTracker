@@ -25,40 +25,40 @@ class GeneralPreferences: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        notifyGameStart.state = Settings.notifyGameStart ? NSOnState : NSOffState
-        notifyTurnStart.state = Settings.notifyTurnStart ? NSOnState : NSOffState
-        notifyOpponentConcede.state = Settings.notifyOpponentConcede ? NSOnState : NSOffState
-        closeTrackerWhenHSCloses.state = Settings.quitWhenHearthstoneCloses ? NSOnState : NSOffState
-        //promptNote.state = Settings.promptNotes ? NSOnState : NSOffState
-        saveReplays.state = Settings.saveReplays ? NSOnState : NSOffState
-        enableDockBadge.state = Settings.showAppHealth ? NSOnState : NSOffState
-        preferGoldenCards.state = Settings.preferGoldenCards ? NSOnState : NSOffState
-        useArenaHelper.state = Settings.showArenaHelper ? NSOnState : NSOffState
-		useToastNotifications.state = Settings.useToastNotification ? NSOnState : NSOffState
+        notifyGameStart.state = Settings.notifyGameStart ? .on : .off
+        notifyTurnStart.state = Settings.notifyTurnStart ? .on : .off
+        notifyOpponentConcede.state = Settings.notifyOpponentConcede ? .on : .off
+        closeTrackerWhenHSCloses.state = Settings.quitWhenHearthstoneCloses ? .on : .off
+        //promptNote.state = Settings.promptNotes ? .on : .off
+        saveReplays.state = Settings.saveReplays ? .on : .off
+        enableDockBadge.state = Settings.showAppHealth ? .on : .off
+        preferGoldenCards.state = Settings.preferGoldenCards ? .on : .off
+        useArenaHelper.state = Settings.showArenaHelper ? .on : .off
+		useToastNotifications.state = Settings.useToastNotification ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
         if sender == notifyGameStart {
-            Settings.notifyGameStart = notifyGameStart.state == NSOnState
+            Settings.notifyGameStart = notifyGameStart.state == .on
         } else if sender == notifyTurnStart {
-            Settings.notifyTurnStart = notifyTurnStart.state == NSOnState
+            Settings.notifyTurnStart = notifyTurnStart.state == .on
         } else if sender == notifyOpponentConcede {
-            Settings.notifyOpponentConcede = notifyOpponentConcede.state == NSOnState
+            Settings.notifyOpponentConcede = notifyOpponentConcede.state == .on
         } else if sender == closeTrackerWhenHSCloses {
-            Settings.quitWhenHearthstoneCloses = closeTrackerWhenHSCloses.state == NSOnState
+            Settings.quitWhenHearthstoneCloses = closeTrackerWhenHSCloses.state == .on
         //} else if sender == promptNote {
-        //    Settings.promptNotes = promptNote.state == NSOnState
+        //    Settings.promptNotes = promptNote.state == .on
         } else if sender == saveReplays {
-            Settings.saveReplays = saveReplays.state == NSOnState
+            Settings.saveReplays = saveReplays.state == .on
         } else if sender == enableDockBadge {
-            Settings.showAppHealth = enableDockBadge.state == NSOnState
+            Settings.showAppHealth = enableDockBadge.state == .on
             AppHealth.instance.updateBadge()
         } else if sender == preferGoldenCards {
-            Settings.preferGoldenCards = preferGoldenCards.state == NSOnState
+            Settings.preferGoldenCards = preferGoldenCards.state == .on
         } else if sender == useArenaHelper {
-            Settings.showArenaHelper = useArenaHelper.state == NSOnState
+            Settings.showArenaHelper = useArenaHelper.state == .on
 		} else if sender == useToastNotifications {
-			Settings.useToastNotification = useToastNotifications.state == NSOnState
+			Settings.useToastNotification = useToastNotifications.state == .on
 		}
     }
 
@@ -70,7 +70,7 @@ extension GeneralPreferences: MASPreferencesViewController {
     }
 
     var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImageNameAdvanced)
+        return NSImage(named: NSImage.Name.advanced)
 
     }
 

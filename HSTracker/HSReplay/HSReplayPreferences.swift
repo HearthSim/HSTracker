@@ -33,17 +33,17 @@ class HSReplayPreferences: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        showPushNotification.state = Settings.showHSReplayPushNotification ? NSOnState : NSOffState
-        synchronizeMatches.state = Settings.hsReplaySynchronizeMatches ? NSOnState : NSOffState
+        showPushNotification.state = Settings.showHSReplayPushNotification ? .on : .off
+        synchronizeMatches.state = Settings.hsReplaySynchronizeMatches ? .on : .off
         
         // swiftlint:disable line_length
-        uploadRankedGames.state = Settings.hsReplayUploadRankedMatches ? NSOnState : NSOffState
-        uploadCasualGames.state = Settings.hsReplayUploadCasualMatches ? NSOnState : NSOffState
-        uploadArenaGames.state = Settings.hsReplayUploadArenaMatches ? NSOnState : NSOffState
-        uploadBrawlGames.state = Settings.hsReplayUploadBrawlMatches ? NSOnState : NSOffState
-        uploadFriendlyGames.state = Settings.hsReplayUploadFriendlyMatches ? NSOnState : NSOffState
-        uploadAdventureGames.state = Settings.hsReplayUploadAdventureMatches ? NSOnState : NSOffState
-        uploadSpectatorGames.state = Settings.hsReplayUploadSpectatorMatches ? NSOnState : NSOffState
+        uploadRankedGames.state = Settings.hsReplayUploadRankedMatches ? .on : .off
+        uploadCasualGames.state = Settings.hsReplayUploadCasualMatches ? .on : .off
+        uploadArenaGames.state = Settings.hsReplayUploadArenaMatches ? .on : .off
+        uploadBrawlGames.state = Settings.hsReplayUploadBrawlMatches ? .on : .off
+        uploadFriendlyGames.state = Settings.hsReplayUploadFriendlyMatches ? .on : .off
+        uploadAdventureGames.state = Settings.hsReplayUploadAdventureMatches ? .on : .off
+        uploadSpectatorGames.state = Settings.hsReplayUploadSpectatorMatches ? .on : .off
         // swiftlint:enable line_length
         
         updateUploadGameTypeView()
@@ -56,30 +56,30 @@ class HSReplayPreferences: NSViewController {
     
     @IBAction func checkboxClicked(_ sender: NSButton) {
         if sender == synchronizeMatches {
-            Settings.hsReplaySynchronizeMatches = synchronizeMatches.state == NSOnState
+            Settings.hsReplaySynchronizeMatches = synchronizeMatches.state == .on
         } else if sender == showPushNotification {
-            Settings.showHSReplayPushNotification = showPushNotification.state == NSOnState
+            Settings.showHSReplayPushNotification = showPushNotification.state == .on
         } else if sender == uploadRankedGames {
-            Settings.hsReplayUploadRankedMatches = uploadRankedGames.state == NSOnState
+            Settings.hsReplayUploadRankedMatches = uploadRankedGames.state == .on
         } else if sender == uploadCasualGames {
-            Settings.hsReplayUploadCasualMatches = uploadCasualGames.state == NSOnState
+            Settings.hsReplayUploadCasualMatches = uploadCasualGames.state == .on
         } else if sender == uploadArenaGames {
-            Settings.hsReplayUploadArenaMatches = uploadArenaGames.state == NSOnState
+            Settings.hsReplayUploadArenaMatches = uploadArenaGames.state == .on
         } else if sender == uploadBrawlGames {
-            Settings.hsReplayUploadBrawlMatches = uploadBrawlGames.state == NSOnState
+            Settings.hsReplayUploadBrawlMatches = uploadBrawlGames.state == .on
         } else if sender == uploadFriendlyGames {
-            Settings.hsReplayUploadFriendlyMatches = uploadFriendlyGames.state == NSOnState
+            Settings.hsReplayUploadFriendlyMatches = uploadFriendlyGames.state == .on
         } else if sender == uploadAdventureGames {
-            Settings.hsReplayUploadAdventureMatches = uploadAdventureGames.state == NSOnState
+            Settings.hsReplayUploadAdventureMatches = uploadAdventureGames.state == .on
         } else if sender == uploadSpectatorGames {
-            Settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == NSOnState
+            Settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == .on
         }
         
         updateUploadGameTypeView()
     }
     
     fileprivate func updateUploadGameTypeView() {
-        if synchronizeMatches.state == NSOffState {
+        if synchronizeMatches.state == .off {
             uploadRankedGames.isEnabled = false
             uploadCasualGames.isEnabled = false
             uploadArenaGames.isEnabled = false
@@ -168,7 +168,7 @@ extension HSReplayPreferences: MASPreferencesViewController {
     }
     
     var toolbarItemImage: NSImage? {
-        return NSImage(named: "hsreplay_icon")
+        return NSImage(named: NSImage.Name(rawValue: "hsreplay_icon"))
     }
     
     var toolbarItemLabel: String? {

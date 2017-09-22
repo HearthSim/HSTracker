@@ -32,9 +32,8 @@ class WindowMove: NSWindowController {
     @IBOutlet weak var screenHeight: NSTextField!
 	
 	private weak var windowManager: WindowManager!
-	
-	override var windowNibName: String! {
-		return "WindowMove"
+    override var windowNibName: NSNib.Name? {
+        return NSNib.Name("WindowMove")
 	}
 	
 	convenience init(windowNibName: String, windowManager: WindowManager) {
@@ -48,8 +47,8 @@ class WindowMove: NSWindowController {
         window.backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.6)
         window.isOpaque = false
         window.hasShadow = false
-        window.styleMask = NSBorderlessWindowMask
-        window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
+        window.styleMask = .borderless
+        window.level = .screenSaver
 
         return window
     }()

@@ -156,7 +156,7 @@ class DeckSerializer {
         write(value: 1)
         write(value: heroDbfId)
         let cards = deck.sortedCards.sorted(by: {
-            return $0.0.dbfId < $0.1.dbfId
+            return $0.dbfId < $1.dbfId
         })
         let singleCards = cards.filter({ $0.count == 1 })
         let doubleCards = cards.filter({ $0.count == 2 })

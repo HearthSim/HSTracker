@@ -33,7 +33,7 @@ class NetImportTest: XCTestCase {
     }
 
     private func verifyDeck(html: String) {
-        guard let doc = Kanna.HTML(html: html, encoding: .utf8) else {
+        guard let doc = try? Kanna.HTML(html: html, encoding: .utf8) else {
             XCTFail("HTML is not valid")
             return
         }

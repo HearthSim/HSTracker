@@ -21,8 +21,8 @@ class CardList: OverWindowController {
         table?.intercellSpacing = NSSize(width: 0, height: 0)
 
         table?.backgroundColor = NSColor.clear
-        table?.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable,
-                                       NSAutoresizingMaskOptions.viewHeightSizable]
+        table?.autoresizingMask = [NSView.AutoresizingMask.width,
+                                       NSView.AutoresizingMask.height]
 
         NotificationCenter.default
             .addObserver(self,
@@ -31,7 +31,7 @@ class CardList: OverWindowController {
                          object: nil)
     }
 
-    func cardSizeChange() {
+    @objc func cardSizeChange() {
         setWindowSizes()
     }
 

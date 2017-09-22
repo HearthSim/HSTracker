@@ -10,8 +10,8 @@ import Foundation
 import RealmSwift
 
 class RealmCard: Object {
-    dynamic var id = ""
-    dynamic var count = 0
+    @objc dynamic var id = ""
+    @objc dynamic var count = 0
 
     convenience init(id: String, count: Int) {
         self.init()

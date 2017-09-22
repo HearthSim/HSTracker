@@ -37,7 +37,7 @@ class OverWindowController: NSWindowController {
 
         window.contentMinSize = NSSize(width: CGFloat(width), height: 400)
         window.contentMaxSize = NSSize(width: CGFloat(width),
-                                             height: NSScreen.main()!.frame.height)
+                                             height: NSScreen.main!.frame.height)
     }
     
     /**

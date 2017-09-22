@@ -72,7 +72,7 @@ class Tracker: OverWindowController {
 
     // MARK: - Notifications
 
-    func setOpacity() {
+    @objc func setOpacity() {
         let alpha = CGFloat(Settings.trackerOpacity / 100.0)
         self.window!.backgroundColor = NSColor(red: 0,
                                                green: 0,

@@ -142,9 +142,9 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func initKeyboardShortcuts() {
         self.monitor = NSEvent
-            .addLocalMonitorForEvents(matching: .keyDown) { (e) -> NSEvent? in
+            .addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { (e) -> NSEvent? in
 
-            let isCmd = e.modifierFlags.contains(.command)
+            let isCmd = e.modifierFlags.contains(NSEvent.ModifierFlags.command)
 
             if isCmd {
                 switch e.keyCode {
@@ -222,7 +222,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         countLabel.stringValue = "\(count) / 30"
     }
 
-    func updateTheme(_ notification: Notification) {
+    @objc func updateTheme(_ notification: Notification) {
         deckCardsView.reloadData()
         cardsTableView.reloadData()
     }
@@ -274,7 +274,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
     }
     
     // MARK: - Undo/Redo
-    func undoCardAdd(_ card: AnyObject) {
+    @objc func undoCardAdd(_ card: AnyObject) {
         if let c = card as? Card {
             deckUndoManager?.registerUndo(withTarget: self,
                                           selector: #selector(redoCardAdd(_:)),
@@ -295,7 +295,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
     }
     
-    func redoCardAdd(_ card: AnyObject) {
+    @objc func redoCardAdd(_ card: AnyObject) {
         if let c = card as? Card {
             deckUndoManager?.registerUndo(withTarget: self,
                                           selector: #selector(undoCardAdd(_:)),
@@ -338,7 +338,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     // MARK: - Standard/Wild
     @IBAction func standardWildChange(_ sender: NSButton) {
-        standardOnly = sender.state == NSOnState
+        standardOnly = sender.state == .on
 
         let name = standardOnly ? "Mode_Standard_Mammoth" : "Mode_Wild_Dark"
         standardOnlyCards.image = NSImage(named: name,
@@ -493,7 +493,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     // MARK: - Toolbar actions
     @IBAction func save(_ sender: AnyObject?) {
-        saveDeck = SaveDeck(windowNibName: "SaveDeck")
+        saveDeck = SaveDeck(windowNibName: NSNib.Name(rawValue: "SaveDeck"))
         if let saveDeck = saveDeck {
             saveDeck.setDelegate(self)
             saveDeck.deck = currentDeck
@@ -518,7 +518,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         }
     }
 
-    func cancelSearch(_ sender: AnyObject) {
+    @objc func cancelSearch(_ sender: AnyObject) {
         classChooser.isEnabled = true
         searchField.stringValue = ""
         searchField.resignFirstResponder()
@@ -537,7 +537,7 @@ extension EditDeck: NSWindowDelegate {
         removeKeyboardShortcuts()
     }
 
-    func windowShouldClose(_ sender: Any) -> Bool {
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
         if isSaved {
             delegate?.refreshDecks()
             return true
@@ -550,7 +550,7 @@ extension EditDeck: NSWindowDelegate {
         alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         
-        return alert.runModal() == NSAlertFirstButtonReturn
+        return alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
 }
 

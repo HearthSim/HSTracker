@@ -33,7 +33,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             hearthstonePath.isEnabled = false
             choosePath.isEnabled = false
         } else {
-            checkImage.image = NSImage(named: "error")
+            checkImage.image = NSImage(named: NSImage.Name(rawValue: "error"))
 
             let alert = NSAlert()
             alert.alertStyle = .critical
@@ -46,7 +46,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
     // MARK: - Button actions
     @IBAction func exit(_ sender: AnyObject) {
-        NSApplication.shared().terminate(nil)
+        NSApplication.shared.terminate(nil)
     }
 
     @IBAction func save(_ sender: AnyObject) {
@@ -79,11 +79,11 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         openDialog.allowedFileTypes = ["app"]
         openDialog.nameFieldStringValue = "Hearthstone.app"
         openDialog.title = NSLocalizedString("Please select your Hearthstone app", comment: "")
-        if openDialog.runModal() == NSModalResponseOK {
+        if openDialog.runModal() == NSApplication.ModalResponse.OK {
             if let url = openDialog.urls.first {
                 let path = url.path
                 hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
-                checkImage.image = NSImage(named: "check")
+                checkImage.image = NSImage(named: NSImage.Name(rawValue: "check"))
             }
         }
         checkToEnableSave()

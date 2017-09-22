@@ -16,7 +16,7 @@ class CardHud: NSView {
     
     private lazy var trackingArea: NSTrackingArea = {
         return NSTrackingArea(rect: NSRect.zero,
-                              options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
+                              options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],
                               owner: self,
                               userInfo: nil)
     }()
@@ -101,7 +101,7 @@ class CardHud: NSView {
     }
     
     private func addImage(filename: String, rect: NSRect) {
-        guard let image = NSImage(named: filename) else { return }
+        guard let image = NSImage(named: NSImage.Name(rawValue: filename)) else { return }
         image.draw(in: rect)
     }
 

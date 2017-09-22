@@ -951,6 +951,7 @@
 		43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentSecrets.swift; sourceTree = "<group>"; };
 		43B695621C920A0500F4D0AC /* CardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardList.swift; sourceTree = "<group>"; };
 		43B695641C920BD500F4D0AC /* CardList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardList.xib; sourceTree = "<group>"; };
+		43B712C01F75115500796F92 /* HSTracker-Test-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HSTracker-Test-Bridging-Header.h"; sourceTree = "<group>"; };
 		43BBAA991E619AA9009B6298 /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/Mac/Unbox.framework; sourceTree = "<group>"; };
 		43BBAA9C1E619AD8009B6298 /* Unbox.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Unbox.framework.dSYM; path = Carthage/Build/Mac/Unbox.framework.dSYM; sourceTree = "<group>"; };
 		43BBAAA01E61A11F009B6298 /* JNWCollectionView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JNWCollectionView.framework; path = Carthage/Build/Mac/JNWCollectionView.framework; sourceTree = "<group>"; };
@@ -1394,6 +1395,7 @@
 				43640BE21E8A328700FAFD07 /* SecretTests.swift */,
 				439BD8C81EBCD40200959F69 /* EnumTests.swift */,
 				1C561C981EC1EC6600007A46 /* ReplayUploadTests.swift */,
+				43B712C01F75115500796F92 /* HSTracker-Test-Bridging-Header.h */,
 			);
 			path = HSTrackerTests;
 			sourceTree = "<group>";
@@ -1768,12 +1770,12 @@
 					439C7E471C7772C000D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = GZ37WWWK6W;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 					};
 					439C7E5B1C7772C100D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 					};
 				};
 			};
@@ -2708,7 +2710,8 @@
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -2734,7 +2737,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -2751,8 +2755,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "HSTrackerTests/HSTracker-Test-Bridging-Header.h";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -2769,8 +2774,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = be.michotte.HSTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "HSTracker/HSTracker-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "HSTrackerTests/HSTracker-Test-Bridging-Header.h";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

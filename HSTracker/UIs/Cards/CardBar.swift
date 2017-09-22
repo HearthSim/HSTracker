@@ -26,7 +26,7 @@ protocol CardBarTheme {
 class CardBar: NSView, CardBarTheme {
     private lazy var trackingArea: NSTrackingArea = {
         return NSTrackingArea(rect: NSRect.zero,
-                              options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
+                              options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],
                               owner: self,
                               userInfo: nil)
     }()
@@ -580,19 +580,19 @@ class CardBar: NSView, CardBarTheme {
 
         if let font = NSFont(name: font, size: round(fontSize / ratioHeight)) {
             let ratioRect = ratio(rect)
-            var attributes: [String : Any] = [
-                NSFontAttributeName: font,
-                NSForegroundColorAttributeName: textColor,
-                NSStrokeWidthAttributeName: strokeThickness,
-                NSStrokeColorAttributeName: NSColor.black
+            var attributes: [NSAttributedStringKey : Any] = [
+                .font: font,
+                .foregroundColor: textColor,
+                .strokeWidth: strokeThickness,
+                .strokeColor: NSColor.black
             ]
             if centered {
                 let paragraph = NSMutableParagraphStyle()
                 paragraph.alignment = .center
-                attributes[NSParagraphStyleAttributeName] = paragraph
+                attributes[.paragraphStyle] = paragraph
             }
             value.draw(with: ratioRect,
-                               options: .truncatesLastVisibleLine,
+                               options: NSString.DrawingOptions.truncatesLastVisibleLine,
                                attributes: attributes)
         }
     }

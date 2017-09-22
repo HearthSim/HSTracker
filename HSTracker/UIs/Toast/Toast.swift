@@ -17,13 +17,13 @@ class Toast {
         w.isOpaque = false
         w.hasShadow = false
         w.acceptsMouseMovedEvents = true
-        w.styleMask = NSBorderlessWindowMask
-        w.level = Int(CGWindowLevelForKey(CGWindowLevelKey.maximumWindow))
+        w.styleMask = .borderless
+        w.level = .screenSaver
         w.backgroundColor = Color.clear
         
         w.orderFrontRegardless()
         
-        let screenRect = NSScreen.screens()!.first!.frame
+        let screenRect = NSScreen.screens.first!.frame
         let height = screenRect.height
         let x = screenRect.width / 2 - windowWidth / 2
         
@@ -48,7 +48,7 @@ class Toast {
     private class ToastPanel: NSView {
         private lazy var trackingArea: NSTrackingArea = {
             return NSTrackingArea(rect: NSRect.zero,
-                                  options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
+                                  options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],
                                   owner: self,
                                   userInfo: nil)
         }()
@@ -113,10 +113,10 @@ class Toast {
         
         func remove() {
             NSAnimationContext.beginGrouping()
-            NSAnimationContext.current().completionHandler = { [weak self] in
+            NSAnimationContext.current.completionHandler = { [weak self] in
                 self?.removeFromSuperview()
             }
-            NSAnimationContext.current().duration = 1.2
+            NSAnimationContext.current.duration = 1.2
             
             animator().alphaValue = 0
             
@@ -180,7 +180,7 @@ class Toast {
         
         private func refresh() {
             NSAnimationContext.beginGrouping()
-            NSAnimationContext.current().duration = 0.8
+            NSAnimationContext.current.duration = 0.8
             
             var y: CGFloat = contentView!.frame.maxY
             panels.reversed().forEach {

@@ -32,7 +32,7 @@ extension String {
             return ""
         }
 
-        return substring(from: index(startIndex, offsetBy: from))
+        return String(self[index(startIndex, offsetBy: from)])
     }
 
     func substring(from: Int, to: Int) -> String {
@@ -45,7 +45,7 @@ extension String {
         }
         let range = self.characters.index(self.startIndex, offsetBy: from)
             ..< self.characters.index(self.startIndex, offsetBy: to)
-        return self.substring(with: range)
+        return String(self[range])
     }
 
     func substring(from: Int, length: Int) -> String {
@@ -60,7 +60,7 @@ extension String {
         let startPos = self.characters.index(self.startIndex, offsetBy: from)
         let endPos = self.characters.index(self.startIndex, offsetBy: from + length)
         let range = startPos ..< endPos
-        return self.substring(with: range)
+        return String(self[range])
     }
 
     func char(at: Int) -> String {

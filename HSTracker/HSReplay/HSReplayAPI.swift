@@ -50,7 +50,7 @@ class HSReplayAPI {
                 Log.info?.message("Opening browser to claim account...")
 
                 let url = URL(string: "\(HSReplay.baseUrl)\(url)")
-                NSWorkspace.shared().open(url!)
+                NSWorkspace.shared.open(url!)
             } else {
 
             }
