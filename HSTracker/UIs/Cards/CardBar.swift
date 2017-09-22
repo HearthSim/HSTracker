@@ -26,7 +26,7 @@ protocol CardBarTheme {
 class CardBar: NSView, CardBarTheme {
     private lazy var trackingArea: NSTrackingArea = {
         return NSTrackingArea(rect: NSRect.zero,
-                              options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],
+                              options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
                               owner: self,
                               userInfo: nil)
     }()

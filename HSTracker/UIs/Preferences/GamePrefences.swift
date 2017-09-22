@@ -33,10 +33,7 @@ class GamePreferences: NSViewController {
 
             let alert = NSAlert()
             alert.alertStyle = .critical
-            // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("Can't find Hearthstone, please select"
-                + " Hearthstone.app", comment: "")
-            // swiftlint:enable line_length
+            alert.messageText = NSLocalizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
             alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
             alert.runModal()
         }

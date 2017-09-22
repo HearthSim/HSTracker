@@ -207,7 +207,7 @@ class LogUploader {
     }
 }
 
-fileprivate struct UploaderItem {
+private struct UploaderItem {
     let hash: Int
 }
 

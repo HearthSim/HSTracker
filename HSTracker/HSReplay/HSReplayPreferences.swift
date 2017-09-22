@@ -36,7 +36,6 @@ class HSReplayPreferences: NSViewController {
         showPushNotification.state = Settings.showHSReplayPushNotification ? .on : .off
         synchronizeMatches.state = Settings.hsReplaySynchronizeMatches ? .on : .off
         
-        // swiftlint:disable line_length
         uploadRankedGames.state = Settings.hsReplayUploadRankedMatches ? .on : .off
         uploadCasualGames.state = Settings.hsReplayUploadCasualMatches ? .on : .off
         uploadArenaGames.state = Settings.hsReplayUploadArenaMatches ? .on : .off
@@ -44,7 +43,6 @@ class HSReplayPreferences: NSViewController {
         uploadFriendlyGames.state = Settings.hsReplayUploadFriendlyMatches ? .on : .off
         uploadAdventureGames.state = Settings.hsReplayUploadAdventureMatches ? .on : .off
         uploadSpectatorGames.state = Settings.hsReplayUploadSpectatorMatches ? .on : .off
-        // swiftlint:enable line_length
         
         updateUploadGameTypeView()
         updateStatus()
