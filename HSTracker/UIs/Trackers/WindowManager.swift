@@ -24,7 +24,7 @@ class WindowManager {
         }
     }()
     static let screenFrame: NSRect = {
-        return NSScreen.main()!.frame
+        return NSScreen.main!.frame
     }()
     static let top: CGFloat = {
         return screenFrame.height - 50
@@ -33,58 +33,58 @@ class WindowManager {
     var playerTracker: Tracker = {
         $0.playerType = .player
         return $0
-    }(Tracker(windowNibName: "Tracker"))
+    }(Tracker(windowNibName: NSNib.Name(rawValue: "Tracker")))
 
     var opponentTracker: Tracker = {
         $0.playerType = .opponent
         return $0
-    }(Tracker(windowNibName: "Tracker"))
+    }(Tracker(windowNibName: NSNib.Name(rawValue: "Tracker")))
 
     var secretTracker: CardList = {
         return $0
-    }(CardList(windowNibName: "CardList"))
+    }(CardList(windowNibName: NSNib.Name(rawValue: "CardList")))
 	
 	var arenaHelper: CardList = {
 		return $0
-	}(CardList(windowNibName: "CardList"))
+	}(CardList(windowNibName: NSNib.Name(rawValue: "CardList")))
 	
     var playerBoardDamage: BoardDamage = {
         $0.player = .player
         return $0
-    }(BoardDamage(windowNibName: "BoardDamage"))
+    }(BoardDamage(windowNibName: NSNib.Name(rawValue: "BoardDamage")))
 
     var opponentBoardDamage: BoardDamage = {
         $0.player = .opponent
         return $0
-    }(BoardDamage(windowNibName: "BoardDamage"))
+    }(BoardDamage(windowNibName: NSNib.Name(rawValue: "BoardDamage")))
 
     var timerHud: TimerHud = {
         return $0
-    }(TimerHud(windowNibName: "TimerHud"))
+    }(TimerHud(windowNibName: NSNib.Name(rawValue: "TimerHud")))
 
     var floatingCard: FloatingCard = {
         if let fWindow = $0.window {
             
-            fWindow.level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
+            fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
             
             if Settings.canJoinFullscreen {
-                fWindow.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+                fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
             } else {
                 fWindow.collectionBehavior = []
             }
             
-            fWindow.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
+            fWindow.styleMask = [.borderless, .nonactivatingPanel]
             fWindow.ignoresMouseEvents = true
             
             fWindow.orderFront(nil)
 			fWindow.orderOut(nil)
         }
         return $0
-    }(FloatingCard(windowNibName: "FloatingCard"))
+    }(FloatingCard(windowNibName: NSNib.Name(rawValue: "FloatingCard")))
     
     var cardHudContainer: CardHudContainer = {
         return $0
-    }(CardHudContainer(windowNibName: "CardHudContainer"))
+    }(CardHudContainer(windowNibName: NSNib.Name(rawValue: "CardHudContainer")))
 
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 
@@ -145,15 +145,15 @@ class WindowManager {
                 fWindow.setFrameOrigin(NSPoint(x: arrayFrame[0],
                                                             y: arrayFrame[1] - fWindow.frame.size.height/2))
                 
-                fWindow.level = Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1
+                fWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(CGWindowLevelKey.mainMenuWindow)) - 1)
                 
                 if Settings.canJoinFullscreen {
-                    fWindow.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+                    fWindow.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
                 } else {
                     fWindow.collectionBehavior = []
                 }
                 
-                fWindow.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
+                fWindow.styleMask = [.borderless, .nonactivatingPanel]
                 fWindow.ignoresMouseEvents = true
                 
                 fWindow.orderFront(nil)
@@ -221,22 +221,22 @@ class WindowManager {
                 } else {
                     level = Int(CGWindowLevelForKey(CGWindowLevelKey.normalWindow))
                 }
-                window.level = level
+                window.level = NSWindow.Level(rawValue: level)
 
                 // if the setting is on, set the window behavior to join all workspaces
                 if Settings.canJoinFullscreen {
-                    window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+                    window.collectionBehavior = [NSWindow.CollectionBehavior.canJoinAllSpaces, NSWindow.CollectionBehavior.fullScreenAuxiliary]
                 } else {
                     window.collectionBehavior = []
                 }
 
                 let locked = Settings.windowsLocked
                 if locked {
-                    window.styleMask = [NSBorderlessWindowMask, NSNonactivatingPanelMask]
+                    window.styleMask = [.borderless, .nonactivatingPanel]
                 } else {
-                    window.styleMask = [NSTitledWindowMask, NSMiniaturizableWindowMask,
-                                        NSResizableWindowMask, NSBorderlessWindowMask,
-                                        NSNonactivatingPanelMask]
+                    window.styleMask = [.titled, .miniaturizable,
+                                        .resizable, .borderless,
+                                        .nonactivatingPanel]
                 }
                 window.ignoresMouseEvents = locked
 

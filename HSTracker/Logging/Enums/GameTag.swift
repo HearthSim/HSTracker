@@ -11,8 +11,6 @@
 import Foundation
 import Wrap
 
-// swiftlint:disable type_name
-
 enum GameTag: Int, WrappableEnum, EnumCollection {
     case ignore_damage = 1,
     tag_script_data_num_1 = 2,

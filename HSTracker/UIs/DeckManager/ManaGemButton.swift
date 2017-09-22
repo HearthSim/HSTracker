@@ -22,7 +22,7 @@ class ManaGemButtonCell: NSButtonCell {
 class ManaGemButton: NSButton {
     var selected: Bool = false {
         willSet(value) {
-            self.image = value ? NSImage(named: "mana-selected") : NSImage(named: "mana-dark")
+            self.image = value ? NSImage(named: NSImage.Name(rawValue: "mana-selected")) : NSImage(named: NSImage.Name(rawValue: "mana-dark"))
         }
     }
 

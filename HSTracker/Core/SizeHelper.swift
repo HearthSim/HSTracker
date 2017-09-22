@@ -46,7 +46,7 @@ struct SizeHelper {
 
                     // Warning: this function assumes that the
                     // first screen in the list is the active one
-                    if let screen = NSScreen.screens()?.first {
+                    if let screen = NSScreen.screens.first {
                         screenRect = screen.frame
                         frame.origin.y = screen.frame.maxY - rect.maxY
                     }

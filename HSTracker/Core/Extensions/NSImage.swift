@@ -10,7 +10,7 @@ import Foundation
 
 extension NSImage {
     convenience init?(named: String, size: NSSize) {
-        guard let image = NSImage(named: named) else { return nil }
+        guard let image = NSImage(named: NSImage.Name(rawValue: named)) else { return nil }
         let newImage = NSImage(size: size)
 
         newImage.lockFocus()

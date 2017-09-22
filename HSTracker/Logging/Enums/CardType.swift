@@ -10,8 +10,6 @@
 
 import Foundation
 
-// swiftlint:disable type_name
-
 enum CardType: Int, EnumCollection {
     case invalid = 0,
     game = 1,

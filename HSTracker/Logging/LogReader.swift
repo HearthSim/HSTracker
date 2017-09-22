@@ -130,8 +130,7 @@ final class LogReader {
                             for line in lines {
                                 offset += UInt64((line + "\n")
                                     .lengthOfBytes(using: .utf8))
-                                let cutted = line.substring(from:
-                                    line.characters.index(line.startIndex, offsetBy: 19))
+                                let cutted = String(line[line.characters.index(line.startIndex, offsetBy: 19)])
                                 
                                 if !info.hasFilters {
                                     let logLine = LogLine(namespace: info.name,

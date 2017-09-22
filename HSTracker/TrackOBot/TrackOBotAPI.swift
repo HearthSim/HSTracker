@@ -121,7 +121,7 @@ struct TrackOBotAPI {
                 Log.debug?.message("Track-o-Bot auth : \(json)")
                 if let url = json["url"],
                     let nsurl = URL(string: url) {
-                    NSWorkspace.shared().open(nsurl)
+                    NSWorkspace.shared.open(nsurl)
                 }
             }
         }

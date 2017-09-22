@@ -27,14 +27,15 @@ class GamePreferences: NSViewController {
             hearthstonePath.stringValue = Settings.hearthstonePath
             hearthstonePath.isEnabled = false
             chooseHearthstonePath.isEnabled = false
-            checkImage.image = NSImage(named: "check")
+            checkImage.image = NSImage(named: NSImage.Name(rawValue: "check"))
         } else {
-            checkImage.image = NSImage(named: "error")
+            checkImage.image = NSImage(named: NSImage.Name(rawValue: "error"))
 
             let alert = NSAlert()
             alert.alertStyle = .critical
             // swiftlint:disable line_length
-            alert.messageText = NSLocalizedString("Can't find Hearthstone, please select Hearthstone.app", comment: "")
+            alert.messageText = NSLocalizedString("Can't find Hearthstone, please select"
+                + " Hearthstone.app", comment: "")
             // swiftlint:enable line_length
             alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
             alert.runModal()
@@ -49,8 +50,8 @@ class GamePreferences: NSViewController {
             hearthstoneLanguage.selectItem(at: index)
         }
 
-        autoArchiveArenaDeck.state = Settings.autoArchiveArenaDeck ? NSOnState : NSOffState
-        autoSelectDecks.state = Settings.autoDeckDetection ? NSOnState : NSOffState
+        autoArchiveArenaDeck.state = Settings.autoArchiveArenaDeck ? .on : .off
+        autoSelectDecks.state = Settings.autoDeckDetection ? .on : .off
     }
 
     @IBAction func choosePath(_ sender: NSButton) {
@@ -65,12 +66,12 @@ class GamePreferences: NSViewController {
             openDialog.title = NSLocalizedString("Please select your Hearthstone app", comment: "")
         }
 
-        if openDialog.runModal() == NSModalResponseOK {
+        if openDialog.runModal() == NSApplication.ModalResponse.OK {
             if let url = openDialog.urls.first {
                 if sender == chooseHearthstonePath {
                     let path = url.path
                     hearthstonePath.stringValue = path.replace("/Hearthstone.app", with: "")
-                    checkImage.image = NSImage(named: "check")
+                    checkImage.image = NSImage(named: NSImage.Name(rawValue: "check"))
                     Settings.hearthstonePath = hearthstonePath.stringValue
                 }
             }
@@ -79,9 +80,9 @@ class GamePreferences: NSViewController {
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
         if sender == autoArchiveArenaDeck {
-            Settings.autoArchiveArenaDeck = autoArchiveArenaDeck.state == NSOnState
+            Settings.autoArchiveArenaDeck = autoArchiveArenaDeck.state == .on
         } else if sender == autoSelectDecks {
-            Settings.autoDeckDetection = autoSelectDecks.state == NSOnState
+            Settings.autoDeckDetection = autoSelectDecks.state == .on
         }
     }
 }
@@ -143,17 +144,12 @@ extension GamePreferences: NSOpenSavePanelDelegate {
 
 // MARK: - MASPreferencesViewController
 extension GamePreferences: MASPreferencesViewController {
-    override var identifier: String? {
-        get {
-            return "game"
-        }
-        set {
-            super.identifier = newValue
-        }
+    var viewIdentifier: String {
+        return "game"
     }
     
     var toolbarItemImage: NSImage? {
-        return NSImage(named: NSImageNameAdvanced)
+        return NSImage(named: NSImage.Name.advanced)
     }
     
     var toolbarItemLabel: String? {

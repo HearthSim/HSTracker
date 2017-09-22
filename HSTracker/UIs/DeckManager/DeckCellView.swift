@@ -28,7 +28,7 @@ class DeckCellView: NSView {
                 color = color.darken(amount: 0.50)
             }
             color.set()
-            NSRectFill(dirtyRect)
+            dirtyRect.fill()
         }
         super.draw(dirtyRect)
     }

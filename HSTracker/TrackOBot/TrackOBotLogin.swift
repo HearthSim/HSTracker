@@ -61,8 +61,8 @@ class TrackOBotLogin: NSWindowController {
         [ loginButton ].forEach { $0.isEnabled = !isNetworkActivityInProgress }
     }
     
-    private func displayAlert(style: NSAlertStyle, message: String,
-                              completion: @escaping () -> (Void)) {
+    private func displayAlert(style: NSAlert.Style, message: String,
+                              completion: @escaping () -> Void) {
         let alert = NSAlert()
         alert.alertStyle = style
         alert.messageText = message
@@ -73,6 +73,6 @@ class TrackOBotLogin: NSWindowController {
     }
     
     private func endSheet() {
-        window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+        window?.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse.OK)
     }
 }

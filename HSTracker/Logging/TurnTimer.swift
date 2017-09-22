@@ -59,7 +59,7 @@ import CleanroomLogger
         timer?.invalidate()
     }
 
-    func timerTick() {
+    @objc func timerTick() {
 
         if seconds > 0 {
             seconds -= 1

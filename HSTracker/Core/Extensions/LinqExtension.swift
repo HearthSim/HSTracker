@@ -251,7 +251,7 @@ protocol Addable {
     init()
 }
 
-protocol Reducable: Addable, Averagable, Comparable {
+protocol Reducable: Averagable, Comparable {
     static func max() -> Self
 }
 

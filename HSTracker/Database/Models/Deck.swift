@@ -16,25 +16,25 @@ func generateId() -> String {
 }
 
 class Deck: Object {
-    dynamic var deckId: String = generateId()
-    dynamic var name = ""
+    @objc dynamic var deckId: String = generateId()
+    @objc dynamic var name = ""
 
-    private dynamic var _playerClass = CardClass.neutral.rawValue
+    @objc private dynamic var _playerClass = CardClass.neutral.rawValue
     var playerClass: CardClass {
         get { return CardClass(rawValue: _playerClass)! }
         set { _playerClass = newValue.rawValue }
     }
-    dynamic var heroId = ""
+    @objc dynamic var heroId = ""
 
-    dynamic var deckMajorVersion: Int = 1
-    dynamic var deckMinorVersion: Int = 0
+    @objc dynamic var deckMajorVersion: Int = 1
+    @objc dynamic var deckMinorVersion: Int = 0
     
-    dynamic var creationDate = Date()
+    @objc dynamic var creationDate = Date()
     let hearthstatsId = RealmOptional<Int>()
     let hearthstatsVersionId = RealmOptional<Int>()
     let hearthStatsArenaId = RealmOptional<Int>()
-    dynamic var isActive = true
-    dynamic var isArena = false
+    @objc dynamic var isActive = true
+    @objc dynamic var isArena = false
 
     let hsDeckId = RealmOptional<Int64>()
 

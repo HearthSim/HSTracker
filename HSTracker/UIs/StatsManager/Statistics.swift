@@ -27,10 +27,10 @@ class Statistics: NSWindowController {
         
         update()
         
-        statsTab = StatsTab(nibName: "StatsTab", bundle: nil)
+        statsTab = StatsTab(nibName: NSNib.Name(rawValue: "StatsTab"), bundle: nil)
         statsTab!.deck = self.deck
         
-        ladderTab = LadderTab(nibName: "LadderTab", bundle: nil)
+        ladderTab = LadderTab(nibName: NSNib.Name(rawValue: "LadderTab"), bundle: nil)
         ladderTab!.deck = self.deck
         ladderTab!.guessRankAndUpdate()
         
@@ -78,22 +78,22 @@ class Statistics: NSWindowController {
         swindow.setFrame(frame, display: true)
     }
     
-    func update() {
+    @objc func update() {
         if let deck = self.deck {
             // XXX: This might be unsafe
             // I'm assuming that the player class names
             // and class assets are always the same
             let imageName = deck.playerClass.rawValue.lowercased()
-            selectedDeckIcon.image = NSImage(named: imageName)
+            selectedDeckIcon.image = NSImage(named: NSImage.Name(rawValue: imageName))
             selectedDeckName.stringValue = deck.name
         } else {
-            selectedDeckIcon.image = NSImage(named: "error")
+            selectedDeckIcon.image = NSImage(named: NSImage.Name(rawValue: "error"))
             selectedDeckName.stringValue = "No deck selected."
         }
     }
 
     @IBAction func closeWindow(_ sender: AnyObject) {
-        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse.OK)
     }
 
     @IBAction func deleteStatistics(_ sender: AnyObject) {

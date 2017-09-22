@@ -47,7 +47,7 @@ struct Http {
                     }
                 }
                 if let html = String(data: data, encoding: usedEncoding),
-                    let doc = Kanna.HTML(html: html, encoding: usedEncoding) {
+                    let doc = try? Kanna.HTML(html: html, encoding: usedEncoding) {
                     DispatchQueue.main.async {
                         completion(doc)
                     }

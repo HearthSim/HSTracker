@@ -56,10 +56,10 @@ class NewDeck: NSWindowController {
         if let buttonSender = sender as? NSButton {
             for (button, control) in radios() {
                 if button == buttonSender {
-                    button.state = NSOnState
+                    button.state = .on
                     control.forEach({ $0.isEnabled = true })
                 } else {
-                    button.state = NSOffState
+                    button.state = .off
                     control.forEach({ $0.isEnabled = false })
                 }
             }
@@ -72,19 +72,19 @@ class NewDeck: NSWindowController {
     }
 
     @IBAction func cancelClicked(_ sender: AnyObject) {
-        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseCancel)
+        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse.cancel)
     }
 
     @IBAction func okClicked(_ sender: AnyObject) {
-        if hstrackerDeckBuilder.state == NSOnState {
+        if hstrackerDeckBuilder.state == .on {
             if classesPopUpMenu.indexOfSelectedItem < 0 {
                 return
             }
             delegate?.openDeckBuilder(playerClass:
                 Cards.classes[classesPopUpMenu.indexOfSelectedItem],
-                                      arenaDeck: (arenaDeck.state == NSOnState))
-            self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
-        } else if fromTheWeb.state == NSOnState {
+                                      arenaDeck: (arenaDeck.state == .on))
+            self.window?.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse.OK)
+        } else if fromTheWeb.state == .on {
             do {
                 loader.startAnimation(self)
                 try NetImporter.netImport(url: urlDeck.stringValue,
@@ -111,9 +111,9 @@ class NewDeck: NSWindowController {
                 NSAlert.show(style: .critical,
                              message: msg)
             }
-        } else if fromAFile.state == NSOnState {
+        } else if fromAFile.state == .on {
             // add here to remember this case exists
-        } else if fromDeckString.state == NSOnState {
+        } else if fromDeckString.state == .on {
             let string = deckString.stringValue
 
             let deck = Deck()
@@ -149,7 +149,7 @@ class NewDeck: NSWindowController {
         panel.allowedFileTypes = ["txt"]
 
         panel.beginSheetModal(for: self.window!) { (returnCode) in
-            if returnCode == NSFileHandlingPanelOKButton {
+            if returnCode.rawValue == NSFileHandlingPanelOKButton {
                 for filename in panel.urls {
                     let importer = FileImporter()
                     if let (deck, cards) = importer.fileImport(url: filename), cards.isValidDeck() {
@@ -169,15 +169,15 @@ class NewDeck: NSWindowController {
     fileprivate func _addDeck(_ deck: Deck) {
         self.delegate?.addNewDeck(deck: deck)
 
-        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSModalResponseOK)
+        self.window?.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse.OK)
     }
 
     func checkToEnableSave() {
         okButton.isEnabled =
-            hstrackerDeckBuilder.state == NSOnState
-        || fromTheWeb.state == NSOnState && !urlDeck.stringValue.isEmpty
-        || fromDeckString.state == NSOnState && !deckString.stringValue.isEmpty
-        // notice that there's no statement needed to disable OK "fromAFile.state != NSOnState"
+            hstrackerDeckBuilder.state == .on
+        || fromTheWeb.state == .on && !urlDeck.stringValue.isEmpty
+        || fromDeckString.state == .on && !deckString.stringValue.isEmpty
+        // notice that there's no statement needed to disable OK "fromAFile.state != .on"
     }
 
     override func controlTextDidChange(_ notification: Notification) {

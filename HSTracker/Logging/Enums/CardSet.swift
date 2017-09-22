@@ -8,7 +8,6 @@
 
 import Foundation
 
-// swiftlint:disable type_name
 enum CardSet: String, EnumCollection {
     case all // fake one
     case core, expert1, naxx, gvg, brm,

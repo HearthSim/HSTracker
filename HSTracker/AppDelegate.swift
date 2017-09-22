@@ -30,14 +30,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	var preferences: MASPreferencesWindowController = {
 		var controllers = [
-			GeneralPreferences(nibName: "GeneralPreferences", bundle: nil)!,
-			GamePreferences(nibName: "GamePreferences", bundle: nil)!,
-			TrackersPreferences(nibName: "TrackersPreferences", bundle: nil)!,
-			PlayerTrackersPreferences(nibName: "PlayerTrackersPreferences", bundle: nil)!,
-			OpponentTrackersPreferences(nibName: "OpponentTrackersPreferences", bundle: nil)!,
-			HSReplayPreferences(nibName: "HSReplayPreferences", bundle: nil)!,
-			TrackOBotPreferences(nibName: "TrackOBotPreferences", bundle: nil)!
-		]
+			GeneralPreferences(nibName: NSNib.Name(rawValue: "GeneralPreferences"), bundle: nil),
+			GamePreferences(nibName: NSNib.Name(rawValue: "GamePreferences"), bundle: nil),
+			TrackersPreferences(nibName: NSNib.Name(rawValue: "TrackersPreferences"), bundle: nil),
+			PlayerTrackersPreferences(nibName: NSNib.Name(rawValue: "PlayerTrackersPreferences"), bundle: nil),
+			OpponentTrackersPreferences(nibName: NSNib.Name(rawValue: "OpponentTrackersPreferences"), bundle: nil),
+			HSReplayPreferences(nibName: NSNib.Name(rawValue: "HSReplayPreferences"), bundle: nil),
+			TrackOBotPreferences(nibName: NSNib.Name(rawValue: "TrackOBotPreferences"), bundle: nil)
+        ]
 		
 		let preferences = MASPreferencesWindowController(
 			viewControllers: controllers,
@@ -92,7 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		if Settings.validated() {
 			loadSplashscreen()
 		} else {
-			initalConfig = InitialConfiguration(windowNibName: "InitialConfiguration")
+			initalConfig = InitialConfiguration(windowNibName: NSNib.Name(rawValue: "InitialConfiguration"))
 			initalConfig?.completionHandler = {
 				self.loadSplashscreen()
 			}
@@ -114,14 +114,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	// MARK: - Application init
 	func loadSplashscreen() {
-		NSRunningApplication.current().activate(options: [
-			.activateAllWindows,
-			.activateIgnoringOtherApps
+		NSRunningApplication.current.activate(options: [
+			NSApplication.ActivationOptions.activateAllWindows,
+			NSApplication.ActivationOptions.activateIgnoringOtherApps
 			])
 		NSApp.activate(ignoringOtherApps: true)
 		
-		splashscreen = Splashscreen(windowNibName: "Splashscreen")
-		let screenFrame = NSScreen.screens()!.first!.frame
+		splashscreen = Splashscreen(windowNibName: NSNib.Name(rawValue: "Splashscreen"))
+		let screenFrame = NSScreen.screens.first!.frame
 		let splashscreenWidth: CGFloat = 350
 		let splashscreenHeight: CGFloat = 250
 		
@@ -210,7 +210,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	private func completeSetup() {
 		
 		var message: String?
-		var alertStyle = NSAlertStyle.critical
+		var alertStyle = NSAlert.Style.critical
 		do {
 			let canStart = try coreManager.setup()
 			
@@ -264,17 +264,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		splashscreen = nil
 	}
 	
-	func reloadDecks(_ notification: Notification) {
+	@objc func reloadDecks(_ notification: Notification) {
 		buildMenu()
 	}
 	
-	func languageChange(_ notification: Notification) {
+	@objc func languageChange(_ notification: Notification) {
 		let msg = "You must restart HSTracker for the language change to take effect"
 		NSAlert.show(style: .informational,
 		             message: NSLocalizedString(msg, comment: ""))
 		
 		appWillRestart = true
-		NSApplication.shared().terminate(nil)
+		NSApplication.shared.terminate(nil)
 		exit(0)
 	}
 	
@@ -291,7 +291,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			
 			// build main menu
 			// ---------------
-			let mainMenu = NSApplication.shared().mainMenu
+			let mainMenu = NSApplication.shared.mainMenu
 			let deckMenu = mainMenu?.item(withTitle: NSLocalizedString("Decks", comment: ""))
 			deckMenu?.submenu?.removeAllItems()
 			deckMenu?.submenu?.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
@@ -398,7 +398,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
-	func showReplay(_ sender: NSMenuItem) {
+	@objc func showReplay(_ sender: NSMenuItem) {
 		if let replayId = sender.representedObject as? String {
 			HSReplayManager.showReplay(replayId: replayId)
 		}
@@ -412,7 +412,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		panel.allowsMultipleSelection = false
 		panel.allowedFileTypes = ["hdtreplay"]
 		panel.begin { (returnCode) in
-			if returnCode == NSFileHandlingPanelOKButton {
+			if returnCode.rawValue == NSFileHandlingPanelOKButton {
 				for filename in panel.urls {
 					let path = filename.path
 					LogUploader.upload(filename: path, completion: { (result) in
@@ -429,7 +429,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		return self.dockMenu
 	}
 	
-	func playDeck(_ sender: NSMenuItem) {
+	@objc func playDeck(_ sender: NSMenuItem) {
 		if let deck = sender.representedObject as? Deck {
 			let deckId = deck.deckId
 			self.coreManager.game.set(activeDeckId: deckId, autoDetected: false)
@@ -438,7 +438,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	@IBAction func openDeckManager(_ sender: AnyObject) {
 		if deckManager == nil {
-			deckManager = DeckManager(windowNibName: "DeckManager")
+			deckManager = DeckManager(windowNibName: NSNib.Name(rawValue: "DeckManager"))
 			deckManager?.game = coreManager.game
 		}
 		deckManager?.showWindow(self)
@@ -462,7 +462,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	private func saveDeck(_ player: Player) {
 		if let playerClass = player.playerClass {
 			if deckManager == nil {
-				deckManager = DeckManager(windowNibName: "DeckManager")
+				deckManager = DeckManager(windowNibName: NSNib.Name(rawValue: "DeckManager"))
 			}
 			let deck = Deck()
 			deck.playerClass = playerClass
@@ -480,7 +480,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction func lockWindows(_ sender: AnyObject) {
-		let mainMenu = NSApplication.shared().mainMenu
+		let mainMenu = NSApplication.shared.mainMenu
 		let windowMenu = mainMenu?.item(withTitle: NSLocalizedString("Window", comment: ""))
 		let text = Settings.windowsLocked ? "Unlock windows" : "Lock windows"
 		let item = windowMenu?.submenu?.item(withTitle: NSLocalizedString(text, comment: ""))
@@ -503,7 +503,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction func openReplayDirectory(_ sender: AnyObject) {
-		NSWorkspace.shared().activateFileViewerSelecting([Paths.replays])
+		NSWorkspace.shared.activateFileViewerSelecting([Paths.replays])
 	}
 }
 

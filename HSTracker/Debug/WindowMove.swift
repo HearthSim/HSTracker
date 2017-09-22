@@ -32,9 +32,8 @@ class WindowMove: NSWindowController {
     @IBOutlet weak var screenHeight: NSTextField!
 	
 	private weak var windowManager: WindowManager!
-	
-	override var windowNibName: String! {
-		return "WindowMove"
+    override var windowNibName: NSNib.Name? {
+        return NSNib.Name("WindowMove")
 	}
 	
 	convenience init(windowNibName: String, windowManager: WindowManager) {
@@ -48,8 +47,8 @@ class WindowMove: NSWindowController {
         window.backgroundColor = NSColor(red: 0.0, green: 0.0, blue: 1.0, alpha: 0.6)
         window.isOpaque = false
         window.hasShadow = false
-        window.styleMask = NSBorderlessWindowMask
-        window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.screenSaverWindow))
+        window.styleMask = .borderless
+        window.level = .screenSaver
 
         return window
     }()
@@ -170,9 +169,10 @@ class WindowMove: NSWindowController {
     fileprivate func update() {
         let _x = defaultFrame.origin.x + x
         let _y = defaultFrame.origin.y + y
-        textbox.string = "NSRect(x: \(_x), y: \(_y), "
+        let str: String = "NSRect(x: \(_x), y: \(_y), "
                 + "width: \(defaultFrame.width), height: \(defaultFrame.height))\n"
                 + "NSPoint(x: \(_x), y: \(_y))"
+        textbox.string = str
 
         if let window = currentWindow {
             let frame = SizeHelper.hearthstoneWindow.relativeFrame(

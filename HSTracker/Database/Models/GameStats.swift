@@ -142,74 +142,74 @@ extension InternalGameStats: CustomStringConvertible {
 }
 
 class GameStats: Object {
-    dynamic var statId = ""
+    @objc dynamic var statId = ""
 
     override static func primaryKey() -> String? {
         return "statId"
     }
 
-    private dynamic var _playerHero = CardClass.neutral.rawValue
+    @objc private dynamic var _playerHero = CardClass.neutral.rawValue
     var playerHero: CardClass {
         get { return CardClass(rawValue: _playerHero)! }
         set { _playerHero = newValue.rawValue }
     }
 
-    private dynamic var _opponentHero = CardClass.neutral.rawValue
+    @objc private dynamic var _opponentHero = CardClass.neutral.rawValue
     var opponentHero: CardClass {
         get { return CardClass(rawValue: _opponentHero)! }
         set { _opponentHero = newValue.rawValue }
     }
 
-    dynamic var coin = false
+    @objc dynamic var coin = false
 
-    private dynamic var _gameMode = GameMode.none.rawValue
+    @objc private dynamic var _gameMode = GameMode.none.rawValue
     var gameMode: GameMode {
         get { return GameMode(rawValue: _gameMode)! }
         set { _gameMode = newValue.rawValue }
     }
 
-    private dynamic var _result = GameResult.unknown.rawValue
+    @objc private dynamic var _result = GameResult.unknown.rawValue
     var result: GameResult {
         get { return GameResult(rawValue: _result)! }
         set { _result = newValue.rawValue }
     }
 
-    dynamic var turns = -1
-    dynamic var startTime = Date()
-    dynamic var endTime = Date()
-    dynamic var note = ""
-    dynamic var playerName = ""
-    dynamic var opponentName = ""
-    dynamic var wasConceded = false
-    dynamic var rank = -1
-    dynamic var stars = -1
-    dynamic var legendRank = -1
-    dynamic var opponentLegendRank = -1
-    dynamic var opponentRank = -1
+    @objc dynamic var turns = -1
+    @objc dynamic var startTime = Date()
+    @objc dynamic var endTime = Date()
+    @objc dynamic var note = ""
+    @objc dynamic var playerName = ""
+    @objc dynamic var opponentName = ""
+    @objc dynamic var wasConceded = false
+    @objc dynamic var rank = -1
+    @objc dynamic var stars = -1
+    @objc dynamic var legendRank = -1
+    @objc dynamic var opponentLegendRank = -1
+    @objc dynamic var opponentRank = -1
     var hearthstoneBuild = RealmOptional<Int>()
-    dynamic var playerCardbackId = -1
-    dynamic var opponentCardbackId = -1
-    dynamic var friendlyPlayerId = -1
-    dynamic var scenarioId = -1
-    dynamic var serverInfo: ServerInfo?
+    @objc dynamic var playerCardbackId = -1
+    @objc dynamic var opponentCardbackId = -1
+    @objc dynamic var friendlyPlayerId = -1
+    @objc dynamic var scenarioId = -1
+    @objc dynamic var serverInfo: ServerInfo?
 
-    dynamic var season = 0
+    @objc dynamic var season = 0
 
-    private dynamic var _gameType = GameType.gt_unknown.rawValue
+    @objc private dynamic var _gameType = GameType.gt_unknown.rawValue
     var gameType: GameType {
         get { return GameType(rawValue: _gameType)! }
         set { _gameType = newValue.rawValue }
     }
 
     var hsDeckId = RealmOptional<Int64>()
-    dynamic var brawlSeasonId = -1
-    dynamic var rankedSeasonId = -1
-    dynamic var arenaWins = 0
-    dynamic var arenaLosses = 0
-    dynamic var brawlWins = 0
-    dynamic var brawlLosses = 0
+    @objc dynamic var brawlSeasonId = -1
+    @objc dynamic var rankedSeasonId = -1
+    @objc dynamic var arenaWins = 0
+    @objc dynamic var arenaLosses = 0
+    @objc dynamic var brawlWins = 0
+    @objc dynamic var brawlLosses = 0
 
-    dynamic var __format: String?
+    @objc dynamic var __format: String?
     private var _format: Format? {
         get {
             if let __format = __format {
@@ -228,7 +228,7 @@ class GameStats: Object {
         }
     }
 
-    dynamic var hsReplayId: String?
+    @objc dynamic var hsReplayId: String?
     let opponentCards = List<RealmCard>()
     let revealedCards = List<RealmCard>()
 
