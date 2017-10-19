@@ -156,6 +156,7 @@ extension CardIds.NonCollectible {
         static let KazakusTavernBrawl = "TB_BossRumble_003"
         static let SecondClassMageTavernBrawl = "TB_ClassRandom_Mage"
         static let FireblastTavernBrawl = "TB_LevelUp_002"
+        static let ElementalSecretsTavernBrawl = "TB_TagTeam_Mage"
         static let ForgottenTorch_RoaringTorchToken = "LOE_002t"
         static let Medivh = "KARA_00_03"
         static let MedivhHeroic = "KARA_00_03H"

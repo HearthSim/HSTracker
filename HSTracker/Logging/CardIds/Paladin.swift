@@ -160,6 +160,7 @@ extension CardIds.NonCollectible {
         static let HanchoTavernBrawl = "TB_BossRumble_001"
         static let SecondClassPaladinTavernBrawl = "TB_ClassRandom_Paladin"
         static let FollowMyRulesTavernBrawl = "TB_CoOpv3_200"
+        static let DarkLightTavernBrawl = "TB_TagTeam_Paladin"
         static let MysteriousEScaleAtionTavernBrawl = "TB_TagTeam_Paladin"
         static let KeeperofUldaman_WatchedEnchantment = "LOE_017e"
         static let VilefinInquisitor_SilverHandMurloc = "OG_006a"

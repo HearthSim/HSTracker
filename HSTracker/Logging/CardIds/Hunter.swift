@@ -162,6 +162,7 @@ extension CardIds.NonCollectible {
         static let NextHeroHunterEnchCopy = "FB_LK_Hunter_Ench_copy"
         static let NextHeroHunterEnch = "FB_TagTeam_Hunter_Ench"
         static let SecondClassHunterTavernBrawl = "TB_ClassRandom_Hunter"
+        static let UnleashTheBeastsTavernBrawl = "TB_TagTeam_Hunter"
         static let ExplorersHat_ExplorersHatEnchantment = "LOE_105e"
         static let WishforCompanionship_Leokk = "LOEA02_10a"
         static let WishforCompanionship_Misha = "LOEA02_10c"
