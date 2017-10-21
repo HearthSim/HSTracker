@@ -1,3 +1,7 @@
+# unreleased
+## New:
+- Export deckstring from the deck manager
+
 # 1.2.0
 ## New:
 - Updated for Hearthstone 9.2.0.21517

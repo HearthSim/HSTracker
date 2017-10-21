@@ -154,3 +154,4 @@
 "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "如果想将本卡组导出到炉石传说中, 请创建一个与卡组英雄对应的新卡组, 点 OK , 切换到炉石传说。\n。在导入过程中，请不要按鼠标或键盘。\n警告, 这只是一个测试功能!";
 "The followings cards were missing : " = "以下卡牌缺失 : ";
 "Can't get card collection" = "无法获取你的卡牌, 请确保炉石传说正在运行。";
+"Deck string has been copied in your clipboard." = "Deck string has been copied in your clipboard.";

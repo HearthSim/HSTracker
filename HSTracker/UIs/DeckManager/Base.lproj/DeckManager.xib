@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,7 +25,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="932" height="615"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minFullScreenContentSize" type="size" width="850" height="600"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="932" height="615"/>
@@ -39,7 +40,7 @@
                                     <constraint firstAttribute="height" constant="170" id="epD-bG-6uQ"/>
                                 </constraints>
                             </customView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y6G-cK-9fE">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y6G-cK-9fE">
                                 <rect key="frame" x="-2" y="178" width="244" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="pVI-Z2-CEC"/>
@@ -140,7 +141,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="689" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vXg-zH-IOD">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vXg-zH-IOD">
                                                                     <rect key="frame" x="0.0" y="0.0" width="537" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="sFg-Jc-b7d">
@@ -194,7 +195,7 @@
                     <constraint firstItem="gGc-Yc-iuW" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Rjb-72-9gX"/>
                 </constraints>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="D4C446BD-5308-439F-B399-AD7BFF5D31CA" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="small" id="UfZ-Rs-kI0">
+            <toolbar key="toolbar" implicitIdentifier="D4C446BD-5308-439F-B399-AD7BFF5D31CA" explicitIdentifier="export" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="small" id="UfZ-Rs-kI0">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="zzP-9i-1ZV"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="T15-yg-NBA"/>
@@ -250,7 +251,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" allowsMixedState="YES" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="cCu-vJ-U3L" id="DqI-gA-1iM">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="system"/>
+                                <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="EE3-OV-76S">
                                     <items>
                                         <menuItem title="Item 1" state="on" hidden="YES" id="cCu-vJ-U3L"/>
@@ -285,7 +286,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="0XN-R3-wDb" id="bzn-bj-qNJ">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
+                                <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="i7E-Vr-7OS">
                                     <items>
                                         <menuItem title="Item 1" state="on" id="0XN-R3-wDb"/>
@@ -296,11 +297,17 @@
                             </popUpButtonCell>
                         </popUpButton>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="8C5F4916-09EC-48A6-BCA4-52605120A0E2" explicitItemIdentifier="export" label="Export" paletteLabel="Export" tag="-1" image="hearthstone" id="XUQ-ti-e6U">
+                        <connections>
+                            <action selector="exportHSString:" target="-2" id="rEc-ce-EQw"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
                     <toolbarItem reference="3nu-q9-wC1"/>
                     <toolbarItem reference="PLl-9e-lE5"/>
+                    <toolbarItem reference="XUQ-ti-e6U"/>
                     <toolbarItem reference="T0e-lu-Gfj"/>
                     <toolbarItem reference="Qp2-0h-Sid"/>
                     <toolbarItem reference="cbH-rI-BvP"/>
