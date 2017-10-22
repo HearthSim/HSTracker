@@ -23,25 +23,25 @@ class PowerGameStateParser: LogEventParser {
     let PlayerEntityRegex: RegexPattern = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
     let PlayerNameRegex: RegexPattern = "id=(\\d) Player=(.+) TaskList=(\\d)"
     let TagChangeRegex: RegexPattern = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
-    let UpdatingEntityRegex: RegexPattern = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
-	
+    let UpdatingEntityRegex: RegexPattern = "(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)"
+
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
-	
+
 	private unowned(unsafe) let eventHandler: PowerEventHandler
-	
+
 	init(with eventHandler: PowerEventHandler) {
 		self.eventHandler = eventHandler
 	}
-    
+
     // MARK: - Entities
-    
+
     private var currentEntityId = 0
-    
+
     func resetCurrentEntity() {
         currentEntityId = 0
     }
-    
+
     // MARK: - blocks
     func blockStart() {
         maxBlockId += 1
@@ -49,17 +49,17 @@ class PowerGameStateParser: LogEventParser {
         currentBlock = currentBlock?.createChild(blockId: blockId)
             ?? Block(parent: nil, id: blockId)
     }
-    
+
     func blockEnd() {
         currentBlock = currentBlock?.parent
         if let entity = eventHandler.entities[currentEntityId] {
             entity.info.hasOutstandingTagChanges = false
         }
     }
-    
+
     private var maxBlockId: Int = 0
     private var currentBlock: Block?
-    
+
     // MARK: - line handling
 
     func handle(logLine: LogLine) {
@@ -73,11 +73,11 @@ class PowerGameStateParser: LogEventParser {
                 //print("**** GameEntityRegex id:'\(id)'")
 				let entity = Entity(id: id)
 				entity.name = "GameEntity"
-				
+
 				eventHandler.add(entity: entity)
                 currentEntityId = id
                 eventHandler.set(currentEntity: id)
-				
+
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
@@ -91,7 +91,7 @@ class PowerGameStateParser: LogEventParser {
                 let id = Int(match.value) {
 				let entity = Entity(id: id)
                 eventHandler.add(entity: entity)
-				
+
                 if eventHandler.wasInProgress {
                     //game.entities[id]?.name = game.getStoredPlayerName(id: id)
                 }
@@ -128,7 +128,7 @@ class PowerGameStateParser: LogEventParser {
                     let unnamedPlayers = players.filter { $0.name.isBlank }
                     let unknownHumanPlayer = players
                         .first { $0.name == "UNKNOWN HUMAN PLAYER" }
-                    
+
                     if unnamedPlayers.count == 0 && unknownHumanPlayer != .none {
                         entity = unknownHumanPlayer
                     }
@@ -434,7 +434,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.set(activeDeckId: nil, autoDetected: false)
                 }
             }
-            
+
             // indicate game start
             maxBlockId = 0
             currentBlock = nil
