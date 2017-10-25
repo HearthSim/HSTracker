@@ -72,11 +72,11 @@ struct TagChangeActions {
     }
 
     private func proposedDefenderChange(eventHandler: PowerEventHandler, value: Int) {
-        eventHandler.opponentSecrets?.proposedDefenderEntityId = value
+        eventHandler.proposedDefenderEntityId = value
     }
 
     private func proposedAttackerChange(eventHandler: PowerEventHandler, value: Int) {
-        eventHandler.opponentSecrets?.proposedAttackerEntityId = value
+        eventHandler.proposedAttackerEntityId = value
     }
 
     private func numMinionsPlayedThisTurnChange(eventHandler: PowerEventHandler, value: Int) {

@@ -35,6 +35,19 @@ extension Array where Element: Card {
     }
 }
 
+extension Array {
+    func group<K: Hashable>(_ fn: (Element) -> K) -> Dictionary<K, [Element]> {
+        return Dictionary<K, [Element]>(grouping: self, by: fn)
+    }
+}
+
+extension Sequence where Iterator.Element: Hashable {
+    func unique() -> [Iterator.Element] {
+        var alreadyAdded = Set<Iterator.Element>()
+        return self.filter { alreadyAdded.insert($0).inserted }
+    }
+}
+
 extension Array where Element: Equatable {
     mutating func remove(_ element: Element) {
         if let index = index(of: element) {

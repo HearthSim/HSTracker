@@ -30,7 +30,11 @@
 import Foundation
 
 extension CardIds.Secrets {
-    static let FastCombat = [
+    static let arenaExcludes = [
+        Hunter.Snipe
+    ]
+
+    static let fastCombat = [
         Hunter.FreezingTrap,
         Hunter.ExplosiveTrap,
         Hunter.Misdirection,

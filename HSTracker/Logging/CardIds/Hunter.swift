@@ -201,14 +201,5 @@ extension CardIds.Secrets {
         static let SnakeTrap = CardIds.Collectible.Hunter.SnakeTrap
         static let CatTrick = CardIds.Collectible.Hunter.CatTrick
         static let VenomstrikeTrap = CardIds.Collectible.Hunter.VenomstrikeTrap
-
-        static func getCards(standardOnly: Bool) -> [String] {
-            return standardOnly ? All.filter {
-                if let set = Cards.by(cardId: $0)?.set {
-                    return !CardSet.wildSets().contains(set)
-                }
-                return false
-                } : All
-        }
     }
 }

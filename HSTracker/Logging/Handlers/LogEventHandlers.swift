@@ -9,7 +9,10 @@
 import Foundation
 
 protocol PowerEventHandler: class {
-	
+
+    var proposedAttackerEntityId: Int { get set }
+    var proposedDefenderEntityId: Int { get set }
+
 	// TODO: remove set on most properties to ensure encapsulation
 	var entities: [Int: Entity] { get set }
 	var tmpEntities: [Entity] { get set }
@@ -68,9 +71,7 @@ protocol PowerEventHandler: class {
 	func defending(entity: Entity?)
 	
 	func attacking(entity: Entity?)
-	
-	var opponentSecrets: OpponentSecrets? { get set }
-	
+		
 	var playerEntity: Entity? { get }
 	
 	var opponentEntity: Entity? { get }
