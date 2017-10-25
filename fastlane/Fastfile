@@ -122,16 +122,16 @@ lane :release do
   # uploading release to hockey
   hockey(
     status: '2',
-    mandatory: 1,
+    mandatory: '1',
     release_type: '3',
     api_token: ENV['HOCKEY_API_TOKEN'],
-    #create_update: true,
     public_identifier: "2f0021b9bb1842829aa1cfbbd85d3bed",
     bundle_short_version: version,
     bundle_version: "#{version}.#{build_number}",
     ipa: 'HSTracker.app.zip',
     dsym: 'HSTracker.app.dSYM.zip',
-    notes: changelog.join(" \ \n")
+    notes: changelog.join(" \ \n"),
+    notify: '0'
   )
 
   # push the github release
@@ -141,8 +141,7 @@ lane :release do
     name: version,
     tag_name: version,
     description: changelog.join("\n").gsub("'"){" "},
-    upload_assets: ['HSTracker.app.zip'],
-    is_draft: true
+    upload_assets: ['HSTracker.app.zip']
   )
 
   # load releases
