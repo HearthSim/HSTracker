@@ -52,7 +52,7 @@ struct ImageUtilities {
         image.draw(at: NSPoint.zero,
                            from: rect,
                            operation: .copy,
-                           fraction:1.0)
+                           fraction: 1.0)
         target.unlockFocus()
         return target
     }
@@ -71,7 +71,7 @@ struct ImageUtilities {
                                 from: CGRect(x: 0, y: 0,
                                     width: newSize.width, height: newSize.height),
                                 operation: .copy,
-                                fraction:1.0)
+                                fraction: 1.0)
         smallImage.unlockFocus()
         return smallImage
     }

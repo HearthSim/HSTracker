@@ -32,7 +32,7 @@ extension String {
             return ""
         }
 
-        return String(self[index(startIndex, offsetBy: from)])
+        return String(self[index(startIndex, offsetBy: from)...])
     }
 
     func substring(from: Int, to: Int) -> String {

@@ -31,7 +31,33 @@ import Foundation
 
 extension CardIds.NonCollectible {
     struct Deathknight {
-        static let TheRookeryTavernBrawl = "TB_BRMA10_3H"
+        static let SoldiersOfTheColdDark = "FB_LK001"
+        static let RemorselessWinterTavernBrawl = "FB_LK005"
+        static let ToMyAidUnderling = "FB_LK006"
+        static let TheLichKing_FrostmourneToken = "ICC_314t1"
+        static let TheLichKing_ArmyOfTheDeadToken = "ICC_314t2"
+        static let TheLichKing_DoomPactToken = "ICC_314t3"
+        static let TheLichKing_DeathGripToken = "ICC_314t4"
+        static let TheLichKing_DeathCoilToken = "ICC_314t5"
+        static let TheLichKing_ObliterateToken = "ICC_314t6"
+        static let TheLichKing_AntiMagicShellToken2 = "ICC_314t7"
+        static let TheLichKing_DeathAndDecayToken = "ICC_314t8"
+        static let BloodTap = "ICCA01_003"
+        static let ArmyOfTheDead = "ICCA01_004"
+        static let Frostmourne1 = "ICCA01_005"
+        static let Frostmourne2 = "ICCA08_020"
+        static let TheTrueLich = "ICCA08_021"
+        static let FallenChampions = "ICCA08_022"
+        static let NecroticPlague = "ICCA08_023"
+        static let NecroticPlague_PlaguedEnchantment = "ICCA08_023e"
+        static let TheHunted = "ICCA08_024"
+        static let PurgeTheWeak = "ICCA08_025"
+        static let SoulReaper = "ICCA08_026"
+        static let TheTrueKing = "ICCA08_027"
+        static let ThePriceOfPower = "ICCA08_028"
+        static let ShutUpPriest = "ICCA08_029"
+        static let RemorselessWinterICECROWN = "ICCA08_030p"
+        static let AbominableKnucklesToken = "ICCA09_003t4"
     }
 }
 

@@ -117,7 +117,7 @@ class StatsTab: NSViewController {
     }
 }
 
-extension StatsTab : NSTableViewDataSource {
+extension StatsTab: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView == statsTable {
             return statsTableItems.count
@@ -127,7 +127,7 @@ extension StatsTab : NSTableViewDataSource {
     }
 }
 
-extension StatsTab : NSTableViewDelegate {
+extension StatsTab: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
         

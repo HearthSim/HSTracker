@@ -18,7 +18,7 @@ struct SizeHelper {
     class HearthstoneWindow {
         var _frame = NSRect.zero
         var windowId: CGWindowID?
-        var screenRect: NSRect = NSRect()
+        var screenRect = NSRect()
 
         init() {
             reload()
@@ -107,8 +107,8 @@ struct SizeHelper {
                 pointY *= scaleY
             }
             
-            let x: CGFloat = self.frame.minX + pointX
-            let y: CGFloat = self.frame.minY + pointY
+            let x = self.frame.minX + pointX
+            let y = self.frame.minY + pointY
             
             let relativeFrame = NSRect(x: x, y: y, width: width, height: height)
             //Log.verbose?.message("FR:\(frame) -> HS:\(hearthstoneFrame) -> POS:\(relativeFrame)")
@@ -141,7 +141,7 @@ struct SizeHelper {
     }
     
     static fileprivate var trackerWidth: CGFloat {
-        var width: Double
+        let width: Double
         switch Settings.cardSize {
         case .tiny: width = kTinyFrameWidth
         case .small: width = kSmallFrameWidth

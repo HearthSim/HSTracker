@@ -22,9 +22,7 @@ class TagChangeHandler {
     let ParseEntityCardIDRegex: RegexPattern = "cardId=(\\w+)"
     let ParseEntityTypeRegex: RegexPattern = "type=(\\w+)"
 
-    private var creationTagActionQueue = [
-        (tag: GameTag, eventHandler: PowerEventHandler, id: Int, value: Int, prevValue: Int)
-        ]()
+    private var creationTagActionQueue: [(id: Int, action: (() -> Void))] = []
     private var tagChangeAction = TagChangeActions()
 
     func tagChange(eventHandler: PowerEventHandler, rawTag: String, id: Int,
@@ -48,27 +46,33 @@ class TagChangeHandler {
 
         if let entity = eventHandler.entities[id] {
             let prevValue = entity[tag]
-            entity[tag ] = value
+            entity[tag] = value
             //print("Set tag \(tag) with value \(value) to entity \(id)")
 
             if isCreationTag {
-                creationTagActionQueue.append((tag, eventHandler, id, value, prevValue))
+                if let action = tagChangeAction.findAction(eventHandler: eventHandler,
+                                                        tag: tag,
+                                                        id: id,
+                                                        value: value,
+                                                        prevValue: prevValue) {
+                    entity.info.hasOutstandingTagChanges = true
+                    creationTagActionQueue.append((id: id, action: action))
+                }
             } else {
-                tagChangeAction.callAction(eventHandler: eventHandler, tag: tag,
+                tagChangeAction.findAction(eventHandler: eventHandler, tag: tag,
                                            id: id, value: value,
-                                           prevValue: prevValue)
+                                           prevValue: prevValue)?()
             }
         }
     }
 
     func invokeQueuedActions(eventHandler: PowerEventHandler) {
         while creationTagActionQueue.count > 0 {
-            let act = creationTagActionQueue.removeFirst()
-            tagChangeAction.callAction(eventHandler: eventHandler, tag: act.tag, id: act.id,
-                                       value: act.value, prevValue: act.prevValue)
+            let action = creationTagActionQueue.removeFirst()
+            action.action()
 
-            if creationTagActionQueue.all({ $0.id != act.id }) && eventHandler.entities[act.id] != nil {
-                eventHandler.entities[act.id]!.info.hasOutstandingTagChanges = false
+            if creationTagActionQueue.all({ $0.id != action.id }) && eventHandler.entities[action.id] != nil {
+                eventHandler.entities[action.id]!.info.hasOutstandingTagChanges = false
             }
         }
     }

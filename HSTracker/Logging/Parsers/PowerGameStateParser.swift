@@ -15,7 +15,7 @@ import RegexUtil
 class PowerGameStateParser: LogEventParser {
 
     let BlockStartRegex = RegexPattern(stringLiteral: ".*BLOCK_START.*BlockType=(POWER|TRIGGER)"
-        + ".*id=(\\d*).*(cardId=(\\w*)).*Target=(.+)")
+        + ".*id=(\\d*).*(cardId=(\\w*)).*Target=(.+).*SubOption=(.+)")
     let CardIdRegex: RegexPattern = "cardId=(\\w+)"
     let CreationRegex: RegexPattern = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
     let CreationTagRegex: RegexPattern = "tag=(\\w+) value=(\\w+)"
@@ -23,44 +23,47 @@ class PowerGameStateParser: LogEventParser {
     let PlayerEntityRegex: RegexPattern = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
     let PlayerNameRegex: RegexPattern = "id=(\\d) Player=(.+) TaskList=(\\d)"
     let TagChangeRegex: RegexPattern = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
-    let UpdatingEntityRegex: RegexPattern = "SHOW_ENTITY - Updating Entity=(.+) CardID=(\\w*)"
-	
+    let UpdatingEntityRegex: RegexPattern = "(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)"
+
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
-	
+
 	private unowned(unsafe) let eventHandler: PowerEventHandler
-	
+
 	init(with eventHandler: PowerEventHandler) {
 		self.eventHandler = eventHandler
 	}
-    
+
     // MARK: - Entities
-    
+
     private var currentEntityId = 0
-    
+
     func resetCurrentEntity() {
         currentEntityId = 0
     }
-    
-    // MARK - blocks
+    func set(currentEntity id: Int) {
+        currentEntityId = id
+    }
+
+    // MARK: - blocks
     func blockStart() {
         maxBlockId += 1
         let blockId = maxBlockId
         currentBlock = currentBlock?.createChild(blockId: blockId)
             ?? Block(parent: nil, id: blockId)
     }
-    
+
     func blockEnd() {
         currentBlock = currentBlock?.parent
         if let entity = eventHandler.entities[currentEntityId] {
             entity.info.hasOutstandingTagChanges = false
         }
     }
-    
+
     private var maxBlockId: Int = 0
     private var currentBlock: Block?
-    
-    // MARK - line handling
+
+    // MARK: - line handling
 
     func handle(logLine: LogLine) {
         var creationTag = false
@@ -73,11 +76,10 @@ class PowerGameStateParser: LogEventParser {
                 //print("**** GameEntityRegex id:'\(id)'")
 				let entity = Entity(id: id)
 				entity.name = "GameEntity"
-				
+
 				eventHandler.add(entity: entity)
-                currentEntityId = id
-                eventHandler.set(currentEntity: id)
-				
+                set(currentEntity: id)
+
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
@@ -91,12 +93,11 @@ class PowerGameStateParser: LogEventParser {
                 let id = Int(match.value) {
 				let entity = Entity(id: id)
                 eventHandler.add(entity: entity)
-				
+
                 if eventHandler.wasInProgress {
                     //game.entities[id]?.name = game.getStoredPlayerName(id: id)
                 }
-                currentEntityId = id
-                eventHandler.set(currentEntity: id)
+                set(currentEntity: id)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
@@ -128,7 +129,7 @@ class PowerGameStateParser: LogEventParser {
                     let unnamedPlayers = players.filter { $0.name.isBlank }
                     let unknownHumanPlayer = players
                         .first { $0.name == "UNKNOWN HUMAN PLAYER" }
-                    
+
                     if unnamedPlayers.count == 0 && unknownHumanPlayer != .none {
                         entity = unknownHumanPlayer
                     }
@@ -215,8 +216,7 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.entities[id]!.cardId = cardId!
             }
 
-            currentEntityId = id
-            eventHandler.set(currentEntity: id)
+            set(currentEntity: id)
             if eventHandler.determinedPlayers() {
                 tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
             }
@@ -225,8 +225,8 @@ class PowerGameStateParser: LogEventParser {
             return
         } else if logLine.line.match(UpdatingEntityRegex) {
             let matches = logLine.line.matches(UpdatingEntityRegex)
-            let rawEntity = matches[0].value
-            let cardId = matches[1].value
+            let rawEntity = matches[1].value
+            let cardId = matches[2].value
             var entityId: Int?
 
             if rawEntity.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: rawEntity) {
@@ -244,8 +244,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.entities[entityId] = entity
                 }
                 eventHandler.entities[entityId]!.cardId = cardId
-                currentEntityId = entityId
-                eventHandler.set(currentEntity: entityId)
+                set(currentEntity: entityId)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
@@ -322,6 +321,13 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Warrior
                                             .DirehornHatchling_DirehornMatriarchToken)
+                        case CardIds.Collectible.Mage.FrozenClone:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: getTargetCardId(matches: matches),
+                                           count: 2)
+                        case CardIds.Collectible.Shaman.Moorabi:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: getTargetCardId(matches: matches))
                         default: break
                         }
                     }
@@ -385,6 +391,9 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral
                                             .ElisetheTrailblazer_UngoroPackToken)
+                        case CardIds.Collectible.Mage.GhastlyConjurer:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.Collectible.Mage.MirrorImage)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
@@ -424,7 +433,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.set(activeDeckId: nil, autoDetected: false)
                 }
             }
-            
+
             // indicate game start
             maxBlockId = 0
             currentBlock = nil

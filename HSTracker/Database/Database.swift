@@ -40,13 +40,10 @@ class Database {
 
     func loadDatabase(splashscreen: Splashscreen?, withLanguages langs: [Language.Hearthstone]) {
         for lang in langs {
-            //var file: URL? = Paths.cardJson.appendingPathComponent("cardsDB.\(lang.rawValue).json")
-            
-            //if file == nil || (file != nil && !FileManager.default.fileExists(atPath: file!.path)) {
-                let file = Bundle(for: type(of: self))
-                    .url(forResource: "Resources/Cards/cardsDB.\(lang.rawValue)",
-                        withExtension: "json")
-            //}
+            let file = Bundle(for: type(of: self))
+                .url(forResource: "Resources/Cards/cardsDB.\(lang.rawValue)",
+                    withExtension: "json")
+
             guard let jsonFile = file else {
                 Log.error?.message("Can't find cardsDB.\(lang.rawValue).json")
                 continue

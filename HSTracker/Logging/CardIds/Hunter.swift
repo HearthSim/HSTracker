@@ -87,6 +87,16 @@ extension CardIds.Collectible {
         static let SteamwheedleSniper = "GVG_087"
         static let Rexxar = "HERO_05"
         static let AlleriaWindrunner = "HERO_05a"
+        static let ExplodingBloatbat = "ICC_021"
+        static let ToxicArrow = "ICC_049"
+        static let PlayDead = "ICC_052"
+        static let VenomstrikeTrap = "ICC_200"
+        static let ProfessorPutricide = "ICC_204"
+        static let CorpseWidow = "ICC_243"
+        static let StitchedTracker = "ICC_415"
+        static let Bearshark = "ICC_419"
+        static let AbominableBowman = "ICC_825"
+        static let DeathstalkerRexxar = "ICC_828"
         static let CatTrick = "KAR_004"
         static let KindlyGrandmother = "KAR_005"
         static let CloakedHuntress = "KAR_006"
@@ -148,9 +158,11 @@ extension CardIds.NonCollectible {
         static let JusticarTrueheart_BallistaShot = "AT_132_HUNTER"
         static let SteadyShot_SteadyShotHeroSkins = "DS1h_292_H1"
         static let BallistaShotHeroSkins = "DS1h_292_H1_AT_132"
+        static let HunterTavernBrawl = "FB_LK_Hunter_copy"
+        static let NextHeroHunterEnchCopy = "FB_LK_Hunter_Ench_copy"
         static let NextHeroHunterEnch = "FB_TagTeam_Hunter_Ench"
         static let SecondClassHunterTavernBrawl = "TB_ClassRandom_Hunter"
-        static let HunterTavernBrawl = "TB_TagTeam_Hunter"
+        static let UnleashTheBeastsTavernBrawl = "TB_TagTeam_Hunter"
         static let ExplorersHat_ExplorersHatEnchantment = "LOE_105e"
         static let WishforCompanionship_Leokk = "LOEA02_10a"
         static let WishforCompanionship_Misha = "LOEA02_10c"
@@ -169,13 +181,16 @@ extension CardIds.NonCollectible {
         static let Dinomancy_DinomancyToken = "UNG_917t1"
         static let TheMarshQueen_QueenCarnassaToken = "UNG_920t1"
         static let TheMarshQueen_CarnassasBroodToken = "UNG_920t2"
+        static let DeathstalkerRexxar_StitchedEnchantment = "ICC_828e"
+        static let DeathstalkerRexxar_ZombeastToken = "ICC_828t"
     }
 }
 
 extension CardIds.Secrets {
     struct Hunter {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
-                          HiddenCache, Misdirection, Snipe, SnakeTrap, CatTrick]
+                          HiddenCache, Misdirection, Snipe, SnakeTrap, CatTrick,
+                          VenomstrikeTrap]
         static let BearTrap = CardIds.Collectible.Hunter.BearTrap
         static let DartTrap = CardIds.Collectible.Hunter.DartTrap
         static let ExplosiveTrap = CardIds.Collectible.Hunter.ExplosiveTrap
@@ -185,6 +200,7 @@ extension CardIds.Secrets {
         static let Snipe = CardIds.Collectible.Hunter.Snipe
         static let SnakeTrap = CardIds.Collectible.Hunter.SnakeTrap
         static let CatTrick = CardIds.Collectible.Hunter.CatTrick
+        static let VenomstrikeTrap = CardIds.Collectible.Hunter.VenomstrikeTrap
 
         static func getCards(standardOnly: Bool) -> [String] {
             return standardOnly ? All.filter {

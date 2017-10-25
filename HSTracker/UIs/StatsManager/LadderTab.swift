@@ -144,7 +144,7 @@ class LadderTab: NSViewController {
     }
 }
 
-extension LadderTab : NSTableViewDataSource {
+extension LadderTab: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         if [gamesTable, timeTable].contains(tableView) {
             return ladderTableItems.count
@@ -154,7 +154,7 @@ extension LadderTab : NSTableViewDataSource {
     }
 }
 
-extension LadderTab : NSTableViewDelegate {
+extension LadderTab: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?,
                    row: Int) -> NSView? {
         var text: String = ""

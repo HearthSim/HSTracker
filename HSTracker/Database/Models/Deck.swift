@@ -62,7 +62,7 @@ class Deck: Object {
             _card.count -= 1
             if _card.count <= 0 {
                 if let index = cards.index(of: _card) {
-                    cards.remove(objectAtIndex: index)
+                    cards.remove(at: index)
                 }
             }
         }

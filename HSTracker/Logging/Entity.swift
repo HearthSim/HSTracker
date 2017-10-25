@@ -89,6 +89,9 @@ class Entity {
     var isHeroPower: Bool {
         return self[.cardtype] == CardType.hero_power.rawValue
     }
+    var isPlayableHero: Bool {
+        return isHero && card.set != .core && card.set != .hero_skins && card.collectible
+    }
 
     var isInHand: Bool {
         return isInZone(zone: .hand)
