@@ -93,12 +93,6 @@ class Game: NSObject, PowerEventHandler {
 		}
 	}
 	
-	func set(currentEntity id: Int) {
-		if let entity = entities[id] {
-			entity.info.hasOutstandingTagChanges = true
-		}
-	}
-	
 	func determinedPlayers() -> Bool {
 		return player.id > 0 && opponent.id > 0
 	}

@@ -41,6 +41,9 @@ class PowerGameStateParser: LogEventParser {
     func resetCurrentEntity() {
         currentEntityId = 0
     }
+    func set(currentEntity id: Int) {
+        currentEntityId = id
+    }
 
     // MARK: - blocks
     func blockStart() {
@@ -75,8 +78,7 @@ class PowerGameStateParser: LogEventParser {
 				entity.name = "GameEntity"
 
 				eventHandler.add(entity: entity)
-                currentEntityId = id
-                eventHandler.set(currentEntity: id)
+                set(currentEntity: id)
 
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
@@ -95,8 +97,7 @@ class PowerGameStateParser: LogEventParser {
                 if eventHandler.wasInProgress {
                     //game.entities[id]?.name = game.getStoredPlayerName(id: id)
                 }
-                currentEntityId = id
-                eventHandler.set(currentEntity: id)
+                set(currentEntity: id)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }
@@ -215,8 +216,7 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.entities[id]!.cardId = cardId!
             }
 
-            currentEntityId = id
-            eventHandler.set(currentEntity: id)
+            set(currentEntity: id)
             if eventHandler.determinedPlayers() {
                 tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
             }
@@ -225,8 +225,8 @@ class PowerGameStateParser: LogEventParser {
             return
         } else if logLine.line.match(UpdatingEntityRegex) {
             let matches = logLine.line.matches(UpdatingEntityRegex)
-            let rawEntity = matches[0].value
-            let cardId = matches[1].value
+            let rawEntity = matches[1].value
+            let cardId = matches[2].value
             var entityId: Int?
 
             if rawEntity.hasPrefix("[") && tagChangeHandler.isEntity(rawEntity: rawEntity) {
@@ -244,8 +244,7 @@ class PowerGameStateParser: LogEventParser {
                     eventHandler.entities[entityId] = entity
                 }
                 eventHandler.entities[entityId]!.cardId = cardId
-                currentEntityId = entityId
-                eventHandler.set(currentEntity: entityId)
+                set(currentEntity: entityId)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 }

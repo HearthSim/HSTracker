@@ -11,35 +11,42 @@ import CleanroomLogger
 
 struct TagChangeActions {
 
-    func callAction(eventHandler: PowerEventHandler, tag: GameTag, id: Int, value: Int, prevValue: Int) {
+    func findAction(eventHandler: PowerEventHandler, tag: GameTag, id: Int, value: Int, prevValue: Int) -> (() -> Void)? {
         switch tag {
-        case .zone: self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue)
-        case .playstate: self.playstateChange(eventHandler: eventHandler, id: id, value: value)
-        case .cardtype: self.cardTypeChange(eventHandler: eventHandler, id: id, value: value)
-        case .last_card_played: self.lastCardPlayedChange(eventHandler: eventHandler, value: value)
-        case .defending: self.defendingChange(eventHandler: eventHandler, id: id, value: value)
-        case .attacking: self.attackingChange(eventHandler: eventHandler, id: id, value: value)
-        case .proposed_defender: self.proposedDefenderChange(eventHandler: eventHandler, value: value)
-        case .proposed_attacker: self.proposedAttackerChange(eventHandler: eventHandler, value: value)
+        case .zone: return { self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue) }
+        case .playstate: return { self.playstateChange(eventHandler: eventHandler, id: id, value: value) }
+        case .cardtype: return { self.cardTypeChange(eventHandler: eventHandler, id: id, value: value) }
+        case .last_card_played: return { self.lastCardPlayedChange(eventHandler: eventHandler, value: value) }
+        case .defending: return { self.defendingChange(eventHandler: eventHandler, id: id, value: value) }
+        case .attacking: return { self.attackingChange(eventHandler: eventHandler, id: id, value: value) }
+        case .proposed_defender: return { self.proposedDefenderChange(eventHandler: eventHandler, value: value) }
+        case .proposed_attacker: return { self.proposedAttackerChange(eventHandler: eventHandler, value: value) }
         case .num_minions_played_this_turn:
-            self.numMinionsPlayedThisTurnChange(eventHandler: eventHandler, value: value)
-        case .predamage: self.predamageChange(eventHandler: eventHandler, id: id, value: value)
-        case .num_turns_in_play: self.numTurnsInPlayChange(eventHandler: eventHandler, id: id, value: value)
-        case .num_attacks_this_turn: self.numAttacksThisTurnChange(eventHandler: eventHandler, id: id, value: value)
-        case .zone_position: self.zonePositionChange(eventHandler: eventHandler, id: id)
-        case .card_target: self.cardTargetChange(eventHandler: eventHandler, id: id, value: value)
-        //case .equipped_weapon: self.equippedWeaponChange(eventHandler: eventHandler, id: id, value: value)
-        case .exhausted: self.exhaustedChange(eventHandler: eventHandler, id: id, value: value)
+            return {
+                self.numMinionsPlayedThisTurnChange(eventHandler: eventHandler, value: value)
+            }
+        case .predamage: return { self.predamageChange(eventHandler: eventHandler, id: id, value: value) }
+        case .num_turns_in_play: return { self.numTurnsInPlayChange(eventHandler: eventHandler, id: id, value: value) }
+        case .num_attacks_this_turn: return { self.numAttacksThisTurnChange(eventHandler: eventHandler, id: id, value: value) }
+        case .zone_position: return { self.zonePositionChange(eventHandler: eventHandler, id: id) }
+        case .card_target: return { self.cardTargetChange(eventHandler: eventHandler, id: id, value: value) }
+        //case .equipped_weapon: return { self.equippedWeaponChange(eventHandler: eventHandler, id: id, value: value) }
+        case .exhausted: return {  self.exhaustedChange(eventHandler: eventHandler, id: id, value: value) }
         case .controller:
-            self.controllerChange(eventHandler: eventHandler, id: id, prevValue: prevValue, value: value)
-        case .fatigue: self.fatigueChange(eventHandler: eventHandler, value: value, id: id)
-        case .step: self.stepChange(eventHandler: eventHandler)
-        case .turn: self.turnChange(eventHandler: eventHandler)
-        case .state: self.stateChange(eventHandler: eventHandler, value: value)
-        case .transformed_from_card: self.transformedFromCardChange(eventHandler: eventHandler,
-                                                                    id: id,
-                                                                    value: value)
-        default: break
+            return {
+                self.controllerChange(eventHandler: eventHandler, id: id, prevValue: prevValue, value: value)
+            }
+        case .fatigue: return { self.fatigueChange(eventHandler: eventHandler, value: value, id: id) }
+        case .step: return { self.stepChange(eventHandler: eventHandler) }
+        case .turn: return { self.turnChange(eventHandler: eventHandler) }
+        case .state: return { self.stateChange(eventHandler: eventHandler, value: value) }
+        case .transformed_from_card:
+            return {
+                self.transformedFromCardChange(eventHandler: eventHandler,
+                                               id: id,
+                                               value: value)
+            }
+        default: return nil
         }
     }
 
