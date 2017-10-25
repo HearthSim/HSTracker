@@ -114,8 +114,8 @@ final class LogReader {
             if let data = fileHandle?.readDataToEndOfFile() {
                 autoreleasepool {
                     
-                    if let linesStr = String(data: data, encoding: .utf8) {
-                        
+                    let linesStr = String(decoding: data, as: UTF8.self)
+                    if !linesStr.isBlank {
                         let lines = linesStr
                             .components(separatedBy: CharacterSet.newlines)
                             .filter {
@@ -128,7 +128,7 @@ final class LogReader {
                             for line in lines {
                                 offset += UInt64((line + "\n")
                                     .lengthOfBytes(using: .utf8))
-                                let cutted = String(line[line.characters.index(line.startIndex, offsetBy: 19)])
+                                let cutted = line.substring(from: 19)
                                 
                                 if !info.hasFilters {
                                     let logLine = LogLine(namespace: info.name,
@@ -161,9 +161,6 @@ final class LogReader {
                                 _lines[i].enqueueAll(collection: loglinesBuffer[i])
                             }
                         }
-                    } else {
-                        Log.warning?.message("Can not read \(path) as utf8, resetting")
-                        fileHandle = nil
                     }
 
                     if !fileManager.fileExists(atPath: path) {
