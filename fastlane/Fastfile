@@ -81,23 +81,22 @@ def load_version_changelog(current_dir)
   return version, changelog
 end
 
-version, changelog = load_version_changelog(current_dir)
-build_number = sh("git rev-list HEAD --count").strip
-
-puts "Version found : #{version}, Build number : #{build_number}"
-
-puts "Setting bundle versions"
-sh("/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion #{build_number}\" \"#{current_dir}/HSTracker/Info.plist\"")
-sh("/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString #{version}\" \"#{current_dir}/HSTracker/Info.plist\"")
-git_commit(path: "#{current_dir}/HSTracker/Info.plist", message: "Version Bump")
-
-unless git_tag_exists(tag: version)
-  add_git_tag(tag: version)
-end
-
-push_to_git_remote(tags: true)
-
 lane :release do
+  version, changelog = load_version_changelog(current_dir)
+  build_number = sh("git rev-list HEAD --count").strip
+
+  puts "Version found : #{version}, Build number : #{build_number}"
+
+  puts "Setting bundle versions"
+  sh("/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion #{build_number}\" \"#{current_dir}/HSTracker/Info.plist\"")
+  sh("/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString #{version}\" \"#{current_dir}/HSTracker/Info.plist\"")
+  git_commit(path: "#{current_dir}/HSTracker/Info.plist", message: "Version Bump")
+
+  unless git_tag_exists(tag: version)
+    add_git_tag(tag: version)
+  end
+
+  push_to_git_remote(tags: true)
 
   # updating 3rd party libs
   carthage(
