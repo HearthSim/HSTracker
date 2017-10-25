@@ -1,6 +1,10 @@
-# unreleased
+# 1.2.1
 ## New:
 - Export deckstring from the deck manager
+
+## Fixes:
+- HSTracker is now compatible with 64-bits Hearthstone
+- Various fixes
 
 # 1.2.0
 ## New:
