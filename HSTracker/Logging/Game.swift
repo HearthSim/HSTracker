@@ -1513,7 +1513,6 @@ class Game: NSObject, PowerEventHandler {
             opponent.secretPlayedFromDeck(entity: entity, turn: turn)
         case .hand:
             opponent.secretPlayedFromHand(entity: entity, turn: turn)
-            break
         default:
             opponent.createInSecret(entity: entity, turn: turn)
         }

@@ -510,8 +510,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 extension AppDelegate: SUUpdaterDelegate {
 	
 	func feedParameters(for updater: SUUpdater,
-	                    sendingSystemProfile sendingProfile: Bool) -> [[String : String]] {
-		var parameters: [[String : String]] = []
+	                    sendingSystemProfile sendingProfile: Bool) -> [[String: String]] {
+		var parameters: [[String: String]] = []
 		for data: Any in BITSystemProfile.shared().systemUsageData() {
 			if let dict = data as? [String: String] {
 				parameters.append(dict)

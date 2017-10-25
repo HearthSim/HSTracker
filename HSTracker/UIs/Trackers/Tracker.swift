@@ -561,7 +561,7 @@ extension Tracker: CardCellHover {
         var userinfo = [
             "card": card,
             "frame": frame
-        ] as [String : Any]
+        ] as [String: Any]
 
         if self.playerType == .player && Settings.showTopdeckchance {
 			
@@ -593,7 +593,7 @@ extension Tracker: CardCellHover {
     func out(card: Card) {
         let userinfo = [
             "card": card
-            ] as [String : Any]
+            ] as [String: Any]
         NotificationCenter.default.post(name: Notification.Name(rawValue: "hide_floating_card"),
                                         object: nil,
                                         userInfo: userinfo)

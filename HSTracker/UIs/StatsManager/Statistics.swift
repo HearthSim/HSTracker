@@ -69,7 +69,7 @@ class Statistics: NSWindowController {
         let windowSize = swindow.frame.size
         
         let newSize = CGSize(
-            width:  windowSize.width  + desiredTabSize.width  - currentTabSize.width,
+            width: windowSize.width + desiredTabSize.width - currentTabSize.width,
             height: windowSize.height + desiredTabSize.height - currentTabSize.height)
         
         var frame = swindow.frame

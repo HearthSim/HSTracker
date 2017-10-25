@@ -140,7 +140,7 @@ class LogUploader {
             metaData?.metaData.hearthstoneBuild = BuildDates.get(byDate: Date())?.build
         }
 
-        guard let wrappedMetaData: [String : Any] = try? wrap(metaData?.metaData) else {
+        guard let wrappedMetaData: [String: Any] = try? wrap(metaData?.metaData) else {
             Log.warning?.message("Can not encode to json game metadata")
             completion(.failed(error: "Can not encode to json game metadata"))
             return

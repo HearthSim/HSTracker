@@ -95,7 +95,6 @@ class DeckManager: NSWindowController {
 
             default:
                 Log.verbose?.message("unsupported keycode \(e.keyCode)")
-                break
             }
 
             return e

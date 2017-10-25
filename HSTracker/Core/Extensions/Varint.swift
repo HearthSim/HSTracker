@@ -139,7 +139,7 @@ extension UInt16 {
 extension Int64 {
     public func encodeZigZag() -> UInt64 {
         let encoded: Int64 = ((self << 1) ^ (self >> 63))
-        return UInt64(bitPattern:  encoded)
+        return UInt64(bitPattern: encoded)
     }
 }
 

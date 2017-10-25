@@ -464,7 +464,6 @@ class CardBar: NSView, CardBarTheme {
                 frame = optionalFrame[.legendaryFrame]
             default:
                 frame = optionalFrame[.commonFrame]
-                break
             }
         }
 
@@ -581,7 +580,7 @@ class CardBar: NSView, CardBarTheme {
 
         if let font = NSFont(name: font, size: round(fontSize / ratioHeight)) {
             let ratioRect = ratio(rect)
-            var attributes: [NSAttributedStringKey : Any] = [
+            var attributes: [NSAttributedStringKey: Any] = [
                 .font: font,
                 .foregroundColor: textColor,
                 .strokeWidth: strokeThickness,
