@@ -179,7 +179,6 @@ final class LogReaderManager {
 		case .rachelle: self.rachelleHandler.handle(logLine: line)
 		case .arena: self.arenaHandler.handle(logLine: line)
 		case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
-		//case .fullScreenFX: self.fullScreenFxHandler.handle(logLine: line)
 		default: break
 		}
 	}
