@@ -26,7 +26,7 @@ protocol CardBarTheme {
 class CardBar: NSView, CardBarTheme {
     private lazy var trackingArea: NSTrackingArea = {
         return NSTrackingArea(rect: NSRect.zero,
-                              options: [NSTrackingArea.Options.inVisibleRect, NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited],
+                              options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],
                               owner: self,
                               userInfo: nil)
     }()
@@ -464,7 +464,6 @@ class CardBar: NSView, CardBarTheme {
                 frame = optionalFrame[.legendaryFrame]
             default:
                 frame = optionalFrame[.commonFrame]
-                break
             }
         }
 
@@ -508,7 +507,8 @@ class CardBar: NSView, CardBarTheme {
         if playerType == .cardList || playerType == .editDeck {
             textColor = .white
         }
-        if Cards.isHero(cardId: card.id) {
+     
+        if Cards.isHero(cardId: card.id) && !Cards.isPlayableHero(cardId: card.id) {
             if let rank = playerRank, rank > 0 {
                 textColor = .white
                 cost = rank
@@ -580,7 +580,7 @@ class CardBar: NSView, CardBarTheme {
 
         if let font = NSFont(name: font, size: round(fontSize / ratioHeight)) {
             let ratioRect = ratio(rect)
-            var attributes: [NSAttributedStringKey : Any] = [
+            var attributes: [NSAttributedStringKey: Any] = [
                 .font: font,
                 .foregroundColor: textColor,
                 .strokeWidth: strokeThickness,

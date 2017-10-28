@@ -132,6 +132,7 @@
 		43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
 		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43647A581CDF4A0E00C2B78E /* HSTrackerLogFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CCF2A81CABB4B0006ACB69 /* HSTrackerLogFormatter.swift */; };
+		436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
 		436789AA1CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A31CAC07BB00C962D1 /* CleanroomLogger.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A41CAC07BB00C962D1 /* HockeySDK.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -374,7 +375,6 @@
 		43C1CA611E96CD6F008C20B1 /* ArenaHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA31C777F8900D29859 /* ArenaHandler.swift */; };
 		43C1CA621E96CD6F008C20B1 /* LoadingScreenHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */; };
 		43C1CA631E96CD6F008C20B1 /* RachelleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7EA91C777F8900D29859 /* RachelleHandler.swift */; };
-		43C1CA641E96CD6F008C20B1 /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */; };
 		43C1CA651E96CD6F008C20B1 /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
 		43C1CA661E96CD6F008C20B1 /* AppHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C132F811DBA24C1002B1BF2 /* AppHealth.swift */; };
 		43C1CA671E96CD6F008C20B1 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345FE941DF54CA900E8936B /* Block.swift */; };
@@ -467,7 +467,6 @@
 		43C1CAC21E96CEB5008C20B1 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; };
 		43C1CAC31E96CEC4008C20B1 /* RegexUtil.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43C36D2C1D08623D00F6723C /* CardSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C36D2B1D08623D00F6723C /* CardSet.swift */; };
-		43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */; };
 		43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */; };
 		43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567E81D5D0F5700451B6F /* LogLineZone.swift */; };
 		43C567EC1D5E314500451B6F /* HSReplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567EB1D5E314500451B6F /* HSReplay.swift */; };
@@ -478,7 +477,6 @@
 		43C568031D5E59E500451B6F /* UploadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568021D5E59E500451B6F /* UploadResult.swift */; };
 		43C568051D5E5BFF00451B6F /* UploadMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C568041D5E5BFF00451B6F /* UploadMetaData.swift */; };
 		43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
-		43C568111D5F698C00451B6F /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C9EF281E9C1DED00D17F2A /* ArenaHelperSync.swift */; };
 		43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D307FA1C83159C00480488 /* SizeHelper.swift */; };
 		43D308041C842DC000480488 /* GeneralPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D308031C842DC000480488 /* GeneralPreferences.swift */; };
@@ -612,6 +610,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789D71CAE484800C962D1 /* CleanroomLogger.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
@@ -623,7 +622,6 @@
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
-				43C568111D5F698C00451B6F /* ZipArchive.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
 				BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */,
 				43E7BEA61DBB7F8F0057DC0C /* Realm.framework in Embed Frameworks */,
@@ -962,7 +960,6 @@
 		43BF754E1ECC4EB7005827FF /* Varint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Varint.swift; sourceTree = "<group>"; };
 		43C36D2B1D08623D00F6723C /* CardSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSet.swift; sourceTree = "<group>"; };
 		43C567E31D5D0C6300451B6F /* versions.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = versions.markdown; sourceTree = "<group>"; };
-		43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenFxHandler.swift; sourceTree = "<group>"; };
 		43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLineNamespace.swift; sourceTree = "<group>"; };
 		43C567E81D5D0F5700451B6F /* LogLineZone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogLineZone.swift; sourceTree = "<group>"; };
 		43C567EB1D5E314500451B6F /* HSReplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSReplay.swift; sourceTree = "<group>"; };
@@ -1502,7 +1499,6 @@
 				439C7EA31C777F8900D29859 /* ArenaHandler.swift */,
 				439C7EA61C777F8900D29859 /* LoadingScreenHandler.swift */,
 				439C7EA91C777F8900D29859 /* RachelleHandler.swift */,
-				43C567E41D5D0D4C00451B6F /* FullScreenFxHandler.swift */,
 				1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */,
 			);
 			path = Handlers;
@@ -1722,7 +1718,6 @@
 			buildConfigurationList = 439C7E701C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTracker" */;
 			buildPhases = (
 				439C7E441C7772C000D29859 /* Sources */,
-				43A12C941CA5777700090BFE /* Update version */,
 				439C7E451C7772C000D29859 /* Frameworks */,
 				439C7E461C7772C000D29859 /* Resources */,
 				436789A01CAC078800C962D1 /* CopyFiles */,
@@ -1869,21 +1864,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#if which swiftlint >/dev/null; then\n#swiftlint\n#else\n#echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n#fi";
-		};
-		43A12C941CA5777700090BFE /* Update version */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Update version";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(git rev-list HEAD --count)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2007,7 +1988,6 @@
 				437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */,
 				4359BF901D51FD5500F61993 /* TrackOBotPreferences.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
-				43C567E51D5D0D4C00451B6F /* FullScreenFxHandler.swift in Sources */,
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
 				43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
 				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
@@ -2198,7 +2178,6 @@
 				43C1CA611E96CD6F008C20B1 /* ArenaHandler.swift in Sources */,
 				43C1CA621E96CD6F008C20B1 /* LoadingScreenHandler.swift in Sources */,
 				43C1CA631E96CD6F008C20B1 /* RachelleHandler.swift in Sources */,
-				43C1CA641E96CD6F008C20B1 /* FullScreenFxHandler.swift in Sources */,
 				43C1CA651E96CD6F008C20B1 /* LogEventHandlers.swift in Sources */,
 				43C1CA661E96CD6F008C20B1 /* AppHealth.swift in Sources */,
 				43C1CA671E96CD6F008C20B1 /* Block.swift in Sources */,

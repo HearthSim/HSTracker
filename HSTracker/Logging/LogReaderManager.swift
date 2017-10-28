@@ -85,13 +85,16 @@ final class LogReaderManager {
             Log.error?.message("LogReaderManager is already running")
             return
         }
+        Log.info?.message("LogReaderManager is starting")
         
         queue = DispatchQueue(label: "be.michotte.hstracker.logReaderManager", attributes: [])
         
-        if let queue = queue {
-            queue.async {
-                self.startLogReaders()
-            }
+        guard let queue = queue else {
+            Log.error?.message("LogReaderManager can not create queue")
+            return
+        }
+        queue.async {
+            self.startLogReaders()
         }
     }
     
@@ -127,7 +130,7 @@ final class LogReaderManager {
                 for line in powerLines {
                     coreManager.game.add(powerLog: line)
                 }
-                
+
                 for lineList in processMap.values {
                     if stopped {
                         break
@@ -179,7 +182,6 @@ final class LogReaderManager {
 		case .rachelle: self.rachelleHandler.handle(logLine: line)
 		case .arena: self.arenaHandler.handle(logLine: line)
 		case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
-		//case .fullScreenFX: self.fullScreenFxHandler.handle(logLine: line)
 		default: break
 		}
 	}

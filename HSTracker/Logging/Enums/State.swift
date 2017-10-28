@@ -8,8 +8,6 @@
 
 import Foundation
 
-// swiftlint:disable type_name
-
 enum State: Int, EnumCollection {
     case invalid = 0,
     loading = 1,

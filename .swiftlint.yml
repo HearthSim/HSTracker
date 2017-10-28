@@ -14,3 +14,4 @@ disabled_rules:
   - function_parameter_count
   - trailing_newline
   - trailing_whitespace
+  - line_length

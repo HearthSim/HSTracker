@@ -1,7 +1,30 @@
+# 1.2.1
+## New:
+- Export deckstring from the deck manager
+
+## Fixes:
+- HSTracker is now compatible with 64-bits Hearthstone
+- Various fixes
+
+# 1.2.0
+## New:
+- Updated for Hearthstone 9.2.0.21517
+
+# 1.1.0
+## New:
+- Support for Knights of the Frozen Throne
+
+# 1.0.3
+## Fixes:
+- Fixed an error where corrupted decks could crash HSTracker
+
+## Changes:
+- Update german localization
+
 # 1.0.2
-## Fixes: 
+## Fixes:
 - Fixed a crash when the deck manager UI tries to save a new deck
-- Gateway Kodo is correctly handled by secret helper
+- Getaway Kodo is correctly handled by secret helper
 
 ## New:
 - Import a deck into HSTracker with the new deckstring
@@ -29,7 +52,7 @@
 - Fixed an issue where opponent name and class were not updated.
 - Fixed an issue where golden cards were not exported to Hearthstone.
 
-## New: 
+## New:
 - Auto check and download arena helper card tier list.
 - Hero power has been added to damage counter.
 - Add a button to open your Track-o-bot profile in the settings.
@@ -51,7 +74,7 @@
 ## Fixes:
 - Fixed an issue where HSTracker was using a lot of memory and cpu (eventually ?)
 - Fixed an issue where HSTracker was sending bad log lines to HsReplay
-- Fixed an issue where some UI parts were not visible on fullscreen mode 
+- Fixed an issue where some UI parts were not visible on fullscreen mode
 
 # 0.19.2
 ## New:
@@ -99,7 +122,7 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 
 ## New:
 - Add a jade counter
-- New way to get your data, which allows to get 
+- New way to get your data, which allows to get
 - Decks imported from Hearthstone for all game modes (arena, brawl, constructed)
 - Format (wild/standard)
 - Correct rank
@@ -131,7 +154,7 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 - Tiles (little cards image) are now downloaded. It can take sometime the first time you show a card for the image to be downloaded.
 
 # 0.18.4
-## Fixes: 
+## Fixes:
 - Arena deck will now appear correctly as arena deck on HsReplay
 - Add an option to auto archive arena decks on run end
 - You should no more be asked to save your arena deck once it's saved
@@ -140,7 +163,7 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 - Add an icon in the deck manager on arena deck when the run is finished
 - Arena deck imported by HSTracker are now correctly marked as "arena deck"
 - Correct an issue where HSTracker was not visible with fullscreen Hearthstone
-- Hearthstats decks are fetched correctly now 
+- Hearthstats decks are fetched correctly now
 - Correct the build number from Hearthstone
 - Multiple crashes fixes
 
@@ -165,8 +188,8 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 - Complete refactor of all UI system for trackers.
 - Decks and statistics are now saved in a realm database. This should improve their stability.
 
-# 0.18.1  
-## Fixes:  
+# 0.18.1
+## Fixes:
 - Correct a crash happening on opening Update panel on Preferences
 - Prince Malchezaar is no more shown too early
 
@@ -174,8 +197,8 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 - Import decks from https://tempostorm.com, http://www.hearthstoneheroes.de and http://www.hearthstonetopdeck.com
 - Add a tiny size for trackers
 
-## Changes: 
-- Get the Hearthstone build number from Hearthstone file to improve HSReplay 
+## Changes:
+- Get the Hearthstone build number from Hearthstone file to improve HSReplay
 
 ## Internal
 - HSTracker have been converted to swift 2.3
@@ -210,7 +233,7 @@ _Please note_ that this version will delete your statistics, this is due to a bi
 # 0.17.3
 - Update portuguese translation
 - Correct errors introduced by patch 5.2.0.13619
-- Correct an issue where opponent in-hand card was not resetted 
+- Correct an issue where opponent in-hand card was not resetted
 - Add support for Morgl the Oracle
 - Refactor a lot of code related to cards
 

@@ -95,7 +95,6 @@ class DeckManager: NSWindowController {
 
             default:
                 Log.verbose?.message("unsupported keycode \(e.keyCode)")
-                break
             }
 
             return e
@@ -200,7 +199,7 @@ class DeckManager: NSWindowController {
         switch item.itemIdentifier.rawValue {
         case "add", "donate", "twitter", "gitter":
             return true
-        case "edit", "use", "delete", "rename", "archive", "statistics", "export_hearthstone":
+        case "edit", "use", "delete", "rename", "archive", "statistics", "export_hearthstone", "export":
             return currentDeck != nil
         default:
             return false
@@ -468,6 +467,22 @@ class DeckManager: NSWindowController {
         
         prevSelected?.state = .off
         sender.state = .on
+    }
+
+    @IBAction func exportHSString(_ sender: Any?) {
+        guard let deck = currentDeck else { return }
+        guard let string = DeckSerializer.serialize(deck: deck) else {
+            NSAlert.show(style: .critical,
+                         message: NSLocalizedString("Can't create deck string.", comment: ""),
+                         window: self.window!)
+            return
+        }
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.writeObjects([string as NSString])
+        NSAlert.show(style: .informational,
+                     message: NSLocalizedString("Deck string has been copied in your clipboard.", comment: ""),
+                     window: self.window!)
     }
     
     @IBAction func exportToHearthstone(_ sender: AnyObject?) {

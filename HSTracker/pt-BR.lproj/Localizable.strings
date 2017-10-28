@@ -102,6 +102,7 @@
 "KARA" = "Uma Noite Em Karazhan";
 "GANGS" = "Mean Streets of Gadgetzan";
 "UNGORO" = "Jornada a Un'Goro";
+"ICECROWN" = "Knights of the Frozen Throne";
 
 /* card type */
 "all_types" = "Todos";
@@ -154,3 +155,4 @@
 "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.\nWARNING, this is a beta feature !";
 "The followings cards were missing : " = "The followings cards were missing : ";
 "Can't get card collection" = "Can't get card collection, is Hearthstone running ?";
+"Deck string has been copied in your clipboard." = "Deck string has been copied in your clipboard.";

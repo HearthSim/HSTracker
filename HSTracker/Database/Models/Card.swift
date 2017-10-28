@@ -80,7 +80,7 @@ final class Card {
     }
 
     func textColor() -> NSColor {
-        var color: NSColor
+        var color = NSColor.white
         if highlightDraw && Settings.highlightLastDrawn {
             color = NSColor(red: 1, green: 0.647, blue: 0, alpha: 1)
         } else if highlightInHand && Settings.highlightCardsInHand {
@@ -89,8 +89,6 @@ final class Card {
             color = NSColor(red: 0.501, green: 0.501, blue: 0.501, alpha: 1)
         } else if wasDiscarded && Settings.highlightDiscarded {
             color = NSColor(red: 0.803, green: 0.36, blue: 0.36, alpha: 1)
-        } else {
-            color = NSColor.white
         }
         return color
     }

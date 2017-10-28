@@ -93,12 +93,6 @@ class Game: NSObject, PowerEventHandler {
 		}
 	}
 	
-	func set(currentEntity id: Int) {
-		if let entity = entities[id] {
-			entity.info.hasOutstandingTagChanges = true
-		}
-	}
-	
 	func determinedPlayers() -> Bool {
 		return player.id > 0 && opponent.id > 0
 	}
@@ -1513,7 +1507,6 @@ class Game: NSObject, PowerEventHandler {
             opponent.secretPlayedFromDeck(entity: entity, turn: turn)
         case .hand:
             opponent.secretPlayedFromHand(entity: entity, turn: turn)
-            break
         default:
             opponent.createInSecret(entity: entity, turn: turn)
         }
@@ -1668,9 +1661,16 @@ class Game: NSObject, PowerEventHandler {
 
     func playerMinionPlayed() {
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Hunter.Snipe)
-        opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.MirrorEntity)
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.PotionOfPolymorph)
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Paladin.Repentance)
+
+        if opponentMinionCount < 7 {
+            opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.MirrorEntity)
+        }
+
+        if opponentHandCount < 10 {
+            opponentSecrets?.setZero(cardId: CardIds.Secrets.Mage.FrozenClone)
+        }
 
         updateTrackers()
     }

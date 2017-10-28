@@ -165,7 +165,8 @@ class SecretTests: XCTestCase {
     func testSingleSecret_HeroToMinion_PlayerAttack() {
         game.opponentSecrets?.zeroFromAttack(attacker: heroPlayer, defender: opponentMinion1)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
-                      triggered: [CardIds.Secrets.Hunter.SnakeTrap])
+                      triggered: [CardIds.Secrets.Hunter.SnakeTrap,
+                                  CardIds.Secrets.Hunter.VenomstrikeTrap])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
@@ -175,7 +176,8 @@ class SecretTests: XCTestCase {
         game.opponentSecrets?.zeroFromAttack(attacker: playerMinion1, defender: opponentMinion1)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.FreezingTrap,
-                                  CardIds.Secrets.Hunter.SnakeTrap])
+                                  CardIds.Secrets.Hunter.SnakeTrap,
+                                  CardIds.Secrets.Hunter.VenomstrikeTrap])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
@@ -213,7 +215,8 @@ class SecretTests: XCTestCase {
                       triggered: [CardIds.Secrets.Hunter.Snipe])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.MirrorEntity,
-                                  CardIds.Secrets.Mage.PotionOfPolymorph])
+                                  CardIds.Secrets.Mage.PotionOfPolymorph,
+                                  CardIds.Secrets.Mage.FrozenClone])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.Repentance])
     }

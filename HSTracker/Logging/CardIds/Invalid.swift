@@ -31,6 +31,10 @@ import Foundation
 
 extension CardIds.NonCollectible {
     struct Invalid {
+        static let InnkeeperHealthSet = "FB_LK_BossSetup001"
+        static let MassiveDifficulty = "FB_LK_BossSetup001a"
+        static let HeroicDifficulty = "FB_LK_BossSetup001b"
+        static let NormalDifficulty = "FB_LK_BossSetup001c"
         static let DiabolicalPowersTavernBrawl = "TB_SPT_DPromoHP"
     }
 }

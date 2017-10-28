@@ -29,7 +29,7 @@ final class LogReader {
 	init(info: LogReaderInfo, logPath: String, removeLogfile: Bool = true) {
         self.info = info
 		
-        self.path = "\(logPath)/Logs/\(info.name).log"
+        self.path = "\(logPath)/Logs/\(info.name.rawValue).log"
         Log.info?.message("Init reader for \(info.name) at path \(self.path)")
         if fileManager.fileExists(atPath: self.path)
                    && !FileUtils.isFileOpen(byHearthstone: self.path)
@@ -97,9 +97,8 @@ final class LogReader {
     }
 
     func readFile() {
-        Log.verbose?.message("reading \(path)")
-
         self.offset = findInitialOffset()
+        Log.verbose?.message("reading \(path) starting at offset \(offset)")
 
         while !stopped {
             if fileHandle == nil && fileManager.fileExists(atPath: path) {
@@ -113,24 +112,23 @@ final class LogReader {
             fileHandle?.seek(toFileOffset: offset)
             
             if let data = fileHandle?.readDataToEndOfFile() {
-                
                 autoreleasepool {
                     
-                    if let linesStr = String(data: data, encoding: .utf8) {
-                        
+                    let linesStr = String(decoding: data, as: UTF8.self)
+                    if !linesStr.isBlank {
                         let lines = linesStr
                             .components(separatedBy: CharacterSet.newlines)
                             .filter {
                                 !$0.isEmpty && $0.hasPrefix("D ") && $0.characters.count > 20
                         }
-                        
+
                         if !lines.isEmpty {
                             var loglinesBuffer = Array(repeating: [LogLine](), count: _lines.count)
                             
                             for line in lines {
                                 offset += UInt64((line + "\n")
                                     .lengthOfBytes(using: .utf8))
-                                let cutted = String(line[line.characters.index(line.startIndex, offsetBy: 19)])
+                                let cutted = line.substring(from: 19)
                                 
                                 if !info.hasFilters {
                                     let logLine = LogLine(namespace: info.name,
@@ -162,13 +160,9 @@ final class LogReader {
                             for i in 0..<loglinesBuffer.count {
                                 _lines[i].enqueueAll(collection: loglinesBuffer[i])
                             }
-                            
                         }
-                    } else {
-                        Log.warning?.message("Can not read \(path) as utf8, resetting")
-                        fileHandle = nil
                     }
-                    
+
                     if !fileManager.fileExists(atPath: path) {
                         Log.verbose?.message("setting \(path) handle to nil \(offset))")
                         fileHandle = nil

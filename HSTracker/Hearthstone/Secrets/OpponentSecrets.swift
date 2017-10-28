@@ -128,6 +128,7 @@ class OpponentSecrets {
             if !fastOnly {
                 if game.opponentMinionCount < 7 {
                     setZeroOlder(cardId: CardIds.Secrets.Hunter.BearTrap, stopIndex: stopIndex)
+                    setZeroOlder(cardId: CardIds.Secrets.Hunter.VenomstrikeTrap, stopIndex: stopIndex)
                 }
                 setZeroOlder(cardId: CardIds.Secrets.Mage.IceBarrier, stopIndex: stopIndex)
             }

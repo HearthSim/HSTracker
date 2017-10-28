@@ -1,0 +1,150 @@
+fastlane_require 'json'
+fastlane_require 'uri_template'
+fastlane_require 'nokogiri'
+fastlane_require 'redcarpet'
+
+fastlane_version "2.62.0"
+
+#ensure_git_status_clean(show_uncommitted_changes: true)
+
+default_platform :mac
+
+current_dir = File.expand_path(File.dirname(__FILE__) + '/..')
+hsdecktracker_dir = '/Users/benjamin/code/hsdecktracker.net'
+
+def create_appcast(hsdecktracker_dir, version)
+  releases = JSON.parse(`curl https://api.github.com/repos/HearthSim/HSTracker/releases`)
+  markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+
+  xml = Nokogiri::XML::Builder.new {|xml|
+    xml.rss :version => '2.0',
+            'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+            'xmlns:sparkle' => 'http://www.andymatuschak.org/xml-namespaces/sparkle' do
+
+      xml.channel do
+        xml.title 'HSTracker'
+        xml.link "https://github.com/HearthSim/HSTracker"
+
+        releases.each do |release|
+          next if release["prerelease"] || release["assets"].count == 0
+
+          xml.item do
+            xml.title release["name"]
+            xml.pubDate release["published_at"]
+            xml.description { xml.cdata(markdown.render(release["body"])) }
+            xml[:sparkle].minimumSystemVersion "10.10"
+
+            asset = release["assets"].first
+            xml.enclosure :url => asset["browser_download_url"],
+                          :type => asset["content_type"],
+                          :length => asset["size"],
+                          'sparkle:shortVersionString' => release["tag_name"],
+                          'sparkle:version' => sh("git rev-list #{release["tag_name"]} --count").strip
+          end
+        end
+      end
+    end
+  }
+  File.open("#{hsdecktracker_dir}/hstracker/appcast.xml", 'w') { |file| file.write(xml.to_xml) }
+  sh("cd #{hsdecktracker_dir} && git add hstracker/appcast.xml && git commit -m \"HSTracker version #{version}\" && git pull && git push origin master")
+end
+
+def load_version_changelog(current_dir)
+  version = nil
+  changelog = []
+
+  File.open "#{current_dir}/versions.markdown", 'r' do |file|
+    started = false
+    file.each_line do |line|
+      if line =~ /^#\s/
+        if started
+          break
+        else
+          version = line.gsub(/(#|\s)/, '')
+          started = true
+          next
+        end
+      else
+        changelog << line.strip
+      end
+    end
+  end
+
+  if changelog.empty? || version.nil?
+    puts "Can't find new version"
+    exit 1
+  end
+
+  changelog.reject!(&:empty?)
+  changelog << "\nDo you want to help HSTracker ? Consider donating [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)"
+
+  return version, changelog
+end
+
+lane :release do
+  version, changelog = load_version_changelog(current_dir)
+  build_number = sh("git rev-list HEAD --count").strip
+
+  puts "Version found : #{version}, Build number : #{build_number}"
+
+  puts "Setting bundle versions"
+  sh("/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion #{build_number}\" \"#{current_dir}/HSTracker/Info.plist\"")
+  sh("/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString #{version}\" \"#{current_dir}/HSTracker/Info.plist\"")
+  git_commit(path: "#{current_dir}/HSTracker/Info.plist", message: "Version Bump")
+
+  unless git_tag_exists(tag: version)
+    add_git_tag(tag: version)
+  end
+
+  push_to_git_remote(tags: true)
+
+  # updating 3rd party libs
+  carthage(
+    command: 'update',
+    platform: 'mac',
+    use_binaries: false
+  )
+
+  # build HSTracker
+  gym(
+    project: 'HSTracker.xcodeproj',
+    scheme: 'HSTracker',
+    clean: true
+  )
+
+  # zip HSTracker
+  zip(
+    path: "HSTracker.app",
+    output_path: "HSTracker.app.zip",
+    verbose: false
+  )
+
+  # uploading release to hockey
+  hockey(
+    status: '2',
+    mandatory: '1',
+    release_type: '3',
+    api_token: ENV['HOCKEY_API_TOKEN'],
+    public_identifier: "2f0021b9bb1842829aa1cfbbd85d3bed",
+    bundle_short_version: version,
+    bundle_version: "#{version}.#{build_number}",
+    ipa: 'HSTracker.app.zip',
+    dsym: 'HSTracker.app.dSYM.zip',
+    notes: changelog.join(" \ \n"),
+    notify: '0'
+  )
+
+  # push the github release
+  set_github_release(
+    repository_name: 'HearthSim/HSTracker',
+    api_token: access_token = ENV['HSTRACKER_GITHUB_TOKEN'],
+    name: version,
+    tag_name: version,
+    description: changelog.join("\n").gsub("'"){" "},
+    upload_assets: ['HSTracker.app.zip']
+  )
+
+  # load releases
+  create_appcast(hsdecktracker_dir, "#{version}.#{build_number}")
+
+end

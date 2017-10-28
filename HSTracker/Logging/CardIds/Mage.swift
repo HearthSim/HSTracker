@@ -86,6 +86,16 @@ extension CardIds.Collectible {
         static let JainaProudmoore = "HERO_08"
         static let Medivh = "HERO_08a"
         static let Khadgar = "HERO_08b"
+        static let IceWalker = "ICC_068"
+        static let GhastlyConjurer = "ICC_069"
+        static let FrozenClone = "ICC_082"
+        static let DoomedApprentice = "ICC_083"
+        static let GlacialMysteries = "ICC_086"
+        static let Coldwraith = "ICC_252"
+        static let Simulacrum = "ICC_823"
+        static let FrostLichJaina = "ICC_833"
+        static let BreathOfSindragosa = "ICC_836"
+        static let Sindragosa = "ICC_838"
         static let BabblingBook = "KAR_009"
         static let FirelandsPortal = "KAR_076"
         static let MedivhsValet = "KAR_092"
@@ -138,11 +148,15 @@ extension CardIds.NonCollectible {
         static let FireblastRank2HeroSkins1 = "CS2_034_H1_AT_132"
         static let Fireblast_FireblastHeroSkins2 = "CS2_034_H2"
         static let FireblastRank2HeroSkins2 = "CS2_034_H2_AT_132"
+        static let MageTavernBrawl = "FB_LK_Mage_copy"
+        static let NextHeroMageEnchCopy = "FB_LK_Mage_Ench_copy"
+        static let RelentlessMarch = "FB_LK002"
         static let NextHeroMageEnch = "FB_TagTeam_Mage_Ench"
+        static let TagTeamIceBlock = "TagTeamIceBlock"
         static let KazakusTavernBrawl = "TB_BossRumble_003"
         static let SecondClassMageTavernBrawl = "TB_ClassRandom_Mage"
         static let FireblastTavernBrawl = "TB_LevelUp_002"
-        static let MageTavernBrawl = "TB_TagTeam_Mage"
+        static let ElementalSecretsTavernBrawl = "TB_TagTeam_Mage"
         static let ForgottenTorch_RoaringTorchToken = "LOE_002t"
         static let Medivh = "KARA_00_03"
         static let MedivhHeroic = "KARA_00_03H"
@@ -163,17 +177,21 @@ extension CardIds.NonCollectible {
         static let OpentheWaygate_InsightfulEnchantment = "UNG_028e"
         static let OpentheWaygate_TimeWarpToken = "UNG_028t"
         static let PrimordialGlyph_PrimalMagicEnchantment = "UNG_941e"
+        static let FrostLichJaina_WaterElementalToken = "ICC_833t"
+        static let Sindragosa_FrozenChampionToken = "ICC_838t"
+        static let UnchainedMagic = "ICCA04_002"
     }
 }
 
 extension CardIds.Secrets {
     struct Mage {
-        static let All = [Counterspell, Duplicate, Effigy, IceBarrier, IceBlock,
-                          MirrorEntity, PotionOfPolymorph, Spellbender, Vaporize,
-                          ManaBind]
+        static let All = [Counterspell, Duplicate, Effigy, FrozenClone, IceBarrier,
+                          IceBlock, MirrorEntity, PotionOfPolymorph, Spellbender,
+                          Vaporize, ManaBind]
         static let Counterspell = CardIds.Collectible.Mage.Counterspell
         static let Duplicate = CardIds.Collectible.Mage.Duplicate
         static let Effigy = CardIds.Collectible.Mage.Effigy
+        static let FrozenClone = CardIds.Collectible.Mage.FrozenClone
         static let IceBarrier = CardIds.Collectible.Mage.IceBarrier
         static let IceBlock = CardIds.Collectible.Mage.IceBlock
         static let ManaBind = CardIds.Collectible.Mage.ManaBind
