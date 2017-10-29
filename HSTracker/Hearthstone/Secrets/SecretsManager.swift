@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import AwaitKit
 
 class SecretsManager {
@@ -71,11 +70,11 @@ class SecretsManager {
         }
         do {
             try secrets.append(Secret(entity: entity))
-            Log.info?.message("new secret : \(entity)")
+            logger.info("new secret : \(entity)")
             onChanged?(getSecretList())
             return true
         } catch {
-            Log.error?.message("\(error)")
+            logger.error("\(error)")
             return false
         }
     }
@@ -83,7 +82,7 @@ class SecretsManager {
     @discardableResult
     func removeSecret(entity: Entity) -> Bool {
         guard let secret = secrets.first({ $0.entity.id == entity.id }) else {
-            Log.info?.message("Secret not found \(entity)")
+            logger.info("Secret not found \(entity)")
             return false
         }
 
@@ -294,11 +293,11 @@ class SecretsManager {
                     exclude(cardId: CardIds.Secrets.Paladin.Avenge)
                 }
             } catch {
-                Log.error?.message("\(error)")
+                logger.error("\(error)")
             }
         }
-        _awaitingAvenge = false;
-        _avengeDeathRattleCount = 0;
+        _awaitingAvenge = false
+        _avengeDeathRattleCount = 0
     }
 
     func handleOpponentDamage(entity: Entity) {
@@ -345,7 +344,7 @@ class SecretsManager {
                     }
                     exclude.append(CardIds.Secrets.Hunter.CatTrick)
                 } catch {
-                    Log.error?.message("\(error)")
+                    logger.error("\(error)")
                 }
             }
         } else if entity.isMinion && game.playerMinionCount > 3 {
