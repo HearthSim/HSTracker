@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 import RegexUtil
 
 struct HearthstoneTopDecks: HttpImporter {
@@ -28,19 +27,19 @@ struct HearthstoneTopDecks: HttpImporter {
     func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let nameNode = doc.at_xpath("//h1[contains(@class, 'entry-title')]"),
             let deckName = nameNode.text else {
-                Log.error?.message("Deck name not found")
+                logger.error("Deck name not found")
                 return nil
         }
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
 
         let xpath = "//div[contains(@class, 'deck-info')]/a[contains(@href, 'deck-class') ]"
         guard let classNode = doc.at_xpath(xpath),
             let className = classNode.text?.trim(),
             let playerClass = CardClass(rawValue: className.lowercased()) else {
-                Log.error?.message("Class not found")
+                logger.error("Class not found")
                 return nil
         }
-        Log.verbose?.message("Got class \(playerClass)")
+        logger.verbose("Got class \(playerClass)")
 
         let deck = Deck()
         deck.playerClass = playerClass
@@ -58,7 +57,7 @@ struct HearthstoneTopDecks: HttpImporter {
                 let fixedCardName = cardName.trim().replace("’", with: "'")
                 if let card = Cards.by(englishNameCaseInsensitive: fixedCardName) {
                     card.count = count
-                    Log.verbose?.message("Got card \(card)")
+                    logger.verbose("Got card \(card)")
                     cards.append(card)
                 }
             }

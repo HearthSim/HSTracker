@@ -8,7 +8,6 @@
 
 import Foundation
 import RealmSwift
-import CleanroomLogger
 import HearthMirror
 
 /**
@@ -63,7 +62,7 @@ struct RealmHelper {
 	
 	static func getDeck(with id: String) -> Deck? {
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return nil
 		}
 		
@@ -76,7 +75,7 @@ struct RealmHelper {
 	
 	static func validateCardCounts(_ deck: Deck) {
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return
 		}
 		
@@ -87,13 +86,13 @@ struct RealmHelper {
 				}
 			}
 		} catch {
-			Log.error?.message("Can't update deck")
+			logger.error("Can't update deck")
 		}
 	}
 	
 	static func set(hsDeckId: Int64, for deckId: String) {
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return
 		}
 		
@@ -104,14 +103,14 @@ struct RealmHelper {
 					_deck.hsDeckId.value = hsDeckId
 				}
 			} catch {
-				Log.error?.message("Can't update deck")
+				logger.error("Can't update deck")
 			}
 		}
 	}
     
     static func getDecks() -> [Deck]? {
         guard let realm = try? Realm() else {
-            Log.error?.message("Error accessing Realm database")
+            logger.error("Error accessing Realm database")
             return nil
         }
 		
@@ -126,7 +125,7 @@ struct RealmHelper {
 	static func getActiveDecks() -> [CardClass: [Deck]]? {
 		
 		guard let realm = try? Realm() else {
-			Log.error?.message("Can not fetch decks")
+			logger.error("Can not fetch decks")
 			return nil
 		}
 		
@@ -147,13 +146,13 @@ struct RealmHelper {
 	static func checkAndUpdateDeck(deckId: Int64, selectedDeck: MirrorDeck?) -> Deck? {
 		
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return nil
 		}
 		
 		guard let storedDeck = realm.objects(Deck.self)
 			.filter("hsDeckId = \(deckId)").first else {
-				Log.error?.message("No realm deck found with \(deckId)")
+				logger.error("No realm deck found with \(deckId)")
 				return nil
 		}
 		
@@ -166,10 +165,10 @@ struct RealmHelper {
 		
 		if nameDoesNotMatch || (cardsDontMatch.success && (cardsDontMatch.cards.count > 0)) {
 			if nameDoesNotMatch {
-				Log.info?.message("Deck \(selectedDeck.name) exists " +
+				logger.info("Deck \(selectedDeck.name) exists " +
 					"with an old name (\(storedDeck.name)), updating it.")
 			} else {
-				Log.info?.message("Deck \(selectedDeck.name) exists, updating it.")
+				logger.info("Deck \(selectedDeck.name) exists, updating it.")
 			}
 			
 			do {
@@ -203,15 +202,15 @@ struct RealmHelper {
 					}
 				}
 			} catch {
-				Log.error?.message("Can not import deck. Error : \(error)")
+				logger.error("Can not import deck. Error : \(error)")
 			}
 			if storedDeck.isValid() {
 				return storedDeck
 			}
-			Log.error?.message("Mirrored deck is not valid")
+			logger.error("Mirrored deck is not valid")
 			return nil
 		} else {
-			Log.info?.message("Deck \(selectedDeck.name) exists, using it.")
+			logger.info("Deck \(selectedDeck.name) exists, using it.")
 			return storedDeck
 		}
 	}
@@ -219,14 +218,14 @@ struct RealmHelper {
 	static func add(mirrorDeck: MirrorDeck, name: String? = nil, isArena: Bool = false) -> Deck? {
 		
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return nil
 		}
 		
 		let cards = mirrorDeck.cards
 		
 		guard let hero = Cards.hero(byId: mirrorDeck.hero as String) else {
-			Log.error?.message("Mirrored deck has unknown hero id: \(mirrorDeck.hero)")
+			logger.error("Mirrored deck has unknown hero id: \(mirrorDeck.hero)")
 			return nil
 		}
 		
@@ -238,7 +237,7 @@ struct RealmHelper {
 		}
 		deck.playerClass = hero.playerClass
 		guard let hsDeckId = mirrorDeck.id as? Int64 else {
-			Log.error?.message("Can not parse hs deck id")
+			logger.error("Can not parse hs deck id")
 			return nil
 		}
 		deck.hsDeckId.value = hsDeckId
@@ -249,7 +248,7 @@ struct RealmHelper {
 				realm.add(deck)
 				for card in cards {
 					guard let c = Cards.by(cardId: card.cardId as String) else {
-                        Log.error?.message("Unknown card id \(card.cardId as String)")
+                        logger.error("Unknown card id \(card.cardId as String)")
 						continue
 					}
 					c.count = card.count as? Int ?? 0
@@ -257,14 +256,14 @@ struct RealmHelper {
 				}
 			}
 		} catch {
-			Log.error?.message("Can not import deck. Error : \(error)")
+			logger.error("Can not import deck. Error : \(error)")
 			return nil
 		}
 		
 		if deck.isValid() {
-			Log.info?.message("Saving and using new deck : \(deck)")
+			logger.info("Saving and using new deck : \(deck)")
 		} else {
-			Log.error?.message("Mirrored deck is not valid")
+			logger.error("Mirrored deck is not valid")
 			return nil
 		}
 		
@@ -278,21 +277,21 @@ struct RealmHelper {
 	static func checkOrCreateArenaDeck(mirrorDeck: MirrorDeck) -> Deck? {
 		
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return nil
 		}
         guard let hsDeckId = mirrorDeck.id as? Int64 else {
-            Log.error?.message("Can not parse hs deck id")
+            logger.error("Can not parse hs deck id")
             return nil
         }
 		
 		if let deck = realm.objects(Deck.self)
 			.filter("hsDeckId = \(hsDeckId)").first {
-			Log.info?.message("Arena deck \(hsDeckId) exists, using it.")
+			logger.info("Arena deck \(hsDeckId) exists, using it.")
 			return deck
 		}
 		
-		Log.info?.message("Arena deck does not exists, creating it.")
+		logger.info("Arena deck does not exists, creating it.")
 		
 		return RealmHelper.add(mirrorDeck: mirrorDeck, name: "Arena \(mirrorDeck.name)")
 	}
@@ -300,7 +299,7 @@ struct RealmHelper {
 	static func add(deck: Deck, update: Bool = false) {
         
         guard let realm = try? Realm() else {
-            Log.error?.message("Error accessing Realm database")
+            logger.error("Error accessing Realm database")
             return
         }
         
@@ -313,13 +312,13 @@ struct RealmHelper {
                 }
             }
         } catch {
-            Log.error?.message("Can not add deck : \(error)")
+            logger.error("Can not add deck : \(error)")
         }
 	}
 	
 	static func update(deck: Deck, with cards: [Card]) {
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return
 		}
 		
@@ -331,14 +330,14 @@ struct RealmHelper {
 				}
 			}
 		} catch {
-			Log.error?.message("Can not add deck : \(error)")
+			logger.error("Can not add deck : \(error)")
 		}
 	}
 	
 	static func add(deck: Deck, with cards: [Card]) {
 		
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return
 		}
 		
@@ -350,13 +349,13 @@ struct RealmHelper {
 				}
 			}
 		} catch {
-			Log.error?.message("Can not add deck : \(error)")
+			logger.error("Can not add deck : \(error)")
 		}
 	}
 	
 	static func delete(deck: Deck) {
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return
 		}
 		
@@ -365,7 +364,7 @@ struct RealmHelper {
 				realm.delete(deck)
 			}
 		} catch {
-			Log.error?.message("Can not delete deck : \(error)")
+			logger.error("Can not delete deck : \(error)")
 		}
 	}
 	
@@ -373,7 +372,7 @@ struct RealmHelper {
 	
 	static func set(deck: Deck, active: Bool) {
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return
 		}
 		
@@ -382,13 +381,13 @@ struct RealmHelper {
 				deck.isActive = active
 			}
 		} catch {
-			Log.error?.message("Can't set deck as active : \(error)")
+			logger.error("Can't set deck as active : \(error)")
 		}
 	}
     
     static func rename(deck: Deck, to name: String) {
         guard let realm = try? Realm() else {
-            Log.error?.message("Error accessing Realm database")
+            logger.error("Error accessing Realm database")
             return
         }
         
@@ -397,7 +396,7 @@ struct RealmHelper {
                 deck.name = name
             }
         } catch {
-            Log.error?.message("Can not rename deck. \(error)")
+            logger.error("Can not rename deck. \(error)")
         }
     }
 	
@@ -405,7 +404,7 @@ struct RealmHelper {
 	
 	static func getValidStatistics() -> Results<GameStats>? {
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return nil
 		}
 		
@@ -416,7 +415,7 @@ struct RealmHelper {
 	
 	static func addStatistics(to deck: Deck, stats: GameStats) {
 		guard let realm = try? Realm() else {
-			Log.error?.message("Error accessing Realm database")
+			logger.error("Error accessing Realm database")
 			return
 		}
 		
@@ -425,13 +424,13 @@ struct RealmHelper {
 				deck.gameStats.append(stats)
 			}
 		} catch {
-			Log.error?.message("Can't save statistic : \(error)")
+			logger.error("Can't save statistic : \(error)")
 		}
 	}
     
     static func removeAllGameStats(from deck: Deck) {
         guard let realm = try? Realm() else {
-            Log.error?.message("Error accessing Realm database")
+            logger.error("Error accessing Realm database")
             return
         }
         
@@ -440,13 +439,13 @@ struct RealmHelper {
                 deck.gameStats.removeAll()
             }
         } catch {
-            Log.error?.message("Can't save statistic : \(error)")
+            logger.error("Can't save statistic : \(error)")
         }
     }
     
     static func getGameStat(with statId: String) -> GameStats? {
         guard let realm = try? Realm() else {
-            Log.error?.message("Error accessing Realm database")
+            logger.error("Error accessing Realm database")
             return nil
         }
         
@@ -456,7 +455,7 @@ struct RealmHelper {
     
     static func update(stat: GameStats, hsReplayId: String) {
         guard let realm = try? Realm() else {
-            Log.error?.message("Error accessing Realm database")
+            logger.error("Error accessing Realm database")
             return
         }
         
@@ -465,7 +464,7 @@ struct RealmHelper {
                 stat.hsReplayId = hsReplayId
             }
         } catch {
-            Log.error?.message("Can not update statistic")
+            logger.error("Can not update statistic")
         }
         
     }

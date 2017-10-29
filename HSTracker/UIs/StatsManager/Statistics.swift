@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import CleanroomLogger
 import RealmSwift
 
 class Statistics: NSWindowController {

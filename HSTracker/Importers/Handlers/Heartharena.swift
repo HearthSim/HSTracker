@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 import RegexUtil
 
 struct HearthArena: HttpImporter {
@@ -40,14 +39,14 @@ struct HearthArena: HttpImporter {
         guard let classNode = doc.at_xpath("//h1[@class='class']"),
             let className = classNode.text?.components(separatedBy: " ").first,
             let playerClass = CardClass(rawValue: className.lowercased()) else {
-                Log.error?.message("Class not found")
+                logger.error("Class not found")
                 return nil
         }
-        Log.verbose?.message("Got class \(playerClass)")
+        logger.verbose("Got class \(playerClass)")
 
         let deckName = String(format: NSLocalizedString("Arena %@ %@", comment: ""),
                               className, HearthArena.dateFormatter.string(from: Date()))
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
 
         let deck = Deck()
         deck.playerClass = playerClass
@@ -60,7 +59,7 @@ struct HearthArena: HttpImporter {
                 let cardName = cardNode.at_xpath("span[@class='name']")?.text,
                 let card = Cards.by(englishName: cardName) {
                 card.count = count
-                Log.verbose?.message("Got card \(card)")
+                logger.verbose("Got card \(card)")
                 cards.append(card)
             }
         }

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 class CollectionManager {
     static let `default` = CollectionManager()
@@ -15,7 +14,7 @@ class CollectionManager {
     func collection() -> [String: [Bool: Int]] {
         // get collection first
 		guard let collection = MirrorHelper.getCardCollection() else {
-			Log.error?.message("Can't get card collection")
+			logger.error("Can't get card collection")
 			return [:]
 		}
         var cards: [String: [Bool: Int]] = [:]

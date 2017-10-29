@@ -8,7 +8,6 @@
 
 import Foundation
 import HearthMirror
-import CleanroomLogger
 
 /**
  * MirrorHelper takes care of all Mirror-related activities
@@ -24,11 +23,11 @@ struct MirrorHelper {
         
         if MirrorHelper._mirror == nil {
             if let hsApp = CoreManager.hearthstoneApp {
-                Log.verbose?.message("Initializing HearthMirror with pid \(hsApp.processIdentifier)")
+                logger.verbose("Initializing HearthMirror with pid \(hsApp.processIdentifier)")
                 
                 MirrorHelper._mirror = MirrorHelper.initMirror(pid: hsApp.processIdentifier, blocking: false)
             } else {
-                Log.error?.message("Failed to initialize HearthMirror: game is not running")
+                logger.error("Failed to initialize HearthMirror: game is not running")
             }
         }
         
@@ -39,7 +38,7 @@ struct MirrorHelper {
         
 		// get rights to attach
 		if acquireTaskportRight() != 0 {
-			Log.error?.message("acquireTaskportRight() failed!")
+			logger.error("acquireTaskportRight() failed!")
 		}
 		
 		var mirror = HearthMirror(pid: pid,
@@ -49,12 +48,12 @@ struct MirrorHelper {
 		var _waitingForMirror = true
 		while _waitingForMirror {
 			if let battleTag = mirror.getBattleTag() {
-				Log.verbose?.message("Getting BattleTag from HearthMirror : \(battleTag)")
+				logger.verbose("Getting BattleTag from HearthMirror : \(battleTag)")
 				_waitingForMirror = false
 				break
 			} else {
 				// mirror might be partially initialized, reset
-                Log.error?.message("Mirror is not working, trying again...")
+                logger.error("Mirror is not working, trying again...")
 				mirror = HearthMirror(pid: pid,
 				                           blocking: true)
 				Thread.sleep(forTimeInterval: 0.5)
@@ -68,7 +67,7 @@ struct MirrorHelper {
 	 * De-initializes the current mirror object, thus any further mirror calls will fail until the next initMirror
 	 */
 	static func destroy() {
-        Log.verbose?.message("Deinitializing mirror")
+        logger.verbose("Deinitializing mirror")
         MirrorHelper.accessQueue.sync {
             MirrorHelper._mirror = nil
         }

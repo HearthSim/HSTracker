@@ -8,7 +8,6 @@
 
 import Foundation
 import GRDB
-import CleanroomLogger
 
 // Reads precomputed Monte Carlo data from grid.db
 // TODO: run long simulation on cluster for better grid
@@ -20,15 +19,15 @@ class LadderGrid {
         do {
             guard let path = Bundle(for: type(of: self))
                 .path(forResource: "Resources/grid", ofType: "db") else {
-                    Log.warning?.message("Failed to load grid db! "
+                    logger.warning("Failed to load grid db! "
                         + "Will result in Ladder stats tab not working.")
                     return
             }
-            Log.verbose?.message("Loading grid at \(path)")
+            logger.verbose("Loading grid at \(path)")
             dbQueue = try DatabaseQueue(path: path)
         } catch {
             dbQueue = nil
-            Log.warning?.message("Failed to load grid db! "
+            logger.warning("Failed to load grid db! "
                 + "Will result in Ladder stats tab not working.")
         }
     }

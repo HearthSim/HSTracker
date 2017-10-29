@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 class DeckSerializer {
     enum DeckSerializerError: Error {
@@ -57,7 +56,7 @@ class DeckSerializer {
 
     class func deserializeDeckString(deckString: String) -> (CardClass, [Card])? {
         guard let data = Data(base64Encoded: deckString) else {
-            Log.error?.message("Can not decode \(deckString)")
+            logger.error("Can not decode \(deckString)")
             return nil
         }
 
@@ -88,44 +87,44 @@ class DeckSerializer {
         _ = try? read()
 
         guard let heroId = try? read() else {
-            Log.error?.message("Can not get heroId")
+            logger.error("Can not get heroId")
             return nil
         }
         guard let heroCard = Cards.by(dbfId: Int(heroId.toInt64()), collectible: false) else {
-            Log.error?.message("Can not get heroCard")
+            logger.error("Can not get heroCard")
             return nil
         }
         let cardClass = heroCard.playerClass
-        Log.verbose?.message("Got class \(cardClass)")
+        logger.verbose("Got class \(cardClass)")
 
         var cards: [Card] = []
         func addCard(dbfId: Varint? = nil, count: Int = 1) {
             let dbfId = dbfId ?? (try? read())
             guard let id = dbfId,
                 let card = Cards.by(dbfId: Int(id.toInt64())) else {
-                    Log.error?.message("Can not get card")
+                    logger.error("Can not get card")
                     return
             }
-            Log.verbose?.message("**** got card \(card.id) * \(count)")
+            logger.verbose("**** got card \(card.id) * \(count)")
 
             card.count = count
             cards.append(card)
         }
 
         let numSingleCards = Int((try? read())?.toUInt64() ?? 0)
-        Log.verbose?.message("numSingleCards : \(numSingleCards)")
+        logger.verbose("numSingleCards : \(numSingleCards)")
         for _ in 0..<numSingleCards {
             addCard()
         }
 
         let numDoubleCards = Int((try? read())?.toUInt64() ?? 0)
-        Log.verbose?.message("numDoubleCards : \(numDoubleCards)")
+        logger.verbose("numDoubleCards : \(numDoubleCards)")
         for _ in 0..<numDoubleCards {
             addCard(count: 2)
         }
 
         let numMultiCards = Int((try? read())?.toUInt64() ?? 0)
-        Log.verbose?.message("numMultiCards : \(numMultiCards)")
+        logger.verbose("numMultiCards : \(numMultiCards)")
         for _ in 0..<numMultiCards {
             let dbfId = try? read()
             let count = Int((try? read())?.toInt64() ?? 1)
@@ -138,7 +137,7 @@ class DeckSerializer {
     class func serialize(deck: Deck) -> String? {
         guard let hero = Cards.hero(byId: deck.heroId)
             ?? Cards.hero(byPlayerClass: deck.playerClass) else {
-                Log.error?.message("Deck has no hero")
+                logger.error("Deck has no hero")
                 return nil
         }
 

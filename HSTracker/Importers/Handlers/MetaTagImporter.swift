@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 import RegexUtil
 
 struct MetaTagImporter: HttpImporter {
@@ -22,11 +21,11 @@ struct MetaTagImporter: HttpImporter {
 
         guard let deckName = getMetaProperty(nodes: nodes, prop: "x-hearthstone:deck") else {
             print("****** deck name not found")
-            Log.error?.message("Deck name not found")
+            logger.error("Deck name not found")
             return nil
         }
         print("****** Got deck name \(deckName)")
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
         deck.name = deckName
 
         var cards: [Card] = []
@@ -34,14 +33,14 @@ struct MetaTagImporter: HttpImporter {
             let cardList = getMetaProperty(nodes: nodes, prop: "x-hearthstone:deck:cards")?
                 .components(separatedBy: ","),
             let playerClass = Cards.hero(byId: heroId)?.playerClass {
-            Log.verbose?.message("Got class \(playerClass)")
+            logger.verbose("Got class \(playerClass)")
 
             deck.playerClass = playerClass
 
             cards = cardList.flatMap {
                 if let card = Cards.by(cardId: $0) {
                     card.count = 1
-                    Log.verbose?.message("Got card \(card)")
+                    logger.verbose("Got card \(card)")
                     return card
                 }
 
@@ -49,17 +48,17 @@ struct MetaTagImporter: HttpImporter {
             }
 
         } else if let deckString = getMetaProperty(nodes: nodes, prop: "x-hearthstone:deck:deckstring") {
-            Log.verbose?.message("****** Got deck string \(deckString)")
+            logger.verbose("****** Got deck string \(deckString)")
             guard let (playerClass, cardList) = DeckSerializer
                 .deserializeDeckString(deckString: deckString) else {
-                    Log.error?.message("Card list not found")
+                    logger.error("Card list not found")
                     return nil
             }
 
             deck.playerClass = playerClass
             cards = cardList
         } else {
-            Log.error?.message("Can't find a valid deck")
+            logger.error("Can't find a valid deck")
             return nil
         }
 

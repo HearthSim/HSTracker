@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 import RegexUtil
 
 struct Hearthpwn: HttpImporter {
@@ -28,19 +27,19 @@ struct Hearthpwn: HttpImporter {
     func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let nameNode = doc.at_xpath("//h2[contains(@class, 'deck-title')]"),
             let deckName = nameNode.text else {
-                Log.error?.message("Deck name not found")
+                logger.error("Deck name not found")
                 return nil
         }
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
 
         guard let classNode = doc.at_xpath("//section[contains(@class, 'deck-info')]"),
             let clazz = classNode["class"],
             let playerClass = CardClass(rawValue: clazz
                 .replace("deck-info", with: "").trim().lowercased()) else {
-                    Log.error?.message("Class not found")
+                    logger.error("Class not found")
                     return nil
         }
-        Log.verbose?.message("Got class \(playerClass)")
+        logger.verbose("Got class \(playerClass)")
 
         let deck = Deck()
         deck.playerClass = playerClass
@@ -60,7 +59,7 @@ struct Hearthpwn: HttpImporter {
             if let count = count,
                 let card = Cards.by(englishName: cardName) {
                 card.count = count
-                Log.verbose?.message("Got card \(card)")
+                logger.verbose("Got card \(card)")
                 cards.append(card)
             }
         }

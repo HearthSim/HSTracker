@@ -8,7 +8,6 @@
 
 import Foundation
 import TextAttributes
-import CleanroomLogger
 
 enum FloatingCardStyle: String {
     case text
@@ -89,7 +88,7 @@ class FloatingCard: OverWindowController {
                 if let image = image {
                     self?.imageView.image = image
                 } else if let error = error {
-                    Log.warning?.message("asset generation: \(error)")
+                    logger.warning("asset generation: \(error)")
             }
         }
     }

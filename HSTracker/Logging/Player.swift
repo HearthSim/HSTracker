@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import CleanroomLogger
 
 class DynamicEntity {
     var cardId: String
@@ -443,7 +442,7 @@ final class Player {
         }
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -451,14 +450,14 @@ final class Player {
         entity.info.created = true
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
     
     func createInSetAside(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -466,7 +465,7 @@ final class Player {
         entity.info.turn = turn
         entity.info.returned = true
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -485,7 +484,7 @@ final class Player {
         entity.info.hidden = false
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -496,7 +495,7 @@ final class Player {
         entity.info.turn = turn
         entity.info.discarded = true
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -504,7 +503,7 @@ final class Player {
         updateKnownEntitesInDeck(cardId: entity.cardId)
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -512,7 +511,7 @@ final class Player {
         entity.info.turn = turn
         spellsPlayedCount += 1
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -520,13 +519,13 @@ final class Player {
         entity.info.turn = turn
         spellsPlayedCount += 1
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
     func mulligan(entity: Entity) {
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -542,7 +541,7 @@ final class Player {
         }
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -551,14 +550,14 @@ final class Player {
         entity.info.turn = turn
         entity.info.discarded = true
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
     func removeFromPlay(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -567,7 +566,7 @@ final class Player {
         entity.info.turn = turn
         entity.info.discarded = true
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -575,7 +574,7 @@ final class Player {
         updateKnownEntitesInDeck(cardId: entity.cardId)
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -585,7 +584,7 @@ final class Player {
             deathrattlesPlayedCount += 1
         }
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -597,7 +596,7 @@ final class Player {
             inDeckPredictions.append(PredictedCard(cardId: entity.cardId, turn: turn))
         }
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -605,7 +604,7 @@ final class Player {
         entity.info.created = true
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -613,21 +612,21 @@ final class Player {
         entity.info.created = true
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
     func stolenByOpponent(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
     func stolenFromOpponent(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
@@ -635,14 +634,14 @@ final class Player {
         entity.info.turn = turn
         entity.info.returned = true
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
 
     func secretTriggered(entity: Entity, turn: Int) {
         entity.info.turn = turn
         if Settings.fullGameLog {
-            Log.info?.message("\(debugName) \(#function) \(entity)")
+            logger.info("\(debugName) \(#function) \(entity)")
         }
     }
     

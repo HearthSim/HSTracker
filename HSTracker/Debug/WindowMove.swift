@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 class WindowMove: NSWindowController {
 

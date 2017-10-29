@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import CleanroomLogger
 import RegexUtil
 
 class PowerGameStateParser: LogEventParser {
@@ -201,7 +200,7 @@ class PowerGameStateParser: LogEventParser {
                         let cards = eventHandler.knownCardIds[blockId] {
                         cardId = cards.first
                         if !cardId.isBlank {
-                            Log.verbose?.message("Found known cardId "
+                            logger.verbose("Found known cardId "
                                 + "'\(String(describing: cardId))' for entity \(id)")
                             eventHandler.knownCardIds[id] = nil
                         }
@@ -429,7 +428,7 @@ class PowerGameStateParser: LogEventParser {
                     let deck = CoreManager.autoDetectDeck(mode: currentMode) {
                     eventHandler.set(activeDeckId: deck.deckId, autoDetected: true)
                 } else {
-                    Log.warning?.message("could not autodetect deck")
+                    logger.warning("could not autodetect deck")
                     eventHandler.set(activeDeckId: nil, autoDetected: false)
                 }
             }

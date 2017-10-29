@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 enum TrackOBotError: Error {
     case notLogged
@@ -95,12 +94,12 @@ struct TrackOBotAPI {
         ]
 
         let url = "\(baseUrl)/profile/results.json?username=\(username)&token=\(token)"
-        Log.info?.message("Posting match to Track-o-Bot \(parameters)")
+        logger.info("Posting match to Track-o-Bot \(parameters)")
         let http = Http(url: url)
         http.json(method: .post,
                   parameters: parameters) { json in
                     if let json = json {
-                        Log.debug?.message("Track-o-Bot post match : \(json)")
+                        logger.debug("Track-o-Bot post match : \(json)")
                     }
         }
     }
@@ -114,11 +113,11 @@ struct TrackOBotAPI {
         }
 
         let url = "\(baseUrl)/one_time_auth.json?username=\(username)&token=\(token)"
-        Log.info?.message("Getting Track-o-Bot auth")
+        logger.info("Getting Track-o-Bot auth")
         let http = Http(url: url)
         http.json(method: .post) { json in
             if let json = json as? [String: String] {
-                Log.debug?.message("Track-o-Bot auth : \(json)")
+                logger.debug("Track-o-Bot auth : \(json)")
                 if let url = json["url"],
                     let nsurl = URL(string: url) {
                     NSWorkspace.shared.open(nsurl)

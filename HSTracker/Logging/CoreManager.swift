@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import CleanroomLogger
 import HearthAssets
 import HearthMirror
 
@@ -73,7 +72,7 @@ final class CoreManager: NSObject {
     func start() {
         startListeners()
         if CoreManager.isHearthstoneRunning() {
-            Log.info?.message("Hearthstone is running, starting trackers now.")
+            logger.info("Hearthstone is running, starting trackers now.")
 
             startTracking()
         }
@@ -86,17 +85,17 @@ final class CoreManager: NSObject {
 
         // make sure the path exists
         let dir = NSString(string: configPath).deletingLastPathComponent
-        Log.verbose?.message("Check if \(dir) exists")
+        logger.verbose("Check if \(dir) exists")
         var isDir: ObjCBool = false
         if !fileManager.fileExists(atPath: dir, isDirectory: &isDir) || !isDir.boolValue {
             do {
-                Log.verbose?.message("Creating \(dir)")
+                logger.verbose("Creating \(dir)")
                 try fileManager.createDirectory(atPath: dir,
                                                       withIntermediateDirectories: true,
                                                       attributes: nil)
             } catch let error as NSError {
                 AppHealth.instance.setLoggerWorks(flag: false)
-                Log.error?.message("\(error.description)")
+                logger.error("\(error.description)")
                 throw HearthstoneLogError.canNotCreateDir
             }
         }
@@ -104,7 +103,7 @@ final class CoreManager: NSObject {
         let zones = LogLineNamespace.usedValues()
         var missingZones: [LogLineZone] = []
 
-        Log.verbose?.message("Check if \(configPath) exists")
+        logger.verbose("Check if \(configPath) exists")
         if !fileManager.fileExists(atPath: configPath) {
             for zone in zones {
                 missingZones.append(LogLineZone(namespace: zone))
@@ -114,7 +113,7 @@ final class CoreManager: NSObject {
             do {
                 fileContent = try String(contentsOfFile: configPath)
             } catch {
-                Log.error?.message("\(error)")
+                logger.error("\(error)")
             }
             if let fileContent = fileContent {
                 var zonesFound: [LogLineZone] = []
@@ -151,7 +150,7 @@ final class CoreManager: NSObject {
                         zonesFound.append(logLineZone)
                     }
                 }
-                Log.verbose?.message("Zones found : \(zonesFound)")
+                logger.verbose("Zones found : \(zonesFound)")
 
                 for zone in zones {
                     var currentZoneFound: LogLineZone?
@@ -162,20 +161,20 @@ final class CoreManager: NSObject {
                     }
 
                     if let currentZone = currentZoneFound {
-                        Log.verbose?.message("Is \(currentZone.namespace) valid ? "
+                        logger.verbose("Is \(currentZone.namespace) valid ? "
                             + "\(currentZone.isValid())")
                         if !currentZone.isValid() {
                             missingZones.append(currentZone)
                         }
                     } else {
-                        Log.verbose?.message("Zone \(zone) is missing")
+                        logger.verbose("Zone \(zone) is missing")
                         missingZones.append(LogLineZone(namespace: zone))
                     }
                 }
             }
         }
 
-        Log.verbose?.message("Missing zones : \(missingZones)")
+        logger.verbose("Missing zones : \(missingZones)")
         if !missingZones.isEmpty {
             var fileContent: String = ""
             for zone in zones {
@@ -189,7 +188,7 @@ final class CoreManager: NSObject {
                                             atomically: true,
                                             encoding: .utf8)
             } catch {
-                Log.error?.message("\(error)")
+                logger.error("\(error)")
                 throw HearthstoneLogError.canNotCreateFile
             }
 
@@ -207,14 +206,14 @@ final class CoreManager: NSObject {
 		// Starting logreaders after short delay is as game might be still in loading state
         let time = DispatchTime.now() + .seconds(1)
         DispatchQueue.main.asyncAfter(deadline: time) { [unowned(unsafe) self] in
-            Log.info?.message("Start Tracking")
+            logger.info("Start Tracking")
 
             self.logReaderManager.start()
         }
     }
 
     func stopTracking() {
-        Log.info?.message("Stop Tracking")
+        logger.info("Stop Tracking")
 		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
         DeckWatcher.stop()
         ArenaDeckWatcher.stop()
@@ -240,7 +239,7 @@ final class CoreManager: NSObject {
     }
 
     @objc func spaceChange() {
-        Log.verbose?.message("Receive space changed event")
+        logger.verbose("Receive space changed event")
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: "space_changed"), object: nil)
     }
@@ -248,7 +247,7 @@ final class CoreManager: NSObject {
     @objc func appLaunched(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
-            Log.verbose?.message("Hearthstone is now launched")
+            logger.verbose("Hearthstone is now launched")
             self.startTracking()
             self.game.setHearthstoneRunning(flag: true)
             AppHealth.instance.setHearthstoneRunning(flag: true)
@@ -258,7 +257,7 @@ final class CoreManager: NSObject {
     @objc func appTerminated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
-            Log.verbose?.message("Hearthstone is now closed")
+            logger.verbose("Hearthstone is now closed")
             self.stopTracking()
             
             self.game.setHearthstoneRunning(flag: false)
@@ -267,7 +266,7 @@ final class CoreManager: NSObject {
             if Settings.quitWhenHearthstoneCloses {
                 NSApplication.shared.terminate(self)
             } else {
-                Log.info?.message("Not closing app since setting says so.")
+                logger.info("Not closing app since setting says so.")
             }
         }
     }
@@ -330,15 +329,15 @@ final class CoreManager: NSObject {
 		                             .friendly, .adventure, .gameplay]
 		if selectedModes.contains(mode) {
 			
-			Log.info?.message("Trying to import deck from Hearthstone")
+			logger.info("Trying to import deck from Hearthstone")
 			
 			var selectedDeckId: Int64 = 0
 			if let selectedId = MirrorHelper.getSelectedDeck() {
 				selectedDeckId = selectedId
-                Log.info?.message("Found selected deck id via mirror: \(selectedDeckId)")
+                logger.info("Found selected deck id via mirror: \(selectedDeckId)")
 			} else {
 				selectedDeckId = DeckWatcher.selectedDeckId
-                Log.info?.message("Found selected deck id via watcher: \(selectedDeckId)")
+                logger.info("Found selected deck id via watcher: \(selectedDeckId)")
 			}
 			
 			if selectedDeckId <= 0 {
@@ -351,10 +350,10 @@ final class CoreManager: NSObject {
 				guard let selectedDeck = decks.first({
                     $0.id as? Int64 ?? 0 == selectedDeckId
                 }) else {
-					Log.warning?.message("No deck with id=\(selectedDeckId) found")
+					logger.warning("No deck with id=\(selectedDeckId) found")
 					return nil
 				}
-				Log.info?.message("Found selected deck : \(selectedDeck.name)")
+				logger.info("Found selected deck : \(selectedDeck.name)")
 				
 				if let deck = RealmHelper.checkAndUpdateDeck(deckId: selectedDeckId, selectedDeck: selectedDeck) {
 					return deck
@@ -363,12 +362,12 @@ final class CoreManager: NSObject {
 				// deck does not exist, add it
 				return RealmHelper.add(mirrorDeck: selectedDeck)
 			} else {
-                Log.warning?.message("Mirror returned no decks")
+                logger.warning("Mirror returned no decks")
 				return nil
 			}
 			
 		} else if mode == .draft {
-			Log.info?.message("Trying to import arena deck from Hearthstone")
+			logger.info("Trying to import arena deck from Hearthstone")
 			
 			var hsMirrorDeck: MirrorDeck?
 			if let mDeck = MirrorHelper.getArenaDeck()?.deck {
@@ -378,14 +377,14 @@ final class CoreManager: NSObject {
 			}
 			
 			guard let hsDeck = hsMirrorDeck else {
-				Log.warning?.message("Can't get arena deck")
+				logger.warning("Can't get arena deck")
 				return nil
 			}
 			
 			return RealmHelper.checkOrCreateArenaDeck(mirrorDeck: hsDeck)
 		}
 		
-		Log.error?.message("Auto-importing deck of \(mode) is not supported")
+		logger.error("Auto-importing deck of \(mode) is not supported")
 		return nil
 	}
 }

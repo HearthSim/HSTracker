@@ -10,7 +10,6 @@
 
 import Cocoa
 import RealmSwift
-import CleanroomLogger
 
 class Tracker: OverWindowController {
 

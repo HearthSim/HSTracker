@@ -7,7 +7,8 @@
 //
 
 import Cocoa
-import CleanroomLogger
+import SwiftyBeaver
+let logger = SwiftyBeaver.self
 import MASPreferences
 import HearthAssets
 import HockeySDK
@@ -65,24 +66,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		RealmHelper.initRealm(destination: Paths.HSTracker)
 		
 		// init debug loggers
-		var loggers = [LogConfiguration]()
 		#if DEBUG
-            let xcodeConfig = ConsoleLogConfiguration(minimumSeverity: .verbose,
-                                                      stdStreamsMode: .useExclusively,
-                                                      formatters: [HSTrackerLogFormatter()])
-			loggers.append(xcodeConfig)
+            let console = ConsoleDestination()
+            logger.addDestination(console)
 		#endif
 		
-		let path = Paths.logs.path
-		let severity = Settings.logSeverity
-		let rotatingConf = RotatingLogFileConfiguration(minimumSeverity: severity,
-		                                                daysToKeep: 7,
-		                                                directoryPath: path,
-		                                                formatters: [HSTrackerLogFormatter()])
-		loggers.append(rotatingConf)
-		Log.enable(configuration: loggers)
+		let path = Paths.logs
+        let file = FileDestination()
+        file.logFileURL = path.appendingPathComponent("hstracker.log")
+		logger.addDestination(file)
 		
-		Log.info?.message("*** Starting \(Version.buildName) ***")
+		logger.info("*** Starting \(Version.buildName) ***")
 		
 		// fix hearthstone log folder path
 		if Settings.hearthstonePath.hasSuffix("/Logs") {
@@ -177,7 +171,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			// build menu
 			let menuOperation = BlockOperation {
 				OperationQueue.main.addOperation {
-					Log.info?.message("Loading menu")
+					logger.info("Loading menu")
 					self.buildMenu()
 				}
 			}
@@ -233,7 +227,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			splashscreen = nil
 			
 			if alertStyle == .critical {
-				Log.error?.message(message)
+				logger.error(message)
 			}
 			
 			NSAlert.show(style: alertStyle,

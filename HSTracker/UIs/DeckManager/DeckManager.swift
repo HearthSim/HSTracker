@@ -8,7 +8,6 @@
 
 import Foundation
 import RealmSwift
-import CleanroomLogger
 import AppKit
 
 class DeckContextMenu: NSMenu {
@@ -94,7 +93,7 @@ class DeckManager: NSWindowController {
                 return nil
 
             default:
-                Log.verbose?.message("unsupported keycode \(e.keyCode)")
+                logger.verbose("unsupported keycode \(e.keyCode)")
             }
 
             return e
@@ -372,7 +371,7 @@ class DeckManager: NSWindowController {
         if let deck = RealmHelper.getDeck(with: currentDeck.deckId) {
 			RealmHelper.delete(deck: deck)
 		} else {
-			Log.error?.message("Can not get deck")
+			logger.error("Can not get deck")
 		}
 
         refreshDecks()

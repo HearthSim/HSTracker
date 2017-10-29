@@ -5,7 +5,6 @@
 
 import Foundation
 import Unbox
-import CleanroomLogger
 
 class ArenaWatcher: Watcher {
 	
@@ -76,7 +75,7 @@ class ArenaWatcher: Watcher {
             if cards.count == 3 {
                 let ids = cards.map { $0.id }
                 if ids.sorted() != currentCards.sorted() {
-                    Log.debug?.message("cards: \(cards)")
+                    logger.debug("cards: \(cards)")
                     currentCards = ids
 					
 					handler?.setArenaOptions(cards: cards.sorted { $0.cost > $1.cost })
@@ -94,19 +93,19 @@ class ArenaWatcher: Watcher {
         let jsonFile = Paths.arenaJson.appendingPathComponent("cardtier.json")
         var jsonData = try? Data(contentsOf: jsonFile)
         if jsonData != nil {
-            Log.info?.message("Using \(jsonFile)")
+            logger.info("Using \(jsonFile)")
         } else {
-            Log.error?.message("\(jsonFile) is not a valid file")
+            logger.error("\(jsonFile) is not a valid file")
             let cardFile = URL(fileURLWithPath:
                 "\(Bundle.main.resourcePath!)/Resources/cardtier.json")
             jsonData = try? Data(contentsOf: cardFile)
         }
         guard let data = jsonData else {
-            Log.warning?.message("Can not load cardtier.json")
+            logger.warning("Can not load cardtier.json")
             return
         }
         guard let cardTiers: [ArenaCard] = try? unbox(data: data) else {
-            Log.warning?.message("Can not parse cardtier.json")
+            logger.warning("Can not parse cardtier.json")
             return
         }
         self.cardTiers = cardTiers

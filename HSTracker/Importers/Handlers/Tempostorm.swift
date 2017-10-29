@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import RegexUtil
 
 struct Tempostorm: JsonImporter {
@@ -44,21 +43,21 @@ struct Tempostorm: JsonImporter {
 
     func loadDeck(json: Any, url: String) -> (Deck, [Card])? {
         guard let json = json as? [String: Any] else {
-            Log.error?.message("invalid json")
+            logger.error("invalid json")
             return nil
         }
         guard let className = json["playerClass"] as? String,
             let playerClass = CardClass(rawValue: className.lowercased()) else {
-                Log.error?.message("Class not found")
+                logger.error("Class not found")
                 return nil
         }
-        Log.verbose?.message("Got class \(playerClass)")
+        logger.verbose("Got class \(playerClass)")
 
         guard let deckName = json["name"] as? String else {
-            Log.error?.message("Deck name not found")
+            logger.error("Deck name not found")
             return nil
         }
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
 
         let deck = Deck()
         deck.playerClass = playerClass
@@ -67,7 +66,7 @@ struct Tempostorm: JsonImporter {
         deck.isArena = gameModeType == "arena"
 
         guard let jsonCards = json["cards"] as? [[String: Any]] else {
-            Log.error?.message("Card list not found")
+            logger.error("Card list not found")
             return nil
         }
         var cards: [Card] = []
@@ -77,7 +76,7 @@ struct Tempostorm: JsonImporter {
                 let card = Cards.by(englishNameCaseInsensitive: name),
                 let count = jsonCard["cardQuantity"] as? Int {
                 card.count = count
-                Log.verbose?.message("Got card \(card)")
+                logger.verbose("Got card \(card)")
                 cards.append(card)
             }
         }

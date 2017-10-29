@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 /**
 	Helper object for system folder locations
@@ -69,7 +68,7 @@ class Paths {
                                      withIntermediateDirectories: true,
                                      attributes: nil)
             } catch {
-                Log.error?.message("Can not create directory \(path) : \(error)")
+                logger.error("Can not create directory \(path) : \(error)")
             }
         }
     }

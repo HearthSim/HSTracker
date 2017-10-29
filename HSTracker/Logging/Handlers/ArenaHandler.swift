@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import CleanroomLogger
 import RegexUtil
 
 struct ArenaHandler: LogEventParser {
@@ -28,7 +27,7 @@ struct ArenaHandler: LogEventParser {
         if logLine.line.match(HeroRegex) {
             let matches = logLine.line.matches(HeroRegex)
             if let heroID = Cards.hero(byId: matches[1].value) {
-                Log.info?.message("Found arena hero : \(heroID.playerClass)")
+                logger.info("Found arena hero : \(heroID.playerClass)")
                 ArenaWatcher.hero = heroID.playerClass
             }
         } else if logLine.line.contains("IN_REWARDS") && coreManager.game.currentMode == .draft {
@@ -36,7 +35,7 @@ struct ArenaHandler: LogEventParser {
         } else if logLine.line.match(ClientChoosesRegex) {
             if let match = logLine.line.matches(ClientChoosesRegex).first,
                let card = Cards.hero(byId: match.value) {
-                Log.info?.message("Client choose arena hero : \(card.playerClass)")
+                logger.info("Client choose arena hero : \(card.playerClass)")
                 ArenaWatcher.hero = card.playerClass
             }
         }

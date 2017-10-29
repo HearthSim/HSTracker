@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import RealmSwift
 import AppKit
 
@@ -183,7 +182,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
                     return nil
                 }
 
-                Log.verbose?.message("unsupported keycode \(e.keyCode)")
+                logger.verbose("unsupported keycode \(e.keyCode)")
  */
             }
 

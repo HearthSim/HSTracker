@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import CleanroomLogger
 import RegexUtil
 
 struct LoadingScreenHandler: LogEventParser {
@@ -30,7 +29,7 @@ struct LoadingScreenHandler: LogEventParser {
             game.currentMode = Mode(rawValue: matches[1].value.lowercased()) ?? .invalid
             game.previousMode = Mode(rawValue: matches[0].value.lowercased()) ?? .invalid
 
-            Log.info?.message("Game mode from \(String(describing: game.previousMode)) "
+            logger.info("Game mode from \(String(describing: game.previousMode)) "
                 + "to \(String(describing: game.currentMode))")
 
             if game.previousMode == .gameplay && game.currentMode != .gameplay {

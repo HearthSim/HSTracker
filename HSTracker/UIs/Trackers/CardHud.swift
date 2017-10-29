@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import TextAttributes
 
 class CardHud: NSView {

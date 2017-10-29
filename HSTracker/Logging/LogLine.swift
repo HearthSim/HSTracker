@@ -8,7 +8,6 @@
 * Created on 13/02/16.
 */
 
-import CleanroomLogger
 import Foundation
 import RegexUtil
 

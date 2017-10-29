@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 import RegexUtil
 
 struct HearthstoneHeroes: HttpImporter {
@@ -29,23 +28,23 @@ struct HearthstoneHeroes: HttpImporter {
         var xpath = "//header[@class='panel-heading']/h1[@class='panel-title']"
         guard let nameNode = doc.at_xpath(xpath),
             let deckName = nameNode.text else {
-                Log.error?.message("Deck name not found")
+                logger.error("Deck name not found")
                 return nil
         }
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
 
         xpath = "//*[@class='breadcrumb']//span[contains(@class, 'hsIcon')]"
         guard let classNode = doc.at_xpath(xpath),
             let className = classNode["class"] else {
-                Log.error?.message("Class not found")
+                logger.error("Class not found")
                 return nil
         }
         let clazz = className.lowercased().replace("hsicon ", with: "")
         guard let playerClass = CardClass(rawValue: clazz) else {
-            Log.error?.message("Class not found")
+            logger.error("Class not found")
             return nil
         }
-        Log.verbose?.message("Got class \(playerClass)")
+        logger.verbose("Got class \(playerClass)")
 
         let deck = Deck()
         deck.playerClass = playerClass
@@ -62,7 +61,7 @@ struct HearthstoneHeroes: HttpImporter {
                 let text = span.text?.lowercased().replace("x", with: ""),
                 let count = Int(text) {
                 card.count = count
-                Log.verbose?.message("Got card \(card)")
+                logger.verbose("Got card \(card)")
                 cards.append(card)
             }
         }

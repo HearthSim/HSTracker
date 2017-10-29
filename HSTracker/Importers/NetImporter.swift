@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 import RealmSwift
 import RegexUtil
 
@@ -46,7 +45,7 @@ protocol HttpImporter: Importer {
 
 extension HttpImporter {
     func loadHtml(url: String, completion: @escaping (HTMLDocument?) -> Void) {
-        Log.info?.message("Fetching \(url)")
+        logger.info("Fetching \(url)")
 
         let http = Http(url: url)
         http.html(method: .get) { doc in
@@ -62,7 +61,7 @@ protocol JsonImporter: Importer {
 
 extension JsonImporter {
     func loadJson(url: String, completion: @escaping (Any?) -> Void) {
-        Log.info?.message("Fetching \(url)")
+        logger.info("Fetching \(url)")
 
         let http = Http(url: url)
         http.json(method: .get) { json in

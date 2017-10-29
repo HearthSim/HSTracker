@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import RealmSwift
 import AppKit
 
@@ -38,7 +37,7 @@ class SaveDeck: NSWindowController {
 			self.deck = deck
 			exists = true
         } else {
-            Log.error?.message("Can not fetch deck")
+            logger.error("Can not fetch deck")
         }
     }
 

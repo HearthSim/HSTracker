@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 struct TagChangeActions {
 
@@ -185,7 +184,7 @@ struct TagChangeActions {
     private func stepChange(eventHandler: PowerEventHandler) {
         guard !eventHandler.setupDone && eventHandler.entities.first?.1.name == "GameEntity" else { return }
 
-        Log.info?.message("Game was already in progress.")
+        logger.info("Game was already in progress.")
         eventHandler.wasInProgress = true
     }
 
@@ -561,10 +560,10 @@ struct TagChangeActions {
     }
 
     private func setHeroAsync(eventHandler: PowerEventHandler, id: Int) {
-        Log.info?.message("Found hero with id \(id) ")
+        logger.info("Found hero with id \(id) ")
         DispatchQueue.global().async {
             if eventHandler.playerEntity == nil {
-                Log.info?.message("Waiting for playerEntity")
+                logger.info("Waiting for playerEntity")
                 while eventHandler.playerEntity == nil {
                     Thread.sleep(forTimeInterval: 0.1)
                 }
@@ -572,7 +571,7 @@ struct TagChangeActions {
 
             if let playerEntity = eventHandler.playerEntity,
                 let entity = eventHandler.entities[id] {
-                Log.info?.message("playerEntity found playerClass : "
+                logger.info("playerEntity found playerClass : "
                     + "\(String(describing: eventHandler.player.playerClass)), "
                     + "\(id) -> \(playerEntity[.hero_entity]) -> \(entity) ")
                 if id == playerEntity[.hero_entity] {
@@ -585,14 +584,14 @@ struct TagChangeActions {
             }
 
             if eventHandler.opponentEntity == nil {
-                Log.info?.message("Waiting for opponentEntity")
+                logger.info("Waiting for opponentEntity")
                 while eventHandler.opponentEntity == nil {
                     Thread.sleep(forTimeInterval: 0.1)
                 }
             }
             if let opponentEntity = eventHandler.opponentEntity,
                 let entity = eventHandler.entities[id] {
-                Log.info?.message("opponentEntity found playerClass : "
+                logger.info("opponentEntity found playerClass : "
                     + "\(String(describing: eventHandler.opponent.playerClass)),"
                     + " \(id) -> \(opponentEntity[.hero_entity]) -> \(entity) ")
 

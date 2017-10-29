@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import CleanroomLogger
 import RegexUtil
 
 struct FileImporter: BaseFileImporter {
 
     func fileImport(url: URL) -> (Deck, [Card])? {
         let deckName = url.lastPathComponent.replace("\\.txt$", with: "")
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
 
         var isArena = false
 
@@ -23,12 +22,12 @@ struct FileImporter: BaseFileImporter {
             let content = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
             fileContent = content.components(separatedBy: CharacterSet.newlines)
         } catch let error {
-            Log.error?.message("\(error)")
+            logger.error("\(error)")
             return nil
         }
 
         guard let lines = fileContent else {
-            Log.error?.message("Card list not found")
+            logger.error("Card list not found")
         }
 
         let deck = Deck()
@@ -59,10 +58,10 @@ struct FileImporter: BaseFileImporter {
                     if let card = card {
                         if card.playerClass != .neutral && deck.playerClass == .neutral {
                             deck.playerClass = card.playerClass
-                            Log.verbose?.message("Got class \(deck.playerClass)")
+                            logger.verbose("Got class \(deck.playerClass)")
                         }
                         card.count = count
-                        Log.verbose?.message("Got card \(card)")
+                        logger.verbose("Got card \(card)")
                         cards.append(card)
                     }
                 }
@@ -71,7 +70,7 @@ struct FileImporter: BaseFileImporter {
         deck.isArena = isArena
 
         guard deck.playerClass != .neutral else {
-            Log.error?.message("Class not found")
+            logger.error("Class not found")
             return nil
         }
 

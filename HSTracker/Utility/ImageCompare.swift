@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 extension NSImage {
     var CGImage: CGImage? {

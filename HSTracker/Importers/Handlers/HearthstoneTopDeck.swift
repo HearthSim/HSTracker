@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 import RegexUtil
 
 struct HearthstoneTopDeck: HttpImporter {
@@ -27,20 +26,20 @@ struct HearthstoneTopDeck: HttpImporter {
     func loadDeck(doc: HTMLDocument, url: String) -> (Deck, [Card])? {
         guard let nameNode = doc.at_xpath("//h1[contains(@class, 'panel-title')]"),
             let deckName = nameNode.text?.replace("\\s+", with: " ").trim() else {
-                Log.error?.message("Deck name not found")
+                logger.error("Deck name not found")
                 return nil
         }
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
 
         let xpath = "//div[contains(@class, 'deck_banner_description')]"
             + "//span[contains(@class, 'midlarge')]/span"
         let nodeInfos = doc.xpath(xpath)
         guard let className = nodeInfos[1].text?.trim(),
             let playerClass = CardClass(rawValue: className.lowercased()) else {
-                Log.error?.message("Class not found")
+                logger.error("Class not found")
                 return nil
         }
-        Log.verbose?.message("Got class \(playerClass)")
+        logger.verbose("Got class \(playerClass)")
 
         let deck = Deck()
         deck.playerClass = playerClass
@@ -51,17 +50,17 @@ struct HearthstoneTopDeck: HttpImporter {
         for cardNode in cardNodes {
             guard let nameStr = cardNode.text else { continue }
             let matches = nameStr.matches("^\\s*(\\d+)\\s+(.*)\\s*$")
-            Log.verbose?.message("\(nameStr) \(matches)")
+            logger.verbose("\(nameStr) \(matches)")
             if let countStr = matches.first?.value,
                 let count = Int(countStr),
                 let cardName = matches.last?.value,
                 let card = Cards.by(englishNameCaseInsensitive: cardName) {
                 card.count = count
-                Log.verbose?.message("Got card \(card)")
+                logger.verbose("Got card \(card)")
                 cards.append(card)
             }
         }
-        Log.verbose?.message("is valid : \(deck.isValid()) \(deck.countCards())")
+        logger.verbose("is valid : \(deck.isValid()) \(deck.countCards())")
         return (deck, cards)
     }
 }

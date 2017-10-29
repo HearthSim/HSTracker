@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import CleanroomLogger
 import RegexUtil
 
 class TagChangeHandler {
@@ -32,7 +31,7 @@ class TagChangeHandler {
             tagChange(eventHandler: eventHandler, tag: tag, id: id, value: value,
                       isCreationTag: isCreationTag)
         } else {
-            //Log.warning?.message("Can't parse \(rawTag) -> \(rawValue)")
+            //logger.warning("Can't parse \(rawTag) -> \(rawValue)")
         }
     }
 
@@ -79,7 +78,7 @@ class TagChangeHandler {
 
     func clearQueuedActions() {
         if creationTagActionQueue.count > 0 {
-            Log.warning?.message("Clearing tagActionQueue with \(creationTagActionQueue.count)"
+            logger.warning("Clearing tagActionQueue with \(creationTagActionQueue.count)"
                 + " elements in it")
         }
         creationTagActionQueue.removeAll()

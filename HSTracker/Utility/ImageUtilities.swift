@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 struct ImageUtilities {
     static func screenshotFirstCard() -> NSImage? {

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import AppKit
 
 struct SizeHelper {
@@ -51,7 +50,7 @@ struct SizeHelper {
                         frame.origin.y = screen.frame.maxY - rect.maxY
                     }
 
-                    //Log.debug?.message("HS Frame is : \(rect)")
+                    //logger.debug("HS Frame is : \(rect)")
                     self._frame = frame
                 }
             }
@@ -111,7 +110,7 @@ struct SizeHelper {
             let y = self.frame.minY + pointY
             
             let relativeFrame = NSRect(x: x, y: y, width: width, height: height)
-            //Log.verbose?.message("FR:\(frame) -> HS:\(hearthstoneFrame) -> POS:\(relativeFrame)")
+            //logger.verbose("FR:\(frame) -> HS:\(hearthstoneFrame) -> POS:\(relativeFrame)")
             return relativeFrame
         }
         

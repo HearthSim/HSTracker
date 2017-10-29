@@ -8,7 +8,6 @@
 
 import Foundation
 import MASPreferences
-import CleanroomLogger
 
 class HSReplayPreferences: NSViewController {
     @IBOutlet weak var synchronizeMatches: NSButton!
@@ -125,7 +124,7 @@ class HSReplayPreferences: NSViewController {
     
     @objc private func checkAccountInfo() {
         guard requests < maxRequests else {
-            Log.warning?.message("max request for checking account info")
+            logger.warning("max request for checking account info")
             return
         }
         

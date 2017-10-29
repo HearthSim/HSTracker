@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 @objc final class TurnTimer: NSObject {
 	

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
@@ -23,7 +22,7 @@ class HSReplayAPI {
                   headers: ["X-Api-Key": apiKey]) { json in
                     if let json = json as? [String: Any],
                         let key = json["key"] as? String {
-                        Log.info?.message("HSReplay : Obtained new upload-token")
+                        logger.info("HSReplay : Obtained new upload-token")
                         Settings.hsReplayUploadToken = key
                         handle(key)
                     } else {
@@ -34,11 +33,11 @@ class HSReplayAPI {
 
     static func claimAccount() {
         guard let token = Settings.hsReplayUploadToken else {
-            Log.error?.message("Authorization token not set yet")
+            logger.error("Authorization token not set yet")
             return
         }
         
-        Log.info?.message("Getting claim url...")
+        logger.info("Getting claim url...")
 
         let http = Http(url: HSReplay.claimAccountUrl)
         http.json(method: .post,
@@ -47,7 +46,7 @@ class HSReplayAPI {
                     "Authorization": "Token \(token)"]) { json in
             if let json = json as? [String: Any],
                 let url = json["url"] as? String {
-                Log.info?.message("Opening browser to claim account...")
+                logger.info("Opening browser to claim account...")
 
                 let url = URL(string: "\(HSReplay.baseUrl)\(url)")
                 NSWorkspace.shared.open(url!)
@@ -59,11 +58,11 @@ class HSReplayAPI {
 
     static func updateAccountStatus(handle: @escaping (Bool) -> Void) {
         guard let token = Settings.hsReplayUploadToken else {
-            Log.error?.message("Authorization token not set yet")
+            logger.error("Authorization token not set yet")
             handle(false)
             return
         }
-        Log.info?.message("Checking account status...")
+        logger.info("Checking account status...")
 
         let http = Http(url: "\(HSReplay.tokensUrl)/\(token)/")
         http.json(method: .get,
@@ -77,8 +76,7 @@ class HSReplayAPI {
                     Settings.hsReplayUsername = username
                 }
                 Settings.hsReplayId = user["id"] as? Int ?? 0
-                Log.info?.message("id=\(String(describing: Settings.hsReplayId)), "
-                    + "Username=\(String(describing: Settings.hsReplayUsername))")
+                logger.info("id=\(String(describing: Settings.hsReplayId)), Username=\(String(describing: Settings.hsReplayUsername))")
                 handle(true)
             } else {
                 handle(false)

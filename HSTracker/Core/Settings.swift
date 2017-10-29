@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import AppKit
 
 final class Settings {
@@ -473,17 +472,6 @@ final class Settings {
     }
 
     // MARK: - Paths / utils
-    static var logSeverity: LogSeverity {
-        set { set(name: "file_logger_severity", value: newValue.rawValue) }
-        get {
-            if let rawSeverity = get(name: "file_logger_severity") as? Int,
-                let severity = LogSeverity(rawValue: rawSeverity) {
-                return severity
-            }
-            return .verbose
-        }
-    }
-
     static var isCyrillicLanguage: Bool {
         guard let language = hearthstoneLanguage else { return false }
 

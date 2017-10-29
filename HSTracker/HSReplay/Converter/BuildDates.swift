@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 struct BuildDates {
 
@@ -58,7 +57,7 @@ struct BuildDates {
         if let productId = productId {
             message += ", Hearthstone productId: \(productId.build)"
         }
-        Log.info?.message(message)
+        logger.info(message)
 
         return actual < max(latestBuild.build, productId?.build ?? 0)
     }
@@ -89,15 +88,14 @@ struct BuildDates {
                         if let response = response as? HTTPURLResponse,
                             response.statusCode != 200 {
                             hasError = true
-                            Log.error?.message("Can not download \(cardUrl) "
-                                + "-> statusCode : \(response.statusCode)")
+                            logger.error("Can not download \(cardUrl) -> statusCode : \(response.statusCode)")
                         } else if let error = error {
                             hasError = true
-                            Log.error?.message("\(error)")
+                            logger.error("\(error)")
                         } else if let data = data {
                             let dir = Paths.cardJson
                             let dest = dir.appendingPathComponent("cardsDB.\(locale).json")
-                            Log.info?.message("Saving \(cardUrl) to \(dest)")
+                            logger.info("Saving \(cardUrl) to \(dest)")
                             try? data.write(to: dest, options: [.atomic])
                         }
 
@@ -116,7 +114,7 @@ struct BuildDates {
         for buildDate in knownBuildDates.sorted(by: {
             $0.date > $1.date
         }) where date >= buildDate.date {
-            Log.info?.message("Getting build from date : \(buildDate)")
+            logger.info("Getting build from date : \(buildDate)")
             return buildDate
         }
         return nil
@@ -141,7 +139,7 @@ struct BuildDates {
         guard let build = Int(match) else { return nil }
 
         let buildDate = BuildDate(date: Date(), build: build)
-        Log.info?.message("Getting build from product DB : \(buildDate)")
+        logger.info("Getting build from product DB : \(buildDate)")
         knownBuildDates.append(buildDate)
         return buildDate
     }

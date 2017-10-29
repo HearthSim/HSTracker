@@ -9,7 +9,6 @@
 */
 
 import Foundation
-import CleanroomLogger
 import BTree
 
 final class LogReaderManager {
@@ -82,15 +81,15 @@ final class LogReaderManager {
 
     func start() {
         guard !running else {
-            Log.error?.message("LogReaderManager is already running")
+            logger.error("LogReaderManager is already running")
             return
         }
-        Log.info?.message("LogReaderManager is starting")
+        logger.info("LogReaderManager is starting")
         
         queue = DispatchQueue(label: "be.michotte.hstracker.logReaderManager", attributes: [])
         
         guard let queue = queue else {
-            Log.error?.message("LogReaderManager can not create queue")
+            logger.error("LogReaderManager can not create queue")
             return
         }
         queue.async {
@@ -150,7 +149,7 @@ final class LogReaderManager {
     }
 
 	func stop(eraseLogFile: Bool) {
-        Log.info?.message("Stopping all trackers")
+        logger.info("Stopping all trackers")
         stopped = true
         running = false
         for reader in readers {
@@ -159,7 +158,7 @@ final class LogReaderManager {
     }
 
 	func restart(eraseLogFile: Bool = false) {
-        Log.info?.message("LogReaderManager is restarting")
+        logger.info("LogReaderManager is restarting")
 		stop(eraseLogFile: eraseLogFile)
         start()
     }
@@ -171,7 +170,7 @@ final class LogReaderManager {
 
         let pe = LogReaderManager.iso8601StringFormatter.string(from: powerEntry)
         let lse = LogReaderManager.iso8601StringFormatter.string(from: loadingScreenEntry)
-        Log.verbose?.message("powerEntry : \(pe) / loadingScreenEntry : \(lse)")
+        logger.verbose("powerEntry : \(pe) / loadingScreenEntry : \(lse)")
         
         return powerEntry > loadingScreenEntry ? powerEntry : loadingScreenEntry
 	}

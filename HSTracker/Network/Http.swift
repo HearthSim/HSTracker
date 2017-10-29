@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 
 struct Http {
     let url: String
@@ -30,10 +29,10 @@ struct Http {
         }
 
         Http.session.dataTask(with: urlRequest) { data, response, error in
-            Log.info?.message("Fetching \(self.url) complete")
+            logger.info("Fetching \(self.url) complete")
 
             if let error = error {
-                Log.error?.message("html : \(error)")
+                logger.error("html : \(error)")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -73,10 +72,10 @@ struct Http {
         }
 
         Http.session.dataTask(with: urlRequest) { data, response, error in
-            Log.info?.message("Fetching \(self.url) complete")
+            logger.info("Fetching \(self.url) complete")
 
             if let error = error {
-                Log.error?.message("request error : \(error)")
+                logger.error("request error : \(error)")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -90,13 +89,13 @@ struct Http {
                     }
                     return
                 } catch let error {
-                    Log.error?.message("json parsing : \(error)")
+                    logger.error("json parsing : \(error)")
                     DispatchQueue.main.async {
                         completion(nil)
                     }
                 }
             } else {
-                Log.error?.message("\(#function): \(String(describing: error)), "
+                logger.error("\(#function): \(String(describing: error)), "
                     + "\(String(describing: data)), \(String(describing: response))")
                 DispatchQueue.main.async {
                     completion(nil)
@@ -118,12 +117,12 @@ struct Http {
         Http.session.uploadTask(with: urlRequest,
                                 from: data) { data, response, error in
                                     if let error = error {
-                                        Log.error?.message("request error : \(error)")
+                                        logger.error("request error : \(error)")
                                     } else if let data = data {
-                                        Log.verbose?.message("upload result : \(data)")
+                                        logger.verbose("upload result : \(data)")
                                     }
                                     
-                                        Log.error?.message("\(#function): "
+                                        logger.error("\(#function): "
                                             + "\(String(describing: error)), "
                                             + "data: \(String(describing: data)), "
                                             + "response: \(String(describing: response))")
@@ -154,7 +153,7 @@ struct Http {
                                                               options: .prettyPrinted)
                     request.httpBody = bodyData
                 } catch let error {
-                    Log.error?.message("json converting : \(error)")
+                    logger.error("json converting : \(error)")
                     return nil
                 }
             }

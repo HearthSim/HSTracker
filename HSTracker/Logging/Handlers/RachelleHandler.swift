@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import CleanroomLogger
 import RegexUtil
 
 struct RachelleHandler: LogEventParser {
@@ -20,7 +19,7 @@ struct RachelleHandler: LogEventParser {
         if logLine.line.match(TowardsGolds) {
             if let match = logLine.line.matches(TowardsGolds).first,
                 let victories = Int(match.value) {
-                Log.info?.message("\(victories) / 3 -> 10 gold")
+                logger.info("\(victories) / 3 -> 10 gold")
             }
         }
     }

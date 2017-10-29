@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 class Database {
     static let currentSeason: Int = {
@@ -21,12 +20,12 @@ class Database {
 
             let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(locale.rawValue).json")
             guard let jsonData = try? Data(contentsOf: jsonFile) else {
-                Log.error?.message("\(jsonFile) is not a valid file")
+                logger.error("\(jsonFile) is not a valid file")
                 return false
             }
             guard let _ = try? JSONSerialization
                 .jsonObject(with: jsonData, options: []) as? [[String: Any]] else {
-                    Log.error?.message("\(jsonFile) is not a valid file")
+                    logger.error("\(jsonFile) is not a valid file")
                     return false
             }
         }
@@ -45,20 +44,20 @@ class Database {
                     withExtension: "json")
 
             guard let jsonFile = file else {
-                Log.error?.message("Can't find cardsDB.\(lang.rawValue).json")
+                logger.error("Can't find cardsDB.\(lang.rawValue).json")
                 continue
             }
 
-            Log.verbose?.message("json file : \(jsonFile)")
+            logger.verbose("json file : \(jsonFile)")
 
             guard let jsonData = try? Data(contentsOf: jsonFile) else {
-                Log.error?.message("\(jsonFile) is not a valid file")
+                logger.error("\(jsonFile) is not a valid file")
                 continue
             }
             guard let jsonCards = try? JSONSerialization
                     .jsonObject(with: jsonData, options: []) as? [[String: Any]],
                 let cards = jsonCards else {
-                                    Log.error?.message("\(jsonFile) is not a valid file")
+                                    logger.error("\(jsonFile) is not a valid file")
                 continue
             }
 

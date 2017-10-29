@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 
 class ArenaHelperSync {
     private static var latestVersion: String?
@@ -38,7 +37,7 @@ class ArenaHelperSync {
             return true
         }
 
-        Log.info?.message("Latest card tiers version: \(latest), HSTracker build: \(actual)")
+        logger.info("Latest card tiers version: \(latest), HSTracker build: \(actual)")
 
         return latest.compare(actual, options: .numeric) == .orderedDescending
     }
@@ -46,12 +45,12 @@ class ArenaHelperSync {
     static func jsonFilesAreValid() -> Bool {
         let jsonFile = Paths.arenaJson.appendingPathComponent("cardtier.json")
         guard let jsonData = try? Data(contentsOf: jsonFile) else {
-            Log.error?.message("\(jsonFile) is not a valid file")
+            logger.error("\(jsonFile) is not a valid file")
             return false
         }
         guard let _ = try? JSONSerialization
             .jsonObject(with: jsonData, options: []) as? [[String: Any]] else {
-                Log.error?.message("\(jsonFile) is not a valid file")
+                logger.error("\(jsonFile) is not a valid file")
                 return false
         }
         return true
@@ -77,15 +76,15 @@ class ArenaHelperSync {
                     if let response = response as? HTTPURLResponse,
                         response.statusCode != 200 {
                         hasError = true
-                        Log.error?.message("Can not download \(cardTierUrl) "
+                        logger.error("Can not download \(cardTierUrl) "
                             + "-> statusCode : \(response.statusCode)")
                     } else if let error = error {
                         hasError = true
-                        Log.error?.message("\(error)")
+                        logger.error("\(error)")
                     } else if let data = data {
                         let dir = Paths.arenaJson
                         let dest = dir.appendingPathComponent("cardtier.json")
-                        Log.info?.message("Saving \(cardTierUrl) to \(dest)")
+                        logger.info("Saving \(cardTierUrl) to \(dest)")
                         try? data.write(to: dest, options: [.atomic])
                     }
 

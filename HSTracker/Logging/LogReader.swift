@@ -9,7 +9,6 @@
  */
 
 import Foundation
-import CleanroomLogger
 import RegexUtil
 
 final class LogReader {
@@ -30,15 +29,15 @@ final class LogReader {
         self.info = info
 		
         self.path = "\(logPath)/Logs/\(info.name.rawValue).log"
-        Log.info?.message("Init reader for \(info.name) at path \(self.path)")
+        logger.info("Init reader for \(info.name) at path \(self.path)")
         if fileManager.fileExists(atPath: self.path)
                    && !FileUtils.isFileOpen(byHearthstone: self.path)
 					&& removeLogfile {
             do {
-				Log.info?.message("Removing log file at \(self.path)")
+				logger.info("Removing log file at \(self.path)")
                 try fileManager.removeItem(atPath: self.path)
             } catch {
-                Log.error?.message("\(error)")
+                logger.error("\(error)")
             }
         }
         
@@ -68,7 +67,7 @@ final class LogReader {
                 .filter({ !$0.isBlank }).reversed()
         for line in lines {
             if choices.any({ line.range(of: $0) != nil }) {
-                Log.verbose?.message("Found \(line)")
+                logger.verbose("Found \(line)")
 				return LogLine(namespace: .power, line: line).time
             }
         }
@@ -87,9 +86,9 @@ final class LogReader {
         }
         queue = DispatchQueue(label: queueName, attributes: [])
         if let queue = queue {
-            Log.info?.message("Starting to track \(info.name)")
+            logger.info("Starting to track \(info.name)")
             let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
-            Log.verbose?.message("\(info.name) has queue \(queueName) starting at \(sp)")
+            logger.verbose("\(info.name) has queue \(queueName) starting at \(sp)")
             queue.async {
                 self.readFile()
             }
@@ -98,14 +97,14 @@ final class LogReader {
 
     func readFile() {
         self.offset = findInitialOffset()
-        Log.verbose?.message("reading \(path) starting at offset \(offset)")
+        logger.verbose("reading \(path) starting at offset \(offset)")
 
         while !stopped {
             if fileHandle == nil && fileManager.fileExists(atPath: path) {
                 fileHandle = FileHandle(forReadingAtPath: path)
                 
                 let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
-                Log.verbose?.message("file exists \(path), offset for \(sp) is \(offset),"
+                logger.verbose("file exists \(path), offset for \(sp) is \(offset),"
                     + " queue: be.michotte.hstracker.readers.\(info.name)")
             }
             
@@ -164,7 +163,7 @@ final class LogReader {
                     }
 
                     if !fileManager.fileExists(atPath: path) {
-                        Log.verbose?.message("setting \(path) handle to nil \(offset))")
+                        logger.verbose("setting \(path) handle to nil \(offset))")
                         fileHandle = nil
                     }
                     if fileHandle == nil {
@@ -235,7 +234,7 @@ final class LogReader {
     }
 
 	func stop(eraseLogFile: Bool) {
-        Log.info?.message("Stopping tracker \(info.name)")
+        logger.info("Stopping tracker \(info.name)")
         fileHandle?.closeFile()
         fileHandle = nil
         

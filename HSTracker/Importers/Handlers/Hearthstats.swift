@@ -8,7 +8,6 @@
 
 import Foundation
 import Kanna
-import CleanroomLogger
 import RegexUtil
 
 struct Hearthstats: HttpImporter {
@@ -29,17 +28,17 @@ struct Hearthstats: HttpImporter {
         guard let node = doc.at_xpath("//div[contains(@class,'win-count')]//img"),
             let alt = node["alt"],
             let playerClass = CardClass(rawValue: alt.lowercased()) else {
-                Log.error?.message("Class not found")
+                logger.error("Class not found")
                 return nil
         }
-        Log.verbose?.message("Got class \(playerClass)")
+        logger.verbose("Got class \(playerClass)")
 
         guard let deckNameNode = doc.at_xpath("//h1[contains(@class,'page-title')]"),
             let deckName = deckNameNode.innerHTML?.components(separatedBy: "<").first else {
-                Log.error?.message("Deck name not found")
+                logger.error("Deck name not found")
                 return nil
         }
-        Log.verbose?.message("Got deck name \(deckName)")
+        logger.verbose("Got deck name \(deckName)")
 
         let deck = Deck()
         deck.playerClass = playerClass
@@ -52,7 +51,7 @@ struct Hearthstats: HttpImporter {
                 let card = Cards.by(englishName: cardName),
                 let count = Int(countValue) {
                 card.count = count
-                Log.verbose?.message("Got card \(card)")
+                logger.verbose("Got card \(card)")
                 cards.append(card)
             }
         }

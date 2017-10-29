@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import Wrap
 import ZipArchive
 import Gzip
@@ -80,7 +79,7 @@ class LogUploader {
                 do {
                     try FileManager.default.removeItem(at: output)
                 } catch {
-                    Log.error?.message("Can not remove tmp files")
+                    logger.error("Can not remove tmp files")
                 }
                 completion(result)
             }
@@ -103,28 +102,28 @@ class LogUploader {
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         guard let token = Settings.hsReplayUploadToken else {
-            Log.error?.message("HSReplay upload failed: Authorization token not set yet")
+            logger.error("HSReplay upload failed: Authorization token not set yet")
             completion(.failed(error: "Authorization token not set yet"))
             return
         }
 
         let numCreates = logLines.filter({ $0.contains("CREATE_GAME") }).count
         if numCreates != 1 {
-            Log.error?.message("HSReplay upload failed: Log contains none or multiple games (\(numCreates))")
+            logger.error("HSReplay upload failed: Log contains none or multiple games (\(numCreates))")
             completion(.failed(error: "Log contains none or multiple games"))
             return
         }
         
         let log = logLines.joined(separator: "\n")
         if logLines.isEmpty || log.trim().isEmpty {
-            Log.warning?.message("Log file is empty, skipping")
+            logger.warning("Log file is empty, skipping")
             completion(.failed(error: "Log file is empty"))
             return
         }
         let item = UploaderItem(hash: log.hash)
         if inProgress.contains(item) {
             inProgress.append(item)
-            Log.info?.message("\(item.hash) already in progress. Waiting for it to complete...")
+            logger.info("\(item.hash) already in progress. Waiting for it to complete...")
             completion(.failed(error:
                 "\(item.hash) already in progress. Waiting for it to complete..."))
             return
@@ -141,11 +140,11 @@ class LogUploader {
         }
 
         guard let wrappedMetaData: [String: Any] = try? wrap(metaData?.metaData) else {
-            Log.warning?.message("Can not encode to json game metadata")
+            logger.warning("Can not encode to json game metadata")
             completion(.failed(error: "Can not encode to json game metadata"))
             return
         }
-        Log.info?.message("Uploading \(item.hash)")
+        logger.info("Uploading \(item.hash)")
 
         let headers = [
             "X-Api-Key": HSReplayAPI.apiKey,
@@ -164,24 +163,24 @@ class LogUploader {
                         let uploadShortId = json["shortid"] as? String,
                         let replayUrl = json["url"] as? String
                     else {
-                            Log.error?.message("JSON Error : \(String(describing: jsonData))")
+                            logger.error("JSON Error : \(String(describing: jsonData))")
                             let message = "Can not gzip : \(String(describing: jsonData))"
                             completion(.failed(error: message))
                             return
                     }
 
                     guard let data = log.data(using: .utf8) else {
-                        Log.error?.message("Can not convert log to data")
+                        logger.error("Can not convert log to data")
                         completion(.failed(error: "Can not convert log to data"))
                         return
                     }
                     guard let gzip = try? data.gzipped() else {
-                        Log.error?.message("Can not gzip log")
+                        logger.error("Can not gzip log")
                         completion(.failed(error: "Can not gzip log"))
                         return
                     }
                     
-                    Log.info?.message("putURL: \(putUrl), replayUrl: \(replayUrl), shortid: \(uploadShortId)")
+                    logger.info("putURL: \(putUrl), replayUrl: \(replayUrl), shortid: \(uploadShortId)")
 
                     let http = Http(url: putUrl)
                     http.upload(method: .put,
@@ -193,13 +192,13 @@ class LogUploader {
 
                     guard let statId = statId,
                         let existing = RealmHelper.getGameStat(with: statId)  else {
-                                Log.error?.message("Can not update statistic")
+                                logger.error("Can not update statistic")
                                 completion(.failed(error: "Can not update statistic"))
                                 return
                     }
                     RealmHelper.update(stat: existing, hsReplayId: uploadShortId)
 
-                    Log.info?.message("\(item.hash) upload done: Success")
+                    logger.info("\(item.hash) upload done: Success")
                     inProgress = inProgress.filter({ $0.hash == item.hash })
 
                     completion(.successful(replayId: uploadShortId))

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import AppKit
 
 class OpponentSecrets {
@@ -78,14 +77,13 @@ class OpponentSecrets {
             })
         }
         secrets.append(helper)
-        Log.info?.message("Added secret with id: \(id)")
+        logger.info("Added secret with id: \(id)")
     }
 
     func secretRemoved(id: Int, cardId: String) {
         if let index = secrets.index(where: { $0.id == id }) {
             if index == -1 {
-                Log.warning?.message("Secret with id=\(id), cardId=\(cardId)"
-                    + " not found when trying to remove it.")
+                logger.warning("Secret with id=\(id), cardId=\(cardId) not found when trying to remove it.")
                 return
             }
             let attacker = game.entities[proposedAttackerEntityId]
@@ -109,7 +107,7 @@ class OpponentSecrets {
             }
 
             secrets.remove(secrets[index])
-            Log.info?.message("Removed secret with id:\(id)")
+            logger.info("Removed secret with id:\(id)")
         }
     }
 
@@ -156,7 +154,7 @@ class OpponentSecrets {
 
     func clearSecrets() {
         secrets.removeAll()
-        Log.info?.message("Cleared secrets")
+        logger.info("Cleared secrets")
     }
 
     func setMax(_ cardId: String) {
@@ -183,7 +181,7 @@ class OpponentSecrets {
             secrets[index].trySetSecret(cardId: cardId, active: false)
         }
         if stopIndex > 0 {
-            Log.info?.message("Set secret to zero: \(String(describing: Cards.by(cardId: cardId)))")
+            logger.info("Set secret to zero: \(String(describing: Cards.by(cardId: cardId)))")
         }
     }
 

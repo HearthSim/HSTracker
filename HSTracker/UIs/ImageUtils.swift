@@ -10,7 +10,6 @@
 
 import AppKit
 import Foundation
-import CleanroomLogger
 import HearthMirror
 
 struct ImageUtils {
@@ -20,12 +19,12 @@ struct ImageUtils {
         if let image = NSImage(contentsOf: path) {
             return image
         } else {
-            Log.info?.message("Image at \(path) may be corrupted or missing")
+            logger.info("Image at \(path) may be corrupted or missing")
             if FileManager.default.fileExists(atPath: path.path) {
                 do {
                     try FileManager.default.removeItem(at: path)
                 } catch {
-                    Log.verbose?.message("Failed to remove corrupted image at \(path)")
+                    logger.verbose("Failed to remove corrupted image at \(path)")
                 }
             }
             return NSImage(named: NSImage.Name(rawValue: "MissingCard"))
@@ -81,12 +80,12 @@ struct ImageUtils {
             completion(nil)
             return
         }
-        Log.verbose?.message("downloading \(url) to \(path)")
+        logger.verbose("downloading \(url) to \(path)")
 
         DispatchQueue.global().async {
             URLSession.shared.dataTask(with: url) { data, _, error in
                 if let error = error {
-                    Log.error?.message("download error \(error)")
+                    logger.error("download error \(error)")
                     completion(nil)
                 } else if let data = data,
                     let image = NSImage(data: data) {

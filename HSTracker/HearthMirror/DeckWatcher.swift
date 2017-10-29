@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import HearthMirror
 
 class Watcher {
@@ -20,7 +19,7 @@ class Watcher {
             return
         }
 
-        Log.info?.message("Starting \(type(of: self))")
+        logger.info("Starting \(type(of: self))")
 
         queue = DispatchQueue(label: "be.michotte.hstracker.watchers.\(type(of: self))",
             attributes: [])
@@ -34,7 +33,7 @@ class Watcher {
 
     func stopWatching() {
         isRunning = false
-        Log.info?.message("Stopping \(type(of: self))")
+        logger.info("Stopping \(type(of: self))")
 
         clean()
     }
@@ -65,7 +64,7 @@ class DeckWatcher: Watcher {
 
             if deckId > 0 {
                 if deckId != DeckWatcher.selectedDeckId {
-                    Log.info?.message("found deck id: \(deckId)")
+                    logger.info("found deck id: \(deckId)")
                 }
                 DeckWatcher.selectedDeckId = deckId
             }

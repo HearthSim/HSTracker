@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import TextAttributes
 
 protocol CardCellHover: class {
@@ -332,7 +331,7 @@ class CardBar: NSView, CardBarTheme {
 
         ImageUtils.tile(for: card, completion: { [weak self] in
             guard let image = $0 else {
-                Log.warning?.message("No image for \(card)")
+                logger.warning("No image for \(card)")
                 return
             }
 

@@ -9,7 +9,6 @@
 */
 
 import Foundation
-import CleanroomLogger
 import RealmSwift
 import HearthMirror
 
@@ -552,7 +551,7 @@ class Game: NSObject, PowerEventHandler {
         
         if !self.gameEnded, let mInfo = MirrorHelper.getMatchInfo() {
             self._matchInfo = MatchInfo(info: mInfo)
-            Log.info?.message("\(String(describing: self._matchInfo?.localPlayer.name))"
+            logger.info("\(String(describing: self._matchInfo?.localPlayer.name))"
                 + " vs \(String(describing: self._matchInfo?.opposingPlayer.name))"
                 + " matchInfo: \(String(describing: self._matchInfo))")
             
@@ -699,7 +698,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func reset() {
-        Log.verbose?.message("Reseting Game")
+        logger.verbose("Reseting Game")
         currentTurn = 0
 
         playedCards.removeAll()
@@ -791,7 +790,7 @@ class Game: NSObject, PowerEventHandler {
     // MARK: - game state
     private var lastGameStart = Date.distantPast
     func gameStart(at timestamp: LogDate) {
-        Log.info?.message("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
+        logger.info("currentGameMode: \(currentGameMode), isInMenu: \(isInMenu), "
             + "handledGameEnd: \(handledGameEnd), "
             + "lastGameStartTimestamp: \(lastGameStartTimestamp), " +
             "timestamp: \(timestamp)")
@@ -820,7 +819,7 @@ class Game: NSObject, PowerEventHandler {
         isInMenu = false
         handledGameEnd = false
 
-        Log.info?.message("----- Game Started -----")
+        logger.info("----- Game Started -----")
         AppHealth.instance.setHearthstoneGameRunning(flag: true)
 
         NotificationManager.showNotification(type: .gameStart)
@@ -839,7 +838,7 @@ class Game: NSObject, PowerEventHandler {
 
     private func adventureRestart() {
         // The game end is not logged in PowerTaskList
-        Log.info?.message("Adventure was restarted. Simulating game end.")
+        logger.info("Adventure was restarted. Simulating game end.")
         concede()
         loss()
         gameEnd()
@@ -847,7 +846,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func gameEnd() {
-        Log.info?.message("----- Game End -----")
+        logger.info("----- Game End -----")
         AppHealth.instance.setHearthstoneGameRunning(flag: false)
 		
         handleEndGame()
@@ -862,7 +861,7 @@ class Game: NSObject, PowerEventHandler {
         if isInMenu {
             return
         }
-        Log.verbose?.message("Game is now in menu")
+        logger.verbose("Game is now in menu")
 
         turnTimer.stop()
 
@@ -960,22 +959,22 @@ class Game: NSObject, PowerEventHandler {
     func handleEndGame() {
 		
 		if self.handledGameEnd {
-			Log.warning?.message("HandleGameEnd was already called.")
+			logger.warning("HandleGameEnd was already called.")
 			return
 		}
 
 		guard let currentGameStats = generateEndgameStatistics() else {
-			Log.error?.message("Error: could not generate endgame statistics")
+			logger.error("Error: could not generate endgame statistics")
 			return
 		}
 		
-		Log.verbose?.message("currentGameStats: \(currentGameStats), "
+		logger.verbose("currentGameStats: \(currentGameStats), "
 			+ "handledGameEnd: \(self.handledGameEnd)")
 		
         self.handledGameEnd = true
         
         if self.currentGameMode == .spectator && currentGameStats.result == .none {
-            Log.info?.message("Game was spectator mode without a game result."
+            logger.info("Game was spectator mode without a game result."
                 + " Probably exited spectator mode early.")
             return
         }
@@ -992,7 +991,7 @@ class Game: NSObject, PowerEventHandler {
             }
         }*/
 
-        Log.verbose?.message("End game: \(currentGameStats)")
+        logger.verbose("End game: \(currentGameStats)")
         let stats = currentGameStats.toGameStats()
         
         if let currentDeck = self.currentDeck {
@@ -1020,7 +1019,7 @@ class Game: NSObject, PowerEventHandler {
 	private func syncStats(logLines: [LogLine], stats: InternalGameStats) {
 
         guard currentGameMode != .practice && currentGameMode != .none else {
-            Log.info?.message("Game was in \(currentGameMode), don't send to third-party")
+            logger.info("Game was in \(currentGameMode), don't send to third-party")
             return
         }
         
@@ -1028,7 +1027,7 @@ class Game: NSObject, PowerEventHandler {
             do {
                 try TrackOBotAPI.postMatch(stat: stats, cards: playedCards)
             } catch {
-                Log.error?.message("Track-o-Bot error : \(error)")
+                logger.error("Track-o-Bot error : \(error)")
             }
         }
 
@@ -1103,7 +1102,7 @@ class Game: NSObject, PowerEventHandler {
 
     func turnStart(player: PlayerType, turn: Int) {
         if !isMulliganDone() {
-            Log.info?.message("--- Mulligan ---")
+            logger.info("--- Mulligan ---")
         }
         var turnNumber = turn
         if turnNumber == 0 {
@@ -1124,7 +1123,7 @@ class Game: NSObject, PowerEventHandler {
     func handleTurnStart(playerTurn: PlayerTurn) {
         let player = playerTurn.player
         if Settings.fullGameLog {
-            Log.info?.message("Turn \(playerTurn.turn) start for player \(player) ")
+            logger.info("Turn \(playerTurn.turn) start for player \(player) ")
         }
 
         if player == .player {
@@ -1152,12 +1151,12 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func concede() {
-        Log.info?.message("Game has been conceded : (")
+        logger.info("Game has been conceded : (")
         self.wasConceded = true
     }
 
     func win() {
-        Log.info?.message("You win ¯\\_(ツ) _ / ¯")
+        logger.info("You win ¯\\_(ツ) _ / ¯")
         self.gameResult = .win
 
         if self.wasConceded {
@@ -1166,12 +1165,12 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func loss() {
-        Log.info?.message("You lose : (")
+        logger.info("You lose : (")
         self.gameResult = .loss
     }
 
     func tied() {
-        Log.info?.message("You lose : ( / game tied: (")
+        logger.info("You lose : ( / game tied: (")
         self.gameResult = .draw
     }
 
@@ -1209,7 +1208,7 @@ class Game: NSObject, PowerEventHandler {
             player.playerClass = card.playerClass
             player.playerClassId = cardId
             if Settings.fullGameLog {
-                Log.info?.message("Player class is \(card) ")
+                logger.info("Player class is \(card) ")
             }
         }
     }
@@ -1376,7 +1375,7 @@ class Game: NSObject, PowerEventHandler {
 
     func playerFatigue(value: Int) {
         if Settings.fullGameLog {
-            Log.info?.message("Player get \(value) fatigue")
+            logger.info("Player get \(value) fatigue")
         }
         player.fatigue = value
         updateTrackers()
@@ -1424,7 +1423,7 @@ class Game: NSObject, PowerEventHandler {
     func playerHeroPower(cardId: String, turn: Int) {
         player.heroPower(turn: turn)
         if Settings.fullGameLog {
-            Log.info?.message("Player Hero Power \(cardId) \(turn) ")
+            logger.info("Player Hero Power \(cardId) \(turn) ")
         }
 
         opponentSecrets?.setZero(cardId: CardIds.Secrets.Hunter.DartTrap)
@@ -1438,7 +1437,7 @@ class Game: NSObject, PowerEventHandler {
             opponent.playerClassId = cardId
             updateTrackers()
             if Settings.fullGameLog {
-                Log.info?.message("Opponent class is \(card) ")
+                logger.info("Opponent class is \(card) ")
             }
         }
     }
@@ -1522,7 +1521,7 @@ class Game: NSObject, PowerEventHandler {
         }
 
         if Settings.fullGameLog {
-            Log.info?.message("Secret played by \(entity[.class])"
+            logger.info("Secret played by \(entity[.class])"
                 + " -> \(String(describing: heroClass)) "
                 + "-> \(String(describing: opponent.playerClass))")
         }
@@ -1627,7 +1626,7 @@ class Game: NSObject, PowerEventHandler {
     func opponentHeroPower(cardId: String, turn: Int) {
         opponent.heroPower(turn: turn)
         if Settings.fullGameLog {
-            Log.info?.message("Opponent Hero Power \(cardId) \(turn) ")
+            logger.info("Opponent Hero Power \(cardId) \(turn) ")
         }
         updateTrackers()
     }

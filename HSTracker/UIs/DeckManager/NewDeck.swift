@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CleanroomLogger
 import RealmSwift
 import AppKit
 
