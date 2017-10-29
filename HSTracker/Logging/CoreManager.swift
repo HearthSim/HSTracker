@@ -53,14 +53,6 @@ final class CoreManager: NSObject {
 		}*/
     }
 
-    static func findHearthstone() -> String? {
-        let path = "/Applications/Hearthstone/Hearthstone.app"
-        if FileManager.default.fileExists(atPath: path) {
-            return "/Applications/Hearthstone"
-        }
-        return nil
-    }
-
     static func validatedHearthstonePath() -> Bool {
         let path = "\(Settings.hearthstonePath)/Hearthstone.app"
         let exists = FileManager.default.fileExists(atPath: path)

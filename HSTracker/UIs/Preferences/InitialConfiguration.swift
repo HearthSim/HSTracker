@@ -27,9 +27,10 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
         hearthstoneLanguage.reloadData()
         hstrackerLanguage.reloadData()
-
-        if let path = CoreManager.findHearthstone() {
-            hearthstonePath.stringValue = path
+        
+        let hsPath = Settings.hearthstonePath + "/Hearthstone.app"
+        if FileManager.default.fileExists(atPath: hsPath) {
+            hearthstonePath.stringValue = hsPath
             hearthstonePath.isEnabled = false
             choosePath.isEnabled = false
         } else {
@@ -38,7 +39,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             let alert = NSAlert()
             alert.alertStyle = .critical
             alert.messageText = NSLocalizedString("Can't find Hearthstone, please select"
-                + " Hearthstone.app", comment: "")
+                + " the folder containing Hearthstone.app", comment: "")
             alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
             alert.beginSheetModal(for: self.window!, completionHandler: nil)
         }
