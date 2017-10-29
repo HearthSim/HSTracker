@@ -36,8 +36,8 @@ extension Array where Element: Card {
 }
 
 extension Array {
-    func group<K: Hashable>(_ fn: (Element) -> K) -> Dictionary<K, [Element]> {
-        return Dictionary<K, [Element]>(grouping: self, by: fn)
+    func group<K: Hashable>(_ fn: (Element) -> K) -> [K: [Element]] {
+        return Dictionary(grouping: self, by: fn) as [K: [Element]]
     }
 }
 
