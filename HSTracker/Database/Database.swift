@@ -82,7 +82,7 @@ class Database {
                 guard Database.validCardSets.contains(set) else { continue }
 
                 if let name = jsonCard["name"] as? String,
-                    let card = Cards.cards.first({ $0.id == cardId }),
+                    let card = Cards.cards.first(where: { $0.id == cardId }),
                     lang == .enUS && langs.count > 1 {
                     card.enName = name
                 } else {

@@ -125,7 +125,7 @@ class CardHudContainer: OverWindowController {
     func update(entities: [Entity], cardCount: Int) {
         for (i, hud) in huds.enumerated() {
             var hide = true
-            if let entity = entities.firstWhere({ $0[.zone_position] == i + 1 }) {
+            if let entity = entities.first(where: { $0[.zone_position] == i + 1 }) {
                 hud.entity = entity
                 
                 var pos: NSPoint? = nil

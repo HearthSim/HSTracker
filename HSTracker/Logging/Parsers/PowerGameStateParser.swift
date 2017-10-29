@@ -117,14 +117,16 @@ class PowerGameStateParser: LogEventParser {
             } else if let id = Int(rawEntity) {
                 tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: id, rawValue: value)
             } else {
-                var entity = eventHandler.entities.map { $0.1 }.firstWhere { $0.name == rawEntity }
+                var entity = eventHandler.entities.map { $0.1 }
+                    .first { $0.name == rawEntity }
 
                 if let entity = entity {
                     tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag,
                                                id: entity.id, rawValue: value)
                 } else {
                     let players = eventHandler.entities.map { $0.1 }
-                        .filter { $0.has(tag: .player_id) }.take(2)
+                        .filter { $0.has(tag: .player_id) }
+                        .take(2)
                     let unnamedPlayers = players.filter { $0.name.isBlank }
                     let unknownHumanPlayer = players
                         .first { $0.name == "UNKNOWN HUMAN PLAYER" }
@@ -133,7 +135,7 @@ class PowerGameStateParser: LogEventParser {
                         entity = unknownHumanPlayer
                     }
 
-                    var tmpEntity = eventHandler.tmpEntities.firstWhere { $0.name == rawEntity }
+                    var tmpEntity = eventHandler.tmpEntities.first { $0.name == rawEntity }
                     if tmpEntity == .none {
                         tmpEntity = Entity(id: eventHandler.tmpEntities.count + 1)
                         tmpEntity!.name = rawEntity
@@ -172,9 +174,8 @@ class PowerGameStateParser: LogEventParser {
                                 : (eventHandler.opponent.name == tmpEntity.name ? eventHandler.opponent : nil)
 
                             if let _player = player,
-                                let playerEntity = eventHandler.entities.map({$0.1}).first({
-                                    $0[.player_id] == _player.id
-                                }) {
+                                let playerEntity = eventHandler.entities.map({$0.1})
+                                    .first(where: { $0[.player_id] == _player.id }) {
                                 playerEntity.name = tmpEntity.name
                                 tmpEntity.tags.forEach({ gameTag, val in
                                     tagChangeHandler.tagChange(eventHandler: eventHandler,
@@ -280,9 +281,9 @@ class PowerGameStateParser: LogEventParser {
 
             if logLine.line.match(BlockStartRegex) {
                 let player = eventHandler.entities.map { $0.1 }
-                    .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }
+                    .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.player.id }
                 let opponent = eventHandler.entities.map { $0.1 }
-                    .firstWhere { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }
+                    .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }
 
                 let matches = logLine.line.matches(BlockStartRegex)
                 let type = matches[0].value

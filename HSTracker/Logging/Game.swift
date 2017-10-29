@@ -71,7 +71,7 @@ class Game: NSObject, PowerEventHandler {
 	
 	func handleEntitiesChange(changed: [(old: Entity, new: Entity)]) {
 
-		if let playerPair = changed.firstWhere({ $0.old.id == self.player.id }) {
+		if let playerPair = changed.first(where: { $0.old.id == self.player.id }) {
 			// TODO: player entity changed
 			if let oldName = playerPair.old.name, let newName = playerPair.new.name, oldName != newName {
 				print("Player entity name changed from \(oldName) to \(newName)")
@@ -354,7 +354,7 @@ class Game: NSObject, PowerEventHandler {
                         heroPowerDmg = heroPower.damage
 
                         // Garrison Commander = hero power * 2
-                        if board.player.cards.first({ $0.cardId == "AT_080"}) != nil {
+                        if board.player.cards.first(where: { $0.cardId == "AT_080"}) != nil {
                             heroPowerDmg *= 2
                         }
                     }
@@ -386,7 +386,7 @@ class Game: NSObject, PowerEventHandler {
                         heroPowerDmg = heroPower.damage
 
                         // Garrison Commander = hero power * 2
-                        if board.opponent.cards.first({ $0.cardId == "AT_080"}) != nil {
+                        if board.opponent.cards.first(where: { $0.cardId == "AT_080"}) != nil {
                             heroPowerDmg *= 2
                         }
                     }
@@ -586,24 +586,24 @@ class Game: NSObject, PowerEventHandler {
     }
 
     var playerEntity: Entity? {
-		return entities.map { $0.1 }.firstWhere { $0[.player_id] == self.player.id }
+		return entities.map { $0.1 }.first { $0[.player_id] == self.player.id }
     }
 
     var opponentEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
+        return entities.map { $0.1 }.first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
     }
 
     var gameEntity: Entity? {
-        return entities.map { $0.1 }.firstWhere { $0.name == "GameEntity" }
+        return entities.map { $0.1 }.first { $0.name == "GameEntity" }
     }
 
     var isMinionInPlay: Bool {
-        return entities.map { $0.1 }.firstWhere { $0.isInPlay && $0.isMinion } != nil
+        return entities.map { $0.1 }.first { $0.isInPlay && $0.isMinion } != nil
     }
 
     var isOpponentMinionInPlay: Bool {
         return entities.map { $0.1 }
-            .firstWhere { $0.isInPlay && $0.isMinion
+            .first { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.opponent.id) } != nil
     }
 
@@ -817,7 +817,11 @@ class Game: NSObject, PowerEventHandler {
         lastGameStart = Date()
         
         // remove every line before _last_ create game
-		self.powerLog = self.powerLog.reversed().takeUntil(true, fn: { $0.line.contains("CREATE_GAME") }).reversed()
+        if let index = self.powerLog.reversed().index(where: { $0.line.contains("CREATE_GAME") }) {
+            self.powerLog = self.powerLog.reversed()[...index].reversed() as [LogLine]
+        } else {
+            self.powerLog = []
+        }
 
 		gameEnded = false
         isInMenu = false
@@ -892,7 +896,7 @@ class Game: NSObject, PowerEventHandler {
 		if let name = self.player.name {
 			result.playerName = name
 		}
-		if let _player = self.entities.map({ $0.1 }).firstWhere({ $0.isPlayer(eventHandler: self) }) {
+		if let _player = self.entities.map({ $0.1 }).first(where: { $0.isPlayer(eventHandler: self) }) {
 			result.coin = !_player.has(tag: .first_player)
 		}
 		
@@ -1171,8 +1175,9 @@ class Game: NSObject, PowerEventHandler {
     }
 
     func isMulliganDone() -> Bool {
-		let player = entities.map { $0.1 }.firstWhere { $0.isPlayer(eventHandler: self) }
-        let opponent = entities.map { $0.1 }.firstWhere { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
+		let player = entities.map { $0.1 }.first { $0.isPlayer(eventHandler: self) }
+        let opponent = entities.map { $0.1 }
+            .first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
 
         if let player = player, let opponent = opponent {
             return player[.mulligan_state] == Mulligan.done.rawValue

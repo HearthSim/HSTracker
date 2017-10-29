@@ -43,7 +43,8 @@ class EntityHelper {
         }
         if let firstPlayer = firstPlayer {
 			let offset = firstPlayer.isPlayer(eventHandler: eventHandler) ? 0 : 1
-            guard let gameRoot = entities.map({ $0.1 }).first({ $0.name == "GameEntity" }) else {
+            guard let gameRoot = entities.map({ $0.1 })
+                .first(where: { $0.name == "GameEntity" }) else {
                 return false
             }
             let turn = gameRoot[.turn]

@@ -59,7 +59,7 @@ class LogUploader {
                 completion(.failed(error: "Cannot find game start date"))
                 return
             }
-            if let line = lines.first({ $0.contains("CREATE_GAME") }) {
+            if let line = lines.first(where: { $0.contains("CREATE_GAME") }) {
                 let gameStart = LogLine(namespace: .power, line: line).time
                 var dateComponents = LogReaderManager.calendar
                     .dateComponents(in: LogReaderManager.timeZone,

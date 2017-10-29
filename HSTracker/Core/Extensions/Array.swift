@@ -11,7 +11,7 @@
 extension Dictionary {
     mutating func update(_ other: Dictionary) {
         for (key, value) in other {
-            self.updateValue(value, forKey: key)
+            updateValue(value, forKey: key)
         }
     }
 }
@@ -39,19 +39,31 @@ extension Array {
     func group<K: Hashable>(_ fn: (Element) -> K) -> [K: [Element]] {
         return Dictionary(grouping: self, by: fn) as [K: [Element]]
     }
+
+    func any(_ fn: (Element) -> Bool) -> Bool {
+        return filter(fn).count > 0
+    }
+
+    func all(_ fn: (Element) -> Bool) -> Bool {
+        return filter(fn).count == count
+    }
+
+    func take(_ count: Int) -> [Element] {
+        return Array(prefix(count))
+    }
 }
 
 extension Sequence where Iterator.Element: Hashable {
     func unique() -> [Iterator.Element] {
         var alreadyAdded = Set<Iterator.Element>()
-        return self.filter { alreadyAdded.insert($0).inserted }
+        return filter { alreadyAdded.insert($0).inserted }
     }
 }
 
 extension Array where Element: Equatable {
     mutating func remove(_ element: Element) {
         if let index = index(of: element) {
-            self.remove(at: index)
+            remove(at: index)
         }
     }
 }

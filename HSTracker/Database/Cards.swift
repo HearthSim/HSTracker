@@ -20,7 +20,7 @@ final class Cards {
     static var cards = [Card]()
 
     static func hero(byId cardId: String) -> Card? {
-        if let card = cards.firstWhere({ $0.id == cardId && $0.type == .hero }) {
+        if let card = cards.first(where: { $0.id == cardId && $0.type == .hero }) {
             return card.copy() as? Card
         }
         return nil
@@ -33,7 +33,7 @@ final class Cards {
     }
     
     static func isPlayableHero(cardId: String?) -> Bool {
-        if let _ = cards.firstWhere({ $0.id == cardId && $0.type == .hero &&
+        if let _ = cards.first(where: { $0.id == cardId && $0.type == .hero &&
             $0.set != CardSet.core && $0.set != CardSet.hero_skins}) {
             return true
         }
@@ -46,7 +46,8 @@ final class Cards {
         if let card = cards.filter({
             $0.type != .hero_power && ($0.type != .hero || ($0.type == .hero &&
                 $0.set != CardSet.core && $0.set != CardSet.hero_skins)  )
-        }).firstWhere({ $0.id == cardId }) {
+        })
+            .first(where: { $0.id == cardId }) {
             return card.copy() as? Card
         }
         return nil
@@ -55,7 +56,8 @@ final class Cards {
     static func by(dbfId: Int?, collectible: Bool = true) -> Card? {
         guard let dbfId = dbfId else { return nil }
 
-        if let card = (collectible ? self.collectible() : cards).first({ $0.dbfId == dbfId }) {
+        if let card = (collectible ? self.collectible() : cards)
+            .first(where: { $0.dbfId == dbfId }) {
             return card.copy() as? Card
         }
         return nil
@@ -63,7 +65,7 @@ final class Cards {
 
     static func any(byId cardId: String) -> Card? {
         if cardId.isBlank { return nil }
-        if let card = cards.firstWhere({ $0.id == cardId }) {
+        if let card = cards.first(where: { $0.id == cardId }) {
             return card.copy() as? Card
         }
         return nil
@@ -85,21 +87,21 @@ final class Cards {
     }
 
     static func by(name: String) -> Card? {
-        if let card = collectible().firstWhere({ $0.name == name }) {
+        if let card = collectible().first(where: { $0.name == name }) {
             return card.copy() as? Card
         }
         return nil
     }
 
     static func by(englishName name: String) -> Card? {
-        if let card = collectible().firstWhere({ $0.enName == name || $0.name == name }) {
+        if let card = collectible().first(where: { $0.enName == name || $0.name == name }) {
             return card.copy() as? Card
         }
         return nil
     }
     
     static func by(englishNameCaseInsensitive name: String) -> Card? {
-        if let card = collectible().firstWhere({
+        if let card = collectible().first(where: {
             $0.enName.caseInsensitiveCompare(name) == ComparisonResult.orderedSame ||
                 $0.name.caseInsensitiveCompare(name) == ComparisonResult.orderedSame
         }) {

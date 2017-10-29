@@ -59,9 +59,9 @@ class ArenaWatcher: Watcher {
 
             var cards: [Card] = []
             for mirrorCard in choices {
-                if let cardInfo = cardTiers.first({ $0.id == mirrorCard.cardId }),
+                if let cardInfo = cardTiers.first(where: { $0.id == mirrorCard.cardId }),
                     let card = Cards.by(cardId: mirrorCard.cardId),
-                    let index = heroes.indexOf(ArenaWatcher.hero) {
+                    let index = heroes.index(of: ArenaWatcher.hero) {
 
                     let value = cardInfo.values[index]
                     let costs = value.matches("([0-9]+)")

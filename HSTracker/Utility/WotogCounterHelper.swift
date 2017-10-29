@@ -11,40 +11,39 @@ import Foundation
 extension Game {
 	var playerCthun: Entity? {
 		return self.player.playerEntities
-			.firstWhere({ $0.cardId == CardIds.Collectible.Neutral.Cthun })
+			.first { $0.cardId == CardIds.Collectible.Neutral.Cthun }
 	}
 	
 	var playerCthunProxy: Entity? {
 		return self.player.playerEntities
-			.firstWhere({ $0.cardId == CardIds.NonCollectible.Neutral.Cthun })
+			.first { $0.cardId == CardIds.NonCollectible.Neutral.Cthun }
 	}
 	
 	var playerYogg: Entity? {
 		return self.player.playerEntities
-			.firstWhere({ $0.cardId == CardIds.Collectible.Neutral.YoggSaronHopesEnd })
+			.first { $0.cardId == CardIds.Collectible.Neutral.YoggSaronHopesEnd }
 	}
 	
 	var playerNzoth: Entity? {
 		return self.player.playerEntities
-			.firstWhere({ $0.cardId == CardIds.Collectible.Neutral.NzothTheCorruptor })
+			.first { $0.cardId == CardIds.Collectible.Neutral.NzothTheCorruptor }
 	}
 	
 	var playerArcaneGiant: Entity? {
-		return self.player.playerEntities
-			.firstWhere({
+		return self.player.playerEntities.first {
 				$0.cardId == CardIds.Collectible.Neutral.ArcaneGiant
 					&& $0.info.originalZone != nil
-			})
+			}
 	}
 	
 	var opponentCthun: Entity? {
 		return self.opponent.playerEntities
-			.firstWhere({ $0.cardId == CardIds.Collectible.Neutral.Cthun })
+			.first { $0.cardId == CardIds.Collectible.Neutral.Cthun }
 	}
 	
 	var opponentCthunProxy: Entity? {
 		return self.opponent.playerEntities
-			.firstWhere({ $0.cardId == CardIds.NonCollectible.Neutral.Cthun })
+			.first { $0.cardId == CardIds.NonCollectible.Neutral.Cthun }
 	}
 	
 	var playerSeenCthun: Bool {

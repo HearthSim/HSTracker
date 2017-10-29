@@ -175,8 +175,6 @@
 		437E56E81DAAA33200FC0FC1 /* MASPreferences.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56E91DAAB81400FC0FC1 /* Array.swift */; };
 		437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EA1DAAB81400FC0FC1 /* Color.swift */; };
-		437E56F31DAAB81400FC0FC1 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EC1DAAB81400FC0FC1 /* Int.swift */; };
-		437E56F41DAAB81400FC0FC1 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */; };
 		437E56F61DAAB81400FC0FC1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
 		437E56F81DAACB3900FC0FC1 /* Tempostorm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */; };
 		437E56FA1DAAE48E00FC0FC1 /* Hearthstoneheroes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */; };
@@ -264,8 +262,6 @@
 		43C1CA011E96CD6F008C20B1 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438B04F81E6F55720071594B /* Date.swift */; };
 		43C1CA021E96CD6F008C20B1 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56E91DAAB81400FC0FC1 /* Array.swift */; };
 		43C1CA031E96CD6F008C20B1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EA1DAAB81400FC0FC1 /* Color.swift */; };
-		43C1CA041E96CD6F008C20B1 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EC1DAAB81400FC0FC1 /* Int.swift */; };
-		43C1CA051E96CD6F008C20B1 /* LinqExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */; };
 		43C1CA061E96CD6F008C20B1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
 		43C1CA071E96CD6F008C20B1 /* NSAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EAC951DBCD3E8009C7636 /* NSAlert.swift */; };
 		43C1CA081E96CD6F008C20B1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E911C777EFA00D29859 /* Settings.swift */; };
@@ -498,12 +494,12 @@
 		43F2F0CC1FA3566B002F5AEA /* AwaitKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; };
 		43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; };
+		43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */; };
+		43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */; };
 		43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */; };
 		43F2F0D61FA4F3B6002F5AEA /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
 		43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
 		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */; };
-		43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
@@ -853,8 +849,6 @@
 		437C58321EBCC88600FFD888 /* EnumCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnumCollection.swift; sourceTree = "<group>"; };
 		437E56E91DAAB81400FC0FC1 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		437E56EA1DAAB81400FC0FC1 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		437E56EC1DAAB81400FC0FC1 /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
-		437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinqExtension.swift; sourceTree = "<group>"; };
 		437E56EF1DAAB81400FC0FC1 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		437E56F71DAACB3900FC0FC1 /* Tempostorm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tempostorm.swift; sourceTree = "<group>"; };
 		437E56F91DAAE48E00FC0FC1 /* Hearthstoneheroes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hearthstoneheroes.swift; sourceTree = "<group>"; };
@@ -1530,8 +1524,6 @@
 				438B04F81E6F55720071594B /* Date.swift */,
 				437E56E91DAAB81400FC0FC1 /* Array.swift */,
 				437E56EA1DAAB81400FC0FC1 /* Color.swift */,
-				437E56EC1DAAB81400FC0FC1 /* Int.swift */,
-				437E56ED1DAAB81400FC0FC1 /* LinqExtension.swift */,
 				437E56EF1DAAB81400FC0FC1 /* String.swift */,
 				434EAC951DBCD3E8009C7636 /* NSAlert.swift */,
 				437C582F1EBC7E8400FFD888 /* NSImage.swift */,
@@ -1902,7 +1894,6 @@
 				1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */,
 				43D307FB1C83159C00480488 /* SizeHelper.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
-				437E56F41DAAB81400FC0FC1 /* LinqExtension.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */,
@@ -1935,7 +1926,6 @@
 				4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */,
 				439C7E851C777CFC00D29859 /* Deck.swift in Sources */,
 				431AA0CB1D362DBA0030AD22 /* Faction.swift in Sources */,
-				437E56F31DAAB81400FC0FC1 /* Int.swift in Sources */,
 				C92C68181D1F74CE009030DC /* LadderGrid.swift in Sources */,
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
 				BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */,
@@ -2051,8 +2041,6 @@
 				43C1CA011E96CD6F008C20B1 /* Date.swift in Sources */,
 				43C1CA021E96CD6F008C20B1 /* Array.swift in Sources */,
 				43C1CA031E96CD6F008C20B1 /* Color.swift in Sources */,
-				43C1CA041E96CD6F008C20B1 /* Int.swift in Sources */,
-				43C1CA051E96CD6F008C20B1 /* LinqExtension.swift in Sources */,
 				BCFC60991EA29DE6005B879F /* ArenaHelperSync.swift in Sources */,
 				43C1CA061E96CD6F008C20B1 /* String.swift in Sources */,
 				43C1CA071E96CD6F008C20B1 /* NSAlert.swift in Sources */,

@@ -88,7 +88,7 @@ class Tracker: OverWindowController {
 
         var newCards = [Card]()
         cards.forEach({ (card: Card) in
-            let existing = animatedCards.firstWhere({ self.areEqualForList($0.card!, card) })
+            let existing = animatedCards.first { self.areEqualForList($0.card!, card) }
             if existing == nil {
                 newCards.append(card)
             } else if existing!.card!.count != card.count
@@ -110,7 +110,7 @@ class Tracker: OverWindowController {
         })
         var toRemove: [CardBar: Bool] = [:]
         toUpdate.forEach { (card: CardBar) in
-            let newCard = newCards.firstWhere({ $0.id == card.card!.id })
+            let newCard = newCards.first { $0.id == card.card!.id }
             toRemove[card] = newCard == nil
             if newCard != nil {
                 let newAnimated = CardBar.factory()
@@ -566,7 +566,7 @@ extension Tracker: CardCellHover {
 			
             let playercardlist: [Card] = self.animatedCards.map { $0.card! }
             let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
-            if let cardindeck = playercardlist.firstWhere({ $0.id == card.id }) {
+            if let cardindeck = playercardlist.first(where: { $0.id == card.id }) {
                 let cardindeckcount = cardindeck.count
                 // probability that the top card is the one
                 let Pfirst = Float(cardindeckcount) / Float(remainingcardsindeck)

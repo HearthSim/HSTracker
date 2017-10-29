@@ -81,7 +81,7 @@ class SecretsManager {
 
     @discardableResult
     func removeSecret(entity: Entity) -> Bool {
-        guard let secret = secrets.first({ $0.entity.id == entity.id }) else {
+        guard let secret = secrets.first(where: { $0.entity.id == entity.id }) else {
             logger.info("Secret not found \(entity)")
             return false
         }
