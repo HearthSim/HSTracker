@@ -236,11 +236,10 @@
 		43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */; };
 		43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F61E1557C900AF34FD /* FormatType.swift */; };
 		43A8A0F91E15596000AF34FD /* GameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F81E15596000AF34FD /* GameType.swift */; };
+		43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFA0021FA11F11008ED490 /* SecretsManager.swift */; };
 		43AFEEEB1E22529C00F6045A /* CollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFEEEA1E22529C00F6045A /* CollectionManager.swift */; };
 		43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */; };
 		43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955A1C9065AC00F4D0AC /* Secret.swift */; };
-		43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955C1C90681200F4D0AC /* SecretHelper.swift */; };
-		43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
 		43B695631C920A0500F4D0AC /* CardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* CardList.swift */; };
 		43B695651C920BD500F4D0AC /* CardList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* CardList.xib */; };
 		43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -291,8 +290,6 @@
 		43C1CA1C1E96CD6F008C20B1 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		43C1CA1D1E96CD6F008C20B1 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
 		43C1CA1E1E96CD6F008C20B1 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955A1C9065AC00F4D0AC /* Secret.swift */; };
-		43C1CA1F1E96CD6F008C20B1 /* SecretHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955C1C90681200F4D0AC /* SecretHelper.swift */; };
-		43C1CA201E96CD6F008C20B1 /* OpponentSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */; };
 		43C1CA211E96CD6F008C20B1 /* BuildDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567F41D5E342C00451B6F /* BuildDates.swift */; };
 		43C1CA221E96CD6F008C20B1 /* HSReplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567EB1D5E314500451B6F /* HSReplay.swift */; };
 		43C1CA231E96CD6F008C20B1 /* HSReplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C567FC1D5E448200451B6F /* HSReplayManager.swift */; };
@@ -497,10 +494,16 @@
 		43F204111E93C2E600E0BC4A /* Shaman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204031E93C2E600E0BC4A /* Shaman.swift */; };
 		43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204041E93C2E600E0BC4A /* Warlock.swift */; };
 		43F204131E93C2E600E0BC4A /* Warrior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F204051E93C2E600E0BC4A /* Warrior.swift */; };
+		43F2F0CB1FA3566B002F5AEA /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43F2F0CC1FA3566B002F5AEA /* AwaitKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; };
+		43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; };
 		43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */; };
 		43F2F0D61FA4F3B6002F5AEA /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
 		43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
 		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */; };
+		43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
@@ -580,6 +583,8 @@
 				43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in CopyFiles */,
 				43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in CopyFiles */,
 				4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */,
+				43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */,
+				43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */,
 				436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */,
 				43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in CopyFiles */,
 				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */,
@@ -608,6 +613,8 @@
 				43847D901E8D96720060C2D2 /* RegexUtil.framework in Embed Frameworks */,
 				43BBAAA31E61A130009B6298 /* JNWCollectionView.framework in Embed Frameworks */,
 				43E7BEA71DBB7F8F0057DC0C /* RealmSwift.framework in Embed Frameworks */,
+				43F2F0CB1FA3566B002F5AEA /* PromiseKit.framework in Embed Frameworks */,
+				43F2F0CC1FA3566B002F5AEA /* AwaitKit.framework in Embed Frameworks */,
 				4323C5EE1E1A503700C97896 /* HearthMirror.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -915,12 +922,11 @@
 		43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JadeCounter.swift; sourceTree = "<group>"; };
 		43A8A0F61E1557C900AF34FD /* FormatType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatType.swift; sourceTree = "<group>"; };
 		43A8A0F81E15596000AF34FD /* GameType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameType.swift; sourceTree = "<group>"; };
+		43AFA0021FA11F11008ED490 /* SecretsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretsManager.swift; sourceTree = "<group>"; };
 		43AFEEE91E218B0800F6045A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
 		43AFEEEA1E22529C00F6045A /* CollectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionManager.swift; sourceTree = "<group>"; };
 		43B6954C1C9014FA00F4D0AC /* TagChangeActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagChangeActions.swift; sourceTree = "<group>"; };
 		43B6955A1C9065AC00F4D0AC /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
-		43B6955C1C90681200F4D0AC /* SecretHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecretHelper.swift; sourceTree = "<group>"; };
-		43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpponentSecrets.swift; sourceTree = "<group>"; };
 		43B695621C920A0500F4D0AC /* CardList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardList.swift; sourceTree = "<group>"; };
 		43B695641C920BD500F4D0AC /* CardList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardList.xib; sourceTree = "<group>"; };
 		43B712C01F75115500796F92 /* HSTracker-Test-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HSTracker-Test-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -980,6 +986,10 @@
 		43F204031E93C2E600E0BC4A /* Shaman.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shaman.swift; sourceTree = "<group>"; };
 		43F204041E93C2E600E0BC4A /* Warlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warlock.swift; sourceTree = "<group>"; };
 		43F204051E93C2E600E0BC4A /* Warrior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Warrior.swift; sourceTree = "<group>"; };
+		43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/Mac/PromiseKit.framework; sourceTree = "<group>"; };
+		43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AwaitKit.framework; path = Carthage/Build/Mac/AwaitKit.framework; sourceTree = "<group>"; };
+		43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = AwaitKit.framework.dSYM; path = Carthage/Build/Mac/AwaitKit.framework.dSYM; sourceTree = "<group>"; };
+		43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = PromiseKit.framework.dSYM; path = Carthage/Build/Mac/PromiseKit.framework.dSYM; sourceTree = "<group>"; };
 		43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyBeaver.framework.dSYM; path = Carthage/Build/Mac/SwiftyBeaver.framework.dSYM; sourceTree = "<group>"; };
 		43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyBeaver.framework; path = Carthage/Build/Mac/SwiftyBeaver.framework; sourceTree = "<group>"; };
 		43F4D0481EB7A23D006B4479 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroPower.swift; sourceTree = "<group>"; };
@@ -1042,6 +1052,8 @@
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
+				43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */,
+				43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1541,8 +1553,7 @@
 			isa = PBXGroup;
 			children = (
 				43B6955A1C9065AC00F4D0AC /* Secret.swift */,
-				43B6955C1C90681200F4D0AC /* SecretHelper.swift */,
-				43B6955E1C906A5D00F4D0AC /* OpponentSecrets.swift */,
+				43AFA0021FA11F11008ED490 /* SecretsManager.swift */,
 			);
 			path = Secrets;
 			sourceTree = "<group>";
@@ -1627,6 +1638,10 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */,
+				43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */,
+				43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */,
+				43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */,
 				43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */,
 				43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */,
 				BC78DD761E80871600DBA7C9 /* BTree.framework */,
@@ -1846,7 +1861,6 @@
 				43F204101E93C2E600E0BC4A /* Rogue.swift in Sources */,
 				43F204081E93C2E600E0BC4A /* Druid.swift in Sources */,
 				4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */,
-				43B6955D1C90681200F4D0AC /* SecretHelper.swift in Sources */,
 				436F5D141CFD803C00DEB9A1 /* FrostBar.swift in Sources */,
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
 				43E7BEB11DBB81B10057DC0C /* RealmCard.swift in Sources */,
@@ -1873,7 +1887,6 @@
 				432AD95D1DAD81B500D8F959 /* HttpEncoding.swift in Sources */,
 				439C7EC51C777F8900D29859 /* PowerGameStateParser.swift in Sources */,
 				43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */,
-				43B6955F1C906A5D00F4D0AC /* OpponentSecrets.swift in Sources */,
 				43C567FF1D5E4F9700451B6F /* HSReplayAPI.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
@@ -1937,6 +1950,7 @@
 				43C568031D5E59E500451B6F /* UploadResult.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				43AFEEEB1E22529C00F6045A /* CollectionManager.swift in Sources */,
+				43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
 				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
@@ -2065,8 +2079,6 @@
 				43C1CA1C1E96CD6F008C20B1 /* DeckWatcher.swift in Sources */,
 				43C1CA1D1E96CD6F008C20B1 /* MirrorHelper.swift in Sources */,
 				43C1CA1E1E96CD6F008C20B1 /* Secret.swift in Sources */,
-				43C1CA1F1E96CD6F008C20B1 /* SecretHelper.swift in Sources */,
-				43C1CA201E96CD6F008C20B1 /* OpponentSecrets.swift in Sources */,
 				43C1CA211E96CD6F008C20B1 /* BuildDates.swift in Sources */,
 				43C1CA221E96CD6F008C20B1 /* HSReplay.swift in Sources */,
 				43C1CA231E96CD6F008C20B1 /* HSReplayManager.swift in Sources */,

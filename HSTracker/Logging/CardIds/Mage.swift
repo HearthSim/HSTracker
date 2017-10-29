@@ -199,14 +199,5 @@ extension CardIds.Secrets {
         static let PotionOfPolymorph = CardIds.Collectible.Mage.PotionOfPolymorph
         static let Spellbender = CardIds.Collectible.Mage.Spellbender
         static let Vaporize = CardIds.Collectible.Mage.Vaporize
-
-        static func getCards(standardOnly: Bool) -> [String] {
-            return standardOnly ? All.filter {
-                if let set = Cards.by(cardId: $0)?.set {
-                    return !CardSet.wildSets().contains(set)
-                }
-                return false
-                } : All
-        }
     }
 }

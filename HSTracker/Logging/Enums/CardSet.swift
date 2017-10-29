@@ -9,7 +9,7 @@
 import Foundation
 
 enum CardSet: String, EnumCollection {
-    case all // fake one
+    case all, invalid // fake one
     case core, expert1, naxx, gvg, brm,
     tgt, loe, promo, reward, hero_skins,
     og, kara, gangs, ungoro, hof, icecrown

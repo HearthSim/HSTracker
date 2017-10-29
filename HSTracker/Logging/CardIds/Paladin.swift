@@ -197,14 +197,5 @@ extension CardIds.Secrets {
         static let Redemption = CardIds.Collectible.Paladin.Redemption
         static let Repentance = CardIds.Collectible.Paladin.Repentance
         static let SacredTrial = CardIds.Collectible.Paladin.SacredTrial
-
-        static func getCards(standardOnly: Bool) -> [String] {
-            return standardOnly ? All.filter {
-                if let set = Cards.by(cardId: $0)?.set {
-                    return !CardSet.wildSets().contains(set)
-                }
-                return false
-                } : All
-        }
     }
 }

@@ -16,3 +16,4 @@ github "HearthSim/HearthMirror" "64bit-suppoert"
 #github "HearthSim/HearthAssets" "master"
 github "lorentey/BTree"
 github "bmichotte/RegexUtil"
+github "yannickl/AwaitKit" ~> 3.0
