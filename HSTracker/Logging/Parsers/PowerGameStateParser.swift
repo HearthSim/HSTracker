@@ -224,6 +224,7 @@ class PowerGameStateParser: LogEventParser {
             return
         } else if logLine.line.match(UpdatingEntityRegex) {
             let matches = logLine.line.matches(UpdatingEntityRegex)
+            let type = matches[0].value
             let rawEntity = matches[1].value
             let cardId = matches[2].value
             var entityId: Int?
@@ -242,7 +243,9 @@ class PowerGameStateParser: LogEventParser {
                     let entity = Entity(id: entityId)
                     eventHandler.entities[entityId] = entity
                 }
-                eventHandler.entities[entityId]!.cardId = cardId
+                if type != "CHANGE_ENTITY" || eventHandler.entities[entityId]!.cardId.isBlank {
+                    eventHandler.entities[entityId]!.cardId = cardId
+                }
                 set(currentEntity: entityId)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
