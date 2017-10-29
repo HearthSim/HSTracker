@@ -14,30 +14,20 @@
 		1CB43A151E8317A800E42181 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
 		1CB623A71DD37C890045E0CF /* GlowFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB623A61DD37C890045E0CF /* GlowFilter.m */; };
 		1CCB4ACF1E84708A003FD1AD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 433554321D5F6B4400277B27 /* libz.tbd */; };
-		1CCB4AD01E8470AA003FD1AD /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; };
-		1CCB4AD11E8470D6003FD1AD /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
 		1CCB4AD21E8470E7003FD1AD /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4323C5EA1E1A501E00C97896 /* HearthMirror.framework */; };
 		1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
 		1CCB4AD41E847177003FD1AD /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; };
 		1CCB4AD51E847177003FD1AD /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; };
-		1CCB4AD61E847233003FD1AD /* HearthAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; };
 		1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1CCB4ADC1E847468003FD1AD /* HearthAssets.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4323C5EA1E1A501E00C97896 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1CCB4AE01E8474DD003FD1AD /* UnityPack.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CCB4AE41E850E13003FD1AD /* HockeyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AE31E850E13003FD1AD /* HockeyHelper.swift */; };
 		1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AEA1E8A4930003FD1AD /* LogEventHandlers.swift */; };
 		1CF204F91E83B74300037A42 /* MirrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF204F81E83B74300037A42 /* MirrorHelper.swift */; };
 		340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340AAC041D0544AD0015FE33 /* StringTracker.swift */; };
-		43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; };
-		43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C531E6B10B0007600EA /* UnityPack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43050C581E6B10DE007600EA /* UnityPack.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		43050C5C1E6B11A9007600EA /* HearthAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43050C591E6B11A4007600EA /* HearthAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43050C5E1E6B11B3007600EA /* HearthAssets.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43050C5D1E6B11B3007600EA /* HearthAssets.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
 		4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
 		4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -554,11 +544,9 @@
 			files = (
 				1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */,
 				1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */,
-				1CCB4AE01E8474DD003FD1AD /* UnityPack.framework in CopyFiles */,
 				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
 				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
 				1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */,
-				1CCB4ADC1E847468003FD1AD /* HearthAssets.framework in CopyFiles */,
 				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
 				437E56D81DAAA33200FC0FC1 /* GRDB.framework in CopyFiles */,
 				437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */,
@@ -580,8 +568,6 @@
 			dstSubfolderSpec = 16;
 			files = (
 				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */,
-				43050C5E1E6B11B3007600EA /* HearthAssets.framework.dSYM in CopyFiles */,
-				43050C581E6B10DE007600EA /* UnityPack.framework.dSYM in CopyFiles */,
 				437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */,
 				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */,
 				436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */,
@@ -613,9 +599,7 @@
 				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
 				431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */,
 				43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */,
-				43050C5C1E6B11A9007600EA /* HearthAssets.framework in Embed Frameworks */,
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
-				43050C561E6B10B7007600EA /* UnityPack.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
 				BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */,
@@ -645,10 +629,6 @@
 		1CF1B58B1E815810007DCBF2 /* LogReaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogReaderTests.swift; sourceTree = "<group>"; };
 		1CF204F81E83B74300037A42 /* MirrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirrorHelper.swift; sourceTree = "<group>"; };
 		340AAC041D0544AD0015FE33 /* StringTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTracker.swift; sourceTree = "<group>"; };
-		43050C531E6B10B0007600EA /* UnityPack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UnityPack.framework; path = Carthage/Build/Mac/UnityPack.framework; sourceTree = "<group>"; };
-		43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = UnityPack.framework.dSYM; path = Carthage/Build/Mac/UnityPack.framework.dSYM; sourceTree = "<group>"; };
-		43050C591E6B11A4007600EA /* HearthAssets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HearthAssets.framework; path = Carthage/Build/Mac/HearthAssets.framework; sourceTree = "<group>"; };
-		43050C5D1E6B11B3007600EA /* HearthAssets.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthAssets.framework.dSYM; path = Carthage/Build/Mac/HearthAssets.framework.dSYM; sourceTree = "<group>"; };
 		43050C601E6B2C0E007600EA /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
 		43050C611E6B484D007600EA /* Hearthstone.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Hearthstone.xcassets; sourceTree = "<group>"; };
 		4305CA3D1CF42AC60048E7EC /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/Mac/Wrap.framework; sourceTree = "<group>"; };
@@ -1047,7 +1027,6 @@
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
 				431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */,
-				1CCB4AD61E847233003FD1AD /* HearthAssets.framework in Frameworks */,
 				4323C5EB1E1A501E00C97896 /* HearthMirror.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */,
@@ -1061,7 +1040,6 @@
 				43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */,
 				4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */,
 				43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */,
-				43050C541E6B10B0007600EA /* UnityPack.framework in Frameworks */,
 				4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */,
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 			);
@@ -1075,7 +1053,6 @@
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
 				437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */,
-				1CCB4AD11E8470D6003FD1AD /* HearthAssets.framework in Frameworks */,
 				1CCB4AD21E8470E7003FD1AD /* HearthMirror.framework in Frameworks */,
 				437E56D41DAAA32E00FC0FC1 /* HockeySDK.framework in Frameworks */,
 				437E56D51DAAA32E00FC0FC1 /* JNWCollectionView.framework in Frameworks */,
@@ -1086,7 +1063,6 @@
 				1CCB4AD51E847177003FD1AD /* RealmSwift.framework in Frameworks */,
 				43C1CAC21E96CEB5008C20B1 /* RegexUtil.framework in Frameworks */,
 				437E56D01DAAA32E00FC0FC1 /* Sparkle.framework in Frameworks */,
-				1CCB4AD01E8470AA003FD1AD /* UnityPack.framework in Frameworks */,
 				437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */,
 				437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */,
 				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
@@ -1661,8 +1637,6 @@
 				431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */,
 				439DD8FD1DB24F83004EBE47 /* Gzip.framework */,
 				439DD8FF1DB24F8A004EBE47 /* Gzip.framework.dSYM */,
-				43050C591E6B11A4007600EA /* HearthAssets.framework */,
-				43050C5D1E6B11B3007600EA /* HearthAssets.framework.dSYM */,
 				4323C5EA1E1A501E00C97896 /* HearthMirror.framework */,
 				4323C5EC1E1A502900C97896 /* HearthMirror.framework.dSYM */,
 				436789911CABFB1600C962D1 /* HockeySDK.framework */,
@@ -1686,8 +1660,6 @@
 				43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */,
 				43BBAA991E619AA9009B6298 /* Unbox.framework */,
 				43BBAA9C1E619AD8009B6298 /* Unbox.framework.dSYM */,
-				43050C531E6B10B0007600EA /* UnityPack.framework */,
-				43050C571E6B10DE007600EA /* UnityPack.framework.dSYM */,
 				4305CA3D1CF42AC60048E7EC /* Wrap.framework */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
 				43C5680F1D5F692800451B6F /* ZipArchive.framework */,

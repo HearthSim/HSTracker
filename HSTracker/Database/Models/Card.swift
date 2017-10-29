@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import HearthAssets
+//import HearthAssets
 import RegexUtil
 
 final class Card {
@@ -157,7 +157,7 @@ extension Card: Hashable {
     }
 }
 
-extension HearthAssets {
+/*extension HearthAssets {
     func generate(card: Card,
                   completed: @escaping ((NSImage?, HearthAssets.AssetError?) -> Void)) {
         generate(card: card.jsonRepresentation, completed: completed)
@@ -167,4 +167,4 @@ extension HearthAssets {
               completed: @escaping ((NSImage?, HearthAssets.AssetError?) -> Void)) {
         tile(card: card.jsonRepresentation, completed: completed)
     }
-}
+}*/

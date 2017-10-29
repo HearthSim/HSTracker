@@ -10,7 +10,7 @@ import Cocoa
 import SwiftyBeaver
 let logger = SwiftyBeaver.self
 import MASPreferences
-import HearthAssets
+//import HearthAssets
 import HockeySDK
 
 @NSApplicationMain
@@ -127,7 +127,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		                               display: true)
 		splashscreen?.showWindow(self)
 		
-		Log.info?.message("Opening trackers")
+		logger.info("Opening trackers")
 		
 		coreManager = CoreManager()
 		
@@ -149,13 +149,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 			
 			// load and generate assets from hearthstone files
-			let assetsOperation = BlockOperation {
+			/*let assetsOperation = BlockOperation {
 				DispatchQueue.main.async { [weak self] in
 					self?.splashscreen?.display(
 						NSLocalizedString("Loading Hearthstone assets", comment: ""),
 						indeterminate: true)
 				}
-			}
+			}*/
 			
 			// load and init local database
 			let databaseOperation = BlockOperation {
@@ -177,17 +177,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			}
 			
 			databaseOperation.addDependency(buildsOperation)
-			if Settings.useHearthstoneAssets {
+			/*if Settings.useHearthstoneAssets {
 				databaseOperation.addDependency(assetsOperation)
 				assetsOperation.addDependency(buildsOperation)
-			}
+			}*/
 			
 			var operations = [Operation]()
 			operations.append(buildsOperation)
             operations.append(cardTierOperation)
-			if Settings.useHearthstoneAssets {
+			/*if Settings.useHearthstoneAssets {
 				operations.append(assetsOperation)
-			}
+			}*/
 			operations.append(databaseOperation)
 			operations.append(menuOperation)
 			

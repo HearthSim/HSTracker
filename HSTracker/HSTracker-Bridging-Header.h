@@ -23,7 +23,7 @@
 #import <HearthMirror/HearthMirror.h>
 #import <HearthMirror/security.h>
 
-#import <UnityPack/UnityPack-Swift.h>
+/*#import <UnityPack/UnityPack-Swift.h>*/
 
 #import "FileUtils.h"
 

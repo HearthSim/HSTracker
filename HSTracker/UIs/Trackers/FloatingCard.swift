@@ -66,14 +66,14 @@ class FloatingCard: OverWindowController {
     }
 
     private func reload() {
-        if Settings.useHearthstoneAssets && Settings.floatingCardStyle == .image {
+        /*if Settings.useHearthstoneAssets && Settings.floatingCardStyle == .image {
             reloadImage()
-        } else {
+        } else {*/
             reloadText()
-        }
+        /*}*/
     }
 
-    private func reloadImage() {
+    /*private func reloadImage() {
 		guard let card = self.card, let assetGenerator = CoreManager.assetGenerator else {
 			imageView.image = nil
 			reloadText()
@@ -91,7 +91,7 @@ class FloatingCard: OverWindowController {
                     logger.warning("asset generation: \(error)")
             }
         }
-    }
+    }*/
 
     private func reloadText() {
         title.isHidden = false

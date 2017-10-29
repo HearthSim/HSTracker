@@ -486,8 +486,8 @@ final class Settings {
     }
 
     // MARK: - HearthAssets / HearthMirror
-    static var useHearthstoneAssets: Bool {
+    /*static var useHearthstoneAssets: Bool {
         set { set(name: "use_hearthstone_assets", value: newValue) }
         get { return get(name: "use_hearthstone_assets") as? Bool ?? false }
-    }
+    }*/
 }

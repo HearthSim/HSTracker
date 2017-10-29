@@ -43,7 +43,7 @@ struct ImageUtils {
             return
         }
 		
-        if let assetGenerator = CoreManager.assetGenerator,
+        /*if let assetGenerator = CoreManager.assetGenerator,
             Settings.useHearthstoneAssets {
             assetGenerator.tile(card: card) { (image, error) in
                  if error != nil {
@@ -53,7 +53,7 @@ struct ImageUtils {
                     completion(image)
                 }
             }
-        }
+        }*/
         loadTile(card: card, completion: completion)
     }
 

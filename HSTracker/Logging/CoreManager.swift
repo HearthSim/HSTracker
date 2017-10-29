@@ -9,7 +9,7 @@
  */
 
 import Foundation
-import HearthAssets
+//import HearthAssets
 import HearthMirror
 
 enum HearthstoneLogError: Error {
@@ -31,7 +31,7 @@ final class CoreManager: NSObject {
     static let applicationName = "Hearthstone"
 
     var logReaderManager: LogReaderManager!
-    static var assetGenerator: HearthAssets?
+    //static var assetGenerator: HearthAssets?
     
     // watchers
     let packWatcher = PackWatcher()
@@ -46,11 +46,11 @@ final class CoreManager: NSObject {
         super.init()
 		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, coreManager: self)
 		
-		if CoreManager.assetGenerator == nil && Settings.useHearthstoneAssets {
+		/*if CoreManager.assetGenerator == nil && Settings.useHearthstoneAssets {
 			let path = Settings.hearthstonePath
 			CoreManager.assetGenerator = try? HearthAssets(path: path)
 			CoreManager.assetGenerator?.locale = (Settings.hearthstoneLanguage ?? .enUS).rawValue
-		}
+		}*/
     }
 
     static func findHearthstone() -> String? {
