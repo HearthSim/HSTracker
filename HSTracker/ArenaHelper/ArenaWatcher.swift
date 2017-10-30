@@ -67,7 +67,7 @@ class ArenaWatcher: Watcher {
                     let value = cardInfo.values[index]
                     let costs = value.matches("([0-9]+)")
                     card.cost = Int(costs.first?.value ?? "0") ?? 0
-                    card.isBadAsMultiple = value.contains("^")
+                    card.isBadAsMultiple = value.contains("*")
                     card.count = 1
                     cards.append(card)
                 }
