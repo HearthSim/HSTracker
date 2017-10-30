@@ -157,7 +157,7 @@ final class Player {
     var displayRevealedCards: [Card] {
         return revealedEntities.filter({ x in
             return !x.info.created
-                && (x.isMinion || x.isSpell || x.isWeapon)
+                && (x.isMinion || x.isSpell || x.isWeapon || x.isHero)
                 && (!x.isInDeck || (x.info.stolen && x.info.originalController == self.id))
         })
             .map({ (e: Entity) -> (DynamicEntity) in
@@ -221,7 +221,7 @@ final class Player {
     var revealedCards: [Card] {
         return revealedEntities.filter({ x in
             let created = x.info.created
-            let type = (x.isMinion || x.isSpell || x.isWeapon)
+            let type = (x.isMinion || x.isSpell || x.isWeapon || x.isHero)
             let zone = ((!x.isInDeck
                 && (!x.info.stolen || x.info.originalController == self.id))
                 || (x.info.stolen && x.info.originalController == self.id))
@@ -305,7 +305,7 @@ final class Player {
 
     var opponentCardList: [Card] {
         let revealed = revealedEntities.filter({ (e: Entity) in
-            (e.isMinion || e.isSpell || e.isWeapon || !e.has(tag: .cardtype))
+            (e.isMinion || e.isSpell || e.isWeapon || e.isHero || !e.has(tag: .cardtype))
                 && (e[.creator] == 1
                     || ((!e.info.created || (Settings.showOpponentCreated
                         && (e.info.createdInDeck || e.info.createdInHand)))
@@ -383,7 +383,7 @@ final class Player {
         }
 
         let revealedNotInDeck = revealedEntities.filter {
-            !$0.info.created && ($0.isSpell || $0.isWeapon || $0.isMinion)
+            !$0.info.created && ($0.isSpell || $0.isWeapon || $0.isMinion || $0.isHero)
                 && ((!$0.isInDeck || $0.info.stolen) && $0.info.originalController == self.id)
         }
 
