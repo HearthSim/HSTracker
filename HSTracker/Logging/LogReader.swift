@@ -118,7 +118,7 @@ final class LogReader {
                         let lines = linesStr
                             .components(separatedBy: CharacterSet.newlines)
                             .filter {
-                                !$0.isEmpty && $0.hasPrefix("D ") && $0.characters.count > 20
+                                !$0.isEmpty && $0.hasPrefix("D ") && $0.count > 20
                         }
 
                         if !lines.isEmpty {
@@ -204,12 +204,12 @@ final class LogReader {
                     var skip: UInt64 = 0
                     for i in 0 ... 4096 {
                         skip += 1
-                        if i >= string.characters.count || string.char(at: i) == "\n" {
+                        if i >= string.count || string.char(at: i) == "\n" {
                             break
                         }
                     }
                     offset -= skip
-                    let lines = String(string.characters.dropFirst(Int(skip)))
+                    let lines = String(string.dropFirst(Int(skip)))
                         .components(separatedBy: "\n")
                     for i in 0 ... (lines.count - 1) {
                         if lines[i].isBlank {
@@ -218,7 +218,7 @@ final class LogReader {
                         let logLine = LogLine(namespace: info.name, line: lines[i])
                         if logLine.time < startingPoint {
                             let negativeOffset = lines.take(i + 1)
-                                .map({ UInt64(($0 + "\n").characters.count) })
+                                .map({ UInt64(($0 + "\n").count) })
                                 .reduce(0, +)
                             let current = Int64(fileLength) - Int64(offset)
                                 + Int64(negativeOffset) + Int64(sizeDiff)

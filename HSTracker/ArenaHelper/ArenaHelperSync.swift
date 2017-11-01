@@ -48,8 +48,8 @@ class ArenaHelperSync {
             logger.error("\(jsonFile) is not a valid file")
             return false
         }
-        guard let _ = try? JSONSerialization
-            .jsonObject(with: jsonData, options: []) as? [[String: Any]] else {
+        if (try? JSONSerialization
+            .jsonObject(with: jsonData, options: []) as? [[String: Any]]) == nil {
                 logger.error("\(jsonFile) is not a valid file")
                 return false
         }

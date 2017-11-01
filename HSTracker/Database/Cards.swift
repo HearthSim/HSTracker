@@ -33,8 +33,8 @@ final class Cards {
     }
     
     static func isPlayableHero(cardId: String?) -> Bool {
-        if let _ = cards.first(where: { $0.id == cardId && $0.type == .hero &&
-            $0.set != CardSet.core && $0.set != CardSet.hero_skins}) {
+        if cards.first(where: { $0.id == cardId && $0.type == .hero &&
+            $0.set != CardSet.core && $0.set != CardSet.hero_skins}) != nil {
             return true
         }
         return false

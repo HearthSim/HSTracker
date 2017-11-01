@@ -497,7 +497,6 @@
 		43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */; };
 		43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */; };
 		43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */; };
-		43F2F0D61FA4F3B6002F5AEA /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
 		43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
 		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
@@ -1036,7 +1035,6 @@
 				43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */,
 				43BBAAA11E61A11F009B6298 /* JNWCollectionView.framework in Frameworks */,
 				436789DC1CAE484800C962D1 /* Kanna.framework in Frameworks */,
-				43F2F0D61FA4F3B6002F5AEA /* SwiftyBeaver.framework in Frameworks */,
 				433554331D5F6B4400277B27 /* libz.tbd in Frameworks */,
 				43847D8F1E8D96720060C2D2 /* RegexUtil.framework in Frameworks */,
 				436789DE1CAE484800C962D1 /* MASPreferences.framework in Frameworks */,
@@ -1724,12 +1722,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Benjamin Michotte";
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = GZ37WWWK6W;
+                        DevelopmentTeam = GZ37WWWK6W;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 					};
@@ -2624,9 +2622,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application: Benjamin Michotte (GZ37WWWK6W)";
+                CODE_SIGN_IDENTITY = "Developer ID Application: Benjamin Michotte (GZ37WWWK6W)";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = GZ37WWWK6W;
+                DEVELOPMENT_TEAM = GZ37WWWK6W;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
