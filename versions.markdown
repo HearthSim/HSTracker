@@ -1,3 +1,10 @@
+# Unreleased
+## Fixes:
+- Fixed the missing indicator for the 2nd card with lower value on arena drafting
+- Fixed a bug where hero cards were not tracked properly
+- Fixed an issue where HSTracker could not track Hearthstone if it was installed not in the Applications folder
+- Refactored the secret manager
+
 # 1.2.1
 ## New:
 - Export deckstring from the deck manager
