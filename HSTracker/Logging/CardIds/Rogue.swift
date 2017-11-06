@@ -156,6 +156,7 @@ extension CardIds.NonCollectible {
         static let SharpenTavernBrawl = "TB_BlingBrawl_Hero1p"
         static let SecondClassRogueTavernBrawl = "TB_ClassRandom_Rogue"
         static let CastFromShadowTavernBrawl = "TB_CoOpv3_201"
+        static let ShadowReflection_ShadowReflectionEnchantmentTavernBrawl = "TB_ShadowReflection_001e"
         static let FacilitatedTavernBrawl = "TB_Superfriends001e"
         static let DrawOffensivePlayTavernBrawl = "TB_Superfriends002e"
         static let CashIn = "TP_Bling_HP2"
@@ -183,6 +184,7 @@ extension CardIds.NonCollectible {
         static let ValeeratheHollow_DeathsShadow = "ICC_827p"
         static let ValeeratheHollow_ShadowReflectionToken = "ICC_827t"
         static let Shadowblade_ShadedEnchantment = "ICC_850e"
+        static let ShadowReflectionTavernBrawl = "TB_ShadowReflection_001"
     }
 }
 

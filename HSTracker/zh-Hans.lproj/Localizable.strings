@@ -102,6 +102,7 @@
 "GANGS" = "龙争虎斗加基森";
 "UNGORO" = "勇闯安戈洛";
 "ICECROWN" = "Knights of the Frozen Throne";
+"LOOT" = "Kobolds and Catacombs";
 
 /* card type */
 "all_types" = "所有";

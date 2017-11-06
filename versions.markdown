@@ -1,4 +1,7 @@
 # Unreleased
+## New:
+- Updated for Hearthstone 9.4.0.22115
+
 ## Fixes:
 - Fixed the missing indicator for the 2nd card with lower value on arena drafting
 - Fixed a bug where hero cards were not tracked properly
