@@ -1,4 +1,4 @@
-# Unreleased
+# 1.2.2
 ## New:
 - Updated for Hearthstone 9.4.0.22115
 
