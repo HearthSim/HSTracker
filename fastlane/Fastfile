@@ -83,7 +83,7 @@ end
 
 lane :release do
   version, changelog = load_version_changelog(current_dir)
-  build_number = sh("git rev-list HEAD --count").strip
+  build_number = sh("git rev-list HEAD --count").strip.to_i + 1 # add 1 because of the commit for the version bump
 
   puts "Version found : #{version}, Build number : #{build_number}"
 
