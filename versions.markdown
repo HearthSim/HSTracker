@@ -1,3 +1,7 @@
+# 1.2.4
+## Fixes:
+- Fix an issue with auto-update
+
 # 1.2.3
 ## Fixes:
 - Update cards for Hearthstone 9.4.0.22115
