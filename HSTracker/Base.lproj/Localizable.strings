@@ -105,7 +105,7 @@
 "GANGS" = "Mean Streets of Gadgetzan";
 "UNGORO" = "Journey to Un'Goro";
 "ICECROWN" = "Knights of the Frozen Throne";
-"LOOT" = "Kobolds and Catacombs";
+"LOOTAPALOOZA" = "Kobolds and Catacombs";
 
 /* card type */
 "all_types" = "All";
