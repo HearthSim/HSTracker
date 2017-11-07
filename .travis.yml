@@ -4,13 +4,17 @@ osx_image: xcode9
 before_script:
   - bundle exec danger
 
+cache:
+  directories:
+    - Carthage
+
 before_install:
   - brew update
   - brew outdated carthage || brew upgrade carthage
   - gem install xcpretty
-  - carthage update --no-use-binaries --platform mac
+  - carthage bootstrap --verbose --no-use-binaries --platform mac --cache-builds
 
 script:
-  - set -o pipefail 
+  - set -o pipefail
   - xcodebuild -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
 
