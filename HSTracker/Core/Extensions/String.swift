@@ -27,7 +27,7 @@ extension Optional where Wrapped == String {
 
 extension String {
     func substring(from: Int) -> String {
-        if from < 0 || from > characters.count {
+        if from < 0 || from > self.count {
             print("from index \(from) out of bounds")
             return ""
         }
@@ -36,29 +36,29 @@ extension String {
     }
 
     func substring(from: Int, to: Int) -> String {
-        if from < 0 || from > self.characters.count {
+        if from < 0 || from > self.count {
             print("from index \(from) out of bounds")
             return ""
-        } else if to < 0 || to > self.characters.count {
+        } else if to < 0 || to > self.count {
             print("to index \(to) out of bounds")
             return ""
         }
-        let range = self.characters.index(self.startIndex, offsetBy: from)
-            ..< self.characters.index(self.startIndex, offsetBy: to)
+        let range = self.index(self.startIndex, offsetBy: from)
+            ..< self.index(self.startIndex, offsetBy: to)
         return String(self[range])
     }
 
     func substring(from: Int, length: Int) -> String {
-        if from < 0 || from > self.characters.count {
+        if from < 0 || from > self.count {
             print("from index \(from) out of bounds")
             return ""
-        } else if length < 0 || from + length > self.characters.count {
+        } else if length < 0 || from + length > self.count {
             print("end index \(from + length) out of bounds")
             return ""
         }
 
-        let startPos = self.characters.index(self.startIndex, offsetBy: from)
-        let endPos = self.characters.index(self.startIndex, offsetBy: from + length)
+        let startPos = self.index(self.startIndex, offsetBy: from)
+        let endPos = self.index(self.startIndex, offsetBy: from + length)
         let range = startPos ..< endPos
         return String(self[range])
     }

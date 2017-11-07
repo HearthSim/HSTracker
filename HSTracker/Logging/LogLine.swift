@@ -20,7 +20,7 @@ class LogDateFormatter: DateFormatter {
 		
 		let matches = self.dateFormat.matches(LogDateFormatter.subsecRegex)
 		for match in matches {
-			let len = match.value.characters.count
+			let len = match.value.count
 			let rcen = 10^^(7-len)
 			let roundedss = (date.subseconds + (rcen/2))/rcen * rcen
 			
@@ -141,7 +141,7 @@ struct LogLine {
 		self.namespace = namespace
 		self.line = line
 		
-		if line.characters.count <= 20 {
+		if line.count <= 20 {
 			self.time = LogDate()
 			self.content = ""
 			return
