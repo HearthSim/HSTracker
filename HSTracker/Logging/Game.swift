@@ -71,7 +71,7 @@ class Game: NSObject, PowerEventHandler {
 	
 	func handleEntitiesChange(changed: [(old: Entity, new: Entity)]) {
 
-		if let playerPair = changed.first(where: { $0.old.id == self.player.id }) {
+        if let playerPair = changed.first(where: { $0.old.id == self.player.id }) {
 			// TODO: player entity changed
 			if let oldName = playerPair.old.name, let newName = playerPair.new.name, oldName != newName {
 				print("Player entity name changed from \(oldName) to \(newName)")
@@ -93,7 +93,7 @@ class Game: NSObject, PowerEventHandler {
 	}
 	
 	func determinedPlayers() -> Bool {
-		return player.id > 0 && opponent.id > 0
+        return player.id > 0 && opponent.id > 0
 	}
 	
 	private var guiNeedsUpdate = false
@@ -350,7 +350,7 @@ class Game: NSObject, PowerEventHandler {
                     self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
-                    if let heroPower = board.player.heroPower {
+                    if let heroPower = board.player.heroPower, self.player.currentMana >= heroPower.cost {
                         heroPowerDmg = heroPower.damage
 
                         // Garrison Commander = hero power * 2
@@ -586,7 +586,7 @@ class Game: NSObject, PowerEventHandler {
     }
 
     var playerEntity: Entity? {
-		return entities.map { $0.1 }.first { $0[.player_id] == self.player.id }
+        return entities.map { $0.1 }.first { $0[.player_id] == self.player.id }
     }
 
     var opponentEntity: Entity? {

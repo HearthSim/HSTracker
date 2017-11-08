@@ -128,6 +128,9 @@ final class Player {
     var secrets: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isSecret }) }
     var quests: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isQuest }) }
     var setAside: [Entity] { return playerEntities.filter({ $0.isInSetAside }) }
+    private var entity: Entity? {
+        return game.entities.map({ $0.1 }).filter({ $0.tags[GameTag.player_id] == self.id }).first
+    }
 
     fileprivate(set) lazy var inDeckPredictions = [PredictedCard]()
 
@@ -152,6 +155,14 @@ final class Player {
         heroPowerCount = 0
 
         inDeckPredictions.removeAll()
+    }
+    
+    var currentMana: Int {
+        return self.maxMana - (entity?.tags[GameTag.resources_used] ?? 0)
+    }
+    
+    var maxMana: Int {
+        return (entity?.tags[GameTag.resources] ?? 0) + (entity?.tags[GameTag.temp_resources] ?? 0)
     }
 
     var displayRevealedCards: [Card] {
