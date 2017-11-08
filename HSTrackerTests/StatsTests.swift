@@ -8,11 +8,10 @@
 
 import XCTest
 import Foundation
-import CleanroomLogger
 
 @testable import HSTracker
 
-class StatsTests: XCTestCase {
+class StatsTests: HSTrackerTests {
 
     override func setUp() {
         super.setUp()

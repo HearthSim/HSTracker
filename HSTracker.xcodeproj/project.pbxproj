@@ -240,6 +240,14 @@
 		43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B6955A1C9065AC00F4D0AC /* Secret.swift */; };
 		43B695631C920A0500F4D0AC /* CardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B695621C920A0500F4D0AC /* CardList.swift */; };
 		43B695651C920BD500F4D0AC /* CardList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B695641C920BD500F4D0AC /* CardList.xib */; };
+		43BA1C971FB2E72E0007C500 /* SecretsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFA0021FA11F11008ED490 /* SecretsManager.swift */; };
+		43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; };
+		43BA1C991FB2EA380007C500 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; };
+		43BA1C9A1FB2EA380007C500 /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
+		43BA1C9B1FB2EA8B0007C500 /* Gzip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; };
+		43BA1C9C1FB2EAD30007C500 /* AwaitKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43BA1C9E1FB2EAD30007C500 /* SwiftyBeaver.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43BBAA991E619AA9009B6298 /* Unbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43BBAAA11E61A11F009B6298 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43BBAAA01E61A11F009B6298 /* JNWCollectionView.framework */; };
 		43BBAAA31E61A130009B6298 /* JNWCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43BBAAA01E61A11F009B6298 /* JNWCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -542,10 +550,13 @@
 			files = (
 				1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */,
 				1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */,
+				43BA1C9C1FB2EAD30007C500 /* AwaitKit.framework in CopyFiles */,
+				43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */,
+				43BA1C9E1FB2EAD30007C500 /* SwiftyBeaver.framework in CopyFiles */,
+				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
 				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
 				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
 				1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */,
-				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
 				437E56D81DAAA33200FC0FC1 /* GRDB.framework in CopyFiles */,
 				437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */,
 				437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */,
@@ -1055,6 +1066,10 @@
 			files = (
 				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
+				43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */,
+				43BA1C991FB2EA380007C500 /* PromiseKit.framework in Frameworks */,
+				43BA1C9A1FB2EA380007C500 /* SwiftyBeaver.framework in Frameworks */,
+				43BA1C9B1FB2EA8B0007C500 /* Gzip.framework in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
 				437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */,
 				1CCB4AD21E8470E7003FD1AD /* HearthMirror.framework in Frameworks */,
@@ -1727,7 +1742,7 @@
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
-                        DevelopmentTeam = GZ37WWWK6W;
+						DevelopmentTeam = GZ37WWWK6W;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 					};
@@ -2092,6 +2107,7 @@
 				43C1CA3A1E96CD6F008C20B1 /* Druid.swift in Sources */,
 				43C1CA3B1E96CD6F008C20B1 /* Hunter.swift in Sources */,
 				43C1CA3C1E96CD6F008C20B1 /* Invalid.swift in Sources */,
+				43BA1C971FB2E72E0007C500 /* SecretsManager.swift in Sources */,
 				43C1CA3D1E96CD6F008C20B1 /* Mage.swift in Sources */,
 				43C1CA3E1E96CD6F008C20B1 /* Neutral.swift in Sources */,
 				43C1CA3F1E96CD6F008C20B1 /* Paladin.swift in Sources */,
@@ -2622,9 +2638,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-                CODE_SIGN_IDENTITY = "Developer ID Application: Benjamin Michotte (GZ37WWWK6W)";
+				CODE_SIGN_IDENTITY = "Developer ID Application: Benjamin Michotte (GZ37WWWK6W)";
 				COMBINE_HIDPI_IMAGES = YES;
-                DEVELOPMENT_TEAM = GZ37WWWK6W;
+				DEVELOPMENT_TEAM = GZ37WWWK6W;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",

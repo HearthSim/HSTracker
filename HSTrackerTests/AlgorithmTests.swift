@@ -9,7 +9,7 @@
 import XCTest
 @testable import HSTracker
 
-class AlgorithmTests: XCTestCase {
+class AlgorithmTests: HSTrackerTests {
 	
 	override func setUp() {
 		super.setUp()

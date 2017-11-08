@@ -11,7 +11,7 @@ import Foundation
 
 @testable import HSTracker
 
-class PowerParserTests: XCTestCase {
+class PowerParserTests: HSTrackerTests {
 	
 	override func setUp() {
 		super.setUp()

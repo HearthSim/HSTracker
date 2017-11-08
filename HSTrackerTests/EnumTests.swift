@@ -9,7 +9,7 @@
 import XCTest
 @testable import HSTracker
 
-class EnumTests: XCTestCase {
+class EnumTests: HSTrackerTests {
 
     override func setUp() {
         super.setUp()

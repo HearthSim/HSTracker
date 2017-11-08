@@ -8,20 +8,16 @@
 
 import XCTest
 import RealmSwift
-import CleanroomLogger
 import Kanna
 @testable import HSTracker
 
 @available(OSX 10.10, *)
-class NetImportTest: XCTestCase {
+class NetImportTest: HSTrackerTests {
     
     let importTimeout: TimeInterval = 60
     var database: Database!
 
-    override func setUp() {	
-		// initialize test realm's database
-        Realm.Configuration.defaultConfiguration.inMemoryIdentifier = self.name
-
+    override func setUp() {
         database = Database()
         database.loadDatabase(splashscreen: nil, withLanguages: [.enUS])
 
@@ -54,7 +50,7 @@ class NetImportTest: XCTestCase {
             }
             XCTAssertEqual(newDeck.playerClass, .hunter, "Invalid class found")
             XCTAssertEqual(newDeck.countCards(), 30, "Deck should have 30 cards")
-            XCTAssertNotNil(newDeck.sortedCards.first({
+            XCTAssertNotNil(newDeck.sortedCards.first(where: {
                 $0.id == "CS2_172" && $0.count == 2
             }), "Bloodfen Raptor should be present")
 
@@ -136,7 +132,7 @@ class NetImportTest: XCTestCase {
                     }
                     XCTAssertEqual(newDeck.playerClass, playerClass, "Invalid class found")
                     XCTAssertEqual(newDeck.countCards(), 30, "Deck should have 30 cards")
-                    XCTAssertNotNil(newDeck.sortedCards.first({
+                    XCTAssertNotNil(newDeck.sortedCards.first(where: {
                         $0.id == cardId && $0.count == cardCount
                     }), "\(cardName) should be present")
                 } catch {

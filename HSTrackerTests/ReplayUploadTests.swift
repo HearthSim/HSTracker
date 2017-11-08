@@ -11,7 +11,7 @@ import Wrap
 
 @testable import HSTracker
 
-class ReplayUploadTests: XCTestCase {
+class ReplayUploadTests: HSTrackerTests {
 	
 	override func setUp() {
 		super.setUp()

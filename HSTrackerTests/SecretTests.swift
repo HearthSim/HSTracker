@@ -9,8 +9,8 @@
 import XCTest
 @testable import HSTracker
 
-class SecretTests: XCTestCase {
 
+class SecretTests: HSTrackerTests {
     private var entityId = 0
     private var game: Game!
 

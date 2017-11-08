@@ -9,7 +9,7 @@
 import XCTest
 @testable import HSTracker
 
-class DatabaseTests: XCTestCase {
+class DatabaseTests: HSTrackerTests {
 
     var database: Database!
 

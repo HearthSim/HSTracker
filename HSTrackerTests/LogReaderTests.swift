@@ -11,7 +11,7 @@ import Foundation
 
 @testable import HSTracker
 
-class LogReaderTests: XCTestCase {
+class LogReaderTests: HSTrackerTests {
 	
 	override func setUp() {
 		super.setUp()
