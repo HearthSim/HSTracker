@@ -148,6 +148,7 @@ extension CardIds.NonCollectible {
         static let FireblastRank2HeroSkins1 = "CS2_034_H1_AT_132"
         static let Fireblast_FireblastHeroSkins2 = "CS2_034_H2"
         static let FireblastRank2HeroSkins2 = "CS2_034_H2_AT_132"
+        static let FrostLichJaina_IcyTouch = "ICC_833h"
         static let MageTavernBrawl = "FB_LK_Mage_copy"
         static let NextHeroMageEnchCopy = "FB_LK_Mage_Ench_copy"
         static let RelentlessMarch = "FB_LK002"

@@ -19,11 +19,13 @@ class HeroPower {
         case CardIds.NonCollectible.Druid.Shapeshift,
              CardIds.NonCollectible.Mage.Fireblast,
              CardIds.NonCollectible.Mage.Fireblast_FireblastHeroSkins1,
+             CardIds.NonCollectible.Mage.FrostLichJaina_IcyTouch,
              CardIds.NonCollectible.Mage.Fireblast_FireblastHeroSkins2:
             return 1
         case CardIds.NonCollectible.Druid.JusticarTrueheart_DireClaws,
              CardIds.NonCollectible.Priest.Shadowform_MindSpikeToken,
              CardIds.NonCollectible.Hunter.SteadyShot,
+             CardIds.NonCollectible.Priest.ShadowreaperAnduin_Voidform,
              CardIds.NonCollectible.Neutral.Eruption,
              CardIds.NonCollectible.Neutral.BoomBotJrTavernBrawl,
              CardIds.NonCollectible.Mage.FireblastRank2HeroSkins1,
@@ -35,6 +37,8 @@ class HeroPower {
              CardIds.NonCollectible.Neutral.EruptionHeroic,
              "TB_FW_HeroPower_Boom",
              CardIds.NonCollectible.Neutral.ThrowRocks,
+             CardIds.NonCollectible.Warlock.BloodreaverGuldan_SiphonLife,
+             CardIds.NonCollectible.Druid.MalfurionthePestilent_PlagueLord,
              CardIds.NonCollectible.Hunter.BallistaShotHeroSkins,
              CardIds.NonCollectible.Hunter.JusticarTrueheart_BallistaShot:
             return 3

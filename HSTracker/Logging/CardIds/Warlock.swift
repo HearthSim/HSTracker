@@ -174,6 +174,7 @@ extension CardIds.NonCollectible {
         static let ClutchmotherZavas_RemembranceEnchantment = "UNG_836e"
         static let BiteOfTheBloodQueen = "ICCA05_020"
         static let BloodEssence = "ICCA05_021"
+        static let BloodreaverGuldan_SiphonLife = "ICC_831p"
     }
 }
 

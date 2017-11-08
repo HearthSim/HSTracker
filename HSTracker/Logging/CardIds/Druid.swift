@@ -248,6 +248,7 @@ extension CardIds.NonCollectible {
         static let MalfurionthePestilent_SpiderFangs = "ICC_832pb"
         static let MalfurionthePestilent_FrostWidowToken = "ICC_832t3"
         static let MalfurionthePestilent_ScarabBeetleToken = "ICC_832t4"
+        static let MalfurionthePestilent_PlagueLord = "ICC_832p"
     }
 }
 
