@@ -185,12 +185,12 @@ class NetImportTest: HSTrackerTests {
                    cardId: "BRM_015", cardCount: 2, cardName: "Revenge")
     }
 
-    func testHearthHead() {
+    /*func testHearthHead() {
         let url = "http://www.hearthhead.com/decks/fun-easy-win-dragon-warrior"
         verifyDeck(importer: MetaTagImporter(),
                    url: url, name: "Fun Easy Win Dragon Warrior", playerClass: .warrior,
                    cardId: "EX1_414", cardCount: 1, cardName: "Grommash Hellscream")
-    }
+    }*/
 
     func testHearthstoneTopDecks() {
         let url = "https://www.hearthstonetopdecks.com/decks/rostys-totem-shaman-october-2016-season-31/"
