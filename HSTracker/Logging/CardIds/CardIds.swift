@@ -34,7 +34,7 @@ struct CardIds {
 
     struct Secrets {}
 
-    static let DeathrattleSummonCardIds = [
+    static let DeathrattleSummonCardIds: [String: Int] = [
         CardIds.Collectible.Druid.MountedRaptor: 1,
         CardIds.Collectible.Hunter.InfestedWolf: 2,
         CardIds.Collectible.Hunter.KindlyGrandmother: 1,
@@ -61,7 +61,7 @@ struct CardIds {
         CardIds.Collectible.Neutral.WobblingRunts: 3
     ]
 
-    static let HeroIdDict = [
+    static let HeroIdDict: [String: String] = [
         CardIds.Collectible.Warrior.GarroshHellscream: "Warrior",
         CardIds.Collectible.Shaman.Thrall: "Shaman",
         CardIds.Collectible.Rogue.ValeeraSanguinar: "Rogue",

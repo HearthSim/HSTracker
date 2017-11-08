@@ -20,6 +20,20 @@
                ReferencedContainer = "container:HSTracker.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "439C7E661C7772C100D29859"
+               BuildableName = "HSTrackerUITests.xctest"
+               BlueprintName = "HSTrackerUITests"
+               ReferencedContainer = "container:HSTracker.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -36,16 +50,6 @@
                BlueprintIdentifier = "439C7E5B1C7772C100D29859"
                BuildableName = "HSTrackerTests.xctest"
                BlueprintName = "HSTrackerTests"
-               ReferencedContainer = "container:HSTracker.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "439C7E661C7772C100D29859"
-               BuildableName = "HSTrackerUITests.xctest"
-               BlueprintName = "HSTrackerUITests"
                ReferencedContainer = "container:HSTracker.xcodeproj">
             </BuildableReference>
          </TestableReference>

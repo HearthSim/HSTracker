@@ -31,12 +31,12 @@ import Foundation
 
 extension CardIds.NonCollectible {
     struct DreamCards {
-        static let LaughingSister = "DREAM_01"
-        static let YseraAwakens = "DREAM_02"
-        static let EmeraldDrake = "DREAM_03"
-        static let Dream = "DREAM_04"
-        static let Nightmare = "DREAM_05"
-        static let RepurposedEnchantmentTavernBrawl = "TB_MP_02e"
+        static let LaughingSister: String = "DREAM_01"
+        static let YseraAwakens: String = "DREAM_02"
+        static let EmeraldDrake: String = "DREAM_03"
+        static let Dream: String = "DREAM_04"
+        static let Nightmare: String = "DREAM_05"
+        static let RepurposedEnchantmentTavernBrawl: String = "TB_MP_02e"
     }
 }
 

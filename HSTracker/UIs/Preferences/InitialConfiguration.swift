@@ -46,19 +46,19 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
     }
 
     // MARK: - Button actions
-    @IBAction func exit(_ sender: AnyObject) {
+    @IBAction func exit(_ sender: Any) {
         NSApplication.shared.terminate(nil)
     }
 
-    @IBAction func save(_ sender: AnyObject) {
+    @IBAction func save(_ sender: Any) {
         if hearthstoneLanguage.indexOfSelectedItem < 0
             || hstrackerLanguage.indexOfSelectedItem < 0
             || hearthstonePath.stringValue == "" {
             saveButton.isEnabled = false
             return
         }
-        let hstracker = Array(Language.HSTracker.cases())[hstrackerLanguage.indexOfSelectedItem]
-        let hearthstone = Array(Language.Hearthstone.cases())[hearthstoneLanguage.indexOfSelectedItem]
+        let hstracker: Language.HSTracker = Array(Language.HSTracker.cases())[hstrackerLanguage.indexOfSelectedItem]
+        let hearthstone: Language.Hearthstone = Array(Language.Hearthstone.cases())[hearthstoneLanguage.indexOfSelectedItem]
 
         Settings.hearthstoneLanguage = hearthstone
         Settings.hsTrackerLanguage = hstracker
@@ -72,7 +72,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
         self.window!.close()
     }
 
-    @IBAction func choosePath(_ sender: AnyObject) {
+    @IBAction func choosePath(_ sender: Any) {
         let openDialog = NSOpenPanel()
         openDialog.delegate = self
         openDialog.canChooseDirectories = false
