@@ -9,8 +9,8 @@
 import XCTest
 @testable import HSTracker
 
-
 class SecretTests: HSTrackerTests {
+/* TODO rewrite
     private var entityId = 0
     private var game: Game!
 
@@ -270,4 +270,5 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
     }
+ */
 }
