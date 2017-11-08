@@ -185,13 +185,6 @@ class NetImportTest: HSTrackerTests {
                    cardId: "BRM_015", cardCount: 2, cardName: "Revenge")
     }
 
-    func testHearthStats() {
-        let url = "http://hearthstats.net/decks/mech-mage--36939/public_show?locale=en"
-        verifyDeck(importer: Hearthstats(),
-                   url: url, name: "Mech Mage", playerClass: .mage,
-                   cardId: "GVG_006", cardCount: 2, cardName: "Mechwarper")
-    }
-
     func testHearthHead() {
         let url = "http://www.hearthhead.com/decks/fun-easy-win-dragon-warrior"
         verifyDeck(importer: MetaTagImporter(),

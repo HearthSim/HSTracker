@@ -28,7 +28,7 @@ Is it against the TOS ?
 - Extract the archive
 - Move _HSTracker.app_ to your _Applications_ directory
 - Launch (make sure Hearthstone is not running when you first launch HSTracker) !
-- Create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthstats](https://hearthstats.net), [Hearthhead](http://www.hearthhead.com/), [Hearthnews](http://www.hearthnews.fr/) and many more
+- Create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthhead](http://www.hearthhead.com/), [Hearthnews](http://www.hearthnews.fr/) and many more
 - HSTracker can also auto-detect the deck you are playing with
 
 ## Versions
