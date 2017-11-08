@@ -32,36 +32,18 @@ struct HearthstoneTopDecks: HttpImporter {
         }
         logger.verbose("Got deck name \(deckName)")
 
-        let xpath = "//div[contains(@class, 'deck-info')]/a[contains(@href, 'deck-class') ]"
-        guard let classNode = doc.at_xpath(xpath),
-            let className = classNode.text?.trim(),
-            let playerClass = CardClass(rawValue: className.lowercased()) else {
-                logger.error("Class not found")
+        let xpath = "//div[contains(@class, 'deck-import-code')]/input[@type='text']"
+        guard let deckStringNode = doc.at_xpath(xpath),
+            let deckString = deckStringNode["value"]?.trim(),
+            let (playerClass, cardList) = DeckSerializer.deserializeDeckString(deckString: deckString) else {
+                logger.error("Card list not found")
                 return nil
         }
-        logger.verbose("Got class \(playerClass)")
 
         let deck = Deck()
-        deck.playerClass = playerClass
         deck.name = deckName
+        deck.playerClass = playerClass
 
-        var cards: [Card] = []
-        let cardNodes = doc.xpath("//*[contains(@class, 'deck-class')]/li")
-        for cardNode in cardNodes {
-            if let cardName = cardNode.at_xpath(".//a/span[@class='card-name']")?.text,
-                let cardcountstr = cardNode.at_xpath("span[@class='card-count']")?.text,
-                let count = Int(cardcountstr) {
-
-                // Hearthstonetopdeck sport several cards with wrong capitalization
-                // (e.g. N'Zoth)
-                let fixedCardName = cardName.trim().replace("’", with: "'")
-                if let card = Cards.by(englishNameCaseInsensitive: fixedCardName) {
-                    card.count = count
-                    logger.verbose("Got card \(card)")
-                    cards.append(card)
-                }
-            }
-        }
-        return (deck, cards)
+        return (deck, cardList)
     }
 }

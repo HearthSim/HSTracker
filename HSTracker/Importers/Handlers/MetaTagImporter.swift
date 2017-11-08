@@ -20,11 +20,9 @@ struct MetaTagImporter: HttpImporter {
         let deck = Deck()
 
         guard let deckName = getMetaProperty(nodes: nodes, prop: "x-hearthstone:deck") else {
-            print("****** deck name not found")
             logger.error("Deck name not found")
             return nil
         }
-        print("****** Got deck name \(deckName)")
         logger.verbose("Got deck name \(deckName)")
         deck.name = deckName
 
