@@ -25,6 +25,7 @@ class OpponentTrackersPreferences: NSViewController {
     @IBOutlet weak var showGraveyard: NSButton!
     @IBOutlet weak var showGraveyardDetails: NSButton!
     @IBOutlet weak var showJadeCounter: NSButton!
+    @IBOutlet weak var preventOpponentNameCovering: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +44,7 @@ class OpponentTrackersPreferences: NSViewController {
         showGraveyardDetails.state = Settings.showOpponentGraveyardDetails ? .on : .off
         showGraveyardDetails.isEnabled = showGraveyard.state == .on
         showJadeCounter.state = Settings.showOpponentJadeCounter ? .on : .off
+        preventOpponentNameCovering.state = Settings.preventOpponentNameCovering ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -79,6 +81,8 @@ class OpponentTrackersPreferences: NSViewController {
             Settings.showOpponentGraveyardDetails = showGraveyardDetails.state == .on
         } else if sender == showJadeCounter {
             Settings.showOpponentJadeCounter = showJadeCounter.state == .on
+        } else if sender == preventOpponentNameCovering {
+            Settings.preventOpponentNameCovering = preventOpponentNameCovering.state == .on
         }
     }
 }

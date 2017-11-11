@@ -393,6 +393,10 @@ final class Settings {
         set { set(name: "show_opponent_class", value: newValue) }
         get { return get(name: "show_opponent_class") as? Bool ?? false }
     }
+    static var preventOpponentNameCovering: Bool {
+        set { set(name: "prevent_opponent_name_covering", value: newValue) }
+        get { return get(name: "prevent_opponent_name_covering") as? Bool ?? false }
+    }
     static var showDeckNameInTracker: Bool {
         set { set(name: "show_deck_name", value: newValue) }
         get { return get(name: "show_deck_name") as? Bool ?? false }

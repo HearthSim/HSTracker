@@ -151,7 +151,7 @@ struct SizeHelper {
         return CGFloat(width)
     }
     
-    static fileprivate func trackerFrame(_ x: CGFloat) -> NSRect {
+    static fileprivate func trackerFrame(xOffset: CGFloat, yOffset: CGFloat = 0) -> NSRect {
         // game menu
         let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
         let width: CGFloat
@@ -163,10 +163,10 @@ struct SizeHelper {
         case .huge: width = CGFloat(kHighRowFrameWidth)
         }
         
-        let frame = NSRect(x: x,
+        let frame = NSRect(x: xOffset,
                            y: offset,
                            width: max(trackerWidth, width),
-                           height: max(100, hearthstoneWindow.frame.height - offset))
+                           height: max(100, hearthstoneWindow.frame.height - offset - yOffset))
         return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
 
@@ -223,11 +223,15 @@ struct SizeHelper {
     }
 
     static func playerTrackerFrame() -> NSRect {
-        return trackerFrame(hearthstoneWindow.frame.width - trackerWidth)
+        return trackerFrame(xOffset: hearthstoneWindow.frame.width - trackerWidth)
     }
 
     static func opponentTrackerFrame() -> NSRect {
-        return trackerFrame(0)
+        var yOffset: CGFloat = 0
+        if Settings.preventOpponentNameCovering {
+            yOffset = hearthstoneWindow.frame.height * 0.125 // name height ratio
+        }
+        return trackerFrame(xOffset: 0, yOffset: yOffset)
     }
     
     static func playerBoardDamageFrame() -> NSRect {
