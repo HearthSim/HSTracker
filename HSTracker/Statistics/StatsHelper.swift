@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 
+@objcMembers
 class StatsTableRow: NSObject { // Class instead of struct so we can use sortUsingDescriptors
     // Used for display
     var classIcon = ""
