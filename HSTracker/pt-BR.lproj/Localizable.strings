@@ -9,8 +9,8 @@
 "Delete deck" = "Deletar Deck";
 "Do you want to add this deck on Hearthstats ?" = "Deseja adicionar esse deck em Hearthstats ?";
 "Do you want to delete the deck on Hearthstats ?" = "Deseja deletar esse deck em Hearthstats ?";
-"Download Hearthstone cards" = "Download Hearthstone cards";
-"Loading Hearthstone builds" = "Loading Hearthstone builds";
+"Download Hearthstone cards" = "Carregando cards do Hearthstone";
+"Loading Hearthstone builds" = "Carregando builds do Hearthstone";
 "Downloading %@" = "Baixando %@";
 "Downloading images" = "Baixando imagens";
 "Edit deck" = "Editar deck";
@@ -53,11 +53,11 @@
 "Login" = "Login";
 "Logout" = "Logout";
 "Top deck:" = "Top deck:";
-"In top 2:" = "In top 2:";
-"Connected" = "Connected";
-"Connected as %@" = "Connected as %@";
-"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.";
-"I understand" = "I understand";
+"In top 2:" = "No top 2:";
+"Connected" = "Conectado";
+"Connected as %@" = "Conectado como %@";
+"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker requer privilégios elevados para ler dados da memória do Hearthstone. Se o macOS te pedir a senha do sistema, não se preocupe, nenhuma alteração será feita no seu computador.";
+"I understand" = "Eu entendo";
 
 /* notifications */
 "Your game begins" = "Seu jogo começou";
@@ -76,8 +76,8 @@
 "paladin" = "Paladino";
 "priest" = "Sacerdote";
 "rogue" = "Ladino";
-"All classes" = "All classes";
-"Archived" = "Archived";
+"All classes" = "Todas as classes";
+"Archived" = "Arquivado";
 
 /* rarity */
 "all_rarities" = "Todos";
@@ -93,17 +93,17 @@
 "CORE" = "Básico";
 "EXPERT1" = "Clássico";
 "NAXX" = "Maldição de Naxxramas";
-"GVG" = "Goblins Vs Gnomos";
+"GVG" = "Goblins vs Gnomos";
 "BRM" = "Montanha Rocha Negra";
 "TGT" = "O Grande Torneio";
 "LOE" = "Liga dos Exploradores";
 "OG" = "Sussurros dos Deuses Antigos";
 "PROMO" = "Promocional";
-"KARA" = "Uma Noite Em Karazhan";
+"KARA" = "Uma Noite em Karazhan";
 "GANGS" = "Mean Streets of Gadgetzan";
 "UNGORO" = "Jornada a Un'Goro";
-"ICECROWN" = "Knights of the Frozen Throne";
-"LOOTAPALOOZA" = "Kobolds and Catacombs";
+"ICECROWN" = "Cavaleiros do Trono de Gelo";
+"LOOTAPALOOZA" = "Kobolds & Catacumbas";
 
 /* card type */
 "all_types" = "Todos";
@@ -145,15 +145,15 @@
 
 /* Stats tabs */
 "Statistics" = "Estatísticas";
-"The Climb" = "The Climb";
-"all_seasons" = "All seasons";
-"season" = "Season %@";
+"The Climb" = "A Subida";
+"all_seasons" = "Todas as temporadas";
+"season" = "Temporada %@";
 
 "Vs %@" = "Vs %@";
 "%@ vs %@" = "%@ vs %@";
-"Your replay has been uploaded on HSReplay" = "Your replay has been uploaded on HSReplay";
-"View" = "View";
-"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import.\nWARNING, this is a beta feature !";
-"The followings cards were missing : " = "The followings cards were missing : ";
-"Can't get card collection" = "Can't get card collection, is Hearthstone running ?";
-"Deck string has been copied in your clipboard." = "Deck string has been copied in your clipboard.";
+"Your replay has been uploaded on HSReplay" = "Seu replay for carregado no HSReplay";
+"View" = "Visualizar";
+"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "Para exportar um deck para o Hearthstone, crie um novo deck da classe correta na sua coleção e, em seguida, clique em OK e alterne para o Hearthstone. Não use seu mouse ou teclado durante a importação.\nAVISO, esta é uma funcionalidade beta !";
+"The followings cards were missing : " = "Os seguintes cards estavam faltando : ";
+"Can't get card collection" = "Não foi possíveo obter a coleção de cards, o Hearthstone está sendo executado ?";
+"Deck string has been copied in your clipboard." = "Seu deck foi copiado para a área de transferência.";
