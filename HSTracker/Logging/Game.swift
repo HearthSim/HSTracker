@@ -324,8 +324,8 @@ class Game: NSObject, PowerEventHandler {
                 if tracker.cards.count > 0 {
                     tracker.table?.reloadData()
                     self.windowManager.show(controller: tracker, show: true,
-                                            frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight)
-                        , title: nil, overlay: self.hearthstoneRunState.isActive)
+                                            frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight),
+                                            title: nil, overlay: self.hearthstoneRunState.isActive)
                 } else {
                     self.windowManager.show(controller: tracker, show: false)
                 }

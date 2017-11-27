@@ -142,7 +142,7 @@ class SecretsManager {
             cards = cards.filter { !CardIds.Secrets.arenaExcludes.contains($0.id) }
         }
 
-        return cards
+        return cards.filter { $0.count > 0 }
     }
 
     func handleAttack(attacker: Entity, defender: Entity, fastOnly: Bool = false) {
