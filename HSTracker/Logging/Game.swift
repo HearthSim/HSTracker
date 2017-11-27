@@ -109,6 +109,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateTurnTimer()
         self.updateBoardStateTrackers()
 		self.updateArenaHelper()
+        self.updateSecretTracker()
 	}
 	
     // MARK: - GUI calls
@@ -278,7 +279,7 @@ class Game: NSObject, PowerEventHandler {
                 }
                 if let timerHud = self.turnTimer.timerHud {
                     timerHud.hasValidFrame = true
-                    self.windowManager.show(controller: timerHud, show: true, frame: rect)
+                    self.windowManager.show(controller: timerHud, show: true, frame: rect, title: nil, overlay: self.hearthstoneRunState.isActive)
                 }
             } else {
                 if let timerHud = self.turnTimer.timerHud {
@@ -294,14 +295,37 @@ class Game: NSObject, PowerEventHandler {
             
             let tracker = self.windowManager.secretTracker
             
-            if Settings.showSecretHelper &&
+            if Settings.showSecretHelper && !self.gameEnded &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
+                tracker.set(cards: cards)
+                tracker.table?.reloadData()
                 if cards.count > 0 {
-                    tracker.set(cards: cards)
-					tracker.table?.reloadData()
                     self.windowManager.show(controller: tracker, show: true,
-                                            frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight))
+                                            frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight),
+                                            title: nil, overlay: self.hearthstoneRunState.isActive)
+                } else {
+                    self.windowManager.show(controller: tracker, show: false)
+                }
+            } else {
+                self.windowManager.show(controller: tracker, show: false)
+            }
+        }
+    }
+    
+    func updateSecretTracker() {
+        DispatchQueue.main.async { [unowned(unsafe) self] in
+            
+            let tracker = self.windowManager.secretTracker
+            
+            if Settings.showSecretHelper && !self.gameEnded &&
+                ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground) {
+                if tracker.cards.count > 0 {
+                    tracker.table?.reloadData()
+                    self.windowManager.show(controller: tracker, show: true,
+                                            frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight)
+                        , title: nil, overlay: self.hearthstoneRunState.isActive)
                 } else {
                     self.windowManager.show(controller: tracker, show: false)
                 }
@@ -325,7 +349,8 @@ class Game: NSObject, PowerEventHandler {
                     tracker.update(entities: self.opponent.hand,
                                             cardCount: self.opponent.handCount)
                     self.windowManager.show(controller: tracker, show: true,
-                         frame: SizeHelper.cardHudContainerFrame())
+                         frame: SizeHelper.cardHudContainerFrame(), title: nil,
+                         overlay: self.hearthstoneRunState.isActive)
                 } else {
                     self.windowManager.show(controller: tracker, show: false)
                 }
@@ -369,7 +394,7 @@ class Game: NSObject, PowerEventHandler {
                     }
                     playerBoardDamage.hasValidFrame = true
                     self.windowManager.show(controller: playerBoardDamage, show: true,
-                         frame: rect)
+                         frame: rect, title: nil, overlay: self.hearthstoneRunState.isActive)
                 } else {
                     self.windowManager.show(controller: playerBoardDamage, show: false)
                 }
@@ -401,7 +426,8 @@ class Game: NSObject, PowerEventHandler {
                     }
                     opponentBoardDamage.hasValidFrame = true
                     self.windowManager.show(controller: opponentBoardDamage, show: true,
-                         frame: SizeHelper.opponentBoardDamageFrame())
+                         frame: SizeHelper.opponentBoardDamageFrame(), title: nil,
+                         overlay: self.hearthstoneRunState.isActive)
                 } else {
                     self.windowManager.show(controller: opponentBoardDamage, show: false)
                 }
@@ -421,7 +447,8 @@ class Game: NSObject, PowerEventHandler {
 				( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
 					|| !Settings.hideAllWhenGameInBackground ) {
 				tracker.table?.reloadData()
-				self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.arenaHelperFrame())
+				self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.arenaHelperFrame(),
+                                        title: nil, overlay: self.hearthstoneRunState.isActive)
 			} else {
 				self.windowManager.show(controller: tracker, show: false)
 			}
