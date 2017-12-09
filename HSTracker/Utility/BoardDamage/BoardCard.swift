@@ -38,8 +38,8 @@ class BoardCard: IBoardEntity {
         let cardName = card != nil ? card!.name : ""
         name = entity.name.isBlank ? cardName : entity.name!
         
-        _stdAttack = entity[.atk]
-        _health = entity[.health]
+        _stdAttack = entity.has(tag: .hide_stats) ? 0 : entity[.atk]
+        _health = entity.has(tag: .hide_stats) ? 0 : entity[.health]
         _armor = entity[.armor]
         _durability = entity[.durability]
         _damageTaken = entity[.damage]
