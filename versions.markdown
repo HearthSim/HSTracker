@@ -1,3 +1,16 @@
+# 1.3.0
+## New:
+- Updated for Kobolds and Catacombs
+- Added KotFT Deathknight hero power damages to boarddamage counter
+- Opponent tracker can now be auto-positioned below opponent's name to prevent coverage
+
+## Fixes:
+- Fixed secret tracker not hiding excluded cards
+- Tracking in spectator mode is now disabled by default but can be enabled in the preferences
+- Board damage calculator only adds hero power if player has enough mana
+- Fixed import from Hearthstonetopdecks
+- Fixed statistics table sorting crash
+
 # 1.2.4
 ## Fixes:
 - Fix an issue with auto-update
