@@ -56,6 +56,7 @@ class Secret {
         case .hunter: return CardIds.Secrets.Hunter.All
         case .mage: return CardIds.Secrets.Mage.All
         case .paladin: return CardIds.Secrets.Paladin.All
+        case .rogue: return CardIds.Secrets.Rogue.All
         default: return []
         }
     }

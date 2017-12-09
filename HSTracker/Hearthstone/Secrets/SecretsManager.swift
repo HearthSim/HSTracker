@@ -166,10 +166,18 @@ class SecretsManager {
                 exclude.append(CardIds.Secrets.Mage.IceBarrier)
             }
 
+            if freeSpaceOnBoard {
+                exclude.append(CardIds.Secrets.Hunter.WanderingMonster)
+            }
+            
             exclude.append(CardIds.Secrets.Hunter.ExplosiveTrap)
 
             if game.isMinionInPlay {
                 exclude.append(CardIds.Secrets.Hunter.Misdirection)
+            }
+            
+            if attacker.isMinion && game.playerMinionCount > 1 {
+                exclude.append(CardIds.Secrets.Rogue.SuddenBetrayal)
             }
 
             if attacker.isMinion {
@@ -213,6 +221,7 @@ class SecretsManager {
         //We might not know this for certain - requires additional tracking logic.
         //TODO: _game.SecretsManager.SetZero(Hunter.HiddenCache);
         exclude.append(CardIds.Secrets.Hunter.Snipe)
+        exclude.append(CardIds.Secrets.Mage.ExplosiveRunes)
         exclude.append(CardIds.Secrets.Mage.PotionOfPolymorph)
         exclude.append(CardIds.Secrets.Paladin.Repentance)
 
@@ -234,6 +243,7 @@ class SecretsManager {
         if freeSpaceInHand {
             exclude.append(CardIds.Secrets.Mage.Duplicate)
             exclude.append(CardIds.Secrets.Paladin.GetawayKodo)
+            exclude.append(CardIds.Secrets.Rogue.CheatDeath)
         }
 
         var numDeathrattleMinions = 0
@@ -305,6 +315,7 @@ class SecretsManager {
 
         if entity.isHero && entity.isControlled(by: game.opponent.id) {
             exclude(cardId: CardIds.Secrets.Paladin.EyeForAnEye)
+            exclude(cardId: CardIds.Secrets.Rogue.Evasion)
         }
     }
 

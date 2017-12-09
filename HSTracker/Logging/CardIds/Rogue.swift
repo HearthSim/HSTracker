@@ -122,6 +122,10 @@ extension CardIds.Collectible {
         static let TheCavernsBelow: String = "UNG_067"
         static let EnvenomWeapon: String = "UNG_823"
         static let Hallucination: String = "UNG_856"
+        static let CheatDeath: String = "LOOT_204"
+        static let Evasion: String = "LOOT_214"
+        static let SuddenBetrayal: String = "LOOT_210"
+        static let SonyaShadowdancer: String = "LOOT_165"
     }
 }
 
@@ -140,7 +144,7 @@ extension CardIds.NonCollectible {
         static let IronSensei_IronedOutEnchantment: String = "GVG_027e"
         static let ShadyDealer_ShadyDealsEnchantment: String = "AT_032e"
         static let PoisonedBlade_LacedEnchantment: String = "AT_034e"
-        static let BeneaththeGrounds_AmbushToken: String = "AT_035t"
+        static let BeneaththeGrounds_NerubianAmbushToken: String = "AT_035t"
         static let Anubarak_NerubianToken: String = "AT_036t"
         static let JusticarTrueheart_PoisonedDaggers: String = "AT_132_ROGUE"
         static let JusticarTrueheart_PoisonedDagger: String = "AT_132_ROGUEt"
@@ -188,3 +192,11 @@ extension CardIds.NonCollectible {
     }
 }
 
+extension CardIds.Secrets {
+    struct Rogue {
+        static let All = [CheatDeath, Evasion, SuddenBetrayal]
+        static let CheatDeath = CardIds.Collectible.Rogue.CheatDeath
+        static let Evasion = CardIds.Collectible.Rogue.Evasion
+        static let SuddenBetrayal = CardIds.Collectible.Rogue.SuddenBetrayal
+    }
+}

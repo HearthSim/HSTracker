@@ -328,9 +328,18 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches),
                                            count: 2)
-                        case CardIds.Collectible.Shaman.Moorabi:
+                        case CardIds.Collectible.Shaman.Moorabi, CardIds.Collectible.Rogue.SonyaShadowdancer:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches))
+                        case CardIds.Collectible.Neutral.HoardingDragon:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.TheCoin, count: 2)
+                        case CardIds.Collectible.Priest.GildedGargoyle:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.TheCoin)
+                        case CardIds.Collectible.Druid.AstralTiger:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.Collectible.Druid.AstralTiger)
                         default: break
                         }
                     }
@@ -344,14 +353,15 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Rogue.BeneathTheGrounds:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Rogue
-                                            .BeneaththeGrounds_AmbushToken,
+                                            .BeneaththeGrounds_NerubianAmbushToken,
                                            count: 3)
                         case CardIds.Collectible.Warrior.IronJuggernaut:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Warrior
                                             .IronJuggernaut_BurrowingMineToken)
                         case CardIds.Collectible.Druid.Recycle,
-                             CardIds.Collectible.Mage.ManicSoulcaster:
+                             CardIds.Collectible.Mage.ManicSoulcaster,
+                             CardIds.Collectible.Neutral.ZolaTheGorgon:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches))
                         case CardIds.Collectible.Mage.ForgottenTorch:
@@ -397,6 +407,12 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Mage.GhastlyConjurer:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Mage.MirrorImage)
+                        case CardIds.Collectible.Mage.DeckOfWonders:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Mage.DeckofWondersScrollOfWonderToken, count: 5)
+                        case CardIds.Collectible.Neutral.TheDarkness:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.TheDarknessDarknessCandleToken, count: 3)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

@@ -72,6 +72,7 @@ extension CardIds.Collectible {
         static let IceBlock: String = "EX1_295"
         static let ArchmageAntonidas: String = "EX1_559"
         static let Vaporize: String = "EX1_594"
+        static let ExplosiveRunes: String = "LOOT_101"
         static let SorcerersApprentice: String = "EX1_608"
         static let KirinTorMage: String = "EX1_612"
         static let Duplicate: String = "FP1_018"
@@ -123,6 +124,7 @@ extension CardIds.Collectible {
         static let PrimordialGlyph: String = "UNG_941"
         static let MoltenReflection: String = "UNG_948"
         static let Meteor: String = "UNG_955"
+        static let DeckOfWonders: String = "LOOT_106"
     }
 }
 
@@ -181,6 +183,7 @@ extension CardIds.NonCollectible {
         static let FrostLichJaina_WaterElementalToken: String = "ICC_833t"
         static let Sindragosa_FrozenChampionToken: String = "ICC_838t"
         static let UnchainedMagic: String = "ICCA04_002"
+        static let DeckofWondersScrollOfWonderToken: String = "LOOT_106t"
     }
 }
 
@@ -188,7 +191,7 @@ extension CardIds.Secrets {
     struct Mage {
         static let All = [Counterspell, Duplicate, Effigy, FrozenClone, IceBarrier,
                           IceBlock, MirrorEntity, PotionOfPolymorph, Spellbender,
-                          Vaporize, ManaBind]
+                          Vaporize, ManaBind, ExplosiveRunes]
         static let Counterspell = CardIds.Collectible.Mage.Counterspell
         static let Duplicate = CardIds.Collectible.Mage.Duplicate
         static let Effigy = CardIds.Collectible.Mage.Effigy
@@ -200,5 +203,6 @@ extension CardIds.Secrets {
         static let PotionOfPolymorph = CardIds.Collectible.Mage.PotionOfPolymorph
         static let Spellbender = CardIds.Collectible.Mage.Spellbender
         static let Vaporize = CardIds.Collectible.Mage.Vaporize
+        static let ExplosiveRunes = CardIds.Collectible.Mage.ExplosiveRunes
     }
 }

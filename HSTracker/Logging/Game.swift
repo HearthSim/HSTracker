@@ -44,8 +44,8 @@ class Game: NSObject, PowerEventHandler {
 		didSet {
 			if hearthstoneRunState.isRunning {
 				// delay update as game might not have a proper window
-				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [unowned(unsafe) self] in
-					self.updateTrackers()
+				DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1), execute: { [weak self] in
+					self?.updateTrackers()
 				})
 			} else {
 				self.updateTrackers()
@@ -100,7 +100,10 @@ class Game: NSObject, PowerEventHandler {
 	private var guiUpdateResets = false
 	private let _queue = DispatchQueue(label: "be.michotte.hstracker.guiupdate", attributes: [])
 	
-	private func _updateTrackers() {
+    private func _updateTrackers(notification: Notification) {
+        self._updateTrackers()
+    }
+    private func _updateTrackers() {
 		SizeHelper.hearthstoneWindow.reload()
 		
 		self.updatePlayerTracker(reset: guiUpdateResets)
@@ -113,7 +116,15 @@ class Game: NSObject, PowerEventHandler {
 	}
 	
     // MARK: - GUI calls
-    @objc func updateTrackers(reset: Bool = false) {
+    var shouldShowGUIElement: Bool {
+        return
+            // do not show gui while spectating
+            !(Settings.dontTrackWhileSpectating && self.spectator) &&
+                // do not show gui while game is in background
+                !((Settings.hideAllWhenGameInBackground || Settings.hideAllWhenGameInBackground) && !self.hearthstoneRunState.isActive)
+    }
+    
+    func updateTrackers(reset: Bool = false) {
 		self.guiNeedsUpdate = true
 		self.guiUpdateResets = reset || self.guiUpdateResets
     }
@@ -123,9 +134,10 @@ class Game: NSObject, PowerEventHandler {
 			
 			let tracker = self.windowManager.opponentTracker
 			if Settings.showOpponentTracker &&
-				( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
+            !(Settings.dontTrackWhileSpectating && self.spectator) &&
+				((Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
 					|| (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
-				( (Settings.hideAllWhenGameInBackground &&
+				((Settings.hideAllWhenGameInBackground &&
 					self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
 				
 				// update cards
@@ -189,9 +201,10 @@ class Game: NSObject, PowerEventHandler {
 			
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
+                !(Settings.dontTrackWhileSpectating && self.spectator) &&
                 ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
                     || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
-                ( (Settings.hideAllWhenGameInBackground &&
+                ((Settings.hideAllWhenGameInBackground &&
                     self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground || self.selfAppActive) {
                 
                 // update cards
@@ -265,9 +278,7 @@ class Game: NSObject, PowerEventHandler {
     func updateTurnTimer() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
 
-            if Settings.showTimer && !self.gameEnded &&
-                ( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) {
+            if Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement {
                 var rect: NSRect?
                 if Settings.autoPositionTrackers {
                     rect = SizeHelper.timerHudFrame()
@@ -295,11 +306,10 @@ class Game: NSObject, PowerEventHandler {
             
             let tracker = self.windowManager.secretTracker
             
-            if Settings.showSecretHelper && !self.gameEnded &&
-                ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) {
+            if Settings.showSecretHelper && !self.gameEnded && self.shouldShowGUIElement {
                 tracker.set(cards: cards)
                 tracker.table?.reloadData()
+
                 if cards.count > 0 {
                     self.windowManager.show(controller: tracker, show: true,
                                             frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight),
@@ -340,11 +350,7 @@ class Game: NSObject, PowerEventHandler {
             
             let tracker = self.windowManager.cardHudContainer
             
-            if Settings.showCardHuds &&
-                ( (Settings.hideAllWhenGameInBackground &&
-                    self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground) {
-                
+            if Settings.showCardHuds && self.shouldShowGUIElement {
                 if !self.gameEnded {
                     tracker.update(entities: self.opponent.hand,
                                             cardCount: self.opponent.handCount)
@@ -370,9 +376,7 @@ class Game: NSObject, PowerEventHandler {
             
             var rect: NSRect?
             
-            if Settings.playerBoardDamage &&
-                ( (Settings.hideAllWhenGameInBackground &&
-                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+            if Settings.playerBoardDamage && self.shouldShowGUIElement {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
                     if let heroPower = board.player.heroPower, self.player.currentMana >= heroPower.cost {
@@ -402,9 +406,7 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: playerBoardDamage, show: false)
             }
             
-            if Settings.opponentBoardDamage &&
-                ( (Settings.hideAllWhenGameInBackground &&
-                    self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
+            if Settings.opponentBoardDamage && self.shouldShowGUIElement {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
                     if let heroPower = board.opponent.heroPower {
@@ -443,8 +445,9 @@ class Game: NSObject, PowerEventHandler {
 			let tracker = self.windowManager.arenaHelper
 			
 			if Settings.showArenaHelper && ArenaWatcher.isRunning() &&
+                !(Settings.dontTrackWhileSpectating && self.spectator) &&
 				self.windowManager.arenaHelper.cards.count == 3 &&
-				( (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+				((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
 					|| !Settings.hideAllWhenGameInBackground ) {
 				tracker.table?.reloadData()
 				self.windowManager.show(controller: tracker, show: true, frame: SizeHelper.arenaHelperFrame(),
@@ -651,7 +654,8 @@ class Game: NSObject, PowerEventHandler {
     private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
 
 	// MARK: - Lifecycle
-	
+    private var allTrackerUpdateObserver: NSObjectProtocol?
+    
     init(hearthstoneRunState: HearthstoneRunState) {
         self.hearthstoneRunState = hearthstoneRunState
 		turnTimer = TurnTimer(gui: windowManager.timerHud)
@@ -707,10 +711,11 @@ class Game: NSObject, PowerEventHandler {
 		}
 		
 		for option in allTrackerUpdateEvents {
-			center.addObserver(self,
+			/*center.addObserver(self,
 			                   selector: #selector(updateTrackers),
 			                   name: NSNotification.Name(rawValue: option),
-			                   object: nil)
+			                   object: nil)*/
+            allTrackerUpdateObserver = center.addObserver(forName: NSNotification.Name(rawValue: option), object: self, queue: OperationQueue.main, using: _updateTrackers)
 		}
 		
 		// start gui updater thread
