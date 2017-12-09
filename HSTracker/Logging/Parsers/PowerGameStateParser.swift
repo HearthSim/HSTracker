@@ -443,7 +443,7 @@ class PowerGameStateParser: LogEventParser {
             }
         } else if logLine.line.contains("CREATE_GAME") {
             tagChangeHandler.clearQueuedActions()
-            if Settings.autoDeckDetection {
+            if Settings.autoDeckDetection && !(Settings.dontTrackWhileSpectating && eventHandler.currentGameMode == .spectator) {
                 if let currentMode = eventHandler.currentMode,
                     let deck = CoreManager.autoDetectDeck(mode: currentMode) {
                     eventHandler.set(activeDeckId: deck.deckId, autoDetected: true)

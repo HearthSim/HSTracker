@@ -28,6 +28,7 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var allowFullscreen: NSButton!
     @IBOutlet weak var hideAllWhenNotInGame: NSButton!
     @IBOutlet weak var hideAllWhenGameInBackground: NSButton!
+    @IBOutlet weak var disableTrackingInSpectatorMode: NSButton!
     @IBOutlet weak var floatingCardStyle: NSComboBox!
 
     let themes = ["classic", "frost", "dark", "minimal"]
@@ -67,6 +68,7 @@ class TrackersPreferences: NSViewController {
         hideAllWhenNotInGame.state = Settings.hideAllTrackersWhenNotInGame ? .on : .off
         hideAllWhenGameInBackground.state = Settings.hideAllWhenGameInBackground
             ? .on : .off
+        disableTrackingInSpectatorMode.state = Settings.dontTrackWhileSpectating ? .on : .off
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {
@@ -122,6 +124,8 @@ class TrackersPreferences: NSViewController {
             Settings.hideAllTrackersWhenNotInGame = hideAllWhenNotInGame.state == .on
         } else if sender == hideAllWhenGameInBackground {
             Settings.hideAllWhenGameInBackground = hideAllWhenGameInBackground.state == .on
+        } else if sender == disableTrackingInSpectatorMode {
+            Settings.dontTrackWhileSpectating = disableTrackingInSpectatorMode.state == .on
         }
     }
 }

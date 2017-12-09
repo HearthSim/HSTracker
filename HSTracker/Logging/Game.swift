@@ -1058,7 +1058,7 @@ class Game: NSObject, PowerEventHandler {
 
 	private func syncStats(logLines: [LogLine], stats: InternalGameStats) {
 
-        guard currentGameMode != .practice && currentGameMode != .none else {
+        guard currentGameMode != .practice && currentGameMode != .none && currentGameMode != .spectator else {
             logger.info("Game was in \(currentGameMode), don't send to third-party")
             return
         }

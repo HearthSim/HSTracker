@@ -27,6 +27,7 @@ protocol PowerEventHandler: class {
 	var opponent: Player! { get set }
 	
 	var currentMode: Mode? { get set }
+    var currentGameMode: GameMode { get }
 	
 	var gameTriggerCount: Int { get set }
 	

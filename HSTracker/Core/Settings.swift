@@ -142,7 +142,11 @@ final class Settings {
             return .image
         }
     }
-
+    
+    static var dontTrackWhileSpectating: Bool {
+        set { set(name: "disable_tracking_in_spectator_mode", value: newValue) }
+        get { return get(name: "disable_tracking_in_spectator_mode") as? Bool ?? true }
+    }
     static var showTopdeckchance: Bool {
         set { set(name: "show_topdeck_chance", value: newValue) }
         get { return get(name: "show_topdeck_chance") as? Bool ?? true }
