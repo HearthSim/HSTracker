@@ -303,23 +303,9 @@ class Game: NSObject, PowerEventHandler {
     
     func updateSecretTracker(cards: [Card]) {
         DispatchQueue.main.async { [unowned(unsafe) self] in
-            
-            let tracker = self.windowManager.secretTracker
-            
-            if Settings.showSecretHelper && !self.gameEnded && self.shouldShowGUIElement {
-                tracker.set(cards: cards)
-                tracker.table?.reloadData()
-
-                if cards.count > 0 {
-                    self.windowManager.show(controller: tracker, show: true,
-                                            frame: SizeHelper.secretTrackerFrame(height: tracker.frameHeight),
-                                            title: nil, overlay: self.hearthstoneRunState.isActive)
-                } else {
-                    self.windowManager.show(controller: tracker, show: false)
-                }
-            } else {
-                self.windowManager.show(controller: tracker, show: false)
-            }
+            self.windowManager.secretTracker.set(cards: cards)
+            self.windowManager.secretTracker.table?.reloadData()
+            self.updateSecretTracker()
         }
     }
     
