@@ -711,10 +711,6 @@ class Game: NSObject, PowerEventHandler {
 		}
 		
 		for option in allTrackerUpdateEvents {
-			/*center.addObserver(self,
-			                   selector: #selector(updateTrackers),
-			                   name: NSNotification.Name(rawValue: option),
-			                   object: nil)*/
             allTrackerUpdateObserver = center.addObserver(forName: NSNotification.Name(rawValue: option), object: self, queue: OperationQueue.main, using: _updateTrackers)
 		}
 		

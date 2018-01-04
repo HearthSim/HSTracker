@@ -53,8 +53,7 @@ final class CoreManager: NSObject {
 		}*/
     }
 
-    static func validatedHearthstonePath() -> Bool {
-        let path = "\(Settings.hearthstonePath)/Hearthstone.app"
+    static func validatedHearthstonePath(_ path: String = "\(Settings.hearthstonePath)/Hearthstone.app") -> Bool {
         let exists = FileManager.default.fileExists(atPath: path)
         AppHealth.instance.setHSInstalled(flag: exists)
         return exists

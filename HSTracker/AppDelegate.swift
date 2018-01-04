@@ -47,7 +47,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}()
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		
 		// warn user about memory reading
 		if Settings.showMemoryReadingWarning {
 			let alert = NSAlert()
@@ -71,18 +70,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             logger.addDestination(console)
 		#endif
 		
+        // setup logger
 		let path = Paths.logs
         let file = FileDestination()
         file.logFileURL = path.appendingPathComponent("hstracker.log")
 		logger.addDestination(file)
-		
 		logger.info("*** Starting \(Version.buildName) ***")
 		
-		// fix hearthstone log folder path
-		if Settings.hearthstonePath.hasSuffix("/Logs") {
-			Settings.hearthstonePath = Settings.hearthstonePath.replace("/Logs", with: "")
-		}
-		
+        // check if we have valid settings
 		if Settings.validated() {
 			loadSplashscreen()
 		} else {

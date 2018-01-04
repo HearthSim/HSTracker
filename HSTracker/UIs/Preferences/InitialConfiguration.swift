@@ -62,7 +62,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
         Settings.hearthstoneLanguage = hearthstone
         Settings.hsTrackerLanguage = hstracker
-        Settings.hearthstonePath = hearthstonePath.stringValue
+        Settings.hearthstonePath = hearthstonePath.stringValue.replace("Hearthstone.app", with: "")
 
         if let completionHandler = self.completionHandler {
             DispatchQueue.main.async {
@@ -117,6 +117,7 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
 
     func checkToEnableSave() {
         saveButton.isEnabled = (hearthstoneLanguage.indexOfSelectedItem != -1
+            && CoreManager.validatedHearthstonePath(hearthstonePath.stringValue)
             && hstrackerLanguage.indexOfSelectedItem != -1
             && hearthstonePath.stringValue != "")
     }

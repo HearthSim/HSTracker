@@ -14,23 +14,28 @@ final class Settings {
     static var fullGameLog: Bool = false
 
     static func validated() -> Bool {
+        // fix hearthstone log folder path
+        let hs_path = Settings.hearthstonePath
+        let suffix = "/Logs"
+        if hs_path.hasSuffix(suffix) {
+            Settings.hearthstonePath = hs_path.substring(from: 0, length: hs_path.count-suffix.count)
+        }
         return CoreManager.validatedHearthstonePath()
             && hearthstoneLanguage != nil && hsTrackerLanguage != nil
     }
 
-    private static let defaults: UserDefaults? = {
+    private static let defaults: UserDefaults = {
         return UserDefaults.standard
     }()
 
     private static func set(name: String, value: Any?) {
-        defaults?.set(value, forKey: name)
-        defaults?.synchronize()
+        defaults.set(value, forKey: name)
 
         NotificationCenter.default.post(name: Notification.Name(rawValue: name), object: value)
     }
 
     private static func get(name: String) -> Any? {
-        if let returnValue = defaults?.object(forKey: name) {
+        if let returnValue = defaults.object(forKey: name) {
             return returnValue as Any?
         }
         return nil
@@ -93,7 +98,7 @@ final class Settings {
     static var hsTrackerLanguage: Language.HSTracker? {
         set {
             if let locale = newValue {
-                defaults?.set([locale.rawValue], forKey: "AppleLanguages")
+                defaults.set([locale.rawValue], forKey: "AppleLanguages")
             }
             set(name: "hstracker_language", value: newValue?.rawValue)
         }
