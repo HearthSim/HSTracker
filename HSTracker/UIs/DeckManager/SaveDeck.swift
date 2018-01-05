@@ -66,7 +66,7 @@ class SaveDeck: NSWindowController {
 			RealmHelper.add(deck: deck, with: cards)
 		}
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.reload_decks),
                                         object: deck)
         self._delegate?.deckSaveSaved()
         

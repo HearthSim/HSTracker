@@ -47,7 +47,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}()
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
-		
 		// warn user about memory reading
 		if Settings.showMemoryReadingWarning {
 			let alert = NSAlert()
@@ -71,18 +70,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             logger.addDestination(console)
 		#endif
 		
+        // setup logger
 		let path = Paths.logs
         let file = FileDestination()
         file.logFileURL = path.appendingPathComponent("hstracker.log")
 		logger.addDestination(file)
-		
 		logger.info("*** Starting \(Version.buildName) ***")
 		
-		// fix hearthstone log folder path
-		if Settings.hearthstonePath.hasSuffix("/Logs") {
-			Settings.hearthstonePath = Settings.hearthstonePath.replace("/Logs", with: "")
-		}
-		
+        // check if we have valid settings
 		if Settings.validated() {
 			loadSplashscreen()
 		} else {
@@ -239,8 +234,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		coreManager.start()
 		
 		let events = [
-			"reload_decks": #selector(AppDelegate.reloadDecks(_:)),
-			"hstracker_language": #selector(AppDelegate.languageChange(_:))
+			Events.reload_decks: #selector(AppDelegate.reloadDecks(_:)),
+			Settings.hstracker_language: #selector(AppDelegate.languageChange(_:))
 		]
 		
 		for (event, selector) in events {
@@ -316,6 +311,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				decksmenu.submenu = NSMenu()
 				self.dockMenu.addItem(decksmenu)
 			}
+            
+            self.dockMenu.addItem(NSMenuItem.separator())
+            self.dockMenu.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
+                                  action: #selector(AppDelegate.openDeckManager(_:)),
+                                  keyEquivalent: "d")
 			
 			let dockdeckMenu = self.dockMenu.item(withTag: 1)
 			

@@ -529,6 +529,7 @@
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 		C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */; };
 		C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3D91D20BE9500886A11 /* LadderTab.xib */; };
+		F79833971FFF324200D2893E /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1030,6 +1031,7 @@
 		C9BDB3E11D20BEDD00886A11 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LadderTab.strings; sourceTree = "<group>"; };
 		C9BDB3E31D20BEDF00886A11 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LadderTab.strings"; sourceTree = "<group>"; };
 		C9BDB3E51D20BEE000886A11 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LadderTab.strings"; sourceTree = "<group>"; };
+		F79833961FFF324200D2893E /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1413,6 +1415,7 @@
 				4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */,
 				4390FBB91DAA72E700AE71BB /* Version.swift */,
 				43BE58BD1DC47C6D00B24A21 /* Paths.swift */,
+				F79833961FFF324200D2893E /* Events.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1985,6 +1988,7 @@
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
 				C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
+				F79833971FFF324200D2893E /* Events.swift in Sources */,
 				434C2F361C7F4857001D1D91 /* HearthstoneDecks.swift in Sources */,
 				43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,

@@ -32,6 +32,16 @@ class AppHealth: NSObject {
     override init() {
         level = .undefined
         super.init()
+        
+        let center = NotificationCenter.default
+        let triggers = [Events.hearthstone_active: #selector(setHearthstoneRunning),
+                        Events.hearthstone_running: #selector(setHearthstoneRunning)]
+        
+        for (event, action) in triggers {
+            center.addObserver(self, selector: action,
+                                                name: NSNotification.Name(rawValue: event),
+                                                object: nil)
+        }
     }
     
     func setHSInstalled(flag installed: Bool) {
@@ -55,7 +65,7 @@ class AppHealth: NSObject {
         }
     }
     
-    func setHearthstoneRunning(flag running: Bool) {
+    @objc func setHearthstoneRunning(flag running: Bool = true) {
         if running {
             if level.rawValue < HealthLevel.gamerunning.rawValue {
                 self.setLevel(level: HealthLevel.gamerunning)

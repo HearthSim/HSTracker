@@ -60,7 +60,7 @@ class Tracker: OverWindowController {
 
         center.addObserver(self,
                            selector: #selector(setOpacity),
-                           name: NSNotification.Name(rawValue: "tracker_opacity"),
+                           name: NSNotification.Name(rawValue: Settings.tracker_opacity),
                            object: nil)
         setOpacity()
     }
@@ -584,7 +584,7 @@ extension Tracker: CardCellHover {
         }
 
         NotificationCenter.default
-            .post(name: Notification.Name(rawValue: "show_floating_card"),
+            .post(name: Notification.Name(rawValue: Events.show_floating_card),
                                   object: nil,
                                   userInfo: userinfo)
     }
@@ -593,7 +593,7 @@ extension Tracker: CardCellHover {
         let userinfo = [
             "card": card
             ] as [String: Any]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "hide_floating_card"),
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hide_floating_card),
                                         object: nil,
                                         userInfo: userinfo)
     }
