@@ -311,6 +311,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				decksmenu.submenu = NSMenu()
 				self.dockMenu.addItem(decksmenu)
 			}
+            
+            self.dockMenu.addItem(NSMenuItem.separator())
+            self.dockMenu.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
+                                  action: #selector(AppDelegate.openDeckManager(_:)),
+                                  keyEquivalent: "d")
 			
 			let dockdeckMenu = self.dockMenu.item(withTag: 1)
 			
