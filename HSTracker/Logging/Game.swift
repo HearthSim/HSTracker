@@ -692,7 +692,7 @@ class Game: NSObject, PowerEventHandler {
 		                              Events.space_changed, Events.hearthstone_closed, Events.hearthstone_running,
 		                              Events.hearthstone_active, Events.hearthstone_deactived, Settings.can_join_fullscreen,
 		                              Settings.hide_all_trackers_when_not_in_game, Settings.hide_all_trackers_when_game_in_background,
-		                              Settings.card_size, Settings.theme]
+		                              Settings.card_size, Settings.theme_token]
 		
 		for option in playerTrackerUpdateEvents {
 			center.addObserver(self,
@@ -709,7 +709,7 @@ class Game: NSObject, PowerEventHandler {
 		}
 		
 		for option in allTrackerUpdateEvents {
-            allTrackerUpdateObserver = center.addObserver(forName: NSNotification.Name(rawValue: option), object: self, queue: OperationQueue.main, using: _updateTrackers)
+            allTrackerUpdateObserver = center.addObserver(forName: NSNotification.Name(rawValue: option), object: nil, queue: OperationQueue.main, using: _updateTrackers)
 		}
 		
 		// start gui updater thread

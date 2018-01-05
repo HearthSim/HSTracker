@@ -127,7 +127,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(EditDeck.updateTheme(_:)),
-                         name: NSNotification.Name(rawValue: Settings.theme),
+                         name: NSNotification.Name(rawValue: Settings.theme_token),
                          object: nil)
 
         deckUndoManager = window?.undoManager

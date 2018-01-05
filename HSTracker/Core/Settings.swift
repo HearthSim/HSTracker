@@ -479,8 +479,8 @@ final class Settings {
     }
 
     static var theme: String {
-        set { set(name: Settings.theme, value: newValue) }
-        get { return get(name: Settings.theme) as? String ?? "dark" }
+        set { set(name: Settings.theme_token, value: newValue) }
+        get { return get(name: Settings.theme_token) as? String ?? "dark" }
     }
 
     // MARK: - Paths / utils
@@ -508,6 +508,8 @@ final class Settings {
 extension Settings {
 
     static let show_memory_reading_warning = "showMemoryReadingWarning"
+    
+    static let theme_token = "theme"
 
     static let can_join_fullscreen = "can_join_fullscreen"
     static let quit_when_hs_closes = "quit_when_hs_closes"

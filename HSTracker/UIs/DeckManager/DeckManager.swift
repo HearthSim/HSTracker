@@ -108,7 +108,7 @@ class DeckManager: NSWindowController {
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(DeckManager.updateTheme(_:)),
-                         name: NSNotification.Name(rawValue: Settings.theme),
+                         name: NSNotification.Name(rawValue: Settings.theme_token),
                          object: nil)
     }
     
