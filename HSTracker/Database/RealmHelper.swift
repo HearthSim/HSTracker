@@ -268,7 +268,7 @@ struct RealmHelper {
 		}
 		
 		NotificationCenter.default
-			.post(name: Notification.Name(rawValue: "reload_decks"),
+			.post(name: Notification.Name(rawValue: Events.reload_decks),
 			      object: deck)
 		
 		return deck

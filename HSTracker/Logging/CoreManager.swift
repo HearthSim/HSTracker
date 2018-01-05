@@ -232,7 +232,7 @@ final class CoreManager: NSObject {
     @objc func spaceChange() {
         logger.verbose("Receive space changed event")
         NotificationCenter.default
-            .post(name: Notification.Name(rawValue: "space_changed"), object: nil)
+            .post(name: Notification.Name(rawValue: Events.space_changed), object: nil)
     }
 
     @objc func appLaunched(_ notification: Notification) {
@@ -241,7 +241,7 @@ final class CoreManager: NSObject {
             logger.verbose("Hearthstone is now launched")
             self.startTracking()
             self.game.setHearthstoneRunning(flag: true)
-            AppHealth.instance.setHearthstoneRunning(flag: true)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hearthstone_running), object: nil)
         }
     }
 
@@ -266,7 +266,8 @@ final class CoreManager: NSObject {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
 			
 			if app.localizedName == CoreManager.applicationName {
-				AppHealth.instance.setHearthstoneRunning(flag: true)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Events.hearthstone_active), object: nil)
+                // TODO: add observer here as well
 				self.game.setHearthstoneActived(flag: true)
                 self.game.setSelfActivated(flag: false)
 			}

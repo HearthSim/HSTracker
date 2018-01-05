@@ -27,7 +27,7 @@ class CardList: OverWindowController {
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(cardSizeChange),
-                         name: NSNotification.Name(rawValue: "card_size"),
+                         name: NSNotification.Name(rawValue: Settings.card_size),
                          object: nil)
     }
 
@@ -121,7 +121,7 @@ extension CardList: CardCellHover {
 
         let frame = [x, y, hoverFrame.width, hoverFrame.height]
         NotificationCenter.default
-            .post(name: Notification.Name(rawValue: "show_floating_card"),
+            .post(name: Notification.Name(rawValue: Events.show_floating_card),
                                   object: nil,
                                   userInfo: [
                                     "card": card,
@@ -131,6 +131,6 @@ extension CardList: CardCellHover {
 
     func out(card: Card) {
         NotificationCenter.default
-            .post(name: Notification.Name(rawValue: "hide_floating_card"), object: nil)
+            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil)
     }
 }

@@ -102,13 +102,13 @@ class DeckManager: NSWindowController {
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(DeckManager.updateStatsLabel),
-                         name: NSNotification.Name(rawValue: "reload_decks"),
+                         name: NSNotification.Name(rawValue: Events.reload_decks),
                          object: nil)
 
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(DeckManager.updateTheme(_:)),
-                         name: NSNotification.Name(rawValue: "theme"),
+                         name: NSNotification.Name(rawValue: Settings.theme),
                          object: nil)
     }
     
@@ -339,7 +339,7 @@ class DeckManager: NSWindowController {
         
         NSAlert.show(style: .informational, message: message, window: self.window!) {
             self._deleteDeck(deck)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "reload_decks"),
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Events.reload_decks),
                                             object: deck)
         }
     }

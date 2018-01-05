@@ -674,27 +674,25 @@ class Game: NSObject, PowerEventHandler {
 		let center = NotificationCenter.default
 		
 		// events that should update the player tracker
-		let playerTrackerUpdateEvents = ["show_player_tracker", "show_player_draw", "show_player_mulligan",
-		                                 "show_player_play", "rarity_colors", "remove_cards_from_deck",
-		                                 "highlight_last_drawn", "highlight_cards_in_hand", "highlight_discarded",
-		                                 "show_player_get", "player_draw_chance", "player_card_count",
-		                                 "player_cthun_frame", "player_yogg_frame", "player_deathrattle_frame",
-		                                 "show_win_loss_ratio", "player_in_hand_color", "show_deck_name",
-		                                 "player_graveyard_details_frame", "player_graveyard_frame"]
+		let playerTrackerUpdateEvents = [Settings.show_player_tracker, Settings.rarity_colors, Settings.remove_cards_from_deck,
+		                                 Settings.highlight_last_drawn, Settings.highlight_cards_in_hand, Settings.highlight_discarded,
+		                                 Settings.show_player_get, Settings.player_draw_chance, Settings.player_card_count,
+		                                 Settings.player_cthun_frame, Settings.player_yogg_frame, Settings.player_deathrattle_frame,
+		                                 Settings.show_win_loss_ratio, Settings.player_in_hand_color, Settings.show_deck_name,
+		                                 Settings.player_graveyard_details_frame, Settings.player_graveyard_frame]
 		
 		// events that should update the opponent's tracker
-		let opponentTrackerUpdateEvents = ["show_opponent_tracker", "show_opponent_draw", "show_opponent_mulligan",
-		                                   "show_opponent_play", "opponent_card_count", "opponent_draw_chance",
-		                                   "opponent_cthun_frame", "opponent_yogg_frame", "opponent_deathrattle_frame",
-		                                   "show_opponent_class", "opponent_graveyard_frame",
-		                                   "opponent_graveyard_details_frame"]
+		let opponentTrackerUpdateEvents = [Settings.show_opponent_tracker, Settings.opponent_card_count, Settings.opponent_draw_chance,
+		                                   Settings.opponent_cthun_frame, Settings.opponent_yogg_frame, Settings.opponent_deathrattle_frame,
+		                                   Settings.show_opponent_class, Settings.opponent_graveyard_frame,
+		                                   Settings.opponent_graveyard_details_frame]
 		
 		// events that should update all trackers
-		let allTrackerUpdateEvents = ["rarity_colors", "reload_decks", "window_locked", "auto_position_trackers",
-		                              "space_changed", "hearthstone_closed", "hearthstone_running",
-		                              "hearthstone_active", "hearthstone_deactived", "can_join_fullscreen",
-		                              "hide_all_trackers_when_not_in_game", "hide_all_trackers_when_game_in_background",
-		                              "card_size", "theme"]
+		let allTrackerUpdateEvents = [Settings.rarity_colors, Events.reload_decks, Settings.window_locked, Settings.auto_position_trackers,
+		                              Events.space_changed, Events.hearthstone_closed, Events.hearthstone_running,
+		                              Events.hearthstone_active, Events.hearthstone_deactived, Settings.can_join_fullscreen,
+		                              Settings.hide_all_trackers_when_not_in_game, Settings.hide_all_trackers_when_game_in_background,
+		                              Settings.card_size, Settings.theme]
 		
 		for option in playerTrackerUpdateEvents {
 			center.addObserver(self,
@@ -1093,7 +1091,7 @@ class Game: NSObject, PowerEventHandler {
                     if case UploadResult.successful(let replayId) = result {
                         NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))
                         NotificationCenter.default
-                            .post(name: Notification.Name(rawValue: "reload_decks"), object: nil)
+                            .post(name: Notification.Name(rawValue: Events.reload_decks), object: nil)
                     } else if case UploadResult.failed(let error) = result {
                         NotificationManager.showNotification(type: .hsReplayUploadFailed(error: error))
                     }

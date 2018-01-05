@@ -65,7 +65,7 @@ class StatsTab: NSViewController {
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(update),
-                         name: NSNotification.Name(rawValue: "reload_decks"),
+                         name: NSNotification.Name(rawValue: Events.reload_decks),
                          object: nil)
     }
 

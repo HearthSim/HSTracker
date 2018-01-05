@@ -63,7 +63,7 @@ class LadderTab: NSViewController {
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(guessRankAndUpdate),
-                         name: NSNotification.Name(rawValue: "reload_decks"),
+                         name: NSNotification.Name(rawValue: Events.reload_decks),
                          object: nil)
     }
 

@@ -124,7 +124,7 @@ class CardHud: NSView {
         screenRect.size = NSSize(width: 200, height: 250)
         
         NotificationCenter.default
-            .post(name: Notification.Name(rawValue: "show_floating_card"),
+            .post(name: Notification.Name(rawValue: Events.show_floating_card),
                                   object: nil,
                                   userInfo: [
                                     "card": card,
@@ -141,6 +141,6 @@ class CardHud: NSView {
         guard card != nil else { return }
  
         NotificationCenter.default
-            .post(name: Notification.Name(rawValue: "hide_floating_card"), object: nil)
+            .post(name: Notification.Name(rawValue: Events.hide_floating_card), object: nil)
     }
 }

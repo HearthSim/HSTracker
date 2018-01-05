@@ -234,8 +234,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		coreManager.start()
 		
 		let events = [
-			"reload_decks": #selector(AppDelegate.reloadDecks(_:)),
-			"hstracker_language": #selector(AppDelegate.languageChange(_:))
+			Events.reload_decks: #selector(AppDelegate.reloadDecks(_:)),
+			Settings.hstracker_language: #selector(AppDelegate.languageChange(_:))
 		]
 		
 		for (event, selector) in events {
