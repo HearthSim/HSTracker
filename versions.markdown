@@ -1,3 +1,11 @@
+# 1.3.2 (unreleased)
+## Fixes:
+- Secret tracker disappears correctly
+- Fixed anomaly with user settings (High Sierra users please update to 10.13.2)
+
+## New:
+- Deck Manager menu item in the dock menu
+
 # 1.3.1
 ## Fixes:
 - Correct build number
