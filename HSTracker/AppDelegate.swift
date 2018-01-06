@@ -312,11 +312,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				self.dockMenu.addItem(decksmenu)
 			}
             
-            self.dockMenu.addItem(NSMenuItem.separator())
-            self.dockMenu.addItem(withTitle: NSLocalizedString("Deck Manager", comment: ""),
-                                  action: #selector(AppDelegate.openDeckManager(_:)),
-                                  keyEquivalent: "d")
-			
+            if self.dockMenu.item(withTag: 2) == nil {
+                self.dockMenu.addItem(NSMenuItem.separator())
+                let deckmanager = NSMenuItem(title: NSLocalizedString("Deck Manager", comment: ""),
+                                           action: #selector(AppDelegate.openDeckManager(_:)), keyEquivalent: "d")
+                deckmanager.tag = 2
+                self.dockMenu.addItem(deckmanager)
+            }
+            
 			let dockdeckMenu = self.dockMenu.item(withTag: 1)
 			
 			// add deck items to main and dock menu
