@@ -1,6 +1,7 @@
 # 1.3.1
 ## Fixes:
 - Correct build number
+- Deck is now correctly detected in friendly games
 
 # 1.3.0
 ## New:

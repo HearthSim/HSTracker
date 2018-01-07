@@ -47,6 +47,8 @@ struct LoadingScreenHandler: LogEventParser {
                 DeckWatcher.start()
             } else if game.currentMode == .adventure {
                 DeckWatcher.start()
+            } else if game.currentMode == .friendly {
+                DeckWatcher.start()
             } else if game.currentMode == .hub {
                 //game.clean()
             }
@@ -59,6 +61,8 @@ struct LoadingScreenHandler: LogEventParser {
             } else if game.previousMode == .tournament {
                 DeckWatcher.stop()
             } else if game.previousMode == .adventure {
+                DeckWatcher.stop()
+            } else if game.previousMode == .friendly {
                 DeckWatcher.stop()
             }
 
