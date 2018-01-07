@@ -529,6 +529,7 @@
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 		C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */; };
 		C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3D91D20BE9500886A11 /* LadderTab.xib */; };
+		F723404420014D3E00E4587A /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
 		F79833971FFF324200D2893E /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
 /* End PBXBuildFile section */
 
@@ -2052,6 +2053,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F723404420014D3E00E4587A /* Events.swift in Sources */,
 				43C1CAC11E96CE4E008C20B1 /* GlowFilter.m in Sources */,
 				43C1CAC01E96CE3C008C20B1 /* FileUtils.m in Sources */,
 				43C1C9FF1E96CD6F008C20B1 /* ArenaWatcher.swift in Sources */,
