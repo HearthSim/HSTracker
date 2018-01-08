@@ -126,6 +126,7 @@ extension CardIds.Collectible {
         static let Evasion: String = "LOOT_214"
         static let SuddenBetrayal: String = "LOOT_210"
         static let SonyaShadowdancer: String = "LOOT_165"
+        static let FaldoreiStrider: String = "LOOT_026"
     }
 }
 
@@ -189,6 +190,7 @@ extension CardIds.NonCollectible {
         static let ValeeratheHollow_ShadowReflectionToken: String = "ICC_827t"
         static let Shadowblade_ShadedEnchantment: String = "ICC_850e"
         static let ShadowReflectionTavernBrawl: String = "TB_ShadowReflection_001"
+        static let FaldoreiStrider_SpiderAmbushEnchantment: String = "LOOT_026e"
     }
 }
 

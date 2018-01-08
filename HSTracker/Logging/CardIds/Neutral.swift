@@ -557,6 +557,7 @@ extension CardIds.Collectible {
         static let HoardingDragon: String = "LOOT_144"
         static let ZolaTheGorgon: String = "LOOT_516"
         static let TheDarkness: String = "LOOT_526"
+        static let KingTogwaggle: String = "LOOT_541"
     }
 }
 
@@ -2149,6 +2150,8 @@ extension CardIds.NonCollectible {
         static let WondrousWand: String = "LOOT_998l"
         static let WandsWonder: String = "LOOT_998le"
         static let TheDarknessDarknessCandleToken: String = "LOOT_526t"
+        static let KingTogwaggle_KingsRansomToken: String = "LOOT_541t"
+        static let TheCandle: String = "LOOTA_843"
     }
 }
 

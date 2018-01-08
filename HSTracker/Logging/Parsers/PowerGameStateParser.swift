@@ -413,6 +413,15 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Neutral.TheDarkness:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.TheDarknessDarknessCandleToken, count: 3)
+                        case CardIds.Collectible.Rogue.FaldoreiStrider:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Rogue.FaldoreiStrider_SpiderAmbushEnchantment, count: 3)
+                        case CardIds.Collectible.Neutral.KingTogwaggle:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.KingTogwaggle_KingsRansomToken)
+                        case CardIds.NonCollectible.Neutral.TheCandle:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.TheCandle)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1
