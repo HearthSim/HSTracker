@@ -23,24 +23,32 @@ class AppHealth: NSObject {
 
     static let instance = AppHealth()
     
-    private let badge_icons = ["undefined": NSImage(named: NSImage.Name(rawValue: "badge-icon-undefined"))!,
+    private static let badge_icons = ["undefined": NSImage(named: NSImage.Name(rawValue: "badge-icon-undefined"))!,
                                "gameinstalled": NSImage(named: NSImage.Name(rawValue: "badge-icon-gameinstalled"))!,
                                "trackerworks": NSImage(named: NSImage.Name(rawValue: "badge-icon-trackerworks"))!,
                                "gamerunning": NSImage(named: NSImage.Name(rawValue: "badge-icon-gamerunning"))!,
                                "gameinprogress": NSImage(named: NSImage.Name(rawValue: "badge-icon-gameinprogress"))!]
 
+    private var observers: [NSObjectProtocol] = []
+    
     override init() {
         level = .undefined
         super.init()
         
         let center = NotificationCenter.default
-        let triggers = [Events.hearthstone_active: #selector(setHearthstoneRunning),
-                        Events.hearthstone_running: #selector(setHearthstoneRunning)]
+        let triggers = [Events.hearthstone_active, Events.hearthstone_running]
         
-        for (event, action) in triggers {
-            center.addObserver(self, selector: action,
-                                                name: NSNotification.Name(rawValue: event),
-                                                object: nil)
+        for event in triggers {
+            let observer = center.addObserver(forName: NSNotification.Name(rawValue: event), object: nil, queue: OperationQueue.main) { _ in
+                self.setHearthstoneRunning()
+            }
+            self.observers.append(observer)
+        }
+    }
+    
+    deinit {
+        for observer in self.observers {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
     
@@ -65,7 +73,7 @@ class AppHealth: NSObject {
         }
     }
     
-    @objc func setHearthstoneRunning(flag running: Bool = true) {
+    func setHearthstoneRunning(flag running: Bool = true) {
         if running {
             if level.rawValue < HealthLevel.gamerunning.rawValue {
                 self.setLevel(level: HealthLevel.gamerunning)
@@ -96,15 +104,15 @@ class AppHealth: NSObject {
         if Settings.showAppHealth {
             switch self.level {
             case .undefined:
-                NSApp.applicationIconImage = badge_icons["undefined"]
+                NSApp.applicationIconImage = AppHealth.badge_icons["undefined"]
             case .gameinstalled:
-                NSApp.applicationIconImage = badge_icons["gameinstalled"]
+                NSApp.applicationIconImage = AppHealth.badge_icons["gameinstalled"]
             case .trackerworks:
-                NSApp.applicationIconImage = badge_icons["trackerworks"]
+                NSApp.applicationIconImage = AppHealth.badge_icons["trackerworks"]
             case .gamerunning:
-                NSApp.applicationIconImage = badge_icons["gamerunning"]
+                NSApp.applicationIconImage = AppHealth.badge_icons["gamerunning"]
             case .gameinprogress:
-                NSApp.applicationIconImage = badge_icons["gameinprogress"]
+                NSApp.applicationIconImage = AppHealth.badge_icons["gameinprogress"]
             }
         } else {
             NSApp.applicationIconImage = nil

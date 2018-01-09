@@ -52,17 +52,21 @@ class Tracker: OverWindowController {
     var currentFormat: Format = .unknown
     var matchInfo: MatchInfo?
     var recordTrackerMessage: String = ""
+    var observer: NSObjectProtocol?
     
     override func windowDidLoad() {
         super.windowDidLoad()
 
-        let center = NotificationCenter.default
-
-        center.addObserver(self,
-                           selector: #selector(setOpacity),
-                           name: NSNotification.Name(rawValue: Settings.tracker_opacity),
-                           object: nil)
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Settings.tracker_opacity), object: nil, queue: OperationQueue.main) { _ in
+            self.setOpacity()
+        }
         setOpacity()
+    }
+    
+    deinit {
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func isLoaded() -> Bool {
@@ -71,7 +75,7 @@ class Tracker: OverWindowController {
 
     // MARK: - Notifications
 
-    @objc func setOpacity() {
+    func setOpacity() {
         let alpha = CGFloat(Settings.trackerOpacity / 100.0)
         self.window!.backgroundColor = NSColor(red: 0,
                                                green: 0,

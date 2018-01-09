@@ -63,7 +63,8 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     let baseCardWidth: CGFloat = 181
     let baseCardHeight: CGFloat = 250
-
+    var observer: NSObjectProtocol?
+    
     func set(playerClass: CardClass) {
         currentPlayerClass = playerClass
         selectedClass = currentPlayerClass
@@ -123,19 +124,19 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
             cell.cancelButtonCell!.target = self
             cell.cancelButtonCell!.action = #selector(EditDeck.cancelSearch(_:))
         }
-
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(EditDeck.updateTheme(_:)),
-                         name: NSNotification.Name(rawValue: Settings.theme_token),
-                         object: nil)
+        
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Settings.theme_token), object: nil, queue: OperationQueue.main) { _ in
+            self.updateTheme()
+        }
 
         deckUndoManager = window?.undoManager
         initKeyboardShortcuts()
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
         removeKeyboardShortcuts()
     }
 
@@ -221,7 +222,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         countLabel.stringValue = "\(count) / 30"
     }
 
-    @objc func updateTheme(_ notification: Notification) {
+    func updateTheme() {
         deckCardsView.reloadData()
         cardsTableView.reloadData()
     }

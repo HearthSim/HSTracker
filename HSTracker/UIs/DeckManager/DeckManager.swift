@@ -55,7 +55,8 @@ class DeckManager: NSWindowController {
     let orders = ["ascending", "descending"]
     var sortCriteria = Settings.deckSortCriteria
     var sortOrder = Settings.deckSortOrder
-	
+	var triggers: [NSObjectProtocol] = []
+    
 	weak var game: Game?
 
     override func windowDidLoad() {
@@ -98,28 +99,33 @@ class DeckManager: NSWindowController {
 
             return e
         }
-
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(DeckManager.updateStatsLabel),
-                         name: NSNotification.Name(rawValue: Events.reload_decks),
-                         object: nil)
-
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(DeckManager.updateTheme(_:)),
-                         name: NSNotification.Name(rawValue: Settings.theme_token),
-                         object: nil)
+        
+        let center = NotificationCenter.default
+        
+        if triggers.count == 0 {
+            let events = [
+                Events.reload_decks: self.updateStatsLabel,
+                Settings.theme_token: self.updateTheme
+            ]
+            for (event, trigger) in events {
+                let observer = center.addObserver(forName: NSNotification.Name(rawValue: event), object: nil, queue: OperationQueue.main) { _ in
+                    trigger()
+                }
+                triggers.append(observer)
+            }
+        }
+    }
+    
+    deinit {
+        for token in triggers {
+            NotificationCenter.default.removeObserver(token)
+        }
     }
     
     override func showWindow(_ sender: Any?) {
         
         refreshDecks()
         super.showWindow(sender)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 
     func sortedFilteredDecks() -> [Deck] {
@@ -179,7 +185,7 @@ class DeckManager: NSWindowController {
         refreshDecks()
     }
     
-    @objc func updateStatsLabel() {
+    func updateStatsLabel() {
         if let currentDeck = self.currentDeck {
             DispatchQueue.main.async {
                 self.statsLabel.stringValue = StatsHelper
@@ -189,7 +195,7 @@ class DeckManager: NSWindowController {
         }
     }
 
-    @objc func updateTheme(_ notification: Notification) {
+    func updateTheme() {
         deckListTable.reloadData()
     }
 

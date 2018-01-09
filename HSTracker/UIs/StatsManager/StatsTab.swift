@@ -19,6 +19,7 @@ class StatsTab: NSViewController {
     var statsTableItems = [StatsTableRow]()
     
     let modePickerItems: [GameMode] = [.all, .ranked, .casual, .brawl, .arena, .friendly, .practice]
+    var observer: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,13 +61,17 @@ class StatsTab: NSViewController {
         statsTable.tableColumns[3].headerToolTip = NSLocalizedString("It is 90% certain that the true winrate falls between these values.", comment: "")
         // swiftlint:enable line_length
         
-        // We need to update the display both when the
+        // We need to update the display when the
         // stats change
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(update),
-                         name: NSNotification.Name(rawValue: Events.reload_decks),
-                         object: nil)
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Events.reload_decks), object: nil, queue: OperationQueue.main) { _ in
+            self.update()
+        }
+    }
+    
+    deinit {
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func sortStatsTable() {
@@ -77,7 +82,7 @@ class StatsTab: NSViewController {
         }
     }
         
-    @objc func update() {
+    func update() {
         if let deck = self.deck {
             var index = modePicker.indexOfSelectedItem
             if index == -1 { // In case somehow nothing is selected

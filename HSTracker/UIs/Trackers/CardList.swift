@@ -14,6 +14,7 @@ class CardList: OverWindowController {
     @IBOutlet weak var table: NSTableView?
 
     var cards = [Card]()
+    var observer: NSObjectProtocol?
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -24,14 +25,18 @@ class CardList: OverWindowController {
         table?.autoresizingMask = [NSView.AutoresizingMask.width,
                                        NSView.AutoresizingMask.height]
 
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(cardSizeChange),
-                         name: NSNotification.Name(rawValue: Settings.card_size),
-                         object: nil)
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Settings.card_size), object: nil, queue: OperationQueue.main) { _ in
+            self.cardSizeChange()
+        }
+    }
+    
+    deinit {
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
-    @objc func cardSizeChange() {
+    func cardSizeChange() {
         setWindowSizes()
     }
 

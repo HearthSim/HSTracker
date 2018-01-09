@@ -28,6 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	var appHealth: AppHealth = AppHealth.instance
 	
 	var coreManager: CoreManager!
+    var triggers: [NSObjectProtocol] = []
 	
 	var preferences: MASPreferencesWindowController = {
 		var controllers = [
@@ -232,19 +233,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 		
 		coreManager.start()
-		
-		let events = [
-			Events.reload_decks: #selector(AppDelegate.reloadDecks(_:)),
-			Settings.hstracker_language: #selector(AppDelegate.languageChange(_:))
-		]
-		
-		for (event, selector) in events {
-			NotificationCenter.default.addObserver(self,
-			                                       selector: selector,
-			                                       name: NSNotification.Name(rawValue: event),
-			                                       object: nil)
-		}
-		
+
+        if triggers.count == 0 {
+            let events = [
+                Events.reload_decks: self.reloadDecks,
+                Settings.hstracker_language: self.languageChange
+            ]
+            
+            for (event, trigger) in events {
+                let observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: event), object: nil, queue: OperationQueue.main) { _ in
+                    trigger()
+                }
+                triggers.append(observer)
+            }
+        }
 		if let activeDeck = Settings.activeDeck {
 			self.coreManager.game.set(activeDeckId: activeDeck, autoDetected: false)
 		}
@@ -252,12 +254,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		splashscreen?.close()
 		splashscreen = nil
 	}
+    
+    deinit {
+        for observer in triggers {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
 	
-	@objc func reloadDecks(_ notification: Notification) {
+	func reloadDecks() {
 		buildMenu()
 	}
 	
-	@objc func languageChange(_ notification: Notification) {
+	func languageChange() {
 		let msg = "You must restart HSTracker for the language change to take effect"
 		NSAlert.show(style: .informational,
 		             message: NSLocalizedString(msg, comment: ""))

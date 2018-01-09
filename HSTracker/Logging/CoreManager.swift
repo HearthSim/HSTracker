@@ -52,6 +52,10 @@ final class CoreManager: NSObject {
 			CoreManager.assetGenerator?.locale = (Settings.hearthstoneLanguage ?? .enUS).rawValue
 		}*/
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
     static func validatedHearthstonePath(_ path: String = "\(Settings.hearthstonePath)/Hearthstone.app") -> Bool {
         let exists = FileManager.default.fileExists(atPath: path)
@@ -210,32 +214,36 @@ final class CoreManager: NSObject {
         ArenaDeckWatcher.stop()
         MirrorHelper.destroy()
     }
+    
+    var triggers: [NSObjectProtocol] = []
 
     // MARK: - Events
     func startListeners() {
-        let notificationCenter = NSWorkspace.shared.notificationCenter
-        let notifications = [
-            NSWorkspace.activeSpaceDidChangeNotification: #selector(spaceChange),
-            NSWorkspace.didLaunchApplicationNotification: #selector(appLaunched(_:)),
-            NSWorkspace.didTerminateApplicationNotification: #selector(appTerminated(_:)),
-            NSWorkspace.didActivateApplicationNotification: #selector(appActivated(_:)),
-            NSWorkspace.didDeactivateApplicationNotification: #selector(appDeactivated(_:))
-        ]
-        for (name, selector) in notifications {
-            notificationCenter.addObserver(self,
-                                           selector: selector,
-                                           name: name,
-                                           object: nil)
+        if self.triggers.count == 0 {
+            let center = NSWorkspace.shared.notificationCenter
+            let notifications = [
+                NSWorkspace.activeSpaceDidChangeNotification: spaceChange,
+                NSWorkspace.didLaunchApplicationNotification: appLaunched,
+                NSWorkspace.didTerminateApplicationNotification: appTerminated,
+                NSWorkspace.didActivateApplicationNotification: appActivated,
+                NSWorkspace.didDeactivateApplicationNotification: appDeactivated
+            ]
+            for (event, trigger) in notifications {
+                let observer = center.addObserver(forName: event, object: nil, queue: OperationQueue.main) { note in
+                    trigger(note)
+                }
+                triggers.append(observer)
+            }
         }
     }
 
-    @objc func spaceChange() {
+    func spaceChange(_ notification: Notification) {
         logger.verbose("Receive space changed event")
         NotificationCenter.default
             .post(name: Notification.Name(rawValue: Events.space_changed), object: nil)
     }
 
-    @objc func appLaunched(_ notification: Notification) {
+    func appLaunched(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
             logger.verbose("Hearthstone is now launched")
@@ -245,7 +253,7 @@ final class CoreManager: NSObject {
         }
     }
 
-    @objc func appTerminated(_ notification: Notification) {
+    func appTerminated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication,
             app.localizedName == CoreManager.applicationName {
             logger.verbose("Hearthstone is now closed")
@@ -262,7 +270,7 @@ final class CoreManager: NSObject {
         }
     }
 
-    @objc func appActivated(_ notification: Notification) {
+    func appActivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
 			
 			if app.localizedName == CoreManager.applicationName {
@@ -278,7 +286,7 @@ final class CoreManager: NSObject {
         }
     }
 
-    @objc func appDeactivated(_ notification: Notification) {
+    func appDeactivated(_ notification: Notification) {
         if let app = notification.userInfo!["NSWorkspaceApplicationKey"] as? NSRunningApplication {
 			if app.localizedName == CoreManager.applicationName {
 				self.game.setHearthstoneActived(flag: false)

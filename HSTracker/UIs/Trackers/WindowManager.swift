@@ -87,23 +87,31 @@ class WindowManager {
 
     private var lastCardsUpdateRequest = Date.distantPast.timeIntervalSince1970
 
+    var triggers: [NSObjectProtocol] = []
+    
     func startManager() {
-		
-        let events = [
-            Events.show_floating_card: #selector(showFloatingCard(_:)),
-            Events.hide_floating_card: #selector(hideFloatingCard(_:))
+        if triggers.count == 0 {
+            let events = [
+                Events.show_floating_card: self.showFloatingCard,
+                Events.hide_floating_card: self.hideFloatingCard
             ]
-
-        for (event, selector) in events {
-            NotificationCenter.default.addObserver(self,
-                                                   selector: selector,
-                                                   name: NSNotification.Name(rawValue: event),
-                                                   object: nil)
+            for (event, trigger) in events {
+                let observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: event), object: nil, queue: OperationQueue.main) { note in
+                    trigger(note)
+                }
+                triggers.append(observer)
+            }
+        }
+    }
+    
+    deinit {
+        for observer in triggers {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
 	
-	@objc private func setHearthstoneActive() { hearthstoneActive = true }
-	@objc private func setHearthstoneBackground() { hearthstoneActive = false }
+	private func setHearthstoneActive() { hearthstoneActive = true }
+	private func setHearthstoneBackground() { hearthstoneActive = false }
 
     func hideGameTrackers() {
 		// TODO: use not defered gui instead
@@ -119,7 +127,7 @@ class WindowManager {
 
     // MARK: - Floating card
     var closeRequestTimer: Timer?
-    @objc func showFloatingCard(_ notification: Notification) {
+    func showFloatingCard(_ notification: Notification) {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             guard Settings.showFloatingCard else { return }
             
@@ -167,7 +175,7 @@ class WindowManager {
         }
     }
 
-    @objc func hideFloatingCard(_ notification: Notification) {
+    func hideFloatingCard(_ notification: Notification) {
         guard Settings.showFloatingCard else { return }
         
         // hide popup

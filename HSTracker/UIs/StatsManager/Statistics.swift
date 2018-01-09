@@ -20,6 +20,7 @@ class Statistics: NSWindowController {
     var ladderTab: LadderTab?
     
     var tabSizes = [NSTabViewItem: CGSize]()
+    var observer: NSObjectProtocol?
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -51,12 +52,15 @@ class Statistics: NSWindowController {
 
         // We need to update the display both when the
         // stats change
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(update),
-                         name: NSNotification.Name(rawValue: Events.reload_decks),
-                         object: nil)
-
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Events.reload_decks), object: nil, queue: OperationQueue.main) { _ in
+            self.update()
+        }
+    }
+    
+    deinit {
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func resizeWindowToFitTab(_ tab: NSTabViewItem) {
@@ -77,7 +81,7 @@ class Statistics: NSWindowController {
         swindow.setFrame(frame, display: true)
     }
     
-    @objc func update() {
+    func update() {
         if let deck = self.deck {
             // XXX: This might be unsafe
             // I'm assuming that the player class names

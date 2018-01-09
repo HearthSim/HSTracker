@@ -100,10 +100,7 @@ class Game: NSObject, PowerEventHandler {
 	private var guiUpdateResets = false
 	private let _queue = DispatchQueue(label: "be.michotte.hstracker.guiupdate", attributes: [])
 	
-    private func _updateTrackers(notification: Notification) {
-        self._updateTrackers()
-    }
-    private func _updateTrackers() {
+    private func updateAllTrackers() {
 		SizeHelper.hearthstoneWindow.reload()
 		
 		self.updatePlayerTracker(reset: guiUpdateResets)
@@ -640,7 +637,7 @@ class Game: NSObject, PowerEventHandler {
     private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
 
 	// MARK: - Lifecycle
-    private var allTrackerUpdateObserver: NSObjectProtocol?
+    private var observers: [NSObjectProtocol] = []
     
     init(hearthstoneRunState: HearthstoneRunState) {
         self.hearthstoneRunState = hearthstoneRunState
@@ -679,23 +676,26 @@ class Game: NSObject, PowerEventHandler {
 		                              Events.hearthstone_active, Events.hearthstone_deactived, Settings.can_join_fullscreen,
 		                              Settings.hide_all_trackers_when_not_in_game, Settings.hide_all_trackers_when_game_in_background,
 		                              Settings.card_size, Settings.theme_token]
-		
-		for option in playerTrackerUpdateEvents {
-			center.addObserver(self,
-			                   selector: #selector(updatePlayerTracker),
-			                   name: NSNotification.Name(rawValue: option),
-			                   object: nil)
-		}
-		
-		for option in opponentTrackerUpdateEvents {
-			center.addObserver(self,
-			                   selector: #selector(updateOpponentTracker),
-			                   name: NSNotification.Name(rawValue: option),
-			                   object: nil)
-		}
+        
+        for option in playerTrackerUpdateEvents {
+            let observer = center.addObserver(forName: NSNotification.Name(rawValue: option), object: nil, queue: OperationQueue.main) { _ in
+                self.updatePlayerTracker()
+            }
+            self.observers.append(observer)
+        }
+        
+        for option in opponentTrackerUpdateEvents {
+            let observer = center.addObserver(forName: NSNotification.Name(rawValue: option), object: nil, queue: OperationQueue.main) { _ in
+                self.updateOpponentTracker()
+            }
+            self.observers.append(observer)
+        }
 		
 		for option in allTrackerUpdateEvents {
-            allTrackerUpdateObserver = center.addObserver(forName: NSNotification.Name(rawValue: option), object: nil, queue: OperationQueue.main, using: _updateTrackers)
+            let observer = center.addObserver(forName: NSNotification.Name(rawValue: option), object: nil, queue: OperationQueue.main) { _ in
+                self.updateAllTrackers()
+            }
+            self.observers.append(observer)
 		}
 		
 		// start gui updater thread
@@ -703,13 +703,19 @@ class Game: NSObject, PowerEventHandler {
 			while true {
 				if self.guiNeedsUpdate {
 					self.guiNeedsUpdate = false
-					self._updateTrackers()
+					self.updateAllTrackers()
 					self.guiUpdateResets = false
 				}
 				
 				Thread.sleep(forTimeInterval: Game.guiUpdateDelay)
 			}
 		}
+    }
+    
+    deinit {
+        for observer in self.observers {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
     func reset() {

@@ -19,8 +19,7 @@ class LadderTab: NSViewController {
     @IBOutlet weak var streakButton: NSButton!
     
     var ladderTableItems = [LadderTableRow]()
-    
-    // TODO: latest data point
+    var observer: NSObjectProtocol?
     
     var deck: Deck?
     
@@ -60,14 +59,18 @@ class LadderTab: NSViewController {
             self.timeTable.reloadData()
         }
 
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(guessRankAndUpdate),
-                         name: NSNotification.Name(rawValue: Events.reload_decks),
-                         object: nil)
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: Events.reload_decks), object: nil, queue: OperationQueue.main) { _ in
+            self.guessRankAndUpdate()
+        }
+    }
+    
+    deinit {
+        if let observer = self.observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 
-    @objc func guessRankAndUpdate() {
+    func guessRankAndUpdate() {
         if !self.isViewLoaded {
             return
         }
