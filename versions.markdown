@@ -2,6 +2,7 @@
 ## Fixes:
 - Secret tracker disappears correctly
 - Fixed anomaly with user settings (High Sierra users please update to 10.13.2)
+- Fixed crashes related to notification center
 
 ## New:
 - Deck Manager menu item in the dock menu
