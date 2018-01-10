@@ -38,7 +38,7 @@ final class CoreManager: NSObject {
     
     let game: Game
 
-    var queue = DispatchQueue(label: "be.michotte.hstracker.readers", attributes: [])
+    var queue = DispatchQueue(label: "net.hearthsim.hstracker.readers", attributes: [])
     
     override init() {
         self.game = Game(hearthstoneRunState: HearthstoneRunState(isRunning: CoreManager.isHearthstoneRunning(),

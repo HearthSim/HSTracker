@@ -80,7 +80,7 @@ final class LogReader {
         self.logReaderManager = logReaderManager
         startingPoint = entryPoint
 
-        var queueName = "be.michotte.hstracker.readers.\(info.name)"
+        var queueName = "net.hearthsim.hstracker.readers.\(info.name)"
         if info.startsWithFiltersGroup.count > 0, let filter = info.startsWithFiltersGroup[0].first {
             queueName += ".\(filter.lowercased())"
         }
@@ -105,7 +105,7 @@ final class LogReader {
                 
                 let sp = LogReaderManager.fullDateStringFormatter.string(from: startingPoint)
                 logger.verbose("file exists \(path), offset for \(sp) is \(offset),"
-                    + " queue: be.michotte.hstracker.readers.\(info.name)")
+                    + " queue: net.hearthsim.hstracker.readers.\(info.name)")
             }
             
             fileHandle?.seek(toFileOffset: offset)

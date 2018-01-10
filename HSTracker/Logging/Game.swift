@@ -98,7 +98,7 @@ class Game: NSObject, PowerEventHandler {
 	
 	private var guiNeedsUpdate = false
 	private var guiUpdateResets = false
-	private let _queue = DispatchQueue(label: "be.michotte.hstracker.guiupdate", attributes: [])
+	private let _queue = DispatchQueue(label: "net.hearthsim.hstracker.guiupdate", attributes: [])
 	
     private func updateAllTrackers() {
 		SizeHelper.hearthstoneWindow.reload()

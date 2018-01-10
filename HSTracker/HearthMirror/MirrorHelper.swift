@@ -17,7 +17,7 @@ struct MirrorHelper {
     /** Internal represenation of the mirror object, do not access it directly */
     private static var _mirror: HearthMirror?
     
-    private static let accessQueue = DispatchQueue(label: "be.michotte.hstracker.mirrorQueue")
+    private static let accessQueue = DispatchQueue(label: "net.hearthsim.hstracker.mirrorQueue")
 	
     private static var mirror: HearthMirror? {
         

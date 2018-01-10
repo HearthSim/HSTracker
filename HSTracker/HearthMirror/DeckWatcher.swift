@@ -21,7 +21,7 @@ class Watcher {
 
         logger.info("Starting \(type(of: self))")
 
-        queue = DispatchQueue(label: "be.michotte.hstracker.watchers.\(type(of: self))",
+        queue = DispatchQueue(label: "net.hearthsim.hstracker.watchers.\(type(of: self))",
             attributes: [])
         if let queue = queue {
             isRunning = true

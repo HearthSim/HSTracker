@@ -86,7 +86,7 @@ final class LogReaderManager {
         }
         logger.info("LogReaderManager is starting")
         
-        queue = DispatchQueue(label: "be.michotte.hstracker.logReaderManager", attributes: [])
+        queue = DispatchQueue(label: "net.hearthsim.hstracker.logReaderManager", attributes: [])
         
         guard let queue = queue else {
             logger.error("LogReaderManager can not create queue")

@@ -158,7 +158,7 @@ public class LinkedList<T> {
 public class ConcurrentQueue<T> {
 
     private var elements = LinkedList<T>()
-    private let accessQueue = DispatchQueue(label: "be.michotte.hstracker.concurrentQueue")
+    private let accessQueue = DispatchQueue(label: "net.hearthsim.hstracker.concurrentQueue")
     
     public func enqueue(value: T) {
         self.accessQueue.sync {

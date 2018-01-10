@@ -48,6 +48,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}()
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
+        
+        // Migrate preferences from old bundle ID
+        let oldPrefs = UserDefaults.standard.persistentDomain(forName: "be.michotte.hstracker")
+        if let oldPrefs = oldPrefs, let bundleId = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.setPersistentDomain(oldPrefs, forName: bundleId)
+            UserDefaults.standard.removePersistentDomain(forName: "be.michotte.hstracker")
+            UserDefaults.standard.synchronize()
+        }
+        
 		// warn user about memory reading
 		if Settings.showMemoryReadingWarning {
 			let alert = NSAlert()
