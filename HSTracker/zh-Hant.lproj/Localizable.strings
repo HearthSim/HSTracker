@@ -1,4 +1,4 @@
-"Are you sure you want to close this deck ? Your changes will not be saved." = "確定要退出嗎？將不會保留任何更動。";
+"Are you sure you want to close this deck ? Your changes will not be saved." = "確定要離開嗎？將不會保留任何更動。";
 "Are you sure you want to delete the deck %@ ?" = "確定要刪除 %@ 牌組嗎?";
 "Arena %@ %@" = "競技場 %@ %@";
 "Cancel" = "取消";
@@ -152,7 +152,7 @@
 "%@ vs %@" = "%@ vs %@";
 "Your replay has been uploaded on HSReplay" = "已將本場賽局上傳至 HSReplay";
 "View" = "看本場賽局的影像";
-"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "如果想將本牌組導出到爐石戰記中，請建立一個相同職業的牌組，點擊OK後切換到爐石戰記。\n。在導入過程中，請不要觸碰滑鼠或鍵盤。\n警告，目前此功能僅為測試功能。";
+"To export a deck to Hearthstone, create a new deck with the correct class in your collection, then click OK and switch to Hearthstone.\nDo not touch your mouse or keyboard during the import." = "如果想將本牌組匯出到爐石戰記中，請建立一個相同職業的牌組，點擊OK後切換到爐石戰記。\n。在導入過程中，請不要觸碰滑鼠或鍵盤。\n警告，目前此功能僅為測試功能。";
 "The followings cards were missing : " = "以下卡牌缺失 : ";
 "Can't get card collection" = "無法取得你的卡牌, 請確認爐石戰記正在執行。";
 "Deck string has been copied in your clipboard." = "卡牌代碼已複製到剪貼簿中。";
