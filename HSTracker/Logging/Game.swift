@@ -541,6 +541,7 @@ class Game: NSObject, PowerEventHandler {
     var secretsManager: SecretsManager?
     var proposedAttacker = 0
     var proposedDefender = 0
+    var isDungeonMatch: Bool = false
     private var defendingEntity: Entity?
     private var attackingEntity: Entity?
     private var avengeDeathRattleCount = 0

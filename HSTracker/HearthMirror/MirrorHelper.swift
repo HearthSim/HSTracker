@@ -177,5 +177,15 @@ struct MirrorHelper {
         }
         return result
 	}
+    
+    // MARK: - dungeon
+    
+    static func getDungeonRunInfo() -> MirrorDungeonInfo? {
+        var result: MirrorDungeonInfo? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getDungeonInfo()
+        }
+        return result
+    }
 	
 }

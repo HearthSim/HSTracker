@@ -108,6 +108,17 @@ final class Settings {
             return Language.HSTracker(rawValue: locale)
         }
     }
+    
+    static var autoImportDungeonRun: Bool {
+        set { set(name: Settings.auto_import_dungeon_run, value: newValue) }
+        get { return get(name: Settings.auto_import_dungeon_run) as? Bool ?? true }
+    }
+    
+    static var includeDungeonRunPassiveCards: Bool {
+        set { set(name: Settings.include_dungeon_run_passive_cards, value: newValue) }
+        get { return get(name: Settings.include_dungeon_run_passive_cards) as? Bool ?? true }
+    }
+    
     static var showRarityColors: Bool {
         set { set(name: Settings.rarity_colors, value: newValue) }
         get { return get(name: Settings.rarity_colors) as? Bool ?? true }
@@ -525,6 +536,8 @@ extension Settings {
     static let hearthstone_language = "hearthstone_language"
     static let hstracker_language = "hstracker_language"
     
+    static let auto_import_dungeon_run = "auto_import_dungeon_run"
+    static let include_dungeon_run_passive_cards = "include_dungeon_run_passive_cards"
     static let rarity_colors = "rarity_colors"
     static let auto_position_trackers = "auto_position_trackers"
     static let hide_all_trackers_when_not_in_game = "hide_all_trackers_when_not_in_game"

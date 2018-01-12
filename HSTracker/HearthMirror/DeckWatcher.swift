@@ -106,5 +106,84 @@ class ArenaDeckWatcher: Watcher {
 
         queue = nil
     }
+}
+
+class DungeonRunDeckWatcher: Watcher {
+    private(set) static var dungeonRunDeck: [Card: Int] = [:]
     
+    static let _instance = DungeonRunDeckWatcher()
+    
+    static func start() {
+        _instance.startWatching()
+    }
+    
+    static func stop() {
+        _instance.stopWatching()
+    }
+    
+    override func run() {
+        outerLoop: while isRunning {
+            guard let dungeonRunInfo = MirrorHelper.getDungeonRunInfo() else {
+                Thread.sleep(forTimeInterval: refreshInterval)
+                continue
+            }
+            
+            // assembly dungeon deck
+            var deck: [Card: Int] = [:]
+            for dbfid in dungeonRunInfo.dbfIds {
+                if let card = Cards.by(dbfId: dbfid.intValue) {
+                    if let count = deck[card] {
+                        deck[card] = count + 1
+                    } else {
+                        deck[card] = 1
+                    }
+                } else {
+                    print("Unknown dbfid \(dbfid.intValue)")
+                    Thread.sleep(forTimeInterval: refreshInterval)
+                    continue outerLoop
+                }
+            }
+            
+            // add loot
+            let selectedLoot = dungeonRunInfo.playerChosenLoot.intValue
+            if selectedLoot > 0 {
+                let lootBag = selectedLoot == 1 ? dungeonRunInfo.lootA : (selectedLoot == 2 ? dungeonRunInfo.lootB : dungeonRunInfo.lootC)
+                for dbfid in lootBag {
+                    if let card = Cards.by(dbfId: dbfid.intValue) {
+                        if let count = deck[card] {
+                            deck[card] = count + 1
+                        } else {
+                            deck[card] = 1
+                        }
+                    } else {
+                        print("Unknown dbfid \(dbfid.intValue)")
+                        Thread.sleep(forTimeInterval: refreshInterval)
+                        continue outerLoop
+                    }
+                }
+            }
+            
+            // add treasure
+            let selectedTreasure = dungeonRunInfo.playerChosenTreasure.intValue
+            if selectedTreasure > 0 {
+                let dbfid = dungeonRunInfo.treasure[selectedTreasure-1]
+                if let card = Cards.by(dbfId: dbfid.intValue) {
+                    if let count = deck[card] {
+                        deck[card] = count + 1
+                    } else {
+                        deck[card] = 1
+                    }
+                } else {
+                    print("Unknown dbfid \(dbfid.intValue)")
+                    Thread.sleep(forTimeInterval: refreshInterval)
+                    continue outerLoop
+                } 
+            }
+
+            DungeonRunDeckWatcher.dungeonRunDeck = deck
+            Thread.sleep(forTimeInterval: refreshInterval)
+        }
+        
+        queue = nil
+    }
 }
