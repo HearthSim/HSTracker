@@ -1032,6 +1032,25 @@
 		C9BDB3E11D20BEDD00886A11 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LadderTab.strings; sourceTree = "<group>"; };
 		C9BDB3E31D20BEDF00886A11 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LadderTab.strings"; sourceTree = "<group>"; };
 		C9BDB3E51D20BEE000886A11 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LadderTab.strings"; sourceTree = "<group>"; };
+		CE9D9905200770E8003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/HSReplayPreferences.strings"; sourceTree = "<group>"; };
+		CE9D9906200770E8003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/TrackOBotLogin.strings"; sourceTree = "<group>"; };
+		CE9D9907200770E8003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/TrackOBotPreferences.strings"; sourceTree = "<group>"; };
+		CE9D9908200770E8003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Statistics.strings"; sourceTree = "<group>"; };
+		CE9D9909200770E8003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/StatsTab.strings"; sourceTree = "<group>"; };
+		CE9D990A200770E8003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LadderTab.strings"; sourceTree = "<group>"; };
+		CE9D990B200770E8003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/DeckManager.strings"; sourceTree = "<group>"; };
+		CE9D990C200770E9003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/NewDeck.strings"; sourceTree = "<group>"; };
+		CE9D990D200770E9003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/EditDeck.strings"; sourceTree = "<group>"; };
+		CE9D990E200770E9003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/SaveDeck.strings"; sourceTree = "<group>"; };
+		CE9D990F200770E9003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InitialConfiguration.strings"; sourceTree = "<group>"; };
+		CE9D9910200770E9003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Splashscreen.strings"; sourceTree = "<group>"; };
+		CE9D9911200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/GeneralPreferences.strings"; sourceTree = "<group>"; };
+		CE9D9912200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/GamePreferences.strings"; sourceTree = "<group>"; };
+		CE9D9913200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/TrackersPreferences.strings"; sourceTree = "<group>"; };
+		CE9D9914200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/PlayerTrackersPreferences.strings"; sourceTree = "<group>"; };
+		CE9D9915200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OpponentTrackersPreferences.strings"; sourceTree = "<group>"; };
+		CE9D9916200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		CE9D9917200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F79833961FFF324200D2893E /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1769,6 +1788,7 @@
 				it,
 				"pt-BR",
 				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 439C7E3F1C7772C000D29859;
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
@@ -2278,6 +2298,7 @@
 				432B5FF91CB54A3600B05D19 /* it */,
 				432B60041CB54A6800B05D19 /* pt-BR */,
 				432B600F1CB54AD700B05D19 /* zh-Hans */,
+				CE9D9917200770EA003505D3 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			path = HSTracker;
@@ -2293,6 +2314,7 @@
 				432B60031CB54A6800B05D19 /* pt-BR */,
 				432B600E1CB54AD700B05D19 /* zh-Hans */,
 				4335544E1D5FBDFB00277B27 /* fr */,
+				CE9D9916200770EA003505D3 /* zh-Hant */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -2307,6 +2329,7 @@
 				432B60021CB54A6800B05D19 /* pt-BR */,
 				432B600D1CB54AD700B05D19 /* zh-Hans */,
 				43A8A0ED1E0BBA4600AF34FD /* fr */,
+				CE9D9914200770EA003505D3 /* zh-Hant */,
 			);
 			name = PlayerTrackersPreferences.xib;
 			sourceTree = "<group>";
@@ -2321,6 +2344,7 @@
 				432B60011CB54A6800B05D19 /* pt-BR */,
 				432B600C1CB54AD700B05D19 /* zh-Hans */,
 				4323C5F01E1BBE8300C97896 /* fr */,
+				CE9D9912200770EA003505D3 /* zh-Hant */,
 			);
 			name = GamePreferences.xib;
 			sourceTree = "<group>";
@@ -2335,6 +2359,7 @@
 				432B60001CB54A6800B05D19 /* pt-BR */,
 				432B600B1CB54AD700B05D19 /* zh-Hans */,
 				43AFEEE91E218B0800F6045A /* fr */,
+				CE9D9911200770EA003505D3 /* zh-Hant */,
 			);
 			name = GeneralPreferences.xib;
 			sourceTree = "<group>";
@@ -2349,6 +2374,7 @@
 				432B5FF41CB54A3600B05D19 /* it */,
 				432B5FFF1CB54A6800B05D19 /* pt-BR */,
 				432B600A1CB54AD600B05D19 /* zh-Hans */,
+				CE9D9910200770E9003505D3 /* zh-Hant */,
 			);
 			name = Splashscreen.xib;
 			sourceTree = "<group>";
@@ -2363,6 +2389,7 @@
 				432B5FF31CB54A3600B05D19 /* it */,
 				432B5FFE1CB54A6700B05D19 /* pt-BR */,
 				432B60091CB54AD600B05D19 /* zh-Hans */,
+				CE9D990F200770E9003505D3 /* zh-Hant */,
 			);
 			name = InitialConfiguration.xib;
 			sourceTree = "<group>";
@@ -2377,6 +2404,7 @@
 				432B5FF21CB54A3600B05D19 /* it */,
 				432B5FFD1CB54A6700B05D19 /* pt-BR */,
 				432B60081CB54AD600B05D19 /* zh-Hans */,
+				CE9D990E200770E9003505D3 /* zh-Hant */,
 			);
 			name = SaveDeck.xib;
 			sourceTree = "<group>";
@@ -2391,6 +2419,7 @@
 				432B5FF11CB54A3600B05D19 /* it */,
 				432B5FFC1CB54A6700B05D19 /* pt-BR */,
 				432B60071CB54AD600B05D19 /* zh-Hans */,
+				CE9D990D200770E9003505D3 /* zh-Hant */,
 			);
 			name = EditDeck.xib;
 			sourceTree = "<group>";
@@ -2405,6 +2434,7 @@
 				432B5FF01CB54A3500B05D19 /* it */,
 				432B5FFB1CB54A6700B05D19 /* pt-BR */,
 				432B60061CB54AD600B05D19 /* zh-Hans */,
+				CE9D990C200770E9003505D3 /* zh-Hant */,
 			);
 			name = NewDeck.xib;
 			sourceTree = "<group>";
@@ -2419,6 +2449,7 @@
 				432B5FEF1CB54A3500B05D19 /* it */,
 				432B5FFA1CB54A6700B05D19 /* pt-BR */,
 				432B60051CB54AD600B05D19 /* zh-Hans */,
+				CE9D990B200770E8003505D3 /* zh-Hant */,
 			);
 			name = DeckManager.xib;
 			sourceTree = "<group>";
@@ -2433,6 +2464,7 @@
 				433554441D5FAF0B00277B27 /* es */,
 				433554461D5FAF0F00277B27 /* de */,
 				433D8E241DFC498D0083BD33 /* fr */,
+				CE9D9905200770E8003505D3 /* zh-Hant */,
 			);
 			name = HSReplayPreferences.xib;
 			sourceTree = "<group>";
@@ -2447,6 +2479,7 @@
 				434D1CBE1D10948200222B8E /* it */,
 				434D1CC01D10948400222B8E /* pt-BR */,
 				434D1CC21D10948700222B8E /* zh-Hans */,
+				CE9D9908200770E8003505D3 /* zh-Hant */,
 			);
 			name = Statistics.xib;
 			path = StatsManager;
@@ -2462,6 +2495,7 @@
 				4359BF8A1D51FCE900F61993 /* it */,
 				4359BF8C1D51FCEB00F61993 /* pt-BR */,
 				4359BF8E1D51FCEC00F61993 /* zh-Hans */,
+				CE9D9906200770E8003505D3 /* zh-Hant */,
 			);
 			name = TrackOBotLogin.xib;
 			sourceTree = "<group>";
@@ -2476,6 +2510,7 @@
 				4359BFA11D52220700F61993 /* pt-BR */,
 				4359BFA31D52220800F61993 /* zh-Hans */,
 				4335544A1D5FB7AF00277B27 /* fr */,
+				CE9D9907200770E8003505D3 /* zh-Hant */,
 			);
 			name = TrackOBotPreferences.xib;
 			sourceTree = "<group>";
@@ -2490,6 +2525,7 @@
 				437B5BBF1CD255B600DE0A41 /* pt-BR */,
 				437B5BC01CD255B800DE0A41 /* zh-Hans */,
 				43A8A0EF1E0BBB4700AF34FD /* fr */,
+				CE9D9915200770EA003505D3 /* zh-Hant */,
 			);
 			name = OpponentTrackersPreferences.xib;
 			sourceTree = "<group>";
@@ -2504,6 +2540,7 @@
 				437B5BC91CD256B100DE0A41 /* es */,
 				437B5BCA1CD256B200DE0A41 /* de */,
 				43050C601E6B2C0E007600EA /* fr */,
+				CE9D9913200770EA003505D3 /* zh-Hant */,
 			);
 			name = TrackersPreferences.xib;
 			sourceTree = "<group>";
@@ -2518,6 +2555,7 @@
 				C9BDB3D21D20BCC300886A11 /* it */,
 				C9BDB3D41D20BCC800886A11 /* pt-BR */,
 				C9BDB3D61D20BCCA00886A11 /* zh-Hans */,
+				CE9D9909200770E8003505D3 /* zh-Hant */,
 			);
 			name = StatsTab.xib;
 			path = StatsManager;
@@ -2533,6 +2571,7 @@
 				C9BDB3E11D20BEDD00886A11 /* it */,
 				C9BDB3E31D20BEDF00886A11 /* pt-BR */,
 				C9BDB3E51D20BEE000886A11 /* zh-Hans */,
+				CE9D990A200770E8003505D3 /* zh-Hant */,
 			);
 			name = LadderTab.xib;
 			path = StatsManager;
