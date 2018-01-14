@@ -5,7 +5,7 @@
 	<key>ATSApplicationFontsPath</key>
 	<string>Resources/Fonts</string>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>zh_TW</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>

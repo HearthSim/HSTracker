@@ -27,7 +27,7 @@ struct Language {
     }
 
     enum HSTracker: String, EnumCollection {
-        case de, en, fr, it, pt_br = "pt-br", zh_cn = "zh-cn", es, ko
+        case de, en, fr, it, pt_br = "pt-br", zh_cn = "zh-cn", es, ko, zh_tw = "zh-tw"
 
         var localeValue: Locale? {
             return Locale(identifier: self.rawValue)
