@@ -323,11 +323,26 @@ final class CoreManager: NSObject {
     }
 	
 	// MARK: - Deck detection
-	static func autoDetectDeck(mode: Mode) -> Deck? {
+    static func autoDetectDeck(mode: Mode) -> Deck? {
 		
 		let selectedModes: [Mode] = [.tavern_brawl, .tournament,
 		                             .friendly, .adventure, .gameplay]
 		if selectedModes.contains(mode) {
+            
+            // Try dungeon run deck
+            if mode == .adventure && Settings.autoImportDungeonRun {
+                if let opponentId = MirrorHelper.getMatchInfo()?.opposingPlayer.playerId.intValue {
+                    if DungeonRunDeckWatcher.initialOpponents.contains(opponentId) {
+                        // get player class MirrorHelper.get
+                        let cards = DefaultDecks.DungeonRun.druid
+                    }
+                }
+                let cards = DungeonRunDeckWatcher.dungeonRunDeck
+                if cards.count > 0 {
+                    logger.info("Found dungeon run deck via watcher")
+                    return RealmHelper.checkAndUpdateDungeonRunDeck(cards: cards)
+                }
+            }
 			
 			logger.info("Trying to import deck from Hearthstone")
 			

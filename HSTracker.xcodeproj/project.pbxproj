@@ -529,6 +529,8 @@
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 		C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */; };
 		C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3D91D20BE9500886A11 /* LadderTab.xib */; };
+		F719B88A200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
+		F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F723404420014D3E00E4587A /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
 		F79833971FFF324200D2893E /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
 /* End PBXBuildFile section */
@@ -1051,6 +1053,7 @@
 		CE9D9915200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OpponentTrackersPreferences.strings"; sourceTree = "<group>"; };
 		CE9D9916200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		CE9D9917200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F719B889200ACAE3004F5E36 /* DefaultDecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecks.swift; sourceTree = "<group>"; };
 		F79833961FFF324200D2893E /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1154,6 +1157,7 @@
 				43F204031E93C2E600E0BC4A /* Shaman.swift */,
 				43F204041E93C2E600E0BC4A /* Warlock.swift */,
 				43F204051E93C2E600E0BC4A /* Warrior.swift */,
+				F719B889200ACAE3004F5E36 /* DefaultDecks.swift */,
 			);
 			path = CardIds;
 			sourceTree = "<group>";
@@ -1967,6 +1971,7 @@
 				439C7EB51C777F8900D29859 /* Entity.swift in Sources */,
 				BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */,
 				434D1CAF1D0C500300222B8E /* ImageUtilities.swift in Sources */,
+				F719B88A200ACAE3004F5E36 /* DefaultDecks.swift in Sources */,
 				431719731C885BD600F5988B /* CardCell.swift in Sources */,
 				BC2B851E1D749E9800BC812B /* Hearthstonetopdecks.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
@@ -2273,6 +2278,7 @@
 				43C1C9FD1E96CCE9008C20B1 /* DatabaseTests.swift in Sources */,
 				43C1C9F71E96CCE9008C20B1 /* AlgorithmTests.swift in Sources */,
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,
+				F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

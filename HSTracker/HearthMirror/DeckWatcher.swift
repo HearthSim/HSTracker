@@ -109,7 +109,14 @@ class ArenaDeckWatcher: Watcher {
 }
 
 class DungeonRunDeckWatcher: Watcher {
-    private(set) static var dungeonRunDeck: [Card: Int] = [:]
+    private(set) static var dungeonRunDeck: [Card] = []
+    
+    static var initialOpponents: [Int] = {
+        return [
+            Cards.by(cardId: CardIds.NonCollectible.Rogue.BinkTheBurglarHeroic)!.dbfId,
+            Cards.by(cardId: CardIds.NonCollectible.Hunter.GiantRatHeroic)!.dbfId,
+            Cards.by(cardId: CardIds.NonCollectible.Hunter.WeeWhelpHeroic)!.dbfId]
+    }()
     
     static let _instance = DungeonRunDeckWatcher()
     
@@ -127,18 +134,18 @@ class DungeonRunDeckWatcher: Watcher {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
-            
+    
             // assembly dungeon deck
             var deck: [Card: Int] = [:]
             for dbfid in dungeonRunInfo.dbfIds {
-                if let card = Cards.by(dbfId: dbfid.intValue) {
+                if let card = Cards.by(dbfId: dbfid.intValue, collectible: false) {
                     if let count = deck[card] {
                         deck[card] = count + 1
                     } else {
                         deck[card] = 1
                     }
                 } else {
-                    print("Unknown dbfid \(dbfid.intValue)")
+                    logger.error("Unknown dbfid: \(dbfid.intValue)")
                     Thread.sleep(forTimeInterval: refreshInterval)
                     continue outerLoop
                 }
@@ -148,15 +155,15 @@ class DungeonRunDeckWatcher: Watcher {
             let selectedLoot = dungeonRunInfo.playerChosenLoot.intValue
             if selectedLoot > 0 {
                 let lootBag = selectedLoot == 1 ? dungeonRunInfo.lootA : (selectedLoot == 2 ? dungeonRunInfo.lootB : dungeonRunInfo.lootC)
-                for dbfid in lootBag {
-                    if let card = Cards.by(dbfId: dbfid.intValue) {
+                for dbfid in lootBag[1...] {
+                    if let card = Cards.by(dbfId: dbfid.intValue, collectible: false) {
                         if let count = deck[card] {
                             deck[card] = count + 1
                         } else {
                             deck[card] = 1
                         }
                     } else {
-                        print("Unknown dbfid \(dbfid.intValue)")
+                        logger.error("Unknown dbfid: \(dbfid.intValue)")
                         Thread.sleep(forTimeInterval: refreshInterval)
                         continue outerLoop
                     }
@@ -167,20 +174,23 @@ class DungeonRunDeckWatcher: Watcher {
             let selectedTreasure = dungeonRunInfo.playerChosenTreasure.intValue
             if selectedTreasure > 0 {
                 let dbfid = dungeonRunInfo.treasure[selectedTreasure-1]
-                if let card = Cards.by(dbfId: dbfid.intValue) {
+                if let card = Cards.by(dbfId: dbfid.intValue, collectible: false) {
                     if let count = deck[card] {
                         deck[card] = count + 1
                     } else {
                         deck[card] = 1
                     }
                 } else {
-                    print("Unknown dbfid \(dbfid.intValue)")
+                    logger.error("Unknown dbfid: \(dbfid.intValue)")
                     Thread.sleep(forTimeInterval: refreshInterval)
                     continue outerLoop
                 } 
             }
 
-            DungeonRunDeckWatcher.dungeonRunDeck = deck
+            DungeonRunDeckWatcher.dungeonRunDeck = deck.map {
+                $0.0.count = $0.1
+                return $0.0
+            }
             Thread.sleep(forTimeInterval: refreshInterval)
         }
         

@@ -14,6 +14,8 @@ import HearthMirror
 * Handles all database releated actions
 */
 struct RealmHelper {
+    
+    static let dungeonRunDeckId = "DungeonRunDeck"
 	
 	// MARK: - Lifecycle
 	/**
@@ -139,6 +141,26 @@ struct RealmHelper {
 		}
 		return decks
 	}
+    
+    static func checkAndUpdateDungeonRunDeck(cards: [Card]) -> Deck? {
+        guard let realm = try? Realm() else {
+            logger.error("Error accessing Realm database")
+            return nil
+        }
+        
+        if let deck = realm.objects(Deck.self)
+            .filter("deckId = \"\(RealmHelper.dungeonRunDeckId)\"").first {
+            // Deck exists, update it
+            update(deck: deck, with: cards)
+            return deck
+        }
+        
+        // Add new deck
+        let deck = Deck()
+        deck.deckId = RealmHelper.dungeonRunDeckId
+        add(deck: deck, with: cards)
+        return deck
+    }
 	
 	/**
 	* Checks if given deck exists in realm and returns it.

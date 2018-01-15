@@ -184,6 +184,8 @@ extension CardIds.NonCollectible {
         static let TheMarshQueen_CarnassasBroodToken: String = "UNG_920t2"
         static let DeathstalkerRexxar_StitchedEnchantment: String = "ICC_828e"
         static let DeathstalkerRexxar_ZombeastToken: String = "ICC_828t"
+        static let GiantRatHeroic: String = "LOOTA_BOSS_18h"
+        static let WeeWhelpHeroic: String = "LOOTA_BOSS_44h"
     }
 }
 

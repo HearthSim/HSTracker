@@ -55,6 +55,7 @@ extension CardIds.Collectible {
         static let ColdBlood: String = "CS2_073"
         static let DeadlyPoison: String = "CS2_074"
         static let SinisterStrike: String = "CS2_075"
+        static let GilblinStalker: String = "GVG_081"
         static let Assassinate: String = "CS2_076"
         static let Sprint: String = "CS2_077"
         static let AssassinsBlade: String = "CS2_080"
@@ -191,6 +192,7 @@ extension CardIds.NonCollectible {
         static let Shadowblade_ShadedEnchantment: String = "ICC_850e"
         static let ShadowReflectionTavernBrawl: String = "TB_ShadowReflection_001"
         static let FaldoreiStrider_SpiderAmbushEnchantment: String = "LOOT_026e"
+        static let BinkTheBurglarHeroic: String = "LOOTA_BOSS_45h"
     }
 }
 
