@@ -323,7 +323,7 @@ final class CoreManager: NSObject {
     }
 	
 	// MARK: - Deck detection
-    static func autoDetectDeck(mode: Mode) -> Deck? {
+    static func autoDetectDeck(mode: Mode, playerClass: CardClass? = nil) -> Deck? {
 		
 		let selectedModes: [Mode] = [.tavern_brawl, .tournament,
 		                             .friendly, .adventure, .gameplay]
@@ -332,9 +332,11 @@ final class CoreManager: NSObject {
             // Try dungeon run deck
             if mode == .adventure && Settings.autoImportDungeonRun {
                 if let opponentId = MirrorHelper.getMatchInfo()?.opposingPlayer.playerId.intValue {
-                    if DungeonRunDeckWatcher.initialOpponents.contains(opponentId) {
+                    if DungeonRunDeckWatcher.initialOpponents.contains(opponentId), let playerClass = playerClass {
                         // get player class MirrorHelper.get
-                        let cards = DefaultDecks.DungeonRun.druid
+                        let cards = DefaultDecks.DungeonRun.deck(for: playerClass)
+                        logger.info("Found starter dungeon run deck")
+                        return RealmHelper.checkAndUpdateDungeonRunDeck(cards: cards, reset: true)
                     }
                 }
                 let cards = DungeonRunDeckWatcher.dungeonRunDeck

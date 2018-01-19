@@ -12,6 +12,32 @@ struct DefaultDecks {
     
     struct DungeonRun {
         
+        static func deck(for playerClass: CardClass) -> [Card] {
+            switch playerClass {
+            case .rogue:
+                return DungeonRun.rogue
+            case .druid:
+                return DungeonRun.druid
+            case .hunter:
+                return DungeonRun.hunter
+            case .mage:
+                return DungeonRun.mage
+            case .paladin:
+                return DungeonRun.paladin
+            case .shaman:
+                return DungeonRun.shaman
+            case .priest:
+                return DungeonRun.priest
+            case .warlock:
+                return DungeonRun.warlock
+            case .warrior:
+                return DungeonRun.warrior
+            default:
+                logger.error("Failed to select dungeon run starter deck: \(playerClass) is not supported")
+                return []
+            }
+        }
+        
         static var rogue: [Card] = {
            return [
             Cards.by(cardId: CardIds.Collectible.Rogue.Backstab)!,

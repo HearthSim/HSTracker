@@ -559,6 +559,7 @@ struct TagChangeActions {
         }
     }
 
+    // TODO: this is essentially blocking the global queue!
     private func setHeroAsync(eventHandler: PowerEventHandler, id: Int) {
         logger.info("Found hero with id \(id) ")
         DispatchQueue.global().async {

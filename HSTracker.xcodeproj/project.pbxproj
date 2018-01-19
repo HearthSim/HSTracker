@@ -533,6 +533,8 @@
 		F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F723404420014D3E00E4587A /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
 		F79833971FFF324200D2893E /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
+		F7D7A3A62011B67D00E3A5F0 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */; };
+		F7D7A3A72011B67D00E3A5F0 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1055,6 +1057,7 @@
 		CE9D9917200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F719B889200ACAE3004F5E36 /* DefaultDecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecks.swift; sourceTree = "<group>"; };
 		F79833961FFF324200D2893E /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hearthstone.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1577,6 +1580,7 @@
 			isa = PBXGroup;
 			children = (
 				43B695561C90655C00F4D0AC /* Secrets */,
+				F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */,
 			);
 			path = Hearthstone;
 			sourceTree = "<group>";
@@ -2065,6 +2069,7 @@
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
 				C92C681A1D1F8E27009030DC /* Ranks.swift in Sources */,
 				BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */,
+				F7D7A3A62011B67D00E3A5F0 /* Hearthstone.swift in Sources */,
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
 				BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */,
 				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
@@ -2155,6 +2160,7 @@
 				43C1CA4A1E96CD6F008C20B1 /* CardClass.swift in Sources */,
 				439BD8CA1EBCD45700959F69 /* EnumCollection.swift in Sources */,
 				43C1CA4B1E96CD6F008C20B1 /* CardMark.swift in Sources */,
+				F7D7A3A72011B67D00E3A5F0 /* Hearthstone.swift in Sources */,
 				43C1CA4C1E96CD6F008C20B1 /* CardSet.swift in Sources */,
 				43C1CA4D1E96CD6F008C20B1 /* CardType.swift in Sources */,
 				43C1CA4E1E96CD6F008C20B1 /* Faction.swift in Sources */,

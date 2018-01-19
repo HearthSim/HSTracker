@@ -61,6 +61,7 @@ class PowerGameStateParser: LogEventParser {
 
     private var maxBlockId: Int = 0
     private var currentBlock: Block?
+    private var inCreateGameBlock = false
 
     // MARK: - line handling
 
@@ -69,7 +70,6 @@ class PowerGameStateParser: LogEventParser {
 
         // current game
         if logLine.line.match(GameEntityRegex) {
-
             if let match = logLine.line.matches(GameEntityRegex).first,
                 let id = Int(match.value) {
                 //print("**** GameEntityRegex id:'\(id)'")
@@ -103,6 +103,11 @@ class PowerGameStateParser: LogEventParser {
                 return
             }
         } else if logLine.line.match(TagChangeRegex) {
+            if self.inCreateGameBlock {
+                self.inCreateGameBlock = false
+                self.autoDetectDeck()
+            }
+            
             let matches = logLine.line.matches(TagChangeRegex)
             let rawEntity = matches[0].value
                 .replacingOccurrences(of: "UNKNOWN ENTITY ", with: "")
@@ -190,6 +195,11 @@ class PowerGameStateParser: LogEventParser {
                 }
             }
         } else if logLine.line.match(CreationRegex) {
+            if self.inCreateGameBlock {
+                self.inCreateGameBlock = false
+                self.autoDetectDeck()
+            }
+            
             let matches = logLine.line.matches(CreationRegex)
             let id = Int(matches[0].value)!
             guard let zone = Zone(rawString: matches[1].value) else { return }
@@ -224,6 +234,11 @@ class PowerGameStateParser: LogEventParser {
             eventHandler.currentEntityZone = zone
             return
         } else if logLine.line.match(UpdatingEntityRegex) {
+            if self.inCreateGameBlock {
+                self.inCreateGameBlock = false
+                self.autoDetectDeck()
+            }
+            
             let matches = logLine.line.matches(UpdatingEntityRegex)
             let type = matches[0].value
             let rawEntity = matches[1].value
@@ -267,6 +282,11 @@ class PowerGameStateParser: LogEventParser {
             return
         } else if logLine.line.match(CreationTagRegex)
             && !logLine.line.contains("HIDE_ENTITY") {
+            if self.inCreateGameBlock {
+                self.inCreateGameBlock = false
+                self.autoDetectDeck()
+            }
+            
             let matches = logLine.line.matches(CreationTagRegex)
             let tag = matches[0].value
             let value = matches[1].value
@@ -277,6 +297,10 @@ class PowerGameStateParser: LogEventParser {
         if logLine.line.contains("End Spectator") {
             eventHandler.gameEnd()
         } else if logLine.line.contains("BLOCK_START") {
+            if self.inCreateGameBlock {
+                self.inCreateGameBlock = false
+                self.autoDetectDeck()
+            }
             blockStart()
 
             if logLine.line.match(BlockStartRegex) {
@@ -451,16 +475,8 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.gameTriggerCount += 1
             }
         } else if logLine.line.contains("CREATE_GAME") {
+            self.inCreateGameBlock = true
             tagChangeHandler.clearQueuedActions()
-            if Settings.autoDeckDetection && !(Settings.dontTrackWhileSpectating && eventHandler.currentGameMode == .spectator) {
-                if let currentMode = eventHandler.currentMode,
-                    let deck = CoreManager.autoDetectDeck(mode: currentMode) {
-                    eventHandler.set(activeDeckId: deck.deckId, autoDetected: true)
-                } else {
-                    logger.warning("could not autodetect deck")
-                    eventHandler.set(activeDeckId: nil, autoDetected: false)
-                }
-            }
 
             // indicate game start
             maxBlockId = 0
@@ -483,6 +499,20 @@ class PowerGameStateParser: LogEventParser {
         }
         if !creationTag {
             resetCurrentEntity()
+        }
+    }
+    
+    private func autoDetectDeck() {
+        // Autodecting deck might require the full CREATE_GAME block to function properly, thus it should be called right after it
+        // detect deck
+        if Settings.autoDeckDetection && !(Settings.dontTrackWhileSpectating && eventHandler.currentGameMode == .spectator) {
+            if let currentMode = eventHandler.currentMode,
+                let deck = CoreManager.autoDetectDeck(mode: currentMode, playerClass: self.eventHandler.player.playerClass) {
+                eventHandler.set(activeDeckId: deck.deckId, autoDetected: true)
+            } else {
+                logger.warning("could not autodetect deck")
+                eventHandler.set(activeDeckId: nil, autoDetected: false)
+            }
         }
     }
 

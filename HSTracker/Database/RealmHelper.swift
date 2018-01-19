@@ -142,7 +142,7 @@ struct RealmHelper {
 		return decks
 	}
     
-    static func checkAndUpdateDungeonRunDeck(cards: [Card]) -> Deck? {
+    static func checkAndUpdateDungeonRunDeck(cards: [Card], reset: Bool = false) -> Deck? {
         guard let realm = try? Realm() else {
             logger.error("Error accessing Realm database")
             return nil
@@ -151,7 +151,7 @@ struct RealmHelper {
         if let deck = realm.objects(Deck.self)
             .filter("deckId = \"\(RealmHelper.dungeonRunDeckId)\"").first {
             // Deck exists, update it
-            update(deck: deck, with: cards)
+            update(deck: deck, with: cards, resetStats: reset)
             return deck
         }
         
@@ -338,7 +338,7 @@ struct RealmHelper {
         }
 	}
 	
-	static func update(deck: Deck, with cards: [Card]) {
+    static func update(deck: Deck, with cards: [Card], resetStats: Bool = false) {
 		guard let realm = try? Realm() else {
 			logger.error("Error accessing Realm database")
 			return
@@ -350,6 +350,9 @@ struct RealmHelper {
 				for card in cards {
 					deck.add(card: card)
 				}
+                if resetStats {
+                    deck.gameStats.removeAll()
+                }
 			}
 		} catch {
 			logger.error("Can not add deck : \(error)")
