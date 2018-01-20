@@ -6,6 +6,7 @@
 
 ## New:
 - Deck Manager menu item in the dock menu
+- Dungeon run support
 
 # 1.3.1
 ## Fixes:
