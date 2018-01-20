@@ -93,9 +93,6 @@ class PowerGameStateParser: LogEventParser {
 				let entity = Entity(id: id)
                 eventHandler.add(entity: entity)
 
-                if eventHandler.wasInProgress {
-                    //game.entities[id]?.name = game.getStoredPlayerName(id: id)
-                }
                 set(currentEntity: id)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
@@ -282,11 +279,6 @@ class PowerGameStateParser: LogEventParser {
             return
         } else if logLine.line.match(CreationTagRegex)
             && !logLine.line.contains("HIDE_ENTITY") {
-            if self.inCreateGameBlock {
-                self.inCreateGameBlock = false
-                self.autoDetectDeck()
-            }
-            
             let matches = logLine.line.matches(CreationTagRegex)
             let tag = matches[0].value
             let value = matches[1].value

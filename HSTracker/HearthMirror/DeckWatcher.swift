@@ -187,10 +187,14 @@ class DungeonRunDeckWatcher: Watcher {
                 } 
             }
 
-            DungeonRunDeckWatcher.dungeonRunDeck = deck.map {
+            let dungeonrundeck: [Card] = deck.map {
                 $0.0.count = $0.1
                 return $0.0
             }
+            if dungeonrundeck != DungeonRunDeckWatcher.dungeonRunDeck {
+                logger.info("Found new dungeon run deck: \(dungeonrundeck)")
+            }
+            DungeonRunDeckWatcher.dungeonRunDeck = dungeonrundeck
             Thread.sleep(forTimeInterval: refreshInterval)
         }
         

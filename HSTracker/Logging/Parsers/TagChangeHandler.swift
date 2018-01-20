@@ -46,7 +46,6 @@ class TagChangeHandler {
         if let entity = eventHandler.entities[id] {
             let prevValue = entity[tag]
             entity[tag] = value
-            //print("Set tag \(tag) with value \(value) to entity \(id)")
 
             if isCreationTag {
                 if let action = tagChangeAction.findAction(eventHandler: eventHandler,
@@ -66,6 +65,7 @@ class TagChangeHandler {
     }
 
     func invokeQueuedActions(eventHandler: PowerEventHandler) {
+        logger.info("Invoking \(creationTagActionQueue.count) actions")
         while creationTagActionQueue.count > 0 {
             let action = creationTagActionQueue.removeFirst()
             action.action()
