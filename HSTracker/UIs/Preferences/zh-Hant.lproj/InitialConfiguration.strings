@@ -1,21 +1,22 @@
 
 /* Class = "NSWindow"; title = "Configuration"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "Configuration";
+"QvC-M9-y7g.title" = "設定";
 
 /* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "R6t-pR-FHf"; */
-"R6t-pR-FHf.title" = "HSTracker language";
+"R6t-pR-FHf.title" = "HSTracker 語言";
 
 /* Class = "NSButtonCell"; title = "Choose"; ObjectID = "Xxb-Tp-8oD"; */
-"Xxb-Tp-8oD.title" = "Choose";
+"Xxb-Tp-8oD.title" = "選擇";
 
 /* Class = "NSTextFieldCell"; title = "Hearthstone language"; ObjectID = "iQb-5L-jZW"; */
-"iQb-5L-jZW.title" = "Hearthstone language";
+"iQb-5L-jZW.title" = "爐石戰記語言";
 
 /* Class = "NSButtonCell"; title = "Exit HSTracker"; ObjectID = "kBx-Gq-Zlx"; */
-"kBx-Gq-Zlx.title" = "Exit HSTracker";
+"kBx-Gq-Zlx.title" = "結束 HSTracker";
 
 /* Class = "NSButtonCell"; title = "Save"; ObjectID = "qo1-rO-693"; */
-"qo1-rO-693.title" = "Save";
+"qo1-rO-693.title" = "儲存";
 
 /* Class = "NSTextFieldCell"; title = "Hearthstone folder"; ObjectID = "xAb-l3-ccL"; */
-"xAb-l3-ccL.title" = "Hearthstone folder";
+"xAb-l3-ccL.title" = "爐石戰記資料夾";
+

@@ -1,45 +1,45 @@
 
 /* Class = "NSButtonCell"; title = "Show opponent in-hand card huds"; ObjectID = "50X-Tt-yJa"; */
-"50X-Tt-yJa.title" = "Show opponent in-hand card huds";
+"50X-Tt-yJa.title" = "顯示對手的手牌";
 
 /* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "9eg-6X-x7A"; */
-"9eg-6X-x7A.title" = "Show Spell counter";
+"9eg-6X-x7A.title" = "顯示法術計算器";
 
 /* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "BFR-Pw-i1H"; */
-"BFR-Pw-i1H.title" = "Show Jade Counter";
+"BFR-Pw-i1H.title" = "顯示翠玉魔像計算器";
 
 /* Class = "NSButtonCell"; title = "Show opponent tracker"; ObjectID = "MLJ-7t-LVJ"; */
-"MLJ-7t-LVJ.title" = "Show opponent tracker";
+"MLJ-7t-LVJ.title" = "顯示對手的記牌器";
 
 /* Class = "NSButtonCell"; title = "Include created cards"; ObjectID = "PrR-2g-WEA"; */
-"PrR-2g-WEA.title" = "Include created cards";
+"PrR-2g-WEA.title" = "包含創建的卡牌";
 
 /* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "RyA-1i-LPY"; */
-"RyA-1i-LPY.title" = "Show C'Thun counter";
+"RyA-1i-LPY.title" = "顯示克蘇恩計算器";
 
 /* Class = "NSButtonCell"; title = "Show graveyard"; ObjectID = "W6j-bY-6aE"; */
-"W6j-bY-6aE.title" = "Show graveyard";
+"W6j-bY-6aE.title" = "顯示墓地";
 
 /* Class = "NSButtonCell"; title = "Show player class and name"; ObjectID = "aW1-2y-nKx"; */
-"aW1-2y-nKx.title" = "Show player class and name";
+"aW1-2y-nKx.title" = "顯示對手的職業和名字";
 
 /* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "aZW-kf-zpy"; */
-"aZW-kf-zpy.title" = "Show Deathrattle counter";
+"aZW-kf-zpy.title" = "顯示死亡之聲計算器";
 
 /* Class = "NSButtonCell"; title = "Show opponent draw chance"; ObjectID = "avf-qA-8vU"; */
-"avf-qA-8vU.title" = "Show opponent draw chance";
+"avf-qA-8vU.title" = "顯示對手的抽牌機率";
 
 /* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
-"eGQ-pE-MU0.title" = "Clear opponent tracker on game end";
+"eGQ-pE-MU0.title" = "賽局結束時清除對手的記牌區";
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "fah-Dr-Amh"; */
-"fah-Dr-Amh.title" = "Show board damage";
+"fah-Dr-Amh.title" = "顯示場攻";
 
 /* Class = "NSButtonCell"; title = "Show opponent card count"; ObjectID = "iqA-b1-owW"; */
-"iqA-b1-owW.title" = "Show opponent card count";
+"iqA-b1-owW.title" = "顯示對手的卡牌數量";
 
 /* Class = "NSButtonCell"; title = "Cardlist opens on mouseover"; ObjectID = "pMP-qQ-LuR"; */
-"pMP-qQ-LuR.title" = "Cardlist opens on mouseover";
+"pMP-qQ-LuR.title" = "滑鼠進入時顯示卡牌列表";
 
 /* Class = "NSButtonCell"; title = "Prevent tracker from covering opponent's name"; ObjectID = "rrt-Fg-VGw"; */
-"rrt-Fg-VGw.title" = "Prevent tracker from covering opponent's name";
+"rrt-Fg-VGw.title" = "避免記牌器蓋住對手的名字";

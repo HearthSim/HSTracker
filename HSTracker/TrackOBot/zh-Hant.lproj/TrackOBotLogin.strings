@@ -1,9 +1,9 @@
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "8RD-Pl-Gm6"; */
-"8RD-Pl-Gm6.title" = "Cancel";
+"8RD-Pl-Gm6.title" = "取消";
 
 /* Class = "NSTextFieldCell"; title = "Username"; ObjectID = "ApU-Sf-uTt"; */
-"ApU-Sf-uTt.title" = "Username";
+"ApU-Sf-uTt.title" = "使用者名稱";
 
 /* Class = "NSTextFieldCell"; title = "Token"; ObjectID = "PFS-av-GAD"; */
 "PFS-av-GAD.title" = "Token";
@@ -12,4 +12,4 @@
 "QvC-M9-y7g.title" = "Track-o-Bot";
 
 /* Class = "NSButtonCell"; title = "Login"; ObjectID = "gXX-bl-h6e"; */
-"gXX-bl-h6e.title" = "Login";
+"gXX-bl-h6e.title" = "登入";

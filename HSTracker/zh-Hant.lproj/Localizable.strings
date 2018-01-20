@@ -38,7 +38,7 @@
 "Are you sure you want to disconnect from Hearthstats ?" = "確定要與 Hearthstats 取消連結嗎?";
 "Save Opponent's Deck" = "儲存對手的牌組";
 "Save Current Deck" = "儲存現在的牌組";
-"Are you sure you want to archive the deck %@ ?" = "確定要將 %@ 牌組存檔嗎?";
+"Are you sure you want to archive the deck %@ ?" = "確定要儲存 %@ 牌組嗎?";
 "Are you sure you want to unarchive the deck %@ ?" = "確定要將 %@ 牌組從存檔中刪除嗎?";
 "Add Card" = "新增卡牌";
 "Remove Card" = "移除卡牌";
@@ -52,7 +52,7 @@
 "Login" = "登入";
 "Logout" = "登出";
 "Top deck:" = "下一抽抽中機率:";
-"In top 2:" = "下两抽抽中機率:";
+"In top 2:" = "下兩抽抽中機率:";
 "Connected" = "已連結";
 "Connected as %@" = "已連結，帳號為： %@";
 "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker 需要您的權限以讀取爐石戰記的資料，若系統要求您輸入密碼時請不必擔心，您電腦中的設定將不會被更改。";
@@ -119,6 +119,7 @@
 "murloc" = "魚人";
 "pirate" = "海盜";
 "totem" = "圖騰";
+"elemental" = "元素";
 
 /* sorting */
 "name" = "名字";
