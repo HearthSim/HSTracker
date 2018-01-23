@@ -1,4 +1,4 @@
-# 1.3.2 (unreleased)
+# 1.3.2
 ## Fixes:
 - Secret tracker disappears correctly
 - Fixed anomaly with user settings (High Sierra users please update to 10.13.2)
