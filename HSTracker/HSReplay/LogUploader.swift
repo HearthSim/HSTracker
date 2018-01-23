@@ -52,7 +52,7 @@ class LogUploader {
                 let attr = try FileManager.default.attributesOfItem(atPath: output.path)
                 date = attr[.creationDate] as? Date
             } catch {
-                print("\(error)")
+                logger.error("\(error)")
             }
 
             guard date != nil else {

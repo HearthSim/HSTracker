@@ -337,6 +337,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.dockMenu.addItem(deckmanager)
             }
             
+            if self.dockMenu.item(withTag: 3) == nil {
+                self.dockMenu.addItem(NSMenuItem.separator())
+                let preferences = NSMenuItem(title: NSLocalizedString("Preferences", comment: ""),
+                                             action: #selector(AppDelegate.openPreferences(_:)), keyEquivalent: "")
+                preferences.tag = 3
+                self.dockMenu.addItem(preferences)
+            }
+            
 			let dockdeckMenu = self.dockMenu.item(withTag: 1)
 			
 			// add deck items to main and dock menu
