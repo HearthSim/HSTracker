@@ -9,7 +9,7 @@
 import Foundation
 import RegexUtil
 
-struct FileImporter: BaseFileImporter {
+struct FileImporter {
 
     func fileImport(url: URL) -> (Deck, [Card])? {
         let deckName = url.lastPathComponent.replace("\\.txt$", with: "")

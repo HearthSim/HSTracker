@@ -20,10 +20,8 @@ class NewDeck: NSWindowController {
     
     @IBOutlet weak var hstrackerDeckBuilder: NSButton!
     @IBOutlet weak var fromAFile: NSButton!
-    @IBOutlet weak var fromTheWeb: NSButton!
     @IBOutlet weak var fromDeckString: NSButton!
     @IBOutlet weak var classesPopUpMenu: NSPopUpButton!
-    @IBOutlet weak var urlDeck: NSTextField!
     @IBOutlet weak var deckString: NSTextField!
     @IBOutlet weak var chooseFile: NSButton!
     @IBOutlet weak var okButton: NSButton!
@@ -46,7 +44,6 @@ class NewDeck: NSWindowController {
         return [
             hstrackerDeckBuilder: [classesPopUpMenu, arenaDeck],
             fromAFile: [chooseFile],
-            fromTheWeb: [urlDeck],
             fromDeckString: [deckString]
         ]
     }
@@ -83,33 +80,6 @@ class NewDeck: NSWindowController {
                 Cards.classes[classesPopUpMenu.indexOfSelectedItem],
                                       arenaDeck: (arenaDeck.state == .on))
             self.window?.sheetParent?.endSheet(self.window!, returnCode: NSApplication.ModalResponse.OK)
-        } else if fromTheWeb.state == .on {
-            do {
-                loader.startAnimation(self)
-                try NetImporter.netImport(url: urlDeck.stringValue,
-                                          completion: { (deck, message) -> Void in
-                                            self.loader.stopAnimation(self)
-                                            if let deck = deck {
-                                                self._addDeck(deck)
-                                                if let message = message {
-                                                    NSAlert.show(style: .informational,
-                                                                 message: message)
-                                                }
-                                            } else {
-                                                let msg = NSLocalizedString("Failed to import deck"
-                                                    + " from \n", comment: "")
-                                                    + self.urlDeck.stringValue
-                                                NSAlert.show(style: .critical,
-                                                             message: msg)
-                                            }
-                })
-            } catch {
-                self.loader.stopAnimation(self)
-                let msg = NSLocalizedString("Failed to import deck from \n", comment: "")
-                    + self.urlDeck.stringValue
-                NSAlert.show(style: .critical,
-                             message: msg)
-            }
         } else if fromAFile.state == .on {
             // add here to remember this case exists
         } else if fromDeckString.state == .on {
@@ -174,7 +144,6 @@ class NewDeck: NSWindowController {
     func checkToEnableSave() {
         okButton.isEnabled =
             hstrackerDeckBuilder.state == .on
-        || fromTheWeb.state == .on && !urlDeck.stringValue.isEmpty
         || fromDeckString.state == .on && !deckString.stringValue.isEmpty
         // notice that there's no statement needed to disable OK "fromAFile.state != .on"
     }
