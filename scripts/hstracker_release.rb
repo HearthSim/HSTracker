@@ -92,7 +92,6 @@ puts "Zipping HSTracker"
 `cd #{build_dir} && zip -r -y #{zip} HSTracker.app && cd #{hstracker_dir}`
 puts "Zipping HSTracker.dSYM"
 `cd #{build_dir}/HSTracker.xcarchive/dSYMs && zip -r -y #{hstracker_dsym_zip} *.dSYM  && cd #{hstracker_dir}`
-=end
 
 puts 'Uploading to HockeyApp'
 upload = `curl \
@@ -127,7 +126,7 @@ json = {
 	draft: false
 }.to_json
 update = `curl --request PATCH --data '#{json}' https://api.github.com/repos/#{repo_owner}/#{repo_repo}/releases/#{release_id}?access_token=#{access_token}`
-
+=end
 puts "Creating appcast"
 releases = JSON.parse(`curl https://api.github.com/repos/#{repo_owner}/#{repo_repo}/releases`)
 
