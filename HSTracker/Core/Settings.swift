@@ -200,7 +200,7 @@ final class Settings {
     }
     static var showPlayerDeathrattle: Bool {
         set { set(name: Settings.player_deathrattle_frame, value: newValue) }
-        get { return get(name: Settings.player_deathrattle_frame) as? Bool ?? true }
+        get { return get(name: Settings.player_deathrattle_frame) as? Bool ?? false }
     }
     static var showPlayerSpell: Bool {
         set { set(name: Settings.player_yogg_frame, value: newValue) }
@@ -228,7 +228,7 @@ final class Settings {
     }
     static var showOpponentDeathrattle: Bool {
         set { set(name: Settings.opponent_deathrattle_frame, value: newValue) }
-        get { return get(name: Settings.opponent_deathrattle_frame) as? Bool ?? true }
+        get { return get(name: Settings.opponent_deathrattle_frame) as? Bool ?? false }
     }
     static var showOpponentGraveyard: Bool {
         set { set(name: Settings.opponent_graveyard_frame, value: newValue) }
