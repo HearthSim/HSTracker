@@ -28,8 +28,8 @@ Is it against the TOS ?
 - Extract the archive
 - Move _HSTracker.app_ to your _Applications_ directory
 - Launch (make sure Hearthstone is not running when you first launch HSTracker) !
-- Create a new deck from the Deck Manager or import it from [HearthPwn](http://www.hearthpwn.com), [Hearthstone-decks](http://www.hearthstone-decks.com), [Hearthhead](http://www.hearthhead.com/), [Hearthnews](http://www.hearthnews.fr/) and many more
-- HSTracker can also auto-detect the deck you are playing with
+- Create a new deck from the Deck Manager or import it from deckstring
+- HSTracker also auto-detects the deck you are playing with
 
 ## Versions
 [Complete changelog is here](versions.markdown)
@@ -44,7 +44,7 @@ In order to compile, you have to
 
 - Get / update swift dependencies using [Carthage](https://github.com/Carthage/Carthage/blob/master/README.md#installing-carthage)
 
-        carthage update --platform osx
+        carthage update --platform osx --no-use-binaries
 
 - Install [SwiftLint](https://github.com/realm/SwiftLint/blob/master/README.md#installation), example using Homebrew:
 
@@ -52,11 +52,6 @@ In order to compile, you have to
 
 - Open the project in XCode and build
   - If you run into code signing errors, go to the "Build Settings" and change the signing enitity and certificate to your profile. HSTracker _must_ be code signed in order to function properly. 
-
-## Donations
-Donations are always appreciated
-
-[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=bmichotte%40gmail%2ecom&lc=US&item_name=HSTracker&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
 
 ## License
 

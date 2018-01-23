@@ -7,6 +7,9 @@
 ## New:
 - Deck Manager menu item in the dock menu
 - Dungeon run support
+- Removed website deck importers
+- Added zh-TW translations (kudos @WenTsai)
+- Added quick preferences access to the dock menu
 
 # 1.3.1
 ## Fixes:

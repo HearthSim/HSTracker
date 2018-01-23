@@ -1175,18 +1175,10 @@
 		434C2F2D1C7F433E001D1D91 /* Importers */ = {
 			isa = PBXGroup;
 			children = (
-				434C2F301C7F45BE001D1D91 /* Handlers */,
 				435907EB1CB13835008D4363 /* FileImporter.swift */,
 				43BF754B1ECC25F7005827FF /* DeckSerializer.swift */,
 			);
 			path = Importers;
-			sourceTree = "<group>";
-		};
-		434C2F301C7F45BE001D1D91 /* Handlers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Handlers;
 			sourceTree = "<group>";
 		};
 		4359BF791D51EE9200F61993 /* TrackOBot */ = {
