@@ -512,6 +512,7 @@
 		F79833971FFF324200D2893E /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
 		F7D7A3A62011B67D00E3A5F0 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */; };
 		F7D7A3A72011B67D00E3A5F0 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */; };
+		F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F7D7A3AD2017B51300E3A5F0 /* dsa_pub.pem */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1023,6 +1024,7 @@
 		F719B889200ACAE3004F5E36 /* DefaultDecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecks.swift; sourceTree = "<group>"; };
 		F79833961FFF324200D2893E /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hearthstone.swift; sourceTree = "<group>"; };
+		F7D7A3AD2017B51300E3A5F0 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = HSTracker/Resources/dsa_pub.pem; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1330,6 +1332,7 @@
 				C99C0C9B1D0A607D000DD6FB /* Statistics */,
 				4359BF791D51EE9200F61993 /* TrackOBot */,
 				439C7ECD1C777FA900D29859 /* UIs */,
+				F7D7A3AC2017B4FD00E3A5F0 /* Misc */,
 				437B5BB11CD2437D00DE0A41 /* Utility */,
 			);
 			path = HSTracker;
@@ -1616,6 +1619,14 @@
 			name = Statistics;
 			sourceTree = "<group>";
 		};
+		F7D7A3AC2017B4FD00E3A5F0 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				F7D7A3AD2017B51300E3A5F0 /* dsa_pub.pem */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1794,6 +1805,7 @@
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
+				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
