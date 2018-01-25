@@ -527,6 +527,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBAction func openReplayDirectory(_ sender: AnyObject) {
 		NSWorkspace.shared.activateFileViewerSelecting([Paths.replays])
 	}
+    
+    @IBAction func checkForUpdates(_ sender: AnyObject) {
+        DispatchQueue.main.async {
+            self.sparkleUpdater.checkForUpdates(sender)
+        }
+    }
 }
 
 extension AppDelegate: SUUpdaterDelegate {
