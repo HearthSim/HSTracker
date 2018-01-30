@@ -65,7 +65,6 @@ class TagChangeHandler {
     }
 
     func invokeQueuedActions(eventHandler: PowerEventHandler) {
-        logger.info("Invoking \(creationTagActionQueue.count) actions")
         while creationTagActionQueue.count > 0 {
             let action = creationTagActionQueue.removeFirst()
             action.action()
