@@ -1,3 +1,7 @@
+# 1.3.3
+## New:
+- Updated card data to the 10.2 patch
+
 # 1.3.2
 ## Fixes:
 - Secret tracker disappears correctly
