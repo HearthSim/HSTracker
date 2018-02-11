@@ -20,6 +20,7 @@ class PowerGameStateParser: LogEventParser {
     let CreationTagRegex: RegexPattern = "tag=(\\w+) value=(\\w+)"
     let GameEntityRegex: RegexPattern = "GameEntity EntityID=(\\d+)"
     let PlayerEntityRegex: RegexPattern = "Player EntityID=(\\d+) PlayerID=(\\d+) GameAccountId=(.+)"
+    let PlayerIDRegex: RegexPattern = "\\[hi\\=(\\d+)\\slo=(\\d+)"
     let PlayerNameRegex: RegexPattern = "id=(\\d) Player=(.+) TaskList=(\\d)"
     let TagChangeRegex: RegexPattern = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
     let UpdatingEntityRegex: RegexPattern = "(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)"
@@ -87,15 +88,33 @@ class PowerGameStateParser: LogEventParser {
         }
 
         // players
-        else if logLine.line.match(PlayerEntityRegex) {// Player EntityID=2 PlayerID=1 GameAccountId=[hi=144115193835963207 lo=27004683]
+        else if logLine.line.match(PlayerEntityRegex) {
             let matches = logLine.line.matches(PlayerEntityRegex)
             if let match = matches.first,
                 let id = Int(match.value) {
 				let entity = Entity(id: id)
+                
                 if matches.count > 1 {
                     let playerIdMatch = matches[1]
                     if let playerId = Int(playerIdMatch.value) {
                         entity[.player_id] = playerId
+                        
+                        if matches.count > 2 {
+                            let idmatch = matches[2].value
+                            let idmatches = idmatch.matches(PlayerIDRegex)
+                            if idmatches.count >= 2 {
+                                if let accountId = MirrorHelper.getAccountId() {
+                                    if let hi = UInt64(idmatches[0].value),
+                                        let lo = UInt64(idmatches[1].value), (NSNumber(value: hi) == accountId.hi) && (NSNumber(value: lo) == accountId.lo) {
+                                        eventHandler.player.id = playerId
+                                    } else {
+                                        if let isSpectating = MirrorHelper.isSpectating(), isSpectating == false {
+                                            eventHandler.opponent.id = playerId
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 eventHandler.add(entity: entity)

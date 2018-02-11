@@ -72,6 +72,24 @@ struct MirrorHelper {
             MirrorHelper._mirror = nil
         }
 	}
+    
+    // MARK: - Account information
+    
+    static func getBattleTag() -> String? {
+        var result: String? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBattleTag()
+        }
+        return result
+    }
+    
+    static func getAccountId() -> MirrorAccountId? {
+        var result: MirrorAccountId? = nil
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getAccountId()
+        }
+        return result
+    }
 	
 	// MARK: - get player decks
 	
