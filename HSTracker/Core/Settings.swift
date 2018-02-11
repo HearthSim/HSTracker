@@ -486,7 +486,7 @@ final class Settings {
     }
     static var hsReplayUploadSpectatorMatches: Bool {
         set { set(name: Settings.hsreplay_auto_synchronize_spectator_matches, value: newValue) }
-        get { return get(name: Settings.hsreplay_auto_synchronize_spectator_matches) as? Bool ?? true }
+        get { return get(name: Settings.hsreplay_auto_synchronize_spectator_matches) as? Bool ?? false }
     }
 
     static var theme: String {
