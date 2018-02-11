@@ -382,6 +382,12 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Druid.AstralTiger:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Druid.AstralTiger)
+                        case CardIds.Collectible.Rogue.Kingsbane:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.Collectible.Rogue.Kingsbane)
+                        case CardIds.Collectible.Neutral.WeaselTunneler:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.Collectible.Neutral.WeaselTunneler)
                         default: break
                         }
                     }
