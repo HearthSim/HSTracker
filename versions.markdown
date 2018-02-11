@@ -1,3 +1,10 @@
+# 1.3.4
+## Fixes:
+- Fixed an error that caused the tracker to stop working when the opponent was invisible
+ 
+## New:
+- Added Kingsbane and Weasel Tunneler interactions
+
 # 1.3.3
 ## New:
 - Updated card data to the 10.2 patch
