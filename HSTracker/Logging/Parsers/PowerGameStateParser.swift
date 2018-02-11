@@ -87,10 +87,17 @@ class PowerGameStateParser: LogEventParser {
         }
 
         // players
-        else if logLine.line.match(PlayerEntityRegex) {
-            if let match = logLine.line.matches(PlayerEntityRegex).first,
+        else if logLine.line.match(PlayerEntityRegex) {// Player EntityID=2 PlayerID=1 GameAccountId=[hi=144115193835963207 lo=27004683]
+            let matches = logLine.line.matches(PlayerEntityRegex)
+            if let match = matches.first,
                 let id = Int(match.value) {
 				let entity = Entity(id: id)
+                if matches.count > 1 {
+                    let playerIdMatch = matches[1]
+                    if let playerId = Int(playerIdMatch.value) {
+                        entity[.player_id] = playerId
+                    }
+                }
                 eventHandler.add(entity: entity)
 
                 set(currentEntity: id)
