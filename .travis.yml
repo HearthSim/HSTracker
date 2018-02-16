@@ -13,6 +13,7 @@ before_install:
   - brew outdated carthage || brew upgrade carthage
   - gem install xcpretty
   - carthage bootstrap --verbose --no-use-binaries --platform mac --cache-builds
+  - ./scripts/cards_download.sh
 
 script:
   - set -o pipefail
