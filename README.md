@@ -41,3 +41,5 @@ HSTracker uploads your games to [HSReplay.net](https://hsreplay.net).
 
 ## License
 HSTracker is released under the [MIT license](LICENSE).
+
+All Hearthstone assets are copyright © Blizzard Entertainment.
