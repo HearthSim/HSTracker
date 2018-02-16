@@ -970,7 +970,7 @@
 		43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SwiftyBeaver.framework.dSYM; path = Carthage/Build/Mac/SwiftyBeaver.framework.dSYM; sourceTree = "<group>"; };
 		43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyBeaver.framework; path = Carthage/Build/Mac/SwiftyBeaver.framework; sourceTree = "<group>"; };
 		43F4D0481EB7A23D006B4479 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroPower.swift; sourceTree = "<group>"; };
-		43F8265A1E0A674000422F4F /* Readme.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.markdown; sourceTree = "<group>"; };
+		43F8265A1E0A674000422F4F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
@@ -1577,7 +1577,7 @@
 		43E6632B1DC743C1007AB06E /* Configs */ = {
 			isa = PBXGroup;
 			children = (
-				43F8265A1E0A674000422F4F /* Readme.markdown */,
+				43F8265A1E0A674000422F4F /* README.md */,
 				49930DD31DFA859F008C8CD4 /* .swiftlint.yml */,
 				43C567E31D5D0C6300451B6F /* versions.markdown */,
 				431202AC1D93B1DB00606CA5 /* Cartfile */,

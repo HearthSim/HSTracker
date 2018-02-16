@@ -53,7 +53,7 @@ def load_version_changelog(current_dir)
   version = nil
   changelog = []
 
-  File.open "#{current_dir}/versions.markdown", 'r' do |file|
+  File.open "#{current_dir}/CHANGELOG.md", 'r' do |file|
     started = false
     file.each_line do |line|
       if line =~ /^#\s/

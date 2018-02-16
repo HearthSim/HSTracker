@@ -29,7 +29,7 @@ hockey_app = '2f0021b9bb1842829aa1cfbbd85d3bed'
 # Search for changelog
 version = nil
 changelog = []
-File.open "#{hstracker_dir}/versions.markdown", 'r' do |file|
+File.open "#{hstracker_dir}/CHANGELOG.md", 'r' do |file|
   started = false
   file.each_line do |line|
     if line =~ /^#\s/
