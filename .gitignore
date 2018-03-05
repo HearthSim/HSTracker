@@ -1,6 +1,9 @@
 .DS_Store
 .env
 
+# Downloaded cards
+HSTracker/Resources/Cards/*.json
+
 fastlane/*
 !fastlane/Fastfile
 
