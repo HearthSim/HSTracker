@@ -103,7 +103,6 @@
 		4359BF901D51FD5500F61993 /* TrackOBotPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF8F1D51FD5500F61993 /* TrackOBotPreferences.swift */; };
 		4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF931D52142D00F61993 /* PlayedCard.swift */; };
 		4359BF951D5221FF00F61993 /* TrackOBotPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4359BF971D5221FF00F61993 /* TrackOBotPreferences.xib */; };
-		4359BFA51D5243FD00F61993 /* Automation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BFA41D5243FD00F61993 /* Automation.swift */; };
 		435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD9081E1E3AB4000AF3DE /* GameStats.swift */; };
 		435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD90A1E1E4447000AF3DE /* ServerInfo.swift */; };
 		4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7ED11C777FA900D29859 /* InitialConfiguration.swift */; };
@@ -420,7 +419,6 @@
 		43C1CAB91E96CD6F008C20B1 /* WotogCounterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */; };
 		43C1CABA1E96CD6F008C20B1 /* ImageUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CAE1D0C500300222B8E /* ImageUtilities.swift */; };
 		43C1CABB1E96CD6F008C20B1 /* ImageCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434D1CB01D0C507900222B8E /* ImageCompare.swift */; };
-		43C1CABC1E96CD6F008C20B1 /* Automation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BFA41D5243FD00F61993 /* Automation.swift */; };
 		43C1CABD1E96CD6F008C20B1 /* CollectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AFEEEA1E22529C00F6045A /* CollectionManager.swift */; };
 		43C1CABE1E96CD6F008C20B1 /* HockeyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB4AE31E850E13003FD1AD /* HockeyHelper.swift */; };
 		43C1CABF1E96CD6F008C20B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E4B1C7772C000D29859 /* AppDelegate.swift */; };
@@ -785,7 +783,6 @@
 		4359BF9F1D52220600F61993 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TrackOBotPreferences.strings; sourceTree = "<group>"; };
 		4359BFA11D52220700F61993 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/TrackOBotPreferences.strings"; sourceTree = "<group>"; };
 		4359BFA31D52220800F61993 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TrackOBotPreferences.strings"; sourceTree = "<group>"; };
-		4359BFA41D5243FD00F61993 /* Automation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Automation.swift; sourceTree = "<group>"; };
 		435BC4B61DA3801E007EF301 /* hs-build-dates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "hs-build-dates.json"; sourceTree = "<group>"; };
 		435CD9081E1E3AB4000AF3DE /* GameStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStats.swift; sourceTree = "<group>"; };
 		435CD90A1E1E4447000AF3DE /* ServerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerInfo.swift; sourceTree = "<group>"; };
@@ -1269,7 +1266,6 @@
 				437B5BB21CD2439800DE0A41 /* WotogCounterHelper.swift */,
 				434D1CAE1D0C500300222B8E /* ImageUtilities.swift */,
 				434D1CB01D0C507900222B8E /* ImageCompare.swift */,
-				4359BFA41D5243FD00F61993 /* Automation.swift */,
 				43AFEEEA1E22529C00F6045A /* CollectionManager.swift */,
 				BCA70F281E2C16DD00038A6C /* FileUtils.h */,
 				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
@@ -1926,7 +1922,6 @@
 				1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */,
 				439C7EC81C777F8900D29859 /* CoreManager.swift in Sources */,
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
-				4359BFA51D5243FD00F61993 /* Automation.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
 				431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */,
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
@@ -2223,7 +2218,6 @@
 				43C1CAB91E96CD6F008C20B1 /* WotogCounterHelper.swift in Sources */,
 				43C1CABA1E96CD6F008C20B1 /* ImageUtilities.swift in Sources */,
 				43C1CABB1E96CD6F008C20B1 /* ImageCompare.swift in Sources */,
-				43C1CABC1E96CD6F008C20B1 /* Automation.swift in Sources */,
 				43C1CABD1E96CD6F008C20B1 /* CollectionManager.swift in Sources */,
 				43C1CABE1E96CD6F008C20B1 /* HockeyHelper.swift in Sources */,
 				43C1CABF1E96CD6F008C20B1 /* AppDelegate.swift in Sources */,

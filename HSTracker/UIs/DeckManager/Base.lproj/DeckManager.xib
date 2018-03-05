@@ -272,11 +272,6 @@
                             <action selector="showStatistics:" target="-2" id="736-au-4Ld"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="51D25816-2FB6-44D9-A6C0-63CD85BE8C03" explicitItemIdentifier="export_hearthstone" label="Export HS" paletteLabel="Export HS" tag="-1" image="hearthstone" id="PLl-9e-lE5">
-                        <connections>
-                            <action selector="exportToHearthstone:" target="-2" id="F7f-kw-pom"/>
-                        </connections>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="1B935CB6-E06D-4C5B-A5B7-1F3225DA829D" label="Classes" paletteLabel="Classes" id="Hyt-EI-Vfy">
                         <nil key="toolTip"/>
                         <size key="minSize" width="100" height="27"/>
@@ -306,7 +301,6 @@
                 <defaultToolbarItems>
                     <toolbarItem reference="7FY-gv-qwP"/>
                     <toolbarItem reference="3nu-q9-wC1"/>
-                    <toolbarItem reference="PLl-9e-lE5"/>
                     <toolbarItem reference="XUQ-ti-e6U"/>
                     <toolbarItem reference="T0e-lu-Gfj"/>
                     <toolbarItem reference="Qp2-0h-Sid"/>

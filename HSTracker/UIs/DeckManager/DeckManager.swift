@@ -489,33 +489,6 @@ class DeckManager: NSWindowController {
                      message: NSLocalizedString("Deck string has been copied in your clipboard.", comment: ""),
                      window: self.window!)
     }
-    
-    @IBAction func exportToHearthstone(_ sender: AnyObject?) {
-        if let deck = currentDeck {
-            let msg = String(format: NSLocalizedString("To export a deck to Hearthstone, "
-                + "create a new deck with the correct class in your collection, then click OK "
-                + "and switch to Hearthstone.\nDo not touch your mouse or keyboard "
-                + "during the import.", comment: ""), deck.name)
-            NSAlert.show(style: .informational, message: msg, window: self.window!) {
-                self.exportDeckToHearthstone(deck)
-            }
-        }
-    }
-    
-    fileprivate func exportDeckToHearthstone(_ deck: Deck) {
-        let when = DispatchTime.now() + DispatchTimeInterval.seconds(2)
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            let automation = Automation()
-            automation.exportDeckToHearthstone(deck: deck) { message in
-                DispatchQueue.main.async {
-                    NSAlert.show(style: .informational,
-                                 message: message,
-                                 window: self.window!,
-                                 forceFront: true)
-                }
-            }
-        }
-    }
 }
 
 // MARK: - NSTableViewDelegate
