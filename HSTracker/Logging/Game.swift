@@ -915,9 +915,7 @@ class Game: NSObject, PowerEventHandler {
 		result.wasConceded = self.wasConceded
 		result.result = self.gameResult
 		
-		if let build = BuildDates.latestBuild {
-			result.hearthstoneBuild = build.build
-		}
+        result.hearthstoneBuild = self.buildNumber
 		result.season = Database.currentSeason
 		
 		if let name = self.player.name {
@@ -1082,12 +1080,12 @@ class Game: NSObject, PowerEventHandler {
             (stats.gameMode == .spectator &&
                 Settings.hsReplayUploadFriendlyMatches)) {
 			
-			let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats,
+            let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats, buildNumber: self.buildNumber,
 				deck: self.playerDeckAutodetected && self.currentDeck != nil ? self.currentDeck : nil )
 			
             HSReplayAPI.getUploadToken { _ in
                 
-                LogUploader.upload(logLines: logLines,
+                LogUploader.upload(logLines: logLines, buildNumber: self.buildNumber,
                                    metaData: (uploadMetaData, statId)) { result in
                     if case UploadResult.successful(let replayId) = result {
                         NotificationManager.showNotification(type: .hsReplayPush(replayId: replayId))

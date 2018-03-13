@@ -43,7 +43,7 @@ class UploadMetaData {
         return formatter
     }()
 
-	static func generate(stats: InternalGameStats, deck: PlayingDeck?) -> (UploadMetaData, String) {
+    static func generate(stats: InternalGameStats, buildNumber: Int, deck: PlayingDeck?) -> (UploadMetaData, String) {
         let metaData = UploadMetaData()
 
 		let playerInfo = getPlayerInfo(stats: stats, deck: deck)
@@ -116,15 +116,7 @@ class UploadMetaData {
             metaData.scenarioId = scenarioId
         }
 
-        var build: Int? = nil
-        if let _build = stats.hearthstoneBuild {
-            build = _build
-        } else {
-            build = BuildDates.get(byDate: stats.startTime)?.build
-        }
-        if let _build = build, _build > 0 {
-            metaData.hearthstoneBuild = _build
-        }
+        metaData.hearthstoneBuild = buildNumber
 
         return (metaData, stats.statId)
     }

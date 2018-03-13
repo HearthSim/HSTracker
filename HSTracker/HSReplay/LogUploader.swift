@@ -11,6 +11,7 @@ import Wrap
 import ZipArchive
 import Gzip
 import RealmSwift
+import RegexUtil
 
 class LogUploader {
     private static var inProgress: [UploaderItem] = []
@@ -75,7 +76,18 @@ class LogUploader {
                 LogLine.init(namespace: .power, line: $0)
             })
             
-            self.upload(logLines: logLines, gameStart: date, fromFile: true) { (result) in
+            // find build number
+            var buildNumber = 0
+            let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)"
+            for logline in logLines {
+                if logline.line.match(BuildNumberRegex) {
+                    if let buildnumber = Int(logline.line.matches(BuildNumberRegex)[0].value) {
+                        buildNumber = buildnumber
+                    }
+                }
+            }
+            
+            self.upload(logLines: logLines, buildNumber: buildNumber, gameStart: date, fromFile: true) { (result) in
                 do {
                     try FileManager.default.removeItem(at: output)
                 } catch {
@@ -88,17 +100,17 @@ class LogUploader {
         }
     }
 
-    static func upload(logLines: [LogLine], metaData: (metaData: UploadMetaData, statId: String )? = nil,
+    static func upload(logLines: [LogLine], buildNumber: Int, metaData: (metaData: UploadMetaData, statId: String )? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         let log = logLines.sorted {
             return $0.time < $1.time
             }.map { $0.line }
-        upload(logLines: log, metaData: metaData, gameStart: gameStart,
+        upload(logLines: log, buildNumber: buildNumber, metaData: metaData, gameStart: gameStart,
                fromFile: fromFile, completion: completion)
     }
 
-    static func upload(logLines: [String], metaData: (metaData: UploadMetaData, statId: String )? = nil,
+    static func upload(logLines: [String], buildNumber: Int, metaData: (metaData: UploadMetaData, statId: String )? = nil,
                        gameStart: Date? = nil, fromFile: Bool = false,
                        completion: @escaping (UploadResult) -> Void) {
         guard let token = Settings.hsReplayUploadToken else {
@@ -131,13 +143,7 @@ class LogUploader {
         
         inProgress.append(item)
 
-        if let date = metaData?.metaData.dateStart, fromFile {
-            metaData?.metaData.hearthstoneBuild = BuildDates.get(byDate: date)?.build
-        } else if let build = BuildDates.getByProductDb() {
-            metaData?.metaData.hearthstoneBuild = build.build
-        } else {
-            metaData?.metaData.hearthstoneBuild = BuildDates.get(byDate: Date())?.build
-        }
+        metaData?.metaData.hearthstoneBuild = buildNumber
 
         guard let wrappedMetaData: [String: Any] = try? wrap(metaData?.metaData) else {
             logger.warning("Can not encode to json game metadata")

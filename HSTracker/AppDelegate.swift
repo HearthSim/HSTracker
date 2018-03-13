@@ -137,14 +137,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		coreManager = CoreManager()
 		
 		DispatchQueue.global().async { [unowned(unsafe) self] in
-			// load build dates via http request
-			let buildsOperation = BlockOperation {
-				BuildDates.loadBuilds(splashscreen: self.splashscreen!)
-				/*if BuildDates.isOutdated() || !Database.jsonFilesAreValid() {
-					BuildDates.downloadCards(splashscreen: self.splashscreen!)
-				}*/
-			}
-
             // load card tier via http request
             let cardTierOperation = BlockOperation {
                 ArenaHelperSync.checkTierList(splashscreen: self.splashscreen!)
@@ -181,14 +173,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				}
 			}
 			
-			databaseOperation.addDependency(buildsOperation)
 			/*if Settings.useHearthstoneAssets {
 				databaseOperation.addDependency(assetsOperation)
 				assetsOperation.addDependency(buildsOperation)
 			}*/
 			
 			var operations = [Operation]()
-			operations.append(buildsOperation)
             operations.append(cardTierOperation)
 			/*if Settings.useHearthstoneAssets {
 				operations.append(assetsOperation)
