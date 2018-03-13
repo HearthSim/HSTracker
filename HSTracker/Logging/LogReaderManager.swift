@@ -66,7 +66,7 @@ final class LogReaderManager {
 		
         let rx = "GameState.DebugPrintEntityChoices\\(\\)\\s-\\sid=(\\d) Player=(.+) TaskList=(\\d)"
         let plReader = LogReaderInfo(name: .power,
-                                     startsWithFilters: [["PowerTaskList.DebugPrintPower", rx], ["GameState."]],
+                                     startsWithFilters: [["PowerTaskList.DebugPrintPower", rx, "GameState.DebugPrintGame"], ["GameState."]],
                                      containsFilters: [["Begin Spectating", "Start Spectator",
                                                        "End Spectator"], []])
         powerLog = LogReader(info: plReader, logPath: logPath)

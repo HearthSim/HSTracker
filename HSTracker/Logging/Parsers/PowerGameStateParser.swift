@@ -24,6 +24,8 @@ class PowerGameStateParser: LogEventParser {
     let PlayerNameRegex: RegexPattern = "id=(\\d) Player=(.+) TaskList=(\\d)"
     let TagChangeRegex: RegexPattern = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
     let UpdatingEntityRegex: RegexPattern = "(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)"
+    let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)" // BuildNumber=23576
+    let PlayerIDNameRegex: RegexPattern = "PlayerID=(\\d+), PlayerName=(.+)" // PlayerID=1, PlayerName=Haibane#2468
 
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
@@ -98,6 +100,9 @@ class PowerGameStateParser: LogEventParser {
                     let playerIdMatch = matches[1]
                     if let playerId = Int(playerIdMatch.value) {
                         entity[.player_id] = playerId
+                        if let name = eventHandler.playerName(for: playerId) {
+                            entity.name = name
+                        }
                         
                         if matches.count > 2 {
                             let idmatch = matches[2].value
@@ -107,9 +112,15 @@ class PowerGameStateParser: LogEventParser {
                                     if let hi = UInt64(idmatches[0].value),
                                         let lo = UInt64(idmatches[1].value), (NSNumber(value: hi) == accountId.hi) && (NSNumber(value: lo) == accountId.lo) {
                                         eventHandler.player.id = playerId
+                                        if let name = entity.name {
+                                            eventHandler.player.name = name
+                                        }
                                     } else {
                                         if let isSpectating = MirrorHelper.isSpectating(), isSpectating == false {
                                             eventHandler.opponent.id = playerId
+                                        }
+                                        if let name = entity.name {
+                                            eventHandler.opponent.name = name
                                         }
                                     }
                                 }
@@ -311,6 +322,16 @@ class PowerGameStateParser: LogEventParser {
             tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
+        } else if logLine.line.match(BuildNumberRegex) {
+            if let buildNumber = Int(logLine.line.matches(BuildNumberRegex)[0].value) {
+                eventHandler.set(buildNumber: buildNumber)
+            }
+        } else if logLine.line.match(PlayerIDNameRegex) {
+            let matches = logLine.line.matches(PlayerIDNameRegex)
+            if matches.count >= 2, let playerID = Int(matches[0].value) {
+                let playerName = matches[1].value
+                eventHandler.add(playerName: playerName, for: playerID)
+            }
         }
         if logLine.line.contains("End Spectator") {
             eventHandler.gameEnd()

@@ -160,8 +160,13 @@ class Game: NSObject, PowerEventHandler {
 				tracker.fatigueCounter = self.opponent.fatigue
 				tracker.spellsPlayedCount = self.opponent.spellsPlayedCount
 				tracker.deathrattlesPlayedCount = self.opponent.deathrattlesPlayedCount
-				tracker.playerName = self.opponent.name
-				tracker.graveyard = self.opponent.graveyard
+				
+                if let fullname = self.opponent.name {
+                    let names = fullname.components(separatedBy: "#")
+                    tracker.playerName = names[0]
+                }
+				
+                tracker.graveyard = self.opponent.graveyard
 				tracker.playerClassId = self.opponent.playerClassId
 				
 				tracker.currentFormat = self.currentFormat
@@ -442,6 +447,10 @@ class Game: NSObject, PowerEventHandler {
 	}
 	
     // MARK: - Vars
+    
+    var buildNumber: Int = 0
+    var playerIDNameMapping: [Int: String] = [:]
+    
 	var startTime: Date?
     var currentTurn = 0
     var lastId = 0
@@ -570,8 +579,7 @@ class Game: NSObject, PowerEventHandler {
                 + " matchInfo: \(String(describing: self._matchInfo))")
             
             if let minfo = self._matchInfo {
-                self.player.name = minfo.localPlayer.name
-                self.opponent.name = minfo.opposingPlayer.name
+                // player names are now read from the log file
                 self.player.id = minfo.localPlayer.playerId
                 self.opponent.id = minfo.opposingPlayer.playerId
                 self._currentGameType = minfo.gameType
@@ -1220,6 +1228,18 @@ class Game: NSObject, PowerEventHandler {
                 entity.info.costReduction += thaurissans.count
             }
         }
+    }
+    
+    func set(buildNumber: Int) {
+        self.buildNumber = buildNumber
+    }
+    
+    func add(playerName: String, for ID: Int) {
+        self.playerIDNameMapping[ID] = playerName
+    }
+    
+    func playerName(for ID: Int) -> String? {
+        return self.playerIDNameMapping[ID]
     }
 
     // MARK: - player
