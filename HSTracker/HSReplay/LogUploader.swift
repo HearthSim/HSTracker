@@ -87,6 +87,12 @@ class LogUploader {
                 }
             }
             
+            if buildNumber == 0 {
+                // build number was not found, bail
+                completion(.failed(error: "Build number was not found"))
+                return
+            }
+            
             self.upload(logLines: logLines, buildNumber: buildNumber, gameStart: date, fromFile: true) { (result) in
                 do {
                     try FileManager.default.removeItem(at: output)
