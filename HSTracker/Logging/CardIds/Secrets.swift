@@ -33,6 +33,10 @@ extension CardIds.Secrets {
     static let arenaExcludes = [
         Hunter.Snipe
     ]
+    
+    static let arenaOnly = [
+        Paladin.HandOfSalvation
+    ]
 
     static let fastCombat = [
         Hunter.FreezingTrap,

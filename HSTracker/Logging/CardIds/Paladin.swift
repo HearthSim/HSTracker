@@ -182,13 +182,14 @@ extension CardIds.NonCollectible {
         static let UtheroftheEbonBlade_DarionMograineToken: String = "ICC_829t5"
         static let BolvarFireblood_FadingLightEnchantment: String = "ICC_858e"
         static let TirionFordring: String = "ICCA01_013"
+        static let HandOfSalvation: String = "BCON_012"
     }
 }
 
 extension CardIds.Secrets {
     struct Paladin {
         static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, NobleSacrifice,
-                          Redemption, Repentance, SacredTrial, GetawayKodo]
+                          HandOfSalvation, GetawayKodo, Redemption, Repentance, SacredTrial]
         static let Avenge = CardIds.Collectible.Paladin.Avenge
         static let CompetitiveSpirit = CardIds.Collectible.Paladin.CompetitiveSpirit
         static let EyeForAnEye = CardIds.Collectible.Paladin.EyeForAnEye
@@ -197,5 +198,6 @@ extension CardIds.Secrets {
         static let Redemption = CardIds.Collectible.Paladin.Redemption
         static let Repentance = CardIds.Collectible.Paladin.Repentance
         static let SacredTrial = CardIds.Collectible.Paladin.SacredTrial
+        static let HandOfSalvation = CardIds.NonCollectible.Paladin.HandOfSalvation
     }
 }

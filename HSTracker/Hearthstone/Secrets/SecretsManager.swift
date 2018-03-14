@@ -140,6 +140,8 @@ class SecretsManager {
         }
         if gameMode == .gt_arena {
             cards = cards.filter { !CardIds.Secrets.arenaExcludes.contains($0.id) }
+        } else {
+            cards = cards.filter { !CardIds.Secrets.arenaOnly.contains($0.id) }
         }
 
         return cards.filter { $0.count > 0 }
@@ -244,6 +246,10 @@ class SecretsManager {
             exclude.append(CardIds.Secrets.Mage.Duplicate)
             exclude.append(CardIds.Secrets.Paladin.GetawayKodo)
             exclude.append(CardIds.Secrets.Rogue.CheatDeath)
+        }
+        
+        if let opponent_minions_died = game.opponentEntity?.tags[.num_friendly_minions_that_died_this_turn], opponent_minions_died >= 1 {
+            exclude.append(CardIds.Secrets.Paladin.HandOfSalvation)
         }
 
         var numDeathrattleMinions = 0
