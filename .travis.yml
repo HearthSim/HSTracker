@@ -5,17 +5,14 @@ before_script:
   - bundle exec danger
 
 cache:
+  bundler: true
   directories:
     - Carthage
 
 before_install:
-  - brew update
   - brew outdated carthage || brew upgrade carthage
-  - gem install xcpretty
-  - carthage bootstrap --verbose --no-use-binaries --platform mac --cache-builds
   - ./scripts/cards_download.sh
 
 script:
-  - set -o pipefail
-  - xcodebuild -project HSTracker.xcodeproj -scheme HSTracker -sdk macosx clean build test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty
+  - bundle exec fastlane scan
 
