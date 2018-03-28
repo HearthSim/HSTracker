@@ -76,10 +76,10 @@ class Database {
                     }
                 }
 
-                guard let cardId = jsonCard["id"] as? String else { continue }
-                guard let jsonSet = jsonCard["set"] as? String,
-                    let set = CardSet(rawValue: jsonSet.lowercased()) else { continue }
-                guard Database.validCardSets.contains(set) else { continue }
+                guard let cardId = jsonCard["id"] as? String,
+                    let jsonSet = jsonCard["set"] as? String,
+                    let set = CardSet(rawValue: jsonSet.lowercased()),
+                    Database.validCardSets.contains(set) else { continue }
 
                 if let name = jsonCard["name"] as? String,
                     let card = Cards.cards.first(where: { $0.id == cardId }),
@@ -89,10 +89,6 @@ class Database {
                     let card = Card()
                     card.jsonRepresentation = jsonCard
                     card.id = cardId
-                    if let dbfId = jsonCard["dbfId"] as? Int {
-                        card.dbfId = dbfId
-                    }
-
                     if let dbfId = jsonCard["dbfId"] as? Int {
                         card.dbfId = dbfId
                     }
@@ -113,8 +109,8 @@ class Database {
                         card.type = cardType
                     }
 
-                    if let playerClass = jsonCard["playerClass"] as? String,
-                        let cardPlayerClass = CardClass(rawValue: playerClass.lowercased()) {
+                    if let cardClass = jsonCard["cardClass"] as? String,
+                        let cardPlayerClass = CardClass(rawValue: cardClass.lowercased()) {
                         card.playerClass = cardPlayerClass
                     }
 
