@@ -81,6 +81,12 @@ def load_version_changelog(current_dir)
   return version, changelog
 end
 
+lane :ci do
+  setup_travis
+  carthage(use_binaries: false, platform: 'mac', cache_builds: true)
+  scan
+end
+
 lane :release do
   version, changelog = load_version_changelog(current_dir)
   build_number = sh("git rev-list HEAD --count").strip.to_i + 1 # add 1 because of the commit for the version bump
@@ -146,5 +152,4 @@ lane :release do
 
   # load releases
   create_appcast(hsdecktracker_dir, "#{version}.#{build_number}")
-
 end
