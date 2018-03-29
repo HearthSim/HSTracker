@@ -35,11 +35,11 @@ if !is_plist_change
   warn "Plist changed, don't forget to localize your plist values"
 end
 
-podfile_updated = !git.modified_files.grep(/Podfile/).empty?
+cartfile_updated = !git.modified_files.grep(/Cartfile/).empty?
 
-# Leave warning, if Podfile changes
-if podfile_updated
-  warn "The `Podfile` was updated"
+# Leave warning, if Cartfile changes
+if cartfile_updated
+  warn "The `Cartfile` was updated"
 end
 
 # This is swiftlint plugin. More info: https://github.com/ashfurrow/danger-swiftlint
