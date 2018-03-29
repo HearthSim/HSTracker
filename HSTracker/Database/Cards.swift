@@ -64,7 +64,8 @@ final class Cards {
     }
 
     static func any(byId cardId: String) -> Card? {
-        if cardId.isBlank { return nil }
+        guard !cardId.isBlank else { return nil }
+
         if let card = cards.first(where: { $0.id == cardId }) {
             return card.copy() as? Card
         }
