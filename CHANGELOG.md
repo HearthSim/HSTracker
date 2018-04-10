@@ -1,3 +1,20 @@
+# 1.4.0
+## Fixes:
+- Fixed broken updater
+- Fixed cardclass parsing (kudos dlackty)
+
+## New:
+- Added support for Witchwood cards
+
+# 1.3.5
+## Fixes:
+- Fixed issues introduced by the latest Hearthstone patch
+- Removed deck to Hearthstone automated export
+
+## New:
+- Added new arena-only cards
+- Added Hand of Salvation to secret tracker
+
 # 1.3.4
 ## Fixes:
 - Fixed an error that caused the tracker to stop working when the opponent was invisible
