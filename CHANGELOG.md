@@ -5,6 +5,7 @@
 
 ## New:
 - Added support for Witchwood cards
+- Removed Track-o-bot support
 
 # 1.3.5
 ## Fixes:
