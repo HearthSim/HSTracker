@@ -421,20 +421,6 @@ final class Settings {
         get { return get(name: Settings.show_deck_name) as? Bool ?? false }
     }
 
-    // MARK: - Track-o-Bot
-    static var trackobotUsername: String? {
-        set { set(name: Settings.trackobot_username, value: newValue) }
-        get { return get(name: Settings.trackobot_username) as? String }
-    }
-    static var trackobotToken: String? {
-        set { set(name: Settings.trackobot_token, value: newValue) }
-        get { return get(name: Settings.trackobot_token) as? String }
-    }
-    static var trackobotSynchronizeMatches: Bool {
-        set { set(name: Settings.trackobot_auto_synchronize_matches, value: newValue) }
-        get { return get(name: Settings.trackobot_auto_synchronize_matches) as? Bool ?? true }
-    }
-
     // MARK: - HSReplay
     static var saveReplays: Bool {
         set { set(name: Settings.save_replays, value: newValue) }
@@ -604,11 +590,6 @@ extension Settings {
     static let show_opponent_class = "show_opponent_class"
     static let prevent_opponent_name_covering = "prevent_opponent_name_covering"
     static let show_deck_name = "show_deck_name"
-    
-    // MARK: - Track-o-Bot related preferences
-    static let trackobot_username = "trackobot_username"
-    static let trackobot_token = "trackobot_token"
-    static let trackobot_auto_synchronize_matches = "trackobot_auto_synchronize_matches"
     
     static let save_replays = "save_replays"
     static let archive_arena_deck = "archive_arena_deck"

@@ -1055,14 +1055,6 @@ class Game: NSObject, PowerEventHandler {
             logger.info("Game was in \(currentGameMode), don't send to third-party")
             return
         }
-        
-        if TrackOBotAPI.isLogged() && Settings.trackobotSynchronizeMatches {
-            do {
-                try TrackOBotAPI.postMatch(stat: stats, cards: playedCards)
-            } catch {
-                logger.error("Track-o-Bot error : \(error)")
-            }
-        }
 
         if Settings.hsReplaySynchronizeMatches && (
             (stats.gameMode == .ranked &&
