@@ -123,6 +123,7 @@ extension CardIds.Collectible {
         static let LostInTheJungle: String = "UNG_960"
         static let Adaptation: String = "UNG_961"
         static let LightfusedStegodon: String = "UNG_962"
+        static let HiddenWisdom: String = "GIL_903"
     }
 }
 
@@ -188,7 +189,7 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Paladin {
-        static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, NobleSacrifice,
+        static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, HiddenWisdom, NobleSacrifice,
                           HandOfSalvation, GetawayKodo, Redemption, Repentance, SacredTrial]
         static let Avenge = CardIds.Collectible.Paladin.Avenge
         static let CompetitiveSpirit = CardIds.Collectible.Paladin.CompetitiveSpirit
@@ -199,5 +200,6 @@ extension CardIds.Secrets {
         static let Repentance = CardIds.Collectible.Paladin.Repentance
         static let SacredTrial = CardIds.Collectible.Paladin.SacredTrial
         static let HandOfSalvation = CardIds.NonCollectible.Paladin.HandOfSalvation
+        static let HiddenWisdom = CardIds.Collectible.Paladin.HiddenWisdom
     }
 }

@@ -283,7 +283,7 @@ class SecretsManager {
         // redemption never triggers if a deathrattle effect fills up the board
         // effigy can trigger ahead of the deathrattle effect, but only if effigy was played before the deathrattle minion
         if game.opponentMinionCount < 7 - numDeathrattleMinions {
-    exclude.append(CardIds.Secrets.Paladin.Redemption)
+            exclude.append(CardIds.Secrets.Paladin.Redemption)
         }
 
         // TODO: break ties when Effigy + Deathrattle played on the same turn
@@ -341,6 +341,22 @@ class SecretsManager {
         guard handleAction else { return }
 
         var exclude: [String] = []
+        
+        if freeSpaceOnBoard {
+            if let opponent = game.opponentEntity, opponent.has(tag: .num_cards_played_this_turn) &&
+                (opponent[.num_cards_played_this_turn] >= 2) {
+                    exclude.append(CardIds.Secrets.Hunter.RatTrap)
+            }
+        }
+        
+        if(freeSpaceInHand)
+        {
+            if let opponent = game.opponentEntity, opponent.has(tag: .num_cards_played_this_turn) &&
+                (opponent[.num_cards_played_this_turn] >= 2) {
+                exclude.append(CardIds.Secrets.Paladin.HiddenWisdom)
+            }
+        }
+        
         if entity.isSpell {
             exclude.append(CardIds.Secrets.Mage.Counterspell)
 

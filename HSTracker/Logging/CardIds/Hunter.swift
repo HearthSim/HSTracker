@@ -124,6 +124,7 @@ extension CardIds.Collectible {
         static let SwampKingDred: String = "UNG_919"
         static let TheMarshQueen: String = "UNG_920"
         static let WanderingMonster: String = "LOOT_079"
+        static let RatTrap: String = "GIL_577"
     }
 }
 
@@ -192,7 +193,7 @@ extension CardIds.NonCollectible {
 extension CardIds.Secrets {
     struct Hunter {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
-                          HiddenCache, Misdirection, Snipe, SnakeTrap, CatTrick,
+                          HiddenCache, Misdirection, RatTrap, Snipe, SnakeTrap, CatTrick,
                           VenomstrikeTrap, WanderingMonster]
         static let BearTrap = CardIds.Collectible.Hunter.BearTrap
         static let DartTrap = CardIds.Collectible.Hunter.DartTrap
@@ -205,5 +206,6 @@ extension CardIds.Secrets {
         static let CatTrick = CardIds.Collectible.Hunter.CatTrick
         static let VenomstrikeTrap = CardIds.Collectible.Hunter.VenomstrikeTrap
         static let WanderingMonster = CardIds.Collectible.Hunter.WanderingMonster
+        static let RatTrap = CardIds.Collectible.Hunter.RatTrap
     }
 }
