@@ -349,8 +349,7 @@ class SecretsManager {
             }
         }
         
-        if(freeSpaceInHand)
-        {
+        if freeSpaceInHand {
             if let opponent = game.opponentEntity, opponent.has(tag: .num_cards_played_this_turn) &&
                 (opponent[.num_cards_played_this_turn] >= 2) {
                 exclude.append(CardIds.Secrets.Paladin.HiddenWisdom)

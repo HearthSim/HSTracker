@@ -415,7 +415,7 @@ class PowerGameStateParser: LogEventParser {
                 } else {
                     if let actionStartingCardId = actionStartingCardId {
                         switch actionStartingCardId {
-                        case CardIds.Collectible.Rogue.GangUp:
+                        case CardIds.Collectible.Rogue.GangUp, CardIds.Collectible.Hunter.DireFrenzy:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches),
                                            count: 3)
@@ -430,7 +430,10 @@ class PowerGameStateParser: LogEventParser {
                                             .IronJuggernaut_BurrowingMineToken)
                         case CardIds.Collectible.Druid.Recycle,
                              CardIds.Collectible.Mage.ManicSoulcaster,
-                             CardIds.Collectible.Neutral.ZolaTheGorgon:
+                             CardIds.Collectible.Neutral.ZolaTheGorgon,
+                             CardIds.Collectible.Druid.Splintergraft,
+                             CardIds.Collectible.Neutral.BalefulBanker,
+                             CardIds.Collectible.Neutral.DollmasterDorian:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches))
                         case CardIds.Collectible.Mage.ForgottenTorch:

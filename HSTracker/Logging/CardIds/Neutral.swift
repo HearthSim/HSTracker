@@ -558,6 +558,8 @@ extension CardIds.Collectible {
         static let ZolaTheGorgon: String = "LOOT_516"
         static let TheDarkness: String = "LOOT_526"
         static let KingTogwaggle: String = "LOOT_541"
+        static let BalefulBanker: String = "GIL_815"
+        static let DollmasterDorian: String = "GIL_620"
     }
 }
 
