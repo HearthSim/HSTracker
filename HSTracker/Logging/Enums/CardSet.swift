@@ -13,15 +13,15 @@ enum CardSet: String, EnumCollection {
     case core, expert1, naxx, gvg, brm,
     tgt, loe, promo, reward, hero_skins,
     og, kara, gangs, ungoro, hof, icecrown,
-    lootapalooza
+    lootapalooza, gilneas
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .expert1, .naxx, .gvg, .brm, .tgt,
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
-                .lootapalooza]
+                .lootapalooza, .gilneas]
     }
     
     static func wildSets() -> [CardSet] {
-        return [.naxx, .gvg, .brm, .tgt, .loe, .hof, .promo]
+        return [.naxx, .gvg, .brm, .tgt, .loe, .hof, .promo, .og, .kara, .gangs]
     }
 }
