@@ -1,3 +1,7 @@
+# 1.4.1
+## Fixes:
+- Fixed issues with Witchwood cards
+
 # 1.4.0
 ## Fixes:
 - Fixed broken updater
