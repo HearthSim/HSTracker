@@ -14,5 +14,5 @@ before_install:
   - ./scripts/cards_download.sh
 
 script:
-  - bundle exec fastlane scan
+  - bundle exec fastlane ci
 
