@@ -31,7 +31,7 @@ class StatsTab: NSViewController {
         
         seasonPicker.addItem(withTitle: NSLocalizedString("all_seasons", comment: ""))
         if let deck = self.deck {
-            let seasons = Array(deck.gameStats).flatMap({ $0.season })
+            let seasons = Array(deck.gameStats).compactMap({ $0.season })
                 .sorted().reversed()
             for season in seasons {
                 seasonPicker.addItem(

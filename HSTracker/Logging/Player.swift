@@ -179,7 +179,7 @@ final class Player {
                     discarded: e.info.discarded && Settings.highlightDiscarded)
             })
             .group { (d: DynamicEntity) in d }
-            .map { g -> Card? in
+            .compactMap { g -> Card? in
                 if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.value.count
                     card.jousted = g.key.hidden
@@ -190,13 +190,11 @@ final class Player {
                     return nil
                 }
             }
-            .filter { $0 != nil }
-            .map { $0! }
             .sortCardList()
     }
 
     var predictedCardsInDeck: [Card] {
-        return inDeckPredictions.map { g -> Card? in
+        return inDeckPredictions.compactMap { g -> Card? in
             if let card = Cards.by(cardId: g.cardId) {
                 card.jousted = true
                 return card
@@ -204,8 +202,6 @@ final class Player {
                 return nil
             }
             }
-            .filter { $0 != nil }
-            .map { $0! }
     }
 
     var knownCardsInDeck: [Card] {
@@ -215,7 +211,7 @@ final class Player {
                     created: e.info.created || e.info.stolen)
             })
             .group { (d: DynamicEntity) in d }
-            .map { g -> Card? in
+            .compactMap { g -> Card? in
                 if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.value.count
                     card.isCreated = g.key.created
@@ -225,8 +221,6 @@ final class Player {
                     return nil
                 }
             }
-            .filter { $0 != nil }
-            .map { $0! }
     }
 
     var revealedCards: [Card] {
@@ -245,7 +239,7 @@ final class Player {
                     entity: e)
             })
             .group { (d: DynamicEntity) in d }
-            .map { g -> Card? in
+            .compactMap { g -> Card? in
                 if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.value.count
                     card.isCreated = g.key.stolen
@@ -257,14 +251,12 @@ final class Player {
                     return nil
                 }
             }
-            .filter { $0 != nil }
-            .map { $0! }
     }
 
     var createdCardsInHand: [Card] {
         return hand.filter { ($0.info.created || $0.info.stolen) }
             .group { (e: Entity) in e.cardId }
-            .map { g -> Card? in
+            .compactMap { g -> Card? in
                 if let card = Cards.by(cardId: g.key) {
                     card.count = g.value.count
                     card.isCreated = true
@@ -274,8 +266,6 @@ final class Player {
                     return nil
                 }
             }
-            .filter { $0 != nil }
-            .map { $0! }
     }
 
     func getHighlightedCardsInHand(cardsInDeck: [Card]) -> [Card] {
@@ -285,7 +275,7 @@ final class Player {
         return deck.cards.filter({ (c) -> Bool in
             cardsInDeck.all({ $0.id != c.id }) && hand.any({ $0.cardId == c.id })
         })
-            .flatMap {
+            .compactMap {
                 if let card = $0.copy() as? Card {
                     card.count = 0
                     card.highlightInHand = true
@@ -333,7 +323,7 @@ final class Player {
                 )
             })
             .group { (d: DynamicEntity) in d }
-            .map { g -> Card? in
+            .compactMap { g -> Card? in
                 if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.value.count
                     card.jousted = g.key.hidden
@@ -344,10 +334,8 @@ final class Player {
                     return nil
                 }
             }
-            .filter { $0 != nil }
-            .map { $0! }
 
-            let inDeck = inDeckPredictions.map({ g -> Card? in
+            let inDeck = inDeckPredictions.compactMap({ g -> Card? in
                 if let card = Cards.by(cardId: g.cardId) {
                     card.jousted = true
                     return card
@@ -355,8 +343,6 @@ final class Player {
                     return nil
                 }
             })
-                .filter { $0 != nil }
-                .map { $0! }
 
         return (revealed + inDeck).sortCardList()
     }
@@ -372,7 +358,7 @@ final class Player {
                 )
             })
             .group { (d: DynamicEntity) in d }
-            .map { g -> Card? in
+            .compactMap { g -> Card? in
                 if let card = Cards.by(cardId: g.key.cardId) {
                     card.count = g.value.count
                     card.isCreated = g.key.created
@@ -382,8 +368,6 @@ final class Player {
                     return nil
                 }
             }
-            .filter { $0 != nil }
-            .map { $0! }
 
         var originalCardsInDeck: [String] = []
         if let deck = game.currentDeck {
@@ -408,7 +392,7 @@ final class Player {
 
         let cardsInDeck: [Card] = createdCardsInDeck + (originalCardsInDeck
             .group { (c: String) in c }
-            .map { g -> Card? in
+            .compactMap { g -> Card? in
                 if let card = Cards.by(cardId: g.key) {
                     card.count = g.value.count
                     if hand.any({ $0.cardId == g.key }) {
@@ -418,12 +402,10 @@ final class Player {
                 } else {
                     return nil
                 }
-            }
-            .filter { $0 != nil }
-            .map { $0! } as [Card])
+            })
 
         let cardsNotInDeck = removedFromDeck.group { (c: String) in c }
-            .map({ g -> Card? in
+            .compactMap({ g -> Card? in
                 if let card = Cards.by(cardId: g.key) {
                     card.count = 0
                     if hand.any({ e in e.cardId == g.key }) {
@@ -434,8 +416,6 @@ final class Player {
                     return nil
                 }
             })
-            .filter({ $0 != nil })
-            .map({ $0! })
 
         return DeckState(remainingInDeck: cardsInDeck, removedFromDeck: cardsNotInDeck)
     }

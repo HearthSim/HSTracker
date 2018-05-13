@@ -72,7 +72,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
 
     func set(deck: Deck) {
         currentDeck = deck
-        cards = deck.cards.flatMap {
+        cards = deck.cards.compactMap {
             if let card = Cards.by(cardId: $0.id) {
                 card.count = $0.count
                 return card

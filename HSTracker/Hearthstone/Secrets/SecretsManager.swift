@@ -129,7 +129,7 @@ class SecretsManager {
 
         var cards: [Card] = secrets.flatMap { $0.excluded }
             .group { $0.key }
-            .flatMap {
+            .compactMap {
                 let card = Cards.by(cardId: $0.key)
                 card?.count = adjustCount($0.key, $0.value.filter({ !$0.value }).count)
                 return card

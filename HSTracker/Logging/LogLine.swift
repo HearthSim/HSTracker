@@ -95,12 +95,6 @@ struct LogDate: Comparable, Equatable {
 		}
 	}
 	
-	static func == (lhs: LogDate, rhs: LogDate) -> Bool {
-		return
-			lhs.date == rhs.date &&
-				lhs.subseconds == rhs.subseconds
-	}
-	
 	static func LogDateByAdding(component: Calendar.Component, value: Int,
 	                            to date: LogDate, from calendar: Calendar ) -> LogDate {
 		if let datePlusOne = calendar.date(byAdding: component, value: value, to: date.date) {
