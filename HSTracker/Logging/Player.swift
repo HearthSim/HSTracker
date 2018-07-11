@@ -231,7 +231,7 @@ final class Player {
                 && (!x.info.stolen || x.info.originalController == self.id))
                 || (x.info.stolen && x.info.originalController == self.id))
 
-            return !created && type && zone
+            return (!created || x.info.originalEntityWasCreated == false) && type && zone
         })
             .map({ (e: Entity) -> (DynamicEntity) in
                 DynamicEntity(cardId: e.cardId,
@@ -378,7 +378,7 @@ final class Player {
         }
 
         let revealedNotInDeck = revealedEntities.filter {
-            !$0.info.created && ($0.isSpell || $0.isWeapon || $0.isMinion || $0.isHero)
+            (!$0.info.created || $0.info.originalEntityWasCreated == false) && ($0.isSpell || $0.isWeapon || $0.isMinion || $0.isHero)
                 && ((!$0.isInDeck || $0.info.stolen) && $0.info.originalController == self.id)
         }
 

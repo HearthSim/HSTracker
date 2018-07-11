@@ -296,6 +296,14 @@ class PowerGameStateParser: LogEventParser {
                 if type != "CHANGE_ENTITY" || eventHandler.entities[entityId]!.cardId.isBlank {
                     eventHandler.entities[entityId]!.cardId = cardId
                 }
+                
+                if type == "CHANGE_ENTITY" {
+                    let entity = eventHandler.entities[entityId]!
+                    if entity.info.originalEntityWasCreated == nil {
+                        entity.info.originalEntityWasCreated = entity.info.created
+                    }
+                }
+                
                 set(currentEntity: entityId)
                 if eventHandler.determinedPlayers() {
                     tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
@@ -539,6 +547,13 @@ class PowerGameStateParser: LogEventParser {
                 tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
                 eventHandler.setupDone = true
             }
+            
+            if let currentBlock = currentBlock, currentBlock.type == "JOUST" || currentBlock.type == "REVEAL_CARD" {
+                //make sure there are no more queued actions that might depend on JoustReveals
+                tagChangeHandler.invokeQueuedActions(eventHandler: eventHandler)
+                eventHandler.joustReveals = 0
+            }
+            
             blockEnd()
         }
 
