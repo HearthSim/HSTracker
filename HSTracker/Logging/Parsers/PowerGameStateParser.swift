@@ -24,8 +24,8 @@ class PowerGameStateParser: LogEventParser {
     let PlayerNameRegex: RegexPattern = "id=(\\d) Player=(.+) TaskList=(\\d)"
     let TagChangeRegex: RegexPattern = "TAG_CHANGE Entity=(.+) tag=(\\w+) value=(\\w+)"
     let UpdatingEntityRegex: RegexPattern = "(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)"
-    let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)" // BuildNumber=23576
-    let PlayerIDNameRegex: RegexPattern = "PlayerID=(\\d+), PlayerName=(.+)" // PlayerID=1, PlayerName=Haibane#2468
+    let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)"
+    let PlayerIDNameRegex: RegexPattern = "PlayerID=(\\d+), PlayerName=(.+)"
 
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
@@ -48,11 +48,11 @@ class PowerGameStateParser: LogEventParser {
     }
 
     // MARK: - blocks
-    func blockStart() {
+    func blockStart(type: String, cardId: String) {
         maxBlockId += 1
         let blockId = maxBlockId
-        currentBlock = currentBlock?.createChild(blockId: blockId)
-            ?? Block(parent: nil, id: blockId)
+        currentBlock = currentBlock?.createChild(blockId: blockId, type: type, cardId: cardId)
+            ?? Block(parent: nil, id: blockId, type: type, cardId: cardId)
     }
 
     func blockEnd() {
@@ -340,7 +340,11 @@ class PowerGameStateParser: LogEventParser {
                 self.inCreateGameBlock = false
                 self.autoDetectDeck()
             }
-            blockStart()
+            
+            let matches = logLine.line.matches(BlockStartRegex)
+            let type = matches[0].value
+            let cardId = matches[2].value
+            blockStart(type: type, cardId: cardId)
 
             if logLine.line.match(BlockStartRegex) {
                 let player = eventHandler.entities.map { $0.1 }
@@ -348,8 +352,6 @@ class PowerGameStateParser: LogEventParser {
                 let opponent = eventHandler.entities.map { $0.1 }
                     .first { $0.has(tag: .player_id) && $0[.player_id] == eventHandler.opponent.id }
 
-                let matches = logLine.line.matches(BlockStartRegex)
-                let type = matches[0].value
                 let actionStartingEntityId = Int(matches[1].value)!
                 var actionStartingCardId: String? = matches[3].value
 
