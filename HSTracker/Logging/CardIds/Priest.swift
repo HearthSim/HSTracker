@@ -123,6 +123,7 @@ extension CardIds.Collectible {
         static let AwakenTheMakers: String = "UNG_940"
         static let LyraTheSunshard: String = "UNG_963"
         static let GildedGargoyle: String = "LOOT_534"
+        static let Chameleos: String = "GIL_142"
     }
 }
 

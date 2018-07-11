@@ -28,6 +28,7 @@ class EntityInfo {
     var createdInHand: Bool { return originalZone == .hand }
     private(set) var originalCardId: String?
     var wasTransformed: Bool { return !originalCardId.isBlank }
+    var originalEntityWasCreated: Bool?
 
     init(entity: Entity) {
         _entity = entity

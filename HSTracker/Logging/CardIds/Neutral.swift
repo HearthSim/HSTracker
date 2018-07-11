@@ -2154,6 +2154,7 @@ extension CardIds.NonCollectible {
         static let TheDarknessDarknessCandleToken: String = "LOOT_526t"
         static let KingTogwaggle_KingsRansomToken: String = "LOOT_541t"
         static let TheCandle: String = "LOOTA_843"
+        static let Chameleos_ShiftingEnchantment: String = "GIL_142e"
     }
 }
 

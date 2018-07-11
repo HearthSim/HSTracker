@@ -645,4 +645,10 @@ final class Player {
             inDeckPredictions.remove(card)
         }
     }
+    
+    func chameleosReveal(cardId: String) {
+        if inDeckPredictions.first(where: { $0.cardId == cardId}) == nil {
+            inDeckPredictions.append(PredictedCard(cardId: cardId, turn: 0))
+        }
+    }
 }

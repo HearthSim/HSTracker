@@ -1220,6 +1220,11 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    func handleChameleosReveal(cardId: String) {
+        self.opponent.chameleosReveal(cardId: cardId)
+        self.updateOpponentTracker()
+    }
+    
     func set(buildNumber: Int) {
         self.buildNumber = buildNumber
     }
@@ -1652,6 +1657,8 @@ class Game: NSObject, PowerEventHandler {
     func opponentTurnStart(entity: Entity) {
 
     }
+    
+    var chameleosReveal: (Int, String)?
 	
 	// MARK: - Arena
 	

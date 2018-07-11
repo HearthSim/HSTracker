@@ -302,6 +302,9 @@ class PowerGameStateParser: LogEventParser {
                     if entity.info.originalEntityWasCreated == nil {
                         entity.info.originalEntityWasCreated = entity.info.created
                     }
+                    if entity.tags[.transformed_from_card] == 46706 {
+                        eventHandler.chameleosReveal = (entityId, cardId)
+                    }
                 }
                 
                 set(currentEntity: entityId)
@@ -554,6 +557,14 @@ class PowerGameStateParser: LogEventParser {
                 eventHandler.joustReveals = 0
             }
             
+            if let currentBlock = currentBlock, let chameleosReveal = eventHandler.chameleosReveal,
+                let chameleos = eventHandler.entities[chameleosReveal.0], currentBlock.type == "TRIGGER"
+                && (currentBlock.cardId == CardIds.NonCollectible.Neutral.Chameleos_ShiftingEnchantment
+                    || currentBlock.cardId == CardIds.Collectible.Priest.Chameleos) && chameleos.has(tag: .shifting) {
+                eventHandler.handleChameleosReveal(cardId: chameleosReveal.1)
+            }
+            
+            eventHandler.chameleosReveal = nil
             blockEnd()
         }
 
