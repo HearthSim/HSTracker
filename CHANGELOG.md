@@ -1,3 +1,19 @@
+# 1.4.4
+## New:
+- Updated card data for patch 11.4.0.25252.
+- Added support for Chameleos
+
+## Fixes:
+- Fixed arena card reading
+
+# 1.4.3
+## Fixes:
+- Fixed issues with Taverns of Time cards
+
+# 1.4.2
+## New:
+- Updated card data for patch 11.2.0.24769.
+
 # 1.4.1
 ## Fixes:
 - Fixed issues with Witchwood cards
