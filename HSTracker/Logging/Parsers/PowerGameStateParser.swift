@@ -48,7 +48,7 @@ class PowerGameStateParser: LogEventParser {
     }
 
     // MARK: - blocks
-    func blockStart(type: String, cardId: String) {
+    func blockStart(type: String?, cardId: String?) {
         maxBlockId += 1
         let blockId = maxBlockId
         currentBlock = currentBlock?.createChild(blockId: blockId, type: type, cardId: cardId)
@@ -352,9 +352,17 @@ class PowerGameStateParser: LogEventParser {
                 self.autoDetectDeck()
             }
             
+            var type: String? = nil
+            var cardId: String? = nil
             let matches = logLine.line.matches(BlockStartRegex)
-            let type = matches[0].value
-            let cardId = matches[2].value
+            if matches.count > 0 {
+                type = matches[0].value
+            }
+            
+            if matches.count > 2 {
+                cardId = matches[2].value
+            }
+            
             blockStart(type: type, cardId: cardId)
 
             if logLine.line.match(BlockStartRegex) {

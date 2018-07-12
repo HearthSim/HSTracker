@@ -12,10 +12,10 @@ class Block {
     let parent: Block?
     var children: [Block]
     let id: Int
-    let type: String
-    let cardId: String
+    let type: String?
+    let cardId: String?
 
-    init(parent: Block?, id: Int, type: String, cardId: String) {
+    init(parent: Block?, id: Int, type: String?, cardId: String?) {
         self.parent = parent
         self.children = []
         self.id = id
@@ -23,7 +23,7 @@ class Block {
         self.cardId = cardId
     }
 
-    func createChild(blockId: Int, type: String, cardId: String) -> Block {
+    func createChild(blockId: Int, type: String?, cardId: String?) -> Block {
         return Block(parent: self, id: blockId, type: type, cardId: cardId)
     }
 }
