@@ -83,7 +83,7 @@ end
 
 lane :ci do
   setup_travis
-  carthage(use_binaries: false, platform: 'mac', cache_builds: true)
+  carthage(use_binaries: false, platform: 'mac', cache_builds: false)
   scan
 end
 
