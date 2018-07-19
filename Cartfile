@@ -17,3 +17,4 @@ github "HearthSim/HearthMirror" "cpp"
 github "lorentey/BTree"
 github "bmichotte/RegexUtil"
 github "yannickl/AwaitKit" ~> 3.0
+github "OAuthSwift/OAuthSwift" ~> 1.2.0

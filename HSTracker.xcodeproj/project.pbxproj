@@ -496,6 +496,12 @@
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 		C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */; };
 		C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3D91D20BE9500886A11 /* LadderTab.xib */; };
+		E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; };
+		E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
+		E3057D6B20B8889800B9A5B8 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
+		E3057D6E20B888FB00B9A5B8 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; };
+		E3057D6F20B8890500B9A5B8 /* OAuthSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F719B88A200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F723404420014D3E00E4587A /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
@@ -541,6 +547,7 @@
 				437E56E61DAAA33200FC0FC1 /* JNWCollectionView.framework in CopyFiles */,
 				437E56E71DAAA33200FC0FC1 /* Kanna.framework in CopyFiles */,
 				437E56E81DAAA33200FC0FC1 /* MASPreferences.framework in CopyFiles */,
+				E3057D6F20B8890500B9A5B8 /* OAuthSwift.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +557,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */,
 				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */,
 				437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */,
 				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */,
@@ -596,6 +604,7 @@
 				43F2F0CB1FA3566B002F5AEA /* PromiseKit.framework in Embed Frameworks */,
 				43F2F0CC1FA3566B002F5AEA /* AwaitKit.framework in Embed Frameworks */,
 				4323C5EE1E1A503700C97896 /* HearthMirror.framework in Embed Frameworks */,
+				E3057D6B20B8889800B9A5B8 /* OAuthSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -991,6 +1000,8 @@
 		CE9D9915200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OpponentTrackersPreferences.strings"; sourceTree = "<group>"; };
 		CE9D9916200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		CE9D9917200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/Mac/OAuthSwift.framework; sourceTree = "<group>"; };
+		E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OAuthSwift.framework.dSYM; path = Carthage/Build/Mac/OAuthSwift.framework.dSYM; sourceTree = "<group>"; };
 		F719B889200ACAE3004F5E36 /* DefaultDecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecks.swift; sourceTree = "<group>"; };
 		F79833961FFF324200D2893E /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hearthstone.swift; sourceTree = "<group>"; };
@@ -1022,6 +1033,7 @@
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 				43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */,
 				43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */,
+				E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,6 +1062,7 @@
 				437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */,
 				437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */,
 				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
+				E3057D6E20B888FB00B9A5B8 /* OAuthSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1611,6 +1624,8 @@
 				433554321D5F6B4400277B27 /* libz.tbd */,
 				436789941CABFB1600C962D1 /* MASPreferences.framework */,
 				436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */,
+				E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */,
+				E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */,
 				43E7BEA41DBB7F8E0057DC0C /* Realm.framework */,
 				43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */,
 				43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */,
@@ -1749,6 +1764,7 @@
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
+				E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
