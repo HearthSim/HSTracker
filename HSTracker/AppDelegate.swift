@@ -114,11 +114,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
   
-  @objc func handleGetURL(event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
-    if let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue, let url = URL(string: urlString) {
-      OAuthSwift.handle(url: url)
+    @objc func handleGetURL(event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
+        if let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue, let url = URL(string: urlString) {
+            OAuthSwift.handle(url: url)
+        }
     }
-  }
 	
 	// MARK: - Application init
 	func loadSplashscreen() {
