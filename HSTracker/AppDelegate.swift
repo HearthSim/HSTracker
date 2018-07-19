@@ -12,6 +12,7 @@ let logger = SwiftyBeaver.self
 import MASPreferences
 //import HearthAssets
 import HockeySDK
+import OAuthSwift
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -72,6 +73,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		// initialize realm's database
 		RealmHelper.initRealm(destination: Paths.HSTracker)
+
+        // OAuth callback
+        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(AppDelegate.handleGetURL(event:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
 		
 		// init debug loggers
 		#if DEBUG
@@ -109,6 +113,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			task.launch()
 		}
 	}
+  
+  @objc func handleGetURL(event: NSAppleEventDescriptor!, withReplyEvent: NSAppleEventDescriptor!) {
+    if let urlString = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue, let url = URL(string: urlString) {
+      OAuthSwift.handle(url: url)
+    }
+  }
 	
 	// MARK: - Application init
 	func loadSplashscreen() {

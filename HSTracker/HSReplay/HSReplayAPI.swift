@@ -7,9 +7,33 @@
 //
 
 import Foundation
+import OAuthSwift
 
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
+    private static let oAuthClientKey = "pk_test_AUThiV1Ex9nKCbHSFchv7ybX"
+    
+    static let oauthswift = OAuth2Swift(
+        consumerKey: oAuthClientKey,
+        consumerSecret: "",
+        authorizeUrl: HSReplay.oAuthAuthorizeUrl,
+        accessTokenUrl: HSReplay.oAuthTokenUrl,
+        responseType: "code"
+    )
+    
+    static func oAuthAuthorize() {
+        _ = oauthswift.authorize(
+            withCallbackURL: URL(string: "hstracker://oauth-callback/hsreplay")!,
+            scope: "fullaccess",
+            state: "HSREPLAY",
+            success: { credential, _, _ in
+                Settings.hsReplayOAuthToken = credential.oauthToken
+            },
+            failure: { error in
+                // TODO: Error handling
+                print(error.localizedDescription)
+            })
+    }
 
     static func getUploadToken(handle: @escaping (String) -> Void) {
         if let token = Settings.hsReplayUploadToken {
