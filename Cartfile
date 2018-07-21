@@ -1,6 +1,6 @@
 github "bitstadium/HockeySDK-Mac" "5.0.0"
 github "jwilling/JNWCollectionView" "master"
-github "tid-kijyun/Kanna" "feature/v4.0.0"
+github "tid-kijyun/Kanna" ~> 4.0.0
 github "shpakovski/MASPreferences" "master"
 github "sparkle-project/Sparkle" "master"
 github "delba/TextAttributes"
