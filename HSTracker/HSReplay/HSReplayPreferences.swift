@@ -122,6 +122,10 @@ class HSReplayPreferences: NSViewController {
         }
     }
     
+    @IBAction func oauthAccount(_ sender: AnyObject) {
+        HSReplayAPI.oAuthAuthorize()
+    }
+    
     @objc private func checkAccountInfo() {
         guard requests < maxRequests else {
             logger.warning("max request for checking account info")
