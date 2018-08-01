@@ -36,36 +36,42 @@ struct LoadingScreenHandler: LogEventParser {
                 game.inMenu()
             }
 
-            if game.currentMode == .draft {
-				ArenaDeckWatcher.start()
+            switch game.currentMode {
+            case Optional(.draft):
+                ArenaDeckWatcher.start()
                 if Settings.showArenaHelper {
                     ArenaWatcher.start(handler: game)
                 }
-            } else if game.currentMode == .packopening {
+            case Optional(.packopening):
                 coreManager.packWatcher.startWatching()
-            } else if game.currentMode == .tournament {
+            case Optional(.tournament):
                 DeckWatcher.start()
-            } else if game.currentMode == .adventure {
+            case Optional(.adventure):
                 DeckWatcher.start()
                 DungeonRunDeckWatcher.start()
-            } else if game.currentMode == .friendly {
+            case Optional(.friendly):
                 DeckWatcher.start()
-            } else if game.currentMode == .hub {
-                //game.clean()
+            case Optional(.collectionmanager):
+                CollectionWatcher.start()
+            default: break
             }
-            
-            if game.previousMode == .draft {
+
+            switch game.previousMode {
+            case Optional(.draft):
                 ArenaWatcher.stop()
                 ArenaDeckWatcher.stop()
-            } else if game.previousMode == .packopening {
+            case Optional(.packopening):
                 coreManager.packWatcher.stopWatching()
-            } else if game.previousMode == .tournament {
+            case Optional(.tournament):
                 DeckWatcher.stop()
-            } else if game.previousMode == .adventure {
+            case Optional(.adventure):
                 DeckWatcher.stop()
                 DungeonRunDeckWatcher.stop()
-            } else if game.previousMode == .friendly {
+            case Optional(.friendly):
                 DeckWatcher.stop()
+            case Optional(.collectionmanager):
+                CollectionWatcher.stop()
+            default: break
             }
 
         } else if logLine.line.contains("Gameplay.Start") {

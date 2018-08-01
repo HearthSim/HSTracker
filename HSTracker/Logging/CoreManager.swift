@@ -202,7 +202,6 @@ final class CoreManager: NSObject {
         let time = DispatchTime.now() + .seconds(1)
         DispatchQueue.main.asyncAfter(deadline: time) { [unowned(unsafe) self] in
             logger.info("Start Tracking")
-
             self.logReaderManager.start()
         }
     }
@@ -212,6 +211,7 @@ final class CoreManager: NSObject {
 		logReaderManager.stop(eraseLogFile: !CoreManager.isHearthstoneRunning())
         DeckWatcher.stop()
         ArenaDeckWatcher.stop()
+        CollectionWatcher.stop()
         MirrorHelper.destroy()
     }
     

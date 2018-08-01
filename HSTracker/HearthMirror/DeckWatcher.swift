@@ -201,3 +201,32 @@ class DungeonRunDeckWatcher: Watcher {
         queue = nil
     }
 }
+
+class CollectionWatcher: Watcher {
+  static let _instance = CollectionWatcher()
+
+  static func start() {
+    _instance.startWatching()
+  }
+
+  static func stop() {
+    _instance.stopWatching()
+  }
+
+  override func run() {
+    while isRunning {
+      guard let collection = MirrorHelper.getCardCollection() else {
+        Thread.sleep(forTimeInterval: refreshInterval)
+        continue
+      }
+
+      if !collection.isEmpty {
+        logger.info("found collection: \(collection)")
+      }
+
+      Thread.sleep(forTimeInterval: refreshInterval)
+    }
+
+    queue = nil
+  }
+}
