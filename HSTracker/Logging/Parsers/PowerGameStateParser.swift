@@ -430,13 +430,18 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Neutral.WeaselTunneler:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Neutral.WeaselTunneler)
+                        case CardIds.Collectible.Neutral.SparkDrill:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.SparkDrill_SparkToken, count: 2)
                         default: break
                         }
                     }
                 } else {
                     if let actionStartingCardId = actionStartingCardId {
                         switch actionStartingCardId {
-                        case CardIds.Collectible.Rogue.GangUp, CardIds.Collectible.Hunter.DireFrenzy:
+                        case CardIds.Collectible.Rogue.GangUp,
+                             CardIds.Collectible.Hunter.DireFrenzy,
+                             CardIds.Collectible.Rogue.LabRecruiter:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches),
                                            count: 3)
@@ -515,6 +520,39 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.NonCollectible.Neutral.TheCandle:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.TheCandle)
+                        case CardIds.NonCollectible.Neutral.CoinPouch:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.SackOfCoins)
+                        case CardIds.NonCollectible.Neutral.SackOfCoins:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.HeftySackOfCoins)
+                        case CardIds.NonCollectible.Neutral.CreepyCurio:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.HauntedCurio)
+                        case CardIds.NonCollectible.Neutral.HauntedCurio:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.CursedCurio)
+                        case CardIds.NonCollectible.Neutral.OldMilitiaHorn:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.MilitiaHorn)
+                        case CardIds.NonCollectible.Neutral.MilitiaHorn:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.VeteransMilitiaHorn)
+                        case CardIds.NonCollectible.Neutral.SurlyMob:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.AngryMob)
+                        case CardIds.NonCollectible.Neutral.AngryMob:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.CrazedMob)                        
+                        case CardIds.Collectible.Neutral.SparkEngine:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.SparkDrill_SparkToken)
+                        case CardIds.Collectible.Priest.ExtraArms:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Priest.ExtraArms_MoreArmsToken)
+                        case CardIds.Collectible.Neutral.SeaforiumBomber:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

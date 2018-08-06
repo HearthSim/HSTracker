@@ -560,6 +560,9 @@ extension CardIds.Collectible {
         static let KingTogwaggle: String = "LOOT_541"
         static let BalefulBanker: String = "GIL_815"
         static let DollmasterDorian: String = "GIL_620"
+        static let SparkEngine: String = "BOT_538"
+        static let SeaforiumBomber: String = "BOT_511"
+        static let SparkDrill: String = "BOT_102"
     }
 }
 
@@ -2155,6 +2158,23 @@ extension CardIds.NonCollectible {
         static let KingTogwaggle_KingsRansomToken: String = "LOOT_541t"
         static let TheCandle: String = "LOOTA_843"
         static let Chameleos_ShiftingEnchantment: String = "GIL_142e"
+        static let CoinPouch: String = "GILA_816a"
+        static let SackOfCoins: String = "GILA_816b"
+        static let HeftySackOfCoins: String = "GILA_816c"
+        static let CreepyCurio: String = "GILA_817"
+        static let CreepyCurio_WeepingGhostToken: String = "GILA_817t"
+        static let HauntedCurio: String = "GILA_818"
+        static let HauntedCurio_WeepingGhostToken: String = "GILA_818t"
+        static let CursedCurio: String = "GILA_819"
+        static let CursedCurio_WeepingGhostToken: String = "GILA_819t"
+        static let OldMilitiaHorn: String = "GILA_852a"
+        static let MilitiaHorn: String = "GILA_852b"
+        static let VeteransMilitiaHorn: String = "GILA_852c"
+        static let SurlyMob: String = "GILA_821a"
+        static let AngryMob: String = "GILA_821b"
+        static let CrazedMob: String = "GILA_821c"
+        static let SparkDrill_SparkToken: String = "BOT_102t"
+        static let SeaforiumBomber_BombToken: String = "BOT_511t"
     }
 }
 

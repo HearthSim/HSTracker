@@ -129,6 +129,7 @@ extension CardIds.Collectible {
         static let SonyaShadowdancer: String = "LOOT_165"
         static let FaldoreiStrider: String = "LOOT_026"
         static let Kingsbane: String = "LOOT_542"
+        static let LabRecruiter: String = "BOT_288"
     }
 }
 

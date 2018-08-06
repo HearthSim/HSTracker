@@ -124,6 +124,7 @@ extension CardIds.Collectible {
         static let LyraTheSunshard: String = "UNG_963"
         static let GildedGargoyle: String = "LOOT_534"
         static let Chameleos: String = "GIL_142"
+        static let ExtraArms: String = "BOT_219"
     }
 }
 
@@ -167,6 +168,7 @@ extension CardIds.NonCollectible {
         static let AwakentheMakers_AmaraWardenOfHopeToken: String = "UNG_940t8"
         static let ShadowAscendant_AscendedEnchantment: String = "ICC_210e"
         static let ShadowreaperAnduin_Voidform: String = "ICC_830p"
+        static let ExtraArms_MoreArmsToken: String = "BOT_219t"
     }
 }
 
