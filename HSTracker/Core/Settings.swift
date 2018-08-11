@@ -430,9 +430,17 @@ final class Settings {
         set { set(name: Settings.hsreplay_upload_token, value: newValue) }
         get { return get(name: Settings.hsreplay_upload_token) as? String }
     }
+    static var hsReplayUploadCollectionToken: String? {
+        set { set(name: Settings.hsreplay_upload_collection_token, value: newValue) }
+        get { return get(name: Settings.hsreplay_upload_collection_token) as? String }
+    }
     static var hsReplayOAuthToken: String? {
         set { set(name: Settings.hsreplay_oauth_token, value: newValue) }
         get { return get(name: Settings.hsreplay_oauth_token) as? String }
+    }
+    static var hsReplayOAuthRefreshToken: String? {
+        set { set(name: Settings.hsreplay_oauth_refresh_token, value: newValue) }
+        get { return get(name: Settings.hsreplay_oauth_refresh_token) as? String }
     }
     static var hsReplayUsername: String? {
         set { set(name: Settings.hsreplay_username, value: newValue) }
@@ -600,9 +608,11 @@ extension Settings {
     
     // MARK: - HSReplay.net related preferences
     static let hsreplay_upload_token = "hsreplay_upload_token"
+    static let hsreplay_upload_collection_token = "hsreplay_upload_collection_token"
     static let hsreplay_username = "hsreplay_username"
     static let hsreplay_id = "hsreplay_id"
     static let hsreplay_oauth_token = "hsreplay_oauth_token"
+    static let hsreplay_oauth_refresh_token = "hsreplay_oauth_refresh_token"
     static let hsreplay_show_push_notification = "hsreplay_show_push_notification"
     static let hsreplay_auto_synchronize_matches = "hsreplay_auto_synchronize_matches"
     static let hsreplay_auto_synchronize_ranked_matches = "hsreplay_auto_synchronize_ranked_matches"

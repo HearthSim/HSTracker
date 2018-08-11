@@ -76,6 +76,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // OAuth callback
         NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(AppDelegate.handleGetURL(event:withReplyEvent:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
+
+        // Restore OAuth credentials
+        let credential = HSReplayAPI.oauthswift.client.credential
+        if let refreshToken = Settings.hsReplayOAuthRefreshToken {
+            credential.oauthRefreshToken = refreshToken
+        }
+        if let oauthToken = Settings.hsReplayOAuthToken {
+            credential.oauthToken = oauthToken
+        }
 		
 		// init debug loggers
 		#if DEBUG

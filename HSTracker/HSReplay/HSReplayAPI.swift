@@ -12,14 +12,17 @@ import OAuthSwift
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
     private static let oAuthClientKey = "pk_test_AUThiV1Ex9nKCbHSFchv7ybX"
+    private static let oAuthClientSecret = "sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
     
-    static let oauthswift = OAuth2Swift(
-        consumerKey: oAuthClientKey,
-        consumerSecret: "",
-        authorizeUrl: HSReplay.oAuthAuthorizeUrl,
-        accessTokenUrl: HSReplay.oAuthTokenUrl,
-        responseType: "code"
-    )
+    static let oauthswift = {
+        return OAuth2Swift(
+            consumerKey: oAuthClientKey,
+            consumerSecret: oAuthClientSecret,
+            authorizeUrl: HSReplay.oAuthAuthorizeUrl,
+            accessTokenUrl: HSReplay.oAuthTokenUrl,
+            responseType: "code"
+        )
+    }()
     
     static func oAuthAuthorize() {
         _ = oauthswift.authorize(
@@ -28,6 +31,10 @@ class HSReplayAPI {
             state: "HSREPLAY",
             success: { credential, _, _ in
                 Settings.hsReplayOAuthToken = credential.oauthToken
+                Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                getUploadCollectionToken { token in
+                    print(token)
+                }
             },
             failure: { error in
                 // TODO: Error handling
@@ -53,6 +60,23 @@ class HSReplayAPI {
                         // TODO error handling
                     }
         }
+    }
+
+    static func getUploadCollectionToken(handle: @escaping (String) -> Void) {
+        guard let accountId = MirrorHelper.getAccountId() else {
+            return
+        }
+        if let token = Settings.hsReplayUploadCollectionToken {
+            handle(token)
+            return
+        }
+        oauthswift.client.get(HSReplay.collectionTokensUrl, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: ["Accept": "application/json"], success: { response in
+            if let json = response.string {
+                print(json)
+            }
+        }, failure: { error in
+            print(error)
+        })
     }
 
     static func claimAccount() {
