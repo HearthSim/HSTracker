@@ -1,0 +1,120 @@
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "0XN-R3-wDb"; */
+"0XN-R3-wDb.title" = "Item 1";
+
+/* Class = "NSToolbarItem"; label = "Gitter"; ObjectID = "0zG-7b-xsf"; */
+"0zG-7b-xsf.label" = "Gitter";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Gitter"; ObjectID = "0zG-7b-xsf"; */
+"0zG-7b-xsf.paletteLabel" = "Gitter";
+
+/* Class = "NSToolbarItem"; label = "Use"; ObjectID = "3nu-q9-wC1"; */
+"3nu-q9-wC1.label" = "Use";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Use"; ObjectID = "3nu-q9-wC1"; */
+"3nu-q9-wC1.paletteLabel" = "Use";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "6BA-8t-3vg"; */
+"6BA-8t-3vg.title" = "Item 2";
+
+/* Class = "NSToolbarItem"; label = "Add"; ObjectID = "7FY-gv-qwP"; */
+"7FY-gv-qwP.label" = "Add";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Add"; ObjectID = "7FY-gv-qwP"; */
+"7FY-gv-qwP.paletteLabel" = "Add";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "DIF-oI-g1Y"; */
+"DIF-oI-g1Y.title" = "Item 3";
+
+/* Class = "NSToolbarItem"; label = "Archive"; ObjectID = "Fe5-be-5CS"; */
+"Fe5-be-5CS.label" = "Archive";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Archive"; ObjectID = "Fe5-be-5CS"; */
+"Fe5-be-5CS.paletteLabel" = "Archive";
+
+/* Class = "NSToolbarItem"; label = "Classes"; ObjectID = "Hyt-EI-Vfy"; */
+"Hyt-EI-Vfy.label" = "Classes";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Classes"; ObjectID = "Hyt-EI-Vfy"; */
+"Hyt-EI-Vfy.paletteLabel" = "Classes";
+
+/* Class = "NSMenuItem"; title = "Edit"; ObjectID = "K4S-En-2ZL"; */
+"K4S-En-2ZL.title" = "Edit";
+
+/* Class = "NSToolbarItem"; label = "Rename"; ObjectID = "Qp2-0h-Sid"; */
+"Qp2-0h-Sid.label" = "Rename";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Rename"; ObjectID = "Qp2-0h-Sid"; */
+"Qp2-0h-Sid.paletteLabel" = "Rename";
+
+/* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Deck Manager";
+
+/* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "R1X-pL-sY1"; */
+"R1X-pL-sY1.title" = "Item 2";
+
+/* Class = "NSToolbarItem"; label = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
+"T0e-lu-Gfj.label" = "Statistics";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Statistics"; ObjectID = "T0e-lu-Gfj"; */
+"T0e-lu-Gfj.paletteLabel" = "Statistics";
+
+/* Class = "NSMenuItem"; title = "Item 3"; ObjectID = "WQ3-Qd-aVZ"; */
+"WQ3-Qd-aVZ.title" = "Item 3";
+
+/* Class = "NSToolbarItem"; label = "Export"; ObjectID = "XUQ-ti-e6U"; */
+"XUQ-ti-e6U.label" = "Export";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Export"; ObjectID = "XUQ-ti-e6U"; */
+"XUQ-ti-e6U.paletteLabel" = "Export";
+
+/* Class = "NSMenuItem"; title = "Rename"; ObjectID = "YTC-HA-6U7"; */
+"YTC-HA-6U7.title" = "Rename";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "YgP-rU-92k"; */
+"YgP-rU-92k.title" = "Text Cell";
+
+/* Class = "NSToolbarItem"; label = "Delete"; ObjectID = "aaa-LK-buD"; */
+"aaa-LK-buD.label" = "Delete";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Delete"; ObjectID = "aaa-LK-buD"; */
+"aaa-LK-buD.paletteLabel" = "Delete";
+
+/* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "cCu-vJ-U3L"; */
+"cCu-vJ-U3L.title" = "Item 1";
+
+/* Class = "NSToolbarItem"; label = "Edit"; ObjectID = "cbH-rI-BvP"; */
+"cbH-rI-BvP.label" = "Edit";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Edit"; ObjectID = "cbH-rI-BvP"; */
+"cbH-rI-BvP.paletteLabel" = "Edit";
+
+/* Class = "NSToolbarItem"; label = "Sort by"; ObjectID = "cu3-FG-2Cn"; */
+"cu3-FG-2Cn.label" = "Sort by";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Sort"; ObjectID = "cu3-FG-2Cn"; */
+"cu3-FG-2Cn.paletteLabel" = "Sort";
+
+/* Class = "NSToolbarItem"; label = "Twitter"; ObjectID = "d38-Pq-vZv"; */
+"d38-Pq-vZv.label" = "Twitter";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Twitter"; ObjectID = "d38-Pq-vZv"; */
+"d38-Pq-vZv.paletteLabel" = "Twitter";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "fXC-1a-kDU"; */
+"fXC-1a-kDU.title" = "Text Cell";
+
+/* Class = "NSMenuItem"; title = "Delete"; ObjectID = "hbn-wb-w85"; */
+"hbn-wb-w85.title" = "Delete";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "sFg-Jc-b7d"; */
+"sFg-Jc-b7d.title" = "Table View Cell";
+
+/* Class = "NSToolbarItem"; label = "Donate"; ObjectID = "wWN-25-Exd"; */
+"wWN-25-Exd.label" = "Donate";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Donate"; ObjectID = "wWN-25-Exd"; */
+"wWN-25-Exd.paletteLabel" = "Donate";
+
+/* Class = "NSMenuItem"; title = "Use"; ObjectID = "xp4-7a-GbL"; */
+"xp4-7a-GbL.title" = "Use";

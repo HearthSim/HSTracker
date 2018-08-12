@@ -1,0 +1,45 @@
+
+/* Class = "NSButtonCell"; title = "Cardlist opens on mouseover"; ObjectID = "1dP-3v-VLS"; */
+"1dP-3v-VLS.title" = "Cardlist opens on mouseover";
+
+/* Class = "NSButtonCell"; title = "Show graveyard"; ObjectID = "5Sm-dB-rVB"; */
+"5Sm-dB-rVB.title" = "Show graveyard";
+
+/* Class = "NSButtonCell"; title = "Show Deathrattle counter"; ObjectID = "IPf-hF-E74"; */
+"IPf-hF-E74.title" = "Show Deathrattle counter";
+
+/* Class = "NSButtonCell"; title = "Show Spell counter"; ObjectID = "LGM-aC-rL6"; */
+"LGM-aC-rL6.title" = "Show Spell counter";
+
+/* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "MDW-Ea-Q6M"; */
+"MDW-Ea-Q6M.title" = "Show Jade Counter";
+
+/* Class = "NSButtonCell"; title = "Show player tracker"; ObjectID = "MiE-Lr-Vdi"; */
+"MiE-Lr-Vdi.title" = "Show player tracker";
+
+/* Class = "NSButtonCell"; title = "Show win-loss ratio"; ObjectID = "Ro2-NC-xMD"; */
+"Ro2-NC-xMD.title" = "Show win-loss ratio";
+
+/* Class = "NSButtonCell"; title = "Show C'Thun counter"; ObjectID = "Tex-bu-toa"; */
+"Tex-bu-toa.title" = "Show C'Thun counter";
+
+/* Class = "NSButtonCell"; title = "Show player card count"; ObjectID = "TmO-9A-Ffe"; */
+"TmO-9A-Ffe.title" = "Show player card count";
+
+/* Class = "NSButtonCell"; title = "Show player draw chance"; ObjectID = "acK-XF-6wQ"; */
+"acK-XF-6wQ.title" = "Show player draw chance";
+
+/* Class = "NSButtonCell"; title = "Show deck name"; ObjectID = "e7g-zd-YkC"; */
+"e7g-zd-YkC.title" = "Show deck name";
+
+/* Class = "NSTextFieldCell"; title = "In-hand color"; ObjectID = "gfe-fe-rJe"; */
+"gfe-fe-rJe.title" = "In-hand color";
+
+/* Class = "NSButtonCell"; title = "Flash on card draw"; ObjectID = "gpo-Wo-m50"; */
+"gpo-Wo-m50.title" = "Flash on card draw";
+
+/* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "r3h-Qd-YPW"; */
+"r3h-Qd-YPW.title" = "Include obtained cards";
+
+/* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "rj2-8a-HGB"; */
+"rj2-8a-HGB.title" = "Show board damage";

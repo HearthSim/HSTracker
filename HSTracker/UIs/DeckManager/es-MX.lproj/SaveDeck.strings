@@ -1,0 +1,12 @@
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "ERD-70-cWu"; */
+"ERD-70-cWu.title" = "Cancel";
+
+/* Class = "NSTextFieldCell"; title = "Deck Name"; ObjectID = "LWn-HE-BcI"; */
+"LWn-HE-BcI.title" = "Deck Name";
+
+/* Class = "NSWindow"; title = "Window"; ObjectID = "QvC-M9-y7g"; */
+"QvC-M9-y7g.title" = "Window";
+
+/* Class = "NSButtonCell"; title = "Save"; ObjectID = "yqW-4L-4ba"; */
+"yqW-4L-4ba.title" = "Save";
