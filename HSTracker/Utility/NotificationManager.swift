@@ -42,7 +42,7 @@ class NotificationManager {
             guard Settings.showHSReplayPushNotification else { return }
             
             show(title: NSLocalizedString("HSReplay", comment: ""),
-                       message: NSLocalizedString("Your replay has been uploaded on HSReplay",
+                       message: NSLocalizedString("Your replay has been uploaded on HSReplay.net",
                                                   comment: "")) {
                                                     HSReplayManager.showReplay(replayId: replayId)
             }

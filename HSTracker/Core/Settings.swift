@@ -421,7 +421,7 @@ final class Settings {
         get { return get(name: Settings.show_deck_name) as? Bool ?? false }
     }
 
-    // MARK: - HSReplay
+    // MARK: - HSReplay.net
     static var saveReplays: Bool {
         set { set(name: Settings.save_replays, value: newValue) }
         get { return get(name: Settings.save_replays) as? Bool ?? false }
@@ -598,7 +598,7 @@ extension Settings {
     static let save_replays = "save_replays"
     static let archive_arena_deck = "archive_arena_deck"
     
-    // MARK: - HSReplay related preferences
+    // MARK: - HSReplay.net related preferences
     static let hsreplay_upload_token = "hsreplay_upload_token"
     static let hsreplay_username = "hsreplay_username"
     static let hsreplay_id = "hsreplay_id"

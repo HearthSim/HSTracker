@@ -1693,9 +1693,17 @@
 		F731044E211FF0050082651C /* Translations */ = {
 			isa = PBXGroup;
 			children = (
-				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
+				F73104B5211FF6AD0082651C /* macOS */,
 			);
 			path = Translations;
+			sourceTree = "<group>";
+		};
+		F73104B5211FF6AD0082651C /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
+			);
+			path = macOS;
 			sourceTree = "<group>";
 		};
 		F7D7A3AC2017B4FD00E3A5F0 /* Misc */ = {

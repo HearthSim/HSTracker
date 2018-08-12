@@ -213,17 +213,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			let canStart = try coreManager.setup()
 			
 			if !canStart {
-				message = "You must restart Hearthstone for logs to be used"
+				message = NSLocalizedString("You must restart Hearthstone for logs to be used", comment: "")
 				alertStyle = .informational
 			}
 		} catch HearthstoneLogError.canNotCreateDir {
-			message = "Can not create Hearthstone config dir"
+			message = NSLocalizedString("Can not create Hearthstone config dir", comment: "")
 		} catch HearthstoneLogError.canNotReadFile {
-			message = "Can not read Hearthstone config file"
+			message = NSLocalizedString("Can not read Hearthstone config file", comment: "")
 		} catch HearthstoneLogError.canNotCreateFile {
-			message = "Can not write Hearthstone config file"
+			message = NSLocalizedString("Can not write Hearthstone config file", comment: "")
 		} catch {
-			message = "Unknown error"
+			message = NSLocalizedString("Unknown error", comment: "")
 		}
 		
 		if let message = message {
@@ -235,7 +235,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			}
 			
 			NSAlert.show(style: alertStyle,
-			             message: NSLocalizedString(message, comment: ""),
+			             message: message,
 			             forceFront: true)
 			return
 		}
@@ -274,9 +274,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	func languageChange() {
-		let msg = "You must restart HSTracker for the language change to take effect"
 		NSAlert.show(style: .informational,
-		             message: NSLocalizedString(msg, comment: ""))
+		             message: NSLocalizedString("You must restart HSTracker for the language change to take effect", comment: ""))
 		
 		appWillRestart = true
 		NSApplication.shared.terminate(nil)

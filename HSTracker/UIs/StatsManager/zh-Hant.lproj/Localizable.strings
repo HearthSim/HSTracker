@@ -1,0 +1,266 @@
+/* No comment provided by engineer. */
+"Account status : Anonymous" = "Account status : Anonymous";
+
+/* No comment provided by engineer. */
+"Add Card" = "Add Card";
+
+/* No comment provided by engineer. */
+"All classes" = "All classes";
+
+/* No comment provided by engineer. */
+"Archived" = "Archived";
+
+/* No comment provided by engineer. */
+"Are you sure you want to archive the deck %@ ?" = "Are you sure you want to archive the deck %@ ?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to close this deck? Your changes will not be saved." = "Are you sure you want to close this deck? Your changes will not be saved.";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the deck %@ ?" = "Are you sure you want to delete the deck %@ ?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to delete the statistics for the deck %@ ?" = "Are you sure you want to delete the statistics for the deck %@ ?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to unarchive the deck %@ ?" = "Are you sure you want to unarchive the deck %@ ?";
+
+/* No comment provided by engineer. */
+"Big" = "Big";
+
+/* No comment provided by engineer. */
+"Can not create Hearthstone config dir" = "Can not create Hearthstone config dir";
+
+/* No comment provided by engineer. */
+"Can not read Hearthstone config file" = "Can not read Hearthstone config file";
+
+/* No comment provided by engineer. */
+"Can not write Hearthstone config file" = "Can not write Hearthstone config file";
+
+/* No comment provided by engineer. */
+"Can't create deck string." = "Can't create deck string.";
+
+/* No comment provided by engineer. */
+"Can't find Hearthstone, please select Hearthstone.app" = "Can't find Hearthstone, please select Hearthstone.app";
+
+/* No comment provided by engineer. */
+"Can't find Hearthstone, please select the folder containing Hearthstone.app" = "Can't find Hearthstone, please select the folder containing Hearthstone.app";
+
+/* No comment provided by engineer. */
+"Cancel" = "Cancel";
+
+/* No comment provided by engineer. */
+"Clear" = "Clear";
+
+/* No comment provided by engineer. */
+"Connected" = "Connected";
+
+/* No comment provided by engineer. */
+"Connected as %@" = "Connected as %@";
+
+/* No comment provided by engineer. */
+"Deck Manager" = "Deck Manager";
+
+/* No comment provided by engineer. */
+"Deck name" = "Deck name";
+
+/* No comment provided by engineer. */
+"Deck string has been copied in your clipboard." = "Deck string has been copied in your clipboard.";
+
+/* No comment provided by engineer. */
+"Decks" = "Decks";
+
+/* No comment provided by engineer. */
+"Do you want to add some notes for this game ?" = "Do you want to add some notes for this game ?";
+
+/* No comment provided by engineer. */
+"Downloading %@" = "Downloading %@";
+
+/* No comment provided by engineer. */
+"Failed to import deck from \n" = "Failed to import deck from \n";
+
+/* No comment provided by engineer. */
+"Failed to upload replay: \(error)" = "Failed to upload replay: \(error)";
+
+/* No comment provided by engineer. */
+"Fatigue : " = "Fatigue : ";
+
+/* No comment provided by engineer. */
+"Game" = "Game";
+
+/* No comment provided by engineer. */
+"General" = "General";
+
+/* No comment provided by engineer. */
+"HSReplay" = "HSReplay";
+
+/* No comment provided by engineer. */
+"HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed." = "HSTracker needs elevated privileges to read data from Hearthstone's memory. If macOS asks you for your system password, do not be alarmed, no changes to your computer will be performed.";
+
+/* No comment provided by engineer. */
+"Hearthstone" = "Hearthstone";
+
+/* No comment provided by engineer. */
+"Huge" = "Huge";
+
+/* No comment provided by engineer. */
+"I understand" = "I understand";
+
+/* No comment provided by engineer. */
+"In top 2:" = "In top 2:";
+
+/* No comment provided by engineer. */
+"It is 90% certain that the true winrate falls between these values." = "It is 90% certain that the true winrate falls between these values.";
+
+/* No comment provided by engineer. */
+"It's your turn to play" = "It's your turn to play";
+
+/* No comment provided by engineer. */
+"Last replays" = "Last replays";
+
+/* No comment provided by engineer. */
+"Loading %@ cards" = "Loading %@ cards";
+
+/* No comment provided by engineer. */
+"Loading Arena card tiers" = "Loading Arena card tiers";
+
+/* No comment provided by engineer. */
+"Loading Hearthstone assets" = "Loading Hearthstone assets";
+
+/* No comment provided by engineer. */
+"Lock windows" = "Lock windows";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Opponent tracker" = "Opponent tracker";
+
+/* No comment provided by engineer. */
+"Player tracker" = "Player tracker";
+
+/* No comment provided by engineer. */
+"Please select your Hearthstone app" = "Please select your Hearthstone app";
+
+/* No comment provided by engineer. */
+"Preferences" = "Preferences";
+
+/* No comment provided by engineer. */
+"Remove Card" = "Remove Card";
+
+/* No comment provided by engineer. */
+"Replays" = "Replays";
+
+/* No comment provided by engineer. */
+"Save" = "Save";
+
+/* No comment provided by engineer. */
+"Save Current Deck" = "Save Current Deck";
+
+/* No comment provided by engineer. */
+"Save Opponent's Deck" = "Save Opponent's Deck";
+
+/* No comment provided by engineer. */
+"Show" = "Show";
+
+/* No comment provided by engineer. */
+"Small" = "Small";
+
+/* No comment provided by engineer. */
+"Statistics" = "Statistics";
+
+/* No comment provided by engineer. */
+"The Climb" = "The Climb";
+
+/* No comment provided by engineer. */
+"The followings cards were missing : " = "The followings cards were missing : ";
+
+/* No comment provided by engineer. */
+"Tiny" = "Tiny";
+
+/* No comment provided by engineer. */
+"Top deck:" = "Top deck:";
+
+/* No comment provided by engineer. */
+"Trackers" = "Trackers";
+
+/* No comment provided by engineer. */
+"Unknown error" = "Unknown error";
+
+/* No comment provided by engineer. */
+"Unlock windowsLock windows" = "Unlock windowsLock windows";
+
+/* No comment provided by engineer. */
+"Victory" = "Victory";
+
+/* No comment provided by engineer. */
+"Window" = "Window";
+
+/* No comment provided by engineer. */
+"Yes" = "Yes";
+
+/* No comment provided by engineer. */
+"You must restart HSTracker for the language change to take effect" = "You must restart HSTracker for the language change to take effect";
+
+/* No comment provided by engineer. */
+"You must restart Hearthstone for logs to be used" = "You must restart Hearthstone for logs to be used";
+
+/* No comment provided by engineer. */
+"Your game begins" = "Your game begins";
+
+/* No comment provided by engineer. */
+"Your opponent have conceded" = "Your opponent have conceded";
+
+/* No comment provided by engineer. */
+"Your replay has been uploaded on HSReplay.net" = "Your replay has been uploaded on HSReplay.net";
+
+/* No comment provided by engineer. */
+"all_races" = "all_races";
+
+/* No comment provided by engineer. */
+"all_rarities" = "all_rarities";
+
+/* No comment provided by engineer. */
+"all_seasons" = "all_seasons";
+
+/* No comment provided by engineer. */
+"games" = "games";
+
+/* No comment provided by engineer. */
+"losses" = "losses";
+
+/* No comment provided by engineer. */
+"mode_all" = "mode_all";
+
+/* No comment provided by engineer. */
+"mode_arena" = "mode_arena";
+
+/* No comment provided by engineer. */
+"mode_brawl" = "mode_brawl";
+
+/* No comment provided by engineer. */
+"mode_casual" = "mode_casual";
+
+/* No comment provided by engineer. */
+"mode_friendly" = "mode_friendly";
+
+/* No comment provided by engineer. */
+"mode_none" = "mode_none";
+
+/* No comment provided by engineer. */
+"mode_practice" = "mode_practice";
+
+/* No comment provided by engineer. */
+"mode_ranked" = "mode_ranked";
+
+/* No comment provided by engineer. */
+"mode_spectator" = "mode_spectator";
+
+/* No comment provided by engineer. */
+"neutral" = "neutral";
+
+/* No comment provided by engineer. */
+"season" = "season";
+
+/* No comment provided by engineer. */
+"wins" = "wins";
