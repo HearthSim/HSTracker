@@ -1003,6 +1003,23 @@
 		E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/Mac/OAuthSwift.framework; sourceTree = "<group>"; };
 		E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OAuthSwift.framework.dSYM; path = Carthage/Build/Mac/OAuthSwift.framework.dSYM; sourceTree = "<group>"; };
 		F719B889200ACAE3004F5E36 /* DefaultDecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecks.swift; sourceTree = "<group>"; };
+		F731044F211FF1410082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
+		F7310450211FF1410082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Statistics.strings; sourceTree = "<group>"; };
+		F7310451211FF1410082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/StatsTab.strings; sourceTree = "<group>"; };
+		F7310452211FF1420082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LadderTab.strings; sourceTree = "<group>"; };
+		F7310453211FF1420082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/DeckManager.strings; sourceTree = "<group>"; };
+		F7310454211FF1420082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/NewDeck.strings; sourceTree = "<group>"; };
+		F7310455211FF1420082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/EditDeck.strings; sourceTree = "<group>"; };
+		F7310456211FF1420082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/SaveDeck.strings; sourceTree = "<group>"; };
+		F7310457211FF1430082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InitialConfiguration.strings; sourceTree = "<group>"; };
+		F7310458211FF1430082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Splashscreen.strings; sourceTree = "<group>"; };
+		F7310459211FF1430082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/GeneralPreferences.strings; sourceTree = "<group>"; };
+		F731045A211FF1430082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/GamePreferences.strings; sourceTree = "<group>"; };
+		F731045B211FF1430082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/TrackersPreferences.strings; sourceTree = "<group>"; };
+		F731045C211FF1430082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/PlayerTrackersPreferences.strings; sourceTree = "<group>"; };
+		F731045D211FF1440082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/OpponentTrackersPreferences.strings; sourceTree = "<group>"; };
+		F731045E211FF1440082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		F731045F211FF1440082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F79833961FFF324200D2893E /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hearthstone.swift; sourceTree = "<group>"; };
 		F7D7A3AD2017B51300E3A5F0 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = HSTracker/Resources/dsa_pub.pem; sourceTree = SOURCE_ROOT; };
@@ -1261,11 +1278,11 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
+				F731044E211FF0050082651C /* Translations */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
 				439C7E791C7779D200D29859 /* HSTracker-Bridging-Header.h */,
 				439C7E571C7772C000D29859 /* Info.plist */,
-				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
 				43E6632B1DC743C1007AB06E /* Configs */,
 				439C7E5F1C7772C100D29859 /* HSTrackerTests */,
 				439C7E491C7772C000D29859 /* Products */,
@@ -1588,6 +1605,14 @@
 			name = Statistics;
 			sourceTree = "<group>";
 		};
+		F731044E211FF0050082651C /* Translations */ = {
+			isa = PBXGroup;
+			children = (
+				432B5FAD1CB5351800B05D19 /* Localizable.strings */,
+			);
+			path = Translations;
+			sourceTree = "<group>";
+		};
 		F7D7A3AC2017B4FD00E3A5F0 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -1725,6 +1750,7 @@
 				"pt-BR",
 				"zh-Hans",
 				"zh-Hant",
+				ko,
 			);
 			mainGroup = 439C7E3F1C7772C000D29859;
 			productRefGroup = 439C7E491C7772C000D29859 /* Products */;
@@ -2222,9 +2248,9 @@
 				432B60041CB54A6800B05D19 /* pt-BR */,
 				432B600F1CB54AD700B05D19 /* zh-Hans */,
 				CE9D9917200770EA003505D3 /* zh-Hant */,
+				F731045F211FF1440082651C /* ko */,
 			);
 			name = Localizable.strings;
-			path = HSTracker;
 			sourceTree = "<group>";
 		};
 		432B5FB21CB536E700B05D19 /* MainMenu.xib */ = {
@@ -2238,6 +2264,7 @@
 				432B600E1CB54AD700B05D19 /* zh-Hans */,
 				4335544E1D5FBDFB00277B27 /* fr */,
 				CE9D9916200770EA003505D3 /* zh-Hant */,
+				F731045E211FF1440082651C /* ko */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -2253,6 +2280,7 @@
 				432B600D1CB54AD700B05D19 /* zh-Hans */,
 				43A8A0ED1E0BBA4600AF34FD /* fr */,
 				CE9D9914200770EA003505D3 /* zh-Hant */,
+				F731045C211FF1430082651C /* ko */,
 			);
 			name = PlayerTrackersPreferences.xib;
 			sourceTree = "<group>";
@@ -2268,6 +2296,7 @@
 				432B600C1CB54AD700B05D19 /* zh-Hans */,
 				4323C5F01E1BBE8300C97896 /* fr */,
 				CE9D9912200770EA003505D3 /* zh-Hant */,
+				F731045A211FF1430082651C /* ko */,
 			);
 			name = GamePreferences.xib;
 			sourceTree = "<group>";
@@ -2283,6 +2312,7 @@
 				432B600B1CB54AD700B05D19 /* zh-Hans */,
 				43AFEEE91E218B0800F6045A /* fr */,
 				CE9D9911200770EA003505D3 /* zh-Hant */,
+				F7310459211FF1430082651C /* ko */,
 			);
 			name = GeneralPreferences.xib;
 			sourceTree = "<group>";
@@ -2298,6 +2328,7 @@
 				432B5FFF1CB54A6800B05D19 /* pt-BR */,
 				432B600A1CB54AD600B05D19 /* zh-Hans */,
 				CE9D9910200770E9003505D3 /* zh-Hant */,
+				F7310458211FF1430082651C /* ko */,
 			);
 			name = Splashscreen.xib;
 			sourceTree = "<group>";
@@ -2313,6 +2344,7 @@
 				432B5FFE1CB54A6700B05D19 /* pt-BR */,
 				432B60091CB54AD600B05D19 /* zh-Hans */,
 				CE9D990F200770E9003505D3 /* zh-Hant */,
+				F7310457211FF1430082651C /* ko */,
 			);
 			name = InitialConfiguration.xib;
 			sourceTree = "<group>";
@@ -2328,6 +2360,7 @@
 				432B5FFD1CB54A6700B05D19 /* pt-BR */,
 				432B60081CB54AD600B05D19 /* zh-Hans */,
 				CE9D990E200770E9003505D3 /* zh-Hant */,
+				F7310456211FF1420082651C /* ko */,
 			);
 			name = SaveDeck.xib;
 			sourceTree = "<group>";
@@ -2343,6 +2376,7 @@
 				432B5FFC1CB54A6700B05D19 /* pt-BR */,
 				432B60071CB54AD600B05D19 /* zh-Hans */,
 				CE9D990D200770E9003505D3 /* zh-Hant */,
+				F7310455211FF1420082651C /* ko */,
 			);
 			name = EditDeck.xib;
 			sourceTree = "<group>";
@@ -2358,6 +2392,7 @@
 				432B5FFB1CB54A6700B05D19 /* pt-BR */,
 				432B60061CB54AD600B05D19 /* zh-Hans */,
 				CE9D990C200770E9003505D3 /* zh-Hant */,
+				F7310454211FF1420082651C /* ko */,
 			);
 			name = NewDeck.xib;
 			sourceTree = "<group>";
@@ -2373,6 +2408,7 @@
 				432B5FFA1CB54A6700B05D19 /* pt-BR */,
 				432B60051CB54AD600B05D19 /* zh-Hans */,
 				CE9D990B200770E8003505D3 /* zh-Hant */,
+				F7310453211FF1420082651C /* ko */,
 			);
 			name = DeckManager.xib;
 			sourceTree = "<group>";
@@ -2388,6 +2424,7 @@
 				433554461D5FAF0F00277B27 /* de */,
 				433D8E241DFC498D0083BD33 /* fr */,
 				CE9D9905200770E8003505D3 /* zh-Hant */,
+				F731044F211FF1410082651C /* ko */,
 			);
 			name = HSReplayPreferences.xib;
 			sourceTree = "<group>";
@@ -2403,6 +2440,7 @@
 				434D1CC01D10948400222B8E /* pt-BR */,
 				434D1CC21D10948700222B8E /* zh-Hans */,
 				CE9D9908200770E8003505D3 /* zh-Hant */,
+				F7310450211FF1410082651C /* ko */,
 			);
 			name = Statistics.xib;
 			path = StatsManager;
@@ -2419,6 +2457,7 @@
 				437B5BC01CD255B800DE0A41 /* zh-Hans */,
 				43A8A0EF1E0BBB4700AF34FD /* fr */,
 				CE9D9915200770EA003505D3 /* zh-Hant */,
+				F731045D211FF1440082651C /* ko */,
 			);
 			name = OpponentTrackersPreferences.xib;
 			sourceTree = "<group>";
@@ -2434,6 +2473,7 @@
 				437B5BCA1CD256B200DE0A41 /* de */,
 				43050C601E6B2C0E007600EA /* fr */,
 				CE9D9913200770EA003505D3 /* zh-Hant */,
+				F731045B211FF1430082651C /* ko */,
 			);
 			name = TrackersPreferences.xib;
 			sourceTree = "<group>";
@@ -2449,6 +2489,7 @@
 				C9BDB3D41D20BCC800886A11 /* pt-BR */,
 				C9BDB3D61D20BCCA00886A11 /* zh-Hans */,
 				CE9D9909200770E8003505D3 /* zh-Hant */,
+				F7310451211FF1410082651C /* ko */,
 			);
 			name = StatsTab.xib;
 			path = StatsManager;
@@ -2465,6 +2506,7 @@
 				C9BDB3E31D20BEDF00886A11 /* pt-BR */,
 				C9BDB3E51D20BEE000886A11 /* zh-Hans */,
 				CE9D990A200770E8003505D3 /* zh-Hant */,
+				F7310452211FF1420082651C /* ko */,
 			);
 			name = LadderTab.xib;
 			path = StatsManager;
