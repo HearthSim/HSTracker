@@ -13,6 +13,7 @@ class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
     private static let oAuthClientKey = "pk_test_AUThiV1Ex9nKCbHSFchv7ybX"
     private static let oAuthClientSecret = "sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
+    private static let defaultHeaders = ["Accept": "application/json", "Content-Type": "application/json"]
     
     static let oauthswift = {
         return OAuth2Swift(
@@ -32,6 +33,7 @@ class HSReplayAPI {
             success: { credential, _, _ in
                 Settings.hsReplayOAuthToken = credential.oauthToken
                 Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                claimBattleTag()
                 getUploadCollectionToken { token in
                     print(token)
                 }
@@ -70,7 +72,20 @@ class HSReplayAPI {
             handle(token)
             return
         }
-        oauthswift.client.get(HSReplay.collectionTokensUrl, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: ["Accept": "application/json"], success: { response in
+        oauthswift.client.get(HSReplay.collectionTokensUrl, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: defaultHeaders, success: { response in
+            if let json = response.string {
+                print(json)
+            }
+        }, failure: { error in
+            print(error)
+        })
+    }
+
+    static func claimBattleTag() {
+        guard let accountId = MirrorHelper.getAccountId(), let battleTag = MirrorHelper.getBattleTag() else {
+            return
+        }
+        oauthswift.client.post("\(HSReplay.claimBattleTagUrl)/\(accountId.hi)/\(accountId.lo)/", parameters: ["battletag": battleTag], headers: defaultHeaders, success: { response in
             if let json = response.string {
                 print(json)
             }

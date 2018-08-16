@@ -38,22 +38,25 @@ class Watcher {
         clean()
     }
 
-    internal func run() {}
-    internal func clean() {}
+    internal func run() {
+    }
+
+    internal func clean() {
+    }
 }
 
 class DeckWatcher: Watcher {
     private(set) static var selectedDeckId: Int64 = 0
-	
-	static let _instance = DeckWatcher()
-	
-	static func start() {
-		_instance.startWatching()
-	}
-	
-	static func stop() {
-		_instance.stopWatching()
-	}
+
+    static let _instance = DeckWatcher()
+
+    static func start() {
+        _instance.startWatching()
+    }
+
+    static func stop() {
+        _instance.stopWatching()
+    }
 
     override func run() {
         while isRunning {
@@ -77,30 +80,30 @@ class DeckWatcher: Watcher {
 }
 
 class ArenaDeckWatcher: Watcher {
-    
+
     private(set) static var selectedDeck: MirrorDeck?
-    
+
     private(set) static var selectedDeckId: Int64 = 0
-	
-	static let _instance = ArenaDeckWatcher()
-	
-	static func start() {
-		_instance.startWatching()
-	}
-	
-	static func stop() {
-		_instance.stopWatching()
-	}
-    
+
+    static let _instance = ArenaDeckWatcher()
+
+    static func start() {
+        _instance.startWatching()
+    }
+
+    static func stop() {
+        _instance.stopWatching()
+    }
+
     override func run() {
         while isRunning {
             guard let arenaInfo = MirrorHelper.getArenaDeck() else {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
-            
+
             ArenaDeckWatcher.selectedDeck = arenaInfo.deck
-            
+
             Thread.sleep(forTimeInterval: refreshInterval)
         }
 
@@ -110,31 +113,31 @@ class ArenaDeckWatcher: Watcher {
 
 class DungeonRunDeckWatcher: Watcher {
     private(set) static var dungeonRunDeck: [Card] = []
-    
+
     static var initialOpponents: [Int] = {
         return [
             Cards.by(cardId: CardIds.NonCollectible.Rogue.BinkTheBurglarHeroic)!.dbfId,
             Cards.by(cardId: CardIds.NonCollectible.Hunter.GiantRatHeroic)!.dbfId,
             Cards.by(cardId: CardIds.NonCollectible.Hunter.WeeWhelpHeroic)!.dbfId]
     }()
-    
+
     static let _instance = DungeonRunDeckWatcher()
-    
+
     static func start() {
         _instance.startWatching()
     }
-    
+
     static func stop() {
         _instance.stopWatching()
     }
-    
+
     override func run() {
         outerLoop: while isRunning {
             guard let dungeonRunInfo = MirrorHelper.getDungeonRunInfo() else {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
-    
+
             // assembly dungeon deck
             var deck: [Card: Int] = [:]
             for dbfid in dungeonRunInfo.dbfIds {
@@ -150,7 +153,7 @@ class DungeonRunDeckWatcher: Watcher {
                     continue outerLoop
                 }
             }
-            
+
             // add loot
             let selectedLoot = dungeonRunInfo.playerChosenLoot.intValue
             if selectedLoot > 0 {
@@ -169,11 +172,11 @@ class DungeonRunDeckWatcher: Watcher {
                     }
                 }
             }
-            
+
             // add treasure
             let selectedTreasure = dungeonRunInfo.playerChosenTreasure.intValue
             if selectedTreasure > 0 {
-                let dbfid = dungeonRunInfo.treasure[selectedTreasure-1]
+                let dbfid = dungeonRunInfo.treasure[selectedTreasure - 1]
                 if let card = Cards.by(dbfId: dbfid.intValue, collectible: false) {
                     if let count = deck[card] {
                         deck[card] = count + 1
@@ -184,7 +187,7 @@ class DungeonRunDeckWatcher: Watcher {
                     logger.error("Unknown dbfid: \(dbfid.intValue)")
                     Thread.sleep(forTimeInterval: refreshInterval)
                     continue outerLoop
-                } 
+                }
             }
 
             let dungeonrundeck: [Card] = deck.map {
@@ -197,36 +200,43 @@ class DungeonRunDeckWatcher: Watcher {
             DungeonRunDeckWatcher.dungeonRunDeck = dungeonrundeck
             Thread.sleep(forTimeInterval: refreshInterval)
         }
-        
+
         queue = nil
     }
 }
 
 class CollectionWatcher: Watcher {
-  static let _instance = CollectionWatcher()
+    private(set) static var collection: [MirrorCard] = []
 
-  static func start() {
-    _instance.startWatching()
-  }
+    static let _instance = CollectionWatcher()
 
-  static func stop() {
-    _instance.stopWatching()
-  }
-
-  override func run() {
-    while isRunning {
-      guard let collection = MirrorHelper.getCardCollection() else {
-        Thread.sleep(forTimeInterval: refreshInterval)
-        continue
-      }
-
-      if !collection.isEmpty {
-        logger.info("found collection: \(collection)")
-      }
-
-      Thread.sleep(forTimeInterval: refreshInterval)
+    static func start() {
+        _instance.startWatching()
     }
 
-    queue = nil
-  }
+    static func stop() {
+        _instance.stopWatching()
+    }
+
+    override func run() {
+        while isRunning {
+            guard let collection = MirrorHelper.getCardCollection() else {
+                Thread.sleep(forTimeInterval: refreshInterval)
+                continue
+            }
+
+            if !collection.isEmpty {
+                logger.info("found collection: \(collection)")
+            }
+
+            CollectionWatcher.collection = collection
+            let data = UploadCollectionData(collection: collection, favoriteHeroes: nil, cardbacks: nil, favoriteCardback: nil, dust: nil)
+            CollectionUploader.upload(collectionData: data) { result in
+
+            }
+            Thread.sleep(forTimeInterval: refreshInterval)
+        }
+
+        queue = nil
+    }
 }
