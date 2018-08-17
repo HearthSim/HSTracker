@@ -430,10 +430,6 @@ final class Settings {
         set { set(name: Settings.hsreplay_upload_token, value: newValue) }
         get { return get(name: Settings.hsreplay_upload_token) as? String }
     }
-    static var hsReplayUploadCollectionToken: String? {
-        set { set(name: Settings.hsreplay_upload_collection_token, value: newValue) }
-        get { return get(name: Settings.hsreplay_upload_collection_token) as? String }
-    }
     static var hsReplayOAuthToken: String? {
         set { set(name: Settings.hsreplay_oauth_token, value: newValue) }
         get { return get(name: Settings.hsreplay_oauth_token) as? String }
@@ -608,7 +604,6 @@ extension Settings {
     
     // MARK: - HSReplay.net related preferences
     static let hsreplay_upload_token = "hsreplay_upload_token"
-    static let hsreplay_upload_collection_token = "hsreplay_upload_collection_token"
     static let hsreplay_username = "hsreplay_username"
     static let hsreplay_id = "hsreplay_id"
     static let hsreplay_oauth_token = "hsreplay_oauth_token"

@@ -231,9 +231,17 @@ class CollectionWatcher: Watcher {
 
             CollectionWatcher.collection = collection
             let data = UploadCollectionData(collection: collection, favoriteHeroes: nil, cardbacks: nil, favoriteCardback: nil, dust: nil)
-            CollectionUploader.upload(collectionData: data) { result in
 
+            HSReplayAPI.claimBattleTag {
+                CollectionUploader.upload(collectionData: data) { result in
+                    switch result {
+                    case let .failed(error):
+                        print(error)
+                    default: return
+                    }
+                }
             }
+
             Thread.sleep(forTimeInterval: refreshInterval)
         }
 

@@ -33,10 +33,6 @@ class HSReplayAPI {
             success: { credential, _, _ in
                 Settings.hsReplayOAuthToken = credential.oauthToken
                 Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-                claimBattleTag()
-                getUploadCollectionToken { token in
-                    print(token)
-                }
             },
             failure: { error in
                 // TODO: Error handling
@@ -68,29 +64,36 @@ class HSReplayAPI {
         guard let accountId = MirrorHelper.getAccountId() else {
             return
         }
-        if let token = Settings.hsReplayUploadCollectionToken {
-            handle(token)
-            return
-        }
         oauthswift.client.get(HSReplay.collectionTokensUrl, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: defaultHeaders, success: { response in
-            if let json = response.string {
-                print(json)
+            do {
+                guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
+                    logger.error("HSReplay: Unexpected JSON \(String(describing: response.string))")
+                    return
+                }
+                logger.info("HSReplay : Obtained new collection upload URL")
+                handle(token)
+            } catch {
+                logger.error(error)
             }
         }, failure: { error in
-            print(error)
+            logger.error(error)
         })
     }
 
-    static func claimBattleTag() {
+    static func claimBattleTag(complete: @escaping () -> Void ) {
         guard let accountId = MirrorHelper.getAccountId(), let battleTag = MirrorHelper.getBattleTag() else {
             return
         }
         oauthswift.client.post("\(HSReplay.claimBattleTagUrl)/\(accountId.hi)/\(accountId.lo)/", parameters: ["battletag": battleTag], headers: defaultHeaders, success: { response in
-            if let json = response.string {
-                print(json)
+            do {
+                let json = try response.jsonObject()
+                logger.info("Claimed battle tag with response \(json)")
+            } catch {
+                logger.error(error)
             }
+            complete()
         }, failure: { error in
-            print(error)
+            logger.error(error)
         })
     }
 
