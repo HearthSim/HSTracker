@@ -8,7 +8,7 @@ cache:
 
 before_install:
   - brew outdated carthage || brew upgrade carthage
-  - ./scripts/cards_download.sh
+  - ./bootstrap.sh
 
 script:
   - bundle exec fastlane ci
