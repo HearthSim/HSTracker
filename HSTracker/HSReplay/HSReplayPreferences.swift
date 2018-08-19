@@ -19,8 +19,7 @@ class HSReplayPreferences: NSViewController {
     @IBOutlet weak var uploadFriendlyGames: NSButton!
     @IBOutlet weak var uploadAdventureGames: NSButton!
     @IBOutlet weak var uploadSpectatorGames: NSButton!
-    
-    @IBOutlet weak var hsReplayAccountStatus: NSTextField!
+
     @IBOutlet weak var claimAccountButton: NSButtonCell!
     @IBOutlet weak var claimAccountInfo: NSTextField!
     @IBOutlet weak var disconnectButton: NSButton!
@@ -28,13 +27,13 @@ class HSReplayPreferences: NSViewController {
     private var getAccountTimer: Timer?
     private var requests = 0
     private let maxRequests = 10
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         showPushNotification.state = Settings.showHSReplayPushNotification ? .on : .off
         synchronizeMatches.state = Settings.hsReplaySynchronizeMatches ? .on : .off
-        
+
         uploadRankedGames.state = Settings.hsReplayUploadRankedMatches ? .on : .off
         uploadCasualGames.state = Settings.hsReplayUploadCasualMatches ? .on : .off
         uploadArenaGames.state = Settings.hsReplayUploadArenaMatches ? .on : .off
@@ -42,15 +41,15 @@ class HSReplayPreferences: NSViewController {
         uploadFriendlyGames.state = Settings.hsReplayUploadFriendlyMatches ? .on : .off
         uploadAdventureGames.state = Settings.hsReplayUploadAdventureMatches ? .on : .off
         uploadSpectatorGames.state = Settings.hsReplayUploadSpectatorMatches ? .on : .off
-        
+
         updateUploadGameTypeView()
         updateStatus()
     }
-    
+
     override func viewDidDisappear() {
         getAccountTimer?.invalidate()
     }
-    
+
     @IBAction func checkboxClicked(_ sender: NSButton) {
         if sender == synchronizeMatches {
             Settings.hsReplaySynchronizeMatches = synchronizeMatches.state == .on
@@ -71,10 +70,10 @@ class HSReplayPreferences: NSViewController {
         } else if sender == uploadSpectatorGames {
             Settings.hsReplayUploadSpectatorMatches = uploadSpectatorGames.state == .on
         }
-        
+
         updateUploadGameTypeView()
     }
-    
+
     fileprivate func updateUploadGameTypeView() {
         if synchronizeMatches.state == .off {
             uploadRankedGames.isEnabled = false
@@ -94,14 +93,8 @@ class HSReplayPreferences: NSViewController {
             uploadSpectatorGames.isEnabled = true
         }
     }
-    
+
     @IBAction func disconnectAccount(_ sender: AnyObject) {
-        Settings.hsReplayUsername = nil
-        Settings.hsReplayId = nil
-        updateStatus()
-    }
-    
-    @IBAction func resetAccount(_ sender: Any) {
         Settings.hsReplayUsername = nil
         Settings.hsReplayId = nil
         Settings.hsReplayUploadToken = nil
@@ -121,17 +114,17 @@ class HSReplayPreferences: NSViewController {
                 repeats: true)
         }
     }
-    
+
     @IBAction func oauthAccount(_ sender: AnyObject) {
         HSReplayAPI.oAuthAuthorize()
     }
-    
+
     @objc private func checkAccountInfo() {
         guard requests < maxRequests else {
             logger.warning("max request for checking account info")
             return
         }
-        
+
         HSReplayAPI.updateAccountStatus { (status) in
             self.requests += 1
             if status {
@@ -140,24 +133,21 @@ class HSReplayPreferences: NSViewController {
             self.updateStatus()
         }
     }
-    
+
     private func updateStatus() {
         if Settings.hsReplayId != nil {
             var information = NSLocalizedString("Connected", comment: "")
             if let username = Settings.hsReplayUsername {
                 information = String(format: NSLocalizedString("Connected as %@", comment: ""),
-                                     username)
+                    username)
             }
-            hsReplayAccountStatus.stringValue = information
-            claimAccountInfo.isEnabled = false
+            claimAccountButton.title = information
             claimAccountButton.isEnabled = false
             disconnectButton.isEnabled = true
         } else {
-            claimAccountInfo.isEnabled = true
+            claimAccountButton.title = NSLocalizedString("Claim Account", comment: "")
             claimAccountButton.isEnabled = true
             disconnectButton.isEnabled = false
-            hsReplayAccountStatus.stringValue = NSLocalizedString("Account status : Anonymous",
-                                                                  comment: "")
         }
     }
 }
@@ -167,11 +157,11 @@ extension HSReplayPreferences: MASPreferencesViewController {
     var viewIdentifier: String {
         return "hsreplay"
     }
-    
+
     var toolbarItemImage: NSImage? {
         return NSImage(named: NSImage.Name(rawValue: "hsreplay_icon"))
     }
-    
+
     var toolbarItemLabel: String? {
         return "HSReplay"
     }

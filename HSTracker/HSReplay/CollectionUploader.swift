@@ -13,7 +13,13 @@ class CollectionUploader {
     private static var inProgress = false
     private static var lastUploadedData: [String: Any] = [:]
 
-    static func upload(collectionData: UploadCollectionData, completion: @escaping(UploadResult) -> Void) {
+    static func upload(collectionData: UploadCollectionData, completion: @escaping(CollectionUploadResult) -> Void) {
+        guard !inProgress else {
+            logger.error("Another collection upload in progress")
+            completion(.failed(error: "Another collection upload in progress"))
+            return
+        }
+
         guard let data: Data = try? wrap(collectionData) else {
             logger.error("Can not convert collection to data")
             completion(.failed(error: "Can not convert collection to data"))
@@ -36,6 +42,7 @@ class CollectionUploader {
                 data: data)
 
             logger.info("Collection upload done: Success")
+            completion(.successful)
         }
     }
 }
