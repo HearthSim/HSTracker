@@ -207,6 +207,7 @@ class DungeonRunDeckWatcher: Watcher {
 
 class CollectionWatcher: Watcher {
     private(set) static var collection: [MirrorCard] = []
+    internal var uploadingInterval: TimeInterval = 10
 
     static let _instance = CollectionWatcher()
 
@@ -229,16 +230,25 @@ class CollectionWatcher: Watcher {
                 logger.info("found collection: \(collection)")
             }
 
+            guard !CollectionWatcher.collection.elementsEqual(collection) else {
+                Thread.sleep(forTimeInterval: uploadingInterval)
+                continue
+            }
+
+            guard !CollectionUploader.inProgress else {
+                Thread.sleep(forTimeInterval: uploadingInterval)
+                continue
+            }
+
             CollectionWatcher.collection = collection
             let data = UploadCollectionData(collection: collection, favoriteHeroes: nil, cardbacks: nil, favoriteCardback: nil, dust: nil)
 
-            HSReplayAPI.claimBattleTag {
-                CollectionUploader.upload(collectionData: data) { result in
-                    switch result {
-                    case let .failed(error):
-                        print(error)
-                    default: return
-                    }
+            CollectionUploader.upload(collectionData: data) { result in
+                switch result {
+                case .successful:
+                    NotificationManager.showNotification(type: .hsReplayCollectionUploaded)
+                case .failed(let error):
+                    NotificationManager.showNotification(type: .hsReplayCollectionUploadFailed(error: error))
                 }
             }
 

@@ -13,6 +13,7 @@
                 <outlet property="claimAccountInfo" destination="UdW-1g-XMj" id="pTI-6q-VjX"/>
                 <outlet property="disconnectButton" destination="y6L-Kw-KFY" id="hfI-ch-HrT"/>
                 <outlet property="gameTypeSelector" destination="ZEB-hT-h8U" id="f5g-mQ-bSX"/>
+                <outlet property="oAuthAccount" destination="akc-iW-uso" id="5Dd-hV-mDG"/>
                 <outlet property="showPushNotification" destination="R7X-Vo-NSU" id="SUS-j2-fRy"/>
                 <outlet property="synchronizeMatches" destination="zU2-86-n1Q" id="Zxz-8w-y7c"/>
                 <outlet property="uploadAdventureGames" destination="uEm-3o-LLY" id="oFS-cO-ccY"/>

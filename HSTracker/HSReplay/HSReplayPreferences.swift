@@ -24,6 +24,7 @@ class HSReplayPreferences: NSViewController {
     @IBOutlet weak var claimAccountInfo: NSTextField!
     @IBOutlet weak var disconnectButton: NSButton!
     @IBOutlet weak var showPushNotification: NSButton!
+    @IBOutlet weak var oAuthAccount: NSButton!
     private var getAccountTimer: Timer?
     private var requests = 0
     private let maxRequests = 10
@@ -116,7 +117,15 @@ class HSReplayPreferences: NSViewController {
     }
 
     @IBAction func oauthAccount(_ sender: AnyObject) {
-        HSReplayAPI.oAuthAuthorize()
+        if Settings.hsReplayOAuthRefreshToken != nil {
+            Settings.hsReplayOAuthRefreshToken = nil
+            Settings.hsReplayOAuthToken = nil
+            updateStatus()
+        } else {
+            HSReplayAPI.oAuthAuthorize {
+                self.updateStatus()
+            }
+        }
     }
 
     @objc private func checkAccountInfo() {
@@ -148,6 +157,12 @@ class HSReplayPreferences: NSViewController {
             claimAccountButton.title = NSLocalizedString("Claim Account", comment: "")
             claimAccountButton.isEnabled = true
             disconnectButton.isEnabled = false
+        }
+
+        if Settings.hsReplayOAuthRefreshToken != nil {
+            oAuthAccount.title = NSLocalizedString("Logout", comment: "")
+        } else {
+            oAuthAccount.title = NSLocalizedString("Login", comment: "")
         }
     }
 }
