@@ -502,6 +502,8 @@
 		E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
 		E3057D6E20B888FB00B9A5B8 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; };
 		E3057D6F20B8890500B9A5B8 /* OAuthSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E30590B921174D7D00679D66 /* CollectionUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30590B821174D7D00679D66 /* CollectionUploader.swift */; };
+		E30590BB21174FC900679D66 /* UploadCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30590BA21174FC900679D66 /* UploadCollectionData.swift */; };
 		F719B88A200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */ = {isa = PBXBuildFile; fileRef = F719B889200ACAE3004F5E36 /* DefaultDecks.swift */; };
 		F723404420014D3E00E4587A /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F79833961FFF324200D2893E /* Events.swift */; };
@@ -1002,6 +1004,8 @@
 		CE9D9917200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/Mac/OAuthSwift.framework; sourceTree = "<group>"; };
 		E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OAuthSwift.framework.dSYM; path = Carthage/Build/Mac/OAuthSwift.framework.dSYM; sourceTree = "<group>"; };
+		E30590B821174D7D00679D66 /* CollectionUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionUploader.swift; sourceTree = "<group>"; };
+		E30590BA21174FC900679D66 /* UploadCollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadCollectionData.swift; sourceTree = "<group>"; };
 		F719B889200ACAE3004F5E36 /* DefaultDecks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDecks.swift; sourceTree = "<group>"; };
 		F731044F211FF1410082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/HSReplayPreferences.strings; sourceTree = "<group>"; };
 		F7310450211FF1410082651C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Statistics.strings; sourceTree = "<group>"; };
@@ -1628,9 +1632,11 @@
 				43C567EB1D5E314500451B6F /* HSReplay.swift */,
 				43C567FC1D5E448200451B6F /* HSReplayManager.swift */,
 				43C567FE1D5E4F9700451B6F /* HSReplayAPI.swift */,
+				E30590B821174D7D00679D66 /* CollectionUploader.swift */,
 				43C568001D5E584F00451B6F /* LogUploader.swift */,
 				43C568021D5E59E500451B6F /* UploadResult.swift */,
 				43C568041D5E5BFF00451B6F /* UploadMetaData.swift */,
+				E30590BA21174FC900679D66 /* UploadCollectionData.swift */,
 				4335543C1D5FAF0300277B27 /* HSReplayPreferences.xib */,
 				433554381D5FABD600277B27 /* HSReplayPreferences.swift */,
 			);
@@ -1993,6 +1999,7 @@
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */,
+				E30590B921174D7D00679D66 /* CollectionUploader.swift in Sources */,
 				43B695631C920A0500F4D0AC /* CardList.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
@@ -2124,6 +2131,7 @@
 				4323C5F71E1BE28800C97896 /* BrawlInfo.swift in Sources */,
 				BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */,
 				434D1CB11D0C507900222B8E /* ImageCompare.swift in Sources */,
+				E30590BB21174FC900679D66 /* UploadCollectionData.swift in Sources */,
 				435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */,
 				435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */,
 				64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */,

@@ -9,49 +9,72 @@
 import Foundation
 
 enum NotificationType {
-    case gameStart, turnStart, opponentConcede, hsReplayPush(replayId: String), hsReplayUploadFailed(error: String)
+    case gameStart, turnStart, opponentConcede, hsReplayPush(replayId: String), hsReplayUploadFailed(error: String),
+         hsReplayCollectionUploaded, hsReplayCollectionUploadFailed(error: String)
 }
 
 class NotificationManager {
     
     static func showNotification(type: NotificationType) {
-        
         switch type {
         case .gameStart:
-            guard Settings.notifyGameStart else { return }
-            if CoreManager.isHearthstoneActive() { return }
-            
-            show(title: NSLocalizedString("Hearthstone", comment: ""),
-                       message: NSLocalizedString("Your game begins", comment: ""))
-            
-        case .opponentConcede:
-            guard Settings.notifyOpponentConcede else { return }
-            if CoreManager.isHearthstoneActive() { return }
-            
-            show(title: NSLocalizedString("Victory", comment: ""),
-                       message: NSLocalizedString("Your opponent have conceded", comment: ""))
-            
-        case .turnStart:
-            guard Settings.notifyTurnStart else { return }
-            if CoreManager.isHearthstoneActive() { return }
-            
-            show(title: NSLocalizedString("Hearthstone", comment: ""),
-                       message: NSLocalizedString("It's your turn to play", comment: ""))
-            
-        case .hsReplayPush(let replayId):
-            guard Settings.showHSReplayPushNotification else { return }
-            
-            show(title: NSLocalizedString("HSReplay", comment: ""),
-                       message: NSLocalizedString("Your replay has been uploaded on HSReplay.net",
-                                                  comment: "")) {
-                                                    HSReplayManager.showReplay(replayId: replayId)
+            guard Settings.notifyGameStart else {
+                return
             }
+            if CoreManager.isHearthstoneActive() {
+                return
+            }
+
+            show(title: NSLocalizedString("Hearthstone", comment: ""),
+                message: NSLocalizedString("Your game begins", comment: ""))
+
+        case .opponentConcede:
+            guard Settings.notifyOpponentConcede else {
+                return
+            }
+            if CoreManager.isHearthstoneActive() {
+                return
+            }
+
+            show(title: NSLocalizedString("Victory", comment: ""),
+                message: NSLocalizedString("Your opponent have conceded", comment: ""))
+
+        case .turnStart:
+            guard Settings.notifyTurnStart else {
+                return
+            }
+            if CoreManager.isHearthstoneActive() {
+                return
+            }
+
+            show(title: NSLocalizedString("Hearthstone", comment: ""),
+                message: NSLocalizedString("It's your turn to play", comment: ""))
+
+        case .hsReplayPush(let replayId):
+            guard Settings.showHSReplayPushNotification else {
+                return
+            }
+
+            show(title: NSLocalizedString("HSReplay", comment: ""),
+                message: NSLocalizedString("Your replay has been uploaded on HSReplay",
+                    comment: "")) {
+                HSReplayManager.showReplay(replayId: replayId)
+            }
+
         case .hsReplayUploadFailed(let error):
             show(title: NSLocalizedString("HSReplay", comment: ""),
-                 message: NSLocalizedString("Failed to upload replay: \(error)", comment: ""))
-            
+                message: NSLocalizedString("Failed to upload replay: \(error)", comment: ""))
+
+        case .hsReplayCollectionUploaded:
+            show(title: NSLocalizedString("HSReplay", comment: ""),
+                message: NSLocalizedString("Your collection has been uploaded on HSReplay",
+                    comment: ""))
+
+        case .hsReplayCollectionUploadFailed(let error):
+            show(title: NSLocalizedString("HSReplay", comment: ""),
+                message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""))
         }
-    }
+}
 
     private static var notificationDelegate = NotificationDelegate()
     private static func show(title: String, message: String, duration: Double? = 3,

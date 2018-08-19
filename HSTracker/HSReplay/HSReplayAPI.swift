@@ -12,25 +12,38 @@ import OAuthSwift
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
     private static let oAuthClientKey = "pk_test_AUThiV1Ex9nKCbHSFchv7ybX"
+    private static let oAuthClientSecret = "sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
+    private static let defaultHeaders = ["Accept": "application/json", "Content-Type": "application/json"]
+
+    static let tokenRenewalHandler : OAuthSwift.TokenRenewedHandler = { credential in
+        Settings.hsReplayOAuthToken = credential.oauthToken
+        Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+    }
     
-    static let oauthswift = OAuth2Swift(
-        consumerKey: oAuthClientKey,
-        consumerSecret: "",
-        authorizeUrl: HSReplay.oAuthAuthorizeUrl,
-        accessTokenUrl: HSReplay.oAuthTokenUrl,
-        responseType: "code"
-    )
-    
-    static func oAuthAuthorize() {
+    static let oauthswift = {
+        return OAuth2Swift(
+            consumerKey: oAuthClientKey,
+            consumerSecret: oAuthClientSecret,
+            authorizeUrl: HSReplay.oAuthAuthorizeUrl,
+            accessTokenUrl: HSReplay.oAuthTokenUrl,
+            responseType: "code"
+        )
+    }()
+
+    static func oAuthAuthorize(handle: @escaping () -> Void) {
         _ = oauthswift.authorize(
             withCallbackURL: URL(string: "hstracker://oauth-callback/hsreplay")!,
             scope: "fullaccess",
             state: "HSREPLAY",
             success: { credential, _, _ in
+                logger.info("HSReplay: OAuth succeeded")
                 Settings.hsReplayOAuthToken = credential.oauthToken
+                Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+                handle()
             },
             failure: { error in
-                // TODO: Error handling
+                // TODO: Better error handling
+                logger.info("HSReplay: OAuth failed \(error)")
                 print(error.localizedDescription)
             })
     }
@@ -53,6 +66,47 @@ class HSReplayAPI {
                         // TODO error handling
                     }
         }
+    }
+
+    static func getUploadCollectionToken(handle: @escaping (String) -> Void) {
+        guard let accountId = MirrorHelper.getAccountId() else {
+            return
+        }
+        oauthswift.startAuthorizedRequest(HSReplay.collectionTokensUrl, method: .GET,
+            parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: defaultHeaders,
+            onTokenRenewal: tokenRenewalHandler, success: { response in
+            do {
+                guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
+                    logger.error("HSReplay: Unexpected JSON \(String(describing: response.string))")
+                    return
+                }
+                logger.info("HSReplay : Obtained new collection upload URL")
+                handle(token)
+            } catch {
+                logger.error(error)
+            }
+        }, failure: { error in
+            logger.error(error)
+        })
+    }
+
+    static func claimBattleTag(complete: @escaping () -> Void ) {
+        guard let accountId = MirrorHelper.getAccountId(), let battleTag = MirrorHelper.getBattleTag() else {
+            return
+        }
+        oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(accountId.hi)/\(accountId.lo)/", method: .POST,
+            parameters: ["battletag": battleTag], headers: defaultHeaders,
+            onTokenRenewal: tokenRenewalHandler, success: { response in
+            do {
+                let json = try response.jsonObject()
+                logger.info("Claimed battle tag with response \(json)")
+            } catch {
+                logger.error(error)
+            }
+            complete()
+        }, failure: { error in
+            logger.error(error)
+        })
     }
 
     static func claimAccount() {
