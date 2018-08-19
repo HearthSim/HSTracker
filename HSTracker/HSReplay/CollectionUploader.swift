@@ -48,7 +48,7 @@ class CollectionUploader {
                 let http = Http(url: token)
                 http.upload(method: .put,
                     headers: [
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json"
                     ],
                     data: data)
 

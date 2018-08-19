@@ -15,7 +15,7 @@ class HSReplayAPI {
     private static let oAuthClientSecret = "sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
     private static let defaultHeaders = ["Accept": "application/json", "Content-Type": "application/json"]
 
-    static let tokenRenewalHandler : OAuthSwift.TokenRenewedHandler = { credential in
+    static let tokenRenewalHandler: OAuthSwift.TokenRenewedHandler = { credential in
         Settings.hsReplayOAuthToken = credential.oauthToken
         Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
     }

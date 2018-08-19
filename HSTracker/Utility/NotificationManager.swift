@@ -56,7 +56,7 @@ class NotificationManager {
             }
 
             show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Your replay has been uploaded on HSReplay",
+                message: NSLocalizedString("Your replay has been uploaded to HSReplay.net",
                     comment: "")) {
                 HSReplayManager.showReplay(replayId: replayId)
             }
@@ -67,7 +67,7 @@ class NotificationManager {
 
         case .hsReplayCollectionUploaded:
             show(title: NSLocalizedString("HSReplay", comment: ""),
-                message: NSLocalizedString("Your collection has been uploaded on HSReplay",
+                message: NSLocalizedString("Your collection has been uploaded to HSReplay.net",
                     comment: ""))
 
         case .hsReplayCollectionUploadFailed(let error):
