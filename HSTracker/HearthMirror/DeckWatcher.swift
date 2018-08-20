@@ -226,10 +226,6 @@ class CollectionWatcher: Watcher {
                 continue
             }
 
-            if !collection.cards.isEmpty {
-                logger.info("Found no cards in collection: \(collection)")
-            }
-
             // Skip uploading if cards did not change
             if let watcherCollection = CollectionWatcher.collection {
                 if watcherCollection.cards.elementsEqual(collection.cards) &&
@@ -246,6 +242,10 @@ class CollectionWatcher: Watcher {
             guard !CollectionUploader.inProgress else {
                 Thread.sleep(forTimeInterval: uploadingInterval)
                 continue
+            }
+            
+            if !collection.cards.isEmpty {
+                logger.info("Found collection: \(collection)")
             }
 
             CollectionWatcher.collection = collection
