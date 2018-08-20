@@ -76,7 +76,7 @@ struct MirrorHelper {
     // MARK: - Account information
     
     static func getBattleTag() -> String? {
-        var result: String? = nil
+        var result: String?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getBattleTag()
         }
@@ -84,7 +84,7 @@ struct MirrorHelper {
     }
     
     static func getAccountId() -> MirrorAccountId? {
-        var result: MirrorAccountId? = nil
+        var result: MirrorAccountId?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getAccountId()
         }
@@ -94,7 +94,7 @@ struct MirrorHelper {
 	// MARK: - get player decks
 	
 	static func getDecks() -> [MirrorDeck]? {
-        var result: [MirrorDeck]? = nil
+        var result: [MirrorDeck]?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getDecks()
         }
@@ -102,7 +102,7 @@ struct MirrorHelper {
 	}
 	
 	static func getSelectedDeck() -> Int64? {
-        var result: Int64? = nil
+        var result: Int64?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getSelectedDeck() as? Int64? ?? nil
         }
@@ -110,7 +110,7 @@ struct MirrorHelper {
 	}
 	
 	static func getArenaDeck() -> MirrorArenaInfo? {
-        var result: MirrorArenaInfo? = nil
+        var result: MirrorArenaInfo?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getArenaDeck()
         }
@@ -118,26 +118,26 @@ struct MirrorHelper {
 	}
 	
 	static func getEditedDeck() -> MirrorDeck? {
-        var result: MirrorDeck? = nil
+        var result: MirrorDeck?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getEditedDeck()
         }
         return result
 	}
 	
-	// MARK: - card collection
+	// MARK: - collection
 	
-	static func getCardCollection() -> [MirrorCard]? {
-        var result: [MirrorCard]? = nil
+	static func getCollection() -> MirrorCollection? {
+        var result: MirrorCollection?
         MirrorHelper.accessQueue.sync {
-            result = mirror?.getCardCollection()
+            result = mirror?.getCollection()
         }
         return result
 	}
 	
 	// MARK: - game mode
 	static func isSpectating() -> Bool? {
-        var result: Bool? = nil
+        var result: Bool?
         MirrorHelper.accessQueue.sync {
             result = mirror?.isSpectating()
         }
@@ -145,7 +145,7 @@ struct MirrorHelper {
 	}
 	
 	static func getGameType() -> Int? {
-        var result: Int? = nil
+        var result: Int?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getGameType() as? Int? ?? nil
         }
@@ -153,7 +153,7 @@ struct MirrorHelper {
 	}
 	
 	static func getMatchInfo() -> MirrorMatchInfo? {
-        var result: MirrorMatchInfo? = nil
+        var result: MirrorMatchInfo?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getMatchInfo()
         }
@@ -161,7 +161,7 @@ struct MirrorHelper {
 	}
 	
 	static func getFormat() -> Int? {
-        var result: Int? = nil
+        var result: Int?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getFormat() as? Int? ?? nil
         }
@@ -169,7 +169,7 @@ struct MirrorHelper {
 	}
 	
 	static func getGameServerInfo() -> MirrorGameServerInfo? {
-        var result: MirrorGameServerInfo? = nil
+        var result: MirrorGameServerInfo?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getGameServerInfo()
         }
@@ -179,7 +179,7 @@ struct MirrorHelper {
 	// MARK: - arena
 	
 	static func getArenaDraftChoices() -> [MirrorCard]? {
-        var result: [MirrorCard]? = nil
+        var result: [MirrorCard]?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getArenaDraftChoices()
         }
@@ -189,7 +189,7 @@ struct MirrorHelper {
 	// MARK: - brawl
 	
 	static func getBrawlInfo() -> MirrorBrawlInfo? {
-        var result: MirrorBrawlInfo? = nil
+        var result: MirrorBrawlInfo?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getBrawlInfo()
         }
@@ -199,7 +199,7 @@ struct MirrorHelper {
     // MARK: - dungeon
     
     static func getDungeonRunInfo() -> MirrorDungeonInfo? {
-        var result: MirrorDungeonInfo? = nil
+        var result: MirrorDungeonInfo?
         MirrorHelper.accessQueue.sync {
             result = mirror?.getDungeonInfo()
         }

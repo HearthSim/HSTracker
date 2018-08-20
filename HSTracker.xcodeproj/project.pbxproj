@@ -511,6 +511,8 @@
 		F7D7A3A62011B67D00E3A5F0 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */; };
 		F7D7A3A72011B67D00E3A5F0 /* Hearthstone.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D7A3A52011B67D00E3A5F0 /* Hearthstone.swift */; };
 		F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F7D7A3AD2017B51300E3A5F0 /* dsa_pub.pem */; };
+		F7ED5519212A40B70085ABA9 /* CollectionUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30590B821174D7D00679D66 /* CollectionUploader.swift */; };
+		F7ED551A212A40D90085ABA9 /* UploadCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30590BA21174FC900679D66 /* UploadCollectionData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2237,6 +2239,7 @@
 				43C1CA661E96CD6F008C20B1 /* AppHealth.swift in Sources */,
 				43C1CA671E96CD6F008C20B1 /* Block.swift in Sources */,
 				43C1CA681E96CD6F008C20B1 /* Entity.swift in Sources */,
+				F7ED551A212A40D90085ABA9 /* UploadCollectionData.swift in Sources */,
 				43C1CA691E96CD6F008C20B1 /* EntityInfo.swift in Sources */,
 				43C1CA6A1E96CD6F008C20B1 /* Game.swift in Sources */,
 				43C1CA6B1E96CD6F008C20B1 /* CoreManager.swift in Sources */,
@@ -2329,6 +2332,7 @@
 				43C1C9FE1E96CCE9008C20B1 /* PowerParserTests.swift in Sources */,
 				F719B88B200ACAE3004F5E36 /* DefaultDecks.swift in Sources */,
 				43C1C9F91E96CCE9008C20B1 /* LogReaderTests.swift in Sources */,
+				F7ED5519212A40B70085ABA9 /* CollectionUploader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -206,7 +206,7 @@ class DungeonRunDeckWatcher: Watcher {
 }
 
 class CollectionWatcher: Watcher {
-    private(set) static var collection: [MirrorCard] = []
+    private(set) static var collection: MirrorCollection?
     internal var uploadingInterval: TimeInterval = 10
 
     static let _instance = CollectionWatcher()
@@ -221,27 +221,35 @@ class CollectionWatcher: Watcher {
 
     override func run() {
         while isRunning {
-            guard let collection = MirrorHelper.getCardCollection() else {
+            guard let collection = MirrorHelper.getCollection() else {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
 
-            if !collection.isEmpty {
-                logger.info("found collection: \(collection)")
+            if !collection.cards.isEmpty {
+                logger.info("Found no cards in collection: \(collection)")
             }
 
-            guard !CollectionWatcher.collection.elementsEqual(collection) else {
-                Thread.sleep(forTimeInterval: uploadingInterval)
-                continue
+            // Skip uploading if cards did not change
+            if let watcherCollection = CollectionWatcher.collection {
+                if watcherCollection.cards.elementsEqual(collection.cards) &&
+                    watcherCollection.cardbacks.elementsEqual(collection.cardbacks) &&
+                    watcherCollection.favoriteHeroes == collection.favoriteHeroes &&
+                    watcherCollection.favoriteCardback == collection.favoriteCardback &&
+                    watcherCollection.gold == collection.gold &&
+                    watcherCollection.dust == collection.dust {
+                    Thread.sleep(forTimeInterval: uploadingInterval)
+                    continue
+                }
             }
-
+            
             guard !CollectionUploader.inProgress else {
                 Thread.sleep(forTimeInterval: uploadingInterval)
                 continue
             }
 
             CollectionWatcher.collection = collection
-            let data = UploadCollectionData(collection: collection, favoriteHeroes: nil, cardbacks: nil, favoriteCardback: nil, dust: nil)
+            let data = UploadCollectionData(collection: collection.cards, favoriteHeroes: collection.favoriteHeroes, cardbacks: collection.cardbacks, favoriteCardback: collection.favoriteCardback.intValue, dust: collection.dust.intValue, gold: collection.gold.intValue)
 
             CollectionUploader.upload(collectionData: data) { result in
                 switch result {
