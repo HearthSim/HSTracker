@@ -1,3 +1,16 @@
+# 1.5.1
+## New:
+- Added Collection uploading to HSReplay.net
+- Added more translations
+
+## Fixes:
+- Fixed a small bug with Rat Trap
+- Minor bugfixes
+
+# 1.5.0
+## New:
+- Added support for The Boomsday Project
+
 # 1.4.4
 ## New:
 - Updated card data for patch 11.4.0.25252.
