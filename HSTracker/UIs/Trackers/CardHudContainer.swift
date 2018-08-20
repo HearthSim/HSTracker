@@ -128,7 +128,7 @@ class CardHudContainer: OverWindowController {
             if let entity = entities.first(where: { $0[.zone_position] == i + 1 }) {
                 hud.entity = entity
                 
-                var pos: NSPoint? = nil
+                var pos: NSPoint?
                 if let points = positions[cardCount], points.count > i {
                     pos = points[i]
                     

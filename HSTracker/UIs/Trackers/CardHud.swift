@@ -51,7 +51,7 @@ class CardHud: NSView {
         addImage(filename: "card-marker", rect: cardMarkerFrame)
         
         var text = ""
-        var image: String? = nil
+        var image: String?
         var cost = 0
         card = nil
         

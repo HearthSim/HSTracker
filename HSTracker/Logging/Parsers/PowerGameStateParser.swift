@@ -352,8 +352,8 @@ class PowerGameStateParser: LogEventParser {
                 self.autoDetectDeck()
             }
             
-            var type: String? = nil
-            var cardId: String? = nil
+            var type: String?
+            var cardId: String?
             let matches = logLine.line.matches(BlockStartRegex)
             if matches.count > 0 {
                 type = matches[0].value

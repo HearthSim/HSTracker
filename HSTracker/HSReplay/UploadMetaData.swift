@@ -102,7 +102,7 @@ class UploadMetaData {
         //metaData.reconnected = gameMetaData?.reconnected ?? false
         metaData.resumable = stats.serverInfo?.resumable ?? false
 
-        var friendlyPlayerId: Int? = nil
+        var friendlyPlayerId: Int?
         if stats.friendlyPlayerId > 0 {
             friendlyPlayerId = stats.friendlyPlayerId
         } else if let _playerFriendlyPlayerId = playerInfo?.friendlyPlayerId,

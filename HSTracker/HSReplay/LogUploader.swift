@@ -48,7 +48,7 @@ class LogUploader {
                 return
             }
             
-            var date: Date? = nil
+            var date: Date?
             do {
                 let attr = try FileManager.default.attributesOfItem(atPath: output.path)
                 date = attr[.creationDate] as? Date
