@@ -344,7 +344,7 @@ class SecretsManager {
         
         if freeSpaceOnBoard {
             if let opponent = game.opponentEntity, opponent.has(tag: .num_cards_played_this_turn) &&
-                (opponent[.num_cards_played_this_turn] >= 2) {
+                (opponent[.num_cards_played_this_turn] >= 3) {
                     exclude.append(CardIds.Secrets.Hunter.RatTrap)
             }
         }
