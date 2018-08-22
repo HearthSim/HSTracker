@@ -21,13 +21,14 @@ carthage update --platform osx --no-use-binaries
 ```
 brew install swiftlint
 ```
+- Download translations and latest card data (you need wget to pull the files, run `brew install wget` to install it)
+```
+bash bootstrap.sh
+```
 
 - Open the project in XCode and build it.
   If you run into code signing errors, go to the "Build Settings" and change the signing enitity and certificate to your profile.
   HSTracker _must_ be code signed in order to function properly.
-  
-- Download the latest cards (you'll need wget to pull the files `brew install wget`) In the scripts folder run `./cards_download.sh`
-
 
 ### Commits and Pull Requests
 
