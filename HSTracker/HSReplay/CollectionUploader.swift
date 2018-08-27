@@ -10,7 +10,7 @@ import Foundation
 import Wrap
 
 class CollectionUploader {
-    static var inProgress = false
+    public private(set) static var inProgress = false
     private static var lastUploadedData: Data?
 
     static func upload(collectionData: UploadCollectionData, completion: @escaping(CollectionUploadResult) -> Void) {
@@ -35,8 +35,8 @@ class CollectionUploader {
             return
         }
 
-        HSReplayAPI.claimBattleTag {
-            HSReplayAPI.getUploadCollectionToken { token in
+        HSReplayAPI.claimBattleTag(complete: {
+            HSReplayAPI.getUploadCollectionToken(handle: { token in
                 logger.verbose("Got upload collection token \(token)")
                 guard !token.isBlank else {
                     logger.error("Failed to obtain collection upload token")
@@ -57,7 +57,11 @@ class CollectionUploader {
 
                 logger.info("Collection upload done: Success")
                 completion(.successful)
-            }
-        }
+            }, failed: {
+                inProgress = false
+            })
+        }, failed: {
+            inProgress = false
+        })
     }
 }

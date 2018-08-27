@@ -68,8 +68,9 @@ class HSReplayAPI {
         }
     }
 
-    static func getUploadCollectionToken(handle: @escaping (String) -> Void) {
+    static func getUploadCollectionToken(handle: @escaping (String) -> Void, failed: @escaping () -> Void) {
         guard let accountId = MirrorHelper.getAccountId() else {
+            failed()
             return
         }
         oauthswift.startAuthorizedRequest(HSReplay.collectionTokensUrl, method: .GET,
@@ -78,20 +79,24 @@ class HSReplayAPI {
             do {
                 guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
                     logger.error("HSReplay: Unexpected JSON \(String(describing: response.string))")
+                    failed()
                     return
                 }
                 logger.info("HSReplay : Obtained new collection upload URL")
                 handle(token)
             } catch {
                 logger.error(error)
+                failed()
             }
         }, failure: { error in
             logger.error(error)
+            failed()
         })
     }
 
-    static func claimBattleTag(complete: @escaping () -> Void ) {
+    static func claimBattleTag(complete: @escaping () -> Void, failed: @escaping () -> Void ) {
         guard let accountId = MirrorHelper.getAccountId(), let battleTag = MirrorHelper.getBattleTag() else {
+            failed()
             return
         }
         oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(accountId.hi)/\(accountId.lo)/", method: .POST,
@@ -102,10 +107,12 @@ class HSReplayAPI {
                 logger.info("Claimed battle tag with response \(json)")
             } catch {
                 logger.error(error)
+                failed()
             }
             complete()
         }, failure: { error in
             logger.error(error)
+            failed()
         })
     }
 
