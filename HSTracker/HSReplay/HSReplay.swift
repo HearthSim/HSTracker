@@ -9,6 +9,7 @@
 import Foundation
 
 struct HSReplay {
+    static let hsreplayUrl = "https://hsreplay.net"
     static let baseUrl = "https://api.hsreplay.net"
     static let baseUploadUrl = "https://upload.hsreplay.net"
     private static let baseOAuth = "/oauth2"
@@ -22,7 +23,7 @@ struct HSReplay {
     private static let collectionTokenApi = "/collection/upload_request/"
     
     static let baseApiUrl = "\(baseUrl)\(baseApi)"
-    static let baseOAuthUrl = "\(baseUrl)\(baseOAuth)"
+    static let baseOAuthUrl = "\(hsreplayUrl)\(baseOAuth)"
     static let baseUploadApiUrl = "\(baseUploadUrl)\(baseApi)"
     static let uploadRequestUrl = "\(baseUploadApiUrl)\(uploadRequestApi)"
     static let tokensUrl = "\(baseApiUrl)\(tokensApi)"
