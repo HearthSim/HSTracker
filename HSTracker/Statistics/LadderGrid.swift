@@ -7,29 +7,33 @@
 //
 
 import Foundation
-import GRDB
+import FMDB
 
 // Reads precomputed Monte Carlo data from grid.db
 // TODO: run long simulation on cluster for better grid
 
 class LadderGrid {
-    var dbQueue: DatabaseQueue?
+    var dbQueue: FMDatabaseQueue?
 
     init() {
-        do {
-            guard let path = Bundle(for: type(of: self))
-                .path(forResource: "Resources/grid", ofType: "db") else {
-                    logger.warning("Failed to load grid db! "
-                        + "Will result in Ladder stats tab not working.")
-                    return
-            }
-            logger.verbose("Loading grid at \(path)")
-            dbQueue = try DatabaseQueue(path: path)
-        } catch {
-            dbQueue = nil
+        guard let path = Bundle(for: type(of: self))
+            .path(forResource: "Resources/grid", ofType: "db") else {
+                logger.warning("Failed to load grid db! "
+                    + "Will result in Ladder stats tab not working.")
+                return
+        }
+        logger.verbose("Loading grid at \(path)")
+        dbQueue = FMDatabaseQueue.init(path: path)
+
+        guard dbQueue != nil else {
             logger.warning("Failed to load grid db! "
                 + "Will result in Ladder stats tab not working.")
+            return
         }
+    }
+
+    deinit {
+        dbQueue?.close()
     }
     
     func getGamesToRank(targetRank: Int, stars: Int, bonus: Int, winp: Double) -> Double? {
@@ -39,26 +43,31 @@ class LadderGrid {
         let lowerWinp = Double(floor(winp * 100) / 100)
         let upperWinp = Double(ceil(winp * 100) / 100)
 
-        var lowerResult: Double?
-        var upperResult: Double?
+        var lowerResult: FMResultSet?
+        var upperResult: FMResultSet?
         dbQueue.inDatabase { db in
-            var query: String = "select games from grid"
-                + " where target_rank = \(targetRank)"
-                + " and stars = \(stars)"
-                + " and bonus = \(bonus)"
-                + " and winp = \(lowerWinp)"
-            lowerResult = try? Double.fetchOne(db, query) ?? 0
+            var query: String = "SELECT games FROM grid"
+                + " WHERE target_rank = \(targetRank)"
+                + " AND stars = \(stars)"
+                + " AND bonus = \(bonus)"
+                + " AND winp = \(lowerWinp)"
+            lowerResult = try? db.executeQuery(query, values: nil)
+            lowerResult?.next()
 
-            query = "select games from grid"
-            + " where target_rank = \(targetRank)"
-            + " and stars = \(stars)"
-            + " and bonus = \(bonus)"
-            + " and winp = \(upperWinp)"
-            upperResult = try? Double.fetchOne(db, query) ?? 0
+            query = "SELECT games FROM grid"
+            + " WHERE target_rank = \(targetRank)"
+            + " AND stars = \(stars)"
+            + " AND bonus = \(bonus)"
+            + " AND winp = \(upperWinp)"
+            upperResult = try? db.executeQuery(query, values: nil)
+            upperResult?.next()
         }
 
-        guard let lower = lowerResult, let upper = upperResult else { return nil }
-        
+        guard let lower = lowerResult?.double(forColumn: "games"),
+            let upper = upperResult?.double(forColumn: "games") else {
+            return nil
+        }
+
         // Linear interpolation
         if lowerWinp == upperWinp {
             return lower
