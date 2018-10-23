@@ -34,10 +34,6 @@
 		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
-		431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; };
-		431202B01D93B7E600606CA5 /* GRDB.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */; };
-		431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		431202B21D93B7FF00606CA5 /* GRDB.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
 		431719731C885BD600F5988B /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719721C885BD600F5988B /* CardCell.swift */; };
 		431719791C8C179D00F5988B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719781C8C179D00F5988B /* Rarity.swift */; };
@@ -141,7 +137,6 @@
 		437C58311EBC816900FFD888 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C582F1EBC7E8400FFD888 /* NSImage.swift */; };
 		437C58331EBCC88600FFD888 /* EnumCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437C58321EBCC88600FFD888 /* EnumCollection.swift */; };
 		437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4323C5EC1E1A502900C97896 /* HearthMirror.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; };
 		437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; };
 		437E56CE1DAAA32E00FC0FC1 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
 		437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
@@ -150,7 +145,6 @@
 		437E56D51DAAA32E00FC0FC1 /* JNWCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789921CABFB1600C962D1 /* JNWCollectionView.framework */; };
 		437E56D61DAAA32E00FC0FC1 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789931CABFB1600C962D1 /* Kanna.framework */; };
 		437E56D71DAAA32E00FC0FC1 /* MASPreferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436789941CABFB1600C962D1 /* MASPreferences.framework */; };
-		437E56D81DAAA33200FC0FC1 /* GRDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 431202AD1D93B7E600606CA5 /* GRDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -496,6 +490,11 @@
 		C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99C0C9C1D0A608C000DD6FB /* StatsHelper.swift */; };
 		C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */; };
 		C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9BDB3D91D20BE9500886A11 /* LadderTab.xib */; };
+		E301D340217CE737001F8D11 /* FMDB.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E301D33E217CE737001F8D11 /* FMDB.framework.dSYM */; };
+		E301D341217CE737001F8D11 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E301D33F217CE737001F8D11 /* FMDB.framework */; };
+		E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E301D33F217CE737001F8D11 /* FMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E301D343217CF14C001F8D11 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E301D33F217CE737001F8D11 /* FMDB.framework */; };
+		E301D344217CF1FB001F8D11 /* FMDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E301D33F217CE737001F8D11 /* FMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; };
 		E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
 		E3057D6B20B8889800B9A5B8 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -541,7 +540,6 @@
 				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
 				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
 				1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */,
-				437E56D81DAAA33200FC0FC1 /* GRDB.framework in CopyFiles */,
 				437E56D91DAAA33200FC0FC1 /* ZipArchive.framework in CopyFiles */,
 				437E56DD1DAAA33200FC0FC1 /* Wrap.framework in CopyFiles */,
 				437E56DE1DAAA33200FC0FC1 /* TextAttributes.framework in CopyFiles */,
@@ -552,6 +550,7 @@
 				437E56E71DAAA33200FC0FC1 /* Kanna.framework in CopyFiles */,
 				437E56E81DAAA33200FC0FC1 /* MASPreferences.framework in CopyFiles */,
 				E3057D6F20B8890500B9A5B8 /* OAuthSwift.framework in CopyFiles */,
+				E301D344217CF1FB001F8D11 /* FMDB.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,7 +566,6 @@
 				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */,
 				436789AB1CAC07BB00C962D1 /* HockeySDK.framework.dSYM in CopyFiles */,
 				438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */,
-				431202B21D93B7FF00606CA5 /* GRDB.framework.dSYM in CopyFiles */,
 				43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */,
 				439DD9001DB24F8A004EBE47 /* Gzip.framework.dSYM in CopyFiles */,
 				436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */,
@@ -589,12 +587,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
 				436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
 				439DD8FE1DB24F83004EBE47 /* Gzip.framework in Embed Frameworks */,
 				436789DD1CAE484800C962D1 /* Kanna.framework in Embed Frameworks */,
-				431202B11D93B7F300606CA5 /* GRDB.framework in Embed Frameworks */,
 				43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */,
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
@@ -636,8 +634,6 @@
 		4305CA461CF434E30048E7EC /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReleaseChannel.swift; sourceTree = "<group>"; };
 		431202AC1D93B1DB00606CA5 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
-		431202AD1D93B7E600606CA5 /* GRDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GRDB.framework; path = Carthage/Build/Mac/GRDB.framework; sourceTree = "<group>"; };
-		431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = GRDB.framework.dSYM; path = Carthage/Build/Mac/GRDB.framework.dSYM; sourceTree = "<group>"; };
 		431719701C84911300F5988B /* EditDeck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditDeck.swift; sourceTree = "<group>"; };
 		431719721C885BD600F5988B /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 		431719781C8C179D00F5988B /* Rarity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
@@ -1004,6 +1000,8 @@
 		CE9D9915200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/OpponentTrackersPreferences.strings"; sourceTree = "<group>"; };
 		CE9D9916200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.strings"; sourceTree = "<group>"; };
 		CE9D9917200770EA003505D3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		E301D33E217CE737001F8D11 /* FMDB.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = FMDB.framework.dSYM; path = Carthage/Build/Mac/FMDB.framework.dSYM; sourceTree = "<group>"; };
+		E301D33F217CE737001F8D11 /* FMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FMDB.framework; path = Carthage/Build/Mac/FMDB.framework; sourceTree = "<group>"; };
 		E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/Mac/OAuthSwift.framework; sourceTree = "<group>"; };
 		E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = OAuthSwift.framework.dSYM; path = Carthage/Build/Mac/OAuthSwift.framework.dSYM; sourceTree = "<group>"; };
 		E30590B821174D7D00679D66 /* CollectionUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionUploader.swift; sourceTree = "<group>"; };
@@ -1124,7 +1122,6 @@
 				BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
-				431202AF1D93B7E600606CA5 /* GRDB.framework in Frameworks */,
 				4323C5EB1E1A501E00C97896 /* HearthMirror.framework in Frameworks */,
 				436789D81CAE484800C962D1 /* HockeySDK.framework in Frameworks */,
 				43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */,
@@ -1141,6 +1138,7 @@
 				43C568101D5F692800451B6F /* ZipArchive.framework in Frameworks */,
 				43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */,
 				43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */,
+				E301D341217CE737001F8D11 /* FMDB.framework in Frameworks */,
 				E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1156,7 +1154,6 @@
 				43BA1C9A1FB2EA380007C500 /* SwiftyBeaver.framework in Frameworks */,
 				43BA1C9B1FB2EA8B0007C500 /* Gzip.framework in Frameworks */,
 				4345E9DE1CB45122002D0F23 /* Foundation.framework in Frameworks */,
-				437E56C91DAAA32E00FC0FC1 /* GRDB.framework in Frameworks */,
 				1CCB4AD21E8470E7003FD1AD /* HearthMirror.framework in Frameworks */,
 				437E56D41DAAA32E00FC0FC1 /* HockeySDK.framework in Frameworks */,
 				437E56D51DAAA32E00FC0FC1 /* JNWCollectionView.framework in Frameworks */,
@@ -1171,6 +1168,7 @@
 				437E56CA1DAAA32E00FC0FC1 /* ZipArchive.framework in Frameworks */,
 				437E56CF1DAAA32E00FC0FC1 /* TextAttributes.framework in Frameworks */,
 				E3057D6E20B888FB00B9A5B8 /* OAuthSwift.framework in Frameworks */,
+				E301D343217CF14C001F8D11 /* FMDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1735,8 +1733,8 @@
 				BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */,
 				4367899E1CAC05DD00C962D1 /* Cocoa.framework */,
 				4367899C1CAC05D700C962D1 /* Foundation.framework */,
-				431202AD1D93B7E600606CA5 /* GRDB.framework */,
-				431202AE1D93B7E600606CA5 /* GRDB.framework.dSYM */,
+				E301D33F217CE737001F8D11 /* FMDB.framework */,
+				E301D33E217CE737001F8D11 /* FMDB.framework.dSYM */,
 				439DD8FD1DB24F83004EBE47 /* Gzip.framework */,
 				439DD8FF1DB24F8A004EBE47 /* Gzip.framework.dSYM */,
 				4323C5EA1E1A501E00C97896 /* HearthMirror.framework */,
@@ -1899,9 +1897,9 @@
 				E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
+				E301D340217CE737001F8D11 /* FMDB.framework.dSYM in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
-				431202B01D93B7E600606CA5 /* GRDB.framework.dSYM in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
