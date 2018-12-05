@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum CardType: Int, EnumCollection {
+enum CardType: Int, CaseIterable {
     case invalid = 0,
     game = 1,
     player = 2,
@@ -25,7 +25,7 @@ enum CardType: Int, EnumCollection {
 
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in CardType.cases() where "\(_enum)" == string {
+        for _enum in CardType.allCases where "\(_enum)" == string {
             self = _enum
             return
         }

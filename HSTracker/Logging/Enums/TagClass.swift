@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum TagClass: Int, EnumCollection {
+enum TagClass: Int, CaseIterable {
     case invalid,
     deathknight,
     druid,
@@ -26,7 +26,7 @@ enum TagClass: Int, EnumCollection {
 
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in TagClass.cases() where "\(_enum)" == string {
+        for _enum in TagClass.allCases where "\(_enum)" == string {
             self = _enum
             return
         }

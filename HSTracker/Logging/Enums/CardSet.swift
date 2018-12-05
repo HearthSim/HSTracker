@@ -8,17 +8,17 @@
 
 import Foundation
 
-enum CardSet: String, EnumCollection {
+enum CardSet: String, CaseIterable {
     case all, invalid // fake one
     case core, expert1, naxx, gvg, brm,
     tgt, loe, promo, reward, hero_skins,
     og, kara, gangs, ungoro, hof, icecrown,
-    lootapalooza, gilneas, taverns_of_time, boomsday
+    lootapalooza, gilneas, taverns_of_time, boomsday, troll
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .expert1, .naxx, .gvg, .brm, .tgt,
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
-                .lootapalooza, .gilneas, .boomsday]
+                .lootapalooza, .gilneas, .boomsday, .troll]
     }
     
     static func wildSets() -> [CardSet] {

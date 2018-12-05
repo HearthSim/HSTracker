@@ -11,7 +11,7 @@
 import Foundation
 import Wrap
 
-enum GameTag: Int, WrappableEnum, EnumCollection {
+enum GameTag: Int, WrappableEnum, CaseIterable {
     case ignore_damage = 1,
     tag_script_data_num_1 = 2,
     tag_script_data_num_2 = 3,
@@ -343,7 +343,7 @@ enum GameTag: Int, WrappableEnum, EnumCollection {
 
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in GameTag.cases() where "\(_enum)" == string {
+        for _enum in GameTag.allCases where "\(_enum)" == string {
             self = _enum
             return
         }

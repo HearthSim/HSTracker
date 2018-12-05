@@ -16,7 +16,7 @@ class Database {
     }()
 
     static func jsonFilesAreValid() -> Bool {
-        for locale in Language.Hearthstone.cases() {
+        for locale in Language.Hearthstone.allCases {
 
             let jsonFile = Paths.cardJson.appendingPathComponent("cardsDB.\(locale.rawValue).json")
             guard let jsonData = try? Data(contentsOf: jsonFile) else {
@@ -32,7 +32,7 @@ class Database {
         return true
     }
     
-    static let validCardSets = CardSet.cases()
+    static let validCardSets = CardSet.allCases
 
     static let deckManagerCardTypes = ["all_types", "spell", "minion", "weapon"]
     static var deckManagerRaces = [Race]()

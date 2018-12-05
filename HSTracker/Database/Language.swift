@@ -10,7 +10,7 @@ import Foundation
 import RegexUtil
 
 struct Language {
-    enum Hearthstone: String, EnumCollection {
+    enum Hearthstone: String, CaseIterable {
         case deDE, enUS, esES, esMX, frFR, itIT, koKR, plPL, ptBR, ruRU, zhCN, zhTW, jaJP, thTH
 
         var localeValue: Locale? {
@@ -26,7 +26,7 @@ struct Language {
         }
     }
 
-    enum HSTracker: String, EnumCollection {
+    enum HSTracker: String, CaseIterable {
         case de, en, fr, it, pt_br = "pt-br", zh_cn = "zh-cn", es, ko, zh_tw = "zh-tw"
 
         var localeValue: Locale? {

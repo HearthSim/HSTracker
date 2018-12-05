@@ -57,8 +57,8 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
             saveButton.isEnabled = false
             return
         }
-        let hstracker: Language.HSTracker = Array(Language.HSTracker.cases())[hstrackerLanguage.indexOfSelectedItem]
-        let hearthstone: Language.Hearthstone = Array(Language.Hearthstone.cases())[hearthstoneLanguage.indexOfSelectedItem]
+        let hstracker: Language.HSTracker = Array(Language.HSTracker.allCases)[hstrackerLanguage.indexOfSelectedItem]
+        let hearthstone: Language.Hearthstone = Array(Language.Hearthstone.allCases)[hearthstoneLanguage.indexOfSelectedItem]
 
         Settings.hearthstoneLanguage = hearthstone
         Settings.hsTrackerLanguage = hstracker
@@ -93,19 +93,19 @@ NSComboBoxDelegate, NSOpenSavePanelDelegate {
     // MARK: - NSComboBoxDataSource methods
     func numberOfItems(in aComboBox: NSComboBox) -> Int {
         if aComboBox == hstrackerLanguage {
-            return Array(Language.HSTracker.cases()).count
+            return Array(Language.HSTracker.allCases).count
         } else if aComboBox == hearthstoneLanguage {
-            return Array(Language.Hearthstone.cases()).count
+            return Array(Language.Hearthstone.allCases).count
         }
 
         return 0
     }
 
     func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
-        if aComboBox == hstrackerLanguage && Array(Language.HSTracker.cases()).count > index {
-            return Array(Language.HSTracker.cases())[index].localizedString
-        } else if aComboBox == hearthstoneLanguage && Array(Language.Hearthstone.cases()).count > index {
-            return Array(Language.Hearthstone.cases())[index].localizedString
+        if aComboBox == hstrackerLanguage && Array(Language.HSTracker.allCases).count > index {
+            return Array(Language.HSTracker.allCases)[index].localizedString
+        } else if aComboBox == hearthstoneLanguage && Array(Language.Hearthstone.allCases).count > index {
+            return Array(Language.Hearthstone.allCases)[index].localizedString
         }
 
         return ""

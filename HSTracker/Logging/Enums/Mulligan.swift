@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum Mulligan: Int, EnumCollection {
+enum Mulligan: Int, CaseIterable {
     case invalid = 0,
     input = 1,
     dealing = 2,
@@ -19,7 +19,7 @@ enum Mulligan: Int, EnumCollection {
 
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in Mulligan.cases() where "\(_enum)" == string {
+        for _enum in Mulligan.allCases where "\(_enum)" == string {
             self = _enum
             return
         }

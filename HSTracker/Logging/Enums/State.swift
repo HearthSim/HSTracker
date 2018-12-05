@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum State: Int, EnumCollection {
+enum State: Int, CaseIterable {
     case invalid = 0,
     loading = 1,
     running = 2,
@@ -16,7 +16,7 @@ enum State: Int, EnumCollection {
 
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in State.cases() where "\(_enum)" == string {
+        for _enum in State.allCases where "\(_enum)" == string {
             self = _enum
             return
         }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Step: Int, EnumCollection {
+enum Step: Int, CaseIterable {
     case invalid = 0,
     begin_first = 1,
     begin_shuffle = 2,
@@ -30,7 +30,7 @@ enum Step: Int, EnumCollection {
     
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in Step.cases() where "\(_enum)" == string {
+        for _enum in Step.allCases where "\(_enum)" == string {
             self = _enum
             return
         }

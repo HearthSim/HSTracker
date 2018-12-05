@@ -11,7 +11,7 @@
 import Foundation
 import Wrap
 
-enum Zone: Int, WrappableEnum, EnumCollection {
+enum Zone: Int, WrappableEnum, CaseIterable {
     case invalid = 0,
     play = 1,
     deck = 2,
@@ -23,7 +23,7 @@ enum Zone: Int, WrappableEnum, EnumCollection {
 
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in Zone.cases() where "\(_enum)" == string {
+        for _enum in Zone.allCases where "\(_enum)" == string {
             self = _enum
             return
         }

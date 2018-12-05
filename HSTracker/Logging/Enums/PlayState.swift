@@ -10,7 +10,7 @@
 
 import Foundation
 
-enum PlayState: Int, EnumCollection {
+enum PlayState: Int, CaseIterable {
     case invalid = 0,
     playing = 1,
     winning = 2,
@@ -23,7 +23,7 @@ enum PlayState: Int, EnumCollection {
 
     init?(rawString: String) {
         let string = rawString.lowercased()
-        for _enum in PlayState.cases() where "\(_enum)" == string {
+        for _enum in PlayState.allCases where "\(_enum)" == string {
             self = _enum
             return
         }

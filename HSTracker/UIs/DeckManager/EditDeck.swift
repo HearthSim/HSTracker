@@ -460,7 +460,7 @@ class EditDeck: NSWindowController, NSComboBoxDataSource, NSComboBoxDelegate {
         popupMenuItem.representedObject = "all"
         popupMenu.addItem(popupMenuItem)
 
-        for rarity in Rarity.cases() {
+        for rarity in Rarity.allCases {
             let popupMenuItem = NSMenuItem(title: "",
                                            action: #selector(EditDeck.changeRarity(_:)),
                                            keyEquivalent: "")
