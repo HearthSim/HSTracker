@@ -124,6 +124,7 @@ extension CardIds.Collectible {
         static let Adaptation: String = "UNG_961"
         static let LightfusedStegodon: String = "UNG_962"
         static let HiddenWisdom: String = "GIL_903"
+        static let AutodefenseMatrix: String = "BOT_908"
     }
 }
 
@@ -189,8 +190,9 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Paladin {
-        static let All = [Avenge, CompetitiveSpirit, EyeForAnEye, HiddenWisdom, NobleSacrifice,
+        static let All = [AutodefenseMatrix, Avenge, CompetitiveSpirit, EyeForAnEye, HiddenWisdom, NobleSacrifice,
                           HandOfSalvation, GetawayKodo, Redemption, Repentance, SacredTrial]
+        static let AutodefenseMatrix = CardIds.Collectible.Paladin.AutodefenseMatrix
         static let Avenge = CardIds.Collectible.Paladin.Avenge
         static let CompetitiveSpirit = CardIds.Collectible.Paladin.CompetitiveSpirit
         static let EyeForAnEye = CardIds.Collectible.Paladin.EyeForAnEye

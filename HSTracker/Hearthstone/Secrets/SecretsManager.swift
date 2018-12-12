@@ -187,9 +187,17 @@ class SecretsManager {
                 exclude.append(CardIds.Secrets.Hunter.FreezingTrap)
             }
         } else {
-            if !fastOnly && freeSpaceOnBoard {
-                exclude.append(CardIds.Secrets.Hunter.SnakeTrap)
-                exclude.append(CardIds.Secrets.Hunter.VenomstrikeTrap)
+            if !defender.has(tag: .divine_shield) {
+                exclude.append(CardIds.Secrets.Paladin.AutodefenseMatrix)
+            }
+            
+            if freeSpaceOnBoard {
+                exclude.append(CardIds.Secrets.Mage.SplittingImage)
+                
+                if !fastOnly {
+                    exclude.append(CardIds.Secrets.Hunter.SnakeTrap)
+                    exclude.append(CardIds.Secrets.Hunter.VenomstrikeTrap)
+                }
             }
 
             if attacker.isMinion {
