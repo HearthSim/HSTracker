@@ -34,16 +34,16 @@ class FloatingCard: OverWindowController {
     
     let attributes: TextAttributes = {
         $0.font(NSFont(name: "Belwe Bd BT", size: 13))
-            .foregroundColor(.black)
-            .strokeColor(.black)
+            .foregroundColor(.textColor)
+            .strokeColor(.textColor)
             .alignment(.center)
         return $0
     }(TextAttributes())
 
     let titleAttributes: TextAttributes = {
         $0.font(NSFont(name: "Belwe Bd BT", size: 16))
-            .foregroundColor(.black)
-            .strokeColor(.black)
+            .foregroundColor(.textColor)
+            .strokeColor(.textColor)
             .alignment(.center)
         return $0
     }(TextAttributes())
