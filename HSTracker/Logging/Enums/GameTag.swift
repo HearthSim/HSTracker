@@ -339,7 +339,8 @@ enum GameTag: Int, WrappableEnum, CaseIterable {
     overridecardname = 781,
     overridecardtextbuilder = 782,
     hidden_choice = 813,
-    zombeast = 823
+    zombeast = 823,
+    whizbang_deck_id = 1048
 
     init?(rawString: String) {
         let string = rawString.lowercased()

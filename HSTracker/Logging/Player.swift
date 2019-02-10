@@ -128,7 +128,7 @@ final class Player {
     var secrets: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isSecret }) }
     var quests: [Entity] { return playerEntities.filter({ $0.isInSecret && $0.isQuest }) }
     var setAside: [Entity] { return playerEntities.filter({ $0.isInSetAside }) }
-    private var entity: Entity? {
+    var entity: Entity? {
         return game.entities.map({ $0.1 }).filter({ $0.tags[GameTag.player_id] == self.id }).first
     }
 
