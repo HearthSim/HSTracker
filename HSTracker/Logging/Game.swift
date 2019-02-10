@@ -827,15 +827,6 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         
-        var selectedDeckId: Int64 = 0
-        if let selectedId = MirrorHelper.getSelectedDeck() {
-            selectedDeckId = selectedId
-            logger.info("Found selected deck id via mirror: \(selectedDeckId)")
-        } else {
-            selectedDeckId = DeckWatcher.selectedDeckId
-            logger.info("Found selected deck id via watcher: \(selectedDeckId)")
-        }
-        
         let deck = Deck()
         templateDeck.cards.forEach {
             let realmCard = RealmCard()
