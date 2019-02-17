@@ -100,6 +100,14 @@ struct MirrorHelper {
         }
 		return result
 	}
+    
+    static func getTemplateDecks() -> [MirrorTemplateDeck]? {
+        var result: [MirrorTemplateDeck]?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getTemplateDecks()
+        }
+        return result
+    }
 	
 	static func getSelectedDeck() -> Int64? {
         var result: Int64?
