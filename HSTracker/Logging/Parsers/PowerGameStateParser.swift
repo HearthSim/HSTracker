@@ -119,7 +119,7 @@ class PowerGameStateParser: LogEventParser {
                                         if let isSpectating = MirrorHelper.isSpectating(), isSpectating == false {
                                             eventHandler.opponent.id = playerId
                                         }
-                                        if let name = entity.name {
+                                        if let name = entity.name, name != "UNKNOWN HUMAN PLAYER" {
                                             eventHandler.opponent.name = name
                                         }
                                     }
