@@ -581,7 +581,8 @@ class Game: NSObject, PowerEventHandler {
                 + " matchInfo: \(String(describing: self._matchInfo))")
             
             if let minfo = self._matchInfo {
-                // player names are now read from the log file
+                // the player name is now read from the log file but the opponent is not
+                self.opponent.name = minfo.opposingPlayer.name
                 self.player.id = minfo.localPlayer.playerId
                 self.opponent.id = minfo.opposingPlayer.playerId
                 self._currentGameType = minfo.gameType
