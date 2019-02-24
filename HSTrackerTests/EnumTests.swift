@@ -27,7 +27,7 @@ class EnumTests: HSTrackerTests {
             $0.rawValue.localizedCaseInsensitiveCompare($1.rawValue) == ComparisonResult.orderedAscending
         })
 
-        let languages: [Language.Hearthstone] = Array(Language.Hearthstone.cases()).sorted(by: {
+        let languages: [Language.Hearthstone] = Array(Language.Hearthstone.allCases).sorted(by: {
             $0.rawValue.localizedCaseInsensitiveCompare($1.rawValue) == ComparisonResult.orderedAscending
         })
         XCTAssertEqual(languages.count, 14, "There are 14 locales")
