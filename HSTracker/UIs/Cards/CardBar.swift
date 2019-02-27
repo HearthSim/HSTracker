@@ -74,7 +74,8 @@ class CardBar: NSView, CardBarTheme {
             manager.fileExists(atPath: "\(path)\($0.filename)")
         }
     }
-    var hasAllOptionalFrames: Bool {
+
+    private var hasAllOptionalFrames: Bool {
         let path = Bundle.main.resourcePath!
             + "/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
@@ -83,7 +84,7 @@ class CardBar: NSView, CardBarTheme {
         }
     }
 
-    var hasAllOptionalGems: Bool {
+    private var hasAllOptionalGems: Bool {
         let path = Bundle.main.resourcePath!
             + "/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
@@ -92,7 +93,7 @@ class CardBar: NSView, CardBarTheme {
         }
     }
 
-    var hasAllOptionalCountBoxes: Bool {
+    private var hasAllOptionalCountBoxes: Bool {
         let path = Bundle.main.resourcePath!
             + "/Resources/Themes/Bars/\(themeDir)/"
         let manager = FileManager.default
