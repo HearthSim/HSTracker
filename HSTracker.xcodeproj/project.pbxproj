@@ -470,6 +470,7 @@
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
 		5B308AE822274D4600D853BA /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B308AE722274D4600D853BA /* Kingfisher.framework */; };
 		5B308AE922274D4600D853BA /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B308AE722274D4600D853BA /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
@@ -536,6 +537,7 @@
 				43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */,
 				43BA1C9E1FB2EAD30007C500 /* SwiftyBeaver.framework in CopyFiles */,
 				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
+				5B308AE922274D4600D853BA /* Kingfisher.framework in CopyFiles */,
 				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
 				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
 				1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */,
@@ -559,6 +561,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */,
 				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */,
 				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */,
 				437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */,
@@ -951,6 +954,7 @@
 		43F8265A1E0A674000422F4F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		5B308AE722274D4600D853BA /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
+		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
@@ -1147,6 +1151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B308AEC222880E600D853BA /* Kingfisher.framework in Frameworks */,
 				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */,
@@ -1367,6 +1372,7 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
+				5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */,
 				5B308AE722274D4600D853BA /* Kingfisher.framework */,
 				F731044E211FF0050082651C /* Translations */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
