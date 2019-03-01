@@ -1,21 +1,18 @@
 
-/* Class = "NSButtonCell"; title = "Choose"; ObjectID = "9aT-vn-YLp"; */
-"9aT-vn-YLp.title" = "选择";
+/* Class = "NSTextFieldCell"; title = "Hearthstone directory"; ObjectID = "s5e-Q8-cm8"; */
+"s5e-Q8-cm8.title" = "炉石传说目录";
 
 /* Class = "NSButtonCell"; title = "Choose"; ObjectID = "L10-Eu-Nrc"; */
 "L10-Eu-Nrc.title" = "选择";
 
-/* Class = "NSTextFieldCell"; title = "Decks backup directory"; ObjectID = "ZIv-Kx-0sm"; */
-"ZIv-Kx-0sm.title" = "备用卡组目录";
-
-/* Class = "NSTextFieldCell"; title = "Hearthstone directory"; ObjectID = "s5e-Q8-cm8"; */
-"s5e-Q8-cm8.title" = "炉石传说目录";
+/* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "r3b-jQ-tUY"; */
+"r3b-jQ-tUY.title" = "HSTracker 语言";
 
 /* Class = "NSTextFieldCell"; title = "Hearthstone language"; ObjectID = "biS-yx-frk"; */
 "biS-yx-frk.title" = "炉石传说语言";
 
-/* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "r3b-jQ-tUY"; */
-"r3b-jQ-tUY.title" = "HSTracker 语言";
+/* Class = "NSButtonCell"; title = "Auto archive arena deck on run end"; ObjectID = "hMe-FU-CjR"; */
+"hMe-FU-CjR.title" = "在每轮结束时，自动存储竞技场套牌";
 
 /* Class = "NSButtonCell"; title = "Auto import and select decks"; ObjectID = "mhj-j8-OPU"; */
-"mhj-j8-OPU.title" = "自动导入并选择卡组";
+"mhj-j8-OPU.title" = "自动导入并选择套牌";

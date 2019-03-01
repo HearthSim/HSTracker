@@ -1,18 +1,21 @@
 
-/* Class = "NSButtonCell"; title = "Auto position trackers"; ObjectID = "5rZ-fg-pB4"; */
-"5rZ-fg-pB4.title" = "自动移动记牌器";
-
-/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
-"HY0-s6-p7U.title" = "鼠标悬停时显示卡牌";
-
-/* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "Jj4-X9-UWO"; */
-"Jj4-X9-UWO.title" = "显示抽卡机会";
-
-/* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
-"NLB-ON-zWk.title" = "卡牌大小";
+/* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
+"hJI-dG-QeP.title" = "高亮手牌";
 
 /* Class = "NSButtonCell"; title = "Highlight last drawn card"; ObjectID = "WKT-Hm-Z7h"; */
 "WKT-Hm-Z7h.title" = "高亮刚抽到的卡牌";
+
+/* Class = "NSButtonCell"; title = "Remove cards if count is 0"; ObjectID = "s9w-5p-pJs"; */
+"s9w-5p-pJs.title" = "卡牌数为零时不显示该卡牌";
+
+/* Class = "NSButtonCell"; title = "Highlight discarded from deck"; ObjectID = "yeJ-ZI-Pca"; */
+"yeJ-ZI-Pca.title" = "显示弃掉的卡牌";
+
+/* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
+"zP3-ns-ggP.title" = "透明度";
+
+/* Class = "NSTextFieldCell"; title = "Cards size"; ObjectID = "NLB-ON-zWk"; */
+"NLB-ON-zWk.title" = "卡牌大小";
 
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[0] = "Tiny"; ObjectID = "ar6-6g-GKv"; */
 "ar6-6g-GKv.ibShadowedObjectValues[0]" = "极小";
@@ -29,17 +32,8 @@
 /* Class = "NSComboBoxCell"; ar6-6g-GKv.ibShadowedObjectValues[4] = "Huge"; ObjectID = "ar6-6g-GKv"; */
 "ar6-6g-GKv.ibShadowedObjectValues[4]" = "巨大";
 
-/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
-"h5J-7C-d2f.title" = "显示稀有度对应的颜色";
-
-/* Class = "NSButtonCell"; title = "Highlight cards in hand"; ObjectID = "hJI-dG-QeP"; */
-"hJI-dG-QeP.title" = "高亮手牌";
-
-/* Class = "NSButtonCell"; title = "Include obtained cards"; ObjectID = "ndN-hu-6Rx"; */
-"ndN-hu-6Rx.title" = "包括对局中获得的卡牌";
-
-/* Class = "NSButtonCell"; title = "Remove cards if count is 0"; ObjectID = "s9w-5p-pJs"; */
-"s9w-5p-pJs.title" = "卡牌数为零时不显示该卡牌";
+/* Class = "NSButtonCell"; title = "Auto position trackers"; ObjectID = "5rZ-fg-pB4"; */
+"5rZ-fg-pB4.title" = "自动移动记牌器";
 
 /* Class = "NSButtonCell"; title = "Show timer"; ObjectID = "x27-iz-7Sv"; */
 "x27-iz-7Sv.title" = "显示计时器";
@@ -47,11 +41,23 @@
 /* Class = "NSButtonCell"; title = "Show secret helper"; ObjectID = "ySU-4j-Jbh"; */
 "ySU-4j-Jbh.title" = "显示奥秘助手";
 
-/* Class = "NSButtonCell"; title = "Highlight discarded from deck"; ObjectID = "yeJ-ZI-Pca"; */
-"yeJ-ZI-Pca.title" = "显示弃掉的卡牌";
+/* Class = "NSButtonCell"; title = "Show rarity colors"; ObjectID = "h5J-7C-d2f"; */
+"h5J-7C-d2f.title" = "显示稀有度对应的颜色";
 
-/* Class = "NSTextFieldCell"; title = "Opacity"; ObjectID = "zP3-ns-ggP"; */
-"zP3-ns-ggP.title" = "透明度";
+/* Class = "NSButtonCell"; title = "Show card on tracker hover"; ObjectID = "HY0-s6-p7U"; */
+"HY0-s6-p7U.title" = "鼠标悬停时显示卡牌";
+
+/* Class = "NSButtonCell"; title = "Show topdeck chance"; ObjectID = "fhr-Mz-lcf"; */
+"fhr-Mz-lcf.title" = "显示抽卡机会";
+
+/* Class = "NSTextFieldCell"; title = "Floating card style"; ObjectID = "36t-98-K9E"; */
+"36t-98-K9E.title" = "卡牌样式设为漂浮";
+
+/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[0] = "Text"; ObjectID = "GY2-Lg-KWo"; */
+"GY2-Lg-KWo.ibShadowedObjectValues[0]" = "文字";
+
+/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[1] = "Image"; ObjectID = "GY2-Lg-KWo"; */
+"GY2-Lg-KWo.ibShadowedObjectValues[1]" = "图片";
 
 /* Class = "NSTextFieldCell"; title = "Theme"; ObjectID = "Lah-xh-QVg"; */
 "Lah-xh-QVg.title" = "主题";
@@ -71,17 +77,11 @@
 /* Class = "NSButtonCell"; title = "Allow HSTracker to run on fullscreen mode"; ObjectID = "6Gc-EJ-z7F"; */
 "6Gc-EJ-z7F.title" = "使 HSTracker 全屏运行";
 
-/* Class = "NSButton"; ibShadowedToolTip = "HSTracker will be visible on all your workspace while playing"; ObjectID = "aO1-IW-r7y"; */
-"aO1-IW-r7y.ibShadowedToolTip" = "对局时让 HSTracker 始终显示";
-
 /* Class = "NSButtonCell"; title = "Hide all trackers if not in game"; ObjectID = "hvr-dD-qVr"; */
 "hvr-dD-qVr.title" = "不在对局中时隐藏所有记牌器";
 
-/* Class = "NSTextFieldCell"; title = "Floating card style"; ObjectID = "36t-98-K9E"; */
-"36t-98-K9E.title" = "卡牌样式设为漂浮";
+/* Class = "NSButtonCell"; title = "Hide all trackers when game is in background"; ObjectID = "HEr-xo-koe"; */
+"HEr-xo-koe.title" = "当游戏在后台时，隐藏所有的记牌器";
 
-/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[0] = "Text"; ObjectID = "GY2-Lg-KWo"; */
-"GY2-Lg-KWo.ibShadowedObjectValues[0]" = "文字";
-
-/* Class = "NSComboBoxCell"; GY2-Lg-KWo.ibShadowedObjectValues[1] = "Image"; ObjectID = "GY2-Lg-KWo"; */
-"GY2-Lg-KWo.ibShadowedObjectValues[1]" = "图片";
+/* Class = "NSButtonCell"; title = "Disable tracking in spectator mode"; ObjectID = "6n7-a6-LsZ"; */
+"6n7-a6-LsZ.title" = "在观战模式中停止记牌";

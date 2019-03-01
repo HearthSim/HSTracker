@@ -1,12 +1,12 @@
 
 /* Class = "NSTableColumn"; headerCell.title = "90% CI"; ObjectID = "4Yb-5T-nV4"; */
-"4Yb-5T-nV4.headerCell.title" = "90 % 置信区间";
+"4Yb-5T-nV4.headerCell.title" = "90% 置信区间";
 
 /* Class = "NSTextFieldCell"; title = "Rank"; ObjectID = "BEu-Gw-K2h"; */
 "BEu-Gw-K2h.title" = "排名";
 
 /* Class = "NSTableColumn"; headerCell.title = "90% CI"; ObjectID = "IWm-LF-igL"; */
-"IWm-LF-igL.headerCell.title" = "90 % 置信区间";
+"IWm-LF-igL.headerCell.title" = "90% 置信区间";
 
 /* Class = "NSTextFieldCell"; title = "Stars"; ObjectID = "TJK-Hp-ofq"; */
 "TJK-Hp-ofq.title" = "星";
