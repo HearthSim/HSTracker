@@ -15,7 +15,7 @@
 "4f5-xO-gik.title" = "当对局结束时新增记录";
 
 /* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "vod-AA-O2m"; */
-"vod-AA-O2m.title" = "保存录像";
+"vod-AA-O2m.title" = "保存回放";
 
 /* Class = "NSButtonCell"; title = "Enable Apphealth icon badge"; ObjectID = "mBv-nX-Cn3"; */
 "mBv-nX-Cn3.title" = "使用炉石传说符号";
@@ -24,7 +24,7 @@
 "1BI-nh-nxq.title" = "将套牌导入炉石传说时，优先使用金色卡牌";
 
 /* Class = "NSButtonCell"; title = "Use Arena Helper"; ObjectID = "TKd-w3-odf"; */
-"TKd-w3-odf.title" = "使用竞技场助手";
+"TKd-w3-odf.title" = "使用竞技模式助手";
 
 /* Class = "NSButtonCell"; title = "Use Toast notifications instead of Notification Center"; ObjectID = "XEI-kJ-kec"; */
 "XEI-kJ-kec.title" = "使用弹出窗口提醒，而不是通知中心";

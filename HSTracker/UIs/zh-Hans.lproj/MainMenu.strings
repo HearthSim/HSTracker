@@ -102,13 +102,13 @@
 "4yc-yU-eH1.title" = "检查更新…";
 
 /* Class = "NSMenuItem"; title = "Replays"; ObjectID = "esn-TJ-7Ds"; */
-"esn-TJ-7Ds.title" = "录像";
+"esn-TJ-7Ds.title" = "回放";
 
 /* Class = "NSMenuItem"; title = "Open replays directory"; ObjectID = "yTs-jD-geS"; */
-"yTs-jD-geS.title" = "打开录像目录";
+"yTs-jD-geS.title" = "打开回放目录";
 
 /* Class = "NSMenuItem"; title = "Last replays"; ObjectID = "gKK-Xg-cTS"; */
-"gKK-Xg-cTS.title" = "上次录像";
+"gKK-Xg-cTS.title" = "上次回放";
 
 /* Class = "NSMenuItem"; title = "Load from file"; ObjectID = "gJj-4D-mrw"; */
 "gJj-4D-mrw.title" = "从文件加载";
