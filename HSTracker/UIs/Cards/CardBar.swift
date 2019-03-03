@@ -473,10 +473,10 @@ class CardBar: NSView, CardBarTheme {
 
     func addGem() {
         guard let card = card else { return }
-        if Cards.isHero(cardId: card.id) && (playerRank == nil || playerRank! < 0) { return }
+        if Cards.isHero(cardId: card.id) && !Cards.isPlayableHero(cardId: card.id) { return }
 
         var gem = required[.defaultGem]
-         if Settings.showRarityColors && hasAllOptionalGems {
+        if Settings.showRarityColors && hasAllOptionalGems {
             switch card.rarity {
             case .rare:
                 gem = optionalGems[.rareGem]
