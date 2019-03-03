@@ -1,36 +1,36 @@
 
 /* Class = "NSToolbarItem"; label = "Use Deck"; ObjectID = "3nu-q9-wC1"; */
-"3nu-q9-wC1.label" = "使用卡组";
+"3nu-q9-wC1.label" = "使用套牌";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Use Deck"; ObjectID = "3nu-q9-wC1"; */
-"3nu-q9-wC1.paletteLabel" = "使用卡组";
+"3nu-q9-wC1.paletteLabel" = "使用套牌";
 
 /* Class = "NSToolbarItem"; label = "Rename Deck"; ObjectID = "Qp2-0h-Sid"; */
-"Qp2-0h-Sid.label" = "重命名卡组";
+"Qp2-0h-Sid.label" = "重命名套牌";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Rename Deck"; ObjectID = "Qp2-0h-Sid"; */
-"Qp2-0h-Sid.paletteLabel" = "重命名卡组";
+"Qp2-0h-Sid.paletteLabel" = "重命名套牌";
 
 /* Class = "NSToolbarItem"; label = "Delete Deck"; ObjectID = "aaa-LK-buD"; */
-"aaa-LK-buD.label" = "删除卡组";
+"aaa-LK-buD.label" = "删除套牌";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Delete Deck"; ObjectID = "aaa-LK-buD"; */
-"aaa-LK-buD.paletteLabel" = "删除卡组";
+"aaa-LK-buD.paletteLabel" = "删除套牌";
 
 /* Class = "NSToolbarItem"; label = "Edit Deck"; ObjectID = "cbH-rI-BvP"; */
-"cbH-rI-BvP.label" = "修改卡组";
+"cbH-rI-BvP.label" = "修改套牌";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Edit Deck"; ObjectID = "cbH-rI-BvP"; */
-"cbH-rI-BvP.paletteLabel" = "修改卡组";
+"cbH-rI-BvP.paletteLabel" = "修改套牌";
 
 /* Class = "NSToolbarItem"; label = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.label" = "新建卡组";
+"7FY-gv-qwP.label" = "新建套牌";
 
 /* Class = "NSToolbarItem"; paletteLabel = "Add"; ObjectID = "7FY-gv-qwP"; */
-"7FY-gv-qwP.paletteLabel" = "新建卡组";
+"7FY-gv-qwP.paletteLabel" = "新建套牌";
 
 /* Class = "NSWindow"; title = "Deck Manager"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "卡组管理器";
+"QvC-M9-y7g.title" = "套牌管理器";
 
 /* Class = "NSToolbarItem"; label = "Hearthstats"; ObjectID = "Xxv-sY-tej"; */
 "Xxv-sY-tej.label" = "Hearthstats";

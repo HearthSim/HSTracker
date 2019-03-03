@@ -1,18 +1,18 @@
 
 /* Class = "NSButtonCell"; title = "Arena deck"; ObjectID = "0dN-Ei-UM2"; */
-"0dN-Ei-UM2.title" = "竞技场或旅店大卡组";
+"0dN-Ei-UM2.title" = "竞技模式套牌";
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "0dg-Pr-Io8"; */
 "0dg-Pr-Io8.title" = "取消";
 
 /* Class = "NSButtonCell"; title = "Using HSTracker deck builder"; ObjectID = "N10-sK-1gZ"; */
-"N10-sK-1gZ.title" = "使用 HSTracker 构建卡组";
+"N10-sK-1gZ.title" = "使用 HSTracker 构建套牌";
 
 /* Class = "NSWindow"; title = "New Deck"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "新卡组";
+"QvC-M9-y7g.title" = "新套牌";
 
 /* Class = "NSTextFieldCell"; title = "How do you want to create your new deck ?"; ObjectID = "bnr-YF-pLP"; */
-"bnr-YF-pLP.title" = "你想如何创建新的卡组?";
+"bnr-YF-pLP.title" = "你想如何创建新的套牌?";
 
 /* Class = "NSButtonCell"; title = "From the web"; ObjectID = "dhu-qo-xOJ"; */
 "dhu-qo-xOJ.title" = "利用网络创建";
@@ -27,4 +27,4 @@
 "xPi-Gg-ebR.title" = "选择文件";
 
 /* Class = "NSButtonCell"; title = "From deckstring"; ObjectID = "OSn-2r-6E8"; */
-"OSn-2r-6E8.title" = "From deckstring";
+"OSn-2r-6E8.title" = "由卡组代码构建";

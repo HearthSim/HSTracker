@@ -9,7 +9,7 @@
 "CT1-aM-w9a.paletteLabel" = "删除";
 
 /* Class = "NSWindow"; title = "Edit Deck"; ObjectID = "QvC-M9-y7g"; */
-"QvC-M9-y7g.title" = "修改卡组";
+"QvC-M9-y7g.title" = "修改套牌";
 
 /* Class = "NSToolbarItem"; label = "Save"; ObjectID = "d1a-mc-Snn"; */
 "d1a-mc-Snn.label" = "保存";
