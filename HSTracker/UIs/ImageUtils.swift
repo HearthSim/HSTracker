@@ -14,8 +14,12 @@ import HearthMirror
 
 struct ImageUtils {
 
-    static func image(for card: Card) -> NSImage? {
-        let path = Paths.cards.appendingPathComponent("\(card.id).png")
+    static func artUrl(cardId: String, lang: String) -> String {
+        return "https://art.hearthstonejson.com/v1/render/latest/\(lang)/512x/\(cardId).png"
+    }
+
+    static func image(for cardId: String) -> NSImage? {
+        let path = Paths.cards.appendingPathComponent("\(cardId).png")
         if let image = NSImage(contentsOf: path) {
             return image
         } else {

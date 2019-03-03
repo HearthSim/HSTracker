@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,7 +16,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="FloatingCard" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
+        <window title="FloatingCard" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="180" height="310"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
@@ -23,7 +24,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="180" height="310"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EJZ-Hb-t7o">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJZ-Hb-t7o">
                         <rect key="frame" x="0.0" y="285" width="180" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="9vk-LD-4jn"/>
@@ -40,36 +41,43 @@
                             <rect key="frame" x="0.0" y="0.0" width="180" height="285"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="sus-Fb-lGq">
+                                <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="sus-Fb-lGq">
                                     <rect key="frame" x="0.0" y="0.0" width="180" height="285"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <size key="minSize" width="180" height="285"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 </textView>
                             </subviews>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="akS-Bp-OHu">
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="akS-Bp-OHu">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="eX1-Di-LQR">
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="eX1-Di-LQR">
                             <rect key="frame" x="-100" y="-100" width="15" height="135"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Oc-im-VnY">
-                        <rect key="frame" x="0.0" y="0.0" width="179" height="250"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6Oc-im-VnY">
+                        <rect key="frame" x="0.0" y="0.0" width="180" height="250"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="180" id="EJY-ZR-JDr"/>
+                            <constraint firstAttribute="height" constant="250" id="uUQ-DC-eXj"/>
+                        </constraints>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="TheCoin" id="IKM-g0-sQD"/>
                     </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="L0k-t9-pNP" secondAttribute="trailing" id="2aY-C8-a8e"/>
                     <constraint firstItem="EJZ-Hb-t7o" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="4c5-0o-VaK"/>
+                    <constraint firstItem="6Oc-im-VnY" firstAttribute="trailing" secondItem="L0k-t9-pNP" secondAttribute="trailing" id="AV5-XG-mWS"/>
                     <constraint firstItem="EJZ-Hb-t7o" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="D0G-g7-xxG"/>
                     <constraint firstItem="L0k-t9-pNP" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Mv9-y5-2ez"/>
+                    <constraint firstItem="6Oc-im-VnY" firstAttribute="leading" secondItem="L0k-t9-pNP" secondAttribute="leading" id="SAH-vu-qTD"/>
+                    <constraint firstItem="6Oc-im-VnY" firstAttribute="bottom" secondItem="L0k-t9-pNP" secondAttribute="bottom" id="kLb-c5-5mL"/>
                     <constraint firstAttribute="trailing" secondItem="EJZ-Hb-t7o" secondAttribute="trailing" id="ptK-mY-5my"/>
                     <constraint firstItem="L0k-t9-pNP" firstAttribute="top" secondItem="EJZ-Hb-t7o" secondAttribute="bottom" id="vzK-lZ-Jct"/>
                     <constraint firstAttribute="bottom" secondItem="L0k-t9-pNP" secondAttribute="bottom" id="y2U-LI-2Tl"/>

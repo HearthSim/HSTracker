@@ -22,7 +22,7 @@ class CardCell: JNWCollectionViewCell {
                 cellView.removeFromSuperview()
                 self.cellView = nil
             }
-            self.backgroundImage = ImageUtils.image(for: card)
+            self.backgroundImage = ImageUtils.image(for: card.id)
         } else {
             if let cellView = cellView {
                 cellView.card = card

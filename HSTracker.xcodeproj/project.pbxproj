@@ -92,7 +92,6 @@
 		434D1CB41D10947200222B8E /* Statistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434D1CB61D10947200222B8E /* Statistics.xib */; };
 		434EAC961DBCD3E8009C7636 /* NSAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EAC951DBCD3E8009C7636 /* NSAlert.swift */; };
 		435907EC1CB13835008D4363 /* FileImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435907EB1CB13835008D4363 /* FileImporter.swift */; };
-		4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4359BF941D52142D00F61993 /* PlayedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4359BF931D52142D00F61993 /* PlayedCard.swift */; };
 		435CD9091E1E3AB4000AF3DE /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD9081E1E3AB4000AF3DE /* GameStats.swift */; };
 		435CD90B1E1E4447000AF3DE /* ServerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435CD90A1E1E4447000AF3DE /* ServerInfo.swift */; };
@@ -469,6 +468,9 @@
 		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
+		5B308AE822274D4600D853BA /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B308AE722274D4600D853BA /* Kingfisher.framework */; };
+		5B308AE922274D4600D853BA /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B308AE722274D4600D853BA /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
@@ -535,6 +537,7 @@
 				43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */,
 				43BA1C9E1FB2EAD30007C500 /* SwiftyBeaver.framework in CopyFiles */,
 				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
+				5B308AE922274D4600D853BA /* Kingfisher.framework in CopyFiles */,
 				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
 				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
 				1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */,
@@ -558,6 +561,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */,
 				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */,
 				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */,
 				437CEF6C1E44667A008E36D9 /* HearthMirror.framework.dSYM in CopyFiles */,
@@ -570,7 +574,6 @@
 				43E7BEAE1DBB7FAA0057DC0C /* Realm.framework.dSYM in CopyFiles */,
 				43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in CopyFiles */,
 				43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in CopyFiles */,
-				4359BF781D51043700F61993 /* ZipArchive.framework.dSYM in CopyFiles */,
 				43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */,
 				43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */,
 				436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */,
@@ -586,6 +589,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
+				5B308AE922274D4600D853BA /* Kingfisher.framework in Embed Frameworks */,
 				436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
@@ -763,7 +767,6 @@
 		434D1CC21D10948700222B8E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Statistics.strings"; sourceTree = "<group>"; };
 		434EAC951DBCD3E8009C7636 /* NSAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSAlert.swift; sourceTree = "<group>"; };
 		435907EB1CB13835008D4363 /* FileImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImporter.swift; sourceTree = "<group>"; };
-		4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = ZipArchive.framework.dSYM; path = Carthage/Build/Mac/ZipArchive.framework.dSYM; sourceTree = "<group>"; };
 		4359BF931D52142D00F61993 /* PlayedCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayedCard.swift; sourceTree = "<group>"; };
 		435BC4B61DA3801E007EF301 /* hs-build-dates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "hs-build-dates.json"; sourceTree = "<group>"; };
 		435CD9081E1E3AB4000AF3DE /* GameStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStats.swift; sourceTree = "<group>"; };
@@ -950,6 +953,8 @@
 		43F4D0481EB7A23D006B4479 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroPower.swift; sourceTree = "<group>"; };
 		43F8265A1E0A674000422F4F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		5B308AE722274D4600D853BA /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
+		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
@@ -959,6 +964,7 @@
 		BCA70F281E2C16DD00038A6C /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		BCA70F291E2C16DD00038A6C /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
 		BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		BF8CB1A097842123EC7F706B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = /Users/martin/git/HSTracker/Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<absolute>"; };
 		C92C680C1D1F225F009030DC /* StatsTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsTab.swift; path = StatsManager/StatsTab.swift; sourceTree = "<group>"; };
 		C92C68101D1F3FC4009030DC /* LadderTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderTab.swift; path = StatsManager/LadderTab.swift; sourceTree = "<group>"; };
 		C92C68171D1F74CE009030DC /* LadderGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderGrid.swift; path = Statistics/LadderGrid.swift; sourceTree = "<group>"; };
@@ -1136,6 +1142,7 @@
 				43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */,
 				43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */,
 				E301D341217CE737001F8D11 /* FMDB.framework in Frameworks */,
+				5B308AE822274D4600D853BA /* Kingfisher.framework in Frameworks */,
 				E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1144,6 +1151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B308AEC222880E600D853BA /* Kingfisher.framework in Frameworks */,
 				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */,
@@ -1364,6 +1372,8 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
+				5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */,
+				5B308AE722274D4600D853BA /* Kingfisher.framework */,
 				F731044E211FF0050082651C /* Translations */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
@@ -1761,7 +1771,7 @@
 				4305CA3D1CF42AC60048E7EC /* Wrap.framework */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
 				43C5680F1D5F692800451B6F /* ZipArchive.framework */,
-				4359BF771D51043700F61993 /* ZipArchive.framework.dSYM */,
+				BF8CB1A097842123EC7F706B /* Kingfisher.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2819,6 +2829,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
+					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
 				);
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -2850,6 +2861,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
+					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
 				);
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

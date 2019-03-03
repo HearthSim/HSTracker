@@ -8,6 +8,7 @@
 
 import Foundation
 import TextAttributes
+import Kingfisher
 
 enum FloatingCardStyle: String {
     case text
@@ -31,7 +32,7 @@ class FloatingCard: OverWindowController {
     var card: Card?
     private var drawChanceTop: Float = 0
     private var drawChanceTop2: Float = 0
-    
+
     let attributes: TextAttributes = {
         $0.font(NSFont(name: "Belwe Bd BT", size: 13))
             .foregroundColor(.textColor)
@@ -59,84 +60,59 @@ class FloatingCard: OverWindowController {
         self.drawChanceTop = drawChanceTop
         reload()
     }
-    
+
     func set(drawChanceTop2: Float) {
         self.drawChanceTop2 = drawChanceTop2
         reload()
     }
 
     private func reload() {
-        /*if Settings.useHearthstoneAssets && Settings.floatingCardStyle == .image {
-            reloadImage()
-        } else {*/
-            reloadText()
-        /*}*/
-    }
-
-    /*private func reloadImage() {
-		guard let card = self.card, let assetGenerator = CoreManager.assetGenerator else {
-			imageView.image = nil
-			reloadText()
-			return
-		}
-
-        title.isHidden = true
-        scrollview.isHidden = true
-        imageView.isHidden = false
-
-        assetGenerator.generate(card: card) { [weak self] (image, error) in
-                if let image = image {
-                    self?.imageView.image = image
-                } else if let error = error {
-                    logger.warning("asset generation: \(error)")
-            }
+        if let cardId = self.card?.id, let lang = Settings.hearthstoneLanguage?.rawValue {
+            let imageUrl = URL(string: ImageUtils.artUrl(cardId: cardId, lang: lang))!
+            self.imageView.kf.setImage(with: imageUrl)
         }
-    }*/
 
-    private func reloadText() {
         title.isHidden = false
         scrollview.isHidden = false
-        imageView.isHidden = true
+        imageView.isHidden = false
 
-        var information = ""
+        var information = "\n"
         if let card = card, let title = self.title {
             title.attributedStringValue = NSAttributedString(string: card.name,
-                                                             attributes: titleAttributes)
-            if !card.text.isEmpty {
-                information = card.formattedText() + "\n\n"
-            }
+                    attributes: titleAttributes)
         }
+
         if drawChanceTop > 0 {
             information += NSLocalizedString("Top deck:", comment: "")
-                + "\(String(format: " %.2f", drawChanceTop))%\n"
+                    + "\(String(format: " %.2f", drawChanceTop))%\n"
         }
         if drawChanceTop2 > 0 {
             information += NSLocalizedString("In top 2:", comment: "")
-                + "\(String(format: " %.2f", drawChanceTop2))%\n"
+                    + "\(String(format: " %.2f", drawChanceTop2))%\n"
         }
         text?.string = ""
         text?.textStorage?.append(NSAttributedString(string: information,
-                                                        attributes: attributes))
-        
+                attributes: attributes))
+
         // "pack frame"
         if let window = self.window {
             let layoutManager = NSLayoutManager()
             let textStorage = NSTextStorage(attributedString:
-                NSAttributedString(string: information, attributes: attributes))
+            NSAttributedString(string: information, attributes: attributes))
             let flt_max = Float.greatestFiniteMagnitude
             let textContainer = NSTextContainer(containerSize:
-                NSSize(width: window.frame.size.width, height: CGFloat(flt_max)))
+            NSSize(width: window.frame.size.width, height: CGFloat(flt_max)))
             layoutManager.addTextContainer(textContainer)
             textStorage.addLayoutManager(layoutManager)
-            
+
             textContainer.lineFragmentPadding = 0.0
             layoutManager.glyphRange(for: textContainer)
-            let textheight = layoutManager.usedRect(for: textContainer).size.height
-            
-            self.window?.setContentSize(NSSize(width: window.frame.size.width,
-                                               height: self.title.frame.size.height +
-                                                    textheight))
+            let textHeight = layoutManager.usedRect(for: textContainer).size.height
+
+            let width = window.frame.size.width
+            let totalHeight = textHeight + self.title.frame.size.height + width * 250/180;
+            self.window?.setContentSize(NSSize(width: width,
+                    height: totalHeight))
         }
-        
     }
 }
