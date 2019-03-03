@@ -39,11 +39,11 @@ final class Settings {
         }
         return nil
     }
-	
-	static var showMemoryReadingWarning: Bool {
-		set { set(name: Settings.show_memory_reading_warning, value: newValue) }
-		get { return get(name: Settings.show_memory_reading_warning) as? Bool ?? true }
-	}
+    
+    static var showMemoryReadingWarning: Bool {
+        set { set(name: Settings.show_memory_reading_warning, value: newValue) }
+        get { return get(name: Settings.show_memory_reading_warning) as? Bool ?? true }
+    }
     static var canJoinFullscreen: Bool {
         set { set(name: Settings.can_join_fullscreen, value: newValue) }
         get { return get(name: Settings.can_join_fullscreen) as? Bool ?? true }
@@ -493,6 +493,12 @@ final class Settings {
         guard let language = hearthstoneLanguage else { return false }
 
         return language == .ruRU
+    }
+
+    static var isSimplifiedChinese: Bool {
+        guard let language = hearthstoneLanguage else { return false }
+
+        return language == .zhCN
     }
 
     static var isAsianLanguage: Bool {
