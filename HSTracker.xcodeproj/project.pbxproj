@@ -468,8 +468,6 @@
 		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
-		5B308AE822274D4600D853BA /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B308AE722274D4600D853BA /* Kingfisher.framework */; };
-		5B308AE922274D4600D853BA /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B308AE722274D4600D853BA /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
@@ -537,7 +535,6 @@
 				43BA1C9D1FB2EAD30007C500 /* PromiseKit.framework in CopyFiles */,
 				43BA1C9E1FB2EAD30007C500 /* SwiftyBeaver.framework in CopyFiles */,
 				1CCB4ADB1E84743D003FD1AD /* BTree.framework in CopyFiles */,
-				5B308AE922274D4600D853BA /* Kingfisher.framework in CopyFiles */,
 				1CCB4ADE1E8474A8003FD1AD /* Realm.framework in CopyFiles */,
 				1CCB4ADF1E8474A8003FD1AD /* RealmSwift.framework in CopyFiles */,
 				1CCB4ADD1E847485003FD1AD /* HearthMirror.framework in CopyFiles */,
@@ -589,7 +586,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
-				5B308AE922274D4600D853BA /* Kingfisher.framework in Embed Frameworks */,
 				436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
@@ -953,7 +949,6 @@
 		43F4D0481EB7A23D006B4479 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroPower.swift; sourceTree = "<group>"; };
 		43F8265A1E0A674000422F4F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
-		5B308AE722274D4600D853BA /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
 		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
@@ -1142,7 +1137,6 @@
 				43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */,
 				43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */,
 				E301D341217CE737001F8D11 /* FMDB.framework in Frameworks */,
-				5B308AE822274D4600D853BA /* Kingfisher.framework in Frameworks */,
 				E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1151,7 +1145,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B308AEC222880E600D853BA /* Kingfisher.framework in Frameworks */,
 				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */,
@@ -1372,8 +1365,6 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
-				5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */,
-				5B308AE722274D4600D853BA /* Kingfisher.framework */,
 				F731044E211FF0050082651C /* Translations */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
@@ -1751,6 +1742,8 @@
 				436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */,
 				436789931CABFB1600C962D1 /* Kanna.framework */,
 				436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */,
+				BF8CB1A097842123EC7F706B /* Kingfisher.framework */,
+				5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */,
 				433554321D5F6B4400277B27 /* libz.tbd */,
 				436789941CABFB1600C962D1 /* MASPreferences.framework */,
 				436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */,
@@ -1771,7 +1764,6 @@
 				4305CA3D1CF42AC60048E7EC /* Wrap.framework */,
 				4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */,
 				43C5680F1D5F692800451B6F /* ZipArchive.framework */,
-				BF8CB1A097842123EC7F706B /* Kingfisher.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
