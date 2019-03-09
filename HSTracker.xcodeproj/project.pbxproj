@@ -469,7 +469,9 @@
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
 		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
-		5BD4A50022332BCC00EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BF8CB1A097842123EC7F706B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
+		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
@@ -530,7 +532,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5BD4A50022332BCC00EF879B /* Kingfisher.framework in CopyFiles */,
+				5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */,
 				1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */,
 				1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */,
 				43BA1C9C1FB2EAD30007C500 /* AwaitKit.framework in CopyFiles */,
@@ -587,6 +589,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */,
 				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
 				436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */,
 				436789D91CAE484800C962D1 /* HockeySDK.framework in Embed Frameworks */,
@@ -952,6 +955,7 @@
 		43F8265A1E0A674000422F4F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
+		5BD4A5012233E40B00EF879B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
@@ -961,7 +965,6 @@
 		BCA70F281E2C16DD00038A6C /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		BCA70F291E2C16DD00038A6C /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
 		BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		BF8CB1A097842123EC7F706B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = /Users/martin/git/HSTracker/Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<absolute>"; };
 		C92C680C1D1F225F009030DC /* StatsTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatsTab.swift; path = StatsManager/StatsTab.swift; sourceTree = "<group>"; };
 		C92C68101D1F3FC4009030DC /* LadderTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderTab.swift; path = StatsManager/LadderTab.swift; sourceTree = "<group>"; };
 		C92C68171D1F74CE009030DC /* LadderGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LadderGrid.swift; path = Statistics/LadderGrid.swift; sourceTree = "<group>"; };
@@ -1139,6 +1142,7 @@
 				43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */,
 				43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */,
 				E301D341217CE737001F8D11 /* FMDB.framework in Frameworks */,
+				5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */,
 				E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1722,6 +1726,7 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5BD4A5012233E40B00EF879B /* Kingfisher.framework */,
 				43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */,
 				43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */,
 				43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */,
@@ -1744,7 +1749,6 @@
 				436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */,
 				436789931CABFB1600C962D1 /* Kanna.framework */,
 				436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */,
-				BF8CB1A097842123EC7F706B /* Kingfisher.framework */,
 				5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */,
 				433554321D5F6B4400277B27 /* libz.tbd */,
 				436789941CABFB1600C962D1 /* MASPreferences.framework */,
