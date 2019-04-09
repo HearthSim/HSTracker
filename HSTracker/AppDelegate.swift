@@ -110,6 +110,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			initalConfig?.showWindow(nil)
 			initalConfig?.window?.orderFrontRegardless()
 		}
+        
+        hockeyHelper.logEvent(name: "app_start")
 	}
 	
 	func applicationWillTerminate(_ notification: Notification) {

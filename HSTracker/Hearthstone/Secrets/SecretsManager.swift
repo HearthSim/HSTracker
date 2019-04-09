@@ -366,6 +366,7 @@ class SecretsManager {
         
         if entity.isSpell {
             exclude.append(CardIds.Secrets.Mage.Counterspell)
+            exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
 
             if game.opponentHandCount < 10 {
                 exclude.append(CardIds.Secrets.Mage.ManaBind)

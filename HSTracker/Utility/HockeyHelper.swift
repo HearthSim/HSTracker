@@ -26,25 +26,10 @@ class HockeyHelper: NSObject, BITHockeyManagerDelegate {
 		BITHockeyManager.shared().delegate = self
 		BITHockeyManager.shared().start()
 	}
-	
-	func applicationLog(for crashManager: BITCrashManager!) -> String! {
-		let fmt = DateFormatter()
-		fmt.dateFormat = "yyyy-MM-dd'.log'"
-		
-		let file = Paths.logs.appendingPathComponent("\(fmt.string(from: Date()))")
-		if FileManager.default.fileExists(atPath: file.path) {
-			do {
-				let content = try String(contentsOf: file)
-				return Array(content
-					.components(separatedBy: CharacterSet.newlines)
-					.reversed() // reverse to keep 400 last lines
-					.prefix(400))
-					.reversed() // re-reverse them
-					.joined(separator: "\n")
-			} catch {}
-		}
-		
-		return ""
-	}
+
+    public func logEvent(name: String) {
+        let metricsManager = BITHockeyManager.shared().metricsManager!
+        metricsManager.trackEvent(withName: name)
+    }
 }
 
