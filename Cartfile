@@ -14,6 +14,6 @@ github "realm/realm-cocoa"
 github "Hearthsim/HearthMirror" "cpp"
 github "lorentey/BTree"
 github "bmichotte/RegexUtil"
-github "yannickl/AwaitKit" "master"
+github "martinbonnin/AwaitKit" "unbreak-promisekit"
 github "OAuthSwift/OAuthSwift" ~> 1.2.0
 github "onevcat/Kingfisher" "4.10.1" #we use Kingfisher v4 and not v5 to support OSX < 10.12
