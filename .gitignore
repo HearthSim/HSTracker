@@ -42,3 +42,9 @@ xcuserdata/
 
 # AppCode
 .idea
+
+# Archived builds
+archives
+
+# Appcast private key
+dsa_priv.pem
