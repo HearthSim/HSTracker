@@ -44,7 +44,7 @@ extension DynamicEntity: Hashable {
     static func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
         return lhs.cardId == rhs.cardId &&
             lhs.hidden == rhs.hidden &&
-            lhs.created == lhs.created &&
+            lhs.created == rhs.created &&
             lhs.discarded == rhs.discarded &&
             lhs.cardMark == rhs.cardMark &&
             lhs.stolen == rhs.stolen &&
