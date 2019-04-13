@@ -1,3 +1,41 @@
+# 1.5.7
+## Fixes:
+- Crash fixes
+
+# 1.5.6
+## New:
+- Added support for Rise of the shadows
+
+# 1.5.5
+## Fixes:
+- Updated card data for the latest patch
+- Display card art on mouse hover
+- Fixed 'UNKNOWN HUMAN' opponent name
+- Whizbang support
+- Fix rank upload
+
+# 1.5.4
+## Fixes:
+- Updated card data for the latest patch
+- Fixed card overlays for the dark theme in OSX Mojave
+
+# 1.5.3
+## Fixes:
+- Added missing secrets
+
+# 1.5.2a
+## Fixes:
+- Fixed a card loading bug
+
+# 1.5.2
+## New:
+- Added support for the Rastakhan's Rumble expansion
+
+# 1.5.1c
+## Fixes:
+- Fixed hsreplay.net oauth address
+- Fixed a bug that blocked collection upload in certain situations
+
 # 1.5.1
 ## New:
 - Added Collection uploading to HSReplay.net
