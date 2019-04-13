@@ -102,13 +102,7 @@ class HSReplayAPI {
         oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(accountId.hi)/\(accountId.lo)/", method: .POST,
             parameters: ["battletag": battleTag], headers: defaultHeaders,
             onTokenRenewal: tokenRenewalHandler, success: { response in
-            do {
-                let json = try response.jsonObject()
-                logger.info("Claimed battle tag with response \(json)")
-            } catch {
-                logger.error(error)
-                failed()
-            }
+
             complete()
         }, failure: { error in
             logger.error(error)

@@ -10,13 +10,12 @@ import Foundation
 import Wrap
 
 class CollectionUploader {
-    public private(set) static var inProgress = false
-    private static var lastUploadedData: Data?
+    private static var inProgress = false
+    private static var lastUploadCollectionData: UploadCollectionData?
 
     static func upload(collectionData: UploadCollectionData, completion: @escaping(CollectionUploadResult) -> Void) {
         guard !inProgress else {
             logger.error("Another collection upload in progress")
-            completion(.failed(error: "Another collection upload in progress"))
             return
         }
 
@@ -29,7 +28,7 @@ class CollectionUploader {
             return
         }
 
-        guard lastUploadedData != data else {
+        if let lastData = lastUploadCollectionData, lastData == collectionData {
             logger.error("Skip uploading as data is identical to last uploaded")
             inProgress = false
             return
@@ -53,7 +52,7 @@ class CollectionUploader {
                     data: data)
 
                 inProgress = false
-                lastUploadedData = data
+                lastUploadCollectionData = collectionData
 
                 logger.info("Collection upload done: Success")
                 completion(.successful)

@@ -9,13 +9,75 @@
 import Foundation
 import Wrap
 
-struct UploadCollectionData {
+struct UploadCollectionData: Equatable {
     var collection: [MirrorCard]?
     var favoriteHeroes: [NSNumber: MirrorCard]?
     var cardbacks: [NSNumber]?
     var favoriteCardback: Int?
     var dust: Int?
     var gold: Int?
+    
+    /*
+     * We should certainly remove the MirrorCard/NSObject dependency from this class so we can implement Equatable and wrap it automagically
+     */
+    static private func mirrorCardEquals(lhs: MirrorCard, rhs: MirrorCard) -> Bool {
+        if lhs.cardId != rhs.cardId {
+            return false
+        }
+        if lhs.count != rhs.count {
+            return false
+        }
+        if lhs.premium != rhs.premium {
+            return false
+        }
+        return true
+    }
+    
+    static private func mirrorCardArrayEquals(lhs: [MirrorCard]?, rhs: [MirrorCard]?) -> Bool {
+      
+        if lhs == nil && rhs == nil {
+            return true
+        }
+        
+        guard let l = lhs, let r = rhs else {
+            return false
+        }
+        
+        return l.elementsEqual(r) {lcard, rcard in
+            mirrorCardEquals(lhs: lcard, rhs: rcard)
+        }
+    }
+    
+    static private func mirrorCardDictEquals(lhs: [NSNumber: MirrorCard]?, rhs: [NSNumber: MirrorCard]?) -> Bool {
+        
+        if lhs == nil && rhs == nil {
+            return true
+        }
+        
+        guard let l = lhs, let r = rhs else {
+            return false
+        }
+        
+        return l.elementsEqual(r) {le, re in
+            le.key == re.key
+            && mirrorCardEquals(lhs: le.value, rhs: re.value)
+        }
+    }
+    
+    static func == (lhs: UploadCollectionData, rhs: UploadCollectionData) -> Bool {
+        if !mirrorCardArrayEquals(lhs: lhs.collection, rhs: rhs.collection) {
+            return false
+        }
+        
+        if !mirrorCardDictEquals(lhs: lhs.favoriteHeroes, rhs: rhs.favoriteHeroes) {
+            return false
+        }
+
+        return lhs.cardbacks == rhs.cardbacks
+            && lhs.favoriteCardback == rhs.favoriteCardback
+            && lhs.dust == rhs.dust
+            && lhs.gold == rhs.gold       
+    }
 }
 
 extension UploadCollectionData: WrapCustomizable {

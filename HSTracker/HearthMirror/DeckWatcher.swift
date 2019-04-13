@@ -225,39 +225,13 @@ class CollectionWatcher: Watcher {
                 Thread.sleep(forTimeInterval: refreshInterval)
                 continue
             }
-
-            // Skip uploading if collection did not change
-            if let watcherCollection = CollectionWatcher.lastUploadedCollection {
-                if watcherCollection.cards.elementsEqual(collection.cards) &&
-                    watcherCollection.cardbacks.elementsEqual(collection.cardbacks) &&
-                    watcherCollection.favoriteHeroes == collection.favoriteHeroes &&
-                    watcherCollection.favoriteCardback == collection.favoriteCardback &&
-                    watcherCollection.gold == collection.gold &&
-                    watcherCollection.dust == collection.dust {
-                    logger.info("Skipping uploading since collection did not change")
-                    Thread.sleep(forTimeInterval: uploadingInterval)
-                    continue
-                }
-            }
             
-            // skip uploading if upload is in progress
-            guard !CollectionUploader.inProgress else {
-                Thread.sleep(forTimeInterval: uploadingInterval)
-                continue
-            }
-            
-            if !collection.cards.isEmpty {
-                logger.info("Found collection: \(collection)")
-            }
-
             // convert mirror data into collection
             let data = UploadCollectionData(collection: collection.cards, favoriteHeroes: collection.favoriteHeroes, cardbacks: collection.cardbacks, favoriteCardback: collection.favoriteCardback.intValue, dust: collection.dust.intValue, gold: collection.gold.intValue)
-
+            
             CollectionUploader.upload(collectionData: data) { result in
                 switch result {
                 case .successful:
-                    // save last successful upload
-                    CollectionWatcher.lastUploadedCollection = collection
                     NotificationManager.showNotification(type: .hsReplayCollectionUploaded)
                 case .failed(let error):
                     NotificationManager.showNotification(type: .hsReplayCollectionUploadFailed(error: error))
