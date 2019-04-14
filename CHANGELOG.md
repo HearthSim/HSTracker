@@ -1,3 +1,7 @@
+# 1.5.8
+## Fixes:
+- Collection will update endlessly (https://github.com/HearthSim/HSTracker/issues/1045)
+
 # 1.5.7
 ## Fixes:
 - Crash fixes
