@@ -42,6 +42,27 @@ When filing a Pull Request, make sure it is rebased on top of most recent master
 If you need to modify it or amend it in some way, you should always appropriately
 [fixup](https://help.github.com/articles/about-git-rebase/) the issues in git and force-push your changes to your fork.
 
+### Releases
+
+We use several tools to help with releases:
+
+* [HockeyApp](https://hockeyapp.net/) for crash monitoring
+* [Sparkle](https://sparkle-project.org) for auto-update
+* Github to host the [releases](https://github.com/HearthSim/HSTracker/releases)
+
+The general flow to make a release is:
+
+* Update [CHANGELOG.md](Changelog.md)
+* Update `CFBundleShortVersionString`
+* Tag 
+* Build & export
+* Upload to hockeyapp
+* Upload to github
+* Publish appcast file
+
+You can use [hst-release](https://github.com/martinbonnin/hst-release) to automate this process. 
+Or if you like ruby better, [hstracker_release.rb](scripts/hstracker_release.rb)
+
 ## Need help?
 
 Please [join the developer community Discord](https://discord.gg/hearthsim-devs), channel `#hstracker`.
