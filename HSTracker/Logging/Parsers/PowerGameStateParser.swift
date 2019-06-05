@@ -302,7 +302,7 @@ class PowerGameStateParser: LogEventParser {
                     if entity.info.originalEntityWasCreated == nil {
                         entity.info.originalEntityWasCreated = entity.info.created
                     }
-                    if entity.tags[.transformed_from_card] == 46706 {
+                    if entity[.transformed_from_card] == 46706 {
                         eventHandler.chameleosReveal = (entityId, cardId)
                     }
                 }

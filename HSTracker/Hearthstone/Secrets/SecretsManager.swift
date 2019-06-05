@@ -256,7 +256,7 @@ class SecretsManager {
             exclude.append(CardIds.Secrets.Rogue.CheatDeath)
         }
         
-        if let opponent_minions_died = game.opponentEntity?.tags[.num_friendly_minions_that_died_this_turn], opponent_minions_died >= 1 {
+        if let opponent_minions_died = game.opponentEntity?[.num_friendly_minions_that_died_this_turn], opponent_minions_died >= 1 {
             exclude.append(CardIds.Secrets.Paladin.HandOfSalvation)
         }
 

@@ -787,7 +787,11 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         
-        guard let playerEntity = player.entity, let _ = playerEntity.tags[GameTag.whizbang_deck_id] else {
+        guard let playerEntity = player.entity else {
+            return
+        }
+        
+        if playerEntity[.whizbang_deck_id] == 0 {
             // player is not using a whizbang deck
             return
         }

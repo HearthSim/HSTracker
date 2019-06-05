@@ -17,6 +17,13 @@ class Entity {
     var cardId = ""
     var name: String?
     var tags: [GameTag: Int] = [:]
+    /*
+     * tags is accessed from the reader thread as well as from the main thread.
+     * There are some crashes in HockeyApp on access to tags so we're trying to play it safe here.
+     * There are still a few cases where this is used illegally. Ideally, we should make tags private to enforce
+     * locking the semaphore every time.
+     */
+    static let semaphore = DispatchSemaphore(value: 1)
 	
     lazy var info: EntityInfo = { [unowned(unsafe) self] in
         return EntityInfo(entity: self) }()
@@ -31,12 +38,17 @@ class Entity {
 
     subscript(tag: GameTag) -> Int {
         set {
+            Entity.semaphore.wait()
             tags[tag] = newValue
+            Entity.semaphore.signal()
         }
         get {
+            Entity.semaphore.wait()
             guard let value = tags[tag] else {
+                Entity.semaphore.signal()
                 return 0
             }
+            Entity.semaphore.signal()
             return value
         }
     }
@@ -170,9 +182,11 @@ extension Entity: Hashable {
 extension Entity: CustomStringConvertible {
     var description: String {
         let cardName = Cards.any(byId: cardId)?.name ?? ""
+        Entity.semaphore.wait()
         let tags = self.tags.map {
             "\($0.0)=\($0.1)"
         }.joined(separator: ",")
+        Entity.semaphore.signal()
         let hide = info.hidden && (isInHand || isInDeck)
         return "[Entity: id=\(id), cardId=\(hide ? "" : cardId), "
                 + "cardName=\(hide ? "" : cardName), "
