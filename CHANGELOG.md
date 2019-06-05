@@ -1,3 +1,9 @@
+# 1.5.9
+## New:
+- Added support for Rise of the shadows
+## Fixes:
+- Hopefully fix a random crash happening in 1.5.8 (https://github.com/HearthSim/HSTracker/issues/1054)
+
 # 1.5.8
 ## Fixes:
 - Collection will update endlessly (https://github.com/HearthSim/HSTracker/issues/1045)
