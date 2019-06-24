@@ -1,3 +1,7 @@
+# 1.6.0
+## Fixes:
+- Fixed rank detection not working since patch 14.4.0.31268 (https://github.com/HearthSim/HSTracker/issues/1063)
+
 # 1.5.9
 ## New:
 - Added support for Patch 14.4
