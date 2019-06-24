@@ -4,6 +4,9 @@
 # Downloaded cards
 HSTracker/Resources/Cards/*.json
 
+# Place where we store archives
+/archive
+
 fastlane/*
 !fastlane/Fastfile
 !fastlane/Scanfile
