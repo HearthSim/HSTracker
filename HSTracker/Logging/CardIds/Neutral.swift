@@ -563,6 +563,7 @@ extension CardIds.Collectible {
         static let SparkEngine: String = "BOT_538"
         static let SeaforiumBomber: String = "BOT_511"
         static let SparkDrill: String = "BOT_102"
+        static let AugmentedElekk: String = "BOT_559"
     }
 }
 

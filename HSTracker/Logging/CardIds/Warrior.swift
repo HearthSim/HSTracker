@@ -122,6 +122,8 @@ extension CardIds.Collectible {
         static let KingMosh: String = "UNG_933"
         static let FirePlumesHeart: String = "UNG_934"
         static let DirehornHatchling: String = "UNG_957"
+        static let ClockworkGoblin: String = "DAL_060"
+        static let Wrenchcalibur: String = "DAL_063"
     }
 }
 
