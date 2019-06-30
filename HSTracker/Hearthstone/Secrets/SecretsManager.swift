@@ -162,6 +162,7 @@ class SecretsManager {
 
         if defender.isHero {
             if !fastOnly {
+                // if the minion dies, bear trap won't be triggered
                 if freeSpaceOnBoard && attacker.health >= 1 {
                     exclude.append(CardIds.Secrets.Hunter.BearTrap)
                 }
