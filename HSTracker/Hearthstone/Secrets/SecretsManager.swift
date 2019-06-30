@@ -351,28 +351,31 @@ class SecretsManager {
         var exclude: [String] = []
         
         if freeSpaceOnBoard {
-            if let opponent = game.opponentEntity, opponent.has(tag: .num_cards_played_this_turn) &&
-                (opponent[.num_cards_played_this_turn] >= 3) {
+            if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) &&
+                (player[.num_cards_played_this_turn] >= 3) {
                     exclude.append(CardIds.Secrets.Hunter.RatTrap)
             }
         }
         
         if freeSpaceInHand {
-            if let opponent = game.opponentEntity, opponent.has(tag: .num_cards_played_this_turn) &&
-                (opponent[.num_cards_played_this_turn] >= 2) {
+            if let player = game.playerEntity, player.has(tag: .num_cards_played_this_turn) &&
+                (player[.num_cards_played_this_turn] >= 3) {
                 exclude.append(CardIds.Secrets.Paladin.HiddenWisdom)
             }
         }
         
         if entity.isSpell {
             exclude.append(CardIds.Secrets.Mage.Counterspell)
-            exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
 
-            if game.opponentHandCount < 10 {
+            if game.opponentMinionCount > 0 {
+                exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
+            }
+
+            if freeSpaceInHand {
                 exclude.append(CardIds.Secrets.Mage.ManaBind)
             }
 
-            if game.opponentMinionCount < 7 {
+            if freeSpaceOnBoard {
                 // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
                 do {
                     try await {
