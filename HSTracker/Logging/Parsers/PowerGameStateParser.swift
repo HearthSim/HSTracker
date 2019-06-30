@@ -359,8 +359,8 @@ class PowerGameStateParser: LogEventParser {
                 type = matches[0].value
             }
             
-            if matches.count > 2 {
-                cardId = matches[2].value
+            if matches.count > 3 {
+                cardId = matches[3].value
             }
             
             blockStart(type: type, cardId: cardId)
@@ -382,6 +382,13 @@ class PowerGameStateParser: LogEventParser {
 
                 if actionStartingCardId.isBlank {
                     return
+                }
+                
+                if type == "TRIGGER" && actionStartingCardId == CardIds.Collectible.Neutral.AugmentedElekk {
+                    if currentBlock?.parent != nil {
+                        actionStartingCardId = currentBlock?.parent?.cardId
+                        type = currentBlock?.parent?.type
+                    }
                 }
 
                 if type == "TRIGGER" {
@@ -433,6 +440,9 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Neutral.SparkDrill:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SparkDrill_SparkToken, count: 2)
+                        case CardIds.Collectible.Warrior.Wrenchcalibur:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
                         default: break
                         }
                     }
@@ -551,6 +561,9 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Priest.ExtraArms_MoreArmsToken)
                         case CardIds.Collectible.Neutral.SeaforiumBomber:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
+                        case CardIds.Collectible.Warrior.ClockworkGoblin:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
                         default:
