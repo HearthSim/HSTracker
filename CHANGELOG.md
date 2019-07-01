@@ -1,3 +1,9 @@
+# 1.6.1
+## New:
+- Added support for Patch 14.6
+## Fixes:
+- Fixed Rat Trap and Hidden Wisdom (https://github.com/HearthSim/HSTracker/issues/1065#event-2449704550)
+
 # 1.6.0
 ## Fixes:
 - Fixed rank detection not working since patch 14.4.0.31268 (https://github.com/HearthSim/HSTracker/issues/1063)
