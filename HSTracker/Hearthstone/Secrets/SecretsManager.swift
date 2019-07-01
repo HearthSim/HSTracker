@@ -162,7 +162,8 @@ class SecretsManager {
 
         if defender.isHero {
             if !fastOnly {
-                if freeSpaceOnBoard {
+                // if the minion dies, bear trap won't be triggered
+                if freeSpaceOnBoard && attacker.health >= 1 {
                     exclude.append(CardIds.Secrets.Hunter.BearTrap)
                 }
                 exclude.append(CardIds.Secrets.Mage.IceBarrier)
@@ -177,14 +178,16 @@ class SecretsManager {
             if game.isMinionInPlay {
                 exclude.append(CardIds.Secrets.Hunter.Misdirection)
             }
-            
+
             if attacker.isMinion && game.playerMinionCount > 1 {
                 exclude.append(CardIds.Secrets.Rogue.SuddenBetrayal)
             }
 
             if attacker.isMinion {
                 exclude.append(CardIds.Secrets.Mage.Vaporize)
-                exclude.append(CardIds.Secrets.Hunter.FreezingTrap)
+                if attacker.health >= 1 {
+                    exclude.append(CardIds.Secrets.Hunter.FreezingTrap)
+                }
             }
         } else {
             if !defender.has(tag: .divine_shield) {
