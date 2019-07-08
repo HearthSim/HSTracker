@@ -306,25 +306,28 @@ class SecretsManager {
     func handleAvengeAsync(deathRattleCount: Int) {
         guard handleAction else { return }
 
-        _avengeDeathRattleCount += deathRattleCount
         if _awaitingAvenge {
             return
         }
-        _awaitingAvenge = true
-        if game.opponentMinionCount != 0 {
-            do {
-                try await {
-                    Thread.sleep(forTimeInterval: self.avengeDelay)
+        
+        DispatchQueue.global().async {
+            self._awaitingAvenge = true
+            self._avengeDeathRattleCount += deathRattleCount
+            if self.game.opponentMinionCount != 0 {
+                do {
+                    try await {
+                        Thread.sleep(forTimeInterval: self.avengeDelay)
+                    }
+                    if self.game.opponentMinionCount - self._avengeDeathRattleCount > 0 {
+                        self.exclude(cardId: CardIds.Secrets.Paladin.Avenge)
+                    }
+                } catch {
+                    logger.error("\(error)")
                 }
-                if game.opponentMinionCount - _avengeDeathRattleCount > 0 {
-                    exclude(cardId: CardIds.Secrets.Paladin.Avenge)
-                }
-            } catch {
-                logger.error("\(error)")
             }
+            self._avengeDeathRattleCount = 0
+            self._awaitingAvenge = false
         }
-        _awaitingAvenge = false
-        _avengeDeathRattleCount = 0
     }
 
     func handleOpponentDamage(entity: Entity) {
