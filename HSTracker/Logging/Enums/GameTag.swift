@@ -340,6 +340,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable {
     overridecardtextbuilder = 782,
     hidden_choice = 813,
     zombeast = 823,
+    modular = 849,
     whizbang_deck_id = 1048
 
     init?(rawString: String) {

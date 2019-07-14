@@ -1214,6 +1214,7 @@ class Game: NSObject, PowerEventHandler {
 
         if player == .player {
             handleThaurissanCostReduction()
+            secretsManager?.handleTurnStart()
         }
 
         if turnQueue.count > 0 {
@@ -1435,8 +1436,11 @@ class Game: NSObject, PowerEventHandler {
         updateTrackers()
     }
 
-    func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int) {
+    func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int, playersTurn: Bool) {
         player.playToGraveyard(entity: entity, cardId: cardId, turn: turn)
+        if playersTurn && entity.isMinion {
+            playerMinionDeath(entity: entity)
+        }
         updateTrackers()
     }
 
@@ -1711,12 +1715,16 @@ class Game: NSObject, PowerEventHandler {
         }
     }
 
-    func playerMinionPlayed() {
-        secretsManager?.handleMinionPlayed()
+    func playerMinionPlayed(entity: Entity) {
+        secretsManager?.handleMinionPlayed(entity: entity)
+    }
+    
+    func playerMinionDeath(entity: Entity) {
+        secretsManager?.handlePlayerMinionDeath(entity: entity)
     }
 
     func opponentMinionDeath(entity: Entity, turn: Int) {
-        secretsManager?.handleMinionDeath(entity: entity)
+        secretsManager?.handleOpponentMinionDeath(entity: entity)
     }
 
     func opponentDamage(entity: Entity) {

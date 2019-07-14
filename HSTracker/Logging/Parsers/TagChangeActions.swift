@@ -20,10 +20,6 @@ struct TagChangeActions {
         case .attacking: return { self.attackingChange(eventHandler: eventHandler, id: id, value: value) }
         case .proposed_defender: return { self.proposedDefenderChange(eventHandler: eventHandler, value: value) }
         case .proposed_attacker: return { self.proposedAttackerChange(eventHandler: eventHandler, value: value) }
-        case .num_minions_played_this_turn:
-            return {
-                self.numMinionsPlayedThisTurnChange(eventHandler: eventHandler, value: value)
-            }
         case .predamage: return { self.predamageChange(eventHandler: eventHandler, id: id, value: value) }
         case .num_turns_in_play: return { self.numTurnsInPlayChange(eventHandler: eventHandler, id: id, value: value) }
         case .num_attacks_this_turn: return { self.numAttacksThisTurnChange(eventHandler: eventHandler, id: id, value: value) }
@@ -58,6 +54,25 @@ struct TagChangeActions {
 
     private func lastCardPlayedChange(eventHandler: PowerEventHandler, value: Int) {
         eventHandler.lastCardPlayed = value
+        guard let playerEntity = eventHandler.playerEntity else { return }
+        guard playerEntity.isCurrentPlayer else { return }
+        
+        if let entity = eventHandler.entities[value] {
+            if !entity.isMinion {
+                return
+            }
+            
+            // check if it is a magnet buff, rather than a minion
+            if entity.has(tag: GameTag.modular) {
+                let pos = entity.tags[GameTag.zone_position]!
+                let neighbor = eventHandler.player.board.first(where: { $0.tags[GameTag.zone_position] == pos + 1 })
+                if neighbor?.card.race == Race.mechanical {
+                    return
+                }
+            }
+            
+            eventHandler.playerMinionPlayed(entity: entity)
+        }
     }
 
     private func defendingChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -76,15 +91,6 @@ struct TagChangeActions {
 
     private func proposedAttackerChange(eventHandler: PowerEventHandler, value: Int) {
         eventHandler.proposedAttackerEntityId = value
-    }
-
-    private func numMinionsPlayedThisTurnChange(eventHandler: PowerEventHandler, value: Int) {
-        guard value > 0 else { return }
-        guard let playerEntity = eventHandler.playerEntity else { return }
-        
-        if playerEntity.isCurrentPlayer {
-            eventHandler.playerMinionPlayed()
-        }
     }
 
     private func predamageChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
@@ -422,13 +428,11 @@ struct TagChangeActions {
             
         case .graveyard:
             if controller == eventHandler.player.id {
-                eventHandler.playerPlayToGraveyard(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
+                eventHandler.playerPlayToGraveyard(entity: entity, cardId: cardId, turn: eventHandler.turnNumber(), playersTurn: eventHandler.playerEntity?.isCurrentPlayer ?? false)
             } else if controller == eventHandler.opponent.id {
-                if let playerEntity = eventHandler.playerEntity {
-                    eventHandler.opponentPlayToGraveyard(entity: entity, cardId: cardId,
-                                                 turn: eventHandler.turnNumber(),
-                                                 playersTurn: playerEntity.isCurrentPlayer)
-                }
+                eventHandler.opponentPlayToGraveyard(entity: entity, cardId: cardId,
+                                                     turn: eventHandler.turnNumber(),
+                                                     playersTurn: eventHandler.playerEntity?.isCurrentPlayer ?? false)
             }
             
         case .removedfromgame, .setaside:

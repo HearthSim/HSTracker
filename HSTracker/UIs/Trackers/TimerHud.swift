@@ -42,6 +42,10 @@ class TimerHud: OverWindowController {
     }
  
     func tick(seconds: Int, playerSeconds: Int, opponentSeconds: Int) {
+        // TODO: turnLabel is nil when running unit tests, which causes crash
+        // a workaround of avoiding crash when running unit tests
+        guard turnLabel != nil else { return }
+        
         guard Settings.showTimer else {
             turnLabel.attributedStringValue = NSAttributedString(string: "")
             playerLabel.attributedStringValue = NSAttributedString(string: "")
