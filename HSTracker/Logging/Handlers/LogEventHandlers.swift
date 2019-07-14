@@ -92,7 +92,9 @@ protocol PowerEventHandler: class {
 	
 	var playerMinionCount: Int { get }
 	
-	func playerMinionPlayed()
+    func playerMinionPlayed(entity: Entity)
+    
+    func playerMinionDeath(entity: Entity)
 	
 	func opponentDamage(entity: Entity)
     
@@ -118,7 +120,7 @@ protocol PowerEventHandler: class {
 	
 	func playerDeckToPlay(entity: Entity, cardId: String?, turn: Int)
 	
-	func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int)
+    func playerPlayToGraveyard(entity: Entity, cardId: String?, turn: Int, playersTurn: Bool)
 	
 	func playerJoust(entity: Entity, cardId: String?, turn: Int)
 	

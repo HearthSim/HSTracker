@@ -17,6 +17,9 @@ class SecretsManager {
 
     private var game: Game
     private(set) var secrets: [Secret] = []
+    
+    private var _lastPlayedMinionId: Int = 0
+    private var savedSecrets: [String] = []
 
     var onChanged: (([Card]) -> Void)?
 
@@ -30,6 +33,14 @@ class SecretsManager {
 
     private var hasActiveSecrets: Bool {
         return secrets.count > 0
+    }
+    
+    private func saveSecret(secretName: String) {
+        if !secrets.any({ (s) -> Bool in
+            s.isExcluded(cardId: secretName)
+        }) {
+            savedSecrets.append(secretName)
+        }
     }
 
     func exclude(cardId: String, invokeCallback: Bool = true) {
@@ -90,6 +101,7 @@ class SecretsManager {
         secrets.remove(secret)
         if secret.entity.hasCardId {
             exclude(cardId: secret.entity.cardId, invokeCallback: false)
+            savedSecrets.remove(secret.entity.cardId)
         }
         onChanged?(getSecretList())
         return true
@@ -225,20 +237,27 @@ class SecretsManager {
         }
     }
 
-    func handleMinionPlayed() {
+    func handleMinionPlayed(entity: Entity) {
         guard handleAction else { return }
 
         var exclude: [String] = []
+        
+        _lastPlayedMinionId = entity.id
 
         //Hidden cache will only trigger if the opponent has a minion in hand.
         //We might not know this for certain - requires additional tracking logic.
         //TODO: _game.SecretsManager.SetZero(Hunter.HiddenCache);
+        saveSecret(secretName: CardIds.Secrets.Hunter.Snipe)
         exclude.append(CardIds.Secrets.Hunter.Snipe)
+        saveSecret(secretName: CardIds.Secrets.Mage.ExplosiveRunes)
         exclude.append(CardIds.Secrets.Mage.ExplosiveRunes)
+        saveSecret(secretName: CardIds.Secrets.Mage.PotionOfPolymorph)
         exclude.append(CardIds.Secrets.Mage.PotionOfPolymorph)
+        saveSecret(secretName: CardIds.Secrets.Paladin.Repentance)
         exclude.append(CardIds.Secrets.Paladin.Repentance)
 
         if freeSpaceOnBoard {
+            saveSecret(secretName: CardIds.Secrets.Mage.MirrorEntity)
             exclude.append(CardIds.Secrets.Mage.MirrorEntity)
         }
 
@@ -249,7 +268,7 @@ class SecretsManager {
         self.exclude(cardIds: exclude)
     }
 
-    func handleMinionDeath(entity: Entity) {
+    func handleOpponentMinionDeath(entity: Entity) {
         guard handleAction else { return }
 
         var exclude: [String] = []
@@ -302,6 +321,18 @@ class SecretsManager {
 
         self.exclude(cardIds: exclude)
     }
+    
+    func handlePlayerMinionDeath(entity: Entity) {
+        if entity.id == _lastPlayedMinionId && savedSecrets.count > 0 {
+            savedSecrets.forEach { savedSecret in
+                secrets.forEach { secret in
+                    secret.include(cardId: savedSecret)
+                }
+            }
+            
+            onChanged?(getSecretList())
+        }
+    }
 
     func handleAvengeAsync(deathRattleCount: Int) {
         guard handleAction else { return }
@@ -350,9 +381,15 @@ class SecretsManager {
         _lastCompetitiveSpiritCheck = turn
         exclude(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
     }
+    
+    func handleTurnStart() {
+        savedSecrets.removeAll()
+    }
 
     func handleCardPlayed(entity: Entity) {
         guard handleAction else { return }
+        
+        savedSecrets.removeAll()
 
         var exclude: [String] = []
         

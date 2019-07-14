@@ -83,7 +83,11 @@ struct TagChangeActions {
         guard let playerEntity = eventHandler.playerEntity else { return }
         
         if playerEntity.isCurrentPlayer {
-            eventHandler.playerMinionPlayed()
+            if let entity = eventHandler.entities[value] {
+                if entity.isMinion {
+                    eventHandler.playerMinionPlayed(entity: entity)
+                }
+            }
         }
     }
 
@@ -422,13 +426,11 @@ struct TagChangeActions {
             
         case .graveyard:
             if controller == eventHandler.player.id {
-                eventHandler.playerPlayToGraveyard(entity: entity, cardId: cardId, turn: eventHandler.turnNumber())
+                eventHandler.playerPlayToGraveyard(entity: entity, cardId: cardId, turn: eventHandler.turnNumber(), playersTurn: eventHandler.playerEntity?.isCurrentPlayer ?? false)
             } else if controller == eventHandler.opponent.id {
-                if let playerEntity = eventHandler.playerEntity {
-                    eventHandler.opponentPlayToGraveyard(entity: entity, cardId: cardId,
-                                                 turn: eventHandler.turnNumber(),
-                                                 playersTurn: playerEntity.isCurrentPlayer)
-                }
+                eventHandler.opponentPlayToGraveyard(entity: entity, cardId: cardId,
+                                                     turn: eventHandler.turnNumber(),
+                                                     playersTurn: eventHandler.playerEntity?.isCurrentPlayer ?? false)
             }
             
         case .removedfromgame, .setaside:

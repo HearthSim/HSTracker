@@ -27,6 +27,7 @@ class SecretTests: HSTrackerTests {
     secretHunter2: Entity!,
     secretMage1: Entity!,
     secretMage2: Entity!,
+    secretMage3: Entity!,
     secretPaladin1: Entity!,
     secretPaladin2: Entity!,
     secretRogue1: Entity!,
@@ -48,11 +49,14 @@ class SecretTests: HSTrackerTests {
         heroPlayer = createNewEntity(cardId: "HERO_01");
         heroPlayer[.cardtype] = CardType.hero.rawValue
         heroPlayer[.controller] = heroPlayer.id
+        heroPlayer[.mulligan_state] = Mulligan.done.rawValue
+        heroPlayer[.player_id] = heroPlayer.id
         heroOpponent = createNewEntity(cardId: "HERO_02");
         heroOpponent[.cardtype] = CardType.hero.rawValue
         heroOpponent[.controller] = heroOpponent.id
         opponentEntity = createNewEntity(cardId: "")
         opponentEntity[.player_id] = heroOpponent.id
+        opponentEntity[.mulligan_state] = Mulligan.done.rawValue
 
         game.entities[0] = gameEntity
         game.entities[1] = heroPlayer
@@ -107,6 +111,9 @@ class SecretTests: HSTrackerTests {
         secretMage2 = createNewEntity(cardId: "")
         secretMage2[.class] = TagClass.mage.rawValue
         secretMage2[.secret] = 1
+        secretMage3 = createNewEntity(cardId: "")
+        secretMage3[.class] = TagClass.mage.rawValue
+        secretMage3[.secret] = 1
         secretPaladin1 = createNewEntity(cardId: "")
         secretPaladin1[.class] = TagClass.paladin.rawValue
         secretPaladin1[.secret] = 1
@@ -317,7 +324,7 @@ class SecretTests: HSTrackerTests {
     }
 
     func testSingleSecret_MinionPlayed() {
-        game.playerMinionPlayed()
+        game.playerMinionPlayed(entity: playerMinion1)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.Snipe])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
@@ -442,18 +449,84 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
     
-    // TODO: Fix the case when the minion dead is player's
-    /*
     func testMultipleSecrets_MinionPlayed_MinionDied() {
-        game.playerMinionPlayed()
-        game.secretsManager?.handleMinionDeath(entity: playerMinion1)
+        game.playerMinionPlayed(entity: playerMinion1)
+        game.playerMinionDeath(entity: playerMinion1)
         
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.FrozenClone])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
-    } */
+    }
+    
+    func testMultipleSecrets_MinionPlayed_SecretTriggered_MinionDied() {
+        game.opponentSecretPlayed(entity: secretMage2, cardId: "", from: 0, turn: 0, fromZone: Zone.hand, otherId: secretMage2.id)
+        secretMage2.cardId = CardIds.Secrets.Mage.ExplosiveRunes
+        game.playerMinionPlayed(entity: playerMinion1)
+        game.opponentSecretTrigger(entity: secretMage2, cardId: "", turn: 2, otherId: secretMage2.id)
+        game.playerMinionDeath(entity: playerMinion1)
+        
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.ExplosiveRunes,
+                                  CardIds.Secrets.Mage.FrozenClone])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+    
+    func testMultipleSecrets_MinionPlayed_MultipleSecretsTriggered_MinionDied() {
+        game.opponentSecretPlayed(entity: secretMage2, cardId: "", from: 0, turn: 0, fromZone: Zone.hand, otherId: secretMage2.id)
+        game.opponentSecretPlayed(entity: secretMage3, cardId: "", from: 0, turn: 0, fromZone: Zone.hand, otherId: secretMage3.id)
+        secretMage2.cardId = CardIds.Secrets.Mage.PotionOfPolymorph
+        secretMage3.cardId = CardIds.Secrets.Mage.ExplosiveRunes
+        game.playerMinionPlayed(entity: playerMinion1)
+        game.opponentSecretTrigger(entity: secretMage2, cardId: "", turn: 2, otherId: secretMage2.id)
+        game.opponentSecretTrigger(entity: secretMage3, cardId: "", turn: 2, otherId: secretMage3.id)
+        game.playerMinionDeath(entity: playerMinion1)
+        
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.ExplosiveRunes,
+                                  CardIds.Secrets.Mage.FrozenClone,
+                                  CardIds.Secrets.Mage.PotionOfPolymorph])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+    
+    func testMultipleSecrets_MinionPlayed_MinionDiedNextTurn() {
+        game.playerMinionPlayed(entity: playerMinion1)
+        game.turnStart(player: PlayerType.player, turn: 2)
+        wait(for: 2)
+        game.playerMinionDeath(entity: playerMinion1)
+        
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
+                      triggered: [CardIds.Secrets.Hunter.Snipe])
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.ExplosiveRunes,
+                                  CardIds.Secrets.Mage.FrozenClone,
+                                  CardIds.Secrets.Mage.MirrorEntity,
+                                  CardIds.Secrets.Mage.PotionOfPolymorph])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
+                      triggered: [CardIds.Secrets.Paladin.Repentance])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+    
+    func testMultipleSecrets_MinionPlayed_AnotherMinionDied() {
+        game.playerMinionPlayed(entity: playerMinion1)
+        game.playerMinionDeath(entity: playerMinion2)
+        
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
+                      triggered: [CardIds.Secrets.Hunter.Snipe])
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.ExplosiveRunes,
+                                  CardIds.Secrets.Mage.FrozenClone,
+                                  CardIds.Secrets.Mage.MirrorEntity,
+                                  CardIds.Secrets.Mage.PotionOfPolymorph])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
+                      triggered: [CardIds.Secrets.Paladin.Repentance])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
     
     // TODO: Add test for Rat Trap, Hidden Wisdom, Sacred Trial, etc.
 }
