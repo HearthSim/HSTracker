@@ -23,17 +23,22 @@ struct SizeHelper {
             reload()
         }
         
-        func reload() {
+        private func area(dict: NSDictionary) -> Int {
+            let h = (dict["kCGWindowBounds"] as? NSDictionary)?["Height"] as? Int ?? 0
+            let w = (dict["kCGWindowBounds"] as? NSDictionary)?["Height"] as? Int ?? 0
 
+            return w * h
+        }
+        
+        func reload() {
             let options = CGWindowListOption(arrayLiteral: .excludeDesktopElements)
             let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
-            if let info = (windowListInfo as NSArray? as? [[String: AnyObject]])?.filter({
-                !$0.filter({ $0.0 == "kCGWindowName"
-                    && $0.1 as? String == CoreManager.applicationName }).isEmpty
-            }).filter({
-                !$0.filter({ $0.0 == "kCGWindowOwnerName"
-                    && $0.1 as? String == CoreManager.applicationName }).isEmpty
-            }).first {
+
+            if let info = (windowListInfo as? [NSDictionary])?.filter({dict in
+                dict["kCGWindowOwnerName"] as? String == CoreManager.applicationName
+            }).sorted(by: {
+                return area(dict: $1) > area(dict: $0)
+            }).last {
                 if let id = info["kCGWindowNumber"] as? Int {
                     self.windowId = CGWindowID(id)
                 }
@@ -42,7 +47,7 @@ struct SizeHelper {
                 // swiftlint:enable force_cast
                 if let rect = CGRect(dictionaryRepresentation: bounds) {
                     var frame = rect
-
+                    
                     // Warning: this function assumes that the
                     // first screen in the list is the active one
                     if let screen = NSScreen.screens.first {
