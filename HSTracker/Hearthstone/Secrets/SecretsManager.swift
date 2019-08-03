@@ -414,6 +414,9 @@ class SecretsManager {
             if game.opponentMinionCount > 0 {
                 exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
             }
+            if game.playerMinionCount > 0 {
+                exclude.append(CardIds.Secrets.Hunter.PressurePlate)
+            }
 
             if freeSpaceInHand {
                 exclude.append(CardIds.Secrets.Mage.ManaBind)
