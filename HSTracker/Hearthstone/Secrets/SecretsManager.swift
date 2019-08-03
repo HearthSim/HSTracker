@@ -197,6 +197,7 @@ class SecretsManager {
 
             if attacker.isMinion {
                 exclude.append(CardIds.Secrets.Mage.Vaporize)
+                exclude.append(CardIds.Secrets.Mage.FlameWard)
                 if attacker.health >= 1 {
                     exclude.append(CardIds.Secrets.Hunter.FreezingTrap)
                 }
