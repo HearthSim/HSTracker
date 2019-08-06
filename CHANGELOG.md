@@ -1,6 +1,8 @@
-# 1.6.2
+# 1.6.3
 ## New:
 - Added support for Saviors of Uldum
+
+# 1.6.2
 ## Fixes:
 - Fixed secret tracker is lagging  (https://github.com/HearthSim/HSTracker/issues/972 and https://github.com/HearthSim/HSTracker/issues/994)
 - Fixed window positioning on MacOS Catalina  (https://github.com/HearthSim/HSTracker/issues/1071)
