@@ -217,7 +217,8 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Hunter.Misdirection,
                                   CardIds.Secrets.Hunter.WanderingMonster])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.IceBarrier,
+                      triggered: [CardIds.Secrets.Mage.FlameWard,
+                                  CardIds.Secrets.Mage.IceBarrier,
                                   CardIds.Secrets.Mage.Vaporize])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
@@ -233,7 +234,8 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Hunter.Misdirection,
                                   CardIds.Secrets.Hunter.WanderingMonster])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
-                      triggered: [CardIds.Secrets.Mage.IceBarrier,
+                      triggered: [CardIds.Secrets.Mage.FlameWard,
+                                  CardIds.Secrets.Mage.IceBarrier,
                                   CardIds.Secrets.Mage.Vaporize])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
@@ -443,7 +445,8 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Hunter.WanderingMonster])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.IceBarrier,
-                                  CardIds.Secrets.Mage.Vaporize])
+                                  CardIds.Secrets.Mage.Vaporize,
+                                  CardIds.Secrets.Mage.FlameWard])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
