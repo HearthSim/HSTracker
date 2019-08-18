@@ -126,6 +126,7 @@ extension CardIds.Collectible {
         static let HiddenWisdom: String = "GIL_903"
         static let AutodefenseMatrix: String = "BOT_908"
         static let NeverSurrender = "DAL_570"
+        static let SandwaspQueen = "ULD_439"
     }
 }
 
@@ -186,6 +187,7 @@ extension CardIds.NonCollectible {
         static let BolvarFireblood_FadingLightEnchantment: String = "ICC_858e"
         static let TirionFordring: String = "ICCA01_013"
         static let HandOfSalvation: String = "BCON_012"
+        static let SandwaspQueen_SandwaspToken: String = "ULD_439t"
     }
 }
 
