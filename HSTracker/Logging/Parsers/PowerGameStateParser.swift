@@ -446,7 +446,7 @@ class PowerGameStateParser: LogEventParser {
                         default: break
                         }
                     }
-                } else {
+                } else { // type == "POWER"
                     if let actionStartingCardId = actionStartingCardId {
                         switch actionStartingCardId {
                         case CardIds.Collectible.Rogue.GangUp,
@@ -566,6 +566,18 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Warrior.ClockworkGoblin:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
+                        case CardIds.Collectible.Paladin.SandwaspQueen:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Paladin.SandwaspQueen_SandwaspToken,
+                                           count: 2)
+                        case CardIds.Collectible.Rogue.ShadowOfDeath:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Rogue.ShadowofDeath_ShadowToken,
+                                           count: 3)
+                        case CardIds.Collectible.Warlock.Impbalming:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Warlock.Impbalming_WorthlessImpToken,
+                                           count: 3)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

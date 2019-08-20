@@ -122,6 +122,7 @@ extension CardIds.Collectible {
         static let FeedingTime: String = "UNG_834"
         static let ChitteringTunneler: String = "UNG_835"
         static let ClutchmotherZavas: String = "UNG_836"
+        static let Impbalming: String = "ULD_324"
     }
 }
 
@@ -175,6 +176,7 @@ extension CardIds.NonCollectible {
         static let BiteOfTheBloodQueen: String = "ICCA05_020"
         static let BloodEssence: String = "ICCA05_021"
         static let BloodreaverGuldan_SiphonLife: String = "ICC_831p"
+        static let Impbalming_WorthlessImpToken: String = "ULD_324t"
     }
 }
 

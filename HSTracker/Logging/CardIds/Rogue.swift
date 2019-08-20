@@ -130,6 +130,7 @@ extension CardIds.Collectible {
         static let FaldoreiStrider: String = "LOOT_026"
         static let Kingsbane: String = "LOOT_542"
         static let LabRecruiter: String = "BOT_288"
+        static let ShadowOfDeath: String = "ULD_286"
     }
 }
 
@@ -195,6 +196,7 @@ extension CardIds.NonCollectible {
         static let ShadowReflectionTavernBrawl: String = "TB_ShadowReflection_001"
         static let FaldoreiStrider_SpiderAmbushEnchantment: String = "LOOT_026e"
         static let BinkTheBurglarHeroic: String = "LOOTA_BOSS_45h"
+        static let ShadowofDeath_ShadowToken = "ULD_286t"
     }
 }
 
