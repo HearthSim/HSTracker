@@ -1,4 +1,4 @@
-# 1.6.3
+# 1.6.4
 ## New:
 - Update for 2019-08-26 nerfs
 - Sign the app with a "Developer ID" certificate (https://github.com/HearthSim/HSTracker/issues/1018 and https://github.com/HearthSim/HSTracker/issues/1078) 
