@@ -1,5 +1,11 @@
 # 1.6.3
 ## New:
+- Update for 2019-08-26 nerfs
+- Sign the app with a "Developer ID" certificate (https://github.com/HearthSim/HSTracker/issues/1018 and https://github.com/HearthSim/HSTracker/issues/1078) 
+- Add support for tracking uldmu cards
+
+# 1.6.3
+## New:
 - Added support for Saviors of Uldum
 
 # 1.6.2
