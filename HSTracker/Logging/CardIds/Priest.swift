@@ -125,6 +125,7 @@ extension CardIds.Collectible {
         static let GildedGargoyle: String = "LOOT_534"
         static let Chameleos: String = "GIL_142"
         static let ExtraArms: String = "BOT_219"
+        static let SpiritOfTheDead = "TRL_502"
     }
 }
 

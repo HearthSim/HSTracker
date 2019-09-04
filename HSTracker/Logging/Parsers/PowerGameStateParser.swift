@@ -14,7 +14,7 @@ import RegexUtil
 class PowerGameStateParser: LogEventParser {
 
     let BlockStartRegex = RegexPattern(stringLiteral: ".*BLOCK_START.*BlockType=(POWER|TRIGGER)"
-        + ".*id=(\\d*).*(cardId=(\\w*)).*Target=(.+).*SubOption=(.+)")
+        + ".*id=(\\d*).*(cardId=(\\w*)).*player=(\\d*).*Target=(.+).*SubOption=(.+)")
     let CardIdRegex: RegexPattern = "cardId=(\\w+)"
     let CreationRegex: RegexPattern = "FULL_ENTITY - Updating.*id=(\\d+).*zone=(\\w+).*CardID=(\\w*)"
     let CreationTagRegex: RegexPattern = "tag=(\\w+) value=(\\w+)"
@@ -354,6 +354,7 @@ class PowerGameStateParser: LogEventParser {
             
             var type: String?
             var cardId: String?
+            var correspondPlayer: Int?
             let matches = logLine.line.matches(BlockStartRegex)
             if matches.count > 0 {
                 type = matches[0].value
@@ -361,6 +362,10 @@ class PowerGameStateParser: LogEventParser {
             
             if matches.count > 3 {
                 cardId = matches[3].value
+            }
+            
+            if matches.count > 4 {
+                correspondPlayer = Int(matches[4].value)!
             }
             
             blockStart(type: type, cardId: cardId)
@@ -443,6 +448,12 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Warrior.Wrenchcalibur:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
+                        case CardIds.Collectible.Priest.SpiritOfTheDead:
+                            if correspondPlayer == eventHandler.player.id {
+                                addKnownCardId(eventHandler: eventHandler, cardId: eventHandler.player.lastDiedMinionCardId)
+                            } else if correspondPlayer == eventHandler.opponent.id {
+                                addKnownCardId(eventHandler: eventHandler, cardId: eventHandler.opponent.lastDiedMinionCardId)
+                            }
                         default: break
                         }
                     }
