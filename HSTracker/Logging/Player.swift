@@ -90,6 +90,7 @@ final class Player {
     var goingFirst = false
     var fatigue = 0
     var heroPowerCount = 0
+    var lastDiedMinionCardId: String?
     fileprivate(set) var spellsPlayedCount = 0
     fileprivate(set) var deathrattlesPlayedCount = 0
 	private unowned(unsafe) let game: Game
@@ -574,6 +575,11 @@ final class Player {
         if entity.isMinion && entity.has(tag: .deathrattle) {
             deathrattlesPlayedCount += 1
         }
+        
+        if entity.isMinion {
+            lastDiedMinionCardId = cardId
+        }
+        
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
