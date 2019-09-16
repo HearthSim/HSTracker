@@ -631,6 +631,12 @@ class Game: NSObject, PowerEventHandler {
             .first { $0.isInPlay && $0.isMinion
                 && $0.isControlled(by: self.opponent.id) } != nil
     }
+    
+    var isPlayerMinionInPlay: Bool {
+        return entities.map { $0.1 }
+            .first { $0.isInPlay && $0.isMinion
+                && $0.isControlled(by: self.player.id) && !$0.has(tag: GameTag.to_be_destroyed) } != nil
+    }
 
     var opponentMinionCount: Int {
         return entities.map { $0.1 }
@@ -1392,7 +1398,7 @@ class Game: NSObject, PowerEventHandler {
             player.secretPlayedFromDeck(entity: entity, turn: turn)
         case .hand:
             player.secretPlayedFromHand(entity: entity, turn: turn)
-            secretsManager?.handleCardPlayed(entity: entity)
+            secretsManager?.handleSpellCasted(entity: entity)
         default:
             player.createInSecret(entity: entity, turn: turn)
             return
@@ -1442,10 +1448,8 @@ class Game: NSObject, PowerEventHandler {
             playerMinionDeath(entity: entity)
         }
         
-        // a workaround to fix (#1080) by double-checking the secrets after a spell takes effect,
-        // e.g., summoned a minion.
         if playersTurn && entity.isSpell {
-            secretsManager?.handleCardPlayed(entity: entity)
+            secretsManager?.handleSpellCasted(entity: entity)
         }
         
         updateTrackers()

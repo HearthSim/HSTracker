@@ -408,39 +408,44 @@ class SecretsManager {
             }
         }
         
-        if entity.isSpell {
-            exclude.append(CardIds.Secrets.Mage.Counterspell)
-
+        if entity.isMinion && game.playerMinionCount > 3 {
+            exclude.append(CardIds.Secrets.Paladin.SacredTrial)
+        }
+        self.exclude(cardIds: exclude)
+    }
+    
+    // this method is called when a spell is moved from play to graveyard
+    func handleSpellCasted(entity: Entity) {
+        guard handleAction && entity.isSpell else { return }
+        
+        var exclude: [String] = []
+        
+        exclude.append(CardIds.Secrets.Mage.Counterspell)
+        
+        // the spell is not countered by Counter Spell
+        if !entity.has(tag: GameTag.cant_play) {
             if game.opponentMinionCount > 0 {
                 exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
             }
-            if game.playerMinionCount > 0 {
+            
+            if game.isPlayerMinionInPlay {
                 exclude.append(CardIds.Secrets.Hunter.PressurePlate)
             }
-
+            
             if freeSpaceInHand {
                 exclude.append(CardIds.Secrets.Mage.ManaBind)
             }
-
+            
             if freeSpaceOnBoard {
-                // CARD_TARGET is set after ZONE, wait for 50ms gametime before checking
-                do {
-                    try await {
-                        Thread.sleep(forTimeInterval: 0.2)
-                    }
-                    if let target = game.entities[entity[.card_target]],
-                        entity.has(tag: .card_target),
-                        target.isMinion {
-                        exclude.append(CardIds.Secrets.Mage.Spellbender)
-                    }
-                    exclude.append(CardIds.Secrets.Hunter.CatTrick)
-                } catch {
-                    logger.error("\(error)")
+                if let target = game.entities[entity[.card_target]],
+                    entity.has(tag: .card_target),
+                    target.isMinion {
+                    exclude.append(CardIds.Secrets.Mage.Spellbender)
                 }
+                exclude.append(CardIds.Secrets.Hunter.CatTrick)
             }
-        } else if entity.isMinion && game.playerMinionCount > 3 {
-            exclude.append(CardIds.Secrets.Paladin.SacredTrial)
         }
+        
         self.exclude(cardIds: exclude)
     }
 
