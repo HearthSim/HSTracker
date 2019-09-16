@@ -18,8 +18,11 @@ class SecretTests: HSTrackerTests {
     heroOpponent: Entity!,
     playerSpell1: Entity!,
     playerSpell2: Entity!,
+    playerSpell3: Entity!,
+    playerSpell4: Entity!,
     playerMinion1: Entity!,
     playerMinion2: Entity!,
+    playerMinion3: Entity!,
     opponentMinion1: Entity!,
     opponentMinion2: Entity!,
     opponentDivineShieldMinion: Entity!,
@@ -71,6 +74,9 @@ class SecretTests: HSTrackerTests {
         playerMinion2 = createNewEntity(cardId: "EX1_011")
         playerMinion2[.cardtype] = CardType.minion.rawValue
         playerMinion2[.controller] = heroPlayer.id
+        playerMinion3 = createNewEntity(cardId: "NEW1_033") // Leokk
+        playerMinion3[.cardtype] = CardType.minion.rawValue
+        playerMinion3[.controller] = heroPlayer.id
         opponentMinion1 = createNewEntity(cardId: "EX1_020")
         opponentMinion1[.cardtype] = CardType.minion.rawValue
         opponentMinion1[.controller] = heroOpponent.id
@@ -88,11 +94,18 @@ class SecretTests: HSTrackerTests {
         playerSpell2 = createNewEntity(cardId: "CS2_025")
         playerSpell2[.cardtype] = CardType.spell.rawValue
         playerSpell2[.controller] = heroPlayer.id
+        playerSpell3 = createNewEntity(cardId: "NEW1_031") // animal companion
+        playerSpell3[.cardtype] = CardType.spell.rawValue
+        playerSpell3[.controller] = heroPlayer.id
+        playerSpell4 = createNewEntity(cardId: "EX1_407") // brawl
+        playerSpell4[.cardtype] = CardType.spell.rawValue
+        playerSpell4[.controller] = heroPlayer.id
 
         game.entities[4] = playerMinion1
         game.entities[5] = playerMinion2
-        game.entities[6] = opponentMinion1
-        game.entities[7] = opponentMinion2
+        game.entities[6] = playerMinion3
+        game.entities[7] = opponentMinion1
+        game.entities[8] = opponentMinion2
         
         opponentCardInHand1 = createNewEntity(cardId: "")
         opponentCardInHand1[.controller] = heroOpponent.id
@@ -350,7 +363,7 @@ class SecretTests: HSTrackerTests {
     }
 
     func testSingleSecret_MinionTarget_SpellPlayed() {
-        game.secretsManager?.handleCardPlayed(entity: playerSpell1)
+        game.secretsManager?.handleSpellCasted(entity: playerSpell1)
 
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.CatTrick])
@@ -363,7 +376,7 @@ class SecretTests: HSTrackerTests {
     }
 
     func testSingleSecret_NoMinionTarget_SpellPlayed() {
-        game.secretsManager?.handleCardPlayed(entity: playerSpell2)
+        game.secretsManager?.handleSpellCasted(entity: playerSpell2)
 
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.CatTrick])
@@ -376,7 +389,7 @@ class SecretTests: HSTrackerTests {
     
     func testSingleSecret_MinionOnBoard_NoMinionTarget_SpellPlayed() {
         opponentMinion1[.zone] = Zone.play.rawValue
-        game.secretsManager?.handleCardPlayed(entity: playerSpell2)
+        game.secretsManager?.handleSpellCasted(entity: playerSpell2)
         
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.CatTrick])
@@ -431,6 +444,41 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+    
+    func testSingleSecret_NoMinionInPlay_SpellSummonsMinion() {
+        // Animal Companion is played and Leokk is summoned
+        game.secretsManager?.handleCardPlayed(entity: playerSpell3)
+        playerMinion3[.zone] = Zone.play.rawValue
+        game.secretsManager?.handleSpellCasted(entity: playerSpell3)
+        
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
+                      triggered: [CardIds.Secrets.Hunter.CatTrick,
+                                  CardIds.Secrets.Hunter.PressurePlate])
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.Counterspell,
+                                  CardIds.Secrets.Mage.ManaBind])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+    
+    func testSingleSecret_MinionInPlay_SpellKillsAllFriendlyMinions() {
+        playerMinion1[.zone] = Zone.play.rawValue
+        opponentMinion1[.zone] = Zone.play.rawValue
+        
+        // Brawl is played and the player lose
+        game.secretsManager?.handleCardPlayed(entity: playerSpell4)
+        playerMinion1[.to_be_destroyed] = 1
+        game.secretsManager?.handleSpellCasted(entity: playerSpell4)
+        
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
+                      triggered: [CardIds.Secrets.Hunter.CatTrick])
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.Counterspell,
+                                  CardIds.Secrets.Mage.ManaBind])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
+                      triggered: [CardIds.Secrets.Paladin.NeverSurrender])
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
     
@@ -528,6 +576,21 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Mage.PotionOfPolymorph])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.Repentance])
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+    
+    func testMultipleSecrets_MinionInPlay_SpellCountered() {
+        opponentMinion1[.zone] = Zone.play.rawValue
+        
+        // playerSpell1 is played but countered by Counterspell
+        game.secretsManager?.handleCardPlayed(entity: playerSpell1)
+        playerSpell1[.cant_play] = 1
+        game.secretsManager?.handleSpellCasted(entity: playerSpell1)
+        
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
+                      triggered: [CardIds.Secrets.Mage.Counterspell])
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
     
