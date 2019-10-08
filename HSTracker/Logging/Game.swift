@@ -1441,6 +1441,13 @@ class Game: NSObject, PowerEventHandler {
         if playersTurn && entity.isMinion {
             playerMinionDeath(entity: entity)
         }
+        
+        // a workaround to fix (#1080) by double-checking the secrets after a spell takes effect,
+        // e.g., summoned a minion.
+        if playersTurn && entity.isSpell {
+            secretsManager?.handleCardPlayed(entity: entity)
+        }
+        
         updateTrackers()
     }
 
