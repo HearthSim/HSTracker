@@ -1,3 +1,7 @@
+# 1.6.5
+## New:
+- Update for Hallow's end
+
 # 1.6.4
 ## New:
 - Update for 2019-08-26 nerfs
