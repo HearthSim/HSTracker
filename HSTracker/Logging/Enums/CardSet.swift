@@ -32,7 +32,8 @@ enum CardSet: String, CaseIterable {
     boomsday,
     troll, // Rastakhan's Rumble
     dalaran, // rise of the shadows
-    uldum // Saviors of Uldmu
+    uldum, // Saviors of Uldmu
+    wild_event
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .expert1, .naxx, .gvg, .brm, .tgt,
