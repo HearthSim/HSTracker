@@ -3,16 +3,16 @@
 "aAI-Yn-Z1P.title" = "Sincronizar resultados de partidas";
 
 /* Class = "NSButtonCell"; title = "Claim Account"; ObjectID = "PFc-eW-dQG"; */
-"PFc-eW-dQG.title" = "Claim Account";
+"PFc-eW-dQG.title" = "Reivindicar conta";
 
 /* Class = "NSButtonCell"; title = "Synchronize matches results"; ObjectID = "aAI-Yn-Z1P"; */
-"aAI-Yn-Z1P.title" = "Synchronize matches results";
+"aAI-Yn-Z1P.title" = "Sincronizar resultados de partidas";
 
 /* Class = "NSTextFieldCell"; title = "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser."; ObjectID = "alf-8N-P9t"; */
-"alf-8N-P9t.title" = "Log in with your Battle.net credentials on HSReplay.net to claim your existing replays. This will open your web browser.";
+"alf-8N-P9t.title" = "Entre com suas credenciais Battle.net no HSReplay.net para reivindicar seus replays existentes. Isso abrirá seu navegador web.";
 
 /* Class = "NSButtonCell"; title = "Disconnect from HSReplay"; ObjectID = "y6L-Kw-KFY"; */
-"y6L-Kw-KFY.title" = "Disconnect from HSReplay";
+"y6L-Kw-KFY.title" = "Desconectar do HSReplay";
 
 /* Class = "NSButtonCell"; title = "Reset Account"; ObjectID = "Ikd-r0-oiT"; */
-"Ikd-r0-oiT.title" = "Reset Account";
+"Ikd-r0-oiT.title" = "Resetar conta";
