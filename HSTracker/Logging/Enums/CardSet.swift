@@ -33,13 +33,14 @@ enum CardSet: String, CaseIterable {
     troll, // Rastakhan's Rumble
     dalaran, // rise of the shadows
     uldum, // Saviors of Uldmu
-    wild_event
+    wild_event,
+    dragons // Descent od Dragons
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .expert1, .naxx, .gvg, .brm, .tgt,
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
                 .lootapalooza, .gilneas, .boomsday, .troll,
-                .dalaran, .uldum]
+                .dalaran, .uldum, .dragons]
     }
     
     static func wildSets() -> [CardSet] {
