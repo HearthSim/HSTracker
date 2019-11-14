@@ -61,6 +61,10 @@ class WindowManager {
         return $0
     }(TimerHud(windowNibName: NSNib.Name(rawValue: "TimerHud")))
 
+    var collectionFeedBack: CollectionFeedback = {
+        return $0
+    }(CollectionFeedback(windowNibName: NSNib.Name(rawValue: "CollectionFeedback")))
+
     var floatingCard: FloatingCard = {
         if let fWindow = $0.window {
             

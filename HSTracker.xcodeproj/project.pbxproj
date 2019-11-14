@@ -468,6 +468,8 @@
 		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
+		4C1ED0D3237CB24A00ABB3D1 /* CollectionFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */; };
+		4C1ED0D7237CB8E800ABB3D1 /* CollectionFeedback.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */; };
 		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
 		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
 		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -954,6 +956,8 @@
 		43F4D0481EB7A23D006B4479 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroPower.swift; sourceTree = "<group>"; };
 		43F8265A1E0A674000422F4F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFeedback.swift; sourceTree = "<group>"; };
+		4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionFeedback.xib; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
 		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
 		5BD4A5012233E40B00EF879B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
@@ -1586,6 +1590,8 @@
 				BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */,
 				43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */,
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
+				4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */,
+				4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1893,6 +1899,7 @@
 				4323C5ED1E1A502900C97896 /* HearthMirror.framework.dSYM in Resources */,
 				43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
+				4C1ED0D7237CB8E800ABB3D1 /* CollectionFeedback.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
@@ -2075,6 +2082,7 @@
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
 				43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
 				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
+				4C1ED0D3237CB24A00ABB3D1 /* CollectionFeedback.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
 				BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */,

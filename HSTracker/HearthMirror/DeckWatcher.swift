@@ -206,39 +206,90 @@ class DungeonRunDeckWatcher: Watcher {
 }
 
 class CollectionWatcher: Watcher {
+    private var sent: Bool = false
+    private var mirrorCollection: MirrorCollection? = nil
+    
     private(set) static var lastUploadedCollection: MirrorCollection?
     internal var uploadingInterval: TimeInterval = 5
 
-    static let _instance = CollectionWatcher()
+    private let windowManager: WindowManager
+    private let game: Game
+    private var hideWindowWorkItem: DispatchWorkItem?
+    
+    static private var _instance: CollectionWatcher?
 
-    static func start() {
-        _instance.startWatching()
+    static func start(game: Game) {
+        if _instance == nil {
+            _instance = CollectionWatcher(game: game)
+        }
+        
+        guard let instance = _instance else {
+            return
+        }
+        instance.startWatching()
+    }
+    
+    init(game: Game) {
+        self.game = game
+        self.windowManager = game.windowManager
     }
 
     static func stop() {
-        _instance.stopWatching()
+        guard let instance = _instance else {
+            return
+        }
+        instance.stopWatching()
+    }
+
+    func sendMessage(message: String) {
+        if let workItem = hideWindowWorkItem {
+            workItem.cancel()
+        }
+        DispatchQueue.main.async { [unowned(unsafe) self] in
+            let collectionFeedback = self.windowManager.collectionFeedBack
+            let rect = SizeHelper.collectionFeedbackFrame()
+
+            self.windowManager.show(controller: collectionFeedback, show: true, frame: rect, title: nil, overlay: true)
+            collectionFeedback.setMessage(message: message)
+        }
+    }
+    
+    func hideWindow() {
+        let workItem = DispatchWorkItem(block: {
+            self.windowManager.show(controller: self.windowManager.collectionFeedBack, show: self.game.shouldShowGUIElement)
+        })
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: workItem)
     }
 
     override func run() {
         while isRunning {
-            guard let collection = MirrorHelper.getCollection() else {
-                Thread.sleep(forTimeInterval: refreshInterval)
-                continue
-            }
             
-            // convert mirror data into collection
-            let data = UploadCollectionData(collection: collection.cards, favoriteHeroes: collection.favoriteHeroes, cardbacks: collection.cardbacks, favoriteCardback: collection.favoriteCardback.intValue, dust: collection.dust.intValue, gold: collection.gold.intValue)
-            
-            CollectionUploader.upload(collectionData: data) { result in
-                switch result {
-                case .successful:
-                    NotificationManager.showNotification(type: .hsReplayCollectionUploaded)
-                case .failed(let error):
-                    NotificationManager.showNotification(type: .hsReplayCollectionUploadFailed(error: error))
+            if self.mirrorCollection == nil {
+                mirrorCollection = MirrorHelper.getCollection()
+                if mirrorCollection == nil  {
+                    Thread.sleep(forTimeInterval: refreshInterval)
                 }
-            }
+            } else if !sent, let collection = mirrorCollection {
+                sent = true
+                sendMessage(message: "Uploading collection...")
 
-            Thread.sleep(forTimeInterval: refreshInterval)
+                // convert mirror data into collection
+                let data = UploadCollectionData(collection: collection.cards, favoriteHeroes: collection.favoriteHeroes, cardbacks: collection.cardbacks, favoriteCardback: collection.favoriteCardback.intValue, dust: collection.dust.intValue, gold: collection.gold.intValue)
+
+                CollectionUploader.upload(collectionData: data) { result in
+                    switch result {
+                    case .successful:
+                        NotificationManager.showNotification(type: .hsReplayCollectionUploaded)
+                        self.sendMessage(message: "Collection uploaded successfully")
+                    case .failed(let error):
+                        self.sendMessage(message: "Error while uploading the collection")
+                        NotificationManager.showNotification(type: .hsReplayCollectionUploadFailed(error: error))
+                    }
+                }
+            } else {
+                Thread.sleep(forTimeInterval: refreshInterval)
+            }
         }
 
         queue = nil
