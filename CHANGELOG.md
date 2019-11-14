@@ -1,3 +1,7 @@
+# 1.6.8
+## New:
+- Sathrovarr support
+
 # 1.6.6
 ## New:
 - Update for Hallow's end
