@@ -30,11 +30,7 @@ class Game: NSObject, PowerEventHandler {
 	/**
 	 * View controller of this game object
 	 */
-	#if DEBUG
-		internal let windowManager = WindowManager()
-	#else
-		private let windowManager = WindowManager()
-	#endif
+    internal let windowManager = WindowManager()
 	
 	static let guiUpdateDelay: TimeInterval = 0.5
 	
