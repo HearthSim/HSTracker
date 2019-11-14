@@ -249,14 +249,14 @@ class CollectionWatcher: Watcher {
             let collectionFeedback = self.windowManager.collectionFeedBack
             let rect = SizeHelper.collectionFeedbackFrame()
 
-            self.windowManager.show(controller: collectionFeedback, show: true, frame: rect, title: nil, overlay: true)
+            self.windowManager.show(controller: collectionFeedback, show: true, frame: rect, title: nil, overlay: self.game.shouldShowGUIElement)
             collectionFeedback.setMessage(message: message)
         }
     }
     
     func hideWindow() {
         let workItem = DispatchWorkItem(block: {
-            self.windowManager.show(controller: self.windowManager.collectionFeedBack, show: self.game.shouldShowGUIElement)
+            self.windowManager.show(controller: self.windowManager.collectionFeedBack, show: false)
         })
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: workItem)
@@ -267,7 +267,7 @@ class CollectionWatcher: Watcher {
             
             if self.mirrorCollection == nil {
                 mirrorCollection = MirrorHelper.getCollection()
-                if mirrorCollection == nil  {
+                if mirrorCollection == nil {
                     Thread.sleep(forTimeInterval: refreshInterval)
                 }
             } else if !sent, let collection = mirrorCollection {
@@ -280,12 +280,11 @@ class CollectionWatcher: Watcher {
                 CollectionUploader.upload(collectionData: data) { result in
                     switch result {
                     case .successful:
-                        NotificationManager.showNotification(type: .hsReplayCollectionUploaded)
                         self.sendMessage(message: "Collection uploaded successfully")
                     case .failed(let error):
                         self.sendMessage(message: "Error while uploading the collection")
-                        NotificationManager.showNotification(type: .hsReplayCollectionUploadFailed(error: error))
                     }
+                    self.hideWindow()
                 }
             } else {
                 Thread.sleep(forTimeInterval: refreshInterval)

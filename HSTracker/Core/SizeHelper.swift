@@ -275,7 +275,7 @@ struct SizeHelper {
     }
     
     static func collectionFeedbackFrame() -> NSRect {
-        let w: CGFloat = 300.0
+        let w: CGFloat = 450.0
         let h: CGFloat = 80.0
         let offset: CGFloat = 20.0
         
