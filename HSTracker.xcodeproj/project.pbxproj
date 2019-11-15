@@ -470,6 +470,7 @@
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
 		4C1ED0D3237CB24A00ABB3D1 /* CollectionFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */; };
 		4C1ED0D7237CB8E800ABB3D1 /* CollectionFeedback.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */; };
+		4C6E99A3237F635300702AB2 /* CollectionWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */; };
 		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
 		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
 		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -958,6 +959,7 @@
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFeedback.swift; sourceTree = "<group>"; };
 		4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionFeedback.xib; sourceTree = "<group>"; };
+		4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWatcher.swift; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
 		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
 		5BD4A5012233E40B00EF879B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
@@ -1203,6 +1205,7 @@
 				4323C5F61E1BE28800C97896 /* BrawlInfo.swift */,
 				BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */,
 				1CF204F81E83B74300037A42 /* MirrorHelper.swift */,
+				4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */,
 			);
 			path = HearthMirror;
 			sourceTree = "<group>";
@@ -1993,6 +1996,7 @@
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
 				43E7BEB11DBB81B10057DC0C /* RealmCard.swift in Sources */,
 				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
+				4C6E99A3237F635300702AB2 /* CollectionWatcher.swift in Sources */,
 				4361D8341DC8A21800D831CF /* BnetGameType.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,

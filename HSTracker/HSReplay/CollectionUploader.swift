@@ -12,11 +12,13 @@ import Wrap
 class CollectionUploader {
     static func upload(collectionData: UploadCollectionData, completion: @escaping(CollectionUploadResult) -> Void) {
 
+        logger.debug("Start Wrapping \(NSDate().timeIntervalSince1970)")
         guard let data: Data = try? wrap(collectionData) else {
             logger.error("Can not convert collection to data")
             completion(.failed(error: "Can not convert collection to data"))
             return
         }
+        logger.debug("Stop Wrapping \(NSDate().timeIntervalSince1970)")
 
         HSReplayAPI.claimBattleTag(complete: {
             HSReplayAPI.getUploadCollectionToken(handle: { token in
