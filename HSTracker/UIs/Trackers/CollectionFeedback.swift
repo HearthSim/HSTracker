@@ -11,6 +11,8 @@ import TextAttributes
 
 class CollectionFeedback: OverWindowController {    
     @IBOutlet weak var label: NSTextField!
+    @IBOutlet weak var progress: NSProgressIndicator!
+    
     let attributes = TextAttributes()
 
     override func windowDidLoad() {
@@ -29,6 +31,11 @@ class CollectionFeedback: OverWindowController {
     }
     
     func setMessage(message: String) {
+        self.progress.isIndeterminate = true
+        self.progress.startAnimation(nil)
+        self.progress.usesThreadedAnimation = true
+        self.progress.isHidden = false
+
         self.label.attributedStringValue = NSAttributedString(string: message, attributes: attributes)
     }
 }

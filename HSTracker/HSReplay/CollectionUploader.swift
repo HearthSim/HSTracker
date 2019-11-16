@@ -15,7 +15,7 @@ class CollectionUploader {
         logger.debug("Start Wrapping \(NSDate().timeIntervalSince1970)")
         guard let data: Data = try? wrap(collectionData) else {
             logger.error("Can not convert collection to data")
-            completion(.failed(error: "Can not convert collection to data"))
+            completion(.failed(error: "101"))
             return
         }
         logger.debug("Stop Wrapping \(NSDate().timeIntervalSince1970)")
@@ -25,7 +25,7 @@ class CollectionUploader {
                 logger.verbose("Got upload collection token \(token)")
                 guard !token.isBlank else {
                     logger.error("Collection token is empty")
-                    completion(.failed(error: "Collection token is empty"))
+                    completion(.failed(error: "102"))
                     return
                 }
 
@@ -40,11 +40,11 @@ class CollectionUploader {
                 completion(.successful)
             }, failed: {
                 logger.error("Failed to obtain collection upload token")
-                completion(.failed(error: "Failed to obtain collection upload token"))
+                completion(.failed(error: "103"))
             })
         }, failed: {
             logger.error("Failed to claim battle Tag")
-            completion(.failed(error: "Failed to claim battleTag"))
+            completion(.failed(error: "104"))
         })
     }
 }
