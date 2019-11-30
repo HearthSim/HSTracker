@@ -468,6 +468,15 @@
 		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
 		49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 49930DD31DFA859F008C8CD4 /* .swiftlint.yml */; };
+		4C1923912392BA36007EBB0F /* kotlin_hslog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1923902392BA36007EBB0F /* kotlin_hslog.framework */; };
+		4C1923922392BCA6007EBB0F /* kotlin_hslog.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1923902392BA36007EBB0F /* kotlin_hslog.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4C1923942392DF8A007EBB0F /* BattlegroundsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */; };
+		4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */; };
+		4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */; };
+		4C19239B2392E5A4007EBB0F /* HSTLogListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239A2392E5A4007EBB0F /* HSTLogListener.swift */; };
+		4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */; };
+		4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */; };
+		4C1923A32392FF37007EBB0F /* BattlegroundsDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */; };
 		4C1ED0D3237CB24A00ABB3D1 /* CollectionFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */; };
 		4C1ED0D7237CB8E800ABB3D1 /* CollectionFeedback.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */; };
 		4C6E99A3237F635300702AB2 /* CollectionWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */; };
@@ -592,6 +601,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4C1923922392BCA6007EBB0F /* kotlin_hslog.framework in Embed Frameworks */,
 				5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */,
 				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
 				436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */,
@@ -957,6 +967,14 @@
 		43F4D0481EB7A23D006B4479 /* HeroPower.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeroPower.swift; sourceTree = "<group>"; };
 		43F8265A1E0A674000422F4F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		49930DD31DFA859F008C8CD4 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
+		4C1923902392BA36007EBB0F /* kotlin_hslog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kotlin_hslog.framework; path = "../Arcane-Tracker/kotlin-hslog/build/bin/macosX64/releaseFramework/kotlin_hslog.framework"; sourceTree = "<group>"; };
+		4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOverlay.swift; sourceTree = "<group>"; };
+		4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsOverlay.xib; sourceTree = "<group>"; };
+		4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOverlayView.swift; sourceTree = "<group>"; };
+		4C19239A2392E5A4007EBB0F /* HSTLogListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTLogListener.swift; sourceTree = "<group>"; };
+		4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsWindow.swift; sourceTree = "<group>"; };
+		4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsDetailsWindow.xib; sourceTree = "<group>"; };
+		4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsView.swift; sourceTree = "<group>"; };
 		4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFeedback.swift; sourceTree = "<group>"; };
 		4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionFeedback.xib; sourceTree = "<group>"; };
 		4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWatcher.swift; sourceTree = "<group>"; };
@@ -1151,6 +1169,7 @@
 				E301D341217CE737001F8D11 /* FMDB.framework in Frameworks */,
 				5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */,
 				E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */,
+				4C1923912392BA36007EBB0F /* kotlin_hslog.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1496,6 +1515,7 @@
 				439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */,
 				439C7EA11C777F8900D29859 /* Game.swift */,
 				439C7EAC1C777F8900D29859 /* CoreManager.swift */,
+				4C19239A2392E5A4007EBB0F /* HSTLogListener.swift */,
 				439C7EAD1C777F8900D29859 /* LogLine.swift */,
 				43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */,
 				43C567E81D5D0F5700451B6F /* LogLineZone.swift */,
@@ -1554,6 +1574,7 @@
 		439C7ECD1C777FA900D29859 /* UIs */ = {
 			isa = PBXGroup;
 			children = (
+				4C1923972392E174007EBB0F /* Battlegrounds */,
 				433554591D65940300277B27 /* Toast */,
 				C99C0C961D0A6062000DD6FB /* StatsManager */,
 				436F5D0A1CFD5F4900DEB9A1 /* Cards */,
@@ -1595,6 +1616,10 @@
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
 				4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */,
 				4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */,
+				4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */,
+				4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */,
+				4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */,
+				4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1678,6 +1703,15 @@
 			name = Configs;
 			sourceTree = "<group>";
 		};
+		4C1923972392E174007EBB0F /* Battlegrounds */ = {
+			isa = PBXGroup;
+			children = (
+				4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */,
+				4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */,
+			);
+			path = Battlegrounds;
+			sourceTree = "<group>";
+		};
 		64C115E3AADB89B1C02BC1D0 /* ArenaHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -1737,6 +1771,7 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C1923902392BA36007EBB0F /* kotlin_hslog.framework */,
 				5BD4A5012233E40B00EF879B /* Kingfisher.framework */,
 				43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */,
 				43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */,
@@ -1918,12 +1953,14 @@
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */,
 				437B5BC51CD2568E00DE0A41 /* TrackersPreferences.xib in Resources */,
+				4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */,
 				432B5FCB1CB5375500B05D19 /* DeckManager.xib in Resources */,
 				E301D340217CE737001F8D11 /* FMDB.framework.dSYM in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
+				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
@@ -1992,6 +2029,7 @@
 				43F204101E93C2E600E0BC4A /* Rogue.swift in Sources */,
 				43F204081E93C2E600E0BC4A /* Druid.swift in Sources */,
 				4360329B1C7B657C005F1893 /* Splashscreen.swift in Sources */,
+				4C1923942392DF8A007EBB0F /* BattlegroundsOverlay.swift in Sources */,
 				436F5D141CFD803C00DEB9A1 /* FrostBar.swift in Sources */,
 				436F5D0C1CFD5F6A00DEB9A1 /* CardBar.swift in Sources */,
 				43E7BEB11DBB81B10057DC0C /* RealmCard.swift in Sources */,
@@ -2074,6 +2112,7 @@
 				43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */,
 				43C568031D5E59E500451B6F /* UploadResult.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
+				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
 				43AFEEEB1E22529C00F6045A /* CollectionManager.swift in Sources */,
 				43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
@@ -2110,10 +2149,12 @@
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,
+				4C19239B2392E5A4007EBB0F /* HSTLogListener.swift in Sources */,
 				436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */,
 				1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
+				4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */,
 				433554561D62EE1200277B27 /* PlayerType.swift in Sources */,
 				4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
@@ -2141,6 +2182,7 @@
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
 				43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */,
+				4C1923A32392FF37007EBB0F /* BattlegroundsDetailsView.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				1CCB4AE41E850E13003FD1AD /* HockeyHelper.swift in Sources */,
 				439DD8F61DB2324A004EBE47 /* CardSize.swift in Sources */,
@@ -2849,9 +2891,15 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
 					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/HSTracker",
+					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
+					"/Users/m.bonnin/git/Arcane-Tracker/kotlin-hslog/build/bin/macosX64/releaseFramework",
 				);
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "/Users/m.bonnin/git/Arcane-Tracker/kotlin-hslog/build/bin/macosX64/releaseFramework";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.6.8;
 				OTHER_CFLAGS = "$(inherited)";
@@ -2884,9 +2932,11 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
 					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
+					"/Users/m.bonnin/git/Arcane-Tracker/kotlin-hslog/build/bin/macosX64/releaseFramework",
 				);
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "/Users/m.bonnin/git/Arcane-Tracker/kotlin-hslog/build/bin/macosX64/releaseFramework";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MARKETING_VERSION = 1.6.8;
 				OTHER_CODE_SIGN_FLAGS = "--deep";

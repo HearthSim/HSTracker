@@ -11,6 +11,7 @@
 import Foundation
 import RealmSwift
 import HearthMirror
+import kotlin_hslog
 
 struct PlayingDeck {
     let id: String
@@ -106,6 +107,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateBoardStateTrackers()
 		self.updateArenaHelper()
         self.updateSecretTracker()
+        self.updateBattlegroundsOverlay()
 	}
 	
     // MARK: - GUI calls
@@ -127,6 +129,7 @@ class Game: NSObject, PowerEventHandler {
 			
 			let tracker = self.windowManager.opponentTracker
 			if Settings.showOpponentTracker &&
+                AppDelegate.instance().coreManager.hsLog.currentOrFinishedGame()?.gameType != kotlin_hslog.GameType.gtBattlegrounds &&
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
 				((Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
 					|| (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
@@ -325,6 +328,20 @@ class Game: NSObject, PowerEventHandler {
                 }
             } else {
                 self.windowManager.show(controller: tracker, show: false)
+            }
+        }
+    }
+    
+    func updateBattlegroundsOverlay() {
+        let rect = SizeHelper.battlegroundsOverlayFrame()
+
+        DispatchQueue.main.async {
+            if (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground {
+                
+                self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: false)
             }
         }
     }

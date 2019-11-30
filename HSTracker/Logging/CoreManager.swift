@@ -11,6 +11,7 @@
 import Foundation
 //import HearthAssets
 import HearthMirror
+import kotlin_hslog
 
 enum HearthstoneLogError: Error {
     case canNotCreateDir,
@@ -27,6 +28,20 @@ struct HearthstoneRunState {
     }
 }
 
+class MacOSConsole: Kotlin_consoleConsole {
+    func debug(message: String) {
+        logger.debug(message)
+    }
+    
+    func error(message: String) {
+        logger.error(message)
+    }
+    
+    func error(throwable: KotlinThrowable) {
+        throwable.printStackTrace()
+    }
+}
+
 final class CoreManager: NSObject {
     static let applicationName = "Hearthstone"
 
@@ -37,7 +52,10 @@ final class CoreManager: NSObject {
     let packWatcher = PackWatcher()
     
     let game: Game
+    var cardJson: CardJson!
 
+    var hsLog: HSLog!
+    
     var queue = DispatchQueue(label: "net.hearthsim.hstracker.readers", attributes: [])
     
     override init() {
@@ -45,12 +63,32 @@ final class CoreManager: NSObject {
                                                                   isActive: CoreManager.isHearthstoneActive()))
         super.init()
 		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, coreManager: self)
-		
-		/*if CoreManager.assetGenerator == nil && Settings.useHearthstoneAssets {
-			let path = Settings.hearthstonePath
-			CoreManager.assetGenerator = try? HearthAssets(path: path)
-			CoreManager.assetGenerator?.locale = (Settings.hearthstoneLanguage ?? .enUS).rawValue
-		}*/
+        
+        let lang: Language.Hearthstone
+        if Settings.hearthstoneLanguage == nil {
+            lang = Language.Hearthstone.enUS
+        } else {
+            lang = Settings.hearthstoneLanguage!
+        }
+        
+        let maybeUrl = Bundle(for: type(of: self))
+            .url(forResource: "Resources/Cards/cardsDB.\(lang)",
+                withExtension: "json")
+        
+        if let url = maybeUrl, let fileHandle = try? FileHandle(forReadingFrom: url) {
+            let input = PosixInputKt.Input(fileDescriptor: fileHandle.fileDescriptor)
+            logger.debug("building CardJson...")
+            self.cardJson = CardJson.Companion().fromLocalizedJson(input: input)
+            logger.debug("building HSLog...")
+            hsLog = HSLog(console: MacOSConsole(), cardJson: cardJson, debounceDelay: 100)
+            hsLog.setListener(listener: HSTLogListener(windowManager: game.windowManager))
+        }
+    }
+    
+    func processPower(rawLine: String) {
+        DispatchQueue.main.async {
+            self.hsLog.processPower(rawLine: rawLine, isOldData: false)
+        }
     }
     
     deinit {

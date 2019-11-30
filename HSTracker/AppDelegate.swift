@@ -17,6 +17,11 @@ import OAuthSwift
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 	
+    static var _instance: AppDelegate?
+    static func instance() -> AppDelegate {
+        return _instance!
+    }
+    
 	let hockeyHelper = HockeyHelper()
 	var appWillRestart = false
 	var splashscreen: Splashscreen?
@@ -48,6 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}()
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
+        AppDelegate._instance = self
         
         // Migrate preferences from old bundle ID
         let oldPrefs = UserDefaults.standard.persistentDomain(forName: "be.michotte.hstracker")

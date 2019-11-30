@@ -332,7 +332,7 @@ class CardBar: NSView, CardBarTheme {
             return
         }
 
-        ImageUtils.tile(for: card, completion: { [weak self] in
+        ImageUtils.tile(for: card.id, completion: { [weak self] in
             guard let image = $0 else {
                 logger.warning("No image for \(card)")
                 return

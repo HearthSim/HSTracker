@@ -30,11 +30,11 @@ class CollectionFeedback: OverWindowController {
             .alignment(.right)
     }
     
-    func setMessage(message: String) {
+    func setMessage(message: String, loading: Bool) {
         self.progress.isIndeterminate = true
         self.progress.startAnimation(nil)
         self.progress.usesThreadedAnimation = true
-        self.progress.isHidden = false
+        self.progress.isHidden = !loading
 
         self.label.attributedStringValue = NSAttributedString(string: message, attributes: attributes)
     }

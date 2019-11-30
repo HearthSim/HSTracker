@@ -40,9 +40,9 @@ struct ImageUtils {
         cache = [:]
     }
 
-    static func tile(for card: Card,
+    static func tile(for cardId: String,
                      completion: @escaping ((NSImage?) -> Void)) {
-        if let image = cache[card.id] {
+        if let image = cache[cardId] {
             completion(image)
             return
         }
@@ -58,28 +58,28 @@ struct ImageUtils {
                 }
             }
         }*/
-        loadTile(card: card, completion: completion)
+        loadTile(cardId: cardId, completion: completion)
     }
 
-    private static func loadTile(card: Card, completion: @escaping ((NSImage?) -> Void)) {
+    private static func loadTile(cardId: String, completion: @escaping ((NSImage?) -> Void)) {
         // Check in resource bundle
         if let image = NSImage(contentsOfFile:
-            "\(Bundle.main.resourcePath!)/Resources/Small/\(card.id).png") {
-            cache[card.id] = image
+            "\(Bundle.main.resourcePath!)/Resources/Small/\(cardId).png") {
+            cache[cardId] = image
             completion(image)
             return
         }
 
         // Check if the image has been downloaded
-        let path = Paths.tiles.appendingPathComponent("\(card.id).png")
+        let path = Paths.tiles.appendingPathComponent("\(cardId).png")
         if let image = NSImage(contentsOf: path) {
-            cache[card.id] = image
+            cache[cardId] = image
             completion(image)
             return
         }
 
         // Download image
-        let cardUrl = "https://art.hearthstonejson.com/v1/tiles/\(card.id).png"
+        let cardUrl = "https://art.hearthstonejson.com/v1/tiles/\(cardId).png"
         guard let url = URL(string: cardUrl) else {
             completion(nil)
             return
@@ -95,7 +95,7 @@ struct ImageUtils {
                     let image = NSImage(data: data) {
                     try? data.write(to: path, options: [.atomic])
 
-                    cache[card.id] = image
+                    cache[cardId] = image
                     completion(image)
                 }
                 }.resume()

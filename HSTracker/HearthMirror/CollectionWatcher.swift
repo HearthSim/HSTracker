@@ -46,9 +46,9 @@ class CollectionWatcher: Watcher {
         instance.stopWatching()
     }
 
-    func setFeedback(message: String, displayed: Bool, delay: Double = 0) {
+    func setFeedback(message: String, loading: Bool, displayed: Bool, delay: Double = 0) {
         if let workItem = lastWorkItem {
-            if (displayed) {
+            if displayed {
                 workItem.cancel()
             }
         }
@@ -59,7 +59,7 @@ class CollectionWatcher: Watcher {
             let rect = SizeHelper.collectionFeedbackFrame()
 
             self.windowManager.show(controller: collectionFeedback, show: displayed, frame: rect, title: nil, overlay: true)
-            collectionFeedback.setMessage(message: message)
+            collectionFeedback.setMessage(message: message, loading: loading)
         })
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: lastWorkItem!)
@@ -72,7 +72,7 @@ class CollectionWatcher: Watcher {
                 mirrorCollection = MirrorHelper.getCollection()
             } else if !sent, let collection = mirrorCollection {
                 sent = true
-                setFeedback(message: "Uploading collection...", displayed: true)
+                setFeedback(message: "Uploading collection...", loading: true, displayed: true)
 
                 // convert mirror data into collection
                 let data = UploadCollectionData(collection: collection.cards, favoriteHeroes: collection.favoriteHeroes, cardbacks: collection.cardbacks, favoriteCardback: collection.favoriteCardback.intValue, dust: collection.dust.intValue, gold: collection.gold.intValue)
@@ -82,15 +82,18 @@ class CollectionWatcher: Watcher {
                     case .successful:
                         self.setFeedback(
                             message: NSLocalizedString("Your collection has been uploaded to HSReplay.net", comment: ""),
+                            loading: false,
                             displayed: true)
                     case .failed(let error):
                         self.setFeedback(
                             message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""),
+                            loading: false,
                             displayed: true)
                     }
                     
                     self.setFeedback(
                         message: "",
+                        loading: false,
                         displayed: false,
                         delay: 5)
                 }
