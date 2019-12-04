@@ -1,3 +1,7 @@
+# 1.6.9
+## New:
+- Battle grounds support: Hovering an opponent in the sidebar will now display their last known board state.
+
 # 1.6.8
 ## New:
 - Sathrovarr support
