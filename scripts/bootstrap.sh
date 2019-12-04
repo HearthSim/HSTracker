@@ -8,4 +8,4 @@ git clone -b macos-test https://github.com/HearthSim/HDT-Localization Translatio
 
 git clone -b macos-test https://github.com/HearthSim/Arcane-Tracker Arcane-Tracker
 
-./Arcane-Tracker/gradlew -p Arcane-Tracker linkReleaseFrameworkMacosX64
+#./Arcane-Tracker/gradlew -p Arcane-Tracker linkReleaseFrameworkMacosX64
