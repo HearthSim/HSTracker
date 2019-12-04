@@ -1,6 +1,6 @@
 # 1.6.9
 ## New:
-- Battle grounds support: Hovering an opponent in the sidebar will now display their last known board state.
+- Battlegrounds support: Hovering an opponent in the sidebar will now display their last known board state.
 - Better collection upload dialog.
 
 # 1.6.8
