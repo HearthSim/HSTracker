@@ -34,7 +34,7 @@ enum CardSet: String, CaseIterable {
     dalaran, // rise of the shadows
     uldum, // Saviors of Uldmu
     wild_event,
-    dragons // Descent od Dragons
+    dragons // Descent of Dragons
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .expert1, .naxx, .gvg, .brm, .tgt,
