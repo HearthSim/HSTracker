@@ -1,3 +1,7 @@
+# 1.6.10
+## New:
+- Descent of Dragons!
+
 # 1.6.9
 ## New:
 - Battlegrounds support: Hovering an opponent in the sidebar will now display their last known board state.
