@@ -23,7 +23,7 @@ brew install swiftlint
 ```
 - Download translations and latest card data (you need wget to pull the files, run `brew install wget` to install it)
 ```
-bash bootstrap.sh
+./scripts/bootstrap.sh
 ```
 
 - Open the project in XCode and build it.
