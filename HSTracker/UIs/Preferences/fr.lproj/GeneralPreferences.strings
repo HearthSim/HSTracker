@@ -21,7 +21,7 @@
 "hzK-vu-1RX.title" = "Fermer HSTracker quand on ferme Hearthstone";
 
 /* Class = "NSButtonCell"; title = "Add a note on end game (casual and ranked only)"; ObjectID = "4f5-xO-gik"; */
-"4f5-xO-gik.title" = "Ajoute une note en find de partie";
+"4f5-xO-gik.title" = "Ajoute une note en fin de partie";
 
 /* Class = "NSButtonCell"; title = "Save replays"; ObjectID = "lku-8T-sZE"; */
 "lku-8T-sZE.title" = "Enregistrer les replays";
