@@ -33,7 +33,7 @@
 "gfe-fe-rJe.title" = "Couleur carte en main";
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "rj2-8a-HGB"; */
-"rj2-8a-HGB.title" = "Voir les dégats sur table";
+"rj2-8a-HGB.title" = "Voir les dégâts sur table";
 
 /* Class = "NSButtonCell"; title = "Show deck name"; ObjectID = "e7g-zd-YkC"; */
 "e7g-zd-YkC.title" = "Voir le nom du deck";
