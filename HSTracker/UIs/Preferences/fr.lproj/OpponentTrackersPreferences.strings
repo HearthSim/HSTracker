@@ -9,7 +9,7 @@
 "avf-qA-8vU.title" = "Voir la chance de pioche de l'adversaire";
 
 /* Class = "NSButtonCell"; title = "Show Jade Counter"; ObjectID = "BFR-Pw-i1H"; */
-"BFR-Pw-i1H.title" = "Show Jade Counter";
+"BFR-Pw-i1H.title" = "Voir le compteur Jade";
 
 /* Class = "NSButtonCell"; title = "Clear opponent tracker on game end"; ObjectID = "eGQ-pE-MU0"; */
 "eGQ-pE-MU0.title" = "Vider le tracker de l'adversaire en fin de partie";
@@ -33,4 +33,4 @@
 "aW1-2y-nKx.title" = "Voir la classe et le nom du joueur";
 
 /* Class = "NSButtonCell"; title = "Show board damage"; ObjectID = "fah-Dr-Amh"; */
-"fah-Dr-Amh.title" = "Voir les dégats sur table";
+"fah-Dr-Amh.title" = "Voir les dégâts sur table";

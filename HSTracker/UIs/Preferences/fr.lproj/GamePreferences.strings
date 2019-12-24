@@ -12,10 +12,10 @@
 "s5e-Q8-cm8.title" = "Répertoire de Hearthstone";
 
 /* Class = "NSTextFieldCell"; title = "Hearthstone language"; ObjectID = "biS-yx-frk"; */
-"biS-yx-frk.title" = "Hearthstone language";
+"biS-yx-frk.title" = "Langue Hearthstone";
 
 /* Class = "NSTextFieldCell"; title = "HSTracker language"; ObjectID = "r3b-jQ-tUY"; */
-"r3b-jQ-tUY.title" = "HSTracker language";
+"r3b-jQ-tUY.title" = "Langue HSTracker";
 
 /* Class = "NSButtonCell"; title = "Auto import and select decks"; ObjectID = "mhj-j8-OPU"; */
 "mhj-j8-OPU.title" = "Import et sélection auto des decks";
