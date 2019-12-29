@@ -8,100 +8,151 @@
 
 import Foundation
 import HearthMirror
+import kotlin_hslog
 
-class CollectionWatcher: Watcher {
-    private var sent: Bool = false
-    private var lastMessage: String = ""
-    private var mirrorCollection: MirrorCollection?
+class CollectionWatcher {
     private var lastWorkItem: DispatchWorkItem?
 
-    private(set) static var lastUploadedCollection: MirrorCollection?
-    internal var uploadingInterval: TimeInterval = 5
-
     private let windowManager: WindowManager
-    private let game: Game
-        
+    
+    var started: Bool = false
     static private var _instance: CollectionWatcher?
 
-    static func start(game: Game) {
+    static func start(windowManager: WindowManager) {
         if _instance == nil {
-            _instance = CollectionWatcher(game: game)
+            _instance = CollectionWatcher(windowManager: windowManager)
         }
         
         guard let instance = _instance else {
             return
         }
-        instance.startWatching()
+        instance.started = true
     }
     
-    init(game: Game) {
-        self.game = game
-        self.windowManager = game.windowManager
-    }
-
     static func stop() {
         guard let instance = _instance else {
             return
         }
-        instance.stopWatching()
+        instance.started = false
     }
 
-    func setFeedback(message: String, loading: Bool, displayed: Bool, delay: Double = 0) {
-        if let workItem = lastWorkItem {
-            if displayed {
-                workItem.cancel()
-            }
-        }
-        self.lastMessage = message
-        
-        lastWorkItem = DispatchWorkItem(block: {
-            let collectionFeedback = self.windowManager.collectionFeedBack
-            let rect = SizeHelper.collectionFeedbackFrame()
+    init(windowManager: WindowManager) {
+        self.windowManager = windowManager
 
-            self.windowManager.show(controller: collectionFeedback, show: displayed, frame: rect, title: nil, overlay: true)
-            collectionFeedback.setMessage(message: message, loading: loading)
-        })
+        let queue = DispatchQueue(label: "net.hearthsim.hstracker.watchers.\(type(of: self))",
+            attributes: [])
+        queue.async { [weak self] in
+            self?.run()
+        }
+    }
+
+    func setFeedback(message: String, loading: Bool, displayed: Bool) {
+        if let workItem = lastWorkItem {
+            workItem.cancel()
+        }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: lastWorkItem!)
+        let collectionFeedback = self.windowManager.collectionFeedBack
+        let rect = SizeHelper.collectionFeedbackFrame()
+
+        self.windowManager.show(controller: collectionFeedback, show: displayed, frame: rect, title: nil, overlay: true)
+        collectionFeedback.setMessage(message: message, loading: loading)
     }
     
-    override func run() {
-        while isRunning {
-            
-            if self.mirrorCollection == nil {
-                mirrorCollection = MirrorHelper.getCollection()
-            } else if !sent, let collection = mirrorCollection {
-                sent = true
-                setFeedback(message: "Uploading collection...", loading: true, displayed: true)
+    private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> Kotlin_hsreplay_apiCollectionUploadData {
+        
+        let cardJson = AppDelegate.instance().coreManager.cardJson!
 
-                // convert mirror data into collection
-                let data = UploadCollectionData(collection: collection.cards, favoriteHeroes: collection.favoriteHeroes, cardbacks: collection.cardbacks, favoriteCardback: collection.favoriteCardback.intValue, dust: collection.dust.intValue, gold: collection.gold.intValue)
-
-                CollectionUploader.upload(collectionData: data) { result in
-                    switch result {
-                    case .successful:
-                        self.setFeedback(
-                            message: NSLocalizedString("Your collection has been uploaded to HSReplay.net", comment: ""),
-                            loading: false,
-                            displayed: true)
-                    case .failed(let error):
-                        self.setFeedback(
-                            message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""),
-                            loading: false,
-                            displayed: true)
-                    }
-                    
-                    self.setFeedback(
-                        message: "",
-                        loading: false,
-                        displayed: false,
-                        delay: 5)
-                }
+        var c = [:] as [String: [KotlinInt]]
+        for mirrorCard in mirrorCollection.cards {
+            let card = cardJson.getCard(id: mirrorCard.cardId)
+            var counts = c[String(card.dbfId)] ?? [0, 0]
+            if mirrorCard.premium {
+                counts[1] = KotlinInt(value: mirrorCard.count.int32Value)
+            } else {
+                counts[0] = KotlinInt(value: mirrorCard.count.int32Value)
             }
-            
-            Thread.sleep(forTimeInterval: refreshInterval)
+            c[String(card.dbfId)] = counts
         }
 
-        queue = nil
+        var h = [:] as [String: KotlinInt]
+        for (playerclassid, mirrorCard) in mirrorCollection.favoriteHeroes {
+            let card = cardJson.getCard(id: mirrorCard.cardId)
+            h[String(playerclassid.intValue)] = KotlinInt(value: Int32(card.dbfId))
+        }
+        
+        return Kotlin_hsreplay_apiCollectionUploadData(
+            collection: c,
+            favoriteHeroes: h,
+            cardbacks: mirrorCollection.cardbacks.map {KotlinInt(value: $0.int32Value)},
+            favoriteCardback: KotlinInt(value: mirrorCollection.favoriteCardback.int32Value),
+            dust: KotlinInt(value: mirrorCollection.dust.int32Value),
+            gold: KotlinInt(value: mirrorCollection.gold.int32Value)
+        )
+    }
+    private func uploadCollectionFromMainThread(
+        collectionUploadData: Kotlin_hsreplay_apiCollectionUploadData,
+        accountId: MirrorAccountId?
+    ) {
+        setFeedback(message: "Uploading collection...", loading: true, displayed: true)
+
+        AppDelegate.instance().coreManager.exposedHsReplay.uploadCollectionWithCallback(
+            collectionUploadData: collectionUploadData,
+            account_hi: "\(accountId?.hi ?? 0)",
+            account_lo: "\(accountId?.lo ?? 0)",
+            callback: {
+                if $0 is ExposedHsReplay.ResultFailure {
+                    self.setFeedback(
+                        message: NSLocalizedString("Failed to upload collection", comment: ""),
+                        loading: false,
+                        displayed: true)
+                    // swiftlint:disable force_cast
+                    ($0 as! ExposedHsReplay.ResultFailure).e.printStackTrace()
+                    // swiftlint:enable force_cast
+                } else {
+                    self.setFeedback(
+                        message: NSLocalizedString("Your collection has been uploaded to HSReplay.net", comment: ""),
+                        loading: false,
+                        displayed: true)
+                }
+                self.lastWorkItem = DispatchWorkItem(block: {
+                    self.setFeedback(message: "", loading: false, displayed: false)
+                })
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: self.lastWorkItem!)
+        })
+    }
+    
+    func run() {
+        var sent: Bool = false
+        var mirrorCollection: MirrorCollection?
+
+        while true {
+            if started {
+                if mirrorCollection == nil {
+                    logger.debug("getting mirrorCollection")
+                    mirrorCollection = MirrorHelper.getCollection()
+                    logger.debug("got mirrorCollection")
+                }
+                
+                if !sent, let collection = mirrorCollection {
+                    sent = true
+
+                    let accountId = MirrorHelper.getAccountId()
+                    
+                    logger.debug("transform to CollectionUploadData")
+                    let collectionUploadData = self.mirrorCollectionToCollectionUploadData(mirrorCollection: collection)
+                    FreezeHelperKt.freeze(collectionUploadData)
+                    logger.debug("transform to CollectionUploadData done")
+
+                    DispatchQueue.main.async {
+                        self.uploadCollectionFromMainThread(collectionUploadData: collectionUploadData, accountId: accountId)
+                    }
+                }
+            } else {
+                sent = false
+                mirrorCollection = nil
+            }
+            Thread.sleep(forTimeInterval: 0.5)
+        }
     }
 }

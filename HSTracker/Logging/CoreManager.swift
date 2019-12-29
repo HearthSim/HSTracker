@@ -42,6 +42,38 @@ class MacOSConsole: Kotlin_consoleConsole {
     }
 }
 
+class MacOSAnalytics: Kotlin_analyticsAnalytics {
+    func logEvent(name: String, params: [String : Any]) {
+    }
+}
+
+class MacOSPreferences: Kotlin_hsreplay_apiPreferences {
+    func getBoolean(key: String) -> KotlinBoolean? {
+        return KotlinBoolean(value: UserDefaults.standard.bool(forKey: key))
+    }
+    
+    func getString(key: String) -> String? {
+        return UserDefaults.standard.string(forKey: key)
+    }
+    
+    func putBoolean(key: String, value: KotlinBoolean?) {
+        if let v = value {
+            UserDefaults.standard.set(v, forKey: key)
+        } else {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
+    }
+    
+    func putString(key: String, value: String?) {
+        if let v = value {
+            UserDefaults.standard.set(v, forKey: key)
+        } else {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
+    }
+    
+}
+
 final class CoreManager: NSObject {
     static let applicationName = "Hearthstone"
 
@@ -53,6 +85,7 @@ final class CoreManager: NSObject {
     
     let game: Game
     var cardJson: CardJson!
+    var exposedHsReplay: ExposedHsReplay!
 
     var hsLog: HSLog!
     
@@ -75,13 +108,26 @@ final class CoreManager: NSObject {
             .url(forResource: "Resources/Cards/cardsDB.\(lang)",
                 withExtension: "json")
         
+        let console = MacOSConsole()
         if let url = maybeUrl, let fileHandle = try? FileHandle(forReadingFrom: url) {
             let input = PosixInputKt.Input(fileDescriptor: fileHandle.fileDescriptor)
             logger.debug("building CardJson...")
             self.cardJson = CardJson.Companion().fromLocalizedJson(input: input)
+            FreezeHelperKt.freeze(self.cardJson)
             logger.debug("building HSLog...")
-            hsLog = HSLog(console: MacOSConsole(), cardJson: cardJson, debounceDelay: 100)
+            hsLog = HSLog(console: console, cardJson: cardJson, debounceDelay: 100)
             hsLog.setListener(listener: HSTLogListener(windowManager: game.windowManager))
+        }
+        
+        self.exposedHsReplay = ExposedHsReplay(
+            preferences: MacOSPreferences(),
+            console: console,
+            analytics: MacOSAnalytics(),
+            userAgent: Http.userAgent()
+        )
+        
+        if let refreshToken = Settings.hsReplayOAuthRefreshToken, let oauthToken = Settings.hsReplayOAuthToken {
+            exposedHsReplay.setTokens(accessToken: oauthToken, refreshToken: refreshToken)
         }
     }
     

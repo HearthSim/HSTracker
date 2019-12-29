@@ -218,6 +218,27 @@ extension Http {
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
         }()
 
+    public static func userAgent() -> String {
+        if let info = Bundle.main.infoDictionary {
+            let executable = info[kCFBundleExecutableKey as String] as? String ?? "Unknown"
+            let bundle = info[kCFBundleIdentifierKey as String] as? String ?? "Unknown"
+            let appVersion = info["CFBundleShortVersionString"] as? String ?? "Unknown"
+            let appBuild = info[kCFBundleVersionKey as String] as? String ?? "Unknown"
+
+            let osNameVersion: String = {
+                let version = ProcessInfo.processInfo.operatingSystemVersion
+                let versionString = "\(version.majorVersion)"
+                    + ".\(version.minorVersion)"
+                    + ".\(version.patchVersion)"
+
+                return "macOS \(versionString)"
+            }()
+
+            return "\(executable)/\(appVersion) (build:\(appBuild); \(osNameVersion))"
+        }
+
+        return "HSTracker"
+    }
     private static let defaultHTTPHeaders: [String: String] = {
         // Accept-Encoding HTTP Header; see https://tools.ietf.org/html/rfc7230#section-4.2.3
         let acceptEncoding: String = "gzip;q=1.0, compress;q=0.5"
@@ -230,32 +251,12 @@ extension Http {
             }.joined(separator: ", ")
 
         // User-Agent Header; see https://tools.ietf.org/html/rfc7231#section-5.5.3
-        let userAgent: String = {
-            if let info = Bundle.main.infoDictionary {
-                let executable = info[kCFBundleExecutableKey as String] as? String ?? "Unknown"
-                let bundle = info[kCFBundleIdentifierKey as String] as? String ?? "Unknown"
-                let appVersion = info["CFBundleShortVersionString"] as? String ?? "Unknown"
-                let appBuild = info[kCFBundleVersionKey as String] as? String ?? "Unknown"
-
-                let osNameVersion: String = {
-                    let version = ProcessInfo.processInfo.operatingSystemVersion
-                    let versionString = "\(version.majorVersion)"
-                        + ".\(version.minorVersion)"
-                        + ".\(version.patchVersion)"
-
-                    return "macOS \(versionString)"
-                }()
-
-                return "\(executable)/\(appVersion) (build:\(appBuild); \(osNameVersion))"
-            }
-
-            return "HSTracker"
-        }()
+        let ua = userAgent()
 
         return [
             "Accept-Encoding": acceptEncoding,
             "Accept-Language": acceptLanguage,
-            "User-Agent": userAgent
+            "User-Agent": ua
         ]
     }()
 }
