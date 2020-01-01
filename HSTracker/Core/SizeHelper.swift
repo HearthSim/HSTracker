@@ -275,15 +275,16 @@ struct SizeHelper {
     }
     
     static func battlegroundsOverlayFrame() -> NSRect {
-        let top = 0.85 * hearthstoneWindow.height
-        let bottom = 0.15 * hearthstoneWindow.height
-        
+        let top = hearthstoneWindow.frame.minY + 0.85 * hearthstoneWindow.height
+        let bottom = hearthstoneWindow.frame.minY + 0.15 * hearthstoneWindow.height
+                 
         // Looks like the HS board ratio is 1.5, the rest is padding
         let boardWidth = hearthstoneWindow.height * 1.5
-        let left = 0.05 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
-        let right = 0.125 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
-        
-        return NSRect(x: left, y: bottom, width: right - left, height: top - bottom)
+        let left = hearthstoneWindow.frame.minX + 0.05 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
+        let right = hearthstoneWindow.frame.minX + 0.125 * boardWidth + (hearthstoneWindow.width - boardWidth)/2
+                 
+        let frame = NSRect(x: left, y: bottom, width: right - left, height: top - bottom)
+        return (frame)
     }
 
     static func battlegroundsDetailsFrame() -> NSRect {

@@ -84,6 +84,7 @@ class BattlegroundsOverlayView: NSView {
 
     override func mouseExited(with event: NSEvent) {
         displayHero(at: -1)
+        currentIndex = -1
     }
     
     func setHeroes(heroes: [DeckEntry.Hero]) {
