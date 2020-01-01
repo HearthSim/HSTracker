@@ -101,13 +101,16 @@ class CollectionWatcher {
             account_lo: "\(accountId?.lo ?? 0)",
             callback: {
                 if $0 is ExposedHsReplay.ResultFailure {
+                    // swiftlint:disable force_cast
+                    let failure = ($0 as! ExposedHsReplay.ResultFailure)
+                    // swiftlint:enable force_cast
+                    
                     self.setFeedback(
-                        message: NSLocalizedString("Failed to upload collection", comment: ""),
+                        message: NSLocalizedString("Failed to upload collection: \(failure.code)", comment: ""),
                         loading: false,
                         displayed: true)
-                    // swiftlint:disable force_cast
-                    ($0 as! ExposedHsReplay.ResultFailure).e.printStackTrace()
-                    // swiftlint:enable force_cast
+                    
+                    failure.throwable.printStackTrace()
                 } else {
                     self.setFeedback(
                         message: NSLocalizedString("Your collection has been uploaded to HSReplay.net", comment: ""),
@@ -139,10 +142,8 @@ class CollectionWatcher {
 
                     let accountId = MirrorHelper.getAccountId()
                     
-                    logger.debug("transform to CollectionUploadData")
                     let collectionUploadData = self.mirrorCollectionToCollectionUploadData(mirrorCollection: collection)
                     FreezeHelperKt.freeze(collectionUploadData)
-                    logger.debug("transform to CollectionUploadData done")
 
                     DispatchQueue.main.async {
                         self.uploadCollectionFromMainThread(collectionUploadData: collectionUploadData, accountId: accountId)
