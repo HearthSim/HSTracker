@@ -1,4 +1,4 @@
-# 1.6.10
+# 1.6.11
 ## Fixes:
 - Improve collection upload (https://github.com/HearthSim/HSTracker/issues/1101)
 - Fixed battlegrounds overlay in windowed mode (https://github.com/HearthSim/HSTracker/issues/1095)
