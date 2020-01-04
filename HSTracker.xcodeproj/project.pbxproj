@@ -173,7 +173,6 @@
 		439C7E891C777CFC00D29859 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E811C777CFC00D29859 /* Card.swift */; };
 		439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E831C777CFC00D29859 /* CardMechanic.swift */; };
 		439C7E8D1C777D1C00D29859 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E8C1C777D1C00D29859 /* Database.swift */; };
-		439C7E8F1C777D6C00D29859 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
 		439C7E921C777EFA00D29859 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E911C777EFA00D29859 /* Settings.swift */; };
 		439C7EB51C777F8900D29859 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E951C777F8900D29859 /* Entity.swift */; };
 		439C7EB61C777F8900D29859 /* CardMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439C7E971C777F8900D29859 /* CardMark.swift */; };
@@ -480,6 +479,13 @@
 		4C1ED0D3237CB24A00ABB3D1 /* CollectionFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */; };
 		4C1ED0D7237CB8E800ABB3D1 /* CollectionFeedback.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */; };
 		4C6E99A3237F635300702AB2 /* CollectionWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */; };
+		4CE0C73623C0E0CC0014045C /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
+		4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */; };
+		4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */; };
+		4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */; };
+		4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
+		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
+		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
 		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
 		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
 		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -976,6 +982,12 @@
 		4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFeedback.swift; sourceTree = "<group>"; };
 		4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionFeedback.xib; sourceTree = "<group>"; };
 		4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWatcher.swift; sourceTree = "<group>"; };
+		4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierDetailWindowController.swift; sourceTree = "<group>"; };
+		4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierDetailWindowController.xib; sourceTree = "<group>"; };
+		4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierDetailsView.swift; sourceTree = "<group>"; };
+		4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlay.swift; sourceTree = "<group>"; };
+		4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierOverlay.xib; sourceTree = "<group>"; };
+		4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlayView.swift; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
 		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
 		5BD4A5012233E40B00EF879B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
@@ -1617,6 +1629,10 @@
 				4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */,
 				4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */,
 				4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */,
+				4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */,
+				4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */,
+				4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */,
+				4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1704,6 +1720,8 @@
 			children = (
 				4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */,
 				4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */,
+				4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */,
+				4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */,
 			);
 			path = Battlegrounds;
 			sourceTree = "<group>";
@@ -1924,7 +1942,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CE0C73623C0E0CC0014045C /* Resources in Resources */,
 				49930DD41DFA859F008C8CD4 /* .swiftlint.yml in Resources */,
+				4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */,
 				432B5FC51CB5374100B05D19 /* EditDeck.xib in Resources */,
 				432B5FC81CB5374600B05D19 /* NewDeck.xib in Resources */,
 				432B5FAF1CB5351800B05D19 /* Localizable.strings in Resources */,
@@ -1933,6 +1953,7 @@
 				4323C5ED1E1A502900C97896 /* HearthMirror.framework.dSYM in Resources */,
 				43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
+				4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */,
 				4C1ED0D7237CB8E800ABB3D1 /* CollectionFeedback.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
@@ -1954,7 +1975,6 @@
 				E301D340217CE737001F8D11 /* FMDB.framework.dSYM in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
-				439C7E8F1C777D6C00D29859 /* Resources in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
@@ -2011,6 +2031,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				432A07B21E93B6E200921E34 /* CardIds.swift in Sources */,
+				4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */,
 				432A077C1E93B0F100921E34 /* Secrets.swift in Sources */,
 				43F2040F1E93C2E600E0BC4A /* Priest.swift in Sources */,
 				43F204071E93C2E600E0BC4A /* DreamCards.swift in Sources */,
@@ -2054,6 +2075,7 @@
 				43C567FF1D5E4F9700451B6F /* HSReplayAPI.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
+				4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */,
 				43B695631C920A0500F4D0AC /* CardList.swift in Sources */,
@@ -2105,10 +2127,12 @@
 				437E56F61DAAB81400FC0FC1 /* String.swift in Sources */,
 				4305CA471CF434E30048E7EC /* Cards.swift in Sources */,
 				43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */,
+				4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */,
 				43C568031D5E59E500451B6F /* UploadResult.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
 				43AFEEEB1E22529C00F6045A /* CollectionManager.swift in Sources */,
+				4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */,
 				43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */,
 				439C7EBF1C777F8900D29859 /* Game.swift in Sources */,
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,

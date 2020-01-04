@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Race: String {
+enum Race: String, CaseIterable {
     case invalid,
     bloodelf,
     draenei,

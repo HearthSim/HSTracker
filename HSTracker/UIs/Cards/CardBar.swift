@@ -504,6 +504,10 @@ class CardBar: NSView, CardBarTheme {
         guard let card = card else { return }
 
         var cost = card.cost
+        
+        if (cost < 0) {
+            return
+        }
 
         var textColor = card.textColor()
         if playerType == .cardList || playerType == .editDeck {

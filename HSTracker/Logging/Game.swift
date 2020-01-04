@@ -108,6 +108,7 @@ class Game: NSObject, PowerEventHandler {
 		self.updateArenaHelper()
         self.updateSecretTracker()
         self.updateBattlegroundsOverlay()
+        self.updateBattlegroundsTierOverlay()
 	}
 	
     // MARK: - GUI calls
@@ -342,6 +343,20 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: false)
+            }
+        }
+    }
+    
+    func updateBattlegroundsTierOverlay() {
+        let rect = SizeHelper.battlegroundsTierOverlayFrame()
+
+        DispatchQueue.main.async {
+            if (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground {
+                
+                self.windowManager.show(controller: self.windowManager.battlegroundsTierOverlay, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.battlegroundsTierOverlay, show: false)
             }
         }
     }

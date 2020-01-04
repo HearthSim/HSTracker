@@ -73,6 +73,14 @@ class WindowManager {
         return $0
     }(BattlegroundsDetailsWindow(windowNibName: NSNib.Name(rawValue: "BattlegroundsDetailsWindow")))
 
+    var battlegroundsTierOverlay: BattlegroundsTierOverlay = {
+        return $0
+    }(BattlegroundsTierOverlay(windowNibName: NSNib.Name(rawValue: "BattlegroundsTierOverlay")))
+
+    var battlegroundsTierDetailsWindowController: BattlegroundsTierDetailWindowController = {
+        return $0
+    }(BattlegroundsTierDetailWindowController(windowNibName: NSNib.Name(rawValue: "BattlegroundsTierDetailWindowController")))
+
     var floatingCard: FloatingCard = {
         if let fWindow = $0.window {
             
