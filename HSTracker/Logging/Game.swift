@@ -349,10 +349,14 @@ class Game: NSObject, PowerEventHandler {
     
     func updateBattlegroundsTierOverlay() {
         let rect = SizeHelper.battlegroundsTierOverlayFrame()
-
+                
         DispatchQueue.main.async {
-            if (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                    || !Settings.hideAllWhenGameInBackground {
+            let game = AppDelegate.instance().coreManager.hsLog.currentOrFinishedGame()
+            let isBG = game?.gameType == kotlin_hslog.GameType.gtBattlegrounds
+                && game?.victory == nil
+
+            if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                    || !Settings.hideAllWhenGameInBackground) {
                 
                 self.windowManager.show(controller: self.windowManager.battlegroundsTierOverlay, show: true, frame: rect, title: nil, overlay: true)
             } else {

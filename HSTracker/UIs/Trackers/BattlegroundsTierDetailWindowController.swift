@@ -13,7 +13,6 @@ class BattlegroundsTierDetailWindowController: OverWindowController {
     
     override func windowDidLoad() {
         super.windowDidLoad()
-        self.window!.backgroundColor = NSColor.brown
     }
     
     func setTier(tier: Int) {
