@@ -137,7 +137,7 @@ class CollectionWatcher {
                     logger.debug("got mirrorCollection")
                 }
                 
-                if !sent, let collection = mirrorCollection {
+                if !sent, let collection = mirrorCollection, Settings.hsReplayOAuthRefreshToken != nil {
                     sent = true
 
                     let accountId = MirrorHelper.getAccountId()
