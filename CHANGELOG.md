@@ -1,3 +1,7 @@
+# 1.6.12
+## New:
+- Battlegrounds minion tiers are now visible during a Battlegrounds game
+
 # 1.6.11
 ## Fixes:
 - Improve collection upload (https://github.com/HearthSim/HSTracker/issues/1101)
