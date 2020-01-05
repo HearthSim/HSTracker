@@ -1,3 +1,7 @@
+# 1.6.13
+## Fixes:
+- Do not try to upload the collection if the setting is not enabled
+
 # 1.6.12
 ## New:
 - Battlegrounds minion tiers are now visible during a Battlegrounds game
