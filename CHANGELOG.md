@@ -1,3 +1,7 @@
+# 1.6.14
+## New:
+- Galakrond counter
+
 # 1.6.13
 ## Fixes:
 - Do not try to upload the collection if the setting is not enabled
