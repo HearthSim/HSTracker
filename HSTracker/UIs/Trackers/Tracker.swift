@@ -22,6 +22,7 @@ class Tracker: OverWindowController {
     @IBOutlet weak private var playerClass: NSView!
     @IBOutlet weak private var recordTracker: StringTracker!
     @IBOutlet weak private var fatigueTracker: StringTracker!
+    @IBOutlet weak private var galakrondCounter: StringTracker!
     @IBOutlet weak private var graveyardCounter: GraveyardCounter!
     @IBOutlet weak private var jadeCounter: JadeCounter!
 
@@ -42,6 +43,8 @@ class Tracker: OverWindowController {
     var proxy: Entity?
     var nextJadeSize: Int = 1
     var fatigueCounter: Int = 0
+    var hasGalakrondProxy: Bool = false
+    var galakrondInvokeCounter: Int = 0
     var graveyard: [Entity]?
     var spellsPlayedCount = 0
     var deathrattlesPlayedCount = 0
@@ -163,6 +166,7 @@ class Tracker: OverWindowController {
             playerDrawChance.isHidden = true
             playerClass.isHidden = !Settings.showOpponentClassInTracker
             recordTracker.isHidden = true
+            galakrondCounter.isHidden = !(Settings.showOpponentGalakrondCounter && (galakrondInvokeCounter > 0))
         } else {
             cardCounter.isHidden = !Settings.showPlayerCardCount
             opponentDrawChance.isHidden = true
@@ -170,6 +174,7 @@ class Tracker: OverWindowController {
             
             playerClass.isHidden = !Settings.showDeckNameInTracker
             recordTracker.isHidden = !Settings.showWinLossRatio
+            galakrondCounter.isHidden = !(Settings.showPlayerGalakrondCounter && hasGalakrondProxy)
         }
         
         fatigueTracker.isHidden = !(Settings.fatigueIndicator && (fatigueCounter > 0))
@@ -184,6 +189,12 @@ class Tracker: OverWindowController {
             fatigueTracker.message = "\(NSLocalizedString("Fatigue : ", comment: ""))"
                 + "\(fatigueCounter)"
             fatigueTracker.needsDisplay = true
+        }
+        
+        if !galakrondCounter.isHidden {
+            galakrondCounter.message = "\(NSLocalizedString("Invoked : ", comment: ""))"
+                + "\(galakrondInvokeCounter)"
+            galakrondCounter.needsDisplay = true
         }
         
         var counterStyle: [WotogCounterStyle] = []
@@ -366,6 +377,9 @@ class Tracker: OverWindowController {
         if !fatigueTracker.isHidden {
             offsetFrames += smallFrameHeight
         }
+        if !galakrondCounter.isHidden {
+            offsetFrames += smallFrameHeight
+        }
         
         var cardHeight: CGFloat
         switch Settings.cardSize {
@@ -455,6 +469,13 @@ class Tracker: OverWindowController {
         if !fatigueTracker.isHidden {
             y -= smallFrameHeight
             fatigueTracker.frame = NSRect(x: 0,
+                                          y: y,
+                                          width: windowWidth,
+                                          height: smallFrameHeight)
+        }
+        if !galakrondCounter.isHidden {
+            y -= smallFrameHeight
+            galakrondCounter.frame = NSRect(x: 0,
                                           y: y,
                                           width: windowWidth,
                                           height: smallFrameHeight)

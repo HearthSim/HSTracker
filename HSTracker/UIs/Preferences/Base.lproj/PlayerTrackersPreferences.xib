@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,6 +14,7 @@
                 <outlet property="showCthunCounter" destination="SWg-Jw-fc8" id="bDv-eo-Xhs"/>
                 <outlet property="showDeathrattleCounter" destination="E5o-tN-vdV" id="dkS-7r-Nop"/>
                 <outlet property="showDeckName" destination="xPH-sG-hVe" id="Abt-o1-xT9"/>
+                <outlet property="showGalakrondInvokeCounter" destination="Ri2-1B-HMG" id="uZ1-FO-Mw2"/>
                 <outlet property="showGraveyard" destination="D65-CQ-243" id="Pw5-me-Aci"/>
                 <outlet property="showGraveyardDetails" destination="O1a-xZ-afb" id="uwS-c7-KEx"/>
                 <outlet property="showJadeCounter" destination="fgd-bd-3lc" id="yES-fT-yI6"/>
@@ -121,8 +123,8 @@
                         <action selector="checkboxClicked:" target="-2" id="eav-gk-e3Z"/>
                     </connections>
                 </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="mRM-Lj-SBH">
-                    <rect key="frame" x="18" y="144" width="86" height="17"/>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mRM-Lj-SBH">
+                    <rect key="frame" x="18" y="145" width="86" height="16"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="In-hand color" id="gfe-fe-rJe">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -130,14 +132,14 @@
                     </textFieldCell>
                 </textField>
                 <colorWell horizontalHuggingPriority="249" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="MGl-GB-lMD">
-                    <rect key="frame" x="112" y="141" width="358" height="23"/>
+                    <rect key="frame" x="112" y="142" width="358" height="22"/>
                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <action selector="colorChange:" target="-2" id="ecw-VS-VjY"/>
                     </connections>
                 </colorWell>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="MtK-l1-SKk">
-                    <rect key="frame" x="18" y="115" width="444" height="18"/>
+                    <rect key="frame" x="18" y="116" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show board damage" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rj2-8a-HGB">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -147,7 +149,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="xPH-sG-hVe">
-                    <rect key="frame" x="18" y="91" width="444" height="18"/>
+                    <rect key="frame" x="18" y="92" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show deck name" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="e7g-zd-YkC">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -157,7 +159,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D65-CQ-243">
-                    <rect key="frame" x="18" y="67" width="119" height="18"/>
+                    <rect key="frame" x="18" y="68" width="119" height="18"/>
                     <buttonCell key="cell" type="check" title="Show graveyard" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="5Sm-dB-rVB">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -167,7 +169,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="O1a-xZ-afb">
-                    <rect key="frame" x="209" y="67" width="199" height="18"/>
+                    <rect key="frame" x="209" y="68" width="199" height="18"/>
                     <buttonCell key="cell" type="check" title="Cardlist opens on mouseover" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="1dP-3v-VLS">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -177,13 +179,24 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="fgd-bd-3lc">
-                    <rect key="frame" x="18" y="43" width="444" height="18"/>
+                    <rect key="frame" x="18" y="44" width="444" height="18"/>
                     <buttonCell key="cell" type="check" title="Show Jade Counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MDW-Ea-Q6M">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                     <connections>
                         <action selector="checkboxClicked:" target="-2" id="5mO-EK-yQS"/>
+                    </connections>
+                </button>
+                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ri2-1B-HMG">
+                    <rect key="frame" x="18" y="24" width="444" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show Galakrond invoke counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="hcz-Gp-orK">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="c54-uY-4PZ"/>
                     </connections>
                 </button>
             </subviews>

@@ -26,6 +26,7 @@ class OpponentTrackersPreferences: NSViewController {
     @IBOutlet weak var showGraveyardDetails: NSButton!
     @IBOutlet weak var showJadeCounter: NSButton!
     @IBOutlet weak var preventOpponentNameCovering: NSButton!
+    @IBOutlet weak var showGalakrondInvokeCounter: NSButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,7 @@ class OpponentTrackersPreferences: NSViewController {
         showGraveyardDetails.isEnabled = showGraveyard.state == .on
         showJadeCounter.state = Settings.showOpponentJadeCounter ? .on : .off
         preventOpponentNameCovering.state = Settings.preventOpponentNameCovering ? .on : .off
+        showGalakrondInvokeCounter.state = Settings.showOpponentGalakrondCounter ? .on : .off
     }
 
     @IBAction func checkboxClicked(_ sender: NSButton) {
@@ -83,6 +85,8 @@ class OpponentTrackersPreferences: NSViewController {
             Settings.showOpponentJadeCounter = showJadeCounter.state == .on
         } else if sender == preventOpponentNameCovering {
             Settings.preventOpponentNameCovering = preventOpponentNameCovering.state == .on
+        } else if sender == showGalakrondInvokeCounter {
+            Settings.showOpponentGalakrondCounter = showGalakrondInvokeCounter.state == .on
         }
     }
 }
