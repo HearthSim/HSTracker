@@ -218,6 +218,14 @@ final class Settings {
         set { set(name: Settings.player_jade_frame, value: newValue) }
         get { return get(name: Settings.player_jade_frame) as? Bool ?? true }
     }
+    static var showPlayerGalakrondCounter: Bool {
+        set { set(name: Settings.player_galakrond_invoke_frame, value: newValue) }
+        get { return get(name: Settings.player_galakrond_invoke_frame) as? Bool ?? true }
+    }
+    static var showOpponentGalakrondCounter: Bool {
+        set { set(name: Settings.opponent_galakrond_invoke_frame, value: newValue) }
+        get { return get(name: Settings.opponent_galakrond_invoke_frame) as? Bool ?? true }
+    }
     static var showOpponentCthun: Bool {
         set { set(name: Settings.opponent_cthun_frame, value: newValue) }
         get { return get(name: Settings.opponent_cthun_frame) as? Bool ?? true }
@@ -562,6 +570,8 @@ extension Settings {
 
     static let player_graveyard_details_frame = "player_graveyard_details_frame"
     static let player_jade_frame = "player_jade_frame"
+    static let player_galakrond_invoke_frame = "player_galakrond_invoke_frame"
+    static let opponent_galakrond_invoke_frame = "opponent_galakrond_invoke_frame"
     static let opponent_cthun_frame = "opponent_cthun_frame"
     static let opponent_yogg_frame = "opponent_yogg_frame"
     static let opponent_deathrattle_frame = "opponent_deathrattle_frame"

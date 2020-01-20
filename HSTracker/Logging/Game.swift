@@ -160,6 +160,10 @@ class Game: NSObject, PowerEventHandler {
 				tracker.fatigueCounter = self.opponent.fatigue
 				tracker.spellsPlayedCount = self.opponent.spellsPlayedCount
 				tracker.deathrattlesPlayedCount = self.opponent.deathrattlesPlayedCount
+                
+                if let opponentEntity = self.opponentEntity {
+                    tracker.galakrondInvokeCounter = opponentEntity.has(tag: GameTag.invoke_counter) ? opponentEntity[GameTag.invoke_counter] : 0
+                }
 				
                 if let fullname = self.opponent.name {
                     let names = fullname.components(separatedBy: "#")
@@ -229,6 +233,11 @@ class Game: NSObject, PowerEventHandler {
                 tracker.fatigueCounter = self.player.fatigue
                 tracker.spellsPlayedCount = self.player.spellsPlayedCount
                 tracker.deathrattlesPlayedCount = self.player.deathrattlesPlayedCount
+                
+                if let playerEntity = self.playerEntity {
+                    tracker.hasGalakrondProxy = playerEntity.has(tag: GameTag.proxy_galakrond)
+                    tracker.galakrondInvokeCounter = playerEntity.has(tag: GameTag.invoke_counter) ? playerEntity[GameTag.invoke_counter] : 0
+                }
                 
                 if let currentDeck = self.currentDeck {
                     if let deck = RealmHelper.getDeck(with: currentDeck.id) {
