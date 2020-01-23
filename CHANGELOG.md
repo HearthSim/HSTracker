@@ -1,3 +1,7 @@
+# 1.6.15
+## New:
+- Support for Galakrond's awakening
+
 # 1.6.14
 ## New:
 - Galakrond counter
