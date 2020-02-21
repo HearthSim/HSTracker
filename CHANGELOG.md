@@ -1,3 +1,7 @@
+# 1.6.16
+## New:
+- Updated card database
+
 # 1.6.15
 ## New:
 - Support for Galakrond's awakening
