@@ -1,3 +1,7 @@
+# 1.6.17
+## New:
+- Battlegrounds Dragons
+
 # 1.6.16
 ## New:
 - Updated card database
