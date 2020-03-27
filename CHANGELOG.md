@@ -1,5 +1,9 @@
 # 1.6.17
 ## New:
+- Support for patch 16.6
+
+# 1.6.17
+## New:
 - Battlegrounds Dragons
 
 # 1.6.16
