@@ -28,6 +28,7 @@ struct FileImporter {
 
         guard let lines = fileContent else {
             logger.error("Card list not found")
+            return nil
         }
 
         let deck = Deck()
