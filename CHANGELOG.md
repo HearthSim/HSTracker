@@ -1,4 +1,4 @@
-# 1.6.17
+# 1.6.18
 ## New:
 - Support for patch 16.6
 
