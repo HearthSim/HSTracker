@@ -59,10 +59,10 @@ class CollectionWatcher {
     }
     
     private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> Kotlin_hsreplay_apiCollectionUploadData {
-        
+                
         let cardJson = AppDelegate.instance().coreManager.cardJson!
 
-        var c = [:] as [String: [KotlinInt]]
+        var c: [String: [KotlinInt]] = [:] 
         for mirrorCard in mirrorCollection.cards {
             let card = cardJson.getCard(id: mirrorCard.cardId)
             var counts = c[String(card.dbfId)] ?? [0, 0]

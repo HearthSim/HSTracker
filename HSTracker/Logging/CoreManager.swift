@@ -110,9 +110,8 @@ final class CoreManager: NSObject {
         
         let console = MacOSConsole()
         if let url = maybeUrl, let fileHandle = try? FileHandle(forReadingFrom: url) {
-            let input = PosixInputKt.Input(fileDescriptor: fileHandle.fileDescriptor)
             logger.debug("building CardJson...")
-            self.cardJson = CardJson.Companion().fromLocalizedJson(input: input)
+            self.cardJson = ExposedCardJsonKt.cardJson(fd: fileHandle.fileDescriptor)
             FreezeHelperKt.freeze(self.cardJson)
             logger.debug("building HSLog...")
             hsLog = HSLog(console: console, cardJson: cardJson, debounceDelay: 100)

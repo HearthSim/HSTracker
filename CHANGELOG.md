@@ -1,3 +1,7 @@
+# 1.6.19
+## Fixes:
+- Fix a crash on collection upload. 
+
 # 1.6.18
 ## New:
 - Support for patch 16.6
