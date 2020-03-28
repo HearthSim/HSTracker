@@ -1,3 +1,7 @@
+# 1.6.20
+## Fixes:
+- Fix a crash on collection upload.
+
 # 1.6.19
 ## Fixes:
 - Fix a crash on collection upload. 
