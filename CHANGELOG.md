@@ -1,3 +1,7 @@
+# 1.6.21
+## New:
+- Adapt for the new ladder system.
+
 # 1.6.20
 ## Fixes:
 - Fix a crash on collection upload.
