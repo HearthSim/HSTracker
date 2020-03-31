@@ -628,7 +628,11 @@ class Game: NSObject, PowerEventHandler {
                 self.opponent.id = minfo.opposingPlayer.playerId
                 self._currentGameType = minfo.gameType
                 self.currentFormat = minfo.formatType
+
+                let opponentStarLevel = minfo.opposingPlayer.standardMedalInfo.starLevel
+                logger.info("LADDER opponentStarLevel=\(opponentStarLevel)")
             }
+            
             
             // request a mirror read so we have this data at the end of the game
             _ = self.serverInfo
@@ -1049,12 +1053,12 @@ class Game: NSObject, PowerEventHandler {
 		if let matchInfo = self.matchInfo, self.currentGameMode == .ranked {
 			let wild = self.currentFormat == .wild
 			
-            if (wild) {
+            if wild {
                 result.playerMedalInfo = matchInfo.localPlayer.wildMedalInfo
             } else {
                 result.playerMedalInfo = matchInfo.localPlayer.standardMedalInfo
             }
-            if (wild) {
+            if wild {
                 result.opponentMedalInfo = matchInfo.opposingPlayer.wildMedalInfo
             } else {
                 result.opponentMedalInfo = matchInfo.opposingPlayer.standardMedalInfo

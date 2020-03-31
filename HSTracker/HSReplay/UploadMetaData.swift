@@ -138,7 +138,7 @@ class UploadMetaData {
 		}
 
         friendly.star_level = stats.playerMedalInfo?.starLevel
-        friendly.stars = stats.playerMedalInfo?.stars
+        friendly.stars = nil //stats.playerMedalInfo?.stars
         friendly.star_multiplier = stats.playerMedalInfo?.starMultiplier
 
         if stats.playerCardbackId > 0 {
@@ -165,8 +165,10 @@ class UploadMetaData {
         }
 
         opposing.star_level = stats.opponentMedalInfo?.starLevel
-        opposing.stars = stats.opponentMedalInfo?.stars
-        opposing.star_multiplier = stats.opponentMedalInfo?.starMultiplier
+        opposing.stars = nil //stats.opponentMedalInfo?.stars
+        opposing.star_multiplier = nil //stats.opponentMedalInfo?.starMultiplier
+
+        logger.info("LADDER opponentStarLevel=\(opposing.star_level ?? -1)")
 
         if stats.opponentCardbackId > 0 {
             opposing.cardBack = stats.opponentCardbackId
