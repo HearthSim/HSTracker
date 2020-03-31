@@ -10,27 +10,37 @@ import Foundation
 import HearthMirror
 
 struct MatchInfo {
+    struct MedalInfo {
+        var rank: Int
+        var leagueId: Int
+        var stars: Int
+        var legendRank: Int
+        var starMultiplier: Int
+        var starLevel: Int
+        
+        init(mirrorMedalInfo: MirrorMedalInfo) {
+            self.rank = mirrorMedalInfo.rank as? Int ?? 0
+            self.leagueId = mirrorMedalInfo.leagueId as? Int ?? 0
+            self.legendRank = mirrorMedalInfo.legendRank as? Int ?? 0
+            self.stars = mirrorMedalInfo.stars as? Int ?? 0
+            self.starMultiplier = mirrorMedalInfo.starMultiplier as? Int ?? 0
+            self.starLevel = mirrorMedalInfo.starLevel as? Int ?? 0
+        }
+    }
     struct Player {
         var name: String
         var playerId: Int
-        var standardRank: Int
-        var standardLegendRank: Int
-        var standardStars: Int
-        var wildRank: Int
-        var wildLegendRank: Int
-        var wildStars: Int
+        var wildMedalInfo: MedalInfo
+        var standardMedalInfo: MedalInfo
         var cardBackId: Int
 
         init(player: MirrorPlayer) {
             self.name = player.name
             self.playerId = player.playerId as? Int ?? 0
-            self.standardRank = player.standardRank as? Int ?? 0
-            self.standardLegendRank = player.standardLegendRank as? Int ?? 0
-            self.standardStars = player.standardStars as? Int ?? 0
-            self.wildRank = player.wildRank as? Int ?? 0
-            self.wildLegendRank = player.wildLegendRank as? Int ?? 0
-            self.wildStars = player.wildStars as? Int ?? 0
             self.cardBackId = player.cardBackId as? Int ?? 0
+
+            self.standardMedalInfo = MedalInfo(mirrorMedalInfo: player.standardMedalInfo)
+            self.wildMedalInfo = MedalInfo(mirrorMedalInfo: player.wildMedalInfo)
         }
     }
 

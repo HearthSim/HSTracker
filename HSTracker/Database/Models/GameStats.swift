@@ -23,11 +23,8 @@ class InternalGameStats {
     var playerName = ""
     var opponentName = ""
     var wasConceded = false
-    var rank = -1
-    var stars = -1
-    var legendRank = -1
-    var opponentLegendRank = -1
-    var opponentRank = -1
+    var playerMedalInfo: MatchInfo.MedalInfo?
+    var opponentMedalInfo: MatchInfo.MedalInfo?
     var hearthstoneBuild: Int?
     var playerCardbackId = -1
     var opponentCardbackId = -1
@@ -44,6 +41,7 @@ class InternalGameStats {
     var brawlWins = 0
     var brawlLosses = 0
     private var _format: Format?
+        
     var format: Format? {
         get {
             return gameMode == .ranked || gameMode == .casual ? _format : nil
@@ -65,12 +63,12 @@ class InternalGameStats {
         gameStats.opponentHero = opponentHero
         gameStats.friendlyPlayerId = friendlyPlayerId
         gameStats.opponentName = opponentName
-        gameStats.opponentRank = opponentRank
-        gameStats.opponentLegendRank = opponentLegendRank
+        gameStats.opponentRank = opponentMedalInfo?.rank ?? 0
+        gameStats.opponentLegendRank = opponentMedalInfo?.legendRank ?? 0
         gameStats.playerName = playerName
-        gameStats.rank = rank
-        gameStats.legendRank = legendRank
-        gameStats.stars = stars
+        gameStats.rank = playerMedalInfo?.rank ?? 0
+        gameStats.legendRank = playerMedalInfo?.legendRank ?? 0
+        gameStats.stars = playerMedalInfo?.stars ?? 0
         gameStats.wasConceded = wasConceded
         gameStats.turns = turns
         gameStats.scenarioId = scenarioId
@@ -114,11 +112,6 @@ extension InternalGameStats: CustomStringConvertible {
             "playerName: \(playerName), " +
             "opponentName: \(opponentName), " +
             "wasConceded: \(wasConceded), " +
-            "rank: \(rank), " +
-            "stars: \(stars), " +
-            "legendRank: \(legendRank), " +
-            "opponentLegendRank: \(opponentLegendRank), " +
-            "opponentRank: \(opponentRank), " +
             "hearthstoneBuild: \(String(describing: hearthstoneBuild)), " +
             "playerCardbackId: \(playerCardbackId), " +
             "opponentCardbackId: \(opponentCardbackId), " +

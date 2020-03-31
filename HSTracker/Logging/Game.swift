@@ -1049,21 +1049,16 @@ class Game: NSObject, PowerEventHandler {
 		if let matchInfo = self.matchInfo, self.currentGameMode == .ranked {
 			let wild = self.currentFormat == .wild
 			
-			result.rank = wild
-				? matchInfo.localPlayer.wildRank
-				: matchInfo.localPlayer.standardRank
-			result.opponentRank = wild
-				? matchInfo.opposingPlayer.wildRank
-				: matchInfo.opposingPlayer.standardRank
-			result.legendRank = wild
-				? matchInfo.localPlayer.wildLegendRank
-				: matchInfo.localPlayer.standardLegendRank
-			result.opponentLegendRank = wild
-				? matchInfo.opposingPlayer.wildLegendRank
-				: matchInfo.opposingPlayer.standardLegendRank
-			result.stars = wild
-				? matchInfo.localPlayer.wildStars
-				: matchInfo.localPlayer.standardStars
+            if (wild) {
+                result.playerMedalInfo = matchInfo.localPlayer.wildMedalInfo
+            } else {
+                result.playerMedalInfo = matchInfo.localPlayer.standardMedalInfo
+            }
+            if (wild) {
+                result.opponentMedalInfo = matchInfo.opposingPlayer.wildMedalInfo
+            } else {
+                result.opponentMedalInfo = matchInfo.opposingPlayer.standardMedalInfo
+            }
 		} else if self.currentGameMode == .arena {
 			result.arenaLosses = self.arenaInfo?.losses ?? 0
 			result.arenaWins = self.arenaInfo?.wins ?? 0

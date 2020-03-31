@@ -282,12 +282,12 @@ class Tracker: OverWindowController {
                 if let matchInfo = matchInfo, currentGameMode == .ranked {
                     let wild = currentFormat == .wild
                     var rank = wild
-                        ? matchInfo.opposingPlayer.wildRank
-                        : matchInfo.opposingPlayer.standardRank
+                        ? matchInfo.opposingPlayer.wildMedalInfo.rank
+                        : matchInfo.opposingPlayer.standardMedalInfo.rank
                     if rank < 0 {
                         rank = wild
-                            ? matchInfo.opposingPlayer.wildLegendRank
-                            : matchInfo.opposingPlayer.standardLegendRank
+                            ? matchInfo.opposingPlayer.wildMedalInfo.legendRank
+                            : matchInfo.opposingPlayer.standardMedalInfo.legendRank
                     }
                     
                     if rank > 0 {
@@ -324,12 +324,12 @@ class Tracker: OverWindowController {
             if let matchInfo = matchInfo, currentGameMode == .ranked {
                 let wild = currentFormat == .wild
                 var rank = wild
-                    ? matchInfo.localPlayer.wildRank
-                    : matchInfo.localPlayer.standardRank
+                    ? matchInfo.localPlayer.wildMedalInfo.rank
+                    : matchInfo.localPlayer.standardMedalInfo.rank
                 if rank < 0 {
                     rank = wild
-                        ? matchInfo.localPlayer.wildLegendRank
-                        : matchInfo.localPlayer.standardLegendRank
+                        ? matchInfo.localPlayer.wildMedalInfo.legendRank
+                        : matchInfo.localPlayer.standardMedalInfo.legendRank
                 }
                 
                 if rank > 0 {
