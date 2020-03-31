@@ -36,6 +36,7 @@ class UploadMetaData {
     var format: Int?
     var player1: Player = Player()
     var player2: Player = Player()
+    var league_id: Int?
     
     public static let iso8601StringFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -46,6 +47,8 @@ class UploadMetaData {
     static func generate(stats: InternalGameStats, buildNumber: Int, deck: PlayingDeck?) -> (UploadMetaData, String) {
         let metaData = UploadMetaData()
 
+        metaData.league_id = stats.playerMedalInfo?.leagueId
+        
 		let playerInfo = getPlayerInfo(stats: stats, deck: deck)
         if let _playerInfo = playerInfo {
             metaData.player1 = _playerInfo.player1
@@ -134,19 +137,13 @@ class UploadMetaData {
 			friendly.add(deck: deck)
 		}
 
-        if stats.rank > 0 {
-            friendly.rank = stats.rank
-        }
-        if stats.legendRank > 0 {
-            friendly.legendRank = stats.legendRank
-        }
+        friendly.star_level = stats.playerMedalInfo?.starLevel
+        friendly.stars = stats.playerMedalInfo?.stars
+        friendly.star_multiplier = stats.playerMedalInfo?.starMultiplier
+
         if stats.playerCardbackId > 0 {
             friendly.cardBack = stats.playerCardbackId
         }
-        if stats.stars > 0 {
-            friendly.stars = stats.stars
-        }
-
         if let hsDeckId = stats.hsDeckId, hsDeckId > 0 {
             friendly.deckId = hsDeckId
         }
@@ -167,12 +164,10 @@ class UploadMetaData {
             }
         }
 
-        if stats.opponentRank > 0 {
-            opposing.rank = stats.opponentRank
-        }
-        if stats.opponentLegendRank > 0 {
-            opposing.legendRank = stats.opponentLegendRank
-        }
+        opposing.star_level = stats.opponentMedalInfo?.starLevel
+        opposing.stars = stats.opponentMedalInfo?.stars
+        opposing.star_multiplier = stats.opponentMedalInfo?.starMultiplier
+
         if stats.opponentCardbackId > 0 {
             opposing.cardBack = stats.opponentCardbackId
         }
@@ -182,9 +177,11 @@ class UploadMetaData {
     }
 
     class Player {
-        var rank: Int?
-        var legendRank: Int?
+        var player_id: Int?
+        var star_level: Int?
         var stars: Int?
+        var star_multiplier: Int?
+
         var wins: Int?
         var losses: Int?
         var deck: [String]?
