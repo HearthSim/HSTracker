@@ -451,7 +451,7 @@ final class CoreManager: NSObject {
 					logger.warning("No deck with id=\(selectedDeckId) found")
 					return nil
 				}
-				logger.info("Found selected deck : \(selectedDeck.name)")
+                logger.info("Found selected Mirror deck : \(selectedDeck.name) \(selectedDeck.id) \(selectedDeck.cards.count)")
 				
 				if let deck = RealmHelper.checkAndUpdateDeck(deckId: selectedDeckId, selectedDeck: selectedDeck) {
 					return deck

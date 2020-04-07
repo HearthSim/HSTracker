@@ -36,18 +36,20 @@ enum CardSet: String, CaseIterable {
     wild_event,
     dragons, // Descent of Dragons
     year_of_the_dragon,
-    black_temple
+    black_temple,
+    demon_hunter_initiate
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .expert1, .naxx, .gvg, .brm, .tgt,
                 .loe, .og, .kara, .gangs, .ungoro, .icecrown,
                 .lootapalooza, .gilneas, .boomsday, .troll,
-                .dalaran, .uldum, .dragons, .year_of_the_dragon, .black_temple]
+                .dalaran, .uldum, .dragons, .year_of_the_dragon,
+                .black_temple, .demon_hunter_initiate]
     }
     
     static func wildSets() -> [CardSet] {
-        return [.naxx, .gvg, .brm, .tgt, .loe, .hof, .promo,
-                .og, .kara, .gangs, .lootapalooza,
-                .ungoro, .icecrown, .lootapalooza]
+        return [.naxx, .gvg, .brm, .tgt, .loe, .og, .hof, .promo,
+                .kara, .gangs, .ungoro, .icecrown, .lootapalooza,
+                .gilneas, .boomsday, .troll]
     }
 }

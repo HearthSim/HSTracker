@@ -10,6 +10,17 @@ import Foundation
 import kotlin_hslog
 
 class HSTLogListener: HSLogListener {
+    func bgHeroesShow(game: kotlin_hslog.Game, entities: [kotlin_hslog.Entity]) {
+        
+    }
+    
+    func onCardGained(cardGained: CardGained) {
+        
+    }
+   
+    func bgHeroesHide() {
+    }
+    
     let windowManager: WindowManager
     
     init(windowManager: WindowManager) {
@@ -53,9 +64,6 @@ class HSTLogListener: HSLogListener {
         
     }
     
-    func onCardGained(cardGained: AchievementsParser.CardGained) {
-        
-    }
 
     func onRawGame(gameString: KotlinByteArray, gameStartMillis: Int64) {
         

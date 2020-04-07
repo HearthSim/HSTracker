@@ -897,11 +897,12 @@ class Game: NSObject, PowerEventHandler {
 		if let id = activeDeckId, let deck = RealmHelper.getDeck(with: id) {
 			set(activeDeck: deck)
             hasValidDeck = true
-            logger.info("has Valid Mirror Deck")
+            logger.info("has Valid Mirror Deck: \(deck.cards.count) cards")
 		} else {
 			currentDeck = nil
 			player.playerClass = nil
 			updateTrackers(reset: true)
+            logger.info("no Valid Mirror Deck")
 		}
 	}
 	

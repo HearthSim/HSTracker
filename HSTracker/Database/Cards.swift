@@ -12,7 +12,7 @@ final class Cards {
     
     static let classes: [CardClass] = {
         return [.druid, .hunter, .mage, .paladin, .priest,
-            .rogue, .shaman, .warlock, .warrior]
+                .rogue, .shaman, .warlock, .warrior, .demonhunter]
             .sorted { NSLocalizedString($0.rawValue, comment: "")
                 < NSLocalizedString($1.rawValue, comment: "") }
     }()

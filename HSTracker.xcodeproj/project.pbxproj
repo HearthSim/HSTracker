@@ -483,6 +483,7 @@
 		4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */; };
 		4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */; };
 		4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */; };
+		4CED5D15243D1B27006D2E1F /* DemonHunter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED5D14243D1B27006D2E1F /* DemonHunter.swift */; };
 		4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
 		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
@@ -985,6 +986,7 @@
 		4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierDetailWindowController.swift; sourceTree = "<group>"; };
 		4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierDetailWindowController.xib; sourceTree = "<group>"; };
 		4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierDetailsView.swift; sourceTree = "<group>"; };
+		4CED5D14243D1B27006D2E1F /* DemonHunter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemonHunter.swift; sourceTree = "<group>"; };
 		4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlay.swift; sourceTree = "<group>"; };
 		4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierOverlay.xib; sourceTree = "<group>"; };
 		4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlayView.swift; sourceTree = "<group>"; };
@@ -1257,6 +1259,7 @@
 				43F204041E93C2E600E0BC4A /* Warlock.swift */,
 				43F204051E93C2E600E0BC4A /* Warrior.swift */,
 				F719B889200ACAE3004F5E36 /* DefaultDecks.swift */,
+				4CED5D14243D1B27006D2E1F /* DemonHunter.swift */,
 			);
 			path = CardIds;
 			sourceTree = "<group>";
@@ -2052,6 +2055,7 @@
 				432A07B21E93B6E200921E34 /* CardIds.swift in Sources */,
 				4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */,
 				432A077C1E93B0F100921E34 /* Secrets.swift in Sources */,
+				4CED5D15243D1B27006D2E1F /* DemonHunter.swift in Sources */,
 				43F2040F1E93C2E600E0BC4A /* Priest.swift in Sources */,
 				43F204071E93C2E600E0BC4A /* DreamCards.swift in Sources */,
 				43F2040E1E93C2E600E0BC4A /* Paladin.swift in Sources */,

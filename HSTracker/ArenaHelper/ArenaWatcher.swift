@@ -32,7 +32,8 @@ class ArenaWatcher: Watcher {
             .druid,
             .warlock,
             .mage,
-            .priest
+            .priest,
+            .demonhunter
     ]
 	
 	static var hero: CardClass = .neutral

@@ -18,7 +18,8 @@ enum CardClass: String {
     rogue,
     shaman,
     warlock,
-    warrior
+    warrior,
+    demonhunter
     
     var defaultHeroCardId: String {
         switch self {
@@ -42,6 +43,8 @@ enum CardClass: String {
             return CardIds.Collectible.Warlock.Guldan
         case .warrior:
             return CardIds.Collectible.Warrior.GarroshHellscream
+        case .demonhunter:
+            return CardIds.Collectible.DemonHunter.Illidan
         }
     }
 }
