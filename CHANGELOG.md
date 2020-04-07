@@ -1,3 +1,7 @@
+# 1.6.23
+## Fixes:
+- Fix collection upload not disappearing.
+
 # 1.6.22
 ## New:
 - Initial support for Demon Hunter.
