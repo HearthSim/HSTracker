@@ -1,3 +1,7 @@
+# 1.6.22
+## New:
+- Initial support for Demon Hunter.
+
 # 1.6.21
 ## New:
 - Adapt for the new ladder system.
