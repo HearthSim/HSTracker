@@ -1,3 +1,7 @@
+# 1.6.24
+## Fixes:
+- Fix a crash when the opponent plays a secret.
+
 # 1.6.23
 ## Fixes:
 - Fix collection upload not disappearing.
