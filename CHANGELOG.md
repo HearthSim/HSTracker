@@ -1,3 +1,7 @@
+# 1.6.25
+## Fixes:
+- Fix a crash at startup.
+
 # 1.6.24
 ## Fixes:
 - Fix a crash when the opponent plays a secret.
