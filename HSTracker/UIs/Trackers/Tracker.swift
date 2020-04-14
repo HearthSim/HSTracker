@@ -510,15 +510,20 @@ class Tracker: OverWindowController {
                     hand1 = 100
                     hand2 = 100
                 } else {
-                    let handMinusCoin = handCount - (hasCoin == true ? 1 : 0)
-                    let deckPlusHand = deckCount + handMinusCoin
+                    let maxDeckSize = max(30, deckCount)
 
-                    // probabilities a given card (and a second one) are still in the deck
-                    let prob1 = Double(deckCount - 1) / Double(deckPlusHand)
-                    let prob2 = prob1 * Double(deckCount - 2) / Double(deckPlusHand - 1)
+                    // Deck size after the opponent draws
+                    let nextDeckSize = deckCount - 1
 
-                    hand1 = 100 * (1 - prob1)
-                    hand2 = 100 * (1 - prob2)
+                    // probability a given card has been drawn if there is one copy in the deck
+                    hand1 = Double(maxDeckSize - nextDeckSize) / Double(maxDeckSize)
+
+                    // probability a given card has been drawn if there are two copies in the deck
+                    let prob2 = Double((maxDeckSize - 1) - nextDeckSize) / Double(maxDeckSize - 1)
+                    hand2 = 2 * hand1 - (hand1 * prob2)
+
+                    hand1 *= 100
+                    hand2 *= 100
                 }
             }
             opponentDrawChance?.drawChance1 = draw1
