@@ -2051,7 +2051,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\n\nif [ ! -f \"$ZIP_FILE\" ]\nthen\n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\nfi\n\n\n\n";
+			shellScript = "SHA1=b4269826a037cb16210622b6b0ea5353185f60c3\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		4C777CFF2400AD7B003F7205 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
