@@ -2,7 +2,8 @@
 /.buildmetrics
 .DS_Store
 .env
-
+/.kinta
+/downloaded-frameworks
 # Downloaded cards
 HSTracker/Resources/Cards/*.json
 

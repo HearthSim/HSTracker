@@ -12,10 +12,6 @@
 #import <MASPreferences/MASPreferencesViewController.h>
 #import <JNWCollectionView/JNWCollectionView.h>
 
-#ifndef DEBUG
-#import <HockeySDK/HockeySDK.h>
-#endif
-
 #import <Sparkle/Sparkle.h>
 
 #import "GlowFilter.h"

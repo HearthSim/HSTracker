@@ -11,7 +11,10 @@ import SwiftyBeaver
 let logger = SwiftyBeaver.self
 import MASPreferences
 //import HearthAssets
-import HockeySDK
+import AppCenter
+import AppCenterAnalytics
+import AppCenterCrashes
+
 import OAuthSwift
 
 @NSApplicationMain
@@ -22,7 +25,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return _instance!
     }
     
-	let hockeyHelper = HockeyHelper()
 	var appWillRestart = false
 	var splashscreen: Splashscreen?
 	var initalConfig: InitialConfiguration?
@@ -55,6 +57,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
         AppDelegate._instance = self
         
+        MSAppCenter.start("2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", withServices: [MSAnalytics.self, MSCrashes.self])
+
         // Migrate preferences from old bundle ID
         let oldPrefs = UserDefaults.standard.persistentDomain(forName: "be.michotte.hstracker")
         if let oldPrefs = oldPrefs, let bundleId = Bundle.main.bundleIdentifier {
@@ -117,7 +121,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			initalConfig?.window?.orderFrontRegardless()
 		}
         
-        hockeyHelper.logEvent(name: "app_start")
+        //MSCrashes.generateTestCrash()
+        
+        MSAnalytics.trackEvent("app_start")
 	}
 	
 	func applicationWillTerminate(_ notification: Notification) {
@@ -486,7 +492,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	@IBAction func saveCurrentDeck(_ sender: AnyObject) {
-		switch sender.tag {
+        // swiftlint:disable force_cast
+		switch (sender as! NSView).tag {
 		case 1: // Opponent
 			saveDeck(coreManager.game.opponent)
 		case 2: // Self
@@ -541,19 +548,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	@IBAction func openReplayDirectory(_ sender: AnyObject) {
 		NSWorkspace.shared.activateFileViewerSelecting([Paths.replays])
-	}
-}
-
-extension AppDelegate: SUUpdaterDelegate {
-	
-	func feedParameters(for updater: SUUpdater,
-	                    sendingSystemProfile sendingProfile: Bool) -> [[String: String]] {
-		var parameters: [[String: String]] = []
-		for data: Any in BITSystemProfile.shared().systemUsageData() {
-			if let dict = data as? [String: String] {
-				parameters.append(dict)
-			}
-		}
-		return parameters
 	}
 }

@@ -19,7 +19,7 @@ class Entity {
     var tags: [GameTag: Int] = [:]
     /*
      * tags is accessed from the reader thread as well as from the main thread.
-     * There are some crashes in HockeyApp on access to tags so we're trying to play it safe here.
+     * There are some crashes in AppCenter on access to tags so we're trying to play it safe here.
      * There are still a few cases where this is used illegally. Ideally, we should make tags private to enforce
      * locking the semaphore every time.
      */
