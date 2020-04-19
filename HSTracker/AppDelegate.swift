@@ -120,9 +120,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			initalConfig?.showWindow(nil)
 			initalConfig?.window?.orderFrontRegardless()
 		}
-        
-        //MSCrashes.generateTestCrash()
-        
+                
         MSAnalytics.trackEvent("app_start")
 	}
 	
