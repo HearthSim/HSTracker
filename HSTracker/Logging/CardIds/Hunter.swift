@@ -127,6 +127,7 @@ extension CardIds.Collectible {
         static let RatTrap: String = "GIL_577"
         static let DireFrenzy: String = "GIL_828"
         static let PressurePlate = "ULD_152"
+        static let PackTactics = "BT_203"
     }
 }
 
@@ -196,7 +197,7 @@ extension CardIds.Secrets {
     struct Hunter {
         static let All = [BearTrap, DartTrap, ExplosiveTrap, FreezingTrap,
                           HiddenCache, Misdirection, RatTrap, Snipe, SnakeTrap, CatTrick,
-                          VenomstrikeTrap, WanderingMonster, PressurePlate]
+                          VenomstrikeTrap, WanderingMonster, PressurePlate, PackTactics]
         static let BearTrap = CardIds.Collectible.Hunter.BearTrap
         static let DartTrap = CardIds.Collectible.Hunter.DartTrap
         static let ExplosiveTrap = CardIds.Collectible.Hunter.ExplosiveTrap
@@ -210,5 +211,6 @@ extension CardIds.Secrets {
         static let WanderingMonster = CardIds.Collectible.Hunter.WanderingMonster
         static let RatTrap = CardIds.Collectible.Hunter.RatTrap
         static let PressurePlate = CardIds.Collectible.Hunter.PressurePlate
+        static let PackTactics = CardIds.Collectible.Hunter.PackTactics
     }
 }

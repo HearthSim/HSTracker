@@ -213,6 +213,8 @@ class SecretsManager {
                 if !fastOnly {
                     exclude.append(CardIds.Secrets.Hunter.SnakeTrap)
                     exclude.append(CardIds.Secrets.Hunter.VenomstrikeTrap)
+                    exclude.append(CardIds.Secrets.Rogue.Bamboozle)
+                    exclude.append(CardIds.Secrets.Hunter.PackTactics)
                 }
             }
 
@@ -260,6 +262,8 @@ class SecretsManager {
         if freeSpaceOnBoard {
             saveSecret(secretName: CardIds.Secrets.Mage.MirrorEntity)
             exclude.append(CardIds.Secrets.Mage.MirrorEntity)
+            saveSecret(secretName: CardIds.Secrets.Rogue.Ambush)
+            exclude.append(CardIds.Secrets.Rogue.Ambush)
         }
 
         if freeSpaceInHand {
@@ -434,6 +438,7 @@ class SecretsManager {
                         exclude.append(CardIds.Secrets.Mage.Spellbender)
                     }
                     exclude.append(CardIds.Secrets.Hunter.CatTrick)
+                    exclude.append(CardIds.Secrets.Mage.NetherwindPortal)
                 } catch {
                     logger.error("\(error)")
                 }

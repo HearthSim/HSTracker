@@ -127,6 +127,7 @@ extension CardIds.Collectible {
         static let DeckOfWonders: String = "LOOT_106"
         static let SplittingImage: String = "TRL_400"
         static let FlameWard: String = "ULD_239"
+        static let NetherwindPortal = "BT_003"
     }
 }
 
@@ -193,7 +194,7 @@ extension CardIds.Secrets {
     struct Mage {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
                           IceBlock, ManaBind, MirrorEntity, PotionOfPolymorph, Spellbender,
-                          SplittingImage, Vaporize, FlameWard]
+                          SplittingImage, Vaporize, FlameWard, NetherwindPortal]
         static let Counterspell = CardIds.Collectible.Mage.Counterspell
         static let Duplicate = CardIds.Collectible.Mage.Duplicate
         static let Effigy = CardIds.Collectible.Mage.Effigy
@@ -208,5 +209,6 @@ extension CardIds.Secrets {
         static let Vaporize = CardIds.Collectible.Mage.Vaporize
         static let ExplosiveRunes = CardIds.Collectible.Mage.ExplosiveRunes
         static let FlameWard = CardIds.Collectible.Mage.FlameWard
+        static let NetherwindPortal = CardIds.Collectible.Mage.NetherwindPortal
     }
 }

@@ -131,6 +131,8 @@ extension CardIds.Collectible {
         static let Kingsbane: String = "LOOT_542"
         static let LabRecruiter: String = "BOT_288"
         static let ShadowOfDeath: String = "ULD_286"
+        static let Bamboozle = "BT_042"
+        static let Ambush = "BT_707"
     }
 }
 
@@ -202,9 +204,11 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Rogue {
-        static let All = [CheatDeath, Evasion, SuddenBetrayal]
+        static let All = [CheatDeath, Evasion, SuddenBetrayal, Bamboozle, Ambush]
         static let CheatDeath = CardIds.Collectible.Rogue.CheatDeath
         static let Evasion = CardIds.Collectible.Rogue.Evasion
         static let SuddenBetrayal = CardIds.Collectible.Rogue.SuddenBetrayal
+        static let Bamboozle = CardIds.Collectible.Rogue.Bamboozle
+        static let Ambush = CardIds.Collectible.Rogue.Ambush
     }
 }
