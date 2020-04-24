@@ -1,5 +1,4 @@
 github "1024jp/GzipSwift" "5.1.1"
-github "Hearthsim/HearthMirror" "b4269826a037cb16210622b6b0ea5353185f60c3"
 github "JohnSundell/Unbox" "4.0.0"
 github "OAuthSwift/OAuthSwift" "1.4.1"
 github "SwiftyBeaver/SwiftyBeaver" "1.7.1"
