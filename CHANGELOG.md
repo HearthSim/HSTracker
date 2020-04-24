@@ -1,3 +1,7 @@
+# 1.6.29
+## Fixes:
+- Added Dirty Trick.
+
 # 1.6.28
 ## Fixes:
 - Added Ashes of Outlands secrets.
