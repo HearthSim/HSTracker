@@ -1,4 +1,4 @@
-# 1.6.27
+# 1.6.28
 ## Fixes:
 - Added Ashes of Outlands secrets.
 
