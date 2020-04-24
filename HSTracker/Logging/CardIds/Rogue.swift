@@ -205,7 +205,7 @@ extension CardIds.NonCollectible {
 
 extension CardIds.Secrets {
     struct Rogue {
-        static let All = [CheatDeath, Evasion, SuddenBetrayal, Bamboozle, Ambush]
+        static let All = [CheatDeath, Evasion, SuddenBetrayal, Bamboozle, Ambush, DirtyTrick]
         static let CheatDeath = CardIds.Collectible.Rogue.CheatDeath
         static let Evasion = CardIds.Collectible.Rogue.Evasion
         static let SuddenBetrayal = CardIds.Collectible.Rogue.SuddenBetrayal
