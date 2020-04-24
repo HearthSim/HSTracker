@@ -414,6 +414,7 @@ class SecretsManager {
         
         if entity.isSpell {
             exclude.append(CardIds.Secrets.Mage.Counterspell)
+            exclude.append(CardIds.Secrets.Rogue.DirtyTrick)
 
             if game.opponentMinionCount > 0 {
                 exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
