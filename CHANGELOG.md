@@ -1,3 +1,7 @@
+# 1.6.27
+## Fixes:
+- Added Ashes of Outlands secrets.
+
 # 1.6.25
 ## Fixes:
 - Fix a crash at startup.
