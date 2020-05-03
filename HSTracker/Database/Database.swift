@@ -81,10 +81,12 @@ class Database {
                     let set = CardSet(rawValue: jsonSet.lowercased()),
                     Database.validCardSets.contains(set) else { continue }
 
+                var index = Cards.indexOf(id: cardId)
+                
                 if let name = jsonCard["name"] as? String,
-                    let card = Cards.cards.first(where: { $0.id == cardId }),
+                    index >= 0,
                     lang == .enUS && langs.count > 1 {
-                    card.enName = name
+                    Cards.cards[index].enName = name
                 } else {
                     let card = Card()
                     card.jsonRepresentation = jsonCard
@@ -163,7 +165,10 @@ class Database {
                             card.mechanics.append(cardMechanic)
                         }
                     }
-                    Cards.cards.append(card)
+                    if index < 0 {
+                        index = -index - 1
+                    }
+                    Cards.cards.insert(card, at: index)
                 }
             }
         }

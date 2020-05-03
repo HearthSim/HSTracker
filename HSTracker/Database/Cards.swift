@@ -118,6 +118,26 @@ final class Cards {
                 || $0.set == CardSet.wild_event
         }
     }
+    
+    static func indexOf(id: String) -> Int {
+        var low = 0
+        var high = cards.count - 1
+
+        while low <= high {
+            let mid = (low + high)/2
+            let midVal = cards[mid]
+
+            if midVal.id < id {
+                 low = mid + 1
+            } else if midVal.id > id {
+                 high = mid - 1
+            } else {
+                 return mid
+            }
+         }
+        
+         return -(low + 1)
+    }
 
     static func search(className: CardClass?, sets: [CardSet] = [],
                        term: String = "", cost: Int = -1,
