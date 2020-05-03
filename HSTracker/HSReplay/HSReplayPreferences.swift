@@ -120,6 +120,7 @@ class HSReplayPreferences: NSViewController {
         if Settings.hsReplayOAuthRefreshToken != nil {
             Settings.hsReplayOAuthRefreshToken = nil
             Settings.hsReplayOAuthToken = nil
+            AppDelegate.instance().coreManager.accessTokenProvider.logout()
             updateStatus()
         } else {
             HSReplayAPI.oAuthAuthorize {

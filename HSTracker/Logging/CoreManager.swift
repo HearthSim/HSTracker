@@ -43,11 +43,11 @@ class MacOSConsole: Kotlin_consoleConsole {
 }
 
 class MacOSAnalytics: Kotlin_analyticsAnalytics {
-    func logEvent(name: String, params: [String : Any]) {
+    func logEvent(name: String, params: [String: Any]) {
     }
 }
 
-class MacOSPreferences: Kotlin_hsreplay_apiPreferences {
+class MacOSPreferences: Preferences {
     func getBoolean(key: String) -> KotlinBoolean? {
         return KotlinBoolean(value: UserDefaults.standard.bool(forKey: key))
     }
@@ -85,7 +85,8 @@ final class CoreManager: NSObject {
     
     let game: Game
     var cardJson: CardJson!
-    var exposedHsReplay: ExposedHsReplay!
+    var hsReplay: HsReplay!
+    var accessTokenProvider: AccessTokenProvider!
 
     var hsLog: HSLog!
     
@@ -111,22 +112,36 @@ final class CoreManager: NSObject {
         let console = MacOSConsole()
         if let url = maybeUrl, let fileHandle = try? FileHandle(forReadingFrom: url) {
             logger.debug("building CardJson...")
-            self.cardJson = ExposedCardJsonKt.cardJson(fd: fileHandle.fileDescriptor)
+            self.cardJson = CardJsonBuilderKt.cardJson(fd: fileHandle.fileDescriptor)
             FreezeHelperKt.freeze(self.cardJson)
             logger.debug("building HSLog...")
             hsLog = HSLog(console: console, cardJson: cardJson, debounceDelay: 100)
             hsLog.setListener(listener: HSTLogListener(windowManager: game.windowManager))
         }
         
-        self.exposedHsReplay = ExposedHsReplay(
-            preferences: MacOSPreferences(),
+        let preferences = MacOSPreferences()
+        let analytics = MacOSAnalytics()
+        let userAgent = Http.userAgent()
+        let oauthParams = OauthParams(clientId: HSReplayAPI.oAuthClientKey,
+                                      clientSecret: HSReplayAPI.oAuthClientSecret,
+                                      redirectUri: "unused")
+        
+        self.accessTokenProvider = AccessTokenProvider(preferences: preferences,
+                                                      analytics: analytics,
+                                                      userAgent: userAgent,
+                                                      oauthParams: oauthParams)
+        self.hsReplay = HsReplay(
+            preferences: preferences,
             console: console,
-            analytics: MacOSAnalytics(),
-            userAgent: Http.userAgent()
+            accessTokenProvider: accessTokenProvider,
+            userAgent: userAgent
         )
         
         if let refreshToken = Settings.hsReplayOAuthRefreshToken, let oauthToken = Settings.hsReplayOAuthToken {
-            exposedHsReplay.setTokens(accessToken: oauthToken, refreshToken: refreshToken)
+            if !accessTokenProvider.isLoggedIn() {
+                logger.debug("accessTokenProvider.login")
+                accessTokenProvider.login(accessToken: oauthToken, refreshToken: refreshToken)
+            }
         }
     }
     

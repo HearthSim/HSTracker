@@ -11,8 +11,8 @@ import OAuthSwift
 
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
-    private static let oAuthClientKey = "pk_live_IB0TiMMT8qrwIJ4G6eVHYaAi"//"pk_test_AUThiV1Ex9nKCbHSFchv7ybX"
-    private static let oAuthClientSecret = "sk_live_20180308078UceCXo8qmoG72ExZxeqOW"//"sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
+    static let oAuthClientKey = "pk_live_IB0TiMMT8qrwIJ4G6eVHYaAi"//"pk_test_AUThiV1Ex9nKCbHSFchv7ybX"
+    static let oAuthClientSecret = "sk_live_20180308078UceCXo8qmoG72ExZxeqOW"//"sk_test_20180308Z5qWO7yiYpqi8qAmQY0PDzcJ"
     private static let defaultHeaders = ["Accept": "application/json", "Content-Type": "application/json"]
 
     static let tokenRenewalHandler: OAuthSwift.TokenRenewedHandler = { credential in
@@ -39,7 +39,7 @@ class HSReplayAPI {
                 logger.info("HSReplay: OAuth succeeded")
                 Settings.hsReplayOAuthToken = credential.oauthToken
                 Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-                AppDelegate.instance().coreManager.exposedHsReplay.setTokens(
+                AppDelegate.instance().coreManager.accessTokenProvider.login(
                     accessToken: credential.oauthToken,
                     refreshToken: credential.oauthRefreshToken
                 )

@@ -58,7 +58,7 @@ class CollectionWatcher {
         collectionFeedback.setMessage(message: message, loading: loading)
     }
     
-    private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> Kotlin_hsreplay_apiCollectionUploadData {
+    private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> CollectionUploadData {
                 
         let cardJson = AppDelegate.instance().coreManager.cardJson!
 
@@ -80,7 +80,7 @@ class CollectionWatcher {
             h[String(playerclassid.intValue)] = KotlinInt(value: Int32(card.dbfId))
         }
         
-        return Kotlin_hsreplay_apiCollectionUploadData(
+        return CollectionUploadData(
             collection: c,
             favoriteHeroes: h,
             cardbacks: mirrorCollection.cardbacks.map {KotlinInt(value: $0.int32Value)},
@@ -90,19 +90,19 @@ class CollectionWatcher {
         )
     }
     private func uploadCollectionFromMainThread(
-        collectionUploadData: Kotlin_hsreplay_apiCollectionUploadData,
+        collectionUploadData: CollectionUploadData,
         accountId: MirrorAccountId?
     ) {
         setFeedback(message: "Uploading collection...", loading: true, displayed: true)
 
-        AppDelegate.instance().coreManager.exposedHsReplay.uploadCollectionWithCallback(
+        AppDelegate.instance().coreManager.hsReplay.uploadCollectionWithCallback(
             collectionUploadData: collectionUploadData,
             account_hi: "\(accountId?.hi ?? 0)",
             account_lo: "\(accountId?.lo ?? 0)",
             callback: {
-                if $0 is ExposedHsReplay.ResultFailure {
+                if $0 is HsReplay.CollectionUploadResultFailure {
                     // swiftlint:disable force_cast
-                    let failure = ($0 as! ExposedHsReplay.ResultFailure)
+                    let failure = ($0 as! HsReplay.CollectionUploadResultFailure)
                     // swiftlint:enable force_cast
                     
                     self.setFeedback(
