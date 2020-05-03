@@ -13,14 +13,14 @@ import kotlin_hslog
 class CollectionWatcher {
     private var lastWorkItem: DispatchWorkItem?
 
-    private let windowManager: WindowManager
+    private let toaster: Toaster
     
     var started: Bool = false
     static private var _instance: CollectionWatcher?
 
-    static func start(windowManager: WindowManager) {
+    static func start(toaster: Toaster) {
         if _instance == nil {
-            _instance = CollectionWatcher(windowManager: windowManager)
+            _instance = CollectionWatcher(toaster: toaster)
         }
         
         guard let instance = _instance else {
@@ -36,8 +36,8 @@ class CollectionWatcher {
         instance.started = false
     }
 
-    init(windowManager: WindowManager) {
-        self.windowManager = windowManager
+    init(toaster: Toaster) {
+        self.toaster = toaster
 
         let queue = DispatchQueue(label: "net.hearthsim.hstracker.watchers.\(type(of: self))",
             attributes: [])
@@ -46,18 +46,11 @@ class CollectionWatcher {
         }
     }
 
-    func setFeedback(message: String, loading: Bool, displayed: Bool) {
-        if let workItem = lastWorkItem {
-            workItem.cancel()
-        }
-        
-        let collectionFeedback = self.windowManager.collectionFeedBack
-        let rect = SizeHelper.collectionFeedbackFrame()
-
-        self.windowManager.show(controller: collectionFeedback, show: displayed, frame: rect, title: nil, overlay: true)
-        collectionFeedback.setMessage(message: message, loading: loading)
+    func setFeedback(message: String, loading: Bool, timeoutMillis: Int) {
+        let toastViewController = CollectionToastViewController(nibName: NSNib.Name(rawValue: "CollectionToastViewController"), bundle: nil)
+        toaster.displayToast(viewController: toastViewController, timeoutMillis: 5000)
     }
-    
+
     private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> CollectionUploadData {
                 
         let cardJson = AppDelegate.instance().coreManager.cardJson!
@@ -93,7 +86,7 @@ class CollectionWatcher {
         collectionUploadData: CollectionUploadData,
         accountId: MirrorAccountId?
     ) {
-        setFeedback(message: "Uploading collection...", loading: true, displayed: true)
+        setFeedback(message: "Uploading collection...", loading: true, timeoutMillis: -1)
 
         AppDelegate.instance().coreManager.hsReplay.uploadCollectionWithCallback(
             collectionUploadData: collectionUploadData,
@@ -108,20 +101,15 @@ class CollectionWatcher {
                     self.setFeedback(
                         message: NSLocalizedString("Failed to upload collection: \(failure.code)", comment: ""),
                         loading: false,
-                        displayed: true)
+                        timeoutMillis: 5000)
                     
                     failure.throwable.printStackTrace()
                 } else {
                     self.setFeedback(
                         message: NSLocalizedString("Your collection has been uploaded to HSReplay.net", comment: ""),
                         loading: false,
-                        displayed: true)
+                        timeoutMillis: 5000)
                 }
-                self.lastWorkItem = DispatchWorkItem(block: {
-                    self.setFeedback(message: "", loading: false, displayed: false)
-                })
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: self.lastWorkItem!)
         })
     }
     

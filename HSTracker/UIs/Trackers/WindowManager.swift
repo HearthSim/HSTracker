@@ -81,6 +81,8 @@ class WindowManager {
         return $0
     }(BattlegroundsTierDetailWindowController(windowNibName: NSNib.Name(rawValue: "BattlegroundsTierDetailWindowController")))
 
+    var toastWindowController = ToastWindowController()
+
     var floatingCard: FloatingCard = {
         if let fWindow = $0.window {
             

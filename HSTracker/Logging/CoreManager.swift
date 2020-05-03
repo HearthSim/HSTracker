@@ -87,6 +87,7 @@ final class CoreManager: NSObject {
     var cardJson: CardJson!
     var hsReplay: HsReplay!
     var accessTokenProvider: AccessTokenProvider!
+    var toaster: Toaster!
 
     var hsLog: HSLog!
     
@@ -118,6 +119,8 @@ final class CoreManager: NSObject {
             hsLog = HSLog(console: console, cardJson: cardJson, debounceDelay: 100)
             hsLog.setListener(listener: HSTLogListener(windowManager: game.windowManager))
         }
+        
+        self.toaster = Toaster(windowManager: game.windowManager)
         
         let preferences = MacOSPreferences()
         let analytics = MacOSAnalytics()

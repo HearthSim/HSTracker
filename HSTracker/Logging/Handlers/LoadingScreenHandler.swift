@@ -52,7 +52,7 @@ struct LoadingScreenHandler: LogEventParser {
             case Optional(.friendly):
                 DeckWatcher.start()
             case Optional(.collectionmanager):
-                CollectionWatcher.start(windowManager: game.windowManager)
+                CollectionWatcher.start(toaster: coreManager.toaster)
             default: break
             }
 

@@ -63,7 +63,6 @@ class HSTLogListener: HSLogListener {
     func onTurn(game: kotlin_hslog.Game, turn: Int32, isPlayer: Bool) {
         
     }
-    
 
     func onRawGame(gameString: KotlinByteArray, gameStartMillis: Int64) {
         

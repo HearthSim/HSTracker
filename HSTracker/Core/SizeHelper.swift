@@ -10,7 +10,9 @@ import Foundation
 import AppKit
 
 struct SizeHelper {
-    
+    /*
+     * The origin is the bottom left corner
+     */
     static let BaseWidth: CGFloat = 1440.0
     static let BaseHeight: CGFloat = 922.0
 
@@ -159,14 +161,7 @@ struct SizeHelper {
     static fileprivate func trackerFrame(xOffset: CGFloat, yOffset: CGFloat = 0) -> NSRect {
         // game menu
         let offset: CGFloat = hearthstoneWindow.isFullscreen() ? 0 : 50
-        let width: CGFloat
-        switch Settings.cardSize {
-        case .tiny: width = CGFloat(kTinyFrameWidth)
-        case .small: width = CGFloat(kSmallFrameWidth)
-        case .medium: width = CGFloat(kMediumFrameWidth)
-        case .big: width = CGFloat(kFrameWidth)
-        case .huge: width = CGFloat(kHighRowFrameWidth)
-        }
+        let width = trackerWidth
         
         let frame = NSRect(x: xOffset,
                            y: offset,
