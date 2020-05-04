@@ -39,6 +39,7 @@ class BattlegroundsOverlayView: NSView {
                               userInfo: nil)
 
     override func updateTrackingAreas() {
+        logger.debug("update Tracking Area")
         super.updateTrackingAreas()
 
         if !self.trackingAreas.contains(trackingArea) {

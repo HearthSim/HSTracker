@@ -17,6 +17,7 @@ class OverWindowController: NSWindowController {
         self.window!.isOpaque = false
         self.window!.hasShadow = false
         self.window!.acceptsMouseMovedEvents = true
+        self.window!.ignoresMouseEvents = Settings.windowsLocked
 
         if let panel = self.window as? NSPanel {
             panel.isFloatingPanel = true

@@ -47,7 +47,12 @@ class CollectionWatcher {
     }
 
     func setFeedback(message: String, loading: Bool, timeoutMillis: Int) {
-        let toastViewController = CollectionToastViewController(nibName: NSNib.Name(rawValue: "CollectionToastViewController"), bundle: nil)
+        let toastViewController = CollectionToastViewController(
+            nibName: NSNib.Name(rawValue: "CollectionToastViewController"),
+            bundle: nil)
+        toastViewController.message = message
+        toastViewController.loading = loading
+        
         toaster.displayToast(viewController: toastViewController, timeoutMillis: 5000)
     }
 
@@ -86,7 +91,7 @@ class CollectionWatcher {
         collectionUploadData: CollectionUploadData,
         accountId: MirrorAccountId?
     ) {
-        setFeedback(message: "Uploading collection...", loading: true, timeoutMillis: -1)
+        setFeedback(message: NSLocalizedString("Uploading collection...", comment: ""), loading: true, timeoutMillis: -1)
 
         AppDelegate.instance().coreManager.hsReplay.uploadCollectionWithCallback(
             collectionUploadData: collectionUploadData,

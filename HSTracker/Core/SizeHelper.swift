@@ -27,7 +27,7 @@ struct SizeHelper {
         
         private func area(dict: NSDictionary) -> Int {
             let h = (dict["kCGWindowBounds"] as? NSDictionary)?["Height"] as? Int ?? 0
-            let w = (dict["kCGWindowBounds"] as? NSDictionary)?["Height"] as? Int ?? 0
+            let w = (dict["kCGWindowBounds"] as? NSDictionary)?["Width"] as? Int ?? 0
 
             return w * h
         }
@@ -308,13 +308,12 @@ struct SizeHelper {
         return hearthstoneWindow.relativeFrame(frame)
     }
 
-    static func collectionFeedbackFrame() -> NSRect {
-        let w: CGFloat = 450.0
-        let h: CGFloat = 80.0
-        let offset: CGFloat = 20.0
+    static func toastFrame() -> NSRect {
+        let w: CGFloat = 240.0
+        let h: CGFloat = 100.0
         
-        let frame = NSRect(x: (BaseWidth - w)/2, y: (BaseHeight - offset - h), width: w, height: h)
-        return hearthstoneWindow.relativeFrame(frame)
+        let frame = NSRect(x: hearthstoneWindow.frame.width - w - trackerWidth - 10, y: 10, width: w, height: h)
+        return hearthstoneWindow.relativeFrame(frame, relative: false)
     }
 
     static let cardHudContainerWidth: CGFloat = 400

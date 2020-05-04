@@ -464,12 +464,16 @@
 		4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */; };
 		4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */; };
 		4C1923A32392FF37007EBB0F /* BattlegroundsDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */; };
-		4C1ED0D3237CB24A00ABB3D1 /* CollectionFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */; };
-		4C1ED0D7237CB8E800ABB3D1 /* CollectionFeedback.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */; };
 		4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
 		4C3E2D8C245ED5AA00292349 /* Toaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D8B245ED5AA00292349 /* Toaster.swift */; };
 		4C3E2D93245F16B900292349 /* CollectionToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */; };
 		4C3E2D94245F16B900292349 /* CollectionToastViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */; };
+		4C3E2D9B245F81C800292349 /* BgHeroesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D99245F81C800292349 /* BgHeroesViewController.swift */; };
+		4C3E2D9C245F81C800292349 /* BgHeroesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9A245F81C800292349 /* BgHeroesViewController.xib */; };
+		4C3E2D9E245F85C700292349 /* FillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9D245F85C700292349 /* FillImageView.swift */; };
+		4C3E2DA1245F86C400292349 /* BgHeroesToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */; };
+		4C3E2DA3245F87B700292349 /* BgHeroesToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */; };
+		4C3E2DA52460C82900292349 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
 		4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C68AF2F2447D39700E52834 /* kotlin_hslog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */; };
@@ -968,12 +972,16 @@
 		4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsWindow.swift; sourceTree = "<group>"; };
 		4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsDetailsWindow.xib; sourceTree = "<group>"; };
 		4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsView.swift; sourceTree = "<group>"; };
-		4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionFeedback.swift; sourceTree = "<group>"; };
-		4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionFeedback.xib; sourceTree = "<group>"; };
 		4C3E2D89245ED13D00292349 /* ToastWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastWindowController.swift; sourceTree = "<group>"; };
 		4C3E2D8B245ED5AA00292349 /* Toaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toaster.swift; sourceTree = "<group>"; };
 		4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionToastViewController.swift; sourceTree = "<group>"; };
 		4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionToastViewController.xib; sourceTree = "<group>"; };
+		4C3E2D99245F81C800292349 /* BgHeroesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesViewController.swift; sourceTree = "<group>"; };
+		4C3E2D9A245F81C800292349 /* BgHeroesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BgHeroesViewController.xib; sourceTree = "<group>"; };
+		4C3E2D9D245F85C700292349 /* FillImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillImageView.swift; sourceTree = "<group>"; };
+		4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesToastView.swift; sourceTree = "<group>"; };
+		4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesToastViewController.swift; sourceTree = "<group>"; };
+		4C3E2DA42460C82800292349 /* FrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
 		4C68AF2A2447D35A00E52834 /* HearthMirror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HearthMirror.framework; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework"; sourceTree = "<group>"; };
 		4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kotlin_hslog.framework; path = "downloaded-frameworks/kotlin_hslog/kotlin_hslog.framework"; sourceTree = "<group>"; };
 		4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWatcher.swift; sourceTree = "<group>"; };
@@ -1580,6 +1588,7 @@
 		439C7ECD1C777FA900D29859 /* UIs */ = {
 			isa = PBXGroup;
 			children = (
+				4C3E2D9F245F86A300292349 /* Views */,
 				4C1923972392E174007EBB0F /* Battlegrounds */,
 				433554591D65940300277B27 /* Toast */,
 				C99C0C961D0A6062000DD6FB /* StatsManager */,
@@ -1613,8 +1622,8 @@
 				43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */,
 				43B695621C920A0500F4D0AC /* CardList.swift */,
 				43B695641C920BD500F4D0AC /* CardList.xib */,
-				4C1ED0D2237CB24A00ABB3D1 /* CollectionFeedback.swift */,
-				4C1ED0D6237CB8E800ABB3D1 /* CollectionFeedback.xib */,
+				4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */,
+				4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */,
 				432B60321CB69FA600B05D19 /* FloatingCard.swift */,
 				432B60341CB6A8CC00B05D19 /* FloatingCard.xib */,
 				BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */,
@@ -1631,8 +1640,8 @@
 				436789BA1CACF79800C962D1 /* TrackerFrame.swift */,
 				43BDF0BD1DB89A830081964A /* WindowManager.swift */,
 				437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */,
-				4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */,
-				4C3E2D92245F16B900292349 /* CollectionToastViewController.xib */,
+				4C3E2D99245F81C800292349 /* BgHeroesViewController.swift */,
+				4C3E2D9A245F81C800292349 /* BgHeroesViewController.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -1724,6 +1733,17 @@
 				4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */,
 			);
 			path = Battlegrounds;
+			sourceTree = "<group>";
+		};
+		4C3E2D9F245F86A300292349 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4C3E2D9D245F85C700292349 /* FillImageView.swift */,
+				4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */,
+				4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */,
+				4C3E2DA42460C82800292349 /* FrameView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		64C115E3AADB89B1C02BC1D0 /* ArenaHelper */ = {
@@ -1956,7 +1976,6 @@
 				43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */,
-				4C1ED0D7237CB8E800ABB3D1 /* CollectionFeedback.xib in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
@@ -1984,6 +2003,7 @@
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
 				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
+				4C3E2D9C245F81C800292349 /* BgHeroesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2133,8 +2153,10 @@
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
 				4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */,
+				4C3E2DA52460C82900292349 /* FrameView.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */,
+				4C3E2D9E245F85C700292349 /* FillImageView.swift in Sources */,
 				43B695631C920A0500F4D0AC /* CardList.swift in Sources */,
 				439C7E8D1C777D1C00D29859 /* Database.swift in Sources */,
 				1C17D2521E82DEE700ED4047 /* RealmHelper.swift in Sources */,
@@ -2164,6 +2186,7 @@
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
 				431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */,
+				4C3E2DA3245F87B700292349 /* BgHeroesToastViewController.swift in Sources */,
 				43D308081C84410000480488 /* PlayerTrackersPreferences.swift in Sources */,
 				43C567E91D5D0F5700451B6F /* LogLineZone.swift in Sources */,
 				439C7EC71C777F8900D29859 /* TagChangeHandler.swift in Sources */,
@@ -2183,6 +2206,7 @@
 				431719731C885BD600F5988B /* CardCell.swift in Sources */,
 				431719791C8C179D00F5988B /* Rarity.swift in Sources */,
 				437E56F61DAAB81400FC0FC1 /* String.swift in Sources */,
+				4C3E2DA1245F86C400292349 /* BgHeroesToastView.swift in Sources */,
 				4305CA471CF434E30048E7EC /* Cards.swift in Sources */,
 				43B6955B1C9065AC00F4D0AC /* Secret.swift in Sources */,
 				4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */,
@@ -2202,7 +2226,6 @@
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
 				43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
 				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
-				4C1ED0D3237CB24A00ABB3D1 /* CollectionFeedback.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
 				BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */,
@@ -2219,6 +2242,7 @@
 				43E77EE41C94A19700C26950 /* TurnTimer.swift in Sources */,
 				C92C68121D1F3FC4009030DC /* LadderTab.swift in Sources */,
 				43EECB981C7DEF7F0077AC1B /* ClassColor.swift in Sources */,
+				4C3E2D9B245F81C800292349 /* BgHeroesViewController.swift in Sources */,
 				F79833971FFF324200D2893E /* Events.swift in Sources */,
 				43BDF0BC1DB7FB040081964A /* OverWindowController.swift in Sources */,
 				439C7EB91C777F8900D29859 /* GameResult.swift in Sources */,

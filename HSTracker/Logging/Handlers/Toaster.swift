@@ -16,17 +16,26 @@ class Toaster {
         self.windowManager = windowManager
     }
     
+    func displayToast(view: NSView, timeoutMillis: Int) {
+        let viewController = NSViewController()
+        viewController.view = view
+        
+        displayToast(viewController: viewController, timeoutMillis: timeoutMillis)
+    }
+    
     func displayToast(viewController: NSViewController, timeoutMillis: Int) {
         if let hideWorkItem = self.hideWorkItem {
             hideWorkItem.cancel()
         }
         
         DispatchQueue.main.async {
-            let rect = SizeHelper.collectionFeedbackFrame()
+            let rect = SizeHelper.toastFrame()
 
             self.windowManager.show(controller: self.windowManager.toastWindowController, show: true, frame: rect, title: nil, overlay: true)
 
             self.windowManager.toastWindowController.contentViewController = viewController
+
+            //self.windowManager.toastWindowController.window!.invalidateCursorRects(for: viewController.view)
         }
         
         if timeoutMillis > 0 {
@@ -34,7 +43,7 @@ class Toaster {
                 self.windowManager.show(controller: self.windowManager.toastWindowController, show: false)
             })
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(timeoutMillis), execute: self.hideWorkItem!)
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(timeoutMillis)/1000, execute: self.hideWorkItem!)
         }
     }
     

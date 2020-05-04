@@ -8,26 +8,44 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="CollectionToastViewController" customModule="HSTracker" customModuleProvider="target">
             <connections>
+                <outlet property="frameView" destination="p4u-1N-70Q" id="Z14-b2-TpE"/>
+                <outlet property="progress" destination="zhU-at-5xK" id="SG2-Nc-8bI"/>
+                <outlet property="textField" destination="nzG-nK-mGF" id="9xJ-hp-RiD"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="214"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iOZ-KW-esC">
-                    <rect key="frame" x="203" y="128" width="73" height="16"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" lineBreakMode="clipping" title="Test Martin" id="qyw-Vl-9OR">
-                        <font key="font" usesAppearanceFont="YES"/>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="nzG-nK-mGF">
+                    <rect key="frame" x="18" y="99" width="444" height="16"/>
+                    <textFieldCell key="cell" selectable="YES" alignment="center" title="Multiline Label" placeholderString="Very long line" id="SzJ-yO-iYe">
+                        <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="zhU-at-5xK">
+                    <rect key="frame" x="454" y="188" width="16" height="16"/>
+                </progressIndicator>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="p4u-1N-70Q" customClass="FrameView" customModule="HSTracker" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="214"/>
+                </customView>
             </subviews>
-            <point key="canvasLocation" x="139" y="154"/>
+            <constraints>
+                <constraint firstItem="p4u-1N-70Q" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="34R-B3-AbY"/>
+                <constraint firstAttribute="trailing" secondItem="p4u-1N-70Q" secondAttribute="trailing" id="ANq-eU-C09"/>
+                <constraint firstAttribute="trailing" secondItem="nzG-nK-mGF" secondAttribute="trailing" constant="20" id="FTG-5N-QUk"/>
+                <constraint firstItem="zhU-at-5xK" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="10" id="G28-Y5-ZMb"/>
+                <constraint firstItem="nzG-nK-mGF" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="bV2-87-A7Y"/>
+                <constraint firstItem="p4u-1N-70Q" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="rfk-eh-BkL"/>
+                <constraint firstAttribute="bottom" secondItem="p4u-1N-70Q" secondAttribute="bottom" id="tC9-8D-2Nm"/>
+                <constraint firstAttribute="trailing" secondItem="zhU-at-5xK" secondAttribute="trailing" constant="10" id="vBO-Xe-Whr"/>
+                <constraint firstItem="nzG-nK-mGF" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="vFg-hR-KLv"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="43"/>
         </customView>
     </objects>
 </document>

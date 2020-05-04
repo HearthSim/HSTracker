@@ -10,22 +10,21 @@ import Foundation
 
 class ToastWindowController: OverWindowController {
     init() {
-        let panel = NSPanel()
+        let panel = NSWindow()
         panel.styleMask.insert(.borderless)
+        panel.styleMask.insert(.resizable)
+        panel.hasShadow = false
+
         super.init(window: panel)
+
+        self.window!.backgroundColor = NSColor.init(red: 0x48/255.0, green: 0x7E/255.0, blue: 0xAA/255.0, alpha: 1)
+    }
+    
+    override func windowDidLoad() {
+        self.window!.ignoresMouseEvents = false
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-        
-    override func windowWillLoad() {
-        logger.debug("Martin: windowWillLoad")
-    }
-    
-    override func windowDidLoad() {
-        super.windowDidLoad()
-
-        self.window!.backgroundColor = NSColor.init(red: 0x48/255.0, green: 0x7E/255.0, blue: 0xAA/255.0, alpha: 1)
     }
 }

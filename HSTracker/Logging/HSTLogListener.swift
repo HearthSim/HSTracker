@@ -10,8 +10,28 @@ import Foundation
 import kotlin_hslog
 
 class HSTLogListener: HSLogListener {
+    let windowManager: WindowManager
+    let toaster: Toaster
+
+    init(windowManager: WindowManager, toaster: Toaster) {
+        self.windowManager = windowManager
+        self.toaster = toaster
+    }
+
     func bgHeroesShow(game: kotlin_hslog.Game, entities: [kotlin_hslog.Entity]) {
+        let view = BgHeroesToastView(frame: NSRect.zero)
         
+        let heroes = entities.compactMap {
+            $0.card?.dbfId
+        }.map {
+            String($0)
+        }
+        view.heroes = heroes
+        view.clicked = {
+            self.toaster.hide()
+        }
+
+        toaster.displayToast(view: view, timeoutMillis: -1)
     }
     
     func onCardGained(cardGained: CardGained) {
@@ -19,14 +39,9 @@ class HSTLogListener: HSLogListener {
     }
    
     func bgHeroesHide() {
+        toaster.hide()
     }
-    
-    let windowManager: WindowManager
-    
-    init(windowManager: WindowManager) {
-        self.windowManager = windowManager
-    }
-    
+            
     func onDeckEntries(game: kotlin_hslog.Game, isPlayer: Bool, deckEntries: [DeckEntry]) {
         let heroes = deckEntries.filter {
             $0 is DeckEntry.Hero

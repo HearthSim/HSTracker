@@ -9,7 +9,6 @@
  */
 
 import Foundation
-//import HearthAssets
 import HearthMirror
 import kotlin_hslog
 
@@ -110,6 +109,8 @@ final class CoreManager: NSObject {
             .url(forResource: "Resources/Cards/cardsDB.\(lang)",
                 withExtension: "json")
         
+        self.toaster = Toaster(windowManager: game.windowManager)
+
         let console = MacOSConsole()
         if let url = maybeUrl, let fileHandle = try? FileHandle(forReadingFrom: url) {
             logger.debug("building CardJson...")
@@ -117,11 +118,11 @@ final class CoreManager: NSObject {
             FreezeHelperKt.freeze(self.cardJson)
             logger.debug("building HSLog...")
             hsLog = HSLog(console: console, cardJson: cardJson, debounceDelay: 100)
-            hsLog.setListener(listener: HSTLogListener(windowManager: game.windowManager))
+            hsLog.setListener(
+                listener: HSTLogListener(windowManager: game.windowManager, toaster: toaster)
+            )
         }
-        
-        self.toaster = Toaster(windowManager: game.windowManager)
-        
+                
         let preferences = MacOSPreferences()
         let analytics = MacOSAnalytics()
         let userAgent = Http.userAgent()
