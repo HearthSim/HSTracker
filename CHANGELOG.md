@@ -1,3 +1,10 @@
+# 1.6.30
+## New:
+- Battlegrounds: added a Toast to compare Heroes
+## Improved:
+- Faster launch
+- Smaller collection upload Toast
+
 # 1.6.29
 ## Fixes:
 - Added Dirty Trick.
