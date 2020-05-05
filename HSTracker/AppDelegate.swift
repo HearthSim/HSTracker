@@ -125,7 +125,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 	
 	func applicationWillTerminate(_ notification: Notification) {
-		coreManager.stopTracking()
+        if (coreManager != nil) {
+            // we are in the initial configuration, do not crash
+            coreManager.stopTracking()
+        }
 		if appWillRestart {
 			let appPath = Bundle.main.bundlePath
 			let task = Process()
