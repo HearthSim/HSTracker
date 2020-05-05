@@ -474,6 +474,8 @@
 		4C3E2DA1245F86C400292349 /* BgHeroesToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */; };
 		4C3E2DA3245F87B700292349 /* BgHeroesToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */; };
 		4C3E2DA52460C82900292349 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
+		4C3E2DA72462325A00292349 /* kotlin_hslog.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */; };
+		4C3E2DA82462338400292349 /* kotlin_hslog.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
 		4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C68AF2F2447D39700E52834 /* kotlin_hslog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */; };
@@ -577,6 +579,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				4C3E2DA82462338400292349 /* kotlin_hslog.framework.dSYM in CopyFiles */,
 				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */,
 				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */,
 				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */,
@@ -982,6 +985,7 @@
 		4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesToastView.swift; sourceTree = "<group>"; };
 		4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesToastViewController.swift; sourceTree = "<group>"; };
 		4C3E2DA42460C82800292349 /* FrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
+		4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = kotlin_hslog.framework.dSYM; path = "downloaded-frameworks/kotlin_hslog/kotlin_hslog.framework.dSYM"; sourceTree = "<group>"; };
 		4C68AF2A2447D35A00E52834 /* HearthMirror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HearthMirror.framework; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework"; sourceTree = "<group>"; };
 		4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kotlin_hslog.framework; path = "downloaded-frameworks/kotlin_hslog/kotlin_hslog.framework"; sourceTree = "<group>"; };
 		4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWatcher.swift; sourceTree = "<group>"; };
@@ -1805,36 +1809,35 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4C0C2A29244C8CF400E7B75E /* AppCenterCrashes.framework */,
-				4C0C2A27244C8CE400E7B75E /* AppCenterAnalytics.framework */,
 				4C0C2A25244C8AED00E7B75E /* AppCenter.framework */,
-				4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */,
-				4C68AF2A2447D35A00E52834 /* HearthMirror.framework */,
-				5BD4A5012233E40B00EF879B /* Kingfisher.framework */,
+				4C0C2A27244C8CE400E7B75E /* AppCenterAnalytics.framework */,
+				4C0C2A29244C8CF400E7B75E /* AppCenterCrashes.framework */,
 				43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */,
 				43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */,
-				43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */,
-				43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */,
-				43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */,
-				43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */,
 				BC78DD761E80871600DBA7C9 /* BTree.framework */,
 				BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */,
 				4367899E1CAC05DD00C962D1 /* Cocoa.framework */,
-				4367899C1CAC05D700C962D1 /* Foundation.framework */,
 				E301D33F217CE737001F8D11 /* FMDB.framework */,
 				E301D33E217CE737001F8D11 /* FMDB.framework.dSYM */,
+				4367899C1CAC05D700C962D1 /* Foundation.framework */,
 				439DD8FD1DB24F83004EBE47 /* Gzip.framework */,
 				439DD8FF1DB24F8A004EBE47 /* Gzip.framework.dSYM */,
+				4C68AF2A2447D35A00E52834 /* HearthMirror.framework */,
 				43BBAAA01E61A11F009B6298 /* JNWCollectionView.framework */,
 				436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */,
 				436789931CABFB1600C962D1 /* Kanna.framework */,
 				436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */,
+				5BD4A5012233E40B00EF879B /* Kingfisher.framework */,
 				5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */,
+				4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */,
+				4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */,
 				433554321D5F6B4400277B27 /* libz.tbd */,
 				436789941CABFB1600C962D1 /* MASPreferences.framework */,
 				436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */,
 				E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */,
 				E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */,
+				43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */,
+				43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */,
 				43E7BEA41DBB7F8E0057DC0C /* Realm.framework */,
 				43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */,
 				43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */,
@@ -1843,6 +1846,8 @@
 				43847D911E8D96970060C2D2 /* RegexUtil.framework.dSYM */,
 				4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */,
 				438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */,
+				43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */,
+				43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */,
 				43647A521CDC9A3D00C2B78E /* TextAttributes.framework */,
 				43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */,
 				43BBAA991E619AA9009B6298 /* Unbox.framework */,
@@ -1988,6 +1993,7 @@
 				C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */,
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
+				4C3E2DA72462325A00292349 /* kotlin_hslog.framework.dSYM in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */,
