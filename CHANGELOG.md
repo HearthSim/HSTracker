@@ -1,3 +1,7 @@
+# 1.6.31
+## Fixes:
+- Make basic tracking work again after patch 17.2. Game and Collection upload are not working yet.
+
 # 1.6.30
 ## New:
 - Battlegrounds: added a Toast to compare Heroes
