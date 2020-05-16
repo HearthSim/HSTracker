@@ -118,7 +118,7 @@ final class LogReader {
                         let lines = linesStr
                             .components(separatedBy: CharacterSet.newlines)
                             .filter {
-                                !$0.isEmpty && $0.hasPrefix("D ") && $0.count > 20
+                                !$0.isEmpty && $0.hasPrefix(info.prefix) && $0.count > 20
                         }
 
                         if !lines.isEmpty {

@@ -665,7 +665,7 @@ class PowerGameStateParser: LogEventParser {
         // detect deck
         if Settings.autoDeckDetection && !(Settings.dontTrackWhileSpectating && eventHandler.currentGameMode == .spectator) {
             if let currentMode = eventHandler.currentMode,
-                let deck = CoreManager.autoDetectDeck(mode: currentMode, playerClass: self.eventHandler.player.playerClass) {
+                let deck = AppDelegate._instance?.coreManager.autoDetectDeck(mode: currentMode, playerClass: self.eventHandler.player.playerClass) {
                 eventHandler.set(activeDeckId: deck.deckId, autoDetected: true)
             } else {
                 logger.warning("could not autodetect deck")

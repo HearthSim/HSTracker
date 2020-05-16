@@ -89,6 +89,7 @@ final class CoreManager: NSObject {
     var toaster: Toaster!
 
     var hsLog: HSLog!
+    var hsLogListener: HSTLogListener!
     
     var queue = DispatchQueue(label: "net.hearthsim.hstracker.readers", attributes: [])
     
@@ -118,8 +119,9 @@ final class CoreManager: NSObject {
             FreezeHelperKt.freeze(self.cardJson)
             logger.debug("building HSLog...")
             hsLog = HSLog(console: console, cardJson: cardJson, debounceDelay: 100)
+            hsLogListener = HSTLogListener(windowManager: game.windowManager, toaster: toaster)
             hsLog.setListener(
-                listener: HSTLogListener(windowManager: game.windowManager, toaster: toaster)
+                listener: hsLogListener
             )
         }
                 
@@ -423,9 +425,43 @@ final class CoreManager: NSObject {
     static func isHearthstoneActive() -> Bool {
         return CoreManager.hearthstoneApp?.isActive ?? false
     }
+    
+    static func hsLogDeckToMirrorDeck(hsLogDeck: kotlin_hslog.Deck) -> MirrorDeck {
+        let mirrorDeck = MirrorDeck()
+        
+        mirrorDeck.id = NSNumber(value: Int64(hsLogDeck.id ?? "0") ?? 0)
+        mirrorDeck.hero = String(format: "HERO_%02d", hsLogDeck.classIndex + 1)
+        mirrorDeck.heroPremium = 0
+        mirrorDeck.name = hsLogDeck.name ?? "?"
+        mirrorDeck.cards = hsLogDeck.cards.map { (key: String, value: KotlinInt) -> MirrorCard in
+            let mirrorCard = MirrorCard()
+            mirrorCard.cardId = key
+            mirrorCard.count = value
+            return mirrorCard
+        }
+        return mirrorDeck
+    }
 	
 	// MARK: - Deck detection
-    static func autoDetectDeck(mode: Mode, playerClass: CardClass? = nil) -> Deck? {
+    func autoDetectDeck(mode: Mode, playerClass: CardClass? = nil) -> Deck? {
+        let deck = CoreManager.autoDetectDeckWithMirror(mode: mode, playerClass: playerClass)
+        if (deck != nil) {
+            return deck
+        }
+        
+        if let hsLogDeck = hsLogListener.currentDeck {
+            let mirrorDeck = CoreManager.hsLogDeckToMirrorDeck(hsLogDeck: hsLogDeck)
+            if let deck = RealmHelper.checkAndUpdateDeck(deckId: mirrorDeck.id.int64Value, selectedDeck: mirrorDeck) {
+                return deck
+            }
+            
+            // deck does not exist, add it
+            return RealmHelper.add(mirrorDeck: mirrorDeck, isArena: hsLogListener.currentDeckIsArena)
+        }
+        return nil
+    }
+    
+    static func autoDetectDeckWithMirror(mode: Mode, playerClass: CardClass? = nil) -> Deck? {
 		
 		let selectedModes: [Mode] = [.tavern_brawl, .tournament,
 		                             .friendly, .adventure, .gameplay]

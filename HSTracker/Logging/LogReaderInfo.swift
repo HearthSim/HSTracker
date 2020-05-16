@@ -14,6 +14,7 @@ class LogReaderInfo {
     var startsWithFiltersGroup: [[String]]
     var containsFiltersGroup: [[String]]
     var filePath: String?
+    var prefix = "D "
     var reset = true
     var include = true
 

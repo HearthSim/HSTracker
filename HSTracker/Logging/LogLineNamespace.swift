@@ -31,6 +31,7 @@ enum LogLineNamespace: String {
     deckHelper = "DeckHelper",
     deckRuleset = "DeckRuleset",
     deckTray = "DeckTray",
+    decks = "Decks",
     derek = "Derek",
     deviceEmulation = "DeviceEmulation",
     downloader = "Downloader",
@@ -71,7 +72,7 @@ enum LogLineNamespace: String {
     zone = "Zone"
     
     static func usedValues() -> [LogLineNamespace] {
-        return [.power, .rachelle, .arena, .loadingScreen]
+        return [.power, .rachelle, .arena, .loadingScreen, .decks]
     }
     
     static func allValues() -> [LogLineNamespace] {

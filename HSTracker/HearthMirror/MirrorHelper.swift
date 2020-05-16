@@ -17,17 +17,18 @@ struct MirrorHelper {
     /** Internal represenation of the mirror object, do not access it directly */
     private static var _mirror: HearthMirror?
     
-    private static let accessQueue = DispatchQueue(label: "net.hearthsim.hstracker.mirrorQueue")
+    private static let accessQueue = DispatchQueue(label: "net.hearthsim.hstracker.mirrorQueue", attributes: [])
 	
     private static var mirror: HearthMirror? {
         
         if MirrorHelper._mirror == nil {
-            if let hsApp = CoreManager.hearthstoneApp {
+            // disable until we can fix memory reading
+            if false, let hsApp = CoreManager.hearthstoneApp {
                 logger.verbose("Initializing HearthMirror with pid \(hsApp.processIdentifier)")
                 
                 MirrorHelper._mirror = MirrorHelper.initMirror(pid: hsApp.processIdentifier, blocking: false)
             } else {
-                logger.error("Failed to initialize HearthMirror: game is not running")
+                //logger.error("Failed to initialize HearthMirror: game is not running")
             }
         }
         

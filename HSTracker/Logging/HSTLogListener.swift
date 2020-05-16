@@ -10,9 +10,11 @@ import Foundation
 import kotlin_hslog
 
 class HSTLogListener: HSLogListener {
-    let windowManager: WindowManager
-    let toaster: Toaster
-
+    private let windowManager: WindowManager
+    private let toaster: Toaster
+    var currentDeck: kotlin_hslog.Deck?
+    var currentDeckIsArena = false
+    
     init(windowManager: WindowManager, toaster: Toaster) {
         self.windowManager = windowManager
         self.toaster = toaster
@@ -52,7 +54,9 @@ class HSTLogListener: HSLogListener {
     }
     
     func onDeckFound(deck: kotlin_hslog.Deck, deckString: String, isArena: Bool) {
-        
+        FreezeHelperKt.freeze(deck)
+        currentDeck = deck
+        currentDeckIsArena = isArena
     }
     
     func onGameChanged(game: kotlin_hslog.Game) {
