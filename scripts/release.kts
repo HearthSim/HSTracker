@@ -1,6 +1,7 @@
 #!/usr/bin/env kscript
 
 //@file:DependsOn("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72")
+@file:MavenRepository("mavenLocal", "file:////Users/martinbonnin/.m2/")
 @file:MavenRepository("gradle-releases", "https://repo.gradle.org/gradle/libs-releases-local/")
 @file:DependsOn("com.squareup.okhttp3:okhttp:3.8.1")
 @file:DependsOn("com.squareup.moshi:moshi:1.8.0")
@@ -204,7 +205,7 @@ val releaseCommand = object: CliktCommand(name = "release") {
         )
 
         // not sure why we need to remove the sparkle cache but we do else it reuses previous versions
-        CommandLine.executeOrFail(File(hstracker_dir), "rm -rf /Users/m.bonnin/Library/Caches/Sparkle_generate_appcast/")
+        CommandLine.executeOrFail(File(hstracker_dir), "rm -rf /Users/martinbonnin/Library/Caches/Sparkle_generate_appcast/")
         // generateAppCast will output some warnings, that's ok at this point
         // Warning: Private key not found in the Keychain (-25300). Please run the generate_keys tool
         // Could not unarchive /Users/martin/git/HSTracker/archive/2019_6_6/options.plist Error Domain=SUSparkleErrorDomain Code=3000 "Not a supported archive format: file:///Users/martin/Library/Caches/Sparkle_generate_appcast/options.plist.tmp/options.plist" UserInfo={NSLocalizedDescription=Not a supported archive format: file:///Users/martin/Library/Caches/Sparkle_generate_appcast/options.plist.tmp/options.plist}
