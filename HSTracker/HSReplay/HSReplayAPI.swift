@@ -43,6 +43,14 @@ class HSReplayAPI {
                     accessToken: credential.oauthToken,
                     refreshToken: credential.oauthRefreshToken
                 )
+                if let token = Settings.hsReplayUploadToken  {
+                    AppDelegate.instance().coreManager.hsReplay.claimTokenWithCallback(
+                        uploadToken: token,
+                        callback: {_ in
+                        // Ignore results
+                    })
+                }
+
                 handle()
             },
             failure: { error in

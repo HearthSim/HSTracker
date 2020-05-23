@@ -23,7 +23,7 @@ struct MirrorHelper {
         
         if MirrorHelper._mirror == nil {
             // disable until we can fix memory reading
-            if false, let hsApp = CoreManager.hearthstoneApp {
+            if let hsApp = CoreManager.hearthstoneApp {
                 logger.verbose("Initializing HearthMirror with pid \(hsApp.processIdentifier)")
                 
                 MirrorHelper._mirror = MirrorHelper.initMirror(pid: hsApp.processIdentifier, blocking: false)
