@@ -17,7 +17,6 @@ class OverWindowController: NSWindowController {
         self.window!.isOpaque = false
         self.window!.hasShadow = false
         self.window!.acceptsMouseMovedEvents = true
-        self.window!.ignoresMouseEvents = Settings.windowsLocked
 
         if let panel = self.window as? NSPanel {
             panel.isFloatingPanel = true
@@ -45,6 +44,7 @@ class OverWindowController: NSWindowController {
         Updates the UI based on stored data. This method should only be called from the main thread
      */
     func updateFrames() {
-        // update gui elements based on internal data
+        // If the windows are unlocked, we want to be able to click on them to move them
+        self.window!.ignoresMouseEvents = Settings.windowsLocked
     }
 }

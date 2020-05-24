@@ -19,12 +19,12 @@ class ToastWindowController: OverWindowController {
 
         self.window!.backgroundColor = NSColor.init(red: 0x48/255.0, green: 0x7E/255.0, blue: 0xAA/255.0, alpha: 1)
     }
-    
-    override func windowDidLoad() {
-        self.window!.ignoresMouseEvents = false
-    }
-    
+        
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func updateFrames() {
+        self.window!.ignoresMouseEvents = false
     }
 }
