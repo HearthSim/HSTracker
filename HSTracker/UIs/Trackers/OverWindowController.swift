@@ -10,6 +10,8 @@ import Foundation
 import Cocoa
 
 class OverWindowController: NSWindowController {
+    var alwaysLocked: Bool { false }
+    
     override func windowDidLoad() {
         super.windowDidLoad()
 

@@ -255,7 +255,7 @@ class WindowManager {
                     window.collectionBehavior = []
                 }
 
-                let locked = Settings.windowsLocked
+                let locked = Settings.windowsLocked || controller.alwaysLocked
                 if locked {
                     window.styleMask = [.borderless, .nonactivatingPanel]
                 } else {

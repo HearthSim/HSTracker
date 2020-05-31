@@ -11,6 +11,7 @@ import TextAttributes
 import kotlin_hslog
 
 class BattlegroundsOverlay: OverWindowController {
+    override var alwaysLocked: Bool { true }
     
     override func windowDidLoad() {
         super.windowDidLoad()
