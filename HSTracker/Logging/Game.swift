@@ -1180,7 +1180,8 @@ class Game: NSObject, PowerEventHandler {
             (stats.gameMode == .friendly &&
                 Settings.hsReplayUploadFriendlyMatches) ||
             (stats.gameMode == .spectator &&
-                Settings.hsReplayUploadFriendlyMatches)) {
+                Settings.hsReplayUploadFriendlyMatches) ||
+            stats.gameMode == .battlegrounds) {
 			
             let (uploadMetaData, statId) = UploadMetaData.generate(stats: stats, buildNumber: self.buildNumber,
 				deck: self.playerDeckAutodetected && self.currentDeck != nil ? self.currentDeck : nil )

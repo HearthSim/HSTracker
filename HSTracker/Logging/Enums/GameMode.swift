@@ -20,6 +20,7 @@ enum GameMode: Int, WrappableEnum {
     friendly,
     practice,
     spectator,
+    battlegrounds,
     none
     
     var userFacingName: String {
@@ -32,6 +33,7 @@ enum GameMode: Int, WrappableEnum {
         case .friendly: return NSLocalizedString("mode_friendly", comment: "")
         case .practice: return NSLocalizedString("mode_practice", comment: "")
         case .spectator: return NSLocalizedString("mode_spectator", comment: "")
+        case .battlegrounds: return NSLocalizedString("mode_battlegrounds", comment: "")
         case .none: return NSLocalizedString("mode_none", comment: "")
         }
     }
@@ -50,6 +52,8 @@ enum GameMode: Int, WrappableEnum {
             self = .casual
         case .gt_tavernbrawl, .gt_tb_2p_coop, .gt_tb_1p_vs_ai:
             self = .brawl
+        case .gt_battlegrounds:
+            self = .battlegrounds
         default:
             self = .none
         }
