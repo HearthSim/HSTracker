@@ -133,7 +133,7 @@ class UploadMetaData {
         let friendly = Player()
         let opposing = Player()
 		
-		if let deck = deck {
+        if let deck = deck {
 			friendly.add(deck: deck)
 		}
 
@@ -162,6 +162,9 @@ class UploadMetaData {
             if stats.brawlLosses > 0 {
                 friendly.losses = stats.brawlLosses
             }
+        } else if stats.gameMode != .battlegrounds {
+            friendly.deckId = nil
+            friendly.deck = []
         }
 
         opposing.star_level = stats.opponentMedalInfo?.starLevel

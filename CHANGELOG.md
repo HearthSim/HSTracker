@@ -1,3 +1,7 @@
+# 1.6.33
+## Fixes:
+- Upload Battlegrounds Games
+
 # 1.6.32
 ## Fixes:
 - Enable memory reading again. Fixes Games and Collection upload.
