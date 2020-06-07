@@ -183,9 +183,21 @@ class UploadMetaData {
 
     class Player {
         var player_id: Int?
+        
         var star_level: Int?
+        var star_level_after: Int?
+
         var stars: Int?
+        var stars_after: Int?
+
         var star_multiplier: Int?
+        var star_multiplier_after: Int?
+        
+        var legend_rank: Int?
+        var legend_rank_after: Int?
+        
+        var battlegrounds_ratings: Int?
+        var battlegrounds_ratings_after: Int?
 
         var wins: Int?
         var losses: Int?
