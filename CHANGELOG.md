@@ -1,3 +1,7 @@
+# 1.6.34
+## Fixes:
+- Battlegrounds MMR
+
 # 1.6.33
 ## Fixes:
 - Upload Battlegrounds Games
