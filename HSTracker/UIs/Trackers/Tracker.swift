@@ -146,6 +146,7 @@ class Tracker: OverWindowController {
     }
     
     override func updateFrames() {
+        super.updateFrames()
         guard let windowFrame = self.window?.contentView?.frame else { return }
         
         let windowWidth = windowFrame.width
