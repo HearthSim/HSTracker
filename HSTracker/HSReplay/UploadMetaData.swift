@@ -143,10 +143,10 @@ class UploadMetaData {
                 friendly.losses = stats.brawlLosses
             }
         } else if stats.gameMode == .battlegrounds {
-            friendly.battlegrounds_ratings = stats.battlegroundsRating
+            friendly.battlegrounds_rating = stats.battlegroundsRating
             var retries = 5
-            while (retries > 0 && friendly.battlegrounds_ratings_after == nil){
-                friendly.battlegrounds_ratings_after = MirrorHelper.getBattlegroundsRatingChange()?.ratingNew as? Int
+            while (retries > 0 && friendly.battlegrounds_rating_after == nil){
+                friendly.battlegrounds_rating_after = MirrorHelper.getBattlegroundsRatingChange()?.ratingNew as? Int
                 retries -= 1
                 usleep(150000)
             }
@@ -207,8 +207,8 @@ class UploadMetaData {
         var legend_rank: Int?
         var legend_rank_after: Int?
         
-        var battlegrounds_ratings: Int?
-        var battlegrounds_ratings_after: Int?
+        var battlegrounds_rating: Int?
+        var battlegrounds_rating_after: Int?
 
         var wins: Int?
         var losses: Int?
