@@ -29,6 +29,7 @@ class InternalGameStats {
     var playerCardbackId = -1
     var opponentCardbackId = -1
     var friendlyPlayerId = -1
+    var opposingPlayerId = -1
     var scenarioId = -1
     var serverInfo: ServerInfo?
     var season = 0
@@ -40,6 +41,7 @@ class InternalGameStats {
     var arenaLosses = 0
     var brawlWins = 0
     var brawlLosses = 0
+    var battlegroundsRating = 0
     private var _format: Format?
         
     var format: Format? {
@@ -63,10 +65,8 @@ class InternalGameStats {
         gameStats.opponentHero = opponentHero
         gameStats.friendlyPlayerId = friendlyPlayerId
         gameStats.opponentName = opponentName
-        gameStats.opponentRank = opponentMedalInfo?.rank ?? 0
         gameStats.opponentLegendRank = opponentMedalInfo?.legendRank ?? 0
         gameStats.playerName = playerName
-        gameStats.rank = playerMedalInfo?.rank ?? 0
         gameStats.legendRank = playerMedalInfo?.legendRank ?? 0
         gameStats.stars = playerMedalInfo?.stars ?? 0
         gameStats.wasConceded = wasConceded

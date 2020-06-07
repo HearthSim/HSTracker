@@ -11,7 +11,6 @@ import HearthMirror
 
 struct MatchInfo {
     struct MedalInfo {
-        var rank: Int
         var leagueId: Int
         var stars: Int
         var legendRank: Int
@@ -19,7 +18,6 @@ struct MatchInfo {
         var starLevel: Int
         
         init(mirrorMedalInfo: MirrorMedalInfo) {
-            self.rank = mirrorMedalInfo.rank as? Int ?? 0
             self.leagueId = mirrorMedalInfo.leagueId as? Int ?? 0
             self.legendRank = mirrorMedalInfo.legendRank as? Int ?? 0
             self.stars = mirrorMedalInfo.stars as? Int ?? 0

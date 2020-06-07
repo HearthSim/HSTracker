@@ -279,21 +279,6 @@ class Tracker: OverWindowController {
                 
                 hero?.playerType = .hero
                 hero?.card = Cards.hero(byId: playerClassId)
-                if let matchInfo = matchInfo, currentGameMode == .ranked {
-                    let wild = currentFormat == .wild
-                    var rank = wild
-                        ? matchInfo.opposingPlayer.wildMedalInfo.rank
-                        : matchInfo.opposingPlayer.standardMedalInfo.rank
-                    if rank < 0 {
-                        rank = wild
-                            ? matchInfo.opposingPlayer.wildMedalInfo.legendRank
-                            : matchInfo.opposingPlayer.standardMedalInfo.legendRank
-                    }
-                    
-                    if rank > 0 {
-                        hero?.playerRank = rank
-                    }
-                }
                 hero?.card?.count = 1
                 hero?.playerName = playerName
                 hero?.frame = NSRect(x: 0, y: 0,
@@ -320,22 +305,7 @@ class Tracker: OverWindowController {
             }
             hero?.playerType = .hero
             hero?.card = Cards.hero(byId: self.playerClassId ?? "")
-            
-            if let matchInfo = matchInfo, currentGameMode == .ranked {
-                let wild = currentFormat == .wild
-                var rank = wild
-                    ? matchInfo.localPlayer.wildMedalInfo.rank
-                    : matchInfo.localPlayer.standardMedalInfo.rank
-                if rank < 0 {
-                    rank = wild
-                        ? matchInfo.localPlayer.wildMedalInfo.legendRank
-                        : matchInfo.localPlayer.standardMedalInfo.legendRank
-                }
-                
-                if rank > 0 {
-                    hero?.playerRank = rank
-                }
-            }
+
             hero?.card?.count = 1
             hero?.playerName = playerName
             

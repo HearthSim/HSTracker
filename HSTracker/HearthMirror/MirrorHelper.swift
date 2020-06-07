@@ -168,7 +168,31 @@ struct MirrorHelper {
         }
         return result
 	}
-	
+
+    static func getMedalData() -> MirrorMedalData? {
+        var result: MirrorMedalData?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getMedalData()
+        }
+        return result
+    }
+
+    static func getBattlegroundsRating() -> Int? {
+        var result: Int?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBattlegroundsRating() as? Int? ?? nil
+        }
+        return result
+    }
+    
+    static func getBattlegroundsRatingChange() -> MirrorBattlegroundsRatingChange? {
+        var result: MirrorBattlegroundsRatingChange?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getBattlegroundsRatingChange()
+        }
+        return result
+    }
+
 	static func getFormat() -> Int? {
         var result: Int?
         MirrorHelper.accessQueue.sync {

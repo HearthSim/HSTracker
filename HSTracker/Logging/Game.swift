@@ -283,6 +283,10 @@ class Game: NSObject, PowerEventHandler {
             } else {
                 self.windowManager.show(controller: tracker, show: false)
             }
+            
+            if (self.currentGameType == .gt_battlegrounds) {
+                self.battlegroundsRating
+            }
         }
     }
 
@@ -609,6 +613,19 @@ class Game: NSObject, PowerEventHandler {
 
     private var _matchInfo: MatchInfo?
     
+    private var _battlegroundsRating: Int? = nil
+    
+    var battlegroundsRating: Int? {
+        if let rating = _battlegroundsRating {
+            return rating
+        }
+        
+        _battlegroundsRating = MirrorHelper.getBattlegroundsRating()
+        
+        logger.debug("Got battlegroundsRating=\(_battlegroundsRating ?? -1)")
+        return _battlegroundsRating
+    }
+    
     var matchInfo: MatchInfo? {
         
         if _matchInfo != nil {
@@ -789,6 +806,7 @@ class Game: NSObject, PowerEventHandler {
         gameTriggerCount = 0
 
         _matchInfo = nil
+        _battlegroundsRating = nil
         currentFormat = Format(formatType: FormatType.ft_unknown)
         _currentGameType = .gt_unknown
 		_currentGameMode = .none
@@ -1079,6 +1097,7 @@ class Game: NSObject, PowerEventHandler {
 		result.playerCardbackId = self.matchInfo?.localPlayer.cardBackId ?? 0
 		result.opponentCardbackId = self.matchInfo?.opposingPlayer.cardBackId ?? 0
 		result.friendlyPlayerId = self.matchInfo?.localPlayer.playerId ?? 0
+        result.opposingPlayerId = self.matchInfo?.opposingPlayer.playerId ?? 0
 		result.scenarioId = self.matchInfo?.missionId ?? 0
 		result.brawlSeasonId = self.matchInfo?.brawlSeasonId ?? 0
 		result.rankedSeasonId = self.matchInfo?.rankedSeasonId ?? 0
@@ -1095,6 +1114,7 @@ class Game: NSObject, PowerEventHandler {
 		}).forEach({
 			result.opponentCards.append($0)
 		})
+        result.battlegroundsRating = self.battlegroundsRating ?? 0
 		
 		return result
 	}
