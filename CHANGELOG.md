@@ -1,3 +1,7 @@
+# 1.6.35
+## New:
+- Battlegrounds pirates
+
 # 1.6.34
 ## Fixes:
 - Battlegrounds MMR
