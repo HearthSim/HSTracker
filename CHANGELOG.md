@@ -1,3 +1,7 @@
+# 1.6.36
+## New:
+- Updated for patch 17.6
+
 # 1.6.35
 ## New:
 - Battlegrounds pirates
