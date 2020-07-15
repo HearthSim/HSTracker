@@ -8,7 +8,7 @@
 @file:DependsOn("org.w3c:dom:2.3.0-jaxb-1.0.6")
 @file:DependsOn("com.vladsch.flexmark:flexmark-all:0.42.2")
 @file:DependsOn("com.damnhandy:handy-uri-templates:2.1.7")
-@file:DependsOn("com.dailymotion.kinta:kinta-lib:0.1.10-SNAPSHOT")
+@file:DependsOn("com.dailymotion.kinta:kinta-lib:0.1.10")
 @file:DependsOn("com.github.ajalt:clikt:2.6.0")
 
 
