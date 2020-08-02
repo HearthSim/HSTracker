@@ -238,5 +238,13 @@ struct MirrorHelper {
         }
         return result
     }
+    
+    static func getAvailableBattlegroundsRaces() -> [NSNumber]? {
+        var result: [NSNumber]?
+        MirrorHelper.accessQueue.sync {
+            result = mirror?.getAvailableBattlegroundsRaces()
+        }
+        return result
+    }
 	
 }
