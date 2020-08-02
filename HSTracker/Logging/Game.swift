@@ -208,6 +208,7 @@ class Game: NSObject, PowerEventHandler {
             let tracker = self.windowManager.playerTracker
             if Settings.showPlayerTracker &&
                 !(Settings.dontTrackWhileSpectating && self.spectator) &&
+                (self.currentGameType != .gt_battlegrounds) &&
                 ( (Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
                     || (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
                 ((Settings.hideAllWhenGameInBackground &&
@@ -613,7 +614,26 @@ class Game: NSObject, PowerEventHandler {
 
     private var _matchInfo: MatchInfo?
     
-    private var _battlegroundsRating: Int? = nil
+    private var _battlegroundsRating: Int?
+    
+    private var _availableRaces: [Race]?
+    
+    var availableRaces: [Race]? {
+        if _availableRaces == nil {
+            if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
+                let count = races.count
+                var res: [Race] = []
+                let raceEnum = Race.allCases
+                for i in 0...count-1 {
+                    let r = races[i].intValue
+                    res.append(raceEnum[r])
+                }
+                _availableRaces = res
+            }
+
+        }
+        return _availableRaces
+    }
     
     var battlegroundsRating: Int? {
         if let rating = _battlegroundsRating {
@@ -843,6 +863,7 @@ class Game: NSObject, PowerEventHandler {
         windowManager.hideGameTrackers()
 		
 		_spectator = false
+        _availableRaces = nil
     }
 
     private func tryToDetectWhizbangDeck() {

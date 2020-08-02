@@ -35,9 +35,11 @@ class BattlegroundsTierDetailsView: NSStackView {
     
     func setTier(tier: Int) {
         let cardJson = AppDelegate.instance().coreManager.cardJson!
-        
+        let availableRaces = AppDelegate.instance().coreManager.game.availableRaces
         let cardBars: [CardBar] = BattlegroundsKt.battlegroundsMinions.filter {
-            $0.techLevel == tier
+            let ktCard = cardJson.getCard(id: $0.cardId)
+            let race = Race(rawValue: ktCard.race?.lowercased() ?? "")
+            return ($0.techLevel == tier && (race == nil || (availableRaces?.firstIndex(of: race!) != nil)))
         }.map {
             let card = Card()
 
