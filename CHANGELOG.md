@@ -1,3 +1,7 @@
+# 1.6.37
+## New:
+- Updated for patch 18.0
+
 # 1.6.36
 ## New:
 - Updated for patch 17.6
