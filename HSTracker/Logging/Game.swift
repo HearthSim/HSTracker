@@ -110,6 +110,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateBattlegroundsOverlay()
         self.updateBattlegroundsTierOverlay()
         self.updateBobsBuddyOverlay()
+        self.updateToaster()
 	}
 	
     // MARK: - GUI calls
@@ -362,6 +363,19 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: false)
             }
         }
+    }
+    
+    func updateToaster() {
+        let rect = SizeHelper.toastFrame()
+
+        DispatchQueue.main.async {
+            if self.windowManager.toastWindowController.displayed {
+                self.windowManager.show(controller: self.windowManager.toastWindowController, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.toastWindowController, show: false)
+            }
+        }
+
     }
     
     func updateBobsBuddyOverlay() {

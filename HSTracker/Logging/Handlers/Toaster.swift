@@ -34,13 +34,13 @@ class Toaster {
             self.windowManager.show(controller: self.windowManager.toastWindowController, show: true, frame: rect, title: nil, overlay: true)
 
             self.windowManager.toastWindowController.contentViewController = viewController
-
+            self.windowManager.toastWindowController.displayed = true
             //self.windowManager.toastWindowController.window!.invalidateCursorRects(for: viewController.view)
         }
         
         if timeoutMillis > 0 {
             hideWorkItem = DispatchWorkItem(block: {
-                self.windowManager.show(controller: self.windowManager.toastWindowController, show: false)
+                self.windowManager.toastWindowController.displayed = false
             })
             
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(timeoutMillis)/1000, execute: self.hideWorkItem!)
@@ -51,6 +51,6 @@ class Toaster {
         if let hideWorkItem = self.hideWorkItem {
             hideWorkItem.cancel()
         }
-        self.windowManager.show(controller: self.windowManager.toastWindowController, show: false)
+        self.windowManager.toastWindowController.displayed = false
     }
 }
