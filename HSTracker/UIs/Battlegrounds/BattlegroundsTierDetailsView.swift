@@ -36,7 +36,7 @@ class BattlegroundsTierDetailsView: NSStackView {
     func setTier(tier: Int) {
         let cardJson = AppDelegate.instance().coreManager.cardJson!
         let availableRaces = AppDelegate.instance().coreManager.game.availableRaces
-        let cardBars: [CardBar] = BattlegroundsKt.battlegroundsMinions.filter {
+        var cardBars: [CardBar] = BattlegroundsKt.battlegroundsMinions.filter {
             let ktCard = cardJson.getCard(id: $0.cardId)
             let race = Race(rawValue: ktCard.race?.lowercased() ?? "")
             return ($0.techLevel == tier && (race == nil || (availableRaces?.firstIndex(of: race!) != nil)))
@@ -47,7 +47,7 @@ class BattlegroundsTierDetailsView: NSStackView {
             card.cost = -1
             card.id = $0.cardId
             card.name = ktCard.name
-            if let race = Race(rawValue: ktCard.race?.lowercased() ?? "") {
+            if let race = Race(rawValue: ktCard.race?.lowercased() ?? "invalid") {
                 card.race = race
             }
             card.count = 1
@@ -58,10 +58,64 @@ class BattlegroundsTierDetailsView: NSStackView {
             let cardBar = CardBar.factory()
             cardBar.card = card
             return cardBar
-        }.sorted(by: {(a: CardBar, b: CardBar) -> Bool in
-            score(race: a.card?.race) > score(race: b.card?.race)
-        })
+        }
         
+        var cardBar = CardBar.factory()
+
+        let size = NSSize(width: cardBar.imageRect.width, height: cardBar.imageRect.height)
+        let blackImage = NSImage(color: NSColor(red: 35/255.0, green: 39/255.0, blue: 42/255.0, alpha: 1.0), size: size)
+
+        cardBar.playerName = "Neutral"
+        let race = Race(rawValue: "invalid")
+        cardBar.playerRace = race
+        cardBar.backgroundImage = blackImage
+        cardBars.append(cardBar)
+        for i in 0...availableRaces!.count-1 {
+            let race: String = availableRaces![i].rawValue
+            cardBar = CardBar.factory()
+            if availableRaces![i] == .mechanical {
+                cardBar.playerName = "Mech"
+            } else {
+                cardBar.playerName = race.capitalized
+            }
+            let cardRace = Race(rawValue: race)
+            cardBar.playerRace = cardRace
+            cardBar.backgroundImage = blackImage
+            cardBars.append(cardBar)
+        }
+        cardBars = cardBars.sorted(by: {(a: CardBar, b: CardBar) -> Bool in
+            var raceA: String
+            var nameA: String
+            var isTitleA: Int
+            if a.card?.race != nil {
+                raceA = a.card!.race.rawValue
+                nameA = a.card!.name
+                isTitleA = 1
+            } else {
+                raceA = a.playerRace!.rawValue
+                nameA = a.playerName!
+                isTitleA = 0
+            }
+            if raceA == "invalid" {
+                raceA = "neutral"
+            }
+            var raceB: String
+            var nameB: String
+            var isTitleB: Int
+            if b.card?.race != nil {
+                raceB = b.card!.race.rawValue
+                nameB = b.card!.name
+                isTitleB = 1
+            } else {
+                raceB = b.playerRace!.rawValue
+                nameB = b.playerName!
+                isTitleB = 0
+            }
+            if raceB == "invalid" {
+                raceB = "neutral"
+            }
+            return (raceA, isTitleA, nameA) > (raceB, isTitleB, nameB)
+        })
         while self.subviews.count > 0 {
             self.subviews[0].removeFromSuperviewWithoutNeedingDisplay()
         }

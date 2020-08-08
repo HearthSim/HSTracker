@@ -65,6 +65,8 @@ class CardBar: NSView, CardBarTheme {
     var playerName: String?
     var playerRank: Int?
     var isArena: Bool?
+    var playerRace: Race?
+    var backgroundImage: NSImage?
 
     var hasAllRequired: Bool {
         let path = Bundle.main.resourcePath!
@@ -275,7 +277,11 @@ class CardBar: NSView, CardBarTheme {
         if let card = card, areEquals(card, oldCard) && playerType != .hero { return }
 
         cardLayer?.sublayers?.forEach { $0.removeFromSuperlayer() }
-
+        
+        if let img = backgroundImage {
+            add(image: img, rect: imageRect)
+        }
+        
         addCardImage()
         addFadeOverlay()
 
@@ -696,5 +702,14 @@ class CardBar: NSView, CardBarTheme {
         return c1?.id == c2?.id && c1?.count == c2?.count && c1?.jousted == c2?.jousted
             && c1?.isCreated == c2?.isCreated && c1?.isStolen == c2?.isStolen
             && c1?.wasDiscarded == c2?.wasDiscarded
+    }
+}
+
+extension NSImage {
+    convenience init(color: NSColor, size: NSSize) {
+        self.init(size: size)
+        lockFocus()
+        color.drawSwatch(in: NSRect(origin: .zero, size: size))
+        unlockFocus()
     }
 }
