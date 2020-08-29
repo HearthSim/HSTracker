@@ -120,12 +120,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			initalConfig?.showWindow(nil)
 			initalConfig?.window?.orderFrontRegardless()
 		}
-                
+        
         MSAnalytics.trackEvent("app_start")
 	}
 	
 	func applicationWillTerminate(_ notification: Notification) {
-        if (coreManager != nil) {
+        if coreManager != nil {
             // we are in the initial configuration, do not crash
             coreManager.stopTracking()
         }
@@ -222,6 +222,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			self.operationQueue = OperationQueue()
 			self.operationQueue.addOperations(operations, waitUntilFinished: true)
 			
+            if isMonoAvailable() != 0 {
+                if MonoHelper.load() {
+                    DispatchQueue.global().async(qos: .userInitiated) {
+                        MonoHelper.testSimulation()
+                    }
+                } else {
+                    logger.error("Failed to load BobsBuddy")
+                }
+            } else {
+                self.coreManager.game.windowManager.bobsBuddyPanel.setErrorState(error: .monoNotFound)
+            }
+
 			DispatchQueue.main.async { [unowned(unsafe) self] in
 				self.completeSetup()
 			}

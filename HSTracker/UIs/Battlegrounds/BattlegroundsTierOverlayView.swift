@@ -24,7 +24,7 @@ class BattlegroundsTierOverlayView: NSView {
     }
     
     func drawTier(tier: Int, x: Int) {
-        if (tier == currentTier) {
+        if tier == currentTier {
             let rect = NSRect(x: x, y: 8, width: 40, height: 40)
             let image = NSImage(contentsOfFile: Bundle.main.resourcePath! + "/Resources/Battlegrounds/tier-glow.png")!
             image.draw(in: rect)

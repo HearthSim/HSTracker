@@ -109,6 +109,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateSecretTracker()
         self.updateBattlegroundsOverlay()
         self.updateBattlegroundsTierOverlay()
+        self.updateBobsBuddyOverlay()
 	}
 	
     // MARK: - GUI calls
@@ -361,12 +362,26 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    func updateBobsBuddyOverlay() {
+        let rect = SizeHelper.bobsPanelOverlayFrame()
+        
+        DispatchQueue.main.async {
+            let game = AppDelegate.instance().coreManager.game
+            if !game.isInMenu && game.isBattlegroundsMatch() && Settings.showBobsBuddy {
+                self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: false)
+                self.windowManager.bobsBuddyPanel.resetDisplays()
+            }
+        }
+    }
+    
     func updateBattlegroundsTierOverlay() {
         let rect = SizeHelper.battlegroundsTierOverlayFrame()
                 
         DispatchQueue.main.async {
             let game = AppDelegate.instance().coreManager.hsLog.currentOrFinishedGame()
-            let isBG = game?.gameType == kotlin_hslog.GameType.gtBattlegrounds
+            let isBG = self.isBattlegroundsMatch()
                 && game?.victory == nil
 
             if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
@@ -624,13 +639,14 @@ class Game: NSObject, PowerEventHandler {
                 let count = races.count
                 var res: [Race] = []
                 let raceEnum = Race.allCases
-                for i in 0...count-1 {
+                for i in 0..<count {
                     let r = races[i].intValue
                     res.append(raceEnum[r])
                 }
                 _availableRaces = res
+            } else {
+                return []
             }
-
         }
         return _availableRaces
     }
@@ -1253,6 +1269,14 @@ class Game: NSObject, PowerEventHandler {
         }
         return 0
     }
+    
+    // return raw turn number, needed for BG
+    func turn() -> Int {
+        if let gameEntity = self.gameEntity {
+            return gameEntity[.turn]
+        }
+        return 0
+    }
 
     func turnsInPlayChange(entity: Entity, turn: Int) {
         guard let opponentEntity = opponentEntity else { return }
@@ -1305,15 +1329,19 @@ class Game: NSObject, PowerEventHandler {
         }
 
         var timeout = -1
-        if player == .player && playerEntity!.has(tag: .timeout) {
+        if player == .player && ((playerEntity?.has(tag: .timeout)) != nil) {
             timeout = playerEntity![.timeout]
-        } else if player == .opponent && opponentEntity!.has(tag: .timeout) {
+        } else if player == .opponent && ((opponentEntity?.has(tag: .timeout)) != nil) {
             timeout = opponentEntity![.timeout]
         }
 		
         turnTimer.startTurn(for: player, timeout: timeout)
 
         if player == .player && !isInMenu {
+            if isBattlegroundsMatch() && isMonoAvailable() != 0 && playerTurn.turn > 1 {
+                BobsBuddyInvoker.instance(turn: turnNumber()).startShopping()
+            }
+
             NotificationManager.showNotification(type: .turnStart)
         }
 
@@ -1344,7 +1372,16 @@ class Game: NSObject, PowerEventHandler {
         self.gameResult = .draw
     }
 
+    func isBattlegroundsMatch() -> Bool {
+        // TODO: remove
+        return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly
+        //return true
+    }
+
     func isMulliganDone() -> Bool {
+        if isBattlegroundsMatch() {
+                return true
+        }
 		let player = entities.map { $0.1 }.first { $0.isPlayer(eventHandler: self) }
         let opponent = entities.map { $0.1 }
             .first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
@@ -1823,6 +1860,14 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentTurnStart(entity: Entity) {
 
+    }
+    
+    func startCombat() {
+        if isMonoAvailable() == 0 {
+            return
+        }
+        
+        BobsBuddyInvoker.instance(turn: turnNumber()).startCombat()
     }
     
     var chameleosReveal: (Int, String)?

@@ -10,6 +10,115 @@ import Foundation
 import kotlin_hslog
 
 class BattlegroundsTierDetailsView: NSStackView {
+    let battlegroundsMinions = [
+        BattlegroundMinion(cardId: "AT_121", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_001", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_002", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_004", techLevel: 1),
+        BattlegroundMinion(cardId: "BGS_006", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_008", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_009", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_010", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_012", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_014", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_017", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_018", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_019", techLevel: 1),
+        BattlegroundMinion(cardId: "BGS_020", techLevel: 4),
+        BattlegroundMinion(cardId: "BGS_021", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_022", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_023", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_027", techLevel: 1),
+        BattlegroundMinion(cardId: "BGS_028", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_029", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_030", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_032", techLevel: 4),
+        BattlegroundMinion(cardId: "BGS_033", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_034", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_035", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_036", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_037", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_038", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_039", techLevel: 1),
+        BattlegroundMinion(cardId: "BGS_040", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_041", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_043", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_044", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_045", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_046", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_047", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_048", techLevel: 4),
+        BattlegroundMinion(cardId: "BGS_049", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_053", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_055", techLevel: 1),
+        BattlegroundMinion(cardId: "BGS_056", techLevel: 4),
+        BattlegroundMinion(cardId: "BGS_060", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_061", techLevel: 1),
+        BattlegroundMinion(cardId: "BGS_066", techLevel: 4),
+        BattlegroundMinion(cardId: "BGS_067", techLevel: 4),
+        BattlegroundMinion(cardId: "BGS_069", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_071", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_072", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_075", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_078", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_079", techLevel: 6),
+        BattlegroundMinion(cardId: "BGS_080", techLevel: 5),
+        BattlegroundMinion(cardId: "BGS_081", techLevel: 3),
+        BattlegroundMinion(cardId: "BGS_082", techLevel: 2),
+        BattlegroundMinion(cardId: "BGS_083", techLevel: 4),
+        BattlegroundMinion(cardId: "BOT_218", techLevel: 4),
+        BattlegroundMinion(cardId: "BOT_312", techLevel: 3),
+        BattlegroundMinion(cardId: "BOT_445", techLevel: 1),
+        BattlegroundMinion(cardId: "BOT_537", techLevel: 4),
+        BattlegroundMinion(cardId: "BOT_606", techLevel: 2),
+        BattlegroundMinion(cardId: "BOT_911", techLevel: 4),
+        BattlegroundMinion(cardId: "BRM_006", techLevel: 3),
+        BattlegroundMinion(cardId: "BT_010", techLevel: 3),
+        BattlegroundMinion(cardId: "CFM_315", techLevel: 1),
+        BattlegroundMinion(cardId: "CFM_316", techLevel: 3),
+        BattlegroundMinion(cardId: "CFM_610", techLevel: 3),
+        BattlegroundMinion(cardId: "CFM_816", techLevel: 4),
+        BattlegroundMinion(cardId: "DAL_077", techLevel: 4),
+        BattlegroundMinion(cardId: "DAL_575", techLevel: 3),
+        BattlegroundMinion(cardId: "DS1_070", techLevel: 3),
+        BattlegroundMinion(cardId: "EX1_062", techLevel: 2),
+        BattlegroundMinion(cardId: "EX1_093", techLevel: 4),
+        BattlegroundMinion(cardId: "EX1_103", techLevel: 3),
+        BattlegroundMinion(cardId: "EX1_185", techLevel: 4),
+        BattlegroundMinion(cardId: "EX1_506", techLevel: 1),
+        BattlegroundMinion(cardId: "EX1_507", techLevel: 2),
+        BattlegroundMinion(cardId: "EX1_509", techLevel: 1),
+        BattlegroundMinion(cardId: "EX1_531", techLevel: 1),
+        BattlegroundMinion(cardId: "EX1_534", techLevel: 4),
+        BattlegroundMinion(cardId: "EX1_556", techLevel: 2),
+        BattlegroundMinion(cardId: "EX1_577", techLevel: 3),
+        BattlegroundMinion(cardId: "FP1_010", techLevel: 6),
+        BattlegroundMinion(cardId: "FP1_024", techLevel: 2),
+        BattlegroundMinion(cardId: "FP1_031", techLevel: 5),
+        BattlegroundMinion(cardId: "GVG_021", techLevel: 5),
+        BattlegroundMinion(cardId: "GVG_027", techLevel: 4),
+        BattlegroundMinion(cardId: "GVG_048", techLevel: 2),
+        BattlegroundMinion(cardId: "GVG_055", techLevel: 3),
+        BattlegroundMinion(cardId: "GVG_100", techLevel: 4),
+        BattlegroundMinion(cardId: "GVG_106", techLevel: 5),
+        BattlegroundMinion(cardId: "GVG_113", techLevel: 6),
+        BattlegroundMinion(cardId: "ICC_029", techLevel: 4),
+        BattlegroundMinion(cardId: "ICC_038", techLevel: 1),
+        BattlegroundMinion(cardId: "ICC_807", techLevel: 5),
+        BattlegroundMinion(cardId: "ICC_858", techLevel: 4),
+        BattlegroundMinion(cardId: "KAR_005", techLevel: 2),
+        BattlegroundMinion(cardId: "LOE_077", techLevel: 5),
+        BattlegroundMinion(cardId: "LOOT_013", techLevel: 1),
+        BattlegroundMinion(cardId: "LOOT_078", techLevel: 4),
+        BattlegroundMinion(cardId: "LOOT_368", techLevel: 5),
+        BattlegroundMinion(cardId: "NEW1_027", techLevel: 2),
+        BattlegroundMinion(cardId: "OG_216", techLevel: 3),
+        BattlegroundMinion(cardId: "OG_221", techLevel: 1),
+        BattlegroundMinion(cardId: "OG_256", techLevel: 2),
+        BattlegroundMinion(cardId: "TRL_232", techLevel: 5),
+        BattlegroundMinion(cardId: "UNG_073", techLevel: 1),
+        BattlegroundMinion(cardId: "YOD_026", techLevel: 1)
+    ]
     
     init() {
         super.init(frame: NSRect.zero)
@@ -36,7 +145,7 @@ class BattlegroundsTierDetailsView: NSStackView {
     func setTier(tier: Int) {
         let cardJson = AppDelegate.instance().coreManager.cardJson!
         let availableRaces = AppDelegate.instance().coreManager.game.availableRaces
-        var cardBars: [CardBar] = BattlegroundsKt.battlegroundsMinions.filter {
+        var cardBars: [CardBar] = battlegroundsMinions.filter {
             let ktCard = cardJson.getCard(id: $0.cardId)
             let race = Race(rawValue: ktCard.race?.lowercased() ?? "")
             return ($0.techLevel == tier && (race == nil || (availableRaces?.firstIndex(of: race!) != nil)))
@@ -70,14 +179,10 @@ class BattlegroundsTierDetailsView: NSStackView {
         cardBar.playerRace = race
         cardBar.backgroundImage = blackImage
         cardBars.append(cardBar)
-        for i in 0...availableRaces!.count-1 {
+        for i in 0..<availableRaces!.count {
             let race: String = availableRaces![i].rawValue
             cardBar = CardBar.factory()
-            if availableRaces![i] == .mechanical {
-                cardBar.playerName = "Mech"
-            } else {
-                cardBar.playerName = race.capitalized
-            }
+                cardBar.playerName = NSLocalizedString(race, comment: "")
             let cardRace = Race(rawValue: race)
             cardBar.playerRace = cardRace
             cardBar.backgroundImage = blackImage

@@ -493,6 +493,24 @@
 		61424BC9246FF53C00877EE4 /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 61424BC6246FF51000877EE4 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		61424BCB24701A3700877EE4 /* DecksReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61424BCA24701A3700877EE4 /* DecksReader.swift */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
+		B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
+		B82F4EAE24E3229200905024 /* TestInputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* TestInputProxy.swift */; };
+		B82F4EB024E32C3000905024 /* SimulatorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */; };
+		B82F4EB224E4088500905024 /* MinionFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */; };
+		B82F4EB424E40B9F00905024 /* MinionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EB324E40B9F00905024 /* MinionProxy.swift */; };
+		B82F535724EE161A004273FF /* MonoUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = B82F535624EE161A004273FF /* MonoUtility.c */; };
+		B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = B83355B024F807220025F644 /* BobsBuddyPanel.xib */; };
+		B83355B524F850C10025F644 /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
+		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
+		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
+		B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
+		B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11ED24E5A8360088A755 /* MonoHandle.swift */; };
+		B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */; };
+		B8DC11F224E77F040088A755 /* BobsBuddyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F124E77F040088A755 /* BobsBuddyState.swift */; };
+		B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F324EACDB80088A755 /* SimulationRunner.swift */; };
+		B8DC120024EC5F9A0088A755 /* BobsBuddyPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */; };
+		B8DC120524EC79370088A755 /* TestOutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* TestOutputProxy.swift */; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
@@ -999,6 +1017,27 @@
 		61424BC6246FF51000877EE4 /* Kanna.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kanna.framework; path = Carthage/Build/Mac/Kanna.framework; sourceTree = "<group>"; };
 		61424BCA24701A3700877EE4 /* DecksReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksReader.swift; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
+		B82F4EAA24E3021D00905024 /* MonoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoHelper.swift; sourceTree = "<group>"; };
+		B82F4EAD24E3229200905024 /* TestInputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInputProxy.swift; sourceTree = "<group>"; };
+		B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorProxy.swift; sourceTree = "<group>"; };
+		B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionFactoryProxy.swift; sourceTree = "<group>"; };
+		B82F4EB324E40B9F00905024 /* MinionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionProxy.swift; sourceTree = "<group>"; };
+		B82F535624EE161A004273FF /* MonoUtility.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MonoUtility.c; sourceTree = "<group>"; };
+		B82F535824EE167F004273FF /* MonoUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonoUtility.h; sourceTree = "<group>"; };
+		B83355AF24F807220025F644 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BobsBuddyPanel.xib; sourceTree = "<group>"; };
+		B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmonosgen-2.0.a"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmonosgen-2.0.a"; sourceTree = "<group>"; };
+		B83355B324F84F200025F644 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../usr/lib/libiconv.2.dylib; sourceTree = "<group>"; };
+		B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionHeroPowerTrigger.swift; sourceTree = "<group>"; };
+		B864A14224F58539005EA2A0 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = ../../../Library/Frameworks/Mono.framework; sourceTree = "<group>"; };
+		B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMessageConverter.swift; sourceTree = "<group>"; };
+		B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableBox.swift; sourceTree = "<group>"; };
+		B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyErrorState.swift; sourceTree = "<group>"; };
+		B8DC11ED24E5A8360088A755 /* MonoHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoHandle.swift; sourceTree = "<group>"; };
+		B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyInvoker.swift; sourceTree = "<group>"; };
+		B8DC11F124E77F040088A755 /* BobsBuddyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyState.swift; sourceTree = "<group>"; };
+		B8DC11F324EACDB80088A755 /* SimulationRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationRunner.swift; sourceTree = "<group>"; };
+		B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyPanel.swift; sourceTree = "<group>"; };
+		B8DC120424EC79370088A755 /* TestOutputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOutputProxy.swift; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
 		BC78DD761E80871600DBA7C9 /* BTree.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BTree.framework; path = Carthage/Build/Mac/BTree.framework; sourceTree = "<group>"; };
@@ -1163,6 +1202,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B83355B524F850C10025F644 /* Mono.framework in Frameworks */,
 				BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */,
 				4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */,
 				436789D11CAE484000C962D1 /* Foundation.framework in Frameworks */,
@@ -1438,6 +1478,8 @@
 		439C7E4A1C7772C000D29859 /* HSTracker */ = {
 			isa = PBXGroup;
 			children = (
+				B82F4EAC24E3221D00905024 /* BobsBuddy */,
+				B82F4EA924E3020800905024 /* Mono */,
 				5B0AB88C2313083700654A03 /* HSTracker.entitlements */,
 				64C115E3AADB89B1C02BC1D0 /* ArenaHelper */,
 				434106A01C9868620045655A /* Assets */,
@@ -1602,6 +1644,7 @@
 				432B5FB21CB536E700B05D19 /* MainMenu.xib */,
 				439C7ECF1C777FA900D29859 /* ImageUtils.swift */,
 				43EECB971C7DEF7F0077AC1B /* ClassColor.swift */,
+				B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */,
 			);
 			path = UIs;
 			sourceTree = "<group>";
@@ -1609,6 +1652,8 @@
 		439C7ED41C777FA900D29859 /* Trackers */ = {
 			isa = PBXGroup;
 			children = (
+				B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */,
+				B83355B024F807220025F644 /* BobsBuddyPanel.xib */,
 				4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */,
 				4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */,
 				4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */,
@@ -1758,6 +1803,35 @@
 			path = ArenaHelper;
 			sourceTree = "<group>";
 		};
+		B82F4EA924E3020800905024 /* Mono */ = {
+			isa = PBXGroup;
+			children = (
+				B82F4EAA24E3021D00905024 /* MonoHelper.swift */,
+				B82F4EAD24E3229200905024 /* TestInputProxy.swift */,
+				B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */,
+				B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */,
+				B82F4EB324E40B9F00905024 /* MinionProxy.swift */,
+				B8DC11ED24E5A8360088A755 /* MonoHandle.swift */,
+				B8DC11F324EACDB80088A755 /* SimulationRunner.swift */,
+				B8DC120424EC79370088A755 /* TestOutputProxy.swift */,
+				B82F535624EE161A004273FF /* MonoUtility.c */,
+				B82F535824EE167F004273FF /* MonoUtility.h */,
+			);
+			path = Mono;
+			sourceTree = "<group>";
+		};
+		B82F4EAC24E3221D00905024 /* BobsBuddy */ = {
+			isa = PBXGroup;
+			children = (
+				B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */,
+				B8DC11F124E77F040088A755 /* BobsBuddyState.swift */,
+				B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */,
+				B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */,
+				B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */,
+			);
+			path = BobsBuddy;
+			sourceTree = "<group>";
+		};
 		C99C0C961D0A6062000DD6FB /* StatsManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1808,6 +1882,9 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B83355B324F84F200025F644 /* libiconv.2.dylib */,
+				B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */,
+				B864A14224F58539005EA2A0 /* Mono.framework */,
 				61424BC6246FF51000877EE4 /* Kanna.framework */,
 				4C0C2A25244C8AED00E7B75E /* AppCenter.framework */,
 				4C0C2A27244C8CE400E7B75E /* AppCenterAnalytics.framework */,
@@ -1866,6 +1943,7 @@
 			buildConfigurationList = 439C7E701C7772C100D29859 /* Build configuration list for PBXNativeTarget "HSTracker" */;
 			buildPhases = (
 				4368741F201720A800C9D1E9 /* Update version */,
+				B8D8859B24F4333000F2F0F2 /* Download BobsBuddy and HearthDb */,
 				4C68AF242447CE5000E52834 /* Download HearthMirror */,
 				4C68AF232447C1CD00E52834 /* Download kotlin_hslog */,
 				439C7E441C7772C000D29859 /* Sources */,
@@ -1873,8 +1951,9 @@
 				439C7E461C7772C000D29859 /* Resources */,
 				436789A01CAC078800C962D1 /* CopyFiles */,
 				436789E01CAE484800C962D1 /* Embed Frameworks */,
-				4C777CFF2400AD7B003F7205 /* Run Script */,
+				4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */,
 				437B5BCC1CD3B50000DE0A41 /* Swiftlint */,
+				B83355B724F89D1A0025F644 /* Embed Mono */,
 			);
 			buildRules = (
 			);
@@ -1916,7 +1995,6 @@
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = RL7C49LAMC;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
@@ -1993,6 +2071,7 @@
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
 				4C3E2DA72462325A00292349 /* kotlin_hslog.framework.dSYM in Resources */,
+				B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
 				E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */,
@@ -2087,7 +2166,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTRracker\nSHA1=be552afcc41232f61a84b9abe38b305549cd1606\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
-		4C777CFF2400AD7B003F7205 /* Run Script */ = {
+		4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2096,7 +2175,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = "Codesign Sparkle.framework";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -2105,6 +2184,43 @@
 			shellPath = /bin/sh;
 			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\n\n# By default, use the configured code signing identity for the project/target\nIDENTITY=\"${EXPANDED_CODE_SIGN_IDENTITY}\"\nif [ \"$IDENTITY\" == \"\" ]\nthen\n    # If a code signing identity is not specified, use ad hoc signing\n    IDENTITY=\"-\"\nfi\n\necho codesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n";
 		};
+		B83355B724F89D1A0025F644 /* Embed Mono */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Mono";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Version\nMONO_VERSION=6.12.0\nSYSTEM_VERSION=4.0.0.0__b77a5c561934e089\nSYSTEM_CONFIGURATION_VERSION=4.0.0.0__b03f5f7f11d50a3a\n\n# Locations\nMONO_LOCATION=/Library/Frameworks/Mono.Framework/Versions/$MONO_VERSION\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nRES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed\"\n\nset -x\n\n# Copy needed files\ncp $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libsqlite3.0.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libmono-native-compat.dylib \"${LOCATION}\"\nmkdir -p \"${RES_LOCATION}/etc/mono\"\ncp -R $MONO_LOCATION/etc/mono \"${RES_LOCATION}/etc\"\nsed 's/$mono_libdir\\///g' $MONO_LOCATION/etc/mono/config > \"${RES_LOCATION}/etc/mono/config\"\n\n# Copy system assemblies needed\nmkdir -p \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/mscorlib.dll \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/Facades/netstandard.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Xml/$SYSTEM_VERSION/System.Xml.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Core/$SYSTEM_VERSION/System.Core.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System/$SYSTEM_VERSION/System.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Configuration/$SYSTEM_CONFIGURATION_VERSION/System.Configuration.dll \"${RES_LOCATION}\"\n\n# Change runtime paths\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B8D8859B24F4333000F2F0F2 /* Download BobsBuddy and HearthDb */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Download BobsBuddy and HearthDb";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# change version here when needed\nset -e\n\nDIR=\"$SRCROOT/HSTracker/Resources/Managed\"\n\nmkdir -p $DIR\n\nwget -N \"https://libs.hearthsim.net/hdt/HearthDb.dll\" -P \"$DIR\"\nwget -N \"https://libs.hearthsim.net/hdt/BobsBuddy.dll\" -P \"$DIR\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2112,6 +2228,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B82F535724EE161A004273FF /* MonoUtility.c in Sources */,
+				B82F4EB424E40B9F00905024 /* MinionProxy.swift in Sources */,
 				432A07B21E93B6E200921E34 /* CardIds.swift in Sources */,
 				4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */,
 				432A077C1E93B0F100921E34 /* Secrets.swift in Sources */,
@@ -2122,6 +2240,7 @@
 				43F204111E93C2E600E0BC4A /* Shaman.swift in Sources */,
 				43F204131E93C2E600E0BC4A /* Warrior.swift in Sources */,
 				43F2040B1E93C2E600E0BC4A /* Mage.swift in Sources */,
+				B8DC120024EC5F9A0088A755 /* BobsBuddyPanel.swift in Sources */,
 				43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */,
 				43F204061E93C2E600E0BC4A /* Deathknight.swift in Sources */,
 				43F204091E93C2E600E0BC4A /* Hunter.swift in Sources */,
@@ -2137,6 +2256,7 @@
 				43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */,
 				4C6E99A3237F635300702AB2 /* CollectionWatcher.swift in Sources */,
 				4361D8341DC8A21800D831CF /* BnetGameType.swift in Sources */,
+				B82F4EB024E32C3000905024 /* SimulatorProxy.swift in Sources */,
 				4360329A1C7B6578005F1893 /* InitialConfiguration.swift in Sources */,
 				439C7EB71C777F8900D29859 /* CardType.swift in Sources */,
 				432B60391CBF9AD700B05D19 /* ManaGemButton.swift in Sources */,
@@ -2153,7 +2273,9 @@
 				43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */,
 				C92C680E1D1F225F009030DC /* StatsTab.swift in Sources */,
 				439C7E8B1C777CFC00D29859 /* CardMechanic.swift in Sources */,
+				B8D8859A24F4185200F2F0F2 /* BobsBuddyErrorState.swift in Sources */,
 				43B6954D1C9014FA00F4D0AC /* TagChangeActions.swift in Sources */,
+				B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */,
 				432AD95D1DAD81B500D8F959 /* HttpEncoding.swift in Sources */,
 				439C7EC51C777F8900D29859 /* PowerGameStateParser.swift in Sources */,
 				43C567FD1D5E448200451B6F /* HSReplayManager.swift in Sources */,
@@ -2162,6 +2284,7 @@
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
 				4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */,
 				4C3E2DA52460C82900292349 /* FrameView.swift in Sources */,
+				B8DC11F224E77F040088A755 /* BobsBuddyState.swift in Sources */,
 				439C7EC01C777F8900D29859 /* ArenaHandler.swift in Sources */,
 				BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */,
 				4C3E2D9E245F85C700292349 /* FillImageView.swift in Sources */,
@@ -2176,6 +2299,7 @@
 				4C3E2D8A245ED13D00292349 /* ToastWindowController.swift in Sources */,
 				43E77EE21C949C7800C26950 /* TimerHud.swift in Sources */,
 				340AAC051D0544AD0015FE33 /* StringTracker.swift in Sources */,
+				B8DC11EE24E5A8360088A755 /* MonoHandle.swift in Sources */,
 				C99C0C9D1D0A608C000DD6FB /* StatsHelper.swift in Sources */,
 				43BE58BE1DC47C6D00B24A21 /* Paths.swift in Sources */,
 				43BF754F1ECC4EB7005827FF /* Varint.swift in Sources */,
@@ -2221,6 +2345,7 @@
 				43C568031D5E59E500451B6F /* UploadResult.swift in Sources */,
 				439C7EBB1C777F8900D29859 /* Mulligan.swift in Sources */,
 				4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */,
+				B8DC120524EC79370088A755 /* TestOutputProxy.swift in Sources */,
 				43AFEEEB1E22529C00F6045A /* CollectionManager.swift in Sources */,
 				4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */,
 				43AFA0031FA11F11008ED490 /* SecretsManager.swift in Sources */,
@@ -2228,13 +2353,16 @@
 				439C7EB81C777F8900D29859 /* GameMode.swift in Sources */,
 				432A392F1CF0B0F80029F0EA /* LogReaderInfo.swift in Sources */,
 				43C567F51D5E342C00451B6F /* BuildDates.swift in Sources */,
+				B82F4EB224E4088500905024 /* MinionFactoryProxy.swift in Sources */,
 				43883F1E1DA382BA00A7B79C /* Language.swift in Sources */,
+				B8DC11F024E6AF280088A755 /* BobsBuddyInvoker.swift in Sources */,
 				437E56F01DAAB81400FC0FC1 /* Array.swift in Sources */,
 				439C7EBE1C777F8900D29859 /* Zone.swift in Sources */,
 				437E56F11DAAB81400FC0FC1 /* Color.swift in Sources */,
 				43BF754C1ECC25F7005827FF /* DeckSerializer.swift in Sources */,
 				439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */,
 				439C7ECC1C777F8900D29859 /* Player.swift in Sources */,
+				B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */,
 				437B5BB51CD2558500DE0A41 /* OpponentTrackersPreferences.swift in Sources */,
 				BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */,
 				4335545B1D65944700277B27 /* Toast.swift in Sources */,
@@ -2261,9 +2389,11 @@
 				4C19239B2392E5A4007EBB0F /* HSTLogListener.swift in Sources */,
 				436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */,
 				1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */,
+				B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */,
 				432C11AB1CCF6B460067C5FE /* Format.swift in Sources */,
 				436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */,
 				4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */,
+				B82F4EAE24E3229200905024 /* TestInputProxy.swift in Sources */,
 				433554561D62EE1200277B27 /* PlayerType.swift in Sources */,
 				4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */,
 				439C7EC91C777F8900D29859 /* LogLine.swift in Sources */,
@@ -2291,11 +2421,13 @@
 				43EECB9C1C7E4EA20077AC1B /* CurveView.swift in Sources */,
 				434910541D097B0500B22DB2 /* EntityHelper.swift in Sources */,
 				439C7EE31C777FA900D29859 /* Tracker.swift in Sources */,
+				B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */,
 				43C567E71D5D0F2E00451B6F /* LogLineNamespace.swift in Sources */,
 				4C1923A32392FF37007EBB0F /* BattlegroundsDetailsView.swift in Sources */,
 				439C7EBA1C777F8900D29859 /* GameTag.swift in Sources */,
 				439DD8F61DB2324A004EBE47 /* CardSize.swift in Sources */,
 				432B60331CB69FA600B05D19 /* FloatingCard.swift in Sources */,
+				B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */,
 				4390FBBA1DAA72E700AE71BB /* Version.swift in Sources */,
 				436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */,
 				439C7E4C1C7772C000D29859 /* AppDelegate.swift in Sources */,
@@ -2832,6 +2964,14 @@
 			name = TrackersPreferences.xib;
 			sourceTree = "<group>";
 		};
+		B83355B024F807220025F644 /* BobsBuddyPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B83355AF24F807220025F644 /* Base */,
+			);
+			name = BobsBuddyPanel.xib;
+			sourceTree = "<group>";
+		};
 		C9BDB3CA1D20BC4C00886A11 /* StatsTab.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3009,7 +3149,6 @@
 				);
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MARKETING_VERSION = 1.6.37;
 				OTHER_CFLAGS = "$(inherited)";
@@ -3049,7 +3188,6 @@
 				);
 				INFOPLIST_FILE = HSTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MARKETING_VERSION = 1.6.37;
 				OTHER_CODE_SIGN_FLAGS = "--deep";

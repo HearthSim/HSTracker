@@ -2176,6 +2176,12 @@ extension CardIds.NonCollectible {
         static let CrazedMob: String = "GILA_821c"
         static let SparkDrill_SparkToken: String = "BOT_102t"
         static let SeaforiumBomber_BombToken: String = "BOT_511t"
+        static let Baconshop8playerenchantTavernBrawl: String = "TB_BaconShop_8P_PlayerE"
+        static let ReplicatingMenace_ReplicatingMenaceEnchantment: String  = "BOT_312e"
+        static let ReplicatingMenace_ReplicatingMenaceEnchantmentTavernBrawl: String = "TB_BaconUps_032e"
+        static let RebornRitesTavernBrawl: String = "TB_BaconShop_HP_024"
+        static let RebornRites_RebornRiteEnchantmentTavernBrawl: String = "TB_BaconShop_HP_024e2"
+        static let PrestidigitationTavernBrawl = "TB_BaconShop_HP_020"
     }
 }
 

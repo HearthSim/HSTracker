@@ -103,6 +103,8 @@ protocol PowerEventHandler: class {
 	func turnsInPlayChange(entity: Entity, turn: Int)
 	
 	func turnNumber() -> Int
+    
+    func turn() -> Int
 	
 	func playerFatigue(value: Int)
 	
@@ -188,6 +190,8 @@ protocol PowerEventHandler: class {
 	func opponentCreateInSetAside(entity: Entity, turn: Int)
 	
 	func opponentHeroPower(cardId: String, turn: Int)
+    
+    func startCombat()
     
     var chameleosReveal: (Int, String)? { get set }
 }

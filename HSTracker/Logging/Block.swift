@@ -14,6 +14,7 @@ class Block {
     let id: Int
     let type: String?
     let cardId: String?
+    var hasFullEntityHeroPackets: Bool
 
     init(parent: Block?, id: Int, type: String?, cardId: String?) {
         self.parent = parent
@@ -21,6 +22,7 @@ class Block {
         self.id = id
         self.type = type
         self.cardId = cardId
+        self.hasFullEntityHeroPackets = false
     }
 
     func createChild(blockId: Int, type: String?, cardId: String?) -> Block {

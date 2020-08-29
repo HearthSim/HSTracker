@@ -110,7 +110,7 @@ class FloatingCard: OverWindowController {
             let textHeight = layoutManager.usedRect(for: textContainer).size.height
 
             let width = window.frame.size.width
-            let totalHeight = textHeight + self.title.frame.size.height + width * 250/180;
+            let totalHeight = textHeight + self.title.frame.size.height + width * 250/180
             self.window?.setContentSize(NSSize(width: width,
                     height: totalHeight))
         }

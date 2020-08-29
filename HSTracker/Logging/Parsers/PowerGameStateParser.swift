@@ -34,6 +34,7 @@ class PowerGameStateParser: LogEventParser {
 
 	init(with eventHandler: PowerEventHandler) {
 		self.eventHandler = eventHandler
+        self.tagChangeHandler.setPowerGameStateParser(parser: self)
 	}
 
     // MARK: - Entities
@@ -65,6 +66,10 @@ class PowerGameStateParser: LogEventParser {
     private var maxBlockId: Int = 0
     private var currentBlock: Block?
     private var inCreateGameBlock = false
+    
+    func getCurrentBlock() -> Block? {
+        return self.currentBlock
+    }
 
     // MARK: - line handling
 
@@ -253,7 +258,22 @@ class PowerGameStateParser: LogEventParser {
                 }
 
                 let entity = Entity(id: id)
+                if let cid = cardId {
+                    entity.cardId = cid
+                }
                 eventHandler.entities[id] = entity
+                
+                if currentBlock != nil &&  entity.cardId.uppercased().contains("HERO") {
+                    currentBlock!.hasFullEntityHeroPackets = true
+                    NSLog("Setting Full entity hero packets")
+                } else {
+                    if currentBlock == nil {
+                        NSLog("Current block is nil")
+                    }
+                    if entity.cardId.uppercased().contains("HERO") {
+                        NSLog("Hero entity was present: %@", entity.cardId)
+                    }
+                }
             }
 
             if !cardId.isBlank {
@@ -647,6 +667,10 @@ class PowerGameStateParser: LogEventParser {
             }
             
             eventHandler.chameleosReveal = nil
+            
+            if currentBlock?.type == "TRIGGER" && currentBlock?.cardId == CardIds.NonCollectible.Neutral.Baconshop8playerenchantTavernBrawl && currentBlock?.hasFullEntityHeroPackets ?? false && (eventHandler.turn() % 2 == 0) {
+                eventHandler.startCombat()
+            }
             blockEnd()
         }
 
