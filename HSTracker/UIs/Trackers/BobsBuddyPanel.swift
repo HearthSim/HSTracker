@@ -157,9 +157,9 @@ class BobsBuddyPanel: OverWindowController {
             self.lethalRateDisplay.stringValue = self.formatPercent(p: playerLethal)
             self.opponentLethalRateDisplay.stringValue = self.formatPercent(p: opponentLethal)
             let cl = self.lethalRateDisplay.textColor!
-            self.lethalRateDisplay.textColor = self.changeAlpha(c: cl, a: opponentLethal > 0 ? 1 : 0.3)
+            self.lethalRateDisplay.textColor = self.changeAlpha(c: cl, a: playerLethal > 0 ? 1 : 0.3)
             let cl2 = self.opponentLethalRateDisplay.textColor!
-            self.opponentLethalRateDisplay.textColor = self.changeAlpha(c: cl2, a: playerLethal > 0 ? 1 : 0.3)
+            self.opponentLethalRateDisplay.textColor = self.changeAlpha(c: cl2, a: opponentLethal > 0 ? 1 : 0.3)
             self.window!.ignoresMouseEvents = false
         }
     }
