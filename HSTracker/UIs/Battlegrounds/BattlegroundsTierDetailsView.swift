@@ -198,7 +198,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         for i in 0..<availableRaces!.count {
             let race: String = availableRaces![i].rawValue
             cardBar = CardBar.factory()
-                cardBar.playerName = NSLocalizedString(race, comment: "")
+            cardBar.playerName = NSLocalizedString(race, comment: "")
             let cardRace = Race(rawValue: race)
             cardBar.playerRace = cardRace
             cardBar.backgroundImage = blackImage
