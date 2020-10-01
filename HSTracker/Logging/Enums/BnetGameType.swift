@@ -32,7 +32,8 @@ enum BnetGameType: Int {
     bgt_fsg_brawl_pvp = 41,
     bgt_fsg_brawl_1p_versus_ai = 42,
     bgt_fsg_brawl_2p_coop = 43,
-    bgt_battlegrounds = 50
+    bgt_battlegrounds = 50,
+    bgt_battlegrounds_friendly = 51
 
     static func getBnetGameType(gameType: GameType, format: Format?) -> BnetGameType {
         switch gameType {
@@ -66,6 +67,8 @@ enum BnetGameType: Int {
             return .bgt_fsg_brawl_vs_friend
         case .gt_battlegrounds:
             return .bgt_battlegrounds
+        case .gt_battlegrounds_friendly:
+            return .bgt_battlegrounds_friendly
         default:
             return .bgt_unknown
         }

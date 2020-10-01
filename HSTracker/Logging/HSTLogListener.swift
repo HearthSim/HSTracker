@@ -33,7 +33,7 @@ class HSTLogListener: HSLogListener {
             self.toaster.hide()
         }
 
-        toaster.displayToast(view: view, timeoutMillis: -1)
+        self.toaster.displayToast(view: view, timeoutMillis: 30000)
     }
     
     func onCardGained(cardGained: CardGained) {
@@ -41,7 +41,6 @@ class HSTLogListener: HSLogListener {
     }
    
     func bgHeroesHide() {
-        toaster.hide()
     }
             
     func onDeckEntries(game: kotlin_hslog.Game, isPlayer: Bool, deckEntries: [DeckEntry]) {

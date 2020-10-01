@@ -1,6 +1,17 @@
+# 1.7.0
+## New:
+- Bob's Buddy
+- Updated for Elementals
+
+# 1.6.38
+## New:
+- Updated for patch 18.0.2
+
 # 1.6.37
 ## New:
 - Updated for patch 18.0
+- Filter out minions not available in Battlegrounds (Thanks @fmoraes74)
+- Hide deck overlay during Battlegrounds games (Thanks @fmoraes74)
 
 # 1.6.36
 ## New:

@@ -111,7 +111,7 @@ final class CoreManager: NSObject {
                 withExtension: "json")
         
         self.toaster = Toaster(windowManager: game.windowManager)
-
+        
         let console = MacOSConsole()
         if let url = maybeUrl, let fileHandle = try? FileHandle(forReadingFrom: url) {
             logger.debug("building CardJson...")

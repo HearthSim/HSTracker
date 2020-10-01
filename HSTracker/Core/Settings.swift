@@ -178,6 +178,19 @@ final class Settings {
         set { set(name: Settings.auto_deck_detection, value: newValue) }
         get { return get(name: Settings.auto_deck_detection) as? Bool ?? true }
     }
+    static var showBobsBuddy: Bool {
+        set { set(name: Settings.show_bobs_buddy, value: newValue) }
+        get { return get(name: Settings.show_bobs_buddy) as? Bool ?? true }
+    }
+    static var showBobsBuddyDuringCombat: Bool {
+        set { set(name: Settings.show_bobs_buddy_during_combat, value: newValue) }
+        get { return get(name: Settings.show_bobs_buddy_during_combat) as? Bool ?? true }
+    }
+    static var showBobsBuddyDuringShopping: Bool {
+        set { set(name: Settings.show_bobs_buddy_during_shopping, value: newValue) }
+        get { return get(name: Settings.show_bobs_buddy_during_shopping) as? Bool ?? true }
+    }
+
     static var showPlayerDrawChance: Bool {
         set { set(name: Settings.player_draw_chance, value: newValue) }
         get { return get(name: Settings.player_draw_chance) as? Bool ?? true }
@@ -288,7 +301,7 @@ final class Settings {
     }
     static var showTimer: Bool {
         set { set(name: Settings.show_timer, value: newValue) }
-        get { return get(name: Settings.show_timer) as? Bool ?? true }
+        get { return get(name: Settings.show_timer) as? Bool ?? false }
     }
     
     static var timerHudFrame: NSRect? {
@@ -558,6 +571,9 @@ extension Settings {
     static let window_locked = "window_locked"
     static let prefer_golden_cards = "prefer_golden_cards"
     static let auto_deck_detection = "auto_deck_detection"
+    static let show_bobs_buddy = "show_bobs_buddy"
+    static let show_bobs_buddy_during_combat = "show_bobs_buddy_during_combat"
+    static let show_bobs_buddy_during_shopping = "show_bobs_buddy_during_shopping"
 
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"

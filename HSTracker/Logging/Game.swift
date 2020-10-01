@@ -33,7 +33,7 @@ class Game: NSObject, PowerEventHandler {
 	 */
     internal let windowManager = WindowManager()
 	
-	static let guiUpdateDelay: TimeInterval = 0.5
+    static let guiUpdateDelay: TimeInterval = 0.5
 	
 	private let turnTimer: TurnTimer
     
@@ -109,6 +109,8 @@ class Game: NSObject, PowerEventHandler {
         self.updateSecretTracker()
         self.updateBattlegroundsOverlay()
         self.updateBattlegroundsTierOverlay()
+        self.updateBobsBuddyOverlay()
+        self.updateToaster()
 	}
 	
     // MARK: - GUI calls
@@ -121,8 +123,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateTrackers(reset: Bool = false) {
-		self.guiNeedsUpdate = true
-		self.guiUpdateResets = reset || self.guiUpdateResets
+        _queue.async {
+            self.guiNeedsUpdate = true
+            self.guiUpdateResets = reset || self.guiUpdateResets
+        }
     }
 	
 	@objc fileprivate func updateOpponentTracker(reset: Bool = false) {
@@ -361,12 +365,41 @@ class Game: NSObject, PowerEventHandler {
         }
     }
     
+    func updateToaster() {
+        let rect = SizeHelper.toastFrame()
+
+        DispatchQueue.main.async {
+            if self.windowManager.toastWindowController.displayed {
+                self.windowManager.show(controller: self.windowManager.toastWindowController, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.toastWindowController, show: false)
+            }
+        }
+
+    }
+    
+    func updateBobsBuddyOverlay() {
+        let rect = SizeHelper.bobsPanelOverlayFrame()
+        
+        DispatchQueue.main.async {
+            let game = AppDelegate.instance().coreManager.game
+            if !game.isInMenu && game.isBattlegroundsMatch() && Settings.showBobsBuddy &&
+                ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                || !Settings.hideAllWhenGameInBackground) {
+                self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: false)
+                self.windowManager.bobsBuddyPanel.resetDisplays()
+            }
+        }
+    }
+    
     func updateBattlegroundsTierOverlay() {
         let rect = SizeHelper.battlegroundsTierOverlayFrame()
                 
         DispatchQueue.main.async {
             let game = AppDelegate.instance().coreManager.hsLog.currentOrFinishedGame()
-            let isBG = game?.gameType == kotlin_hslog.GameType.gtBattlegrounds
+            let isBG = self.isBattlegroundsMatch()
                 && game?.victory == nil
 
             if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
@@ -412,7 +445,7 @@ class Game: NSObject, PowerEventHandler {
             
             var rect: NSRect?
             
-            if Settings.playerBoardDamage && self.shouldShowGUIElement {
+            if Settings.playerBoardDamage && self.shouldShowGUIElement && (self.currentGameType != .gt_battlegrounds) {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
                     if let heroPower = board.player.heroPower, self.player.currentMana >= heroPower.cost {
@@ -442,7 +475,7 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: playerBoardDamage, show: false)
             }
             
-            if Settings.opponentBoardDamage && self.shouldShowGUIElement {
+            if Settings.opponentBoardDamage && self.shouldShowGUIElement && (self.currentGameType != .gt_battlegrounds) {
                 if !self.gameEnded {
                     var heroPowerDmg = 0
                     if let heroPower = board.opponent.heroPower {
@@ -624,13 +657,14 @@ class Game: NSObject, PowerEventHandler {
                 let count = races.count
                 var res: [Race] = []
                 let raceEnum = Race.allCases
-                for i in 0...count-1 {
+                for i in 0..<count {
                     let r = races[i].intValue
                     res.append(raceEnum[r])
                 }
                 _availableRaces = res
+            } else {
+                return []
             }
-
         }
         return _availableRaces
     }
@@ -794,15 +828,10 @@ class Game: NSObject, PowerEventHandler {
 		
 		// start gui updater thread
 		_queue.async {
-			while true {
-				if self.guiNeedsUpdate {
-					self.guiNeedsUpdate = false
-					self.updateAllTrackers()
-					self.guiUpdateResets = false
-				}
-				
-				Thread.sleep(forTimeInterval: Game.guiUpdateDelay)
-			}
+//			while true {
+            self.internalUpdateCheck()
+//				Thread.sleep(forTimeInterval: Game.guiUpdateDelay)
+//			}
 		}
     }
     
@@ -810,6 +839,17 @@ class Game: NSObject, PowerEventHandler {
         for observer in self.observers {
             NotificationCenter.default.removeObserver(observer)
         }
+    }
+    
+    private func internalUpdateCheck() {
+        if self.guiNeedsUpdate {
+            self.guiNeedsUpdate = false
+            self.updateAllTrackers()
+            self.guiUpdateResets = false
+        }
+        _queue.asyncAfter(deadline: DispatchTime.now() + Game.guiUpdateDelay, execute: {
+            self.internalUpdateCheck()
+        })
     }
 
     func reset() {
@@ -1253,6 +1293,14 @@ class Game: NSObject, PowerEventHandler {
         }
         return 0
     }
+    
+    // return raw turn number, needed for BG
+    func turn() -> Int {
+        if let gameEntity = self.gameEntity {
+            return gameEntity[.turn]
+        }
+        return 0
+    }
 
     func turnsInPlayChange(entity: Entity, turn: Int) {
         guard let opponentEntity = opponentEntity else { return }
@@ -1305,15 +1353,19 @@ class Game: NSObject, PowerEventHandler {
         }
 
         var timeout = -1
-        if player == .player && playerEntity!.has(tag: .timeout) {
+        if player == .player && ((playerEntity?.has(tag: .timeout)) != nil) {
             timeout = playerEntity![.timeout]
-        } else if player == .opponent && opponentEntity!.has(tag: .timeout) {
+        } else if player == .opponent && ((opponentEntity?.has(tag: .timeout)) != nil) {
             timeout = opponentEntity![.timeout]
         }
 		
         turnTimer.startTurn(for: player, timeout: timeout)
 
         if player == .player && !isInMenu {
+            if isBattlegroundsMatch() && isMonoAvailable() != 0 && playerTurn.turn > 1 {
+                BobsBuddyInvoker.instance(turn: turnNumber()).startShopping()
+            }
+
             NotificationManager.showNotification(type: .turnStart)
         }
 
@@ -1344,7 +1396,16 @@ class Game: NSObject, PowerEventHandler {
         self.gameResult = .draw
     }
 
+    func isBattlegroundsMatch() -> Bool {
+        // TODO: remove
+        return currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly
+        //return true
+    }
+
     func isMulliganDone() -> Bool {
+        if isBattlegroundsMatch() {
+                return true
+        }
 		let player = entities.map { $0.1 }.first { $0.isPlayer(eventHandler: self) }
         let opponent = entities.map { $0.1 }
             .first { $0.has(tag: .player_id) && !$0.isPlayer(eventHandler: self) }
@@ -1823,6 +1884,14 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentTurnStart(entity: Entity) {
 
+    }
+    
+    func startCombat() {
+        if isMonoAvailable() == 0 {
+            return
+        }
+        
+        BobsBuddyInvoker.instance(turn: turnNumber()).startCombat()
     }
     
     var chameleosReveal: (Int, String)?

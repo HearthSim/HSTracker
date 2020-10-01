@@ -12,7 +12,7 @@ import TextAttributes
 class BgHeroesToastView: NSView {
 
     var heroes = [String]()
-    var clicked: (() -> ())? = nil
+    var clicked: (() -> Void)?
     
     private lazy var trackingArea: NSTrackingArea = NSTrackingArea(rect: NSRect.zero,
                               options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited],

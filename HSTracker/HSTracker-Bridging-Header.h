@@ -23,4 +23,11 @@
 
 #import "FileUtils.h"
 
+#include <mono/jit/jit.h>
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/threads.h>
+#include <mono/metadata/mono-config.h>
+#include <mono/metadata/debug-helpers.h>
+
+#include "MonoUtility.h"
 #endif /* HSTracker_Bridging_Header_h */
