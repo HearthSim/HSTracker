@@ -301,7 +301,7 @@ final class Settings {
     }
     static var showTimer: Bool {
         set { set(name: Settings.show_timer, value: newValue) }
-        get { return get(name: Settings.show_timer) as? Bool ?? true }
+        get { return get(name: Settings.show_timer) as? Bool ?? false }
     }
     
     static var timerHudFrame: NSRect? {
