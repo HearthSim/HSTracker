@@ -1,7 +1,7 @@
-# 1.6.40
+# 1.7.0
 ## New:
-- Updated for Elementals
 - Bob's Buddy
+- Updated for Elementals
 
 # 1.6.38
 ## New:
