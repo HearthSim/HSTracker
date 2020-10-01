@@ -33,7 +33,7 @@ class Game: NSObject, PowerEventHandler {
 	 */
     internal let windowManager = WindowManager()
 	
-	static let guiUpdateDelay: TimeInterval = 0.5
+    static let guiUpdateDelay: TimeInterval = 0.5
 	
 	private let turnTimer: TurnTimer
     
@@ -122,8 +122,10 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func updateTrackers(reset: Bool = false) {
-		self.guiNeedsUpdate = true
-		self.guiUpdateResets = reset || self.guiUpdateResets
+        _queue.async {
+            self.guiNeedsUpdate = true
+            self.guiUpdateResets = reset || self.guiUpdateResets
+        }
     }
 	
 	@objc fileprivate func updateOpponentTracker(reset: Bool = false) {
@@ -367,7 +369,9 @@ class Game: NSObject, PowerEventHandler {
         
         DispatchQueue.main.async {
             let game = AppDelegate.instance().coreManager.game
-            if !game.isInMenu && game.isBattlegroundsMatch() && Settings.showBobsBuddy {
+            if !game.isInMenu && game.isBattlegroundsMatch() && Settings.showBobsBuddy &&
+                ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: false)
@@ -810,15 +814,10 @@ class Game: NSObject, PowerEventHandler {
 		
 		// start gui updater thread
 		_queue.async {
-			while true {
-				if self.guiNeedsUpdate {
-					self.guiNeedsUpdate = false
-					self.updateAllTrackers()
-					self.guiUpdateResets = false
-				}
-				
-				Thread.sleep(forTimeInterval: Game.guiUpdateDelay)
-			}
+//			while true {
+            self.internalUpdateCheck()
+//				Thread.sleep(forTimeInterval: Game.guiUpdateDelay)
+//			}
 		}
     }
     
@@ -826,6 +825,17 @@ class Game: NSObject, PowerEventHandler {
         for observer in self.observers {
             NotificationCenter.default.removeObserver(observer)
         }
+    }
+    
+    private func internalUpdateCheck() {
+        if self.guiNeedsUpdate {
+            self.guiNeedsUpdate = false
+            self.updateAllTrackers()
+            self.guiUpdateResets = false
+        }
+        _queue.asyncAfter(deadline: DispatchTime.now() + Game.guiUpdateDelay, execute: {
+            self.internalUpdateCheck()
+        })
     }
 
     func reset() {
