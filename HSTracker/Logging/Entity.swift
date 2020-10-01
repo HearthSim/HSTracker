@@ -76,6 +76,10 @@ class Entity {
     func isControlled(by controller: Int) -> Bool {
         return self.has(tag: .controller) ? self[.controller] == controller : false
     }
+    
+    func isAttachedTo(entityId: Int) -> Bool {
+        return self[.attached] == entityId
+    }
 
     var isSecret: Bool {
         return has(tag: .secret)

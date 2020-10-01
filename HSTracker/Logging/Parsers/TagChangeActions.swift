@@ -9,7 +9,14 @@
 import Foundation
 
 struct TagChangeActions {
+    
+    var powerGameStateParser: PowerGameStateParser?
 
+    mutating func setPowerGameStateParser(parser: PowerGameStateParser)
+    {
+        self.powerGameStateParser = parser
+    }
+    
     func findAction(eventHandler: PowerEventHandler, tag: GameTag, id: Int, value: Int, prevValue: Int) -> (() -> Void)? {
         switch tag {
         case .zone: return { self.zoneChange(eventHandler: eventHandler, id: id, value: value, prevValue: prevValue) }
@@ -41,7 +48,25 @@ struct TagChangeActions {
                                                id: id,
                                                value: value)
             }
+        case .tag_script_data_num_1: return { self.tagScriptDataNum1(eventHandler: eventHandler, id: id, value: value) }
         default: return nil
+        }
+    }
+    
+    private func tagScriptDataNum1(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if eventHandler.currentGameMode != .battlegrounds {
+            return
+        }
+        let block = powerGameStateParser?.getCurrentBlock()
+        
+        if block == nil || block?.type != "TRIGGER" || block?.cardId != CardIds.NonCollectible.Neutral.Baconshop8playerenchantTavernBrawl || value != 1 {
+            return
+        }
+        if let entity = eventHandler.entities[id] {
+            if !entity.isHeroPower || !entity.isControlled(by: eventHandler.player.id) {
+                return
+            }
+            BobsBuddyInvoker.instance(turn: eventHandler.turnNumber()).heroPowerTriggered(heroPowerId: entity.cardId)
         }
     }
 

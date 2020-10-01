@@ -101,22 +101,23 @@ class AppHealth: NSObject {
     func updateBadge() {
         // update app icon
         // check if feature is enabled in preferences
-        if Settings.showAppHealth {
-            switch self.level {
-            case .undefined:
-                NSApp.applicationIconImage = AppHealth.badge_icons["undefined"]
-            case .gameinstalled:
-                NSApp.applicationIconImage = AppHealth.badge_icons["gameinstalled"]
-            case .trackerworks:
-                NSApp.applicationIconImage = AppHealth.badge_icons["trackerworks"]
-            case .gamerunning:
-                NSApp.applicationIconImage = AppHealth.badge_icons["gamerunning"]
-            case .gameinprogress:
-                NSApp.applicationIconImage = AppHealth.badge_icons["gameinprogress"]
+        DispatchQueue.main.async {
+            if Settings.showAppHealth {
+                switch self.level {
+                case .undefined:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["undefined"]
+                case .gameinstalled:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["gameinstalled"]
+                case .trackerworks:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["trackerworks"]
+                case .gamerunning:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["gamerunning"]
+                case .gameinprogress:
+                    NSApp.applicationIconImage = AppHealth.badge_icons["gameinprogress"]
+                }
+            } else {
+                NSApp.applicationIconImage = nil
             }
-        } else {
-            NSApp.applicationIconImage = nil
         }
-
     }
 }

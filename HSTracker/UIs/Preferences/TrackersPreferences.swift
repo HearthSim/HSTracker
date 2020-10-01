@@ -14,7 +14,6 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var highlightCardsInHand: NSButton!
     @IBOutlet weak var highlightLastDrawn: NSButton!
     @IBOutlet weak var removeCards: NSButton!
-    @IBOutlet weak var showPlayerGet: NSButton!
     @IBOutlet weak var highlightDiscarded: NSButton!
     @IBOutlet weak var opacity: NSSlider!
     @IBOutlet weak var cardSize: NSComboBox!
@@ -30,7 +29,10 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var hideAllWhenGameInBackground: NSButton!
     @IBOutlet weak var disableTrackingInSpectatorMode: NSButton!
     @IBOutlet weak var floatingCardStyle: NSComboBox!
-
+    @IBOutlet weak var showBobsBuddy: NSButton!
+    @IBOutlet weak var showBobsBuddyDuringCombat: NSButton!
+    @IBOutlet weak var showBobsBuddyDuringShopping: NSButton!
+    
     let themes = ["classic", "frost", "dark", "minimal"]
 
     override func viewDidLoad() {
@@ -69,6 +71,9 @@ class TrackersPreferences: NSViewController {
         hideAllWhenGameInBackground.state = Settings.hideAllWhenGameInBackground
             ? .on : .off
         disableTrackingInSpectatorMode.state = Settings.dontTrackWhileSpectating ? .on : .off
+        showBobsBuddy.state = Settings.showBobsBuddy ? .on : .off
+        showBobsBuddyDuringCombat.state = Settings.showBobsBuddyDuringCombat ? .on : .off
+        showBobsBuddyDuringShopping.state = Settings.showBobsBuddyDuringShopping ? .on : .off
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {
@@ -126,6 +131,12 @@ class TrackersPreferences: NSViewController {
             Settings.hideAllWhenGameInBackground = hideAllWhenGameInBackground.state == .on
         } else if sender == disableTrackingInSpectatorMode {
             Settings.dontTrackWhileSpectating = disableTrackingInSpectatorMode.state == .on
+        } else if sender == showBobsBuddy {
+            Settings.showBobsBuddy = showBobsBuddy.state == .on
+        } else if sender == showBobsBuddyDuringCombat {
+            Settings.showBobsBuddyDuringCombat = showBobsBuddyDuringCombat.state == .on
+        } else if sender == showBobsBuddyDuringShopping {
+            Settings.showBobsBuddyDuringShopping = showBobsBuddyDuringShopping.state == .on
         }
     }
 }

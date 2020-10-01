@@ -76,6 +76,10 @@ class WindowManager {
     var battlegroundsTierDetailsWindowController: BattlegroundsTierDetailWindowController = {
         return $0
     }(BattlegroundsTierDetailWindowController(windowNibName: NSNib.Name(rawValue: "BattlegroundsTierDetailWindowController")))
+    
+    var bobsBuddyPanel: BobsBuddyPanel = {
+        return $0
+    }(BobsBuddyPanel(windowNibName: NSNib.Name(rawValue: "BobsBuddyPanel")))
 
     var toastWindowController = ToastWindowController()
 

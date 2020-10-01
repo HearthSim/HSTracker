@@ -342,8 +342,12 @@ enum GameTag: Int, WrappableEnum, CaseIterable {
     zombeast = 823,
     modular = 849,
     whizbang_deck_id = 1048,
+    reborn = 1085,
     proxy_galakrond = 1190,
-    invoke_counter = 1366
+    invoke_counter = 1366,
+    player_tech_level = 1377,
+    bacon_hero_power_activated = 1398,
+    tech_level = 1440
 
     init?(rawString: String) {
         let string = rawString.lowercased()
