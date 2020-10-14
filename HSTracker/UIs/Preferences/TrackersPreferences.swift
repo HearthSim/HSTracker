@@ -32,6 +32,7 @@ class TrackersPreferences: NSViewController {
     @IBOutlet weak var showBobsBuddy: NSButton!
     @IBOutlet weak var showBobsBuddyDuringCombat: NSButton!
     @IBOutlet weak var showBobsBuddyDuringShopping: NSButton!
+    @IBOutlet weak var showTurnCounter: NSButton!
     
     let themes = ["classic", "frost", "dark", "minimal"]
 
@@ -74,6 +75,7 @@ class TrackersPreferences: NSViewController {
         showBobsBuddy.state = Settings.showBobsBuddy ? .on : .off
         showBobsBuddyDuringCombat.state = Settings.showBobsBuddyDuringCombat ? .on : .off
         showBobsBuddyDuringShopping.state = Settings.showBobsBuddyDuringShopping ? .on : .off
+        showTurnCounter.state = Settings.showTurnCounter ? .on : .off
     }
 
     @IBAction func sliderChange(_ sender: AnyObject) {
@@ -137,6 +139,8 @@ class TrackersPreferences: NSViewController {
             Settings.showBobsBuddyDuringCombat = showBobsBuddyDuringCombat.state == .on
         } else if sender == showBobsBuddyDuringShopping {
             Settings.showBobsBuddyDuringShopping = showBobsBuddyDuringShopping.state == .on
+        } else if sender == showTurnCounter {
+            Settings.showTurnCounter = showTurnCounter.state == .on
         }
     }
 }

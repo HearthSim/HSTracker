@@ -12,8 +12,7 @@ struct TagChangeActions {
     
     var powerGameStateParser: PowerGameStateParser?
 
-    mutating func setPowerGameStateParser(parser: PowerGameStateParser)
-    {
+    mutating func setPowerGameStateParser(parser: PowerGameStateParser) {
         self.powerGameStateParser = parser
     }
     
@@ -39,7 +38,7 @@ struct TagChangeActions {
                 self.controllerChange(eventHandler: eventHandler, id: id, prevValue: prevValue, value: value)
             }
         case .fatigue: return { self.fatigueChange(eventHandler: eventHandler, value: value, id: id) }
-        case .step: return { self.stepChange(eventHandler: eventHandler) }
+        case .step: return { self.stepChange(eventHandler: eventHandler, value: value) }
         case .turn: return { self.turnChange(eventHandler: eventHandler) }
         case .state: return { self.stateChange(eventHandler: eventHandler, value: value) }
         case .transformed_from_card:
@@ -48,6 +47,7 @@ struct TagChangeActions {
                                                id: id,
                                                value: value)
             }
+        case .mulligan_state: return { self.mulliganStateChange(eventHandler: eventHandler, id: id, value: value) }
         case .tag_script_data_num_1: return { self.tagScriptDataNum1(eventHandler: eventHandler, id: id, value: value) }
         default: return nil
         }
@@ -67,6 +67,19 @@ struct TagChangeActions {
                 return
             }
             BobsBuddyInvoker.instance(turn: eventHandler.turnNumber()).heroPowerTriggered(heroPowerId: entity.cardId)
+        }
+    }
+    
+    private func mulliganStateChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value == 0 {
+            return
+        }
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+
+        if entity.isPlayer(eventHandler: eventHandler) && Mulligan.done.rawValue == value {
+            eventHandler.handlePlayerMulliganDone()
         }
     }
 
@@ -212,7 +225,10 @@ struct TagChangeActions {
         }
     }
 
-    private func stepChange(eventHandler: PowerEventHandler) {
+    private func stepChange(eventHandler: PowerEventHandler, value: Int) {
+        if value == Step.begin_mulligan.rawValue {
+            eventHandler.handleBeginMulligan()
+        }
         guard !eventHandler.setupDone && eventHandler.entities.first?.1.name == "GameEntity" else { return }
 
         logger.info("Game was already in progress.")

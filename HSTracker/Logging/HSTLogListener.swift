@@ -21,19 +21,6 @@ class HSTLogListener: HSLogListener {
     }
 
     func bgHeroesShow(game: kotlin_hslog.Game, entities: [kotlin_hslog.Entity]) {
-        let view = BgHeroesToastView(frame: NSRect.zero)
-        
-        let heroes = entities.compactMap {
-            $0.card?.dbfId
-        }.map {
-            String($0)
-        }
-        view.heroes = heroes
-        view.clicked = {
-            self.toaster.hide()
-        }
-
-        self.toaster.displayToast(view: view, timeoutMillis: 30000)
     }
     
     func onCardGained(cardGained: CardGained) {

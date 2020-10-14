@@ -23,6 +23,16 @@ struct PlayingDeck {
     let isArena: Bool
 }
 
+class BoardSnapshot {
+    let entities: [Entity]
+    let turn: Int
+    
+    init(entities: [Entity], turn: Int) {
+        self.entities = entities
+        self.turn = turn
+    }
+}
+
 /**
  * Game object represents the current state of the tracker
  */
@@ -36,6 +46,8 @@ class Game: NSObject, PowerEventHandler {
     static let guiUpdateDelay: TimeInterval = 0.5
 	
 	private let turnTimer: TurnTimer
+    
+    var lastKnownBattlegroundsBoardState = [String: BoardSnapshot]()
     
 	private var hearthstoneRunState: HearthstoneRunState {
 		didSet {
@@ -63,6 +75,21 @@ class Game: NSObject, PowerEventHandler {
 		self.selfAppActive = flag
         self.updateTrackers()
 	}
+    
+    func snapshotBattlegroundsBoardState() {
+        let opponentH = entities.values.first(where: { x in x.isHero && x.isInZone(zone: .play) && x.isControlled(by: opponent.id)})
+        
+        guard let opponentHero = opponentH else {
+            return
+        }
+
+        // swiftlint:disable force_cast
+        let entities = self.entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: opponent.id)}).map({ x in x.copy() as! Entity })
+        // swiftlint:enable force_cast
+
+        logger.info("Snapshotting board state for \(opponentHero.card.name) with \(entities.count) entities")
+        lastKnownBattlegroundsBoardState[opponentHero.cardId] = BoardSnapshot(entities: entities, turn: turnNumber())
+    }
 	
 	// MARK: - PowerEventHandler protocol
 	
@@ -110,6 +137,7 @@ class Game: NSObject, PowerEventHandler {
         self.updateBattlegroundsOverlay()
         self.updateBattlegroundsTierOverlay()
         self.updateBobsBuddyOverlay()
+        self.updateTurnCounterOverlay()
         self.updateToaster()
 	}
 	
@@ -289,8 +317,21 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: tracker, show: false)
             }
             
-            if (self.currentGameType == .gt_battlegrounds) {
-                self.battlegroundsRating
+            if self.currentGameType == .gt_battlegrounds {
+                //TODO: what is this supposed to do?
+                //self.battlegroundsRating
+            }
+        }
+    }
+    
+    func updateTurnCounter(turn: Int) {
+        DispatchQueue.main.async { [unowned(unsafe) self] in
+            if Settings.showTimer && !self.gameEnded && self.isBattlegroundsMatch() {
+                self.windowManager.turnCounter.setTurnNumber(turn: turn)
+                let rect = SizeHelper.turnCounterFrame()
+                self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: self.hearthstoneRunState.isActive)
+            } else {
+                self.windowManager.show(controller: self.windowManager.turnCounter, show: false)
             }
         }
     }
@@ -298,7 +339,7 @@ class Game: NSObject, PowerEventHandler {
     func updateTurnTimer() {
         DispatchQueue.main.async { [unowned(unsafe) self] in
 
-            if Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement {
+            if Settings.showTimer && !self.gameEnded && self.shouldShowGUIElement && !isBattlegroundsMatch() {
                 var rect: NSRect?
                 if Settings.autoPositionTrackers {
                     rect = SizeHelper.timerHudFrame()
@@ -378,6 +419,21 @@ class Game: NSObject, PowerEventHandler {
 
     }
     
+    func updateTurnCounterOverlay() {
+        let rect = SizeHelper.turnCounterFrame()
+        
+        DispatchQueue.main.async {
+            let game = AppDelegate.instance().coreManager.game
+            if !game.isInMenu && game.isBattlegroundsMatch() && Settings.showTurnCounter &&
+                ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+                || !Settings.hideAllWhenGameInBackground) {
+                self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: true)
+            } else {
+                self.windowManager.show(controller: self.windowManager.turnCounter, show: false)
+            }
+        }
+    }
+
     func updateBobsBuddyOverlay() {
         let rect = SizeHelper.bobsPanelOverlayFrame()
         
@@ -389,7 +445,6 @@ class Game: NSObject, PowerEventHandler {
                 self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: false)
-                self.windowManager.bobsBuddyPanel.resetDisplays()
             }
         }
     }
@@ -704,7 +759,6 @@ class Game: NSObject, PowerEventHandler {
                 logger.info("LADDER opponentStarLevel=\(opponentStarLevel)")
             }
             
-            
             // request a mirror read so we have this data at the end of the game
             _ = self.serverInfo
         }
@@ -904,6 +958,10 @@ class Game: NSObject, PowerEventHandler {
 		
 		_spectator = false
         _availableRaces = nil
+        lastKnownBattlegroundsBoardState.removeAll()
+        windowManager.battlegroundsDetailsWindow.reset()
+        windowManager.bobsBuddyPanel.resetDisplays()
+        windowManager.turnCounter.reset()
     }
 
     private func tryToDetectWhizbangDeck() {
@@ -1368,7 +1426,9 @@ class Game: NSObject, PowerEventHandler {
 
             NotificationManager.showNotification(type: .turnStart)
         }
-
+        
+        updateTurnCounter(turn: turnNumber())
+        
         updateTrackers()
     }
 
@@ -1542,6 +1602,54 @@ class Game: NSObject, PowerEventHandler {
             return
         }
         updateTrackers()
+    }
+    
+    func handleBeginMulligan() {
+        if isBattlegroundsMatch() {
+            handleBattlegroundsStart()
+        }
+    }
+    
+    func handlePlayerMulliganDone() {
+        if isBattlegroundsMatch() {
+            // hide toast panel
+        }
+    }
+    
+    private func internalHandleBGStart(count: Int) {
+        let heroes = player.playerEntities.filter({ x in x.isHero && x.has(tag: .bacon_hero_can_be_drafted)})
+        if heroes.count < 2 {
+            logger.debug("Not enough heroes")
+            if count < 10 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
+                    self.internalHandleBGStart(count: count + 1)
+                })
+            } else {
+                return
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
+            let heroesArray = heroes.compactMap({ x in x.card.dbfId }).map({ x in String(x) })
+            logger.debug("Battlegrounds heroes: \(heroesArray)")
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                let view = BgHeroesToastView(frame: NSRect.zero)
+                view.clicked = {
+                    AppDelegate.instance().coreManager.game.windowManager.toastWindowController.displayed = false
+                }
+                view.heroes = heroesArray
+                AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 10000)
+            })
+        })
+    }
+    
+    private func handleBattlegroundsStart() {
+        //if(Config.Instance.ShowBattlegroundsToast)
+        logger.debug("Start of battlegrounds match")
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: {
+            self.internalHandleBGStart(count: 0)
+        })
     }
 
     func playerMulligan(entity: Entity, cardId: String?) {
@@ -1887,6 +1995,8 @@ class Game: NSObject, PowerEventHandler {
     }
     
     func startCombat() {
+        snapshotBattlegroundsBoardState()
+        
         if isMonoAvailable() == 0 {
             return
         }

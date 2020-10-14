@@ -202,7 +202,7 @@ class MonoHelper {
         a.pointee = value ? 1 : 0
         params[0] = a
         
-        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
             let inst = obj.get()
 
             mono_runtime_invoke(method, inst, $0, nil)
@@ -217,7 +217,7 @@ class MonoHelper {
         a.pointee = value
         params[0] = a
         
-        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 1, {
             let inst = obj.get()
 
             mono_runtime_invoke(method, inst, $0, nil)
@@ -242,7 +242,7 @@ class MonoHelper {
         params[0] = ptrs.advanced(by: 0)
         params[1] = ptrs.advanced(by: 1)
         
-        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
             let inst = obj.get()
 
             mono_runtime_invoke(method, inst, $0, nil)
@@ -260,7 +260,7 @@ class MonoHelper {
         params[0] = ptrs.advanced(by: 0)
         params[1] = ptrs.advanced(by: 1)
 
-        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
             let inst = obj.get()
 
             mono_runtime_invoke(method, inst, $0, nil)
@@ -279,7 +279,7 @@ class MonoHelper {
             params[1] = mono_string_new(MonoHelper._monoInstance, $0)
         })
         
-        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
             let inst = obj.get()
 
             mono_runtime_invoke(method, inst, $0, nil)

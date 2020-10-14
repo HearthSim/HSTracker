@@ -328,7 +328,7 @@ struct RealmHelper {
         do {
             try realm.write {
                 if update {
-                    realm.add(deck, update: update)
+                    realm.add(deck, update: .all)
                 } else {
                     realm.add(deck)
                 }

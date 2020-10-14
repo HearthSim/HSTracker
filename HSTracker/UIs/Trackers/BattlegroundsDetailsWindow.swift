@@ -18,7 +18,11 @@ class BattlegroundsDetailsWindow: OverWindowController {
         self.window!.contentView = self.battlegroundsDetailsView
     }
     
-    func setBoard(board: BattlegroundsBoard) {
+    func setBoard(board: BoardSnapshot) {
         self.battlegroundsDetailsView.setBoard(board: board)
+    }
+    
+    func reset() {
+        self.battlegroundsDetailsView.reset()
     }
 }

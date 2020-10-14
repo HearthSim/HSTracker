@@ -10,7 +10,7 @@ import Foundation
 import kotlin_hslog
 
 class BattlegroundsDetailsView: NSView {
-    var board: BattlegroundsBoard?
+    var board: BoardSnapshot?
     var cache: [(String, NSImage)] = []
 
     init() {
@@ -39,12 +39,16 @@ class BattlegroundsDetailsView: NSView {
         }
     }
     
-    func drawBoard(board: BattlegroundsBoard) {
-        drawTurn(turns: (board.currentTurn - board.turn)/2)
+    func reset() {
+        board = nil
+    }
+    
+    func drawBoard(board: BoardSnapshot) {
+        drawTurn(turns: AppDelegate.instance().coreManager.game.turnNumber() - board.turn)
         
         var i = 0
         let rect = NSRect(x: 0, y: 0, width: bounds.width/7, height: bounds.height - CGFloat(30)).insetBy(dx: 4, dy: 4)
-        for minion in board.minions {
+        for minion in board.entities {
             drawMinion(minion: minion, rect: rect.offsetBy(dx: CGFloat(i) * bounds.width/7, dy: 0))
             i += 1
         }
@@ -74,7 +78,7 @@ class BattlegroundsDetailsView: NSView {
         }
 
     }
-    func drawMinion(minion: BattlegroundsMinion, rect: NSRect) {
+    func drawMinion(minion: Entity, rect: NSRect) {
         let backgroundColor = NSColor.init(red: 0x48/255.0, green: 0x7E/255.0, blue: 0xAA/255.0, alpha: 1)
         backgroundColor.set()
         rect.fill()
@@ -93,16 +97,16 @@ class BattlegroundsDetailsView: NSView {
         drawResource(name: "attackminion.png", rect: iconRect)
         drawText(text: "\(minion.attack)", rect: iconRect.offsetBy(dx: 0, dy: offset))
 
-        if minion.divineShield {
+        if minion.has(tag: .divine_shield) {
             drawResource(name: "divineshield.png", rect: iconRect.offsetBy(dx: imageRect.width/4, dy: 0))
         }
-        if minion.poisonous {
+        if minion.has(tag: .poisonous) {
             drawResource(name: "poison.png", rect: iconRect.offsetBy(dx: 2*imageRect.width/4, dy: 0))
         }
         drawResource(name: "costhealth.png", rect: iconRect.offsetBy(dx: 3*imageRect.width/4, dy: 0))
         drawText(text: "\(minion.health)", rect: iconRect.offsetBy(dx: 3*imageRect.width/4, dy: 0).offsetBy(dx: 0, dy: offset))
 
-        if let image = cache.first(where: { $0.0 == minion.CardId })?.1 {
+        if let image = cache.first(where: { $0.0 == minion.cardId })?.1 {
             image.draw(in: imageRect)
             
             drawResource(name: "fade.png", rect: imageRect)
@@ -115,8 +119,7 @@ class BattlegroundsDetailsView: NSView {
                     .strokeColor: NSColor.black
                 ]
 
-                let cardJson = AppDelegate.instance().coreManager.cardJson!
-                let name = cardJson.getCard(id: minion.CardId).name
+                let name = Cards.by(cardId: minion.cardId)?.name ?? "<unknown>"
                 let textRect = imageRect.insetBy(dx: 8, dy: 10)
                 name.draw(with: textRect, options: NSString.DrawingOptions.truncatesLastVisibleLine,
                                             attributes: attributes)
@@ -128,10 +131,10 @@ class BattlegroundsDetailsView: NSView {
             imageRect.fill()
         }
         
-        let cardId = minion.CardId
+        let cardId = minion.cardId
         ImageUtils.tile(for: cardId, completion: { [weak self] in
             guard let image = $0 else {
-                logger.warning("No image for \(minion.CardId)")
+                logger.warning("No image for \(minion.cardId)")
                 return
             }
 
@@ -145,7 +148,7 @@ class BattlegroundsDetailsView: NSView {
         })
     }
     
-    func drawTurn(turns: Int32) {
+    func drawTurn(turns: Int) {
         if let font = NSFont(name: "ChunkFive", size: 20) {
             let attributes: [NSAttributedStringKey: Any] = [
                 .font: font,
@@ -160,7 +163,7 @@ class BattlegroundsDetailsView: NSView {
         }
     }
     
-    func setBoard(board: BattlegroundsBoard) {
+    func setBoard(board: BoardSnapshot) {
         self.board = board
         self.needsDisplay = true
     }

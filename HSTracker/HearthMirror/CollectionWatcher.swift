@@ -58,24 +58,24 @@ class CollectionWatcher {
 
     private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> CollectionUploadData {
                 
-        let cardJson = AppDelegate.instance().coreManager.cardJson!
-
-        var c: [String: [KotlinInt]] = [:] 
+        var c: [String: [KotlinInt]] = [:]
         for mirrorCard in mirrorCollection.cards {
-            let card = cardJson.getCard(id: mirrorCard.cardId)
-            var counts = c[String(card.dbfId)] ?? [0, 0]
-            if mirrorCard.premium {
-                counts[1] = KotlinInt(value: mirrorCard.count.int32Value)
-            } else {
-                counts[0] = KotlinInt(value: mirrorCard.count.int32Value)
+            if let card = Cards.by(cardId: mirrorCard.cardId) {
+                var counts = c[String(card.dbfId)] ?? [0, 0]
+                if mirrorCard.premium {
+                    counts[1] = KotlinInt(value: mirrorCard.count.int32Value)
+                } else {
+                    counts[0] = KotlinInt(value: mirrorCard.count.int32Value)
+                }
+                c[String(card.dbfId)] = counts
             }
-            c[String(card.dbfId)] = counts
         }
 
         var h = [:] as [String: KotlinInt]
         for (playerclassid, mirrorCard) in mirrorCollection.favoriteHeroes {
-            let card = cardJson.getCard(id: mirrorCard.cardId)
-            h[String(playerclassid.intValue)] = KotlinInt(value: Int32(card.dbfId))
+            if let card = Cards.by(cardId: mirrorCard.cardId) {
+                h[String(playerclassid.intValue)] = KotlinInt(value: Int32(card.dbfId))
+            }
         }
         
         return CollectionUploadData(

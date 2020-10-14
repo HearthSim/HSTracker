@@ -143,7 +143,7 @@ class Entity {
     var card: Card {
         if let card = _cachedCard {
             return card
-        } else if let card = Cards.by(cardId: cardId) {
+        } else if let card = Cards.any(byId: cardId) {
             return card
         }
         return Card()
@@ -174,8 +174,8 @@ extension Entity: NSCopying {
 }
 
 extension Entity: Hashable {
-    var hashValue: Int {
-        return id.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(hashValue)
     }
 
     static func == (lhs: Entity, rhs: Entity) -> Bool {

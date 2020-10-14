@@ -52,6 +52,8 @@ class BattlegroundsOverlayView: NSView {
         let windowManager = (NSApplication.shared.delegate as! AppDelegate).coreManager.game.windowManager
         // swiftlint:enable force_cast
         
+        let game = AppDelegate.instance().coreManager.game
+        
 //        var minions = [BattlegroundsMinion]()
 //        minions.append(BattlegroundsMinion(CardId: "AT_005", attack: Int32(at), health: Int32(at), poisonous: false, divineShield: true))
 //        minions.append(BattlegroundsMinion(CardId: "AT_006", attack: Int32(at), health: Int32(at), poisonous: true, divineShield: false))
@@ -62,10 +64,15 @@ class BattlegroundsOverlayView: NSView {
 //        windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
 //                           frame: SizeHelper.battlegroundsDetailsFrame(), overlay: true)
 
-        if let hero = heroes?.first(where: {$0.board.leaderboardPlace - 1 == at}) {
-            windowManager.battlegroundsDetailsWindow.setBoard(board: hero.board)
-            windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
-                               frame: SizeHelper.battlegroundsDetailsFrame(), overlay: true)
+        if let hero = game.entities.values.first(where: { ent in ent.has(tag: .player_leaderboard_place) && ent[.player_leaderboard_place] == at + 1}) {
+            let board = game.lastKnownBattlegroundsBoardState[hero.cardId]
+            if let board = board {
+                windowManager.battlegroundsDetailsWindow.setBoard(board: board)
+                windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
+                                   frame: SizeHelper.battlegroundsDetailsFrame(), overlay: true)
+            } else {
+                windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: false)
+            }
         } else {
             windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: false)
         }

@@ -32,7 +32,7 @@ class DecksReader {
     }
     
     func readFile() {
-        var fileHandle: FileHandle? = nil
+        var fileHandle: FileHandle?
         var offset = UInt64(0)
         
         while !stopped {

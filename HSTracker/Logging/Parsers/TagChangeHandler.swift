@@ -24,8 +24,7 @@ class TagChangeHandler {
     private var creationTagActionQueue: [(id: Int, action: (() -> Void))] = []
     private var tagChangeAction = TagChangeActions()
     
-    func setPowerGameStateParser(parser: PowerGameStateParser)
-    {
+    func setPowerGameStateParser(parser: PowerGameStateParser) {
         tagChangeAction.setPowerGameStateParser(parser: parser)
     }
 
