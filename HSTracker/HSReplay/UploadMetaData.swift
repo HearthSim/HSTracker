@@ -145,7 +145,7 @@ class UploadMetaData {
         } else if stats.gameMode == .battlegrounds {
             friendly.battlegrounds_rating = stats.battlegroundsRating
             var retries = 5
-            while (retries > 0 && friendly.battlegrounds_rating_after == nil){
+            while retries > 0 && friendly.battlegrounds_rating_after == nil {
                 friendly.battlegrounds_rating_after = MirrorHelper.getBattlegroundsRatingChange()?.ratingNew as? Int
                 retries -= 1
                 usleep(150000)

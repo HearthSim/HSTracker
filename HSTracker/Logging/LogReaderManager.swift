@@ -179,14 +179,14 @@ final class LogReaderManager {
 	}
 	
 	private func processLine(line: LogLine) {
-		switch line.namespace {
+        switch line.namespace {
         case .power:
             self.powerGameStateParser.handle(logLine: line)
             self.coreManager.processPower(rawLine: line.line)
-		case .rachelle: self.rachelleHandler.handle(logLine: line)
-		case .arena: self.arenaHandler.handle(logLine: line)
-		case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
-		default: break
+        case .rachelle: self.rachelleHandler.handle(logLine: line)
+        case .arena: self.arenaHandler.handle(logLine: line)
+        case .loadingScreen: self.loadingScreenHandler.handle(logLine: line)
+        default: break
 		}
 	}
 }

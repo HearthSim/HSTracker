@@ -244,6 +244,7 @@ class BobsBuddyInvoker {
         }
         minion.setPoisonous(poisonous: ent.has(tag: GameTag.poisonous))
         minion.setWindfury(windfury: ent.has(tag: GameTag.windfury))
+        minion.setMegaWindfury(megaWindfury: ent.has(tag: GameTag.mega_windfury))
         
         let golden = ent.has(tag: GameTag.premium)
         minion.setGolden(golden: golden)

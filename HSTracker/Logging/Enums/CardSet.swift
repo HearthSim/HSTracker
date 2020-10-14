@@ -38,7 +38,8 @@ enum CardSet: String, CaseIterable {
     year_of_the_dragon,
     black_temple,
     demon_hunter_initiate,
-    scholomance
+    scholomance,
+    battlegrounds
     
     static func deckManagerValidCardSets() -> [CardSet] {
         return [.all, .expert1, .naxx, .gvg, .brm, .tgt,

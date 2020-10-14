@@ -60,7 +60,7 @@ class DeckSerializer {
             return nil
         }
 
-        var bytes = [UInt8](data)
+        let bytes = [UInt8](data)
 
         var offset = 0
         @discardableResult func read() throws -> Varint {

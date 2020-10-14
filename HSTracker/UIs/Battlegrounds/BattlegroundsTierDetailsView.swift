@@ -159,26 +159,24 @@ class BattlegroundsTierDetailsView: NSStackView {
     }
     
     func setTier(tier: Int) {
-        let cardJson = AppDelegate.instance().coreManager.cardJson!
         let availableRaces = AppDelegate.instance().coreManager.game.availableRaces
         var cardBars: [CardBar] = battlegroundsMinions.filter {
-            let ktCard = cardJson.getCard(id: $0.cardId)
-            let race = Race(rawValue: ktCard.race?.lowercased() ?? "")
-            return ($0.techLevel == tier && (race == nil || (availableRaces?.firstIndex(of: race!) != nil)))
+            let ktCard = Cards.by(cardId: $0.cardId)
+            guard let card = ktCard else {
+                return false
+            }
+            let race = card.race
+            return ($0.techLevel == tier && (race == .invalid || (availableRaces?.firstIndex(of: race) != nil)))
         }.map {
             let card = Card()
 
-            let ktCard = cardJson.getCard(id: $0.cardId)
+            let ktCard = Cards.by(cardId: $0.cardId)!
             card.cost = -1
             card.id = $0.cardId
             card.name = ktCard.name
-            if let race = Race(rawValue: ktCard.race?.lowercased() ?? "invalid") {
-                card.race = race
-            }
+            card.race = ktCard.race
             card.count = 1
-            if let rarity = Rarity(rawValue: ktCard.rarity?.lowercased() ?? "") {
-                card.rarity = rarity
-            }
+            card.rarity = ktCard.rarity
 
             let cardBar = CardBar.factory()
             cardBar.card = card

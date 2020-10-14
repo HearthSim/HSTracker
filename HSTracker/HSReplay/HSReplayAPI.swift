@@ -43,7 +43,7 @@ class HSReplayAPI {
                     accessToken: credential.oauthToken,
                     refreshToken: credential.oauthRefreshToken
                 )
-                if let token = Settings.hsReplayUploadToken  {
+                if let token = Settings.hsReplayUploadToken {
                     AppDelegate.instance().coreManager.hsReplay.claimTokenWithCallback(
                         uploadToken: token,
                         callback: {_ in
@@ -87,7 +87,7 @@ class HSReplayAPI {
         }
         oauthswift.startAuthorizedRequest("\(HSReplay.claimBattleTagUrl)/\(accountId.hi)/\(accountId.lo)/", method: .POST,
             parameters: ["battletag": battleTag], headers: defaultHeaders,
-            onTokenRenewal: tokenRenewalHandler, success: { response in
+            onTokenRenewal: tokenRenewalHandler, success: { _ in
 
             complete()
         }, failure: { error in

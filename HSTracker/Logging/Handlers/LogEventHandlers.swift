@@ -105,6 +105,10 @@ protocol PowerEventHandler: class {
 	func turnNumber() -> Int
     
     func turn() -> Int
+    
+    func handleBeginMulligan()
+    
+    func handlePlayerMulliganDone()
 	
 	func playerFatigue(value: Int)
 	

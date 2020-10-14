@@ -190,6 +190,10 @@ final class Settings {
         set { set(name: Settings.show_bobs_buddy_during_shopping, value: newValue) }
         get { return get(name: Settings.show_bobs_buddy_during_shopping) as? Bool ?? true }
     }
+    static var showTurnCounter: Bool {
+        set { set(name: Settings.show_turn_counter, value: newValue) }
+        get { return get(name: Settings.show_turn_counter) as? Bool ?? true }
+    }
 
     static var showPlayerDrawChance: Bool {
         set { set(name: Settings.player_draw_chance, value: newValue) }
@@ -574,6 +578,7 @@ extension Settings {
     static let show_bobs_buddy = "show_bobs_buddy"
     static let show_bobs_buddy_during_combat = "show_bobs_buddy_during_combat"
     static let show_bobs_buddy_during_shopping = "show_bobs_buddy_during_shopping"
+    static let show_turn_counter = "show_turn_counter"
 
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"

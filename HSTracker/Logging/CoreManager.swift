@@ -83,7 +83,7 @@ final class CoreManager: NSObject {
     let packWatcher = PackWatcher()
     
     let game: Game
-    var cardJson: CardJson!
+    private var cardJson: CardJson!
     var hsReplay: HsReplay!
     var accessTokenProvider: AccessTokenProvider!
     var toaster: Toaster!
@@ -445,7 +445,7 @@ final class CoreManager: NSObject {
 	// MARK: - Deck detection
     func autoDetectDeck(mode: Mode, playerClass: CardClass? = nil) -> Deck? {
         let deck = CoreManager.autoDetectDeckWithMirror(mode: mode, playerClass: playerClass)
-        if (deck != nil) {
+        if deck != nil {
             return deck
         }
         

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="TurnCounter" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="window" destination="8lx-rt-oTB" id="HfC-uA-Khe"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="TurnCounter" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="8lx-rt-oTB" customClass="NSPanel">
+            <windowStyleMask key="styleMask" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="160" height="26"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <view key="contentView" id="49P-WL-YOf">
+                <rect key="frame" x="0.0" y="0.0" width="160" height="26"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vSd-50-bkb" userLabel="TurnNum">
+                        <rect key="frame" x="3" y="0.0" width="154" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="26" id="1Ud-0A-fsl"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Turn" id="vUs-mb-aSa">
+                            <font key="font" metaFont="system" size="18"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            <connections>
+                                <binding destination="-2" name="value" keyPath="self.turnLabel" id="BWF-4a-y73"/>
+                            </connections>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="vSd-50-bkb" firstAttribute="centerY" secondItem="49P-WL-YOf" secondAttribute="centerY" id="NIf-0C-uRe"/>
+                    <constraint firstItem="vSd-50-bkb" firstAttribute="leading" secondItem="49P-WL-YOf" secondAttribute="leading" constant="5" id="oW0-FS-4q2"/>
+                    <constraint firstAttribute="trailing" secondItem="vSd-50-bkb" secondAttribute="trailing" constant="5" id="uTV-h2-Mxh"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="240" y="196"/>
+        </window>
+    </objects>
+</document>

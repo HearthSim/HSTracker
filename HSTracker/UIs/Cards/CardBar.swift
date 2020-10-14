@@ -124,7 +124,7 @@ class CardBar: NSView, CardBarTheme {
     let arenaHelperRect = NSRect(x: 17, y: 0, width: 34, height: 34)
 
     var countTextColor: NSColor {
-        return NSColor ( red: 0.9221, green: 0.7215, blue: 0.2226, alpha: 1.0 )
+        return NSColor( red: 0.9221, green: 0.7215, blue: 0.2226, alpha: 1.0 )
     }
     var numbersFont: String {
         return "ChunkFive"
@@ -511,7 +511,7 @@ class CardBar: NSView, CardBarTheme {
 
         var cost = card.cost
         
-        if (cost < 0) {
+        if cost < 0 {
             return
         }
 

@@ -148,8 +148,9 @@ extension Card: CustomStringConvertible {
 }
 
 extension Card: Hashable {
-    var hashValue: Int {
-        return id.hashValue
+    
+    func hash(into hasher: inout Hasher) {
+        id.hash(into: &hasher)
     }
 
     static func == (lhs: Card, rhs: Card) -> Bool {

@@ -501,6 +501,8 @@
 		B82F535724EE161A004273FF /* MonoUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = B82F535624EE161A004273FF /* MonoUtility.c */; };
 		B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = B83355B024F807220025F644 /* BobsBuddyPanel.xib */; };
 		B83355B524F850C10025F644 /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
+		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
 		B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
 		B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
@@ -1027,6 +1029,8 @@
 		B83355AF24F807220025F644 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BobsBuddyPanel.xib; sourceTree = "<group>"; };
 		B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmonosgen-2.0.a"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmonosgen-2.0.a"; sourceTree = "<group>"; };
 		B83355B324F84F200025F644 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../usr/lib/libiconv.2.dylib; sourceTree = "<group>"; };
+		B850AA32252CB0490031E8F2 /* TurnCounter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TurnCounter.xib; sourceTree = "<group>"; };
+		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
 		B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionHeroPowerTrigger.swift; sourceTree = "<group>"; };
 		B864A14224F58539005EA2A0 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = ../../../Library/Frameworks/Mono.framework; sourceTree = "<group>"; };
 		B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMessageConverter.swift; sourceTree = "<group>"; };
@@ -1690,6 +1694,8 @@
 				437B5BAD1CD1F76C00DE0A41 /* WotogCounter.swift */,
 				4C3E2D99245F81C800292349 /* BgHeroesViewController.swift */,
 				4C3E2D9A245F81C800292349 /* BgHeroesViewController.xib */,
+				B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */,
+				B850AA32252CB0490031E8F2 /* TurnCounter.xib */,
 			);
 			path = Trackers;
 			sourceTree = "<group>";
@@ -2087,6 +2093,7 @@
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
 				432B60351CB6A8CC00B05D19 /* FloatingCard.xib in Resources */,
+				B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */,
 				F7D7A3AE2017B51300E3A5F0 /* dsa_pub.pem in Resources */,
 				4C3E2D9C245F81C800292349 /* BgHeroesViewController.xib in Resources */,
 			);
@@ -2316,6 +2323,7 @@
 				436032A21C7D0333005F1893 /* DeckManager.swift in Sources */,
 				1CCB4AEB1E8A4930003FD1AD /* LogEventHandlers.swift in Sources */,
 				439C7EC81C777F8900D29859 /* CoreManager.swift in Sources */,
+				B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */,
 				432AD9591DAD46AA00D8F959 /* HttpMethod.swift in Sources */,
 				436F5D101CFD79B500DEB9A1 /* ClassicBar.swift in Sources */,
 				431AA0CF1D3632BC0030AD22 /* CardClass.swift in Sources */,

@@ -31,14 +31,14 @@ class DynamicEntity {
 }
 
 extension DynamicEntity: Hashable {
-    var hashValue: Int {
-        return cardId.hashValue ^
-            hidden.hashValue ^
-            created.hashValue ^
-            discarded.hashValue ^
-            stolen.hashValue ^
-            cardMark.hashValue ^
-            isInHand.hashValue
+    func hash(into hasher: inout Hasher) {
+        cardId.hash(into: &hasher)
+        hidden.hash(into: &hasher)
+        created.hash(into: &hasher)
+        discarded.hash(into: &hasher)
+        stolen.hash(into: &hasher)
+        cardMark.hash(into: &hasher)
+        isInHand.hash(into: &hasher)
     }
 
     static func == (lhs: DynamicEntity, rhs: DynamicEntity) -> Bool {
@@ -73,8 +73,9 @@ class PredictedCard {
 }
 
 extension PredictedCard: Hashable {
-    var hashValue: Int {
-        return cardId.hashValue ^ turn.hashValue
+    func hash(into hasher: inout Hasher) {
+        cardId.hash(into: &hasher)
+        turn.hash(into: &hasher)
     }
 
     static func == (lhs: PredictedCard, rhs: PredictedCard) -> Bool {

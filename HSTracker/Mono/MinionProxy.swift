@@ -17,6 +17,7 @@ class MinionProxy: MonoHandle {
     private static var _setCleave: OpaquePointer!
     private static var _setPoisonous: OpaquePointer!
     private static var _setWindfury: OpaquePointer!
+    private static var _setMegaWindfury: OpaquePointer!
     private static var _setGolden: OpaquePointer!
     private static var _tier: OpaquePointer!
     private static var _setReborn: OpaquePointer!
@@ -42,6 +43,7 @@ class MinionProxy: MonoHandle {
             MinionProxy._setCleave = mono_class_get_method_from_name(MinionProxy._class, "set_cleave", 1)
             MinionProxy._setPoisonous = mono_class_get_method_from_name(MinionProxy._class, "set_poisonous", 1)
             MinionProxy._setWindfury = mono_class_get_method_from_name(MinionProxy._class, "set_windfury", 1)
+            MinionProxy._setMegaWindfury = mono_class_get_method_from_name(MinionProxy._class, "set_megaWindfury", 1)
             MinionProxy._setGolden = mono_class_get_method_from_name(MinionProxy._class, "set_golden", 1)
             MinionProxy._tier = mono_class_get_field_from_name(MinionProxy._class, "tier")
             MinionProxy._setReborn = mono_class_get_method_from_name(MinionProxy._class, "set_reborn", 1)
@@ -85,6 +87,10 @@ class MinionProxy: MonoHandle {
         MonoHelper.setBool(obj: self, method: MinionProxy._setWindfury, value: windfury)
     }
     
+    func setMegaWindfury(megaWindfury: Bool) {
+        MonoHelper.setBool(obj: self, method: MinionProxy._setMegaWindfury, value: megaWindfury)
+    }
+
     func setGolden(golden: Bool) {
         MonoHelper.setBool(obj: self, method: MinionProxy._setGolden, value: golden)
     }
@@ -135,7 +141,7 @@ class MinionProxy: MonoHandle {
         params[0] = OpaquePointer(list.get()!)
         params[1] = OpaquePointer(sim.get()!)
         
-        _ = params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
+        params.withMemoryRebound(to: UnsafeMutableRawPointer?.self, capacity: 2, {
             let me = self.get()
             mono_runtime_invoke(MinionProxy._addToBackOfList, me, $0, nil)
         })
