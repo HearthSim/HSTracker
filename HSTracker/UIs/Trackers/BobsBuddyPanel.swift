@@ -116,17 +116,19 @@ class BobsBuddyPanel: OverWindowController {
     }
     
     func resetDisplays() {
-        winRateDisplay.stringValue = "-"
-        lossRateDisplay.stringValue = "-"
-        tieRateDisplay.stringValue = "-"
-        let cl = lethalRateDisplay.textColor!
-        lethalRateDisplay.textColor = changeAlpha(c: cl, a: 0)
-        let cl2 = opponentLethalRateDisplay.textColor!
-        opponentLethalRateDisplay.textColor = changeAlpha(c: cl2, a: 0)
-        setState(st: .initial)
-        clearErrorState()
-        showResults(show: false)
-        showPercentagesHideSpinners()
+        DispatchQueue.main.async {
+            self.winRateDisplay.stringValue = "-"
+            self.lossRateDisplay.stringValue = "-"
+            self.tieRateDisplay.stringValue = "-"
+            let cl = self.lethalRateDisplay.textColor!
+            self.lethalRateDisplay.textColor = self.changeAlpha(c: cl, a: 0)
+            let cl2 = self.opponentLethalRateDisplay.textColor!
+            self.opponentLethalRateDisplay.textColor = self.changeAlpha(c: cl2, a: 0)
+            self.setState(st: .initial)
+            self.clearErrorState()
+            self.showResults(show: false)
+            self.showPercentagesHideSpinners()
+        }
     }
     
     func showPercentagesHideSpinners() {
