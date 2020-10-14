@@ -31,12 +31,6 @@ class HSTLogListener: HSLogListener {
     }
             
     func onDeckEntries(game: kotlin_hslog.Game, isPlayer: Bool, deckEntries: [DeckEntry]) {
-        let heroes = deckEntries.filter {
-            $0 is DeckEntry.Hero
-        }
-        // swiftlint:disable force_cast
-        windowManager.battlegroundsOverlay.setHeroes(heroes: heroes as! [DeckEntry.Hero])
-        // swiftlint:enable force_cast
     }
     
     func onDeckFound(deck: kotlin_hslog.Deck, deckString: String, isArena: Bool) {

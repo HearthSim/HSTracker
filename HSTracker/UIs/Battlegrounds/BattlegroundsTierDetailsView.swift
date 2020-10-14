@@ -7,7 +7,16 @@
 //
 
 import Foundation
-import kotlin_hslog
+
+struct BattlegroundMinion {
+    let cardId: String
+    let techLevel: Int
+    
+    init(cardId: String, techLevel: Int) {
+        self.cardId = cardId
+        self.techLevel = techLevel
+    }
+}
 
 class BattlegroundsTierDetailsView: NSStackView {
     let battlegroundsMinions = [

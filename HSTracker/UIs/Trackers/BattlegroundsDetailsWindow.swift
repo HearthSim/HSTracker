@@ -8,7 +8,6 @@
 
 import Foundation
 import TextAttributes
-import kotlin_hslog
 
 class BattlegroundsDetailsWindow: OverWindowController {
     let battlegroundsDetailsView = BattlegroundsDetailsView()
