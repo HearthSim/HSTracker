@@ -493,6 +493,8 @@
 		61424BC9246FF53C00877EE4 /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 61424BC6246FF51000877EE4 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		61424BCB24701A3700877EE4 /* DecksReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61424BCA24701A3700877EE4 /* DecksReader.swift */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
+		B81F069D253899FB00F319F1 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B81F069C253899FB00F319F1 /* Config.xcconfig */; };
+		B81F069E253899FB00F319F1 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B81F069C253899FB00F319F1 /* Config.xcconfig */; };
 		B82F4EAB24E3021D00905024 /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
 		B82F4EAE24E3229200905024 /* TestInputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* TestInputProxy.swift */; };
 		B82F4EB024E32C3000905024 /* SimulatorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */; };
@@ -1019,6 +1021,7 @@
 		61424BC6246FF51000877EE4 /* Kanna.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kanna.framework; path = Carthage/Build/Mac/Kanna.framework; sourceTree = "<group>"; };
 		61424BCA24701A3700877EE4 /* DecksReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksReader.swift; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
+		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B82F4EAA24E3021D00905024 /* MonoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonoHelper.swift; sourceTree = "<group>"; };
 		B82F4EAD24E3229200905024 /* TestInputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestInputProxy.swift; sourceTree = "<group>"; };
 		B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorProxy.swift; sourceTree = "<group>"; };
@@ -1457,6 +1460,7 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
+				B81F069C253899FB00F319F1 /* Config.xcconfig */,
 				F731044E211FF0050082651C /* Translations */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
 				439C7E4B1C7772C000D29859 /* AppDelegate.swift */,
@@ -2001,7 +2005,6 @@
 				TargetAttributes = {
 					439C7E471C7772C000D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = RL7C49LAMC;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
@@ -2012,6 +2015,7 @@
 					};
 					439C7E5B1C7772C100D29859 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = RL7C49LAMC;
 						LastSwiftMigration = 0900;
 					};
 				};
@@ -2089,6 +2093,7 @@
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
+				B81F069D253899FB00F319F1 /* Config.xcconfig in Resources */,
 				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
 				434106A51C9868620045655A /* Classes.xcassets in Resources */,
 				43E77EE01C949C6D00C26950 /* TimerHud.xib in Resources */,
@@ -2103,6 +2108,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B81F069E253899FB00F319F1 /* Config.xcconfig in Resources */,
 				43640BE11E89A25F00FAFD07 /* Resources in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3056,7 +3062,6 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3112,7 +3117,6 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3135,13 +3139,12 @@
 		};
 		439C7E711C7772C100D29859 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B81F069C253899FB00F319F1 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HSTracker/HSTracker.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = RL7C49LAMC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3185,13 +3188,12 @@
 		};
 		439C7E721C7772C100D29859 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B81F069C253899FB00F319F1 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HSTracker/HSTracker.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = RL7C49LAMC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3228,8 +3230,8 @@
 		};
 		439C7E741C7772C100D29859 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B81F069C253899FB00F319F1 /* Config.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3247,8 +3249,8 @@
 		};
 		439C7E751C7772C100D29859 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B81F069C253899FB00F319F1 /* Config.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
