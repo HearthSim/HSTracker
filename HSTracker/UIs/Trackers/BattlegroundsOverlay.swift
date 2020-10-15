@@ -18,8 +18,4 @@ class BattlegroundsOverlay: OverWindowController {
         self.window!.contentView = BattlegroundsOverlayView()
         //self.window!.backgroundColor = NSColor.brown
     }
-    
-    func setHeroes(heroes: [DeckEntry.Hero]) {
-        (self.window?.contentView as? BattlegroundsOverlayView)?.setHeroes(heroes: heroes)
-    }
 }

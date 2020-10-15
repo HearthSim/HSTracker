@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import kotlin_hslog
 
 class BattlegroundsDetailsView: NSView {
     var board: BoardSnapshot?

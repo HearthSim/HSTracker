@@ -10,7 +10,6 @@ import Foundation
 import kotlin_hslog
 
 class BattlegroundsOverlayView: NSView {
-    var heroes: [DeckEntry.Hero]?
     var currentIndex = -1
 
     init() {
@@ -93,9 +92,5 @@ class BattlegroundsOverlayView: NSView {
     override func mouseExited(with event: NSEvent) {
         displayHero(at: -1)
         currentIndex = -1
-    }
-    
-    func setHeroes(heroes: [DeckEntry.Hero]) {
-        self.heroes = heroes
     }
 }
