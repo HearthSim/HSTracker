@@ -110,10 +110,16 @@ class BobsBuddyInvoker {
         }
         
         _ = runSimulation().done { (result) in
-            if result == nil {
+            guard let top = result else {
                 logger.debug("Simulation returned no result. Exiting")
+                return
             }
-            let top = result!
+            let opaque = mono_thread_attach(MonoHelper._monoInstance)
+            
+            defer {
+                mono_thread_detach(opaque)
+            }
+
             // Add enum for exit conditions
             if top.getSimulationCount() <= 500 && top.getMyExitCondition() ==  0 {
                 logger.debug("Could not perform enough simulations. Displaying error state and exiting.")
@@ -126,8 +132,9 @@ class BobsBuddyInvoker {
                 let lossRate = top.getLossRate()
                 let myDeathRate = top.getMyDeathRate()
                 let theirDeathRate = top.getTheirDeathRate()
+                let possibleResults = top.getResultDamage()
                 
-                BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate)
+                BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
             }
         }
     }

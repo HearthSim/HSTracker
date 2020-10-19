@@ -449,15 +449,6 @@ final class CoreManager: NSObject {
             return deck
         }
         
-        if let hsLogDeck = hsLogListener.currentDeck {
-            let mirrorDeck = CoreManager.hsLogDeckToMirrorDeck(hsLogDeck: hsLogDeck)
-            if let deck = RealmHelper.checkAndUpdateDeck(deckId: mirrorDeck.id.int64Value, selectedDeck: mirrorDeck) {
-                return deck
-            }
-            
-            // deck does not exist, add it
-            return RealmHelper.add(mirrorDeck: mirrorDeck, isArena: hsLogListener.currentDeckIsArena)
-        }
         return nil
     }
     

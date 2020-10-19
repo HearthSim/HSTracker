@@ -202,17 +202,19 @@ class LogUploader {
                         ],
                                 data: gzip)
 
-                    guard let statId = statId,
-                        let existing = RealmHelper.getGameStat(with: statId)  else {
-                                logger.error("Can not update statistic")
-                                completion(.failed(error: "Can not update statistic"))
-                                return
-                    }
-                    RealmHelper.update(stat: existing, hsReplayId: uploadShortId)
-
                     logger.info("\(item.hash) upload done: Success")
                     inProgress = inProgress.filter({ $0.hash == item.hash })
 
+                    if metaData?.metaData.gameType != BnetGameType.bgt_battlegrounds.rawValue && metaData?.metaData.gameType != BnetGameType.bgt_battlegrounds_friendly.rawValue {
+                            guard let statId = statId,
+                                let existing = RealmHelper.getGameStat(with: statId)  else {
+                                        logger.error("Can not update statistic")
+                                        completion(.failed(error: "Can not update statistic"))
+                                        return
+                            }
+                            RealmHelper.update(stat: existing, hsReplayId: uploadShortId)
+                    }
+            
                     completion(.successful(replayId: uploadShortId))
         }
     }

@@ -36,6 +36,7 @@ class UploadMetaData {
     var format: Int?
     var players: [Player] = []
     var league_id: Int?
+    var battlegrounds_races: [Int] = []
     
     public static let iso8601StringFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -108,6 +109,8 @@ class UploadMetaData {
         }
 
         metaData.hearthstoneBuild = buildNumber
+        
+        metaData.battlegrounds_races = stats.battlegroundsRaces
 
         return (metaData, stats.statId)
     }

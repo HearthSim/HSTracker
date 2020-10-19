@@ -38,7 +38,6 @@ class BattlegroundsTierDetailsView: NSStackView {
         BattlegroundMinion(cardId: "BGS_022", techLevel: 6), // Zapp Slywick
         BattlegroundMinion(cardId: "BGS_023", techLevel: 3), // Piloted Shredder
         BattlegroundMinion(cardId: "BGS_027", techLevel: 1), // Micro Machine
-        BattlegroundMinion(cardId: "BGS_028", techLevel: 2), // Pogo-Hopper
         BattlegroundMinion(cardId: "BGS_029", techLevel: 3), // Shifter Zerus
         BattlegroundMinion(cardId: "BGS_030", techLevel: 5), // King Bagurgle
         BattlegroundMinion(cardId: "BGS_032", techLevel: 4), // Herald of Flame
@@ -75,21 +74,21 @@ class BattlegroundsTierDetailsView: NSStackView {
         BattlegroundMinion(cardId: "BGS_081", techLevel: 3), // Salty Looter
         BattlegroundMinion(cardId: "BGS_082", techLevel: 2), // Menagerie Mug
         BattlegroundMinion(cardId: "BGS_083", techLevel: 4), // Menagerie Jug
-        BattlegroundMinion(cardId: "BGS_100", techLevel: 5), // Lil' Rag
+        BattlegroundMinion(cardId: "BGS_100", techLevel: 6), // Lil' Rag
         BattlegroundMinion(cardId: "BGS_104", techLevel: 5), // Nomi, Kitchen Nightmare
         BattlegroundMinion(cardId: "BGS_105", techLevel: 4), // Majordomo Executus
         BattlegroundMinion(cardId: "BGS_115", techLevel: 1), // Sellemental
         BattlegroundMinion(cardId: "BGS_116", techLevel: 1), // Refreshing Anomaly
         BattlegroundMinion(cardId: "BGS_119", techLevel: 3), // Crackling Cyclone
         BattlegroundMinion(cardId: "BGS_120", techLevel: 2), // Party Elemental
-        BattlegroundMinion(cardId: "BGS_121", techLevel: 6), // Gentle Djinni
+        BattlegroundMinion(cardId: "BGS_121", techLevel: 5), // Gentle Djinni
         BattlegroundMinion(cardId: "BGS_122", techLevel: 3), // Stasis Elemental
         BattlegroundMinion(cardId: "BGS_123", techLevel: 5), // Tavern Tempest
         BattlegroundMinion(cardId: "BGS_124", techLevel: 6), // Lieutenant Garr
         BattlegroundMinion(cardId: "BGS_126", techLevel: 4), // Wildfire Elemental
         BattlegroundMinion(cardId: "BGS_127", techLevel: 2), // Molten Rock
         BattlegroundMinion(cardId: "BGS_128", techLevel: 3), // Arcane Assistant
-        BattlegroundMinion(cardId: "BGS_131", techLevel: 4), // Deadly Spore
+        BattlegroundMinion(cardId: "BGS_131", techLevel: 5), // Deadly Spore
         BattlegroundMinion(cardId: "BOT_218", techLevel: 4), // Security Rover
         BattlegroundMinion(cardId: "BOT_312", techLevel: 3), // Replicating Menace
         BattlegroundMinion(cardId: "BOT_537", techLevel: 4), // Mechano-Egg
@@ -103,7 +102,6 @@ class BattlegroundsTierDetailsView: NSStackView {
         BattlegroundMinion(cardId: "CFM_816", techLevel: 4), // Virmen Sensei
         BattlegroundMinion(cardId: "DAL_077", techLevel: 4), // Toxfin
         BattlegroundMinion(cardId: "DAL_575", techLevel: 3), // Khadgar
-        BattlegroundMinion(cardId: "DAL_742", techLevel: 4), // Whirlwind Tempest
         BattlegroundMinion(cardId: "DS1_070", techLevel: 3), // Houndmaster
         BattlegroundMinion(cardId: "EX1_062", techLevel: 2), // Old Murk-Eye
         BattlegroundMinion(cardId: "EX1_093", techLevel: 4), // Defender of Argus
@@ -137,7 +135,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         BattlegroundMinion(cardId: "LOOT_368", techLevel: 5), // Voidlord
         BattlegroundMinion(cardId: "NEW1_027", techLevel: 2), // Southsea Captain
         BattlegroundMinion(cardId: "OG_216", techLevel: 3), // Infested Wolf
-        BattlegroundMinion(cardId: "OG_221", techLevel: 1), // Selfless Hero
+        BattlegroundMinion(cardId: "OG_221", techLevel: 2), // Selfless Hero
         BattlegroundMinion(cardId: "OG_256", techLevel: 2), // Spawn of N'Zoth
         BattlegroundMinion(cardId: "TRL_232", techLevel: 5), // Ironhide Direhorn
         BattlegroundMinion(cardId: "ULD_217", techLevel: 1), // Micro Mummy

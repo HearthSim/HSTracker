@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BattlegroundsPreferences" customModule="HSTracker" customModuleProvider="target">
+            <connections>
+                <outlet property="showAverageDamage" destination="K3g-MV-6WU" id="714-Iw-hGS"/>
+                <outlet property="showBobsBuddy" destination="U9l-4H-26w" id="3He-F4-nTp"/>
+                <outlet property="showBobsBuddyDuringCombat" destination="d7f-Kb-z3w" id="dK5-ys-CtC"/>
+                <outlet property="showBobsBuddyDuringShopping" destination="4bq-q8-4qp" id="IUB-xU-y7P"/>
+                <outlet property="showOpponentWarband" destination="4Xd-Cc-geO" id="WqX-S9-tma"/>
+                <outlet property="showTurnCounter" destination="led-ON-LPz" id="hz4-bl-Hks"/>
+                <outlet property="view" destination="c22-O7-iKe" id="rY0-tu-oVL"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="174"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="U9l-4H-26w" userLabel="Show Bob's Buddy">
+                    <rect key="frame" x="18" y="138" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Bob's Buddy" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="i84-xc-QhF" userLabel="Show Bob'ss Buddy">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="SCo-fj-gdt"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="d7f-Kb-z3w" userLabel="Show Bob's Buddy during combat">
+                    <rect key="frame" x="18" y="114" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Bob's Buddy during combat" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="QMN-RN-SBa" userLabel="Show Bob's Buddy during combat">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="S2N-Ef-dHy"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="4bq-q8-4qp" userLabel="Show Bob's Buddy during shopping">
+                    <rect key="frame" x="18" y="90" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show Bob's Buddy during shopping" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rPF-4f-O8s" userLabel="Show Bob's Buddy during shopping">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="PNX-WE-iEi"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="led-ON-LPz" userLabel="Show turn counter">
+                    <rect key="frame" x="18" y="66" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show turn counter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="c2t-Sg-vNs" userLabel="Show turn counter">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="Jpz-OO-qp2"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="252" translatesAutoresizingMaskIntoConstraints="NO" id="K3g-MV-6WU">
+                    <rect key="frame" x="18" y="42" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Always show average damage" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="LKm-DE-YdT">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="r2i-Ep-jOI"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Xd-Cc-geO" userLabel="Show opponent warband">
+                    <rect key="frame" x="18" y="18" width="444" height="18"/>
+                    <buttonCell key="cell" type="check" title="Show opponent warband" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="J07-pk-b78" userLabel="Show opponent warband">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="checkboxClicked:" target="-2" id="TTp-yo-XBI"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="led-ON-LPz" secondAttribute="trailing" constant="20" id="2b9-0e-Ac2"/>
+                <constraint firstItem="4Xd-Cc-geO" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="3tz-Gl-t7a"/>
+                <constraint firstAttribute="bottom" secondItem="4Xd-Cc-geO" secondAttribute="bottom" constant="20" id="4pb-OV-SmE"/>
+                <constraint firstItem="led-ON-LPz" firstAttribute="top" secondItem="4bq-q8-4qp" secondAttribute="bottom" constant="10" id="Eha-sp-RwK"/>
+                <constraint firstItem="U9l-4H-26w" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="20" id="FAj-nI-BPf"/>
+                <constraint firstItem="led-ON-LPz" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Hqg-4z-1fN"/>
+                <constraint firstItem="U9l-4H-26w" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Ipb-4T-1Hj"/>
+                <constraint firstItem="K3g-MV-6WU" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="Lft-1F-YkB"/>
+                <constraint firstAttribute="trailing" secondItem="d7f-Kb-z3w" secondAttribute="trailing" constant="20" id="NAD-vJ-xbh"/>
+                <constraint firstAttribute="trailing" secondItem="4Xd-Cc-geO" secondAttribute="trailing" constant="20" id="Ufm-4R-WSN"/>
+                <constraint firstItem="4Xd-Cc-geO" firstAttribute="top" secondItem="K3g-MV-6WU" secondAttribute="bottom" constant="10" id="g7z-m2-qHS"/>
+                <constraint firstItem="4bq-q8-4qp" firstAttribute="top" secondItem="d7f-Kb-z3w" secondAttribute="bottom" constant="10" id="nqH-He-o7o"/>
+                <constraint firstItem="d7f-Kb-z3w" firstAttribute="top" secondItem="U9l-4H-26w" secondAttribute="bottom" constant="10" id="qcJ-6e-bYG"/>
+                <constraint firstAttribute="trailing" secondItem="U9l-4H-26w" secondAttribute="trailing" constant="20" id="qll-og-92W"/>
+                <constraint firstAttribute="trailing" secondItem="4bq-q8-4qp" secondAttribute="trailing" constant="20" id="uPP-ZD-Hma"/>
+                <constraint firstAttribute="trailing" secondItem="K3g-MV-6WU" secondAttribute="trailing" constant="20" id="uef-F2-zSK"/>
+                <constraint firstItem="4bq-q8-4qp" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="xEf-eL-dGq"/>
+                <constraint firstItem="d7f-Kb-z3w" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" id="yjD-cp-i8g"/>
+                <constraint firstItem="K3g-MV-6WU" firstAttribute="top" secondItem="led-ON-LPz" secondAttribute="bottom" constant="10" id="zAv-ir-i0A"/>
+            </constraints>
+            <point key="canvasLocation" x="-20" y="20"/>
+        </customView>
+    </objects>
+</document>

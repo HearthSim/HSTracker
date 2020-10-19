@@ -63,7 +63,7 @@ class BattlegroundsOverlayView: NSView {
 //        windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
 //                           frame: SizeHelper.battlegroundsDetailsFrame(), overlay: true)
 
-        if let hero = game.entities.values.first(where: { ent in ent.has(tag: .player_leaderboard_place) && ent[.player_leaderboard_place] == at + 1}) {
+        if Settings.showOpponentWarband, let hero = game.entities.values.first(where: { ent in ent.has(tag: .player_leaderboard_place) && ent[.player_leaderboard_place] == at + 1}) {
             let board = game.lastKnownBattlegroundsBoardState[hero.cardId]
             if let board = board {
                 windowManager.battlegroundsDetailsWindow.setBoard(board: board)

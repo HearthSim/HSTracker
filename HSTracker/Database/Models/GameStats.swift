@@ -42,6 +42,7 @@ class InternalGameStats {
     var brawlWins = 0
     var brawlLosses = 0
     var battlegroundsRating = 0
+    var battlegroundsRaces: [Int] = []
     private var _format: Format?
         
     var format: Format? {
