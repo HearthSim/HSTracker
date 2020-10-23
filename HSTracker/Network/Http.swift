@@ -122,7 +122,7 @@ struct Http {
                                         logger.verbose("upload result : \(data)")
                                     }
                                     
-                                        logger.error("\(#function): "
+                                    logger.debug("\(#function): "
                                             + "\(String(describing: error)), "
                                             + "data: \(String(describing: data)), "
                                             + "response: \(String(describing: response))")

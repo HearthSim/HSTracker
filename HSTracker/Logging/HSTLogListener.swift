@@ -48,14 +48,6 @@ class HSTLogListener: HSLogListener {
     }
     
     func onGameStart(game: kotlin_hslog.Game) {
-        // If we cannot get the player ids from the Mirror, set it here
-        let hstGame = AppDelegate.instance().coreManager.game
-        if let playerId = Int(game.player?.entity?.PlayerID ?? "") {
-            hstGame.player.id = playerId
-        }
-        if let opponentId = Int(game.opponent?.entity?.PlayerID ?? "") {
-            hstGame.opponent.id = opponentId
-        }
     }
     
     func onOpponentDeckChanged(deck: kotlin_hslog.Deck) {

@@ -300,8 +300,8 @@ struct SizeHelper {
 
     static func bobsPanelOverlayFrame() -> NSRect {
         let trackerFrame = playerTrackerFrame()
-        let height = CGFloat(62)
-        let width = CGFloat(304)
+        let height = CGFloat(52)
+        let width = CGFloat(404)
         let x = max(0, hearthstoneWindow.frame.minX + (hearthstoneWindow.width - width) / 2)
 
         return NSRect(x: x, y: trackerFrame.minY + trackerFrame.height - height, width: width, height: height)

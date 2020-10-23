@@ -326,7 +326,9 @@ class Game: NSObject, PowerEventHandler {
     
     func updateTurnCounter(turn: Int) {
         DispatchQueue.main.async { [unowned(unsafe) self] in
-            if Settings.showTimer && !self.gameEnded && self.isBattlegroundsMatch() {
+            let isBG = self.isBattlegroundsMatch() && !self.gameEnded
+
+            if isBG && Settings.showTurnCounter && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.turnCounter.setTurnNumber(turn: turn)
                 let rect = SizeHelper.turnCounterFrame()
                 self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: self.hearthstoneRunState.isActive)
@@ -396,7 +398,9 @@ class Game: NSObject, PowerEventHandler {
         let rect = SizeHelper.battlegroundsOverlayFrame()
 
         DispatchQueue.main.async {
-            if (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
+            let isBG = self.isBattlegroundsMatch() && !self.gameEnded
+
+            if isBG && (Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground {
                 
                 self.windowManager.show(controller: self.windowManager.battlegroundsOverlay, show: true, frame: rect, title: nil, overlay: true)
@@ -423,8 +427,8 @@ class Game: NSObject, PowerEventHandler {
         let rect = SizeHelper.turnCounterFrame()
         
         DispatchQueue.main.async {
-            let game = AppDelegate.instance().coreManager.game
-            if !game.isInMenu && game.isBattlegroundsMatch() && Settings.showTurnCounter &&
+            let isBG = self.isBattlegroundsMatch() && !self.gameEnded
+            if isBG && Settings.showTurnCounter &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                 || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: true)
@@ -438,8 +442,8 @@ class Game: NSObject, PowerEventHandler {
         let rect = SizeHelper.bobsPanelOverlayFrame()
         
         DispatchQueue.main.async {
-            let game = AppDelegate.instance().coreManager.game
-            if !game.isInMenu && game.isBattlegroundsMatch() && Settings.showBobsBuddy &&
+            let isBG = self.isBattlegroundsMatch() && !self.gameEnded
+            if isBG && Settings.showBobsBuddy &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                 || !Settings.hideAllWhenGameInBackground) {
                 self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: true, frame: rect, title: nil, overlay: true)
@@ -1234,6 +1238,7 @@ class Game: NSObject, PowerEventHandler {
 			result.opponentCards.append($0)
 		})
         result.battlegroundsRating = self.battlegroundsRating ?? 0
+        result.battlegroundsRaces = self.availableRaces?.compactMap({ x in Race.allCases.firstIndex(of: x)}) ?? []
 		
 		return result
 	}

@@ -12,19 +12,28 @@ import TextAttributes
 @IBDesignable
 class BobsBuddyPanel: OverWindowController {
     
-    @IBOutlet weak var lethalRateDisplay: NSTextField!
-    @IBOutlet weak var winRateDisplay: NSTextField!
-    @IBOutlet weak var tieRateDisplay: NSTextField!
-    @IBOutlet weak var lossRateDisplay: NSTextField!
-    @IBOutlet weak var opponentLethalRateDisplay: NSTextField!
+    @IBOutlet weak var lethalRateStack: NSStackView!
+    @objc dynamic var lethalRateDisplay: String = "-"
+    @objc dynamic var winRateDisplay: String = "-"
+    @objc dynamic var tieRateDisplay: String = "-"
+    @objc dynamic var lossRateDisplay: String = "-"
+    @IBOutlet weak var opponentLethalRateStack: NSStackView!
+    @objc dynamic var opponentLethalRateDisplay: String = "-"
     @IBOutlet weak var spinner: NSProgressIndicator!
     @objc dynamic var percentagesVisibility: Bool = true
     @objc dynamic var spinnerVisibility: Bool = false
     @objc dynamic var warningIconVisibility: Bool = false
     @objc dynamic var statusMessage: String = "-"
-    @IBOutlet weak var boxMain: NSBox!
+    @objc dynamic var averageDamageGivenDisplay: String = "-"
+    @IBOutlet weak var averageDamageGivenView: NSView!
+    @objc dynamic var averageDamageTakenDisplay: String = "-"
+    @IBOutlet weak var averageDamageTakenView: NSView!
     @IBOutlet weak var boxMainHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var boxAverageDamageGivenHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var boxAverageDamageTakenHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var boxStatus: ClickableBox!
+    @IBOutlet weak var boxAverageDamageGiven: ClickableBox!
+    @IBOutlet weak var boxAverageDamageTaken: ClickableBox!
     
     var state: BobsBuddyState = .initial
     var _errorState: BobsBuddyErrorState = .none
@@ -43,18 +52,15 @@ class BobsBuddyPanel: OverWindowController {
     
     override func windowDidLoad() {
         super.windowDidLoad()
-        self.boxMain.superview?.translatesAutoresizingMaskIntoConstraints = false
         spinner.appearance = NSAppearance(named: .vibrantLight)
         self.window!.ignoresMouseEvents = false
         self.boxStatus.clicked = self.bottomBar_mouseDown
+        self.boxAverageDamageGiven.clicked = self.averageDamage_mouseDown
+        self.boxAverageDamageTaken.clicked = self.averageDamage_mouseDown
     }
     
     func formatPercent(p: Float) -> String {
         return String(format: "%.1f%%", p*100.0)
-    }
-    
-    func changeAlpha(c: Color, a: Float) -> Color {
-        return Color(red: c.redComponent, green: c.greenComponent, blue: c.blueComponent, alpha: CGFloat(a))
     }
     
     private var showingResults: Bool = false
@@ -67,20 +73,23 @@ class BobsBuddyPanel: OverWindowController {
         
         showingResults = sh
         let duration = 0.2
+        let avgDmgH: CGFloat = Settings.showAverageDamage ? 32 : 0
         DispatchQueue.main.async {
             if sh {
                 NSAnimationContext.runAnimationGroup({context in
                     context.duration = duration
-                    self.boxMainHeightConstraint.constant = 42
+                    self.boxMainHeightConstraint.constant = 32
+                    self.boxAverageDamageGivenHeightConstraint.constant = avgDmgH
+                    self.boxAverageDamageTakenHeightConstraint.constant = avgDmgH
                     context.allowsImplicitAnimation = true
-                    self.boxMain.superview?.layoutSubtreeIfNeeded()
                 })
             } else {
                 NSAnimationContext.runAnimationGroup({context in
                     context.duration = duration
-                    self.boxMainHeightConstraint.constant = 2
+                    self.boxMainHeightConstraint.constant = 0
+                    self.boxAverageDamageGivenHeightConstraint.constant = 0
+                    self.boxAverageDamageTakenHeightConstraint.constant = 0
                     context.allowsImplicitAnimation = true
-                    self.boxMain.superview?.layoutSubtreeIfNeeded()
                 })
             }
         }
@@ -117,13 +126,15 @@ class BobsBuddyPanel: OverWindowController {
     
     func resetDisplays() {
         DispatchQueue.main.async {
-            self.winRateDisplay.stringValue = "-"
-            self.lossRateDisplay.stringValue = "-"
-            self.tieRateDisplay.stringValue = "-"
-            let cl = self.lethalRateDisplay.textColor!
-            self.lethalRateDisplay.textColor = self.changeAlpha(c: cl, a: 0)
-            let cl2 = self.opponentLethalRateDisplay.textColor!
-            self.opponentLethalRateDisplay.textColor = self.changeAlpha(c: cl2, a: 0)
+            self.winRateDisplay = "-"
+            self.lossRateDisplay = "-"
+            self.tieRateDisplay = "-"
+            self.averageDamageGivenDisplay = "-"
+            self.averageDamageTakenDisplay = "-"
+            self.lethalRateDisplay = "-"
+            self.lethalRateStack.alphaValue = 0.3
+            self.opponentLethalRateDisplay = "-"
+            self.opponentLethalRateStack.alphaValue = 0.3
             self.setState(st: .initial)
             self.clearErrorState()
             self.showResults(show: false)
@@ -149,23 +160,60 @@ class BobsBuddyPanel: OverWindowController {
         }
     }
     
-    func showCompletedSimulation(winRate: Float, tieRate: Float, lossRate: Float, playerLethal: Float, opponentLethal: Float) {
+    func showCompletedSimulation(winRate: Float, tieRate: Float, lossRate: Float, playerLethal: Float, opponentLethal: Float, possibleResults: [Int32]) {
         showPercentagesHideSpinners()
         
         DispatchQueue.main.async {
-            self.winRateDisplay.stringValue = self.formatPercent(p: winRate)
-            self.tieRateDisplay.stringValue = self.formatPercent(p: tieRate)
-            self.lossRateDisplay.stringValue = self.formatPercent(p: lossRate)
-            self.lethalRateDisplay.stringValue = self.formatPercent(p: playerLethal)
-            self.opponentLethalRateDisplay.stringValue = self.formatPercent(p: opponentLethal)
-            let cl = self.lethalRateDisplay.textColor!
-            self.lethalRateDisplay.textColor = self.changeAlpha(c: cl, a: playerLethal > 0 ? 1 : 0.3)
-            let cl2 = self.opponentLethalRateDisplay.textColor!
-            self.opponentLethalRateDisplay.textColor = self.changeAlpha(c: cl2, a: opponentLethal > 0 ? 1 : 0.3)
+            self.setAverageDamage(possibleResults: possibleResults)
+            self.winRateDisplay = self.formatPercent(p: winRate)
+            self.tieRateDisplay = self.formatPercent(p: tieRate)
+            self.lossRateDisplay = self.formatPercent(p: lossRate)
+            self.lethalRateDisplay = self.formatPercent(p: playerLethal)
+            self.opponentLethalRateDisplay = self.formatPercent(p: opponentLethal)
+            self.lethalRateStack.alphaValue = playerLethal > 0 ? 1 : 0.3
+            self.opponentLethalRateStack.alphaValue = opponentLethal > 0 ? 1 : 0.3
             self.window!.ignoresMouseEvents = false
         }
     }
     
+    private func setAverageDamage(possibleResults: [Int32]) {
+        let playerDamageDealtPossibilities = possibleResults.filter({ x in x > 0 })
+        var opponentSortedDamageDealtPossibilites = possibleResults.filter({ x in x < 0 }).map({ y in y * -1 })
+        opponentSortedDamageDealtPossibilites.sort()
+
+        let _playerDamageDealtBounds = getTwentiethAndEightiethPercentileFor(possibleResults: playerDamageDealtPossibilities)
+        let _opponentDamageDealtBounds = getTwentiethAndEightiethPercentileFor(possibleResults: opponentSortedDamageDealtPossibilites)
+        
+        averageDamageGivenView.alphaValue = _playerDamageDealtBounds[0] == 0 && _playerDamageDealtBounds.count == 1 ? 0.3 : 1.0
+        averageDamageTakenView.alphaValue = _opponentDamageDealtBounds[0] == 0 && _opponentDamageDealtBounds.count == 1 ? 0.3 : 1.0
+        //OpponentAverageDamageOpacity = _opponentDamageDealtBounds == null ? SoftLabelOpacity : 1;
+
+        averageDamageGivenDisplay = formatDamageBoundsFrom(from: _playerDamageDealtBounds)
+        averageDamageTakenDisplay = formatDamageBoundsFrom(from: _opponentDamageDealtBounds)
+    }
+    
+    private func getTwentiethAndEightiethPercentileFor(possibleResults: [Int32]) -> [Int32] {
+        let count = possibleResults.count
+        if count == 0 {
+            return [Int32](arrayLiteral: 0)
+        }
+        
+        return [Int32](arrayLiteral: possibleResults[Int(floor(0.2 * Double(count)))],
+                       possibleResults[Int(floor(0.8 * Double(count)))])
+    }
+
+    private func formatDamageBoundsFrom(from: [Int32]) -> String {
+        if from.count == 1 {
+            return "\(from[0])"
+        }
+        
+        if from[0] == from[1] {
+            return "\(from[0])"
+        }
+        
+        return "\(from[0])-\(from[1])"
+    }
+
     override func updateFrames() {
         self.window!.ignoresMouseEvents = false
     }
@@ -178,5 +226,8 @@ class BobsBuddyPanel: OverWindowController {
                 showResults(show: false)
             }
         }
+    }
+
+    @objc func averageDamage_mouseDown(event: NSEvent) {
     }
 }

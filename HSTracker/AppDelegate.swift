@@ -45,6 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			TrackersPreferences(nibName: NSNib.Name(rawValue: "TrackersPreferences"), bundle: nil),
 			PlayerTrackersPreferences(nibName: NSNib.Name(rawValue: "PlayerTrackersPreferences"), bundle: nil),
 			OpponentTrackersPreferences(nibName: NSNib.Name(rawValue: "OpponentTrackersPreferences"), bundle: nil),
+			BattlegroundsPreferences(nibName: NSNib.Name(rawValue: "BattlegroundsPreferences"), bundle: nil),
 			HSReplayPreferences(nibName: NSNib.Name(rawValue: "HSReplayPreferences"), bundle: nil)
         ]
 		

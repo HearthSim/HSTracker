@@ -178,6 +178,7 @@ final class Settings {
         set { set(name: Settings.auto_deck_detection, value: newValue) }
         get { return get(name: Settings.auto_deck_detection) as? Bool ?? true }
     }
+    
     static var showBobsBuddy: Bool {
         set { set(name: Settings.show_bobs_buddy, value: newValue) }
         get { return get(name: Settings.show_bobs_buddy) as? Bool ?? true }
@@ -193,6 +194,14 @@ final class Settings {
     static var showTurnCounter: Bool {
         set { set(name: Settings.show_turn_counter, value: newValue) }
         get { return get(name: Settings.show_turn_counter) as? Bool ?? true }
+    }
+    static var showAverageDamage: Bool {
+        set { set(name: Settings.show_average_damage, value: newValue) }
+        get { return get(name: Settings.show_average_damage) as? Bool ?? true }
+    }
+    static var showOpponentWarband: Bool {
+        set { set(name: Settings.show_opponent_warband, value: newValue) }
+        get { return get(name: Settings.show_opponent_warband) as? Bool ?? true }
     }
 
     static var showPlayerDrawChance: Bool {
@@ -575,10 +584,13 @@ extension Settings {
     static let window_locked = "window_locked"
     static let prefer_golden_cards = "prefer_golden_cards"
     static let auto_deck_detection = "auto_deck_detection"
+    
     static let show_bobs_buddy = "show_bobs_buddy"
     static let show_bobs_buddy_during_combat = "show_bobs_buddy_during_combat"
     static let show_bobs_buddy_during_shopping = "show_bobs_buddy_during_shopping"
     static let show_turn_counter = "show_turn_counter"
+    static let show_average_damage = "show_average_damage"
+    static let show_opponent_warband = "show_opponent_warband"
 
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"

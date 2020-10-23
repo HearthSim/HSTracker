@@ -100,6 +100,10 @@ class MonoHelper {
 
             let ostr = MonoHelper.toString(obj: top)
             logger.debug("testSimulation result is \(ostr)")
+            
+            // For testing the damage result code which is a little trickier
+            //let damage = top.getResultDamage()
+            //logger.debug("testSimulation damage is \(damage)")
         }
         
         mono_thread_detach(handle)
@@ -117,17 +121,15 @@ class MonoHelper {
         return result
     }
     
-    static func getField(obj: MonoHandle, field: OpaquePointer) -> MonoHandle {
+    static func getField(obj: MonoHandle, field: OpaquePointer!) -> MonoHandle {
         let inst = obj.get()
         
         let r = mono_field_get_value_object(MonoHelper._monoInstance, field, inst)
         
         return MonoHandle(obj: r)
     }
-
-    static func getIntField(obj: MonoHandle, field: OpaquePointer!) -> Int32 {
-        let inst = obj.get()
-        
+    
+    static func getIntField(inst: UnsafeMutablePointer<MonoObject>?, field: OpaquePointer!) -> Int32 {
         let params = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
         
         mono_field_get_value(inst, field, params)
@@ -137,6 +139,12 @@ class MonoHelper {
         params.deallocate()
         
         return res
+    }
+
+    static func getIntField(obj: MonoHandle, field: OpaquePointer!) -> Int32 {
+        let inst = obj.get()
+        
+        return getIntField(inst: inst, field: field)
     }
 
     static func setIntField(obj: MonoHandle, field: OpaquePointer!, value: Int32) {

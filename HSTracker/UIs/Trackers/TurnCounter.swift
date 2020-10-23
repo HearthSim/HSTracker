@@ -19,7 +19,7 @@ class TurnCounter: OverWindowController {
     }
  
     func setTurnNumber(turn: Int) {
-        guard Settings.showTimer else {
+        guard Settings.showTurnCounter else {
             turnLabel = ""
             return
         }
