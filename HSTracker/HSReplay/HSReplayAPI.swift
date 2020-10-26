@@ -8,6 +8,13 @@
 
 import Foundation
 import OAuthSwift
+import PromiseKit
+
+enum HSReplayError: Error {
+    case missingAccount
+    case authorizationTokenNotSet
+    case collectionUploadMissingURL
+}
 
 class HSReplayAPI {
     static let apiKey = "f1c6965c-f5ee-43cb-ab42-768f23dd35e8"
@@ -39,17 +46,6 @@ class HSReplayAPI {
                 logger.info("HSReplay: OAuth succeeded")
                 Settings.hsReplayOAuthToken = credential.oauthToken
                 Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
-                AppDelegate.instance().coreManager.accessTokenProvider.login(
-                    accessToken: credential.oauthToken,
-                    refreshToken: credential.oauthRefreshToken
-                )
-                if let token = Settings.hsReplayUploadToken {
-                    AppDelegate.instance().coreManager.hsReplay.claimTokenWithCallback(
-                        uploadToken: token,
-                        callback: {_ in
-                        // Ignore results
-                    })
-                }
 
                 handle()
             },
@@ -145,6 +141,55 @@ class HSReplayAPI {
                 handle(true)
             } else {
                 handle(false)
+            }
+        }
+    }
+    
+    private static func getUploadCollectionToken() -> Promise<String> {
+        return Promise<String> { seal in
+            guard let accountId = MirrorHelper.getAccountId() else {
+                seal.reject(HSReplayError.missingAccount)
+                return
+            }
+            oauthswift.startAuthorizedRequest("\(HSReplay.collectionTokensUrl)", method: .GET, parameters: ["account_hi": accountId.hi, "account_lo": accountId.lo], headers: defaultHeaders, onTokenRenewal: tokenRenewalHandler, success: { response in
+                do {
+                    guard let json = try response.jsonObject() as? [String: Any], let token = json["url"] as? String else {
+                        logger.error("HSReplay: Unexpected JSON \(String(describing: response.string))")
+                        seal.reject(HSReplayError.collectionUploadMissingURL)
+                        return
+                    }
+                    logger.info("HSReplay: obtained new collection upload json: \(json)")
+                    seal.fulfill(token)
+                } catch {
+                    seal.reject(HSReplayError.missingAccount)
+                }
+            }, failure: { error in
+                logger.error(error)
+                seal.reject(HSReplayError.authorizationTokenNotSet)
+            })
+        }
+    }
+    
+    static func uploadCollection(collectionData: UploadCollectionData) -> Promise<CollectionUploadResult> {
+        return Promise<CollectionUploadResult> { seal in
+            
+            getUploadCollectionToken().done { url in
+                let upload = Http(url: url)
+                let enc = JSONEncoder()
+                if let data = try? enc.encode(collectionData) {
+                    upload.uploadPromise(method: .put, headers: [ "Content-Type": "application/json" ], data: data).done { data in
+                        if data != nil {
+                            seal.fulfill(.successful)
+                        }
+                    }.catch { error in
+                        seal.fulfill(.failed(error: error.localizedDescription))
+                    }
+                } else {
+                    seal.fulfill(.failed(error: "JSON convertion failed"))
+                }
+            }.catch { error in
+                logger.error("HSReplay: Collection upload error \(error)")
+                seal.fulfill(.failed(error: error.localizedDescription))
             }
         }
     }

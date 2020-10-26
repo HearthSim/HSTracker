@@ -50,7 +50,7 @@ class DecksReader {
                         
                     for line in lines {
                         logger.debug("Deck: \(line)")
-                        AppDelegate.instance().coreManager.hsLog.processDecks(rawLine: line, isOldData: false)
+                        //TODO: should we do something with this?
                     }
                 }
             }
