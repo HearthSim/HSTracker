@@ -1,3 +1,13 @@
+# 1.7.2
+## New:
+- Add average damage to Bob's Buddy
+- Add turn counter for Battlegrounds
+- Hide player's deck in Battlegrounds
+
+# 1.7.1
+## New:
+- Updated for patch 18.4.2
+
 # 1.7.0
 ## New:
 - Bob's Buddy
