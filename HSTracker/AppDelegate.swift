@@ -57,6 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
         AppDelegate._instance = self
+        //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
         MSAppCenter.start("2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", withServices: [MSAnalytics.self, MSCrashes.self])
 
@@ -96,6 +97,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let oauthToken = Settings.hsReplayOAuthToken {
             credential.oauthToken = oauthToken
         }
+        
+        HSReplayAPI.oauthswift.renewAccessToken(withRefreshToken: credential.oauthRefreshToken, success: { (credential, _, _) in
+            logger.debug("HSReplay: Refreshed OAuthToken")
+            Settings.hsReplayOAuthToken =  credential.oauthToken
+            Settings.hsReplayOAuthRefreshToken = credential.oauthRefreshToken
+        }, failure: { error in
+            logger.error(error)
+        })
 		
 		// init debug loggers
 		#if DEBUG

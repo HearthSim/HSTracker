@@ -11,7 +11,6 @@
 import Foundation
 import RealmSwift
 import HearthMirror
-import kotlin_hslog
 
 struct PlayingDeck {
     let id: String
@@ -162,7 +161,7 @@ class Game: NSObject, PowerEventHandler {
 			
 			let tracker = self.windowManager.opponentTracker
 			if Settings.showOpponentTracker &&
-                AppDelegate.instance().coreManager.hsLog.currentOrFinishedGame()?.gameType != kotlin_hslog.GameType.gtBattlegrounds &&
+                self.currentGameType != .gt_battlegrounds &&
             !(Settings.dontTrackWhileSpectating && self.spectator) &&
 				((Settings.hideAllTrackersWhenNotInGame && !self.gameEnded)
 					|| (!Settings.hideAllTrackersWhenNotInGame) || self.selfAppActive ) &&
@@ -457,9 +456,7 @@ class Game: NSObject, PowerEventHandler {
         let rect = SizeHelper.battlegroundsTierOverlayFrame()
                 
         DispatchQueue.main.async {
-            let game = AppDelegate.instance().coreManager.hsLog.currentOrFinishedGame()
-            let isBG = self.isBattlegroundsMatch()
-                && game?.victory == nil
+            let isBG = self.isBattlegroundsMatch() && !self.gameEnded
 
             if isBG && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
                     || !Settings.hideAllWhenGameInBackground) {
@@ -1280,6 +1277,8 @@ class Game: NSObject, PowerEventHandler {
 
         logger.verbose("End game: \(currentGameStats)")
         let stats = currentGameStats.toGameStats()
+        // reset the turn counter
+        windowManager.turnCounter.reset()
         
         if let currentDeck = self.currentDeck {
             if let deck = RealmHelper.getDeck(with: currentDeck.id) {

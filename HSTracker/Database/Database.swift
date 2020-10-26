@@ -169,6 +169,7 @@ class Database {
                         index = -index - 1
                     }
                     Cards.cards.insert(card, at: index)
+                    Cards.cardsById[card.id] = card
                 }
             }
         }

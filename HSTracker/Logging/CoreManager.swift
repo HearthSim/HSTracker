@@ -10,7 +10,6 @@
 
 import Foundation
 import HearthMirror
-import kotlin_hslog
 
 enum HearthstoneLogError: Error {
     case canNotCreateDir,
@@ -27,52 +26,6 @@ struct HearthstoneRunState {
     }
 }
 
-class MacOSConsole: Kotlin_consoleConsole {
-    func debug(message: String) {
-        logger.debug(message)
-    }
-    
-    func error(message: String) {
-        logger.error(message)
-    }
-    
-    func error(throwable: KotlinThrowable) {
-        throwable.printStackTrace()
-    }
-}
-
-class MacOSAnalytics: Kotlin_analyticsAnalytics {
-    func logEvent(name: String, params: [String: Any]) {
-    }
-}
-
-class MacOSPreferences: Preferences {
-    func getBoolean(key: String) -> KotlinBoolean? {
-        return KotlinBoolean(value: UserDefaults.standard.bool(forKey: key))
-    }
-    
-    func getString(key: String) -> String? {
-        return UserDefaults.standard.string(forKey: key)
-    }
-    
-    func putBoolean(key: String, value: KotlinBoolean?) {
-        if let v = value {
-            UserDefaults.standard.set(v, forKey: key)
-        } else {
-            UserDefaults.standard.removeObject(forKey: key)
-        }
-    }
-    
-    func putString(key: String, value: String?) {
-        if let v = value {
-            UserDefaults.standard.set(v, forKey: key)
-        } else {
-            UserDefaults.standard.removeObject(forKey: key)
-        }
-    }
-    
-}
-
 final class CoreManager: NSObject {
     static let applicationName = "Hearthstone"
 
@@ -83,14 +36,8 @@ final class CoreManager: NSObject {
     let packWatcher = PackWatcher()
     
     let game: Game
-    private var cardJson: CardJson!
-    var hsReplay: HsReplay!
-    var accessTokenProvider: AccessTokenProvider!
     var toaster: Toaster!
 
-    var hsLog: HSLog!
-    var hsLogListener: HSTLogListener!
-    
     var queue = DispatchQueue(label: "net.hearthsim.hstracker.readers", attributes: [])
     
     override init() {
@@ -99,62 +46,7 @@ final class CoreManager: NSObject {
         super.init()
 		logReaderManager = LogReaderManager(logPath: Settings.hearthstonePath, coreManager: self)
         
-        let lang: Language.Hearthstone
-        if Settings.hearthstoneLanguage == nil {
-            lang = Language.Hearthstone.enUS
-        } else {
-            lang = Settings.hearthstoneLanguage!
-        }
-        
-        let maybeUrl = Bundle(for: type(of: self))
-            .url(forResource: "Resources/Cards/cardsDB.\(lang)",
-                withExtension: "json")
-        
         self.toaster = Toaster(windowManager: game.windowManager)
-        
-        let console = MacOSConsole()
-        if let url = maybeUrl, let fileHandle = try? FileHandle(forReadingFrom: url) {
-            logger.debug("building CardJson...")
-            self.cardJson = CardJsonBuilderKt.cardJson(fd: fileHandle.fileDescriptor)
-            FreezeHelperKt.freeze(self.cardJson)
-            logger.debug("building HSLog...")
-            hsLog = HSLog(console: console, cardJson: cardJson, debounceDelay: 100)
-            hsLogListener = HSTLogListener(windowManager: game.windowManager, toaster: toaster)
-            hsLog.setListener(
-                listener: hsLogListener
-            )
-        }
-                
-        let preferences = MacOSPreferences()
-        let analytics = MacOSAnalytics()
-        let userAgent = Http.userAgent()
-        let oauthParams = OauthParams(clientId: HSReplayAPI.oAuthClientKey,
-                                      clientSecret: HSReplayAPI.oAuthClientSecret,
-                                      redirectUri: "unused")
-        
-        self.accessTokenProvider = AccessTokenProvider(preferences: preferences,
-                                                      analytics: analytics,
-                                                      userAgent: userAgent,
-                                                      oauthParams: oauthParams)
-        self.hsReplay = HsReplay(
-            preferences: preferences,
-            console: console,
-            accessTokenProvider: accessTokenProvider,
-            userAgent: userAgent
-        )
-        
-        if let refreshToken = Settings.hsReplayOAuthRefreshToken, let oauthToken = Settings.hsReplayOAuthToken {
-            if !accessTokenProvider.isLoggedIn() {
-                logger.debug("accessTokenProvider.login")
-                accessTokenProvider.login(accessToken: oauthToken, refreshToken: refreshToken)
-            }
-        }
-    }
-    
-    func processPower(rawLine: String) {
-        DispatchQueue.main.async {
-            self.hsLog.processPower(rawLine: rawLine, isOldData: false)
-        }
     }
     
     deinit {
@@ -426,22 +318,6 @@ final class CoreManager: NSObject {
         return CoreManager.hearthstoneApp?.isActive ?? false
     }
     
-    static func hsLogDeckToMirrorDeck(hsLogDeck: kotlin_hslog.Deck) -> MirrorDeck {
-        let mirrorDeck = MirrorDeck()
-        
-        mirrorDeck.id = NSNumber(value: Int64(hsLogDeck.id ?? "0") ?? 0)
-        mirrorDeck.hero = String(format: "HERO_%02d", hsLogDeck.classIndex + 1)
-        mirrorDeck.heroPremium = 0
-        mirrorDeck.name = hsLogDeck.name ?? "?"
-        mirrorDeck.cards = hsLogDeck.cards.map { (key: String, value: KotlinInt) -> MirrorCard in
-            let mirrorCard = MirrorCard()
-            mirrorCard.cardId = key
-            mirrorCard.count = value
-            return mirrorCard
-        }
-        return mirrorDeck
-    }
-	
 	// MARK: - Deck detection
     func autoDetectDeck(mode: Mode, playerClass: CardClass? = nil) -> Deck? {
         let deck = CoreManager.autoDetectDeckWithMirror(mode: mode, playerClass: playerClass)

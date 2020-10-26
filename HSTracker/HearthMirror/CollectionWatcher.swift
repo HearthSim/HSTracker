@@ -8,7 +8,6 @@
 
 import Foundation
 import HearthMirror
-import kotlin_hslog
 
 class CollectionWatcher {
     private var lastWorkItem: DispatchWorkItem?
@@ -53,69 +52,66 @@ class CollectionWatcher {
         toastViewController.message = message
         toastViewController.loading = loading
         
-        toaster.displayToast(viewController: toastViewController, timeoutMillis: 5000)
+        toaster.displayToast(viewController: toastViewController, timeoutMillis: timeoutMillis)
     }
 
-    private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> CollectionUploadData {
+    private func mirrorCollectionToCollectionUploadData(mirrorCollection: MirrorCollection) -> UploadCollectionData {
                 
-        var c: [String: [KotlinInt]] = [:]
+        var c: [Int: [Int]] = [:]
         for mirrorCard in mirrorCollection.cards {
-            if let card = Cards.by(cardId: mirrorCard.cardId) {
-                var counts = c[String(card.dbfId)] ?? [0, 0]
+            if let card = Cards.any(byId: mirrorCard.cardId) {
+                var counts = c[card.dbfId] ?? [0, 0]
                 if mirrorCard.premium {
-                    counts[1] = KotlinInt(value: mirrorCard.count.int32Value)
+                    counts[1] = mirrorCard.count.intValue
                 } else {
-                    counts[0] = KotlinInt(value: mirrorCard.count.int32Value)
+                    counts[0] = mirrorCard.count.intValue
                 }
-                c[String(card.dbfId)] = counts
+                c[card.dbfId] = counts
             }
         }
 
-        var h = [:] as [String: KotlinInt]
+        var h = [:] as [Int: Int]
         for (playerclassid, mirrorCard) in mirrorCollection.favoriteHeroes {
-            if let card = Cards.by(cardId: mirrorCard.cardId) {
-                h[String(playerclassid.intValue)] = KotlinInt(value: Int32(card.dbfId))
+            if let card = Cards.any(byId: mirrorCard.cardId) {
+                h[playerclassid.intValue] = card.dbfId
             }
         }
         
-        return CollectionUploadData(
+        return UploadCollectionData(
             collection: c,
             favoriteHeroes: h,
-            cardbacks: mirrorCollection.cardbacks.map {KotlinInt(value: $0.int32Value)},
-            favoriteCardback: KotlinInt(value: mirrorCollection.favoriteCardback.int32Value),
-            dust: KotlinInt(value: mirrorCollection.dust.int32Value),
-            gold: KotlinInt(value: mirrorCollection.gold.int32Value)
+            cardbacks: mirrorCollection.cardbacks.map { $0.intValue },
+            favoriteCardback: mirrorCollection.favoriteCardback.intValue,
+            dust: mirrorCollection.dust.intValue,
+            gold: mirrorCollection.gold.intValue
         )
     }
+    
     private func uploadCollectionFromMainThread(
-        collectionUploadData: CollectionUploadData,
-        accountId: MirrorAccountId?
-    ) {
+        collectionUploadData: UploadCollectionData,
+        accountId: MirrorAccountId?) {
         setFeedback(message: NSLocalizedString("Uploading collection...", comment: ""), loading: true, timeoutMillis: -1)
 
-        AppDelegate.instance().coreManager.hsReplay.uploadCollectionWithCallback(
-            collectionUploadData: collectionUploadData,
-            account_hi: "\(accountId?.hi ?? 0)",
-            account_lo: "\(accountId?.lo ?? 0)",
-            callback: {
-                if $0 is HsReplay.CollectionUploadResultFailure {
-                    // swiftlint:disable force_cast
-                    let failure = ($0 as! HsReplay.CollectionUploadResultFailure)
-                    // swiftlint:enable force_cast
-                    
-                    self.setFeedback(
-                        message: NSLocalizedString("Failed to upload collection: \(failure.code)", comment: ""),
-                        loading: false,
-                        timeoutMillis: 5000)
-                    
-                    failure.throwable.printStackTrace()
-                } else {
-                    self.setFeedback(
-                        message: NSLocalizedString("Your collection has been uploaded to HSReplay.net", comment: ""),
-                        loading: false,
-                        timeoutMillis: 5000)
-                }
-        })
+        HSReplayAPI.uploadCollection(collectionData: collectionUploadData).done { result in
+            switch result {
+            case .successful:
+                self.setFeedback(
+                    message: NSLocalizedString("Your collection has been uploaded to HSReplay.net", comment: ""),
+                    loading: false,
+                    timeoutMillis: 5000)
+            case .failed(let error):
+                self.setFeedback(
+                    message: NSLocalizedString("Failed to upload collection: \(error)", comment: ""),
+                    loading: false,
+                    timeoutMillis: 5000)
+            }
+        }.catch { error in
+            logger.error("HSReplay: unexpected error: \(error)")
+            self.setFeedback(
+                message: NSLocalizedString("Failed to upload collection: \(error.localizedDescription)", comment: ""),
+                loading: false,
+                timeoutMillis: 5000)
+        }
     }
     
     func run() {
@@ -135,10 +131,11 @@ class CollectionWatcher {
 
                     let accountId = MirrorHelper.getAccountId()
                     
+                    logger.debug("Converting collection for upload")
                     let collectionUploadData = self.mirrorCollectionToCollectionUploadData(mirrorCollection: collection)
-                    FreezeHelperKt.freeze(collectionUploadData)
-
+                    logger.debug("Done converting")
                     DispatchQueue.main.async {
+                        logger.debug("Starting upload of collection")
                         self.uploadCollectionFromMainThread(collectionUploadData: collectionUploadData, accountId: accountId)
                     }
                 }
@@ -150,3 +147,4 @@ class CollectionWatcher {
         }
     }
 }
+

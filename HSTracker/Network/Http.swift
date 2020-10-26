@@ -7,56 +7,13 @@
 //
 
 import Foundation
-import Kanna
+import PromiseKit
 
 struct Http {
     let url: String
 
     init(url: String) {
         self.url = url
-    }
-
-    func html(method: HttpMethod,
-              parameters: [String: Any] = [:],
-              headers: [String: String] = [:],
-              completion: @escaping (HTMLDocument?) -> Void) {
-        guard let urlRequest = prepareRequest(method: method,
-                                              encoding: .html,
-                                              parameters: parameters,
-                                              headers: headers) else {
-                                                completion(nil)
-                                                return
-        }
-
-        Http.session.dataTask(with: urlRequest) { data, response, error in
-            logger.info("Fetching \(self.url) complete")
-
-            if let error = error {
-                logger.error("html : \(error)")
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            } else if let data = data {
-                var usedEncoding = String.Encoding.utf8
-                if let encodingName = response?.textEncodingName {
-                    let encoding = CFStringConvertEncodingToNSStringEncoding(
-                        CFStringConvertIANACharSetNameToEncoding(encodingName as CFString))
-                    if encoding != UInt(kCFStringEncodingInvalidId) {
-                        usedEncoding = String.Encoding(rawValue: encoding)
-                    }
-                }
-                if let html = String(data: data, encoding: usedEncoding),
-                    let doc = try? Kanna.HTML(html: html, encoding: usedEncoding) {
-                    DispatchQueue.main.async {
-                        completion(doc)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        completion(nil)
-                    }
-                }
-            }
-            }.resume()
     }
 
     func json(method: HttpMethod,
@@ -102,6 +59,35 @@ struct Http {
                 }
             }
             }.resume()
+    }
+    
+    func uploadPromise(method: HttpMethod,
+                       headers: [String: String] = [:],
+                       data: Data) -> Promise<Any?> {
+        return Promise<Any?> { seal in
+            guard let urlRequest = prepareRequest(method: method,
+                                                  encoding: .multipart,
+                                                  parameters: [:],
+                                                  headers: headers) else {
+                seal.fulfill(nil)
+                return
+            }
+
+            Http.session.uploadTask(with: urlRequest,
+                                    from: data) { data, response, error in
+                if let error = error {
+                    logger.error("request error : \(error)")
+                    seal.reject(error)
+                } else if let data = data {
+                    logger.verbose("upload result : \(data)")
+                    seal.fulfill(data)
+                }
+                logger.debug("p \(#function): "
+                                + "\(String(describing: error)), "
+                                + "data: \(String(describing: data)), "
+                                + "response: \(String(describing: response))")
+            }.resume()
+        }
     }
 
     func upload(method: HttpMethod,
@@ -241,13 +227,13 @@ extension Http {
     }
     private static let defaultHTTPHeaders: [String: String] = {
         // Accept-Encoding HTTP Header; see https://tools.ietf.org/html/rfc7230#section-4.2.3
-        let acceptEncoding: String = "gzip;q=1.0, compress;q=0.5"
+        let acceptEncoding: String = "gzip" //;q=1.0, compress;q=0.5"
 
         // Accept-Language HTTP Header; see https://tools.ietf.org/html/rfc7231#section-5.3.5
         let acceptLanguage = Locale.preferredLanguages
             .prefix(6).enumerated().map { index, languageCode in
             let quality = 1.0 - (Double(index) * 0.1)
-            return "\(languageCode);q=\(quality)"
+            return "\(languageCode)" //";q=\(quality)"
             }.joined(separator: ", ")
 
         // User-Agent Header; see https://tools.ietf.org/html/rfc7231#section-5.5.3

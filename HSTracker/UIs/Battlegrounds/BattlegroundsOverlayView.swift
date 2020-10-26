@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import kotlin_hslog
 
 class BattlegroundsOverlayView: NSView {
     var currentIndex = -1

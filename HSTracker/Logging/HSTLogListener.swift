@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import kotlin_hslog
 
 class HSTLogListener: HSLogListener {
     private let windowManager: WindowManager

@@ -18,10 +18,14 @@ final class Cards {
     }()
     
     static var cards = [Card]()
+    // map used to quickly find cards by id
+    static var cardsById = [String: Card]()
 
     static func hero(byId cardId: String) -> Card? {
-        if let card = cards.first(where: { $0.id == cardId && $0.type == .hero }) {
-            return card.copy() as? Card
+        if let card = cardsById[cardId] {
+            if card.type == .hero {
+                return card.copy() as? Card
+            }
         }
         return nil
     }
@@ -33,9 +37,14 @@ final class Cards {
     }
     
     static func isPlayableHero(cardId: String?) -> Bool {
-        if cards.first(where: { $0.id == cardId && $0.type == .hero &&
-            $0.set != CardSet.core && $0.set != CardSet.hero_skins}) != nil {
-            return true
+        guard !cardId.isBlank else {
+            return false
+        }
+        
+        if let card = cardsById[cardId!] {
+            if card.type == .hero && card.set != CardSet.core && card.set != CardSet.hero_skins {
+                return true
+            }
         }
         return false
     }
@@ -43,12 +52,11 @@ final class Cards {
     static func by(cardId: String?) -> Card? {
         guard !cardId.isBlank else { return nil }
 
-        if let card = cards.filter({
-            $0.type != .hero_power && ($0.type != .hero || ($0.type == .hero &&
-                $0.set != CardSet.core && $0.set != CardSet.hero_skins)  )
-        })
-            .first(where: { $0.id == cardId }) {
-            return card.copy() as? Card
+        if let card = cardsById[cardId!] {
+            if card.type != .hero_power && (card.type != .hero || (card.type == .hero &&
+                                                                    card.set != CardSet.core && card.set != CardSet.hero_skins)) {
+                return card.copy() as? Card
+            }
         }
         return nil
     }
@@ -66,7 +74,7 @@ final class Cards {
     static func any(byId cardId: String) -> Card? {
         guard !cardId.isBlank else { return nil }
 
-        if let card = cards.first(where: { $0.id == cardId }) {
+        if let card = cardsById[cardId] {
             return card.copy() as? Card
         }
         return nil

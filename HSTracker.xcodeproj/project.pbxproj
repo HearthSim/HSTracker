@@ -456,7 +456,6 @@
 		4C1923942392DF8A007EBB0F /* BattlegroundsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */; };
 		4C1923962392DFA5007EBB0F /* BattlegroundsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */; };
 		4C1923992392E18E007EBB0F /* BattlegroundsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */; };
-		4C19239B2392E5A4007EBB0F /* HSTLogListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239A2392E5A4007EBB0F /* HSTLogListener.swift */; };
 		4C19239D2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */; };
 		4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */; };
 		4C1923A32392FF37007EBB0F /* BattlegroundsDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */; };
@@ -474,8 +473,6 @@
 		4C3E2DA82462338400292349 /* kotlin_hslog.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
 		4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4C68AF2F2447D39700E52834 /* kotlin_hslog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */; };
-		4C68AF302447D3A500E52834 /* kotlin_hslog.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C6E99A3237F635300702AB2 /* CollectionWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */; };
 		4CE0C73623C0E0CC0014045C /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
 		4CECFFD523C10C3E0093253E /* BattlegroundsTierDetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */; };
@@ -489,8 +486,6 @@
 		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
 		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		61424BC8246FF53C00877EE4 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61424BC6246FF51000877EE4 /* Kanna.framework */; };
-		61424BC9246FF53C00877EE4 /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 61424BC6246FF51000877EE4 /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		61424BCB24701A3700877EE4 /* DecksReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61424BCA24701A3700877EE4 /* DecksReader.swift */; };
 		64C117C8D3B76359080E750A /* ArenaWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C117F078373147EF731146 /* ArenaWatcher.swift */; };
 		B81F069D253899FB00F319F1 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B81F069C253899FB00F319F1 /* Config.xcconfig */; };
@@ -627,7 +622,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4C68AF302447D3A500E52834 /* kotlin_hslog.framework in Embed Frameworks */,
 				4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */,
 				5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */,
 				E301D342217CE7C6001F8D11 /* FMDB.framework in Embed Frameworks */,
@@ -635,7 +629,6 @@
 				436789DF1CAE484800C962D1 /* MASPreferences.framework in Embed Frameworks */,
 				439DD8FE1DB24F83004EBE47 /* Gzip.framework in Embed Frameworks */,
 				43BBAA9F1E619F96009B6298 /* Unbox.framework in Embed Frameworks */,
-				61424BC9246FF53C00877EE4 /* Kanna.framework in Embed Frameworks */,
 				43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */,
 				4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */,
 				4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */,
@@ -992,7 +985,6 @@
 		4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOverlay.swift; sourceTree = "<group>"; };
 		4C1923952392DFA5007EBB0F /* BattlegroundsOverlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsOverlay.xib; sourceTree = "<group>"; };
 		4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsOverlayView.swift; sourceTree = "<group>"; };
-		4C19239A2392E5A4007EBB0F /* HSTLogListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTLogListener.swift; sourceTree = "<group>"; };
 		4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsWindow.swift; sourceTree = "<group>"; };
 		4C1923A02392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsDetailsWindow.xib; sourceTree = "<group>"; };
 		4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsDetailsView.swift; sourceTree = "<group>"; };
@@ -1250,8 +1242,6 @@
 				5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */,
 				E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */,
 				4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */,
-				61424BC8246FF53C00877EE4 /* Kanna.framework in Frameworks */,
-				4C68AF2F2447D39700E52834 /* kotlin_hslog.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1599,7 +1589,6 @@
 				439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */,
 				439C7EA11C777F8900D29859 /* Game.swift */,
 				439C7EAC1C777F8900D29859 /* CoreManager.swift */,
-				4C19239A2392E5A4007EBB0F /* HSTLogListener.swift */,
 				439C7EAD1C777F8900D29859 /* LogLine.swift */,
 				43C567E61D5D0F2E00451B6F /* LogLineNamespace.swift */,
 				43C567E81D5D0F5700451B6F /* LogLineZone.swift */,
@@ -1974,7 +1963,6 @@
 				4368741F201720A800C9D1E9 /* Update version */,
 				B8D8859B24F4333000F2F0F2 /* Download BobsBuddy and HearthDb */,
 				4C68AF242447CE5000E52834 /* Download HearthMirror */,
-				4C68AF232447C1CD00E52834 /* Download kotlin_hslog */,
 				439C7E441C7772C000D29859 /* Sources */,
 				439C7E451C7772C000D29859 /* Frameworks */,
 				439C7E461C7772C000D29859 /* Resources */,
@@ -2164,24 +2152,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ -z \"$CI\" ] && which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		4C68AF232447C1CD00E52834 /* Download kotlin_hslog */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Download kotlin_hslog";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# change version here when needed\nVERSION=452\n\nset -e\n\nDIR=\"$SRCROOT/downloaded-frameworks/kotlin_hslog\"\nVERSION_FILE=\"$DIR/kotlin_hslog.version\"\nZIP_FILE=\"$DIR/kotlin_hslog.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/kotlin_hslog.framework.dSYM.zip\"\n\nmkdir -p $DIR\ntouch $VERSION_FILE\n\nif [ \"$(cat $VERSION_FILE)\" != \"$VERSION\" ]\nthen\n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://github.com/HearthSim/Arcane-Tracker/releases/download/$VERSION/kotlin_hslog.framework.release.zip\" -O \"$ZIP_FILE\"\n    wget \"https://github.com/HearthSim/Arcane-Tracker/releases/download/$VERSION/kotlin_hslog.framework.dSYM.release.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$VERSION\" > \"$VERSION_FILE\"\nfi\n\n\n\n\n";
-		};
 		4C68AF242447CE5000E52834 /* Download HearthMirror */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2198,7 +2168,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTRracker\nSHA1=be552afcc41232f61a84b9abe38b305549cd1606\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTRracker\nSHA1=3f4c6b5c3b53d41ce58998e1213cf85e66af5d2d\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2422,7 +2392,6 @@
 				43C9EF291E9C1DED00D17F2A /* ArenaHelperSync.swift in Sources */,
 				43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */,
 				439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */,
-				4C19239B2392E5A4007EBB0F /* HSTLogListener.swift in Sources */,
 				436DFAA31E6AE1D8001C8F34 /* PackWatcher.swift in Sources */,
 				1C17D24C1E82C81700ED4047 /* LogEventParser.swift in Sources */,
 				B8D8859824F40D4E00F2F0F2 /* ClickableBox.swift in Sources */,
@@ -3197,9 +3166,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
 					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
-					"$(PROJECT_DIR)/Arcane-Tracker/kotlin-hslog/build/bin/macosX64/releaseFramework",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
-					"$(PROJECT_DIR)/downloaded-frameworks/kotlin_hslog",
 					"$(PROJECT_DIR)/Carthage/Build/Mac/Static",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
@@ -3242,9 +3209,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/HSTracker",
 					"\"${PROJECT_DIR}/Carthage/Build/Mac\"/**",
-					"$(PROJECT_DIR)/Arcane-Tracker/kotlin-hslog/build/bin/macosX64/releaseFramework",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
-					"$(PROJECT_DIR)/downloaded-frameworks/kotlin_hslog",
 					"$(PROJECT_DIR)/Carthage/Build/Mac/Static",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
