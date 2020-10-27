@@ -387,8 +387,14 @@ class SecretsManager {
         exclude(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
     }
     
-    func handleTurnStart() {
+    func handlePlayerTurnStart() {
         savedSecrets.removeAll()
+    }
+    
+    func handleOpponentTurnStart() {
+        if game.player.cardsPlayedThisTurn.count > 0 {
+            exclude(cardId: CardIds.Secrets.Rogue.Plagiarize)
+        }
     }
 
     func handleCardPlayed(entity: Entity) {

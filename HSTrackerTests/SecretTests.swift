@@ -247,13 +247,14 @@ class SecretTests: HSTrackerTests {
         game.secretsManager?.handleAttack(attacker: heroPlayer, defender: opponentMinion1)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.SnakeTrap,
-                                  CardIds.Secrets.Hunter.VenomstrikeTrap])
+                                  CardIds.Secrets.Hunter.VenomstrikeTrap,
+                                  CardIds.Secrets.Hunter.PackTactics])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
                                   CardIds.Secrets.Paladin.AutodefenseMatrix])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
 
     func testSingleSecret_MinionToMinion_PlayerAttack() {
@@ -261,25 +262,27 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.FreezingTrap,
                                   CardIds.Secrets.Hunter.SnakeTrap,
-                                  CardIds.Secrets.Hunter.VenomstrikeTrap])
+                                  CardIds.Secrets.Hunter.VenomstrikeTrap,
+                                  CardIds.Secrets.Hunter.PackTactics])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice,
                                   CardIds.Secrets.Paladin.AutodefenseMatrix])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
     
     func testSingleSecret_HeroToDivineShieldMinion_PlayerAttackTest() {
         game.secretsManager?.handleAttack(attacker: heroPlayer, defender: opponentDivineShieldMinion)
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.SnakeTrap,
-                                  CardIds.Secrets.Hunter.VenomstrikeTrap])
+                                  CardIds.Secrets.Hunter.VenomstrikeTrap,
+                                  CardIds.Secrets.Hunter.PackTactics])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
     
     func testSingleSecret_MinionToDivineShieldMinion_PlayerAttackTest() {
@@ -287,12 +290,13 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All,
                       triggered: [CardIds.Secrets.Hunter.FreezingTrap,
                                   CardIds.Secrets.Hunter.SnakeTrap,
-                                  CardIds.Secrets.Hunter.VenomstrikeTrap])
+                                  CardIds.Secrets.Hunter.VenomstrikeTrap,
+                                  CardIds.Secrets.Hunter.PackTactics])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.SplittingImage])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NobleSacrifice])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Bamboozle])
     }
 
     func testSingleSecret_OnlyMinionDied() {
@@ -336,7 +340,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Mage.FrozenClone])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.Repentance])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Ambush])
     }
 
     func testSingleSecret_OpponentDamage() {
@@ -357,9 +361,10 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Counterspell,
                                   CardIds.Secrets.Mage.Spellbender,
-                                  CardIds.Secrets.Mage.ManaBind])
+                                  CardIds.Secrets.Mage.ManaBind,
+                                  CardIds.Secrets.Mage.NetherwindPortal])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.DirtyTrick])
     }
 
     func testSingleSecret_NoMinionTarget_SpellPlayed() {
@@ -369,9 +374,10 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Hunter.CatTrick])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Counterspell,
-                                  CardIds.Secrets.Mage.ManaBind])
+                                  CardIds.Secrets.Mage.ManaBind,
+                                  CardIds.Secrets.Mage.NetherwindPortal])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.DirtyTrick])
     }
     
     func testSingleSecret_MinionOnBoard_NoMinionTarget_SpellPlayed() {
@@ -382,10 +388,11 @@ class SecretTests: HSTrackerTests {
                       triggered: [CardIds.Secrets.Hunter.CatTrick])
         verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All,
                       triggered: [CardIds.Secrets.Mage.Counterspell,
-                                  CardIds.Secrets.Mage.ManaBind])
+                                  CardIds.Secrets.Mage.ManaBind,
+                                  CardIds.Secrets.Mage.NetherwindPortal])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.NeverSurrender])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.DirtyTrick])
     }
 
     func testSingleSecret_MinionInPlay_OpponentTurnStart() {
@@ -434,6 +441,25 @@ class SecretTests: HSTrackerTests {
         verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
     }
     
+    func testSingleSecret_PlayerTurnStart_OpponentPlayedCards_PlagerizeTriggered() {
+        game.player.play(entity: opponentMinion1, turn: 1)
+        game.secretsManager?.handleOpponentTurnStart()
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Plagiarize])
+    }
+    
+    func testSingleSecret_PlayerTurnStart_OpponentPlayedNoCards_PlagerizeNotTriggered() {
+        game.player.play(entity: opponentMinion1, turn: 1)
+        game.player.onTurnStart()
+        game.secretsManager?.handleOpponentTurnStart()
+        verifySecrets(secretIndex: 0, allSecrets: CardIds.Secrets.Hunter.All)
+        verifySecrets(secretIndex: 1, allSecrets: CardIds.Secrets.Mage.All)
+        verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+    }
+
     func testMultipleSecrets_MinionToHero_ExplosiveTrapTriggered_MinionDied_PlayerAttackTest() {
         playerMinion1[.zone] = Zone.play.rawValue
         playerMinion1[.health] = -1
@@ -512,7 +538,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Mage.PotionOfPolymorph])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.Repentance])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Ambush])
     }
     
     func testMultipleSecrets_MinionPlayed_AnotherMinionDied() {
@@ -528,7 +554,7 @@ class SecretTests: HSTrackerTests {
                                   CardIds.Secrets.Mage.PotionOfPolymorph])
         verifySecrets(secretIndex: 2, allSecrets: CardIds.Secrets.Paladin.All,
                       triggered: [CardIds.Secrets.Paladin.Repentance])
-        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All)
+        verifySecrets(secretIndex: 3, allSecrets: CardIds.Secrets.Rogue.All, triggered: [CardIds.Secrets.Rogue.Ambush])
     }
     
     // TODO: Add test for Rat Trap, Hidden Wisdom, Sacred Trial, etc.

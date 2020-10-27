@@ -24,8 +24,8 @@ class ReplayUploadTests: HSTrackerTests {
 	func testMetadataWrap() {
 		let player = UploadMetaData.Player()
 		
-		player.rank = 1
-		player.legendRank = 0
+//		player.rank = 1
+//		player.legendRank = 0
 		player.stars = 1
 		player.wins = 20
 		player.losses = 10
@@ -38,7 +38,7 @@ class ReplayUploadTests: HSTrackerTests {
 			return
 		}
 		
-		XCTAssert(wrappedPlayer["rank"] as! Int == player.rank!)
+//		XCTAssert(wrappedPlayer["rank"] as! Int == player.rank!)
 		XCTAssert(wrappedPlayer["cardback"] as! Int == player.cardBack!)
 		XCTAssert(wrappedPlayer["deck"] as! [String] == player.deck!)
 	}

@@ -512,6 +512,45 @@
 		B8DC11F424EACDB80088A755 /* SimulationRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F324EACDB80088A755 /* SimulationRunner.swift */; };
 		B8DC120024EC5F9A0088A755 /* BobsBuddyPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */; };
 		B8DC120524EC79370088A755 /* TestOutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* TestOutputProxy.swift */; };
+		B8DEDCC22547C4AE00DF524B /* DemonHunter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED5D14243D1B27006D2E1F /* DemonHunter.swift */; };
+		B8DEDCC32547C4B900DF524B /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
+		B8DEDCC42547C4C000DF524B /* MonoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAA24E3021D00905024 /* MonoHelper.swift */; };
+		B8DEDCC52547C4EA00DF524B /* MonoHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11ED24E5A8360088A755 /* MonoHandle.swift */; };
+		B8DEDCC62547C4F200DF524B /* SimulatorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAF24E32C3000905024 /* SimulatorProxy.swift */; };
+		B8DEDCC72547C4F800DF524B /* TestInputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EAD24E3229200905024 /* TestInputProxy.swift */; };
+		B8DEDCC82547C4FD00DF524B /* TestOutputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC120424EC79370088A755 /* TestOutputProxy.swift */; };
+		B8DEDCC92547C50700DF524B /* SimulationRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F324EACDB80088A755 /* SimulationRunner.swift */; };
+		B8DEDCCA2547C51A00DF524B /* MinionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EB324E40B9F00905024 /* MinionProxy.swift */; };
+		B8DEDCCB2547C51F00DF524B /* CollectionWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */; };
+		B8DEDCCC2547C52800DF524B /* ToastWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D89245ED13D00292349 /* ToastWindowController.swift */; };
+		B8DEDCCD2547C53900DF524B /* Toaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D8B245ED5AA00292349 /* Toaster.swift */; };
+		B8DEDCCE2547C54200DF524B /* CollectionToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D91245F16B900292349 /* CollectionToastViewController.swift */; };
+		B8DEDCCF2547C55F00DF524B /* BattlegroundsDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */; };
+		B8DEDCD02547C55F00DF524B /* BattlegroundsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923932392DF8A007EBB0F /* BattlegroundsOverlay.swift */; };
+		B8DEDCD12547C55F00DF524B /* BattlegroundsTierDetailWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */; };
+		B8DEDCD22547C58200DF524B /* BattlegroundsOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1923982392E18E007EBB0F /* BattlegroundsOverlayView.swift */; };
+		B8DEDCD32547C58200DF524B /* BattlegroundsTierDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */; };
+		B8DEDCD42547C58200DF524B /* BattlegroundsDetailsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C19239C2392FA7E007EBB0F /* BattlegroundsDetailsWindow.swift */; };
+		B8DEDCD52547C58800DF524B /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
+		B8DEDCD62547C59700DF524B /* BobsBuddyPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */; };
+		B8DEDCD72547C5A800DF524B /* BobsBuddyInvoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11EF24E6AF280088A755 /* BobsBuddyInvoker.swift */; };
+		B8DEDCD82547C5A800DF524B /* BobsBuddyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DC11F124E77F040088A755 /* BobsBuddyState.swift */; };
+		B8DEDCD92547C5A800DF524B /* BobsBuddyErrorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859924F4185200F2F0F2 /* BobsBuddyErrorState.swift */; };
+		B8DEDCDA2547C5AF00DF524B /* ClickableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859724F40D4E00F2F0F2 /* ClickableBox.swift */; };
+		B8DEDCDB2547C5C200DF524B /* MinionFactoryProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82F4EB124E4088500905024 /* MinionFactoryProxy.swift */; };
+		B8DEDCDC2547C5C800DF524B /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
+		B8DEDCDD2547C5D100DF524B /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
+		B8DEDCDE2547C5F400DF524B /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
+		B8DEDCDF2547C61B00DF524B /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
+		B8DEDCE02547C63C00DF524B /* DecksReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61424BCA24701A3700877EE4 /* DecksReader.swift */; };
+		B8DEDCE12547C64300DF524B /* BgHeroesToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */; };
+		B8DEDCE22547C65700DF524B /* FillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9D245F85C700292349 /* FillImageView.swift */; };
+		B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; };
+		B8DEDCE52547CF6300DF524B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DEDCE42547CF6300DF524B /* AppCenter.framework */; };
+		B8DEDCE82547CF8300DF524B /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DEDCE62547CF8300DF524B /* AppCenterCrashes.framework */; };
+		B8DEDCE92547CF8300DF524B /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DEDCE72547CF8300DF524B /* AppCenterAnalytics.framework */; };
+		B8DEDCEA2547CF9F00DF524B /* MonoUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = B82F535624EE161A004273FF /* MonoUtility.c */; };
+		B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
@@ -569,6 +608,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */,
 				5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */,
 				1CCB4AE21E847512003FD1AD /* Unbox.framework in CopyFiles */,
 				1CCB4AE11E8474F8003FD1AD /* Gzip.framework in CopyFiles */,
@@ -1054,6 +1094,9 @@
 		B8DC11F324EACDB80088A755 /* SimulationRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationRunner.swift; sourceTree = "<group>"; };
 		B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyPanel.swift; sourceTree = "<group>"; };
 		B8DC120424EC79370088A755 /* TestOutputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOutputProxy.swift; sourceTree = "<group>"; };
+		B8DEDCE42547CF6300DF524B /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = Carthage/Build/Mac/AppCenter.framework; sourceTree = "<group>"; };
+		B8DEDCE62547CF8300DF524B /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = Carthage/Build/Mac/AppCenterCrashes.framework; sourceTree = "<group>"; };
+		B8DEDCE72547CF8300DF524B /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = Carthage/Build/Mac/AppCenterAnalytics.framework; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
 		BC78DD761E80871600DBA7C9 /* BTree.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BTree.framework; path = Carthage/Build/Mac/BTree.framework; sourceTree = "<group>"; };
@@ -1249,6 +1292,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8DEDCE82547CF8300DF524B /* AppCenterCrashes.framework in Frameworks */,
+				B8DEDCE92547CF8300DF524B /* AppCenterAnalytics.framework in Frameworks */,
+				B8DEDCE52547CF6300DF524B /* AppCenter.framework in Frameworks */,
+				B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */,
 				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
 				43BA1C981FB2EA380007C500 /* AwaitKit.framework in Frameworks */,
@@ -1900,6 +1947,9 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B8DEDCE72547CF8300DF524B /* AppCenterAnalytics.framework */,
+				B8DEDCE62547CF8300DF524B /* AppCenterCrashes.framework */,
+				B8DEDCE42547CF6300DF524B /* AppCenter.framework */,
 				B83355B324F84F200025F644 /* libiconv.2.dylib */,
 				B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */,
 				B864A14224F58539005EA2A0 /* Mono.framework */,
@@ -2453,6 +2503,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8DEDCEA2547CF9F00DF524B /* MonoUtility.c in Sources */,
+				B8DEDCE22547C65700DF524B /* FillImageView.swift in Sources */,
+				B8DEDCE12547C64300DF524B /* BgHeroesToastView.swift in Sources */,
+				B8DEDCE02547C63C00DF524B /* DecksReader.swift in Sources */,
+				B8DEDCDF2547C61B00DF524B /* MinionHeroPowerTrigger.swift in Sources */,
+				B8DEDCDE2547C5F400DF524B /* BattlegroundsTierOverlay.swift in Sources */,
+				B8DEDCDD2547C5D100DF524B /* BattlegroundsPreferences.swift in Sources */,
+				B8DEDCDC2547C5C800DF524B /* StatusMessageConverter.swift in Sources */,
+				B8DEDCDB2547C5C200DF524B /* MinionFactoryProxy.swift in Sources */,
+				B8DEDCDA2547C5AF00DF524B /* ClickableBox.swift in Sources */,
+				B8DEDCD72547C5A800DF524B /* BobsBuddyInvoker.swift in Sources */,
+				B8DEDCD82547C5A800DF524B /* BobsBuddyState.swift in Sources */,
+				B8DEDCD92547C5A800DF524B /* BobsBuddyErrorState.swift in Sources */,
+				B8DEDCD62547C59700DF524B /* BobsBuddyPanel.swift in Sources */,
+				B8DEDCD52547C58800DF524B /* FrameView.swift in Sources */,
+				B8DEDCD22547C58200DF524B /* BattlegroundsOverlayView.swift in Sources */,
+				B8DEDCD32547C58200DF524B /* BattlegroundsTierDetailsView.swift in Sources */,
+				B8DEDCD42547C58200DF524B /* BattlegroundsDetailsWindow.swift in Sources */,
+				B8DEDCCF2547C55F00DF524B /* BattlegroundsDetailsView.swift in Sources */,
+				B8DEDCD02547C55F00DF524B /* BattlegroundsOverlay.swift in Sources */,
+				B8DEDCD12547C55F00DF524B /* BattlegroundsTierDetailWindowController.swift in Sources */,
+				B8DEDCCE2547C54200DF524B /* CollectionToastViewController.swift in Sources */,
+				B8DEDCCD2547C53900DF524B /* Toaster.swift in Sources */,
+				B8DEDCCC2547C52800DF524B /* ToastWindowController.swift in Sources */,
+				B8DEDCCB2547C51F00DF524B /* CollectionWatcher.swift in Sources */,
+				B8DEDCCA2547C51A00DF524B /* MinionProxy.swift in Sources */,
+				B8DEDCC92547C50700DF524B /* SimulationRunner.swift in Sources */,
+				B8DEDCC82547C4FD00DF524B /* TestOutputProxy.swift in Sources */,
+				B8DEDCC72547C4F800DF524B /* TestInputProxy.swift in Sources */,
+				B8DEDCC62547C4F200DF524B /* SimulatorProxy.swift in Sources */,
+				B8DEDCC52547C4EA00DF524B /* MonoHandle.swift in Sources */,
+				B8DEDCC42547C4C000DF524B /* MonoHelper.swift in Sources */,
+				B8DEDCC32547C4B900DF524B /* TurnCounter.swift in Sources */,
+				B8DEDCC22547C4AE00DF524B /* DemonHunter.swift in Sources */,
 				F723404420014D3E00E4587A /* Events.swift in Sources */,
 				43C1CAC11E96CE4E008C20B1 /* GlowFilter.m in Sources */,
 				43C1CAC01E96CE3C008C20B1 /* FileUtils.m in Sources */,
@@ -3092,7 +3176,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -3141,7 +3225,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -3243,6 +3327,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
 				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -3262,6 +3352,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"/Library/Frameworks/Mono.framework/Headers/mono-2.0",
 				);
 				INFOPLIST_FILE = HSTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";

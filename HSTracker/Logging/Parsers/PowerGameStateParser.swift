@@ -398,9 +398,11 @@ class PowerGameStateParser: LogEventParser {
 
                 let actionStartingEntityId = Int(matches[1].value)!
                 var actionStartingCardId: String? = matches[3].value
+                var actionStartingEntity: Entity?
 
                 if actionStartingCardId.isBlank {
-                    if let actionEntity = eventHandler.entities[actionStartingEntityId] {
+                    actionStartingEntity = eventHandler.entities[actionStartingEntityId]
+                    if let actionEntity = actionStartingEntity {
                         actionStartingCardId = actionEntity.cardId
                     }
                 }
@@ -473,6 +475,14 @@ class PowerGameStateParser: LogEventParser {
                                 addKnownCardId(eventHandler: eventHandler, cardId: eventHandler.player.lastDiedMinionCardId)
                             } else if correspondPlayer == eventHandler.opponent.id {
                                 addKnownCardId(eventHandler: eventHandler, cardId: eventHandler.opponent.lastDiedMinionCardId)
+                            }
+                            // TODO: catch up to HDT PowerHandler
+                        case CardIds.Collectible.Rogue.Plagiarize:
+                            if let actionEntity = actionStartingEntity {
+                                let player = actionEntity.isControlled(by: eventHandler.player.id) ? eventHandler.opponent : eventHandler.player
+                                for card in player!.cardsPlayedThisTurn {
+                                    addKnownCardId(eventHandler: eventHandler, cardId: card)
+                                }
                             }
                         default: break
                         }
