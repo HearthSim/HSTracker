@@ -175,7 +175,7 @@ extension Entity: NSCopying {
 
 extension Entity: Hashable {
     func hash(into hasher: inout Hasher) {
-        hasher.combine(hashValue)
+        hasher.combine(id)
     }
 
     static func == (lhs: Entity, rhs: Entity) -> Bool {

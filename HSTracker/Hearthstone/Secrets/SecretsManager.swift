@@ -14,6 +14,7 @@ class SecretsManager {
     private var _avengeDeathRattleCount = 0
     private var _awaitingAvenge = false
     private var _lastCompetitiveSpiritCheck = 0
+    private var entititesInHandOnMinionsPlayed: Set<Entity>  = Set<Entity>()
 
     private var game: Game
     private(set) var secrets: [Secret] = []
@@ -30,6 +31,7 @@ class SecretsManager {
     private var freeSpaceOnBoard: Bool { return game.opponentMinionCount < 7 }
     private var freeSpaceInHand: Bool { return game.opponentHandCount < 10 }
     private var handleAction: Bool { return hasActiveSecrets }
+    private var isAnyMinionInOpponentsHand: Bool { return entititesInHandOnMinionsPlayed.first(where: { entity in entity.isMinion }) != nil }
 
     private var hasActiveSecrets: Bool {
         return secrets.count > 0
@@ -67,6 +69,7 @@ class SecretsManager {
         _avengeDeathRattleCount = 0
         _awaitingAvenge = false
         _lastCompetitiveSpiritCheck = 0
+        entititesInHandOnMinionsPlayed.removeAll()
         secrets.removeAll()
     }
 
@@ -173,49 +176,45 @@ class SecretsManager {
         }
 
         if defender.isHero {
-            if !fastOnly {
-                // if the minion dies, bear trap won't be triggered
-                if freeSpaceOnBoard && attacker.health >= 1 {
+            if !fastOnly && attacker.health >= 1{
+                if freeSpaceOnBoard {
                     exclude.append(CardIds.Secrets.Hunter.BearTrap)
                 }
-                exclude.append(CardIds.Secrets.Mage.IceBarrier)
+
+                if (game.entities.values.first(where: { x in
+                    x.isInPlay && (x.isHero || x.isMinion) && !x.has(tag: .immune) && x != attacker && x != defender
+                    }) != nil) {
+                    exclude.append(CardIds.Secrets.Hunter.Misdirection)
+                }
+
+                if attacker.isMinion {
+                    if game.playerMinionCount > 1 {
+                        exclude.append(CardIds.Secrets.Rogue.SuddenBetrayal)
+                    }
+
+                    exclude.append(CardIds.Secrets.Mage.FlameWard)
+                    exclude.append(CardIds.Secrets.Hunter.FreezingTrap)
+                    exclude.append(CardIds.Secrets.Mage.Vaporize)
+                }
             }
 
             if freeSpaceOnBoard {
                 exclude.append(CardIds.Secrets.Hunter.WanderingMonster)
             }
-            
+
+            exclude.append(CardIds.Secrets.Mage.IceBarrier)
             exclude.append(CardIds.Secrets.Hunter.ExplosiveTrap)
-
-            if game.isMinionInPlay {
-                exclude.append(CardIds.Secrets.Hunter.Misdirection)
-            }
-
-            if attacker.isMinion && game.playerMinionCount > 1 {
-                exclude.append(CardIds.Secrets.Rogue.SuddenBetrayal)
-            }
-
-            if attacker.isMinion {
-                exclude.append(CardIds.Secrets.Mage.Vaporize)
-                exclude.append(CardIds.Secrets.Mage.FlameWard)
-                if attacker.health >= 1 {
-                    exclude.append(CardIds.Secrets.Hunter.FreezingTrap)
-                }
-            }
         } else {
+            exclude.append(CardIds.Secrets.Rogue.Bamboozle)
             if !defender.has(tag: .divine_shield) {
                 exclude.append(CardIds.Secrets.Paladin.AutodefenseMatrix)
             }
             
             if freeSpaceOnBoard {
                 exclude.append(CardIds.Secrets.Mage.SplittingImage)
-                
-                if !fastOnly {
-                    exclude.append(CardIds.Secrets.Hunter.SnakeTrap)
-                    exclude.append(CardIds.Secrets.Hunter.VenomstrikeTrap)
-                    exclude.append(CardIds.Secrets.Rogue.Bamboozle)
-                    exclude.append(CardIds.Secrets.Hunter.PackTactics)
-                }
+                exclude.append(CardIds.Secrets.Hunter.PackTactics)
+                exclude.append(CardIds.Secrets.Hunter.SnakeTrap)
+                exclude.append(CardIds.Secrets.Hunter.VenomstrikeTrap)
             }
 
             if attacker.isMinion {
@@ -247,17 +246,16 @@ class SecretsManager {
         
         _lastPlayedMinionId = entity.id
 
-        //Hidden cache will only trigger if the opponent has a minion in hand.
-        //We might not know this for certain - requires additional tracking logic.
-        //TODO: _game.SecretsManager.SetZero(Hunter.HiddenCache);
-        saveSecret(secretName: CardIds.Secrets.Hunter.Snipe)
-        exclude.append(CardIds.Secrets.Hunter.Snipe)
-        saveSecret(secretName: CardIds.Secrets.Mage.ExplosiveRunes)
-        exclude.append(CardIds.Secrets.Mage.ExplosiveRunes)
-        saveSecret(secretName: CardIds.Secrets.Mage.PotionOfPolymorph)
-        exclude.append(CardIds.Secrets.Mage.PotionOfPolymorph)
-        saveSecret(secretName: CardIds.Secrets.Paladin.Repentance)
-        exclude.append(CardIds.Secrets.Paladin.Repentance)
+        if !entity.has(tag: .dormant) {
+            saveSecret(secretName: CardIds.Secrets.Hunter.Snipe)
+            exclude.append(CardIds.Secrets.Hunter.Snipe)
+            saveSecret(secretName: CardIds.Secrets.Mage.ExplosiveRunes)
+            exclude.append(CardIds.Secrets.Mage.ExplosiveRunes)
+            saveSecret(secretName: CardIds.Secrets.Mage.PotionOfPolymorph)
+            exclude.append(CardIds.Secrets.Mage.PotionOfPolymorph)
+            saveSecret(secretName: CardIds.Secrets.Paladin.Repentance)
+            exclude.append(CardIds.Secrets.Paladin.Repentance)
+        }
 
         if freeSpaceOnBoard {
             saveSecret(secretName: CardIds.Secrets.Mage.MirrorEntity)
@@ -268,6 +266,19 @@ class SecretsManager {
 
         if freeSpaceInHand {
             exclude.append(CardIds.Secrets.Mage.FrozenClone)
+        }
+
+        //Hidden cache will only trigger if the opponent has a minion in hand.
+        //We might not know this for certain - requires additional tracking logic.
+        let cardsInOpponentsHand = game.entities.values.filter({ e in
+            e.isInHand && e.isControlled(by: game.opponent.id)
+        }).compactMap({ e in e })
+        for cardInOpponentsHand in cardsInOpponentsHand {
+            entititesInHandOnMinionsPlayed.insert(cardInOpponentsHand)
+        }
+
+        if isAnyMinionInOpponentsHand {
+            exclude.append(CardIds.Secrets.Hunter.HiddenCache)
         }
 
         self.exclude(cardIds: exclude)
@@ -420,16 +431,13 @@ class SecretsManager {
         
         if entity.isSpell {
             exclude.append(CardIds.Secrets.Mage.Counterspell)
-            exclude.append(CardIds.Secrets.Rogue.DirtyTrick)
 
             if game.opponentMinionCount > 0 {
                 exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
             }
-            if game.playerMinionCount > 0 {
-                exclude.append(CardIds.Secrets.Hunter.PressurePlate)
-            }
 
             if freeSpaceInHand {
+                exclude.append(CardIds.Secrets.Rogue.DirtyTricks)
                 exclude.append(CardIds.Secrets.Mage.ManaBind)
             }
 
@@ -449,6 +457,10 @@ class SecretsManager {
                 } catch {
                     logger.error("\(error)")
                 }
+            }
+
+            if game.playerMinionCount > 0 {
+                exclude.append(CardIds.Secrets.Hunter.PressurePlate)
             }
         } else if entity.isMinion && game.playerMinionCount > 3 {
             exclude.append(CardIds.Secrets.Paladin.SacredTrial)
