@@ -1406,8 +1406,12 @@ class Game: NSObject, PowerEventHandler {
         }
 
         if player == .player {
+            self.player.onTurnStart()
             handleThaurissanCostReduction()
-            secretsManager?.handleTurnStart()
+            secretsManager?.handlePlayerTurnStart()
+        } else {
+            opponent.onTurnStart()
+            secretsManager?.handleOpponentTurnStart()
         }
 
         if turnQueue.count > 0 {

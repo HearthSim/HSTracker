@@ -93,6 +93,7 @@ final class Player {
     var heroPowerCount = 0
     var lastDiedMinionCardId: String?
     fileprivate(set) var spellsPlayedCount = 0
+    fileprivate(set) var cardsPlayedThisTurn: [String] = []
     fileprivate(set) var deathrattlesPlayedCount = 0
 	private unowned(unsafe) let game: Game
 
@@ -476,6 +477,7 @@ final class Player {
         }
         entity.info.hidden = false
         entity.info.turn = turn
+        cardsPlayedThisTurn.append(entity.cardId)
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
@@ -561,6 +563,10 @@ final class Player {
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }
+    }
+    
+    func onTurnStart() {
+        cardsPlayedThisTurn.removeAll()
     }
 
     func deckToPlay(entity: Entity, turn: Int) {

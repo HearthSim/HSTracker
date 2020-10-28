@@ -110,8 +110,8 @@ enum GameTag: Int, WrappableEnum, CaseIterable {
     incoming_damage_adjustment = 237,
     incoming_damage_cap = 238,
     cant_be_healed = 239,
-    //immune = 240,
-    cant_be_damaged = 240,
+    immune = 240,
+    //cant_be_damaged = 240,
     cant_be_set_aside = 241,
     cant_be_removed_from_game = 242,
     cant_be_readied = 243,
@@ -350,7 +350,8 @@ enum GameTag: Int, WrappableEnum, CaseIterable {
     player_tech_level = 1377,
     bacon_hero_power_activated = 1398,
     tech_level = 1440,
-    bacon_hero_can_be_drafted = 1491
+    bacon_hero_can_be_drafted = 1491,
+    dormant = 1518
 
     init?(rawString: String) {
         let string = rawString.lowercased()
