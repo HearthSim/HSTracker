@@ -155,9 +155,9 @@ final class Cards {
         var cards = collectible()
 
         if term.isEmpty {
-            cards = cards.filter { $0.playerClass == className }
+            cards = cards.filter { $0.isClass(cardClass: className ?? .neutral) }
         } else {
-            cards = cards.filter { $0.playerClass == className || $0.playerClass == .neutral }
+            cards = cards.filter { $0.isClass(cardClass: className ?? .neutral) || $0.playerClass == .neutral && $0.multiClassGroup == .invalid }
                 .filter {
                     $0.name.lowercased().contains(term.lowercased()) ||
                         $0.enName.lowercased().contains(term.lowercased()) ||

@@ -168,6 +168,12 @@ class Database {
                     if index < 0 {
                         index = -index - 1
                     }
+                    
+                    if let multiClassGroup = jsonCard["multiClassGroup"] as? String {
+                        if let group = MultiClassGroup(rawValue: multiClassGroup.lowercased()) {
+                            card.multiClassGroup = group
+                        }
+                    }
                     Cards.cards.insert(card, at: index)
                     Cards.cardsById[card.id] = card
                 }
