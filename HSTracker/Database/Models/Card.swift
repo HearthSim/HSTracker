@@ -33,7 +33,24 @@ final class Card {
     var mechanics: [CardMechanic] = []
     var isStandard = false
     var artist = ""
+    var multiClassGroup: MultiClassGroup = .invalid
     var jsonRepresentation: [String: Any] = [:]
+    
+    static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
+        .grimy_goons: [ .hunter, .paladin, .warrior ],
+        .jade_lotus: [ .druid, .rogue, .shaman ],
+        .kabal: [ .mage, .priest, .warlock ],
+        .druid_hunter: [ .druid, .hunter ],
+        .druid_shaman: [ .druid, .shaman ],
+        .hunter_demonhunter: [ .hunter, .demonhunter ],
+        .mage_rogue: [ .mage, .rogue ],
+        .mage_shaman: [ .mage, .shaman ],
+        .paladin_priest: [ .paladin, .priest ],
+        .paladin_warrior: [ .paladin, .warrior ],
+        .priest_warlock: [ .priest, .warlock ],
+        .rogue_warrior: [ .rogue, .warrior ],
+        .warlock_demonhunter: [ .warlock, .demonhunter ]
+    ]
 
     // arena helper
     var isBadAsMultiple = false
@@ -55,6 +72,20 @@ final class Card {
             return self.name
         }
         return self.enName
+    }
+    
+    func isClass(cardClass: CardClass) -> Bool {
+        if playerClass == cardClass {
+            return true
+        }
+        
+        if multiClassGroup == .invalid {
+            return false
+        }
+        
+        return Card.multiClassGroups[multiClassGroup]?.first(where: { cc in
+            cc == cardClass
+        }) != nil
     }
 
     func formattedText() -> String {
@@ -136,6 +167,7 @@ extension Card: NSCopying {
         copy.highlightInHand = self.highlightInHand
         copy.highlightFrame = self.highlightFrame
         copy.jsonRepresentation = self.jsonRepresentation
+        copy.multiClassGroup = self.multiClassGroup
 
         return copy
     }
