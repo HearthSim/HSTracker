@@ -137,7 +137,7 @@ class CardHudContainer: OverWindowController {
                         let rect = NSRect(x: pos.x * SizeHelper.hearthstoneWindow.scaleX,
                                           y: pos.y * SizeHelper.hearthstoneWindow.scaleY,
                                           width: 36,
-                                          height: 45)
+                                          height: 50)
                         
                         hud.needsDisplay = true
                         

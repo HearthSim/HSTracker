@@ -12,6 +12,8 @@ import TextAttributes
 class CardHud: NSView {
     var entity: Entity?
     var card: Card?
+    var sourceCardImage: NSImage?
+    var sourceCard: Card?
     
     private lazy var trackingArea: NSTrackingArea = {
         return NSTrackingArea(rect: NSRect.zero,
@@ -20,10 +22,12 @@ class CardHud: NSView {
                               userInfo: nil)
     }()
     
-    private let cardMarkerFrame = NSRect(x: 1, y: 7, width: 32, height: 32)
+    private let cardMarkerFrame = NSRect(x: 1, y: 12, width: 32, height: 32)
     private let iconFrame = NSRect(x: 20, y: 3, width: 16, height: 16)
-    private let costReductionFrame = NSRect(x: 0, y: 25, width: 37, height: 26)
-    private let turnFrame = NSRect(x: 1, y: 13, width: 33, height: 31)
+    private let costReductionFrame = NSRect(x: 0, y: 30, width: 37, height: 26)
+    private let turnFrame = NSRect(x: 1, y: 18, width: 33, height: 31)
+    private let sourceCardFrame = NSRect(x: 10, y: 0, width: 16, height: 16)
+    private let cropRect = NSRect(x: 55, y: 0, width: 34, height: 55)
     
     init() {
         super.init(frame: NSRect.zero)
@@ -70,15 +74,34 @@ class CardHud: NSView {
             
             if entity.info.cardMark == .coin {
                 card = Cards.any(byId: CardIds.NonCollectible.Neutral.TheCoin)
+                
             } else if !entity.cardId.isBlank && !entity.info.hidden {
                 image = "small-card"
                 card = Cards.by(cardId: entity.cardId)
+            }
+
+            if entity.info.cardMark == .created {
+                let creatorId = entity.creatorId
+                let game = AppDelegate.instance().coreManager.game
+                if creatorId > 0, let creator = game.entities[creatorId] {
+                    sourceCard = creator.card
+                    ImageUtils.tile(for: creator.card.id, completion: { img in
+                        if let src = img {
+                            let cropped = src.crop(rect: self.cropRect)
+                            self.addImage(image: cropped, rect: self.sourceCardFrame)
+                            let path = NSBezierPath(rect: self.sourceCardFrame)
+                            let color = NSColor(red: 0x14/0x100, green: 0x16/0x100, blue: 0x17/0x100, alpha: 1.0)
+                            color.set()
+                            path.stroke()
+                        }
+                    })
+                }
             }
         }
         if let image = image {
             addImage(filename: image, rect: iconFrame)
         }
-        
+                
         let attributes = TextAttributes()
             .font(NSFont(name: "Belwe Bd BT", size: 20))
             .foregroundColor(.white)
@@ -103,6 +126,10 @@ class CardHud: NSView {
         guard let image = NSImage(named: NSImage.Name(rawValue: filename)) else { return }
         image.draw(in: rect)
     }
+    
+    private func addImage(image: NSImage!, rect: NSRect) {
+        image.draw(in: rect)
+    }
 
     // MARK: - mouse hover
     override func updateTrackingAreas() {
@@ -114,7 +141,7 @@ class CardHud: NSView {
     }
 
     override func mouseEntered(with event: NSEvent) {
-        guard let card = self.card else { return }
+        guard let card = self.card ?? self.sourceCard else { return }
         guard let rect = self.superview?.convert(self.frame, to: nil) else { return }
         guard let frame = self.superview?.window?.convertToScreen(rect) else { return }
 
