@@ -138,6 +138,20 @@ class Entity {
     var hasCardId: Bool {
         return !cardId.isBlank
     }
+    
+    var creatorId: Int {
+        // TODO: add hidden support
+        /*
+        if isHidden {
+            return 0
+        }
+        */
+        var creatorId = self[.displayed_creator]
+        if creatorId == 0 {
+            creatorId = self[.creator]
+        }
+        return creatorId
+    }
 
     private var _cachedCard: Card?
     var card: Card {

@@ -333,7 +333,7 @@ struct SizeHelper {
     }
 
     static let cardHudContainerWidth: CGFloat = 400
-    static let cardHudContainerHeight: CGFloat = 80
+    static let cardHudContainerHeight: CGFloat = 90
     static func cardHudContainerFrame() -> NSRect {
         let w = SizeHelper.cardHudContainerWidth * hearthstoneWindow.scaleX
         let h = SizeHelper.cardHudContainerHeight * hearthstoneWindow.scaleY
