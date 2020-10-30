@@ -1235,7 +1235,9 @@ class Game: NSObject, PowerEventHandler {
 			result.opponentCards.append($0)
 		})
         result.battlegroundsRating = self.battlegroundsRating ?? 0
-        result.battlegroundsRaces = self.availableRaces?.compactMap({ x in Race.allCases.firstIndex(of: x)}) ?? []
+        if currentGameType == .gt_battlegrounds || currentGameType == .gt_battlegrounds_friendly {
+            result.battlegroundsRaces = self.availableRaces?.compactMap({ x in Race.allCases.firstIndex(of: x)}) ?? []
+        }
 		
 		return result
 	}
