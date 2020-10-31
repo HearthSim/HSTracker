@@ -110,7 +110,14 @@ class BgHeroesToastView: NSView {
     }
     
     override func mouseUp(with: NSEvent) {
-        let url = "https://hsreplay.net/battlegrounds/heroes?utm_source=arcanetracker&utm_medium=client&utm_campaign=bgs_toast#heroes=" + heroes.joined(separator: ",")
+        var url = "https://hsreplay.net/battlegrounds/heroes?utm_source=hstracker&utm_medium=client&utm_campaign=bgs_toast#heroes=" + heroes.joined(separator: ",")
+        if let availableRaces = AppDelegate.instance().coreManager.game.availableRaces {
+            if availableRaces.count > 0 {
+                let races = availableRaces.compactMap({ x in Int(Race.allCases.firstIndex(of: x)! )}).sorted()
+                let tmpRaces = races.compactMap({ x in String(x) }).joined(separator: ",")
+                url += "&minionTypes=" + tmpRaces
+            }
+        }
         NSWorkspace.shared.open(URL(string: url)!)
         if let clicked = self.clicked {
             clicked()

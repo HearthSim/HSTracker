@@ -26,9 +26,6 @@ sparkle/config/dsa_priv.pem
 Carthage/*
 downloaded-frameworks/
 
-# Translations
-Translations/
-
 # Swift Package Manager
 .build/
 
