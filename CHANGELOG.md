@@ -1,3 +1,9 @@
+# 1.7.3
+## New:
+- Add tooltip for source of created cards
+- Fix crash when uploading certain replays
+- Add support for best heroes by minion type breakdown in battlegrounds
+
 # 1.7.2
 ## New:
 - Add average damage to Bob's Buddy
