@@ -55,12 +55,12 @@ class BattlegroundsTierDetailsView: NSStackView {
         BattlegroundMinion(cardId: "BGS_045", techLevel: 2), // Glyph Guardian
         BattlegroundMinion(cardId: "BGS_046", techLevel: 5), // Nat Pagle, Extreme Angler
         BattlegroundMinion(cardId: "BGS_047", techLevel: 6), // Dread Admiral Eliza
-        BattlegroundMinion(cardId: "BGS_048", techLevel: 4), // Southsea Strongarm
+        BattlegroundMinion(cardId: "BGS_048", techLevel: 3), // Southsea Strongarm
         BattlegroundMinion(cardId: "BGS_049", techLevel: 2), // Freedealing Gambler
         BattlegroundMinion(cardId: "BGS_053", techLevel: 3), // Bloodsail Cannoneer
         BattlegroundMinion(cardId: "BGS_055", techLevel: 1), // Deck Swabbie
         BattlegroundMinion(cardId: "BGS_056", techLevel: 4), // Ripsnarl Captain
-        BattlegroundMinion(cardId: "BGS_060", techLevel: 3), // Yo-Ho-Ogre
+        BattlegroundMinion(cardId: "BGS_060", techLevel: 2), // Yo-Ho-Ogre
         BattlegroundMinion(cardId: "BGS_061", techLevel: 1), // Scallywag
         BattlegroundMinion(cardId: "BGS_066", techLevel: 4), // Goldgrubber
         BattlegroundMinion(cardId: "BGS_067", techLevel: 4), // Drakonid Enforcer
@@ -81,7 +81,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         BattlegroundMinion(cardId: "BGS_116", techLevel: 1), // Refreshing Anomaly
         BattlegroundMinion(cardId: "BGS_119", techLevel: 3), // Crackling Cyclone
         BattlegroundMinion(cardId: "BGS_120", techLevel: 2), // Party Elemental
-        BattlegroundMinion(cardId: "BGS_121", techLevel: 5), // Gentle Djinni
+        BattlegroundMinion(cardId: "BGS_121", techLevel: 6), // Gentle Djinni
         BattlegroundMinion(cardId: "BGS_122", techLevel: 3), // Stasis Elemental
         BattlegroundMinion(cardId: "BGS_123", techLevel: 5), // Tavern Tempest
         BattlegroundMinion(cardId: "BGS_124", techLevel: 6), // Lieutenant Garr
@@ -118,7 +118,7 @@ class BattlegroundsTierDetailsView: NSStackView {
         BattlegroundMinion(cardId: "FP1_024", techLevel: 2), // Unstable Ghoul
         BattlegroundMinion(cardId: "FP1_031", techLevel: 5), // Baron Rivendare
         BattlegroundMinion(cardId: "GVG_021", techLevel: 5), // Mal'Ganis
-        BattlegroundMinion(cardId: "GVG_027", techLevel: 4), // Iron Sensei
+        BattlegroundMinion(cardId: "GVG_027", techLevel: 3), // Iron Sensei
         BattlegroundMinion(cardId: "GVG_048", techLevel: 2), // Metaltooth Leaper
         BattlegroundMinion(cardId: "GVG_055", techLevel: 3), // Screwjank Clunker
         BattlegroundMinion(cardId: "GVG_100", techLevel: 4), // Floating Watcher
