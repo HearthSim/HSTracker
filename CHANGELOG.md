@@ -1,3 +1,7 @@
+# 1.7.4
+## New: 
+- Updated for patch 18.6.1
+
 # 1.7.3
 ## New:
 - Add tooltip for source of created cards
