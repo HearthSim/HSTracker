@@ -13,9 +13,14 @@ import Foundation
 import HearthMirror
 
 struct ImageUtils {
+    static let semaphore = DispatchSemaphore(value: 1)
 
     static func artUrl(cardId: String, lang: String) -> String {
         return "https://art.hearthstonejson.com/v1/render/latest/\(lang)/512x/\(cardId).png"
+    }
+    
+    static func artUrl256(cardId: String) -> String {
+        return "https://art.hearthstonejson.com/v1/256x/\(cardId).jpg"
     }
 
     static func image(for cardId: String) -> NSImage? {
@@ -36,36 +41,50 @@ struct ImageUtils {
     }
 
     private static var cache: [String: NSImage] = [:]
+    private static var cacheArt: [String: NSImage] = [:]
     static func clearCache() {
+        ImageUtils.semaphore.wait()
+        
         cache = [:]
+        cacheArt = [:]
+        
+        ImageUtils.semaphore.signal()
     }
 
     static func tile(for cardId: String,
                      completion: @escaping ((NSImage?) -> Void)) {
-        if let image = cache[cardId] {
+        ImageUtils.semaphore.wait()
+        let image = cache[cardId]
+        ImageUtils.semaphore.signal()
+        
+        if let image = image {
             completion(image)
             return
         }
 		
-        /*if let assetGenerator = CoreManager.assetGenerator,
-            Settings.useHearthstoneAssets {
-            assetGenerator.tile(card: card) { (image, error) in
-                 if error != nil {
-                    loadTile(card: card, completion: completion)
-                } else if let image = image {
-                     cache[card.id] = image
-                    completion(image)
-                }
-            }
-        }*/
         loadTile(cardId: cardId, completion: completion)
+    }
+    
+    static func art(for cardId: String, completion: @escaping ((NSImage?) -> Void)) {
+        ImageUtils.semaphore.wait()
+        let image = cacheArt[cardId]
+        ImageUtils.semaphore.signal()
+        
+        if let image = image {
+            completion(image)
+            return
+        }
+        loadArt(cardId: cardId, completion: completion)
     }
 
     private static func loadTile(cardId: String, completion: @escaping ((NSImage?) -> Void)) {
         // Check in resource bundle
         if let image = NSImage(contentsOfFile:
             "\(Bundle.main.resourcePath!)/Resources/Small/\(cardId).png") {
+            ImageUtils.semaphore.wait()
             cache[cardId] = image
+            ImageUtils.semaphore.signal()
+            
             completion(image)
             return
         }
@@ -73,7 +92,10 @@ struct ImageUtils {
         // Check if the image has been downloaded
         let path = Paths.tiles.appendingPathComponent("\(cardId).png")
         if let image = NSImage(contentsOf: path) {
+            ImageUtils.semaphore.wait()
             cache[cardId] = image
+            ImageUtils.semaphore.signal()
+            
             completion(image)
             return
         }
@@ -95,10 +117,61 @@ struct ImageUtils {
                     let image = NSImage(data: data) {
                     try? data.write(to: path, options: [.atomic])
 
+                    ImageUtils.semaphore.wait()
                     cache[cardId] = image
+                    ImageUtils.semaphore.signal()
+                    
                     completion(image)
                 }
                 }.resume()
         }
     }
+    
+    static func cachedArt(cardId: String) -> NSImage? {
+        ImageUtils.semaphore.wait()
+        let res = cacheArt[cardId]
+        ImageUtils.semaphore.signal()
+        
+        return res
+    }
+    
+    private static func loadArt(cardId: String, completion: @escaping ((NSImage?) -> Void)) {
+        // Check if the image has been downloaded
+        let path = Paths.arts.appendingPathComponent("\(cardId).jpg")
+        if let image = NSImage(contentsOf: path) {
+            ImageUtils.semaphore.wait()
+            cacheArt[cardId] = image
+            ImageUtils.semaphore.signal()
+            
+            completion(image)
+            return
+        }
+
+        // Download image
+        let cardUrl = artUrl256(cardId: cardId)
+        guard let url = URL(string: cardUrl) else {
+            completion(nil)
+            return
+        }
+        logger.verbose("downloading \(url) to \(path)")
+
+        DispatchQueue.global().async {
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                if let error = error {
+                    logger.error("download error \(error)")
+                    completion(nil)
+                } else if let data = data,
+                    let image = NSImage(data: data) {
+                    try? data.write(to: path, options: [.atomic])
+                    
+                    ImageUtils.semaphore.wait()
+                    cacheArt[cardId] = image
+                    ImageUtils.semaphore.signal()
+                    
+                    completion(image)
+                }
+                }.resume()
+        }
+    }
+
 }

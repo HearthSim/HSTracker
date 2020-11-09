@@ -501,6 +501,7 @@
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
 		B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
+		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
@@ -1070,6 +1071,7 @@
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
 		B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionHeroPowerTrigger.swift; sourceTree = "<group>"; };
 		B864A14224F58539005EA2A0 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = ../../../Library/Frameworks/Mono.framework; sourceTree = "<group>"; };
+		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
 		B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsPreferences.swift; sourceTree = "<group>"; };
 		B8B7CC21253C74D100033758 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BattlegroundsPreferences.xib; sourceTree = "<group>"; };
 		B8B7CC24253C74DB00033758 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/BattlegroundsPreferences.strings; sourceTree = "<group>"; };
@@ -1844,6 +1846,7 @@
 				4C1923A22392FF37007EBB0F /* BattlegroundsDetailsView.swift */,
 				4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */,
 				4CECFFD823C111AA0093253E /* BattlegroundsTierDetailsView.swift */,
+				B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */,
 			);
 			path = Battlegrounds;
 			sourceTree = "<group>";
@@ -2282,6 +2285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */,
 				B82F535724EE161A004273FF /* MonoUtility.c in Sources */,
 				B82F4EB424E40B9F00905024 /* MinionProxy.swift in Sources */,
 				432A07B21E93B6E200921E34 /* CardIds.swift in Sources */,

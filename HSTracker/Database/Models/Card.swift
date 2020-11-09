@@ -34,6 +34,7 @@ final class Card {
     var isStandard = false
     var artist = ""
     var multiClassGroup: MultiClassGroup = .invalid
+    var techLevel = 0
     var jsonRepresentation: [String: Any] = [:]
     
     static let multiClassGroups: [MultiClassGroup: [CardClass]] = [
@@ -168,6 +169,7 @@ extension Card: NSCopying {
         copy.highlightFrame = self.highlightFrame
         copy.jsonRepresentation = self.jsonRepresentation
         copy.multiClassGroup = self.multiClassGroup
+        copy.techLevel = self.techLevel
 
         return copy
     }

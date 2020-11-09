@@ -52,22 +52,13 @@ class BattlegroundsOverlayView: NSView {
         
         let game = AppDelegate.instance().coreManager.game
         
-//        var minions = [BattlegroundsMinion]()
-//        minions.append(BattlegroundsMinion(CardId: "AT_005", attack: Int32(at), health: Int32(at), poisonous: false, divineShield: true))
-//        minions.append(BattlegroundsMinion(CardId: "AT_006", attack: Int32(at), health: Int32(at), poisonous: true, divineShield: false))
-//
-//        let debugBoard = BattlegroundsBoard(currentTurn: 10, opponentHero: kotlin_hslog.Entity(), turn: 4, minions: minions)
-//        windowManager.battlegroundsDetailsWindow.setBoard(board: debugBoard)
-//
-//        windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
-//                           frame: SizeHelper.battlegroundsDetailsFrame(), overlay: true)
-
         if Settings.showOpponentWarband, let hero = game.entities.values.first(where: { ent in ent.has(tag: .player_leaderboard_place) && ent[.player_leaderboard_place] == at + 1}) {
             let board = game.lastKnownBattlegroundsBoardState[hero.cardId]
             if let board = board {
                 windowManager.battlegroundsDetailsWindow.setBoard(board: board)
+                let rect = SizeHelper.battlegroundsDetailsFrame()
                 windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: true,
-                                   frame: SizeHelper.battlegroundsDetailsFrame(), overlay: true)
+                                   frame: rect, overlay: true)
             } else {
                 windowManager.show(controller: windowManager.battlegroundsDetailsWindow, show: false)
             }
@@ -76,12 +67,20 @@ class BattlegroundsOverlayView: NSView {
         }
     }
 
+    private var bobsBuddyHidden = false
+    
     override func mouseMoved(with event: NSEvent) {
         let index = 7 - Int(CGFloat(event.locationInWindow.y / (self.frame.height/8)))
         
         if index != currentIndex {
             displayHero(at: index)
             currentIndex = index
+            let windowManager = AppDelegate.instance().coreManager.game.windowManager
+            AppDelegate.instance().coreManager.game.hideBobsBuddy = true
+            if windowManager.bobsBuddyPanel.window != nil {
+                bobsBuddyHidden = true
+            }
+            windowManager.show(controller: windowManager.bobsBuddyPanel, show: false)
         }
     }
 
@@ -91,5 +90,11 @@ class BattlegroundsOverlayView: NSView {
     override func mouseExited(with event: NSEvent) {
         displayHero(at: -1)
         currentIndex = -1
+        AppDelegate.instance().coreManager.game.hideBobsBuddy = false
+        if bobsBuddyHidden {
+            bobsBuddyHidden = false
+            let windowManager = AppDelegate.instance().coreManager.game.windowManager
+            windowManager.show(controller: windowManager.bobsBuddyPanel, show: true)
+        }
     }
 }
