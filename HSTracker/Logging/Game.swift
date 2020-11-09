@@ -83,11 +83,24 @@ class Game: NSObject, PowerEventHandler {
         }
 
         // swiftlint:disable force_cast
-        let entities = self.entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: opponent.id)}).map({ x in x.copy() as! Entity })
+        let entities = self.entities.values.filter({ x in x.isMinion && x.isInZone(zone: .play) && x.isControlled(by: opponent.id)}).map({ x in x.copy() as! Entity }).sorted(by: { x, y in
+            x[.zone_position] < y[.zone_position]
+        })
         // swiftlint:enable force_cast
 
         logger.info("Snapshotting board state for \(opponentHero.card.name) with \(entities.count) entities")
-        lastKnownBattlegroundsBoardState[opponentHero.cardId] = BoardSnapshot(entities: entities, turn: turnNumber())
+        let board = BoardSnapshot(entities: entities, turn: turnNumber())
+        lastKnownBattlegroundsBoardState[opponentHero.cardId] = board
+        // pre-cache art
+        DispatchQueue.global().async {
+            for entity in board.entities {
+                if ImageUtils.cachedArt(cardId: entity.cardId) == nil {
+                    ImageUtils.art(for: entity.cardId, completion: { _ in
+                        // nothing to do in the completion as we are only pre-caching it
+                    })
+                }
+            }
+        }
     }
 	
 	// MARK: - PowerEventHandler protocol
@@ -325,10 +338,11 @@ class Game: NSObject, PowerEventHandler {
     
     func updateTurnCounter(turn: Int) {
         DispatchQueue.main.async { [unowned(unsafe) self] in
+            self.windowManager.turnCounter.setTurnNumber(turn: turn)
+
             let isBG = self.isBattlegroundsMatch() && !self.gameEnded
 
             if isBG && Settings.showTurnCounter && ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive) || !Settings.hideAllWhenGameInBackground) {
-                self.windowManager.turnCounter.setTurnNumber(turn: turn)
                 let rect = SizeHelper.turnCounterFrame()
                 self.windowManager.show(controller: self.windowManager.turnCounter, show: true, frame: rect, title: nil, overlay: self.hearthstoneRunState.isActive)
             } else {
@@ -707,6 +721,8 @@ class Game: NSObject, PowerEventHandler {
     
     private var _availableRaces: [Race]?
     
+    var hideBobsBuddy = false
+    
     var availableRaces: [Race]? {
         if _availableRaces == nil {
             if let races = MirrorHelper.getAvailableBattlegroundsRaces() {
@@ -963,6 +979,8 @@ class Game: NSObject, PowerEventHandler {
         windowManager.battlegroundsDetailsWindow.reset()
         windowManager.bobsBuddyPanel.resetDisplays()
         windowManager.turnCounter.reset()
+        
+        hideBobsBuddy = false
     }
 
     private func tryToDetectWhizbangDeck() {
@@ -1646,7 +1664,7 @@ class Game: NSObject, PowerEventHandler {
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
                 let view = BgHeroesToastView(frame: NSRect.zero)
                 view.clicked = {
-                    AppDelegate.instance().coreManager.game.windowManager.toastWindowController.displayed = false
+                    AppDelegate.instance().coreManager.toaster.hide()
                 }
                 view.heroes = heroesArray
                 AppDelegate.instance().coreManager.toaster.displayToast(view: view, timeoutMillis: 10000)

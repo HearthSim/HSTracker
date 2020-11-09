@@ -176,7 +176,7 @@ class SecretsManager {
         }
 
         if defender.isHero {
-            if !fastOnly && attacker.health >= 1{
+            if !fastOnly && attacker.health >= 1 {
                 if freeSpaceOnBoard {
                     exclude.append(CardIds.Secrets.Hunter.BearTrap)
                 }

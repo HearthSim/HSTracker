@@ -57,6 +57,8 @@ class BobsBuddyPanel: OverWindowController {
         self.boxStatus.clicked = self.bottomBar_mouseDown
         self.boxAverageDamageGiven.clicked = self.averageDamage_mouseDown
         self.boxAverageDamageTaken.clicked = self.averageDamage_mouseDown
+        
+        statusMessage = StatusMessageConverter.getStatusMessage(state: state, errorState: errorState, statsShown: showingResults)
     }
     
     func formatPercent(p: Float) -> String {

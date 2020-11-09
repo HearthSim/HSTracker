@@ -13,8 +13,11 @@ class BattlegroundsDetailsWindow: OverWindowController {
     let battlegroundsDetailsView = BattlegroundsDetailsView()
     
     override func windowDidLoad() {
+        
+        battlegroundsDetailsView.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        self.window!.contentView = battlegroundsDetailsView
+
         super.windowDidLoad()
-        self.window!.contentView = self.battlegroundsDetailsView
     }
     
     func setBoard(board: BoardSnapshot) {

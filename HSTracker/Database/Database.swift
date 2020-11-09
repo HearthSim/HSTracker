@@ -174,6 +174,11 @@ class Database {
                             card.multiClassGroup = group
                         }
                     }
+                    
+                    if let techLevel = jsonCard["techLevel"] as? Int {
+                        card.techLevel = techLevel
+                        Cards.battlegroundsMinions.append(card)
+                    }
                     Cards.cards.insert(card, at: index)
                     Cards.cardsById[card.id] = card
                 }

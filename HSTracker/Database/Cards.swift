@@ -20,6 +20,8 @@ final class Cards {
     static var cards = [Card]()
     // map used to quickly find cards by id
     static var cardsById = [String: Card]()
+    // battlegrounds miniona only
+    static var battlegroundsMinions = [Card]()
 
     static func hero(byId cardId: String) -> Card? {
         if let card = cardsById[cardId] {
