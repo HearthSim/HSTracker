@@ -1,3 +1,13 @@
+# 1.7.6
+## New:
+- improvements to last seen board
+- catch errors running batttlegrounds simulation
+- prevent crash retrieving battlegrouns races
+
+# 1.7.5
+## New:
+- Updated for patch 18.6.1 (fixed)
+
 # 1.7.4
 ## New: 
 - Updated for patch 18.6.1
