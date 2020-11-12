@@ -8,6 +8,7 @@
 
 import Foundation
 import PromiseKit
+import AppCenterAnalytics
 
 class BobsBuddyInvoker {
     
@@ -136,7 +137,11 @@ class BobsBuddyInvoker {
                 
                 BobsBuddyInvoker.bobsBuddyDisplay.showCompletedSimulation(winRate: winRate, tieRate: tieRate, lossRate: lossRate, playerLethal: theirDeathRate, opponentLethal: myDeathRate, possibleResults: possibleResults)
             }
-        }
+        }.catch({ error in
+            logger.error("Error running simulation: \(error.localizedDescription)")
+            BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
+            MSAnalytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
+        })
     }
     
     func runSimulation() -> Promise<TestOutputProxy?> {
