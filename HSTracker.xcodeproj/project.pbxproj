@@ -470,7 +470,6 @@
 		4C3E2DA3245F87B700292349 /* BgHeroesToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */; };
 		4C3E2DA52460C82900292349 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
 		4C3E2DA72462325A00292349 /* kotlin_hslog.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */; };
-		4C3E2DA82462338400292349 /* kotlin_hslog.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
 		4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C6E99A3237F635300702AB2 /* CollectionWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */; };
@@ -501,6 +500,9 @@
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
 		B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
+		B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */; };
+		B86F2151255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F214F255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM */; };
+		B86F2152255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F2150255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
@@ -637,7 +639,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				4C3E2DA82462338400292349 /* kotlin_hslog.framework.dSYM in CopyFiles */,
+				B86F2151255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM in CopyFiles */,
+				B86F2152255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM in CopyFiles */,
+				B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in CopyFiles */,
 				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */,
 				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */,
 				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */,
@@ -1071,6 +1075,9 @@
 		B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnCounter.swift; sourceTree = "<group>"; };
 		B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionHeroPowerTrigger.swift; sourceTree = "<group>"; };
 		B864A14224F58539005EA2A0 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = ../../../Library/Frameworks/Mono.framework; sourceTree = "<group>"; };
+		B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthMirror.framework.dSYM; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework.dSYM"; sourceTree = "<group>"; };
+		B86F214F255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmono-native-compat.0.dylib.dSYM"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmono-native-compat.0.dylib.dSYM"; sourceTree = "<group>"; };
+		B86F2150255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmonosgen-2.0.1.dylib.dSYM"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmonosgen-2.0.1.dylib.dSYM"; sourceTree = "<group>"; };
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
 		B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsPreferences.swift; sourceTree = "<group>"; };
 		B8B7CC21253C74D100033758 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BattlegroundsPreferences.xib; sourceTree = "<group>"; };
@@ -1518,6 +1525,9 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
+				B86F214F255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM */,
+				B86F2150255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM */,
+				B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */,
 				B81F069C253899FB00F319F1 /* Config.xcconfig */,
 				F731044E211FF0050082651C /* Translations */,
 				439C7E4A1C7772C000D29859 /* HSTracker */,
@@ -2024,6 +2034,7 @@
 				4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */,
 				437B5BCC1CD3B50000DE0A41 /* Swiftlint */,
 				B83355B724F89D1A0025F644 /* Embed Mono */,
+				B86F2153255DBFFC008D522A /* Download cards JSON */,
 			);
 			buildRules = (
 			);
@@ -2222,7 +2233,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTRracker\nSHA1=3f4c6b5c3b53d41ce58998e1213cf85e66af5d2d\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
+			shellScript = "# Change SHA1 here to change the version of HearthMirror used by HSTRracker\nSHA1=b4dc80775756e144cbbb4fa3f3b273f41028c0ac\n\nDIR=\"$SRCROOT/downloaded-frameworks/HearthMirror\"\nVERSION_FILE=\"$DIR/HearthMirror.sha1\"\nZIP_FILE=\"$DIR/HearthMirror.framework.zip\"\nDSYM_ZIP_FILE=\"$DIR/HearthMirror.framework.dSYM.zip\"\n\nif [ \"$(cat $VERSION_FILE)\" != \"$SHA1\"  ]\nthen\n    set -e\n    \n    rm -rf \"$DIR\"\n    mkdir -p \"$DIR\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.zip\" -O \"$ZIP_FILE\"\n    wget \"https://libs.hearthsim.net/hstracker/$SHA1/HearthMirror.framework.dSYM.zip\" -O \"$DSYM_ZIP_FILE\"\n    unzip -d \"$DIR\" \"$ZIP_FILE\"\n    unzip -d \"$DIR\" \"$DSYM_ZIP_FILE\"\n    echo \"$SHA1\" > \"$VERSION_FILE\"\nfi\n\n\n\n";
 		};
 		4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2259,6 +2270,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# exit 0\n\n# Version\nMONO_VERSION=6.12.0\nSYSTEM_VERSION=4.0.0.0__b77a5c561934e089\nSYSTEM_CONFIGURATION_VERSION=4.0.0.0__b03f5f7f11d50a3a\n\n# Locations\nMONO_LOCATION=/Library/Frameworks/Mono.Framework/Versions/$MONO_VERSION\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nRES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed\"\n\nset -x\nset -e\n\n# Copy needed files\ncp $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libsqlite3.0.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libmono-native-compat.dylib \"${LOCATION}\"\nmkdir -p \"${RES_LOCATION}/etc/mono\"\ncp -R $MONO_LOCATION/etc/mono \"${RES_LOCATION}/etc\"\nsed 's/$mono_libdir\\///g' $MONO_LOCATION/etc/mono/config > \"${RES_LOCATION}/etc/mono/config\"\n\n# Copy system assemblies needed\nmkdir -p \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/mscorlib.dll \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/Facades/netstandard.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Xml/$SYSTEM_VERSION/System.Xml.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Core/$SYSTEM_VERSION/System.Core.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System/$SYSTEM_VERSION/System.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Configuration/$SYSTEM_CONFIGURATION_VERSION/System.Configuration.dll \"${RES_LOCATION}\"\n\n# Change runtime paths\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B86F2153255DBFFC008D522A /* Download cards JSON */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Download cards JSON";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.deDE.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.enUS.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.esES.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.esMX.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.frFR.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.itIT.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.jajP.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.koKR.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.plPL.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.ptBR.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.ruRU.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.thTH.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.zhCN.json",
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Resources/Cards/cardsDB.zhTW.json",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"/Resources/Cards\nmkdir -p \"${LOCATION}\"\nrm -f \"${LOCATION}\"/cardsDB*\n\nHSJSON=\"https://api.hearthstonejson.com/v1\"\n\nfor lang in deDE enUS esES esMX frFR itIT jaJP koKR plPL ptBR ruRU thTH zhCN zhTW; do\n    echo \"Downloading cards.$lang.json\"\n    wget \"$HSJSON/latest/$lang/cards.json\" -O \"${LOCATION}/cardsDB.$lang.json\"\ndone\n";
 			showEnvVarsInLog = 0;
 		};
 		B8D8859B24F4333000F2F0F2 /* Download BobsBuddy and HearthDb */ = {
@@ -3267,7 +3311,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.7.4;
+				MARKETING_VERSION = 1.7.6;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -3310,7 +3354,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = /Library/Frameworks/Mono.framework/Libraries;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 1.7.4;
+				MARKETING_VERSION = 1.7.6;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.hearthsim.hstracker;
