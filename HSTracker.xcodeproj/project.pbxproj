@@ -28,7 +28,7 @@
 		43050C621E6B484D007600EA /* Hearthstone.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43050C611E6B484D007600EA /* Hearthstone.xcassets */; };
 		4305CA401CF42AC70048E7EC /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; };
 		4305CA411CF42AC70048E7EC /* Wrap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4305CA3D1CF42AC60048E7EC /* Wrap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 4305CA431CF42AE50048E7EC /* Wrap.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4305CA471CF434E30048E7EC /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4305CA461CF434E30048E7EC /* Cards.swift */; };
 		4308EB7E1D76AFE6000897C8 /* ReleaseChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7D1D76AFE6000897C8 /* ReleaseChannel.swift */; };
 		431719711C84911300F5988B /* EditDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431719701C84911300F5988B /* EditDeck.swift */; };
@@ -96,11 +96,11 @@
 		43640BE11E89A25F00FAFD07 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 439C7E8E1C777D6C00D29859 /* Resources */; };
 		43647A531CDC9A3D00C2B78E /* TextAttributes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43647A541CDC9A5100C2B78E /* TextAttributes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43647A521CDC9A3D00C2B78E /* TextAttributes.framework */; };
-		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43647A551CDC9A5F00C2B78E /* TextAttributes.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
-		436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789B71CACF64600C962D1 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
 		436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
 		436789BF1CACF8C900C962D1 /* PlayerDrawChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BE1CACF8C900C962D1 /* PlayerDrawChance.swift */; };
@@ -139,10 +139,10 @@
 		437E56F61DAAB81400FC0FC1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437E56EF1DAAB81400FC0FC1 /* String.swift */; };
 		43847D8F1E8D96720060C2D2 /* RegexUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; };
 		43847D901E8D96720060C2D2 /* RegexUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43847D8D1E8D965E0060C2D2 /* RegexUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43847D911E8D96970060C2D2 /* RegexUtil.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43847D911E8D96970060C2D2 /* RegexUtil.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4387316E1CCBB7BE004EEAD1 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; };
 		4387316F1CCBB7BE004EEAD1 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4387316D1CCBB7BE004EEAD1 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 438731701CCBB7DB004EEAD1 /* Sparkle.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43873CC11CA6E6C200F01CB4 /* WindowMove.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43873CC01CA6E6C200F01CB4 /* WindowMove.xib */; };
 		43873CC31CA6E6CD00F01CB4 /* WindowMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43873CC21CA6E6CD00F01CB4 /* WindowMove.swift */; };
 		4387BED21CF4D7A00002ECBB /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4387BED11CF4D7A00002ECBB /* State.swift */; };
@@ -186,7 +186,7 @@
 		439DD8FA1DB236A4004EBE47 /* ThemeElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8F91DB236A4004EBE47 /* ThemeElement.swift */; };
 		439DD8FC1DB237C0004EBE47 /* EntityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DD8FB1DB237C0004EBE47 /* EntityInfo.swift */; };
 		439DD8FE1DB24F83004EBE47 /* Gzip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 439DD8FD1DB24F83004EBE47 /* Gzip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		439DD9001DB24F8A004EBE47 /* Gzip.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 439DD8FF1DB24F8A004EBE47 /* Gzip.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		439DD9001DB24F8A004EBE47 /* Gzip.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 439DD8FF1DB24F8A004EBE47 /* Gzip.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43A12C871CA3D24800090BFE /* SaveDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A12C861CA3D24800090BFE /* SaveDeck.swift */; };
 		43A8A0F11E0BC08F00AF34FD /* JadeCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F01E0BC08F00AF34FD /* JadeCounter.swift */; };
 		43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8A0F61E1557C900AF34FD /* FormatType.swift */; };
@@ -415,8 +415,8 @@
 		43E7BEA71DBB7F8F0057DC0C /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43E7BEAA1DBB7FA00057DC0C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA41DBB7F8E0057DC0C /* Realm.framework */; };
 		43E7BEAB1DBB7FA00057DC0C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E7BEA51DBB7F8F0057DC0C /* RealmSwift.framework */; };
-		43E7BEAE1DBB7FAA0057DC0C /* Realm.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43E7BEAD1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		43E7BEAE1DBB7FAA0057DC0C /* Realm.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43E7BEAC1DBB7FAA0057DC0C /* Realm.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43E7BEAD1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		43E7BEB11DBB81B10057DC0C /* RealmCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7BEB01DBB81B10057DC0C /* RealmCard.swift */; };
 		43EBA3A31D1299AC0093B1C2 /* CardHudContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBA3A21D1299AC0093B1C2 /* CardHudContainer.swift */; };
 		43EBA3A51D129B030093B1C2 /* CardHudContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EBA3A41D129B030093B1C2 /* CardHudContainer.xib */; };
@@ -442,9 +442,9 @@
 		43F2F0CC1FA3566B002F5AEA /* AwaitKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F2F0CD1FA3568E002F5AEA /* AwaitKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0CA1FA3566A002F5AEA /* AwaitKit.framework */; };
 		43F2F0CE1FA3568E002F5AEA /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0C91FA3566A002F5AEA /* PromiseKit.framework */; };
-		43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */; };
-		43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */; };
-		43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */; };
+		43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43F2F0CF1FA356A9002F5AEA /* AwaitKit.framework.dSYM */; };
+		43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43F2F0D01FA356AA002F5AEA /* PromiseKit.framework.dSYM */; };
+		43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 43F2F0D31FA4F3A5002F5AEA /* SwiftyBeaver.framework.dSYM */; };
 		43F2F0D71FA4F3CA002F5AEA /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; };
 		43F2F0D81FA4F3CA002F5AEA /* SwiftyBeaver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43F2F0D51FA4F3B5002F5AEA /* SwiftyBeaver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43F4D0491EB7A23E006B4479 /* HeroPower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F4D0481EB7A23D006B4479 /* HeroPower.swift */; };
@@ -479,7 +479,11 @@
 		4CFF95AB23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AA23C0C3B3006AB461 /* BattlegroundsTierOverlay.swift */; };
 		4CFF95AD23C0C48E006AB461 /* BattlegroundsTierOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CFF95AC23C0C48E006AB461 /* BattlegroundsTierOverlay.xib */; };
 		4CFF95AF23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */; };
-		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
+		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
+		5B3BA4482561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */; };
+		5B3BA4492561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */; };
+		5B3BA44A2561F09300FAD183 /* libmono-native-compat.0.dylib.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */; };
+		5B3BA44B2561F09300FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */; };
 		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
 		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -498,9 +502,7 @@
 		B850AA33252CB0490031E8F2 /* TurnCounter.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850AA32252CB0490031E8F2 /* TurnCounter.xib */; };
 		B850AA35252CB0FA0031E8F2 /* TurnCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B850AA34252CB0FA0031E8F2 /* TurnCounter.swift */; };
 		B864A13E24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */; };
-		B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */; };
-		B86F2151255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F214F255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM */; };
-		B86F2152255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F2150255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM */; };
+		B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
@@ -548,16 +550,13 @@
 		B8DEDCE12547C64300DF524B /* BgHeroesToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */; };
 		B8DEDCE22547C65700DF524B /* FillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2D9D245F85C700292349 /* FillImageView.swift */; };
 		B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B864A14224F58539005EA2A0 /* Mono.framework */; };
-		B8DEDCE52547CF6300DF524B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DEDCE42547CF6300DF524B /* AppCenter.framework */; };
-		B8DEDCE82547CF8300DF524B /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DEDCE62547CF8300DF524B /* AppCenterCrashes.framework */; };
-		B8DEDCE92547CF8300DF524B /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8DEDCE72547CF8300DF524B /* AppCenterAnalytics.framework */; };
 		B8DEDCEA2547CF9F00DF524B /* MonoUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = B82F535624EE161A004273FF /* MonoUtility.c */; };
 		B8DEDCEB2547CFF200DF524B /* HearthMirror.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC0780841E3152D800AC9DB8 /* DeckWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */; };
 		BC78DD751E806B6F00DBA7C9 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */; };
 		BC78DD771E80871600DBA7C9 /* BTree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; };
 		BC78DD781E80871600DBA7C9 /* BTree.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC78DD761E80871600DBA7C9 /* BTree.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = BC78DD791E80875800DBA7C9 /* BTree.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		BC90FD0B1D97F81B00BAFC0D /* GraveyardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC90FD0A1D97F81B00BAFC0D /* GraveyardCounter.swift */; };
 		BCA70F2A1E2C16DD00038A6C /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA70F291E2C16DD00038A6C /* FileUtils.m */; };
 		BCCCDB9E1EA54FF800C328D0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */; };
@@ -579,7 +578,7 @@
 		E3057D6920B8887100B9A5B8 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; };
 		E3057D6A20B8887100B9A5B8 /* OAuthSwift.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
 		E3057D6B20B8889800B9A5B8 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
+		E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = E3057D6820B8887100B9A5B8 /* OAuthSwift.framework.dSYM */; };
 		E3057D6E20B888FB00B9A5B8 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; };
 		E3057D6F20B8890500B9A5B8 /* OAuthSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3057D6720B8887000B9A5B8 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E30590BB21174FC900679D66 /* UploadCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30590BA21174FC900679D66 /* UploadCollectionData.swift */; };
@@ -632,31 +631,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		436789A01CAC078800C962D1 /* CopyFiles */ = {
+		436789A01CAC078800C962D1 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				B86F2151255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM in CopyFiles */,
-				B86F2152255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM in CopyFiles */,
-				B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in CopyFiles */,
-				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in CopyFiles */,
-				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in CopyFiles */,
-				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in CopyFiles */,
-				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in CopyFiles */,
-				438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in CopyFiles */,
-				43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in CopyFiles */,
-				439DD9001DB24F8A004EBE47 /* Gzip.framework.dSYM in CopyFiles */,
-				436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */,
-				43E7BEAE1DBB7FAA0057DC0C /* Realm.framework.dSYM in CopyFiles */,
-				43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in CopyFiles */,
-				43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in CopyFiles */,
-				43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */,
-				43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */,
-				43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in CopyFiles */,
-				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */,
+				5B3BA44A2561F09300FAD183 /* libmono-native-compat.0.dylib.dSYM in Copy Files */,
+				5B3BA44B2561F09300FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Copy Files */,
+				B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in Copy Files */,
+				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in Copy Files */,
+				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in Copy Files */,
+				BC78DD7A1E80875800DBA7C9 /* BTree.framework.dSYM in Copy Files */,
+				4305CA451CF42AE50048E7EC /* Wrap.framework.dSYM in Copy Files */,
+				438731711CCBB7DB004EEAD1 /* Sparkle.framework.dSYM in Copy Files */,
+				43647A561CDC9A5F00C2B78E /* TextAttributes.framework.dSYM in Copy Files */,
+				439DD9001DB24F8A004EBE47 /* Gzip.framework.dSYM in Copy Files */,
+				436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in Copy Files */,
+				43E7BEAE1DBB7FAA0057DC0C /* Realm.framework.dSYM in Copy Files */,
+				43E7BEAF1DBB7FAA0057DC0C /* RealmSwift.framework.dSYM in Copy Files */,
+				43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in Copy Files */,
+				43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in Copy Files */,
+				43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in Copy Files */,
+				43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in Copy Files */,
+				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		436789E01CAE484800C962D1 /* Embed Frameworks */ = {
@@ -853,7 +853,6 @@
 		4367899C1CAC05D700C962D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4367899E1CAC05DD00C962D1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = JNWCollectionView.framework.dSYM; path = Carthage/Build/Mac/JNWCollectionView.framework.dSYM; sourceTree = "<group>"; };
-		436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kanna.framework.dSYM; path = Carthage/Build/Mac/Kanna.framework.dSYM; sourceTree = "<group>"; };
 		436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = MASPreferences.framework.dSYM; path = Carthage/Build/Mac/MASPreferences.framework.dSYM; sourceTree = "<group>"; };
 		436789B61CACF64600C962D1 /* CardCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCounter.swift; sourceTree = "<group>"; };
 		436789BA1CACF79800C962D1 /* TrackerFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerFrame.swift; sourceTree = "<group>"; };
@@ -1054,8 +1053,9 @@
 		4CFF95AE23C0C56A006AB461 /* BattlegroundsTierOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierOverlayView.swift; sourceTree = "<group>"; };
 		5B0AB88C2313083700654A03 /* HSTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HSTracker.entitlements; sourceTree = "<group>"; };
 		5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Kingfisher.framework.dSYM; path = Carthage/Build/Mac/Kingfisher.framework.dSYM; sourceTree = "<group>"; };
+		5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmono-native-compat.0.dylib.dSYM"; path = "mono-dSYM/libmono-native-compat.0.dylib.dSYM"; sourceTree = "<group>"; };
+		5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmonosgen-2.0.1.dylib.dSYM"; path = "mono-dSYM/libmonosgen-2.0.1.dylib.dSYM"; sourceTree = "<group>"; };
 		5BD4A5012233E40B00EF879B /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/Mac/Kingfisher.framework; sourceTree = "<group>"; };
-		61424BC6246FF51000877EE4 /* Kanna.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kanna.framework; path = Carthage/Build/Mac/Kanna.framework; sourceTree = "<group>"; };
 		61424BCA24701A3700877EE4 /* DecksReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecksReader.swift; sourceTree = "<group>"; };
 		64C117F078373147EF731146 /* ArenaWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArenaWatcher.swift; sourceTree = "<group>"; };
 		B81F069C253899FB00F319F1 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -1074,8 +1074,6 @@
 		B864A13D24F54E1F005EA2A0 /* MinionHeroPowerTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionHeroPowerTrigger.swift; sourceTree = "<group>"; };
 		B864A14224F58539005EA2A0 /* Mono.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mono.framework; path = ../../../Library/Frameworks/Mono.framework; sourceTree = "<group>"; };
 		B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthMirror.framework.dSYM; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework.dSYM"; sourceTree = "<group>"; };
-		B86F214F255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmono-native-compat.0.dylib.dSYM"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmono-native-compat.0.dylib.dSYM"; sourceTree = "<group>"; };
-		B86F2150255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmonosgen-2.0.1.dylib.dSYM"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmonosgen-2.0.1.dylib.dSYM"; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
 		B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsPreferences.swift; sourceTree = "<group>"; };
@@ -1102,9 +1100,6 @@
 		B8DC11F324EACDB80088A755 /* SimulationRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationRunner.swift; sourceTree = "<group>"; };
 		B8DC11FF24EC5F990088A755 /* BobsBuddyPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BobsBuddyPanel.swift; sourceTree = "<group>"; };
 		B8DC120424EC79370088A755 /* TestOutputProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOutputProxy.swift; sourceTree = "<group>"; };
-		B8DEDCE42547CF6300DF524B /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = Carthage/Build/Mac/AppCenter.framework; sourceTree = "<group>"; };
-		B8DEDCE62547CF8300DF524B /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = Carthage/Build/Mac/AppCenterCrashes.framework; sourceTree = "<group>"; };
-		B8DEDCE72547CF8300DF524B /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = Carthage/Build/Mac/AppCenterAnalytics.framework; sourceTree = "<group>"; };
 		BC0780831E3152D800AC9DB8 /* DeckWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckWatcher.swift; sourceTree = "<group>"; };
 		BC78DD741E806B6F00DBA7C9 /* Algorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
 		BC78DD761E80871600DBA7C9 /* BTree.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BTree.framework; path = Carthage/Build/Mac/BTree.framework; sourceTree = "<group>"; };
@@ -1300,9 +1295,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8DEDCE82547CF8300DF524B /* AppCenterCrashes.framework in Frameworks */,
-				B8DEDCE92547CF8300DF524B /* AppCenterAnalytics.framework in Frameworks */,
-				B8DEDCE52547CF6300DF524B /* AppCenter.framework in Frameworks */,
 				B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */,
 				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
@@ -1525,8 +1517,8 @@
 		439C7E3F1C7772C000D29859 = {
 			isa = PBXGroup;
 			children = (
-				B86F214F255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM */,
-				B86F2150255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM */,
+				5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */,
+				5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */,
 				B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */,
 				B81F069C253899FB00F319F1 /* Config.xcconfig */,
 				F731044E211FF0050082651C /* Translations */,
@@ -1960,13 +1952,9 @@
 		F997FED720A990D7DB50C540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B8DEDCE72547CF8300DF524B /* AppCenterAnalytics.framework */,
-				B8DEDCE62547CF8300DF524B /* AppCenterCrashes.framework */,
-				B8DEDCE42547CF6300DF524B /* AppCenter.framework */,
 				B83355B324F84F200025F644 /* libiconv.2.dylib */,
 				B83355B124F84CBF0025F644 /* libmonosgen-2.0.a */,
 				B864A14224F58539005EA2A0 /* Mono.framework */,
-				61424BC6246FF51000877EE4 /* Kanna.framework */,
 				4C0C2A25244C8AED00E7B75E /* AppCenter.framework */,
 				4C0C2A27244C8CE400E7B75E /* AppCenterAnalytics.framework */,
 				4C0C2A29244C8CF400E7B75E /* AppCenterCrashes.framework */,
@@ -1983,7 +1971,6 @@
 				4C68AF2A2447D35A00E52834 /* HearthMirror.framework */,
 				43BBAAA01E61A11F009B6298 /* JNWCollectionView.framework */,
 				436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */,
-				436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */,
 				5BD4A5012233E40B00EF879B /* Kingfisher.framework */,
 				5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */,
 				4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */,
@@ -2029,11 +2016,11 @@
 				439C7E441C7772C000D29859 /* Sources */,
 				439C7E451C7772C000D29859 /* Frameworks */,
 				439C7E461C7772C000D29859 /* Resources */,
-				436789A01CAC078800C962D1 /* CopyFiles */,
+				B83355B724F89D1A0025F644 /* Embed Mono */,
+				436789A01CAC078800C962D1 /* Copy Files */,
 				436789E01CAE484800C962D1 /* Embed Frameworks */,
 				4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */,
 				437B5BCC1CD3B50000DE0A41 /* Swiftlint */,
-				B83355B724F89D1A0025F644 /* Embed Mono */,
 				B86F2153255DBFFC008D522A /* Download cards JSON */,
 			);
 			buildRules = (
@@ -2142,6 +2129,7 @@
 				B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */,
 				434D1CB41D10947200222B8E /* Statistics.xib in Resources */,
 				4CECFFD723C10C570093253E /* BattlegroundsTierDetailWindowController.xib in Resources */,
+				5B3BA4492561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Resources */,
 				432B5FC21CB5373D00B05D19 /* SaveDeck.xib in Resources */,
 				437B5BB81CD2559300DE0A41 /* OpponentTrackersPreferences.xib in Resources */,
 				4335543A1D5FAF0300277B27 /* HSReplayPreferences.xib in Resources */,
@@ -2164,6 +2152,7 @@
 				E301D340217CE737001F8D11 /* FMDB.framework.dSYM in Resources */,
 				C9BDB3D71D20BE9500886A11 /* LadderTab.xib in Resources */,
 				432B5FBF1CB5373500B05D19 /* InitialConfiguration.xib in Resources */,
+				5B3BA4482561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM in Resources */,
 				432B5FB01CB536E700B05D19 /* MainMenu.xib in Resources */,
 				B81F069D253899FB00F319F1 /* Config.xcconfig in Resources */,
 				4C1923A12392FB3F007EBB0F /* BattlegroundsDetailsWindow.xib in Resources */,
@@ -2268,7 +2257,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# exit 0\n\n# Version\nMONO_VERSION=6.12.0\nSYSTEM_VERSION=4.0.0.0__b77a5c561934e089\nSYSTEM_CONFIGURATION_VERSION=4.0.0.0__b03f5f7f11d50a3a\n\n# Locations\nMONO_LOCATION=/Library/Frameworks/Mono.Framework/Versions/$MONO_VERSION\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nRES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed\"\n\nset -x\nset -e\n\n# Copy needed files\ncp $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libsqlite3.0.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libmono-native-compat.dylib \"${LOCATION}\"\nmkdir -p \"${RES_LOCATION}/etc/mono\"\ncp -R $MONO_LOCATION/etc/mono \"${RES_LOCATION}/etc\"\nsed 's/$mono_libdir\\///g' $MONO_LOCATION/etc/mono/config > \"${RES_LOCATION}/etc/mono/config\"\n\n# Copy system assemblies needed\nmkdir -p \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/mscorlib.dll \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/Facades/netstandard.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Xml/$SYSTEM_VERSION/System.Xml.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Core/$SYSTEM_VERSION/System.Core.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System/$SYSTEM_VERSION/System.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Configuration/$SYSTEM_CONFIGURATION_VERSION/System.Configuration.dll \"${RES_LOCATION}\"\n\n# Change runtime paths\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n";
+			shellScript = "# exit 0\n\n# Version\nMONO_VERSION=6.12.0\nSYSTEM_VERSION=4.0.0.0__b77a5c561934e089\nSYSTEM_CONFIGURATION_VERSION=4.0.0.0__b03f5f7f11d50a3a\n\n# Locations\nMONO_LOCATION=/Library/Frameworks/Mono.Framework/Versions/$MONO_VERSION\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nRES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed\"\n\nDIR=\"$SRCROOT/mono-dSYM/\"\nmkdir -p $DIR\n\nset -x\nset -e\n\n# Copy needed files\ncp $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libsqlite3.0.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libmono-native-compat.dylib \"${LOCATION}\"\nmkdir -p \"${RES_LOCATION}/etc/mono\"\ncp -R $MONO_LOCATION/etc/mono \"${RES_LOCATION}/etc\"\nsed 's/$mono_libdir\\///g' $MONO_LOCATION/etc/mono/config > \"${RES_LOCATION}/etc/mono/config\"\ncp -rf $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib.dSYM \"${DIR}\"\ncp -rf $MONO_LOCATION/lib/libmono-native-compat.0.dylib.dSYM \"${DIR}\"\n\n# Copy system assemblies needed\nmkdir -p \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/mscorlib.dll \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/Facades/netstandard.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Xml/$SYSTEM_VERSION/System.Xml.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Core/$SYSTEM_VERSION/System.Core.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System/$SYSTEM_VERSION/System.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Configuration/$SYSTEM_CONFIGURATION_VERSION/System.Configuration.dll \"${RES_LOCATION}\"\n\n# Change runtime paths\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B86F2153255DBFFC008D522A /* Download cards JSON */ = {
