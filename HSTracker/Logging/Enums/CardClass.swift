@@ -8,18 +8,22 @@
 
 import Foundation
 
-enum CardClass: String {
-    case neutral,
-    druid,
-    hunter,
-    mage,
-    paladin,
-    priest,
-    rogue,
-    shaman,
-    warlock,
-    warrior,
-    demonhunter
+enum CardClass: String, Codable {
+    case invalid,
+         deathknight,
+         druid,
+         hunter,
+         mage,
+         paladin,
+         priest,
+         rogue,
+         shaman,
+         warlock,
+         warrior,
+         dream,
+         neutral,
+         whizbang,
+         demonhunter
     
     var defaultHeroCardId: String {
         switch self {
@@ -45,6 +49,10 @@ enum CardClass: String {
             return CardIds.Collectible.Warrior.GarroshHellscream
         case .demonhunter:
             return CardIds.Collectible.DemonHunter.Illidan
+        case .whizbang:
+            return CardIds.Collectible.Neutral.WhizbangTheWonderful
+        default:
+            return ""
         }
     }
 }

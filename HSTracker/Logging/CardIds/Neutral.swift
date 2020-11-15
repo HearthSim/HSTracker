@@ -564,6 +564,7 @@ extension CardIds.Collectible {
         static let SeaforiumBomber: String = "BOT_511"
         static let SparkDrill: String = "BOT_102"
         static let AugmentedElekk: String = "BOT_559"
+        static let WhizbangTheWonderful = "BOT_914"
     }
 }
 

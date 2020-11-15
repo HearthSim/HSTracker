@@ -100,7 +100,6 @@
 		436530DA1FA08343008F326F /* ZipArchive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43C5680F1D5F692800451B6F /* ZipArchive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4367899F1CAC05DD00C962D1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4367899E1CAC05DD00C962D1 /* Cocoa.framework */; };
 		436789AC1CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A61CAC07BB00C962D1 /* Kanna.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		436789B71CACF64600C962D1 /* CardCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789B61CACF64600C962D1 /* CardCounter.swift */; };
 		436789BB1CACF79800C962D1 /* TrackerFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436789BA1CACF79800C962D1 /* TrackerFrame.swift */; };
@@ -469,7 +468,6 @@
 		4C3E2DA1245F86C400292349 /* BgHeroesToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */; };
 		4C3E2DA3245F87B700292349 /* BgHeroesToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */; };
 		4C3E2DA52460C82900292349 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA42460C82800292349 /* FrameView.swift */; };
-		4C3E2DA72462325A00292349 /* kotlin_hslog.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */; };
 		4C68AF2B2447D35B00E52834 /* HearthMirror.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; };
 		4C68AF2C2447D37000E52834 /* HearthMirror.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4C68AF2A2447D35A00E52834 /* HearthMirror.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C6E99A3237F635300702AB2 /* CollectionWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */; };
@@ -503,6 +501,7 @@
 		B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */; };
 		B86F2151255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F214F255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM */; };
 		B86F2152255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = B86F2150255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM */; };
+		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
@@ -655,7 +654,6 @@
 				43F2F0D41FA4F3A6002F5AEA /* SwiftyBeaver.framework.dSYM in CopyFiles */,
 				43F2F0D11FA356AA002F5AEA /* AwaitKit.framework.dSYM in CopyFiles */,
 				43F2F0D21FA356AA002F5AEA /* PromiseKit.framework.dSYM in CopyFiles */,
-				436789AD1CAC07BB00C962D1 /* Kanna.framework.dSYM in CopyFiles */,
 				43847D921E8D96970060C2D2 /* RegexUtil.framework.dSYM in CopyFiles */,
 				436789AE1CAC07BB00C962D1 /* MASPreferences.framework.dSYM in CopyFiles */,
 			);
@@ -1078,6 +1076,7 @@
 		B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthMirror.framework.dSYM; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework.dSYM"; sourceTree = "<group>"; };
 		B86F214F255CCA9B008D522A /* libmono-native-compat.0.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmono-native-compat.0.dylib.dSYM"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmono-native-compat.0.dylib.dSYM"; sourceTree = "<group>"; };
 		B86F2150255CCA9B008D522A /* libmonosgen-2.0.1.dylib.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = "libmonosgen-2.0.1.dylib.dSYM"; path = "../../../Library/Frameworks/Mono.framework/Versions/6.12.0/lib/libmonosgen-2.0.1.dylib.dSYM"; sourceTree = "<group>"; };
+		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
 		B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsPreferences.swift; sourceTree = "<group>"; };
 		B8B7CC21253C74D100033758 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BattlegroundsPreferences.xib; sourceTree = "<group>"; };
@@ -1509,6 +1508,7 @@
 				BCA70F281E2C16DD00038A6C /* FileUtils.h */,
 				BCA70F291E2C16DD00038A6C /* FileUtils.m */,
 				BCCCDB9D1EA54FF800C328D0 /* NotificationManager.swift */,
+				B8820CCF25603FB00072ECBC /* RemoteConfig.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -2154,7 +2154,6 @@
 				C9BDB3C81D20BC4C00886A11 /* StatsTab.xib in Resources */,
 				434106A41C9868620045655A /* Assets.xcassets in Resources */,
 				432B5FB31CB5371C00B05D19 /* PlayerTrackersPreferences.xib in Resources */,
-				4C3E2DA72462325A00292349 /* kotlin_hslog.framework.dSYM in Resources */,
 				B83355AE24F807220025F644 /* BobsBuddyPanel.xib in Resources */,
 				432B5FBC1CB5373200B05D19 /* Splashscreen.xib in Resources */,
 				43EECB9A1C7E3F620077AC1B /* DeckCellView.xib in Resources */,
@@ -2385,6 +2384,7 @@
 				43C567FF1D5E4F9700451B6F /* HSReplayAPI.swift in Sources */,
 				43D308061C842DC900480488 /* GamePrefences.swift in Sources */,
 				43A8A0F71E1557C900AF34FD /* FormatType.swift in Sources */,
+				B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */,
 				4CECFFD923C111AA0093253E /* BattlegroundsTierDetailsView.swift in Sources */,
 				4C3E2DA52460C82900292349 /* FrameView.swift in Sources */,
 				B8DC11F224E77F040088A755 /* BobsBuddyState.swift in Sources */,
@@ -3290,6 +3290,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
@@ -3337,6 +3338,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",

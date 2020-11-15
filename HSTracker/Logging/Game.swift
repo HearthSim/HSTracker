@@ -1314,14 +1314,6 @@ class Game: NSObject, PowerEventHandler {
 		self.syncStats(logLines: self.powerLog, stats: currentGameStats)
     }
 
-    private var logContainsGoldRewardState: Bool {
-        return powerLog.filter({ $0.line.contains("tag=GOLD_REWARD_STATE value=1") }).count == 2
-    }
-
-    private var logContainsStateComplete: Bool {
-        return powerLog.any({ $0.line.contains("tag=STATE value=COMPLETE") })
-    }
-
 	private func syncStats(logLines: [LogLine], stats: InternalGameStats) {
 
         guard currentGameMode != .practice && currentGameMode != .none && currentGameMode != .spectator else {

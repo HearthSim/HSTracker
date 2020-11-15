@@ -89,6 +89,33 @@ struct Http {
             }.resume()
         }
     }
+    
+    func getPromise(method: HttpMethod,
+                    headers: [String: String] = [:]) -> Promise<Data?> {
+        return Promise<Data?> { seal in
+            guard let urlRequest = prepareRequest(method: method,
+                                                  encoding: .multipart,
+                                                  parameters: [:],
+                                                  headers: headers) else {
+                seal.fulfill(nil)
+                return
+            }
+
+            Http.session.dataTask(with: urlRequest) { data, response, error in
+                if let error = error {
+                    logger.error("request error : \(error)")
+                    seal.reject(error)
+                } else if let data = data {
+                    logger.verbose("upload result : \(data)")
+                    seal.fulfill(data)
+                }
+                logger.debug("p \(#function): "
+                                + "\(String(describing: error)), "
+                                + "data: \(String(describing: data)), "
+                                + "response: \(String(describing: response))")
+            }.resume()
+        }
+    }
 
     func upload(method: HttpMethod,
                 headers: [String: String] = [:],

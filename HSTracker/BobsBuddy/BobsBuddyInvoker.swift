@@ -140,7 +140,7 @@ class BobsBuddyInvoker {
         }.catch({ error in
             logger.error("Error running simulation: \(error.localizedDescription)")
             BobsBuddyInvoker.bobsBuddyDisplay.setErrorState(error: .failedToLoad)
-            MSAnalytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
+            Analytics.trackEvent("runSimulation failed", withProperties: [ "error": error.localizedDescription])
         })
     }
     

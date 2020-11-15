@@ -107,6 +107,17 @@
 "UNGORO" = "Journey to Un'Goro";
 "ICECROWN" = "Knights of the Frozen Throne";
 "LOOTAPALOOZA" = "Kobolds and Catacombs";
+"GILNEAS" = "The Witchwood";
+"BOOMSDAY" = "The Boomsday Project";
+"TROLL" = "Rastakhan's Rumble";
+"DALARAN" = "Rise of Shadows";
+"ULDUM" = "Saviors of Uldum";
+"DRAGONS" = "Descent of Dragons";
+"YEAR_OF_THE_DRAGON" = "Galakrond's Awakening";
+"BLACK_TEMPLE" = "Ashes of Outland";
+"DEMON_HUNTER_INITIATE" = "Demon Hunter Initiate";
+"SCHOLOMANCE" = "Scholomance Academy";
+"DARKMOON_FAIRE" = "Madness at the Darkmoon Faire";
 
 /* card type */
 "all_types" = "All";

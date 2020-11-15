@@ -27,5 +27,5 @@ enum GameType: Int {
     gt_battlegrounds = 23,
     gt_battlegrounds_friendly = 24,
     gt_pvpdr_paid = 28,
-    gt_pvppdr = 29
+    gt_pvpdr = 29
 }

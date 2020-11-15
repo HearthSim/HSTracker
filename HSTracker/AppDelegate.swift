@@ -59,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         AppDelegate._instance = self
         //setenv("CFNETWORK_DIAGNOSTICS", "3", 1)
         
-        MSAppCenter.start("2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", withServices: [MSAnalytics.self, MSCrashes.self])
+        AppCenter.start(withAppSecret: "2f0021b9-bb18-4282-9aa1-cfbbd85d3bed", services: [Analytics.self, Crashes.self])
 
         // Migrate preferences from old bundle ID
         let oldPrefs = UserDefaults.standard.persistentDomain(forName: "be.michotte.hstracker")
@@ -131,7 +131,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			initalConfig?.window?.orderFrontRegardless()
 		}
         
-        MSAnalytics.trackEvent("app_start")
+        Analytics.trackEvent("app_start")
 	}
 	
 	func applicationWillTerminate(_ notification: Notification) {
@@ -188,7 +188,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
 			
-			// load and generate assets from hearthstone files
+            let remoteConfigOperation = BlockOperation {
+                RemoteConfig.checkRemoteConfig(splashscreen: self.splashscreen!)
+            }
+
+            // load and generate assets from hearthstone files
 			/*let assetsOperation = BlockOperation {
 				DispatchQueue.main.async { [weak self] in
 					self?.splashscreen?.display(
@@ -223,6 +227,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			
 			var operations = [Operation]()
             operations.append(cardTierOperation)
+            operations.append(remoteConfigOperation)
 			/*if Settings.useHearthstoneAssets {
 				operations.append(assetsOperation)
 			}*/

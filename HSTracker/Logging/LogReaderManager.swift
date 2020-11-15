@@ -168,7 +168,7 @@ final class LogReaderManager {
 
     private func entryPoint() -> LogDate {
         let powerEntry = powerLog.findEntryPoint(choices:
-            ["tag=GOLD_REWARD_STATE", "End Spectator"])
+            ["tag=STATE value=COMPLETE", "End Spectator"])
         let loadingScreenEntry = loadingScreen.findEntryPoint(choice: "Gameplay.Start")
 
         let pe = LogReaderManager.iso8601StringFormatter.string(from: powerEntry)

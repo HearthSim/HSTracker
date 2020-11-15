@@ -120,7 +120,6 @@ class SecretsManager {
     }
 
     func getSecretList() -> [Card] {
-        let wildSets = CardSet.wildSets()
         let gameMode = game.currentGameType
         let format = game.currentFormat
 
@@ -149,14 +148,49 @@ class SecretsManager {
                 card?.count = adjustCount($0.key, $0.value.filter({ !$0.value }).count)
                 return card
         }
-
-        if format == .standard || gameMode == .gt_arena {
-            cards = cards.filter { !wildSets.contains($0.set ?? .invalid) }
-        }
-        if gameMode == .gt_arena {
-            cards = cards.filter { !CardIds.Secrets.arenaExcludes.contains($0.id) }
-        } else {
-            cards = cards.filter { !CardIds.Secrets.arenaOnly.contains($0.id) }
+        
+        if let remoteData = RemoteConfig.data {
+            if gameMode == .gt_arena {
+                let currentSets = remoteData.arena.current_sets.compactMap({ value in
+                    CardSet(rawValue: "\(value.lowercased())")
+                })
+                
+                cards = cards.filter { card in
+                    currentSets.contains(card.set ?? .invalid)
+                }
+                
+                if remoteData.arena.banned_secrets.count > 0 {
+                    cards = cards.filter({ card in
+                        !remoteData.arena.banned_secrets.contains(card.id)
+                    })
+                }
+            } else {
+                if remoteData.arena.exclusive_secrets.count > 0 {
+                    cards = cards.filter({ card in
+                        !remoteData.arena.exclusive_secrets.contains(card.id)
+                    })
+                }
+                if format == .standard {
+                    let wildSets = CardSet.wildSets()
+                    cards = cards.filter({ card in
+                        !wildSets.contains(card.set ?? .invalid)
+                    })
+                }
+            }
+            
+            if gameMode == .gt_pvpdr || gameMode == .gt_pvpdr_paid {
+                let currentSets = remoteData.pvpdr.current_sets.compactMap({ value in
+                    CardSet(rawValue: "\(value.lowercased())")
+                })
+                cards = cards.filter({ card in
+                    currentSets.contains(card.set ?? .invalid)
+                })
+                if remoteData.pvpdr.banned_secrets.count > 0 {
+                    cards = cards.filter({ card in
+                        !remoteData.pvpdr.banned_secrets.contains(card.id)
+                    })
+                }
+            }
         }
 
         return cards.filter { $0.count > 0 }.sortCardList()
