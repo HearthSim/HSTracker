@@ -1,8 +1,9 @@
 # 1.7.6
 ## New:
-- improvements to last seen board
-- catch errors running batttlegrounds simulation
-- prevent crash retrieving battlegrouns races
+- Improve last seen board
+- Catch errors running battlegrounds simulation
+## Fixes:
+- Prevent crash retrieving Battlegrounds available races
 
 # 1.7.5
 ## New:
