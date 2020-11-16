@@ -25,6 +25,7 @@ sparkle/config/dsa_priv.pem
 # Carthage
 Carthage/*
 downloaded-frameworks/
+mono-dSYM
 
 # Swift Package Manager
 .build/
