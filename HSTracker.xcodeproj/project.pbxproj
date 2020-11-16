@@ -1040,9 +1040,7 @@
 		4C3E2DA0245F86C400292349 /* BgHeroesToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesToastView.swift; sourceTree = "<group>"; };
 		4C3E2DA2245F87B700292349 /* BgHeroesToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgHeroesToastViewController.swift; sourceTree = "<group>"; };
 		4C3E2DA42460C82800292349 /* FrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
-		4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = kotlin_hslog.framework.dSYM; path = "downloaded-frameworks/kotlin_hslog/kotlin_hslog.framework.dSYM"; sourceTree = "<group>"; };
 		4C68AF2A2447D35A00E52834 /* HearthMirror.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HearthMirror.framework; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework"; sourceTree = "<group>"; };
-		4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = kotlin_hslog.framework; path = "downloaded-frameworks/kotlin_hslog/kotlin_hslog.framework"; sourceTree = "<group>"; };
 		4C6E99A2237F635300702AB2 /* CollectionWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWatcher.swift; sourceTree = "<group>"; };
 		4CECFFD423C10C3D0093253E /* BattlegroundsTierDetailWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsTierDetailWindowController.swift; sourceTree = "<group>"; };
 		4CECFFD623C10C570093253E /* BattlegroundsTierDetailWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BattlegroundsTierDetailWindowController.xib; sourceTree = "<group>"; };
@@ -1973,8 +1971,6 @@
 				436789A51CAC07BB00C962D1 /* JNWCollectionView.framework.dSYM */,
 				5BD4A5012233E40B00EF879B /* Kingfisher.framework */,
 				5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */,
-				4C68AF2E2447D39700E52834 /* kotlin_hslog.framework */,
-				4C3E2DA62462325A00292349 /* kotlin_hslog.framework.dSYM */,
 				433554321D5F6B4400277B27 /* libz.tbd */,
 				436789941CABFB1600C962D1 /* MASPreferences.framework */,
 				436789A71CAC07BB00C962D1 /* MASPreferences.framework.dSYM */,
@@ -2015,8 +2011,8 @@
 				4C68AF242447CE5000E52834 /* Download HearthMirror */,
 				439C7E441C7772C000D29859 /* Sources */,
 				439C7E451C7772C000D29859 /* Frameworks */,
-				439C7E461C7772C000D29859 /* Resources */,
 				B83355B724F89D1A0025F644 /* Embed Mono */,
+				439C7E461C7772C000D29859 /* Resources */,
 				436789A01CAC078800C962D1 /* Copy Files */,
 				436789E01CAE484800C962D1 /* Embed Frameworks */,
 				4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */,
@@ -2257,7 +2253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# exit 0\n\n# Version\nMONO_VERSION=6.12.0\nSYSTEM_VERSION=4.0.0.0__b77a5c561934e089\nSYSTEM_CONFIGURATION_VERSION=4.0.0.0__b03f5f7f11d50a3a\n\n# Locations\nMONO_LOCATION=/Library/Frameworks/Mono.Framework/Versions/$MONO_VERSION\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nRES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed\"\n\nDIR=\"$SRCROOT/mono-dSYM/\"\nmkdir -p $DIR\n\nset -x\nset -e\n\n# Copy needed files\ncp $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libsqlite3.0.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libmono-native-compat.dylib \"${LOCATION}\"\nmkdir -p \"${RES_LOCATION}/etc/mono\"\ncp -R $MONO_LOCATION/etc/mono \"${RES_LOCATION}/etc\"\nsed 's/$mono_libdir\\///g' $MONO_LOCATION/etc/mono/config > \"${RES_LOCATION}/etc/mono/config\"\ncp -rf $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib.dSYM \"${DIR}\"\ncp -rf $MONO_LOCATION/lib/libmono-native-compat.0.dylib.dSYM \"${DIR}\"\n\n# Copy system assemblies needed\nmkdir -p \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/mscorlib.dll \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/Facades/netstandard.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Xml/$SYSTEM_VERSION/System.Xml.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Core/$SYSTEM_VERSION/System.Core.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System/$SYSTEM_VERSION/System.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Configuration/$SYSTEM_CONFIGURATION_VERSION/System.Configuration.dll \"${RES_LOCATION}\"\n\n# Change runtime paths\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n";
+			shellScript = "# exit 0\n\n# Version\nMONO_VERSION=6.12.0\nSYSTEM_VERSION=4.0.0.0__b77a5c561934e089\nSYSTEM_CONFIGURATION_VERSION=4.0.0.0__b03f5f7f11d50a3a\n\n# Locations\nMONO_LOCATION=/Library/Frameworks/Mono.Framework/Versions/$MONO_VERSION\nLOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nBIN_LOCATION=\"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}\"\nRES_LOCATION=\"${BUILT_PRODUCTS_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Resources/Managed\"\n\nDIR=\"$SRCROOT/mono-dSYM/\"\nmkdir -p $DIR\nmkdir -p \"${LOCATION}\"\n\nset -x\nset -e\n\n# Copy needed files\ncp $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libsqlite3.0.dylib \"${LOCATION}\"\ncp $MONO_LOCATION/lib/libmono-native-compat.dylib \"${LOCATION}\"\nmkdir -p \"${RES_LOCATION}/etc/mono\"\ncp -R $MONO_LOCATION/etc/mono \"${RES_LOCATION}/etc\"\nsed 's/$mono_libdir\\///g' $MONO_LOCATION/etc/mono/config > \"${RES_LOCATION}/etc/mono/config\"\ncp -rf $MONO_LOCATION/lib/libmonosgen-2.0.1.dylib.dSYM \"${DIR}\"\ncp -rf $MONO_LOCATION/lib/libmono-native-compat.0.dylib.dSYM \"${DIR}\"\n\n# Copy system assemblies needed\nmkdir -p \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/mscorlib.dll \"${RES_LOCATION}/mono/4.5\"\ncp $MONO_LOCATION/lib/mono/4.5/Facades/netstandard.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Xml/$SYSTEM_VERSION/System.Xml.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Core/$SYSTEM_VERSION/System.Core.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System/$SYSTEM_VERSION/System.dll \"${RES_LOCATION}\"\ncp $MONO_LOCATION/lib/mono/gac/System.Configuration/$SYSTEM_CONFIGURATION_VERSION/System.Configuration.dll \"${RES_LOCATION}\"\n\n# Change runtime paths\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libmonosgen-2.0.1.dylib @rpath/libmonosgen-2.0.1.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\ninstall_name_tool -change /Library/Frameworks/Mono.framework/Versions/$MONO_VERSION/lib/libsqlite3.0.dylib @rpath/libsqlite3.0.dylib \"${BIN_LOCATION}/${EXECUTABLE_NAME}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B86F2153255DBFFC008D522A /* Download cards JSON */ = {
