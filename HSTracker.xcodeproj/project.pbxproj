@@ -482,8 +482,6 @@
 		5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 5B308AEA22287FBF00D853BA /* Kingfisher.framework.dSYM */; };
 		5B3BA4482561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */; };
 		5B3BA4492561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */; };
-		5B3BA44A2561F09300FAD183 /* libmono-native-compat.0.dylib.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 5B3BA4462561F07900FAD183 /* libmono-native-compat.0.dylib.dSYM */; };
-		5B3BA44B2561F09300FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = 5B3BA4472561F07900FAD183 /* libmonosgen-2.0.1.dylib.dSYM */; };
 		5BD4A5022233E40B00EF879B /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; };
 		5BD4A5032233E43000EF879B /* Kingfisher.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5BD4A5042233E44E00EF879B /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD4A5012233E40B00EF879B /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -637,8 +635,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				5B3BA44A2561F09300FAD183 /* libmono-native-compat.0.dylib.dSYM in Copy Files */,
-				5B3BA44B2561F09300FAD183 /* libmonosgen-2.0.1.dylib.dSYM in Copy Files */,
 				B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in Copy Files */,
 				5B308AEB22287FBF00D853BA /* Kingfisher.framework.dSYM in Copy Files */,
 				E3057D6D20B888DF00B9A5B8 /* OAuthSwift.framework.dSYM in Copy Files */,
@@ -2011,13 +2007,13 @@
 				4C68AF242447CE5000E52834 /* Download HearthMirror */,
 				439C7E441C7772C000D29859 /* Sources */,
 				439C7E451C7772C000D29859 /* Frameworks */,
-				B83355B724F89D1A0025F644 /* Embed Mono */,
 				439C7E461C7772C000D29859 /* Resources */,
 				436789A01CAC078800C962D1 /* Copy Files */,
 				436789E01CAE484800C962D1 /* Embed Frameworks */,
 				4C777CFF2400AD7B003F7205 /* Codesign Sparkle.framework */,
 				437B5BCC1CD3B50000DE0A41 /* Swiftlint */,
 				B86F2153255DBFFC008D522A /* Download cards JSON */,
+				B83355B724F89D1A0025F644 /* Embed Mono */,
 			);
 			buildRules = (
 			);
