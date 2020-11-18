@@ -269,7 +269,7 @@ class Game: NSObject, PowerEventHandler {
                                           gameStarted: gameStarted)
                 
                 tracker.showCthunCounter = self.showPlayerCthunCounter
-                tracker.showSpellCounter = self.showPlayerSpellsCounter
+                tracker.showSpellCounter = Settings.showPlayerSpell
                 tracker.showDeathrattleCounter = self.showPlayerDeathrattleCounter
                 tracker.showGraveyard = Settings.showPlayerGraveyard
                 tracker.showJadeCounter = self.showPlayerJadeCounter
