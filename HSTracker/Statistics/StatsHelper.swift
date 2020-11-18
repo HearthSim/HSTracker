@@ -46,13 +46,13 @@ class StatsHelper {
     static let lg = LadderGrid()
     
     static func getStatsUITableData(deck: Deck,
-                                    mode: GameMode = .ranked, season: Int) -> [StatsTableRow] {
+                                    mode: GameMode = GameMode.ranked, season: Int) -> [StatsTableRow] {
         var tableData = [StatsTableRow]()
         
-        for againstClass in [.neutral] + Cards.classes {
+        for againstClass in [CardClass.neutral] + Cards.classes {
             let dataRow = StatsTableRow()
             
-            if againstClass == .neutral {
+            if againstClass == CardClass.neutral {
                 dataRow.classIcon = "AppIcon"
             } else {
                 dataRow.classIcon = againstClass.rawValue
@@ -334,7 +334,7 @@ class StatsHelper {
         return BinomialInterval(lower: lower, upper: upper, mean: mean)
     }
 
-    static func erfinv(y: Double) -> Double {
+    private static func erfinv(y: Double) -> Double {
         // Taken from: http://stackoverflow.com/questions/36784763
         
         let center = 0.7

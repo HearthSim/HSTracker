@@ -41,13 +41,13 @@ class BattlegroundsMinionView: NSView {
 
         image.lockFocus()
         
-        let isPremium = entity.has(tag: .premium)
+        let isPremium = entity.has(tag: GameTag.premium)
         let premium = isPremium ? "_premium" : ""
-        let taunt = entity.has(tag: .taunt)
-        let deathrattle = entity.has(tag: .deathrattle)
-        let legendary = entity.card.rarity == .legendary
-        let poisonous = entity.has(tag: .poisonous)
-        let divineShield = entity.has(tag: .divine_shield)
+        let taunt = entity.has(tag: GameTag.taunt)
+        let deathrattle = entity.has(tag: GameTag.deathrattle)
+        let legendary = entity.card.rarity == Rarity.legendary
+        let poisonous = entity.has(tag: GameTag.poisonous)
+        let divineShield = entity.has(tag: GameTag.divine_shield)
         
         if taunt, let tauntImage = NSImage(named: NSImage.Name("taunt\(premium)")) {
             tauntImage.draw(in: rect)
@@ -63,7 +63,7 @@ class BattlegroundsMinionView: NSView {
             
             NSGraphicsContext.restoreGraphicsState()
         } else {
-            ImageUtils.art(for: entity.cardId, completion: { img in
+            ImageUtils.art(for: entity.cardId, completion: { (img: NSImage?) in
                 if img  != nil {
                     DispatchQueue.main.async {
                         self.needsDisplay = true

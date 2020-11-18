@@ -217,8 +217,9 @@ final class LogReader {
                         }
                         let logLine = LogLine(namespace: info.name, line: lines[i])
                         if logLine.time < startingPoint {
-                            let negativeOffset = lines.take(i + 1)
+                            let negativeOffsetTmp = lines.take(i + 1)
                                 .map({ UInt64(($0 + "\n").count) })
+                            let negativeOffset = negativeOffsetTmp
                                 .reduce(0, +)
                             let current = Int64(fileLength) - Int64(offset)
                                 + Int64(negativeOffset) + Int64(sizeDiff)

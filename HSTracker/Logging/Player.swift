@@ -309,7 +309,7 @@ final class Player {
 
     var opponentCardList: [Card] {
         let revealed = revealedEntities.filter({ (e: Entity) in
-            (e.isMinion || e.isSpell || e.isWeapon || e.isHero || !e.has(tag: .cardtype))
+            (e.isMinion || e.isSpell || e.isWeapon || e.isPlayableHero || !e.has(tag: .cardtype))
                 && (e[.creator] == 1
                     || ((!e.info.created || (Settings.showOpponentCreated
                         && (e.info.createdInDeck || e.info.createdInHand)))

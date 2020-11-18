@@ -40,8 +40,8 @@ class LadderGrid {
         guard let dbQueue = dbQueue else { return nil }
 
         // Round to nearest hundredth
-        let lowerWinp = Double(floor(winp * 100) / 100)
-        let upperWinp = Double(ceil(winp * 100) / 100)
+        let lowerWinp = Double(floor(winp * 100.0) / 100.0)
+        let upperWinp = Double(ceil(winp * 100.0) / 100.0)
 
         var lowerResult: FMResultSet?
         var upperResult: FMResultSet?

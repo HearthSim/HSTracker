@@ -16,6 +16,13 @@ final class Cards {
             .sorted { NSLocalizedString($0.rawValue, comment: "")
                 < NSLocalizedString($1.rawValue, comment: "") }
     }()
+
+    static let classesPlusNeutral: [CardClass] = {
+        return [.druid, .hunter, .mage, .paladin, .priest,
+                .rogue, .shaman, .warlock, .warrior, .demonhunter, .neutral]
+            .sorted { NSLocalizedString($0.rawValue, comment: "")
+                < NSLocalizedString($1.rawValue, comment: "") }
+    }()
     
     static var cards = [Card]()
     // map used to quickly find cards by id

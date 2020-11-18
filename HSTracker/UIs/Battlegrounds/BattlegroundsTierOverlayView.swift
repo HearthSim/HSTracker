@@ -78,7 +78,7 @@ class BattlegroundsTierOverlayView: NSView {
     }
 
     override func mouseMoved(with event: NSEvent) {
-        let index = (Int(CGFloat(event.locationInWindow.x - 4))) / 48 + 1
+        let index = (Int(CGFloat(event.locationInWindow.x - 4.0))) / 48 + 1
         
         displayTier(tier: index)
     }

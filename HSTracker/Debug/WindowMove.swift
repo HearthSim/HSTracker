@@ -58,10 +58,10 @@ class WindowMove: NSWindowController {
     @IBAction func opacityChange(_ sender: NSSlider) {
         if let currentWindow = currentWindow {
             let alpha = CGFloat(sender.doubleValue / 100.0)
-            currentWindow.backgroundColor = NSColor(red: 0,
-                    green: 0,
-                    blue: 0,
-                    alpha: alpha)
+            currentWindow.backgroundColor = NSColor(red: 0.0,
+                                                    green: 0.0,
+                                                    blue: 0.0,
+                                                    alpha: alpha)
         }
     }
 
@@ -70,11 +70,12 @@ class WindowMove: NSWindowController {
         if windowChooser.indexOfSelectedItem >= 0 {
             buttonEnabled = true
         }
-        [_up, _down, _left, _right,
+        let buttons: [NSButton] = [_up, _down, _left, _right,
          _fup, _fdown, _fleft, _fright,
          _show, _hide, _ffdown, _ffup
-        ].forEach {
-            $0.isEnabled = buttonEnabled
+        ]
+        for button in buttons {
+            button.isEnabled = buttonEnabled
         }
 
         if let window = windowChooser
