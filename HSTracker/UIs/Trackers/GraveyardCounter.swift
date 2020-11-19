@@ -71,18 +71,19 @@ class GraveyardCounter: TextFrame {
         var point = theEvent.locationInWindow
         
         // show graveyard
-        if let gframe = graveyardWindow?.frame {
+        let gframe = self.frame
+        if let gframe2 = graveyardWindow?.frame, let sframe = self.window?.screen?.frame {
             
             if let screenpoint = self.window?.convertToScreen(
                 NSRect(x: point.x, y: point.y, width: 0, height: 0)) {
                 point.x = min(screenpoint.origin.x,
-                              (self.window?.screen?.frame.width)! - gframe.width)
-                point.y = max(screenpoint.origin.y, gframe.height)
+                              sframe.width - gframe.width)
+                point.y = max(screenpoint.origin.y, gframe2.height)
             }
             
             graveyardWindow?.setFrame(NSRect(
                 x: point.x, y: point.y,
-                width: gframe.width, height: gframe.height),
+                width: gframe.width, height: gframe2.height),
                                       display: true)
         }
         
