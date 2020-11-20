@@ -28,9 +28,10 @@ class Tracker: OverWindowController {
 
     private var hero: CardBar?
     private var heroCard: Card?
+
+    let semaphore = DispatchSemaphore(value: 1)
+
     fileprivate var animatedCards: [CardBar] = []
-    
-    private var cellsCache = [String: NSView]()
 
     var hasValidFrame = false
     
@@ -88,8 +89,13 @@ class Tracker: OverWindowController {
 
     // MARK: - Game
     func update(cards: [Card], reset: Bool = false) {
+        semaphore.wait()
+        
+        defer {
+            semaphore.signal()
+        }
+        
         if reset {
-            cellsCache.removeAll()
             animatedCards.removeAll()
         }
 
@@ -281,6 +287,7 @@ class Tracker: OverWindowController {
                 hero?.playerType = .hero
                 hero?.card = Cards.hero(byId: playerClassId)
                 hero?.card?.count = 1
+                hero?.card?.cost = -1
                 hero?.playerName = playerName
                 hero?.frame = NSRect(x: 0, y: 0,
                                      width: windowWidth,
@@ -360,6 +367,13 @@ class Tracker: OverWindowController {
         case .huge: cardHeight = CGFloat(kHighRowHeight)
         case .big: cardHeight = CGFloat(kRowHeight)
         }
+        
+        semaphore.wait()
+        
+        defer {
+            semaphore.signal()
+        }
+        
         if animatedCards.count > 0 {
             cardHeight = round(min(cardHeight,
                                    (windowHeight - offsetFrames) / CGFloat(animatedCards.count)))
@@ -565,7 +579,10 @@ extension Tracker: CardCellHover {
 
         if self.playerType == .player && Settings.showTopdeckchance {
 			
+            semaphore.wait()
             let playercardlist: [Card] = self.animatedCards.map { $0.card! }
+            semaphore.signal()
+            
             let remainingcardsindeck = playercardlist.reduce(0) { $0 + $1.count}
             if let cardindeck = playercardlist.first(where: { $0.id == card.id }) {
                 let cardindeckcount = cardindeck.count
