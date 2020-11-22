@@ -49,8 +49,19 @@ struct TagChangeActions {
             }
         case .mulligan_state: return { self.mulliganStateChange(eventHandler: eventHandler, id: id, value: value) }
         case .tag_script_data_num_1: return { self.tagScriptDataNum1(eventHandler: eventHandler, id: id, value: value) }
+        case .reborn: return { self.rebornChange(eventHandler: eventHandler, id: id, value: value)}
         default: return nil
         }
+    }
+    
+    private func rebornChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if eventHandler.currentGameMode != GameMode.battlegrounds {
+            return
+        }
+        if value != 1 {
+            return
+        }
+        BobsBuddyInvoker.instance(turn: eventHandler.turnNumber()).setMinionReborn(entityId: id)
     }
     
     private func tagScriptDataNum1(eventHandler: PowerEventHandler, id: Int, value: Int) {
