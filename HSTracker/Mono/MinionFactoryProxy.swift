@@ -15,6 +15,7 @@ class MinionFactoryProxy {
     private static var _getMinionFromCardid: OpaquePointer!
     private static var _cardIdsWithoutPremiumImplementations: OpaquePointer!
     private static var _cardIdsWithCleave: OpaquePointer!
+    private static var _cardIdsWithMegaWindfury: OpaquePointer!
     
     private static func _init() {
         _class = MonoHelper.loadClass(ns: "BobsBuddy", name: "MinionFactory")
@@ -25,6 +26,7 @@ class MinionFactoryProxy {
         
         _cardIdsWithoutPremiumImplementations = mono_class_get_field_from_name(_class, "cardIdsWithoutPremiumImplementations")
         _cardIdsWithCleave = mono_class_get_field_from_name(_class, "cardIDsWithCleave")
+        _cardIdsWithMegaWindfury = mono_class_get_field_from_name(_class, "cardIdsWithMegaWindfury")
 
         _classVT = mono_class_vtable(MonoHelper._monoInstance, mono_field_get_parent(_cardIdsWithoutPremiumImplementations))
     }
@@ -88,5 +90,9 @@ class MinionFactoryProxy {
 
     static func getCardIdsWithCleave() -> [String] {
         return getStringArrayField(field: _cardIdsWithCleave)
+    }
+
+    static func getCardIdsWithMegaWindfury() -> [String] {
+        return getStringArrayField(field: _cardIdsWithMegaWindfury)
     }
 }

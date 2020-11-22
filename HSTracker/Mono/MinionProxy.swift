@@ -28,6 +28,8 @@ class MinionProxy: MonoHandle {
     private static var _setPlantDeathCount: OpaquePointer!
     private static var _setReceivesLichKingPower: OpaquePointer!
     private static var _getReceivesLichKingPower: OpaquePointer!
+    private static var _getGameId: OpaquePointer!
+    private static var _setGameId: OpaquePointer!
     private static var _minionName: OpaquePointer!
     private static var _addToBackOfList: OpaquePointer!
 
@@ -54,6 +56,8 @@ class MinionProxy: MonoHandle {
             MinionProxy._setPlantDeathCount = mono_class_get_method_from_name(MinionProxy._class, "set_plantDeathCount", 1)
             MinionProxy._setReceivesLichKingPower = mono_class_get_method_from_name(MinionProxy._class, "set_receivesLichKingPower", 1)
             MinionProxy._getReceivesLichKingPower = mono_class_get_method_from_name(MinionProxy._class, "get_receivesLichKingPower", 0)
+            MinionProxy._getGameId = mono_class_get_method_from_name(MinionProxy._class, "get_game_id", 0)
+            MinionProxy._setGameId = mono_class_get_method_from_name(MinionProxy._class, "set_game_id", 1)
             MinionProxy._minionName = mono_class_get_field_from_name(MinionProxy._class, "minionName")
             MinionProxy._addToBackOfList = mono_class_get_method_from_name(MinionProxy._class, "AddToBackOfList", 2)
         }
@@ -131,6 +135,14 @@ class MinionProxy: MonoHandle {
         return MonoHelper.getBool(obj: self, method: MinionProxy._getReceivesLichKingPower)
     }
     
+    func getGameId() -> Int32 {
+        return MonoHelper.getInt(obj: self, method: MinionProxy._getGameId)
+    }
+    
+    func setGameId(id: Int32) {
+        return MonoHelper.setInt(obj: self, method: MinionProxy._setGameId, value: id)
+    }
+
     func getMinionName() -> String {
         return MonoHelper.getStringField(obj: self, field: MinionProxy._minionName)
     }

@@ -17,10 +17,13 @@ class BobsBuddyInvoker {
     let MaxTimeForComplexBoards = 3_000
     let HeroPowerTriggerTimeout = 5000
     let StateChangeDelay = 500
+    let LichKingDelay = 2000
     
     static let cardIdsWithoutPremiumImplementation: [String] = MinionFactoryProxy.getCardIdsWithoutPremiumImplementations()
     
     static let cardIdsWithCleave: [String] = MinionFactoryProxy.getCardIdsWithCleave()
+    
+    static let cardIdsWithMegaWindfury: [String] = MinionFactoryProxy.getCardIdsWithMegaWindfury()
     
     var state: BobsBuddyState = .initial
     
@@ -28,9 +31,15 @@ class BobsBuddyInvoker {
     
     var input: TestInputProxy?
     
+    private var currentOpponentMinions: [Int: MinionProxy] = [:]
+    
     var minionHeroPowerTrigger: MinionHeroPowerTrigger?
     
     private let turn: Int
+    
+    private final let LichKingHeroPowerId = CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl
+    private final let LichKingHeroPowerEnchantmentId = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
+    private final let canRemoveLichKing: Bool = RemoteConfig.data?.bobs_buddy.can_remove_lich_king ?? false
     
     let queue = DispatchQueue(label: "BobsBuddy", qos: .userInitiated)
     
@@ -57,6 +66,18 @@ class BobsBuddyInvoker {
             return false
         }
         return true
+    }
+    
+    func setMinionReborn(entityId: Int) {
+        if let rebornMinion = currentOpponentMinions[entityId] {
+            let opaque = mono_thread_attach(MonoHelper._monoInstance)
+            
+            defer {
+                mono_thread_detach(opaque)
+            }
+
+            rebornMinion.setReceivesLichKingPower(power: true)
+        }
     }
     
     func startCombat() {
@@ -93,7 +114,7 @@ class BobsBuddyInvoker {
         BobsBuddyInvoker.bobsBuddyDisplay.setState(st: .combat)
         BobsBuddyInvoker.bobsBuddyDisplay.hidePercentagesShowSpinners()
         
-        if let mhpt = minionHeroPowerTrigger {
+        if let mhpt = minionHeroPowerTrigger, canRemoveLichKing {
             let minion = mhpt.minion
             let start = DispatchTime.now()
             logger.debug("Waiting for hero power \(mhpt.heroPowerId) trigger for \(minion.getMinionName())...")
@@ -108,6 +129,13 @@ class BobsBuddyInvoker {
             } else {
                 logger.debug("Found hero power trigger for \(minion.getMinionName()) after \(duration)ms")
             }
+        }
+        
+        let game = AppDelegate.instance().coreManager.game
+        if game.opponent.board.any({ x in
+            x.cardId == LichKingHeroPowerId || x.cardId == LichKingHeroPowerEnchantmentId
+        }) {
+            usleep(useconds_t(LichKingDelay * 1000))
         }
         
         _ = runSimulation().done { (result) in
@@ -256,7 +284,7 @@ class BobsBuddyInvoker {
         }
         minion.setPoisonous(poisonous: ent.has(tag: GameTag.poisonous))
         minion.setWindfury(windfury: ent.has(tag: GameTag.windfury))
-        minion.setMegaWindfury(megaWindfury: ent.has(tag: GameTag.mega_windfury))
+        minion.setMegaWindfury(megaWindfury: ent.has(tag: GameTag.mega_windfury) || cardIdsWithMegaWindfury.contains(ent.cardId))
         
         let golden = ent.has(tag: GameTag.premium)
         minion.setGolden(golden: golden)
@@ -274,6 +302,8 @@ class BobsBuddyInvoker {
         if attachedEntities.any({ $0.cardId == CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl }) {
             minion.setReceivesLichKingPower(power: true)
         }
+        
+        minion.setGameId(id: Int32(ent.id))
         return minion
     }
     
@@ -341,7 +371,9 @@ class BobsBuddyInvoker {
         let playerSide = input.getPlayerSide()
         let opponentSide = input.getOpponentSide()
         
-        for m in BobsBuddyInvoker.getOrderedMinions(board: game.player.board).map({ BobsBuddyInvoker.getMinionFromEntity(ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}) {
+        for m in BobsBuddyInvoker.getOrderedMinions(board: game.player.board).filter({e in
+            e.isControlled(by: game.player.id)
+        }).map({ BobsBuddyInvoker.getMinionFromEntity(ent: $0, attachedEntities: BobsBuddyInvoker.getAttachedEntities(game: game, entityId: $0.id))}) {
             m.addToBackOfList(list: playerSide, sim: simulator)
         }
 
@@ -351,6 +383,7 @@ class BobsBuddyInvoker {
             if m.getReceivesLichKingPower() {
                 minionHeroPowerTrigger = MinionHeroPowerTrigger(m: m, heroPower: CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl)
             }
+            currentOpponentMinions[Int(m.getGameId())] = m
         }
         
         self.input = input
