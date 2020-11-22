@@ -458,7 +458,7 @@ class Game: NSObject, PowerEventHandler {
             let isBG = self.isBattlegroundsMatch() && !self.gameEnded
             if isBG && Settings.showBobsBuddy &&
                 ((Settings.hideAllWhenGameInBackground && self.hearthstoneRunState.isActive)
-                || !Settings.hideAllWhenGameInBackground) {
+                    || !Settings.hideAllWhenGameInBackground) && !self.hideBobsBuddy {
                 self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: true, frame: rect, title: nil, overlay: true)
             } else {
                 self.windowManager.show(controller: self.windowManager.bobsBuddyPanel, show: false)
