@@ -832,6 +832,11 @@ class Game: NSObject, PowerEventHandler {
     var opponentHandCount: Int {
         return entities.map { $0.1 }
             .filter { $0.isInHand && $0.isControlled(by: self.opponent.id) }.count }
+    
+    var opponentSecretCount: Int {
+        return entities.map { $0.1 }
+            .filter { $0.isSecret && $0.isControlled(by: self.opponent.id) }.count
+    }
 
     private(set) var currentFormat = Format(formatType: FormatType.ft_unknown)
 

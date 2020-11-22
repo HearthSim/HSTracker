@@ -128,6 +128,7 @@ extension CardIds.Collectible {
         static let SplittingImage: String = "TRL_400"
         static let FlameWard: String = "ULD_239"
         static let NetherwindPortal = "BT_003"
+        static let RiggedFaireGame = "DMF_107"
     }
 }
 
@@ -194,7 +195,7 @@ extension CardIds.Secrets {
     struct Mage {
         static let All = [Counterspell, Duplicate, Effigy, ExplosiveRunes, FrozenClone, IceBarrier,
                           IceBlock, ManaBind, MirrorEntity, PotionOfPolymorph, Spellbender,
-                          SplittingImage, Vaporize, FlameWard, NetherwindPortal]
+                          SplittingImage, Vaporize, FlameWard, NetherwindPortal, RiggedFaireGame]
         static let Counterspell = CardIds.Collectible.Mage.Counterspell
         static let Duplicate = CardIds.Collectible.Mage.Duplicate
         static let Effigy = CardIds.Collectible.Mage.Effigy
@@ -210,5 +211,6 @@ extension CardIds.Secrets {
         static let ExplosiveRunes = CardIds.Collectible.Mage.ExplosiveRunes
         static let FlameWard = CardIds.Collectible.Mage.FlameWard
         static let NetherwindPortal = CardIds.Collectible.Mage.NetherwindPortal
+        static let RiggedFaireGame = CardIds.Collectible.Mage.RiggedFaireGame
     }
 }

@@ -26,5 +26,6 @@
 //#import <UnityPack/UnityPack-Swift.h>
 
 #import "FileUtils.h"
+#import "HSTracker-Bridging-Header.h"
 
 #endif /* HSTracker_Test_Bridging_Header_h */

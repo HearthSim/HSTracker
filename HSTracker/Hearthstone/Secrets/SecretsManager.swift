@@ -11,13 +11,16 @@ import AwaitKit
 
 class SecretsManager {
     let avengeDelay: Double = 50
+    let multipleSecretResolveDelay = 750
     private var _avengeDeathRattleCount = 0
     private var _awaitingAvenge = false
-    private var _lastCompetitiveSpiritCheck = 0
+    private var _lastStartOfTurnSecretCheck = 0
     private var entititesInHandOnMinionsPlayed: Set<Entity>  = Set<Entity>()
 
     private var game: Game
     private(set) var secrets: [Secret] = []
+    private var _triggeredSecrets: [Entity] = []
+    private var opponentTookDamageDuringTurns: [Int] = []
     
     private var _lastPlayedMinionId: Int = 0
     private var savedSecrets: [String] = []
@@ -68,7 +71,8 @@ class SecretsManager {
     func reset() {
         _avengeDeathRattleCount = 0
         _awaitingAvenge = false
-        _lastCompetitiveSpiritCheck = 0
+        _lastStartOfTurnSecretCheck = 0
+        opponentTookDamageDuringTurns.removeAll()
         entititesInHandOnMinionsPlayed.removeAll()
         secrets.removeAll()
     }
@@ -83,8 +87,10 @@ class SecretsManager {
             exclude(cardId: entity.cardId)
         }
         do {
-            try secrets.append(Secret(entity: entity))
+            let secret = try Secret(entity: entity)
+            secrets.append(secret)
             logger.info("new secret : \(entity)")
+            onNewSecret(secret: secret)
             onChanged?(getSecretList())
             return true
         } catch {
@@ -229,6 +235,9 @@ class SecretsManager {
                     exclude.append(CardIds.Secrets.Mage.FlameWard)
                     exclude.append(CardIds.Secrets.Hunter.FreezingTrap)
                     exclude.append(CardIds.Secrets.Mage.Vaporize)
+                    if freeSpaceOnBoard {
+                        exclude.append(CardIds.Secrets.Rogue.ShadowClone)
+                    }
                 }
             }
 
@@ -415,21 +424,29 @@ class SecretsManager {
         guard handleAction else { return }
 
         if entity.isHero && entity.isControlled(by: game.opponent.id) {
-            exclude(cardId: CardIds.Secrets.Paladin.EyeForAnEye)
-            exclude(cardId: CardIds.Secrets.Rogue.Evasion)
+            if !entity.has(tag: GameTag.immune) {
+                exclude(cardId: CardIds.Secrets.Paladin.EyeForAnEye)
+                exclude(cardId: CardIds.Secrets.Rogue.Evasion)
+                opponentTookDamageDuringTurns.append(game.turnNumber())
+            }
         }
     }
 
     func handleTurnsInPlayChange(entity: Entity, turn: Int) {
         guard handleAction else { return }
 
-        if turn <= _lastCompetitiveSpiritCheck || !entity.isMinion
-            || !entity.isControlled(by: game.opponent.id)
-            || !(game.opponentEntity?.isCurrentPlayer ?? false) {
-            return
+        if game.opponentEntity?.isCurrentPlayer ?? false && turn > _lastStartOfTurnSecretCheck {
+            _lastStartOfTurnSecretCheck = turn
+            if entity.isMinion && entity.isControlled(by: game.opponent.id) {
+                exclude(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
+                if game.opponentMinionCount >= 2 && freeSpaceOnBoard {
+                    exclude(cardId: CardIds.Secrets.Hunter.OpenTheCages)
+                }
+            }
+            if !opponentTookDamageDuringTurns.contains(game.turnNumber() - 1) {
+                exclude(cardId: CardIds.Secrets.Mage.RiggedFaireGame)
+            }
         }
-        _lastCompetitiveSpiritCheck = turn
-        exclude(cardId: CardIds.Secrets.Paladin.CompetitiveSpirit)
     }
     
     func handlePlayerTurnStart() {
@@ -440,6 +457,10 @@ class SecretsManager {
         if game.player.cardsPlayedThisTurn.count > 0 {
             exclude(cardId: CardIds.Secrets.Rogue.Plagiarize)
         }
+    }
+    
+    func secretTriggered(entity: Entity) {
+        _triggeredSecrets.append(entity)
     }
 
     func handleCardPlayed(entity: Entity) {
@@ -464,8 +485,20 @@ class SecretsManager {
         }
         
         if entity.isSpell {
+            _triggeredSecrets.removeAll()
+            if game.opponentSecretCount > 1 {
+                usleep(useconds_t(1000 * multipleSecretResolveDelay))
+            }
+            
             exclude.append(CardIds.Secrets.Mage.Counterspell)
+            
+            if _triggeredSecrets.any({ x in x.cardId == CardIds.Secrets.Mage.Counterspell }) {
+                self.exclude(cardIds: exclude)
+                return
+            }
 
+            exclude.append(CardIds.Secrets.Paladin.OhMyYogg)
+            
             if game.opponentMinionCount > 0 {
                 exclude.append(CardIds.Secrets.Paladin.NeverSurrender)
             }
@@ -500,6 +533,12 @@ class SecretsManager {
             exclude.append(CardIds.Secrets.Paladin.SacredTrial)
         }
         self.exclude(cardIds: exclude)
+    }
+    
+    func onNewSecret(secret: Secret) {
+        if secret.entity[GameTag.class] == CardClass.allCases.index(of: .hunter) {
+            entititesInHandOnMinionsPlayed.removeAll()
+        }
     }
 
     func handleHeroPower() {

@@ -127,6 +127,7 @@ extension CardIds.Collectible {
         static let AutodefenseMatrix: String = "BOT_908"
         static let NeverSurrender = "DAL_570"
         static let SandwaspQueen = "ULD_439"
+        static let OhMyYogg = "DMF_236"
     }
 }
 
@@ -194,7 +195,7 @@ extension CardIds.NonCollectible {
 extension CardIds.Secrets {
     struct Paladin {
         static let All = [AutodefenseMatrix, Avenge, CompetitiveSpirit, EyeForAnEye, HiddenWisdom, NobleSacrifice,
-                          HandOfSalvation, GetawayKodo, Redemption, Repentance, SacredTrial, NeverSurrender]
+                          HandOfSalvation, GetawayKodo, Redemption, Repentance, SacredTrial, NeverSurrender, OhMyYogg]
         static let AutodefenseMatrix = CardIds.Collectible.Paladin.AutodefenseMatrix
         static let Avenge = CardIds.Collectible.Paladin.Avenge
         static let CompetitiveSpirit = CardIds.Collectible.Paladin.CompetitiveSpirit
@@ -207,5 +208,6 @@ extension CardIds.Secrets {
         static let HandOfSalvation = CardIds.NonCollectible.Paladin.HandOfSalvation
         static let HiddenWisdom = CardIds.Collectible.Paladin.HiddenWisdom
         static let NeverSurrender = CardIds.Collectible.Paladin.NeverSurrender
+        static let OhMyYogg = CardIds.Collectible.Paladin.OhMyYogg
     }
 }

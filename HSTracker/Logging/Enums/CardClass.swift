@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CardClass: String, Codable {
+enum CardClass: String, Codable, CaseIterable {
     case invalid,
          deathknight,
          druid,

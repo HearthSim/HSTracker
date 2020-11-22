@@ -503,6 +503,11 @@
 		B86F214E255A3E50008D522A /* HearthMirror.framework.dSYM in Copy Files */ = {isa = PBXBuildFile; fileRef = B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */; };
 		B8820CD025603FB00072ECBC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8956CFD25509B3F0073D70C /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
+		B8A9CB2D25699ACA000071FC /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A27244C8CE400E7B75E /* AppCenterAnalytics.framework */; };
+		B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */; };
+		B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
+		B8A9CB3025699BCA000071FC /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A25244C8AED00E7B75E /* AppCenter.framework */; };
+		B8A9CB3125699BCA000071FC /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A29244C8CF400E7B75E /* AppCenterCrashes.framework */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
@@ -1289,6 +1294,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8A9CB3025699BCA000071FC /* AppCenter.framework in Frameworks */,
+				B8A9CB3125699BCA000071FC /* AppCenterCrashes.framework in Frameworks */,
+				B8A9CB2D25699ACA000071FC /* AppCenterAnalytics.framework in Frameworks */,
 				B8DEDCE32547CE8300DF524B /* Mono.framework in Frameworks */,
 				1CCB4AD31E847139003FD1AD /* BTree.framework in Frameworks */,
 				4345E9DD1CB45122002D0F23 /* Cocoa.framework in Frameworks */,
@@ -2533,6 +2541,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */,
+				B8A9CB2E25699B13000071FC /* BattlegroundsMinionView.swift in Sources */,
 				B8DEDCEA2547CF9F00DF524B /* MonoUtility.c in Sources */,
 				B8DEDCE22547C65700DF524B /* FillImageView.swift in Sources */,
 				B8DEDCE12547C64300DF524B /* BgHeroesToastView.swift in Sources */,
@@ -3361,6 +3371,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(PROJECT_DIR)/downloaded-frameworks/HearthMirror",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/Mac/Static",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
@@ -3385,6 +3396,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/Mac/Static",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",

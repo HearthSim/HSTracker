@@ -644,6 +644,7 @@ final class Player {
 
     func secretTriggered(entity: Entity, turn: Int) {
         entity.info.turn = turn
+        game.secretsManager?.secretTriggered(entity: entity)
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }

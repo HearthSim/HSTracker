@@ -334,7 +334,7 @@ class StatsHelper {
         return BinomialInterval(lower: lower, upper: upper, mean: mean)
     }
 
-    private static func erfinv(y: Double) -> Double {
+    public static func erfinv(y: Double) -> Double {
         // Taken from: http://stackoverflow.com/questions/36784763
         
         let center = 0.7
