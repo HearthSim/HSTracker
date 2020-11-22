@@ -82,7 +82,7 @@ class BattlegroundsDetailsView: NSView {
                 .strokeColor: NSColor.black
             ]
             let h = CGFloat(20)
-            "\(turns) turn(s) ago".draw(with: NSRect(x: 0, y: 0, width: bounds.width, height: h),
+            "\(turns) turn(s) ago".draw(with: NSRect(x: 0, y: 10, width: bounds.width, height: h),
                                         options: NSString.DrawingOptions.truncatesLastVisibleLine,
                                         attributes: attributes)
         }
