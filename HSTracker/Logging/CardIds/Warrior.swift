@@ -124,6 +124,7 @@ extension CardIds.Collectible {
         static let DirehornHatchling: String = "UNG_957"
         static let ClockworkGoblin: String = "DAL_060"
         static let Wrenchcalibur: String = "DAL_063"
+        static let KargathBladefist = "BT_123"
     }
 }
 
@@ -192,6 +193,7 @@ extension CardIds.NonCollectible {
         static let DirehornHatchling_DirehornMatriarchToken: String = "UNG_957t1"
         static let BladestormHeroic: String = "ICC_834h"
         static let ScourgelordGarrosh_Shadowmourne: String = "ICC_834w"
+        static let KargathBladefist_KargathPrimeToken = "BT_123t"
     }
 }
 

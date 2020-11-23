@@ -73,7 +73,7 @@ class CardHud: NSView {
             cost = entity.info.costReduction
             
             if entity.info.cardMark == .coin {
-                card = Cards.any(byId: CardIds.NonCollectible.Neutral.TheCoin)
+                card = Cards.any(byId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                 
             } else if !entity.cardId.isBlank && !entity.info.hidden {
                 image = "small-card"

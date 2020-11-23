@@ -128,6 +128,8 @@ extension CardIds.Collectible {
         static let NeverSurrender = "DAL_570"
         static let SandwaspQueen = "ULD_439"
         static let OhMyYogg = "DMF_236"
+        static let ImmortalPrelate = "TRL_306"
+        static let MurgurMurgurgle = "BT_019"
     }
 }
 
@@ -189,6 +191,7 @@ extension CardIds.NonCollectible {
         static let TirionFordring: String = "ICCA01_013"
         static let HandOfSalvation: String = "BCON_012"
         static let SandwaspQueen_SandwaspToken: String = "ULD_439t"
+        static let MurgurMurgurgle_MurgurglePrimeToken = "BT_019t"
     }
 }
 

@@ -29,6 +29,7 @@ class EntityInfo {
     private(set) var originalCardId: String?
     var wasTransformed: Bool { return !originalCardId.isBlank }
     var originalEntityWasCreated: Bool?
+    var storedCardIds: [String] = []
 
     init(entity: Entity) {
         _entity = entity
@@ -39,7 +40,7 @@ class EntityInfo {
             return .none
         }
 
-        if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoin || _entity.cardId ==
+        if _entity.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic || _entity.cardId ==
             CardIds.NonCollectible.Neutral.TradePrinceGallywix_GallywixsCoinToken {
             return .coin
         }
@@ -84,6 +85,9 @@ extension EntityInfo: CustomStringConvertible {
         }
         if mulliganed {
             description += ", mulliganed=true"
+        }
+        if storedCardIds.count > 0 {
+            description += ", storedCardIds=[" + storedCardIds.joined(separator: ", ") + "]"
         }
         description += "]"
 

@@ -122,6 +122,8 @@ extension CardIds.Collectible {
         static let HotSpringGuardian: String = "UNG_938"
         static let UniteTheMurlocs: String = "UNG_942"
         static let SpiritEcho: String = "UNG_956"
+        static let LadyVashj = "BT_109"
+        static let DiligentNotetaker = "SCH_236"
     }
 }
 
@@ -173,6 +175,7 @@ extension CardIds.NonCollectible {
         static let KalimosPrimalLord_InvocationOfAir: String = "UNG_211d"
         static let UnitetheMurlocs_MegafinToken: String = "UNG_942t"
         static let SpiritEcho_EchoedSpiritEnchantment: String = "UNG_956e"
+        static let LadyVashj_VashjPrimeToken = "BT_109t"
     }
 }
 

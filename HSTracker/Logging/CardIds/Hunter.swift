@@ -129,6 +129,8 @@ extension CardIds.Collectible {
         static let PressurePlate = "ULD_152"
         static let PackTactics = "BT_203"
         static let OpenTheCages = "DMF_123"
+        static let ZixorApexPredator = "BT_210"
+        static let HalazziTheLynx = "TRL_900"
     }
 }
 
@@ -191,6 +193,8 @@ extension CardIds.NonCollectible {
         static let DeathstalkerRexxar_ZombeastToken: String = "ICC_828t"
         static let GiantRatHeroic: String = "LOOTA_BOSS_18h"
         static let WeeWhelpHeroic: String = "LOOTA_BOSS_44h"
+        static let ZixorApexPredator_ZixorPrimeToken = "BT_210t"
+        static let Springpaw_LynxToken = "TRL_348t"
     }
 }
 

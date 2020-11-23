@@ -126,6 +126,8 @@ extension CardIds.Collectible {
         static let Chameleos: String = "GIL_142"
         static let ExtraArms: String = "BOT_219"
         static let SpiritOfTheDead = "TRL_502"
+        static let ReliquaryOfSouls = "BT_197"
+        static let Seance = "TRL_097"
     }
 }
 
@@ -170,6 +172,7 @@ extension CardIds.NonCollectible {
         static let ShadowAscendant_AscendedEnchantment: String = "ICC_210e"
         static let ShadowreaperAnduin_Voidform: String = "ICC_830p"
         static let ExtraArms_MoreArmsToken: String = "BOT_219t"
+        static let ReliquaryofSouls_ReliquaryPrimeToken = "BT_197t"
     }
 }
 

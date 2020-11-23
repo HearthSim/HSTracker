@@ -96,9 +96,10 @@ final class Player {
     fileprivate(set) var cardsPlayedThisTurn: [String] = []
     fileprivate(set) var deathrattlesPlayedCount = 0
 	private unowned(unsafe) let game: Game
+    var lastDrawnCardId: String?
 
     var hasCoin: Bool {
-        return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoin }
+        return hand.any { $0.cardId == CardIds.NonCollectible.Neutral.TheCoinBasic }
     }
 
     var handCount: Int {
@@ -158,6 +159,8 @@ final class Player {
         heroPowerCount = 0
 
         inDeckPredictions.removeAll()
+        
+        lastDrawnCardId = nil
     }
     
     var currentMana: Int {
@@ -535,6 +538,7 @@ final class Player {
             }
         }
         entity.info.turn = turn
+        lastDrawnCardId = entity.cardId
         if Settings.fullGameLog {
             logger.info("\(debugName) \(#function) \(entity)")
         }

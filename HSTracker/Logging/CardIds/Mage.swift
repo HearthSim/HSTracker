@@ -129,6 +129,8 @@ extension CardIds.Collectible {
         static let FlameWard: String = "ULD_239"
         static let NetherwindPortal = "BT_003"
         static let RiggedFaireGame = "DMF_107"
+        static let AstromancerSolarian = "BT_028"
+        static let ConfectionCyclone = "DMF_100"
     }
 }
 
@@ -188,6 +190,8 @@ extension CardIds.NonCollectible {
         static let Sindragosa_FrozenChampionToken: String = "ICC_838t"
         static let UnchainedMagic: String = "ICCA04_002"
         static let DeckofWondersScrollOfWonderToken: String = "LOOT_106t"
+        static let AstromancerSolarian_SolarianPrimeToken = "BT_028t"
+        static let ConfectionCyclone_SugarElementalToken = "DMF_100t"
     }
 }
 

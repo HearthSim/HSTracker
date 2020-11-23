@@ -1690,7 +1690,7 @@ class Game: NSObject, PowerEventHandler {
         if cardId.isBlank {
             return
         }
-        if cardId == CardIds.NonCollectible.Neutral.TheCoin {
+        if cardId == CardIds.NonCollectible.Neutral.TheCoinBasic {
             playerGet(entity: entity, cardId: cardId, turn: turn)
         } else {
             player.draw(entity: entity, turn: turn)
@@ -1811,7 +1811,7 @@ class Game: NSObject, PowerEventHandler {
 
     func opponentGet(entity: Entity, turn: Int, id: Int) {
         if !isMulliganDone() && entity[.zone_position] == 5 {
-            entity.cardId = CardIds.NonCollectible.Neutral.TheCoin
+            entity.cardId = CardIds.NonCollectible.Neutral.TheCoinBasic
         }
 
         opponent.createInHand(entity: entity, turn: turn)

@@ -123,6 +123,10 @@ extension CardIds.Collectible {
         static let ChitteringTunneler: String = "UNG_835"
         static let ClutchmotherZavas: String = "UNG_836"
         static let Impbalming: String = "ULD_324"
+        static let KanrethadEbonlocke = "BT_309"
+        static let SchoolSpirits = "SCH_307"
+        static let SoulShear = "SCH_701"
+        static let SpiritJailer = "SCH_700"
     }
 }
 
@@ -177,6 +181,8 @@ extension CardIds.NonCollectible {
         static let BloodEssence: String = "ICCA05_021"
         static let BloodreaverGuldan_SiphonLife: String = "ICC_831p"
         static let Impbalming_WorthlessImpToken: String = "ULD_324t"
+        static let KanrethadEbonlocke_KanrethadPrimeToken = "BT_309t"
+        static let SchoolSpirits_SoulFragmentToken = "SCH_307t"
     }
 }
 

@@ -11,5 +11,6 @@ import Foundation
 extension CardIds.Collectible {
     struct DemonHunter {
         static let Illidan: String = "HERO_10"
+        static let Marrowslicer = "SCH_252"
     }
 }

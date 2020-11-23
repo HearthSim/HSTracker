@@ -451,10 +451,10 @@ class PowerGameStateParser: LogEventParser {
                                            cardId: getTargetCardId(matches: matches))
                         case CardIds.Collectible.Neutral.HoardingDragon:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.TheCoin, count: 2)
+                                           cardId: CardIds.NonCollectible.Neutral.TheCoinBasic, count: 2)
                         case CardIds.Collectible.Priest.GildedGargoyle:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.TheCoin)
+                                           cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
                         case CardIds.Collectible.Druid.AstralTiger:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.Collectible.Druid.AstralTiger)
@@ -467,6 +467,11 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.Collectible.Neutral.SparkDrill:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SparkDrill_SparkToken, count: 2)
+                        case CardIds.NonCollectible.Neutral.HakkartheSoulflayer_CorruptedBloodToken:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.HakkartheSoulflayer_CorruptedBloodToken, count: 2)
+                        //TODO: Gral, the Shark?
+                        case CardIds.Collectible.Paladin.ImmortalPrelate:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Paladin.ImmortalPrelate)
                         case CardIds.Collectible.Warrior.Wrenchcalibur:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
@@ -476,13 +481,61 @@ class PowerGameStateParser: LogEventParser {
                             } else if correspondPlayer == eventHandler.opponent.id {
                                 addKnownCardId(eventHandler: eventHandler, cardId: eventHandler.opponent.lastDiedMinionCardId)
                             }
-                            // TODO: catch up to HDT PowerHandler
+                        case CardIds.Collectible.Druid.SecureTheDeck:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.Claw, count: 3)
+                        case CardIds.Collectible.Rogue.Waxadred:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Rogue.Waxadred_WaxadredsCandleToken)
+                        case CardIds.Collectible.Neutral.BadLuckAlbatross:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.BadLuckAlbatross_AlbatrossToken, count: 2)
+                        case CardIds.Collectible.Priest.ReliquaryOfSouls:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Priest.ReliquaryofSouls_ReliquaryPrimeToken)
+                        case CardIds.Collectible.Mage.AstromancerSolarian:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.AstromancerSolarian_SolarianPrimeToken)
+                        case CardIds.Collectible.Warlock.KanrethadEbonlocke:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.KanrethadEbonlocke_KanrethadPrimeToken)
+                        case CardIds.Collectible.Paladin.MurgurMurgurgle:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Paladin.MurgurMurgurgle_MurgurglePrimeToken)
+                        case CardIds.Collectible.Rogue.Akama:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Rogue.Akama_AkamaPrimeToken)
+                        case CardIds.Collectible.Druid.ArchsporeMsshifn:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Druid.ArchsporeMsshifn_MsshifnPrimeToken)
+                        case CardIds.Collectible.Shaman.LadyVashj:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Shaman.LadyVashj_VashjPrimeToken)
+                        case CardIds.Collectible.Hunter.ZixorApexPredator:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Hunter.ZixorApexPredator_ZixorPrimeToken)
+                        case CardIds.Collectible.Warrior.KargathBladefist:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warrior.KargathBladefist_KargathPrimeToken)
+                        case CardIds.Collectible.Neutral.SneakyDelinquent:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.SneakyDelinquent_SpectralDelinquentToken)
+                        case CardIds.Collectible.Neutral.FishyFlyer:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.FishyFlyer_SpectralFlyerToken)
+                        case CardIds.Collectible.Neutral.SmugSenior:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.SmugSenior_SpectralSeniorToken)
                         case CardIds.Collectible.Rogue.Plagiarize:
                             if let actionEntity = actionStartingEntity {
                                 let player = actionEntity.isControlled(by: eventHandler.player.id) ? eventHandler.opponent : eventHandler.player
                                 for card in player!.cardsPlayedThisTurn {
                                     addKnownCardId(eventHandler: eventHandler, cardId: card)
                                 }
+                            }
+                        case CardIds.Collectible.Neutral.KeymasterAlabaster:
+                            // The player controlled side of this is handled by TagChangeActions.OnCardCopy
+                            if let actionEntity = actionStartingEntity, actionEntity.isControlled(by: eventHandler.opponent.id) && eventHandler.player.lastDrawnCardId != nil {
+                                addKnownCardId(eventHandler: eventHandler, cardId: eventHandler.player.lastDrawnCardId)
+                            }
+                        case CardIds.Collectible.Neutral.EducatedElekk:
+                            if let actionEntity = actionStartingEntity {
+                                if actionEntity.isInGraveyard {
+                                    for card in actionEntity.info.storedCardIds {
+                                        addKnownCardId(eventHandler: eventHandler, cardId: card)
+                                    }
+                                } else if let lastCardPlayed = eventHandler.lastCardPlayed, let lastPlayedEntity = eventHandler.entities[lastCardPlayed] {
+                                        actionEntity.info.storedCardIds.append(lastPlayedEntity.cardId)
+                                }
+                            }
+                        case CardIds.Collectible.Shaman.DiligentNotetaker:
+                            if let lastCardPlayed = eventHandler.lastCardPlayed, let lastPlayedEntity1 = eventHandler.entities[lastCardPlayed] {
+                                addKnownCardId(eventHandler: eventHandler, cardId: lastPlayedEntity1.cardId)
                             }
                         default: break
                         }
@@ -509,8 +562,10 @@ class PowerGameStateParser: LogEventParser {
                              CardIds.Collectible.Mage.ManicSoulcaster,
                              CardIds.Collectible.Neutral.ZolaTheGorgon,
                              CardIds.Collectible.Druid.Splintergraft,
+                             //CardIds.Collectible.Priest.HolyWater: -- TODO
                              CardIds.Collectible.Neutral.BalefulBanker,
-                             CardIds.Collectible.Neutral.DollmasterDorian:
+                             CardIds.Collectible.Neutral.DollmasterDorian,
+                             CardIds.Collectible.Priest.Seance:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: getTargetCardId(matches: matches))
                         case CardIds.Collectible.Mage.ForgottenTorch:
@@ -571,42 +626,63 @@ class PowerGameStateParser: LogEventParser {
                         case CardIds.NonCollectible.Neutral.TheCandle:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.TheCandle)
-                        case CardIds.NonCollectible.Neutral.CoinPouch:
+                        case CardIds.NonCollectible.Neutral.CoinPouchGILNEAS:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.SackOfCoins)
-                        case CardIds.NonCollectible.Neutral.SackOfCoins:
+                                           cardId: CardIds.NonCollectible.Neutral.SackOfCoinsGILNEAS)
+                        case CardIds.NonCollectible.Neutral.SackOfCoinsGILNEAS:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.HeftySackOfCoins)
-                        case CardIds.NonCollectible.Neutral.CreepyCurio:
+                                           cardId: CardIds.NonCollectible.Neutral.HeftySackOfCoinsGILNEAS)
+                        case CardIds.NonCollectible.Neutral.CreepyCurioGILNEAS:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.HauntedCurio)
-                        case CardIds.NonCollectible.Neutral.HauntedCurio:
+                                           cardId: CardIds.NonCollectible.Neutral.HauntedCurioGILNEAS)
+                        case CardIds.NonCollectible.Neutral.HauntedCurioGILNEAS:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.CursedCurio)
-                        case CardIds.NonCollectible.Neutral.OldMilitiaHorn:
+                                           cardId: CardIds.NonCollectible.Neutral.CursedCurioGILNEAS)
+                        case CardIds.NonCollectible.Neutral.OldMilitiaHornGILNEAS:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.MilitiaHorn)
-                        case CardIds.NonCollectible.Neutral.MilitiaHorn:
+                                           cardId: CardIds.NonCollectible.Neutral.MilitiaHornGILNEAS)
+                        case CardIds.NonCollectible.Neutral.MilitiaHornGILNEAS:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.VeteransMilitiaHorn)
-                        case CardIds.NonCollectible.Neutral.SurlyMob:
+                                           cardId: CardIds.NonCollectible.Neutral.VeteransMilitiaHornGILNEAS)
+                        case CardIds.NonCollectible.Neutral.SurlyMobGILNEAS:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.AngryMob)
-                        case CardIds.NonCollectible.Neutral.AngryMob:
+                                           cardId: CardIds.NonCollectible.Neutral.AngryMobGILNEAS)
+                        case CardIds.NonCollectible.Neutral.AngryMobGILNEAS:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.CrazedMob)                        
+                                           cardId: CardIds.NonCollectible.Neutral.CrazedMobGILNEAS)
                         case CardIds.Collectible.Neutral.SparkEngine:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SparkDrill_SparkToken)
                         case CardIds.Collectible.Priest.ExtraArms:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Priest.ExtraArms_MoreArmsToken)
-                        case CardIds.Collectible.Neutral.SeaforiumBomber:
+                        case CardIds.Collectible.Neutral.SeaforiumBomber,
+                             CardIds.Collectible.Warrior.ClockworkGoblin:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
-                        case CardIds.Collectible.Warrior.ClockworkGoblin:
+                        //case Collectible.Rogue.Wanted: -- TODO
+                        //    AddKnownCardId(gameState, NonCollectible.Neutral.TheCoin);
+                        //    break;
+                        //TODO: Hex Lord Malacrass
+                        //TODO: Krag'wa, the Frog
+                        case CardIds.Collectible.Hunter.HalazziTheLynx:
                             addKnownCardId(eventHandler: eventHandler,
-                                           cardId: CardIds.NonCollectible.Neutral.SeaforiumBomber_BombToken)
+                                           cardId: CardIds.NonCollectible.Hunter.Springpaw_LynxToken, count: 10)
+                        case CardIds.Collectible.Neutral.BananaVendor:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.BananaBuffoon_BananasToken, count: 4)
+                        case CardIds.Collectible.Neutral.BananaBuffoon:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.BananaBuffoon_BananasToken, count: 2)
+                        case CardIds.Collectible.Neutral.BootyBayBookie:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.TheCoinBasic)
+                        case CardIds.Collectible.Neutral.PortalKeeper, CardIds.Collectible.Neutral.PortalOverfiend:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: CardIds.NonCollectible.Neutral.PortalKeeper_FelhoundPortalToken)
+                        case CardIds.Collectible.Rogue.TogwagglesScheme:
+                            addKnownCardId(eventHandler: eventHandler,
+                                           cardId: getTargetCardId(matches: matches))
                         case CardIds.Collectible.Paladin.SandwaspQueen:
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Paladin.SandwaspQueen_SandwaspToken,
@@ -619,6 +695,23 @@ class PowerGameStateParser: LogEventParser {
                             addKnownCardId(eventHandler: eventHandler,
                                            cardId: CardIds.NonCollectible.Warlock.Impbalming_WorthlessImpToken,
                                            count: 3)
+                        case CardIds.Collectible.Druid.YseraUnleashed:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Druid.YseraUnleashed_DreamPortalToken, count: 7)
+                        case CardIds.Collectible.Rogue.BloodsailFlybooter:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Rogue.BloodsailFlybooter_SkyPirateToken, count: 2)
+                        case CardIds.Collectible.Rogue.UmbralSkulker:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Neutral.TheCoinBasic, count: 3)
+                        case CardIds.Collectible.Neutral.Sathrovarr:
+                            addKnownCardId(eventHandler: eventHandler, cardId: getTargetCardId(matches: matches), count: 3)
+                        case CardIds.Collectible.Neutral.DragonBreeder:
+                            addKnownCardId(eventHandler: eventHandler, cardId: getTargetCardId(matches: matches))
+                        case CardIds.Collectible.Warlock.SchoolSpirits, CardIds.Collectible.Warlock.SoulShear, CardIds.Collectible.Warlock.SpiritJailer, CardIds.Collectible.DemonHunter.Marrowslicer:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Warlock.SchoolSpirits_SoulFragmentToken, count: 2)
+                        case CardIds.Collectible.Mage.ConfectionCyclone:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.NonCollectible.Mage.ConfectionCyclone_SugarElementalToken, count: 2)
+                        case CardIds.Collectible.Druid.KiriChosenOfElune:
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.LunarEclipse)
+                            addKnownCardId(eventHandler: eventHandler, cardId: CardIds.Collectible.Druid.SolarEclipse)
                         default:
                             if let card = Cards.any(byId: actionStartingCardId) {
                                 if (player != nil && player![.current_player] == 1

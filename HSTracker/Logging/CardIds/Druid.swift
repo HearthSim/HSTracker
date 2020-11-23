@@ -123,6 +123,12 @@ extension CardIds.Collectible {
         static let Tyrantus: String = "UNG_852"
         static let AstralTiger: String = "LOOT_056"
         static let Splintergraft: String = "GIL_658"
+        static let SecureTheDeck: String = "DRG_317"
+        static let ArchsporeMsshifn = "BT_136"
+        static let YseraUnleashed = "DRG_320"
+        static let KiriChosenOfElune = "DMF_733"
+        static let LunarEclipse = "DMF_057"
+        static let SolarEclipse = "DMF_058"
     }
 }
 
@@ -251,6 +257,8 @@ extension CardIds.NonCollectible {
         static let MalfurionthePestilent_FrostWidowToken: String = "ICC_832t3"
         static let MalfurionthePestilent_ScarabBeetleToken: String = "ICC_832t4"
         static let MalfurionthePestilent_PlagueLord: String = "ICC_832p"
+        static let ArchsporeMsshifn_MsshifnPrimeToken = "BT_136t"
+        static let YseraUnleashed_DreamPortalToken = "DRG_320t"
     }
 }
 

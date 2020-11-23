@@ -136,6 +136,11 @@ extension CardIds.Collectible {
         static let DirtyTricks = "BT_709"
         static let Plagiarize = "SCH_706"
         static let ShadowClone = "DMF_513"
+        static let Waxadred = "DRG_036"
+        static let Akama = "BT_713"
+        static let TogwagglesScheme = "DAL_010"
+        static let BloodsailFlybooter = "DRG_035"
+        static let UmbralSkulker = "DRG_027"
     }
 }
 
@@ -202,6 +207,9 @@ extension CardIds.NonCollectible {
         static let FaldoreiStrider_SpiderAmbushEnchantment: String = "LOOT_026e"
         static let BinkTheBurglarHeroic: String = "LOOTA_BOSS_45h"
         static let ShadowofDeath_ShadowToken = "ULD_286t"
+        static let Waxadred_WaxadredsCandleToken = "DRG_036t"
+        static let Akama_AkamaPrimeToken = "BT_713t"
+        static let BloodsailFlybooter_SkyPirateToken = "DRG_035t"
     }
 }
 
