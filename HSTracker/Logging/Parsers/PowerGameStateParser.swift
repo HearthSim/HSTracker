@@ -265,14 +265,6 @@ class PowerGameStateParser: LogEventParser {
                 
                 if currentBlock != nil &&  entity.cardId.uppercased().contains("HERO") {
                     currentBlock!.hasFullEntityHeroPackets = true
-                    NSLog("Setting Full entity hero packets")
-                } else {
-                    if currentBlock == nil {
-                        NSLog("Current block is nil")
-                    }
-                    if entity.cardId.uppercased().contains("HERO") {
-                        NSLog("Hero entity was present: %@", entity.cardId)
-                    }
                 }
             }
 
