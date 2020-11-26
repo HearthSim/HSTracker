@@ -203,6 +203,10 @@ final class Settings {
         set { set(name: Settings.show_opponent_warband, value: newValue) }
         get { return get(name: Settings.show_opponent_warband) as? Bool ?? true }
     }
+    static var showTiers: Bool {
+        set { set(name: Settings.show_tiers, value: newValue) }
+        get { return get(name: Settings.show_tiers) as? Bool ?? true }
+    }
 
     static var showPlayerDrawChance: Bool {
         set { set(name: Settings.player_draw_chance, value: newValue) }
@@ -585,12 +589,14 @@ extension Settings {
     static let prefer_golden_cards = "prefer_golden_cards"
     static let auto_deck_detection = "auto_deck_detection"
     
+    // MARK: Battlegrounds
     static let show_bobs_buddy = "show_bobs_buddy"
     static let show_bobs_buddy_during_combat = "show_bobs_buddy_during_combat"
     static let show_bobs_buddy_during_shopping = "show_bobs_buddy_during_shopping"
     static let show_turn_counter = "show_turn_counter"
     static let show_average_damage = "show_average_damage"
     static let show_opponent_warband = "show_opponent_warband"
+    static let show_tiers = "show_tiers"
 
     static let player_draw_chance = "player_draw_chance"
     static let player_card_count = "player_card_count"
