@@ -40,7 +40,10 @@ class Toaster {
         
         if timeoutMillis > 0 {
             hideWorkItem = DispatchWorkItem(block: {
-                self.windowManager.toastWindowController.displayed = false
+                DispatchQueue.main.async {
+                    self.windowManager.toastWindowController.displayed = false
+                    self.windowManager.show(controller: self.windowManager.toastWindowController, show: false)
+                }
             })
             
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(timeoutMillis)/1000, execute: self.hideWorkItem!)
