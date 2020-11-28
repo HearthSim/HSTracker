@@ -39,7 +39,7 @@ class BobsBuddyInvoker {
     
     private final let LichKingHeroPowerId = CardIds.NonCollectible.Neutral.RebornRitesTavernBrawl
     private final let LichKingHeroPowerEnchantmentId = CardIds.NonCollectible.Neutral.RebornRites_RebornRiteEnchantmentTavernBrawl
-    private final let canRemoveLichKing: Bool = RemoteConfig.data?.bobs_buddy.can_remove_lich_king ?? false
+    private final let canRemoveLichKing: Bool = RemoteConfig.data?.bobs_buddy?.can_remove_lich_king ?? false
     
     let queue = DispatchQueue(label: "BobsBuddy", qos: .userInitiated)
     

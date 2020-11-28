@@ -9,38 +9,33 @@
 import Foundation
 
 struct NewsData: Codable {
-    var id: Int
-    var items: [String]
+    var id: Int?
+    var items: [String]?
 }
 
 struct CollectionBannerData: Codable {
-    var visible: Bool
-    var removable_pre_sync: Bool
-    var removable_post_sync: Bool
-    var removal_id: Int
+    var visible: Bool?
+    var removable_pre_sync: Bool?
+    var removable_post_sync: Bool?
+    var removal_id: Int?
 }
 
 struct ArenaData: Codable {
-    var current_sets: [String] //FIXME
-    var exclusive_secrets: [String]
-    var banned_secrets: [String]
-}
-
-struct PVPDRData: Codable {
-    var current_sets: [String]
-    var banned_secrets: [String]
+    var current_sets: [String]?
+    var exclusive_secrets: [String]?
+    var banned_secrets: [String]?
 }
 
 struct RemoteConfigCard: Codable {
-    var dbf_id: Int
-    var count: Int
+    var dbf_id: Int?
+    var count: Int?
 }
 
 struct WhizbangDeck: Codable {
-    var title: String
-    var card_class: Int
-    var deck_id: Int
-    var cards: [RemoteConfigCard]
+    var title: String?
+    var card_class: Int?
+    var deck_id: Int?
+    var cards: [RemoteConfigCard]?
     
     enum CodingKeys: String, CodingKey {
         case title
@@ -57,22 +52,21 @@ struct TagOverride: Codable {
 }
 
 struct BobsBuddyData: Codable {
-    var disabled: Bool
-    var min_required_version: String
-    var sentry_reporting: Bool
-    var metric_sampling: Double
+    var disabled: Bool?
+    var min_required_version: String?
+    var sentry_reporting: Bool?
+    var metric_sampling: Double?
     var can_remove_lich_king: Bool?
-    var log_lines_kept: Int
+    var log_lines_kept: Int?
 }
 
 struct ConfigData: Codable {
-    var news: NewsData
-    var collection_banner: CollectionBannerData
-    var arena: ArenaData
-    var pvpdr: PVPDRData
-    var whizbang_decks: [WhizbangDeck]
-    var battlegrounds_tag_overrides: [TagOverride]
-    var bobs_buddy: BobsBuddyData
+    var news: NewsData?
+    var collection_banner: CollectionBannerData?
+    var arena: ArenaData?
+    var whizbang_decks: [WhizbangDeck]?
+    var battlegrounds_tag_overrides: [TagOverride]?
+    var bobs_buddy: BobsBuddyData?
 }
 
 class RemoteConfig {

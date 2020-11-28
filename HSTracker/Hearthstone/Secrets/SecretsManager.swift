@@ -157,43 +157,29 @@ class SecretsManager {
         
         if let remoteData = RemoteConfig.data {
             if gameMode == .gt_arena {
-                let currentSets = remoteData.arena.current_sets.compactMap({ value in
+                let currentSets = remoteData.arena?.current_sets?.compactMap({ value in
                     CardSet(rawValue: "\(value.lowercased())")
                 })
                 
                 cards = cards.filter { card in
-                    currentSets.contains(card.set ?? .invalid)
+                    (currentSets?.contains(card.set ?? .invalid) ?? false)
                 }
                 
-                if remoteData.arena.banned_secrets.count > 0 {
+                if remoteData.arena?.banned_secrets?.count ?? 0 > 0 {
                     cards = cards.filter({ card in
-                        !remoteData.arena.banned_secrets.contains(card.id)
+                        !(remoteData.arena?.banned_secrets?.contains(card.id) ?? false)
                     })
                 }
             } else {
-                if remoteData.arena.exclusive_secrets.count > 0 {
+                if remoteData.arena?.exclusive_secrets?.count ?? 0 > 0 {
                     cards = cards.filter({ card in
-                        !remoteData.arena.exclusive_secrets.contains(card.id)
+                        !(remoteData.arena?.exclusive_secrets?.contains(card.id) ?? true)
                     })
                 }
                 if format == .standard {
                     let wildSets = CardSet.wildSets()
                     cards = cards.filter({ card in
                         !wildSets.contains(card.set ?? .invalid)
-                    })
-                }
-            }
-            
-            if gameMode == .gt_pvpdr || gameMode == .gt_pvpdr_paid {
-                let currentSets = remoteData.pvpdr.current_sets.compactMap({ value in
-                    CardSet(rawValue: "\(value.lowercased())")
-                })
-                cards = cards.filter({ card in
-                    currentSets.contains(card.set ?? .invalid)
-                })
-                if remoteData.pvpdr.banned_secrets.count > 0 {
-                    cards = cards.filter({ card in
-                        !remoteData.pvpdr.banned_secrets.contains(card.id)
                     })
                 }
             }
