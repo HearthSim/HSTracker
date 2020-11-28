@@ -47,7 +47,12 @@ struct TagChangeActions {
                                                id: id,
                                                value: value)
             }
+        case .creator, .displayed_creator:
+            return { self.creatorChanged(eventHandler: eventHandler, id: id, value: value)}
+        case .whizbang_deck_id:
+            return { self.whizbangDeckIdChange(eventHandler: eventHandler, id: id, value: value)}
         case .mulligan_state: return { self.mulliganStateChange(eventHandler: eventHandler, id: id, value: value) }
+        case .copied_from_entity_id: return { self.onCardCopy(eventHandler: eventHandler, id: id, value: value) }
         case .tag_script_data_num_1: return { self.tagScriptDataNum1(eventHandler: eventHandler, id: id, value: value) }
         case .reborn: return { self.rebornChange(eventHandler: eventHandler, id: id, value: value)}
         default: return nil
@@ -81,6 +86,30 @@ struct TagChangeActions {
         }
     }
     
+    private func onCardCopy(eventHandler: PowerEventHandler, id: Int, value: Int) {
+
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+        if entity.isControlled(by: eventHandler.opponent.id) {
+            return
+        }
+        guard let targetEntity = eventHandler.entities[value] else {
+            return
+        }
+
+        if targetEntity.cardId == "" {
+            targetEntity.cardId = entity.cardId
+            targetEntity.info.guessedCardState = GuessedCardState.guessed
+
+            if entity[.creator_dbid] == CardIds.keyMasterAlabasterDbfId {
+                targetEntity.info.hidden = false
+            }
+
+            eventHandler.handleCardCopy()
+        }
+    }
+    
     private func mulliganStateChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
         if value == 0 {
             return
@@ -94,6 +123,66 @@ struct TagChangeActions {
         }
     }
 
+    private func whizbangDeckIdChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value == 0 {
+            return
+        }
+        guard let entity = eventHandler.entities[id] else {
+            return
+        }
+        if entity.isControlled(by: eventHandler.player.id) {
+            eventHandler.player.isPlayingWhizbang = true
+        } else if entity.isControlled(by: eventHandler.opponent.id) {
+            eventHandler.opponent.isPlayingWhizbang = true
+        }
+        if !entity.isPlayer(eventHandler: eventHandler) {
+            return
+        }
+        //DeckManager.AutoSelectDeckById(game, value);
+    }
+    
+    private func creatorChanged(eventHandler: PowerEventHandler, id: Int, value: Int) {
+        if value == 0 {
+            return
+        }
+        
+        if let entity = eventHandler.entities[id] {
+            let displayedCreatorId = entity[.displayed_creator]
+            if displayedCreatorId == id {
+                // Some cards (e.g. Direhorn Hatchling) wrongfully set DISPLAYED_CREATOR
+                // on themselves instead of the created entity.
+                return
+            }
+            if let displayedCreator = eventHandler.entities[displayedCreatorId] {
+                // For some reason Far Sight sets DISPLAYED_CREATOR on the entity
+                if displayedCreator.cardId == CardIds.Collectible.Shaman.FarSight {
+                    return
+                }
+            }
+
+            let creatorId = entity[.creator]
+            if creatorId == id {
+                // Same precaution as for Direhorn Hatching above.
+                return
+            }
+            if creatorId == eventHandler.gameEntity?.id {
+                return
+            }
+            // All cards created by Whizbang have a creator tag set
+            if let creator = eventHandler.entities[creatorId] {
+                if creator.cardId == CardIds.Collectible.Neutral.WhizbangTheWonderful {
+                    return
+                }
+                let controller = creator[.controller]
+                let usingWhizbang = controller == eventHandler.player?.id && eventHandler.player.isPlayingWhizbang
+                                    || controller == eventHandler.opponent?.id && eventHandler.opponent.isPlayingWhizbang
+                if usingWhizbang && creator.isInSetAside {
+                    return
+                }
+            }
+            entity.info.created = true
+        }
+    }
     private func transformedFromCardChange(eventHandler: PowerEventHandler, id: Int, value: Int) {
         if value == 0 { return }
         guard let entity = eventHandler.entities[id] else { return }

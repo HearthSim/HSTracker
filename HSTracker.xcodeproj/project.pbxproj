@@ -508,6 +508,7 @@
 		B8A9CB2F25699B70000071FC /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8820CCF25603FB00072ECBC /* RemoteConfig.swift */; };
 		B8A9CB3025699BCA000071FC /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A25244C8AED00E7B75E /* AppCenter.framework */; };
 		B8A9CB3125699BCA000071FC /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0C2A29244C8CF400E7B75E /* AppCenterCrashes.framework */; };
+		B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A9CB322571F160000071FC /* GuessedCardState.swift */; };
 		B8B7CC1F253C721400033758 /* BattlegroundsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */; };
 		B8B7CC20253C74D100033758 /* BattlegroundsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B7CC22253C74D100033758 /* BattlegroundsPreferences.xib */; };
 		B8D8859224F3034700F2F0F2 /* StatusMessageConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D8859124F3034700F2F0F2 /* StatusMessageConverter.swift */; };
@@ -1075,6 +1076,7 @@
 		B86F214D255A3E50008D522A /* HearthMirror.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HearthMirror.framework.dSYM; path = "downloaded-frameworks/HearthMirror/HearthMirror.framework.dSYM"; sourceTree = "<group>"; };
 		B8820CCF25603FB00072ECBC /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		B8956CFC25509B3F0073D70C /* BattlegroundsMinionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsMinionView.swift; sourceTree = "<group>"; };
+		B8A9CB322571F160000071FC /* GuessedCardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessedCardState.swift; sourceTree = "<group>"; };
 		B8B7CC1E253C721400033758 /* BattlegroundsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlegroundsPreferences.swift; sourceTree = "<group>"; };
 		B8B7CC21253C74D100033758 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BattlegroundsPreferences.xib; sourceTree = "<group>"; };
 		B8B7CC24253C74DB00033758 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/BattlegroundsPreferences.strings; sourceTree = "<group>"; };
@@ -1653,6 +1655,7 @@
 				439DD8F31DB23212004EBE47 /* PlayerTurn.swift */,
 				43E77EE31C94A19700C26950 /* TurnTimer.swift */,
 				61424BCA24701A3700877EE4 /* DecksReader.swift */,
+				B8A9CB322571F160000071FC /* GuessedCardState.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -2333,6 +2336,7 @@
 				43F2040B1E93C2E600E0BC4A /* Mage.swift in Sources */,
 				B8DC120024EC5F9A0088A755 /* BobsBuddyPanel.swift in Sources */,
 				43F204121E93C2E600E0BC4A /* Warlock.swift in Sources */,
+				B8A9CB332571F160000071FC /* GuessedCardState.swift in Sources */,
 				43F204061E93C2E600E0BC4A /* Deathknight.swift in Sources */,
 				43F204091E93C2E600E0BC4A /* Hunter.swift in Sources */,
 				43F2040C1E93C2E600E0BC4A /* Neutral.swift in Sources */,

@@ -94,6 +94,7 @@ final class Player {
     var lastDiedMinionCardId: String?
     fileprivate(set) var spellsPlayedCount = 0
     fileprivate(set) var cardsPlayedThisTurn: [String] = []
+    var isPlayingWhizbang: Bool = false
     fileprivate(set) var deathrattlesPlayedCount = 0
 	private unowned(unsafe) let game: Game
     var lastDrawnCardId: String?
@@ -312,17 +313,20 @@ final class Player {
 
     var opponentCardList: [Card] {
         let revealed = revealedEntities.filter({ (e: Entity) in
-            (e.isMinion || e.isSpell || e.isWeapon || e.isPlayableHero || !e.has(tag: .cardtype))
+            !(e.info.guessedCardState == GuessedCardState.none && e.info.hidden && (e.isInDeck || e.isInHand))
+            && (e.isMinion || e.isSpell || e.isWeapon || e.isPlayableHero || !e.has(tag: .cardtype))
                 && (e[.creator] == 1
                     || ((!e.info.created || (Settings.showOpponentCreated
                         && (e.info.createdInDeck || e.info.createdInHand)))
                     && e.info.originalController == self.id)
-                    || e.isInHand || e.isInDeck) && !(e.info.created && e.isInSetAside)
+                        || e.isInHand || e.isInDeck)
+                && !CardIds.hiddenCardidPrefixes.any({ y in e.cardId.starts(with: y) })
+                && !entityIsRemovedFromGamePassive(entity: e)
+                && !(e.info.created && e.isInSetAside && e.info.guessedCardState != GuessedCardState.guessed)
         })
             .map({ (e: Entity) -> (DynamicEntity) in
                 DynamicEntity(cardId: e.info.wasTransformed ? e.info.originalCardId ?? e.cardId : e.cardId,
-                    hidden: (e.isInHand || e.isInDeck) && e.isControlled(by:
-                        self.id),
+                              hidden: (e.isInHand || e.isInDeck || (e.isInSetAside && e.info.guessedCardState == GuessedCardState.guessed)) && e.isControlled(by: self.id),
                     created: e.info.created ||
                         (e.info.stolen && e.info.originalController != self.id),
                     discarded: e.info.discarded && Settings.highlightDiscarded
@@ -353,6 +357,10 @@ final class Player {
         return (revealed + inDeck).sortCardList()
     }
 
+    private func entityIsRemovedFromGamePassive(entity: Entity) -> Bool {
+        return entity.has(tag: GameTag.dungeon_passive_buff) && entity[GameTag.zone] == Zone.removedfromgame.rawValue
+    }
+    
     fileprivate func getDeckState() -> DeckState {
         let createdCardsInDeck: [Card] = deck.filter({
             $0.hasCardId && ($0.info.created || $0.info.stolen)

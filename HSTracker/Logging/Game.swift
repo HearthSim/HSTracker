@@ -380,7 +380,6 @@ class Game: NSObject, PowerEventHandler {
     func updateSecretTracker(cards: [Card]) {
         DispatchQueue.main.async { [unowned(unsafe) self] in
             self.windowManager.secretTracker.set(cards: cards)
-            self.windowManager.secretTracker.table?.reloadData()
             self.updateSecretTracker()
         }
     }
@@ -1521,6 +1520,10 @@ class Game: NSObject, PowerEventHandler {
     
     func handleChameleosReveal(cardId: String) {
         self.opponent.chameleosReveal(cardId: cardId)
+        self.updateOpponentTracker()
+    }
+    
+    func handleCardCopy() {
         self.updateOpponentTracker()
     }
     

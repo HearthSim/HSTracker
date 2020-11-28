@@ -338,6 +338,7 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     valeerashadow = 779,
     overridecardname = 781,
     overridecardtextbuilder = 782,
+    dungeon_passive_buff = 783,
     hidden_choice = 813,
     zombeast = 823,
     modular = 849,
@@ -345,13 +346,15 @@ enum GameTag: Int, WrappableEnum, CaseIterable, Codable {
     reborn = 1085,
     proxy_galakrond = 1190,
     mega_windfury = 1207,
+    creator_dbid = 1284,
     invoke_counter = 1366,
     player_leaderboard_place = 1373,
     player_tech_level = 1377,
     bacon_hero_power_activated = 1398,
     tech_level = 1440,
     bacon_hero_can_be_drafted = 1491,
-    dormant = 1518
+    dormant = 1518,
+    copied_from_entity_id = 1565
 
     init?(rawString: String) {
         let string = rawString.lowercased()

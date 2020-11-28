@@ -99,6 +99,8 @@ protocol PowerEventHandler: class {
 	func opponentDamage(entity: Entity)
     
     func handleChameleosReveal(cardId: String)
+    
+    func handleCardCopy()
 	
 	func turnsInPlayChange(entity: Entity, turn: Int)
 	

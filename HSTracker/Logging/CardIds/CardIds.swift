@@ -28,6 +28,10 @@
 import Foundation
 
 struct CardIds {
+    static let keyMasterAlabasterDbfId = 61174
+    
+    static let hiddenCardidPrefixes: [String] = [ "PVPDR_TEST_" ]
+    
     struct Collectible {}
 
     struct NonCollectible {}

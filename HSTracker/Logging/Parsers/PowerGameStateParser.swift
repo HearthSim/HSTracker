@@ -26,6 +26,7 @@ class PowerGameStateParser: LogEventParser {
     let UpdatingEntityRegex: RegexPattern = "(SHOW_ENTITY|CHANGE_ENTITY) - Updating Entity=(.+) CardID=(\\w*)"
     let BuildNumberRegex: RegexPattern = "BuildNumber=(\\d+)"
     let PlayerIDNameRegex: RegexPattern = "PlayerID=(\\d+), PlayerName=(.+)"
+    let HideEntityRegex: RegexPattern = "HIDE_ENTITY\\ -\\ .* id=(?<id>(\\d+))"
 
     var tagChangeHandler = TagChangeHandler()
     var currentEntity: Entity?
@@ -242,6 +243,7 @@ class PowerGameStateParser: LogEventParser {
             let matches = logLine.line.matches(CreationRegex)
             let id = Int(matches[0].value)!
             guard let zone = Zone(rawString: matches[1].value) else { return }
+            var guessedCardId = false
             var cardId: String? = matches[2].value
 
             if eventHandler.entities[id] == .none {
@@ -253,11 +255,15 @@ class PowerGameStateParser: LogEventParser {
                             logger.verbose("Found known cardId "
                                 + "'\(String(describing: cardId))' for entity \(id)")
                             eventHandler.knownCardIds[id] = nil
+                            guessedCardId = true
                         }
                     }
                 }
 
                 let entity = Entity(id: id)
+                if guessedCardId {
+                    entity.info.guessedCardState = GuessedCardState.guessed
+                }
                 if let cid = cardId {
                     entity.cardId = cid
                 }
@@ -304,9 +310,17 @@ class PowerGameStateParser: LogEventParser {
                 if eventHandler.entities[entityId] == .none {
                     let entity = Entity(id: entityId)
                     eventHandler.entities[entityId] = entity
+                    entity.info.latestCardId = cardId
                 }
                 if type != "CHANGE_ENTITY" || eventHandler.entities[entityId]!.cardId.isBlank {
                     eventHandler.entities[entityId]!.cardId = cardId
+                }
+                
+                if type == "SHOW_ENTITY" {
+                    let entity = eventHandler.entities[entityId]
+                    if entity?.info.guessedCardState != GuessedCardState.none {
+                        entity?.info.guessedCardState = GuessedCardState.revealed
+                    }
                 }
                 
                 if type == "CHANGE_ENTITY" {
@@ -345,6 +359,20 @@ class PowerGameStateParser: LogEventParser {
             tagChangeHandler.tagChange(eventHandler: eventHandler, rawTag: tag, id: currentEntityId,
                                        rawValue: value, isCreationTag: true)
             creationTag = true
+        } else if logLine.line.contains("HIDE_ENTITY") {
+            let match = logLine.line.matches(HideEntityRegex)
+            if match.count > 0 {
+                let id = Int(match[0].value) ?? -1
+                if let entity = eventHandler.entities[id] {
+                    if entity.info.guessedCardState == GuessedCardState.revealed {
+                        entity.info.guessedCardState = GuessedCardState.guessed
+                    }
+                    if currentBlock?.cardId == CardIds.Collectible.Neutral.KingTogwaggle
+                        || currentBlock?.cardId == CardIds.NonCollectible.Neutral.KingTogwaggle_KingsRansomToken {
+                        entity.info.hidden = true
+                    }
+                 }
+            }
         } else if logLine.line.match(BuildNumberRegex) {
             if let buildNumber = Int(logLine.line.matches(BuildNumberRegex)[0].value) {
                 eventHandler.set(buildNumber: buildNumber)

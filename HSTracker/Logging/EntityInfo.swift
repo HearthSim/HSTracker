@@ -11,6 +11,7 @@ import Wrap
 
 class EntityInfo {
     private unowned var _entity: Entity
+    private var _latestCardId: String?
     var discarded = false
     var returned = false
     var mulliganed = false
@@ -29,7 +30,12 @@ class EntityInfo {
     private(set) var originalCardId: String?
     var wasTransformed: Bool { return !originalCardId.isBlank }
     var originalEntityWasCreated: Bool?
+    var guessedCardState: GuessedCardState = GuessedCardState.none
     var storedCardIds: [String] = []
+    var latestCardId: String {
+        get { _latestCardId ?? _entity.cardId }
+        set { _latestCardId = newValue }
+    }
 
     init(entity: Entity) {
         _entity = entity
@@ -86,8 +92,14 @@ extension EntityInfo: CustomStringConvertible {
         if mulliganed {
             description += ", mulliganed=true"
         }
+        if guessedCardState != .none {
+            description += ", guessedCardState=\(guessedCardState)"
+        }
+        if _latestCardId != nil {
+            description += ", latestCardId=\(latestCardId)"
+        }
         if storedCardIds.count > 0 {
-            description += ", storedCardIds=[" + storedCardIds.joined(separator: ", ") + "]"
+            description += ", storedCardIds=[\(storedCardIds.joined(separator: ", "))]"
         }
         description += "]"
 
